@@ -4,7 +4,8 @@
 
   > .#{$ns}MonacoEditor,
   > .#{$ns}MonacoEditor > .monaco-diff-editor {
-    min-height: px2rem(198px);
+    // 解决多层Form嵌套情况下Editor无法完整显示的问题
+    min-height: inherit;
   }
 
   overflow: visible;
@@ -19,6 +20,43 @@
 
   &.is-focused {
     border-color: var(--Form-input-onFocused-borderColor);
+  }
+
+  .#{$ns}MonacoEditor {
+    position: relative;
+
+    &-header {
+      position: absolute;
+      right: px2rem(14px);
+      top: 0;
+      padding: 0;
+      width: px2rem(18px);
+      height: px2rem(18px);
+      z-index: 5;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      background: var(--Modal-header-bg);
+      box-sizing: border-box;
+    }
+
+    &-fullscreen {
+      cursor: pointer;
+      color: var(--Modal-close-color);
+      line-height: inherit;
+      text-decoration: none;
+      text-align: center;
+      vertical-align: middle;
+
+      &:hover {
+        color: var(--Model-close-onHover-color);
+
+        svg {
+          fill: var(--Model-close-onHover-color);
+        }
+      }
+    }
   }
 
   &--sm {
@@ -64,6 +102,17 @@
 
 .monaco-inputbox > .wrapper {
   padding: 0;
+}
+
+.is-fullscreen {
+  margin: 0 !important;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2147483630 !important;
+  width: auto !important;
 }
 
 // @media (min-width: 768px) {

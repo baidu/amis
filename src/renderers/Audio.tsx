@@ -1,7 +1,7 @@
 import React from 'react';
 import upperFirst from 'lodash/upperFirst';
 import {Renderer, RendererProps} from '../factory';
-import {autobind} from '../utils/helper';
+import {autobind, detectPropValueChanged, getPropValue} from '../utils/helper';
 import {Icon} from '../components/icons';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
@@ -68,7 +68,7 @@ export interface AudioState {
 }
 
 export class Audio extends React.Component<AudioProps, AudioState> {
-  audio: any;
+  audio: HTMLMediaElement;
   progressTimeout: ReturnType<typeof setTimeout>;
   durationTimeout: ReturnType<typeof setTimeout>;
 
@@ -93,10 +93,9 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
   state: AudioState = {
     src:
-      this.props.value ||
-      (this.props.src ? filter(this.props.src, this.props.data) : '') ||
-      resolveVariable(this.props.name, this.props.data) ||
-      '',
+      getPropValue(this.props, props =>
+        props.src ? filter(props.src, props.data, '| raw') : undefined
+      ) || '',
     isReady: false,
     muted: false,
     playing: false,
@@ -126,26 +125,25 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     );
   }
 
-  componentWillReceiveProps(nextProps: AudioProps) {
+  componentDidUpdate(prevProps: AudioProps) {
     const props = this.props;
 
-    if (
-      props.value !== nextProps.value ||
-      filter(props.src as string, props.data) !==
-        filter(nextProps.src as string, nextProps.data)
-    ) {
-      this.setState(
-        {
-          src:
-            nextProps.value || filter(nextProps.src as string, nextProps.data),
-          playing: false
-        },
-        () => {
-          this.audio.load();
-          this.progress();
-        }
-      );
-    }
+    detectPropValueChanged(
+      props,
+      prevProps,
+      value =>
+        this.setState(
+          {
+            src: value,
+            playing: false
+          },
+          () => {
+            this.audio.load();
+            this.progress();
+          }
+        ),
+      props => (props.src ? filter(props.src, props.data, '| raw') : undefined)
+    );
   }
 
   @autobind
@@ -169,7 +167,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
   }
 
   @autobind
-  audioRef(audio: any) {
+  audioRef(audio: HTMLMediaElement) {
     this.audio = audio;
   }
 
@@ -248,7 +246,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     clearTimeout(this.durationTimeout);
     const duration = this.audio && this.audio.duration;
     if (!duration) {
-      this.audio.load();
       this.durationTimeout = setTimeout(this.onDurationCheck, 500);
     }
   }
@@ -496,7 +493,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 }
 
 @Renderer({
-  test: /(^|\/)audio/,
-  name: 'audio'
+  type: 'audio'
 })
 export class AudioRenderer extends Audio {}

@@ -30,7 +30,7 @@ export function withStore<K extends IAnyStateTreeNode>(
         static displayName = `WithStore(${
           ComposedComponent.displayName || 'Unkown'
         })`;
-        static ComposedComponent = ComposedComponent;
+        static ComposedComponent = ComposedComponent as React.ComponentType<T>;
         ref: any;
         store?: K = storeFactory(this.props);
         refFn = (ref: any) => {

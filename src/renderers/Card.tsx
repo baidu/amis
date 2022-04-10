@@ -1,28 +1,28 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Schema, Action} from '../types';
+import {SchemaNode, Schema, Action, PlainObject} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
-import cx from 'classnames';
 import Checkbox from '../components/Checkbox';
-import {IItem} from '../store/list';
-import {padArr, isVisible, isDisabled, noop} from '../utils/helper';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {padArr, isVisible, isDisabled, noop, hashCode} from '../utils/helper';
+import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
 import Copyable, {SchemaCopyable} from './Copyable';
-import {Icon} from '../components/icons';
+import omit = require('lodash/omit');
 import {
   BaseSchema,
   SchemaClassName,
-  SchemaCollection,
   SchemaExpression,
   SchemaObject,
   SchemaTpl,
   SchemaUrlPath
 } from '../Schema';
 import {ActionSchema} from './Action';
+import {Card} from '../components/Card';
+import {findDOMNode} from 'react-dom';
+import {IItem} from '../store/list';
+import {Icon} from '../components/icons';
 
 export type CardBodyField = SchemaObject & {
   /**
@@ -76,7 +76,7 @@ export interface CardSchema extends BaseSchema {
      * 标题
      */
     title?: SchemaTpl;
-    titleClassName?: string;
+    titleClassName?: SchemaClassName;
 
     /**
      * 副标题
@@ -98,7 +98,7 @@ export interface CardSchema extends BaseSchema {
     /**
      * 描述占位类名
      */
-    descriptionClassName?: string;
+    descriptionClassName?: SchemaClassName;
 
     /**
      * @deprecated 建议用 description
@@ -121,6 +121,7 @@ export interface CardSchema extends BaseSchema {
     avatar?: SchemaUrlPath;
 
     avatarText?: SchemaTpl;
+    avatarTextBackground?: String[];
     avatarTextClassName?: SchemaClassName;
 
     /**
@@ -138,6 +139,16 @@ export interface CardSchema extends BaseSchema {
      */
     highlight?: SchemaExpression;
     highlightClassName?: SchemaClassName;
+
+    /**
+     * 链接地址
+     */
+    href?: SchemaTpl;
+
+    /**
+     * 是否新窗口打开
+     */
+    blank?: boolean;
   };
 
   /**
@@ -146,82 +157,173 @@ export interface CardSchema extends BaseSchema {
   body?: Array<CardBodyField>;
 
   /**
+   * 多媒体区域
+   */
+  media?: {
+    className?: SchemaClassName;
+
+    /**
+     * 多媒体类型
+     */
+    type?: 'image' | 'video';
+
+    /**
+     * 多媒体链接地址
+     */
+    url?: SchemaUrlPath;
+
+    /**
+     * 多媒体区域位置
+     */
+    position?: 'top' | 'left' | 'right' | 'bottom';
+
+    /**
+     * 类型为video时是否自动播放
+     */
+    autoPlay?: boolean;
+
+    /**
+     * 类型为video时是否是直播
+     */
+    isLive?: boolean;
+
+    /**
+     * 类型为video时视频封面
+     */
+    poster?: SchemaUrlPath;
+  };
+
+  /**
    * 底部按钮集合。
    */
   actions?: Array<ActionSchema>;
-}
 
+  /**
+   * 工具栏按钮
+   */
+  toolbar?: Array<ActionSchema>;
+
+  /**
+   * 次要说明
+   */
+  secondary?: SchemaTpl;
+}
 export interface CardProps
   extends RendererProps,
     Omit<CardSchema, 'className'> {
   onCheck: (item: IItem) => void;
+  actionsCount: number;
   itemIndex?: number;
+  dragging?: boolean;
+  selectable?: boolean;
+  selected?: boolean;
+  checkable?: boolean;
   multiple?: boolean;
-  highlightClassName?: string;
   hideCheckToggler?: boolean;
   item: IItem;
   checkOnItemClick?: boolean;
 }
-export class Card extends React.Component<CardProps> {
-  static defaultProps: Partial<CardProps> = {
+
+@Renderer({
+  type: 'card'
+})
+export class CardRenderer extends React.Component<CardProps> {
+  static defaultProps = {
     className: '',
     avatarClassName: '',
+    headerClassName: '',
+    footerClassName: '',
+    secondaryClassName: '',
+    avatarTextClassName: '',
     bodyClassName: '',
     actionsCount: 4,
     titleClassName: '',
     highlightClassName: '',
     subTitleClassName: '',
-    descClassName: ''
+    descClassName: '',
+    descriptionClassName: '',
+    imageClassName: '',
+    highlight: false,
+    blank: true,
+    dragging: false,
+    selectable: false,
+    checkable: true,
+    selected: false,
+    hideCheckToggler: false
   };
 
   static propsList: Array<string> = [
     'avatarClassName',
+    'avatarTextClassName',
     'bodyClassName',
     'actionsCount',
     'titleClassName',
     'highlightClassName',
     'subTitleClassName',
     'descClassName',
+    'descriptionClassName',
+    'imageClassName',
     'hideCheckToggler'
   ];
 
   constructor(props: CardProps) {
     super(props);
 
-    this.getPopOverContainer = this.getPopOverContainer.bind(this);
-    this.itemRender = this.itemRender.bind(this);
-    this.handleAction = this.handleAction.bind(this);
-    this.handleQuickChange = this.handleQuickChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
+    this.getPopOverContainer = this.getPopOverContainer.bind(this);
+    this.handleQuickChange = this.handleQuickChange.bind(this);
+  }
+
+  isHaveLink() {
+    const {href, itemAction, onCheck, checkOnItemClick, checkable} = this.props;
+    return href || itemAction || onCheck || (checkOnItemClick && checkable);
   }
 
   handleClick(e: React.MouseEvent<HTMLDivElement>) {
-    const target: HTMLElement = e.target as HTMLElement;
-    const ns = this.props.classPrefix;
-    let formItem;
+    const {
+      item,
+      href,
+      data,
+      env,
+      blank,
+      itemAction,
+      onAction,
+      onCheck,
+      selectable
+    } = this.props;
 
-    if (
-      !e.currentTarget.contains(target) ||
-      ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
-      ((formItem = target.closest(`button, a, .${ns}Form-item`)) &&
-        e.currentTarget.contains(formItem))
-    ) {
+    if (href) {
+      env.jumpTo(filter(href, data), {
+        type: 'button',
+        actionType: 'url',
+        blank
+      });
       return;
     }
 
-    const item = this.props.item;
-    this.props.onCheck && this.props.onCheck(item);
-  }
+    if (itemAction) {
+      onAction && onAction(e, itemAction, item?.data || data);
+      return;
+    }
 
-  handleCheck() {
-    const item = this.props.item;
-    this.props.onCheck && this.props.onCheck(item);
+    selectable && onCheck?.(item);
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
     const {onAction, item} = this.props;
+
     onAction && onAction(e, action, ctx || item.data);
+  }
+
+  handleCheck(e: React.MouseEvent<any>) {
+    const item = this.props.item;
+    this.props.onCheck && this.props.onCheck(item);
+  }
+
+  getPopOverContainer() {
+    return findDOMNode(this);
   }
 
   handleQuickChange(
@@ -235,45 +337,77 @@ export class Card extends React.Component<CardProps> {
       onQuickChange(item, values, saveImmediately, savePristine, resetOnFailed);
   }
 
-  getPopOverContainer() {
-    return findDOMNode(this);
-  }
-
   renderToolbar() {
     const {
-      dragging,
       selectable,
       checkable,
       selected,
-      onSelect,
       checkOnItemClick,
       multiple,
       hideCheckToggler,
       classnames: cx,
-      classPrefix: ns
+      toolbar,
+      render,
+      dragging,
+      data,
+      header
     } = this.props;
 
+    const toolbars: Array<JSX.Element> = [];
+
+    if (header) {
+      const {highlightClassName, highlight: highlightTpl} = header;
+      const highlight = !!evalExpression(highlightTpl!, data as object);
+      if (highlight) {
+        toolbars.push(
+          <i className={cx('Card-highlight', highlightClassName)} />
+        );
+      }
+    }
+
+    if (selectable && !hideCheckToggler) {
+      toolbars.push(
+        <Checkbox
+          key="check"
+          className={cx('Card-checkbox')}
+          type={multiple ? 'checkbox' : 'radio'}
+          disabled={!checkable}
+          checked={selected}
+          onChange={checkOnItemClick ? noop : this.handleCheck}
+        />
+      );
+    }
+
+    if (Array.isArray(toolbar)) {
+      toolbar.forEach((action, index) =>
+        toolbars.push(
+          render(
+            `toolbar/${index}`,
+            {
+              type: 'button',
+              level: 'link',
+              size: 'sm',
+              ...(action as any)
+            },
+            {
+              key: index
+            }
+          )
+        )
+      );
+    }
+
     if (dragging) {
-      return (
+      toolbars.push(
         <div className={cx('Card-dragBtn')}>
           <Icon icon="drag-bar" className="icon" />
         </div>
       );
-    } else if (selectable && !hideCheckToggler) {
-      return (
-        <div className={cx('Card-checkBtn')}>
-          <Checkbox
-            classPrefix={ns}
-            type={multiple ? 'checkbox' : 'radio'}
-            disabled={!checkable}
-            checked={selected}
-            onChange={checkOnItemClick ? noop : this.handleCheck}
-          />
-        </div>
-      );
     }
 
-    return null;
+    return toolbars.length ? (
+      <div className={cx('Card-toolbar')}>{toolbars}</div>
+    ) : null;
   }
 
   renderActions() {
@@ -321,8 +455,7 @@ export class Card extends React.Component<CardProps> {
         </div>
       ));
     }
-
-    return null;
+    return;
   }
 
   renderChild(
@@ -409,158 +542,216 @@ export class Card extends React.Component<CardProps> {
     return this.renderChild(body, 'body');
   }
 
-  render() {
-    const {
-      className,
-      data,
-      header,
-      render,
-      bodyClassName,
-      highlightClassName,
-      titleClassName,
-      subTitleClassName,
-      descClassName,
-      checkOnItemClick,
-      avatarClassName,
-      checkable,
-      classnames: cx,
-      classPrefix: ns,
-      imageClassName,
-      avatarTextClassName
-    } = this.props;
+  rederTitle() {
+    const {render, data, header} = this.props;
+    if (header) {
+      const {title: titleTpl} = header || {};
+      const title = filter(titleTpl, data);
+      return title ? render('title', titleTpl!) : undefined;
+    }
+    return;
+  }
 
-    let heading = null;
+  renderSubTitle() {
+    const {render, data, header} = this.props;
+    if (header) {
+      const {subTitle: subTitleTpl} = header || {};
+
+      const subTitle = filter(subTitleTpl, data);
+      return subTitle ? render('sub-title', subTitleTpl!) : undefined;
+    }
+    return;
+  }
+
+  renderSubTitlePlaceholder() {
+    const {render, header, classnames: cx} = this.props;
+    if (header) {
+      const {subTitlePlaceholder} = header || {};
+
+      return subTitlePlaceholder
+        ? render('sub-title', subTitlePlaceholder, {
+            className: cx('Card-placeholder')
+          })
+        : undefined;
+    }
+    return;
+  }
+
+  renderDesc() {
+    const {render, data, header} = this.props;
 
     if (header) {
-      const {
-        highlight: highlightTpl,
-        avatar: avatarTpl,
-        avatarText: avatarTextTpl,
-        title: titleTpl,
-        subTitle: subTitleTpl,
-        subTitlePlaceholder,
-        desc: descTpl
-      } = header;
+      const {desc: descTpl, description: descriptionTpl} = header || {};
+      const desc = filter(descriptionTpl! || descTpl!, data);
+      return desc
+        ? render('desc', descriptionTpl! || descTpl!, {
+            className: !desc ? 'text-muted' : null
+          })
+        : undefined;
+    }
+    return;
+  }
 
+  renderDescPlaceholder() {
+    const {render, header} = this.props;
+
+    if (header) {
       const descPlaceholder =
         header.descriptionPlaceholder || header.descPlaceholder;
-
-      const highlight = !!evalExpression(highlightTpl!, data as object);
-      const avatar = filter(avatarTpl, data, '| raw');
-      const avatarText = filter(avatarTextTpl, data);
-      const title = filter(titleTpl, data);
-      const subTitle = filter(subTitleTpl, data);
-      const desc = filter(header.description || descTpl, data);
-
-      heading = (
-        <div className={cx('Card-heading', header.className)}>
-          {avatar ? (
-            <span
-              className={cx(
-                'Card-avtar',
-                header.avatarClassName || avatarClassName
-              )}
-            >
-              <img
-                className={cx(
-                  'Card-img',
-                  header.imageClassName || imageClassName
-                )}
-                src={avatar}
-              />
-            </span>
-          ) : avatarText ? (
-            <span
-              className={cx(
-                'Card-avtarText',
-                header.avatarTextClassName || avatarTextClassName
-              )}
-            >
-              {avatarText}
-            </span>
-          ) : null}
-          <div className={cx('Card-meta')}>
-            {highlight ? (
-              <i
-                className={cx(
-                  'Card-highlight',
-                  header.highlightClassName || highlightClassName
-                )}
-              />
-            ) : null}
-
-            {title ? (
-              <div
-                className={cx(
-                  'Card-title',
-                  header.titleClassName || titleClassName
-                )}
-              >
-                {render('title', title)}
-              </div>
-            ) : null}
-
-            {subTitle || subTitlePlaceholder ? (
-              <div
-                className={cx(
-                  'Card-subTitle',
-                  header.subTitleClassName || subTitleClassName
-                )}
-              >
-                {render('sub-title', subTitle || subTitlePlaceholder!, {
-                  className: cx(!subTitle ? 'Card-placeholder' : undefined)
-                })}
-              </div>
-            ) : null}
-
-            {desc || descPlaceholder ? (
-              <div
-                className={cx(
-                  'Card-desc',
-                  header.descriptionClassName ||
-                    header.descClassName ||
-                    descClassName
-                )}
-              >
-                {render('desc', desc || descPlaceholder!, {
-                  className: !desc ? 'text-muted' : undefined
-                })}
-              </div>
-            ) : null}
-          </div>
-        </div>
-      );
+      return descPlaceholder
+        ? render('desc', descPlaceholder, {
+            className: !descPlaceholder ? 'text-muted' : null
+          })
+        : undefined;
     }
+    return;
+  }
 
-    const body = this.renderBody();
+  renderAvatar() {
+    const {data, header} = this.props;
+    if (header) {
+      const {avatar: avatarTpl} = header || {};
+      const avatar = filter(avatarTpl, data, '| raw');
+      return avatar ? avatar : undefined;
+    }
+    return;
+  }
+
+  renderAvatarText() {
+    const {render, data, header} = this.props;
+    if (header) {
+      const {avatarText: avatarTextTpl} = header || {};
+
+      const avatarText = filter(avatarTextTpl, data);
+
+      return avatarText ? render('avatarText', avatarTextTpl!) : undefined;
+    }
+    return;
+  }
+
+  renderSecondary() {
+    const {render, data, secondary: secondaryTextTpl} = this.props;
+
+    const secondary = filter(secondaryTextTpl, data);
+    return secondary ? render('secondary', secondaryTextTpl!) : undefined;
+  }
+
+  renderAvatarTextStyle() {
+    const {header, data} = this.props;
+    if (header) {
+      const {avatarText: avatarTextTpl, avatarTextBackground} = header;
+      const avatarText = filter(avatarTextTpl, data);
+      const avatarTextStyle: PlainObject = {};
+      if (avatarText && avatarTextBackground && avatarTextBackground.length) {
+        avatarTextStyle['background'] =
+          avatarTextBackground[
+            Math.abs(hashCode(avatarText)) % avatarTextBackground.length
+          ];
+      }
+      return avatarTextStyle;
+    }
+    return;
+  }
+
+  renderMedia() {
+    const {media, classnames: cx, render, region, data} = this.props;
+    if (media) {
+      const {type, url, className, autoPlay, isLive, poster} = media;
+      const mediaUrl = resolveVariableAndFilter(url, data, '| raw');
+
+      if (type === 'image' && mediaUrl) {
+        return (
+          <img
+            className={cx('Card-multiMedia-img', className)}
+            src={mediaUrl}
+          />
+        );
+      } else if (type === 'video' && mediaUrl) {
+        return (
+          <div className={cx('Card-multiMedia-video', className)}>
+            {
+              render(region, {
+                type: type,
+                autoPlay: autoPlay,
+                poster: poster,
+                src: mediaUrl,
+                isLive: isLive
+              }) as JSX.Element
+            }
+          </div>
+        );
+      }
+    }
+    return;
+  }
+
+  render() {
+    const {
+      header,
+      className,
+      avatarClassName,
+      avatarTextClassName,
+      descClassName,
+      descriptionClassName,
+      titleClassName,
+      subTitleClassName,
+      bodyClassName,
+      imageClassName,
+      headerClassName,
+      secondaryClassName,
+      footerClassName,
+      mediaClassName,
+      media,
+      ...rest
+    } = this.props;
+
+    const headerCn = header?.className || headerClassName;
+    const titleCn = header?.titleClassName || titleClassName;
+    const subTitleCn = header?.subTitleClassName || subTitleClassName;
+    const descCn = header?.descClassName || descClassName;
+    const descriptionCn =
+      header?.descriptionClassName || descriptionClassName || descCn;
+    const avatarTextCn = header?.avatarTextClassName || avatarTextClassName;
+    const avatarCn = header?.avatarClassName || avatarClassName;
+    const imageCn = header?.imageClassName || imageClassName;
+    const mediaPosition = media?.position;
 
     return (
-      <div
-        onClick={checkOnItemClick && checkable ? this.handleClick : undefined}
-        className={cx('Card', className)}
-      >
-        {this.renderToolbar()}
-        {heading}
-        {body ? (
-          <div className={cx('Card-body', bodyClassName)}>{body}</div>
-        ) : null}
-        {this.renderActions()}
-      </div>
+      <Card
+        {...rest}
+        title={this.rederTitle()}
+        subTitle={this.renderSubTitle()}
+        subTitlePlaceholder={this.renderSubTitlePlaceholder()}
+        description={this.renderDesc()}
+        descriptionPlaceholder={this.renderDescPlaceholder()}
+        children={this.renderBody()}
+        actions={this.renderActions()}
+        avatar={this.renderAvatar()}
+        avatarText={this.renderAvatarText()}
+        secondary={this.renderSecondary()}
+        toolbar={this.renderToolbar()}
+        avatarClassName={avatarCn}
+        avatarTextStyle={this.renderAvatarTextStyle()}
+        avatarTextClassName={avatarTextCn}
+        className={className}
+        titleClassName={titleCn}
+        media={this.renderMedia()}
+        subTitleClassName={subTitleCn}
+        mediaPosition={mediaPosition}
+        descriptionClassName={descriptionCn}
+        imageClassName={imageCn}
+        headerClassName={headerCn}
+        footerClassName={footerClassName}
+        secondaryClassName={secondaryClassName}
+        bodyClassName={bodyClassName}
+        onClick={this.isHaveLink() ? this.handleClick : undefined}
+      ></Card>
     );
   }
 }
 
 @Renderer({
-  test: /(^|\/)card$/,
-  name: 'card'
-})
-export class CardRenderer extends Card {
-  static propsList = ['multiple', ...Card.propsList];
-}
-
-@Renderer({
-  test: /(^|\/)card-item-field$/,
-  name: 'card-item'
+  type: 'card-item-field'
 })
 @QuickEdit()
 @PopOver()
@@ -609,7 +800,7 @@ export class CardItemFieldRenderer extends TableCell {
     let body = children
       ? children
       : render('field', schema, {
-          ...rest,
+          ...omit(rest, Object.keys(schema)),
           value,
           data
         });

@@ -3,24 +3,42 @@
 exports[`Renderer:button-toolbar 1`] = `
 <div>
   <div
-    class="a-ButtonToolbar show"
+    class="cxd-Form-item cxd-Form-item--normal show"
+    data-role="form-item"
   >
-    <button
-      class="a-Button a-Button--default"
-      type="button"
+    <label
+      class="cxd-Form-label"
     >
       <span>
-        按钮1
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            button-toolbar
+          </span>
+        </span>
       </span>
-    </button>
-    <button
-      class="a-Button a-Button--default"
-      type="button"
+    </label>
+    <div
+      class="cxd-ButtonToolbar cxd-Form-control"
     >
-      <span>
-        按钮2
-      </span>
-    </button>
+      <button
+        class="cxd-Button cxd-Button--default"
+        type="button"
+      >
+        <span>
+          按钮1
+        </span>
+      </button>
+      <button
+        class="cxd-Button cxd-Button--default"
+        type="button"
+      >
+        <span>
+          按钮2
+        </span>
+      </button>
+    </div>
   </div>
 </div>
 `;

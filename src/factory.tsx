@@ -1,13 +1,29 @@
 import React from 'react';
-import qs from 'qs';
 import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
 import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
-import {findIndex, promisify} from './utils/helper';
-import {Api, fetcherResult, Payload, SchemaNode, Schema, Action} from './types';
+import {
+  createObject,
+  findIndex,
+  isObject,
+  JSONTraverse,
+  promisify,
+  qsparse,
+  string2regExp
+} from './utils/helper';
+import {
+  Api,
+  fetcherResult,
+  Payload,
+  SchemaNode,
+  Schema,
+  Action,
+  EventTrack,
+  PlainObject
+} from './types';
 import {observer} from 'mobx-react';
-import Scoped from './Scoped';
+import Scoped, {IScopedContext} from './Scoped';
 import {getTheme, ThemeInstance, ThemeProps} from './theme';
 import find from 'lodash/find';
 import Alert from './components/Alert2';
@@ -17,6 +33,16 @@ import {getDefaultLocale, makeTranslator, LocaleProps} from './locale';
 import ScopedRootRenderer, {RootRenderProps} from './Root';
 import {HocStoreFactory} from './WithStore';
 import {EnvContext, RendererEnv} from './env';
+import {envOverwrite} from './envOverwrite';
+import {
+  EventListeners,
+  createRendererEvent,
+  RendererEventListener,
+  OnEventProps,
+  RendererEvent
+} from './utils/renderer-event';
+import {runActions} from './actions/Action';
+import {enableDebug} from './utils/debug';
 
 export interface TestFunc {
   (
@@ -31,7 +57,8 @@ export interface TestFunc {
 }
 
 export interface RendererBasicConfig {
-  test: RegExp | TestFunc;
+  test?: RegExp | TestFunc;
+  type?: string;
   name?: string;
   storeType?: string;
   shouldSyncSuperStore?: (
@@ -39,17 +66,19 @@ export interface RendererBasicConfig {
     props: any,
     prevProps: any
   ) => boolean | undefined;
-  storeExtendsData?: boolean; // 是否需要继承上层数据。
+  storeExtendsData?: boolean | ((props: any) => boolean); // 是否需要继承上层数据。
   weight?: number; // 权重，值越低越优先命中。
   isolateScope?: boolean;
   isFormItem?: boolean;
+  autoVar?: boolean; // 自动解析变量
   // [propName:string]:any;
 }
 
-export interface RendererProps extends ThemeProps, LocaleProps {
+export interface RendererProps extends ThemeProps, LocaleProps, OnEventProps {
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
   env: RendererEnv;
   $path: string; // 当前组件所在的层级信息
+  $schema: any; // 原始 schema 配置
   store?: IIRendererStore;
   syncSuperStore?: boolean;
   data: {
@@ -73,11 +102,17 @@ export interface RenderSchemaFilter {
   (schema: Schema, renderer: RendererConfig, props?: any): Schema;
 }
 
+export interface wsObject {
+  url: string;
+  responseKey?: string;
+  body?: any;
+}
+
 export interface RenderOptions {
   session?: string;
   fetcher?: (config: fetcherConfig) => Promise<fetcherResult>;
   wsFetcher?: (
-    ws: string,
+    ws: wsObject,
     onMessage: (data: any) => void,
     onError: (error: any) => void
   ) => void;
@@ -98,7 +133,7 @@ export interface RenderOptions {
     schema: Schema,
     props: any
   ) => null | RendererConfig;
-  copy?: (contents: string) => void;
+  copy?: (contents: string, options?: any) => void;
   getModalContainer?: () => HTMLElement;
   loadRenderer?: (
     schema: Schema,
@@ -108,12 +143,28 @@ export interface RenderOptions {
   affixOffsetTop?: number;
   affixOffsetBottom?: number;
   richTextToken?: string;
+  /**
+   * 替换文本，用于实现 URL 替换、语言替换等
+   */
+  replaceText?: {[propName: string]: any};
+  /**
+   * 文本替换的黑名单，因为属性太多了所以改成黑名单的 fangs
+   */
+  replaceTextIgnoreKeys?: String[];
+  /**
+   * 过滤 html 标签，可用来添加 xss 保护逻辑
+   */
+  filterHtml?: (input: string) => string;
+  /**
+   * 是否开启 amis 调试
+   */
+  enableAMISDebug?: boolean;
   [propName: string]: any;
 }
 
 export interface fetcherConfig {
   url: string;
-  method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp';
   data?: any;
   config?: any;
 }
@@ -149,15 +200,21 @@ export function Renderer(config: RendererBasicConfig) {
 }
 
 export function registerRenderer(config: RendererConfig): RendererConfig {
-  if (!config.test) {
-    throw new TypeError('config.test is required');
+  if (!config.test && !config.type) {
+    throw new TypeError('please set config.test or config.type');
   } else if (!config.component) {
     throw new TypeError('config.component is required');
   }
 
+  if (typeof config.type === 'string' && config.type) {
+    config.type = config.type.toLowerCase();
+    config.test =
+      config.test || new RegExp(`(^|\/)${string2regExp(config.type)}$`, 'i');
+  }
+
   config.weight = config.weight || 0;
   config.Renderer = config.component;
-  config.name = config.name || `anonymous-${anonymousIndex++}`;
+  config.name = config.name || config.type || `anonymous-${anonymousIndex++}`;
 
   if (~rendererNames.indexOf(config.name)) {
     throw new Error(
@@ -217,20 +274,42 @@ export function loadRenderer(schema: Schema, path: string) {
 
 const defaultOptions: RenderOptions = {
   session: 'global',
-  affixOffsetTop: 50,
+  affixOffsetTop: 0,
   affixOffsetBottom: 0,
   richTextToken: '',
+  useMobileUI: true, // 是否启用移动端原生 UI
+  enableAMISDebug:
+    (window as any).enableAMISDebug ??
+    location.search.indexOf('amisDebug=1') !== -1 ??
+    false,
   loadRenderer,
+  rendererEventListeners: [],
   fetcher() {
     return Promise.reject('fetcher is required');
   },
   // 使用 WebSocket 来实时获取数据
   wsFetcher(ws, onMessage, onError) {
     if (ws) {
-      const socket = new WebSocket(ws);
-      socket.onmessage = (event: any) => {
+      const socket = new WebSocket(ws.url);
+      socket.onopen = event => {
+        if (ws.body) {
+          socket.send(JSON.stringify(ws.body));
+        }
+      };
+      socket.onmessage = event => {
         if (event.data) {
-          onMessage(JSON.parse(event.data));
+          let data;
+          try {
+            data = JSON.parse(event.data);
+          } catch (error) {}
+          if (typeof data !== 'object') {
+            let key = ws.responseKey || 'data';
+            data = {
+              [key]: event.data
+            };
+          }
+
+          onMessage(data);
         }
       };
       socket.onerror = onError;
@@ -245,21 +324,19 @@ const defaultOptions: RenderOptions = {
   },
   isCancel() {
     console.error(
-      'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
+      'Please implement isCancel. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
     return false;
   },
   updateLocation() {
     console.error(
-      'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
+      'Please implement updateLocation. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
   },
   alert,
   confirm,
   notify: (type, msg, conf) =>
-    toast[type]
-      ? toast[type](msg, type === 'error' ? 'Error' : 'Info', conf)
-      : console.warn('[Notify]', type, msg),
+    toast[type] ? toast[type](msg, conf) : console.warn('[Notify]', type, msg),
 
   jumpTo: (to: string, action?: any) => {
     if (to === 'goBack') {
@@ -294,8 +371,8 @@ const defaultOptions: RenderOptions = {
       if (pathname !== location.pathname || !location.search) {
         return false;
       }
-      const query = qs.parse(search.substring(1));
-      const currentQuery = qs.parse(location.search.substring(1));
+      const query = qsparse(search.substring(1));
+      const currentQuery = qsparse(location.search.substring(1));
       return Object.keys(query).every(key => query[key] === currentQuery[key]);
     } else if (pathname === location.pathname) {
       return true;
@@ -305,7 +382,102 @@ const defaultOptions: RenderOptions = {
   copy(contents: string) {
     console.error('copy contents', contents);
   },
-  rendererResolver: resolveRenderer
+  // 用于跟踪用户在界面中的各种操作
+  tracker(eventTrack: EventTrack, props: PlainObject) {},
+  // 返回解绑函数
+  bindEvent(renderer: any) {
+    if (!renderer) {
+      return undefined;
+    }
+    const listeners: EventListeners = renderer.props.$schema.onEvent;
+    if (listeners) {
+      // 暂存
+      for (let key of Object.keys(listeners)) {
+        this.rendererEventListeners.push({
+          renderer,
+          type: key,
+          weight: listeners[key].weight || 0,
+          actions: listeners[key].actions
+        });
+      }
+
+      return () => {
+        this.rendererEventListeners = this.rendererEventListeners.filter(
+          (item: RendererEventListener) => item.renderer !== renderer
+        );
+      };
+    }
+
+    return undefined;
+  },
+  async dispatchEvent(
+    e: string | React.MouseEvent<any>,
+    renderer: React.Component<RendererProps>,
+    scoped: IScopedContext,
+    data: any,
+    broadcast?: RendererEvent<any>
+  ) {
+    const eventName = typeof e === 'string' ? e : e.type;
+    if (!broadcast) {
+      const eventConfig = renderer?.props?.onEvent?.[eventName];
+
+      if (!eventConfig) {
+        // 没命中也没关系
+        return Promise.resolve(undefined);
+      }
+    }
+
+    // 没有可处理的监听
+    if (!this.rendererEventListeners.length) {
+      return Promise.resolve();
+    }
+
+    // 如果是广播动作，就直接复用
+    const rendererEvent =
+      broadcast ||
+      createRendererEvent(eventName, {
+        env: this,
+        nativeEvent: e,
+        data,
+        scoped
+      });
+
+    // 过滤&排序
+    const listeners = this.rendererEventListeners
+      .filter(
+        (item: RendererEventListener) =>
+          item.type === eventName &&
+          (broadcast ? true : item.renderer === renderer)
+      )
+      .sort(
+        (prev: RendererEventListener, next: RendererEventListener) =>
+          next.weight - prev.weight
+      );
+
+    for (let listener of listeners) {
+      await runActions(listener.actions, listener.renderer, rendererEvent);
+
+      // 停止后续监听器执行
+      if (rendererEvent.stoped) {
+        break;
+      }
+    }
+
+    return rendererEvent;
+  },
+  rendererResolver: resolveRenderer,
+  replaceTextIgnoreKeys: [
+    'type',
+    'name',
+    'mode',
+    'target',
+    'reload',
+    'persistData'
+  ],
+  /**
+   * 过滤 html 标签，可用来添加 xss 保护逻辑
+   */
+  filterHtml: (input: string) => input
 };
 let stores: {
   [propName: string]: IRendererStore;
@@ -325,12 +497,15 @@ export function render(
   const translate = props.translate || makeTranslator(locale);
   let store = stores[options.session || 'global'];
 
+  // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
+  envOverwrite(schema, locale);
+
   if (!store) {
     options = {
       ...defaultOptions,
       ...options,
       fetcher: options.fetcher
-        ? wrapFetcher(options.fetcher)
+        ? wrapFetcher(options.fetcher, options.tracker)
         : defaultOptions.fetcher,
       confirm: promisify(
         options.confirm || defaultOptions.confirm || window.confirm
@@ -339,6 +514,13 @@ export function render(
       translate
     } as any;
 
+    if (options.enableAMISDebug) {
+      // 因为里面还有 render
+      setTimeout(() => {
+        enableDebug();
+      }, 10);
+    }
+
     store = RendererStore.create({}, options);
     stores[options.session || 'global'] = store;
   }
@@ -346,12 +528,39 @@ export function render(
   (window as any).amisStore = store; // 为了方便 debug.
   const env = getEnv(store);
 
-  const theme = props.theme || options.theme || 'default';
+  let theme = props.theme || options.theme || 'cxd';
+  if (theme === 'default') {
+    theme = 'cxd';
+  }
   env.theme = getTheme(theme);
 
   if (props.locale !== undefined) {
     env.translate = translate;
     env.locale = locale;
+  }
+
+  // 默认将开启移动端原生 UI
+  if (typeof options.useMobileUI) {
+    props.useMobileUI = true;
+  }
+
+  // 进行文本替换
+  if (env.replaceText && isObject(env.replaceText)) {
+    const replaceKeys = Object.keys(env.replaceText);
+    replaceKeys.sort((a, b) => b.length - a.length); // 避免用户将短的放前面
+    const replaceTextIgnoreKeys = new Set(env.replaceTextIgnoreKeys || []);
+    JSONTraverse(schema, (value: any, key: string, object: any) => {
+      if (typeof value === 'string' && !replaceTextIgnoreKeys.has(key)) {
+        for (const replaceKey of replaceKeys) {
+          if (~value.indexOf(replaceKey)) {
+            value = object[key] = value.replaceAll(
+              replaceKey,
+              env.replaceText[replaceKey]
+            );
+          }
+        }
+      }
+    });
   }
 
   return (
@@ -398,7 +607,7 @@ export function updateEnv(options: Partial<RenderOptions>, session = 'global') {
   };
 
   if (options.fetcher) {
-    options.fetcher = wrapFetcher(options.fetcher) as any;
+    options.fetcher = wrapFetcher(options.fetcher, options.tracker) as any;
   }
 
   if (options.confirm) {
@@ -420,7 +629,11 @@ export function resolveRenderer(
   path: string,
   schema?: Schema
 ): null | RendererConfig {
-  if (cache[path]) {
+  const type = typeof schema?.type == 'string' ? schema.type.toLowerCase() : '';
+
+  if (type && cache[type]) {
+    return cache[type];
+  } else if (cache[path]) {
     return cache[path];
   } else if (path && path.length > 1024) {
     throw new Error('Path太长是不是死循环了？');
@@ -431,8 +644,16 @@ export function resolveRenderer(
   renderers.some(item => {
     let matched = false;
 
-    // 不应该搞得这么复杂的，让每个渲染器唯一 id，自己不晕别人用起来也不晕。
-    if (typeof item.test === 'function') {
+    // 直接匹配类型，后续注册渲染都应该用这个方式而不是之前的判断路径。
+    if (item.type && type) {
+      matched = item.type === type;
+
+      // 如果是type来命中的，那么cache的key直接用 type 即可。
+      if (matched) {
+        cache[type] = item;
+      }
+    } else if (typeof item.test === 'function') {
+      // 不应该搞得这么复杂的，让每个渲染器唯一 id，自己不晕别人用起来也不晕。
       matched = item.test(path, schema, resolveRenderer);
     } else if (item.test instanceof RegExp) {
       matched = item.test.test(path);
@@ -449,7 +670,8 @@ export function resolveRenderer(
   // 因为自定义 test 函数的有可能依赖 schema 的结果
   if (
     renderer !== null &&
-    ((renderer as RendererConfig).test instanceof RegExp ||
+    ((renderer as RendererConfig).type ||
+      (renderer as RendererConfig).test instanceof RegExp ||
       (typeof (renderer as RendererConfig).test === 'function' &&
         ((renderer as RendererConfig).test as Function).length < 2))
   ) {

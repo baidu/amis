@@ -3,17 +3,17 @@
 exports[`Renderer:hbox 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,65 +22,61 @@ exports[`Renderer:hbox 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
-        <div
-          class="a-Form-item a-Form-item--normal"
-          data-role="form-item"
-        >
-          <div
-            class="a-FormHbox a-Form-control"
-          >
-            <div
-              class="a-Hbox"
-            >
-              <div
-                class="a-Hbox-col a-Form--normal w-sm"
-              >
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                  data-role="form-item"
-                >
-                  <div
-                    class="a-Form-control a-TextControl"
-                  >
-                    <div
-                      class="a-TextControl-input"
-                    >
-                      <input
-                        autocomplete="off"
-                        name="text"
-                        placeholder="Text"
-                        size="10"
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="a-Hbox-col a-Form--normal"
-              >
-                <span
-                  class="a-TplField"
-                >
-                  <span>
-                    其他类型的渲染器
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
         <input
           style="display: none;"
           type="submit"
         />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-Hbox cxd-Hbox--xs"
+          >
+            <div
+              class="cxd-Hbox-col w-sm"
+            >
+              <div
+                class="cxd-Form-item cxd-Form-item--normal"
+                data-role="form-item"
+              >
+                <div
+                  class="cxd-Form-control cxd-TextControl"
+                >
+                  <div
+                    class="cxd-TextControl-input"
+                  >
+                    <input
+                      autocomplete="off"
+                      name="text"
+                      placeholder="Text"
+                      size="10"
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Hbox-col"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  其他类型的渲染器
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
     <div

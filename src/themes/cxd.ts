@@ -1,4 +1,7 @@
-import {theme} from '../theme';
+import {theme, ClassNamesFn, makeClassnames} from '../theme';
+
+export const classPrefix: string = 'cxd-';
+export const classnames: ClassNamesFn = makeClassnames(classPrefix);
 
 // yunshe.design 百度云舍
 theme('cxd', {

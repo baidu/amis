@@ -18,8 +18,130 @@
   }
 }
 
-.is-spin {
-  animation: spin 2s linear infinite;
+.#{$ns}Spinner {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: ease-out opacity var(--animation-duration);
+
+  &.in {
+    opacity: 1;
+  }
+
+  .#{$ns}Spinner-icon {
+    width: var(--Spinner-width);
+    height: var(--Spinner-height);
+    position: relative;
+    transform: translateZ(0);
+    animation: spin 2s linear infinite;
+    transition: ease-out all var(--animation-duration);
+
+    &--default {
+      background: var(--Spinner-bg);
+      background-size: 100%;
+      animation: none;
+    }
+
+    &--simple {
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .icon {
+        width: 100%;
+        height: 100%;
+        color: var(--Spinner-color);
+      }
+
+      svg.icon {
+        top: 0;
+
+        path {
+          fill: var(--Spinner-color);
+        }
+      }
+
+      i.icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--Spinner-width);
+      }
+    }
+
+    &--custom {
+      width: auto;
+      height: auto;
+    }
+
+    &--lg {
+      width: var(--Spinner--lg-width);
+      height: var(--Spinner--lg-height);
+
+      i.icon {
+        font-size: var(--Spinner--lg-height);
+      }
+    }
+
+    &--sm {
+      width: var(--Spinner--sm-width);
+      height: var(--Spinner--sm-height);
+
+      i.icon {
+        font-size: var(--Spinner--sm-height);
+      }
+    }
+  }
+
+  .#{$ns}Spinner-tip {
+    margin: px2rem(12px) 0 0 0;
+    word-break: keep-all;
+    white-space: nowrap;
+    color: var(--Spinner-color);
+  }
+
+  &.#{$ns}Spinner-tip--top {
+    flex-direction: column-reverse;
+
+    .#{$ns}Spinner-tip {
+      margin: 0 0 px2rem(12px) 0;
+    }
+  }
+
+  &.#{$ns}Spinner-tip--right {
+    flex-direction: row;
+
+    .#{$ns}Spinner-tip {
+      margin: 0 0 0 px2rem(12px);
+    }
+  }
+
+  &.#{$ns}Spinner-tip--bottom {
+    flex-direction: column;
+
+    .#{$ns}Spinner-tip {
+      margin: px2rem(12px) 0 0 0;
+    }
+  }
+
+  &.#{$ns}Spinner-tip--left {
+    flex-direction: row-reverse;
+
+    .#{$ns}Spinner-tip {
+      margin: 0 px2rem(12px) 0 0;
+    }
+  }
+
+  &--overlay {
+    position: absolute;
+    z-index: 11;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
 }
 
 .#{$ns}Spinner-overlay {
@@ -31,7 +153,6 @@
   bottom: 0;
   background: var(--Spinner-overlay-bg);
   transition: ease-out opacity var(--animation-duration);
-
   opacity: 0;
 
   &.in {
@@ -39,55 +160,17 @@
   }
 }
 
-.#{$ns}Spinner {
-  width: var(--Spinner-width);
-  height: var(--Spinner-height);
-  transform: translateZ(0);
-  display: inline-block;
-  background: var(--Spinner-bg);
-  background-size: 100%;
+// spinner渲染器scss
+.#{$ns}Spinner-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
 
-  &--lg {
-    width: var(--Spinner--lg-width);
-    height: var(--Spinner--lg-height);
-  }
-
-  &--sm {
-    width: var(--Spinner--sm-width);
-    height: var(--Spinner--sm-height);
-  }
-
-  transition: ease-out all var(--animation-duration);
-
-  &--icon {
-    background: transparent;
-    animation: spin 2s linear infinite;
-    width: auto;
-    height: auto;
-  }
-}
-
-// 当启用 overlay 的时候，应该是居中模式。
-.#{$ns}Spinner--overlay {
-  position: absolute;
-  z-index: 11;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-}
-
-.#{$ns}Spinner--overlay.#{$ns}Spinner--lg {
-  width: var(--Spinner--lg-width);
-  height: var(--Spinner--lg-height);
-  line-height: var(--Spinner--lg-height);
-}
-
-@include media-breakpoint-up(md) {
-  .#{$ns}Layout .#{$ns}Page-body > .#{$ns}Spinner-overlay {
-    left: var(--Layout-aside-width);
-  }
-
-  .#{$ns}Layout--folded .#{$ns}Page-body > .#{$ns}Spinner-overlay {
-    left: var(--Layout-aside--folded-width);
+  .#{$ns}Spinner {
+    position: absolute;
+    z-index: 11;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
   }
 }

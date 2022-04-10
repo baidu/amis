@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '表单验证示例',
   toolbar: "<a target='_blank' href='/docs/renderers/Form/FormItem'>文档</a>",
   body: [
@@ -18,9 +17,9 @@ export default {
       ],
       api: '/api/mock2/form/saveFormFailed?waitSeconds=2',
       mode: 'horizontal',
-      controls: [
+      body: [
         {
-          type: 'text',
+          type: 'input-text',
           name: 'test',
           label: '必填',
           required: true
@@ -30,7 +29,7 @@ export default {
         },
         {
           name: 'test1',
-          type: 'email',
+          type: 'input-email',
           label: 'Email'
         },
         {
@@ -38,7 +37,7 @@ export default {
         },
         {
           name: 'url',
-          type: 'url',
+          type: 'input-url',
           label: 'URL'
         },
         {
@@ -46,7 +45,7 @@ export default {
         },
         {
           name: 'num',
-          type: 'text',
+          type: 'input-text',
           label: '数字',
           validations: 'isNumeric'
         },
@@ -55,7 +54,7 @@ export default {
         },
         {
           name: 'alpha',
-          type: 'text',
+          type: 'input-text',
           label: '字母或数字',
           validations: 'isAlphanumeric'
         },
@@ -64,7 +63,7 @@ export default {
         },
         {
           name: 'int',
-          type: 'text',
+          type: 'input-text',
           label: '整形',
           validations: 'isInt'
         },
@@ -73,7 +72,7 @@ export default {
         },
         {
           name: 'minLength',
-          type: 'text',
+          type: 'input-text',
           label: '长度限制',
           validations: 'minLength:2,maxLength:10'
         },
@@ -82,7 +81,7 @@ export default {
         },
         {
           name: 'min',
-          type: 'text',
+          type: 'input-text',
           label: '数值限制',
           validations: 'maximum:10,minimum:2'
         },
@@ -91,7 +90,7 @@ export default {
         },
         {
           name: 'reg',
-          type: 'text',
+          type: 'input-text',
           label: '正则',
           validations: 'matchRegexp:/^abc/',
           validationErrors: {
@@ -103,7 +102,7 @@ export default {
         },
         {
           name: 'test2',
-          type: 'text',
+          type: 'input-text',
           label: '服务端验证'
         }
       ]

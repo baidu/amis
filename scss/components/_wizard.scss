@@ -59,6 +59,10 @@
         color: var(--white);
         background: var(--Wizard-badge-onActive-backgroundColor);
       }
+      &.is-complete {
+        color: var(--white);
+        background: var(--Wizard-badge-onComplete-backgroundColor);
+      }
     }
 
     ul li.active {
@@ -199,11 +203,6 @@
         &.is-complete:hover {
           color: var(--Wizard-steps-li-onActive-color);
           cursor: pointer;
-          background: var(--Wizard-steps-bg--isComplete);
-        }
-
-        &.is-complete:after {
-          border-left-color: #f1f5f9;
         }
       }
 

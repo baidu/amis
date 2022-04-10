@@ -1,12 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Collapse as BasicCollapse} from '../components/Collapse';
-import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
-  SchemaTpl
-} from '../Schema';
+import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
 
 /**
  * Collapse 折叠渲染器，格式说明。
@@ -19,9 +14,19 @@ export interface CollapseSchema extends BaseSchema {
   type: 'collapse';
 
   /**
+   * 标识
+   */
+  key?: string;
+
+  /**
    * 标题展示位置
    */
-  titlePosition: 'top' | 'bottom';
+  headerPosition?: 'top' | 'bottom';
+
+  /**
+   * 标题
+   */
+  header?: string | SchemaCollection;
 
   /**
    * 内容区域
@@ -31,7 +36,12 @@ export interface CollapseSchema extends BaseSchema {
   /**
    * 配置 Body 容器 className
    */
-  bodyClassName?: SchemaClassName;
+  bodyClassName?: string;
+
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean;
 
   /**
    * 是否可折叠
@@ -44,19 +54,24 @@ export interface CollapseSchema extends BaseSchema {
   collapsed?: boolean;
 
   /**
+   * 图标是否展示
+   */
+  showArrow?: boolean;
+
+  /**
+   * 自定义切换图标
+   */
+  expandIcon?: SchemaObject;
+
+  /**
    * 标题 CSS 类名
    */
   headingClassName?: string;
 
   /**
-   * 标题
-   */
-  title?: SchemaTpl;
-
-  /**
    * 收起的标题
    */
-  collapseTitle?: SchemaTpl;
+  collapseHeader?: SchemaTpl;
 
   /**
    * 控件大小
@@ -84,144 +99,87 @@ export interface CollapseProps
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 
-export interface CollapseState {
-  collapsed: boolean;
-}
-
-export default class Collapse extends React.Component<
-  CollapseProps,
-  CollapseState
-> {
-  static propsList: Array<string> = [
-    'wrapperComponent',
-    'headingComponent',
-    'bodyClassName',
-    'collapsed',
-    'headingClassName',
-    'title',
-    'mountOnEnter',
-    'unmountOnExit'
-  ];
-
-  static defaultProps: Partial<CollapseProps> = {
-    titlePosition: 'top',
-    wrapperComponent: 'div',
-    headingComponent: 'h4',
-    className: '',
-    headingClassName: '',
-    bodyClassName: '',
-    collapsable: true
-  };
-
-  state = {
-    collapsed: false
-  };
-
-  constructor(props: CollapseProps) {
-    super(props);
-
-    this.toggleCollapsed = this.toggleCollapsed.bind(this);
-    this.state.collapsed = !!props.collapsed;
-  }
-
-  componentWillReceiveProps(nextProps: CollapseProps) {
-    const props = this.props;
-
-    if (props.collapsed !== nextProps.collapsed) {
-      this.setState({
-        collapsed: !!nextProps.collapsed
-      });
-    }
-  }
-
-  toggleCollapsed() {
-    this.props.collapsable !== false &&
-      this.setState({
-        collapsed: !this.state.collapsed
-      });
-  }
-
+export default class Collapse extends React.Component<CollapseProps, {}> {
   render() {
     const {
+      id,
       classPrefix: ns,
       classnames: cx,
       size,
-      wrapperComponent: WrapperComponent,
-      headingComponent: HeadingComponent,
+      wrapperComponent,
+      headingComponent,
       className,
       headingClassName,
       children,
       titlePosition,
+      headerPosition,
       title,
       collapseTitle,
+      collapseHeader,
+      header,
       body,
       bodyClassName,
       render,
       collapsable,
       translate: __,
       mountOnEnter,
-      unmountOnExit
+      unmountOnExit,
+      showArrow,
+      expandIcon,
+      disabled,
+      collapsed,
+      propsUpdate,
+      onCollapse
     } = this.props;
-    // 默认给个 title，不然没法点
-    const finalTitle = this.state.collapsed ? title : collapseTitle || title;
 
-    let dom = [
-      finalTitle ? (
-        <HeadingComponent
-          key="title"
-          onClick={this.toggleCollapsed}
-          className={cx(`Collapse-header`, headingClassName)}
-        >
-          {render('heading', finalTitle)}
-          {collapsable && <span className={cx('Collapse-arrow')} />}
-        </HeadingComponent>
-      ) : null,
-
+    return (
       <BasicCollapse
-        show={collapsable ? !this.state.collapsed : true}
+        id={id}
         classnames={cx}
         classPrefix={ns}
-        key="body"
         mountOnEnter={mountOnEnter}
         unmountOnExit={unmountOnExit}
-      >
-        <div className={cx(`Collapse-body`, bodyClassName)}>
-          {children
+        size={size}
+        wrapperComponent={wrapperComponent}
+        headingComponent={headingComponent}
+        className={className}
+        headingClassName={headingClassName}
+        bodyClassName={bodyClassName}
+        headerPosition={titlePosition || headerPosition}
+        collapsable={collapsable}
+        collapsed={collapsed}
+        showArrow={showArrow}
+        disabled={disabled}
+        propsUpdate={propsUpdate}
+        expandIcon={
+          expandIcon
+            ? render('arrow-icon', expandIcon || '', {
+                className: cx('Collapse-icon-tranform')
+              })
+            : null
+        }
+        collapseHeader={
+          collapseTitle || collapseHeader
+            ? render('heading', collapseTitle || collapseHeader)
+            : null
+        }
+        header={render('heading', title || header || '')}
+        body={
+          children
             ? typeof children === 'function'
               ? children(this.props)
               : children
             : body
             ? render('body', body)
-            : null}
-        </div>
-      </BasicCollapse>
-    ];
-
-    if (titlePosition === 'bottom') {
-      dom.reverse();
-    }
-
-    return (
-      <WrapperComponent
-        className={cx(
-          `Collapse`,
-          {
-            'is-collapsed': this.state.collapsed,
-            [`Collapse--${size}`]: size,
-            'Collapse--collapsable': collapsable,
-            'Collapse--title-bottom': titlePosition === 'bottom'
-          },
-          className
-        )}
-      >
-        {dom}
-      </WrapperComponent>
+            : null
+        }
+        onCollapse={onCollapse}
+      ></BasicCollapse>
     );
   }
 }
 
 @Renderer({
-  test: /(^|\/)collapse$/,
-  name: 'collapse'
+  type: 'collapse'
 })
 export class CollapseRenderer extends Collapse {}

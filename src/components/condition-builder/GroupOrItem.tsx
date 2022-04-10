@@ -6,8 +6,11 @@ import {Icon} from '../icons';
 import {autobind} from '../../utils/helper';
 import ConditionGroup from './Group';
 import ConditionItem from './Item';
+import {FormulaPickerProps} from '../formula/Picker';
+import Button from '../Button';
 
 export interface CBGroupOrItemProps extends ThemeProps {
+  builderMode?: 'simple' | 'full';
   config: Config;
   value?: ConditionGroupValue;
   fields: Fields;
@@ -16,14 +19,21 @@ export interface CBGroupOrItemProps extends ThemeProps {
   data?: any;
   draggable?: boolean;
   disabled?: boolean;
+  searchable?: boolean;
   onChange: (value: ConditionGroupValue, index: number) => void;
   removeable?: boolean;
   onDragStart?: (e: React.MouseEvent) => void;
   onRemove?: (index: number) => void;
   fieldClassName?: string;
+  formula?: FormulaPickerProps;
+  popOverContainer?: any;
+  renderEtrValue?: any;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
+  state = {
+    hover: false
+  };
   @autobind
   handleItemChange(value: any) {
     this.props.onChange(value, this.props.index);
@@ -34,8 +44,24 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
     this.props.onRemove?.(this.props.index);
   }
 
+  @autobind
+  handlerHoverIn(e: any) {
+    e.stopPropagation();
+    this.setState({
+      hover: true
+    });
+  }
+
+  @autobind
+  handlerHoverOut(e: any) {
+    this.setState({
+      hover: false
+    });
+  }
+
   render() {
     const {
+      builderMode,
       classnames: cx,
       fieldClassName,
       value,
@@ -45,40 +71,69 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       draggable,
       data,
       disabled,
-      onDragStart
+      searchable,
+      onDragStart,
+      formula,
+      popOverContainer,
+      renderEtrValue
     } = this.props;
 
     return (
-      <div className={cx('CBGroupOrItem')} data-id={value?.id}>
+      <div
+        className={cx(
+          `CBGroupOrItem${builderMode === 'simple' ? '-simple' : ''}`
+        )}
+        data-id={value?.id}
+      >
         <div className={cx('CBGroupOrItem-body')}>
-          {draggable ? (
-            <a
-              draggable
-              onDragStart={onDragStart}
-              className={cx('CBGroupOrItem-dragbar')}
-            >
-              <Icon icon="drag-bar" className="icon" />
-            </a>
-          ) : null}
-
           {value?.conjunction ? (
-            <ConditionGroup
-              disabled={disabled}
-              onDragStart={onDragStart}
-              config={config}
-              fields={fields}
-              value={value as ConditionGroupValue}
-              onChange={this.handleItemChange}
-              fieldClassName={fieldClassName}
-              funcs={funcs}
-              removeable
-              onRemove={this.handleItemRemove}
-              data={data}
-            />
+            <div
+              className={cx(
+                'CBGroupOrItem-body-group',
+                this.state.hover && 'CBGroupOrItem-body-group--hover'
+              )}
+              onMouseOver={this.handlerHoverIn}
+              onMouseOut={this.handlerHoverOut}
+            >
+              {draggable ? (
+                <a
+                  draggable
+                  onDragStart={onDragStart}
+                  className={cx('CBGroupOrItem-dragbar')}
+                >
+                  <Icon icon="drag-bar" className="icon" />
+                </a>
+              ) : null}
+              <ConditionGroup
+                disabled={disabled}
+                searchable={searchable}
+                onDragStart={onDragStart}
+                config={config}
+                fields={fields}
+                value={value as ConditionGroupValue}
+                onChange={this.handleItemChange}
+                fieldClassName={fieldClassName}
+                funcs={funcs}
+                removeable
+                onRemove={this.handleItemRemove}
+                data={data}
+                renderEtrValue={renderEtrValue}
+              />
+            </div>
           ) : (
-            <>
+            <div className={cx('CBGroupOrItem-body-item')}>
+              {draggable ? (
+                <a
+                  draggable
+                  onDragStart={onDragStart}
+                  className={cx('CBGroupOrItem-dragbar')}
+                >
+                  <Icon icon="drag-bar" className="icon" />
+                </a>
+              ) : null}
               <ConditionItem
                 disabled={disabled}
+                searchable={searchable}
                 config={config}
                 fields={fields}
                 value={value as ConditionValue}
@@ -86,11 +141,17 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 fieldClassName={fieldClassName}
                 funcs={funcs}
                 data={data}
+                formula={formula}
+                popOverContainer={popOverContainer}
+                renderEtrValue={renderEtrValue}
               />
-              <a className={cx('CBDelete')} onClick={this.handleItemRemove}>
-                <Icon icon="close" className="icon" />
-              </a>
-            </>
+              <Button
+                className={cx('CBDelete')}
+                onClick={this.handleItemRemove}
+              >
+                <Icon icon="remove" className="icon" />
+              </Button>
+            </div>
           )}
         </div>
       </div>

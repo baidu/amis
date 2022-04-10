@@ -27,8 +27,8 @@ export function addModal(modal: ModalComponent) {
   modals.push(modal);
 }
 
-export function removeModal() {
-  modals.pop();
+export function removeModal(modal: ModalComponent) {
+  modals = modals.filter(el => el !== modal);
 }
 
 window.addEventListener('keydown', handleWindowKeyDown);
@@ -43,7 +43,7 @@ function handleWindowKeyDown(e: Event) {
     return;
   }
   const {disabled, closeOnEsc} = modal.props;
-  if (closeOnEsc && !disabled) {
+  if (closeOnEsc && !disabled && !e.defaultPrevented) {
     modal.props.onHide(e);
   }
 }

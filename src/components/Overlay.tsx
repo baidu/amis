@@ -4,27 +4,50 @@
  * @author fex
  */
 
-import {
-  Position as BasePosition,
-  Portal,
-  RootCloseWrapper
-} from 'react-overlays';
-import {findDOMNode} from 'react-dom';
-import React from 'react';
+import Portal from 'react-overlays/Portal';
+import classNames from 'classnames';
+import ReactDOM, {findDOMNode} from 'react-dom';
+import React, {cloneElement} from 'react';
 import {calculatePosition, getContainer, ownerDocument} from '../utils/dom';
-import {autobind, noop} from '../utils/helper';
+import {autobind, getScrollParent, noop} from '../utils/helper';
 import {resizeSensor, getComputedStyle} from '../utils/resize-sensor';
+import {RootClose} from '../utils/RootClose';
 
-// @ts-ignore
-BasePosition.propTypes.placement = () => null;
+function onScroll(elem: HTMLElement, callback: () => void) {
+  const handler = () => {
+    requestAnimationFrame(callback);
+  };
+  elem.addEventListener('scroll', handler);
+  return function () {
+    elem.removeEventListener('scroll', handler);
+  };
+}
 
-// @ts-ignore
-class Position extends BasePosition {
+class Position extends React.Component<any, any> {
   props: any;
   _lastTarget: any;
   resizeDispose: Array<() => void>;
   watchedTarget: any;
   setState: (state: any) => void;
+
+  static defaultProps = {
+    containerPadding: 0,
+    placement: 'right',
+    shouldUpdatePosition: false
+  };
+
+  constructor(props: any) {
+    super(props);
+
+    this.state = {
+      positionLeft: 0,
+      positionTop: 0,
+      arrowOffsetLeft: null,
+      arrowOffsetTop: null
+    };
+
+    this._lastTarget = null;
+  }
 
   updatePosition(target: any) {
     this._lastTarget = target;
@@ -57,6 +80,15 @@ class Position extends BasePosition {
           : noop,
         resizeSensor(overlay, () => this.updatePosition(target))
       ];
+
+      const scrollParent = getScrollParent(target);
+      if (scrollParent && container.contains(scrollParent)) {
+        this.resizeDispose.push(
+          onScroll(scrollParent, () => {
+            this.updatePosition(target);
+          })
+        );
+      }
     }
 
     this.setState(
@@ -65,20 +97,76 @@ class Position extends BasePosition {
         overlay,
         target,
         container,
-        this.props.containerPadding
+        this.props.containerPadding,
+        this.props.offset
       )
     );
   }
 
+  componentDidMount() {
+    this.updatePosition(this.getTarget());
+  }
+
+  getTarget = () => {
+    const {target} = this.props;
+    const targetElement = typeof target === 'function' ? target() : target;
+    return (targetElement && ReactDOM.findDOMNode(targetElement)) || null;
+  };
+
+  componentDidUpdate(prevProps: any) {
+    this.maybeUpdatePosition(this.props.placement !== prevProps.placement);
+  }
+
+  maybeUpdatePosition = (placementChanged: any) => {
+    const target = this.getTarget();
+
+    if (
+      !this.props.shouldUpdatePosition &&
+      target === this._lastTarget &&
+      !placementChanged
+    ) {
+      return;
+    }
+
+    this.updatePosition(target);
+  };
+
   componentWillUnmount() {
     this.resizeDispose?.forEach(fn => fn());
+  }
+
+  render() {
+    const {children, className, ...props} = this.props;
+    const {positionLeft, positionTop, ...arrowPosition} = this.state;
+
+    // These should not be forwarded to the child.
+    delete props.target;
+    delete props.container;
+    delete props.containerPadding;
+    delete props.shouldUpdatePosition;
+
+    const child = React.Children.only(children);
+    return cloneElement(child, {
+      ...props,
+      ...arrowPosition,
+      // FIXME: Don't forward `positionLeft` and `positionTop` via both props
+      // and `props.style`.
+      positionLeft,
+      positionTop,
+      className: classNames(className, child.props.className),
+      style: {
+        ...child.props.style,
+        left: positionLeft,
+        top: positionTop
+      }
+    });
   }
 }
 
 interface OverlayProps {
   placement?: string;
   show?: boolean;
-  transition?: React.ReactType;
+  transition?: React.ElementType;
   containerPadding?: number;
   shouldUpdatePosition?: boolean;
   rootClose?: boolean;
@@ -86,7 +174,7 @@ interface OverlayProps {
   container?: React.ReactNode | Function;
   target?: React.ReactNode | Function;
   watchTargetSizeChange?: boolean;
-
+  offset?: [number, number];
   onEnter?(node: HTMLElement): any;
   onEntering?(node: HTMLElement): any;
   onEntered?(node: HTMLElement): any;
@@ -112,10 +200,20 @@ export default class Overlay extends React.Component<
     };
   }
 
-  componentWillReceiveProps(nextProps: OverlayProps) {
-    if (nextProps.show) {
+  position: any = null;
+  positionRef = (position: any) => {
+    this.position = position;
+  };
+
+  updatePosition() {
+    this.position?.maybeUpdatePosition(true);
+  }
+
+  componentDidUpdate(prevProps: OverlayProps) {
+    const props = this.props;
+    if (prevProps.show !== props.show && props.show) {
       this.setState({exited: false});
-    } else if (!nextProps.transition) {
+    } else if (props.transition !== prevProps.transition && !props.transition) {
       // Otherwise let handleHidden take care of marking exited.
       this.setState({exited: true});
     }
@@ -141,6 +239,7 @@ export default class Overlay extends React.Component<
       children,
       watchTargetSizeChange,
       transition: Transition,
+      offset,
       ...props
     } = this.props;
 
@@ -162,8 +261,10 @@ export default class Overlay extends React.Component<
           containerPadding,
           target,
           placement,
-          shouldUpdatePosition
+          shouldUpdatePosition,
+          offset
         }}
+        ref={this.positionRef}
       >
         {child}
       </Position>
@@ -192,9 +293,21 @@ export default class Overlay extends React.Component<
 
     // This goes after everything else because it adds a wrapping div.
     if (rootClose) {
-      child = (
+      return (
         // @ts-ignore
-        <RootCloseWrapper onRootClose={props.onHide}>{child}</RootCloseWrapper>
+        <Portal container={container}>
+          <RootClose onRootClose={props.onHide}>
+            {(ref: any) => {
+              if (React.isValidElement(child)) {
+                return React.cloneElement(child, {
+                  ref: ref
+                });
+              }
+
+              return <div ref={ref}>{child}</div>;
+            }}
+          </RootClose>
+        </Portal>
       );
     }
 

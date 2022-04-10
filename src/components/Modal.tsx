@@ -8,14 +8,15 @@ import React from 'react';
 import Transition, {
   ENTERED,
   ENTERING,
-  EXITING
+  EXITING,
+  EXITED
 } from 'react-transition-group/Transition';
-import {Portal} from 'react-overlays';
+import Portal from 'react-overlays/Portal';
 import {current, addModal, removeModal} from './ModalManager';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {LocaleProps, localeable} from '../locale';
-import {getScrollbarWidth} from '../utils/helper';
+import {autobind, getScrollbarWidth} from '../utils/helper';
 
 export interface ModalProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -24,6 +25,7 @@ export interface ModalProps extends ThemeProps, LocaleProps {
   overlay?: boolean;
   onHide: (e: any) => void;
   closeOnEsc?: boolean;
+  closeOnOutside?: boolean;
   container?: any;
   show?: boolean;
   disabled?: boolean;
@@ -44,6 +46,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     size: '',
     overlay: true
   };
+
+  isRootClosed = false;
+  modalDom: HTMLElement;
 
   static Header = themeable(
     localeable(
@@ -136,12 +141,22 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       this.handleEnter();
       this.handleEntered();
     }
+
+    document.body.addEventListener('click', this.handleRootClickCapture, true);
+    document.body.addEventListener('click', this.handleRootClick);
   }
 
   componentWillUnmount() {
     if (this.props.show) {
       this.handleExited();
     }
+
+    document.body.removeEventListener('click', this.handleRootClick);
+    document.body.removeEventListener(
+      'click',
+      this.handleRootClickCapture,
+      true
+    );
   }
 
   handleEnter = () => {
@@ -172,14 +187,38 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   modalRef = (ref: any) => {
+    this.modalDom = ref;
     const {classPrefix: ns} = this.props;
     if (ref) {
       addModal(this);
       (ref as HTMLElement).classList.add(`${ns}Modal--${current()}th`);
     } else {
-      removeModal();
+      removeModal(this);
     }
   };
+
+  @autobind
+  handleRootClickCapture(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    const {closeOnOutside, classPrefix: ns} = this.props;
+    const isLeftButton =
+      (e.button === 1 && window.event !== null) || e.button === 0;
+
+    this.isRootClosed = !!(
+      isLeftButton &&
+      closeOnOutside &&
+      target &&
+      this.modalDom &&
+      ((!this.modalDom.contains(target) && !target.closest('[role=dialog]')) ||
+        (target.matches(`.${ns}Modal`) && target === this.modalDom))
+    ); // 干脆过滤掉来自弹框里面的点击
+  }
+
+  @autobind
+  handleRootClick(e: MouseEvent) {
+    const {onHide} = this.props;
+    this.isRootClosed && !e.defaultPrevented && onHide(e);
+  }
 
   render() {
     const {
@@ -197,6 +236,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       <Transition
         mountOnEnter
         unmountOnExit
+        appear
         in={show}
         timeout={500}
         onEnter={this.handleEnter}
@@ -226,7 +266,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                   fadeStyles[status]
                 )}
               >
-                {children}
+                {status === EXITED ? null : children}
               </div>
             </div>
           </Portal>

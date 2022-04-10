@@ -1,0 +1,462 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`options:linkage 1`] = `
+<div>
+  <form
+    class="cxd-Form cxd-Form--normal"
+    novalidate=""
+  >
+    <input
+      style="display: none;"
+      type="submit"
+    />
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              选项x
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="cxd-ListControl cxd-Form-control is-inline"
+      >
+        <div
+          class="cxd-ListControl-items"
+        >
+          <div
+            class="cxd-ListControl-item"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项1
+            </div>
+          </div>
+          <div
+            class="cxd-ListControl-item"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项2
+            </div>
+          </div>
+          <div
+            class="cxd-ListControl-item"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项3
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              选项y
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="cxd-RadiosControl cxd-Form-control is-inline"
+      >
+        <label
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项a
+          </span>
+        </label>
+        <label
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项b
+          </span>
+        </label>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`options:linkage 2`] = `
+<div>
+  <form
+    class="cxd-Form cxd-Form--normal"
+    novalidate=""
+  >
+    <input
+      style="display: none;"
+      type="submit"
+    />
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              选项x
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="cxd-ListControl cxd-Form-control is-inline"
+      >
+        <div
+          class="cxd-ListControl-items"
+        >
+          <div
+            class="cxd-ListControl-item is-active"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项1
+            </div>
+          </div>
+          <div
+            class="cxd-ListControl-item"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项2
+            </div>
+          </div>
+          <div
+            class="cxd-ListControl-item"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项3
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              选项y
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="cxd-RadiosControl cxd-Form-control is-inline"
+      >
+        <label
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full cxd-Checkbox--button--disabled--unchecked"
+        >
+          <input
+            disabled=""
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项a
+          </span>
+        </label>
+        <label
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项b
+          </span>
+        </label>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`options:linkage 3`] = `
+<div>
+  <form
+    class="cxd-Form cxd-Form--normal"
+    novalidate=""
+  >
+    <input
+      style="display: none;"
+      type="submit"
+    />
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              选项x
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="cxd-ListControl cxd-Form-control is-inline"
+      >
+        <div
+          class="cxd-ListControl-items"
+        >
+          <div
+            class="cxd-ListControl-item"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项1
+            </div>
+          </div>
+          <div
+            class="cxd-ListControl-item is-active"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项2
+            </div>
+          </div>
+          <div
+            class="cxd-ListControl-item"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项3
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              选项y
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="cxd-RadiosControl cxd-Form-control is-inline"
+      >
+        <label
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项a
+          </span>
+        </label>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`options:linkage 4`] = `
+<div>
+  <form
+    class="cxd-Form cxd-Form--normal"
+    novalidate=""
+  >
+    <input
+      style="display: none;"
+      type="submit"
+    />
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              选项x
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="cxd-ListControl cxd-Form-control is-inline"
+      >
+        <div
+          class="cxd-ListControl-items"
+        >
+          <div
+            class="cxd-ListControl-item"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项1
+            </div>
+          </div>
+          <div
+            class="cxd-ListControl-item"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项2
+            </div>
+          </div>
+          <div
+            class="cxd-ListControl-item is-active"
+          >
+            <div
+              class="cxd-ListControl-itemLabel"
+            >
+              选项3
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              选项y
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="cxd-RadiosControl cxd-Form-control is-inline"
+      >
+        <label
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项a
+          </span>
+        </label>
+        <label
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项b
+          </span>
+        </label>
+        <label
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项c
+          </span>
+        </label>
+      </div>
+    </div>
+  </form>
+</div>
+`;

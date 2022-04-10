@@ -7,7 +7,7 @@ import React from 'react';
 import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper';
 import {pickEventsProps} from '../utils/helper';
 import {ClassNamesFn, themeable} from '../theme';
-
+import {Icon} from './icons';
 interface ButtonProps extends React.DOMAttributes<HTMLButtonElement> {
   id?: string;
   className?: string;
@@ -16,7 +16,7 @@ interface ButtonProps extends React.DOMAttributes<HTMLButtonElement> {
   type: 'button' | 'reset' | 'submit';
   level: string; // 'link' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'light' | 'dark' | 'default';
   tooltip?: string | TooltipObject;
-  placement: 'top' | 'right' | 'bottom' | 'left';
+  tooltipPlacement: 'top' | 'right' | 'bottom' | 'left';
   tooltipContainer?: any;
   tooltipTrigger: Trigger | Array<Trigger>;
   tooltipRootClose: boolean;
@@ -28,6 +28,9 @@ interface ButtonProps extends React.DOMAttributes<HTMLButtonElement> {
   classPrefix: string;
   classnames: ClassNamesFn;
   componentClass: React.ReactType;
+  overrideClassName?: boolean;
+  loading?: boolean;
+  loadingClassName?: string;
 }
 
 export class Button extends React.Component<ButtonProps> {
@@ -36,14 +39,14 @@ export class Button extends React.Component<ButtonProps> {
     | 'componentClass'
     | 'level'
     | 'type'
-    | 'placement'
+    | 'tooltipPlacement'
     | 'tooltipTrigger'
     | 'tooltipRootClose'
   > = {
     componentClass: 'button',
     level: 'default',
     type: 'button',
-    placement: 'top',
+    tooltipPlacement: 'top',
     tooltipTrigger: ['hover', 'focus'],
     tooltipRootClose: false
   };
@@ -63,32 +66,52 @@ export class Button extends React.Component<ButtonProps> {
       active,
       iconOnly,
       href,
+      loading,
+      loadingClassName,
+      overrideClassName,
       ...rest
     } = this.props;
 
     if (href) {
       Comp = 'a';
+    } else if ((Comp === 'button' && disabled) || loading) {
+      Comp = 'div';
     }
 
     return (
       <Comp
-        type={Comp === 'a' ? undefined : type}
+        type={Comp === 'input' || Comp === 'button' ? type : undefined}
         {...pickEventsProps(rest)}
+        onClick={rest.onClick && disabled ? () => {} : rest.onClick}
         href={href}
         className={cx(
-          `Button`,
-          {
-            [`Button--${level}`]: level,
-            [`Button--${size}`]: size,
-            [`Button--block`]: block,
-            [`Button--iconOnly`]: iconOnly,
-            'is-disabled': disabled,
-            'is-active': active
-          },
+          overrideClassName
+            ? ''
+            : {
+                'Button': true,
+                [`Button--${level}`]: level,
+                [`Button--${size}`]: size,
+                [`Button--block`]: block,
+                [`Button--iconOnly`]: iconOnly,
+                'is-disabled': disabled,
+                'is-active': active
+              },
           className
         )}
         disabled={disabled}
       >
+        {loading && !disabled ? (
+          <span
+            className={cx(
+              overrideClassName
+                ? ''
+                : {[`Button--loading Button--loading--${level}`]: level},
+              loadingClassName
+            )}
+          >
+            <Icon icon="loading-outline" className="icon" />
+          </span>
+        ) : null}
         {children}
       </Comp>
     );
@@ -97,31 +120,24 @@ export class Button extends React.Component<ButtonProps> {
   render() {
     const {
       tooltip,
-      placement,
+      tooltipPlacement,
       tooltipContainer,
       tooltipTrigger,
       tooltipRootClose,
       disabled,
       disabledTip,
-      classPrefix,
       classnames: cx
     } = this.props;
 
     return (
       <TooltipWrapper
-        placement={placement}
+        placement={tooltipPlacement}
         tooltip={disabled ? disabledTip : tooltip}
         container={tooltipContainer}
         trigger={tooltipTrigger}
         rootClose={tooltipRootClose}
       >
-        {disabled && disabledTip ? (
-          <div className={cx('Button--disabled-wrap')}>
-            {this.renderButton()}
-          </div>
-        ) : (
-          this.renderButton()
-        )}
+        {this.renderButton()}
       </TooltipWrapper>
     );
   }

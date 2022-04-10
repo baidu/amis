@@ -7,9 +7,20 @@ import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
-import {isApiOutdated, isEffectiveApi} from '../utils/api';
+import {
+  buildApi,
+  isApiOutdated,
+  isEffectiveApi,
+  str2AsyncFunction
+} from '../utils/api';
 import {Spinner} from '../components';
-import {autobind, isVisible} from '../utils/helper';
+import {
+  autobind,
+  isEmpty,
+  isObjectShallowModified,
+  isVisible,
+  qsstringify
+} from '../utils/helper';
 import {
   BaseSchema,
   SchemaApi,
@@ -18,6 +29,7 @@ import {
   SchemaMessage,
   SchemaName
 } from '../Schema';
+import {IIRendererStore} from '../store';
 
 /**
  * Service 服务类控件。
@@ -38,6 +50,11 @@ export interface ServiceSchema extends BaseSchema {
    * WebScocket 地址，用于实时获取数据
    */
   ws?: string;
+
+  /**
+   * 通过调用外部函数来获取数据
+   */
+  dataProvider?: string | Function;
 
   /**
    * 内容区域
@@ -110,6 +127,8 @@ export default class Service extends React.Component<ServiceProps> {
   // 主要是用于关闭 socket
   socket: any;
 
+  dataProviderUnsubscribe?: Function;
+
   static defaultProps: Partial<ServiceProps> = {
     messages: {
       fetchFailed: 'fetchFailed'
@@ -123,11 +142,14 @@ export default class Service extends React.Component<ServiceProps> {
 
     this.handleQuery = this.handleQuery.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
     this.initInterval = this.initInterval.bind(this);
     this.afterDataFetch = this.afterDataFetch.bind(this);
     this.afterSchemaFetch = this.afterSchemaFetch.bind(this);
+    this.runDataProvider = this.runDataProvider.bind(this);
+    this.dataProviderSetData = this.dataProviderSetData.bind(this);
   }
 
   componentDidMount() {
@@ -166,12 +188,21 @@ export default class Service extends React.Component<ServiceProps> {
       if (this.socket) {
         this.socket.close();
       }
-      this.socket = store.fetchWSData(props.ws, this.afterDataFetch);
+      this.socket = this.fetchWSData(props.ws, store.data);
+    }
+
+    if (isObjectShallowModified(prevProps.defaultData, props.defaultData)) {
+      store.reInitData(props.defaultData);
+    }
+
+    if (props.dataProvider !== prevProps.dataProvider) {
+      this.runDataProvider();
     }
   }
 
   componentWillUnmount() {
     this.mounted = false;
+    this.runDataProviderUnsubscribe();
     clearTimeout(this.timer);
     if (this.socket && this.socket.close) {
       this.socket.close();
@@ -187,6 +218,7 @@ export default class Service extends React.Component<ServiceProps> {
       ws,
       initFetch,
       initFetchOn,
+      dataProvider,
       store,
       messages: {fetchSuccess, fetchFailed}
     } = this.props;
@@ -210,15 +242,109 @@ export default class Service extends React.Component<ServiceProps> {
     }
 
     if (ws) {
-      this.socket = store.fetchWSData(ws, this.afterDataFetch);
+      this.socket = this.fetchWSData(ws, store.data);
+    }
+
+    if (dataProvider) {
+      this.runDataProvider();
     }
   }
 
-  afterDataFetch(data: any) {
+  // 使用外部函数获取数据
+  async runDataProvider() {
+    this.runDataProviderUnsubscribe();
+    const {dataProvider, store} = this.props;
+    let dataProviderFunc = dataProvider;
+
+    if (typeof dataProvider === 'string' && dataProvider) {
+      dataProviderFunc = str2AsyncFunction(
+        dataProvider,
+        'data',
+        'setData',
+        'env'
+      )!;
+    }
+    if (typeof dataProviderFunc === 'function') {
+      const unsubscribe = await dataProviderFunc(
+        store.data,
+        this.dataProviderSetData,
+        this.props.env
+      );
+      if (typeof unsubscribe === 'function') {
+        this.dataProviderUnsubscribe = unsubscribe;
+      }
+    }
+  }
+
+  // 运行销毁外部函数的方法
+  runDataProviderUnsubscribe() {
+    if (typeof this.dataProviderUnsubscribe === 'function') {
+      try {
+        this.dataProviderUnsubscribe();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
+  // 外部函数回调更新数据
+  dataProviderSetData(data: any) {
+    if (!this.mounted) {
+      return;
+    }
+    const {store} = this.props;
+    store.updateData(data, undefined, false);
+    store.setHasRemoteData();
+  }
+
+  // 使用 websocket 获取使用，因为有异步所以放这里而不是 store 实现
+  fetchWSData(ws: string | Api, data: any) {
+    const {env, store} = this.props;
+    const wsApi = buildApi(ws, data);
+
+    env.wsFetcher(
+      wsApi,
+      (data: any) => {
+        let returndata = data;
+        if ('status' in data && 'data' in data) {
+          returndata = data.data;
+          if (data.status !== 0) {
+            store.updateMessage(data.msg, true);
+            env.notify('error', data.msg);
+            return;
+          }
+        }
+        store.updateData(returndata, undefined, false);
+        store.setHasRemoteData();
+        // 因为 WebSocket 只会获取纯数据，所以没有 msg 之类的
+        this.afterDataFetch({ok: true, data: returndata});
+      },
+      (error: any) => {
+        store.updateMessage(error, true);
+        env.notify('error', error);
+      }
+    );
+  }
+
+  afterDataFetch(result: any) {
+    // todo 应该统一这块
+    // 初始化接口返回的是整个 response，
+    // 保存 ajax 请求的时候返回时数据部分。
+    const data = result?.hasOwnProperty('ok') ? result.data : result;
+    const {onBulkChange} = this.props;
+    if (!isEmpty(data) && onBulkChange) {
+      onBulkChange(data);
+    }
+
     this.initInterval(data);
   }
 
   afterSchemaFetch(schema: any) {
+    const {onBulkChange, formStore} = this.props;
+    if (formStore && schema?.data && onBulkChange) {
+      onBulkChange && onBulkChange(schema.data);
+    }
+
     this.initInterval(schema);
   }
 
@@ -249,6 +375,7 @@ export default class Service extends React.Component<ServiceProps> {
       initFetch,
       initFetchOn,
       store,
+      dataProvider,
       messages: {fetchSuccess, fetchFailed}
     } = this.props;
 
@@ -271,6 +398,10 @@ export default class Service extends React.Component<ServiceProps> {
           errorMessage: fetchFailed
         })
         .then(this.afterDataFetch);
+    }
+
+    if (dataProvider) {
+      this.runDataProvider();
     }
   }
 
@@ -297,22 +428,35 @@ export default class Service extends React.Component<ServiceProps> {
     // 会被覆写
   }
 
+  @autobind
+  handleDialogConfirm(
+    values: object[],
+    action: Action,
+    ctx: any,
+    targets: Array<any>
+  ) {
+    const {store} = this.props;
+    store.closeDialog(true);
+  }
+
+  @autobind
+  handleDialogClose(confirmed = false) {
+    const {store} = this.props;
+    store.closeDialog(confirmed);
+  }
+
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
-      const parentStore = store.parentStore;
 
-      // 暂时自己不支持弹出 dialog
-      if (parentStore && parentStore.openDialog) {
-        store.setCurrentAction({
-          type: 'button',
-          actionType: 'dialog',
-          dialog: dialog
-        });
-        store.openDialog(ctx, undefined, confirmed => {
-          resolve(confirmed);
-        });
-      }
+      store.setCurrentAction({
+        type: 'button',
+        actionType: 'dialog',
+        dialog: dialog
+      });
+      store.openDialog(ctx, undefined, confirmed => {
+        resolve(confirmed);
+      });
     });
   }
 
@@ -350,20 +494,34 @@ export default class Service extends React.Component<ServiceProps> {
     }
   }
 
+  handleChange(
+    value: any,
+    name: string,
+    submit?: boolean,
+    changePristine?: boolean
+  ) {
+    const {store, formStore, onChange} = this.props;
+
+    // form 触发的 onChange,直接忽略
+    if (typeof name !== 'string') {
+      return;
+    }
+
+    (store as IIRendererStore).changeValue?.(name, value);
+
+    // 如果在form底下，则继续向上派送。
+    formStore && onChange?.(value, name, submit, changePristine);
+  }
+
   renderBody() {
     const {render, store, body: schema, classnames: cx} = this.props;
 
-    return (
-      <div className={cx('Service-body')}>
-        {
-          render('body', store.schema || schema, {
-            key: store.schemaKey || 'body',
-            onQuery: this.handleQuery,
-            onAction: this.handleAction
-          }) as JSX.Element
-        }
-      </div>
-    );
+    return render('body', store.schema || schema, {
+      key: store.schemaKey || 'body',
+      onQuery: this.handleQuery,
+      onAction: this.handleAction,
+      onChange: this.handleChange
+    }) as JSX.Element;
   }
 
   render() {
@@ -393,23 +551,63 @@ export default class Service extends React.Component<ServiceProps> {
         {this.renderBody()}
 
         <Spinner size="lg" overlay key="info" show={store.loading} />
+
+        {render(
+          // 单独给 feedback 服务的，handleAction 里面先不要处理弹窗
+          'modal',
+          {
+            ...((store.action as Action) &&
+              ((store.action as Action).dialog as object)),
+            type: 'dialog'
+          },
+          {
+            key: 'dialog',
+            data: store.dialogData,
+            onConfirm: this.handleDialogConfirm,
+            onClose: this.handleDialogClose,
+            show: store.dialogOpen
+          }
+        )}
       </div>
     );
   }
 }
 
 @Renderer({
-  test: /(^|\/)service$/,
+  type: 'service',
   storeType: ServiceStore.name,
-  name: 'service'
+  isolateScope: true,
+  storeExtendsData: (props: any) => (props.formStore ? false : true)
 })
 export class ServiceRenderer extends Service {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    // super.componentWillMount();
-    const scoped = this.context as IScopedContext;
+  constructor(props: ServiceProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
+  }
+
+  reload(subpath?: string, query?: any, ctx?: any, silent?: boolean) {
+    const scoped = this.context as IScopedContext;
+    if (subpath) {
+      return scoped.reload(
+        query ? `${subpath}?${qsstringify(query)}` : subpath,
+        ctx
+      );
+    }
+
+    return super.reload(subpath, query, ctx, silent);
+  }
+
+  receive(values: any, subPath?: string) {
+    const scoped = this.context as IScopedContext;
+    if (subPath) {
+      return scoped.send(subPath, values);
+    }
+
+    return super.receive(values);
   }
 
   componentWillUnmount() {
@@ -421,5 +619,9 @@ export class ServiceRenderer extends Service {
   reloadTarget(target: string, data?: any) {
     const scoped = this.context as IScopedContext;
     scoped.reload(target, data);
+  }
+
+  setData(values: object) {
+    return super.afterDataFetch(values);
   }
 }

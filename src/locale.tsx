@@ -83,7 +83,7 @@ export function localeable<
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static contextType = LocaleContext;
-      static ComposedComponent = ComposedComponent;
+      static ComposedComponent = ComposedComponent as React.ComponentType<T>;
 
       render() {
         const locale: string =

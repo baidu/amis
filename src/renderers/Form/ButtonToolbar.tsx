@@ -1,29 +1,36 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import cx from 'classnames';
-import {Button} from '../../types';
-import {ButtonToolbarSchema} from '../ButtonToolbar';
+import {RendererProps} from '../../factory';
+import {BaseSchema} from '../../Schema';
+import {ActionSchema} from '../Action';
+import {FormControlProps, FormItem} from './Item';
 
 /**
- * 按钮工具栏控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/button-toolbar
+ * Button Toolar 渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/button-toolbar
  */
-export interface ButtonToolbarControlSchema
-  extends ButtonToolbarSchema,
-    FormBaseControl {
+export interface ButtonToolbarSchema extends BaseSchema {
+  /**
+   * 指定为按钮工具集合类型
+   */
   type: 'button-toolbar';
+
+  buttons: Array<ActionSchema>;
 }
 
 export interface ButtonToolbarProps
   extends FormControlProps,
-    Omit<
-      ButtonToolbarControlSchema,
-      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
-    > {}
+    Omit<ButtonToolbarSchema, 'className'> {}
 
-export class ButtonToolbarControl extends React.Component<ButtonToolbarProps> {
-  static defaultProps = {};
+export default class ButtonToolbar extends React.Component<
+  ButtonToolbarProps,
+  object
+> {
+  static propsList: Array<string> = ['buttons', 'className'];
 
+  /**
+   * 这个方法editor里要用作hack，所以不能删掉这个方法
+   * @returns
+   */
   renderButtons() {
     const {render, classPrefix: ns, buttons} = this.props;
     return Array.isArray(buttons)
@@ -36,10 +43,10 @@ export class ButtonToolbarControl extends React.Component<ButtonToolbarProps> {
   }
 
   render() {
-    const {render, className, classPrefix: ns, buttons} = this.props;
+    const {buttons, className, classnames: cx, render} = this.props;
 
     return (
-      <div className={cx(`${ns}ButtonToolbar`, className)}>
+      <div className={cx('ButtonToolbar', className)}>
         {this.renderButtons()}
       </div>
     );
@@ -48,7 +55,6 @@ export class ButtonToolbarControl extends React.Component<ButtonToolbarProps> {
 
 @FormItem({
   type: 'button-toolbar',
-  sizeMutable: false,
-  strictMode: false // data 变化也更新
+  strictMode: false
 })
-export class ButtonToolbarRenderer extends ButtonToolbarControl {}
+export class ButtonToolbarRenderer extends ButtonToolbar {}

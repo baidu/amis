@@ -1,13 +1,13 @@
 import React from 'react';
 import cx from 'classnames';
-// @ts-ignore
-import matchSorter from 'match-sorter';
+import {matchSorter} from 'match-sorter';
 import keycode from 'keycode';
 import Downshift, {StateChangeOptions} from 'downshift';
 import {autobind} from '../../utils/helper';
 import {ICONS} from './IconPickerIcons';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {Option} from '../../components/Select';
+import {Icon} from '../../components/icons';
 
 /**
  * 图标选择器
@@ -23,6 +23,7 @@ export interface IconPickerProps extends FormControlProps {
   placeholder?: string;
   resetValue?: any;
   noDataTip?: string;
+  clearable?: boolean;
 }
 
 export interface IconPickerState {
@@ -51,13 +52,13 @@ export default class IconPickerControl extends React.PureComponent<
   > = {
     resetValue: '',
     placeholder: '',
-    noDataTip: '未找到匹配的图标'
+    noDataTip: 'placeholder.noData'
   };
 
-  componentWillReceiveProps(nextProps: IconPickerProps) {
+  componentDidUpdate(prevProps: IconPickerProps) {
     const props = this.props;
 
-    if (props.value !== nextProps.value) {
+    if (prevProps.value !== props.value) {
       this.setState({
         inputValue: ''
       });
@@ -211,6 +212,23 @@ export default class IconPickerControl extends React.PureComponent<
     }
   }
 
+  @autobind
+  handleClear() {
+    const {onChange, resetValue} = this.props;
+
+    onChange?.(resetValue);
+
+    this.setState(
+      {
+        inputValue: resetValue,
+        isFocused: true
+      },
+      () => {
+        this.focus();
+      }
+    );
+  }
+
   renderFontIcons() {
     const {
       className,
@@ -221,6 +239,7 @@ export default class IconPickerControl extends React.PureComponent<
       value,
       noDataTip,
       disabled,
+      clearable,
       translate: __
     } = this.props;
     const options = this.formatOptions();
@@ -279,6 +298,15 @@ export default class IconPickerControl extends React.PureComponent<
                   disabled={disabled}
                   size={10}
                 />
+
+                {clearable && !disabled && value ? (
+                  <a
+                    onClick={this.handleClear}
+                    className={cx('IconPickerControl-clear')}
+                  >
+                    <Icon icon="input-clear" className="icon" />
+                  </a>
+                ) : null}
               </div>
               {isOpen ? (
                 <div className={cx('IconPickerControl-sugsPanel')}>

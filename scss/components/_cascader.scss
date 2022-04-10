@@ -1,0 +1,102 @@
+.#{$ns}Cascader-tabs {
+  display: flex;
+  &.scrollable {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+.#{$ns}Cascader-tab {
+  flex: 1;
+  width: calc((100vw - 20px) / 3);
+  height: px2rem(370px);
+  overflow-y: auto;
+  display: inline-block;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.#{$ns}Cascader {
+  width: 100%;
+  padding: 0 10px;
+  &-Nav {
+    overflow-x: auto;
+    &Item {
+      display: inline-block;
+      margin-right: px2rem(10px);
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+      padding: 0 px2rem(6px);
+    }
+  }
+  &-btnGroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: px2rem(60px);
+  }
+  &-options {
+    box-sizing: border-box;
+    height: var(--Cascader-option-height);
+    padding-top: px2rem(6px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0;
+    padding: 0;
+  }
+  &-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: px2rem(6px) 0;
+    font-size: var(--fontSizeMd);
+    line-height: var(--Cascader-option-lineHeight);
+    cursor: pointer;
+    position: relative;
+    &.selected {
+      span {
+        color: var(--primary);
+      }
+    }
+    &.disabled {
+      span {
+        color: gray;
+      }
+    }
+    &--text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      user-select: none;
+    }
+    &-selectedNum {
+      min-width: px2rem(16px);
+      height: px2rem(16px);
+      line-height: px2rem(16px);
+      border-radius: 100%;
+      text-align: center;
+      background: var(--Form-select-menu-onActive-color);
+      color: var(--white) !important;
+      font-size: var(--fontSizeSm);
+      display: inline-block;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  &-icon {
+    color: var(--primary);
+  }
+  &-tab {
+    padding: 0;
+  }
+
+  &-btnCancel {
+    color: var(--PopUp-cancelAction-color);
+  }
+}

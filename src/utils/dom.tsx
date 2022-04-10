@@ -1,54 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import domOwnerDocument from 'dom-helpers/ownerDocument';
-import css from 'dom-helpers/style/index';
-import getOffset from 'dom-helpers/query/offset';
-import getPosition from 'dom-helpers/query/position';
-import getScrollTop from 'dom-helpers/query/scrollTop';
-
-const bsMapping: {
-  [propName: string]: string;
-} = {
-  level: 'bsStyle',
-  classPrefix: 'bsClass',
-  size: 'bsSize'
-};
-
-/**
- * 主要目的是希望在是用 bootstrap 组件的时候不需要带 bs 前缀。
- *
- * @param {Object} rawProps 原始属性对象。
- * @return {Object}
- */
-export const props2BsProps = (rawProps: {[propName: string]: any}) => {
-  let props: {[propName: string]: any} = {};
-
-  Object.keys(rawProps).forEach(
-    key => (props[bsMapping[key] || key] = rawProps[key])
-  );
-
-  return props;
-};
-
-/**
- * props2BsProps 的 hoc 版本
- *
- * @param {*} ComposedComponent 组合组件
- * @return {Component}
- */
-export const props2BsPropsHoc: (
-  ComposedComponent: React.ComponentType<any>
-) => React.ComponentType<any> = ComposedComponent => {
-  class BsComponent extends React.Component<any> {
-    render() {
-      return <ComposedComponent {...props2BsProps(this.props)} />;
-    }
-  }
-
-  hoistNonReactStatic(BsComponent, ComposedComponent);
-  return BsComponent;
-};
+import getOffset from './offset';
+import getPosition from './position';
 
 export function getContainer(container: any, defaultContainer: any) {
   container = typeof container === 'function' ? container() : container;
@@ -56,7 +10,10 @@ export function getContainer(container: any, defaultContainer: any) {
 }
 
 export function ownerDocument(componentOrElement: any) {
-  return domOwnerDocument(ReactDOM.findDOMNode(componentOrElement) as Element);
+  return (
+    (ReactDOM.findDOMNode(componentOrElement) as Element)?.ownerDocument ||
+    document
+  );
 }
 
 function getContainerDimensions(containerNode: any) {
@@ -67,11 +24,11 @@ function getContainerDimensions(containerNode: any) {
     height = window.innerHeight;
 
     scroll =
-      getScrollTop(ownerDocument(containerNode).documentElement) ||
-      getScrollTop(containerNode);
+      ownerDocument(containerNode).documentElement.scrollTop ||
+      containerNode?.scrollTop;
   } else {
     ({width, height} = getOffset(containerNode) as any);
-    scroll = getScrollTop(containerNode);
+    scroll = containerNode.scrollTop;
   }
 
   return {width, height, scroll};
@@ -120,29 +77,13 @@ function getLeftDelta(
   return 0;
 }
 
-// function position(node: HTMLElement, offsetParent: HTMLElement) {
-//   const rect = offsetParent.getBoundingClientRect();
-//   const rect2 = node.getBoundingClientRect();
-//   return {
-//     width:
-//       rect2.width -
-//         (parseInt(css(node, 'borderLeftWidth') || '', 10) || 0) -
-//         parseInt(css(node, 'borderRightWidth') || '', 10) || 0,
-//     height:
-//       rect2.height -
-//         (parseInt(css(node, 'borderTopWidth') || '', 10) || 0) -
-//         parseInt(css(node, 'borderBottomWidth') || '', 10) || 0,
-//     top: rect2.top - rect.top,
-//     left: rect2.left - rect.left
-//   };
-// }
-
 export function calculatePosition(
   placement: any,
   overlayNode: any,
   target: HTMLElement,
   container: any,
-  padding: any = 0
+  padding: any = 0,
+  customOffset: [number, number] = [0, 0]
 ) {
   const childOffset: any =
     container.tagName === 'BODY'
@@ -275,12 +216,24 @@ export function calculatePosition(
       `calcOverlayPosition(): No such placement of "${placement}" found.`
     );
   }
-
+  const [offSetX = 0, offSetY = 0] = customOffset;
   return {
-    positionLeft: positionLeft / scaleX,
-    positionTop: positionTop / scaleY,
-    arrowOffsetLeft: arrowOffsetLeft / scaleX,
-    arrowOffsetTop: arrowOffsetTop / scaleY,
+    positionLeft: (positionLeft + offSetX) / scaleX,
+    positionTop: (positionTop + offSetY) / scaleY,
+    arrowOffsetLeft: (arrowOffsetLeft + offSetX) / scaleX,
+    arrowOffsetTop: (arrowOffsetTop + offSetY) / scaleY,
     activePlacement
   };
+}
+
+/**
+ * 专门用来获取样式的像素值，默认返回 0
+ */
+export function getStyleNumber(element: HTMLElement, styleName: string) {
+  if (!element) {
+    return 0;
+  }
+  return (
+    parseInt(getComputedStyle(element).getPropertyValue(styleName), 10) || 0
+  );
 }

@@ -6,21 +6,13 @@ import {
   AlertComponent,
   Button,
   Drawer,
+  Spinner,
   ToastComponent
 } from '../../src/components/index';
 import {eachTree, mapTree} from '../../src/utils/helper';
 import {Icon} from '../../src/components/icons';
 import '../../src/locale/en-US';
-import {
-  Router,
-  Route,
-  IndexRoute,
-  browserHistory,
-  hashHistory,
-  Link,
-  Redirect,
-  withRouter
-} from 'react-router';
+import {withRouter} from 'react-router';
 import Select from '../../src/components/Select';
 import InputBox from '../../src/components/InputBox';
 import DocSearch from './DocSearch';
@@ -29,7 +21,14 @@ import DocNavCN from './DocNavCN';
 import Example, {examples} from './Example';
 import CSSDocs, {cssDocs} from './CssDocs';
 import Components, {components} from './Components';
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+  Link,
+  NavLink
+} from 'react-router-dom';
 declare const _hmt: any;
 
 let ContextPath = '';
@@ -44,25 +43,24 @@ export function getContextPath() {
 
 const themes = [
   {
-    label: '默认主题',
-    ns: 'a-',
-    value: 'default'
-  },
-
-  {
-    label: '百度云舍',
+    label: '云舍',
     ns: 'cxd-',
     value: 'cxd'
-  },
-  {
-    label: 'Dark',
-    ns: 'dark-',
-    value: 'dark'
   },
   {
     label: '仿 AntD',
     ns: 'antd-',
     value: 'antd'
+  },
+  {
+    label: 'ang',
+    ns: 'a-',
+    value: 'ang'
+  },
+  {
+    label: 'Dark',
+    ns: 'dark-',
+    value: 'dark'
   }
 ];
 
@@ -90,7 +88,20 @@ const viewModes = [
   }
 ];
 
-function getPath(path) {
+const docVersions = [
+  {
+    label: '主干版本',
+    value: '',
+    url: '/zh-CN/docs/index'
+  },
+  {
+    label: '1.1.x 文档',
+    value: '1.1.7',
+    url: 'https://aisuda.github.io/amis-1.1.7/zh-CN/docs/index'
+  }
+];
+
+function getPath(path: string) {
   return path
     ? path[0] === '/'
       ? ContextPath + path
@@ -104,18 +115,18 @@ class BackTop extends React.PureComponent {
   };
 
   componentDidMount() {
-    document.addEventListener('scroll', this.handleScroll.bind(this));
+    document.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('scroll', this.handleScroll.bind(this));
+    document.removeEventListener('scroll', this.handleScroll);
   }
 
-  handleScroll(e) {
+  handleScroll = (e: any) => {
     this.setState({
       show: e.target.scrollingElement?.scrollTop > 350
     });
-  }
+  };
 
   render() {
     return (
@@ -134,30 +145,29 @@ export class App extends React.PureComponent<{
   location: Location;
 }> {
   state = {
-    viewMode: localStorage.getItem('viewMode') || 'pc',
+    viewMode: localStorage.getItem('amis-viewMode') || 'pc',
     offScreen: false,
     folded: false,
     headerVisible: true,
-    themeIndex: 0,
     themes: themes,
     theme:
-      themes.find(item => item?.value === localStorage.getItem('theme')) ||
+      themes.find(item => item?.value === localStorage.getItem('amis-theme')) ||
       themes[0],
-    locale: localStorage.getItem('locale')
-      ? localStorage.getItem('locale').replace('zh-cn', 'zh-CN')
+    locale: localStorage.getItem('amis-locale')
+      ? localStorage.getItem('amis-locale')?.replace('zh-cn', 'zh-CN')
       : '',
     navigations: [],
     filter: '' // 导航过滤，方便找组件
   };
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.setNavigations = this.setNavigations.bind(this);
     this.setNavigationFilter = this.setNavigationFilter.bind(this);
-    document.querySelector('body').classList.add(this.state.theme.value);
+    document.querySelector('body')?.classList.add(this.state.theme.value);
   }
 
-  componentDidUpdate(preProps, preState) {
+  componentDidUpdate(preProps: any, preState: any) {
     const props = this.props;
 
     if (preState.theme.value !== this.state.theme.value) {
@@ -167,7 +177,7 @@ export class App extends React.PureComponent<{
           const theme = item.getAttribute('title');
           item.disabled = theme !== this.state.theme.value;
         });
-      const body = document.querySelector('body');
+      const body = document.body;
       body.classList.remove(preState.theme.value);
       body.classList.add(this.state.theme.value);
     }
@@ -184,10 +194,10 @@ export class App extends React.PureComponent<{
     }
   }
 
-  setNavigations(items) {
+  setNavigations(items: any, resetFilter = true) {
     this.setState({
       navigations: items,
-      filter: ''
+      filter: resetFilter ? '' : this.state.filter
     });
   }
 
@@ -258,25 +268,31 @@ export class App extends React.PureComponent<{
           )}
 
           <ul className={`HeaderLinks`}>
-            <Link to={`${ContextPath}/zh-CN/docs`} activeClassName="is-active">
+            <NavLink
+              to={`${ContextPath}/zh-CN/docs`}
+              activeClassName="is-active"
+            >
               文档
-            </Link>
+            </NavLink>
 
-            <Link
+            <NavLink
               to={`${ContextPath}/zh-CN/components`}
               activeClassName="is-active"
             >
               组件
-            </Link>
-            <Link to={`${ContextPath}/zh-CN/style`} activeClassName="is-active">
+            </NavLink>
+            <NavLink
+              to={`${ContextPath}/zh-CN/style`}
+              activeClassName="is-active"
+            >
               样式
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={`${ContextPath}/examples/index`}
               activeClassName="is-active"
             >
               示例
-            </Link>
+            </NavLink>
             <a
               href="https://github.com/fex-team/amis-editor-demo"
               target="_blank"
@@ -290,13 +306,14 @@ export class App extends React.PureComponent<{
 
           <div className="hidden-xs ml-auto">
             <Select
+              overlayPlacement="right-bottom-right-top"
               clearable={false}
               theme={this.state.theme.value}
               value={this.state.locale || 'zh-CN'}
               options={locales}
               onChange={locale => {
-                this.setState({locale: locale.value});
-                localStorage.setItem('locale', locale.value);
+                this.setState({locale: (locale as any).value});
+                localStorage.setItem('amis-locale', (locale as any).value);
                 window.location.reload();
               }}
             />
@@ -304,30 +321,51 @@ export class App extends React.PureComponent<{
 
           <div className="hidden-xs ml-2">
             <Select
+              overlayPlacement="right-bottom-right-top"
               clearable={false}
               theme={this.state.theme.value}
               value={this.state.theme}
               options={this.state.themes}
               onChange={theme => {
                 this.setState({theme});
-                localStorage.setItem('theme', `${theme.value}`);
+                localStorage.setItem('amis-theme', `${(theme as any).value}`);
                 document
                   .querySelector('body')
-                  .classList[theme.value === 'dark' ? 'add' : 'remove']('dark');
+                  ?.classList[
+                    (theme as any).value === 'dark' ? 'add' : 'remove'
+                  ]('dark');
               }}
             />
           </div>
 
           <div className="hidden-xs ml-2">
             <Select
+              overlayPlacement="right-bottom-right-top"
               clearable={false}
               theme={this.state.theme.value}
               value={this.state.viewMode || 'pc'}
               options={viewModes}
               onChange={viewMode => {
-                this.setState({viewMode: viewMode.value});
-                localStorage.setItem('viewMode', viewMode.value);
+                this.setState({viewMode: (viewMode as any).value});
+                localStorage.setItem('amis-viewMode', (viewMode as any).value);
                 window.location.reload();
+              }}
+            />
+          </div>
+
+          <div className="hidden-xs ml-2">
+            <Select
+              overlayPlacement="right-bottom-right-top"
+              clearable={false}
+              theme={this.state.theme.value}
+              value={docVersions[0].value}
+              options={docVersions}
+              onChange={(doc: any) => {
+                if (doc.url && /^https?\:\/\//.test(doc.url)) {
+                  window.open(doc.url);
+                } else {
+                  window.location.href = doc.url;
+                }
               }}
             />
           </div>
@@ -387,17 +425,17 @@ export class App extends React.PureComponent<{
 
     return (
       <AsideNav
-        navigations={this.state.navigations.map(item => ({
+        navigations={this.state.navigations.map((item: any) => ({
           ...item,
           children: item.children
             ? item.children
-                .filter(item => {
+                .filter((item: any) => {
                   if (item.label) {
                     return filterReg.exec(item.label);
                   }
                   return true;
                 })
-                .map(item => ({
+                .map((item: any) => ({
                   ...item,
                   className: 'is-top'
                 }))
@@ -497,7 +535,7 @@ export class App extends React.PureComponent<{
         <ToastComponent theme={theme.value} locale={this.state.locale} />
         <AlertComponent theme={theme.value} locale={this.state.locale} />
 
-        {React.cloneElement(this.props.children as any, {
+        {/* {React.cloneElement(this.props.children as any, {
           key: theme.value,
           ...(this.props.children as any).props,
           setNavigations: this.setNavigations,
@@ -507,8 +545,162 @@ export class App extends React.PureComponent<{
           locale: this.state.locale,
           offScreen: this.state.offScreen,
           ContextPath
-        })}
+        })} */}
+        {this.renderContent()}
       </Layout>
+    );
+  }
+
+  renderContent() {
+    const locale = 'zh-CN'; // 暂时不支持切换，因为目前只有中文文档
+    const theme = this.state.theme;
+
+    return (
+      <React.Suspense
+        fallback={<Spinner overlay spinnerClassName="m-t-lg" size="lg" />}
+      >
+        <Switch>
+          <Redirect
+            from={`${ContextPath}/`}
+            to={`${ContextPath}/${locale}/docs/index`}
+            exact
+          />
+
+          {/* docs */}
+          <Redirect
+            from={`${ContextPath}/docs`}
+            to={`${ContextPath}/${locale}/docs/index`}
+            exact
+          />
+          <Redirect
+            from={`${ContextPath}/docs/index`}
+            to={`${ContextPath}/${locale}/docs/index`}
+            exact
+          />
+          <Redirect
+            from={`${ContextPath}/docs/*`}
+            to={`${ContextPath}/${locale}/docs/*`}
+          />
+          <Redirect
+            from={`${ContextPath}/${locale}/docs`}
+            to={`${ContextPath}/${locale}/docs/index`}
+            exact
+          />
+
+          {/* components */}
+          <Redirect
+            from={`${ContextPath}/components`}
+            to={`${ContextPath}/${locale}/components/page`}
+            exact
+          />
+          <Redirect
+            from={`${ContextPath}/components/page`}
+            to={`${ContextPath}/${locale}/components/page`}
+            exact
+          />
+          <Redirect
+            from={`${ContextPath}/components/*`}
+            to={`${ContextPath}/${locale}/components/*`}
+            exact
+          />
+          <Redirect
+            from={`${ContextPath}/${locale}/components`}
+            to={`${ContextPath}/${locale}/components/page`}
+            exact
+          />
+
+          {/* expamles */}
+          <Redirect
+            from={`${ContextPath}/examples`}
+            to={`${ContextPath}/examples/index`}
+            exact
+          />
+          <Redirect
+            from={`${ContextPath}/${locale}/style`}
+            to={`${ContextPath}/${locale}/style/index`}
+            exact
+          />
+          <Route
+            path={`${ContextPath}/${locale}/docs`}
+            render={(props: any) => (
+              <Doc
+                {...{
+                  setNavigations: this.setNavigations,
+                  theme: theme.value,
+                  classPrefix: theme.ns,
+                  viewMode: this.state.viewMode,
+                  locale: this.state.locale,
+                  offScreen: this.state.offScreen,
+                  ContextPath,
+                  showCode: false
+                }}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path={`${ContextPath}/${locale}/components`}
+            render={(props: any) => (
+              <Components
+                {...{
+                  setNavigations: this.setNavigations,
+                  theme: theme.value,
+                  classPrefix: theme.ns,
+                  viewMode: this.state.viewMode,
+                  locale: this.state.locale,
+                  offScreen: this.state.offScreen,
+                  ContextPath,
+                  showCode: false
+                }}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path={`${ContextPath}/examples`}
+            render={(props: any) => (
+              <Example
+                {...{
+                  setNavigations: this.setNavigations,
+                  theme: theme.value,
+                  classPrefix: theme.ns,
+                  viewMode: this.state.viewMode,
+                  locale: this.state.locale,
+                  offScreen: this.state.offScreen,
+                  ContextPath,
+                  showCode: false
+                }}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path={`${ContextPath}/${locale}/style`}
+            render={(props: any) => (
+              <CSSDocs
+                {...{
+                  setNavigations: this.setNavigations,
+                  theme: theme.value,
+                  classPrefix: theme.ns,
+                  viewMode: this.state.viewMode,
+                  locale: this.state.locale,
+                  offScreen: this.state.offScreen,
+                  ContextPath,
+                  showCode: false
+                }}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            render={() => (
+              <div className="Doc-content">
+                <NotFound />
+              </div>
+            )}
+          />
+        </Switch>
+      </React.Suspense>
     );
   }
 
@@ -521,7 +713,7 @@ export class App extends React.PureComponent<{
         <>
           <ToastComponent theme={theme.value} locale={this.state.locale} />
           <AlertComponent theme={theme.value} locale={this.state.locale} />
-          {React.cloneElement(this.props.children as any, {
+          {/* {React.cloneElement(this.props.children as any, {
             key: theme.value,
             ...(this.props.children as any).props,
             setNavigations: this.setNavigations,
@@ -532,7 +724,8 @@ export class App extends React.PureComponent<{
             offScreen: this.state.offScreen,
             ContextPath,
             showCode: false
-          })}
+          })} */}
+          {this.renderContent()}
         </>
       );
     } else if (/examples/.test(location.pathname)) {
@@ -566,32 +759,32 @@ export class App extends React.PureComponent<{
             position="left"
           >
             <ul className={`HeaderLinks`}>
-              <Link
+              <NavLink
                 to={`${ContextPath}/zh-CN/docs`}
                 activeClassName="is-active"
               >
                 文档
-              </Link>
+              </NavLink>
 
-              <Link
+              <NavLink
                 to={`${ContextPath}/zh-CN/components`}
                 activeClassName="is-active"
               >
                 组件
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to={`${ContextPath}/zh-CN/style`}
                 activeClassName="is-active"
               >
                 样式
-              </Link>
+              </NavLink>
             </ul>
             {this.renderNavigation()}
           </Drawer>
 
           <BackTop />
 
-          {React.cloneElement(this.props.children as any, {
+          {/* {React.cloneElement(this.props.children as any, {
             key: theme.value,
             ...(this.props.children as any).props,
             setNavigations: this.setNavigations,
@@ -601,7 +794,8 @@ export class App extends React.PureComponent<{
             locale: this.state.locale,
             offScreen: this.state.offScreen,
             ContextPath
-          })}
+          })} */}
+          {this.renderContent()}
         </div>
       </Layout>
     );
@@ -612,35 +806,40 @@ function isActive(link: any, location: any) {
   return !!(link.path && getPath(link.path) === location.pathname);
 }
 
-function navigations2route(navigations) {
-  let routes = [];
+export function navigations2route(
+  navigations: any,
+  additionalProperties?: any
+) {
+  let routes: any = [];
 
-  navigations.forEach(root => {
+  navigations.forEach((root: any) => {
     root.children &&
       eachTree(root.children, (item: any) => {
         if (item.path && item.component) {
           routes.push(
-            <Route
-              key={routes.length + 1}
-              path={
-                item.path[0] === '/'
-                  ? ContextPath + item.path
-                  : `${ContextPath}/${item.path}`
-              }
-              component={item.component}
-            />
-          );
-        } else if (item.path && item.getComponent) {
-          routes.push(
-            <Route
-              key={routes.length + 1}
-              path={
-                item.path[0] === '/'
-                  ? ContextPath + item.path
-                  : `${ContextPath}/${item.path}`
-              }
-              getComponent={item.getComponent}
-            />
+            additionalProperties ? (
+              <Route
+                key={routes.length + 1}
+                path={
+                  item.path[0] === '/'
+                    ? ContextPath + item.path
+                    : `${ContextPath}/${item.path}`
+                }
+                render={(props: any) => (
+                  <item.component {...additionalProperties} {...props} />
+                )}
+              />
+            ) : (
+              <Route
+                key={routes.length + 1}
+                path={
+                  item.path[0] === '/'
+                    ? ContextPath + item.path
+                    : `${ContextPath}/${item.path}`
+                }
+                component={item.component}
+              />
+            )
           );
         }
       });
@@ -649,80 +848,15 @@ function navigations2route(navigations) {
   return routes;
 }
 
-export default function entry({pathPrefix}) {
+export default function entry() {
   // PathPrefix = pathPrefix || DocPathPrefix;
-  const locate = 'zh-CN'; // 暂时不支持切换，因为目前只有中文文档
+
   return (
-    <Router history={browserHistory}>
-      <Route component={App}>
-        <Redirect
-          from={`${ContextPath}/`}
-          to={`${ContextPath}/${locate}/docs/index`}
-        />
-
-        {/* docs */}
-        <Redirect
-          from={`${ContextPath}/docs`}
-          to={`${ContextPath}/${locate}/docs/index`}
-        />
-        <Redirect
-          from={`${ContextPath}/docs/index`}
-          to={`${ContextPath}/${locate}/docs/index`}
-        />
-        <Redirect
-          from={`${ContextPath}/docs/*`}
-          to={`${ContextPath}/${locate}/docs/*`}
-        />
-        <Redirect
-          from={`${ContextPath}/${locate}/docs`}
-          to={`${ContextPath}/${locate}/docs/index`}
-        />
-
-        {/* components */}
-        <Redirect
-          from={`${ContextPath}/components`}
-          to={`${ContextPath}/${locate}/components/page`}
-        />
-        <Redirect
-          from={`${ContextPath}/components/page`}
-          to={`${ContextPath}/${locate}/components/page`}
-        />
-        <Redirect
-          from={`${ContextPath}/components/*`}
-          to={`${ContextPath}/${locate}/components/*`}
-        />
-        <Redirect
-          from={`${ContextPath}/${locate}/components`}
-          to={`${ContextPath}/${locate}/components/page`}
-        />
-
-        {/* expamles */}
-        <Redirect
-          from={`${ContextPath}/examples`}
-          to={`${ContextPath}/examples/index`}
-        />
-        <Redirect
-          from={`${ContextPath}/${locate}/style`}
-          to={`${ContextPath}/${locate}/style/index`}
-        />
-        <Route path={`${ContextPath}/${locate}/docs`} component={Doc}>
-          {navigations2route(DocNavCN)}
-        </Route>
-        <Route
-          path={`${ContextPath}/${locate}/components`}
-          component={Components}
-        >
-          {navigations2route(components)}
-        </Route>
-        <Route path={`${ContextPath}/examples`} component={Example}>
-          {navigations2route(examples)}
-        </Route>
-        <Route path={`${ContextPath}/${locate}/style`} component={CSSDocs}>
-          {navigations2route(cssDocs)}
-        </Route>
-      </Route>
-
-      <Route path="*" component={NotFound} />
+    <Router>
+      <Switch>
+        <Route component={App}></Route>
+        <Route component={NotFound} />
+      </Switch>
     </Router>
   );
 }

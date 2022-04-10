@@ -102,6 +102,19 @@ API 类型用于配置请求接口的格式，涉及请求方式、请求地址�
 
 但这种方式无法显示错误信息，只能通过返回 http 状态码来标识错误。
 
+### 配置弹框时间
+
+可以通过 `msgTimeout` 控制弹框时间，它的时间是毫秒
+
+```json
+{
+  "status": 2,
+  "msg": "error",
+  "msgTimeout": 10000,
+  "data": {}
+}
+```
+
 ## 复杂配置
 
 API 还支持配置对象类型
@@ -123,7 +136,7 @@ API 还支持配置对象类型
 
 ### 配置请求方式
 
-可以配置`method`指定接口的请求方式，支持：`get`、`post`、`put`、`delete`。
+可以配置`method`指定接口的请求方式，支持：`get`、`post`、`put`、`delete`、`patch`。
 
 > `method`值留空时：
 >
@@ -143,22 +156,22 @@ API 还支持配置对象类型
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "data": {
             "myName": "${name}",
             "myEmail": "${email}"
         }
 
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -180,6 +193,61 @@ API 还支持配置对象类型
 
 这样 `undefined` 的值不会发送了。
 
+### 不处理 key 中的路径
+
+> since 1.5.0
+
+默认请求数据体中配置 key，如果带路径会自动转成对象如：
+
+```
+"api": {
+    "method": "post",
+    "url": "/api/mock2/form/saveForm",
+    "data": {
+        "a.b": "${name}",
+        "c[d]": "${name}"
+    }
+
+}
+```
+
+最终发送出去的数据格式为
+
+```
+{
+  a: {
+    b: "xxx"
+  },
+  c: {
+    d: "xxx"
+  }
+}
+```
+
+如果数据映射中的 key 不想被处理路径则需要配置 `convertKeyToPath` 为 false 如：
+
+```
+"api": {
+    "method": "post",
+    "url": "/api/mock2/form/saveForm",
+    "convertKeyToPath": false,
+    "data": {
+        "a.b": "${name}",
+        "c[d]": "${name}"
+    }
+
+}
+```
+
+这样发送的数据格式为
+
+```
+{
+  "a.b": "xxx",
+  "c[d]": "xxx"
+}
+```
+
 ### 配置请求数据格式
 
 可以配置`dataType`，来指定请求的数据体格式，默认为`json`
@@ -196,20 +264,20 @@ API 还支持配置对象类型
     "title": "默认JSON格式",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "data":{
             "&": "$$$$" // 获取表单数据域中的所有值
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -225,18 +293,18 @@ API 还支持配置对象类型
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "dataType": "form"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -252,18 +320,18 @@ API 还支持配置对象类型
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "dataType": "form-data"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -277,17 +345,17 @@ API 还支持配置对象类型
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
+        "url": "/api/mock2/form/saveForm"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "file",
-        "type": "file",
+        "type": "input-file",
         "label": "附件：",
         "asBlob": true
       }
@@ -306,20 +374,20 @@ API 还支持配置对象类型
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "headers": {
             "my-header": "aaa"
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -335,7 +403,7 @@ API 还支持配置对象类型
     "title": "",
     "type": "form",
     "mode": "horizontal",
-    "controls": [
+    "body": [
       {
         "label": "选项1",
         "type": "radios",
@@ -363,7 +431,7 @@ API 还支持配置对象类型
         "name": "b",
         "source": {
             "method": "get",
-            "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/level2?a=${a}",
+            "url": "/api/mock2/options/level2?a=${a}",
             "sendOn": "this.a === 2"
         },
         "description": "只有<code>选项1</code>选择<code>B</code>的时候，才触发<code>选项2</code>的<code>source</code>接口重新拉取"
@@ -382,7 +450,7 @@ API 还支持配置对象类型
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+    "api": "/api/mock2/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",
@@ -391,7 +459,7 @@ API 还支持配置对象类型
         {
             "type": "service",
             "label": "数据",
-            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+            "api": "/api/mock2/page/initData",
             "body": {
                 "type": "tpl",
                 "tpl": "当前日期是：${date}"
@@ -408,7 +476,7 @@ API 还支持配置对象类型
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+    "api": "/api/mock2/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",
@@ -419,7 +487,7 @@ API 还支持配置对象类型
             "label": "数据",
             "api": {
                 "method": "get",
-                "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+                "url": "/api/mock2/page/initData",
                 "cache": 2000
             },
             "body": {
@@ -539,18 +607,18 @@ function (api) {
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "requestAdaptor": "return {\n    ...api,\n    data: {\n        ...api.data,    // 获取暴露的 api 中的 data 变量\n        foo: 'bar'      // 新添加数据\n    }\n}"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -581,8 +649,7 @@ const schema = {
   type: 'form',
   api: {
     method: 'post',
-    url:
-      'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
+    url: '/api/mock2/form/saveForm',
     requestAdaptor: function (api) {
       return {
         ...api,
@@ -593,15 +660,15 @@ const schema = {
       };
     }
   },
-  controls: [
+  body: [
     {
-      type: 'text',
+      type: 'input-text',
       name: 'name',
       label: '姓名：'
     },
     {
       name: 'text',
-      type: 'email',
+      type: 'input-email',
       label: '邮箱：'
     }
   ]
@@ -626,6 +693,7 @@ const schema = {
 
 - **payload**：当前请求的响应 payload，即 response.data
 - **response**：当前请求的原始响应
+- **api**：api 上的配置项，还可以通过 `api.data` 获得数据域里的内容
 
 ##### 字符串形式
 
@@ -634,7 +702,7 @@ const schema = {
 字符串形式实际上可以认为是外层包裹了一层函数，你需要补充内部的函数实现，并将修改好的 `payload` 对象 `return` 出去：
 
 ```js
-function (payload, response) {
+function (payload, response, api) {
   // 你的适配器代码
 }
 ```
@@ -646,18 +714,18 @@ function (payload, response) {
   "type": "form",
   "api": {
     "method": "post",
-    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "url": "/api/mock2/form/saveForm",
     "adaptor": "return {\n    ...payload,\n    status: payload.code === 200 ? 0 : payload.code\n}"
   },
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "name",
       "label": "姓名："
     },
     {
       "name": "file",
-      "type": "file",
+      "type": "input-file",
       "label": "附件：",
       "asBlob": true
     }
@@ -686,8 +754,7 @@ const schema = {
   type: 'form',
   api: {
     method: 'post',
-    url:
-      'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
+    url: '/api/mock2/form/saveForm',
     adaptor: function (payload, response) {
       return {
         ...payload,
@@ -695,15 +762,15 @@ const schema = {
       };
     }
   },
-  controls: [
+  body: [
     {
-      type: 'text',
+      type: 'input-text',
       name: 'name',
       label: '姓名：'
     },
     {
       name: 'email',
-      type: 'email',
+      type: 'input-email',
       label: '邮箱：'
     }
   ]
@@ -744,6 +811,14 @@ Content-Type: application/pdf
 Content-Disposition: attachment; filename="download.pdf"
 ```
 
+如果只有 `Content-Type`，比如 Excel 的 `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`，则应该使用[页面跳转](../../components/action#直接跳转)的方式来实现下载。
+
+如果是跨域请求，还需要配置
+
+```
+Access-Control-Expose-Headers: Content-Disposition
+```
+
 ### replaceData
 
 返回的数据是否替换掉当前的数据，默认为 `false`（即追加），设置为`true`就是完全替换当前数据。
@@ -759,7 +834,7 @@ Content-Disposition: attachment; filename="download.pdf"
   "title": "监听表单内部的修改",
   "initApi": "/api/mock2/form/initData?tpl=${tpl}",
   "actions": [],
-  "controls": [
+  "body": [
     {
       "label": "数据模板",
       "type": "select",
@@ -825,7 +900,7 @@ Content-Disposition: attachment; filename="download.pdf"
     "title": "",
     "type": "form",
     "mode": "horizontal",
-    "controls": [
+    "body": [
       {
         "label": "选项1",
         "type": "radios",
@@ -853,13 +928,108 @@ Content-Disposition: attachment; filename="download.pdf"
         "name": "b",
         "source": {
           "method": "get",
-          "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/level2",
+          "url": "/api/mock2/options/level2",
           "trackExpression": "${a}"
         },
         "description": "切换<code>选项1</code>的值，会触发<code>选项2</code>的<code>source</code> 接口重新拉取"
       }
     ],
     "actions": []
+}
+```
+
+## GraphQL
+
+1.7.0 及之前的版本需要通过配置 `data` 里的 `query` 和 `variables` 字段可以实现 GraphQL 查询
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": {
+    "method": "post",
+    "url": "/api/mock2/form/saveForm",
+    "data": {
+      "query": "mutation AddUser($name: String!, $email: String!) { \
+        insert_user(object: { title: $title, email: $email }) { \
+          title \
+          email \
+        } \
+      }",
+      "variables": {
+         "name": "${name}",
+         "email": "${email}"
+      }
+    }
+  },
+  "body": [
+    {
+      "type": "input-text",
+      "name": "name",
+      "label": "姓名："
+    },
+    {
+      "name": "email",
+      "type": "input-email",
+      "label": "邮箱："
+    }
+  ]
+}
+```
+
+1.8.0 及以上版本简化了 GraphQL 的支持，增加了 `graphql` 属性，如果配置了就会自动并自动将 data 当成 `variables`，上面的例子可以简化为下面的写法，除了简化之外还方便了可视化编辑器编辑
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": {
+    "method": "post",
+    "url": "/api/mock2/form/saveForm",
+    "graphql": "mutation AddUser($name: String!, $email: String!) { \
+        insert_user(object: { name: $name, email: $email }) { \
+          name \
+          email \
+        } \
+    }"
+  },
+  "body": [
+    {
+      "type": "input-text",
+      "name": "name",
+      "label": "姓名："
+    },
+    {
+      "name": "email",
+      "type": "input-email",
+      "label": "邮箱："
+    }
+  ]
+}
+```
+
+如果设置了 `data` 会被当成 `variables`，比如在 CRUD 里设置分页参数，比如下面的例子
+
+```json
+{
+  "type": "crud",
+  "api": {
+    "url": "/api/mock2/sample",
+    "method": "post",
+    "graphql": "{ pages(page: $page, perPage: $perPage) { id, engine } }",
+    "data": {
+      "page": "${page}",
+      "perPage": "${perPage}"
+    }
+  },
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    }
+  ]
 }
 ```
 
@@ -881,5 +1051,4 @@ Content-Disposition: attachment; filename="download.pdf"
 | responseType    | 返回类型     | 字符串                                                                                               | 如果是下载需要设置为 'blob'                                                                                                                                                                   |
 | autoRefresh     | 是否自动刷新 | 布尔                                                                                                 | 配置是否需要自动刷新接口。                                                                                                                                                                    |
 | responseData    | 配置返回数据 | 对象                                                                                                 | 对返回结果做个映射                                                                                                                                                                            |
-| autoRefresh     | 是否自动刷新 | 布尔                                                                                                 |                                                                                                                                                                                               |
 | trackExpression | 跟踪变量     | 字符串                                                                                               | 配置跟踪变量表达式                                                                                                                                                                            |

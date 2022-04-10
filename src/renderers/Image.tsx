@@ -2,11 +2,12 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {autobind} from '../utils/helper';
+import {autobind, getPropValue} from '../utils/helper';
 import {Icon} from '../components/icons';
 import {LocaleProps, localeable} from '../locale';
 import {BaseSchema, SchemaClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
 import {resolveVariable} from '../utils/tpl-builtin';
+import handleAction from '../utils/handleAction';
 
 /**
  * 图片展示控件。
@@ -56,7 +57,7 @@ export interface ImageSchema extends BaseSchema {
   /**
    * 是否显示尺寸。
    */
-  showDimensions?: boolean;
+  // showDimensions?: boolean;
 
   /**
    * 图片无法显示时的替换文本
@@ -91,6 +92,11 @@ export interface ImageSchema extends BaseSchema {
   caption?: SchemaTpl;
 
   /**
+   * 图片展示模式，默认为缩略图模式、可以配置成原图模式
+   */
+  imageMode?: 'thumb' | 'original';
+
+  /**
    * 预览图模式
    */
   thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
@@ -99,6 +105,21 @@ export interface ImageSchema extends BaseSchema {
    * 预览图比率
    */
   thumbRatio?: '1:1' | '4:3' | '16:9';
+
+  /**
+   * 链接地址
+   */
+  href?: SchemaTpl;
+
+  /**
+   * 是否新窗口打开
+   */
+  blank?: boolean;
+
+  /**
+   * 链接的 target
+   */
+  htmlTarget?: string;
 }
 
 export interface ImageThumbProps
@@ -108,6 +129,7 @@ export interface ImageThumbProps
   onEnlarge?: (info: ImageThumbProps) => void;
   index?: number;
   onLoad?: React.EventHandler<any>;
+  overlays?: JSX.Element;
 }
 
 export class ImageThumb extends React.Component<ImageThumbProps> {
@@ -131,42 +153,81 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
       alt,
       title,
       caption,
+      href,
+      blank = true,
+      htmlTarget,
       onLoad,
       enlargeAble,
-      translate: __
+      translate: __,
+      overlays,
+      imageMode
     } = this.props;
 
-    return (
-      <div className={cx('Image', className)}>
-        <div
-          className={cx(
-            'Image-thumb',
-            thumbClassName,
-            thumbMode ? `Image-thumb--${thumbMode}` : '',
-            thumbRatio ? `Image-thumb--${thumbRatio.replace(/:/g, '-')}` : ''
-          )}
-          style={{height: height, width: width}}
-        >
-          <img
-            onLoad={onLoad}
-            className={cx(imageClassName)}
-            src={src}
-            alt={alt}
-          />
-
+    const enlarge =
+      enlargeAble || overlays ? (
+        <div key="overlay" className={cx('Image-overlay')}>
           {enlargeAble ? (
-            <div key="overlay" className={cx('Image-overlay')}>
-              <a
-                data-tooltip={__('Image.zoomIn')}
-                data-position="bottom"
-                target="_blank"
-                onClick={this.handleEnlarge}
-              >
-                <Icon icon="view" className="icon" />
-              </a>
-            </div>
+            <a
+              data-tooltip={__('Image.zoomIn')}
+              data-position="bottom"
+              target="_blank"
+              onClick={this.handleEnlarge}
+            >
+              <Icon icon="view" className="icon" />
+            </a>
           ) : null}
+          {overlays}
         </div>
+      ) : null;
+
+    let image = (
+      <div
+        className={cx(
+          'Image',
+          imageMode === 'original' ? 'Image--original' : 'Image--thumb',
+          className
+        )}
+      >
+        {imageMode === 'original' ? (
+          <div
+            className={cx(
+              'Image-origin',
+              thumbMode ? `Image-origin--${thumbMode}` : ''
+            )}
+            style={{height: height, width: width}}
+          >
+            <img
+              onLoad={onLoad}
+              className={cx('Image-image', imageClassName)}
+              src={src}
+              alt={alt}
+            />
+            {enlarge}
+          </div>
+        ) : (
+          <div className={cx('Image-thumbWrap')}>
+            <div
+              className={cx(
+                'Image-thumb',
+                thumbClassName,
+                thumbMode ? `Image-thumb--${thumbMode}` : '',
+                thumbRatio
+                  ? `Image-thumb--${thumbRatio.replace(/:/g, '-')}`
+                  : ''
+              )}
+              style={{height: height, width: width}}
+            >
+              <img
+                onLoad={onLoad}
+                className={cx('Image-image', imageClassName)}
+                src={src}
+                alt={alt}
+              />
+            </div>
+            {enlarge}
+          </div>
+        )}
+
         {title || caption ? (
           <div key="caption" className={cx('Image-info')}>
             {title ? (
@@ -183,13 +244,27 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
         ) : null}
       </div>
     );
+
+    if (href) {
+      image = (
+        <a
+          href={href}
+          target={htmlTarget || (blank ? '_blank' : '_self')}
+          className={cx('Link', className)}
+          title={title}
+        >
+          {image}
+        </a>
+      );
+    }
+
+    return image;
   }
 }
 const ThemedImageThumb = themeable(localeable(ImageThumb));
 export default ThemedImageThumb;
 
-export const imagePlaceholder =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAAP1BMVEXp7vG6vsHo7fC3ur7s8fXr8PO1uLy8wMO5vcDL0NLN0dXl6u3T19vHy86+wsXO0tbQ1djc4eTh5ejBxcjZ3eD/ULOKAAACiklEQVR42u3a2YrjMBCF4arSVrYTL3Le/1lHXqbdPTZDWheRDOcLAZGrnyLgRSIAAAAAAAAAAAAAAAAAAAAAAAAAAAD4IrmoGBHKVSxbyFEm56hMtRBN7TNPO1GRaiFpvDd5vG+lQLUQNT6EwDlCYD+4AtF2Ug4mkzKb+PFqITf6oP3wyDEEZTPaz0dT63s/2DxPw6YtFT2S7Lr0eZtrSkYP64pShrXWyZsVhaNHt6xScjdNUSy9lyG2fLTYbpyZw/NFJDeJFhdnb4wab1ohuUc0dbPnwMxB/WhFbhFtR8+boBwvSkSktmiS2fDu8oohzoqQ1BQtLgY9oht3HutrXKvrjX4SyekexTys1DVp6vojeimRf5t1ra5p0lvBTvVlz83MW3VV0TF1bfwsJOfmv9UVRYt9eN2a++gumo/qeqJJ3Ks3i+dl81FNUk90ipDX0I4TfW+WvflndT3R6WsTJ/9r3qvriSb569x8VPNaXU/0149y0XxU+4cjqSpaZK8+mq+rK4pOofE5WZFT86m6omjbzT4s1UfzZXVFf4+1uTc82aWZTeArGkzoXC3R25w1LNX2lZqVr2lfPnpZHc3MqTpOejSfmAqiHcn35kRDCk8qnnSKPpo3qqx1R6fV3swHrX/SazP/UHl0Wrml+VbRTmhpvlu0i6o3jA6IPlQTHWqJZqNv4ypumFJ0z+FtPc8VRJNI9zvln1wytrhrenLZ3GGjqHWW3O/tm5+Ftpm5Gdrht9qh2V6CCH2Y2KgmsM9imFWj+3w00eiVQx5eN8Lo44RkVJOLR5IyR2tcHJs8Y7SlDjGJtS6PteWOi53d4WQe3a8YAAAAAAAAAAAAAAAAAAAAAAAAAACgNn8AGA09DkR51CoAAAAASUVORK5CYII=';
+export const imagePlaceholder = `data:image/svg+xml,%3C%3Fxml version='1.0' standalone='no'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg t='1631083237695' class='icon' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='2420' xmlns:xlink='http://www.w3.org/1999/xlink' width='1024' height='1024'%3E%3Cdefs%3E%3Cstyle type='text/css'%3E%3C/style%3E%3C/defs%3E%3Cpath d='M959.872 128c0.032 0.032 0.096 0.064 0.128 0.128v767.776c-0.032 0.032-0.064 0.096-0.128 0.128H64.096c-0.032-0.032-0.096-0.064-0.128-0.128V128.128c0.032-0.032 0.064-0.096 0.128-0.128h895.776zM960 64H64C28.8 64 0 92.8 0 128v768c0 35.2 28.8 64 64 64h896c35.2 0 64-28.8 64-64V128c0-35.2-28.8-64-64-64z' p-id='2421' fill='%23bfbfbf'%3E%3C/path%3E%3Cpath d='M832 288c0 53.024-42.976 96-96 96s-96-42.976-96-96 42.976-96 96-96 96 42.976 96 96zM896 832H128V704l224-384 256 320h64l224-192z' p-id='2422' fill='%23bfbfbf'%3E%3C/path%3E%3C/svg%3E`;
 
 export interface ImageFieldProps extends RendererProps {
   className?: string;
@@ -198,6 +273,7 @@ export interface ImageFieldProps extends RendererProps {
   description?: string;
   enlargeTitle?: string;
   enlargeCaption?: string;
+  imageMode?: 'thumb' | 'original';
   thumbMode: 'w-full' | 'h-full' | 'contain' | 'cover';
   thumbRatio: '1:1' | '4:3' | '16:9';
   originalSrc?: string; // 原图
@@ -213,7 +289,6 @@ export interface ImageFieldProps extends RendererProps {
     },
     target: any
   ) => void;
-  showDimensions?: boolean;
 }
 
 export class ImageField extends React.Component<ImageFieldProps, object> {
@@ -252,6 +327,14 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       );
   }
 
+  @autobind
+  handleClick(e: React.MouseEvent<HTMLElement>) {
+    const clickAction = this.props.clickAction;
+    if (clickAction) {
+      handleAction(e, clickAction, this.props);
+    }
+  }
+
   render() {
     const {
       className,
@@ -265,24 +348,32 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       width,
       classnames: cx,
       src,
+      href,
       thumbMode,
       thumbRatio,
       placeholder,
       originalSrc,
       enlargeAble,
-      showDimensions,
-      name
+      imageMode
     } = this.props;
 
     const finnalSrc = src ? filter(src, data, '| raw') : '';
     let value =
-      finnalSrc ||
-      this.props.value ||
-      resolveVariable(name, data) ||
-      defaultImage;
+      finnalSrc || getPropValue(this.props) || defaultImage || imagePlaceholder;
+
+    const finnalHref = href ? filter(href, data, '| raw') : '';
 
     return (
-      <div className={cx('ImageField', className)}>
+      <div
+        className={cx(
+          'ImageField',
+          imageMode === 'original'
+            ? 'ImageField--original'
+            : 'ImageField--thumb',
+          className
+        )}
+        onClick={this.handleClick}
+      >
         {value ? (
           <ThemedImageThumb
             imageClassName={imageClassName}
@@ -290,14 +381,15 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             height={height}
             width={width}
             src={value}
+            href={finnalHref}
             title={filter(title, data)}
             caption={filter(imageCaption, data)}
             thumbMode={thumbMode}
             thumbRatio={thumbRatio}
-            originalSrc={filter(originalSrc, data, '| raw')}
+            originalSrc={filter(originalSrc, data, '| raw') ?? value}
             enlargeAble={enlargeAble && value !== defaultImage}
             onEnlarge={this.handleEnlarge}
-            showDimensions={showDimensions}
+            imageMode={imageMode}
           />
         ) : (
           <span className="text-muted">{placeholder}</span>
@@ -308,7 +400,6 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)image$/,
-  name: 'image'
+  type: 'image'
 })
 export class ImageFieldRenderer extends ImageField {}

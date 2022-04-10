@@ -3,6 +3,7 @@ import {iRendererStore} from './iRenderer';
 import {Api, ApiObject, Payload, fetchOptions} from '../types';
 import {extendObject, isEmpty, isObject} from '../utils/helper';
 import {ServerError} from '../utils/errors';
+import {normalizeApiResponseData} from '../utils/api';
 
 export const ServiceStore = iRendererStore
   .named('ServiceStore')
@@ -96,7 +97,7 @@ export const ServiceStore = iRendererStore
           let replace = !!(api as ApiObject).replaceData;
           let data = {
             ...(replace ? {} : self.data),
-            ...json.data
+            ...normalizeApiResponseData(json.data)
           };
           reInitData(data, replace);
           self.hasRemoteData = true;
@@ -140,24 +141,6 @@ export const ServiceStore = iRendererStore
       }
     });
 
-    const fetchWSData = (ws: string, afterDataFetch: (data: any) => any) => {
-      const env = getEnv(self);
-
-      env.wsFetcher(
-        ws,
-        (data: any) => {
-          self.updateData(data, undefined, false);
-          setHasRemoteData();
-          // 因为 WebSocket 只会获取纯数据，所以没有 msg 之类的
-          afterDataFetch({ok: true, data: data});
-        },
-        (error: any) => {
-          updateMessage(error, true);
-          env.notify('error', error);
-        }
-      );
-    };
-
     const setHasRemoteData = () => {
       self.hasRemoteData = true;
     };
@@ -194,7 +177,7 @@ export const ServiceStore = iRendererStore
 
           json.data &&
             self.updateData(
-              json.data,
+              normalizeApiResponseData(json.data),
               undefined,
               !!(api as ApiObject).replaceData
             );
@@ -282,7 +265,7 @@ export const ServiceStore = iRendererStore
 
           json.data &&
             self.updateData(
-              json.data,
+              normalizeApiResponseData(json.data),
               undefined,
               !!(api as ApiObject).replaceData
             );
@@ -419,7 +402,13 @@ export const ServiceStore = iRendererStore
           );
         } else {
           if (json.data) {
-            self.schema = json.data;
+            self.schema = Array.isArray(json.data)
+              ? json.data
+              : {
+                  type: 'wrapper',
+                  wrap: false,
+                  ...normalizeApiResponseData(json.data)
+                };
             self.schemaKey = '' + Date.now();
             isObject(json.data.data) &&
               self.updateData(
@@ -499,7 +488,6 @@ export const ServiceStore = iRendererStore
       markBusying,
       fetchInitData,
       fetchData,
-      fetchWSData,
       reInitData,
       updateMessage,
       clearMessage,

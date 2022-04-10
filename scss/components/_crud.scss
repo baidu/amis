@@ -106,6 +106,10 @@
   &-pager {
     align-self: flex-start;
   }
+
+  &-filter {
+    margin-bottom: var(--gap-base);
+  }
 }
 
 @include media-breakpoint-up(sm) {

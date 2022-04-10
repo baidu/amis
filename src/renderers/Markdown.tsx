@@ -4,8 +4,10 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema} from '../Schema';
-import {resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import LazyComponent from '../components/LazyComponent';
+import {getPropValue} from '../utils/helper';
+import {isApiOutdated, isEffectiveApi} from '../utils/api';
 
 /**
  * Markdown 渲染
@@ -41,22 +43,77 @@ export interface MarkdownProps
   extends RendererProps,
     Omit<MarkdownSchema, 'type' | 'className'> {}
 
-export class Markdown extends React.Component<MarkdownProps, object> {
+interface MarkdownState {
+  content: string;
+}
+
+export class Markdown extends React.Component<MarkdownProps, MarkdownState> {
+  constructor(props: MarkdownProps) {
+    super(props);
+    const {name, data, src} = this.props;
+    if (src) {
+      this.state = {content: ''};
+      this.updateContent();
+    } else {
+      const content =
+        getPropValue(this.props) ||
+        (name && isPureVariable(name)
+          ? resolveVariableAndFilter(name, data, '| raw')
+          : null);
+      this.state = {content};
+    }
+  }
+
+  componentDidUpdate(prevProps: MarkdownProps) {
+    const props = this.props;
+    if (props.src) {
+      if (isApiOutdated(prevProps.src, props.src, prevProps.data, props.data)) {
+        this.updateContent();
+      }
+    } else {
+      this.updateContent();
+    }
+  }
+
+  async updateContent() {
+    const {name, data, src, env} = this.props;
+    if (src && isEffectiveApi(src, data)) {
+      const ret = await env.fetcher(src, data);
+      if (typeof ret === 'string') {
+        this.setState({content: ret});
+      } else if (typeof ret === 'object' && ret.data) {
+        this.setState({content: ret.data});
+      } else {
+        console.error('markdown response error', ret);
+      }
+    } else {
+      const content =
+        getPropValue(this.props) ||
+        (name && isPureVariable(name)
+          ? resolveVariableAndFilter(name, data, '| raw')
+          : null);
+      if (content !== this.state.content) {
+        this.setState({content});
+      }
+    }
+  }
+
   render() {
-    const {className, data, classnames: cx, name, value} = this.props;
-    const content =
-      value || (name ? resolveVariableAndFilter(name, data, '| raw') : null);
+    const {className, classnames: cx, options} = this.props;
 
     return (
       <div className={cx('Markdown', className)}>
-        <LazyComponent getComponent={loadComponent} content={content} />
+        <LazyComponent
+          getComponent={loadComponent}
+          content={this.state.content || ''}
+          options={options}
+        />
       </div>
     );
   }
 }
 
 @Renderer({
-  test: /(^|\/)markdown$/,
-  name: 'markdown'
+  type: 'markdown'
 })
 export class MarkdownRenderer extends Markdown {}

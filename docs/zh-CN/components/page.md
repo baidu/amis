@@ -17,6 +17,7 @@ Page 组件是 amis 页面 JSON 配置中顶级容器组件，是整个页面配
 ```schema
 {
   "type": "page",
+  "title": "标题",
   "body": "Hello World!"
 }
 ```
@@ -28,10 +29,10 @@ Page 组件是 amis 页面 JSON 配置中顶级容器组件，是整个页面配
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "api": "/api/mock2/form/saveForm",
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       }
@@ -76,7 +77,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 ```schema
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "initApi": "/api/mock2/page/initData",
   "body": [
     {
       "type": "tpl",
@@ -98,7 +99,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 ```schema
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "initApi": "/api/mock2/page/initData",
   "interval": 3000,
   "body": [
     {
@@ -114,13 +115,53 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 ```schema
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "initApi": "/api/mock2/page/initData",
   "stopAutoRefreshWhen": "this.time % 5", // 当时间戳能被5整除时，停止轮询
   "interval": 3000,
   "body": [
     {
       "type": "tpl",
       "tpl": "当前时间戳是：${date}"
+    }
+  ]
+}
+```
+
+## 下拉刷新
+
+通过配置`pullRefresh`，可以设置下拉刷新功能（仅用于移动端）。
+
+```schema
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData",
+  "pullRefresh": {
+    "disabled": false
+  },
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}"
+    }
+  ]
+}
+```
+
+配置下拉刷新文案
+
+```schema
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData",
+  "pullRefresh": {
+    "disabled": false,
+    "pullingText": "继续下拉",
+    "loosingText": "可以释放了"
+  },
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}"
     }
   ]
 }
@@ -138,9 +179,9 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
   },
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "label": "文本框",
         "name": "text"
       }
@@ -148,6 +189,67 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
   }
 }
 ```
+
+## 自定义 CSS
+
+> 1.3.0 及以上版本
+
+虽然 amis 提供了很多内置样式，但想要更精细控制样式，最好的方式依然是编写自定义 CSS，在之前的版本中需要外部页面配合，从 1.3.0 开始 amis 可以直接在配置中支持自定义 CSS
+
+```schema
+{
+  "type": "page",
+  "css": {
+    ".myClass": {
+      "color": "blue"
+    }
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "文本",
+    "className": "myClass"
+  }
+}
+```
+
+## aside 可调整宽度
+
+通过配置 `asideResizor`，可以让侧边栏支持动态调整宽度，同时可以通过 `asideMinWidth`、`asideMaxWidth` 设置 aside 最大最小宽度。
+
+```schema
+{
+  "type": "page",
+  "asideResizor": true,
+  "asideMinWidth": 150,
+  "asideMaxWidth": 400,
+  "aside": [
+    {
+      "type": "tpl",
+      "tpl": "这是侧边栏部分"
+    }
+  ],
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "这是内容区"
+    }
+  ]
+}
+```
+
+上面的配置会自动创建一个 `<style>` 标签，其中内容就是：
+
+```css
+.myClass {
+  color: blue;
+}
+```
+
+配置写法和编写普通 css 的体验是一致的，可以使用任意 css 选择符及属性。
+
+## aside 位置固定
+
+通过配置 `asideSticky` 来开关，默认是开启状态。
 
 ## 属性表
 
@@ -158,6 +260,10 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | subTitle            | [SchemaNode](../../docs/types/schemanode) |                                            | 页面副标题                                                                            |
 | remark              | [Remark](./remark)                        |                                            | 标题附近会出现一个提示图标，鼠标放上去会提示该内容。                                  |
 | aside               | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的边栏区域加内容                                                                |
+| asideResizor        | `boolean`                                 |                                            | 页面的边栏区域宽度是否可调整                                                          |
+| asideMinWidth       | `number`                                  |                                            | 页面边栏区域的最小宽度                                                                |
+| asideMaxWidth       | `number`                                  |                                            | 页面边栏区域的最大宽度                                                                |
+| asideSticky         | `boolean`                                 | true                                       | 用来控制边栏固定与否                                                                  |
 | toolbar             | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的右上角加内容，需要注意的是，当有 title 时，该区域在右上角，没有时该区域在顶部 |
 | body                | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的内容区域加内容                                                                |
 | className           | `string`                                  |                                            | 外层 dom 类名                                                                         |
@@ -172,3 +278,12 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | interval            | `number`                                  | `3000`                                     | 刷新时间(最小 1000)                                                                   |
 | silentPolling       | `boolean`                                 | `false`                                    | 配置刷新时是否显示加载动画                                                            |
 | stopAutoRefreshWhen | [表达式](../../docs/concepts/expression)  | `""`                                       | 通过表达式来配置停止刷新的条件                                                        |
+| pullRefresh         | `object`                                 | `{disabled: true}`                          | 下拉刷新配置（仅用于移动端）                                                              |
+
+## 事件表
+| 事件名称     | 事件参数 | 说明                                  |
+| ----------- | ------ | ------------------------------------- |
+| pullRefresh |        | 配置下拉刷新后下拉释放后触发（仅用于移动端） |
+
+## 动作表
+无

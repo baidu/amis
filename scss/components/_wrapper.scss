@@ -1,6 +1,4 @@
 .#{$ns}Wrapper {
-  padding: var(--gap-md);
-
   &--xs {
     padding: var(--gap-xs);
   }
@@ -19,9 +17,5 @@
 
   &--xl {
     padding: var(--gap-xl);
-  }
-
-  &--none {
-    padding: 0;
   }
 }

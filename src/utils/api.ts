@@ -1,7 +1,7 @@
-import {Api, ApiObject, fetcherResult, Payload} from '../types';
+import omit from 'lodash/omit';
+import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
-import {tokenize, dataMapping} from './tpl-builtin';
-import qs from 'qs';
+import {tokenize, dataMapping, escapeHtml} from './tpl-builtin';
 import {evalExpression} from './tpl';
 import {
   isObject,
@@ -10,10 +10,16 @@ import {
   object2formData,
   qsstringify,
   cloneObject,
-  createObject
+  createObject,
+  qsparse,
+  uuid,
+  JSONTraverse
 } from './helper';
+import isPlainObject from 'lodash/isPlainObject';
+import {debug} from './debug';
+import {evaluate, parse} from 'amis-formula';
 
-const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
+const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp):/i;
 
 interface ApiCacheConfig extends ApiObject {
   cachedPromise: Promise<any>;
@@ -21,6 +27,8 @@ interface ApiCacheConfig extends ApiObject {
 }
 
 const apiCaches: Array<ApiCacheConfig> = [];
+
+const isIE = !!(document as any).documentMode;
 
 export function normalizeApi(
   api: Api,
@@ -39,6 +47,7 @@ export function normalizeApi(
       ...api
     };
   }
+  api.url = typeof api.url === 'string' ? api.url.trim() : api.url;
   return api;
 }
 
@@ -59,84 +68,8 @@ export function buildApi(
   };
   api.method = (api.method || (options as any).method || 'get').toLowerCase();
 
-  if (!data) {
-    return api;
-  } else if (
-    data instanceof FormData ||
-    data instanceof Blob ||
-    data instanceof ArrayBuffer
-  ) {
-    api.data = data;
-    return api;
-  }
-
-  const raw = (api.url = api.url || '');
-  const idx = api.url.indexOf('?');
-
-  if (~idx) {
-    const hashIdx = api.url.indexOf('#');
-    const params = qs.parse(
-      api.url.substring(idx + 1, ~hashIdx ? hashIdx : undefined)
-    );
-    api.url =
-      tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
-      qsstringify((api.query = dataMapping(params, data))) +
-      (~hashIdx ? api.url.substring(hashIdx) : '');
-  } else {
-    api.url = tokenize(api.url, data, '| url_encode');
-  }
-
-  if (ignoreData) {
-    return api;
-  }
-
-  if (api.data) {
-    api.body = api.data = dataMapping(api.data, data);
-  } else if (api.method === 'post' || api.method === 'put') {
-    api.body = api.data = cloneObject(data);
-  }
-
-  // get 类请求，把 data 附带到 url 上。
-  if (api.method === 'get') {
-    if (!~raw.indexOf('$') && !api.data && autoAppend) {
-      api.query = api.data = data;
-    } else if (
-      api.attachDataToQuery === false &&
-      api.data &&
-      !~raw.indexOf('$') &&
-      autoAppend
-    ) {
-      const idx = api.url.indexOf('?');
-      if (~idx) {
-        let params = (api.query = {
-          ...qs.parse(api.url.substring(idx + 1)),
-          ...data
-        });
-        api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
-      } else {
-        api.query = data;
-        api.url += '?' + qsstringify(data);
-      }
-    }
-
-    if (api.data && api.attachDataToQuery !== false) {
-      const idx = api.url.indexOf('?');
-      if (~idx) {
-        let params = (api.query = {
-          ...qs.parse(api.url.substring(idx + 1)),
-          ...api.data
-        });
-        api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
-      } else {
-        api.query = api.data;
-        api.url += '?' + qsstringify(api.data);
-      }
-      delete api.data;
-    }
-  }
-
   if (api.headers) {
-    api.headers = dataMapping(api.headers, data);
+    api.headers = dataMapping(api.headers, data, undefined, false);
   }
 
   if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
@@ -152,10 +85,159 @@ export function buildApi(
     ) as any;
   }
 
+  if (!data) {
+    return api;
+  } else if (
+    data instanceof FormData ||
+    data instanceof Blob ||
+    data instanceof ArrayBuffer
+  ) {
+    api.data = data;
+    return api;
+  }
+
+  const raw = (api.url = api.url || '');
+  let ast: any = undefined;
+  try {
+    ast = parse(api.url);
+  } catch (e) {
+    console.warn(`api 配置语法出错：${e}`);
+    return api;
+  }
+  const url = ast.body
+    .map((item: any, index: number) => {
+      return item.type === 'raw' ? item.value : `__expression__${index}__`;
+    })
+    .join('');
+
+  const idx = url.indexOf('?');
+  let replaceExpression = (
+    fragment: string,
+    defaultFilter = 'url_encode',
+    defVal: any = undefined
+  ) => {
+    return fragment.replace(
+      /__expression__(\d+)__/g,
+      (_: any, index: string) => {
+        return (
+          evaluate(ast.body[index], data, {
+            defaultFilter: defaultFilter
+          }) ?? defVal
+        );
+      }
+    );
+  };
+
+  if (~idx) {
+    const hashIdx = url.indexOf('#');
+    const params = qsparse(
+      url.substring(idx + 1, ~hashIdx && hashIdx > idx ? hashIdx : undefined)
+    );
+
+    // 将里面的表达式运算完
+    JSONTraverse(params, (value: any, key: string | number, host: any) => {
+      if (typeof value === 'string' && /^__expression__(\d+)__$/.test(value)) {
+        host[key] = evaluate(ast.body[RegExp.$1].body, data) ?? '';
+      } else if (typeof value === 'string') {
+        // 参数值里面的片段不能 url_encode 了，所以是不处理
+        host[key] = replaceExpression(host[key], 'raw', '');
+      }
+    });
+
+    const left = replaceExpression(url.substring(0, idx), 'raw', '');
+    api.url =
+      left +
+      (~left.indexOf('?') ? '&' : '?') +
+      qsstringify(
+        (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
+      ) +
+      (~hashIdx && hashIdx > idx
+        ? replaceExpression(url.substring(hashIdx))
+        : '');
+  } else {
+    api.url = replaceExpression(url, 'raw', '');
+  }
+
+  if (ignoreData) {
+    return api;
+  }
+
+  if (api.data) {
+    api.body = api.data = dataMapping(
+      api.data,
+      data,
+      undefined,
+      api.convertKeyToPath
+    );
+  } else if (
+    api.method === 'post' ||
+    api.method === 'put' ||
+    api.method === 'patch'
+  ) {
+    api.body = api.data = cloneObject(data);
+  }
+
+  // get 类请求，把 data 附带到 url 上。
+  if (api.method === 'get' || api.method === 'jsonp') {
+    if (
+      !api.data &&
+      ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
+    ) {
+      api.query = api.data = data;
+    } else if (
+      api.attachDataToQuery === false &&
+      api.data &&
+      ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
+    ) {
+      const idx = api.url.indexOf('?');
+      if (~idx) {
+        let params = (api.query = {
+          ...qsparse(api.url.substring(idx + 1)),
+          ...data
+        });
+        api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
+      } else {
+        api.query = data;
+        api.url += '?' + qsstringify(data);
+      }
+    }
+
+    if (api.data && api.attachDataToQuery !== false) {
+      const idx = api.url.indexOf('?');
+      if (~idx) {
+        let params = (api.query = {
+          ...qsparse(api.url.substring(idx + 1)),
+          ...api.data
+        });
+        api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
+      } else {
+        api.query = api.data;
+        api.url += '?' + qsstringify(api.data);
+      }
+      delete api.data;
+    }
+  }
+
+  if (api.graphql) {
+    if (api.method === 'get') {
+      api.query = api.data = {...api.query, query: api.graphql};
+    } else if (
+      api.method === 'post' ||
+      api.method === 'put' ||
+      api.method === 'patch'
+    ) {
+      api.body = api.data = {
+        query: api.graphql,
+        operationName: api.operationName,
+        variables: cloneObject(api.data)
+      };
+    }
+  }
+
   return api;
 }
 
-function str2function(
+export function str2function(
   contents: string,
   ...args: Array<string>
 ): Function | null {
@@ -168,12 +250,57 @@ function str2function(
   }
 }
 
+const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+
+export function str2AsyncFunction(
+  contents: string,
+  ...args: Array<string>
+): Function | null {
+  try {
+    let fn = new AsyncFunction(...args, contents);
+    return fn;
+  } catch (e) {
+    console.warn(e);
+    return null;
+  }
+}
+
 export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
-  const data = ret.data;
+  let data = ret.data;
   let hasStatusField = true;
 
   if (!data) {
-    throw new Error('Response is empty!');
+    throw new Error('Response is empty');
+  }
+
+  // 返回内容是 string，说明 content-type 不是 json，这时可能是返回了纯文本或 html
+  if (typeof data === 'string') {
+    const contentType = (ret.headers as any)['content-type'] || '';
+    // 如果是文本类型就尝试解析一下
+    if (
+      ret.headers &&
+      contentType.startsWith('text/') &&
+      !contentType.includes('markdown')
+    ) {
+      try {
+        data = JSON.parse(data);
+        if (typeof data === 'undefined') {
+          throw new Error('Response should be JSON');
+        }
+      } catch (e) {
+        const responseBrief =
+          typeof data === 'string'
+            ? escapeHtml((data as string).substring(0, 100))
+            : '';
+        throw new Error(`Response should be JSON\n ${responseBrief}`);
+      }
+    } else {
+      if (api.responseType === 'blob') {
+        throw new Error('Should have "Content-Disposition" in Header');
+      } else if (!contentType.includes('markdown')) {
+        throw new Error(`Content type is wrong "${contentType}"`);
+      }
+    }
   }
 
   // 兼容几种常见写法
@@ -220,8 +347,11 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     payload.errors = data.errors;
   }
 
+  debug('api', 'response', payload);
+
   if (payload.ok && api.responseData) {
-    payload.data = dataMapping(
+    debug('api', 'before dataMapping', payload.data);
+    const responseData = dataMapping(
       api.responseData,
 
       createObject(
@@ -231,23 +361,35 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
               items: payload.data
             }
           : payload.data) || {}
-      )
+      ),
+      undefined,
+      api.convertKeyToPath
     );
+    debug('api', 'after dataMapping', responseData);
+    payload.data = responseData;
   }
 
   return payload;
 }
 
 export function wrapFetcher(
-  fn: (config: fetcherConfig) => Promise<fetcherResult>
+  fn: (config: fetcherConfig) => Promise<fetcherResult>,
+  tracker?: (eventTrack: EventTrack, data: any) => void
 ): (api: Api, data: object, options?: object) => Promise<Payload | void> {
   return function (api, data, options) {
     api = buildApi(api, data, options) as ApiObject;
 
-    api.requestAdaptor && (api = api.requestAdaptor(api) || api);
+    if (api.requestAdaptor) {
+      debug('api', 'before requestAdaptor', api);
+      api = api.requestAdaptor(api) || api;
+      debug('api', 'after requestAdaptor', api);
+    }
 
     if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
-      api.data = object2formData(api.data, api.qsOptions);
+      api.data =
+        api.data instanceof FormData
+          ? api.data
+          : object2formData(api.data, api.qsOptions);
     } else if (
       api.data &&
       typeof api.data !== 'string' &&
@@ -266,6 +408,17 @@ export function wrapFetcher(
       api.headers['Content-Type'] = 'application/json';
     }
 
+    debug('api', 'request api', api);
+
+    tracker?.(
+      {eventType: 'api', eventData: omit(api, ['config', 'data', 'body'])},
+      api.data
+    );
+
+    if (api.method?.toLocaleLowerCase() === 'jsonp') {
+      return wrapAdaptor(jsonpFetcher(api), api);
+    }
+
     if (typeof api.cache === 'number' && api.cache > 0) {
       const apiCache = getApiCache(api);
       return wrapAdaptor(
@@ -274,6 +427,15 @@ export function wrapFetcher(
           : setApiCache(api, fn(api)),
         api
       );
+    }
+    // IE 下 get 请求会被缓存，所以自动加个时间戳
+    if (isIE && api && api.method?.toLocaleLowerCase() === 'get') {
+      const timeStamp = `_t=${Date.now()}`;
+      if (api.url.indexOf('?') === -1) {
+        api.url = api.url + `?${timeStamp}`;
+      } else {
+        api.url = api.url + `&${timeStamp}`;
+      }
     }
     return wrapAdaptor(fn(api), api);
   };
@@ -284,11 +446,14 @@ export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
   return adaptor
     ? promise
         .then(async response => {
+          debug('api', 'before adaptor data', (response as any).data);
           let result = adaptor((response as any).data, response, api);
 
           if (result?.then) {
             result = await result;
           }
+
+          debug('api', 'after adaptor data', result);
 
           return {
             ...response,
@@ -297,6 +462,71 @@ export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
         })
         .then(ret => responseAdaptor(ret, api))
     : promise.then(ret => responseAdaptor(ret, api));
+}
+
+export function jsonpFetcher(api: ApiObject): Promise<fetcherResult> {
+  return new Promise((resolve, reject) => {
+    let script: HTMLScriptElement | null = document.createElement('script');
+    let src = api.url;
+
+    script.async = true;
+
+    function remove() {
+      if (script) {
+        // @ts-ignore
+        script.onload = script.onreadystatechange = script.onerror = null;
+
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+
+        script = null;
+      }
+    }
+
+    const jsonp = api.query?.callback || 'axiosJsonpCallback' + uuid();
+    const old = (window as any)[jsonp];
+
+    (window as any)[jsonp] = function (responseData: any) {
+      (window as any)[jsonp] = old;
+
+      const response = {
+        data: responseData,
+        status: 200,
+        headers: {}
+      };
+
+      resolve(response);
+    };
+
+    const additionalParams: any = {
+      _: new Date().getTime(),
+      _callback: jsonp
+    };
+
+    src += (src.indexOf('?') >= 0 ? '&' : '?') + qsstringify(additionalParams);
+
+    // @ts-ignore IE 为script.onreadystatechange
+    script.onload = script.onreadystatechange = function () {
+      // @ts-ignore
+      if (!script.readyState || /loaded|complete/.test(script.readyState)) {
+        remove();
+      }
+    };
+
+    script.onerror = function () {
+      remove();
+      const errResponse = {
+        status: 0,
+        headers: {}
+      };
+
+      reject(errResponse);
+    };
+
+    script.src = src;
+    document.head.appendChild(script);
+  });
 }
 
 export function isApiOutdated(
@@ -429,6 +659,18 @@ export function setApiCache(
 
 export function clearApiCache() {
   apiCaches.splice(0, apiCaches.length);
+}
+
+export function normalizeApiResponseData(data: any) {
+  if (typeof data === 'undefined') {
+    data = {};
+  } else if (!isPlainObject(data)) {
+    data = {
+      [Array.isArray(data) ? 'items' : 'result']: data
+    };
+  }
+
+  return data;
 }
 
 // window.apiCaches = apiCaches;

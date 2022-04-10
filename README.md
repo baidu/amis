@@ -4,17 +4,19 @@
   </p>
 
 [文档（国内）](https://baidu.gitee.io/amis/) |
+[文档（备用）](https://aisuda.bce.baidu.com/amis/) |
 [文档（国外）](https://baidu.github.io/amis/) |
 [可视化编辑器](https://aisuda.github.io/amis-editor-demo/) |
 [amis-admin](https://github.com/aisuda/amis-admin) |
-[爱速搭](https://suda.baidu.com/)
+[爱速搭](https://baidu.gitee.io/aisuda-docs/)
 
 </div>
 
 <div align="center">
   QQ 群: 1147750223（已满） |
   QQ 群2: 651547026 |
-  如流群：3395342
+  如流群：3395342（已满）|
+  如流群2：5511067|
 </div>
 
 <div align="center">
@@ -23,6 +25,7 @@
 ![license](https://img.shields.io/github/license/baidu/amis.svg)
 ![version](https://img.shields.io/npm/v/amis)
 ![language](https://img.shields.io/github/languages/top/baidu/amis)
+[![codecov](https://codecov.io/gh/baidu/amis/branch/master/graph/badge.svg?token=9LwimHGoE5)](https://codecov.io/gh/baidu/amis)
 ![last](https://img.shields.io/github/last-commit/baidu/amis.svg)
 
 </div>
@@ -39,13 +42,9 @@
 
 ```bash
 # 安装项目 npm 依赖，在 node 12 下会有报错但不影响正常使用。
-npm i
+npm i --legacy-peer-deps
 
-# 开始编译，把代码产出到刚开启的服务的 webroot 目录。
-# 这个程序不会自动结束，进入一个 watch 模式，文件变动会重新编译。
-npm run dev
-
-# 开启 fis3 服务，请通过 http://127.0.0.1:8888/examples/pages/simple 访问。
+# 启动项目，等编译结束后通过 http://127.0.0.1:8888/examples/pages/simple 访问。
 npm start
 ```
 
@@ -53,7 +52,7 @@ npm start
 
 ```bash
 # 安装依赖
-npm i
+npm i --legacy-peer-deps
 
 # 执行测试用例
 npm test
@@ -83,7 +82,12 @@ npm run update-snapshot
 - [RickCole21](https://github.com/RickCole21)
 - [catchonme](https://github.com/catchonme)
 - [nwind](https://github.com/nwind)
+- [zhangtao07](https://github.com/zhangtao07)
+- [hsm-lv](https://github.com/hsm-lv)
+- [RUNZE LU](https://github.com/lurunze1226)
+- [ucasliyuan](https://github.com/ucasliyuan)
+- [yangwei9012](https://github.com/yangwei9012)
 
 ## 低代码平台
 
-amis 只能实现前端低代码，如果需要完整的低代码平台推荐使用[爱速搭](https://suda.baidu.com/)。
+amis 只能实现前端低代码，如果需要完整的低代码平台推荐使用[爱速搭](https://baidu.gitee.io/aisuda-docs/)。

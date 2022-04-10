@@ -19,10 +19,11 @@ class InputInner extends React.Component<InputProps, InputState> {
   isOnComposition: boolean = false;
   state = {value: this.props.value};
 
-  componentWillReceiveProps(nextProps: InputProps) {
-    if (this.props.value !== nextProps.value) {
+  componentDidUpdate(prevProps: InputProps) {
+    const props = this.props;
+    if (prevProps.value !== props.value) {
       this.setState({
-        value: nextProps.value
+        value: props.value
       });
     }
   }

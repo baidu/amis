@@ -135,9 +135,9 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
   }
 
   renderChild(region: string, node: Schema) {
-    const {render} = this.props;
+    const {render, disabled} = this.props;
 
-    return render(region, node);
+    return render(region, node, {disabled});
   }
 
   renderGrid(grid: GridObject, key: number, length: number) {
@@ -218,7 +218,6 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)grid-2d$/,
-  name: 'grid-2d'
+  type: 'grid-2d'
 })
 export class Grid2DRenderer extends Grid2D {}

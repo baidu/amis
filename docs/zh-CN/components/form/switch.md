@@ -13,8 +13,8 @@ order: 51
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "api": "/api/mock2/form/saveForm",
+    "body": [
         {
             "name": "switch",
             "type": "switch",
@@ -36,7 +36,7 @@ order: 51
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "name": "switch",
             "type": "switch",
@@ -52,7 +52,7 @@ order: 51
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "name": "switch",
             "type": "switch",
@@ -73,7 +73,7 @@ order: 51
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "name": "switch",
             "type": "switch",
@@ -84,15 +84,49 @@ order: 51
 }
 ```
 
+## 默认值
+
+和其它表单项一样，如果要设置默认值，可以使用 value 属性
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "name": "switch",
+            "type": "switch",
+            "label": "开关",
+            "value": false
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名     | 类型     | 默认值    | 说明         |
+| 属性名     | 类型                        | 默认值  | 说明                 |
+| ---------- | --------------------------- | ------- | -------------------- |
+| option     | `string`                    |         | 选项说明             |
+| onText     | `string / IconSchema`       |         | 开启时开关显示的内容 |
+| offText    | `string / IconSchema`       |         | 关闭时开关显示的内容 |
+| trueValue  | `boolean / string / number` | `true`  | 标识真值             |
+| falseValue | `boolean / string / number` | `false` | 标识假值             |
+
+IconSchema 配置
+| 属性名 | 类型 | 默认值 | 说明 |
 | ---------- | -------- | --------- | ------------ |
-| option     | `string` |           | 选项说明     |
-| onText     | `string` |           | 开启时的文本 |
-| offText    | `string` |           | 关闭时的文本 |
-| trueValue  | `any`    | `true`    | 标识真值     |
-| falseValue | `any`    | `"false"` | 标识假值     |
-| option     | `string` |           | 选项说明     |
+| type | `string` | | `icon` |
+| icon | `string` | | icon 的类型 |
+
+## 事件表
+
+| 事件名称 | 事件参数 | 说明 |
+| ------  | --------------------------------- | ---------------- |
+| change  |  `value: string \| boolean` 值变化 | 开关值发生变化时触发 |
+
+## 动作表
+
+暂无

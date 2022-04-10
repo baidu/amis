@@ -3,17 +3,17 @@
 exports[`Renderer:hbox 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,53 +22,53 @@ exports[`Renderer:hbox 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <div
-            class="a-Grid a-Form-control"
+            class="cxd-Grid"
           >
             <div
-              class="a-Grid-col--md3 bg-white"
+              class="cxd-Grid-col--md3 bg-white"
             >
               <div
-                class="a-Grid-form a-Form--normal"
+                class="cxd-Form-item cxd-Form-item--normal"
+                data-role="form-item"
               >
                 <div
-                  class="a-Form-item a-Form-item--normal"
-                  data-role="form-item"
+                  class="cxd-Form-control cxd-TextControl"
                 >
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="cxd-TextControl-input"
                   >
-                    <div
-                      class="a-TextControl-input"
-                    >
-                      <input
-                        autocomplete="off"
-                        name="text"
-                        placeholder="Text"
-                        size="10"
-                        type="text"
-                        value=""
-                      />
-                    </div>
+                    <input
+                      autocomplete="off"
+                      name="text"
+                      placeholder="Text"
+                      size="10"
+                      type="text"
+                      value=""
+                    />
                   </div>
                 </div>
               </div>
             </div>
             <div
-              class="a-Grid-col--md9"
+              class="cxd-Grid-col--md9"
             >
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   其他渲染器类型
@@ -77,10 +77,6 @@ exports[`Renderer:hbox 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

@@ -82,6 +82,65 @@ public class StreamingResponseBodyController {
 
 通过 `autoScroll` 可以关闭此功能
 
+## source 支持变量
+
+> 1.4.2 及以上版本
+
+可以初始设置为空，这样初始不会加载，而等这个变量有值的时候再加载
+
+```json
+{
+  "type": "form",
+  "body": [
+    {
+      "label": "数据源",
+      "type": "select",
+      "name": "source",
+      "options": [
+        {
+          "label": "A",
+          "value": "http://localhost:3000/"
+        },
+        {
+          "label": "B",
+          "value": "http://localhost:4000/"
+        }
+      ]
+    },
+    {
+      "type": "log",
+      "height": 300,
+      "placeholder": "请点击上面的数据源",
+      "source": "${source | raw}"
+    }
+  ]
+}
+```
+
+## source 支持高级配置
+
+> 1.6.1 及以上版本
+
+可以类似 api 那样自定义 header、method 等，比如：
+
+```json
+{
+  "type": "log",
+  "height": 300,
+  "source": {
+    "method": "post",
+    "url": "[/api/mock2/form/saveForm](http://localhost:3000/)",
+    "data": {
+      "myName": "${name}",
+      "myEmail": "${email}"
+    },
+    "headers": {
+      "my-header": "${myHeader}"
+    }
+  }
+}
+```
+
 ## 属性表
 
 | 属性名      | 类型      | 默认值 | 说明               |
@@ -91,3 +150,4 @@ public class StreamingResponseBodyController {
 | autoScroll  | `boolean` | true   | 是否自动滚动       |
 | placeholder | `string`  |        | 加载中的文字       |
 | encoding    | `string`  | utf-8  | 返回内容的字符编码 |
+| source      | `string`  |        | 接口               |

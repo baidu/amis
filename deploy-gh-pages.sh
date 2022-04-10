@@ -14,6 +14,8 @@ cp -r gh-pages/zh-CN/docs/* gh-pages/docs/
 
 cp ./schema.json ./gh-pages
 
+cp -r mock gh-pages/
+
 sh build.sh
 
 tar -zcvf sdk.tar.gz sdk

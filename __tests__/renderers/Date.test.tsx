@@ -1,5 +1,5 @@
 import React = require('react');
-import {render} from 'react-testing-library';
+import {render} from '@testing-library/react';
 import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
 import {makeEnv} from '../helper';
@@ -24,7 +24,7 @@ test('Renderer:date', async () => {
     )
   );
 
-  const input = container.querySelector('.a-DateField');
+  const input = container.querySelector('.cxd-DateField');
   expect(input?.innerHTML).toEqual(
     moment('1559836800', 'X').format('YYYY-MM-DD')
   );

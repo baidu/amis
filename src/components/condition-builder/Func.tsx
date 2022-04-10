@@ -2,14 +2,15 @@ import React from 'react';
 import {Func, ExpressionFunc, Field, Funcs} from './types';
 import {ThemeProps, themeable} from '../../theme';
 import PopOverContainer from '../PopOverContainer';
-import ListRadios from '../ListRadios';
+import GroupedSelection from '../GroupedSelection';
 import {autobind, findTree, noop} from '../../utils/helper';
 import ResultBox from '../ResultBox';
 import {Icon} from '../icons';
 import Expression from './Expression';
 import {Config} from './config';
+import {localeable, LocaleProps} from '../../locale';
 
-export interface ConditionFuncProps extends ThemeProps {
+export interface ConditionFuncProps extends ThemeProps, LocaleProps {
   value: ExpressionFunc;
   onChange: (value: ExpressionFunc) => void;
   disabled?: boolean;
@@ -68,7 +69,14 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
   }
 
   render() {
-    const {value, classnames: cx, fieldClassName, funcs, disabled} = this.props;
+    const {
+      value,
+      classnames: cx,
+      fieldClassName,
+      funcs,
+      disabled,
+      translate: __
+    } = this.props;
     const func = value
       ? findTree(funcs!, item => (item as Func).type === value.func)
       : null;
@@ -77,13 +85,13 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
       <div className={cx('CBFunc')}>
         <PopOverContainer
           popOverRender={({onClose}) => (
-            <ListRadios
+            <GroupedSelection
               onClick={onClose}
-              showRadio={false}
               options={funcs!}
               value={(func as Func)?.type}
               option2value={option2value}
               onChange={this.handleFuncChange}
+              multiple={false}
             />
           )}
         >
@@ -97,10 +105,10 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
                 )}
                 ref={ref}
                 allowInput={false}
-                result={func?.label}
+                result={func}
                 onResultChange={noop}
                 onResultClick={onClick}
-                placeholder="请选择字段"
+                placeholder={__('Condition.field_placeholder')}
                 disabled={disabled}
               >
                 <span className={cx('CBGroup-fieldCaret')}>
@@ -114,11 +122,13 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
         {func ? (
           this.renderFunc(func as Func)
         ) : (
-          <span className={cx('CBFunc-error')}>方法未定义</span>
+          <span className={cx('CBFunc-error')}>
+            {__('Condition.fun_error')}
+          </span>
         )}
       </div>
     );
   }
 }
 
-export default themeable(ConditionFunc);
+export default themeable(localeable(ConditionFunc));

@@ -5,12 +5,18 @@
 
 import React from 'react';
 import find from 'lodash/find';
-import PropTypes from 'prop-types';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import qs from 'qs';
 import {dataMapping} from './utils/tpl-builtin';
 import {RendererEnv, RendererProps} from './factory';
-import {noop, autobind, qsstringify} from './utils/helper';
+import {
+  noop,
+  autobind,
+  qsstringify,
+  qsparse,
+  createObject,
+  findTree,
+  TreeItem
+} from './utils/helper';
 import {RendererData, Action} from './types';
 
 export interface ScopedComponentType extends React.Component<RendererProps> {
@@ -31,13 +37,16 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
 
 export interface IScopedContext {
   parent?: AliasIScopedContext;
+  children?: AliasIScopedContext[];
   registerComponent: (component: ScopedComponentType) => void;
   unRegisterComponent: (component: ScopedComponentType) => void;
   getComponentByName: (name: string) => ScopedComponentType;
+  getComponentById: (id: string) => ScopedComponentType | undefined;
   getComponents: () => Array<ScopedComponentType>;
   reload: (target: string, ctx: RendererData) => void;
   send: (target: string, ctx: RendererData) => void;
   close: (target: string) => void;
+  closeById: (target: string) => void;
 }
 type AliasIScopedContext = IScopedContext;
 export const ScopedContext = React.createContext(createScopedTools(''));
@@ -48,8 +57,7 @@ function createScopedTools(
   env?: RendererEnv
 ): IScopedContext {
   const components: Array<ScopedComponentType> = [];
-
-  return {
+  const self = {
     parent,
     registerComponent(component: ScopedComponentType) {
       // 不要把自己注册在自己的 Scoped 上，自己的 Scoped 是给子节点们注册的。
@@ -82,7 +90,7 @@ function createScopedTools(
 
         return paths.reduce((scope, name, idx) => {
           if (scope && scope.getComponentByName) {
-            const result = scope.getComponentByName(name);
+            const result: ScopedComponentType = scope.getComponentByName(name);
             return result && idx < len - 1 ? result.context : result;
           }
 
@@ -96,6 +104,27 @@ function createScopedTools(
           component.props.name === name || component.props.id === name
       );
       return resolved || (parent && parent.getComponentByName(name));
+    },
+
+    getComponentById(id: string) {
+      let root: AliasIScopedContext = this;
+      // 找到顶端scoped
+      while (root.parent) {
+        root = root.parent;
+      }
+
+      // 向下查找
+      let component = undefined;
+      findTree([root], (item: TreeItem) =>
+        item.getComponents().find((cmpt: ScopedComponentType) => {
+          if (cmpt.props.id === id) {
+            component = cmpt;
+            return true;
+          }
+          return false;
+        })
+      ) as ScopedComponentType | undefined;
+      return component;
     },
 
     getComponents() {
@@ -112,7 +141,7 @@ function createScopedTools(
         let query = null;
 
         if (~idx2) {
-          const queryObj = qs.parse(
+          const queryObj = qsparse(
             name
               .substring(idx2 + 1)
               .replace(
@@ -158,7 +187,7 @@ function createScopedTools(
         const askIdx = name.indexOf('?');
         if (~askIdx) {
           const query = name.substring(askIdx + 1);
-          const queryObj = qs.parse(
+          const queryObj = qsparse(
             query.replace(
               /\$\{(.*?)\}/,
               (_, match) => '${' + encodeURIComponent(match) + '}'
@@ -183,7 +212,7 @@ function createScopedTools(
           component.receive(values, subPath);
         } else if (name === 'window' && env && env.updateLocation) {
           const query = {
-            ...(location.search ? qs.parse(location.search.substring(1)) : {}),
+            ...(location.search ? qsparse(location.search.substring(1)) : {}),
             ...values
           };
           const link = location.pathname + '?' + qsstringify(query);
@@ -208,8 +237,31 @@ function createScopedTools(
           .filter(component => component && component.props.show)
           .forEach(closeDialog);
       }
+    },
+
+    /**
+     * 关闭指定id的弹窗
+     * @param id
+     */
+    closeById(id: string) {
+      const scoped = this;
+      const component: any = scoped.getComponentById(id);
+      if (component && component.props.show) {
+        closeDialog(component);
+      }
     }
   };
+
+  if (!parent) {
+    return self;
+  }
+
+  !parent.children && (parent.children = []);
+
+  // 把孩子带上
+  parent.children!.push(self);
+
+  return self;
 }
 
 function closeDialog(component: ScopedComponentType) {
@@ -239,17 +291,30 @@ export function HocScoped<
 > & {
   ComposedComponent: React.ComponentType<T>;
 } {
-  class ScopedComponent extends React.Component<
-    T & {
-      scopeRef?: (ref: any) => void;
-    }
-  > {
+  type ScopedProps = T & {
+    scopeRef?: (ref: any) => void;
+  };
+  class ScopedComponent extends React.Component<ScopedProps> {
     static displayName = `Scoped(${
       ComposedComponent.displayName || ComposedComponent.name
     })`;
     static contextType = ScopedContext;
     static ComposedComponent = ComposedComponent;
     ref: any;
+    scoped?: IScopedContext;
+
+    constructor(props: ScopedProps, context: IScopedContext) {
+      super(props);
+
+      this.scoped = createScopedTools(
+        this.props.$path,
+        context,
+        this.props.env
+      );
+
+      const scopeRef = props.scopeRef;
+      scopeRef && scopeRef(this.scoped);
+    }
 
     getWrappedInstance() {
       return this.ref;
@@ -264,23 +329,17 @@ export function HocScoped<
       this.ref = ref;
     }
 
-    scoped = createScopedTools(this.props.$path, this.context, this.props.env);
-
-    componentWillMount() {
-      const scopeRef = this.props.scopeRef;
-      scopeRef && scopeRef(this.scoped);
-    }
-
     componentWillUnmount() {
       const scopeRef = this.props.scopeRef;
       scopeRef && scopeRef(null);
+      delete this.scoped;
     }
 
     render() {
       const {scopeRef, ...rest} = this.props;
 
       return (
-        <ScopedContext.Provider value={this.scoped}>
+        <ScopedContext.Provider value={this.scoped!}>
           <ComposedComponent
             {
               ...(rest as any) /* todo */

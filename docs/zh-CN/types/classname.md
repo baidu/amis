@@ -25,7 +25,7 @@ amis 中大部分的组件都支持配置 className 和 xxxClassName，他可以
             "actions": [],
             "debug": true,
             "mode": "horizontal",
-            "controls": [
+            "body": [
                 {
                     "type": "radios",
                     "name": "status",
@@ -45,9 +45,9 @@ amis 中大部分的组件都支持配置 className 和 xxxClassName，他可以
                         "1": "离线",
                         "2": "在线"
                     },
-                    "inputClassName": {
-                        "text-muted": "this.status == 1",
-                        "text-success": "this.status == 2"
+                    "className": {
+                        "text-muted": "this.status == '1'",
+                        "text-success": "this.status == '2'"
                     }
                 }
             ]

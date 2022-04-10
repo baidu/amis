@@ -8,9 +8,10 @@
   height: var(--DatePicker-height);
   outline: none;
   border-radius: var(--DatePicker-borderRadius);
-
   color: var(--DatePicker-color);
   background: var(--DatePicker-bg);
+  min-width: var(--DateRangePicker-minWidth);
+  @include input-border();
 
   &:not(.is-disabled) {
     cursor: pointer;
@@ -28,6 +29,22 @@
   &.is-focused {
     border-color: var(--DatePicker-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
+  }
+
+  .#{$ns}DateRangePicker-input {
+    border: none;
+    border-bottom: 1px solid transparent;
+    outline: none;
+    padding: 0;
+    background: 0;
+  }
+
+  .#{$ns}DateRangePicker-input.isActive {
+    border-bottom: 1px solid var(--DatePicker-onFocused-borderColor);
+  }
+
+  .#{$ns}DateRangePicker-input-separator {
+    margin: 0 var(--gap-sm);
   }
 
   &.is-disabled {
@@ -53,17 +70,26 @@
   }
 
   &-toggler {
-    cursor: pointer;
-    color: var(--DatePicker-iconColor);
+    @include input-clear();
+    line-height: 1;
 
-    &:hover {
-      color: var(--DatePicker-onHover-iconColor);
+    svg {
+      polyline,
+      circle {
+        stroke: var(--DatePicker-iconColor);
+      }
+    }
+
+    &:hover svg {
+      polyline,
+      circle {
+        stroke: var(--DatePicker-onHover-iconColor);
+      }
     }
   }
 
   &-clear {
     @include input-clear();
-    display: inline-block;
     line-height: 1;
     margin-right: var(--gap-xs);
   }
@@ -71,7 +97,8 @@
 
 .#{$ns}DateRangePicker-wrap {
   width: auto;
-  padding: var(--gap-sm);
+  // padding-bottom: var(--gap-sm);
+  padding: 0;
 }
 
 .#{$ns}DateRangePicker-start,
@@ -91,8 +118,9 @@
 }
 
 .#{$ns}DateRangePicker-rangers {
-  margin: 0 0 var(--gap-sm);
-  padding: 0;
+  // margin: 0 0 var(--gap-sm);
+  margin: 0;
+  padding: 10px 0 0 10px;
   list-style: none;
 }
 
@@ -107,11 +135,23 @@
 
 .#{$ns}DateRangePicker-actions {
   text-align: right;
-  margin-top: var(--gap-sm);
+  // margin-top: var(--gap-sm);
+  padding: var(--gap-sm);
+  border-top: 1px solid var(--Calendar-input-borderColor);
 }
 
 .#{$ns}DateRangeControl:not(.is-inline) > .#{$ns}DateRangePicker {
   display: flex;
+}
+
+.#{$ns}DateRangeControl {
+  &.is-date > .#{$ns}DateRangePicker {
+    min-width: calc(var(--DateRangePicker-minWidth) + var(--fontSizeLg) * 5.5);
+  }
+
+  &.is-datetime > .#{$ns}DateRangePicker {
+    min-width: calc(var(--DateRangePicker-minWidth) + var(--fontSizeLg) * 11);
+  }
 }
 
 .#{$ns}DateRangePicker-popover {
@@ -123,6 +163,10 @@
   }
 }
 
+.#{$ns}DateRangePicker-popup {
+  height: px2rem(400px);
+}
+
 @include media-breakpoint-up(sm) {
   .#{$ns}DateRangePicker-wrap {
     white-space: nowrap;
@@ -130,7 +174,8 @@
 
   .#{$ns}DateRangePicker-end {
     margin-top: 0;
-    margin-left: var(--gap-sm);
+    // margin-left: var(--gap-sm);
+    border-left: 1px solid var(--Calendar-input-borderColor);
   }
 }
 
@@ -139,4 +184,37 @@
   border: var(--DatePicker-borderWidth) solid var(--DatePicker-borderColor);
   background: var(--DatePicker-bg);
   border-radius: var(--DatePicker-borderRadius);
+}
+
+// 移动端输入框样式
+.#{$ns}DateRangePicker.is-mobile {
+  border: 0;
+  justify-content: flex-end;
+
+  span,
+  a {
+    &:focus {
+      outline: unset;
+    }
+  }
+
+  .#{$ns}DateRangePicker-value,
+  .#{$ns}DateRangePicker-clear {
+    display: inline-flex;
+    justify-content: flex-end;
+    padding: 0 0;
+  }
+
+  .#{$ns}DateRangePicker-value {
+    margin-right: var(--gap-xs);
+  }
+
+  .#{$ns}DateRangePicker-placeholder {
+    flex-grow: unset;
+    flex-basis: unset;
+  }
+
+  .#{$ns}DateRangePicker-toggler {
+    margin-top: -3px;
+  }
 }

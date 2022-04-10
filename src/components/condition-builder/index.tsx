@@ -13,19 +13,25 @@ import {
   mapTree,
   guid
 } from '../../utils/helper';
-import {findDOMNode} from 'react-dom';
 import animtion from '../../utils/Animation';
+import {FormulaPickerProps} from '../formula/Picker';
 
 export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
+  builderMode?: 'simple' | 'full'; // 简单模式｜完整模式
   fields: Fields;
   funcs?: Funcs;
   showNot?: boolean;
+  showANDOR?: boolean;
   value?: ConditionGroupValue;
   data?: any;
   onChange: (value: ConditionGroupValue) => void;
   config?: Config;
   disabled?: boolean;
+  searchable?: boolean;
   fieldClassName?: string;
+  formula?: FormulaPickerProps;
+  popOverContainer?: any;
+  renderEtrValue?: any;
 }
 
 export class QueryBuilder extends React.Component<ConditionBuilderProps> {
@@ -200,8 +206,14 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
       onChange,
       value,
       showNot,
+      showANDOR,
       data,
-      disabled
+      disabled,
+      searchable,
+      builderMode,
+      formula,
+      popOverContainer,
+      renderEtrValue
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -222,6 +234,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
 
     return (
       <ConditionGroup
+        builderMode={builderMode}
         config={this.config}
         funcs={funcs || this.config.funcs}
         fields={fields || this.config.fields}
@@ -231,9 +244,14 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
         fieldClassName={fieldClassName}
         removeable={false}
         onDragStart={this.handleDragStart}
+        showANDOR={showANDOR}
         showNot={showNot}
         data={data}
         disabled={disabled}
+        searchable={searchable}
+        formula={formula}
+        popOverContainer={popOverContainer}
+        renderEtrValue={renderEtrValue}
       />
     );
   }

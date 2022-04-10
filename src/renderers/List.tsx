@@ -8,15 +8,21 @@ import Button from '../components/Button';
 import Checkbox from '../components/Checkbox';
 import {ListStore, IListStore, IItem} from '../store/list';
 import {observer} from 'mobx-react';
+import omit = require('lodash/omit');
 import {
   anyChanged,
   getScrollParent,
   difference,
   isVisible,
   isDisabled,
-  noop
+  noop,
+  isClickOnInput
 } from '../utils/helper';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {
+  isPureVariable,
+  resolveVariable,
+  resolveVariableAndFilter
+} from '../utils/tpl-builtin';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import Sortable from 'sortablejs';
@@ -210,6 +216,11 @@ export interface ListSchema extends BaseSchema {
    * 大小
    */
   size?: 'sm' | 'base';
+
+  /**
+   * 点击列表项的行为
+   */
+  itemAction?: ActionSchema;
 }
 
 export interface Column {
@@ -290,33 +301,7 @@ export default class List extends React.Component<ListProps, object> {
     this.affixDetect = this.affixDetect.bind(this);
     this.bodyRef = this.bodyRef.bind(this);
     this.renderToolbar = this.renderToolbar.bind(this);
-  }
 
-  static syncItems(store: IListStore, props: ListProps, prevProps?: ListProps) {
-    const source = props.source;
-    const value = props.value || props.items;
-    let items: Array<object> = [];
-    let updateItems = true;
-
-    if (Array.isArray(value)) {
-      items = value;
-    } else if (typeof source === 'string') {
-      const resolved = resolveVariable(source, props.data);
-      const prev = prevProps ? resolveVariable(source, prevProps.data) : null;
-
-      if (prev && prev === resolved) {
-        updateItems = false;
-      } else if (Array.isArray(resolved)) {
-        items = resolved;
-      }
-    }
-
-    updateItems && store.initItems(items);
-    Array.isArray(props.selected) &&
-      store.updateSelected(props.selected, props.valueField);
-  }
-
-  componentWillMount() {
     const {
       store,
       selectable,
@@ -327,7 +312,7 @@ export default class List extends React.Component<ListProps, object> {
       hideCheckToggler,
       itemCheckableOn,
       itemDraggableOn
-    } = this.props;
+    } = props;
 
     store.update({
       multiple,
@@ -340,8 +325,39 @@ export default class List extends React.Component<ListProps, object> {
       itemDraggableOn
     });
 
-    List.syncItems(store, this.props);
-    this.syncSelected();
+    List.syncItems(store, this.props) && this.syncSelected();
+  }
+
+  static syncItems(store: IListStore, props: ListProps, prevProps?: ListProps) {
+    const source = props.source;
+    const value = props.value || props.items;
+    let items: Array<object> = [];
+    let updateItems = false;
+
+    if (
+      Array.isArray(value) &&
+      (!prevProps || (prevProps.value || prevProps.items) !== value)
+    ) {
+      items = value;
+      updateItems = true;
+    } else if (typeof source === 'string') {
+      const resolved = resolveVariableAndFilter(source, props.data, '| raw');
+      const prev = prevProps
+        ? resolveVariableAndFilter(source, prevProps.data, '| raw')
+        : null;
+
+      if (prev && prev === resolved) {
+        updateItems = false;
+      } else if (Array.isArray(resolved)) {
+        items = resolved;
+        updateItems = true;
+      }
+    }
+
+    updateItems && store.initItems(items);
+    Array.isArray(props.selected) &&
+      store.updateSelected(props.selected, props.valueField);
+    return updateItems;
   }
 
   componentDidMount() {
@@ -358,9 +374,9 @@ export default class List extends React.Component<ListProps, object> {
     window.addEventListener('resize', this.affixDetect);
   }
 
-  componentWillReceiveProps(nextProps: ListProps) {
+  componentDidUpdate(prevProps: ListProps) {
     const props = this.props;
-    const store = nextProps.store;
+    const store = props.store;
 
     if (
       anyChanged(
@@ -374,30 +390,32 @@ export default class List extends React.Component<ListProps, object> {
           'itemCheckableOn',
           'itemDraggableOn'
         ],
-        props,
-        nextProps
+        prevProps,
+        props
       )
     ) {
       store.update({
-        multiple: nextProps.multiple,
-        selectable: nextProps.selectable,
-        draggable: nextProps.draggable,
-        orderBy: nextProps.orderBy,
-        orderDir: nextProps.orderDir,
-        hideCheckToggler: nextProps.hideCheckToggler,
-        itemCheckableOn: nextProps.itemCheckableOn,
-        itemDraggableOn: nextProps.itemDraggableOn
+        multiple: props.multiple,
+        selectable: props.selectable,
+        draggable: props.draggable,
+        orderBy: props.orderBy,
+        orderDir: props.orderDir,
+        hideCheckToggler: props.hideCheckToggler,
+        itemCheckableOn: props.itemCheckableOn,
+        itemDraggableOn: props.itemDraggableOn
       });
     }
 
     if (
-      anyChanged(['source', 'value', 'items'], props, nextProps) ||
-      (!nextProps.value && !nextProps.items && nextProps.data !== props.data)
+      anyChanged(['source', 'value', 'items'], prevProps, props) ||
+      (!props.value &&
+        !props.items &&
+        (props.data !== prevProps.data ||
+          (typeof props.source === 'string' && isPureVariable(props.source))))
     ) {
-      List.syncItems(store, nextProps, props);
-      this.syncSelected();
-    } else if (props.selected !== nextProps.selected) {
-      store.updateSelected(nextProps.selected || [], nextProps.valueField);
+      List.syncItems(store, props, prevProps) && this.syncSelected();
+    } else if (prevProps.selected !== props.selected) {
+      store.updateSelected(props.selected || [], props.valueField);
     }
   }
 
@@ -907,6 +925,7 @@ export default class List extends React.Component<ListProps, object> {
       onAction,
       hideCheckToggler,
       checkOnItemClick,
+      itemAction,
       affixHeader,
       classnames: cx,
       size,
@@ -927,13 +946,13 @@ export default class List extends React.Component<ListProps, object> {
       >
         {affixHeader && heading && header ? (
           <div className={cx('List-fixedTop')}>
-            {heading}
             {header}
+            {heading}
           </div>
         ) : null}
-        {heading}
-        {header}
 
+        {header}
+        {heading}
         {store.items.length ? (
           <div className={cx('List-items')}>
             {store.items.map((item, index) =>
@@ -957,6 +976,7 @@ export default class List extends React.Component<ListProps, object> {
                   itemIndex: item.index,
                   hideCheckToggler,
                   checkOnItemClick,
+                  itemAction,
                   selected: item.checked,
                   onCheck: this.handleCheck,
                   dragging: store.dragging,
@@ -981,9 +1001,8 @@ export default class List extends React.Component<ListProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)(?:list|list-group)$/,
-  storeType: ListStore.name,
-  name: 'list'
+  type: 'list',
+  storeType: ListStore.name
 })
 export class ListRenderer extends List {
   dragging: boolean;
@@ -1007,6 +1026,7 @@ export interface ListItemProps
   itemIndex?: number;
   checkable?: boolean;
   checkOnItemClick?: boolean;
+  itemAction?: ActionSchema;
 }
 export class ListItem extends React.Component<ListItemProps> {
   static defaultProps: Partial<ListItemProps> = {
@@ -1014,7 +1034,11 @@ export class ListItem extends React.Component<ListItemProps> {
     titleClassName: 'h5'
   };
 
-  static propsList: Array<string> = ['avatarClassName', 'titleClassName'];
+  static propsList: Array<string> = [
+    'avatarClassName',
+    'titleClassName',
+    'itemAction'
+  ];
 
   constructor(props: ListItemProps) {
     super(props);
@@ -1026,20 +1050,15 @@ export class ListItem extends React.Component<ListItemProps> {
   }
 
   handleClick(e: React.MouseEvent<HTMLDivElement>) {
-    const target: HTMLElement = e.target as HTMLElement;
-    const ns = this.props.classPrefix;
-    let formItem;
-
-    if (
-      !e.currentTarget.contains(target) ||
-      ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
-      ((formItem = target.closest(`button, a, .${ns}Form-item`)) &&
-        e.currentTarget.contains(formItem))
-    ) {
+    if (isClickOnInput(e)) {
+      return;
+    }
+    const {itemAction, onAction, item} = this.props;
+    if (itemAction) {
+      onAction && onAction(e, itemAction, item?.data);
       return;
     }
 
-    const item = this.props.item;
     this.props.onCheck && this.props.onCheck(item);
   }
 
@@ -1149,10 +1168,7 @@ export class ListItem extends React.Component<ListItemProps> {
                     ))}
                 </div>
             );
-        } else */ if (
-      typeof node === 'string' ||
-      typeof node === 'number'
-    ) {
+        } else */ if (typeof node === 'string' || typeof node === 'number') {
       return render(region, node, {key}) as JSX.Element;
     }
 
@@ -1173,7 +1189,7 @@ export class ListItem extends React.Component<ListItemProps> {
   }
 
   renderFeild(region: string, field: any, key: any, props: any) {
-    const render = props.render || this.props.render;
+    const render = props?.render || this.props.render;
     const data = this.props.data;
     const cx = this.props.classnames;
     const itemIndex = this.props.itemIndex;
@@ -1205,7 +1221,7 @@ export class ListItem extends React.Component<ListItemProps> {
               rowIndex: itemIndex,
               colIndex: key,
               className: cx('ListItem-fieldValue', field.className),
-              value: field.name ? resolveVariable(field.name, data) : `-`,
+              value: field.name ? resolveVariable(field.name, data) : undefined,
               onAction: this.handleAction,
               onQuickChange: this.handleQuickChange
             }
@@ -1250,7 +1266,8 @@ export class ListItem extends React.Component<ListItemProps> {
       render,
       checkable,
       classnames: cx,
-      actionsPosition
+      actionsPosition,
+      itemAction
     } = this.props;
 
     const avatar = filter(avatarTpl, data);
@@ -1260,9 +1277,16 @@ export class ListItem extends React.Component<ListItemProps> {
 
     return (
       <div
-        onClick={checkOnItemClick && checkable ? this.handleClick : undefined}
+        onClick={
+          (checkOnItemClick && checkable) || itemAction
+            ? this.handleClick
+            : undefined
+        }
         className={cx(
           `ListItem ListItem--actions-at-${actionsPosition || 'right'}`,
+          {
+            'ListItem--hasItemAction': itemAction
+          },
           className
         )}
       >
@@ -1299,8 +1323,7 @@ export class ListItemRenderer extends ListItem {
 }
 
 @Renderer({
-  test: /(^|\/)list-item-field$/,
-  name: 'list-item-field'
+  type: 'list-item-field'
 })
 @QuickEdit()
 @PopOver()
@@ -1347,7 +1370,7 @@ export class ListItemFieldRenderer extends TableCell {
     let body = children
       ? children
       : render('field', schema, {
-          ...rest,
+          ...omit(rest, Object.keys(schema)),
           value,
           data
         });

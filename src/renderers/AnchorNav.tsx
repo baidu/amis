@@ -65,6 +65,8 @@ export interface AnchorNavSchema extends BaseSchema {
    * 楼层样式名
    */
   sectionClassName?: SchemaClassName;
+
+  direction?: 'vertical' | 'horizontal';
 }
 
 export interface AnchorNavProps
@@ -148,6 +150,7 @@ export default class AnchorNav extends React.Component<
       className,
       linkClassName,
       sectionClassName,
+      direction,
       sectionRender,
       render,
       data
@@ -187,6 +190,7 @@ export default class AnchorNav extends React.Component<
         sectionClassName={sectionClassName}
         onSelect={this.handleSelect}
         active={this.state.active}
+        direction={direction}
       >
         {children}
       </CAnchorNav>
@@ -195,7 +199,6 @@ export default class AnchorNav extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)anchor-nav$/,
-  name: 'anchor-nav'
+  type: 'anchor-nav'
 })
 export class AnchorNavRenderer extends AnchorNav {}

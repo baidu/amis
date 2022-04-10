@@ -4,21 +4,30 @@ import {
   FormOptionsControl
 } from './Options';
 import React from 'react';
-import Transfer from '../../components/Transfer';
-import {Option} from './Options';
+import Transfer, {Transfer as BaseTransfer} from '../../components/Transfer';
+import type {Option} from './Options';
 import {
   autobind,
   filterTree,
   string2regExp,
   createObject,
-  findTree
+  findTree,
+  findTreeIndex,
+  getTree,
+  spliceTree
 } from '../../utils/helper';
 import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
 import find from 'lodash/find';
 import {optionValueCompare} from '../../components/Select';
 import {resolveVariable} from '../../utils/tpl-builtin';
-import {SchemaApi} from '../../Schema';
+import {SchemaApi, SchemaObject} from '../../Schema';
+import {BaseSelection, ItemRenderStates} from '../../components/Selection';
+import {
+  ItemRenderStates as ResultItemRenderStates,
+  ResultList
+} from '../../components/ResultList';
+import {Action} from '../../types';
 
 /**
  * Transfer
@@ -68,6 +77,11 @@ export interface TransferControlSchema extends FormOptionsControl {
   columns?: Array<any>;
 
   /**
+   * 当 searchResultMode 为 table 时定义表格列信息。
+   */
+  searchResultColumns?: Array<any>;
+
+  /**
    * 可搜索？
    */
   searchable?: boolean;
@@ -76,6 +90,26 @@ export interface TransferControlSchema extends FormOptionsControl {
    * 搜索 API
    */
   searchApi?: SchemaApi;
+
+  /**
+   * 左侧的标题文字
+   */
+  selectTitle?: string;
+
+  /**
+   * 右侧结果的标题文字
+   */
+  resultTitle?: string;
+
+  /**
+   * 用来丰富选项展示
+   */
+  menuTpl?: SchemaObject;
+
+  /**
+   * 用来丰富值的展示
+   */
+  valueTpl?: SchemaObject;
 }
 
 export interface BaseTransferProps
@@ -87,13 +121,17 @@ export interface BaseTransferProps
       | 'className'
       | 'descriptionClassName'
       | 'inputClassName'
-    > {}
+    > {
+  resultItemRender?: (option: Option) => JSX.Element;
+}
 
 export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
 > extends React.Component<T> {
+  tranferRef?: BaseTransfer;
+
   @autobind
-  handleChange(value: Array<Option>) {
+  async handleChange(value: Array<Option> | Option, optionModified?: boolean) {
     const {
       onChange,
       joinValues,
@@ -101,36 +139,59 @@ export class BaseTransferRenderer<
       valueField,
       extractValue,
       options,
+      dispatchEvent,
       setOptions
     } = this.props;
     let newValue: any = value;
     let newOptions = options.concat();
 
     if (Array.isArray(value)) {
-      if (joinValues || extractValue) {
-        newValue = value.map(item => {
-          const resolved = findTree(
-            options,
-            optionValueCompare(
-              item[(valueField as string) || 'value'],
-              (valueField as string) || 'value'
-            )
-          );
+      newValue = value.map(item => {
+        const indexes = findTreeIndex(
+          options,
+          optionValueCompare(
+            item[(valueField as string) || 'value'],
+            (valueField as string) || 'value'
+          )
+        );
 
-          if (!resolved) {
-            newOptions.push(item);
-          }
+        if (!indexes) {
+          newOptions.push(item);
+        } else if (optionModified) {
+          const origin = getTree(newOptions, indexes);
+          newOptions = spliceTree(newOptions, indexes, 1, {
+            ...origin,
+            ...item
+          });
+        }
 
-          return item[(valueField as string) || 'value'];
-        });
-      }
+        return joinValues || extractValue
+          ? item[(valueField as string) || 'value']
+          : item;
+      });
 
       if (joinValues) {
         newValue = newValue.join(delimiter || ',');
       }
+    } else if (value) {
+      newValue =
+        joinValues || extractValue
+          ? value[(valueField as string) || 'value']
+          : value;
     }
 
-    newOptions.length > options.length && setOptions(newOptions, true);
+    (newOptions.length > options.length || optionModified) &&
+      setOptions(newOptions, true);
+
+    // 触发渲染器事件
+    const rendererEvent = await dispatchEvent('change', {
+      value: newValue,
+      options
+    });
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     onChange(newValue);
   }
 
@@ -141,7 +202,15 @@ export class BaseTransferRenderer<
 
   @autobind
   async handleSearch(term: string, cancelExecutor: Function) {
-    const {searchApi, options, labelField, valueField, env, data} = this.props;
+    const {
+      searchApi,
+      options,
+      labelField,
+      valueField,
+      env,
+      data,
+      translate: __
+    } = this.props;
 
     if (searchApi) {
       try {
@@ -154,7 +223,7 @@ export class BaseTransferRenderer<
         );
 
         if (!payload.ok) {
-          throw new Error(payload.msg || '搜索请求异常');
+          throw new Error(__(payload.msg || 'networkError'));
         }
 
         const result =
@@ -189,8 +258,9 @@ export class BaseTransferRenderer<
         (option: Option) => {
           return !!(
             (Array.isArray(option.children) && option.children.length) ||
-            regexp.test(option[(labelField as string) || 'label']) ||
-            regexp.test(option[(valueField as string) || 'value'])
+            (option[(valueField as string) || 'value'] &&
+              (regexp.test(option[(labelField as string) || 'label']) ||
+                regexp.test(option[(valueField as string) || 'value'])))
           );
         },
         0,
@@ -199,6 +269,33 @@ export class BaseTransferRenderer<
     } else {
       return options;
     }
+  }
+
+  @autobind
+  optionItemRender(option: Option, states: ItemRenderStates) {
+    const {menuTpl, render, data} = this.props;
+
+    if (menuTpl) {
+      return render(`item/${states.index}`, menuTpl, {
+        data: createObject(createObject(data, states), option)
+      });
+    }
+
+    return BaseSelection.itemRender(option, states);
+  }
+
+  @autobind
+  resultItemRender(option: Option, states: ResultItemRenderStates) {
+    const {valueTpl, render, data} = this.props;
+
+    if (valueTpl) {
+      return render(`value/${states.index}`, valueTpl, {
+        onChange: states.onChange,
+        data: createObject(createObject(data, states), option)
+      });
+    }
+
+    return ResultList.itemRender(option);
   }
 
   @autobind
@@ -226,11 +323,37 @@ export class BaseTransferRenderer<
     );
   }
 
+  @autobind
+  getRef(ref: BaseTransfer) {
+    this.tranferRef = ref;
+  }
+
+  @autobind
+  onSelectAll(options: Option[]) {
+    const {dispatchEvent} = this.props;
+    dispatchEvent('selectAll', options);
+  }
+
+  // 动作
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    switch (action.actionType) {
+      case 'clear':
+        onChange('');
+        break;
+      case 'reset':
+        onChange(resetValue);
+        break;
+      case 'selectAll':
+        this.tranferRef?.selectAll();
+        break;
+    }
+  }
+
   render() {
     const {
       className,
       classnames: cx,
-      options,
       selectedOptions,
       showArrow,
       sortable,
@@ -239,12 +362,33 @@ export class BaseTransferRenderer<
       loading,
       searchable,
       searchResultMode,
+      searchResultColumns,
       deferLoad,
-      leftOptions,
       leftMode,
       rightMode,
-      disabled
+      disabled,
+      selectTitle,
+      resultTitle,
+      menuTpl,
+      resultItemRender
     } = this.props;
+
+    // 目前 LeftOptions 没有接口可以动态加载
+    // 为了方便可以快速实现动态化，让选项的第一个成员携带
+    // LeftOptions 信息
+    let {options, leftOptions, leftDefaultValue} = this.props;
+
+    if (
+      selectMode === 'associated' &&
+      options &&
+      options.length &&
+      options[0].leftOptions &&
+      Array.isArray(options[0].children)
+    ) {
+      leftOptions = options[0].leftOptions;
+      leftDefaultValue = options[0].leftDefaultValue ?? leftDefaultValue;
+      options = options[0].children;
+    }
 
     return (
       <div className={cx('TransferControl', className)}>
@@ -258,6 +402,7 @@ export class BaseTransferRenderer<
           showArrow={showArrow}
           selectMode={selectMode}
           searchResultMode={searchResultMode}
+          searchResultColumns={searchResultColumns}
           columns={columns}
           onSearch={searchable ? this.handleSearch : undefined}
           onDeferLoad={deferLoad}
@@ -265,6 +410,12 @@ export class BaseTransferRenderer<
           leftMode={leftMode}
           rightMode={rightMode}
           cellRender={this.renderCell}
+          selectTitle={selectTitle}
+          resultTitle={resultTitle}
+          optionItemRender={this.optionItemRender}
+          resultItemRender={this.resultItemRender}
+          onSelectAll={this.onSelectAll}
+          onRef={this.getRef}
         />
 
         <Spinner overlay key="info" show={loading} />

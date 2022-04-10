@@ -7,77 +7,112 @@
 
 import React from 'react';
 import {themeable, ThemeProps} from '../theme';
-import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
-import {Icon} from './icons';
+import Transition, {ENTERED} from 'react-transition-group/Transition';
+import {Icon, hasIcon} from './icons';
+import {generateIcon} from '../utils/icon';
 
 const fadeStyles: {
   [propName: string]: string;
 } = {
-  [ENTERING]: 'in',
   [ENTERED]: 'in'
 };
 
-interface SpinnerProps extends ThemeProps {
-  overlay: boolean;
-  spinnerClassName: string;
-  mode: string;
-  size: 'sm' | 'lg' | '';
-  show: boolean;
-  icon?: string;
+// Spinner Props
+export interface SpinnerProps extends ThemeProps {
+  show: boolean; // 控制Spinner显示与隐藏
+  className?: string; // 自定义最外层元素class
+  spinnerClassName?: string; // spin图标位置包裹元素的自定义class
+  /**
+   * @deprecated 已废弃，没有作用
+   */
+  mode?: string;
+  size?: 'sm' | 'lg' | ''; // spinner Icon 大小
+  icon?: string | React.ReactNode; // 自定义icon
+  tip?: string; // spinner文案
+  tipPlacement?: 'top' | 'right' | 'bottom' | 'left'; // spinner文案位置
+  delay?: number; // 延迟显示
+  overlay?: boolean; // 是否显示遮罩层，有children属性才生效
 }
 
-export class Spinner extends React.Component<SpinnerProps, object> {
+export class Spinner extends React.Component<SpinnerProps> {
   static defaultProps = {
-    overlay: false,
+    show: true,
+    className: '',
     spinnerClassName: '',
-    mode: '',
     size: '' as '',
-    show: true
+    icon: '',
+    tip: '',
+    tipPlacement: 'bottom' as 'bottom',
+    delay: 0,
+    overlay: false
   };
-
-  div: React.RefObject<HTMLDivElement> = React.createRef();
-  overlay: React.RefObject<HTMLDivElement> = React.createRef();
 
   render() {
     const {
-      show,
       classnames: cx,
+      show,
+      className,
       spinnerClassName,
-      mode,
-      size,
+      size = '',
       overlay,
-      icon
+      delay,
+      icon,
+      tip,
+      tipPlacement = ''
     } = this.props;
-    return (
-      <Transition mountOnEnter unmountOnExit in={show} timeout={350}>
-        {(status: string) => {
-          if (status === ENTERING) {
-            // force reflow
-            // 由于从 mount 进来到加上 in 这个 class 估计是时间太短，上次的样式还没应用进去，所以这里强制reflow一把。
-            // 否则看不到动画。
-            // this.div.current!.offsetWidth;
-            this.overlay.current && this.overlay.current.offsetWidth;
-          }
+    const isCustomIcon = icon && React.isValidElement(icon);
+    const timeout = {enter: delay, exit: 0};
 
+    return (
+      <Transition mountOnEnter unmountOnExit in={show} timeout={timeout}>
+        {(status: string) => {
           return (
             <>
+              {/* 遮罩层 */}
               {overlay ? (
-                <div
-                  ref={this.overlay}
-                  className={cx(`Spinner-overlay`, fadeStyles[status])}
-                />
+                <div className={cx(`Spinner-overlay`, fadeStyles[status])} />
               ) : null}
 
+              {/* spinner图标和文案 */}
               <div
-                ref={this.div}
-                className={cx(`Spinner`, spinnerClassName, fadeStyles[status], {
-                  [`Spinner--${mode}`]: mode,
-                  [`Spinner--overlay`]: overlay,
-                  [`Spinner--${size}`]: size,
-                  [`Spinner--icon`]: icon
-                })}
+                className={cx(
+                  `Spinner`,
+                  tip && {
+                    [`Spinner-tip--${tipPlacement}`]: [
+                      'top',
+                      'right',
+                      'bottom',
+                      'left'
+                    ].includes(tipPlacement)
+                  },
+                  {[`Spinner--overlay`]: overlay},
+                  fadeStyles[status],
+                  className
+                )}
               >
-                {icon ? <Icon icon={icon} className="icon" /> : null}
+                <div
+                  className={cx(
+                    `Spinner-icon`,
+                    {
+                      [`Spinner-icon--${size}`]: ['lg', 'sm'].includes(size),
+                      [`Spinner-icon--default`]: !icon,
+                      [`Spinner-icon--simple`]: !isCustomIcon && icon,
+                      [`Spinner-icon--custom`]: isCustomIcon
+                    },
+                    spinnerClassName
+                  )}
+                >
+                  {icon ? (
+                    isCustomIcon ? (
+                      icon
+                    ) : hasIcon(icon as string) ? (
+                      <Icon icon={icon} className="icon" />
+                    ) : (
+                      generateIcon(cx, icon as string, 'icon')
+                    )
+                  ) : null}
+                </div>
+                {tip ? <span className={cx(`Spinner-tip`)}>{tip}</span> : ''}
               </div>
             </>
           );

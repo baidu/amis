@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-// @ts-ignore
 import VisibilitySensor from 'react-visibility-sensor';
 import Spinner from './Spinner';
 
@@ -39,6 +38,7 @@ export default class LazyComponent extends React.Component<
     super(props);
 
     this.handleVisibleChange = this.handleVisibleChange.bind(this);
+    this.mounted = true;
 
     this.state = {
       visible: false,
@@ -46,8 +46,11 @@ export default class LazyComponent extends React.Component<
     };
   }
 
-  componentWillMount() {
-    this.mounted = true;
+  componentDidMount() {
+    // jest 里面有点异常，先手动让它总是可见
+    if (typeof jest !== 'undefined') {
+      this.handleVisibleChange(true);
+    }
   }
 
   componentWillUnmount() {

@@ -15,7 +15,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=5",
+    "api": "/api/mock2/sample?perPage=5",
     "body": [
         {
             "type": "table",
@@ -60,7 +60,6 @@ order: 67
 
 ```schema
 {
-    "$schema": "https://houtai.baidu.com/v2/schemas/table.json#",
     "type": "table",
     "data": {
         "items": [
@@ -301,7 +300,7 @@ order: 67
 
 ### 列宽
 
-可以给列配置`width`属性，控制列宽，共有两种方式：
+可以给列配置 `width` 属性，控制列宽，共有两种方式：
 
 #### 固定像素
 
@@ -310,7 +309,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+    "api": "/api/mock2/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",
@@ -332,7 +331,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+    "api": "/api/mock2/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",
@@ -347,6 +346,224 @@ order: 67
 }
 ```
 
+### 列对齐方式
+
+> 1.4.0 及以上版本
+
+通过 align 可以控制列文本对齐方式，比如
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=5",
+    "body": [
+      {
+        "type": "table",
+        "title": "表格1",
+        "source": "$rows",
+        "columns": [
+          {
+            "name": "engine",
+            "label": "Engine"
+          },
+          {
+            "label": "Version",
+            "type": "tpl",
+            "tpl": "${version | number}",
+            "align": "right"
+          }
+        ]
+      }
+    ]
+}
+```
+
+### 列样式
+
+> 1.4.0 及以上版本
+
+除了前面的宽度和对齐方式，还有更灵活的控制方法是通过样式表
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=5",
+    "body": [
+      {
+        "type": "table",
+        "title": "表格1",
+        "source": "$rows",
+        "columns": [
+          {
+            "name": "engine",
+            "label": "Engine"
+          },
+          {
+            "name": "version",
+            "label": "Version",
+            "className": "text-primary"
+          }
+        ]
+      }
+    ]
+}
+```
+
+如果要单独设置标题的样式，可以使用 `labelClassName` 属性
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=5",
+    "body": [
+      {
+        "type": "table",
+        "title": "表格1",
+        "source": "$rows",
+        "columns": [
+          {
+            "name": "engine",
+            "label": "Engine"
+          },
+          {
+            "name": "version",
+            "label": "Version",
+            "className": "text-primary",
+            "labelClassName": "font-bold"
+          }
+        ]
+      }
+    ]
+}
+```
+
+### 单元格样式
+
+> 1.4.0 及以上版本
+
+`classNameExpr` 可以根据数据动态添加 CSS 类，支持 [模板](../../docs/concepts/template) 语法。
+
+例如下例，`"<%= data.version > 5 ? "text-danger" : "" %>"` 表示当行数据的 `version` 数据大于 5 的时候添加 `text-danger` CSS 类名，使得文字颜色变红
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=5",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+
+            "columns": [
+                {
+                    "name": "engine",
+                    "label": "Engine"
+                },
+                {
+                    "name": "version",
+                    "label": "Version",
+                    "classNameExpr": "<%= data.version > 5 ? 'text-danger' : '' %>",
+                },
+                {
+                    "name": "grade",
+                    "label": "Grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### 背景色阶
+
+> 1.8.0 及以上版本
+
+`backgroundScale` 可以用来根据数据控制自动分配色阶
+
+```schema: scope="body"
+{
+    "type": "service",
+    "data": {
+        "rows": [
+            {
+                "engine": "Trident",
+                "version": "1",
+                "grade": "A"
+            },
+            {
+                "engine": "Trident",
+                "version": "7",
+                "grade": "B"
+            },
+            {
+                "engine": "Trident",
+                "version": "4",
+                "grade": "C"
+            },
+            {
+                "engine": "Trident",
+                "version": "3",
+                "grade": "A"
+            },
+            {
+                "engine": "Trident",
+                "version": "4",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "version": "6",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "version": "2",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "version": "5",
+                "grade": "B"
+            },
+            {
+                "engine": "Gecko",
+                "version": "10",
+                "grade": "D"
+            }
+        ]
+    },
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "columns": [
+                {
+                    "name": "engine",
+                    "label": "Engine"
+                },
+                {
+                    "name": "version",
+                    "label": "Version",
+                    backgroundScale: {
+                        min: 0,
+                        max: 10,
+                        colors: ['#FFEF9C', '#FF7127']
+                    }
+                },
+                {
+                    "name": "grade",
+                    "label": "Grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
+`min` 和 `max` 都支持变量，如果为设置会自动计算当前列的最大和最小值。
+
+默认会从当前列的 `name` 属性来获取数据，也可以通过 `backgroundScale.source` 使用变量及公式来获取数据。
+
 ### 默认是否显示
 
 默认 `columnsTogglable` 配置为 `auto`，当列超过 5 列后，就会在工具栏多渲染出来一个列展示与否的开关。你可以设置成 `true` 或者 `false` 来强制开或者关。在列配置中可以通过配置 `toggled` 为 `false` 默认不展示这列，比如下面这个例子中 ID 这一栏。
@@ -354,7 +571,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=5",
+    "api": "/api/mock2/sample?perPage=5",
     "body": [
         {
             "type": "table",
@@ -404,7 +621,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=5",
+    "api": "/api/mock2/sample?perPage=5",
     "className": "w-xxl",
     "body": [
         {
@@ -457,7 +674,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+    "api": "/api/mock2/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",
@@ -477,7 +694,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+    "api": "/api/mock2/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",
@@ -496,12 +713,12 @@ order: 67
 
 ### 弹出框（popOver）
 
-可以给列上配置`popOver`属性，会在该列的内容区里，渲染一个图标，点击会显示弹出框，用于展示内容
+可以给列上配置 `popOver` 属性，会在该列的内容区里，渲染一个图标，点击会显示弹出框，用于展示内容
 
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+    "api": "/api/mock2/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",
@@ -521,104 +738,7 @@ order: 67
 }
 ```
 
-可以结合 truncate 用来优化表格中的长内容展示，比如默认只展示 20 个字符，剩下的点击查看更多出现。
-
-```schema: scope="body"
-{
-    "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
-    "columns": [
-        {
-            "name": "id",
-            "label": "ID"
-        },
-        {
-            "type": "tpl",
-            "name": "engine",
-            "label": "Rendering engine",
-            "tpl": "${engine|truncate:2}",
-            "popOver": {
-                "trigger": "hover",
-                "position": "left-top",
-                "showIcon": false,
-                "body": {
-                    "type": "tpl",
-                    "tpl": "${engine}"
-                }
-            }
-        }
-    ]
-}
-```
-
-> 示例内容没那么长，直接配置成 2 个字符了。
-
-可以给列上配置`popOverEnableOn`属性，该属性为[表达式](../../docs/concepts/expression)，通过[表达式](../../docs/concepts/expression)配置当前行是否启动`popOver`功能
-
-```schema: scope="body"
-{
-    "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
-    "columns": [
-        {
-            "name": "id",
-            "label": "ID",
-            "popOver": {
-                "body": {
-                    "type": "tpl",
-                    "tpl": "${id}"
-                }
-            },
-            "popOverEnableOn": "this.id == 1"
-        },
-        {
-            "name": "engine",
-            "label": "Rendering engine",
-            "popOver": {
-                "body": {
-                    "type": "tpl",
-                    "tpl": "${engine}"
-                }
-            }
-        }
-    ]
-}
-```
-
-`popOver` 配置详情：
-
-- `mode` 可配置成 `popOver`、`dialog` 或者 `drawer`。 默认为 `popOver`。
-- `size` 当配置成 `dialog` 或者 `drawer` 的时候有用。
-- `position` 配置弹出位置，只有 `popOver` 模式有用。
-  可选参数：
-
-  - `center`
-
-  - `left-top`
-  - `right-top`
-  - `left-bottom`
-  - `right-bottom`
-
-  atX-atY-myX-myY
-  即：对齐目标的位置-对齐自己的位置
-
-  - `left-top-right-bottom` 在目标位置的左上角显示。
-  - `left-center-right-center` 在目标的左侧显示，垂直对齐。
-  - ...
-
-  固定位置
-
-  - `fixed-center`
-  - `fixed-left-top`
-  - `fixed-right-top`
-  - `fixed-left-bottom`
-  - `fixed-right-bottom`。
-
-- `offset` 默认 `{top: 0, left: 0}`，如果要来一定的偏移请设置这个。
-- `trigger` 触发弹出的条件。可配置为 `click` 或者 `hover`。默认为 `click`。
-- `showIcon` 是否显示图标。默认会有个放大形状的图标出现在列里面。如果配置成 false，则触发事件出现在列上就会触发弹出。
-- `title` 弹出框的标题。
-- `body` 弹出框的内容。
+popOver 的其它配置请参考 [popover](./popover)
 
 ### 表头样式
 
@@ -631,7 +751,7 @@ order: 67
 ```schema: scope="body"
 {
   "type": "crud",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+  "api": "/api/mock2/sample?waitSeconds=1",
   "affixHeader": false,
   "combineNum": 1,
   "columns": [
@@ -665,7 +785,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+    "api": "/api/mock2/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",
@@ -878,7 +998,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=5",
+    "api": "/api/mock2/sample?perPage=5",
     "body": [
         {
             "type": "table",
@@ -941,6 +1061,8 @@ order: 67
 ## 合并单元格
 
 只需要配置 `combineNum` 属性即可，他表示从左到右多少列内启动自动合并单元格，只要多行的同一个属性值是一样的，就会自动合并。
+
+如果你不想从第一列开始合并单元格，可以配置 `combineFromIndex`，如果配置为 1，则会跳过第一列的合并。如果配置为 2，则会跳过第一列和第二列的合并，从第三行开始向右合并 `combineNum` 列。
 
 ```schema: scope="body"
 {
@@ -1053,6 +1175,120 @@ order: 67
 }
 ```
 
+> 1.3.0 版本开始 combineNum 支持使用变量，如下所示
+
+```schema: scope="body"
+{
+    "type": "service",
+    "data": {
+        "rows": [
+            {
+                "engine": "Trident",
+                "browser": "Internet Explorer 4.2",
+                "platform": "Win 95+",
+                "version": "4",
+                "grade": "A"
+            },
+            {
+                "engine": "Trident",
+                "browser": "Internet Explorer 4.2",
+                "platform": "Win 95+",
+                "version": "4",
+                "grade": "B"
+            },
+            {
+                "engine": "Trident",
+                "browser": "AOL browser (AOL desktop)",
+                "platform": "Win 95+",
+                "version": "4",
+                "grade": "C"
+            },
+            {
+                "engine": "Trident",
+                "browser": "AOL browser (AOL desktop)",
+                "platform": "Win 98",
+                "version": "3",
+                "grade": "A"
+            },
+            {
+                "engine": "Trident",
+                "browser": "AOL browser (AOL desktop)",
+                "platform": "Win 98",
+                "version": "4",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "browser": "Firefox 1.0",
+                "platform": "Win 98+ / OSX.2+",
+                "version": "4",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "browser": "Firefox 1.0",
+                "platform": "Win 98+ / OSX.2+",
+                "version": "5",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "browser": "Firefox 2.0",
+                "platform": "Win 98+ / OSX.2+",
+                "version": "5",
+                "grade": "B"
+            },
+            {
+                "engine": "Gecko",
+                "browser": "Firefox 2.0",
+                "platform": "Win 98+ / OSX.2+",
+                "version": "5",
+                "grade": "C"
+            },
+            {
+                "engine": "Gecko",
+                "browser": "Firefox 2.0",
+                "platform": "Win 98+ / OSX.2+",
+                "version": "5",
+                "grade": "D"
+            }
+        ],
+        combineNum: 3
+    },
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "className": "m-b-none",
+            "combineNum": "$combineNum",
+            "columnsTogglable": false,
+            "columns": [
+                {
+                    "name": "engine",
+                    "label": "Rendering engine"
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser"
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 超级表头
 
 超级表头意思是，表头还可以再一次进行分组。额外添加个 `groupName` 属性即可。
@@ -1060,7 +1296,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=5",
+    "api": "/api/mock2/sample?perPage=5",
     "body": [
         {
             "type": "table",
@@ -1118,7 +1354,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=10",
+    "api": "/api/mock2/sample?perPage=10",
     "body": [
         {
             "type": "table",
@@ -1167,7 +1403,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=10",
+    "api": "/api/mock2/sample?perPage=10",
     "body": [
         {
             "type": "table",
@@ -1198,6 +1434,45 @@ order: 67
 }
 ```
 
+> 1.8.1 及以上版本
+
+新增 `affixRowClassNameExpr`、`affixRowClassName`、`prefixRowClassNameExpr`、`prefixRowClassName` 来控制总结行样式，比如下面的例子
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "columns": [
+                {
+                    "name": "browser",
+                    "label": "Browser"
+                },
+
+                {
+                    "name": "version",
+                    "label": "Version"
+                }
+            ],
+            "affixRowClassNameExpr": "${SUM(ARRAYMAP(rows, item => item.version)) > 30 ? 'text-success' : ''}",
+            "affixRow":[
+                {
+                    "type": "text",
+                    "text": "总计"
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "${rows|pick:version|sum}"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ### 配置合并单元格
 
 可以配置 `colSpan` 来设置一列所合并的列数，例如
@@ -1205,7 +1480,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=10",
+    "api": "/api/mock2/sample?perPage=10",
     "body": [
         {
             "type": "table",
@@ -1251,7 +1526,7 @@ order: 67
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=10",
+    "api": "/api/mock2/sample?perPage=10",
     "body": [
         {
             "type": "table",
@@ -1294,28 +1569,265 @@ order: 67
 }
 ```
 
+## 行操作按钮
+
+通过 itemActions 可以设置鼠标移动到行上出现操作按钮
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/sample?perPage=10",
+  "body": [{
+    "type": "table",
+    "source": "$rows",
+    "itemActions": [{
+      "label": "编辑",
+      "type": "button",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "编辑",
+        "body": "这是个简单的编辑弹框"
+      }
+    }, {
+      "label": "删除",
+      "type": "button",
+      "actionType": "ajax",
+      "confirmText": "确认要删除？",
+      "api": "/api/mock2/form/saveForm"
+    }],
+    "columns": [{
+        "name": "browser",
+        "label": "Browser"
+      },
+
+      {
+        "name": "version",
+        "label": "Version"
+      }
+    ]
+  }]
+}
+```
+
+## 单行点击操作
+
+> 1.4.0 及以上版本
+
+处理前面的 itemActions，还可以配置 itemAction 来实现点击某一行后进行操作，支持 [action](./action) 里的所有配置，比如弹框、刷新其它组件等。
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/sample?perPage=10",
+  "body": [{
+    "type": "table",
+    "source": "$rows",
+    "itemAction": {
+      "type": "button",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "详情",
+        "body": "当前行的数据 browser: ${browser}, version: ${version}"
+      }
+    },
+    "columns": [{
+        "name": "browser",
+        "label": "Browser"
+      },
+      {
+        "name": "version",
+        "label": "Version"
+      }
+    ]
+  }]
+}
+```
+
+注意这个属性和 `checkOnItemClick` 冲突，因为都是定义行的点击行为，开启 `itemAction` 后 `checkOnItemClick` 将会失效。
+
+## 行角标
+
+> 1.5.0 及以上版本
+
+通过属性`itemBadge`，可以为表格行配置[角标](./badge)，可以使用[数据映射](../../../docs/concepts/data-mapping)为每一行添加特定的 Badge 属性。[`visibleOn`](../../../docs/concepts/expression)属性控制显示的条件，表达式中`this`可以取到行所在上下文的数据，比如行数据中有`badgeText`字段才显示角标，可以设置`"visibleOn": "this.badgeText"`
+
+```schema: scope="body"
+{
+  "type": "service",
+  "body": {
+    "type": "table",
+    "source": "${table}",
+    "syncLocation": false,
+    "itemBadge": {
+      "text": "${badgeText}",
+      "mode": "ribbon",
+      "position": "top-left",
+      "level": "${badgeLevel}",
+      "visibleOn": "this.badgeText"
+    },
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID",
+            "searchable": {
+              "type": "input-text",
+              "name": "id",
+              "label": "主键",
+              "placeholder": "输入id",
+              "size": "sm",
+            }
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser",
+            "searchable": {
+              "type": "select",
+              "name": "browser",
+              "label": "浏览器",
+              "placeholder": "选择浏览器",
+              "size": "sm",
+              "options": [
+                {
+                  "label": "Internet Explorer ",
+                  "value": "ie"
+                },
+                {
+                  "label": "AOL browser",
+                  "value": "aol"
+                },
+                {
+                  "label": "Firefox",
+                  "value": "firefox"
+                }
+              ]
+            }
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version",
+            "searchable": {
+              "type": "input-number",
+              "name": "version",
+              "label": "版本号",
+              "placeholder": "输入版本号",
+              "size": "sm",
+              "mode": "horizontal"
+            }
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+  },
+  data: {
+    table: [
+      {
+        "id": 1,
+        "engine": "Trident",
+        "browser": "Internet Explorer 4.0",
+        "platform": "Win 95+",
+        "version": "4",
+        "grade": "X",
+        "badgeText": "默认",
+        "badgeLevel": "info"
+      },
+      {
+        "id": 2,
+        "engine": "Trident",
+        "browser": "Internet Explorer 5.0",
+        "platform": "Win 95+",
+        "version": "5",
+        "grade": "C",
+        "badgeText": "危险",
+        "badgeLevel": "danger"
+      },
+      {
+        "id": 3,
+        "engine": "Trident",
+        "browser": "Internet Explorer 5.5",
+        "platform": "Win 95+",
+        "version": "5.5",
+        "grade": "A"
+      },
+      {
+        "id": 4,
+        "engine": "Trident",
+        "browser": "Internet Explorer 6",
+        "platform": "Win 98+",
+        "version": "6",
+        "grade": "A"
+      },
+      {
+        "id": 5,
+        "engine": "Trident",
+        "browser": "Internet Explorer 7",
+        "platform": "Win XP SP2+",
+        "version": "7",
+        "grade": "A"
+      }
+    ]
+  }
+}
+```
+
+## 表格内容高度自适应
+
+> 1.5.0 及以上版本
+
+通过 `autoFillHeight` 可以让表格内容区自适应高度，具体效果请看这个[示例](../../../examples/crud/auto-fill)。
+
+它的展现效果是整个内容区域高度自适应，表格内容较多时在内容区域内出滚动条，这样顶部筛选和底部翻页的位置都是固定的。
+
+开启这个配置后会自动关闭 `affixHeader` 功能避免冲突。
+
 ## 属性表
 
-| 属性名           | 类型                                          | 默认值                    | 说明                                                                      |
-| ---------------- | --------------------------------------------- | ------------------------- | ------------------------------------------------------------------------- |
-| type             | `string`                                      |                           | `"type"` 指定为 table 渲染器                                              |
-| title            | `string`                                      |                           | 标题                                                                      |
-| source           | `string`                                      | `${items}`                | 数据源, 绑定当前环境变量                                                  |
-| affixHeader      | `boolean`                                     | `true`                    | 是否固定表头                                                              |
-| columnsTogglable | `auto` 或者 `boolean`                         | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启                   |
-| placeholder      | string                                        | `暂无数据`                | 当没数据的时候的文字提示                                                  |
-| className        | `string`                                      | `panel-default`           | 外层 CSS 类名                                                             |
-| tableClassName   | `string`                                      | `table-db table-striped`  | 表格 CSS 类名                                                             |
-| headerClassName  | `string`                                      | `Action.md-table-header`  | 顶部外层 CSS 类名                                                         |
-| footerClassName  | `string`                                      | `Action.md-table-footer`  | 底部外层 CSS 类名                                                         |
-| toolbarClassName | `string`                                      | `Action.md-table-toolbar` | 工具栏 CSS 类名                                                           |
-| columns          | Array<[Column](#%E5%88%97%E9%85%8D%E7%BD%AE)> |                           | 用来设置列信息                                                            |
-| combineNum       | `number`                                      |                           | 自动合并单元格                                                            |
-| itemActions      | Array<[Action](./action-button)>              |                           | 悬浮行操作按钮组                                                          |
-| itemCheckableOn  | [表达式](../../docs/concepts/expression)      |                           | 配置当前行是否可勾选的条件，要用 [表达式](../../docs/concepts/expression) |
-| itemDraggableOn  | [表达式](../../docs/concepts/expression)      |                           | 配置当前行是否可拖拽的条件，要用 [表达式](../../docs/concepts/expression) |
-| checkOnItemClick | `boolean`                                     | `false`                   | 点击数据行是否可以勾选当前行                                              |
-| rowClassName     | `string`                                      |                           | 给行添加 CSS 类名                                                         |
-| rowClassNameExpr | [模板](../../docs/concepts/template)          |                           | 通过模板给行添加 CSS 类名                                                 |
-| prefixRow        | `Array`                                       |                           | 顶部总结行                                                                |
-| affixRow         | `Array`                                       |                           | 底部总结行                                                                |
+| 属性名           | 类型                                     | 默认值                    | 说明                                                                      |
+| ---------------- | ---------------------------------------- | ------------------------- | ------------------------------------------------------------------------- |
+| type             | `string`                                 |                           | `"type"` 指定为 table 渲染器                                              |
+| title            | `string`                                 |                           | 标题                                                                      |
+| source           | `string`                                 | `${items}`                | 数据源, 绑定当前环境变量                                                  |
+| affixHeader      | `boolean`                                | `true`                    | 是否固定表头                                                              |
+| columnsTogglable | `auto` 或者 `boolean`                    | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启                   |
+| placeholder      | string                                   | `暂无数据`                | 当没数据的时候的文字提示                                                  |
+| className        | `string`                                 | `panel-default`           | 外层 CSS 类名                                                             |
+| tableClassName   | `string`                                 | `table-db table-striped`  | 表格 CSS 类名                                                             |
+| headerClassName  | `string`                                 | `Action.md-table-header`  | 顶部外层 CSS 类名                                                         |
+| footerClassName  | `string`                                 | `Action.md-table-footer`  | 底部外层 CSS 类名                                                         |
+| toolbarClassName | `string`                                 | `Action.md-table-toolbar` | 工具栏 CSS 类名                                                           |
+| columns          | `Array<Column>`                          |                           | 用来设置列信息                                                            |
+| combineNum       | `number`                                 |                           | 自动合并单元格                                                            |
+| itemActions      | Array<[Action](./action-button)>         |                           | 悬浮行操作按钮组                                                          |
+| itemCheckableOn  | [表达式](../../docs/concepts/expression) |                           | 配置当前行是否可勾选的条件，要用 [表达式](../../docs/concepts/expression) |
+| itemDraggableOn  | [表达式](../../docs/concepts/expression) |                           | 配置当前行是否可拖拽的条件，要用 [表达式](../../docs/concepts/expression) |
+| checkOnItemClick | `boolean`                                | `false`                   | 点击数据行是否可以勾选当前行                                              |
+| rowClassName     | `string`                                 |                           | 给行添加 CSS 类名                                                         |
+| rowClassNameExpr | [模板](../../docs/concepts/template)     |                           | 通过模板给行添加 CSS 类名                                                 |
+| prefixRow        | `Array`                                  |                           | 顶部总结行                                                                |
+| affixRow         | `Array`                                  |                           | 底部总结行                                                                |
+| itemBadge        | [`BadgeSchema`](./badge)                 |                           | 行角标配置                                                                |
+| autoFillHeight   | `boolean`                                |                           | 内容区域自适应高度                                                        |
+
+## 列配置属性表
+
+| 属性名     | 类型                                          | 默认值  | 说明             |
+| ---------- | --------------------------------------------- | ------- | ---------------- |
+| label      | [模板](../../docs/concepts/template)          |         | 表头文本内容     |
+| name       | `string`                                      |         | 通过名称关联数据 |
+| fixed      | `left` \| `right` \| `none`                   |         | 是否固定当前列   |
+| popOver    |                                               |         | 弹出框           |
+| quickEdit  |                                               |         | 快速编辑         |
+| copyable   | `boolean` 或 `{icon: string, content:string}` |         | 是否可复制       |
+| sortable   | `boolean`                                     | `false` | 是否可排序       |
+| searchable | `boolean` \| `Schema`                         | `false` | 是否可快速搜索   |
+| width      | `number` \| `string`                          | 列宽    |
+| remark     |                                               |         | 提示信息         |

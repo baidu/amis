@@ -17,7 +17,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 ```schema: scope="body"
 {
   "label": "弹框",
-  "type": "action",
+  "type": "button",
   "actionType": "dialog",
   "dialog": {
     "title": "弹框",
@@ -37,26 +37,26 @@ Action 行为按钮，是触发页面行为的主要方法之一
   "type": "button-toolbar",
   "buttons": [
     {
-      "type": "action",
+      "type": "button",
       "label": "默认尺寸"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "极小",
       "size": "xs"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "小",
       "size": "sm"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "中等",
       "size": "md"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "大",
       "size": "lg"
     }
@@ -73,46 +73,51 @@ Action 行为按钮，是触发页面行为的主要方法之一
   "type": "button-toolbar",
   "buttons": [
     {
-      "type": "action",
+      "type": "button",
       "label": "默认"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "主要",
       "level": "primary"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "次要",
       "level": "secondary"
     },
     {
-      "type": "action",
+      "type": "button",
+      "label": "信息",
+      "level": "info"
+    },
+    {
+      "type": "button",
       "label": "成功",
       "level": "success"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "警告",
       "level": "warning"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "危险",
       "level": "danger"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "浅色",
       "level": "light"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "深色",
       "level": "dark"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "链接",
       "level": "link"
     }
@@ -127,7 +132,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 ```schema: scope="body"
 {
   "label": "弹框",
-  "type": "action",
+  "type": "button",
   "actionType": "dialog",
   "icon": "fa fa-plus",
   "dialog": {
@@ -142,7 +147,7 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
   "label": "弹框",
-  "type": "action",
+  "type": "button",
   "actionType": "dialog",
   "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
   "dialog": {
@@ -157,7 +162,7 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
   "label": "",
-  "type": "action",
+  "type": "button",
   "actionType": "dialog",
   "icon": "fa fa-plus",
   "dialog": {
@@ -177,7 +182,7 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "actionType": "ajax",
     "confirmText": "确认要发出这个请求？",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
+    "api": "/api/mock2/form/saveForm"
 }
 ```
 
@@ -190,7 +195,7 @@ icon 也可以是 url 地址，比如
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
+    "api": "/api/mock2/form/saveForm"
 }
 ```
 
@@ -203,8 +208,8 @@ icon 也可以是 url 地址，比如
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "redirect": "./getting-started"
+    "api": "/api/mock2/form/saveForm",
+    "redirect": "../docs/start/getting-started"
 }
 ```
 
@@ -215,7 +220,7 @@ icon 也可以是 url 地址，比如
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "redirect": "https://www.baidu.com/"
 }
 ```
@@ -227,10 +232,10 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "label": "ajax 反馈弹框",
     "actionType": "ajax",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "feedback": {
         "title": "操作成功",
-        "body": "xxx 已操作成功"
+        "body": "${id} 已操作成功"
     }
 }
 ```
@@ -250,7 +255,7 @@ icon 也可以是 url 地址，比如
       "type": "button",
       "label": "ajax 请求",
       "actionType": "ajax",
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+      "api": "/api/mock2/form/saveForm",
       "reload": "crud"
     },
     {
@@ -259,7 +264,7 @@ icon 也可以是 url 地址，比如
     {
       "type": "crud",
       "name": "crud",
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+      "api": "/api/mock2/sample?waitSeconds=1",
       "columns": [
         {
             "name": "id",
@@ -302,7 +307,7 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "label": "ajax 请求",
     "actionType": "ajax",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mapping",
     "messages": {
         "success": "成功了！欧耶",
         "failed": "失败了呢。。"
@@ -310,26 +315,56 @@ icon 也可以是 url 地址，比如
 }
 ```
 
+需要注意如果 api 结果返回了 `msg` 字段，会优先使用 api 的返回。
+
 **属性表**
 
-| 属性名   | 类型                                                                                     | 默认值 | 说明                                                                                                                                      |
-| -------- | ---------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| api      | [Api](../../docs/types/api)                                                              | -      | 请求地址，参考 [api](../../docs/types/api) 格式说明。                                                                                     |
-| redirect | [模板字符串](../../docs/concepts/template#%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2) | -      | 指定当前请求结束后跳转的路径，可用 `${xxx}` 取值。                                                                                        |
-| feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog.md) |
-| messages | `object`                                                                                 | -      | `success`：ajax 操作成功后提示，可以不指定，不指定时以 api 返回为准。`failed`：ajax 操作失败提示。                                        |
+| 属性名   | 类型                                                                                     | 默认值 | 说明                                                                                                                                   |
+| -------- | ---------------------------------------------------------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| api      | [Api](../../docs/types/api)                                                              | -      | 请求地址，参考 [api](../../docs/types/api) 格式说明。                                                                                  |
+| redirect | [模板字符串](../../docs/concepts/template#%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2) | -      | 指定当前请求结束后跳转的路径，可用 `${xxx}` 取值。                                                                                     |
+| feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog) |
+| messages | `object`                                                                                 | -      | `success`：ajax 操作成功后提示，可以不指定，不指定时以 api 返回为准。`failed`：ajax 操作失败提示。                                     |
 
-### 倒计时
+## 下载请求
+
+> 1.4.0 及以上版本
+
+通过配置 `"actionType":"download"` 和 `api`，可以实现下载请求，它其实是 `ajax` 的一种特例，自动给 api 加上了 `"responseType": "blob"`。
+
+```schema: scope="body"
+{
+    "label": "下载",
+    "type": "action",
+    "actionType": "download",
+    "api": "/api/download"
+}
+```
+
+上面的例子由于环境原因没法测试，需要在返回的 header 中配置 `content-type` 和 `Content-Disposition`，比如
+
+```
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="download.pdf"
+```
+
+如果接口存在跨域，除了常见的 cors header 外，还需要添加以下 header
+
+```
+Access-Control-Expose-Headers:  Content-Disposition
+```
+
+## 倒计时
 
 主要用于发验证码的场景，通过设置倒计时 `countDown`（单位是秒），让点击按钮后禁用一段时间：
 
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
       "name": "phone",
-      "type": "text",
+      "type": "input-text",
       "required": true,
       "label": "手机号",
       "addOn": {
@@ -338,7 +373,7 @@ icon 也可以是 url 地址，比如
         "countDown": 60,
         "countDownTpl": "${timeLeft} 秒后重发",
         "actionType": "ajax",
-        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?phone=${phone}"
+        "api": "/api/mock2/form/saveForm?phone=${phone}"
       }
     }
   ]
@@ -408,7 +443,7 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/mail/mailInfo",
+  "initApi": "/api/mock2/mail/mailInfo",
   "body": {
     "label": "发送邮件",
     "type": "button",
@@ -444,10 +479,10 @@ icon 也可以是 url 地址，比如
     "title": "表单设置",
     "body": {
       "type": "form",
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-      "controls": [
+      "api": "/api/mock2/form/saveForm",
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text",
           "label": "文本"
         }
@@ -464,14 +499,14 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "name": "myForm",
-    "controls": [
+    "body": [
         {
           "type": "select",
           "name": "group",
           "label": "分组",
-          "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions"
+          "source": "/api/mock2/form/getOptions"
         },
         {
           "label": "新增分组",
@@ -483,10 +518,10 @@ icon 也可以是 url 地址，比如
             "title": "新增分组",
             "body": {
               "type": "form",
-              "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-              "controls": [
+              "api": "/api/mock2/form/saveForm",
+              "body": [
                 {
-                  "type": "text",
+                  "type": "input-text",
                   "name": "groupName",
                   "label": "分组名"
                 }
@@ -519,10 +554,10 @@ icon 也可以是 url 地址，比如
     "title": "表单设置",
     "body": {
       "type": "form",
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
-      "controls": [
+      "api": "/api/mock2/form/saveForm?waitSeconds=1",
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text",
           "label": "文本"
         }
@@ -550,6 +585,18 @@ icon 也可以是 url 地址，比如
 }
 ```
 
+可以通过 `copyFormat` 设置复制的格式，默认是文本
+
+```schema: scope="body"
+{
+    "label": "复制一段富文本",
+    "type": "button",
+    "actionType": "copy",
+    "copyFormat": "text/html",
+    "content": "<a href='http://www.baidu.com'>link</a> <b>bold</b>"
+}
+```
+
 **属性表**
 
 | 属性名     | 类型                                 | 默认值 | 说明                                 |
@@ -570,7 +617,7 @@ icon 也可以是 url 地址，比如
 
 ### 表单中表格添加一行
 
-该 actionType 为[FormItem-Table](./form/table)专用行为
+该 actionType 为[FormItem-Table](./form/input-table)专用行为
 
 ### 重置表单
 
@@ -579,16 +626,16 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "api": "/api/mock2/form/saveForm",
+    "body": [
         {
-            "type": "text",
+            "type": "input-text",
             "name": "username",
             "placeholder": "请输入用户名",
             "label": "用户名"
         },
         {
-            "type": "password",
+            "type": "input-password",
             "name": "password",
             "label": "密码",
             "placeholder": "请输入密码"
@@ -620,17 +667,17 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "api": "/api/mock2/form/saveForm",
+    "body": [
         {
-            "type": "text",
+            "type": "input-text",
             "name": "username",
             "placeholder": "请输入用户名",
             "label": "用户名",
             "value": "rick"
         },
         {
-            "type": "password",
+            "type": "input-password",
             "name": "password",
             "label": "密码",
             "placeholder": "请输入密码"
@@ -668,27 +715,232 @@ icon 也可以是 url 地址，比如
 
 `actionType` 配置成 `"clear-and-submit"`
 
+## 自定义点击事件
+
+> 1.3.0 版本新增功能
+
+如果上面的的行为不满足需求，还可以通过字符串形式的 `onClick` 来定义点击事件，这个字符串会转成 JavaScript 函数，并支持异步（如果是用 sdk 需要自己编译一个 es2017 版本）。
+
+```schema: scope="body"
+{
+    "label": "点击",
+    "type": "button",
+    "onClick": "alert('点击了按钮'); console.log(props);"
+}
+```
+
+amis 会传入两个参数 `event` 和 `props`，`event` 就是 React 的事件，而 `props` 可以拿到这个组件的其他属性，同时还能调用 amis 中的内部方法。
+
+```schema: scope="body"
+{
+    "label": "点击",
+    "type": "button",
+    "onClick": "props.onAction(event, {actionType:'dialog', dialog: {title: '弹框', body: '这是代码调用的弹框'}})"
+}
+```
+
+我们将前面的代码拿出来方便分析：
+
+```javascript
+// event 和 props 前面提到过，而 onAction 就是 amis 内部的方法，可以用来调用其他 action，需要传递两个参数，一个是 event，另一个就是 action 类型及所需的参数。
+props.onAction(event, {
+  actionType: 'dialog',
+  dialog: {title: '弹框', body: '这是代码调用的弹框'}
+});
+```
+
+这个函数如果返回 `false` 就会阻止 amis 其他 action 的执行，比如这个例子
+
+```schema: scope="body"
+{
+  "label": "弹框",
+  "type": "button",
+  "actionType": "dialog",
+  "onClick": "alert('点击按钮');",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+}
+```
+
+它的行为是先执行 alert，再执行弹框，但如果我们加上一个 `return false`，就会发现后面的 amis 弹框不执行了。
+
+```schema: scope="body"
+{
+  "label": "弹框",
+  "type": "button",
+  "actionType": "dialog",
+  "onClick": "alert('点击按钮'); return false;",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+}
+```
+
+如果是在表单项中，还能通过 `props.formStore.setValues();` 来修改其它表单项值
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-text",
+      "name": "name",
+      "label": "姓名："
+    },
+    {
+      "type": "input-text",
+      "name": "email",
+      "label": "邮箱："
+    },
+    {
+      "label": "修改姓名",
+      "name": "name",
+      "type": "button",
+      "onClick": "props.formStore.setValues({name: 'amis', email: 'amis@baidu.com'});"
+    }
+  ]
+}
+```
+
+## 全局键盘快捷键触发
+
+> 1.3.0 版本新增功能
+
+可以通过 `hotKey` 属性来配置键盘快捷键触发，比如下面的例子
+
+```schema: scope="body"
+{
+  "label": "使用 ⌘+o 或 ctrl+o 来弹框",
+  "type": "button",
+  "hotKey": "command+o,ctrl+o",
+  "actionType": "dialog",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+}
+```
+
+除了 ctrl 和 command 还支持 shift、alt。
+
+其它键盘特殊按键的命名列表：backspace, tab, clear, enter, return, esc, escape, space, up, down, left, right, home, end, pageup, pagedown, del, delete, f1 - f19, num_0 - num_9, num_multiply, num_add, num_enter, num_subtract, num_decimal, num_divide。
+
+> 注意这个主要用于实现页面级别快捷键，如果要实现回车提交功能，请将 `input-text` 放在 `form` 里，而不是给 button 配一个 `enter` 的快捷键。
+
+## Action 作为容器组件
+
+> 1.5.0 及以上版本
+
+action 还可以使用 `body` 来渲染其他组件，让那些不支持行为的组件支持点击事件，比如下面的例子
+
+```schema: scope="body"
+[{
+  "type": "action",
+  "body": [{
+    "type": "color",
+    "value": "#108cee"
+  }],
+  "actionType": "dialog",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+},{
+  "type": "action",
+  "body": {
+    "type": "image",
+    "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+  },
+  "tooltip": "点击会有弹框",
+  "actionType": "dialog",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+}]
+```
+
+在这种模式下不支持按钮的各种配置项，比如 `label`、`size`、`icon` 等，因为它只作为容器组件，没有展现。
+
+## 按钮提示
+
+通过 `tooltip` 来设置提示
+
+```schema: scope="body"
+{
+  "label": "弹框",
+  "type": "button",
+  "actionType": "link",
+  "link": "../index",
+  "tooltip": "点击链接跳转"
+}
+```
+
+如果按钮是 disabled，需要使用 `disabledTip`
+
+```schema: scope="body"
+{
+  "label": "弹框",
+  "type": "button",
+  "actionType": "link",
+  "disabled": true,
+  "link": "../index",
+  "disabledTip": "禁用了"
+}
+```
+
+还可以通过 `tooltipPlacement` 设置弹出位置
+
+```schema: scope="body"
+{
+  "label": "弹框",
+  "type": "button",
+  "actionType": "link",
+  "link": "../index",
+  "tooltipPlacement": "right",
+  "tooltip": "点击链接跳转"
+}
+```
+
 ## 通用属性表
 
 所有`actionType`都支持的通用配置项
 
-| 属性名           | 类型                                 | 默认值      | 说明                                                                                                                                                                        |
-| ---------------- | ------------------------------------ | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type             | `string`                             | `action`    | 指定为 Page 渲染器。                                                                                                                                                        |
-| actionType       | `string`                             | -           | 【必填】这是 action 最核心的配置，来指定该 action 的作用类型，支持：`ajax`、`link`、`url`、`drawer`、`dialog`、`confirm`、`cancel`、`prev`、`next`、`copy`、`close`。       |
-| label            | `string`                             | -           | 按钮文本。可用 `${xxx}` 取值。                                                                                                                                              |
-| level            | `string`                             | `default`   | 按钮样式，支持：`link`、`primary`、`secondary`、`info`、`success`、`warning`、`danger`、`light`、`dark`、`default`。                                                        |
-| size             | `string`                             | -           | 按钮大小，支持：`xs`、`sm`、`md`、`lg`。                                                                                                                                    |
-| icon             | `string`                             | -           | 设置图标，例如`fa fa-plus`。                                                                                                                                                |
-| iconClassName    | `string`                             | -           | 给图标上添加类名。                                                                                                                                                          |
-| active           | `boolean`                            | -           | 按钮是否高亮。                                                                                                                                                              |
-| activeLevel      | `string`                             | -           | 按钮高亮时的样式，配置支持同`level`。                                                                                                                                       |
-| activeClassName  | `string`                             | `is-active` | 给按钮高亮添加类名。                                                                                                                                                        |
-| block            | `boolean`                            | -           | 用`display:"block"`来显示按钮。                                                                                                                                             |
-| confirmText      | [模板](../../docs/concepts/template) | -           | 当设置后，操作在开始前会询问用户。可用 `${xxx}` 取值。                                                                                                                      |
-| reload           | `string`                             | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。                                                                               |
-| tooltip          | `string`                             | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                                  |
-| disabledTip      | `string`                             | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |
-| tooltipPlacement | `string`                             | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                            |
-| close            | `boolean` or `string`                | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。 |
-| required         | `Array<string>`                      | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |
+| 属性名             | 类型                                 | 默认值      | 说明                                                                                                                                                                        |
+| ------------------ | ------------------------------------ | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type               | `string`                             | `action`    | 指定为 Page 渲染器。                                                                                                                                                        |
+| actionType         | `string`                             | -           | 【必填】这是 action 最核心的配置，来指定该 action 的作用类型，支持：`ajax`、`link`、`url`、`drawer`、`dialog`、`confirm`、`cancel`、`prev`、`next`、`copy`、`close`。       |
+| label              | `string`                             | -           | 按钮文本。可用 `${xxx}` 取值。                                                                                                                                              |
+| level              | `string`                             | `default`   | 按钮样式，支持：`link`、`primary`、`secondary`、`info`、`success`、`warning`、`danger`、`light`、`dark`、`default`。                                                        |
+| size               | `string`                             | -           | 按钮大小，支持：`xs`、`sm`、`md`、`lg`。                                                                                                                                    |
+| icon               | `string`                             | -           | 设置图标，例如`fa fa-plus`。                                                                                                                                                |
+| iconClassName      | `string`                             | -           | 给图标上添加类名。                                                                                                                                                          |
+| rightIcon          | `string`                             | -           | 在按钮文本右侧设置图标，例如`fa fa-plus`。                                                                                                                                  |
+| rightIconClassName | `string`                             | -           | 给右侧图标上添加类名。                                                                                                                                                      |
+| active             | `boolean`                            | -           | 按钮是否高亮。                                                                                                                                                              |
+| activeLevel        | `string`                             | -           | 按钮高亮时的样式，配置支持同`level`。                                                                                                                                       |
+| activeClassName    | `string`                             | `is-active` | 给按钮高亮添加类名。                                                                                                                                                        |
+| block              | `boolean`                            | -           | 用`display:"block"`来显示按钮。                                                                                                                                             |
+| confirmText        | [模板](../../docs/concepts/template) | -           | 当设置后，操作在开始前会询问用户。可用 `${xxx}` 取值。                                                                                                                      |
+| reload             | `string`                             | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。                                                                               |
+| tooltip            | `string`                             | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                                  |
+| disabledTip        | `string`                             | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |
+| tooltipPlacement   | `string`                             | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                            |
+| close              | `boolean` or `string`                | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。 |
+| required           | `Array<string>`                      | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |
+
+## 事件表
+
+| 事件名称   | 事件参数                                      | 说明     |
+| ---------- | --------------------------------------------- | -------- |
+| click      | [动作](../../docs/concepts/event-action#动作) | 点击     |
+| mouseenter | -                                             | 鼠标移入 |
+| mouseleave | -                                             | 鼠标移出 |
+
+## 动作表
+
+暂无

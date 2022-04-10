@@ -3,17 +3,17 @@
 exports[`Renderer:icon-picker 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,22 +22,26 @@ exports[`Renderer:icon-picker 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   icon-picker
@@ -46,20 +50,20 @@ exports[`Renderer:icon-picker 1`] = `
             </span>
           </label>
           <div
-            class="a-Form-control a-IconPickerControl"
+            class="cxd-Form-control cxd-IconPickerControl"
           >
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="downshift-0-label"
-              class="a-IconPickerControl-input a-IconPickerControl-input--withAC"
+              class="cxd-IconPickerControl-input cxd-IconPickerControl-input--withAC"
               role="combobox"
             >
               <div
-                class="a-IconPickerControl-valueWrap"
+                class="cxd-IconPickerControl-valueWrap"
               >
                 <div
-                  class="a-IconPickerControl-value"
+                  class="cxd-IconPickerControl-value"
                 >
                   <i
                     class="glyphicon glyphicon-plus"
@@ -79,10 +83,6 @@ exports[`Renderer:icon-picker 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

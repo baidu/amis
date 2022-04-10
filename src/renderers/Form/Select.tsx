@@ -6,14 +6,17 @@ import {
   Option,
   FormOptionsControl
 } from './Options';
-import Select from '../../components/Select';
+import Select, {normalizeOptions} from '../../components/Select';
 import find from 'lodash/find';
 import debouce from 'lodash/debounce';
-import {Api} from '../../types';
-import {isEffectiveApi} from '../../utils/api';
-import {isEmpty, createObject, autobind} from '../../utils/helper';
+import {Api, Action} from '../../types';
+import {isEffectiveApi, isApiOutdated} from '../../utils/api';
+import {isEmpty, createObject, autobind, isMobile} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaApi} from '../../Schema';
+import Spinner from '../../components/Spinner';
+import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
+import TransferDropDown from '../../components/TransferDropDown';
 
 /**
  * Select 下拉选择框。
@@ -29,22 +32,75 @@ export interface SelectControlSchema extends FormOptionsControl {
   autoComplete?: SchemaApi;
 
   /**
-   * 是否可以搜索值
+   * 可以自定义菜单展示。
+   */
+  menuTpl?: string;
+
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
+
+  /**
+   * 勾选展示模式
+   */
+  selectMode?: 'table' | 'group' | 'tree' | 'chained' | 'associated';
+
+  /**
+   * 当 selectMode 为 associated 时用来定义左侧的选项
+   */
+  leftOptions?: Array<Option>;
+
+  /**
+   * 当 selectMode 为 associated 时用来定义左侧的选择模式
+   */
+  leftMode?: 'tree' | 'list';
+
+  /**
+   * 当 selectMode 为 associated 时用来定义右侧的选择模式
+   */
+  rightMode?: 'table' | 'list' | 'tree' | 'chained';
+
+  /**
+   * 搜索结果展示模式
+   */
+  searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
+
+  /**
+   * 当 selectMode 为 table 时定义表格列信息。
+   */
+  columns?: Array<any>;
+
+  /**
+   * 当 searchResultMode 为 table 时定义表格列信息。
+   */
+  searchResultColumns?: Array<any>;
+
+  /**
+   * 可搜索？
    */
   searchable?: boolean;
 
   /**
-   * 可以自定义菜单展示。
+   * 搜索 API
    */
-  menuTpl?: string;
+  searchApi?: SchemaApi;
 }
 
 export interface SelectProps extends OptionsControlProps {
   autoComplete?: Api;
   searchable?: boolean;
   defaultOpen?: boolean;
+  useMobileUI?: boolean;
 }
 
+export type SelectRendererEvent =
+  | 'change'
+  | 'blur'
+  | 'focus'
+  | 'add'
+  | 'edit'
+  | 'delete';
 export default class SelectControl extends React.Component<SelectProps, any> {
   static defaultProps: Partial<SelectProps> = {
     clearable: false,
@@ -55,6 +111,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   input: any;
   unHook: Function;
   lazyloadRemote: Function;
+  lastTerm: string = ''; // 用来记录上一次搜索时关键字
   constructor(props: SelectProps) {
     super(props);
 
@@ -64,6 +121,22 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       leading: false
     });
     this.inputRef = this.inputRef.bind(this);
+  }
+
+  componentDidUpdate(prevProps: SelectProps) {
+    const props = this.props;
+
+    if (
+      isEffectiveApi(props.autoComplete, props.data) &&
+      isApiOutdated(
+        prevProps.autoComplete,
+        props.autoComplete,
+        prevProps.data,
+        props.data
+      )
+    ) {
+      this.lazyloadRemote(this.lastTerm);
+    }
   }
 
   componentWillUnmount() {
@@ -78,7 +151,24 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input && this.input.focus();
   }
 
-  changeValue(value: Option | Array<Option> | void) {
+  async dispatchEvent(eventName: SelectRendererEvent, eventData: any = {}) {
+    const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
+    const {dispatchEvent, options, data} = this.props;
+    // 触发渲染器事件
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      createObject(data, {
+        options,
+        ...eventData
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    this.props[event](eventData);
+  }
+
+  async changeValue(value: Option | Array<Option> | string | void) {
     const {
       joinValues,
       extractValue,
@@ -88,7 +178,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       valueField,
       onChange,
       setOptions,
-      options
+      options,
+      data,
+      dispatchEvent
     } = this.props;
 
     let newValue: string | Option | Array<Option> | void = value;
@@ -123,7 +215,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           ? value.map(item => item[valueField || 'value'])
           : value
           ? [(value as Option)[valueField || 'value']]
-          : [''];
+          : [];
       } else {
         newValue = newValue ? (newValue as Option)[valueField || 'value'] : '';
       }
@@ -132,10 +224,21 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value: newValue,
+        options
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     onChange(newValue);
   }
 
-  loadRemote(input: string) {
+  async loadRemote(input: string) {
     const {
       autoComplete,
       env,
@@ -155,6 +258,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       return (this.unHook = addHook(this.loadRemote.bind(this, input), 'init'));
     }
 
+    this.lastTerm = input;
     const ctx = createObject(data, {
       term: input,
       value: input
@@ -167,23 +271,28 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     }
 
     setLoading(true);
-    return env
-      .fetcher(autoComplete, ctx)
-      .then(ret => {
-        let options = (ret.data && (ret.data as any).options) || ret.data || [];
-        let combinedOptions = this.mergeOptions(options);
-        setOptions(combinedOptions);
+    try {
+      const ret = await env.fetcher(autoComplete, ctx);
 
-        return {
-          options: combinedOptions
-        };
-      })
-      .finally(() => setLoading(false));
+      let options = (ret.data && (ret.data as any).options) || ret.data || [];
+      let combinedOptions = this.mergeOptions(options);
+      setOptions(combinedOptions);
+
+      return {
+        options: combinedOptions
+      };
+    } finally {
+      setLoading(false);
+    }
   }
 
   mergeOptions(options: Array<object>) {
-    const {selectedOptions} = this.props;
-    let combinedOptions = options.concat();
+    const {selectedOptions, valueField = 'value'} = this.props;
+    let combinedOptions = normalizeOptions(
+      options,
+      undefined,
+      valueField
+    ).concat();
 
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {
@@ -214,6 +323,27 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     reload && reload();
   }
 
+  option2value() {}
+
+  renderOtherMode() {
+    const {selectMode, ...rest} = this.props;
+    return (
+      <TransferDropdownRenderer
+        {...rest}
+        selectMode={selectMode === 'group' ? 'list' : selectMode}
+      />
+    );
+  }
+
+  doAction(action: Action, data: object, throwErrors: boolean): any {
+    const {resetValue} = this.props;
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      this.changeValue(resetValue ?? '');
+    }
+  }
+
   render() {
     let {
       autoComplete,
@@ -234,33 +364,147 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       noResultsText,
       render,
       menuTpl,
+      borderMode,
+      selectMode,
+      env,
+      useMobileUI,
       ...rest
     } = this.props;
 
-    if (noResultsText && /<\w+/.test(noResultsText)) {
+    if (noResultsText) {
       noResultsText = render('noResultText', noResultsText);
     }
 
+    const mobileUI = useMobileUI && isMobile();
+
     return (
       <div className={cx(`${classPrefix}SelectControl`, className)}>
-        <Select
-          {...rest}
-          placeholder={placeholder}
-          multiple={multiple || multi}
-          ref={this.inputRef}
-          value={selectedOptions}
-          options={options}
-          loadOptions={
-            isEffectiveApi(autoComplete) ? this.lazyloadRemote : undefined
-          }
-          creatable={creatable}
-          searchable={searchable || !!autoComplete}
-          onChange={this.changeValue}
-          loading={loading}
-          noResultsText={noResultsText}
-          renderMenu={menuTpl ? this.renderMenu : undefined}
-        />
+        {['table', 'list', 'group', 'tree', 'chained', 'associated'].includes(
+          selectMode
+        ) ? (
+          this.renderOtherMode()
+        ) : (
+          <Select
+            {...rest}
+            useMobileUI={useMobileUI}
+            popOverContainer={
+              mobileUI && env && env.getModalContainer
+                ? env.getModalContainer
+                : mobileUI
+                ? undefined
+                : rest.popOverContainer
+            }
+            borderMode={borderMode}
+            placeholder={placeholder}
+            multiple={multiple || multi}
+            ref={this.inputRef}
+            value={selectedOptions}
+            options={options}
+            loadOptions={
+              isEffectiveApi(autoComplete) ? this.lazyloadRemote : undefined
+            }
+            creatable={creatable}
+            searchable={searchable || !!autoComplete}
+            onChange={this.changeValue}
+            onBlur={(e: any) => this.dispatchEvent('blur', e)}
+            onFocus={(e: any) => this.dispatchEvent('focus', e)}
+            onAdd={() => this.dispatchEvent('add')}
+            onEdit={(item: any) => this.dispatchEvent('edit', {value: item})}
+            onDelete={(item: any) =>
+              this.dispatchEvent('delete', {value: item})
+            }
+            loading={loading}
+            noResultsText={noResultsText}
+            renderMenu={menuTpl ? this.renderMenu : undefined}
+          />
+        )}
       </div>
+    );
+  }
+}
+
+export interface TransferDropDownProps
+  extends OptionsControlProps,
+    Omit<
+      TransferControlSchema,
+      | 'type'
+      | 'options'
+      | 'inputClassName'
+      | 'className'
+      | 'descriptionClassName'
+    > {
+  borderMode?: 'full' | 'half' | 'none';
+  useMobileUI?: boolean;
+}
+
+class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProps> {
+  render() {
+    const {
+      className,
+      classnames: cx,
+      selectedOptions,
+      sortable,
+      loading,
+      searchable,
+      searchResultMode,
+      showArrow,
+      deferLoad,
+      disabled,
+      clearable,
+      selectTitle,
+      selectMode,
+      multiple,
+      columns,
+      leftMode,
+      borderMode,
+      useMobileUI,
+      popOverContainer
+    } = this.props;
+
+    // 目前 LeftOptions 没有接口可以动态加载
+    // 为了方便可以快速实现动态化，让选项的第一个成员携带
+    // LeftOptions 信息
+    let {options, leftOptions, leftDefaultValue} = this.props;
+    if (
+      selectMode === 'associated' &&
+      options &&
+      options.length === 1 &&
+      options[0].leftOptions &&
+      Array.isArray(options[0].children)
+    ) {
+      leftOptions = options[0].leftOptions;
+      leftDefaultValue = options[0].leftDefaultValue ?? leftDefaultValue;
+      options = options[0].children;
+    }
+
+    return (
+      <>
+        <TransferDropDown
+          selectMode={selectMode}
+          className={className}
+          value={selectedOptions}
+          disabled={disabled}
+          clearable={clearable}
+          options={options}
+          onChange={this.handleChange}
+          option2value={this.option2value}
+          sortable={sortable}
+          searchResultMode={searchResultMode}
+          onSearch={searchable ? this.handleSearch : undefined}
+          showArrow={showArrow}
+          onDeferLoad={deferLoad}
+          selectTitle={selectTitle}
+          multiple={multiple}
+          columns={columns}
+          leftMode={leftMode}
+          leftOptions={leftOptions}
+          borderMode={borderMode}
+          useMobileUI={useMobileUI}
+          popOverContainer={popOverContainer}
+        />
+
+        <Spinner overlay key="info" show={loading} />
+      </>
     );
   }
 }

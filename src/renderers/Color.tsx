@@ -4,6 +4,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema} from '../Schema';
+import {getPropValue} from '../utils/helper';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 /**
@@ -39,17 +40,8 @@ export class ColorField extends React.Component<ColorProps, object> {
   };
 
   render() {
-    const {
-      className,
-      data,
-      classnames: cx,
-      name,
-      value,
-      defaultColor,
-      showValue
-    } = this.props;
-    const color =
-      value || (name ? resolveVariableAndFilter(name, data, '| raw') : null);
+    const {className, classnames: cx, defaultColor, showValue} = this.props;
+    const color = getPropValue(this.props);
 
     return (
       <div className={cx('ColorField', className)}>
@@ -66,7 +58,6 @@ export class ColorField extends React.Component<ColorProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)color$/,
-  name: 'color'
+  type: 'color'
 })
 export class ColorFieldRenderer extends ColorField {}

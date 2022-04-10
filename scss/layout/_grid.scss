@@ -1,101 +1,13 @@
-// .#{$ns}form-grid {
-//     >div>.form-group {
-//         margin-left: 0;
-//         margin-right: 0;
-//     }
-// }
-
-// Grid
-// @mixin container-fixed($gutter: $Grid-gutterWidth) {
-//     margin-right: auto;
-//     margin-left: auto;
-//     padding-left: floor(($gutter / 2));
-//     padding-right: ceil(($gutter / 2));
-//     @include clearfix;
-// }
-
-// Framework Grid
-// @mixin make-grid-columns($i: 1, $list: ".#{$ns}Grid-col--xs#{$i}, .#{$ns}Grid-col--sm#{$i}, .#{$ns}Grid-col--md#{$i}, .#{$ns}Grid-col--lg#{$i}") {
-//     @for $i from (1 + 1) through $Grid-columns {
-//         $list: "#{$list}, .#{$ns}Grid-col--xs#{$i}, .#{$ns}Grid-col--sm#{$i}, .#{$ns}Grid-col--md#{$i}, .#{$ns}Grid-col--lg#{$i}";
-//     }
-
-//     #{$list} {
-//         position: relative;
-//         min-height: 1px;
-//         padding-left: ceil(($Grid-gutterWidth / 2));
-//         padding-right: floor(($Grid-gutterWidth / 2));
-//     }
-// }
-
-// @mixin float-grid-columns($class, $i: 1, $list: ".#{$ns}Grid-col--#{$class}#{$i}") {
-//     @for $i from (1 + 1) through $Grid-columns {
-//         $list: "#{$list}, .#{$ns}Grid-col--#{$class}#{$i}";
-//     }
-
-//     #{$list} {
-//         float: left;
-//     }
-// }
-
-// @mixin calc-grid-column($index, $class, $type) {
-//     @if ($type==width) and ($index > 0) {
-//         .#{$ns}Grid-col--#{$class}#{$index} {
-//             width: percentage(($index / $Grid-columns));
-//         }
-//     }
-
-//     @if ($type==push) and ($index > 0) {
-//         .#{$ns}Grid-col--#{$class}Push#{$index} {
-//             left: percentage(($index / $Grid-columns));
-//         }
-//     }
-
-//     @if ($type==push) and ($index==0) {
-//         .#{$ns}Grid-col--#{$class}Push0 {
-//             left: auto;
-//         }
-//     }
-
-//     @if ($type==pull) and ($index > 0) {
-//         .#{$ns}Grid-col--#{$class}Pull#{$index} {
-//             right: percentage(($index / $Grid-columns));
-//         }
-//     }
-
-//     @if ($type==pull) and ($index==0) {
-//         .#{$ns}Grid-col--#{$class}Pull0 {
-//             right: auto;
-//         }
-//     }
-
-//     @if ($type==offset) {
-//         .#{$ns}Grid-col--#{$class}Offset#{$index} {
-//             margin-left: percentage(($index / $Grid-columns));
-//         }
-//     }
-// }
-
-// @mixin loop-grid-columns($columns, $class, $type) {
-//     @for $i from 0 through $columns {
-//         @include calc-grid-column($i, $class, $type);
-//     }
-// }
+@use 'sass:math';
 
 @mixin make-grid($class) {
-  // @include float-grid-columns($class);
-  // @include loop-grid-columns($Grid-columns, $class, width);
-  // @include loop-grid-columns($Grid-columns, $class, pull);
-  // @include loop-grid-columns($Grid-columns, $class, push);
-  // @include loop-grid-columns($Grid-columns, $class, offset);
-
   @for $i from 1 through $Grid-columns {
     .#{$ns}Grid-col--#{$class}#{$i} {
-      flex: 0 0 percentage($i / $Grid-columns);
-      max-width: percentage($i / $Grid-columns);
+      flex: 0 0 percentage(math.div($i, $Grid-columns));
+      max-width: percentage(math.div($i, $Grid-columns));
       min-height: 1px;
-      padding-left: ($Grid-gutterWidth / 2);
-      padding-right: ($Grid-gutterWidth / 2);
+      padding-left: (math.div($Grid-gutterWidth, 2));
+      padding-right: (math.div($Grid-gutterWidth, 2));
     }
   }
 
@@ -104,47 +16,87 @@
     flex-grow: 1;
     min-height: 1px;
     max-width: 100%;
-    width: 0; // 很重要，没有的话会被撑开。
-    padding-left: ($Grid-gutterWidth / 2);
-    padding-right: ($Grid-gutterWidth / 2);
+    width: 100%;
+    padding-left: math.div($Grid-gutterWidth, 2);
+    padding-right: math.div($Grid-gutterWidth, 2);
+  }
+
+  .#{$ns}Grid-col--#{$class}Auto {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%;
+    padding-left: math.div($Grid-gutterWidth, 2);
+    padding-right: math.div($Grid-gutterWidth, 2);
   }
 }
 
 // Generate Grid row
 @mixin make-row($gutter: $Grid-gutterWidth) {
-  margin-left: ($gutter / -2);
-  margin-right: ($gutter / -2);
+  margin-left: math.div($gutter, -2);
+  margin-right: math.div($gutter, -2);
   display: flex;
   flex-wrap: wrap;
 }
-
-// .#{$ns}Grid-container {
-//     @include container-fixed;
-
-//     @include media-breakpoint-up(sm) {
-//         width: $container-sm;
-//     }
-
-//     @include media-breakpoint-up(md) {
-//         width: $container-md;
-//     }
-
-//     @include media-breakpoint-up(lg) {
-//         width: $container-lg;
-//     }
-// }
-
-// .#{$ns}Grid-container-fluid {
-//     @include container-fixed;
-// }
-
-// @include make-grid-columns;
 
 @include make-grid(xs);
 
 @include media-breakpoint-up(sm) {
   .#{$ns}Grid {
     @include make-row;
+    flex: 1;
+
+    &--hRight {
+      justify-content: flex-end;
+    }
+
+    &--hCenter {
+      justify-content: center;
+    }
+    &--hBetween {
+      justify-content: space-between;
+    }
+
+    &--vMiddle > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &--vBottom > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    &--vBetween > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    & > &-col--vTop {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    & > &-col--vMiddle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    & > &-col--vBottom {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    & > &-col--vBetween {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
   }
 
   @include make-grid(sm);
@@ -156,4 +108,64 @@
 
 @include media-breakpoint-up(lg) {
   @include make-grid(lg);
+}
+
+.#{$ns}Grid--none {
+  margin-left: 0;
+  margin-right: 0;
+
+  > div {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.#{$ns}Grid--xs {
+  margin-left: calc(var(--gap-xs) * -0.5);
+  margin-right: calc(var(--gap-xs) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-xs) * 0.5);
+    padding-right: calc(var(--gap-xs) * 0.5);
+  }
+}
+
+.#{$ns}Grid--sm {
+  margin-left: calc(var(--gap-sm) * -0.5);
+  margin-right: calc(var(--gap-sm) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-sm) * 0.5);
+    padding-right: calc(var(--gap-sm) * 0.5);
+  }
+}
+
+.#{$ns}Grid--base {
+  margin-left: calc(var(--gap-base) * -0.5);
+  margin-right: calc(var(--gap-base) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-base) * 0.5);
+    padding-right: calc(var(--gap-base) * 0.5);
+  }
+}
+
+.#{$ns}Grid--md {
+  margin-left: calc(var(--gap-md) * -0.5);
+  margin-right: calc(var(--gap-md) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-md) * 0.5);
+    padding-right: calc(var(--gap-md) * 0.5);
+  }
+}
+
+.#{$ns}Grid--lg {
+  margin-left: calc(var(--gap-lg) * -0.5);
+  margin-right: calc(var(--gap-lg) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-lg) * 0.5);
+    padding-right: calc(var(--gap-lg) * 0.5);
+  }
 }

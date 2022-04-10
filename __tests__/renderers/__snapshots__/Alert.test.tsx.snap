@@ -3,27 +3,83 @@
 exports[`Renderer:alert 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <div
-            class="a-Alert a-Alert--success"
+            class="cxd-Alert cxd-Alert--success"
           >
-            <span
-              class="a-TplField"
+            <div
+              class="cxd-Alert-content"
             >
-              <span>
-                提示内容
-              </span>
-            </span>
+              <div
+                class="cxd-Alert-desc"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    提示内容
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:alert var 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Alert cxd-Alert--success"
+          >
+            <div
+              class="cxd-Alert-icon"
+            >
+              <icon-mock
+                classname="icon icon-copy"
+                icon="copy"
+              />
+            </div>
+            <div
+              class="cxd-Alert-content"
+            >
+              <div
+                class="cxd-Alert-desc"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    tpl
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

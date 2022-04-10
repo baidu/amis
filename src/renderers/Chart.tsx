@@ -12,7 +12,11 @@ import {
   isPureVariable,
   dataMapping
 } from '../utils/tpl-builtin';
-import {isApiOutdated, isEffectiveApi} from '../utils/api';
+import {
+  isApiOutdated,
+  isEffectiveApi,
+  normalizeApiResponseData
+} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {createObject, findObjectsWithKey} from '../utils/helper';
 import Spinner from '../components/Spinner';
@@ -26,6 +30,7 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
+import debounce from 'lodash/debounce';
 
 /**
  * Chart 图表渲染器。
@@ -148,7 +153,7 @@ export interface ChartProps
   extends RendererProps,
     Omit<ChartSchema, 'type' | 'className'> {
   chartRef?: (echart: any) => void;
-  onDataFilter?: (config: any, echarts: any) => any;
+  onDataFilter?: (config: any, echarts: any, data?: any) => any;
   onChartWillMount?: (echarts: any) => void | Promise<void>;
   onChartMount?: (chart: any, echarts: any) => void;
   onChartUnMount?: (chart: any, echarts: any) => void;
@@ -176,13 +181,15 @@ export class Chart extends React.Component<ChartProps> {
 
     this.refFn = this.refFn.bind(this);
     this.reload = this.reload.bind(this);
+    this.reloadEcharts = debounce(this.reloadEcharts.bind(this), 300); //过于频繁更新 ECharts 会报错
     this.handleClick = this.handleClick.bind(this);
+    this.mounted = true;
+
+    props.config && this.renderChart(props.config);
   }
 
-  componentWillMount() {
-    const {config, api, data, initFetch, source} = this.props;
-
-    this.mounted = true;
+  componentDidMount() {
+    const {api, data, initFetch, source} = this.props;
 
     if (source && isPureVariable(source)) {
       const ret = resolveVariableAndFilter(source, data, '| raw');
@@ -190,8 +197,6 @@ export class Chart extends React.Component<ChartProps> {
     } else if (api && initFetch !== false) {
       this.reload();
     }
-
-    config && this.renderChart(config);
   }
 
   componentDidUpdate(prevProps: ChartProps) {
@@ -222,6 +227,7 @@ export class Chart extends React.Component<ChartProps> {
 
   componentWillUnmount() {
     this.mounted = false;
+    (this.reloadEcharts as any).cancel();
     clearTimeout(this.timer);
   }
 
@@ -242,7 +248,9 @@ export class Chart extends React.Component<ChartProps> {
       Promise.all([
         import('echarts'),
         import('echarts-stat'),
+        // @ts-ignore 官方没提供 type
         import('echarts/extension/dataTool'),
+        // @ts-ignore 官方没提供 type
         import('echarts/extension/bmap/bmap')
       ]).then(async ([echarts, ecStat]) => {
         (window as any).echarts = echarts;
@@ -270,7 +278,7 @@ export class Chart extends React.Component<ChartProps> {
           await env.loadChartExtends();
         }
 
-        this.echarts = echarts.init(ref, theme);
+        this.echarts = (echarts as any).init(ref, theme);
 
         if (typeof onChartMount === 'string') {
           onChartMount = new Function('chart', 'echarts') as any;
@@ -305,7 +313,7 @@ export class Chart extends React.Component<ChartProps> {
   }
 
   reload(subpath?: string, query?: any) {
-    const {api, env, store, interval} = this.props;
+    const {api, env, store, interval, translate: __} = this.props;
 
     if (query) {
       return this.receive(query);
@@ -332,7 +340,7 @@ export class Chart extends React.Component<ChartProps> {
         if (!result.ok) {
           return env.notify(
             'error',
-            result.msg || '加载失败，请重试！',
+            result.msg || __('fetchFailed'),
             result.msgTimeout !== undefined
               ? {
                   closeButton: true,
@@ -343,7 +351,7 @@ export class Chart extends React.Component<ChartProps> {
         }
         delete this.reloadCancel;
 
-        const data = result.data || {};
+        const data = normalizeApiResponseData(result.data);
         // 说明返回的是数据接口。
         if (!data.series && this.props.config) {
           const ctx = createObject(this.props.data, data);
@@ -389,7 +397,12 @@ export class Chart extends React.Component<ChartProps> {
     const dataFilter = this.props.dataFilter;
 
     if (!onDataFilter && typeof dataFilter === 'string') {
-      onDataFilter = new Function('config', 'echarts', dataFilter) as any;
+      onDataFilter = new Function(
+        'config',
+        'echarts',
+        'data',
+        dataFilter
+      ) as any;
     }
 
     config = config || this.pending;
@@ -400,7 +413,8 @@ export class Chart extends React.Component<ChartProps> {
     }
     try {
       onDataFilter &&
-        (config = onDataFilter(config, (window as any).echarts) || config);
+        (config =
+          onDataFilter(config, (window as any).echarts, data) || config);
     } catch (e) {
       console.warn(e);
     }
@@ -424,12 +438,15 @@ export class Chart extends React.Component<ChartProps> {
         } else {
           this.echarts?.hideLoading();
         }
-
-        this.echarts?.setOption(config!, this.props.replaceChartOption);
+        this.reloadEcharts(config);
       } catch (e) {
         console.warn(e);
       }
     }
+  }
+
+  reloadEcharts(config: any) {
+    this.echarts?.setOption(config!, this.props.replaceChartOption);
   }
 
   render() {
@@ -446,42 +463,30 @@ export class Chart extends React.Component<ChartProps> {
     height && (style.height = height);
 
     return (
-      <LazyComponent
-        unMountOnHidden={unMountOnHidden}
-        placeholder={
-          <div className={cx(`${ns}Chart`, className)} style={style}>
-            <div className={`${ns}Chart-placeholder`}>
-              <Spinner
-                show
-                icon="reload"
-                spinnerClassName={cx('Chart-spinner')}
-              />
-            </div>
-          </div>
-        }
-        component={() => (
-          <div
-            className={cx(`${ns}Chart`, className)}
-            style={style}
-            ref={this.refFn}
-          />
-        )}
-      />
+      <div className={cx(`${ns}Chart`, className)} style={style}>
+        <LazyComponent
+          unMountOnHidden={unMountOnHidden}
+          placeholder="..." // 之前那个 spinner 会导致 sensor 失效
+          component={() => (
+            <div className={`${ns}Chart-content`} ref={this.refFn}></div>
+          )}
+        />
+      </div>
     );
   }
 }
 
 @Renderer({
-  test: /(^|\/)chart$/,
-  storeType: ServiceStore.name,
-  name: 'chart'
+  type: 'chart',
+  storeType: ServiceStore.name
 })
 export class ChartRenderer extends Chart {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    super.componentWillMount();
-    const scoped = this.context as IScopedContext;
+  constructor(props: ChartProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
   }
 
@@ -489,5 +494,9 @@ export class ChartRenderer extends Chart {
     super.componentWillUnmount();
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
+  }
+
+  setData(values: object) {
+    return this.props.store.updateData(values);
   }
 }

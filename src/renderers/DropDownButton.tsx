@@ -1,6 +1,5 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {RootCloseWrapper} from 'react-overlays';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import TooltipWrapper from '../components/TooltipWrapper';
@@ -8,9 +7,18 @@ import type {TooltipObject, Trigger} from '../components/TooltipWrapper';
 import {isDisabled, isVisible, noop} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {Icon} from '../components/icons';
-import {BaseSchema, SchemaClassName} from '../Schema';
+import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
+import {RootClose} from '../utils/RootClose';
+import {generateIcon} from '../utils/icon';
+
+import type {Option} from '../components/Select';
+
+export type DropdownButton =
+  | (ActionSchema & {children?: Array<DropdownButton>})
+  | DividerSchema
+  | 'divider';
 
 /**
  * 下拉按钮渲染器。
@@ -33,9 +41,9 @@ export interface DropdownButtonSchema extends BaseSchema {
   btnClassName?: SchemaClassName;
 
   /**
-   * 按钮集合
+   * 按钮集合，支持分组
    */
-  buttons?: Array<ActionSchema | DividerSchema | 'divider'>;
+  buttons?: Array<DropdownButton>;
 
   /**
    * 按钮文字
@@ -76,6 +84,26 @@ export interface DropdownButtonSchema extends BaseSchema {
    * 是否只显示图标。
    */
   iconOnly?: boolean;
+
+  /**
+   * 右侧图标
+   */
+  rightIcon?: SchemaIcon;
+
+  /**
+   * 触发条件，默认是 click
+   */
+  trigger?: 'click' | 'hover';
+
+  /**
+   * 是否显示下拉按钮
+   */
+  hideCaret?: boolean;
+
+  /**
+   * 菜单 CSS 样式
+   */
+  menuClassName?: string;
 }
 
 export interface DropDownButtonProps
@@ -92,6 +120,9 @@ export interface DropDownButtonProps
   tooltipRootClose?: boolean;
   defaultIsOpened?: boolean;
   label?: any;
+  // 激活状态
+  isActived?: boolean;
+  menuClassName?: string;
 }
 
 export interface DropDownButtonState {
@@ -116,12 +147,14 @@ export default class DropDownButton extends React.Component<
   };
 
   target: any;
+  timer: ReturnType<typeof setTimeout>;
   constructor(props: DropDownButtonProps) {
     super(props);
 
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
     this.toogle = this.toogle.bind(this);
+    this.keepOpen = this.keepOpen.bind(this);
     this.domRef = this.domRef.bind(this);
   }
 
@@ -152,9 +185,60 @@ export default class DropDownButton extends React.Component<
   }
 
   close() {
-    this.setState({
-      isOpened: false
-    });
+    this.timer = setTimeout(() => {
+      this.setState({
+        isOpened: false
+      });
+    }, 200);
+  }
+
+  keepOpen() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+  }
+
+  renderButton(
+    button: DropdownButton,
+    index: number | string
+  ): React.ReactNode {
+    const {render, classnames: cx, data} = this.props;
+    index = typeof index === 'number' ? index.toString() : index;
+
+    if (typeof button !== 'string' && Array.isArray(button?.children)) {
+      return (
+        <div key={index} className={cx('DropDown-menu')}>
+          <li key={`${index}/0`} className={cx('DropDown-groupTitle')}>
+            {button.icon ? generateIcon(cx, button.icon, 'm-r-xs') : null}
+            <span>{button.label}</span>
+          </li>
+          {button.children.map((child, childIndex) =>
+            this.renderButton(child, `${index}/${childIndex + 1}`)
+          )}
+        </div>
+      );
+    }
+
+    if (typeof button !== 'string' && !isVisible(button, data)) {
+      return null;
+    } else if (button === 'divider' || button.type === 'divider') {
+      return <li key={index} className={cx('DropDown-divider')} />;
+    } else {
+      return (
+        <li
+          key={index}
+          className={cx('DropDown-button', {
+            ['is-disabled']: isDisabled(button, data)
+          })}
+        >
+          {render(`button/${index}`, {
+            type: 'button',
+            ...(button as any),
+            isMenuItem: true
+          })}
+        </li>
+      );
+    }
   }
 
   renderOuter() {
@@ -168,44 +252,38 @@ export default class DropDownButton extends React.Component<
       children,
       align,
       closeOnClick,
-      closeOnOutside
+      closeOnOutside,
+      menuClassName
     } = this.props;
 
     let body = (
-      <RootCloseWrapper
+      <RootClose
         disabled={!this.state.isOpened}
         onRootClose={closeOnOutside !== false ? this.close : noop}
       >
-        <ul
-          className={cx('DropDown-menu')}
-          onClick={closeOnClick ? this.close : noop}
-        >
-          {children
-            ? children
-            : Array.isArray(buttons)
-            ? buttons.map((button, index) => {
-                if (typeof button !== 'string' && !isVisible(button, data)) {
-                  return null;
-                } else if (button === 'divider' || button.type === 'divider') {
-                  return <li key={index} className={cx('DropDown-divider')} />;
-                }
-
-                return (
-                  <li
-                    key={index}
-                    className={isDisabled(button, data) ? 'is-disabled' : ''}
-                  >
-                    {render(`button/${index}`, {
-                      type: 'button',
-                      ...(button as any),
-                      isMenuItem: true
-                    })}
-                  </li>
-                );
-              })
-            : null}
-        </ul>
-      </RootCloseWrapper>
+        {(ref: any) => {
+          return (
+            <ul
+              className={cx(
+                'DropDown-menu-root',
+                'DropDown-menu',
+                menuClassName
+              )}
+              onClick={closeOnClick ? this.close : noop}
+              onMouseEnter={this.keepOpen}
+              ref={ref}
+            >
+              {children
+                ? children
+                : Array.isArray(buttons)
+                ? buttons.map((button, index) =>
+                    this.renderButton(button, index)
+                  )
+                : null}
+            </ul>
+          );
+        }}
+      </RootClose>
     );
 
     if (popOverContainer) {
@@ -215,8 +293,8 @@ export default class DropDownButton extends React.Component<
             overlay
             onHide={this.close}
             classPrefix={ns}
-            className={cx('DropDown-popover')}
-            style={{minWidth: this.target?.getBoundingClientRect().width}}
+            className={cx('DropDown-popover', menuClassName)}
+            style={{minWidth: this.target?.offsetWidth}}
           >
             {body}
           </PopOver>
@@ -248,8 +326,16 @@ export default class DropDownButton extends React.Component<
       align,
       iconOnly,
       icon,
-      data
+      rightIcon,
+      isActived,
+      trigger,
+      data,
+      hideCaret
     } = this.props;
+
+    const iconElement = generateIcon(cx, icon, 'm-r-xs');
+
+    const rightIconElement = generateIcon(cx, rightIcon, 'm-l-xs');
 
     return (
       <div
@@ -258,10 +344,13 @@ export default class DropDownButton extends React.Component<
           {
             'DropDown--block': block,
             'DropDown--alignRight': align === 'right',
-            'is-opened': this.state.isOpened
+            'is-opened': this.state.isOpened,
+            'is-actived': isActived
           },
           className
         )}
+        onMouseEnter={trigger === 'hover' ? this.open : () => {}}
+        onMouseLeave={trigger === 'hover' ? this.close : () => {}}
         ref={this.domRef}
       >
         <TooltipWrapper
@@ -290,17 +379,14 @@ export default class DropDownButton extends React.Component<
               size ? `Button--${size}` : ''
             )}
           >
-            {icon ? (
-              typeof icon === 'string' ? (
-                <i className={cx(icon, 'm-r-xs')} />
-              ) : (
-                icon
-              )
-            ) : null}
+            {iconElement}
             {typeof label === 'string' ? filter(label, data) : label}
-            <span className={cx('DropDown-caret')}>
-              <Icon icon="caret" className="icon" />
-            </span>
+            {rightIconElement}
+            {!hideCaret ? (
+              <span className={cx('DropDown-caret')}>
+                <Icon icon="caret" className="icon" />
+              </span>
+            ) : null}
           </button>
         </TooltipWrapper>
         {this.state.isOpened ? this.renderOuter() : null}
@@ -310,7 +396,6 @@ export default class DropDownButton extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)dropdown-button$/,
-  name: 'dropdown-button'
+  type: 'dropdown-button'
 })
 export class DropDownButtonRenderer extends DropDownButton {}

@@ -1,13 +1,15 @@
 import React from 'react';
 import {toast} from '../../src/components/Toast';
-import {render} from '../../src/index';
+import {render, makeTranslator} from '../../src/index';
 import {normalizeLink} from '../../src/utils/normalizeLink';
+import {isMobile} from '../../src/utils/helper';
+import attachmentAdpator from '../../src/utils/attachmentAdpator';
 import {alert, confirm} from '../../src/components/Alert';
 import axios from 'axios';
-import Frame from 'react-frame-component';
-import stripJsonComments from 'strip-json-comments';
+import JSON5 from 'json5';
 import CodeEditor from '../../src/components/Editor';
 import copy from 'copy-to-clipboard';
+import {matchPath} from 'react-router-dom';
 
 const DEFAULT_CONTENT = `{
     "$schema": "/schemas/page.json#",
@@ -34,11 +36,25 @@ const scopes = {
             "autoFocus": false,
             "api": "/api/mock/saveForm?waitSeconds=1",
             "mode": "horizontal",
-            "controls": SCHEMA_PLACEHOLDER,
+            "body": SCHEMA_PLACEHOLDER,
             "submitText": null,
             "actions": []
         }
     }`,
+
+  'form2': `{
+      "type": "page",
+      "body": {
+          "title": "",
+          "type": "form",
+          "autoFocus": false,
+          "api": "/api/mock/saveForm?waitSeconds=1",
+          "mode": "horizontal",
+          "body": SCHEMA_PLACEHOLDER,
+          "submitText": null,
+          "actions": []
+      }
+  }`,
 
   'form-item': `{
         "type": "page",
@@ -47,13 +63,28 @@ const scopes = {
             "type": "form",
             "mode": "horizontal",
             "autoFocus": false,
-            "controls": [
+            "body": [
                 SCHEMA_PLACEHOLDER
             ],
             "submitText": null,
             "actions": []
         }
-    }`
+    }`,
+
+  'form-item2': `{
+      "type": "page",
+      "body": {
+          "title": "",
+          "type": "form",
+          "mode": "horizontal",
+          "autoFocus": false,
+          "body": [
+              SCHEMA_PLACEHOLDER
+          ],
+          "submitText": null,
+          "actions": []
+      }
+  }`
 };
 
 export default class PlayGround extends React.Component {
@@ -70,7 +101,7 @@ export default class PlayGround extends React.Component {
   constructor(props) {
     super(props);
     this.iframeRef = React.createRef();
-    const {router} = props;
+    const {history} = props;
 
     const schema = this.buildSchema(props.code || DEFAULT_CONTENT, props);
     this.state = {
@@ -85,14 +116,23 @@ export default class PlayGround extends React.Component {
     this.removeWindowEvents = this.removeWindowEvents.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.schemaProps = {};
+
+    const __ = makeTranslator(props.locale);
+
     this.env = {
       session: 'doc',
       updateLocation: (location, replace) => {
-        router[replace ? 'replace' : 'push'](normalizeLink(location));
+        history[replace ? 'replace' : 'push'](normalizeLink(location));
       },
       isCurrentUrl: to => {
+        if (!to) {
+          return false;
+        }
         const link = normalizeLink(to);
-        return router.isActive(link);
+        return !!matchPath(history.location.pathname, {
+          path: link,
+          exact: true
+        });
       },
       jumpTo: (to, action) => {
         to = normalizeLink(to);
@@ -102,60 +142,100 @@ export default class PlayGround extends React.Component {
           return;
         }
 
+        if (action && to && action.target) {
+          window.open(to, action.target);
+          return;
+        }
+
         if (/^https?:\/\//.test(to)) {
           window.location.replace(to);
         } else {
-          router.push(to);
+          history.push(to);
         }
       },
-      fetcher: async config => {
-        config = {
-          dataType: 'json',
-          ...config
-        };
+      fetcher: async api => {
+        let {url, method, data, responseType, config, headers} = api;
+        config = config || {};
+        config.url = url;
+        config.withCredentials = true;
+        responseType && (config.responseType = responseType);
 
-        if (config.dataType === 'json' && config.data) {
-          config.data = JSON.stringify(config.data);
-          config.headers = config.headers || {};
+        if (config.cancelExecutor) {
+          config.cancelToken = new axios.CancelToken(config.cancelExecutor);
+        }
+
+        config.headers = headers || {};
+        config.method = method;
+        config.data = data;
+
+        if (method === 'get' && data) {
+          config.params = data;
+        } else if (data && data instanceof FormData) {
+          // config.headers['Content-Type'] = 'multipart/form-data';
+        } else if (
+          data &&
+          typeof data !== 'string' &&
+          !(data instanceof Blob) &&
+          !(data instanceof ArrayBuffer)
+        ) {
+          data = JSON.stringify(data);
           config.headers['Content-Type'] = 'application/json';
         }
 
         // 支持返回各种报错信息
-        config.validateStatus = function (status) {
+        config.validateStatus = function () {
           return true;
         };
 
-        const response = await axios[config.method](
-          config.url,
-          config.data,
-          config
-        );
+        let response = await axios(config);
+        response = await attachmentAdpator(response, __);
 
         if (response.status >= 400) {
           if (response.data) {
-            if (response.data.msg) {
+            // 主要用于 raw: 模式下，后端自己校验登录，
+            if (
+              response.status === 401 &&
+              response.data.location &&
+              response.data.location.startsWith('http')
+            ) {
+              location.href = response.data.location.replace(
+                '{{redirect}}',
+                encodeURIComponent(location.href)
+              );
+              return new Promise(() => {});
+            } else if (response.data.msg) {
               throw new Error(response.data.msg);
             } else {
               throw new Error(
-                '接口报错：' + JSON.stringify(response.data, null, 2)
+                __('System.requestError') +
+                  JSON.stringify(response.data, null, 2)
               );
             }
           } else {
-            throw new Error(`接口出错，状态码是 ${response.status}`);
+            throw new Error(
+              `${__('System.requestErrorStatus')} ${response.status}`
+            );
           }
         }
+
         return response;
       },
       isCancel: value => axios.isCancel(value),
-      notify: (type, msg) =>
+      notify: (type, msg, conf) =>
         toast[type]
-          ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
+          ? toast[type](msg, conf)
           : console.warn('[Notify]', type, msg),
       alert,
       confirm,
-      copy: content => {
-        copy(content);
-        toast.success('内容已复制到粘贴板');
+      copy: (content, options) => {
+        copy(content, options);
+        toast.success(__('System.copy'));
+      },
+      tracker(eventTrack) {
+        console.debug('eventTrack', eventTrack);
+      },
+      replaceText: {
+        AMIS_HOST: 'https://baidu.gitee.io/amis'
       }
     };
 
@@ -182,14 +262,11 @@ export default class PlayGround extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextprops) {
+  componentDidUpdate(preProps) {
     const props = this.props;
 
-    if (props.code !== nextprops.code) {
-      const schema = this.buildSchema(
-        nextprops.code || DEFAULT_CONTENT,
-        nextprops
-      );
+    if (preProps.code !== props.code) {
+      const schema = this.buildSchema(props.code || DEFAULT_CONTENT, props);
       this.setState({
         schema: schema,
         schemaCode: JSON.stringify(schema, null, 2)
@@ -210,7 +287,7 @@ export default class PlayGround extends React.Component {
     const query = props.location.query;
 
     try {
-      const scope = query.scope || props.scope;
+      const scope = props.scope;
 
       if (scope && scopes[scope]) {
         schemaContent = scopes[scope].replace(
@@ -219,14 +296,9 @@ export default class PlayGround extends React.Component {
         );
       }
 
-      schemaContent = stripJsonComments(schemaContent).replace(
-        /('|")raw:/g,
-        '$1'
-      ); // 去掉注释
+      schemaContent = schemaContent.replace(/('|")raw:/g, '$1'); // 去掉 raw
 
-      const json = {
-        ...JSON.parse(schemaContent)
-      };
+      const json = JSON5.parse(schemaContent);
 
       return json;
     } catch (e) {
@@ -260,7 +332,7 @@ export default class PlayGround extends React.Component {
       affixFooter: false
     };
 
-    if (this.props.viewMode === 'mobile') {
+    if (this.props.viewMode === 'mobile' && !isMobile()) {
       return (
         <iframe
           width="375"
@@ -282,7 +354,7 @@ export default class PlayGround extends React.Component {
       schemaCode: value
     });
     try {
-      const schema = JSON.parse(value);
+      const schema = JSON5.parse(value);
       this.setState(
         {
           schema
@@ -379,6 +451,9 @@ export default class PlayGround extends React.Component {
       <CodeEditor
         value={this.state.schemaCode}
         onChange={this.handleChange}
+        options={{
+          lineNumbers: 'off'
+        }}
         // editorFactory={this.editorFactory}
         editorDidMount={this.editorDidMount}
         language="json"

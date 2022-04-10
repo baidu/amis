@@ -15,9 +15,8 @@
       rel="stylesheet"
       href="@fortawesome/fontawesome-free/css/v4-shims.css"
     />
-    <link rel="stylesheet" href="animate.css/animate.css" />
     <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
-    <link rel="stylesheet" title="default" href="../scss/themes/default.scss" />
+    <link rel="stylesheet" title="ang" href="../scss/themes/ang.scss" />
     <link
       rel="stylesheet"
       title="cxd"
@@ -52,12 +51,12 @@
     <script type="text/javascript">
       const themes = [
         {
-          label: '默认主题',
-          value: 'default'
+          label: '云舍',
+          value: 'cxd'
         },
         {
-          label: '百度云舍',
-          value: 'cxd'
+          label: 'Ang',
+          value: 'ang'
         },
         {
           label: 'Dark',
@@ -68,17 +67,20 @@
           value: 'antd'
         }
       ];
-      const theme = themes[localStorage.getItem('themeIndex') || 0];
       // mobile 下先禁掉所有外链避免影响
       document.querySelectorAll('link[title]').forEach(item => {
         item.disabled = true;
       });
-      document.querySelector(`link[title=${theme.value}]`).disabled = false;
-      if (theme.value === 'dark') {
+      let theme = localStorage.getItem('amis-theme') || 'cxd';
+      if (theme == 'default') {
+        theme = 'cxd';
+      }
+      document.querySelector(`link[title=${theme}]`).disabled = false;
+      if (theme === 'dark') {
         document.querySelector('body').classList.add('dark');
       }
 
-      amis.require(['./mobile.tsx'], function (app) {
+      amis.require(['./mobile.jsx'], function (app) {
         app.bootstrap(document.getElementById('root'), {});
       });
     </script>

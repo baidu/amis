@@ -6,6 +6,7 @@ import {filter} from '../utils/tpl';
 import cx from 'classnames';
 import {Icon} from '../components/icons';
 import {BaseSchema} from '../Schema';
+import {getPropValue} from '../utils/helper';
 
 /**
  * 状态展示控件。
@@ -89,9 +90,11 @@ export class StatusField extends React.Component<StatusProps, object> {
       classnames: cx,
       data
     } = this.props;
-    let value = this.props.value;
+    let value = getPropValue(this.props);
     let viewValue: React.ReactNode = (
-      <span className="text-muted">{placeholder}</span>
+      <span className="text-muted" key="status-value">
+        {placeholder}
+      </span>
     );
     let wrapClassName: string = '';
 
@@ -147,7 +150,6 @@ export class StatusField extends React.Component<StatusProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)status$/,
-  name: 'status'
+  type: 'status'
 })
 export class StatusFieldRenderer extends StatusField {}

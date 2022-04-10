@@ -32,7 +32,7 @@ $colors: (
   primary: #007bff,
   secondary: #6c757d,
   success: #28a745,
-  info: #17a2b8,
+  info: #007bff,
   warning: #fad733,
   danger: #dc3545,
   light: #f8f9fa,
@@ -397,7 +397,7 @@ $text-color: #58666e !default;
 
 // 部分遍历难以用自定义属性替换，所以保留
 $Grid-columns: 12 !default;
-$Grid-gutterWidth: px2rem(30px) !default;
+$Grid-gutterWidth: px2rem(16px) !default;
 
 $zindex-affix: 900 !default;
 $zindex-dropdown: 1000 !default;
@@ -409,9 +409,9 @@ $zindex-contextmenu: 1500 !default;
 $zindex-tooltip: 1600 !default;
 $zindex-toast: 2000 !default;
 $zindex-top: 3000 !default;
+$zindex-debug: 4000 !default;
 
 $Form--horizontal-columns: 12;
 $Table-strip-bg: lighten(#f6f8f8, 1%) !default;
-$Toast-icon-fillHeight: true !default;
 $Number-handler-mode: 'vertical';
 $Wizard-steps-liAfterBorder: px2rem(18px) solid transparent !default;

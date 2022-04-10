@@ -8,7 +8,7 @@ title: 快速开始
 
 1. 使用 CSS 变量动态修改，通过这种方式修改大部分 amis 组件的样式，所有组件都会生效，注意这种方法不支持 IE11。
 2. 使用辅助 class，可以对单个组件做定制修改。
-3. 自己生成主题 CSS，可以修改所有配置，目前只能通过源码方式，请参考 `scss\themes\default.scss` 文件，修改变量后重新编译一个 css，需要注意这种方式在更新 amis 版本的时候最好重新编译，否则就会出现使用旧版 css 的情况，可能导致出错，因此不推荐使用。
+3. 自己生成主题 CSS，可以修改所有配置，目前只能通过源码方式，请参考 `scss\themes\cxd.scss` 文件，修改变量后重新编译一个 css，需要注意这种方式在更新 amis 版本的时候最好重新编译，否则就会出现使用旧版 css 的情况，可能导致出错，因此不推荐使用。
 4. `wrapper` 组件可以直接写内嵌 `style`。
 
 本文主要介绍前两种方法：
@@ -28,14 +28,14 @@ title: 快速开始
   },
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "label": "文本",
         "name": "text"
       },
       {
-        "type": "password",
+        "type": "input-password",
         "label": "密码",
         "name": "password"
       }
@@ -65,15 +65,15 @@ title: 快速开始
 {
   "type": "form",
   "panelClassName": "border-solid border-2 border-blue-500 rounded-xl shadow-lg",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "className": "text-green-700",
       "label": "文本框",
       "name": "text"
     },
     {
-      "type": "password",
+      "type": "input-password",
       "label": "密码",
       "name": "password"
     }

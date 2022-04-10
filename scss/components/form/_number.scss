@@ -9,7 +9,9 @@
   background: var(--Number-bg);
   border: var(--Number-borderWidth) solid var(--Number-borderColor);
   border-radius: var(--Number-borderRadius);
+  overflow: hidden;
 
+  @include input-border();
   &.no-steps > &-handler-wrap {
     display: none;
   }
@@ -72,6 +74,7 @@
     transition: all var(--animation-duration) ease;
     border: 0;
     border-radius: var(--Form-input-borderRadius);
+    color: var(--Form-input-color);
     padding: 0 var(--Form-input-paddingX);
   }
 
@@ -161,9 +164,10 @@
 
   &-disabled {
     .#{$ns}Number-input {
-      opacity: 0.72;
       cursor: not-allowed;
-      background: var(--Number-onDisabled-bg);
+      color: var(--text--muted-color);
+      background: var(--Form-input-onDisabled-bg);
+      border-color: var(--Form-input-onDisabled-borderColor);
     }
 
     .#{$ns}Number-handler {
@@ -179,4 +183,21 @@
 
 .#{$ns}NumberControl:not(.is-inline) > .#{$ns}Number {
   display: block;
+}
+
+.#{$ns}Number--borderHalf,
+.#{$ns}Number--borderNone {
+  .#{$ns}Number-handler-wrap {
+    border-left: none;
+  }
+}
+
+.#{$ns}NumberControl--withUnit {
+  display: flex;
+  .#{$ns}Number {
+    flex-grow: 1;
+  }
+  .#{$ns}Select {
+    border-left: 0;
+  }
 }

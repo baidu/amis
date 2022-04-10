@@ -6,7 +6,7 @@ import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import Ansi from 'ansi-to-react';
 import {filter} from '../utils/tpl';
-import {buildApi} from '../utils/api';
+import {buildApi, isApiOutdated} from '../utils/api';
 
 /**
  * 日志展示组件
@@ -14,7 +14,7 @@ import {buildApi} from '../utils/api';
  */
 export interface LogSchema extends BaseSchema {
   /**
-   * 指定为 link 链接展示控件
+   * 指定为 log 链接展示控件
    */
   type: 'log';
 
@@ -100,9 +100,19 @@ export class Log extends React.Component<LogProps, LogState> {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: LogProps) {
     if (this.autoScroll && this.logRef && this.logRef.current) {
       this.logRef.current.scrollTop = this.logRef.current.scrollHeight;
+    }
+    if (
+      isApiOutdated(
+        prevProps.source,
+        this.props.source,
+        prevProps.data,
+        this.props.data
+      )
+    ) {
+      this.loadLogs();
     }
   }
 
@@ -118,7 +128,15 @@ export class Log extends React.Component<LogProps, LogState> {
     const {source, data, env, translate: __, encoding} = this.props;
     // 因为这里返回结果是流式的，和普通 api 请求不一样，如果直接用 fetcher 经过 responseAdaptor 可能会导致出错，所以就直接 fetch 了
     const api = buildApi(source, data);
-    const res = await fetch(api.url);
+    if (!api.url) {
+      return;
+    }
+    const res = await fetch(api.url, {
+      method: api.method?.toLocaleUpperCase() || 'GET',
+      headers: (api.headers as Record<string, string>) || undefined,
+      body: api.data ? JSON.stringify(api.data) : undefined,
+      credentials: 'include'
+    });
     if (res.status === 200) {
       const body = res.body;
       if (!body) {
@@ -202,7 +220,6 @@ export class Log extends React.Component<LogProps, LogState> {
 }
 
 @Renderer({
-  test: /(^|\/)log$/,
-  name: 'log'
+  type: 'log'
 })
 export class LogRenderer extends Log {}

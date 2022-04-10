@@ -1,8 +1,8 @@
 import React = require('react');
-import {render, fireEvent} from 'react-testing-library';
+import {render, fireEvent} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 
 test('Renderer:number', async () => {
   const {container} = render(
@@ -26,13 +26,14 @@ test('Renderer:number', async () => {
     )
   );
 
-  const input = container.querySelector('input');
+  const input = container.querySelector('input[step="1"]') as any;
   expect(input?.value).toEqual('123');
   fireEvent.change(input!, {
     target: {
       value: '456'
     }
   });
+  await wait(300);
   expect(input?.value).toEqual('456');
 
   expect(container).toMatchSnapshot();

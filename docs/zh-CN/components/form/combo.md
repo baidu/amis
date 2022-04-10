@@ -14,23 +14,23 @@ order: 12
 
 ## 基本使用
 
-配置`controls`属性，组合多个表单项
+配置`items`属性，组合多个表单项
 
 ```schema: scope="body"
 {
   "type": "form",
   "debug": true,
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "type": "combo",
       "name": "user",
       "label": "用户",
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "名字",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "gender",
@@ -52,17 +52,17 @@ order: 12
 {
   "type": "form",
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "type": "combo",
       "name": "combo1",
       "label": "Combo 单行展示",
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -80,11 +80,11 @@ order: 12
       "name": "combo2",
       "label": "Combo 多行展示",
       "multiLine": true,
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -108,18 +108,18 @@ order: 12
 {
   "type": "form",
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "debug": true,
-  "controls": [
+  "body": [
     {
       "type": "combo",
       "name": "combo1",
       "label": "Combo 单选展示",
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -137,11 +137,11 @@ order: 12
       "name": "combo2",
       "label": "Combo 多选展示",
       "multiple": true,
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -163,19 +163,19 @@ order: 12
 {
   "type": "form",
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "type": "combo",
       "name": "combo1",
       "label": "最少添加1条",
       "multiple": true,
       "minLength": 1,
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -191,11 +191,11 @@ order: 12
       "label": "最多添加3条",
       "multiple": true,
       "maxLength": 3,
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -221,17 +221,17 @@ order: 12
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "type": "combo",
       "name": "combo1",
       "label": "Combo 单选展示",
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -249,11 +249,11 @@ order: 12
       "name": "combo2",
       "label": "Combo 多选展示",
       "multiple": true,
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -276,17 +276,17 @@ order: 12
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
         "type": "combo",
         "name": "combo1",
         "label": "默认模式",
         "multiple": true,
-        "controls": [
+        "items": [
             {
                 "name": "text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     },
@@ -299,10 +299,10 @@ order: 12
         "label": "打平模式",
         "multiple": true,
         "flat": true,
-        "controls": [
+        "items": [
             {
                 "name": "text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     }
@@ -339,9 +339,9 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "label": "",
   "noBorder": true,
   "multiLine": true,
-  "controls": [
+  "items": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "b"
     }
   ]
@@ -352,24 +352,24 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 ## 唯一验证
 
-可以在配置的`controls`项上，配置`"unique": true`，指定当前表单项不可重复
+可以在配置的`body`项上，配置`"unique": true`，指定当前表单项不可重复
 
 ```schema: scope="body"
 {
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
         "type": "combo",
         "name": "combo666",
         "label": "唯一",
         "multiple": true,
-        "controls": [
+        "items": [
             {
                 "name": "text",
-                "type": "text",
+                "type": "input-text",
                 "placeholder": "文本",
                 "unique": true
             },
@@ -402,8 +402,8 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
         "type": "combo",
         "name": "combo",
@@ -420,10 +420,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
             }
         ],
         "draggable": true,
-        "controls": [
+        "items": [
             {
                 "name": "text",
-                "type": "text"
+                "type": "input-text"
             },
             {
                 "name": "select",
@@ -446,7 +446,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 如下面的例子，定义了两种类型：文本和数字，用户新增的时候可以选择是新增文本还是数字。区分是文字和数字的方式是根据成员数据中的 type 字段来决定。
 
-```schema: scope="form-item"
+```schema: scope="form-item2"
 {
   "type": "combo",
   "name": "combo-conditions2",
@@ -468,16 +468,16 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "label": "文本",
         "name": ""
       },
-      "controls": [
+      "items": [
         {
           "label": "名称",
           "name": "label",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "label": "字段名",
           "name": "name",
-          "type": "text"
+          "type": "input-text"
         }
       ]
     },
@@ -489,31 +489,31 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "label": "数字",
         "name": ""
       },
-      "controls": [
+      "items": [
         {
           "label": "名称",
           "name": "label",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "label": "字段名",
           "name": "name",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "label": "最小值",
           "name": "min",
-          "type": "number"
+          "type": "input-number"
         },
         {
           "label": "最大值",
           "name": "max",
-          "type": "number"
+          "type": "input-number"
         },
         {
           "label": "步长",
           "name": "step",
-          "type": "number"
+          "type": "input-number"
         }
       ]
     }
@@ -525,14 +525,14 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 - `conditions[x].label` 类型名称
 - `conditions[x].test` 表达式，目标成员数据是否属于这个类型？
 - `conditions[x].scaffold` 初始数据，当新增的时候直接使用此数据。
-- `conditions[x].controls` 该类型的表单设置。
+- `conditions[x].items` 该类型的表单设置。
 - `typeSwitchable` 类型是否允许切换，如果设置成 true 会多一个类型切换的按钮。
 
 ## Tabs 模式
 
 默认成员是一个一个排列的，如果数据比较多有点让人眼花缭乱。所以 Combo 支持了 tabs 的排列方式。
 
-```schema: scope="form-item"
+```schema: scope="form-item2"
 {
   "type": "combo",
   "name": "combo101",
@@ -545,11 +545,11 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "tabsMode": true,
   "tabsStyle": "card",
   "maxLength": 3,
-  "controls": [
+  "items": [
     {
       "name": "a",
       "label": "文本",
-      "type": "text",
+      "type": "input-text",
       "placeholder": "文本",
       "value": "",
       "size": "full"
@@ -584,10 +584,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "label": "父级文本框",
         "name": "super_text",
         "value": "123"
@@ -597,10 +597,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "name": "combo1",
         "label": "不可获取父级数据",
         "multiple": true,
-        "controls": [
+        "items": [
             {
                 "name": "super_text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     }
@@ -615,10 +615,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "label": "父级文本框",
         "name": "super_text",
         "value": "123"
@@ -629,10 +629,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "label": "可获取父级数据",
         "multiple": true,
         "canAccessSuperData": true,
-        "controls": [
+        "items": [
             {
                 "name": "super_text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     }
@@ -651,10 +651,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "label": "父级文本框",
         "name": "super_text",
         "value": "123"
@@ -665,10 +665,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "label": "可获取父级数据",
         "multiple": true,
         "canAccessSuperData": true,
-        "controls": [
+        "items": [
             {
                 "name": "super_text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     }
@@ -688,10 +688,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "label": "父级文本框",
         "name": "super_text",
         "value": "123"
@@ -704,10 +704,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "canAccessSuperData": true,
         "strictMode": false,
         "syncFields": ["super_text"],
-        "controls": [
+        "items": [
             {
                 "name": "super_text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     }
@@ -724,14 +724,14 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
         "type": "combo",
         "name": "combo",
         "label": "显示序号",
         "multiple": true,
-        "controls": [
+        "items": [
             {
                 "type": "tpl",
                 "tpl": "<%= this.index + 1%>",
@@ -740,8 +740,122 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
             },
             {
                 "name": "text",
-                "type": "text"
+                "type": "input-text"
             }
+        ]
+    }
+  ]
+}
+```
+
+## 自定义删除按钮
+
+默认删除单项按钮为"x"，可以通过配置 deleteBtn 属性自定义删除单项按钮，目前 deleteBtn 支持的属性有
+`string`和[Button](../button.md)类型
+
+如下，当 deleteBtn 为`string`时，对应的值会被渲染成文本
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+        "type": "combo",
+        "name": "combo",
+        "label": "删除按钮文本",
+        "multiple": true,
+        "deleteBtn": "删除",
+        "items": [
+            {
+                "name": "text",
+                "type": "input-text"
+            }
+        ],
+        "value": [
+          {
+            "text": "1"
+          }
+        ]
+    }
+  ]
+}
+```
+
+如果想要赋予删除按钮更多能力，则需要将 deleteBtn 配置成[Button](../button.md)类型
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+        "type": "combo",
+        "name": "combo",
+        "label": "更复杂的删除按钮",
+        "multiple": true,
+        "deleteBtn": {
+          "type": "button",
+          "label": "delete",
+          "level": "danger",
+          "tooltip": "提示文本",
+          "tooltipPlacement": "top",
+          "onClick": "alert(index)"
+        },
+        "items": [
+            {
+                "name": "text",
+                "type": "input-text"
+            }
+        ],
+        "value": [
+          {
+            "text": "1"
+          }
+        ]
+    }
+  ]
+}
+```
+
+## 自定义新增按钮
+
+可以通过配置 `addBtn` 属性自定义新增按钮，在非 Tabs 模式下生效。目前 `addBtn` 支持属性 [Button](../button.md)类型
+
+如果仅想更改新增按钮文本请使用 `addButtonText`, 仅想增添样式请使用 `addButtonClassName`
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+        "type": "combo",
+        "name": "combo",
+        "label": "自定义新增",
+        "multiple": true,
+        "addBtn": {
+          "type": "button",
+          "label": "增加",
+          "level": "default",
+          "block": true
+        },
+        "items": [
+            {
+                "name": "text",
+                "type": "input-text"
+            }
+        ],
+        "value": [
+          {
+            "text": ""
+          }
         ]
     }
   ]
@@ -752,30 +866,50 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名                      | 类型                           | 默认值                                         | 说明                                                                                                                                                            |
-| --------------------------- | ------------------------------ | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| formClassName               | `string`                       |                                                | 单组表单项的类名                                                                                                                                                |
-| controls                    | Array<[表单项](./formitem)>    |                                                | 组合展示的表单项                                                                                                                                                |
-| controls[x].columnClassName | `string`                       |                                                | 列的类名，可以用它配置列宽度。默认平均分配。                                                                                                                    |
-| controls[x].unique          | `boolean`                      |                                                | 设置当前列值是否唯一，即不允许重复选择。                                                                                                                        |
-| multiple                    | `boolean`                      | `false`                                        | 是否多选                                                                                                                                                        |
-| multiLine                   | `boolean`                      | `false`                                        | 默认是横着展示一排，设置以后竖着展示                                                                                                                            |
-| minLength                   | `number`                       |                                                | 最少添加的条数                                                                                                                                                  |
-| maxLength                   | `number`                       |                                                | 最多添加的条数                                                                                                                                                  |
-| flat                        | `boolean`                      | `false`                                        | 是否将结果扁平化(去掉 name),只有当 controls 的 length 为 1 且 multiple 为 true 的时候才有效。                                                                   |
-| joinValues                  | `boolean`                      | `true`                                         | 默认为 `true` 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用 array 的方式。                                                                         |
-| delimiter                   | `string`                       | `false`                                        | 当扁平化开启并且 joinValues 为 true 时，用什么分隔符。                                                                                                          |
-| addable                     | `boolean`                      | `false`                                        | 是否可新增                                                                                                                                                      |
-| removable                   | `boolean`                      | `false`                                        | 是否可删除                                                                                                                                                      |
-| deleteApi                   | [API](../../../docs/types/api) |                                                | 如果配置了，则删除前会发送一个 api，请求成功才完成删除                                                                                                          |
-| deleteConfirmText           | `string`                       | `"确认要删除？"`                               | 当配置 `deleteApi` 才生效！删除时用来做用户确认                                                                                                                 |
-| draggable                   | `boolean`                      | `false`                                        | 是否可以拖动排序, 需要注意的是当启用拖动排序的时候，会多一个\$id 字段                                                                                           |
-| draggableTip                | `string`                       | `"可通过拖动每行中的【交换】按钮进行顺序调整"` | 可拖拽的提示文字                                                                                                                                                |
-| addButtonText               | `string`                       | `"新增"`                                       | 新增按钮文字                                                                                                                                                    |
-| scaffold                    | `object`                       | `{}`                                           | 单组表单项初始值                                                                                                                                                |
-| canAccessSuperData          | `boolean`                      | `false`                                        | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                  |
-| conditions                  | `object`                       |                                                | 数组的形式包含所有条件的渲染类型，单个数组内的`test` 为判断条件，数组内的`controls`为符合该条件后渲染的`schema`                                                 |
-| typeSwitchable              | `boolean`                      | `false`                                        | 是否可切换条件，配合`conditions`使用                                                                                                                            |
-| noBorder                    | `boolean`                      | `false`                                        | 单组表单项是否显示边框                                                                                                                                          |
-| strictMode                  | `boolean`                      | `true`                                         | 默认为严格模式，设置为 false 时，当其他表单项更新是，里面的表单项也可以及时获取，否则不会。                                                                     |
-| syncFields                  | `Array<string>`                | `true`                                         | 配置同步字段。只有 strictMode 为 false 时有效。如果 combo 层级比较深，底层的获取外层的数据可能不同步。但是给 combo 配置这个属性就能同步下来。输入格式：`["os"]` |
+| 属性名                   | 类型                               | 默认值                                         | 说明                                                                                                                                                                |
+| ------------------------ | ---------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| formClassName            | `string`                           |                                                | 单组表单项的类名                                                                                                                                                    |
+| items                    | Array<[表单项](./formitem)>        |                                                | 组合展示的表单项                                                                                                                                                    |
+| items[x].columnClassName | `string`                           |                                                | 列的类名，可以用它配置列宽度。默认平均分配。                                                                                                                        |
+| items[x].unique          | `boolean`                          |                                                | 设置当前列值是否唯一，即不允许重复选择。                                                                                                                            |
+| noBorder                 | `boolean`                          | `false`                                        | 单组表单项是否显示边框                                                                                                                                              |
+| scaffold                 | `object`                           | `{}`                                           | 单组表单项初始值                                                                                                                                                    |
+| multiple                 | `boolean`                          | `false`                                        | 是否多选                                                                                                                                                            |
+| multiLine                | `boolean`                          | `false`                                        | 默认是横着展示一排，设置以后竖着展示                                                                                                                                |
+| minLength                | `number`                           |                                                | 最少添加的条数                                                                                                                                                      |
+| maxLength                | `number`                           |                                                | 最多添加的条数                                                                                                                                                      |
+| flat                     | `boolean`                          | `false`                                        | 是否将结果扁平化(去掉 name),只有当 items 的 length 为 1 且 multiple 为 true 的时候才有效。                                                                          |
+| joinValues               | `boolean`                          | `true`                                         | 默认为 `true` 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用 array 的方式。                                                                             |
+| delimiter                | `string`                           | `false`                                        | 当扁平化开启并且 joinValues 为 true 时，用什么分隔符。                                                                                                              |
+| addable                  | `boolean`                          | `false`                                        | 是否可新增                                                                                                                                                          |
+| removable                | `boolean`                          | `false`                                        | 是否可删除                                                                                                                                                          |
+| deleteApi                | [API](../../../docs/types/api)     |                                                | 如果配置了，则删除前会发送一个 api，请求成功才完成删除                                                                                                              |
+| deleteConfirmText        | `string`                           | `"确认要删除？"`                               | 当配置 `deleteApi` 才生效！删除时用来做用户确认                                                                                                                     |
+| draggable                | `boolean`                          | `false`                                        | 是否可以拖动排序, 需要注意的是当启用拖动排序的时候，会多一个\$id 字段                                                                                               |
+| draggableTip             | `string`                           | `"可通过拖动每行中的【交换】按钮进行顺序调整"` | 可拖拽的提示文字                                                                                                                                                    |
+| subFormMode              | `string`                           | `"normal"`                                     | 可选`normal`、`horizontal`、`inline`                                                                                                                                |
+| placeholder              | `string`                           | ``                                             | 没有成员时显示。                                                                                                                                                    |
+| canAccessSuperData       | `boolean`                          | `false`                                        | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                      |
+| conditions               | `object`                           |                                                | 数组的形式包含所有条件的渲染类型，单个数组内的`test` 为判断条件，数组内的`items`为符合该条件后渲染的`schema`                                                        |
+| typeSwitchable           | `boolean`                          | `false`                                        | 是否可切换条件，配合`conditions`使用                                                                                                                                |
+| strictMode               | `boolean`                          | `true`                                         | 默认为严格模式，设置为 false 时，当其他表单项更新是，里面的表单项也可以及时获取，否则不会。                                                                         |
+| syncFields               | `Array<string>`                    | `[]`                                           | 配置同步字段。只有 `strictMode` 为 `false` 时有效。如果 Combo 层级比较深，底层的获取外层的数据可能不同步。但是给 combo 配置这个属性就能同步下来。输入格式：`["os"]` |
+| nullable                 | `boolean`                          | `false`                                        | 允许为空，如果子表单项里面配置验证器，且又是单条模式。可以允许用户选择清空（不填）。                                                                                |
+| itemClassName            | `string`                           |                                                | 单组 CSS 类                                                                                                                                                         |
+| itemsWrapperClassName    | `string`                           |                                                | 组合区域 CSS 类                                                                                                                                                     |
+| deleteBtn                | [Button](../button.md) or `string` | 自定义删除按钮                                 | 只有当`removable`为 `true` 时有效; 如果为`string`则为按钮的文本；如果为`Button`则根据配置渲染删除按钮。                                                             |
+| addBtn                   | [Button](../button.md)             | 自定义新增按钮                                 | 可新增自定义配置渲染新增按钮，在`tabsMode: true`下不生效。                                                                                                          |
+| addButtonClassName       | `string`                           |                                                | 新增按钮 CSS 类名                                                                                                                                                   |
+| addButtonText            | `string`                           | `"新增"`                                       | 新增按钮文字                                                                                                                                                        |
+
+## 事件表
+
+| 事件名称   | 事件参数                                                                   | 说明                                    |
+| ---------- | -------------------------------------------------------------------------- | --------------------------------------- |
+| add        | value: `string` or `string[]` 现有的数据集                                 | 添加组合项                              |
+| delete     | key: `number` 移除项的索引<br />value: `string` or `string[]` 现有的数据集 | 删除组合项                              |
+| tabsChange | key: `number` 切换后 tab 的索引                                            | 切换 tab<br/>前置条件：tabsMode 为 true |
+
+## 动作表
+
+暂无

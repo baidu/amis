@@ -11,10 +11,28 @@ fis.get('project.ignore').push('public/**', 'npm/**', 'gh-pages/**');
 // 配置只编译哪些文件。
 
 const Resource = fis.require('postpackager-loader/lib/resource.js');
+const versionHash = fis.util.md5(package.version);
 
 Resource.extend({
   buildResourceMap: function () {
-    return 'amis.' + this.__super();
+    const resourceMap = this.__super();
+    if (resourceMap === '') {
+      return '';
+    }
+
+    const map = JSON.parse(resourceMap.substring(20, resourceMap.length - 2));
+
+    Object.keys(map.res).forEach(function (key) {
+      if (map.res[key].pkg) {
+        map.res[key].pkg = `${versionHash}-${map.res[key].pkg}`;
+      }
+    });
+    Object.keys(map.pkg).forEach(function (key) {
+      map.pkg[`${versionHash}-${key}`] = map.pkg[key];
+      delete map.pkg[key];
+    });
+
+    return `amis.require.resourceMap(${JSON.stringify(map)});`;
   },
 
   calculate: function () {
@@ -36,11 +54,16 @@ fis.set('project.files', [
   '/scss/helper.scss',
   '/scss/themes/*.scss',
   '/examples/*.html',
+  '/examples/app/*.html',
   '/examples/*.tpl',
   '/examples/static/*.png',
   '/examples/static/*.svg',
   '/examples/static/*.jpg',
   '/examples/static/*.jpeg',
+  '/examples/static/photo/*.jpeg',
+  '/examples/static/photo/*.png',
+  '/examples/static/audio/*.mp3',
+  '/examples/static/video/*.mp4',
   '/src/**.html',
   'mock/**'
 ]);
@@ -98,7 +121,7 @@ fis.match('tinymce/plugins/*/index.js', {
   ignoreDependencies: false
 });
 
-fis.match(/(?:flv\.js)/, {
+fis.match(/(?:mpegts\.js)/, {
   ignoreDependencies: true
 });
 
@@ -109,6 +132,7 @@ fis.match('monaco-editor/min/**.js', {
 
 fis.match('/docs/**.md', {
   rExt: 'js',
+  ignoreDependencies: true,
   parser: [
     parserMarkdown,
     function (contents, file) {
@@ -149,7 +173,7 @@ fis.on('compile:optimizer', function (file) {
   }
 });
 
-fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
+fis.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
   parser: [
     // docsGennerator,
     fis.plugin('typescript', {
@@ -161,14 +185,18 @@ fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
     }),
 
     function (content) {
-      return content
-        .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
-        .replace(
-          /(return|=>)\s*(tslib_\d+)\.__importStar\(require\(('|")(.*?)\3\)\)/g,
-          function (_, r, tslib, quto, value) {
-            return `${r} new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})})`;
-          }
-        );
+      return (
+        content
+          // ts 4.4 生成的代码是 (0, tslib_1.__importStar)，直接改成 tslib_1.__importStar
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
+          .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
+          .replace(
+            /(return|=>)\s*(tslib_\d+)\.__importStar\(require\(('|")(.*?)\3\)\)/g,
+            function (_, r, tslib, quto, value) {
+              return `${r} new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})})`;
+            }
+          )
+      );
     }
   ],
   preprocessor: fis.plugin('js-require-css'),
@@ -188,7 +216,7 @@ fis.match('*.html:jsx', {
 
 // 这些用了 esm
 fis.match(
-  '{echarts/extension/**.js,zrender/**.js,ansi-to-react/lib/index.js}',
+  '{echarts/extension/**.js,zrender/**.js,ansi-to-react/lib/index.js,markdown-it-html5-media/**.js}',
   {
     parser: fis.plugin('typescript', {
       sourceMap: false,
@@ -312,6 +340,7 @@ if (fis.project.currentMedia() === 'publish') {
               );
             }
           )
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {
@@ -380,9 +409,10 @@ if (fis.project.currentMedia() === 'publish') {
   fis.on('compile:end', function (file) {
     if (
       file.subpath === '/src/index.tsx' ||
-      file.subpath === '/examples/mod.js'
+      file.subpath === '/examples/mod.js' ||
+      file.subpath === '/examples/loader.ts'
     ) {
-      file.setContent(file.getContent().replace('@version', package.version));
+      file.setContent(file.getContent().replace(/@version/g, package.version));
     }
   });
 
@@ -411,7 +441,7 @@ if (fis.project.currentMedia() === 'publish') {
     })
   });
 
-  env.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
+  env.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
     parser: [
       // docsGennerator,
       fis.plugin('typescript', {
@@ -423,6 +453,7 @@ if (fis.project.currentMedia() === 'publish') {
       function (content) {
         return content
           .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {
@@ -444,14 +475,14 @@ if (fis.project.currentMedia() === 'publish') {
   env.match('*.{js,jsx,ts,tsx}', {
     optimizer: fis.plugin('terser'),
     moduleId: function (m, path) {
-      return fis.util.md5('amis-sdk' + path);
+      return fis.util.md5(package.version + 'amis-sdk' + path);
     }
   });
 
   env.match('/src/icons/**.svg', {
     optimizer: fis.plugin('uglify-js'),
     moduleId: function (m, path) {
-      return fis.util.md5('amis-sdk' + path);
+      return fis.util.md5(package.version + 'amis-sdk' + path);
     }
   });
 
@@ -462,11 +493,11 @@ if (fis.project.currentMedia() === 'publish') {
         'examples/embed.tsx',
         'examples/embed.tsx:deps',
         'examples/loadMonacoEditor.ts',
-        '!flv.js/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+        '!codemirror/**',
         '!tinymce/**',
-        '!jquery/**',
         '!zrender/**',
         '!echarts/**',
         '!echarts-stat/**',
@@ -483,6 +514,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!tinycolor2/**',
         '!cropperjs/**',
         '!react-cropper/**',
+        '!jsbarcode/**',
+        '!src/components/BarCode.tsx',
         '!src/lib/renderers/Form/CityDB.js',
         '!src/components/Markdown.tsx',
         '!src/utils/markdown.ts',
@@ -492,17 +525,15 @@ if (fis.project.currentMedia() === 'publish') {
         '!mdurl/**',
         '!uc.micro/**',
         '!markdown-it/**',
+        '!markdown-it-html5-media/**',
         '!punycode/**'
       ],
 
-      'rich-text.js': [
-        'src/components/RichText.tsx',
-        'froala-editor/**',
-        'jquery/**'
-      ],
+      'rich-text.js': ['src/components/RichText.tsx', 'froala-editor/**'],
 
       'tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
 
+      'codemirror.js': ['codemirror/**'],
       'papaparse.js': ['papaparse/**'],
 
       'exceljs.js': ['exceljs/**'],
@@ -516,6 +547,7 @@ if (fis.project.currentMedia() === 'publish') {
         'mdurl/**',
         'uc.micro/**',
         'markdown-it/**',
+        'markdown-it-html5-media/**',
         'punycode/**'
       ],
 
@@ -529,16 +561,19 @@ if (fis.project.currentMedia() === 'publish') {
 
       'cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
 
+      'barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
+
       'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
 
       'rest.js': [
         '*.js',
         '!monaco-editor/**',
-        '!flv.js/**',
+        '!codemirror/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+
         '!src/components/RichText.tsx',
-        '!jquery/**',
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',
@@ -550,7 +585,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!linkify-it/**',
         '!mdurl/**',
         '!uc.micro/**',
-        '!markdown-it/**'
+        '!markdown-it/**',
+        '!markdown-it-html5-media/**'
       ]
     }),
     postpackager: [
@@ -588,7 +624,7 @@ if (fis.project.currentMedia() === 'publish') {
     try {
       throw new Error()
     } catch (e) {
-      _path = (/((?:https?|file)\:.*)\\n?$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
+      _path = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
     }
     function filterUrl(url) {
       return _path + url.substring(1);`;
@@ -709,33 +745,25 @@ if (fis.project.currentMedia() === 'publish') {
     release: '/$1'
   });
 
+  // 在爱速搭中不用 cfc，而是放 amis 目录下的路由接管
+  let cfcAddress =
+    'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock';
+  if (process.env.IS_AISUDA) {
+    cfcAddress = '/amis/api';
+  }
+
   ghPages.match('/{examples,docs}/**', {
     preprocessor: function (contents, file) {
       if (!file.isText() || typeof contents !== 'string') {
         return contents;
       }
 
-      return contents
-        .replace(
-          /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/mock2?/gi,
-          function (_, qutoa, method) {
-            return (
-              qutoa +
-              (method || '') +
-              'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2'
-            );
-          }
-        )
-        .replace(
-          /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/sample/gi,
-          function (_, qutoa, method) {
-            return (
-              qutoa +
-              (method || '') +
-              'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample'
-            );
-          }
-        );
+      return contents.replace(
+        /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/(\w+)/gi,
+        function (_, qutoa, method, path) {
+          return qutoa + (method || '') + `${cfcAddress}/` + path;
+        }
+      );
     }
   });
 
@@ -749,26 +777,82 @@ if (fis.project.currentMedia() === 'publish') {
         '/examples/mod.js',
         'node_modules/**.js',
         '!monaco-editor/**',
-        '!flv.js/**',
+        '!codemirror/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+
         '!tinymce/**',
-        '!jquery/**',
         '!zrender/**',
         '!echarts/**',
+        '!echarts-stat/**',
         '!papaparse/**',
-        '!exceljs/**'
+        '!exceljs/**',
+        '!docsearch.js/**',
+        '!monaco-editor/**.css',
+        '!src/components/RichText.tsx',
+        '!src/components/Tinymce.tsx',
+        '!src/components/ColorPicker.tsx',
+        '!react-color/**',
+        '!material-colors/**',
+        '!reactcss/**',
+        '!tinycolor2/**',
+        '!cropperjs/**',
+        '!react-cropper/**',
+        '!jsbarcode/**',
+        '!src/components/BarCode.tsx',
+        '!src/lib/renderers/Form/CityDB.js',
+        '!src/components/Markdown.tsx',
+        '!src/utils/markdown.ts',
+        '!highlight.js/**',
+        '!entities/**',
+        '!linkify-it/**',
+        '!mdurl/**',
+        '!uc.micro/**',
+        '!markdown-it/**',
+        '!markdown-it-html5-media/**',
+        '!punycode/**'
       ],
-      'pkg/rich-text.js': [
-        'src/components/RichText.js',
-        'froala-editor/**',
-        'jquery/**'
-      ],
+
+      'pkg/rich-text.js': ['src/components/RichText.js', 'froala-editor/**'],
+
       'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
-      'pkg/charts.js': ['zrender/**', 'echarts/**'],
+
+      'pkg/codemirror.js': ['codemirror/**'],
+
       'pkg/papaparse.js': ['papaparse/**'],
+
       'pkg/exceljs.js': ['exceljs/**'],
+
+      'pkg/barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
+
+      'pkg/markdown.js': [
+        'src/components/Markdown.tsx',
+        'src/utils/markdown.ts',
+        'highlight.js/**',
+        'entities/**',
+        'linkify-it/**',
+        'mdurl/**',
+        'uc.micro/**',
+        'markdown-it/**',
+        'markdown-it-html5-media/**',
+        'punycode/**'
+      ],
+
+      'pkg/color-picker.js': [
+        'src/components/ColorPicker.tsx',
+        'react-color/**',
+        'material-colors/**',
+        'reactcss/**',
+        'tinycolor2/**'
+      ],
+
+      'pkg/cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
+
+      'pkg/charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
+
       'pkg/api-mock.js': ['mock/*.ts'],
+
       'pkg/app.js': [
         '/examples/components/App.tsx',
         '/examples/components/App.tsx:deps'
@@ -782,17 +866,25 @@ if (fis.project.currentMedia() === 'publish') {
 
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',
-        '!static/mod.js',
         '!monaco-editor/**',
-        '!flv.js/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
-        '!jquery/**',
-        '!src/components/RichText.js',
+
+        '!src/components/RichText.tsx',
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',
-        '!exceljs/**'
+        '!exceljs/**',
+        '!src/utils/markdown.ts',
+        '!highlight.js/**',
+        '!argparse/**',
+        '!entities/**',
+        '!linkify-it/**',
+        '!mdurl/**',
+        '!uc.micro/**',
+        '!markdown-it/**',
+        '!markdown-it-html5-media/**'
       ],
 
       'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**'],
@@ -822,7 +914,7 @@ if (fis.project.currentMedia() === 'publish') {
         const DocNavCN = ret.src['/examples/components/DocNavCN.ts'];
         const Components = ret.src['/examples/components/Components.tsx'];
         const DocCSS = ret.src['/examples/components/CssDocs.tsx'];
-        const ExampleJs = ret.src['/examples/components/Example.tsx'];
+        const ExampleJs = ret.src['/examples/components/Example.jsx'];
 
         const pages = [];
         const source = [
@@ -886,7 +978,7 @@ if (fis.project.currentMedia() === 'publish') {
     url: 'null',
     useHash: false
   });
-  ghPages.match('{*.jsx,*.tsx,*.ts}', {
+  ghPages.match('{*.jsx,*.tsx,*.ts,/examples/**.js,}', {
     moduleId: function (m, path) {
       return fis.util.md5('amis' + path);
     },
@@ -913,6 +1005,7 @@ if (fis.project.currentMedia() === 'publish') {
               );
             }
           )
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {

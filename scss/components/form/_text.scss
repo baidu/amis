@@ -45,8 +45,7 @@
   &--withAddOn > &-input {
     flex-basis: 1;
     flex-grow: 1;
-    width: 0;
-
+    min-width: 0;
     border-radius: 0;
 
     &:first-child {
@@ -66,7 +65,7 @@
     }
   }
 
-  &--withAddOn > &-addOn {
+  &-addOn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -103,16 +102,16 @@
     }
 
     &:first-child .#{$ns}Button {
-      @if var(--InputGroup-button-borderRadius) {
-        border-top-left-radius: var(--InputGroup-button-borderRadius);
-        border-bottom-left-radius: var(--InputGroup-button-borderRadius);
+      @if var(--InputGroup-addOn-borderRadius) {
+        border-top-left-radius: var(--InputGroup-addOn-borderRadius);
+        border-bottom-left-radius: var(--InputGroup-addOn-borderRadius);
       }
     }
 
     &:last-child .#{$ns}Button {
-      @if var(--InputGroup-button-borderRadius) {
-        border-top-right-radius: var(--InputGroup-button-borderRadius);
-        border-bottom-right-radius: var(--InputGroup-button-borderRadius);
+      @if var(--InputGroup-addOn-borderRadius) {
+        border-top-right-radius: var(--InputGroup-addOn-borderRadius);
+        border-bottom-right-radius: var(--InputGroup-addOn-borderRadius);
       }
     }
   }
@@ -156,7 +155,7 @@
 
     input {
       width: auto;
-      color: var(--Form-input-placeholderColor);
+      // color: var(--Form-input-placeholderColor);
     }
   }
 
@@ -259,5 +258,26 @@
 
   &-input--multiple &-valueLabel {
     padding: 0 var(--gap-xs);
+  }
+
+  &-counter {
+    color: var(--text--muted-color);
+  }
+
+  .has-error--maxLength &-counter {
+    color: var(--danger);
+  }
+
+  // yunshe4.0
+  &-input {
+    &:hover {
+      border-color: var(--Form-input-onHover-borderColor);
+    }
+  }
+}
+
+.#{$ns}TextControl.is-disabled {
+  &-input input {
+    color: var(--Form-input-onDisabled-color);
   }
 }

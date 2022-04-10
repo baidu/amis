@@ -9,8 +9,6 @@ const table = {
       grade: 'U',
       progress: 50,
       status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
       weight: 56,
       others: null,
       createdAt: '2017-11-17T08:47:50.000Z',
@@ -24,8 +22,6 @@ const table = {
       grade: 'C',
       progress: 50,
       status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
       weight: 55,
       others: null,
       createdAt: '2017-11-17T08:47:50.000Z',
@@ -39,8 +35,6 @@ const table = {
       grade: 'C',
       progress: 50,
       status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
       weight: 55,
       others: null,
       createdAt: '2017-11-17T08:47:50.000Z',
@@ -54,8 +48,6 @@ const table = {
       grade: 'U',
       progress: 50,
       status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
       weight: 56,
       others: null,
       createdAt: '2017-11-17T08:47:50.000Z',
@@ -69,8 +61,6 @@ const table = {
       grade: 'C',
       progress: 50,
       status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
       weight: 55,
       others: null,
       createdAt: '2017-11-17T08:47:50.000Z',
@@ -84,8 +74,6 @@ const table = {
       grade: 'C',
       progress: 50,
       status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
       weight: 55,
       others: null,
       createdAt: '2017-11-17T08:47:50.000Z',
@@ -99,8 +87,6 @@ const table = {
       grade: 'U',
       progress: 50,
       status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
       weight: 56,
       others: null,
       createdAt: '2017-11-17T08:47:50.000Z',
@@ -114,8 +100,6 @@ const table = {
       grade: 'C',
       progress: 50,
       status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
       weight: 55,
       others: null,
       createdAt: '2017-11-17T08:47:50.000Z',
@@ -129,8 +113,6 @@ const table = {
       grade: 'C',
       progress: 50,
       status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
       weight: 55,
       others: null,
       createdAt: '2017-11-17T08:47:50.000Z',
@@ -144,8 +126,6 @@ const table = {
       grade: 'U',
       progress: 50,
       status: true,
-      image:
-        'http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg',
       weight: 56,
       others: null,
       createdAt: '2017-11-17T08:47:50.000Z',
@@ -276,7 +256,6 @@ const table = {
 };
 
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '固顶和列固定示例',
   remark: 'bla bla bla',
   body: [

@@ -11,11 +11,11 @@ export default {
       target: 'service1',
       mode: 'inline',
       submitOnInit: true,
-      controls: [
+      body: [
         {
           label: '加载页面类型',
           required: true,
-          type: 'button-group',
+          type: 'button-group-select',
           submitOnChange: true,
           value: 'crud',
           name: 'type',

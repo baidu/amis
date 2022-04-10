@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '所有 Form 元素列举',
   data: {
     id: 1
@@ -12,7 +11,7 @@ export default {
       mode: 'horizontal',
       // debug: true,
       autoFocus: true,
-      controls: [
+      body: [
         {
           type: 'html',
           html: '<p>html 片段, 可以用来添加说明性文字</p>'
@@ -21,7 +20,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'text',
+          type: 'input-text',
           name: 'var1',
           label: '文本'
         },
@@ -29,7 +28,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'text',
+          type: 'input-text',
           name: 'withHelp',
           label: '带提示信息',
           desc: '这是一段描述文字'
@@ -38,7 +37,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'password',
+          type: 'input-password',
           name: 'password',
           label: '密码',
           inline: true
@@ -47,7 +46,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'number',
+          type: 'input-number',
           name: 'number',
           label: '数字',
           placeholder: '',
@@ -60,7 +59,21 @@ export default {
           type: 'divider'
         },
         {
-          type: 'tag',
+          type: 'input-number',
+          name: 'number',
+          label: '数字禁用',
+          placeholder: '',
+          disabled: true,
+          inline: true,
+          value: 5,
+          min: 1,
+          max: 10
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'input-tag',
           name: 'tag',
           label: '标签',
           placeholder: '',
@@ -104,7 +117,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'text',
+          type: 'input-text',
           name: 'placeholder',
           label: 'Placeholder',
           placeholder: 'Placeholder'
@@ -113,7 +126,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'text',
+          type: 'input-text',
           disabled: true,
           name: 'disabled',
           label: '禁用状态',
@@ -123,7 +136,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'text',
+          type: 'input-text',
           name: 'text-sug',
           label: '文本提示',
           options: ['lixiaolong', 'zhouxingxing', 'yipingpei', 'liyuanfang'],
@@ -137,7 +150,7 @@ export default {
         },
 
         {
-          type: 'text',
+          type: 'input-text',
           name: 'text-sug-multiple',
           label: '文本提示多选',
           multiple: true,
@@ -241,6 +254,30 @@ export default {
         },
         {
           type: 'radios',
+          name: 'radios',
+          label: '单选禁用',
+          value: 3,
+          disabled: true,
+          options: [
+            {
+              label: '选项1',
+              value: 1
+            },
+            {
+              label: '选项2',
+              value: 2
+            },
+            {
+              label: '选项3',
+              value: 3
+            }
+          ]
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'radios',
           name: 'radiosInline',
           label: '单选 非内联',
           inline: false,
@@ -316,7 +353,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'button-group',
+          type: 'button-group-select',
           name: 'btn-group',
           label: '按钮组',
           description: '类似于单选效果',
@@ -339,7 +376,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'button-group',
+          type: 'button-group-select',
           name: 'btn-group2',
           label: '按钮组',
           clearable: true,
@@ -363,7 +400,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'button-group',
+          type: 'button-group-select',
           name: 'btn-group3',
           label: '按钮组',
           multiple: true,
@@ -387,7 +424,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'list',
+          type: 'list-select',
           name: 'List',
           label: 'List',
           desc: '也差不多，只是展示方式不一样',
@@ -410,7 +447,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'list',
+          type: 'list-select',
           name: 'list2',
           label: 'List',
           desc: '可多选',
@@ -460,27 +497,24 @@ export default {
           type: 'divider'
         },
         {
-          type: 'list',
+          type: 'list-select',
           name: 'list4',
           label: 'List',
           imageClassName: 'thumb-lg',
           desc: '支持放张图片',
           options: [
             {
-              image:
-                'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
+              image: __uri('../../static/photo/3893101144.jpg'),
               value: 1,
               label: '图片1'
             },
             {
-              image:
-                'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
+              image: __uri('../../static/photo/3893101144.jpg'),
               value: 2,
               label: '图片2'
             },
             {
-              image:
-                'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
+              image: __uri('../../static/photo/3893101144.jpg'),
               value: 3,
               label: '图片3'
             }
@@ -490,7 +524,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'list',
+          type: 'list-select',
           name: 'list5',
           label: 'List',
           desc: '支持文字排版',
@@ -529,7 +563,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'rating',
+          type: 'input-rating',
           count: 5,
           value: 3,
           label: '评分',
@@ -559,6 +593,28 @@ export default {
           label: '开关禁用'
         },
         {
+          type: 'switch',
+          name: 'switch4',
+          value: true,
+          onText: '开启',
+          offText: '关闭',
+          label: '开关文字'
+        },
+        {
+          type: 'switch',
+          name: 'switch5',
+          value: true,
+          onText: {
+            type: 'icon',
+            icon: 'fa fa-check-circle'
+          },
+          offText: {
+            type: 'icon',
+            icon: 'fa fa-times-circle'
+          },
+          label: '开关icon'
+        },
+        {
           type: 'divider'
         },
         {
@@ -574,6 +630,26 @@ export default {
           type: 'select',
           name: 'type',
           label: '单选',
+          inline: true,
+          options: [
+            {
+              label: '选项1',
+              value: 1
+            },
+            {
+              label: '选项2',
+              value: 2
+            }
+          ]
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'select',
+          name: 'type',
+          label: '单选禁用',
+          disabled: true,
           inline: true,
           options: [
             {
@@ -610,7 +686,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'color',
+          type: 'input-color',
           name: 'color',
           inline: true,
           label: 'Color'
@@ -619,7 +695,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'date',
+          type: 'input-date',
           name: 'date',
           inline: true,
           label: '日期'
@@ -628,7 +704,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'datetime',
+          type: 'input-datetime',
           name: 'datetime',
           inline: true,
           label: '日期+时间'
@@ -637,7 +713,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'time',
+          type: 'input-time',
           name: 'time',
           inline: true,
           label: '时间'
@@ -646,7 +722,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'month',
+          type: 'input-month',
           name: 'year-month',
           inline: true,
           label: '年月',
@@ -657,7 +733,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'month',
+          type: 'input-month',
           name: 'month',
           inline: true,
           label: '月份',
@@ -668,7 +744,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'date-range',
+          type: 'input-date-range',
           name: 'daterangee',
           inline: true,
           label: '时间范围'
@@ -676,20 +752,23 @@ export default {
         {
           type: 'divider'
         },
-        [
-          {
-            type: 'datetime',
-            name: 'starttime',
-            label: '开始时间',
-            maxDate: '${endtime}'
-          },
-          {
-            type: 'datetime',
-            name: 'endtime',
-            label: '结束时间',
-            minDate: '${starttime}'
-          }
-        ],
+        {
+          type: 'group',
+          body: [
+            {
+              type: 'input-datetime',
+              name: 'starttime',
+              label: '开始时间',
+              maxDate: '${endtime}'
+            },
+            {
+              type: 'input-datetime',
+              name: 'endtime',
+              label: '结束时间',
+              minDate: '${starttime}'
+            }
+          ]
+        },
         {
           type: 'divider'
         },
@@ -699,9 +778,9 @@ export default {
           required: '',
           gap: 'xs',
           description: '选择自定义后，可以选择日期范围',
-          controls: [
+          body: [
             {
-              type: 'button-group',
+              type: 'button-group-select',
               name: 'range1',
               value: 'today',
               // btnActiveClassName: "btn-primary active",
@@ -731,14 +810,14 @@ export default {
               ]
             },
             {
-              type: 'date',
+              type: 'input-date',
               name: 'starttime1',
               maxDate: '${endtime1}',
               visibleOn: "data.range1 == 'custom'",
               mode: 'inline'
             },
             {
-              type: 'date',
+              type: 'input-date',
               name: 'endtime1',
               minDate: '${starttime1}',
               visibleOn: "data.range1 == 'custom'",
@@ -756,7 +835,7 @@ export default {
           size: 'sm',
           inline: true,
           label: 'Icon 组合',
-          controls: [
+          body: [
             {
               type: 'icon',
               addOnclassName: 'no-bg',
@@ -765,7 +844,7 @@ export default {
               // "vendor": "iconfont"
             },
             {
-              type: 'text',
+              type: 'input-text',
               placeholder: '搜索作业ID/名称',
               inputClassName: 'b-l-none p-l-none',
               name: 'jobName'
@@ -781,7 +860,7 @@ export default {
           type: 'input-group',
           label: '各种组合',
           inline: true,
-          controls: [
+          body: [
             {
               type: 'select',
               name: 'memoryUnits',
@@ -802,7 +881,7 @@ export default {
               value: 'Gi'
             },
             {
-              type: 'text',
+              type: 'input-text',
               name: 'memory'
             },
             {
@@ -834,7 +913,23 @@ export default {
           type: 'divider'
         },
         {
-          type: 'image',
+          type: 'input-excel',
+          label: 'Excel 解析',
+          name: 'excel'
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'input-kv',
+          label: 'kv 输入',
+          name: 'kv'
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'input-image',
           name: 'image',
           label: '图片'
         },
@@ -842,11 +937,10 @@ export default {
           type: 'divider'
         },
         {
-          type: 'image',
+          type: 'input-image',
           name: 'image',
           label: '图片有默认占位图',
-          frameImage:
-            'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
+          frameImage: __uri('../../static/photo/3893101144.jpg'),
           fixedSize: true,
           fixedSizeClassName: 'h-32'
         },
@@ -854,7 +948,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'image',
+          type: 'input-image',
           name: 'imageCrop',
           label: '图片带裁剪',
           crop: {
@@ -865,7 +959,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'image',
+          type: 'input-image',
           name: 'imageLimit',
           label: '图片带限制',
           limit: {
@@ -880,6 +974,15 @@ export default {
           type: 'textarea',
           name: 'textarea',
           label: '多行文本'
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'textarea',
+          name: 'textarea',
+          disabled: true,
+          label: '多行文本禁用'
         },
         {
           type: 'divider'
@@ -915,7 +1018,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'rich-text',
+          type: 'input-rich-text',
           name: 'html',
           label: 'Rich Text',
           value: `<p>Just do <code>IT</code>!</p>`
@@ -926,17 +1029,17 @@ export default {
         {
           label: '时间频率',
           type: 'group',
-          controls: [
+          body: [
             {
               name: 'repeatCount',
-              type: 'range',
+              type: 'input-range',
               label: false,
               visibleOn: 'data.repeatUnit == "year"'
             },
 
             {
               name: 'repeatCount',
-              type: 'range',
+              type: 'input-range',
               label: false,
               max: 11,
               min: 1,
@@ -945,7 +1048,7 @@ export default {
 
             {
               name: 'repeatCount',
-              type: 'range',
+              type: 'input-range',
               label: false,
               max: 29,
               min: 1,
@@ -984,17 +1087,20 @@ export default {
           type: 'divider'
         },
         {
-          type: 'tree',
+          type: 'input-tree',
           name: 'tree',
           label: '树',
+          iconField: 'icon',
           options: [
             {
               label: 'Folder A',
               value: 1,
+              icon: 'fa fa-bookmark',
               children: [
                 {
                   label: 'file A',
-                  value: 2
+                  value: 2,
+                  icon: 'fa fa-star'
                 },
                 {
                   label: 'file B',
@@ -1016,7 +1122,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'tree',
+          type: 'input-tree',
           name: 'trees',
           label: '树多选',
           multiple: true,
@@ -1406,7 +1512,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'city',
+          type: 'input-city',
           name: 'city',
           label: '城市选择器'
         },
@@ -1414,7 +1520,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'matrix',
+          type: 'matrix-checkboxes',
           name: 'matrix',
           label: '矩阵开关',
           rowLabel: '行标题说明',
@@ -1442,10 +1548,10 @@ export default {
           type: 'combo',
           name: 'combo',
           label: '组合单条',
-          controls: [
+          items: [
             {
               name: 'a',
-              type: 'text',
+              type: 'input-text',
               placeholder: 'A'
             },
             {
@@ -1464,10 +1570,10 @@ export default {
           label: '组合多条',
           multiple: true,
           value: [{}],
-          controls: [
+          items: [
             {
               name: 'a',
-              type: 'text',
+              type: 'input-text',
               placeholder: 'A'
             },
             {
@@ -1481,16 +1587,16 @@ export default {
           type: 'divider'
         },
         {
-          type: 'form',
+          type: 'input-sub-form',
           label: '子表单',
           name: 'subForm',
-          btnLabel: '点击设置',
+          btnLabel: '点击设置${a}',
           form: {
             title: '子表单',
-            controls: [
+            body: [
               {
                 name: 'a',
-                type: 'text',
+                type: 'input-text',
                 label: 'Foo'
               },
               {
@@ -1505,7 +1611,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'form',
+          type: 'input-sub-form',
           label: '子表单多条',
           name: 'subForm2',
           btnLabel: '点击设置',
@@ -1513,10 +1619,10 @@ export default {
           multiple: true,
           form: {
             title: '子表单',
-            controls: [
+            body: [
               {
                 name: 'a',
-                type: 'text',
+                type: 'input-text',
                 label: 'Foo'
               },
               {
@@ -1531,7 +1637,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'file',
+          type: 'input-file',
           name: 'file',
           label: '文件上传',
           joinValues: false
@@ -1540,7 +1646,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'range',
+          type: 'input-range',
           name: 'range',
           label: '范围'
         },

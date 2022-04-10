@@ -136,8 +136,7 @@ export class PaginationWrapper extends React.Component<PaginationWrapProps> {
 }
 
 @Renderer({
-  test: /(^|\/)pagination-wrapper$/,
-  name: 'pagination-wrapper',
+  type: 'pagination-wrapper',
   storeType: PaginationStore.name
 })
 export class PaginationWrapperRenderer extends PaginationWrapper {}

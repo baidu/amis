@@ -22,15 +22,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "基本信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "name",
                             "label": "姓名："
                         },
                         {
                             "name": "email",
-                            "type": "email",
+                            "type": "input-email",
                             "label": "邮箱："
                         }
                     ]
@@ -43,15 +43,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "工作信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "cname",
                             "label": "公司名称："
                         },
                         {
                             "name": "caddress",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "公司地址："
                         }
                     ]
@@ -64,35 +64,35 @@ order: 68
                 {
                     "type": "form",
                     "title": "兴趣爱好",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "interest1",
                             "label": "兴趣爱好1："
                         },
                         {
                             "name": "interest2",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好2："
                         },
                         {
                             "name": "interest3",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好3："
                         },
                         {
                             "name": "interest4",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好4："
                         },
                         {
                             "name": "interest5",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好5："
                         },
                         {
                             "name": "interest6",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好6："
                         }
                     ]
@@ -104,6 +104,100 @@ order: 68
 ```
 
 默认想要显示多少锚点导航配置多少个 `links` 成员即可。
+
+## 水平导航
+
+```schema: scope="body"
+{
+    "type": "anchor-nav",
+    "direction": "horizontal",
+    "links": [
+        {
+            "title": "基本信息",
+            "body": [
+                {
+                    "type": "form",
+                    "title": "基本信息",
+                    "body": [
+                        {
+                            "type": "input-text",
+                            "name": "name",
+                            "label": "姓名："
+                        },
+                        {
+                            "name": "email",
+                            "type": "input-email",
+                            "label": "邮箱："
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "工作信息",
+            "body": [
+                {
+                    "type": "form",
+                    "title": "工作信息",
+                    "body": [
+                        {
+                            "type": "input-text",
+                            "name": "cname",
+                            "label": "公司名称："
+                        },
+                        {
+                            "name": "caddress",
+                            "type": "input-text",
+                            "label": "公司地址："
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "兴趣爱好",
+            "body": [
+                {
+                    "type": "form",
+                    "title": "兴趣爱好",
+                    "body": [
+                        {
+                            "type": "input-text",
+                            "name": "interest1",
+                            "label": "兴趣爱好1："
+                        },
+                        {
+                            "name": "interest2",
+                            "type": "input-text",
+                            "label": "兴趣爱好2："
+                        },
+                        {
+                            "name": "interest3",
+                            "type": "input-text",
+                            "label": "兴趣爱好3："
+                        },
+                        {
+                            "name": "interest4",
+                            "type": "input-text",
+                            "label": "兴趣爱好4："
+                        },
+                        {
+                            "name": "interest5",
+                            "type": "input-text",
+                            "label": "兴趣爱好5："
+                        },
+                        {
+                            "name": "interest6",
+                            "type": "input-text",
+                            "label": "兴趣爱好6："
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
 
 ## 默认定位到某个区域
 
@@ -123,15 +217,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "基本信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "name",
                             "label": "姓名："
                         },
                         {
                             "name": "email",
-                            "type": "email",
+                            "type": "input-email",
                             "label": "邮箱："
                         }
                     ]
@@ -145,15 +239,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "工作信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "cname",
                             "label": "公司名称："
                         },
                         {
                             "name": "caddress",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "公司地址："
                         }
                     ]
@@ -167,35 +261,35 @@ order: 68
                 {
                     "type": "form",
                     "title": "兴趣爱好",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "interest1",
                             "label": "兴趣爱好1："
                         },
                         {
                             "name": "interest2",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好2："
                         },
                         {
                             "name": "interest3",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好3："
                         },
                         {
                             "name": "interest4",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好4："
                         },
                         {
                             "name": "interest5",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好5："
                         },
                         {
                             "name": "interest6",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好6："
                         }
                     ]
@@ -221,15 +315,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "基本信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "name",
                             "label": "姓名："
                         },
                         {
                             "name": "email",
-                            "type": "email",
+                            "type": "input-email",
                             "label": "邮箱："
                         }
                     ]
@@ -242,15 +336,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "工作信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "cname",
                             "label": "公司名称："
                         },
                         {
                             "name": "caddress",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "公司地址："
                         }
                     ]
@@ -263,35 +357,35 @@ order: 68
                 {
                     "type": "form",
                     "title": "兴趣爱好",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "interest1",
                             "label": "兴趣爱好1："
                         },
                         {
                             "name": "interest2",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好2："
                         },
                         {
                             "name": "interest3",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好3："
                         },
                         {
                             "name": "interest4",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好4："
                         },
                         {
                             "name": "interest5",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好5："
                         },
                         {
                             "name": "interest6",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好6："
                         }
                     ]
@@ -304,15 +398,16 @@ order: 68
 
 ## 属性表
 
-| 属性名             | 类型                              | 默认值                              | 说明                    |
-| ------------------ | --------------------------------- | ----------------------------------- | ----------------------- |
-| type               | `string`                          | `"anchor-nav"`                      | 指定为 AnchorNav 渲染器 |
-| className          | `string`                          |                                     | 外层 Dom 的类名         |
-| linkClassName      | `string`                          |                                     | 导航 Dom 的类名         |
-| sectionClassName   | `string`                          |                                     | 锚点区域 Dom 的类名     |
-| links              | `Array`                           |                                     | links 内容              |
-| active             | `string`                          |                                     | 需要定位的区域          |
-| links[x].title     | `string`                          |                                     | 区域 标题               |
-| links[x].href      | `string`                          |                                     | 区域 标识               |
-| links[x].body      | [SchemaNode](../types/schemanode) |                                     | 区域 内容区             |
-| links[x].className | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | 区域成员 样式           |
+| 属性名             | 类型                              | 默认值                              | 说明                                                                       |
+| ------------------ | --------------------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
+| type               | `string`                          | `"anchor-nav"`                      | 指定为 AnchorNav 渲染器                                                    |
+| className          | `string`                          |                                     | 外层 Dom 的类名                                                            |
+| linkClassName      | `string`                          |                                     | 导航 Dom 的类名                                                            |
+| sectionClassName   | `string`                          |                                     | 锚点区域 Dom 的类名                                                        |
+| links              | `Array`                           |                                     | links 内容                                                                 |
+| direction          | `string`                          | `"vertical"`                        | 可以配置导航水平展示还是垂直展示。对应的配置项分别是：vertical、horizontal |
+| active             | `string`                          |                                     | 需要定位的区域                                                             |
+| links[x].title     | `string`                          |                                     | 区域 标题                                                                  |
+| links[x].href      | `string`                          |                                     | 区域 标识                                                                  |
+| links[x].body      | [SchemaNode](../types/schemanode) |                                     | 区域 内容区                                                                |
+| links[x].className | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | 区域成员 样式                                                              |

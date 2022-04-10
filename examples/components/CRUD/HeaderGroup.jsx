@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '支持表头分组，通过在 cloumn 上设置 groupName 实现。',
   body: {
     type: 'table',

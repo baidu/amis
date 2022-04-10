@@ -5,20 +5,14 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import find from 'lodash/find';
-import PropTypes from 'prop-types';
-import isPlainObject from 'lodash/isPlainObject';
 import {RendererProps} from '../factory';
-import cx from 'classnames';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import onClickOutside from 'react-onclickoutside';
 import {Action} from '../types';
 import keycode from 'keycode';
-import matches from 'dom-helpers/query/matches';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import {Icon} from '../components/icons';
-import {FormControlSchema} from './Form/Item';
+import {SchemaCollection, SchemaObject} from '../Schema';
 
 export type SchemaQuickEditObject =
   /**
@@ -39,7 +33,7 @@ export type SchemaQuickEditObject =
        * 是否直接内嵌
        */
       mode?: 'inline';
-    } & FormControlSchema)
+    } & SchemaObject)
 
   /**
    * 表单项集合
@@ -60,7 +54,7 @@ export type SchemaQuickEditObject =
        */
       mode?: 'inline';
 
-      controls: Array<FormControlSchema>;
+      body: SchemaCollection;
     };
 
 export type SchemaQuickEdit = boolean | SchemaQuickEditObject;
@@ -70,9 +64,7 @@ export interface QuickEditConfig {
   resetOnFailed?: boolean;
   mode?: 'inline' | 'dialog' | 'popOver' | 'append';
   type?: string;
-  controls?: any;
-  tabs?: any;
-  fieldSet?: any;
+  body?: any;
   focusable?: boolean;
   popOverClassName?: string;
   [propName: string]: any;
@@ -92,480 +84,488 @@ export interface QuickEditState {
 let inited: boolean = false;
 let currentOpened: any;
 
-export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
-  Component: React.ComponentType<any>
-): any => {
-  class QuickEditComponent extends React.PureComponent<
-    QuickEditProps,
-    QuickEditState
-  > {
-    target: HTMLElement;
-    overlay: HTMLElement;
-    static ComposedComponent = Component;
-    constructor(props: QuickEditProps) {
-      super(props);
+export const HocQuickEdit =
+  (config: Partial<QuickEditConfig> = {}) =>
+  (Component: React.ComponentType<any>): any => {
+    class QuickEditComponent extends React.PureComponent<
+      QuickEditProps,
+      QuickEditState
+    > {
+      target: HTMLElement;
+      overlay: HTMLElement;
+      static ComposedComponent = Component;
+      constructor(props: QuickEditProps) {
+        super(props);
 
-      this.openQuickEdit = this.openQuickEdit.bind(this);
-      this.closeQuickEdit = this.closeQuickEdit.bind(this);
-      this.handleAction = this.handleAction.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-      this.handleKeyUp = this.handleKeyUp.bind(this);
-      this.overlayRef = this.overlayRef.bind(this);
-      this.handleWindowKeyPress = this.handleWindowKeyPress.bind(this);
-      this.handleWindowKeyDown = this.handleWindowKeyDown.bind(this);
-      this.formRef = this.formRef.bind(this);
-      this.handleInit = this.handleInit.bind(this);
-      this.handleChange = this.handleChange.bind(this);
+        this.openQuickEdit = this.openQuickEdit.bind(this);
+        this.closeQuickEdit = this.closeQuickEdit.bind(this);
+        this.handleAction = this.handleAction.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
+        this.overlayRef = this.overlayRef.bind(this);
+        this.handleWindowKeyPress = this.handleWindowKeyPress.bind(this);
+        this.handleWindowKeyDown = this.handleWindowKeyDown.bind(this);
+        this.formRef = this.formRef.bind(this);
+        this.handleInit = this.handleInit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
 
-      this.state = {
-        isOpened: false
-      };
-    }
-
-    componentDidMount() {
-      this.target = findDOMNode(this) as HTMLElement;
-
-      if (inited) {
-        return;
+        this.state = {
+          isOpened: false
+        };
       }
 
-      inited = true;
-      document.body.addEventListener('keypress', this.handleWindowKeyPress);
-      document.body.addEventListener('keydown', this.handleWindowKeyDown);
-    }
+      componentDidMount() {
+        this.target = findDOMNode(this) as HTMLElement;
 
-    formRef(ref: any) {
-      const {quickEditFormRef, rowIndex, colIndex} = this.props;
-
-      if (quickEditFormRef) {
-        while (ref && ref.getWrappedInstance) {
-          ref = ref.getWrappedInstance();
+        if (inited) {
+          return;
         }
 
-        quickEditFormRef(ref, colIndex, rowIndex);
-      }
-    }
-
-    handleWindowKeyPress(e: Event) {
-      const ns = this.props.classPrefix;
-      let el: HTMLElement = (e.target as HTMLElement).closest(
-        `.${ns}Field--quickEditable`
-      ) as HTMLElement;
-      if (!el) {
-        return;
-      }
-      const table = el.closest('table');
-      if (!table) {
-        return;
+        inited = true;
+        document.body.addEventListener('keypress', this.handleWindowKeyPress);
+        document.body.addEventListener('keydown', this.handleWindowKeyDown);
       }
 
-      if (
-        keycode(e) === 'space' &&
-        !~['INPUT', 'TEXTAREA'].indexOf(el.tagName)
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    }
+      formRef(ref: any) {
+        const {quickEditFormRef, rowIndex, colIndex} = this.props;
 
-    handleWindowKeyDown(e: Event) {
-      const code = keycode(e);
+        if (quickEditFormRef) {
+          while (ref && ref.getWrappedInstance) {
+            ref = ref.getWrappedInstance();
+          }
 
-      if (code === 'esc' && currentOpened) {
-        currentOpened.closeQuickEdit();
-      } else if (
-        ~['INPUT', 'TEXTAREA'].indexOf((e.target as HTMLElement).tagName) ||
-        (e.target as HTMLElement).contentEditable === 'true' ||
-        !~['up', 'down', 'left', 'right'].indexOf(code)
-      ) {
-        return;
+          quickEditFormRef(ref, colIndex, rowIndex);
+        }
       }
 
-      e.preventDefault();
-      const ns = this.props.classPrefix;
-      let el: HTMLElement =
-        ((e.target as HTMLElement).closest(
+      handleWindowKeyPress(e: Event) {
+        const ns = this.props.classPrefix;
+        let el: HTMLElement = (e.target as HTMLElement).closest(
           `.${ns}Field--quickEditable`
-        ) as HTMLElement) ||
-        document.querySelector(`.${ns}Field--quickEditable`);
-      if (!el) {
-        return;
-      }
-
-      let table = el.closest('table');
-      if (!table) {
-        return;
-      }
-
-      let current = table.querySelector(
-        `.${ns}Field--quickEditable:focus`
-      ) as HTMLTableDataCellElement;
-
-      if (!current) {
-        let dom = table.querySelector(
-          `.${ns}Field--quickEditable[tabindex]`
         ) as HTMLElement;
-        dom && dom.focus();
-      } else {
-        let prevTr, nextTr, prevTd, nextTd;
+        if (!el) {
+          return;
+        }
+        const table = el.closest('table');
+        if (!table) {
+          return;
+        }
 
-        switch (code) {
-          case 'up':
-            prevTr = (current.parentNode as HTMLElement)
-              .previousSibling as HTMLTableCellElement;
+        if (
+          keycode(e) === 'space' &&
+          !~['INPUT', 'TEXTAREA'].indexOf(el.tagName)
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }
 
-            if (prevTr) {
-              let index = current.cellIndex;
-              (prevTr.children[index] as HTMLElement).focus();
-            }
-            break;
-          case 'down':
-            nextTr = (current.parentNode as HTMLElement)
-              .nextSibling as HTMLTableCellElement;
+      handleWindowKeyDown(e: Event) {
+        const code = keycode(e);
 
-            if (nextTr) {
-              let index = current.cellIndex;
-              (nextTr.children[index] as HTMLElement).focus();
-            }
-            break;
-          case 'left':
-            prevTd = current.previousElementSibling as HTMLTableCellElement;
+        if (code === 'esc' && currentOpened) {
+          currentOpened.closeQuickEdit();
+        } else if (
+          ~['INPUT', 'TEXTAREA'].indexOf((e.target as HTMLElement).tagName) ||
+          (e.target as HTMLElement).contentEditable === 'true' ||
+          !~['up', 'down', 'left', 'right'].indexOf(code)
+        ) {
+          return;
+        }
 
-            while (prevTd) {
-              if (matches(prevTd, `.${ns}Field--quickEditable[tabindex]`)) {
-                break;
+        e.preventDefault();
+        const ns = this.props.classPrefix;
+        let el: HTMLElement =
+          ((e.target as HTMLElement).closest(
+            `.${ns}Field--quickEditable`
+          ) as HTMLElement) ||
+          document.querySelector(`.${ns}Field--quickEditable`);
+        if (!el) {
+          return;
+        }
+
+        let table = el.closest('table');
+        if (!table) {
+          return;
+        }
+
+        let current = table.querySelector(
+          `.${ns}Field--quickEditable:focus`
+        ) as HTMLTableDataCellElement;
+
+        if (!current) {
+          let dom = table.querySelector(
+            `.${ns}Field--quickEditable[tabindex]`
+          ) as HTMLElement;
+          dom && dom.focus();
+        } else {
+          let prevTr, nextTr, prevTd, nextTd;
+
+          switch (code) {
+            case 'up':
+              prevTr = (current.parentNode as HTMLElement)
+                .previousSibling as HTMLTableCellElement;
+
+              if (prevTr) {
+                let index = current.cellIndex;
+                (prevTr.children[index] as HTMLElement).focus();
               }
-              prevTd = prevTd.previousElementSibling;
-            }
+              break;
+            case 'down':
+              nextTr = (current.parentNode as HTMLElement)
+                .nextSibling as HTMLTableCellElement;
 
-            if (prevTd) {
-              (prevTd as HTMLElement).focus();
-            } else if ((current.parentNode as HTMLElement).previousSibling) {
-              let tds = ((current.parentNode as HTMLElement)
-                .previousSibling as HTMLElement).querySelectorAll(
-                `.${ns}Field--quickEditable[tabindex]`
-              );
-
-              if (tds.length) {
-                (tds[tds.length - 1] as HTMLElement).focus();
+              if (nextTr) {
+                let index = current.cellIndex;
+                (nextTr.children[index] as HTMLElement).focus();
               }
-            }
-            break;
-          case 'right':
-            nextTd = current.nextSibling;
-            while (nextTd) {
-              if (
-                matches(
-                  nextTd as Element,
-                  `.${ns}Field--quickEditable[tabindex]`
-                )
-              ) {
-                break;
+              break;
+            case 'left':
+              prevTd = current.previousElementSibling as HTMLTableCellElement;
+
+              while (prevTd) {
+                if (prevTd.matches(`.${ns}Field--quickEditable[tabindex]`)) {
+                  break;
+                }
+                prevTd = prevTd.previousElementSibling;
               }
 
-              nextTd = nextTd.nextSibling;
-            }
+              if (prevTd) {
+                (prevTd as HTMLElement).focus();
+              } else if ((current.parentNode as HTMLElement).previousSibling) {
+                let tds = (
+                  (current.parentNode as HTMLElement)
+                    .previousSibling as HTMLElement
+                ).querySelectorAll(`.${ns}Field--quickEditable[tabindex]`);
 
-            if (nextTd) {
-              (nextTd as HTMLElement).focus();
-            } else if ((current.parentNode as HTMLElement).nextSibling) {
-              nextTd = ((current.parentNode as HTMLElement)
-                .nextSibling as HTMLElement).querySelector(
-                `.${ns}Field--quickEditable[tabindex]`
-              );
+                if (tds.length) {
+                  (tds[tds.length - 1] as HTMLElement).focus();
+                }
+              }
+              break;
+            case 'right':
+              nextTd = current.nextSibling;
+              while (nextTd) {
+                if (
+                  (nextTd as Element).matches(
+                    `.${ns}Field--quickEditable[tabindex]`
+                  )
+                ) {
+                  break;
+                }
+
+                nextTd = nextTd.nextSibling;
+              }
 
               if (nextTd) {
-                (nextTd as any).focus();
+                (nextTd as HTMLElement).focus();
+              } else if ((current.parentNode as HTMLElement).nextSibling) {
+                nextTd = (
+                  (current.parentNode as HTMLElement).nextSibling as HTMLElement
+                ).querySelector(`.${ns}Field--quickEditable[tabindex]`);
+
+                if (nextTd) {
+                  (nextTd as any).focus();
+                }
               }
-            }
-            break;
+              break;
+          }
         }
       }
-    }
 
-    // handleClickOutside() {
-    //     this.closeQuickEdit();
-    // }
+      // handleClickOutside() {
+      //     this.closeQuickEdit();
+      // }
 
-    overlayRef(ref: any) {
-      this.overlay = ref;
-    }
+      overlayRef(ref: any) {
+        this.overlay = ref;
+      }
 
-    handleAction(e: any, action: Action, ctx: object) {
-      const {onAction} = this.props;
+      handleAction(e: any, action: Action, ctx: object) {
+        const {onAction} = this.props;
 
-      if (action.actionType === 'cancel' || action.actionType === 'close') {
+        if (action.actionType === 'cancel' || action.actionType === 'close') {
+          this.closeQuickEdit();
+          return;
+        }
+
+        onAction && onAction(e, action, ctx);
+      }
+
+      handleSubmit(values: object) {
+        const {onQuickChange, quickEdit} = this.props;
+
         this.closeQuickEdit();
-        return;
+        onQuickChange(
+          values,
+          (quickEdit as QuickEditConfig).saveImmediately,
+          false,
+          (quickEdit as QuickEditConfig).resetOnFailed
+        );
+
+        return false;
       }
 
-      onAction && onAction(e, action, ctx);
-    }
-
-    handleSubmit(values: object) {
-      const {onQuickChange, quickEdit} = this.props;
-
-      this.closeQuickEdit();
-      onQuickChange(
-        values,
-        (quickEdit as QuickEditConfig).saveImmediately,
-        false,
-        (quickEdit as QuickEditConfig).resetOnFailed
-      );
-    }
-
-    handleInit(values: object) {
-      const {onQuickChange} = this.props;
-      onQuickChange(values, false, true);
-    }
-
-    handleChange(values: object) {
-      const {onQuickChange, quickEdit} = this.props;
-
-      onQuickChange(
-        values,
-        (quickEdit as QuickEditConfig).saveImmediately,
-        false,
-        (quickEdit as QuickEditConfig).resetOnFailed
-      );
-    }
-
-    openQuickEdit() {
-      currentOpened = this;
-      this.setState({
-        isOpened: true
-      });
-    }
-
-    closeQuickEdit() {
-      if (!this.state.isOpened) {
-        return;
+      handleInit(values: object) {
+        const {onQuickChange} = this.props;
+        onQuickChange(values, false, true);
       }
-      currentOpened = null;
-      const ns = this.props.classPrefix;
-      this.setState(
-        {
-          isOpened: false
-        },
-        () => {
-          let el = findDOMNode(this) as HTMLElement;
-          let table = el.closest('table') as HTMLElement;
-          ((table &&
-            table.querySelectorAll(`td.${ns}Field--quickEditable:focus`)
-              .length) ||
-            el) &&
-            el.focus();
+
+      handleChange(values: object) {
+        const {onQuickChange, quickEdit} = this.props;
+
+        onQuickChange(
+          values,
+          (quickEdit as QuickEditConfig).saveImmediately,
+          false,
+          (quickEdit as QuickEditConfig).resetOnFailed
+        );
+      }
+
+      openQuickEdit() {
+        currentOpened = this;
+        this.setState({
+          isOpened: true
+        });
+      }
+
+      closeQuickEdit() {
+        if (!this.state.isOpened) {
+          return;
         }
-      );
-    }
+        currentOpened = null;
+        const ns = this.props.classPrefix;
+        this.setState(
+          {
+            isOpened: false
+          },
+          () => {
+            let el = findDOMNode(this) as HTMLElement;
+            let table = el.closest('table') as HTMLElement;
+            ((table &&
+              table.querySelectorAll(`td.${ns}Field--quickEditable:focus`)
+                .length) ||
+              el) &&
+              el.focus();
+          }
+        );
+      }
 
-    buildSchema() {
-      const {quickEdit, name, label, translate: __} = this.props;
+      buildSchema() {
+        const {quickEdit, name, label, translate: __} = this.props;
 
-      let schema;
+        let schema;
 
-      if (quickEdit === true) {
-        schema = {
-          type: 'form',
-          title: '',
-          autoFocus: true,
-          controls: [
-            {
-              type: 'text',
-              name,
-              placeholder: label,
-              label: false
-            }
-          ]
-        };
-      } else if (quickEdit) {
-        if (
-          (quickEdit.controls &&
-            !~['combo', 'group', 'panel', 'fieldSet'].indexOf(
-              (quickEdit as any).type
-            )) ||
-          quickEdit.tabs ||
-          quickEdit.fieldSet
-        ) {
+        if (quickEdit === true) {
           schema = {
-            title: '',
-            autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
-            ...quickEdit,
-            mode: 'normal',
-            type: 'form'
-          };
-        } else {
-          schema = {
-            title: '',
-            className: quickEdit.formClassName,
             type: 'form',
-            autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
-            mode: 'normal',
-            controls: [
+            title: '',
+            autoFocus: true,
+            body: [
               {
-                type: quickEdit.type || 'text',
-                name: quickEdit.name || name,
-                ...quickEdit,
-                mode: undefined
+                type: 'input-text',
+                name,
+                placeholder: label,
+                label: false
               }
             ]
           };
+        } else if (quickEdit) {
+          if (
+            quickEdit.body &&
+            !~['combo', 'group', 'panel', 'fieldSet', 'fieldset'].indexOf(
+              (quickEdit as any).type
+            )
+          ) {
+            schema = {
+              title: '',
+              autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
+              ...quickEdit,
+              mode: 'normal',
+              type: 'form'
+            };
+          } else {
+            schema = {
+              title: '',
+              className: quickEdit.formClassName,
+              type: 'form',
+              autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
+              mode: 'normal',
+              body: [
+                {
+                  type: quickEdit.type || 'input-text',
+                  name: quickEdit.name || name,
+                  ...quickEdit,
+                  mode: undefined
+                }
+              ]
+            };
+          }
+        }
+
+        if (schema) {
+          schema = {
+            ...schema,
+            wrapWithPanel: (quickEdit as QuickEditConfig).mode !== 'inline',
+            actions:
+              (quickEdit as QuickEditConfig).mode === 'inline'
+                ? []
+                : [
+                    {
+                      type: 'button',
+                      label: __('cancel'),
+                      actionType: 'cancel'
+                    },
+
+                    {
+                      label: __('confirm'),
+                      type: 'submit',
+                      primary: true
+                    }
+                  ]
+          };
+        }
+
+        return schema || 'error';
+      }
+
+      handleKeyUp(e: Event) {
+        const code = keycode(e);
+        if (
+          code === 'space' &&
+          !~['INPUT', 'TEXTAREA'].indexOf((e.target as HTMLElement).tagName)
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.openQuickEdit();
         }
       }
 
-      if (schema) {
-        schema = {
-          ...schema,
-          wrapWithPanel: (quickEdit as QuickEditConfig).mode !== 'inline',
-          actions:
-            (quickEdit as QuickEditConfig).mode === 'inline'
-              ? []
-              : [
-                  {
-                    type: 'button',
-                    label: __('cancel'),
-                    actionType: 'cancel'
-                  },
+      renderPopOver() {
+        let {
+          quickEdit,
+          render,
+          popOverContainer,
+          classPrefix: ns,
+          classnames: cx,
+          canAccessSuperData
+        } = this.props;
 
-                  {
-                    label: __('confirm'),
-                    type: 'submit',
-                    primary: true
-                  }
-                ]
-        };
-      }
-
-      return schema || 'error';
-    }
-
-    handleKeyUp(e: Event) {
-      const code = keycode(e);
-      if (
-        code === 'space' &&
-        !~['INPUT', 'TEXTAREA'].indexOf((e.target as HTMLElement).tagName)
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.openQuickEdit();
-      }
-    }
-
-    renderPopOver() {
-      let {
-        quickEdit,
-        render,
-        popOverContainer,
-        classPrefix: ns,
-        classnames: cx,
-        canAccessSuperData
-      } = this.props;
-
-      const content = (
-        <div
-          ref={this.overlayRef}
-          className={cx((quickEdit as QuickEditConfig).className)}
-        >
-          {render('quick-edit-form', this.buildSchema(), {
-            onSubmit: this.handleSubmit,
-            onAction: this.handleAction,
-            onChange: null,
-            formLazyChange: false,
-            ref: this.formRef,
-            popOverContainer: () => this.overlay,
-            canAccessSuperData
-          })}
-        </div>
-      );
-
-      popOverContainer = popOverContainer || (() => findDOMNode(this));
-
-      return (
-        <Overlay
-          container={popOverContainer}
-          target={() => this.target}
-          onHide={this.closeQuickEdit}
-          placement="left-top right-top left-bottom right-bottom left-top"
-          show
-        >
-          <PopOver
-            classPrefix={ns}
-            className={cx(
-              `${ns}QuickEdit-popover`,
-              (quickEdit as QuickEditConfig).popOverClassName
-            )}
-            onHide={this.closeQuickEdit}
-            overlay
+        const content = (
+          <div
+            ref={this.overlayRef}
+            className={cx((quickEdit as QuickEditConfig).className)}
           >
-            {content}
-          </PopOver>
-        </Overlay>
-      );
-    }
-
-    render() {
-      const {
-        onQuickChange,
-        quickEdit,
-        quickEditEnabled,
-        className,
-        classnames: cx,
-        render,
-        noHoc,
-        canAccessSuperData
-      } = this.props;
-
-      if (!quickEdit || !onQuickChange || quickEditEnabled === false || noHoc) {
-        return <Component {...this.props} />;
-      }
-
-      if ((quickEdit as QuickEditConfig).mode === 'inline') {
-        return (
-          <Component {...this.props}>
-            {render('inline-form', this.buildSchema(), {
-              wrapperComponent: 'div',
-              className: cx('Form--quickEdit'),
-              ref: this.formRef,
-              simpleMode: true,
-              onInit: this.handleInit,
-              onChange: this.handleChange,
+            {render('quick-edit-form', this.buildSchema(), {
+              value: undefined,
+              onSubmit: this.handleSubmit,
+              onAction: this.handleAction,
+              onChange: null,
               formLazyChange: false,
-              canAccessSuperData
+              ref: this.formRef,
+              popOverContainer: () => this.overlay,
+              canAccessSuperData,
+              formStore: undefined
             })}
-          </Component>
+          </div>
         );
-      } else {
+
+        popOverContainer = popOverContainer || (() => findDOMNode(this));
+
         return (
-          <Component
-            {...this.props}
-            className={cx(`Field--quickEditable`, className, {
-              in: this.state.isOpened
-            })}
-            tabIndex={
-              (quickEdit as QuickEditConfig).focusable === false
-                ? undefined
-                : '0'
-            }
-            onKeyUp={this.handleKeyUp}
+          <Overlay
+            container={popOverContainer}
+            target={() => this.target}
+            onHide={this.closeQuickEdit}
+            placement="left-top right-top left-bottom right-bottom left-top"
+            show
           >
-            <Component {...this.props} wrapperComponent={''} noHoc />
-            <span
-              key="edit-btn"
-              className={cx('Field-quickEditBtn')}
-              onClick={this.openQuickEdit}
+            <PopOver
+              classPrefix={ns}
+              className={cx(
+                `${ns}QuickEdit-popover`,
+                (quickEdit as QuickEditConfig).popOverClassName
+              )}
+              onHide={this.closeQuickEdit}
+              overlay
             >
-              <Icon icon="pencil" className="icon" />
-            </span>
-            {this.state.isOpened ? this.renderPopOver() : null}
-          </Component>
+              {content}
+            </PopOver>
+          </Overlay>
         );
       }
+
+      render() {
+        const {
+          onQuickChange,
+          quickEdit,
+          quickEditEnabled,
+          className,
+          classnames: cx,
+          render,
+          noHoc,
+          canAccessSuperData,
+          disabled
+        } = this.props;
+
+        if (
+          !quickEdit ||
+          !onQuickChange ||
+          quickEditEnabled === false ||
+          noHoc ||
+          disabled
+        ) {
+          return <Component {...this.props} />;
+        }
+
+        if ((quickEdit as QuickEditConfig).mode === 'inline') {
+          return (
+            <Component {...this.props}>
+              {render('inline-form', this.buildSchema(), {
+                value: undefined,
+                wrapperComponent: 'div',
+                className: cx('Form--quickEdit'),
+                ref: this.formRef,
+                simpleMode: true,
+                onInit: this.handleInit,
+                onChange: this.handleChange,
+                formLazyChange: false,
+                canAccessSuperData
+              })}
+            </Component>
+          );
+        } else {
+          return (
+            <Component
+              {...this.props}
+              className={cx(`Field--quickEditable`, className, {
+                in: this.state.isOpened
+              })}
+              tabIndex={
+                (quickEdit as QuickEditConfig).focusable === false
+                  ? undefined
+                  : '0'
+              }
+              onKeyUp={this.handleKeyUp}
+            >
+              <Component {...this.props} wrapperComponent={''} noHoc />
+              <span
+                key="edit-btn"
+                className={cx('Field-quickEditBtn')}
+                onClick={this.openQuickEdit}
+              >
+                <Icon icon="pencil" className="icon" />
+              </span>
+              {this.state.isOpened ? this.renderPopOver() : null}
+            </Component>
+          );
+        }
+      }
     }
-  }
 
-  hoistNonReactStatic(QuickEditComponent, Component);
+    hoistNonReactStatic(QuickEditComponent, Component);
 
-  return QuickEditComponent;
-};
+    return QuickEditComponent;
+  };
 
 export default HocQuickEdit;

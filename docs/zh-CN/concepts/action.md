@@ -25,7 +25,7 @@ order: 12
     "type": "action",
     "label": "发出一个请求",
     "actionType": "ajax",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
+    "api": "/api/mock2/form/saveForm"
 }
 ```
 

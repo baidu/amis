@@ -1,14 +1,17 @@
 import React from 'react';
 import {render} from '../../src/index';
 import axios from 'axios';
+import Portal from 'react-overlays/Portal';
 import {toast} from '../../src/components/Toast';
 import {normalizeLink} from '../../src/utils/normalizeLink';
 import Button from '../../src/components/Button';
 import LazyComponent from '../../src/components/LazyComponent';
 import {default as DrawerContainer} from '../../src/components/Drawer';
-import {Portal} from 'react-overlays';
+
 import {withRouter} from 'react-router';
+import {matchPath} from 'react-router-dom';
 import copy from 'copy-to-clipboard';
+import {qsparse} from '../../src/utils/helper';
 
 function loadEditor() {
   return new Promise(resolve =>
@@ -17,7 +20,7 @@ function loadEditor() {
   );
 }
 
-const viewMode = localStorage.getItem('viewMode') || 'pc';
+const viewMode = localStorage.getItem('amis-viewMode') || 'pc';
 
 export default function (schema, showCode, envOverrides) {
   if (!schema['$schema']) {
@@ -31,6 +34,7 @@ export default function (schema, showCode, envOverrides) {
       static displayName = 'SchemaRenderer';
       iframeRef;
       state = {open: false, schema: {}};
+      originalTitle = document.title;
       toggleCode = () =>
         this.setState({
           open: !this.state.open
@@ -46,14 +50,14 @@ export default function (schema, showCode, envOverrides) {
       constructor(props) {
         super(props);
 
-        const {router, route} = props;
+        const {history} = props;
         this.env = {
           updateLocation: (location, replace) => {
-            router[replace ? 'replace' : 'push'](normalizeLink(location));
+            history[replace ? 'replace' : 'push'](normalizeLink(location));
           },
           jumpTo: (to, action) => {
             if (to === 'goBack') {
-              return router.location.goBack();
+              return history.location.goBack();
             }
             to = normalizeLink(to);
             if (action && action.actionType === 'url') {
@@ -62,18 +66,43 @@ export default function (schema, showCode, envOverrides) {
                 : window.open(to);
               return;
             }
+            if (action && to && action.target) {
+              window.open(to, action.target);
+              return;
+            }
             if (/^https?:\/\//.test(to)) {
               window.location.replace(to);
             } else {
-              router.push(to);
+              history.push(to);
             }
           },
           isCurrentUrl: to => {
-            if (!to) {
-              return false;
-            }
+            const history = this.props.history;
             const link = normalizeLink(to);
-            return router.isActive(link);
+            const location = history.location;
+            let pathname = link;
+            let search = '';
+            const idx = link.indexOf('?');
+            if (~idx) {
+              pathname = link.substring(0, idx);
+              search = link.substring(idx);
+            }
+
+            if (search) {
+              if (pathname !== location.pathname || !location.search) {
+                return false;
+              }
+              const currentQuery = qsparse(location.search.substring(1));
+              const query = qsparse(search.substring(1));
+
+              return Object.keys(query).every(
+                key => query[key] === currentQuery[key]
+              );
+            } else if (pathname === location.pathname) {
+              return true;
+            }
+
+            return false;
           },
           fetcher: ({url, method, data, config, headers}) => {
             config = config || {};
@@ -111,14 +140,15 @@ export default function (schema, showCode, envOverrides) {
             return axios[method](url, data, config);
           },
           isCancel: value => axios.isCancel(value),
-          copy: content => {
-            copy(content);
+          copy: (content, options) => {
+            copy(content, options);
             toast.success('内容已复制到粘贴板');
           },
           blockRouting: fn => {
-            return router.setRouteLeaveHook(route, nextLocation => {
-              return fn(nextLocation);
-            });
+            return history.block(fn);
+          },
+          tracker(eventTrack) {
+            console.debug('eventTrack', eventTrack);
           },
           ...envOverrides
         };
@@ -192,10 +222,17 @@ export default function (schema, showCode, envOverrides) {
       componentWillUnmount() {
         this.props.setAsideFolded && this.props.setAsideFolded(false);
         window.removeEventListener('message', this.watchIframeReady, false);
+        document.title = this.originalTitle;
+      }
+
+      componentDidMount() {
+        if (schema.title) {
+          document.title = schema.title;
+        }
       }
 
       renderSchema() {
-        const {router, location, theme, locale} = this.props;
+        const {location, theme, locale} = this.props;
 
         if (viewMode === 'mobile') {
           return (

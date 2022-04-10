@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:grid2d 1`] = `
+<div>
+  <div
+    style="display: grid; column-gap: 0; row-gap: 0; width: auto; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; grid-template-rows: 3.125rem 3.125rem 3.125rem;"
+  >
+    <div
+      class="bg-green-300"
+      style="grid-column-start: 1; grid-column-end: 7; grid-row-start: 1; grid-row-end: 2; justify-self: stretch; align-self: stretch;"
+    >
+      <span
+        class="cxd-TplField"
+      >
+        <span>
+          [grid-1] x:1 y:1 h:1 w:6
+        </span>
+      </span>
+    </div>
+    <div
+      class="bg-blue-300"
+      style="grid-column-start: 7; grid-column-end: 13; grid-row-start: 1; grid-row-end: 2; justify-self: stretch; align-self: stretch;"
+    >
+      <span
+        class="cxd-TplField"
+      >
+        <span>
+          [grid-2] x:7 y:1 h:1 w:6
+        </span>
+      </span>
+    </div>
+    <div
+      class="bg-red-300"
+      style="grid-column-start: 1; grid-column-end: 5; grid-row-start: 2; grid-row-end: 4; justify-self: stretch; align-self: stretch;"
+    >
+      <span
+        class="cxd-TplField"
+      >
+        <span>
+          [grid-3] x:1 y:2 h:2 w:4
+        </span>
+      </span>
+    </div>
+    <div
+      class="bg-purple-300"
+      style="grid-column-start: 5; grid-column-end: 13; grid-row-start: 2; grid-row-end: 3; justify-self: stretch; align-self: stretch;"
+    >
+      <span
+        class="cxd-TplField"
+      >
+        <span>
+          [grid-4] x:5 y:2 h:1 w:8
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;

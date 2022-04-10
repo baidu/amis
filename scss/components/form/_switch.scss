@@ -19,13 +19,19 @@
   .text {
     margin: 0 px2rem(7px) 0 px2rem(25px);
     color: var(--Switch-valueColor);
-    text-indent: calc(var(--Switch-width) / 2);
+    text-indent: var(--gap-xs);
     text-transform: uppercase;
     font-size: var(--fontSizeSm);
     line-height: var(--Switch-height);
     font-style: normal;
     font-weight: bold;
     transition: all var(--animation-duration);
+
+    > svg {
+      width: var(--fontSizeSm);
+      height: var(--fontSizeSm);
+      margin-top: calc((var(--Switch-height) - var(--fontSizeSm)) / 2);
+    }
   }
 
   .slider {
@@ -52,9 +58,8 @@
     }
 
     .text {
-      margin: 0 25px 0 7px;
       color: var(--white);
-      text-indent: var(--gap-xs); // todo
+      margin: 0 px2rem(25px) 0 px2rem(7px);
     }
   }
 

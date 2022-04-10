@@ -90,6 +90,7 @@ export default {
           label: '弹个表单',
           actionType: 'dialog',
           dialog: {
+            size: 'lg',
             title: '在弹框中的表单',
             closeOnEsc: true,
             actions: [
@@ -141,16 +142,16 @@ export default {
               api: '/api/mock2/form/saveForm?waitSeconds=2',
               title: '常规模式',
               mode: 'normal',
-              controls: [
+              body: [
                 {
-                  type: 'email',
+                  type: 'input-email',
                   name: 'email',
                   required: true,
                   placeholder: '请输入邮箱',
                   label: '邮箱'
                 },
                 {
-                  type: 'password',
+                  type: 'input-password',
                   name: 'password',
                   label: '密码',
                   required: true,
@@ -192,7 +193,7 @@ export default {
               api: '/api/mock2/form/saveForm?waitSeconds=2',
               title: '常规模式',
               mode: 'normal',
-              controls: [
+              body: [
                 {
                   type: 'checkbox',
                   name: 'rememberMe',

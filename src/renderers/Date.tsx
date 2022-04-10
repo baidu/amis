@@ -2,6 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import moment from 'moment';
 import {BaseSchema} from '../Schema';
+import {getPropValue} from '../utils/helper';
 
 /**
  * Date 展示渲染器。
@@ -90,7 +91,6 @@ export class DateField extends React.Component<DateProps, DateState> {
 
   render() {
     const {
-      value,
       valueFormat,
       format,
       placeholder,
@@ -103,6 +103,10 @@ export class DateField extends React.Component<DateProps, DateState> {
       <span className="text-muted">{placeholder}</span>
     );
 
+    const value = getPropValue(this.props);
+
+    // 主要是给 fromNow 用的
+    let date;
     if (value) {
       let ISODate = moment(value, moment.ISO_8601);
       let NormalDate = moment(value, valueFormat);
@@ -112,6 +116,10 @@ export class DateField extends React.Component<DateProps, DateState> {
         : NormalDate.isValid()
         ? NormalDate.format(format)
         : false;
+
+      if (viewValue) {
+        date = viewValue as string;
+      }
     }
 
     if (fromNow) {
@@ -124,13 +132,19 @@ export class DateField extends React.Component<DateProps, DateState> {
       viewValue
     );
 
-    return <span className={cx('DateField', className)}>{viewValue}</span>;
+    return (
+      <span
+        className={cx('DateField', className)}
+        title={fromNow ? date : undefined}
+      >
+        {viewValue}
+      </span>
+    );
   }
 }
 
 @Renderer({
-  test: /(^|\/)date$/,
-  name: 'date-field'
+  type: 'date'
 })
 export class DateFieldRenderer extends DateField {
   static defaultProps: Partial<DateProps> = {
@@ -140,8 +154,7 @@ export class DateFieldRenderer extends DateField {
 }
 
 @Renderer({
-  test: /(^|\/)datetime$/,
-  name: 'datetime-field'
+  type: 'datetime'
 })
 export class DateTimeFieldRenderer extends DateField {
   static defaultProps: Partial<DateProps> = {
@@ -151,8 +164,7 @@ export class DateTimeFieldRenderer extends DateField {
 }
 
 @Renderer({
-  test: /(^|\/)time$/,
-  name: 'time-field'
+  type: 'time'
 })
 export class TimeFieldRenderer extends DateField {
   static defaultProps: Partial<DateProps> = {
@@ -161,8 +173,7 @@ export class TimeFieldRenderer extends DateField {
   };
 }
 @Renderer({
-  test: /(^|\/)month$/,
-  name: 'month-field'
+  type: 'month'
 })
 export class MonthFieldRenderer extends DateField {
   static defaultProps: Partial<DateProps> = {

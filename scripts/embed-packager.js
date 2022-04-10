@@ -1,12 +1,14 @@
 /* eslint-disable */
 
-var rLinkScript = /(<!(?:--)?\[[\s\S]*?<\!\[endif\](?:--)?>|<!--[\s\S]*?(?:-->|$))|(?:(\s*<script([^>]*)>([\s\S]*?)<\/script>)|(?:\s*(<link([^>]*?)(?:\/)?>)|(<style([^>]*)>([\s\S]*?)<\/style>)))(<!--ignore-->)?\n?/gi;
+var rLinkScript =
+  /(<!(?:--)?\[[\s\S]*?<\!\[endif\](?:--)?>|<!--[\s\S]*?(?:-->|$))|(?:(\s*<script([^>]*)>([\s\S]*?)<\/script>)|(?:\s*(<link([^>]*?)(?:\/)?>)|(<style([^>]*)>([\s\S]*?)<\/style>)))(<!--ignore-->)?\n?/gi;
 var rScriptType = /type=('|")(.*?)\1/i;
 var rSrcHref = /\s*(?:src|href)=('|")(.+?)\1/i;
 var rRefStyle = /rel=('|")stylesheet\1/i;
 var path = require('path');
 var css = require('css');
-var rSourceMap = /(?:\/\/\#\s*sourceMappingURL[^\r\n\'\"]*|\/\*\#\s*sourceMappingURL[^\r\n\'\"]*\*\/)(?:\r?\n|$)/gi;
+var rSourceMap =
+  /(?:\/\/\#\s*sourceMappingURL[^\r\n\'\"]*|\/\*\#\s*sourceMappingURL[^\r\n\'\"]*\*\/)(?:\r?\n|$)/gi;
 var caches = {};
 var createResource = fis.require('postpackager-loader/lib/resource.js');
 
@@ -27,7 +29,7 @@ function prefixCss(code, prefix) {
       );
     else if (
       sel.match(
-        /^(?:\.fr-|\.fa|\.tox|\.monaco-|\.vs-dark|\.hc-black|\.vs\b|\.cursor-|::|\.context-view|\.menubar|\.fullscreen|\.colorpicker-)/
+        /^(?:\.fr-|\.fa|\.tox|\.AMISDebug|\.monaco-|\.vs-dark|\.hc-black|\.vs\b|\.cursor-|::|\.context-view|\.menubar|\.fullscreen|\.colorpicker-)/
       )
     )
       return sel;
@@ -126,11 +128,11 @@ module.exports = function (ret, pack, settings, opt) {
     try {
         throw new Error()
     } catch (e) {
-        d = (/((?:https?|file)\:.*)\\n?$/.test(e.stack) ? RegExp.$1 : '').replace(/\\/[^\\/]*$/, '');
+        d = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
     }
     amis.host = d;
     ${contents.replace(
-      /\"url\"\s*\:\s*('|")(\.\/.*)\1/g,
+      /\"url\"\s*\:\s*('|")(\.\/.*?)\1/g,
       function (_, quote, value) {
         return `"url": d + ${quote}${value.substring(1)}${quote}`;
       }
@@ -194,7 +196,7 @@ module.exports = function (ret, pack, settings, opt) {
   // cssFile.setContent(cssContents);
   // ret.pkg[cssFile.subpath] = cssFile;
 
-  const themes = ['default', 'cxd', 'dark', 'antd'];
+  const themes = ['ang', 'cxd', 'dark', 'antd'];
 
   themes.forEach(function (theme) {
     const rest = themes.filter(a => a !== theme).map(item => item + '.scss');
@@ -204,10 +206,7 @@ module.exports = function (ret, pack, settings, opt) {
       .join('\n');
 
     contents = prefixCss(contents, '.amis-scope');
-    let cssFile = fis.file(
-      root,
-      (theme === 'default' ? 'sdk' : theme) + '.css'
-    );
+    let cssFile = fis.file(root, (theme === 'cxd' ? 'sdk' : theme) + '.css');
     cssFile.setContent(contents);
     ret.pkg[cssFile.subpath] = cssFile;
   });

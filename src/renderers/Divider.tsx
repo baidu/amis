@@ -37,7 +37,6 @@ export default class Divider extends React.Component<DividerProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)(?:divider|hr)$/,
-  name: 'divider'
+  type: 'divider'
 })
 export class DividerRenderer extends Divider {}

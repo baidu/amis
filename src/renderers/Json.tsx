@@ -1,8 +1,8 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 
-import JSONTree from 'react-json-tree';
-import {autobind} from '../utils/helper';
+import JsonView, {InteractionProps} from 'react-json-view';
+import {autobind, getPropValue, noop} from '../utils/helper';
 import {BaseSchema} from '../Schema';
 import {resolveVariableAndFilter, isPureVariable} from '../utils/tpl-builtin';
 /**
@@ -21,14 +21,19 @@ export interface JsonSchema extends BaseSchema {
   levelExpand?: number;
 
   /**
-   * 是否隐藏根节点
-   */
-  hideRoot?: boolean;
-
-  /**
    * 支持从数据链取值
    */
   source?: string;
+
+  /**
+   * 是否可修改
+   */
+  mutable?: boolean;
+
+  /**
+   * 是否显示数据类型
+   */
+  displayDataTypes?: boolean;
 }
 
 export interface JSONProps extends RendererProps, JsonSchema {
@@ -40,152 +45,94 @@ export interface JSONProps extends RendererProps, JsonSchema {
   source?: string;
 }
 
-const twilight = {
-  scheme: 'twilight',
-  author: 'david hart (http://hart-dev.com)',
-  base00: '#1e1e1e',
-  base01: '#323537',
-  base02: '#464b50',
-  base03: '#5f5a60',
-  base04: '#838184',
-  base05: '#a7a7a7',
-  base06: '#c3c3c3',
-  base07: '#ffffff',
-  base08: '#cf6a4c',
-  base09: '#cda869',
-  base0A: '#f9ee98',
-  base0B: '#8f9d6a',
-  base0C: '#afc4db',
-  base0D: '#7587a6',
-  base0E: '#9b859d',
-  base0F: '#9b703f',
-  tree: {
-    border: 0,
-    padding: '0 0.625em 0.425em',
-    marginTop: '-0.25em',
-    marginBottom: '0',
-    marginLeft: '0',
-    marginRight: 0,
-    listStyle: 'none',
-    MozUserSelect: 'none',
-    WebkitUserSelect: 'none',
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
-    whiteSpace: 'nowrap',
-    display: 'inline-block',
-    width: '100%'
-  }
-};
-
-const eighties = {
-  scheme: 'eighties',
-  author: 'chris kempson (http://chriskempson.com)',
-  base00: '#2d2d2d',
-  base01: '#393939',
-  base02: '#515151',
-  base03: '#747369',
-  base04: '#a09f93',
-  base05: '#d3d0c8',
-  base06: '#e8e6df',
-  base07: '#f2f0ec',
-  base08: '#f2777a',
-  base09: '#f99157',
-  base0A: '#ffcc66',
-  base0B: '#99cc99',
-  base0C: '#66cccc',
-  base0D: '#6699cc',
-  base0E: '#cc99cc',
-  base0F: '#d27b53',
-  tree: {
-    border: 0,
-    padding: '0 0.625em 0.425em',
-    marginTop: '-0.25em',
-    marginBottom: '0',
-    marginLeft: '0',
-    marginRight: 0,
-    listStyle: 'none',
-    MozUserSelect: 'none',
-    WebkitUserSelect: 'none',
-    backgroundColor: '#2D2D2D',
-    whiteSpace: 'nowrap',
-    display: 'inline-block',
-    width: '100%'
-  }
-};
-
-const themes: any = {
-  twilight,
-  eighties
-};
-
 export class JSONField extends React.Component<JSONProps, object> {
   static defaultProps: Partial<JSONProps> = {
     placeholder: '-',
     levelExpand: 1,
-    jsonTheme: 'twilight',
-    hideRoot: false,
-    source: ''
+    source: '',
+    displayDataTypes: false
   };
 
   @autobind
-  valueRenderer(raw: any) {
-    const cx = this.props.classnames;
-    if (typeof raw === 'string' && /^\"?https?:\/\//.test(raw)) {
-      return (
-        <a
-          className={cx('JsonField-nodeValue')}
-          rel="noopener"
-          href={raw.replace(/^\"(.*)\"$/, '$1')}
-          target="_blank"
-        >
-          {raw}
-        </a>
-      );
+  emitChange(e: InteractionProps) {
+    const {onChange, name} = this.props;
+
+    if (!name || !onChange) {
+      return false;
     }
-    return <span className={cx('JsonField-nodeValue')}>{raw}</span>;
+
+    onChange(e.updated_src, name);
+    return true;
   }
 
-  shouldExpandNode = (keyName: any, data: any, level: any) => {
+  @autobind
+  shouldExpandNode({namespace}: {namespace: Array<string | null>}) {
     const {levelExpand} = this.props;
-    return level < levelExpand;
-  };
+
+    if (typeof levelExpand !== 'number') {
+      return false;
+    }
+
+    return namespace.length > levelExpand;
+  }
 
   render() {
     const {
       className,
-      value,
       jsonTheme,
       classnames: cx,
-      hideRoot,
       placeholder,
-      source
+      source,
+      levelExpand,
+      mutable,
+      displayDataTypes,
+      name
     } = this.props;
+
+    const value = getPropValue(this.props);
 
     let data = value;
     if (source !== undefined && isPureVariable(source)) {
       data = resolveVariableAndFilter(source, this.props.data, '| raw');
     } else if (typeof value === 'string') {
+      // 尝试解析 json
       try {
         data = JSON.parse(value);
-      } catch (e) {
-        data = {
-          error: e.message
-        };
-      }
+      } catch (e) {}
     }
 
-    const theme = themes[jsonTheme] ? themes[jsonTheme] : themes['twilight'];
+    let jsonThemeValue = jsonTheme;
+    if (isPureVariable(jsonTheme)) {
+      jsonThemeValue = resolveVariableAndFilter(
+        jsonTheme,
+        this.props.data,
+        '| raw'
+      );
+    }
+
+    // JsonView 只支持对象，所以不是对象格式需要转成对象格式。
+    if (data && ~['string', 'number'].indexOf(typeof data)) {
+      data = {
+        [typeof data]: data
+      };
+    }
 
     return (
       <div className={cx('JsonField', className)}>
         {typeof data === 'undefined' || data === null ? (
           placeholder
         ) : (
-          <JSONTree
-            data={data}
-            theme={theme}
-            shouldExpandNode={this.shouldExpandNode}
-            valueRenderer={this.valueRenderer}
-            hideRoot={hideRoot}
+          <JsonView
+            name={false}
+            src={data}
+            theme={(jsonThemeValue as any) ?? 'rjv-default'}
+            shouldCollapse={this.shouldExpandNode}
+            enableClipboard={false}
+            displayDataTypes={displayDataTypes}
+            iconStyle="square"
+            onEdit={name && mutable ? this.emitChange : false}
+            onDelete={name && mutable ? this.emitChange : false}
+            onAdd={name && mutable ? this.emitChange : false}
           />
         )}
       </div>
@@ -194,7 +141,6 @@ export class JSONField extends React.Component<JSONProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)json$/,
-  name: 'json'
+  type: 'json'
 })
 export class JSONFieldRenderer extends JSONField {}

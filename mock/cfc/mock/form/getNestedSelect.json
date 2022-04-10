@@ -1,0 +1,32 @@
+{
+  "status": 0,
+  "msg": "ok",
+  "data": [
+    {
+      "label": "A",
+      "value": "a"
+    },
+    {
+      "label": "B",
+      "value": "b",
+      "children": [
+        {
+          "label": "B-1",
+          "value": "b-1"
+        },
+        {
+          "label": "B-2",
+          "value": "b-2"
+        },
+        {
+          "label": "B-3",
+          "value": "b-3"
+        }
+      ]
+    },
+    {
+      "label": "C",
+      "value": "c"
+    }
+  ]
+}

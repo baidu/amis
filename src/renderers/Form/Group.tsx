@@ -7,11 +7,12 @@ import {
   makeHorizontalDeeper
 } from '../../utils/helper';
 import cx from 'classnames';
-import {FormBaseControl, FormControlSchema, FormItemWrap} from './Item';
+import {FormBaseControl, FormItemWrap} from './Item';
 import getExprProperties from '../../utils/filter-schema';
-import {SchemaClassName} from '../../Schema';
+import {SchemaClassName, SchemaObject} from '../../Schema';
+import Form, {FormSchemaHorizontal} from './index';
 
-export type GroupSubControl = FormControlSchema & {
+export type GroupSubControl = SchemaObject & {
   /**
    * 列类名
    */
@@ -20,7 +21,7 @@ export type GroupSubControl = FormControlSchema & {
   /**
    * 宽度占用比率。在某些容器里面有用比如 group
    */
-  columnRatio?: number;
+  columnRatio?: number | 'auto';
 };
 
 /**
@@ -33,12 +34,7 @@ export interface GroupControlSchema extends FormBaseControl {
   /**
    * FormItem 集合
    */
-  controls: Array<GroupSubControl>;
-
-  /**
-   * 子表单项默认的展示模式
-   */
-  formMode?: 'normal' | 'horizontal' | 'inline';
+  body: Array<GroupSubControl>;
 
   /**
    * 间隔
@@ -49,6 +45,15 @@ export interface GroupControlSchema extends FormBaseControl {
    * 配置时垂直摆放还是左右摆放。
    */
   direction?: 'horizontal' | 'vertical';
+
+  /**
+   * 配置子表单项默认的展示方式。
+   */
+  subFormMode?: 'normal' | 'inline' | 'horizontal';
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  subFormHorizontal?: FormSchemaHorizontal;
 }
 
 export interface InputGroupProps
@@ -56,8 +61,7 @@ export interface InputGroupProps
     Omit<GroupControlSchema, 'type' | 'className'> {}
 
 @Renderer({
-  test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?group$/,
-  name: 'group-control'
+  type: 'group'
 })
 export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   constructor(props: InputGroupProps) {
@@ -66,41 +70,39 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   }
 
   renderControl(control: any, index: any, otherProps?: any) {
-    const {render, disabled, data} = this.props;
+    const {
+      render,
+      disabled,
+      data,
+      mode,
+      horizontal,
+      formMode,
+      formHorizontal,
+      subFormMode,
+      subFormHorizontal
+    } = this.props;
 
     if (!control) {
       return null;
     }
 
-    const subSchema: any =
-      control && (control as Schema).type === 'control'
-        ? control
-        : {
-            type: 'control',
-            control
-          };
-
-    if (subSchema.control) {
-      let control = subSchema.control as Schema;
-
-      control = subSchema.control = {
-        ...control,
-        ...getExprProperties(control, data)
-      };
-
-      control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
-      control.visibleOn && (subSchema.visibleOn = control.visibleOn);
-    }
+    const subSchema: any = control;
 
     return render(`${index}`, subSchema, {
-      ...otherProps,
-      disabled
+      disabled,
+      formMode: subFormMode || mode || formMode,
+      formHorizontal: subFormHorizontal || horizontal || formHorizontal,
+      ...otherProps
     });
   }
 
   renderVertical(props = this.props) {
-    let {controls, className, classnames: cx, mode, formMode, data} = props;
+    let {body, className, classnames: cx, mode, formMode, data} = props;
     formMode = mode || formMode;
+
+    if (!Array.isArray(body)) {
+      return null;
+    }
 
     return (
       <div
@@ -109,16 +111,13 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           className
         )}
       >
-        {controls.map((control, index) => {
+        {body.map((control, index) => {
           if (!isVisible(control, data)) {
             return null;
           }
 
-          const controlMode = (control && control.mode) || formMode;
-
           return this.renderControl(control, index, {
-            key: index,
-            formMode: controlMode
+            key: index
           });
         })}
       </div>
@@ -127,7 +126,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
   renderHorizontal(props = this.props) {
     let {
-      controls,
+      body,
       className,
       classPrefix: ns,
       classnames: cx,
@@ -135,23 +134,31 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       horizontal,
       formMode,
       formHorizontal,
+      subFormMode,
+      subFormHorizontal,
       data,
       gap
     } = props;
 
-    if (!Array.isArray(controls)) {
+    if (!Array.isArray(body)) {
       return null;
     }
 
-    formMode = mode || formMode;
+    formMode = subFormMode || mode || formMode;
 
     let horizontalDeeper =
+      subFormHorizontal ||
       horizontal ||
-      makeHorizontalDeeper(
-        formHorizontal,
-        controls.filter(item => item.mode !== 'inline' && isVisible(item, data))
-          .length
-      );
+      (formHorizontal
+        ? makeHorizontalDeeper(
+            formHorizontal,
+            body.filter(
+              item =>
+                (item as FormBaseControl)?.mode !== 'inline' &&
+                isVisible(item, data)
+            ).length
+          )
+        : undefined);
 
     return (
       <div
@@ -161,18 +168,17 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           className
         )}
       >
-        {controls.map((control, index) => {
+        {body.map((control, index) => {
           if (!isVisible(control, data)) {
             return null;
           }
-          const controlMode = (control && control.mode) || formMode;
+          const controlMode = (control as FormBaseControl)?.mode || formMode;
 
           if (
             controlMode === 'inline' ||
             (control && (control as any).type === 'formula')
           ) {
             return this.renderControl(control, index, {
-              formMode: 'inline',
               key: index,
               className: cx(control.className, control.columnClassName)
             });
@@ -212,7 +218,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   render() {
     const {label, ...rest} = this.props;
 
-    if (label) {
+    if (typeof label !== 'undefined') {
       return (
         <FormItemWrap
           {...(rest as any)}

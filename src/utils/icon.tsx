@@ -17,6 +17,10 @@ export const generateIcon = (
   className?: string,
   classNameProp?: string
 ) => {
+  if (React.isValidElement(icon)) {
+    return icon;
+  }
+
   const isURLIcon = icon?.indexOf('.') !== -1;
 
   return icon ? (

@@ -10,7 +10,7 @@
   white-space: nowrap;
   color: var(--DatePicker-color);
   background: var(--DatePicker-bg);
-  border-radius: var(--DatePicker-borderRadius);
+  border-radius: var(--LocationPicker-borderRadius);
 
   &:not(.is-disabled) {
     cursor: pointer;
@@ -63,7 +63,6 @@
   }
 
   &-clear {
-    display: inline-block;
     @include input-clear();
     line-height: 1;
     margin-right: var(--gap-xs);

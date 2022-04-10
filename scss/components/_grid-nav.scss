@@ -1,0 +1,128 @@
+.u-hairline::after {
+  position: absolute;
+  box-sizing: border-box;
+  content: ' ';
+  pointer-events: none;
+  top: -50%;
+  right: -50%;
+  bottom: -50%;
+  left: -50%;
+  border: 0 solid var(--borderColorLight);
+  z-index: 1;
+  transform: scale(0.5);
+}
+
+.#{$ns}GridNav {
+  display: flex;
+  flex-wrap: wrap;
+
+  &-top {
+    position: relative;
+
+    &::after {
+      border-top-width: px2rem(1px);
+    }
+  }
+}
+
+.#{$ns}GridNavItem {
+  position: relative;
+  box-sizing: border-box;
+
+  &--square {
+    height: 0;
+    position: relative;
+  }
+
+  &-icon {
+    width: var(--rv-grid-item-icon-size);
+  }
+
+  &-text {
+    color: var(--text-color);
+    font-size: var(--fontSizeSm);
+    line-height: 1.5;
+    word-break: break-all;
+    flex-shrink: 0;
+  }
+
+  &-icon + &-text {
+    margin-top: px2rem(8px);
+  }
+
+  &-image {
+    display: inline-block;
+
+    svg,
+    img {
+      max-width: 100%;
+      display: block;
+      width: 60%;
+      margin: 0 auto;
+    }
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    height: 100%;
+    padding: var(--gap-md) var(--gap-sm);
+    background-color: var(--white);
+    position: relative;
+
+    .#{$ns}Badge-text {
+      z-index: 10;
+    }
+
+    &--border::after {
+      border-width: 0 var(--borderWidth) var(--borderWidth) 0;
+    }
+
+    &--square {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+    }
+
+    &--center {
+      align-items: center;
+      justify-content: center;
+    }
+
+    &--horizontal {
+      flex-direction: row;
+
+      .#{$ns}GridNavItem-text {
+        margin: 0 0 0 var(--gap-sm);
+      }
+    }
+
+    &--reverse {
+      flex-direction: column-reverse;
+
+      .#{$ns}GridNavItem-text {
+        margin: 0 0 var(--gap-sm);
+      }
+    }
+
+    &--horizontal &--reverse {
+      flex-direction: row-reverse;
+
+      .#{$ns}GridNavItem-text {
+        margin: 0 var(--gap-sm) 0 0;
+      }
+    }
+
+    &--surround {
+      &::after {
+        border-width: var(--borderWidth);
+      }
+    }
+
+    &--clickable {
+      cursor: pointer;
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import {localeable, LocaleProps} from '../../locale';
 import {ThemeProps} from '../../theme';
@@ -21,12 +22,11 @@ export interface QuarterViewProps extends LocaleProps, ThemeProps {
   showView: (view: string) => () => void;
   updateSelectedDate: (e: any, close?: boolean) => void;
   renderQuarter: any;
-  isValidDate: any;
+  isValidDate: (date: moment.Moment) => boolean;
+  hideHeader?: boolean;
 }
 
 export class QuarterView extends React.Component<QuarterViewProps> {
-  alwaysValidDate: any;
-
   renderYear() {
     const __ = this.props.translate;
     const showYearHead = !/^mm$/i.test(this.props.inputFormat || '');
@@ -45,7 +45,7 @@ export class QuarterView extends React.Component<QuarterViewProps> {
               className="rdtPrev"
               onClick={this.props.subtractTime(1, 'years')}
             >
-              «
+              &laquo;
             </th>
             {canClick ? (
               <th className="rdtSwitch" onClick={this.props.showView('years')}>
@@ -58,7 +58,7 @@ export class QuarterView extends React.Component<QuarterViewProps> {
             )}
 
             <th className="rdtNext" onClick={this.props.addTime(1, 'years')}>
-              »
+              &raquo;
             </th>
           </tr>
         </thead>
@@ -67,42 +67,20 @@ export class QuarterView extends React.Component<QuarterViewProps> {
   }
   renderQuarters() {
     let date = this.props.selectedDate,
-      month = this.props.viewDate.month(),
+      quarter = this.props.viewDate.quarter(),
       year = this.props.viewDate.year(),
       rows = [],
       i = 1,
-      months = [],
+      quarters = [],
       renderer = this.props.renderQuarter || this.renderQuarter,
       isValid = this.props.isValidDate || this.alwaysValidDate,
       classes,
       props: any,
-      currentMonth: moment.Moment,
-      isDisabled,
-      noOfDaysInMonth,
-      daysInMonth,
-      validDay,
-      // Date is irrelevant because we're only interested in month
-      irrelevantDate = 1;
+      isDisabled;
+
     while (i < 5) {
       classes = 'rdtQuarter';
-      currentMonth = this.props.viewDate
-        .clone()
-        .set({year: year, quarter: i, date: irrelevantDate});
-
-      noOfDaysInMonth = currentMonth.endOf('quarter').format('Q');
-      daysInMonth = Array.from(
-        {length: parseInt(noOfDaysInMonth, 10)},
-        function (e, i) {
-          return i + 1;
-        }
-      );
-
-      validDay = daysInMonth.find(function (d) {
-        var day = currentMonth.clone().set('date', d);
-        return isValid(day);
-      });
-
-      isDisabled = validDay === undefined;
+      isDisabled = !isValid(moment(`${year}-${i}`, 'YYYY-Q'));
 
       if (isDisabled) classes += ' rdtDisabled';
 
@@ -122,13 +100,17 @@ export class QuarterView extends React.Component<QuarterViewProps> {
             : this.props.setDate('quarter');
       }
 
-      months.push(renderer(props, i, year, date && date.clone()));
+      quarters.push(renderer(props, i, year, date && date.clone()));
 
-      if (months.length === 2) {
+      if (quarters.length === 2) {
         rows.push(
-          React.createElement('tr', {key: month + '_' + rows.length}, months)
+          React.createElement(
+            'tr',
+            {key: quarter + '_' + rows.length},
+            quarters
+          )
         );
-        months = [];
+        quarters = [];
       }
 
       i++;
@@ -154,12 +136,16 @@ export class QuarterView extends React.Component<QuarterViewProps> {
     this.props.updateSelectedDate(event);
   };
 
+  alwaysValidDate() {
+    return true;
+  }
+
   render() {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, hideHeader} = this.props;
 
     return (
       <div className={cx('ClalendarQuarter')}>
-        {this.renderYear()}
+        {hideHeader ? null : this.renderYear()}
         <table>
           <tbody>{this.renderQuarters()}</tbody>
         </table>

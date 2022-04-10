@@ -1,7 +1,6 @@
 .#{$ns}Table {
   position: relative;
-  background: var(--Table-bg);
-  border: var(--Table-borderWidth) solid var(--Table-borderColor);
+
   border-radius: var(--Table-borderRadius);
   margin-bottom: var(--gap-md);
 
@@ -21,7 +20,7 @@
   &-fixedLeft {
     // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
     left: 0;
-    top: -99999px;
+    top: -999999px;
 
     &.in {
       box-shadow: var(--Table-fixedLeft-boxShadow);
@@ -43,7 +42,7 @@
   &-fixedRight {
     // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
     right: 0;
-    top: -99999px;
+    top: -999999px;
 
     &.in {
       box-shadow: var(--Table-fixedRight-boxShadow);
@@ -69,6 +68,14 @@
     opacity: 0;
     box-shadow: var(--Table-fixedTop-boxShadow);
 
+    // box-sizing: content-box;
+    // padding: var(--gap-base) var(--gap-base) 0 var(--gap-base);
+    // margin: calc(var(--gap-base) * -1) calc(var(--gap-base) * -1) 0
+    //   calc(var(--gap-base) * -1);
+    // > * {
+    //   box-sizing: border-box;
+    // }
+
     &.in {
       position: fixed;
       opacity: 1;
@@ -80,19 +87,6 @@
       z-index: $zindex-affix + 10;
       // box-shadow: none;
       background: transparent;
-      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
-
-      > table {
-        margin-bottom: var(--gap-xs);
-      }
-    }
-
-    > .#{$ns}Table-heading {
-      border-bottom: none;
-    }
-
-    > .#{$ns}Table-wrapper {
-      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
     }
 
     &.is-fakeHide {
@@ -107,14 +101,13 @@
 
   &-heading {
     background: var(--Table-heading-bg);
-    border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
     padding: calc(
         (
             var(--Table-heading-height) - var(--Table-fontSize) *
               var(--lineHeightBase)
           ) / 2
       )
-      var(--Table-toolbar-paddingX);
+      var(--gap-sm);
   }
 
   &--unsaved &-heading {
@@ -143,8 +136,24 @@
     }
   }
 
+  &-searchableForm {
+    background: var(--Table-searchableForm-backgroundColor);
+    border-radius: var(--Table-searchableForm-borderRadius);
+
+    &-footer {
+      padding: var(--Panel-footerPadding);
+      clear: both;
+    }
+
+    &-checkbox {
+      & > div > .#{$ns}CheckboxControl {
+        padding-top: 0;
+      }
+    }
+  }
+
   &-header {
-    padding: var(--Table-toolbar-paddingY) var(--Table-toolbar-paddingX);
+    padding: var(--Table-toolbar-marginY) var(--Table-toolbar-marginX);
 
     > * + .#{$ns}Button,
     > * + .#{$ns}ButtonGroup,
@@ -156,7 +165,7 @@
   &-toolbar {
     @include clearfix();
     display: flex;
-    padding: var(--Table-toolbar-paddingY) var(--Table-toolbar-paddingX);
+    margin: 0 var(--Table-toolbar-marginX) var(--Table-toolbar-marginY);
     flex-wrap: wrap;
 
     .#{$ns}DropDown {
@@ -177,15 +186,7 @@
 
   &-contentWrap {
     position: relative;
-  }
-
-  &-header + &-contentWrap,
-  &-toolbar + &-contentWrap {
-    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
-  }
-
-  &-footToolbar {
-    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+    margin-bottom: var(--Table-toolbar-marginY);
   }
 
   &-actions {
@@ -200,6 +201,25 @@
     min-height: 0.01%;
     overflow-x: auto;
     transform: translateZ(0);
+
+    th {
+      position: relative;
+    }
+  }
+
+  &-content-colDragLine {
+    position: absolute;
+    width: 7px;
+    top: 0;
+    bottom: 0;
+    right: -4px;
+    cursor: col-resize;
+    user-select: none;
+    opacity: 0.5;
+    z-index: $zindex-top;
+    &:hover {
+      background: var(--primary);
+    }
   }
 
   &-table {
@@ -211,6 +231,24 @@
     background: var(--Table-bg);
     border-spacing: 0;
     border-collapse: collapse;
+    border: var(--Table-borderWidth) solid var(--Table-borderColor);
+
+    & th,
+    & td {
+      text-align: left;
+    }
+
+    & th.text-center,
+    & td.text-center,
+    & th[colspan],
+    & td[colspan] {
+      text-align: center;
+    }
+
+    & th.text-right,
+    & td.text-right {
+      text-align: right;
+    }
 
     &--withCombine {
       > thead > tr > th,
@@ -246,15 +284,15 @@
       }
     }
 
+    &--checkOnItemClick {
+      > tbody > tr {
+        cursor: pointer;
+      }
+    }
+
     > thead > tr {
       > th {
         background: var(--Table-thead-bg);
-
-        text-align: left;
-        &[colspan] {
-          text-align: center;
-        }
-
         padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
 
         &:first-child {
@@ -263,6 +301,11 @@
 
         &:last-child {
           padding-right: var(--TableCell--edge-paddingX);
+          .#{$ns}Table-content-colDragLine {
+            // 避免出现横向滚动条
+            width: 4px;
+            right: 0;
+          }
         }
 
         &:not(:last-child) {
@@ -296,6 +339,8 @@
     }
 
     > tbody > tr {
+      position: relative;
+
       & + tr {
         border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
         > th {
@@ -305,7 +350,6 @@
       }
 
       > th {
-        text-align: left;
         background: var(--Table-thead-bg);
         // font-size: var(--Table-thead-fontSize);
         color: var(--Table-thead-color);
@@ -334,6 +378,10 @@
         &.#{$ns}Table-tr--odd {
           background: var(--Table-strip-bg);
         }
+      }
+
+      &.#{$ns}Table-tr--hasItemAction:hover {
+        cursor: pointer;
       }
 
       &:hover,
@@ -369,9 +417,7 @@
       }
 
       &.is-summary {
-        background: var(--Table-thead-bg);
-        color: var(--Table-thead-color);
-        font-weight: var(--fontWeightNormal);
+        // font-weight: var(--fontWeightNormal);
       }
 
       &.bg-light {
@@ -481,6 +527,7 @@
       border-right: 0;
       width: px2rem(1px);
       padding-right: var(--TableCell-paddingX);
+      white-space: nowrap;
 
       .#{$ns}Checkbox {
         margin: 0;
@@ -500,6 +547,9 @@
       width: px2rem(1px);
       padding-right: 0;
       cursor: move;
+      > svg {
+        vertical-align: middle;
+      }
     }
 
     > tbody > tr > td.#{$ns}Table-expandCell {
@@ -577,7 +627,7 @@
     &--down > svg,
     &--default > svg {
       color: inherit;
-      width: 12x;
+      width: 12px;
       height: 12px;
     }
 
@@ -729,7 +779,7 @@
     top: var(--Table-borderWidth);
     bottom: 0;
     right: 0;
-    padding-left: px2rem(50px);
+    padding-left: px2rem(80px);
     padding-right: var(--TableCell-paddingX);
     display: flex;
     align-items: center;
@@ -805,6 +855,9 @@
         top ease-in-out var(--animation-duration);
       position: relative;
       transform-origin: 50% 50%;
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
     }
 
     &.is-active > svg {
@@ -827,6 +880,9 @@
       text-decoration: none;
       color: var(--icon-onHover-color);
     }
+    > svg {
+      vertical-align: -2px;
+    }
   }
 
   &-table > tbody > tr:hover .#{$ns}Table-dragBtn,
@@ -839,6 +895,43 @@
     visibility: hidden;
     position: absolute;
   }
+
+  &-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &--autoFillHeight {
+    margin-bottom: 0;
+    > .#{$ns}Table-contentWrap {
+      > .#{$ns}Table-content table {
+        border-top: none; // 不然会导致拖动时顶部露出内容
+      }
+      > .#{$ns}Table-content table thead {
+        position: sticky; // 简单实现表头吸顶效果，不考虑 IE 11 不然太麻烦
+        top: 0;
+        z-index: 1; // 由于 badge 导致 tbody 里 tr 的 position: relative 了
+      }
+    }
+    > .#{$ns}Table-fixedTop {
+      display: none;
+    }
+    > .#{$ns}Table-footToolbar {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.#{$ns}InputTable-toolbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.#{$ns}InputTable-pager {
+  margin-left: auto;
 }
 
 .#{$ns}OperationField {

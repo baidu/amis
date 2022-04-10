@@ -57,7 +57,11 @@ $link-color: $info;
   --DatePicker-bg: var(--background);
   --DatePicker-header-select-borderColor: var(--background);
   --DropDown-menu-bg: var(--background);
+  --Drawer-header-bg: var(--background);
   --Fieldset-legend-bgColor: var(--background);
+
+  --Form-item-fontSize: var(--fontSizeBase);
+  --Form-item-fontColor: var(--body-color);
   --Form-input-addOnBg: var(--Form-input-bg);
   --Form-input-bg: #3c3c3c;
   --Form-input-color: var(--text-color);
@@ -119,4 +123,20 @@ $link-color: $info;
   --Radio-onDisabled-bg: var(--Panel-bg);
 
   // --Nav-subNav-bg: var(--Panel-bg);
+
+  // timeline
+  --TimelineItem--text-primary-color: #{$text-color};
+
+  // ContextMenu
+  --menu-background: #fff;
+  --menu-box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
+  --menu-border-radius: 4px;
+  --menu-font-color: #151b26;
+  --menu-font-family: PingFangSC-Regular;
+  --menu-border-color: #e8e9eb; // 默认的边框色
+  --menu-active-color: #2468f2;
+  --menu-hover-bg-color: #e6f0ff;
+  --menu-disabled-color: #b8babf; // 禁用文字颜色
+  --default-icon-color: #84868c; // 默认的icon颜色
+  --default-padding: 4px 12px; // 6px 12px
 }

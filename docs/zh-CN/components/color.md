@@ -72,7 +72,7 @@ List 的内容、Card 卡片的内容配置同上
     "data": {
         "color": "#108cee"
     },
-    "controls": [
+    "body": [
         {
             "type": "static-color",
             "name": "color",

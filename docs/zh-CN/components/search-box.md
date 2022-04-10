@@ -14,7 +14,7 @@ icon:
 ```schema
 {
     "type": "page",
-    "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData?keywords=${keywords}",
+    "initApi": "/api/mock2/page/initData?keywords=${keywords}",
     "body": [
       {
         "type": "search-box",
@@ -34,7 +34,7 @@ icon:
 ```schema
 {
     "type": "page",
-    "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData?keywords=${keywords}",
+    "initApi": "/api/mock2/page/initData?keywords=${keywords}",
     "body": [
       {
         "type": "search-box",
@@ -55,7 +55,7 @@ icon:
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/mock2/sample",
     "syncLocation": false,
     "headerToolbar": [
       {
@@ -102,7 +102,7 @@ icon:
     "body": [
       {
         "type": "service",
-        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData?keywords=${keywords}",
+        "api": "/api/mock2/page/initData?keywords=${keywords}",
         "body": [
           {
             "type": "search-box",

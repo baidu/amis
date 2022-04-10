@@ -1,8 +1,5 @@
-import {theme, ClassNamesFn, makeClassnames} from '../theme';
-export const classPrefix: string = 'a-';
-export const classnames: ClassNamesFn = makeClassnames(classPrefix);
+/**
+ * @file 这个文件只作为兼容，后续没有 default 了，default 就是 cxd
+ */
 
-theme('default', {
-  classPrefix,
-  classnames
-});
+export * from './cxd';

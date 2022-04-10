@@ -18,9 +18,9 @@ export default {
           body: {
             type: 'form',
             panelClassName: 'panel-primary',
-            controls: [
+            body: [
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'a',
                 label: '文本'
               }
@@ -36,9 +36,9 @@ export default {
             filter: {
               title: '条件搜索',
               submitText: '',
-              controls: [
+              body: [
                 {
-                  type: 'text',
+                  type: 'input-text',
                   name: 'keywords',
                   placeholder: '通过关键字搜索',
                   clearable: true,

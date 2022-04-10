@@ -1,5 +1,4 @@
 import isPlainObject from 'lodash/isPlainObject';
-import qs from 'qs';
 import React from 'react';
 import Alert from './components/Alert2';
 import ImageGallery from './components/ImageGallery';
@@ -57,10 +56,14 @@ export class Root extends React.Component<RootProps> {
     } = this.props;
 
     const theme = env.theme;
+    let themeName = this.props.theme || 'cxd';
+    if (themeName === 'default') {
+      themeName = 'cxd';
+    }
 
     return (
       <RootStoreContext.Provider value={rootStore}>
-        <ThemeContext.Provider value={this.props.theme || 'default'}>
+        <ThemeContext.Provider value={themeName}>
           <LocaleContext.Provider value={this.props.locale!}>
             <ImageGallery modalContainer={env.getModalContainer}>
               <RootRenderer
@@ -124,42 +127,30 @@ export function renderChild(
   }
 
   const typeofnode = typeof node;
+
+  if (typeofnode === 'undefined' || node === null) {
+    return null;
+  }
+
   let schema: Schema =
     typeofnode === 'string' || typeofnode === 'number'
       ? {type: 'tpl', tpl: String(node)}
       : (node as Schema);
-  const detectData =
-    schema &&
-    (schema.detectField === '&' ? props : props[schema.detectField || 'data']);
-  const exprProps = detectData
-    ? getExprProperties(schema, detectData, undefined, props)
-    : null;
-
-  if (
-    exprProps &&
-    (exprProps.hidden ||
-      exprProps.visible === false ||
-      schema.hidden ||
-      schema.visible === false ||
-      props.hidden ||
-      props.visible === false)
-  ) {
-    return null;
-  }
 
   const transform = props.propsTransform;
 
   if (transform) {
-    // @ts-ignore
+    props = {...props};
     delete props.propsTransform;
+
     props = transform(props);
   }
 
   return (
     <SchemaRenderer
       {...props}
-      {...exprProps}
       schema={schema}
+      propKey={schema.key}
       $path={`${prefix ? `${prefix}/` : ''}${(schema && schema.type) || ''}`}
     />
   );

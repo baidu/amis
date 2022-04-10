@@ -1,7 +1,7 @@
 import React = require('react');
 import PageRenderer from '../../../src/renderers/Form';
 import * as renderer from 'react-test-renderer';
-import {render, fireEvent, cleanup, getByText} from 'react-testing-library';
+import {render, fireEvent, cleanup, getByText} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
@@ -30,7 +30,7 @@ test('Renderer:time', async () => {
   //   );
   //   await wait(200);
   // todo 这个用例有问题，先注释
-  //   const input = container.querySelector('.a-DatePicker-value');
+  //   const input = container.querySelector('.cxd-DatePicker-value');
   //   expect(input?.innerHTML).toEqual('01:01');
   //   expect(container).toMatchSnapshot();
 });

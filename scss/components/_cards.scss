@@ -1,8 +1,7 @@
 .#{$ns}Cards {
   &-toolbar {
     @include clearfix();
-    padding: var(--Cards-toolbar-paddingY) var(--Cards-toolbar-paddingX);
-    margin-bottom: var(--gap-base);
+    margin: 0 var(--Cards-toolbar-marginX) var(--Cards-toolbar-marginY);
   }
 
   &-actions {
@@ -18,7 +17,7 @@
   }
 
   &-header {
-    padding: var(--Cards-toolbar-paddingY) var(--Cards-toolbar-paddingX);
+    padding: var(--Cards-toolbar-marginY) var(--Cards-toolbar-marginX);
 
     > * + .#{$ns}Button,
     > * + .#{$ns}ButtonGroup,

@@ -267,51 +267,112 @@ amis 集成了 [fontawesome](http://fontawesome.io/icons/)，所以关于图标�
 ## 宽高
 
 ```css
-.w-1x {
+
   width: 1em;
 }
+
 .w-2x {
   width: 2em;
 }
+
 .w-3x {
   width: 3em;
 }
+
 .w-xxs {
   width: 60px;
 }
+
+.h-xxs {
+  height: 60px;
+}
+
 .w-xs {
   width: 90px;
 }
+
+.h-xs {
+  height: 90px;
+}
+
+.w-ssm {
+  width: 120px;
+}
+
 .w-sm {
   width: 150px;
 }
+
+.h-sm {
+  height: 150px;
+}
+
+.h-ssm {
+  height: 120px;
+}
+
 .w {
   width: 200px;
 }
+
+.h {
+  height: 200px;
+}
+
 .w-md {
   width: 240px;
 }
+
+.h-md {
+  height: 240px;
+}
+
 .w-lg {
   width: 280px;
 }
+
+.h-lg {
+  height: 280px;
+}
+
 .w-xl {
   width: 320px;
 }
+
+.h-xl {
+  height: 320px;
+}
+
 .w-xxl {
   width: 360px;
 }
+
+.h-xxl {
+  height: 360px;
+}
+
+.w-xxxl {
+  width: 420px;
+}
+
+.h-xxxl {
+  height: 420px;
+}
+
 .w-full {
   width: 100%;
 }
+
 .w-auto {
   width: auto;
 }
+
 .h-auto {
   height: auto;
 }
+
 .h-full {
-  height: 100% !important;
-  max-height: none !important;
+  height: 100%;
 }
 ```
 

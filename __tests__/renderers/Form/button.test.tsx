@@ -1,8 +1,8 @@
 import React = require('react');
-import {render, cleanup, fireEvent} from 'react-testing-library';
+import {render, cleanup, fireEvent} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
-import {makeEnv} from '../../helper';
+import {wait, makeEnv} from '../../helper';
 import {clearStoresCache} from '../../../src/factory';
 
 afterEach(() => {
@@ -57,5 +57,6 @@ test('Renderer:button', async () => {
   );
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/OpenDialog/));
+  await wait(300);
   expect(container).toMatchSnapshot();
 });

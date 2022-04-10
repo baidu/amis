@@ -3,9 +3,9 @@ import cx from 'classnames';
 import {Renderer, RendererProps} from '../factory';
 import {FormItem, FormControlProps} from './Form/Item';
 import {filter} from '../utils/tpl';
-// @ts-ignore
-import QrCode from 'qrcode.react';
+import {QRCodeSVG} from 'qrcode.react';
 import {BaseSchema, SchemaClassName} from '../Schema';
+import {getPropValue} from '../utils/helper';
 
 /**
  * 二维码展示控件。
@@ -74,12 +74,15 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
       foregroundColor,
       placeholder,
       level,
-      value,
+      defaultValue,
       data,
       classPrefix: ns
     } = this.props;
 
-    const finalValue = filter(value, data, '| raw');
+    const finalValue = getPropValue(
+      this.props,
+      () => filter(defaultValue, data, '| raw') || undefined
+    );
 
     return (
       <div className={cx(`${ns}QrCode`, className)}>
@@ -91,10 +94,10 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
             二维码值过长，请设置2953个字符以下的文本
           </span>
         ) : (
-          <QrCode
+          <QRCodeSVG
+            // @ts-ignore 其实是支持的
             className={qrcodeClassName}
             value={finalValue}
-            renderAs={'svg'}
             size={codeSize}
             bgColor={backgroundColor}
             fgColor={foregroundColor}
@@ -111,9 +114,3 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
   name: 'qrcode'
 })
 export class QRCodeRenderer extends QRCode {}
-
-@FormItem({
-  type: 'qr-code',
-  sizeMutable: false
-})
-export class QRCodeControlRenderer extends QRCode {}

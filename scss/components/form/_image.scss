@@ -5,18 +5,16 @@
     outline: none;
   }
 
-  &-dropzone.is-disabled {
-    pointer-events: none;
-  }
-
   &-addBtn {
     margin: 0;
-    width: px2rem(80px);
-    height: px2rem(80px);
+    width: px2rem(120px);
+    height: px2rem(120px);
     display: inline-flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     border: var(--borderWidth) solid var(--borderColor);
+    border-radius: var(--ImageControl-addBtn-borderRadius);
     cursor: pointer;
     margin-right: var(--gap-base);
 
@@ -33,9 +31,10 @@
     );
 
     > svg {
-      width: px2rem(40px);
-      height: px2rem(40px);
+      width: px2rem(24px);
+      height: px2rem(24px);
       top: 0;
+      margin-bottom: px2rem(8px);
     }
 
     &.is-disabled {
@@ -75,6 +74,7 @@
 
   &-item {
     border: var(--borderWidth) solid var(--borderColor);
+    border-radius: var(--ImageControl-addBtn-borderRadius);
     vertical-align: top;
     padding: var(--gap-xs);
     display: inline-block;
@@ -82,6 +82,36 @@
     margin-bottom: var(--gap-base);
     position: relative;
     width: px2rem(120px);
+
+    &.is-invalid {
+      padding: 0;
+      border-color: var(--FileControl-danger-color);
+    }
+
+    svg.icon-refresh {
+      transform: rotate(180deg);
+    }
+  }
+
+  &-filename {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--FileControl-danger-color);
+
+    > svg.icon-image {
+      margin-bottom: 8px;
+      width: 24px;
+      height: 24px;
+    }
+
+    > span {
+      max-width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 
   &-image {
@@ -90,42 +120,6 @@
     padding: 0;
     border: none;
     display: block;
-  }
-
-  &-itemOverlay {
-    background: rgba(0, 0, 0, 0.6);
-    position: absolute;
-    width: px2rem(108px);
-    height: px2rem(108px);
-    display: none;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    flex-wrap: wrap;
-    color: #fff;
-
-    > div {
-      width: 100%;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-
-    > a {
-      cursor: pointer;
-      color: #fff;
-      display: inline-block;
-      padding: 0 5px;
-      line-height: 1;
-      font-size: px2rem(16px);
-    }
-  }
-
-  &-item:hover &-itemOverlay {
-    display: flex;
   }
 
   &-itemClear {
@@ -169,6 +163,7 @@
 
   &-progressValue {
     height: 5px;
+    border-radius: var(--ImageControl-progress-borderRadius);
     display: block;
     background: var(--info);
     min-width: 10%;
@@ -181,31 +176,6 @@
 
   &-item.is-invalid:hover &-itemClear {
     display: block;
-  }
-
-  &-retryBtn {
-    margin: 0;
-    width: px2rem(108px);
-    height: px2rem(108px);
-    display: inline-flex;
-    cursor: pointer;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    flex-wrap: wrap;
-    color: #666;
-
-    &:hover {
-      color: #333;
-      text-decoration: none;
-    }
-
-    > p {
-      width: 100%;
-      text-align: center;
-      color: var(--danger);
-      margin: 10px 0 0;
-    }
   }
 
   &-errorMsg {
@@ -240,6 +210,16 @@
       padding: 2px 5px;
       cursor: pointer;
       font-size: 20px;
+
+      .icon-retry {
+        polygon {
+          fill: #fff;
+        }
+
+        path {
+          stroke: #fff;
+        }
+      }
     }
   }
 

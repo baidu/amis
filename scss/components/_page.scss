@@ -1,13 +1,14 @@
 .#{$ns}Page {
   width: 100%;
   height: 100%;
+  background: var(--Page-main-bg);
 
   &-header {
     padding: var(--Page-header-paddingY) var(--Page-header-paddingX);
   }
 
   &-main {
-    background: var(--Page-main-bg);
+    // background: var(--Page-main-bg);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -22,9 +23,11 @@
 
   &-main > &-header {
     border-bottom: var(--borderWidth) solid var(--borderColor);
+    // background: var(--Page-header-bg);
   }
 
   &-headerRow {
+    // background: var(--Page-header-bg);
     border-bottom: var(--borderWidth) solid var(--borderColor);
 
     display: flex;
@@ -65,6 +68,35 @@
   &-asideTplWrapper {
     padding: var(--gap-xs);
   }
+
+  &-asideResizor {
+    position: absolute;
+    right: -0.375rem;
+    top: 50%;
+    cursor: ew-resize;
+    writing-mode: vertical-lr;
+    width: 0.75rem;
+    height: 1.5rem;
+    margin-top: -0.75rem;
+    border: 0.0625rem solid #dee2e6;
+    background-color: #fff;
+    border-radius: 0.142rem;
+    font-size: 12px;
+    line-height: 0.625rem;
+    text-align: center;
+    user-select: none;
+    color: #666;
+
+    &:hover {
+      color: #000;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12),
+        0 2px 4px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    &:after {
+      content: '···';
+    }
+  }
 }
 
 .#{$ns}Page-toolbar {
@@ -74,7 +106,7 @@
 }
 
 .#{$ns}Page-aside {
-  background: var(--Page-aside-bg);
+  // background: var(--Page-aside-bg);
 }
 
 @include media-breakpoint-up(md) {
@@ -90,9 +122,13 @@
       border: inherit;
     }
 
-    min-width: var(--Page-aside-width);
-    max-width: var(--Page-aside-maxWidth);
+    width: var(--Page-aside-width);
     border-right: var(--borderWidth) solid var(--borderColor);
+
+    &--withWidth {
+      min-width: var(--Page-aside-width);
+      max-width: var(--Page-aside-maxWidth);
+    }
   }
 
   .#{$ns}Page--withSidebar {

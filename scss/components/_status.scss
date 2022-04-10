@@ -1,4 +1,5 @@
 .#{$ns}StatusField {
+  vertical-align: middle;
   white-space: nowrap;
   display: inline-flex;
   flex-wrap: nowrap;
@@ -7,7 +8,7 @@
 
   &-label {
     font-size: var(--fontSizeSm);
-    margin-left: var(--gap-sm);
+    margin-left: var(--gap-xs);
   }
 
   @keyframes animation-rolling_red {

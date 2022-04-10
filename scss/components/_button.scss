@@ -12,7 +12,9 @@
 
   &:active,
   &.is-active {
+    color: var(--Button-onActive-color);
     box-shadow: var(--Button-onActive-boxShadow);
+    border-color: var(--Button-onActive-border);
 
     &:focus {
       box-shadow: var(--Button-onActive-boxShadow);
@@ -41,13 +43,28 @@
 
   &.is-disabled,
   &:disabled {
-    opacity: var(--Button-onDisabled-opacity);
+    // opacity: var(--Button-onDisabled-opacity);
+    filter: grayscale(100%);
     box-shadow: none;
-    pointer-events: none;
+    cursor: not-allowed;
+    color: var(--text--muted-color);
+    pointer-events: auto;
+    border: var(--Button-borderWidth) solid var(--Button-onDisabled-borderColor);
+    background: var(--Button-onDisabled-bg);
+
+    & > svg,
+    & > svg path {
+      fill: currentColor;
+    }
   }
 
   &:not(:disabled):not(.is-disabled) {
     cursor: pointer;
+  }
+
+  &.cxd-Button--link.is-disabled {
+    background: transparent;
+    border: none;
   }
 
   > .pull-left,
@@ -106,6 +123,20 @@ fieldset:disabled a.#{$ns}Button {
     var(--Button--success-onActive-bg),
     var(--Button--success-onActive-border),
     var(--Button--success-onActive-color)
+  );
+}
+
+.#{$ns}Button--enhance {
+  @include button-variant(
+    var(--Button--enhance-bg),
+    var(--Button--enhance-border),
+    var(--Button--enhance-color),
+    var(--Button--enhance-onHover-bg),
+    var(--Button--enhance-onHover-border),
+    var(--Button--enhance-onHover-color),
+    var(--Button--enhance-onActive-bg),
+    var(--Button--enhance-onActive-border),
+    var(--Button--enhance-onActive-color)
   );
 }
 
@@ -282,6 +313,10 @@ fieldset:disabled a.#{$ns}Button {
   }
 }
 
+.#{$ns}Button--loading {
+  @include button-loading-icon();
+}
+
 .#{$ns}Button--link {
   width: auto;
   min-width: auto;
@@ -293,7 +328,11 @@ fieldset:disabled a.#{$ns}Button {
 
   @include hover-focus {
     color: var(--Button--link-onHover-color);
-    text-decoration: var(--link-onHover-decoration);
+    box-shadow: none;
+  }
+
+  @include hover-active {
+    color: var(--Button--link-onActive-color);
     box-shadow: none;
   }
 
@@ -301,7 +340,7 @@ fieldset:disabled a.#{$ns}Button {
   &.is-disabled {
     color: var(--text--muted-color);
     pointer-events: none;
-    background: transparent;
+    background: var(--Button-onDisabled-bg);
   }
 }
 
@@ -330,13 +369,11 @@ input[type='button'] {
     margin-left: var(--gap-xs);
     margin-top: var(--gap-xs);
   }
-
-  > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
-    margin-left: var(--gap-xs);
-    margin-top: var(--gap-xs);
-  }
 }
 
-.#{$ns}Button--disabled-wrap {
-  display: inline-block !important;
+.#{$ns}Action {
+  display: inline-block;
+  &:hover {
+    cursor: pointer;
+  }
 }

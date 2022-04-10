@@ -10,18 +10,19 @@ export default {
       target: 'service1',
       mode: 'horizontal',
       api: '/api/mock2/form/saveForm?waitSeconds=1',
-      fieldSet: [
+      body: [
         {
+          type: 'fieldset',
           title: '基本信息',
-          controls: [
+          body: [
             {
-              type: 'text',
+              type: 'input-text',
               label: '字段一',
               name: 'filed1'
             },
 
             {
-              type: 'text',
+              type: 'input-text',
               label: '字段二',
               name: 'filed2'
             }
@@ -30,7 +31,8 @@ export default {
 
         {
           title: '其他信息',
-          controls: [
+          type: 'fieldset',
+          body: [
             {
               name: 'tpl',
               type: 'select',

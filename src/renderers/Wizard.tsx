@@ -9,11 +9,13 @@ import {
   until,
   isVisible,
   getScrollParent,
-  autobind
+  autobind,
+  SkipOperation
 } from '../utils/helper';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {IFormStore} from '../store/form';
 import {Spinner} from '../components';
+import {Icon} from '../components/icons';
 import {findDOMNode} from 'react-dom';
 import {resizeSensor} from '../utils/resize-sensor';
 import {
@@ -26,6 +28,8 @@ import {
 } from '../Schema';
 import {FormSchema} from './Form';
 import {ActionSchema} from './Action';
+
+import {tokenize} from '../utils/tpl-builtin';
 
 export type WizardStepSchema = Omit<FormSchema, 'type'> & {
   /**
@@ -157,6 +161,8 @@ export interface WizardSchema extends BaseSchema {
   affixFooter?: boolean | 'always';
 
   steps: Array<WizardStepSchema>;
+
+  startStep?: string;
 }
 
 export interface WizardProps
@@ -168,6 +174,7 @@ export interface WizardProps
 
 export interface WizardState {
   currentStep: number;
+  completeStep: number;
 }
 
 export default class Wizard extends React.Component<WizardProps, WizardState> {
@@ -179,7 +186,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     actionPrevLabel: 'Wizard.prev',
     actionNextLabel: 'Wizard.next',
     actionNextSaveLabel: 'Wizard.saveAndNext',
-    actionFinishLabel: 'Wizard.finish'
+    actionFinishLabel: 'Wizard.finish',
+    startStep: '1'
   };
 
   static propsList: Array<string> = [
@@ -192,7 +200,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     'actionNextSaveLabel',
     'actionFinishLabel',
     'onFinished',
-    'affixFooter'
+    'affixFooter',
+    'startStep'
   ];
 
   dom: any;
@@ -208,7 +217,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   } = {};
 
   state = {
-    currentStep: -1 // init 完后会设置成 1
+    currentStep: -1, // init 完后会设置成 1
+    completeStep: -1
   };
 
   componentDidMount() {
@@ -243,9 +253,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           }
         })
         .then(value => {
-          onInit && onInit(store.data);
+          this.handleInitEvent(store.data);
+
           const state = {
-            currentStep: 1
+            currentStep:
+              typeof this.props.startStep === 'string'
+                ? parseInt(tokenize(this.props.startStep, this.props.data))
+                : 1
           };
 
           if (
@@ -273,9 +287,12 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } else {
       this.setState(
         {
-          currentStep: 1
+          currentStep:
+            typeof this.props.startStep === 'string'
+              ? parseInt(tokenize(this.props.startStep, this.props.data))
+              : 1
         },
-        () => onInit && onInit(store.data)
+        () => this.handleInitEvent(store.data)
       );
     }
 
@@ -320,6 +337,24 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     this.unSensor && this.unSensor();
   }
 
+  async dispatchEvent(action: string, value?: object) {
+    const {dispatchEvent, data} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      action,
+      createObject(data, value ? value : {})
+    );
+
+    return rendererEvent?.prevented ?? false;
+  }
+
+  async handleInitEvent(data: any) {
+    const {onInit} = this.props;
+    (await this.dispatchEvent('inited', {formData: data})) &&
+      onInit &&
+      onInit(data);
+  }
+
   @autobind
   affixDetect() {
     if (
@@ -348,13 +383,25 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     affixed ? affixDom.classList.add('in') : affixDom.classList.remove('in');
   }
 
-  gotoStep(index: number) {
+  async gotoStep(index: number) {
     const steps = this.props.steps || [];
     index = Math.max(Math.min(steps.length, index), 1);
 
-    this.setState({
-      currentStep: index
-    });
+    if (index != this.state.currentStep) {
+      if (
+        await this.dispatchEvent('stepChange', {
+          step: index,
+          formData: this.props.store.data
+        })
+      ) {
+        return;
+      }
+
+      this.setState({
+        currentStep: index,
+        completeStep: Math.max(this.state.completeStep, index - 1)
+      });
+    }
   }
 
   @autobind
@@ -498,9 +545,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {onAction, store, env} = this.props;
+    const {onAction, store, env, steps} = this.props;
 
-    if (action.actionType === 'next' || action.type === 'submit') {
+    if (
+      action.actionType === 'next' ||
+      action.type === 'submit' ||
+      action.actionType === 'step-submit'
+    ) {
       this.form.doAction(
         {
           ...action,
@@ -513,6 +564,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } else if (action.type === 'reset') {
       this.form.reset();
     } else if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       store.openDialog(data);
     } else if (action.actionType === 'ajax') {
       if (!action.api) {
@@ -527,8 +579,16 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         .then(async () => {
           this.form && this.form.isValidated() && this.form.validate(true);
 
-          if (action.feedback && isVisible(action.feedback, store.data)) {
-            await this.openFeedback(action.feedback, store.data);
+          const feedback = action.feedback;
+          if (feedback && isVisible(feedback, store.data)) {
+            const confirmed = await this.openFeedback(feedback, store.data);
+
+            // 如果 feedback 配置了，取消就跳过原有逻辑。
+            if (feedback.skipRestOnCancel && !confirmed) {
+              throw new SkipOperation();
+            } else if (feedback.skipRestOnConfirm && confirmed) {
+              throw new SkipOperation();
+            }
           }
 
           const reidrect =
@@ -537,9 +597,25 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
           action.reload && this.reloadTarget(action.reload, store.data);
         })
-        .catch(() => {});
+        .catch(reason => {
+          if (reason instanceof SkipOperation) {
+            return;
+          }
+        });
     } else if (action.actionType === 'reload') {
       action.target && this.reloadTarget(action.target, data);
+    } else if (action.actionType === 'goto-step') {
+      const targetStep = (data as any).step;
+
+      if (
+        targetStep !== undefined &&
+        targetStep <= steps.length &&
+        targetStep >= 0
+      ) {
+        this.gotoStep((data as any).step);
+      }
+    } else if (action.actionType === 'submit') {
+      this.finalSubmit();
     } else if (onAction) {
       onAction(e, action, data, throwErrors, delegate || this.context);
     }
@@ -569,8 +645,15 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   }
 
   @autobind
-  handleChange(values: object) {
+  async handleChange(values: object) {
     const {store} = this.props;
+
+    const previous = store.data;
+    const final = {...previous, ...values};
+
+    if (await this.dispatchEvent('change', {formData: final})) {
+      return;
+    }
 
     store.updateData(values);
   }
@@ -579,6 +662,9 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   handleInit(values: any) {
     const step = this.state.currentStep;
     this.initalValues[step] = this.initalValues[step] || values;
+    const store = this.props.store;
+
+    store.updateData(values);
   }
 
   @autobind
@@ -595,9 +681,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     store.updateData(reseted);
   }
 
-  // 接管里面 form 的提交，不能直接让 form 提交，因为 wizard 自己需要知道进度。
-  @autobind
-  handleSubmit(values: object, action: Action) {
+  async finalSubmit(values: object = {}, action: Action = {type: 'submit'}) {
     const {
       store,
       steps,
@@ -611,10 +695,112 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       onFinished
     } = this.props;
 
+    if (await this.dispatchEvent('finished', {formData: store.data})) {
+      return;
+    }
+
     const step = steps[this.state.currentStep - 1];
     store.updateData(values);
 
+    // 最后一步
+    if (target) {
+      this.submitToTarget(target, store.data);
+      this.setState({completeStep: steps.length});
+    } else if (action.api || step.api || api) {
+      let finnalAsyncApi = action.asyncApi || step.asyncApi || asyncApi;
+
+      isEffectiveApi(finnalAsyncApi, store.data) &&
+        store.updateData({
+          [finishedField || 'finished']: false
+        });
+
+      const formStore = this.form
+        ? (this.form.props.store as IFormStore)
+        : store;
+      store.markSaving(true);
+
+      formStore
+        .saveRemote(action.api || step.api || api!, store.data, {
+          onSuccess: () => {
+            this.dispatchEvent('submitSucc', {formData: store.data});
+
+            if (
+              !isEffectiveApi(finnalAsyncApi, store.data) ||
+              store.data[finishedField || 'finished']
+            ) {
+              return;
+            }
+
+            return until(
+              () => store.checkRemote(finnalAsyncApi as Api, store.data),
+              (ret: any) => ret && ret[finishedField || 'finished'],
+              cancel => (this.asyncCancel = cancel)
+            );
+          },
+          onFailed: error => this.dispatchEvent('submitFail', {error})
+        })
+        .then(async value => {
+          const feedback = action.feedback;
+          if (feedback && isVisible(feedback, value)) {
+            const confirmed = await this.openFeedback(feedback, value);
+
+            // 如果 feedback 配置了，取消就跳过原有逻辑。
+            if (feedback.skipRestOnCancel && !confirmed) {
+              throw new SkipOperation();
+            } else if (feedback.skipRestOnConfirm && confirmed) {
+              throw new SkipOperation();
+            }
+          }
+
+          this.setState({completeStep: steps.length});
+          store.updateData({
+            ...store.data,
+            ...value
+          });
+          store.markSaving(false);
+
+          if (value && typeof value.step === 'number') {
+            this.gotoStep(value.step);
+          } else if (onFinished && onFinished(value, action) === false) {
+            // 如果是 false 后面的操作就不执行
+            return value;
+          }
+
+          const finalRedirect =
+            (action.redirect || step.redirect || redirect) &&
+            filter(action.redirect || step.redirect || redirect, store.data);
+
+          if (finalRedirect) {
+            env.jumpTo(finalRedirect, action);
+          } else if (action.reload || step.reload || reload) {
+            this.reloadTarget(
+              action.reload || step.reload || reload!,
+              store.data
+            );
+          }
+
+          return value;
+        })
+        .catch(error => {
+          this.dispatchEvent('submitFail', {error});
+          store.markSaving(false);
+          console.error(error);
+        });
+    } else {
+      onFinished && onFinished(store.data, action);
+      this.setState({completeStep: steps.length});
+    }
+  }
+
+  // 接管里面 form 的提交，不能直接让 form 提交，因为 wizard 自己需要知道进度。
+  @autobind
+  async handleSubmit(values: object, action: Action) {
+    const {store, steps, finishedField} = this.props;
+
     if (this.state.currentStep < steps.length) {
+      const step = steps[this.state.currentStep - 1];
+      store.updateData(values);
+
       let finnalAsyncApi = action.asyncApi || step.asyncApi;
 
       isEffectiveApi(finnalAsyncApi, store.data) &&
@@ -626,6 +812,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         store
           .saveRemote(action.api || step.api!, store.data, {
             onSuccess: () => {
+              this.dispatchEvent('stepSubmitSucc', {formData: store.data});
+
               if (
                 !isEffectiveApi(finnalAsyncApi, store.data) ||
                 store.data[finishedField || 'finished']
@@ -640,94 +828,43 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
               );
             },
             onFailed: json => {
+              this.dispatchEvent('stepSubmitFail', {error: json});
               if (json.status === 422 && json.errors && this.form) {
-                this.form.props.store.handleRemoteError(json.errors);
+                this.form.props.store.setFormItemErrors(json.errors);
               }
             }
           })
-          .then((value: any) =>
+          .then(async (value: any) => {
+            const feedback = action.feedback;
+            if (feedback && isVisible(feedback, value)) {
+              const confirmed = await this.openFeedback(feedback, value);
+
+              // 如果 feedback 配置了，取消就跳过原有逻辑。
+              if (feedback.skipRestOnCancel && !confirmed) {
+                throw new SkipOperation();
+              } else if (feedback.skipRestOnConfirm && confirmed) {
+                throw new SkipOperation();
+              }
+            }
+
             this.gotoStep(
               value && typeof value.step === 'number'
                 ? value.step
                 : this.state.currentStep + 1
-            )
-          )
-          .catch(() => {
+            );
+          })
+          .catch(reason => {
+            this.dispatchEvent('stepSubmitFail', {error: reason});
+            if (reason instanceof SkipOperation) {
+              return;
+            }
             // do nothing
           });
       } else {
         this.gotoStep(this.state.currentStep + 1);
       }
     } else {
-      // 最后一步
-      if (target) {
-        this.submitToTarget(target, store.data);
-      } else if (action.api || step.api || api) {
-        let finnalAsyncApi = action.asyncApi || step.asyncApi || asyncApi;
-
-        isEffectiveApi(finnalAsyncApi, store.data) &&
-          store.updateData({
-            [finishedField || 'finished']: false
-          });
-
-        const formStore = this.form
-          ? (this.form.props.store as IFormStore)
-          : store;
-        store.markSaving(true);
-
-        formStore
-          .saveRemote(action.api || step.api || api!, store.data, {
-            onSuccess: () => {
-              if (
-                !isEffectiveApi(finnalAsyncApi, store.data) ||
-                store.data[finishedField || 'finished']
-              ) {
-                return;
-              }
-
-              return until(
-                () => store.checkRemote(finnalAsyncApi as Api, store.data),
-                (ret: any) => ret && ret[finishedField || 'finished'],
-                cancel => (this.asyncCancel = cancel)
-              );
-            }
-          })
-          .then(value => {
-            store.updateData({
-              ...store.data,
-              ...value
-            });
-            store.markSaving(false);
-
-            if (value && typeof value.step === 'number') {
-              this.gotoStep(value.step);
-            } else if (onFinished && onFinished(value, action) === false) {
-              // 如果是 false 后面的操作就不执行
-              return value;
-            }
-
-            const finalRedirect =
-              (action.redirect || step.redirect || redirect) &&
-              filter(action.redirect || step.redirect || redirect, store.data);
-
-            if (finalRedirect) {
-              env.jumpTo(finalRedirect, action);
-            } else if (action.reload || step.reload || reload) {
-              this.reloadTarget(
-                action.reload || step.reload || reload!,
-                store.data
-              );
-            }
-
-            return value;
-          })
-          .catch(e => {
-            store.markSaving(false);
-            console.error(e);
-          });
-      } else {
-        onFinished && onFinished(store.data, action);
-      }
+      this.finalSubmit(values, action);
     }
 
     return false;
@@ -746,18 +883,18 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       store.updateData(values[0]);
     }
 
-    store.closeDialog();
+    store.closeDialog(true);
   }
 
   @autobind
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {store} = this.props;
-    store.closeDialog();
+    store.closeDialog(confirmed);
   }
 
   renderSteps() {
     const {steps, store, mode, classPrefix: ns, classnames: cx} = this.props;
-    const currentStep = this.state.currentStep;
+    const {currentStep, completeStep} = this.state;
 
     return (
       <div className={`${ns}Wizard-steps`} id="form-wizard">
@@ -765,25 +902,31 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           <ul>
             {steps.map((step, key) => {
               const canJump = isJumpable(step, key, currentStep, store.data);
+              const isComplete = canJump || key < completeStep;
+              const isActive = currentStep === key + 1;
 
               return (
                 <li
                   key={key}
                   className={cx({
-                    'is-complete': canJump,
-                    'is-active': currentStep === key + 1
+                    'is-complete': isComplete,
+                    'is-active': isActive
                   })}
                   onClick={() => (canJump ? this.gotoStep(key + 1) : null)}
                 >
                   <span
                     className={cx('Badge', {
                       // 'Badge--success': canJump && currentStep != key + 1,
+                      'is-complete': isComplete,
                       'is-active':
-                        currentStep === key + 1 ||
-                        (canJump && currentStep != key + 1)
+                        isActive || (canJump && currentStep != key + 1)
                     })}
                   >
-                    {key + 1}
+                    {isComplete && !isActive ? (
+                      <Icon icon="check" className="icon" />
+                    ) : (
+                      key + 1
+                    )}
                   </span>
                   {step.title || step.label || `第 ${key + 1} 步`}
                 </li>
@@ -970,7 +1113,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                   disabled: store.loading,
                   popOverContainer:
                     popOverContainer || this.getPopOverContainer,
-                  onChange: this.handleChange
+                  onChange: this.handleChange,
+                  formStore: undefined
                 }
               )
             ) : currentStep === -1 ? (
@@ -1027,16 +1171,17 @@ function isJumpable(step: any, index: number, currentStep: number, data: any) {
 }
 
 @Renderer({
-  test: /(^|\/)wizard$/,
+  type: 'wizard',
   storeType: ServiceStore.name,
-  name: 'wizard',
   isolateScope: true
 })
 export class WizardRenderer extends Wizard {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    const scoped = this.context as IScopedContext;
+  constructor(props: WizardProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
   }
 
@@ -1060,6 +1205,7 @@ export class WizardRenderer extends Wizard {
     scoped.reload(target, data);
   }
 
+  @autobind
   handleDialogConfirm(values: object[], action: Action, targets: Array<any>) {
     super.handleDialogConfirm(values, action, targets);
 
@@ -1070,5 +1216,9 @@ export class WizardRenderer extends Wizard {
     } else if (store.action && store.action.reload) {
       scoped.reload(store.action.reload, store.data);
     }
+  }
+
+  setData(values: object) {
+    return this.props.store.updateData(values);
   }
 }

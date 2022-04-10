@@ -3,7 +3,12 @@ import {Renderer, RendererProps} from '../factory';
 import React from 'react';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import SearchBox from '../components/SearchBox';
-import {autobind, getVariable, setVariable} from '../utils/helper';
+import {
+  autobind,
+  getPropValue,
+  getVariable,
+  setVariable
+} from '../utils/helper';
 
 /**
  * 搜索框渲染器
@@ -51,11 +56,17 @@ interface SearchBoxProps
   onQuery?: (query: {[propName: string]: string}) => void;
 }
 
+export interface SearchBoxState {
+  value: string;
+}
+
 @Renderer({
-  test: /(^|\/)search\-box$/,
-  name: 'search'
+  type: 'search-box'
 })
-export class SearchBoxRenderer extends React.Component<SearchBoxProps> {
+export class SearchBoxRenderer extends React.Component<
+  SearchBoxProps,
+  SearchBoxState
+> {
   static defaultProps = {
     name: 'keywords',
     mini: false,
@@ -64,11 +75,23 @@ export class SearchBoxRenderer extends React.Component<SearchBoxProps> {
 
   static propsList: Array<string> = ['mini', 'searchImediately'];
 
+  constructor(props: SearchBoxProps) {
+    super(props);
+    this.state = {
+      value: getPropValue(props) || ''
+    };
+  }
+
+  @autobind
+  handleChange(value: string) {
+    this.setState({value});
+  }
+
   @autobind
   handleCancel() {
     const name = this.props.name;
     const onQuery = this.props.onQuery;
-    const value = this.props.value ?? getVariable(this.props.data, name);
+    const value = getPropValue(this.props);
     if (value !== '') {
       const data: any = {};
       setVariable(data, name, '');
@@ -96,7 +119,7 @@ export class SearchBoxRenderer extends React.Component<SearchBoxProps> {
       className
     } = this.props;
 
-    const value = this.props.value ?? getVariable(data, name);
+    const value = this.state.value;
 
     return (
       <SearchBox
@@ -105,13 +128,13 @@ export class SearchBoxRenderer extends React.Component<SearchBoxProps> {
         disabled={!onQuery}
         defaultActive={!!value}
         defaultValue={onChange ? undefined : value}
-        value={onChange ? value : undefined}
+        value={value}
         mini={mini}
         searchImediately={searchImediately}
         onSearch={this.handleSearch}
         onCancel={this.handleCancel}
         placeholder={placeholder}
-        onChange={onChange}
+        onChange={this.handleChange}
       />
     );
   }

@@ -68,6 +68,10 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
+
+  > .#{$ns}ButtonGroup:last-child > .#{$ns}Button:not(:last-child) {
+    border-top-right-radius: 0;
+  }
 }
 
 .#{$ns}ButtonGroup--vertical {
@@ -99,16 +103,25 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
-}
 
-.#{$ns}ButtonGroupControl {
-  display: inline-block;
-
-  > .#{$ns}ButtonGroup--sm {
-    margin-top: calc((var(--Form-input-height) - var(--Button--sm-height)) / 2);
+  /* 修正头尾的圆角 */
+  > .#{$ns}Button:first-child,
+  > .#{$ns}ButtonGroup:first-child > .#{$ns}Button:first-child {
+    border-top-right-radius: var(--Button-borderRadius);
   }
 
-  > .#{$ns}ButtonGroup--xs {
-    margin-top: calc((var(--Form-input-height) - var(--Button--xs-height)) / 2);
+  > .#{$ns}Button:last-child,
+  > .#{$ns}ButtonGroup:last-child > .#{$ns}Button:last-child {
+    border-bottom-left-radius: var(--Button-borderRadius);
+  }
+}
+
+.#{$ns}ButtonGroup--tiled {
+  display: flex;
+
+  .#{$ns}Button,
+  .#{$ns}ButtonGroup {
+    flex-grow: 1;
+    text-align: center;
   }
 }

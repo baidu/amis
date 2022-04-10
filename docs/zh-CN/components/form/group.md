@@ -15,17 +15,17 @@ order: 24
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
       "type": "group",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text1",
           "label": "文本1"
         },
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text2",
           "label": "文本2"
         }
@@ -36,19 +36,19 @@ order: 24
     },
     {
       "type": "group",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text3",
           "label": "文本3"
         },
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text4",
           "label": "文本4"
         },
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text5",
           "label": "文本5"
         }
@@ -67,9 +67,9 @@ order: 24
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "text",
       "label": "文本"
     },
@@ -79,15 +79,15 @@ order: 24
     {
       "type": "group",
       "mode": "horizontal",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text1",
           "label": "文本1"
         },
 
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text2",
           "label": "文本2"
         }
@@ -103,9 +103,9 @@ order: 24
 {
   "type": "form",
   "mode": "horizontal",
-  "controls": [
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "name": "text",
         "label": "文本"
     },
@@ -114,14 +114,14 @@ order: 24
     },
     {
       "type": "group",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text1",
           "label": false
         },
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text2",
           "label": false
         }
@@ -137,9 +137,9 @@ order: 24
 {
   "type": "form",
   "mode": "horizontal",
-  "controls": [
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "name": "text",
         "label": "文本"
     },
@@ -149,16 +149,70 @@ order: 24
     {
       "type": "group",
       "label": "文本组",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text1",
           "label": false
         },
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text2",
           "label": false
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 宽度占比
+
+在表单项内部可以通过 `columnRatio` 来控制宽度，整体是 12 等分
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "group",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "text1",
+          "label": "text1",
+          "columnRatio": 8
+        },
+        {
+          "type": "input-text",
+          "name": "text2",
+          "label": "text2",
+          "columnRatio": 4
+        }
+      ]
+    },
+    {
+        "type": "divider"
+    },
+    {
+      "type": "group",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "text1",
+          "label": "text1",
+          "columnRatio": 6
+        },
+        {
+          "type": "input-text",
+          "name": "text2",
+          "label": "text2",
+          "columnRatio": 4
+        },
+        {
+          "type": "input-text",
+          "name": "text3",
+          "label": "text3"
         }
       ]
     }
@@ -172,7 +226,7 @@ order: 24
 | --------- | --------------------------- | -------------- | -------------------------------------------------------------------------- |
 | className | `string`                    |                | CSS 类名                                                                   |
 | label     | `string`                    |                | group 的标签                                                               |
-| controls  | Array<[表单项](./formitem)> |                | 表单项集合                                                                 |
+| body      | Array<[表单项](./formitem)> |                | 表单项集合                                                                 |
 | mode      | `string`                    |                | 展示默认，同 [Form](./index#%E8%A1%A8%E5%8D%95%E5%B1%95%E7%A4%BA) 中的模式 |
 | gap       | `string`                    |                | 表单项之间的间距，可选：`xs`、`sm`、`normal`                               |
 | direction | `string`                    | `"horizontal"` | 可以配置水平展示还是垂直展示。对应的配置项分别是：`vertical`、`horizontal` |

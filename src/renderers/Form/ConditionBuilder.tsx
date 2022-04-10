@@ -4,10 +4,13 @@ import {Funcs, Fields} from '../../components/condition-builder/types';
 import {Config} from '../../components/condition-builder/config';
 import ConditionBuilder from '../../components/condition-builder/index';
 import {SchemaApi, SchemaTokenizeableString} from '../../Schema';
+import FormulaPicker from '../../components/formula/Picker';
 import {
   RemoteOptionsProps,
   withRemoteConfig
 } from '../../components/WithRemoteConfig';
+import {Schema} from '../../types';
+import {autobind} from '../../utils/helper';
 
 /**
  * 条件组合控件
@@ -38,6 +41,16 @@ export interface ConditionBuilderControlSchema extends FormBaseControl {
    * 通过远程拉取配置项
    */
   source?: SchemaApi | SchemaTokenizeableString;
+
+  /**
+   * 展现模式
+   */
+  builderMode?: 'simple' | 'full';
+
+  /**
+   * 是否显示并或切换键按钮，只在简单模式下有用
+   */
+  showANDOR?: boolean;
 }
 
 export interface ConditionBuilderProps
@@ -48,12 +61,23 @@ export interface ConditionBuilderProps
     > {}
 
 export default class ConditionBuilderControl extends React.PureComponent<ConditionBuilderProps> {
+  @autobind
+  renderEtrValue(schema: Schema, data: any) {
+    return this.props.render(
+      'inline',
+      Object.assign(schema, {label: false}),
+      data
+    );
+  }
   render() {
     const {className, classnames: cx, ...rest} = this.props;
 
     return (
       <div className={cx(`ConditionBuilderControl`, className)}>
-        <ConditionBuilderWithRemoteOptions {...rest} />
+        <ConditionBuilderWithRemoteOptions
+          renderEtrValue={this.renderEtrValue}
+          {...rest}
+        />
       </div>
     );
   }
@@ -66,12 +90,14 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     RemoteOptionsProps & React.ComponentProps<typeof ConditionBuilder>
   > {
     render() {
-      const {loading, config, deferLoad, ...rest} = this.props;
+      const {loading, config, deferLoad, disabled, renderEtrValue, ...rest} =
+        this.props;
       return (
         <ConditionBuilder
           {...rest}
           fields={config || rest.fields || []}
-          disabled={loading}
+          disabled={disabled || loading}
+          renderEtrValue={renderEtrValue}
         />
       );
     }

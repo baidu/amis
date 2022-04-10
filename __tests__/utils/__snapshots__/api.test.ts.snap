@@ -3,19 +3,19 @@
 exports[`api:cache 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -24,16 +24,10 @@ exports[`api:cache 1`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 1
@@ -49,19 +43,19 @@ exports[`api:cache 1`] = `
 exports[`api:cache 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -70,16 +64,10 @@ exports[`api:cache 2`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 1

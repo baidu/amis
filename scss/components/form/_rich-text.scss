@@ -1,5 +1,5 @@
 .fr-popup {
-  z-index: $zindex-popover !important;
+  z-index: $zindex-top !important;
 }
 
 .#{$ns}RichTextControl {
@@ -16,6 +16,8 @@
   border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
   width: 100%;
 
+  @include input-border();
+
   .fr-toolbar.fr-top {
     box-shadow: none;
     border: 0;
@@ -27,7 +29,11 @@
     max-height: 400px;
     box-shadow: none;
     overflow: auto;
-    border-top: 1px solid var(--Form-input-borderColor);
+    border: none;
+  }
+
+  .second-toolbar {
+    border: none;
   }
 
   .fr-toolbar .fr-command.fr-btn,
@@ -65,11 +71,6 @@
   &.is-focused {
     border: var(--Form-input-borderWidth) solid
       var(--Form-input-onFocused-borderColor);
-
-    .fr-box.fr-basic.fr-top .fr-wrapper {
-      border-top: var(--Form-input-borderWidth) solid
-        var(--Form-input-onFocused-borderColor);
-    }
   }
 
   .fr-box.fr-basic .fr-element {

@@ -67,30 +67,30 @@ valueControls = valueControls.concat([
     name: 'value',
     visibleOn: `data.valueType === "Color"`,
     label: '值',
-    type: 'color'
+    type: 'input-color'
   },
   {
     name: 'value',
     format: 'rgba',
     visibleOn: `data.valueType === "ColorRGBA"`,
     label: '值',
-    type: 'color'
+    type: 'input-color'
   },
   {
     name: 'value',
     visibleOn: `data.valueType === "Number"`,
     label: '值',
-    type: 'number'
+    type: 'input-number'
   },
   {
     type: 'input-group',
     label: '值',
     visibleOn: `data.valueType === "Length"`,
-    controls: [
+    body: [
       {
         name: 'value',
         label: '值',
-        type: 'number'
+        type: 'input-number'
       },
       {
         type: 'select',
@@ -121,7 +121,7 @@ valueControls = valueControls.concat([
     name: 'value',
     visibleOn: `data.valueType === "Percentage"`,
     label: '值',
-    type: 'text',
+    type: 'input-text',
     addOn: {
       type: 'static',
       label: '%'
@@ -132,11 +132,11 @@ valueControls = valueControls.concat([
     visibleOn: `data.valueType === "Angle"`,
     label: '值',
     type: 'input-group',
-    controls: [
+    body: [
       {
         name: 'value',
         label: '值',
-        type: 'number'
+        type: 'input-number'
       },
       {
         type: 'select',
@@ -152,11 +152,11 @@ valueControls = valueControls.concat([
     visibleOn: `data.valueType === "Time"`,
     label: '值',
     type: 'input-group',
-    controls: [
+    body: [
       {
         name: 'value',
         label: '值',
-        type: 'number'
+        type: 'input-number'
       },
       {
         type: 'select',
@@ -172,11 +172,11 @@ valueControls = valueControls.concat([
     visibleOn: `data.valueType === "Frequency"`,
     label: '值',
     type: 'input-group',
-    controls: [
+    body: [
       {
         name: 'value',
         label: '值',
-        type: 'number'
+        type: 'input-number'
       },
       {
         type: 'select',
@@ -192,11 +192,11 @@ valueControls = valueControls.concat([
     visibleOn: `data.valueType === "Frequency"`,
     label: '值',
     type: 'input-group',
-    controls: [
+    body: [
       {
         name: 'value',
         label: '值',
-        type: 'number'
+        type: 'input-number'
       },
       {
         type: 'select',
@@ -212,7 +212,7 @@ valueControls = valueControls.concat([
     visibleOn: `data.valueType === "Position"`,
     label: '值',
 
-    type: 'tag',
+    type: 'input-tag',
     // https://www.w3.org/TR/css3-values/#position
     options: ['top', 'left', 'bottom', 'right', 'center']
   },
@@ -221,12 +221,11 @@ valueControls = valueControls.concat([
     name: 'value',
     visibleOn: `!data.valueType || data.valueType === "Flex" || data.valueType === "Transform" || data.valueType === "Unparsed"|| data.valueType === "Image"`,
     label: '值',
-    type: 'text'
+    type: 'input-text'
   }
 ]);
 
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '样式编辑',
   data: {
     style: [
@@ -245,7 +244,7 @@ export default {
       type: 'form',
       api: '/api/mock2/saveForm',
       title: '',
-      controls: [
+      body: [
         {
           type: 'static',
           value:
@@ -256,7 +255,7 @@ export default {
           name: 'style',
           label: '样式列表',
           multiple: true,
-          controls: [
+          items: [
             {
               name: 'property',
               label: '属性',

@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:audio 1`] = `
+<div>
+  <div
+    class="cxd-Audio cxd-Audio--inline"
+  >
+    <audio
+      class="cxd-Audio-original"
+      controls=""
+    >
+      <source
+        src="https://example.com/music.mp3"
+      />
+    </audio>
+    <div
+      class="cxd-Audio-controls"
+    >
+      <div
+        class="cxd-Audio-play"
+      >
+        <icon-mock
+          classname="icon icon-play"
+          icon="play"
+        />
+      </div>
+      <div
+        class="cxd-Audio-times"
+      >
+        0:00
+         / 
+        0:00
+      </div>
+      <div
+        class="cxd-Audio-process"
+      >
+        <input
+          max="1"
+          min="0"
+          step="any"
+          type="range"
+          value="0"
+        />
+      </div>
+      <div
+        class="cxd-Audio-volume"
+      >
+        <icon-mock
+          classname="icon icon-volume"
+          icon="volume"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

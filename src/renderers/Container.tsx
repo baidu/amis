@@ -2,6 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 import {SchemaNode} from '../types';
+import {buildStyle} from '../utils/style';
 
 /**
  * Container 容器渲染器。
@@ -52,7 +53,14 @@ export default class Container<T> extends React.Component<
   };
 
   renderBody(): JSX.Element | null {
-    const {children, body, render, classnames: cx, bodyClassName} = this.props;
+    const {
+      children,
+      body,
+      render,
+      classnames: cx,
+      bodyClassName,
+      disabled
+    } = this.props;
 
     return (
       <div className={cx('Container-body', bodyClassName)}>
@@ -61,7 +69,7 @@ export default class Container<T> extends React.Component<
             ? ((children as any)(this.props) as JSX.Element)
             : (children as JSX.Element)
           : body
-          ? (render('body', body as any) as JSX.Element)
+          ? (render('body', body as any, {disabled}) as JSX.Element)
           : null}
       </div>
     );
@@ -73,14 +81,18 @@ export default class Container<T> extends React.Component<
       wrapperComponent,
       size,
       classnames: cx,
-      style
+      style,
+      data
     } = this.props;
 
     const Component =
       (wrapperComponent as keyof JSX.IntrinsicElements) || 'div';
 
     return (
-      <Component className={cx('Container', className)} style={style}>
+      <Component
+        className={cx('Container', className)}
+        style={buildStyle(style, data)}
+      >
         {this.renderBody()}
       </Component>
     );
@@ -88,7 +100,6 @@ export default class Container<T> extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)container$/,
-  name: 'container'
+  type: 'container'
 })
 export class ContainerRenderer extends Container<{}> {}

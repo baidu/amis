@@ -3,17 +3,17 @@
 exports[`Renderer:button 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,22 +22,26 @@ exports[`Renderer:button 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--default a-Form-control"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <i
-              class="a-Button-icon fa fa-plus"
+              class="cxd-Button-icon fa fa-plus"
             />
             <span>
               Text
@@ -45,11 +49,11 @@ exports[`Renderer:button 1`] = `
           </button>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--default a-Form-control"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -58,11 +62,11 @@ exports[`Renderer:button 1`] = `
           </button>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--primary a-Form-control"
+            class="cxd-Button cxd-Button--primary"
             type="submit"
           >
             <span>
@@ -71,11 +75,11 @@ exports[`Renderer:button 1`] = `
           </button>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal r-2x"
+          class="cxd-Form-item cxd-Form-item--normal r-2x"
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--danger a-Button--sm a-Form-control"
+            class="cxd-Button cxd-Button--danger cxd-Button--sm"
             type="reset"
           >
             <span>
@@ -83,10 +87,6 @@ exports[`Renderer:button 1`] = `
             </span>
           </button>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -135,17 +135,17 @@ exports[`Renderer:button 1`] = `
 exports[`Renderer:button 2`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -154,22 +154,26 @@ exports[`Renderer:button 2`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--default a-Form-control"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <i
-              class="a-Button-icon fa fa-plus"
+              class="cxd-Button-icon fa fa-plus"
             />
             <span>
               Text
@@ -177,11 +181,11 @@ exports[`Renderer:button 2`] = `
           </button>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--default a-Form-control"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -190,11 +194,11 @@ exports[`Renderer:button 2`] = `
           </button>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--primary a-Form-control"
+            class="cxd-Button cxd-Button--primary"
             type="submit"
           >
             <span>
@@ -203,11 +207,11 @@ exports[`Renderer:button 2`] = `
           </button>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal r-2x"
+          class="cxd-Form-item cxd-Form-item--normal r-2x"
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--danger a-Button--sm a-Form-control"
+            class="cxd-Button cxd-Button--danger cxd-Button--sm"
             type="reset"
           >
             <span>
@@ -215,10 +219,6 @@ exports[`Renderer:button 2`] = `
             </span>
           </button>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -262,20 +262,20 @@ exports[`Renderer:button 2`] = `
     </div>
   </div>
   <div
-    class="amis-dialog-widget a-Modal a-Modal--1th"
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
     role="dialog"
   >
     <div
-      class="a-Modal-overlay in"
+      class="cxd-Modal-overlay in"
     />
     <div
-      class="a-Modal-content in"
+      class="cxd-Modal-content in"
     >
       <div
-        class="a-Modal-header"
+        class="cxd-Modal-header"
       >
         <a
-          class="a-Modal-close"
+          class="cxd-Modal-close"
           data-position="left"
           data-tooltip="关闭"
         >
@@ -285,16 +285,16 @@ exports[`Renderer:button 2`] = `
           />
         </a>
         <div
-          class="a-Modal-title"
+          class="cxd-Modal-title"
         >
           提示
         </div>
       </div>
       <div
-        class="a-Modal-body"
+        class="cxd-Modal-body"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             对，你刚点击了！
@@ -302,10 +302,10 @@ exports[`Renderer:button 2`] = `
         </span>
       </div>
       <div
-        class="a-Modal-footer"
+        class="cxd-Modal-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="button"
         >
           <span>
@@ -313,7 +313,7 @@ exports[`Renderer:button 2`] = `
           </span>
         </button>
         <button
-          class="a-Button a-Button--primary"
+          class="cxd-Button cxd-Button--primary"
           type="button"
         >
           <span>

@@ -3,17 +3,17 @@
 exports[`Renderer:panel 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,37 +22,42 @@ exports[`Renderer:panel 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <div
-            class="a-FormHbox a-Form-control"
+            class="cxd-Hbox cxd-Hbox--xs"
           >
             <div
-              class="a-Hbox"
+              class="cxd-Hbox-col"
             >
               <div
-                class="a-Hbox-col a-Form--normal"
+                class="cxd-Form-item cxd-Form-item--normal"
+                data-role="form-item"
               >
                 <div
-                  class="a-Panel a-Panel--default"
+                  class="cxd-Panel cxd-Panel--default"
                   style="position: relative;"
                 >
                   <div
-                    class="a-Panel-heading"
+                    class="cxd-Panel-heading"
                   >
                     <h3
-                      class="a-Panel-title"
+                      class="cxd-Panel-title"
                     >
                       <span
-                        class="a-TplField"
+                        class="cxd-TplField"
                       >
                         <span>
                           bla bla
@@ -64,7 +69,7 @@ exports[`Renderer:panel 1`] = `
                     class="bg-white"
                   >
                     <span
-                      class="a-PlainField"
+                      class="cxd-PlainField"
                     >
                       <span
                         class="text-muted"
@@ -74,13 +79,13 @@ exports[`Renderer:panel 1`] = `
                     </span>
                   </div>
                   <div
-                    class="a-Panel-footerWrap"
+                    class="cxd-Panel-footerWrap"
                   >
                     <div
                       class="bg-black"
                     >
                       <span
-                        class="a-TplField"
+                        class="cxd-TplField"
                       >
                         <span>
                           <p>
@@ -131,21 +136,26 @@ exports[`Renderer:panel 1`] = `
                   </div>
                 </div>
               </div>
+            </div>
+            <div
+              class="cxd-Hbox-col"
+            >
               <div
-                class="a-Hbox-col a-Form--normal"
+                class="cxd-Form-item cxd-Form-item--normal"
+                data-role="form-item"
               >
                 <div
-                  class="a-Panel a-Panel--default"
+                  class="cxd-Panel cxd-Panel--default"
                   style="position: relative;"
                 >
                   <div
-                    class="a-Panel-heading"
+                    class="cxd-Panel-heading"
                   >
                     <h3
-                      class="a-Panel-title"
+                      class="cxd-Panel-title"
                     >
                       <span
-                        class="a-TplField"
+                        class="cxd-TplField"
                       >
                         <span>
                           bla bla
@@ -154,51 +164,45 @@ exports[`Renderer:panel 1`] = `
                     </h3>
                   </div>
                   <div
-                    class="a-Panel-body"
+                    class="cxd-Panel-body"
                   >
                     <div
-                      class="a-Form--normal"
+                      class="cxd-Form-item cxd-Form-item--normal"
+                      data-role="form-item"
                     >
                       <div
-                        class="a-Form-item a-Form-item--normal"
-                        data-role="form-item"
+                        class="cxd-Form-control cxd-TextControl"
                       >
                         <div
-                          class="a-Form-control a-TextControl"
+                          class="cxd-TextControl-input"
                         >
-                          <div
-                            class="a-TextControl-input"
-                          >
-                            <input
-                              autocomplete="off"
-                              name="text"
-                              placeholder="Text 1"
-                              size="10"
-                              type="text"
-                              value=""
-                            />
-                          </div>
+                          <input
+                            autocomplete="off"
+                            placeholder="Text 1"
+                            size="10"
+                            type="text"
+                            value=""
+                          />
                         </div>
                       </div>
+                    </div>
+                    <div
+                      class="cxd-Form-item cxd-Form-item--normal"
+                      data-role="form-item"
+                    >
                       <div
-                        class="a-Form-item a-Form-item--normal"
-                        data-role="form-item"
+                        class="cxd-Form-control cxd-TextControl"
                       >
                         <div
-                          class="a-Form-control a-TextControl"
+                          class="cxd-TextControl-input"
                         >
-                          <div
-                            class="a-TextControl-input"
-                          >
-                            <input
-                              autocomplete="off"
-                              name="text2"
-                              placeholder="Text 2"
-                              size="10"
-                              type="text"
-                              value=""
-                            />
-                          </div>
+                          <input
+                            autocomplete="off"
+                            placeholder="Text 2"
+                            size="10"
+                            type="text"
+                            value=""
+                          />
                         </div>
                       </div>
                     </div>
@@ -247,10 +251,6 @@ exports[`Renderer:panel 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

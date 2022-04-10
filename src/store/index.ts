@@ -6,7 +6,6 @@ import {
   isAlive,
   Instance
 } from 'mobx-state-tree';
-import 'setimmediate';
 import {iRendererStore, IIRendererStore, SIRendererStore} from './iRenderer';
 import {ServiceStore} from './service';
 import {ComboStore} from './combo';
@@ -44,6 +43,10 @@ const allowedStoreList = [
 export const RendererStore = types
   .model('RendererStore', {
     storeType: 'RendererStore'
+  })
+  .props({
+    visibleState: types.optional(types.frozen(), {}),
+    disableState: types.optional(types.frozen(), {})
   })
   .views(self => ({
     get fetcher() {
@@ -92,6 +95,22 @@ export const RendererStore = types
     removeStore(store: IStoreNode) {
       // store.dispose();
       removeStore(store);
+    },
+
+    setVisible(id: string, value: boolean) {
+      const state = {
+        ...self.visibleState,
+        [id]: value
+      };
+      self.visibleState = state;
+    },
+
+    setDisable(id: string, value: boolean) {
+      const state = {
+        ...self.disableState,
+        [id]: value
+      };
+      self.disableState = state;
     }
   }));
 

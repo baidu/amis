@@ -16,7 +16,7 @@ order: 59
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/crud/table",
+    "api": "/api/mock2/crud/table",
     "body": [
         {
             "type": "pagination-wrapper",

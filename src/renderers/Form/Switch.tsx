@@ -1,11 +1,16 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import Switch from '../../components/Switch';
+import {createObject, autobind, isObject} from '../../utils/helper';
+import {generateIcon} from "../../utils/icon";
+import {IconSchema} from "../Icon";
 
 /**
  * Switch
  * 文档：https://baidu.gitee.io/amis/docs/components/form/switch
  */
+
+
 export interface SwitchControlSchema extends FormBaseControl {
   /**
    * 指定为多行文本输入框
@@ -15,12 +20,12 @@ export interface SwitchControlSchema extends FormBaseControl {
   /**
    * 勾选值
    */
-  trueValue?: any;
+  trueValue?: boolean | string | number;
 
   /**
    * 未勾选值
    */
-  falseValue?: any;
+  falseValue?: boolean | string | number;
 
   /**
    * 选项说明
@@ -28,14 +33,14 @@ export interface SwitchControlSchema extends FormBaseControl {
   option?: string;
 
   /**
-   * 开启时显示的文本
+   * 开启时显示的内容
    */
-  onText?: string;
+  onText?: string | IconSchema;
 
   /**
-   * 关闭时显示的文本
+   * 关闭时显示的内容
    */
-  offText?: string;
+  offText?: string | IconSchema;
 }
 
 export interface SwitchProps extends FormControlProps {
@@ -44,12 +49,28 @@ export interface SwitchProps extends FormControlProps {
   falseValue?: any;
 }
 
+export type SwitchRendererEvent = 'change';
+
 export default class SwitchControl extends React.Component<SwitchProps, any> {
   static defaultProps = {
     trueValue: true,
     falseValue: false,
     optionAtLeft: false
   };
+
+  @autobind
+  async handleChange(checked: string | number | boolean) {
+    const {dispatchEvent, data, onChange} = this.props;
+    const rendererEvent = await dispatchEvent('change', createObject(data, {
+      value: checked,
+    }));
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onChange && onChange(checked);
+  }
+
   render() {
     const {
       className,
@@ -66,6 +87,9 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
       optionAtLeft
     } = this.props;
 
+    const on = isObject(onText) ? generateIcon(cx, onText.icon, 'Switch-icon') : onText;
+    const off = isObject(offText) ? generateIcon(cx, offText.icon, 'Switch-icon') :offText;
+
     return (
       <div className={cx(`SwitchControl`, className)}>
         {optionAtLeft ? (
@@ -77,10 +101,10 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
           value={value}
           trueValue={trueValue}
           falseValue={falseValue}
-          onText={onText}
-          offText={offText}
+          onText={on}
+          offText={off}
           disabled={disabled}
-          onChange={onChange}
+          onChange={this.handleChange}
         />
 
         {optionAtLeft ? null : (

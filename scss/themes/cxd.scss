@@ -3,3 +3,336 @@
 @import './cxd-variables';
 
 @import './common';
+
+.#{$ns}Switch {
+  .text {
+    margin: 0 px2rem(8px) 0 px2rem(25px);
+    vertical-align: super;
+  }
+  .slider {
+    &:before {
+      width: calc(var(--Switch-height) - #{px2rem(4px)});
+      top: px2rem(2px);
+      bottom: px2rem(2px);
+    }
+  }
+  &:active {
+    .slider::before {
+      width: calc(var(--Switch-height) + #{px2rem(2px)});
+      border-radius: 10px;
+    }
+  }
+  &:hover {
+    background: var(--Switch-onHover-bgColor);
+  }
+  &.is-checked {
+    background: var(--Switch-checked-bgColor);
+
+    .slider::before {
+      right: px2rem(2px);
+    }
+
+    .text {
+      margin: 0 px2rem(25px) 0 px2rem(8px);
+    }
+    &:hover {
+      background: var(--Switch-checked-onHover-bgColor);
+    }
+    &:active {
+      background: var(--Switch-checked-onActive-bgColor);
+    }
+  }
+}
+
+// input选择器模式
+.#{$ns}TextControl-sugs {
+  border-radius: px2rem(3px);
+  top: calc(var(--Form-input-height) + #{px2rem(4px)});
+  box-shadow: #{px2rem(2px)} #{px2rem(4px)} #{px2rem(8px)} rgba(0, 0, 0, 0.2);
+  border: none;
+}
+
+.#{$ns}Select {
+  .#{$ns}PopOver {
+    .#{$ns}Select-menu {
+      border-radius: #{$R3};
+      .#{$ns}Select-option {
+        // height: var(--Form-input-height);
+        line-height: 1.1;
+        padding: px2rem(5px) px2rem(12px);
+      }
+    }
+  }
+}
+
+.#{$ns}NestedSelectControl {
+  .#{$ns}PopOver {
+    .#{$ns}NestedSelect-menuOuter {
+      .#{$ns}NestedSelect-menu {
+        border-radius: #{$R3};
+        .#{$ns}NestedSelect-option {
+          height: var(--Form-input-height);
+          padding: 0 px2rem(12px);
+          .#{$ns}NestedSelect-optionArrowRight {
+            padding-right: 0;
+          }
+        }
+
+        &:not(:first-child) {
+          margin-left: 2px;
+        }
+      }
+    }
+  }
+}
+
+.#{$ns}TreeSelectControl {
+  .#{$ns}PopOver {
+    box-shadow: var(--boxShadow);
+    .#{$ns}Tree {
+      border-radius: #{$R3};
+      border: none;
+    }
+  }
+}
+
+.#{$ns}Toast {
+  .#{$ns}Toast-icon {
+    margin-right: #{px2rem(8px)};
+  }
+  .#{$ns}Toast-close {
+    margin-left: #{px2rem(8px)};
+    cursor: pointer;
+  }
+}
+
+.#{$ns}Button--iconOnly {
+  min-width: var(--Button-height);
+}
+
+.#{$ns}Alert {
+  font-weight: #{$W2};
+  .#{$ns}Alert-close {
+    opacity: 1;
+    color: #{$G5};
+    &:hover {
+      color: #{$G4};
+    }
+    &:active {
+      color: #{$G3};
+    }
+  }
+}
+
+.#{$ns}IconPickerControl {
+  .#{$ns}IconPickerControl-input--withAC {
+    .#{$ns}IconPickerControl-sugsPanel {
+      border: none;
+      box-shadow: var(--boxShadow);
+      border-radius: px2rem(3px);
+    }
+  }
+}
+
+.#{$ns}Combo {
+  .#{$ns}Combo-items {
+    .#{$ns}Combo-item {
+      .#{$ns}Combo-delBtn {
+        padding-top: calc(
+          (var(--Form-input-height) - var(--Form-input-lineHeight) * 10px) / 2
+        );
+      }
+    }
+  }
+}
+
+.#{$ns}LocationControl {
+  .#{$ns}PopOver {
+    border: none;
+    box-shadow: var(--boxShadow);
+  }
+}
+
+.#{$ns}Transfer {
+  &-title {
+    height: var(--Form-input-height);
+    padding-left: #{px2rem(16px)};
+    padding-right: #{px2rem(16px)};
+  }
+  .#{$ns}ListCheckboxes {
+    .#{$ns}ListCheckboxes-item {
+      padding-left: #{px2rem(16px)};
+      padding-right: #{px2rem(16px)};
+    }
+  }
+}
+
+.#{$ns}Modal {
+  box-shadow: var(--boxShadow);
+  &-content {
+    padding: #{px2rem(24px)};
+    border-radius: #{$R4};
+  }
+
+  &-body {
+    padding: #{px2rem(16px)} 0 #{px2rem(24px)} 0;
+    font-size: #{$T2};
+    font-weight: #{$W2};
+  }
+
+  &-footer {
+    .#{$ns}Button {
+      margin-left: #{px2rem(16px)};
+    }
+  }
+}
+
+.#{$ns}Drawer {
+  &-content {
+    border-radius: #{$R4};
+  }
+  &-header {
+    border-radius: #{$R4} 0 0 0;
+  }
+  &-title {
+    font-size: #{$T3};
+    font-weight: #{$W3};
+  }
+
+  &-body {
+    font-size: #{$T3};
+    font-weight: #{$W2};
+  }
+}
+
+.#{$ns}Drawer--right {
+  .#{$ns}Drawer-header {
+    border-radius: #{$R4} 0 0 0;
+  }
+  .#{$ns}Drawer-footer {
+    justify-content: flex-end;
+    .#{$ns}Button {
+      margin-left: #{px2rem(16px)};
+    }
+  }
+}
+
+.#{$ns}Drawer--left {
+  .#{$ns}Drawer-header {
+    border-radius: 0 #{$R4} 0 0;
+  }
+  .#{$ns}Drawer-footer {
+    .#{$ns}Button {
+      margin-left: #{px2rem(16px)};
+    }
+  }
+}
+
+.#{$ns}Drawer--top {
+  .#{$ns}Drawer-footer {
+    .#{$ns}Button {
+      margin-left: #{px2rem(16px)};
+    }
+  }
+}
+.#{$ns}Drawer--bottom {
+  .#{$ns}Drawer-header {
+    border-radius: #{$R4} #{$R4} 0 0;
+  }
+  .#{$ns}Drawer-footer {
+    .#{$ns}Button {
+      margin-left: #{px2rem(16px)};
+    }
+  }
+}
+
+.#{$ns}Steps {
+  .#{$ns}StepsItem {
+    &-container {
+      &Icon {
+        padding-right: #{px2rem(8px)};
+        .#{$ns}StepsItem-icon {
+          width: #{px2rem(24px)};
+          height: #{px2rem(24px)};
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          svg {
+            width: #{px2rem(12px)};
+            height: #{px2rem(12px)};
+            top: 0;
+          }
+        }
+
+        &Wrapper {
+          .#{$ns}StepsItem-body {
+            .#{$ns}StepsItem-title {
+              &:after {
+                padding-right: #{px2rem(8px)};
+              }
+            }
+            .#{$ns}StepsItem-subTitle {
+              padding-left: #{px2rem(8px)};
+            }
+          }
+        }
+      }
+    }
+  }
+  &--vertical {
+    .#{$ns}StepsItem {
+      &-container {
+        &Icon > .#{$ns}StepsItem-icon {
+          &:after {
+            top: px2rem(28px);
+            left: px2rem(10px);
+            transform: translate(px2rem(1px));
+          }
+        }
+      }
+    }
+  }
+  .#{$ns}StepsItem.is-finish {
+    .#{$ns}StepsItem-icon {
+      color: var(--Steps-status-success);
+      background-color: var(--white);
+    }
+  }
+
+  .#{$ns}StepsItem.is-error {
+    .#{$ns}StepsItem-icon {
+      color: var(--Steps-status-error);
+      background-color: var(--white);
+      border: 1px solid var(--Steps-status-error);
+    }
+  }
+}
+
+.#{$ns}Form-feedback {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.#{$ns}Form-item {
+  &--inline {
+    .#{$ns}Form-label {
+      margin-right: #{px2rem(16px)};
+    }
+  }
+}
+
+//FieldSet Form + Collapse
+.#{$ns}Form {
+  .#{$ns}Collapse {
+    border: none;
+    &-header {
+      background-color: var(--white);
+      display: inline-flex;
+      justify-content: flex-end;
+      flex-direction: row-reverse;
+    }
+    &-content {
+      padding: 0;
+    }
+  }
+}

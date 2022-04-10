@@ -24,7 +24,7 @@ export function withRootStore<
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static contextType = RootStoreContext;
-      static ComposedComponent = ComposedComponent;
+      static ComposedComponent = ComposedComponent as React.ComponentType<T>;
 
       render() {
         const rootStore = this.context;

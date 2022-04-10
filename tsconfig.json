@@ -3,15 +3,15 @@
     "outDir": "output/",
     "module": "commonjs",
     "target": "es5",
-    "lib": ["es6", "dom", "ES2015"],
+    "lib": ["ES6", "DOM", "ES2015", "ES2021"],
     "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "rootDir": "src",
+    "rootDir": "",
     "importHelpers": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "sourceRoot": "src",
+    "sourceRoot": "",
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
@@ -21,7 +21,7 @@
     "typeRoots": ["./node_modules/@types", "./types"],
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "acceptance-tests", "webpack", "jest"],
+  "include": ["src/**/*", "examples/**/*"],
+  "exclude": ["node_modules", "acceptance-tests", "webpack", "jest", "jest_cache"],
   "types": ["node", "typePatches"]
 }

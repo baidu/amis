@@ -4,11 +4,20 @@ import QuickEdit from '../QuickEdit';
 import Copyable from '../Copyable';
 import PopOverable from '../PopOver';
 import {observer} from 'mobx-react';
+import omit = require('lodash/omit');
+import {filter} from '../../utils/tpl';
+import {Badge} from '../../components/Badge';
+import ColorScale from '../../utils/ColorScale';
+import {
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 
 export interface TableCellProps extends RendererProps {
   wrapperComponent?: React.ReactType;
   column: object;
 }
+
 export class TableCell extends React.Component<RendererProps> {
   static defaultProps = {
     wrapperComponent: 'td'
@@ -26,15 +35,18 @@ export class TableCell extends React.Component<RendererProps> {
 
   render() {
     let {
+      classnames: cx,
       className,
+      classNameExpr,
       render,
-      style,
+      style = {},
       wrapperComponent: Component,
       column,
       value,
       data,
       children,
       width,
+      align,
       innerClassName,
       label,
       tabIndex,
@@ -46,19 +58,28 @@ export class TableCell extends React.Component<RendererProps> {
       prefix,
       affix,
       isHead,
+      colIndex,
+      row,
+      showBadge,
+      itemBadge,
       ...rest
     } = this.props;
-
     const schema = {
       ...column,
       className: innerClassName,
       type: (column && column.type) || 'plain'
     };
 
+    // 如果本来就是 type 为 button，不要删除，其他情况下都应该删除。
+    if (schema.type !== 'button' && schema.type !== 'dropdown-button') {
+      delete schema.label;
+    }
+
     let body = children
       ? children
       : render('field', schema, {
-          ...rest,
+          ...omit(rest, Object.keys(schema)),
+          inputOnly: true,
           value,
           data
         });
@@ -83,6 +104,46 @@ export class TableCell extends React.Component<RendererProps> {
       }
     }
 
+    if (align) {
+      style = {
+        ...style,
+        textAlign: align
+      };
+    }
+
+    if (column.backgroundScale) {
+      const backgroundScale = column.backgroundScale;
+      let min = backgroundScale.min;
+      let max = backgroundScale.max;
+
+      if (isPureVariable(min)) {
+        min = resolveVariableAndFilter(min, data, '| raw');
+      }
+      if (isPureVariable(max)) {
+        max = resolveVariableAndFilter(max, data, '| raw');
+      }
+
+      if (typeof min === 'undefined') {
+        min = Math.min(...data.rows.map((r: any) => r[column.name]));
+      }
+      if (typeof max === 'undefined') {
+        max = Math.max(...data.rows.map((r: any) => r[column.name]));
+      }
+
+      const colorScale = new ColorScale(
+        min,
+        max,
+        backgroundScale.colors || ['#FFEF9C', '#FF7127']
+      );
+      let value = data[column.name];
+      if (isPureVariable(backgroundScale.source)) {
+        value = resolveVariableAndFilter(backgroundScale.source, data, '| raw');
+      }
+
+      const color = colorScale.getColor(Number(value)).toHexString();
+      style.background = color;
+    }
+
     if (!Component) {
       return body as JSX.Element;
     }
@@ -95,10 +156,23 @@ export class TableCell extends React.Component<RendererProps> {
       <Component
         rowSpan={rowSpan > 1 ? rowSpan : undefined}
         style={style}
-        className={className}
+        className={cx(
+          className,
+          column.classNameExpr ? filter(column.classNameExpr, data) : null
+        )}
         tabIndex={tabIndex}
         onKeyUp={onKeyUp}
       >
+        {showBadge ? (
+          <Badge
+            classnames={cx}
+            badge={{
+              ...itemBadge,
+              className: cx(`Table-badge`, itemBadge?.className)
+            }}
+            data={row.data}
+          />
+        ) : null}
         {prefix}
         {body}
         {affix}
@@ -129,7 +203,7 @@ export class TableCellRenderer extends TableCell {
 }
 
 @Renderer({
-  test: /(^|\/)field$/,
+  type: 'field',
   name: 'field'
 })
 @PopOverable()

@@ -8,9 +8,10 @@ import React from 'react';
 import Transition, {
   ENTERED,
   ENTERING,
-  EXITING
+  EXITING,
+  EXITED
 } from 'react-transition-group/Transition';
-import {Portal} from 'react-overlays';
+import Portal from 'react-overlays/Portal';
 import {Icon} from './icons';
 import cx from 'classnames';
 import {current, addModal, removeModal} from './ModalManager';
@@ -28,6 +29,9 @@ export interface DrawerProps {
   closeOnEsc?: boolean;
   container: any;
   show?: boolean;
+  showCloseButton?: boolean;
+  width?: number | string;
+  height?: number | string;
   position: DrawerPosition;
   disabled?: boolean;
   closeOnOutside?: boolean;
@@ -46,11 +50,12 @@ const fadeStyles: {
 export class Drawer extends React.Component<DrawerProps, DrawerState> {
   static defaultProps: Pick<
     DrawerProps,
-    'container' | 'position' | 'size' | 'overlay'
+    'container' | 'position' | 'size' | 'overlay' | 'showCloseButton'
   > = {
     container: document.body,
     position: 'left',
     size: 'md',
+    showCloseButton: true,
     overlay: true
   };
 
@@ -65,6 +70,20 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
 
     document.body.addEventListener('click', this.handleRootClickCapture, true);
     document.body.addEventListener('click', this.handleRootClick);
+  }
+
+  componentDidUpdate(prevProps: DrawerProps) {
+    // jest 里面没有触发 entered 导致后续的逻辑错误，
+    // 所以直接 300 ms 后触发
+    if (
+      typeof jest !== 'undefined' &&
+      prevProps.show !== this.props.show &&
+      this.props.show
+    ) {
+      setTimeout(() => {
+        this.handleEntered();
+      }, 300);
+    }
   }
 
   componentWillUnmount() {
@@ -119,7 +138,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
         `${this.props.classPrefix}Modal--${current()}th`
       );
     } else {
-      removeModal();
+      removeModal(this);
     }
   };
 
@@ -148,6 +167,20 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     this.isRootClosed && !e.defaultPrevented && onHide(e);
   }
 
+  getDrawerStyle() {
+    const {width, height, position} = this.props;
+    const offsetStyle: {
+      width?: number | string,
+      height?: number | string
+    } = {};
+    if ((position === 'left' || position === 'right') && width !== undefined) {
+      offsetStyle.width = width;
+    } else if ((position === 'top' || position === 'bottom') && height !== undefined) {
+      offsetStyle.height = height;
+    }
+    return offsetStyle;
+  }
+
   render() {
     const {
       classPrefix: ns,
@@ -155,6 +188,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
       children,
       container,
       show,
+      showCloseButton,
       position,
       size,
       onHide,
@@ -163,11 +197,14 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
       bodyClassName
     } = this.props;
 
+    const bodyStyle = this.getDrawerStyle();
+
     return (
       <Portal container={container}>
         <Transition
           mountOnEnter
           unmountOnExit
+          appear
           in={show}
           timeout={500}
           onEnter={this.handleEnter}
@@ -204,19 +241,22 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                 ) : null}
                 <div
                   ref={this.contentRef}
+                  style={bodyStyle}
                   className={cx(
                     `${ns}Drawer-content`,
                     bodyClassName,
                     fadeStyles[status]
                   )}
                 >
-                  <a
-                    onClick={disabled ? undefined : onHide}
-                    className={`${ns}Drawer-close`}
-                  >
-                    <Icon icon="close" className="icon" />
-                  </a>
-                  {children}
+                  {show && showCloseButton ? (
+                    <a
+                      onClick={disabled ? undefined : onHide}
+                      className={`${ns}Drawer-close`}
+                    >
+                      <Icon icon="close" className="icon" />
+                    </a>
+                  ) : null}
+                  {status === EXITED ? null : children}
                 </div>
               </div>
             );

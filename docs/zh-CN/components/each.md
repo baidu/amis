@@ -69,7 +69,7 @@ order: 45
             },
             {
                 "id": "3",
-                "each": ["A3", "B3", "C3"]
+                "each": []
             }
         ]
     },
@@ -83,6 +83,7 @@ order: 45
             "name": "each",
             "label": "循环",
             "type": "each",
+            "placeholder": "暂无内容",
             "items": {
                 "type": "tpl",
                 "tpl": "<span class='label label-info m-l-sm'><%= this.item %></span>"
@@ -102,7 +103,7 @@ List 的内容、Card 卡片的内容配置同上
     "data": {
         "each": ["A", "B", "C"]
     },
-    "controls": [
+    "body": [
         {
             "type": "each",
             "label": "静态展示each",
@@ -116,11 +117,34 @@ List 的内容、Card 卡片的内容配置同上
 }
 ```
 
+## 使用数据映射
+
+```schema: scope="page"
+{
+  "type": "page",
+  "data": {
+    "arr": ["A", "B", "C"]
+  },
+  "body": {
+        "type": "each",
+        "source": "${arr}",
+        "items": {
+            "type": "tpl",
+            "tpl": "<span class='label label-default m-l-sm'><%= data.item %></span> "
+        }
+    }
+}
+```
+
+`name` 的优先级会比 `source` 更高
+
 ## 属性表
 
-| 属性名 | 类型     | 默认值   | 说明                                                                |
-| ------ | -------- | -------- | ------------------------------------------------------------------- |
-| type   | `string` | `"each"` | 指定为 Each 组件                                                    |
-| value  | `array`  | `[]`     | 用于循环的值                                                        |
-| name   | `string` |          | 获取数据域中变量，支持 [数据映射](../../docs/concepts/data-mapping) |
-| items  | `object` |          | 使用`value`中的数据，循环输出渲染器。                               |
+| 属性名      | 类型     | 默认值   | 说明                                                                 |
+| ----------- | -------- | -------- | -------------------------------------------------------------------- |
+| type        | `string` | `"each"` | 指定为 Each 组件                                                     |
+| value       | `array`  | `[]`     | 用于循环的值                                                         |
+| name        | `string` |          | 获取数据域中变量                                                     |
+| source      | `string` |          | 获取数据域中变量， 支持 [数据映射](../../docs/concepts/data-mapping) |
+| items       | `object` |          | 使用`value`中的数据，循环输出渲染器。                                |
+| placeholder | `string` |          | 当 `value` 值不存在或为空数组时的占位文本                            |

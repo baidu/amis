@@ -4,7 +4,12 @@ import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Schema, Action} from '../types';
 import {default as DrawerContainer} from '../components/Drawer';
 import findLast from 'lodash/findLast';
-import {guid, isVisible, autobind} from '../utils/helper';
+import {
+  guid,
+  isVisible,
+  autobind,
+  isObjectShallowModified
+} from '../utils/helper';
 import {reaction} from 'mobx';
 import {findDOMNode} from 'react-dom';
 import {IModalStore, ModalStore} from '../store/modal';
@@ -38,9 +43,24 @@ export interface DrawerSchema extends BaseSchema {
   body?: SchemaCollection;
 
   /**
+   * 配置 外层 className
+   */
+  className?: SchemaClassName;
+
+  /**
    * 配置 Body 容器 className
    */
   bodyClassName?: SchemaClassName;
+
+  /**
+   * 配置 头部 容器 className
+   */
+  headerClassName?: SchemaClassName;
+
+  /**
+   * 配置 头部 容器 className
+   */
+  footerClassName?: SchemaClassName;
 
   /**
    * 是否支持按 ESC 关闭 Dialog
@@ -63,6 +83,22 @@ export interface DrawerSchema extends BaseSchema {
    * 从什么位置弹出
    */
   position?: 'left' | 'right' | 'top' | 'bottom';
+
+  /**
+   * 是否展示关闭按钮
+   * 当值为false时，默认开启closeOnOutside
+   */
+  showCloseButton?: boolean;
+
+  /**
+   * 抽屉的宽度 （当position为left | right时生效）
+   */
+  width?: number | string;
+
+  /**
+   * 抽屉的高度 （当position为top | bottom时生效）
+   */
+  height?: number | string;
 
   /**
    * 头部
@@ -131,13 +167,20 @@ export default class Drawer extends React.Component<DrawerProps> {
     'title',
     'size',
     'closeOnEsc',
+    'closeOnOutside',
     'children',
+    'className',
     'bodyClassName',
+    'headerClassName',
+    'footerClassName',
     'confirm',
     'position',
     'onClose',
     'onConfirm',
     'show',
+    'showCloseButton',
+    'width',
+    'height',
     'resizable',
     'overlay',
     'body',
@@ -146,12 +189,17 @@ export default class Drawer extends React.Component<DrawerProps> {
   ];
   static defaultProps: Partial<DrawerProps> = {
     title: '',
+    className: '',
     bodyClassName: '',
+    headerClassName: '',
+    footerClassName: '',
     confirm: true,
     position: 'right',
     resizable: false,
+    showCloseButton: true,
     overlay: true,
     closeOnEsc: false,
+    closeOnOutside: false,
     showErrorMsg: true
   };
 
@@ -177,10 +225,8 @@ export default class Drawer extends React.Component<DrawerProps> {
     this.handleFormInit = this.handleFormInit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSaved = this.handleFormSaved.bind(this);
-  }
 
-  componentWillMount() {
-    const store = this.props.store;
+    const store = props.store;
     this.reaction = reaction(
       () => `${store.loading}${store.error}`,
       () => this.forceUpdate()
@@ -299,7 +345,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       return;
     }
 
-    store.closeDialog();
+    store.closeDialog(true);
   }
 
   handleDialogClose(...args: Array<any>) {
@@ -312,7 +358,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       return;
     }
 
-    store.closeDialog();
+    store.closeDialog(args[1]);
   }
 
   handleChildFinished(value: any, action: Action) {
@@ -325,8 +371,14 @@ export default class Drawer extends React.Component<DrawerProps> {
     store.setFormData(data);
   }
 
-  handleFormChange(data: any) {
+  handleFormChange(data: any, name?: string) {
     const {store} = this.props;
+
+    if (typeof name === 'string') {
+      data = {
+        [name]: data
+      };
+    }
 
     store.setFormData(data);
   }
@@ -386,7 +438,8 @@ export default class Drawer extends React.Component<DrawerProps> {
       popOverContainer: this.getPopOverContainer,
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
-      onSaved: this.handleFormSaved
+      onSaved: this.handleFormSaved,
+      syncLocation: false
     };
 
     if (schema.type === 'form') {
@@ -408,10 +461,16 @@ export default class Drawer extends React.Component<DrawerProps> {
       return null;
     }
 
-    const {store, render, classnames: cx, showErrorMsg} = this.props;
+    const {
+      store,
+      render,
+      classnames: cx,
+      showErrorMsg,
+      footerClassName
+    } = this.props;
 
     return (
-      <div className={cx('Drawer-footer')}>
+      <div className={cx('Drawer-footer', footerClassName)}>
         {store.loading || store.error ? (
           <div className={cx('Drawer-info')}>
             <Spinner size="sm" key="info" show={store.loading} />
@@ -536,7 +595,11 @@ export default class Drawer extends React.Component<DrawerProps> {
       header,
       body,
       bodyClassName,
+      headerClassName,
       show,
+      showCloseButton,
+      width,
+      height,
       wrapperComponent,
       env,
       resizable,
@@ -560,13 +623,18 @@ export default class Drawer extends React.Component<DrawerProps> {
         onHide={this.handleSelfClose}
         disabled={store.loading}
         show={show}
+        showCloseButton={showCloseButton}
+        width={width}
+        height={height}
         position={position}
         overlay={overlay}
         onEntered={this.handleEntered}
-        onExisted={this.handleExited}
+        onExited={this.handleExited}
         closeOnEsc={closeOnEsc}
         closeOnOutside={
-          !store.drawerOpen && !store.dialogOpen && closeOnOutside
+          !store.drawerOpen &&
+          !store.dialogOpen &&
+          (closeOnOutside || !showCloseButton)
         }
         container={
           drawerContainer
@@ -576,24 +644,36 @@ export default class Drawer extends React.Component<DrawerProps> {
             : undefined
         }
       >
-        <div className={cx('Drawer-header')}>
+        <div className={cx('Drawer-header', headerClassName)}>
           {title ? (
             <div className={cx('Drawer-title')}>
               {render('title', title, {
-                data: store.formData
+                data: store.formData,
+                onConfirm: this.handleDrawerConfirm,
+                onClose: this.handleDrawerClose,
+                onAction: this.handleAction
               })}
             </div>
           ) : null}
           {header
             ? render('header', header, {
-                data: store.formData
+                data: store.formData,
+                onConfirm: this.handleDrawerConfirm,
+                onClose: this.handleDrawerClose,
+                onAction: this.handleAction
               })
             : null}
         </div>
 
-        <div className={cx('Drawer-body', bodyClassName)}>
-          {body ? this.renderBody(body, 'body') : null}
-        </div>
+        {!store.entered ? (
+          <div className={cx('Drawer-body', bodyClassName)}>
+            <Spinner overlay show size="lg" />
+          </div>
+        ) : body ? (
+          <div className={cx('Drawer-body', bodyClassName)}>
+            {this.renderBody(body, 'body')}
+          </div>
+        ) : null}
 
         {this.renderFooter()}
 
@@ -642,21 +722,25 @@ export default class Drawer extends React.Component<DrawerProps> {
 }
 
 @Renderer({
-  test: /(^|\/)drawer$/,
+  type: 'drawer',
   storeType: ModalStore.name,
   storeExtendsData: false,
-  name: 'drawer',
   isolateScope: true,
-  shouldSyncSuperStore: (store: IServiceStore, props: any) =>
-    store.drawerOpen || props.show
+  shouldSyncSuperStore: (store: IServiceStore, props: any, prevProps: any) =>
+    !!(
+      (store.drawerOpen || props.show) &&
+      (props.show !== prevProps.show ||
+        isObjectShallowModified(prevProps.data, props.data))
+    )
 })
 export class DrawerRenderer extends Drawer {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    const scoped = this.context as IScopedContext;
+  constructor(props: DrawerProps, context: IScopedContext) {
+    super(props);
+    const scoped = context;
+
     scoped.registerComponent(this);
-    super.componentWillMount();
   }
 
   componentWillUnmount() {
@@ -668,11 +752,6 @@ export class DrawerRenderer extends Drawer {
   tryChildrenToHandle(action: Action, ctx: object, rawAction?: Action) {
     const scoped = this.context as IScopedContext;
 
-    if (action.fromDialog) {
-      return false;
-    }
-
-    const components = scoped.getComponents();
     const targets: Array<any> = [];
     const {onConfirm, store} = this.props;
 
@@ -686,26 +765,24 @@ export class DrawerRenderer extends Drawer {
     }
 
     if (!targets.length) {
-      const page = findLast(
-        components,
-        component => component.props.type === 'page'
-      );
+      let components = scoped
+        .getComponents()
+        .filter(item => !~['drawer', 'dialog'].indexOf(item.props.type));
 
-      if (page) {
-        components.push(...page.context.getComponents());
+      const pool = components.concat();
+
+      while (pool.length) {
+        const item = pool.pop()!;
+
+        if (~['crud', 'form', 'wizard'].indexOf(item.props.type)) {
+          targets.push(item);
+          break;
+        } else if (~['drawer', 'dialog'].indexOf(item.props.type)) {
+          continue;
+        } else if (~['page', 'service'].indexOf(item.props.type)) {
+          pool.unshift.apply(pool, item.context.getComponents());
+        }
       }
-
-      const form = findLast(
-        components,
-        component => component.props.type === 'form'
-      );
-      form && targets.push(form);
-
-      const crud = findLast(
-        components,
-        component => component.props.type === 'crud'
-      );
-      crud && targets.push(crud);
     }
 
     if (targets.length) {
@@ -851,11 +928,10 @@ export class DrawerRenderer extends Drawer {
     const scoped = this.context as IScopedContext;
     const store = this.props.store;
     const dialogAction = store.action as Action;
+    const reload = action.reload ?? dialogAction.reload;
 
-    if (dialogAction.reload) {
-      scoped.reload(dialogAction.reload, store.data);
-    } else if (action.reload) {
-      scoped.reload(action.reload, store.data);
+    if (reload) {
+      scoped.reload(reload, store.data);
     } else {
       // 没有设置，则自动让页面中 crud 刷新。
       scoped
@@ -895,5 +971,9 @@ export class DrawerRenderer extends Drawer {
   closeTarget(target: string) {
     const scoped = this.context as IScopedContext;
     scoped.close(target);
+  }
+
+  setData(values: object) {
+    return this.props.store.updateData(values);
   }
 }

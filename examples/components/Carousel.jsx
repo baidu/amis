@@ -3,9 +3,9 @@ export default {
   title: '轮播图',
   data: {
     carousel0: [
-      'https://hiphotos.baidu.com/fex/%70%69%63/item/bd3eb13533fa828b13b24500f31f4134960a5a44.jpg',
-      'https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png',
-      'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
+      __uri('../static/photo/bd3eb13533fa828b13b24500f31f4134960a5a44.jpg'),
+      __uri('../static/photo/da6376bf988c.jpg'),
+      __uri('../static/photo/3893101144.jpg')
     ],
     carousel1: [
       {
@@ -13,12 +13,12 @@ export default {
           '<div style="width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;">carousel data in form</div>'
       },
       {
-        image:
-          'https://hiphotos.baidu.com/fex/%70%69%63/item/bd3eb13533fa828b13b24500f31f4134960a5a44.jpg'
+        image: __uri(
+          '../static/photo/bd3eb13533fa828b13b24500f31f4134960a5a44.jpg'
+        )
       },
       {
-        image:
-          'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
+        image: __uri('../static/photo/3893101144.jpg')
       }
     ]
   },
@@ -35,16 +35,14 @@ export default {
             height: '300',
             options: [
               {
-                image:
-                  'https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png'
+                image: __uri('../static/photo/da6376bf988c.jpg')
               },
               {
                 html:
                   '<div style="width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;">carousel data</div>'
               },
               {
-                image:
-                  'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
+                image: __uri('../static/photo/3893101144.jpg')
               }
             ]
           }
@@ -73,7 +71,7 @@ export default {
           type: 'form',
           title: '表单内展示',
           sm: 6,
-          controls: [
+          body: [
             {
               type: 'carousel',
               controlsTheme: 'dark',

@@ -1,4 +1,10 @@
+import React from 'react';
 import makeMarkdownRenderer from './MdRenderer';
+function wrapDoc(doc: any) {
+  return {
+    default: makeMarkdownRenderer(doc)
+  };
+}
 
 export default [
   {
@@ -8,27 +14,33 @@ export default [
       {
         label: '介绍',
         path: '/zh-CN/docs/index',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/index.md').then(makeMarkdownRenderer)
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/index.md').then(wrapDoc)
+        )
       },
 
       {
         label: '快速开始',
         path: '/zh-CN/docs/start/getting-started',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/start/getting-started.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/start/getting-started.md').then(wrapDoc)
+        )
+      },
+
+      {
+        label: '更新记录',
+        path: '/zh-CN/docs/start/changelog',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/start/changelog.md').then(wrapDoc)
+        )
       },
 
       {
         label: '常见问题',
         path: '/zh-CN/docs/start/faq',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/start/faq.md').then(makeMarkdownRenderer)
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/start/faq.md').then(wrapDoc)
+        )
       }
     ]
   },
@@ -39,74 +51,67 @@ export default [
       {
         label: '配置与组件',
         path: '/zh-CN/docs/concepts/schema',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/concepts/schema.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/concepts/schema.md').then(wrapDoc)
+        )
       },
       {
         label: '数据域与数据链',
         path: '/zh-CN/docs/concepts/datascope-and-datachain',
-        getComponent: () =>
-          // @ts-ignore
+        component: React.lazy(() =>
           import('../../docs/zh-CN/concepts/datascope-and-datachain.md').then(
-            makeMarkdownRenderer
+            wrapDoc
           )
+        )
       },
       {
         label: '模板',
         path: '/zh-CN/docs/concepts/template',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/concepts/template.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/concepts/template.md').then(wrapDoc)
+        )
       },
       {
         label: '数据映射',
         path: '/zh-CN/docs/concepts/data-mapping',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/concepts/data-mapping.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/concepts/data-mapping.md').then(wrapDoc)
+        )
       },
       {
         label: '表达式',
         path: '/zh-CN/docs/concepts/expression',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/concepts/expression.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/concepts/expression.md').then(wrapDoc)
+        )
       },
       {
         label: '联动',
         path: '/zh-CN/docs/concepts/linkage',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/concepts/linkage.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/concepts/linkage.md').then(wrapDoc)
+        )
+      },
+      {
+        label: '事件动作',
+        path: '/zh-CN/docs/concepts/event-action',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/concepts/event-action.md').then(wrapDoc)
+        )
       },
       {
         label: '行为',
         path: '/zh-CN/docs/concepts/action',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/concepts/action.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/concepts/action.md').then(wrapDoc)
+        )
       },
       {
         label: '样式',
         path: '/zh-CN/docs/concepts/style',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/concepts/style.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/concepts/style.md').then(wrapDoc)
+        )
       }
     ]
   },
@@ -117,36 +122,30 @@ export default [
       {
         label: 'SchemaNode',
         path: '/zh-CN/docs/types/schemanode',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/types/schemanode.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/types/schemanode.md').then(wrapDoc)
+        )
       },
       {
         label: 'ClassName',
         path: '/zh-CN/docs/types/classname',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/types/classname.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/types/classname.md').then(wrapDoc)
+        )
       },
       {
         label: 'API',
         path: '/zh-CN/docs/types/api',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/types/api.md').then(makeMarkdownRenderer)
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/types/api.md').then(wrapDoc)
+        )
       },
       {
         label: 'Definitions',
         path: '/zh-CN/docs/types/definitions',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/types/definitions.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/types/definitions.md').then(wrapDoc)
+        )
       }
     ]
   },
@@ -157,59 +156,72 @@ export default [
       {
         label: '工作原理',
         path: '/zh-CN/docs/extend/internal',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/extend/internal.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/extend/internal.md').then(wrapDoc)
+        )
       },
       {
         label: '自定义组件 - SDK',
         path: '/zh-CN/docs/extend/custom-sdk',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/extend/custom-sdk.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/extend/custom-sdk.md').then(wrapDoc)
+        )
       },
       {
         label: '自定义组件 - React',
         path: '/zh-CN/docs/extend/custom-react',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/extend/custom-react.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/extend/custom-react.md').then(wrapDoc)
+        )
       },
       {
         label: '将 amis 当成 UI 库用',
         path: '/zh-CN/docs/extend/ui-library',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/extend/ui-library.md').then(
-            makeMarkdownRenderer
-          )
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/extend/ui-library.md').then(wrapDoc)
+        )
       },
       {
         label: '扩展现有组件',
         path: '/zh-CN/docs/extend/addon',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/extend/addon.md').then(makeMarkdownRenderer)
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/extend/addon.md').then(wrapDoc)
+        )
+      },
+      {
+        label: '页面交互行为跟踪',
+        path: '/zh-CN/docs/extend/tracker',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/extend/tracker.md').then(wrapDoc)
+        )
+      },
+      {
+        label: '调试工具',
+        path: '/zh-CN/docs/extend/debug',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/extend/debug.md').then(wrapDoc)
+        )
       },
       {
         label: '移动端定制',
         path: '/zh-CN/docs/extend/mobile',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/extend/mobile.md').then(makeMarkdownRenderer)
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/extend/mobile.md').then(wrapDoc)
+        )
       },
       {
         label: '多语言',
         path: '/zh-CN/docs/extend/i18n',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/extend/i18n.md').then(makeMarkdownRenderer)
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/extend/i18n.md').then(wrapDoc)
+        )
+      },
+      {
+        label: '如何贡献代码',
+        path: '/zh-CN/docs/extend/contribute',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/extend/contribute.md').then(wrapDoc)
+        )
       }
     ]
   }

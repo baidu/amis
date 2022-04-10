@@ -22,6 +22,51 @@ order: 72
 
 > 上面例子中的 `"className": "b"` 是为了增加边框，不然看不出来。
 
+## 动态获取
+
+直接返回一个对象
+
+```schema: scope="body"
+{
+  "type": "page",
+  "data": {
+    "style": {
+      "color": "#aaa"
+    }
+  },
+  "body": [
+    {
+      "type": "wrapper",
+      "body": "内容",
+      "className": "b",
+      "style": "${style}"
+    }
+  ]
+}
+```
+
+返回变量
+
+```schema: scope="body"
+{
+  "type": "page",
+  "data": {
+    "color": "#aaa"
+  },
+  "body": [
+    {
+      "type": "wrapper",
+      "body": "内容",
+      "className": "b",
+      "style": {
+        "color": "${color}",
+        "fontSize": "30px"
+      }
+    }
+  ]
+}
+```
+
 ## 不同内边距
 
 通过配置`size`属性，可以调整内边距
@@ -94,5 +139,5 @@ wrapper 可以设置 style，当成一个 `div` 标签来用
 | type      | `string`                                  | `"wrapper"` | 指定为 Wrapper 渲染器        |
 | className | `string`                                  |             | 外层 Dom 的类名              |
 | size      | `string`                                  |             | 支持: `xs`、`sm`、`md`和`lg` |
-| style     | `Object`                                  |             | 自定义样式                   |
+| style     | `Object` \| `string`                      |             | 自定义样式                   |
 | body      | [SchemaNode](../../docs/types/schemanode) |             | 内容容器                     |

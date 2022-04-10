@@ -1,13 +1,36 @@
+@mixin avatar-size($size, $fontSize) {
+  width: $size;
+  height: $size;
+  line-height: $size;
+
+  i {
+    font-size: $fontSize;
+  }
+}
+
 .#{$ns}Avatar {
   background: var(--Avatar-bg);
-  width: var(--Avatar-width);
-  height: var(--Avatar-width);
-  line-height: var(--Avatar-width);
+  @include avatar-size(var(--Avatar-size-default), var(--Avatar-icon-size-default));
+  position: relative;
   display: inline-block;
   overflow: hidden;
   flex-shrink: 0;
   border-radius: 50%;
   text-align: center;
+
+  &--lg {
+    @include avatar-size(var(--Avatar-size-large), var(--Avatar-icon-size-large));
+  }
+
+  &--sm {
+    @include avatar-size(var(--Avatar-size-small), var(--Avatar-icon-size-small));
+  }
+
+  &--text {
+    position: absolute;
+    left: 50%;
+    transform-origin: 0 center;
+  }
 
   &--square {
     border-radius: 0%;
@@ -17,18 +40,13 @@
     border-radius: 10%;
   }
 
-  i {
-    font-size: var(--fontSizeLg);
-  }
-
   img {
-    color: transparent;
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
 
   &:hover {
+
     img,
     i {
       transform: scale(1.1);

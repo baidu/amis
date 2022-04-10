@@ -16,16 +16,16 @@ export default {
           type: 'form',
           position: 'left',
           title: '修改内容',
-          controls: [
+          body: [
             {
-              type: 'text',
+              type: 'input-text',
               label: '标题',
               name: 'name',
               required: true
             },
             {
               label: '描述',
-              type: 'text',
+              type: 'input-text',
               name: 'typeDesc',
               required: true
             },
@@ -39,9 +39,9 @@ export default {
         }
       }
     ],
-    controls: [
+    body: [
       {
-        type: 'tree',
+        type: 'input-tree',
         name: 'tree',
         label: '树',
         options: [

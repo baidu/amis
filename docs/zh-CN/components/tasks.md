@@ -69,7 +69,7 @@ order: 69
 {
     "type": "tasks",
     "name": "tasks",
-    "checkApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/task"
+    "checkApi": "/api/mock2/task"
 },
 
 "为了演示，目前获取的状态都是随机出现的。"]

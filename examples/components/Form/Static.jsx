@@ -1,40 +1,28 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '所有 Form 元素列举',
   data: {
     id: 1,
-    image:
-      'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
+    image: __uri('../../static/photo/3893101144.jpg'),
     images: [
       {
-        image:
-          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80',
-        src:
-          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg'
+        image: __uri('../../static/photo/4f3cb4202335.jpg'),
+        src: __uri('../../static/photo/4f3cb4202335.jpg')
       },
       {
-        image:
-          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80',
-        src:
-          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg'
+        image: __uri('../../static/photo/d8e4992057f9.jpg'),
+        src: __uri('../../static/photo/d8e4992057f9.jpg')
       },
       {
-        image:
-          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80',
-        src:
-          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg'
+        image: __uri('../../static/photo/1314a2a3d3f6.jpg'),
+        src: __uri('../../static/photo/1314a2a3d3f6.jpg')
       },
       {
-        image:
-          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80',
-        src:
-          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg'
+        image: __uri('../../static/photo/8f2e79f82be0.jpg'),
+        src: __uri('../../static/photo/8f2e79f82be0.jpg')
       },
       {
-        image:
-          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80',
-        src:
-          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg'
+        image: __uri('../../static/photo/552b175ef11d.jpg'),
+        src: __uri('../../static/photo/552b175ef11d.jpg')
       }
     ]
   },
@@ -44,7 +32,7 @@ export default {
       api: '/api/mock2/saveForm?waitSeconds=2',
       title: '表单项静态展示',
       mode: 'horizontal',
-      controls: [
+      body: [
         {
           type: 'static',
           label: '文本',
@@ -86,16 +74,19 @@ export default {
         },
 
         {
-          type: 'mapping',
+          type: 'control',
           label: '映射',
-          value: Math.floor(Math.random() * 5),
-          map: {
-            '*': "<span class='label label-default'>-</span>",
-            '0': "<span class='label label-info'>一</span>",
-            '1': "<span class='label label-success'>二</span>",
-            '2': "<span class='label label-danger'>三</span>",
-            '3': "<span class='label label-warning'>四</span>",
-            '4': "<span class='label label-primary'>五</span>"
+          body: {
+            type: 'mapping',
+            value: Math.floor(Math.random() * 5),
+            map: {
+              '*': "<span class='label label-default'>-</span>",
+              '0': "<span class='label label-info'>一</span>",
+              '1': "<span class='label label-success'>二</span>",
+              '2': "<span class='label label-danger'>三</span>",
+              '3': "<span class='label label-warning'>四</span>",
+              '4': "<span class='label label-primary'>五</span>"
+            }
           }
         },
 
@@ -104,9 +95,12 @@ export default {
         },
 
         {
-          type: 'progress',
+          type: 'control',
           label: '进度',
-          value: 66.66
+          body: {
+            type: 'progress',
+            value: 66.66
+          }
         },
 
         {

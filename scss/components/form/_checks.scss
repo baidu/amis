@@ -29,6 +29,8 @@
       pointer-events: all;
       margin-left: var(--Checkbox-gap);
       cursor: pointer;
+      display: inline-block;
+      vertical-align: middle;
 
       > a {
         // float: right;
@@ -98,7 +100,6 @@
       border: px2rem(1px) solid var(--Checkbox-color);
       border-radius: var(--Checkbox-borderRadius);
       margin-left: calc(var(--Checkbox-size) * -1);
-      margin-top: px2rem(-3px);
     }
   }
 
@@ -150,13 +151,126 @@
         border-color: transparent;
         transition: width var(--animation-duration),
           height var(--animation-duration), transform var(--animation-duration);
-        border-width: 0 0 px2rem(2px) px2rem(2px);
-        transform: translate(-50%, -60%) rotate(-40deg);
+        border-width: 0 0 px2rem(1px) px2rem(1px);
+        transform: translate(-50%, -90%) rotate(-40deg);
         border-style: solid;
       }
     }
   }
 
+  &--partial.#{$ns}Checkbox--checkbox {
+    input {
+      margin-left: calc(var(--Checkbox-size) * -1);
+
+      & + i {
+        border-color: var(--Checkbox-onHover-color);
+
+        &:before {
+          width: var(--Checkbox-inner-size);
+          height: var(--Checkbox-inner-size);
+          background: var(--Checkbox-onHover-color);
+        }
+      }
+
+      &[disabled] + i {
+        border-color: var(--Checkbox-onDisabled-color);
+
+        &:before {
+          width: var(--Checkbox-inner-size);
+          height: var(--Checkbox-inner-size);
+          background: var(--Checkbox-inner-onDisabled-bg);
+        }
+      }
+
+      &:checked[disabled] + i{
+        width: var(--Checkbox-inner-size);
+        height: var(--Checkbox-inner-size);
+        background: var(--Checkbox-onDisabled-bg);
+      }
+
+    }
+
+  }
+  &--button.#{$ns}Checkbox--checkbox {
+    text-align: center;
+    height: var(--Checkbox-button-height);
+    line-height: var(--Checkbox-button-line-height);
+    padding-left: var(--Checkbox-paddingX);
+    padding-right: var(--Checkbox-paddingX);
+    font-size: var(--fontSizeSm);
+    border: var(--Checkbox-border-width) solid;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background-color: var(--Checkbox-gb);
+    border-color: var(--Checkbox-color);
+    margin-right: 0;
+    border-radius: calc(var(--Checkbox-borderRadius) * 2);
+    min-width: var(--Checkbox-button-min-width);
+
+    &:hover:not(:disabled){
+      color: var(--Checkbox-onHover-color);
+    }
+
+    input {
+        &:checked + i {
+          background: transparent;
+          top: 0;
+          left: 0;
+          width: 0;
+          height: 0;
+          border-width: px2rem(8px);
+          border-color: var(--Checkbox-onHover-color) transparent transparent var(--Checkbox-onHover-color);
+          border-radius: 0;
+
+          &:before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: var(--Checkbox--full-inner-size);
+            height: calc(var(--Checkbox--full-inner-size) / 2);
+            transform: translate(-80%, -160%) rotate(-50deg);
+            background: transparent;
+          }
+        }
+
+        &[disabled] + i {
+          border-color: var(--Checkbox-onDisabled-color);
+          background: transparent;
+            &:before {
+              background: transparent;
+          }
+        }
+
+        &:checked[disabled] + i {
+          background: transparent;
+          border-width: px2rem(8px);
+          border-color: var(--Checkbox-onHover-color) transparent transparent var(--Checkbox-onHover-color);
+        }
+    }
+    > i {
+      position: absolute;
+      top: 0;
+      left:0;
+      margin-left: 0;
+      border: 0;
+      border-style: solid;
+
+      + span {
+        max-width: px2rem(100px);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+  }
+  &--button--checked.#{$ns}Checkbox--checkbox {
+    border-color: var(--Checkbox-onHover-color);
+    color: var(--Checkbox-onHover-color);
+  }
+  &--button--disabled--unchecked.#{$ns}Checkbox--checkbox {
+    background: var(--Checkbox-disabled-unchecked-bg);
+  }
   &--radio {
     padding-left: var(--Radio-size);
 
@@ -253,7 +367,9 @@
 .#{$ns}CheckboxControl,
 .#{$ns}RadiosControl,
 .#{$ns}CheckboxesControl {
-  padding-top: calc((var(--Form-input-height) - var(--Checkbox-size)) / 2);
+  padding-top: calc(
+    (var(--Form-input-height) - var(--Checkbox-size)) / 2 - 3px
+  ); // 3px 是空白的高度
 }
 
 .#{$ns}RadiosControl,
@@ -262,365 +378,40 @@
     display: block;
     margin-bottom: var(--Form-label-paddingTop);
   }
+  
+  .#{$ns}Checkbox--button {
+    margin-bottom: 0;
+  }
 
   &.is-inline .#{$ns}Checkbox {
     display: inline-block;
     margin-right: var(--gap-md);
   }
+
+  &.is-inline .#{$ns}Checkbox--button {
+    display: inline-block;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
 }
 
 .#{$ns}RadiosControl-group,
 .#{$ns}CheckboxesControl-group {
-  .#{$ns}RadiosControl-group,
-  .#{$ns}CheckboxesControl-group {
-    padding-left: px2rem(80px);
-    @include clearfix();
-
-    > .#{$ns}RadiosControl-groupLabel,
-    > .#{$ns}CheckboxesControl-groupLabel {
-      float: left;
-      width: px2rem(80px);
-      margin-left: px2rem(-80px);
-    }
+  &:not(:first-child) {
+    margin-top: px2rem(10px);
   }
-}
 
-.#{$ns}RadiosControl-groupLabel,
-.#{$ns}CheckboxesControl-groupLabel {
-  display: block;
-}
-
-.#{$ns}Checkboxes {
-  > .#{$ns}Checkbox {
+  .#{$ns}RadiosControl-groupLabel,
+  .#{$ns}CheckboxesControl-groupLabel {
     display: block;
-    height: var(--Form-input-height);
-    line-height: var(--Form-input-lineHeight);
-    font-size: var(--Form-input-fontSize);
-    padding: calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize)
-          ) / 2
-      )
-      var(--gap-sm)
-      calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize)
-          ) / 2
-      )
-      calc(var(--gap-sm) + var(--Checkbox-size));
-  }
-
-  &--inline > .#{$ns}Checkbox {
-    display: inline-block;
-  }
-
-  &-addBtn {
-    display: block;
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: none;
-    }
-
-    > svg {
-      width: px2rem(14px);
-      height: px2rem(14px);
-      margin-right: var(--Checkbox-gap);
-    }
-  }
-}
-
-.#{$ns}ListCheckboxes,
-.#{$ns}ListRadios {
-  &-group:not(:first-child) > &-itemLabel {
-    border-top: px2rem(1px) solid var(--ListMenu-divider-color);
-  }
-
-  &-group > &-itemLabel {
     font-size: var(--fontSizeSm);
-    padding: var(--gap-xs) var(--gap-xs);
-    color: var(--text--muted-color);
-  }
-
-  &-item {
-    display: flex;
-    height: var(--Form-input-height);
-    line-height: var(--Form-input-lineHeight);
-    font-size: var(--Form-input-fontSize);
-    padding: calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize)
-          ) / 2
-      )
-      var(--gap-sm);
-    flex-direction: row;
-
-    > .#{$ns}Checkbox {
-      margin-right: 0;
-    }
-    cursor: pointer;
-    user-select: none;
-
-    &.is-active {
-      color: var(--Form-select-menu-onActive-color);
-      background: var(--Form-select-menu-onActive-bg);
-    }
-
-    &:hover {
-      background: var(--Tree-item-onHover-bg);
-    }
-
-    &.is-disabled {
-      pointer-events: none;
-      color: var(--text--muted-color);
-    }
-  }
-
-  &-group > &-items > &-item {
-    padding-left: var(--gap-base);
-  }
-
-  &-itemLabel {
-    flex-grow: 1;
-  }
-
-  &-placeholder {
-    @include checkboxes-placeholder();
+    color: #999;
   }
 }
 
-.#{$ns}TableCheckboxes {
-  .#{$ns}Table-content {
-    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
-  }
-
-  .#{$ns}Table-table > thead > tr > th,
-  .#{$ns}Table-table > tbody > tr > td {
-    font-size: var(--fontSizeSm);
-    padding-top: var(--gap-xs);
-    padding-bottom: px2rem(6px);
-    vertical-align: middle;
-  }
-
-  .#{$ns}Table-table > thead > tr > th {
-    padding-top: px2rem(6px);
-  }
-
-  .#{$ns}Table-table > thead > tr > th:first-child,
-  .#{$ns}Table-table > tbody > tr > td:first-child {
-    padding-left: px2rem(10px);
-    padding-right: 0;
-  }
-
-  .#{$ns}Table-table > thead > tr > th:last-child,
-  .#{$ns}Table-table > tbody > tr > td:last-child {
-    padding-right: var(--gap-md);
-  }
-
-  .#{$ns}Table-table > tbody > tr {
-    cursor: pointer;
-  }
-}
-
-.#{$ns}TreeCheckboxes,
-.#{$ns}TreeRadios {
-  .#{$ns}Table-expandBtn {
-    color: var(--icon-color);
-    margin-right: 5px;
-  }
-
-  &-sublist {
-    position: relative;
-    margin: 0 0 0 px2rem(35px);
-    display: none;
-
-    &:before {
-      width: 1px;
-      content: '';
-      display: block;
-      position: absolute;
-      top: calc(var(--gap-xs) * -1);
-      bottom: calc(var(--Form-input-height) / 2);
-      left: -19px;
-      border-left: dashed 1px var(--icon-color);
-    }
-  }
-
-  &-item {
-    position: relative;
-  }
-  &-item.is-expanded > &-sublist {
-    display: block;
-  }
-
-  &-item:not(:last-child) > &-sublist:before {
-    bottom: 0;
-  }
-
-  &-sublist &-item:before {
-    height: 1px;
-    content: '';
-    display: block;
-    position: absolute;
-    top: calc(var(--Form-input-height) / 2);
-    width: 19px;
-    left: -19px;
-    border-top: dashed 1px var(--icon-color);
-  }
-
-  &-itemInner {
-    display: flex;
-    align-items: center;
-    height: var(--Form-input-height);
-    line-height: var(--Form-input-lineHeight);
-    font-size: var(--Form-input-fontSize);
-    padding: calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize)
-          ) / 2
-      )
-      var(--gap-sm);
-    flex-direction: row;
-
-    > .#{$ns}Checkbox {
-      margin-right: 0;
-      margin-left: var(--gap-sm);
-    }
-    cursor: pointer;
-    user-select: none;
-
-    &.is-active {
-      color: var(--Form-select-menu-onActive-color);
-      background: var(--Form-select-menu-onActive-bg);
-    }
-
-    &:hover {
-      background: var(--Tree-item-onHover-bg);
-    }
-
-    &.is-disabled {
-      pointer-events: none;
-      color: var(--text--muted-color);
-    }
-  }
-
-  &-itemLabel {
-    flex-grow: 1;
-  }
-
-  &-placeholder {
-    @include checkboxes-placeholder();
-  }
-}
-
-.#{$ns}ChainedCheckboxes {
-  display: flex;
-  flex-direction: row;
-
-  &-col {
-    flex-grow: 1;
-    min-width: 150px;
-  }
-
-  &-col:not(:last-child) {
-    border-right: 1px solid var(--borderColor);
-  }
-
-  &-subTitle {
-    font-size: var(--fontSizeSm);
-    padding: var(--gap-xs) var(--gap-xs);
-    color: var(--text--muted-color);
-  }
-
-  &-item {
-    display: flex;
-    height: var(--Form-input-height);
-    line-height: var(--Form-input-lineHeight);
-    font-size: var(--Form-input-fontSize);
-    padding: calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize)
-          ) / 2
-      )
-      var(--gap-sm);
-    flex-direction: row;
-
-    > .#{$ns}Checkbox {
-      margin-right: 0;
-    }
-    cursor: pointer;
-    user-select: none;
-
-    &.is-active {
-      color: var(--Form-select-menu-onActive-color);
-      background: var(--Form-select-menu-onActive-bg);
-    }
-
-    &:hover {
-      background: var(--Tree-item-onHover-bg);
-    }
-
-    &.is-disabled {
-      pointer-events: none;
-      color: var(--text--muted-color);
-    }
-  }
-
-  &-itemLabel {
-    flex-grow: 1;
-  }
-
-  &-placeholder {
-    @include checkboxes-placeholder();
-  }
-}
-
-.#{$ns}AssociatedCheckboxes {
-  display: flex;
-  flex-direction: row;
-
-  &-left,
-  &-right {
-    flex-grow: 1;
-    width: 0;
-    height: px2rem(175px);
-    overflow: auto;
-  }
-
-  &-left {
-    border-right: 1px solid var(--borderColor);
-  }
-
-  &-reload {
-    text-align: center;
-    color: var(--info);
-    margin: 20px 0 0;
-
-    &.is-clickable {
-      cursor: pointer;
-    }
-  }
-
-  &-box {
-    line-height: var(--Form-input-lineHeight);
-    font-size: var(--fontSizeSm);
-    color: var(--text--muted-color);
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-
-    > p {
-      text-align: center;
-      margin: 10px 0 20px;
-      color: var(--text--muted-color);
-    }
+.#{$ns}RadiosControl {
+  .#{$ns}Button:active,
+  .#{$ns}Button.is-active {
+    background: var(--ButtonGroup--primary-isActive-bg);
   }
 }

@@ -1,10 +1,12 @@
 import React from 'react';
+import {Switch} from 'react-router-dom';
 
 import {flattenTree, filterTree, mapTree} from '../../src/utils/helper';
+import {navigations2route} from './App';
 
 import DocNavCN from './DocNavCN';
 
-export default class Doc extends React.PureComponent {
+export default class Doc extends React.PureComponent<any> {
   state = {
     prevDoc: null,
     nextDoc: null
@@ -29,19 +31,19 @@ export default class Doc extends React.PureComponent {
     this.setDocFooter();
   }
 
-  componentDidUpdate(preProps) {
+  componentDidUpdate(preProps: any) {
     if (this.props.location.pathname !== preProps.location.pathname) {
-      this.props.setNavigations(DocNavCN);
+      this.props.setNavigations(DocNavCN, false);
       this.setDocFooter();
     }
   }
 
   setDocFooter() {
-    const newDocs = mapTree(DocNavCN, doc => ({
+    const newDocs = mapTree(DocNavCN, (doc: any) => ({
       ...doc,
       children:
         Array.isArray(doc.children) && doc.children.length
-          ? doc.children.map(item => ({
+          ? doc.children.map((item: any) => ({
               ...item,
               group: doc.group || doc.label
             }))
@@ -59,9 +61,8 @@ export default class Doc extends React.PureComponent {
 
   render() {
     return (
-      <>
-        {React.cloneElement(this.props.children, {
-          ...this.props.children.props,
+      <Switch>
+        {navigations2route(DocNavCN, {
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
           locale: this.props.locale,
@@ -71,7 +72,19 @@ export default class Doc extends React.PureComponent {
           prevDoc: this.state.prevDoc,
           nextDoc: this.state.nextDoc
         })}
-      </>
+
+        {/* {React.cloneElement(this.props.children, {
+          ...this.props.children.props,
+          theme: this.props.theme,
+          classPrefix: this.props.classPrefix,
+          locale: this.props.locale,
+          viewMode: this.props.viewMode,
+          offScreen: this.props.offScreen,
+          ContextPath: this.props.ContextPath,
+          prevDoc: this.state.prevDoc,
+          nextDoc: this.state.nextDoc
+        })} */}
+      </Switch>
     );
   }
 }

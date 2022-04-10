@@ -1,7 +1,11 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {evalJS, filter} from '../../utils/tpl';
-import {isObjectShallowModified} from '../../utils/helper';
+import {
+  autobind,
+  isObjectShallowModified,
+  setVariable
+} from '../../utils/helper';
 
 /**
  * 公式功能控件。
@@ -55,10 +59,58 @@ export default class FormulaControl extends React.Component<
   FormControlProps,
   any
 > {
+  inited = false;
+  unHook?: () => void;
+
   componentDidMount() {
+    const {formInited, initSet, addHook} = this.props;
+
+    this.unHook = addHook ? addHook(this.handleFormInit, 'init') : undefined;
+
+    // 如果在表单中，还是等初始化数据过来才算
+    if (formInited === false) {
+      return;
+    }
+
+    this.inited = true;
+    initSet === false || this.initSet();
+  }
+
+  componentDidUpdate(prevProps: FormControlProps) {
+    const {formInited, initSet, autoSet} = this.props;
+
+    if (this.inited) {
+      autoSet === false || this.autoSet(prevProps);
+    } else if (typeof formInited === 'undefined') {
+      this.inited = true;
+      initSet === false || this.initSet();
+    }
+  }
+
+  componentWillUnmount() {
+    this.unHook?.();
+  }
+
+  @autobind
+  handleFormInit(data: any) {
+    this.inited = true;
+    const {name, initSet} = this.props;
+
+    if (initSet === false) {
+      return;
+    }
+
+    const result = this.initSet();
+
+    if (typeof name === 'string' && typeof result !== 'undefined') {
+      setVariable(data, name, result);
+    }
+  }
+
+  initSet() {
     const {formula, data, setPrinstineValue, initSet, condition} = this.props;
 
-    if (!formula || initSet === false) {
+    if (!formula) {
       return;
     } else if (
       condition &&
@@ -70,34 +122,29 @@ export default class FormulaControl extends React.Component<
     }
 
     const result: any = evalJS(formula, data as object);
-    result !== null && setPrinstineValue(result);
+    result !== null && setPrinstineValue?.(result);
+    return result;
   }
 
-  componentWillReceiveProps(nextProps: FormControlProps) {
-    const {formula, data, onChange, autoSet, value, condition} = this.props;
+  autoSet(prevProps: FormControlProps) {
+    const props = this.props;
+    const {formula, data, onChange, value, condition} = prevProps;
 
     if (
-      autoSet !== false &&
       formula &&
-      nextProps.formula &&
-      isObjectShallowModified(data, nextProps.data, false) &&
-      value === nextProps.value
+      props.formula &&
+      isObjectShallowModified(data, props.data, false) &&
+      value === props.value
     ) {
-      const nextResult: any = evalJS(
-        nextProps.formula,
-        nextProps.data as object
-      );
+      const nextResult: any = evalJS(props.formula, props.data as object);
 
-      if (condition && nextProps.condition) {
+      if (condition && props.condition) {
         if (!!~condition.indexOf('$') || !!~condition.indexOf('<%')) {
           // 使用${xxx}，来监听某个变量的变化
-          if (
-            filter(condition, data) !==
-            filter(nextProps.condition, nextProps.data)
-          ) {
+          if (filter(condition, data) !== filter(props.condition, props.data)) {
             onChange(nextResult);
           }
-        } else if (evalJS(nextProps.condition, nextProps.data as object)) {
+        } else if (evalJS(props.condition, props.data as object)) {
           // 使用 data.xxx == 'a' 表达式形式来判断
           onChange(nextResult);
         }

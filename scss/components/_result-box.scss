@@ -1,9 +1,16 @@
 .#{$ns}ResultBox {
   @include input-input();
+  @include input-border();
   flex-wrap: wrap;
-  padding: 0 px2rem(3px);
+  padding: 0 px2rem(26px) 0 px2rem(3px);
   min-height: var(--Form-input-height);
   align-items: center;
+  border-radius: 3px;
+  position: relative;
+
+  &.is-clearable {
+    padding-right: px2rem(55px);
+  }
 
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
@@ -42,22 +49,51 @@
 
   &-singleValue {
     padding: 0 calc(var(--Form-input-paddingX) - #{px2rem(3px)});
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-pc-arrow {
+    height: 100%;
+    margin: auto 0;
+    position: absolute;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    transition: transform var(--animation-duration) ease;
+    > svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0.125em;
+    }
+  }
+
+  &.is-opened &-pc-arrow {
+    transform: rotate(180deg);
   }
 
   &-clear {
     @include input-clear();
-    width: px2rem(26px);
-    height: px2rem(26px);
-    margin: 0 px2rem(-2px);
-    margin-left: auto;
+    height: 100%;
+    padding: px2rem(4px);
+    margin: auto 0;
+    position: absolute;
+    right: 10px;
+    background-color: unset;
 
-    &:hover {
-      background: var(--ResultBox-value-bg);
+    &-wrap {
+      width: px2rem(16px);
+      height: px2rem(16px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    > svg {
-      width: px2rem(12px);
-      height: px2rem(12px);
+    &-with-arrow {
+      right: 33px;
     }
   }
 
@@ -94,6 +130,9 @@
       > svg {
         width: px2rem(10px);
         height: px2rem(10px);
+        &.icon {
+          top: 0;
+        }
       }
     }
 
@@ -120,5 +159,62 @@
   > input {
     padding-left: 8px;
     min-height: 24px;
+  }
+
+  &.#{$ns}TransferDropDown {
+    padding: 0;
+
+    > .#{$ns}ResultBox-value {
+      background: var(--Form-select-value-bgColor);
+
+      &:hover {
+        background: var(--Form-selectValue-onHover-bgColor);
+      }
+    }
+  }
+  
+  &.is-mobile {
+    min-height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
+    border: none;
+    padding: 0;
+    font-size: var(--fontSizeLg);
+    border: none;
+    justify-content: flex-end;
+
+    .#{$ns}ResultBox-clear {
+      @include input-clear();
+      width: px2rem(26px);
+      height: px2rem(26px);
+      margin: 0 px2rem(-2px);
+      margin-left: auto;
+      padding: px2rem(4px);
+      position: unset;
+      right: 0;
+      display: flex;
+      align-items: center;
+      background-color: unset;
+    }
+
+    .#{$ns}ResultBox-arrow {
+      margin-right: var(--gap-xs);
+      // margin-left: var(--gap-xs);
+      width: var(--gap-md);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      margin-left: 4px;
+
+      > svg {
+        transition: transform var(--animation-duration);
+        display: inline-block;
+        color: var(--Form-select-caret-iconColor);
+        width: 10px;
+        height: 10px;
+        top: 0;
+        transform: rotate(-90deg);
+      }
+    }
   }
 }

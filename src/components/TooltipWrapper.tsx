@@ -11,21 +11,82 @@ import {findDOMNode} from 'react-dom';
 import Tooltip from './Tooltip';
 import {ClassNamesFn, themeable} from '../theme';
 import Overlay from './Overlay';
-
-export interface TooltipObject {
-  title?: string;
-  content?: string;
-  render?: () => JSX.Element;
-  dom?: JSX.Element;
-}
+import {isObject} from '../utils/helper';
 
 export type Trigger = 'hover' | 'click' | 'focus';
 
+export interface TooltipObject {
+  /**
+   * 文字提示标题
+   */
+  title?: string;
+  /**
+   * 文字提示内容
+   */
+  content?: string;
+  /**
+   * 浮层出现位置
+   */
+  placement?: 'top' | 'right' | 'bottom' | 'left';
+  /**
+   * 主题样式
+   */
+  tooltipTheme?: 'light' | 'dark';
+  /**
+   * 浮层位置相对偏移量
+   */
+  offset?: [number, number];
+  /**
+   * 内容区自定义样式
+   */
+  style?: React.CSSProperties;
+  /**
+   * 是否可以移入浮层中, 默认true
+   */
+  enterable?: boolean;
+  /**
+   * 是否展示浮层指向箭头
+   */
+  showArrow?: boolean;
+  /**
+   * 是否禁用提示
+   */
+  disabled?: boolean;
+  /**
+   * 浮层延迟显示时间, 单位 ms
+   */
+  mouseEnterDelay?: number;
+  /**
+   * 浮层延迟隐藏时间, 单位 ms
+   */
+  mouseLeaveDelay?: number;
+  /**
+   * 浮层内容可通过JSX渲染
+   */
+  children?: () => JSX.Element | JSX.Element;
+  /**
+   * 挂载容器元素
+   */
+  container?: React.ReactNode;
+  /**
+   * 浮层触发方式
+   */
+  trigger?: Trigger | Array<Trigger>;
+  /**
+   * 是否点击非内容区域关闭提示，默认为true
+   */
+  rootClose?: boolean;
+  /**
+   * 文字提示浮层CSS类名
+   */
+  tooltipClassName?: string;
+}
+
 export interface TooltipWrapperProps {
+  tooltip?: string | TooltipObject;
   classPrefix: string;
   classnames: ClassNamesFn;
   placement: 'top' | 'right' | 'bottom' | 'left';
-  tooltip?: string | TooltipObject;
   container?: React.ReactNode;
   trigger: Trigger | Array<Trigger>;
   rootClose: boolean;
@@ -33,6 +94,7 @@ export interface TooltipWrapperProps {
   delay: number;
   theme?: string;
   tooltipClassName?: string;
+  style?: React.CSSProperties;
 }
 
 interface TooltipWrapperState {
@@ -52,7 +114,7 @@ export class TooltipWrapper extends React.Component<
     placement: 'top',
     trigger: ['hover', 'focus'],
     rootClose: false,
-    delay: 200
+    delay: 300
   };
 
   target: HTMLElement;
@@ -105,24 +167,42 @@ export class TooltipWrapper extends React.Component<
     return child && (child as any).props;
   }
 
-  handleShow() {
-    // clearTimeout(this.timer);
-    // const {
-    //     delay
-    // } = this.props;
+  tooltipMouseEnter = (e: MouseEvent) => {
+    const tooltip = this.props.tooltip;
+    const enterable = (tooltip as any)?.enterable ?? true;
+    enterable && clearTimeout(this.timer);
+  };
 
-    // this.timer = setTimeout(this.show, delay);
-    // 顺速让即将消失的层消失。
+  tooltipMouseLeave = (e: MouseEvent) => {
+    const tooltip = this.props.tooltip;
+    const enterable = (tooltip as any)?.enterable ?? true;
+    enterable && clearTimeout(this.timer);
+    this.hide();
+  };
+
+  handleShow() {
+    this.timer && clearTimeout(this.timer);
     waitToHide && waitToHide();
-    this.show();
+    const tooltip = this.props.tooltip;
+    if (isObject(tooltip)) {
+      const {mouseEnterDelay = 0} = tooltip as TooltipObject;
+      this.timer = setTimeout(this.show, mouseEnterDelay);
+    } else {
+      this.timer = setTimeout(this.show, 0);
+    }
   }
 
   handleHide() {
     clearTimeout(this.timer);
-    const {delay} = this.props;
+    const {delay, tooltip} = this.props;
 
     waitToHide = this.hide.bind(this);
-    this.timer = setTimeout(this.hide, delay);
+    if (isObject(tooltip)) {
+      const {mouseLeaveDelay = 300} = tooltip as TooltipObject;
+      this.timer = setTimeout(this.hide, mouseLeaveDelay);
+    } else {
+      this.timer = setTimeout(this.hide, delay);
+    }
   }
 
   handleFocus(e: any) {
@@ -166,21 +246,42 @@ export class TooltipWrapper extends React.Component<
   }
 
   render() {
+    const props = this.props;
+
+    const child = React.Children.only(props.children);
+    if (!props.tooltip) {
+      return child;
+    }
+
+    // tooltip 对象内属性优先级更高
+    const tooltipObj: TooltipObject = {
+      placement: props.placement,
+      container: props.container,
+      trigger: props.trigger,
+      rootClose: props.rootClose,
+      tooltipClassName: props.tooltipClassName,
+      style: props.style,
+      mouseLeaveDelay: props.delay,
+      ...(typeof props.tooltip === 'string'
+        ? {content: props.tooltip}
+        : props.tooltip)
+    };
+
     const {
-      tooltip,
-      children,
+      title,
+      content,
       placement,
       container,
       trigger,
       rootClose,
-      tooltipClassName
-    } = this.props;
-
-    const child = React.Children.only(children);
-
-    if (!tooltip) {
-      return child;
-    }
+      tooltipClassName,
+      style,
+      disabled = false,
+      offset,
+      tooltipTheme = 'light',
+      showArrow = true,
+      children
+    } = tooltipObj;
 
     const childProps: any = {
       key: 'target'
@@ -208,28 +309,30 @@ export class TooltipWrapper extends React.Component<
       <Overlay
         key="overlay"
         target={this.getTarget}
-        show={this.state.show}
+        show={this.state.show && !disabled}
         onHide={this.handleHide}
         rootClose={rootClose}
         placement={placement}
         container={container}
+        offset={Array.isArray(offset) ? offset : [0, 0]}
       >
         <Tooltip
-          title={typeof tooltip !== 'string' ? tooltip.title : undefined}
+          title={typeof title === 'string' ? title : undefined}
+          style={style}
           className={tooltipClassName}
+          tooltipTheme={tooltipTheme}
+          showArrow={showArrow}
+          onMouseEnter={
+            ~triggers.indexOf('hover') ? this.tooltipMouseEnter : () => {}
+          }
+          onMouseLeave={
+            ~triggers.indexOf('hover') ? this.tooltipMouseLeave : () => {}
+          }
         >
-          {tooltip && (tooltip as TooltipObject).render ? (
-            this.state.show ? (
-              (tooltip as TooltipObject).render!()
-            ) : null
-          ) : tooltip && (tooltip as TooltipObject).dom ? (
-            (tooltip as TooltipObject).dom!
+          {children ? (
+            <>{typeof children === 'function' ? children() : children}</>
           ) : (
-            <Html
-              html={
-                typeof tooltip === 'string' ? tooltip : tooltip.content || ''
-              }
-            />
+            <Html html={typeof content === 'string' ? content : ''} />
           )}
         </Tooltip>
       </Overlay>

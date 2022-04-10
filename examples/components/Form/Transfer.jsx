@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'Transfer 穿梭器 示例',
   body: [
     {
@@ -12,7 +11,7 @@ export default {
           label: '提交'
         }
       ],
-      controls: [
+      body: [
         {
           label: '默认',
           type: 'transfer',
@@ -434,7 +433,7 @@ export default {
           name: 'b',
           sortable: true,
           searchable: true,
-          deferApi: '/api/mock/form/deferOptions?label=${label}',
+          deferApi: '/api/mock2/form/deferOptions?label=${label}',
           selectMode: 'associated',
           leftMode: 'tree',
           leftOptions: [

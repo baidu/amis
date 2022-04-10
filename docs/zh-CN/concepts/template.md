@@ -53,6 +53,31 @@ order: 11
 }
 ```
 
+如果是变量本身有 html，则需要使用 raw 过滤
+
+```schema
+{
+  "data": {
+    "text": "<b>World!</b>"
+  },
+  "type": "page",
+  "body": "<h1>Hello</h1> <span>${text|raw}</span>"
+}
+```
+
+### 表达式
+
+> 1.5.0 及以上版本
+
+支持简单的表达式运算以及公式调用，具体请查看[新表达式语法](./expression#新表达式语法)
+
+```json
+{
+  "type": "tpl",
+  "tpl": "${xxx == 1 ? 'One' : 'Others'}"
+}
+```
+
 ## JavaScript 模板引擎
 
 amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [lodash template](https://lodash.com/docs/4.17.15#template) 进行实现。
@@ -101,7 +126,7 @@ amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [loda
 
 ## 注意事项
 
-#### 1. 模板字符串 和 模板引擎 不可以交叉使用
+#### 1. 模板字符串 和 Javascript 模板引擎 不可以交叉使用
 
 例如：
 
@@ -109,5 +134,13 @@ amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [loda
 {
   "type": "tpl",
   "tpl": "${data.xxx === 'a'}" //错误！
+}
+```
+
+
+```json
+{
+  "type": "tpl",
+  "tpl": "${xxx === 'a'}" // 正确
 }
 ```

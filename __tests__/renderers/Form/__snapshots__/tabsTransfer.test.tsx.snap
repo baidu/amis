@@ -1,0 +1,596 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:tabs-transfer 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          组合穿梭器
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-TabsTransferControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-Transfer cxd-TabsTransfer"
+                    >
+                      <div
+                        class="cxd-Transfer-select"
+                      >
+                        <div
+                          class="cxd-Tabs cxd-Tabs--line cxd-TabsTransfer-tabs"
+                        >
+                          <div
+                            class="cxd-Tabs-linksContainer-wrapper"
+                            style="position: relative;"
+                          >
+                            <div
+                              class="cxd-Tabs-linksContainer"
+                            >
+                              <div
+                                class="cxd-Tabs-linksContainer-main"
+                              >
+                                <ul
+                                  class="cxd-Tabs-links"
+                                  role="tablist"
+                                >
+                                  <li
+                                    class="cxd-Tabs-link is-active"
+                                  >
+                                    <a>
+                                      成员
+                                    </a>
+                                  </li>
+                                  <li
+                                    class="cxd-Tabs-link"
+                                  >
+                                    <a>
+                                      用户
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div
+                              class="resize-sensor"
+                              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                            >
+                              
+  
+                              <div
+                                class="resize-sensor-expand"
+                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                              >
+                                
+    
+                                <div
+                                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                                />
+                                
+  
+                              </div>
+                              
+  
+                              <div
+                                class="resize-sensor-shrink"
+                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                              >
+                                
+    
+                                <div
+                                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                                />
+                                
+  
+                              </div>
+                              
+  
+                              <div
+                                class="resize-sensor-appear"
+                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                              />
+                            </div>
+                          </div>
+                          <div
+                            class="cxd-Tabs-content"
+                          >
+                            <div
+                              class="in is-active cxd-Tabs-pane cxd-TabsTransfer-tab"
+                            >
+                              <div
+                                class="cxd-TabsTransfer-search"
+                              >
+                                <div
+                                  class="cxd-InputBox"
+                                >
+                                  <input
+                                    placeholder="请输入关键字"
+                                    size="12"
+                                    theme="cxd"
+                                    type="text"
+                                    value=""
+                                  />
+                                  <icon-mock
+                                    classname="icon icon-search"
+                                    icon="search"
+                                  />
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-TreeSelection cxd-Transfer-checkboxes"
+                              >
+                                <div
+                                  class="cxd-TreeSelection-item is-expanded"
+                                >
+                                  <div
+                                    class="cxd-TreeSelection-itemInner"
+                                  >
+                                    <a
+                                      class="cxd-Table-expandBtn is-active"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-right-arrow-bold"
+                                        icon="right-arrow-bold"
+                                      />
+                                    </a>
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <div
+                                      class="cxd-TreeSelection-itemLabel"
+                                    >
+                                      <span>
+                                        法师
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="cxd-TreeSelection-sublist"
+                                  >
+                                    <div
+                                      class="cxd-TreeSelection-item"
+                                    >
+                                      <div
+                                        class="cxd-TreeSelection-itemInner"
+                                      >
+                                        <label
+                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        >
+                                          <input
+                                            type="checkbox"
+                                          />
+                                          <i />
+                                          <span
+                                            class=""
+                                          />
+                                        </label>
+                                        <div
+                                          class="cxd-TreeSelection-itemLabel"
+                                        >
+                                          <span>
+                                            诸葛亮
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="cxd-TreeSelection-item"
+                                >
+                                  <div
+                                    class="cxd-TreeSelection-itemInner"
+                                  >
+                                    <a
+                                      class="cxd-Table-expandBtn"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-right-arrow-bold"
+                                        icon="right-arrow-bold"
+                                      />
+                                    </a>
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <div
+                                      class="cxd-TreeSelection-itemLabel"
+                                    >
+                                      <span>
+                                        战士
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="cxd-TreeSelection-sublist"
+                                  >
+                                    <div
+                                      class="cxd-TreeSelection-item"
+                                    >
+                                      <div
+                                        class="cxd-TreeSelection-itemInner"
+                                      >
+                                        <label
+                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        >
+                                          <input
+                                            type="checkbox"
+                                          />
+                                          <i />
+                                          <span
+                                            class=""
+                                          />
+                                        </label>
+                                        <div
+                                          class="cxd-TreeSelection-itemLabel"
+                                        >
+                                          <span>
+                                            曹操
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="cxd-TreeSelection-item"
+                                    >
+                                      <div
+                                        class="cxd-TreeSelection-itemInner"
+                                      >
+                                        <label
+                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        >
+                                          <input
+                                            type="checkbox"
+                                          />
+                                          <i />
+                                          <span
+                                            class=""
+                                          />
+                                        </label>
+                                        <div
+                                          class="cxd-TreeSelection-itemLabel"
+                                        >
+                                          <span>
+                                            钟无艳
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="cxd-TreeSelection-item"
+                                >
+                                  <div
+                                    class="cxd-TreeSelection-itemInner"
+                                  >
+                                    <a
+                                      class="cxd-Table-expandBtn"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-right-arrow-bold"
+                                        icon="right-arrow-bold"
+                                      />
+                                    </a>
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <div
+                                      class="cxd-TreeSelection-itemLabel"
+                                    >
+                                      <span>
+                                        打野
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="cxd-TreeSelection-sublist"
+                                  >
+                                    <div
+                                      class="cxd-TreeSelection-item"
+                                    >
+                                      <div
+                                        class="cxd-TreeSelection-itemInner"
+                                      >
+                                        <label
+                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        >
+                                          <input
+                                            type="checkbox"
+                                          />
+                                          <i />
+                                          <span
+                                            class=""
+                                          />
+                                        </label>
+                                        <div
+                                          class="cxd-TreeSelection-itemLabel"
+                                        >
+                                          <span>
+                                            李白
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="cxd-TreeSelection-item"
+                                    >
+                                      <div
+                                        class="cxd-TreeSelection-itemInner"
+                                      >
+                                        <label
+                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        >
+                                          <input
+                                            type="checkbox"
+                                          />
+                                          <i />
+                                          <span
+                                            class=""
+                                          />
+                                        </label>
+                                        <div
+                                          class="cxd-TreeSelection-itemLabel"
+                                        >
+                                          <span>
+                                            韩信
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="cxd-TreeSelection-item"
+                                    >
+                                      <div
+                                        class="cxd-TreeSelection-itemInner"
+                                      >
+                                        <label
+                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                        >
+                                          <input
+                                            type="checkbox"
+                                          />
+                                          <i />
+                                          <span
+                                            class=""
+                                          />
+                                        </label>
+                                        <div
+                                          class="cxd-TreeSelection-itemLabel"
+                                        >
+                                          <span>
+                                            云中君
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="cxd-Tabs-pane cxd-TabsTransfer-tab"
+                            >
+                              <div
+                                class="cxd-ChainedSelection cxd-Transfer-checkboxes"
+                              >
+                                <div
+                                  class="cxd-ChainedSelection-col"
+                                >
+                                  <div
+                                    class="cxd-ChainedSelection-item"
+                                  >
+                                    <div
+                                      class="cxd-ChainedSelection-itemLabel"
+                                    >
+                                      <span>
+                                        法师
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="cxd-ChainedSelection-item"
+                                  >
+                                    <div
+                                      class="cxd-ChainedSelection-itemLabel"
+                                    >
+                                      <span>
+                                        战士
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="cxd-ChainedSelection-item"
+                                  >
+                                    <div
+                                      class="cxd-ChainedSelection-itemLabel"
+                                    >
+                                      <span>
+                                        打野
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="cxd-ChainedSelection-col"
+                                >
+                                  <div
+                                    class="cxd-ChainedSelection-placeholder"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-Transfer-mid"
+                      />
+                      <div
+                        class="cxd-Transfer-result"
+                      >
+                        <div
+                          class="cxd-Transfer-title"
+                        >
+                          <span>
+                            已选项
+                          </span>
+                          <a
+                            class="cxd-Transfer-clearAll is-disabled"
+                          >
+                            清空
+                          </a>
+                        </div>
+                        <div
+                          class="cxd-Selections cxd-Transfer-value"
+                        >
+                          <div
+                            class="cxd-Selections-placeholder"
+                          >
+                            请选择左侧数据
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
+                >
+                  <span>
+                    提交
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

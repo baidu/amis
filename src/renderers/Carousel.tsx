@@ -10,10 +10,14 @@ import {
   autobind,
   createObject,
   isObject,
-  isArrayChildrenModified
+  isArrayChildrenModified,
+  getPropValue
 } from '../utils/helper';
+import {Action} from '../types';
 import {Icon} from '../components/icons';
 import {BaseSchema, SchemaCollection, SchemaName, SchemaTpl} from '../Schema';
+import Html from '../components/Html';
+import Image from '../renderers/Image';
 
 /**
  * Carousel 轮播图渲染器。
@@ -75,6 +79,11 @@ export interface CarouselSchema extends BaseSchema {
   name?: SchemaName;
 
   /**
+   * 预览图模式
+   */
+  thumbMode?: 'contain' | 'cover';
+
+  /**
    * 配置固定值
    */
   options?: Array<any>;
@@ -101,24 +110,35 @@ export interface CarouselState {
 }
 
 const defaultSchema = {
-  type: 'tpl',
-  tpl: `
-    <% if (data.hasOwnProperty('image')) { %>
-        <div style="background-image: url('<%= data.image %>'); background-size: contain; background-repeat: no-repeat; background-position: center center;" class="image <%= data.imageClassName %>"></div>
-        <% if (data.hasOwnProperty('title')) { %>
-            <div class="title <%= data.titleClassName %>"><%= data.title %></div>
-        <% } %>
-        <% if (data.hasOwnProperty('description')) { %>
-            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div>
-        <% } %>
-    <% } else if (data.hasOwnProperty('html')) { %>
-        <%= data.html %>
-    <% } else if (data.hasOwnProperty('item')) { %>
-        <%= data.item %>
-    <% } else { %>
-        <%= '未找到渲染数据' %>
-    <% } %>
-    `
+  component: (props: any) => {
+    const data = props.data || {};
+    const thumbMode = props.thumbMode;
+    const cx = props.classnames;
+
+    return (
+      <>
+        {data.hasOwnProperty('image') ? (
+          <Image
+            src={data.image}
+            title={data.title}
+            href={data.href}
+            blank={data.blank}
+            htmlTarget={data.htmlTarget}
+            imageCaption={data.description}
+            thumbMode={data.thumbMode ?? thumbMode ?? 'contain'}
+            imageMode="original"
+            className={cx('Carousel-image')}
+          />
+        ) : data.hasOwnProperty('html') ? (
+          <Html html={data.html} />
+        ) : data.hasOwnProperty('item') ? (
+          <span>{data.item}</span>
+        ) : (
+          <p></p>
+        )}
+      </>
+    );
+  }
 };
 
 export class Carousel extends React.Component<CarouselProps, CarouselState> {
@@ -147,11 +167,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   state = {
     current: 0,
-    options:
-      this.props.options ||
-      this.props.value ||
-      resolveVariable(this.props.name, this.props.data) ||
-      [],
+    options: this.props.options || getPropValue(this.props) || [],
     nextAnimation: ''
   };
 
@@ -162,16 +178,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   componentDidUpdate(prevProps: CarouselProps) {
     const props = this.props;
 
-    const nextOptions =
-      props.options ||
-      props.value ||
-      resolveVariable(props.name, props.data) ||
-      [];
-    const prevOptions =
-      prevProps.options ||
-      prevProps.value ||
-      resolveVariable(prevProps.name, prevProps.data) ||
-      [];
+    const nextOptions = props.options || getPropValue(props) || [];
+    const prevOptions = prevProps.options || getPropValue(prevProps) || [];
 
     if (isArrayChildrenModified(prevOptions, nextOptions)) {
       this.setState({
@@ -182,6 +190,17 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   componentWillUnmount() {
     this.clearAutoTimeout();
+  }
+
+  doAction(action: Action, data: object, throwErrors: boolean): any {
+    const actionType = action?.actionType as string;
+    
+    if (!!~['next', 'prev'].indexOf(actionType)) {
+      this.autoSlide(actionType);
+    }
+    else if (actionType === 'goto-image') {
+      this.changeSlide((data as any).activeIndex);
+    }
   }
 
   @autobind
@@ -223,9 +242,9 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   }
 
   @autobind
-  transitFramesTowards(direction: string, nextAnimation: string) {
+  async transitFramesTowards(direction: string, nextAnimation: string) {
     let {current} = this.state;
-
+    let prevIndex = current;
     switch (direction) {
       case 'left':
         current = this.getFrameId('next');
@@ -233,6 +252,18 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       case 'right':
         current = this.getFrameId('prev');
         break;
+    }
+
+    const {dispatchEvent, data} = this.props;
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        activeIndex: current,
+        prevIndex
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
     }
 
     this.setState({
@@ -271,6 +302,27 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     clearTimeout(this.durationTimeout as number);
   }
 
+  @autobind
+  async changeSlide(index: number) {
+    const {current} = this.state;
+    const {dispatchEvent, data} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        activeIndex: index,
+        prevIndex: current
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    this.setState({
+      current: index
+    });
+  }
+
   renderDots() {
     const {classnames: cx} = this.props;
     const {current, options} = this.state;
@@ -283,6 +335,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         {Array.from({length: options.length}).map((_, i) => (
           <span
             key={i}
+            onClick={() => this.changeSlide(i)}
             className={cx('Carousel-dot', current === i ? 'is-active' : '')}
           />
         ))}
@@ -381,8 +434,9 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                   >
                     {render(
                       `${current}/body`,
-                      itemSchema ? itemSchema : defaultSchema,
+                      itemSchema ? itemSchema : (defaultSchema as any),
                       {
+                        thumbMode: this.props.thumbMode,
                         data: createObject(
                           data,
                           isObject(option)
@@ -396,8 +450,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
               }}
             </Transition>
           ))}
-          {dots ? this.renderDots() : null}
-          {arrows ? this.renderArrows() : null}
         </div>
       );
     }
@@ -408,13 +460,24 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         style={carouselStyles}
       >
         {body ? body : placeholder}
+
+        {dots ? this.renderDots() : null}
+        {arrows ? (
+          <div className={cx('Carousel-leftArrow')} onClick={this.prev}>
+            <Icon icon="left-arrow" className="icon" />
+          </div>
+        ) : null}
+        {arrows ? (
+          <div className={cx('Carousel-rightArrow')} onClick={this.next}>
+            <Icon icon="right-arrow" className="icon" />
+          </div>
+        ) : null}
       </div>
     );
   }
 }
 
 @Renderer({
-  test: /(^|\/)carousel/,
-  name: 'carousel'
+  type: 'carousel'
 })
 export class CarouselRenderer extends Carousel {}

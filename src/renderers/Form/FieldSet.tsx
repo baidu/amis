@@ -1,9 +1,9 @@
 import React from 'react';
-import {FormSchemaHorizontal} from '.';
+import {FormSchemaHorizontal} from './index';
 import {Renderer, RendererProps} from '../../factory';
 import {SchemaCollection, SchemaTpl} from '../../Schema';
 import Collapse, {CollapseSchema} from '../Collapse';
-import {FormBaseControl, FormControlSchema} from './Item';
+import {FormBaseControl} from './Item';
 
 /**
  * FieldSet 表单项集合
@@ -21,11 +21,6 @@ export interface FieldSetControlSchema
    * 标题展示位置
    */
   titlePosition: 'top' | 'bottom';
-
-  /**
-   * 表单项集合
-   */
-  controls?: Array<FormControlSchema>;
 
   /**
    * 是否可折叠
@@ -61,6 +56,15 @@ export interface FieldSetControlSchema
    * 卡片隐藏就销毁内容。
    */
   unmountOnExit?: boolean;
+
+  /**
+   * 配置子表单项默认的展示方式。
+   */
+  subFormMode?: 'normal' | 'inline' | 'horizontal';
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  subFormHorizontal?: FormSchemaHorizontal;
 }
 
 export interface FieldSetProps
@@ -87,28 +91,29 @@ export default class FieldSetControl extends React.Component<
 
   renderBody(): JSX.Element {
     const {
-      renderFormItems,
-      controls,
       body,
       collapsable,
       horizontal,
       render,
       mode,
       formMode,
-      $path,
       classnames: cx,
       store,
-      formClassName
-    } = this.props;
+      formClassName,
+      disabled,
 
-    if (!controls) {
-      return render('body', body!) as JSX.Element;
-    }
+      formHorizontal,
+      subFormMode,
+      subFormHorizontal
+    } = this.props;
 
     let props: any = {
       store,
       data: store!.data,
-      render
+      render,
+      disabled,
+      formMode: subFormMode || formMode,
+      formHorizontal: subFormHorizontal || formHorizontal
     };
     mode && (props.mode = mode);
     typeof collapsable !== 'undefined' && (props.collapsable = collapsable);
@@ -121,7 +126,7 @@ export default class FieldSetControl extends React.Component<
           formClassName
         )}
       >
-        {renderFormItems({controls}, 'controls', props)}
+        {body ? render('body', body, props) : null}
       </div>
     );
   }
@@ -143,7 +148,7 @@ export default class FieldSetControl extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)form(?:.+)?\/control\/fieldSet$/i,
+  type: 'fieldset',
   weight: -100,
   name: 'fieldset'
 })

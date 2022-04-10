@@ -15,9 +15,9 @@ order: 30
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "debug": true,
-  "controls": [
+  "body": [
     {
       "type": "uuid",
       "name": "uuid"
@@ -35,9 +35,9 @@ order: 30
 ```schema:height="200" scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "debug": true,
-  "controls": [
+  "body": [
     {
       "type": "uuid",
       "name": "uuid",

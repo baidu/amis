@@ -200,20 +200,14 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     this.tick(!!this.props.checkApi);
   }
 
-  componentWillReceiveProps(nextProps: TaskProps) {
-    const props = this.props;
-
-    if (props.items !== nextProps.items) {
-      this.setState({
-        items: nextProps.items ? nextProps.items.concat() : []
-      });
-    }
-  }
-
   componentDidUpdate(prevProps: TaskProps) {
     const props = this.props;
 
-    if (
+    if (prevProps.items !== props.items) {
+      this.setState({
+        items: props.items ? props.items.concat() : []
+      });
+    } else if (
       isApiOutdated(
         prevProps.checkApi,
         props.checkApi,
@@ -459,15 +453,15 @@ export default class Task extends React.Component<TaskProps, TaskState> {
 }
 
 @Renderer({
-  test: /(^|\/)tasks$/,
-  name: 'tasks'
+  type: 'tasks'
 })
 export class TaskRenderer extends Task {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    // super.componentWillMount();
-    const scoped = this.context as IScopedContext;
+  constructor(props: TaskProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
   }
 

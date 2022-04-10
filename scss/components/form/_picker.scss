@@ -87,7 +87,6 @@
   }
 
   &-clear {
-    display: inline-block;
     @include input-clear();
     line-height: 1;
     margin-right: var(--gap-xs);

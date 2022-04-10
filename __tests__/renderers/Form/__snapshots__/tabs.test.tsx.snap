@@ -3,17 +3,17 @@
 exports[`Renderer:tabs 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,42 +22,98 @@ exports[`Renderer:tabs 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Tabs"
+          class="cxd-Tabs cxd-Tabs--line"
         >
-          <ul
-            class="a-Tabs-links"
-            role="tablist"
-          >
-            <li
-              class="a-Tabs-link is-active"
-            >
-              <a>
-                基本配置
-              </a>
-            </li>
-            <li
-              class="a-Tabs-link"
-            >
-              <a>
-                其他配置
-              </a>
-            </li>
-          </ul>
           <div
-            class="a-Tabs-content"
+            class="cxd-Tabs-linksContainer-wrapper"
+            style="position: relative;"
           >
             <div
-              class="in is-active a-Tabs-pane"
+              class="cxd-Tabs-linksContainer"
+            >
+              <div
+                class="cxd-Tabs-linksContainer-main"
+              >
+                <ul
+                  class="cxd-Tabs-links"
+                  role="tablist"
+                >
+                  <li
+                    class="cxd-Tabs-link is-active"
+                  >
+                    <a>
+                      基本配置
+                    </a>
+                  </li>
+                  <li
+                    class="cxd-Tabs-link"
+                  >
+                    <a>
+                      其他配置
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+          <div
+            class="cxd-Tabs-content"
+          >
+            <div
+              class="in is-active cxd-Tabs-pane"
             >
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   <p>
@@ -67,87 +123,79 @@ exports[`Renderer:tabs 1`] = `
               </span>
             </div>
             <div
-              class="a-Tabs-pane"
+              class="cxd-Tabs-pane"
             >
               <div
-                class="a-Form--normal"
+                class="cxd-Form-item cxd-Form-item--normal"
+                data-role="form-item"
               >
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                  data-role="form-item"
+                <label
+                  class="cxd-Form-label"
                 >
-                  <label
-                    class="a-Form-label"
-                  >
-                    <span>
-                      <span
-                        class="a-TplField"
-                      >
-                        <span>
-                          文本3
-                        </span>
+                  <span>
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        文本3
                       </span>
                     </span>
-                  </label>
+                  </span>
+                </label>
+                <div
+                  class="cxd-Form-control cxd-TextControl"
+                >
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="cxd-TextControl-input"
                   >
-                    <div
-                      class="a-TextControl-input"
-                    >
-                      <input
-                        autocomplete="off"
-                        name="c"
-                        placeholder=""
-                        size="10"
-                        type="text"
-                        value=""
-                      />
-                    </div>
+                    <input
+                      autocomplete="off"
+                      name="c"
+                      placeholder=""
+                      size="10"
+                      type="text"
+                      value=""
+                    />
                   </div>
                 </div>
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                  data-role="form-item"
+              </div>
+              <div
+                class="cxd-Form-item cxd-Form-item--normal"
+                data-role="form-item"
+              >
+                <label
+                  class="cxd-Form-label"
                 >
-                  <label
-                    class="a-Form-label"
-                  >
-                    <span>
-                      <span
-                        class="a-TplField"
-                      >
-                        <span>
-                          文本4
-                        </span>
+                  <span>
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        文本4
                       </span>
                     </span>
-                  </label>
+                  </span>
+                </label>
+                <div
+                  class="cxd-Form-control cxd-TextControl"
+                >
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="cxd-TextControl-input"
                   >
-                    <div
-                      class="a-TextControl-input"
-                    >
-                      <input
-                        autocomplete="off"
-                        name="d"
-                        placeholder=""
-                        size="10"
-                        type="text"
-                        value=""
-                      />
-                    </div>
+                    <input
+                      autocomplete="off"
+                      name="d"
+                      placeholder=""
+                      size="10"
+                      type="text"
+                      value=""
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

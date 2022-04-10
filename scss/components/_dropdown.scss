@@ -19,6 +19,12 @@
     transform: rotate(180deg);
   }
 
+  &.is-actived {
+    .#{$ns}Button {
+      color: var(--link-color);
+    }
+  }
+
   &--block {
     display: block;
 
@@ -28,20 +34,28 @@
   }
 
   &-menu {
-    position: absolute;
-    z-index: $zindex-dropdown;
-    top: 100%;
-    left: 0;
-    margin: px2rem(1px) 0 0;
     background: var(--DropDown-menu-bg);
     list-style: none;
     padding: var(--DropDown-menu-paddingY) var(--DropDown-menu-paddingX);
-    border: var(--DropDown-menu-borderWidth) solid
-      var(--DropDown-menu-borderColor);
-    border-radius: var(--DropDown-menu-borderRadius);
-    box-shadow: var(--DropDown-menu-boxShadow);
     min-width: var(--DropDown-menu-minWidth);
     text-align: left;
+    border: none;
+    user-select: none;
+
+    &-root {
+      position: absolute;
+      z-index: $zindex-dropdown;
+      top: 100%;
+      left: 0;
+      margin: px2rem(1px) 0 0;
+      border: none;
+      border-radius: var(--DropDown-menu-borderRadius);
+      box-shadow: var(--DropDown-menu-boxShadow);
+      min-width: var(--DropDown-menu-minWidth);
+      overflow-y: auto;
+      overflow-x: hidden;
+      max-height: px2rem(300px);
+    }
   }
 
   &--alignRight &-menu {
@@ -57,7 +71,7 @@
     height: var(--DropDown-menu-height);
     vertical-align: middle;
     user-select: none;
-    color: var(--link-color);
+    color: var(--DropDown-menuItem-color);
     text-decoration: var(--link-decoration);
 
     &:hover {
@@ -66,6 +80,7 @@
     }
 
     &.is-active {
+      background: var(--DropDown-menuItem-onHover-bg);
       color: var(--DropDown-menuItem-onActive-color);
     }
 
@@ -76,8 +91,9 @@
 
     &.is-disabled {
       cursor: not-allowed;
-      pointer-events: none;
+      // pointer-events: none;
       color: var(--DropDown-menuItem-onDisabled-color);
+      filter: grayscale(80%);
     }
 
     &.#{$ns}DropDown-divider {
@@ -86,6 +102,28 @@
       overflow: hidden;
       background: var(--DropDown-menu-borderColor);
       padding: 0;
+    }
+
+    &.#{$ns}DropDown-groupTitle {
+      height: inherit;
+      font-size: var(--fontSizeSm);
+      padding: var(--gap-xs) var(--gap-xs);
+      padding-left: var(--gap-sm);
+      color: var(--DropDown-group-color);
+      flex-grow: 1;
+      cursor: default;
+
+      &:hover {
+        background: none;
+      }
+
+      span {
+        white-space: nowrap;
+      }
+
+      & ~ .#{$ns}DropDown-button {
+        padding-left: var(--gap-lg);
+      }
     }
   }
 

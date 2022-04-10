@@ -4,6 +4,7 @@ import {IRow, IColumn} from '../../store/table';
 import {RendererProps} from '../../factory';
 import {Action} from '../Action';
 import {reaction} from 'mobx';
+import {isClickOnInput} from '../../utils/helper';
 
 interface TableRowProps extends Pick<RendererProps, 'render'> {
   onCheck: (item: IRow) => void;
@@ -25,63 +26,29 @@ interface TableRowProps extends Pick<RendererProps, 'render'> {
   [propName: string]: any;
 }
 
+@observer
 export class TableRow extends React.Component<TableRowProps> {
-  reaction?: () => void;
+  // reaction?: () => void;
   constructor(props: TableRowProps) {
     super(props);
     this.handleAction = this.handleAction.bind(this);
     this.handleQuickChange = this.handleQuickChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-
-    const item = props.item;
-    const parent = props.parent;
-    const columns = props.columns;
-    this.reaction = reaction(
-      () =>
-        `${item.isHover}${item.checked}${item.checkdisable}${JSON.stringify({
-          data: item.data,
-          rowSpans: item.rowSpans
-        })}${item.moved}${item.modified}${item.expanded}${parent?.expanded}${
-          columns.length
-        }`,
-      () => this.forceUpdate(),
-      {
-        onError: () => this.reaction!()
-      }
-    );
+    this.handleChange = this.handleChange.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
   }
 
-  shouldComponentUpdate(nextProps: TableRowProps) {
-    const props = this.props;
-    if (props.columns !== nextProps.columns) {
-      return true;
-    } else if (nextProps.columns.some(column => column.pristine.tpl)) {
-      return true;
-    }
-
-    // 不需要更新，因为子节点已经 observer 了
-    return false;
-  }
-
-  componentWillUnmount() {
-    this.reaction?.();
-  }
-
-  handleClick(e: React.MouseEvent<HTMLTableRowElement>) {
-    const target: HTMLElement = e.target as HTMLElement;
-    const ns = this.props.classPrefix;
-    let formItem;
-
-    if (
-      !e.currentTarget.contains(target) ||
-      ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
-      ((formItem = target.closest(`button, a, [data-role="form-item"]`)) &&
-        e.currentTarget.contains(formItem))
-    ) {
+  // 定义点击一行的行为，通过 itemAction配置
+  handleItemClick(e: React.MouseEvent<HTMLTableRowElement>) {
+    if (isClickOnInput(e)) {
       return;
     }
-
-    this.props.onCheck(this.props.item);
+    const {itemAction, onAction, item} = this.props;
+    if (itemAction) {
+      onAction && onAction(e, itemAction, item?.data);
+      item.toggle();
+    } else {
+      this.props.onCheck(this.props.item);
+    }
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: any) {
@@ -98,6 +65,28 @@ export class TableRow extends React.Component<TableRowProps> {
     const {onQuickChange, item} = this.props;
     onQuickChange &&
       onQuickChange(item, values, saveImmediately, savePristine, resetOnFailed);
+  }
+
+  handleChange(
+    value: any,
+    name: string,
+    submit?: boolean,
+    changePristine?: boolean
+  ) {
+    if (!name || typeof name !== 'string') {
+      return;
+    }
+
+    const {item, onQuickChange} = this.props;
+
+    onQuickChange?.(
+      item,
+      {
+        [name]: value
+      },
+      submit,
+      changePristine
+    );
   }
 
   render() {
@@ -117,10 +106,9 @@ export class TableRow extends React.Component<TableRowProps> {
       render,
       classnames: cx,
       parent,
+      itemAction,
       ...rest
     } = this.props;
-
-    // console.log('TableRow');
 
     if (footableMode) {
       if (!item.expanded) {
@@ -131,12 +119,15 @@ export class TableRow extends React.Component<TableRowProps> {
         <tr
           data-id={item.id}
           data-index={item.newIndex}
-          onClick={checkOnItemClick ? this.handleClick : undefined}
+          onClick={
+            checkOnItemClick || itemAction ? this.handleItemClick : undefined
+          }
           className={cx(itemClassName, {
             'is-hovered': item.isHover,
             'is-checked': item.checked,
             'is-modified': item.modified,
             'is-moved': item.moved,
+            [`Table-tr--hasItemAction`]: itemAction, // 就是为了加鼠标效果
             [`Table-tr--odd`]: itemIndex % 2 === 0,
             [`Table-tr--even`]: itemIndex % 2 === 1
           })}
@@ -173,7 +164,8 @@ export class TableRow extends React.Component<TableRowProps> {
                             colIndex: column.index,
                             key: column.index,
                             onAction: this.handleAction,
-                            onQuickChange: this.handleQuickChange
+                            onQuickChange: this.handleQuickChange,
+                            onChange: this.handleChange
                           }
                         )}
                       </tr>
@@ -191,7 +183,9 @@ export class TableRow extends React.Component<TableRowProps> {
 
     return (
       <tr
-        onClick={checkOnItemClick ? this.handleClick : undefined}
+        onClick={
+          checkOnItemClick || itemAction ? this.handleItemClick : undefined
+        }
         data-index={item.depth === 1 ? item.newIndex : undefined}
         data-id={item.id}
         className={cx(
@@ -201,8 +195,9 @@ export class TableRow extends React.Component<TableRowProps> {
             'is-checked': item.checked,
             'is-modified': item.modified,
             'is-moved': item.moved,
-            'is-expanded': item.expanded,
+            'is-expanded': item.expanded && item.expandable,
             'is-expandable': item.expandable,
+            [`Table-tr--hasItemAction`]: itemAction,
             [`Table-tr--odd`]: itemIndex % 2 === 0,
             [`Table-tr--even`]: itemIndex % 2 === 1
           },
@@ -216,7 +211,8 @@ export class TableRow extends React.Component<TableRowProps> {
             colIndex: column.index,
             key: column.index,
             onAction: this.handleAction,
-            onQuickChange: this.handleQuickChange
+            onQuickChange: this.handleQuickChange,
+            onChange: this.handleChange
           })
         )}
       </tr>

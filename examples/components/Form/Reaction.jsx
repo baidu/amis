@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '显隐切换示例',
   body: [
     {
@@ -8,7 +7,7 @@ export default {
       mode: 'horizontal',
       api: '/api/mock2/saveForm?waitSeconds=2',
       title: 'Hide On 和 disabledOn 示例',
-      controls: [
+      body: [
         {
           type: 'radios',
           name: 'type',
@@ -32,24 +31,24 @@ export default {
           description: '<span class="text-danger">请切换类型来看效果</span>'
         },
         {
-          type: 'text',
+          type: 'input-text',
           label: '所有可见',
           name: 'text1'
         },
         {
-          type: 'text',
+          type: 'input-text',
           label: '类型2 可见',
           hiddenOn: 'data.type != 2',
           name: 'text2'
         },
         {
-          type: 'text',
+          type: 'input-text',
           label: '类型3 不可点',
           disabledOn: 'data.type == 3',
           name: 'text3'
         },
         {
-          type: 'text',
+          type: 'input-text',
           required: true,
           label: '必填字段',
           name: 'test4'

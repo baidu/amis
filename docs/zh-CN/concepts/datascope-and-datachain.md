@@ -49,7 +49,7 @@ order: 10
 ```schema
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "initApi": "/api/mock2/page/initData",
   "body": "date is ${date}"
 }
 ```
@@ -125,7 +125,7 @@ order: 10
 1. 首先会先尝试在当前组件的数据域中寻找变量，当成功找到变量时，通过数据映射完成渲染，停止寻找过程；
 2. 当在当前数据域中没有找到变量时，则向上寻找，在父组件的数据域中，重复步骤`1`和`2`；
 3. 一直寻找，直到顶级节点，也就是`page`节点，寻找过程结束。
-4. 但是如果url中有参数，还会继续向上查找这层，所以很多时候配置中可以直接 `${id}` 取地址栏参数。
+4. 但是如果 url 中有参数，还会继续向上查找这层，所以很多时候配置中可以直接 `${id}` 取地址栏参数。
 
 > 为了方便讲解，我们这一章的例子统一使用的设置组件`data`属性的方式来初始化数据域，请记住，如果组件支持，你永远可以通过接口来进行数据域的初始化
 
@@ -284,7 +284,7 @@ page
 
 **注意：**
 
-1. **并不是所有组件都支持配置初始化接口来实现数据域初始化操作**，对于那些不支持配置初始化接口的组件来说，一般会使用 [**Service 组件**](../components/service) 来辅助实现数据域初始化；
+1. **并不是所有组件都支持配置初始化接口来实现数据域初始化操作**，对于那些不支持配置初始化接口的组件来说，一般会使用 [**Service 组件**](../../components/service) 来辅助实现数据域初始化；
 2. **`status`**、**`msg`** 和 **`data`** 字段为接口返回的必要字段；
 3. `data`必须返回一个具有`key-value`结构的对象
 
@@ -340,15 +340,15 @@ page
   "type": "page",
   "body": {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "api": "/api/mock2/form/saveForm",
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
-        "type": "text",
+        "type": "input-text",
         "name": "age",
         "label": "年龄："
       },
@@ -376,3 +376,14 @@ page
 这时 amis 将会把`data`数据与当前`form`组件的数据域进行**merge**，`form`组件中的`static-tpl`组件会根据更新后的数据域，显示`id`为`1`。
 
 > 具有类似特征的组件还有`Formula`等
+
+## URL 参数
+
+url 中的参数会进入顶层数据域，比如下面的例子，可以点击[这里](./datascope-and-datachain?word=myquery#url-参数)看效果。
+
+```schema
+{
+  "type": "page",
+  "body": "${word}"
+}
+```

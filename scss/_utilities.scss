@@ -53,6 +53,10 @@
   background: none !important;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 // text colors
 @include text-wariant($primary, primary);
 @include text-wariant($info, info);

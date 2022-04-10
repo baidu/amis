@@ -10,7 +10,7 @@ import {
   Instance
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
 import {
@@ -45,6 +45,7 @@ export const Column = types
     checkdisable: false,
     isPrimary: false,
     searchable: types.maybe(types.frozen()),
+    enableSearch: true,
     sortable: false,
     filterable: types.optional(types.frozen(), undefined),
     fixed: '',
@@ -53,7 +54,7 @@ export const Column = types
     breakpoint: types.optional(types.frozen(), undefined),
     pristine: types.optional(types.frozen(), undefined),
     remark: types.optional(types.frozen(), undefined),
-    className: ''
+    className: types.union(types.string, types.frozen())
   })
   .actions(self => ({
     toggleToggle() {
@@ -66,8 +67,13 @@ export const Column = types
 
       table.persistSaveToggledColumns();
     },
+
     setToggled(value: boolean) {
       self.toggled = value;
+    },
+
+    setEnableSearch(value: boolean) {
+      self.enableSearch = value;
     }
   }));
 
@@ -76,6 +82,7 @@ export type SColumn = SnapshotIn<typeof Column>;
 
 export const Row = types
   .model('Row', {
+    storeType: 'Row',
     id: types.identifier,
     parentId: '',
     key: types.string,
@@ -158,9 +165,12 @@ export const Row = types
         children = self.children.map(item => item.locals);
       }
 
+      const parent = getParent(self, 2) as ITableStore;
       return createObject(
         extendObject((getParent(self, self.depth * 2) as ITableStore).data, {
-          index: self.index
+          index: self.index,
+          // todo 以后再支持多层，目前先一层
+          parent: parent.storeType === Row.name ? parent.data : undefined
         }),
         children
           ? {
@@ -233,7 +243,11 @@ export const Row = types
         let index = 0;
         const len = self.children.length;
         while (pool.length) {
-          const item = pool.shift()!;
+          // 因为父级id未更新，所以需要将子级的parentId正确指向父级id
+          const item = {
+            ...pool.shift(),
+            parentId: self.id
+          }!;
 
           if (index < len) {
             self.children[index].replaceWith(item);
@@ -278,11 +292,16 @@ export const TableStore = iRendererStore
     itemDraggableOn: '',
     hideCheckToggler: false,
     combineNum: 0,
+    combineFromIndex: 0,
     formsRef: types.optional(types.array(types.frozen()), []),
     maxKeepItemSelectionLength: 0,
     keepItemSelectionOnPageChange: false
   })
   .views(self => {
+    function getColumnsExceptBuiltinTypes() {
+      return self.columns.filter(item => !/^__/.test(item.type));
+    }
+
     function getForms() {
       return self.formsRef.map(item => ({
         store: getStoreById(item.id) as IFormStore,
@@ -405,12 +424,12 @@ export const TableStore = iRendererStore
       return getMovedRows().length;
     }
 
-    function getHoverIndex(): number {
-      return self.rows.findIndex(item => item.isHover);
+    function getHovedRow(): IRow | undefined {
+      return flattenTree<IRow>(self.rows).find((item: IRow) => item.isHover);
     }
 
     function getUnSelectedRows() {
-      return self.rows.filter(item => !item.checked);
+      return flattenTree<IRow>(self.rows).filter((item: IRow) => !item.checked);
     }
 
     function getData(superData: any): any {
@@ -421,65 +440,106 @@ export const TableStore = iRendererStore
       });
     }
 
-    function getColumnGroup(): Array<{
-      label: string;
-      index: number;
-      colSpan: number;
-      has: Array<any>;
-    }> {
-      const columsn = getFilteredColumns();
-      const len = columsn.length;
+    function hasColumnHidden() {
+      return self.columns.findIndex(column => !column.toggled) !== -1;
+    }
+
+    function getColumnGroup() {
+      const columns = getFilteredColumns();
+      const len = columns.length;
 
       if (!len) {
         return [];
       }
 
-      const result: Array<{
+      const groups: Array<{
         label: string;
         index: number;
         colSpan: number;
+        rowSpan: number;
         has: Array<any>;
       }> = [
         {
-          label: columsn[0].groupName,
+          label: columns[0].groupName,
           colSpan: 1,
-          index: columsn[0].index,
-          has: [columsn[0]]
+          rowSpan: 1,
+          index: columns[0].index,
+          has: [columns[0]]
         }
       ];
 
       //  如果是勾选栏，让它和下一列合并。
-      if (columsn[0].type === '__checkme' && columsn[1]) {
-        result[0].label = columsn[1].groupName;
+      if (columns[0].type === '__checkme' && columns[1]) {
+        groups[0].label = columns[1].groupName;
       }
 
       for (let i = 1; i < len; i++) {
-        let prev = result[result.length - 1];
-        const current = columsn[i];
+        let prev = groups[groups.length - 1];
+        const current = columns[i];
 
-        if (current.groupName === prev.label) {
+        if (
+          current.groupName === prev.label ||
+          resolveVariableAndFilter(current.groupName, self.data) ===
+            resolveVariableAndFilter(prev.label, self.data)
+        ) {
           prev.colSpan++;
           prev.has.push(current);
         } else {
-          result.push({
+          groups.push({
             label: current.groupName,
             colSpan: 1,
+            rowSpan: 1,
             index: current.index,
             has: [current]
           });
         }
       }
 
-      if (result.length === 1 && !result[0].label) {
-        result.pop();
+      if (groups.length === 1 && !groups[0].label) {
+        groups.pop();
       }
 
-      return result;
+      return groups.map(item => {
+        const rowSpan =
+          !item.label ||
+          (item.has.length === 1 && item.label === item.has[0].label)
+            ? 2
+            : 1;
+        return {
+          ...item,
+          rowSpan,
+          label: rowSpan === 2 ? item.label || item.has[0].label : item.label
+        };
+      });
+    }
+
+    function getFirstToggledColumnIndex() {
+      const column = self.columns.find(
+        column => !/^__/.test(column.type) && column.toggled
+      );
+
+      return column == null ? null : column.index;
+    }
+
+    function getSearchableColumns() {
+      return self.columns.filter(column => column.searchable);
     }
 
     return {
+      get columnsData() {
+        return getColumnsExceptBuiltinTypes();
+      },
+
       get forms() {
         return getForms();
+      },
+
+      get searchableColumns() {
+        return getSearchableColumns();
+      },
+
+      get activedSearchableColumns() {
+        return getSearchableColumns().filter(column => column.enableSearch);
       },
 
       get filteredColumns() {
@@ -546,7 +606,9 @@ export const TableStore = iRendererStore
       },
 
       get checkableRows() {
-        return self.rows.filter(item => item.checkable);
+        return flattenTree<IRow>(self.rows).filter(
+          (item: IRow) => item.checkable
+        );
       },
 
       get expandableRows() {
@@ -561,8 +623,8 @@ export const TableStore = iRendererStore
         return getMovedRows();
       },
 
-      get hoverIndex() {
-        return getHoverIndex();
+      get hoverRow() {
+        return getHovedRow();
       },
 
       get disabledHeadCheckbox() {
@@ -574,6 +636,10 @@ export const TableStore = iRendererStore
         }
 
         return maxLength === selectedLength;
+      },
+
+      get firstToggledColumnIndex() {
+        return getFirstToggledColumnIndex();
       },
 
       getData,
@@ -590,6 +656,11 @@ export const TableStore = iRendererStore
         return this.forms
           .filter(form => form.rowIndex === parseInt(name, 10))
           .map(item => item.store);
+      },
+
+      // 是否隐藏了某列
+      hasColumnHidden() {
+        return hasColumnHidden();
       },
 
       getExpandedRows() {
@@ -634,6 +705,9 @@ export const TableStore = iRendererStore
 
       config.combineNum !== void 0 &&
         (self.combineNum = parseInt(config.combineNum as any, 10) || 0);
+      config.combineFromIndex !== void 0 &&
+        (self.combineFromIndex =
+          parseInt(config.combineFromIndex as any, 10) || 0);
 
       config.maxKeepItemSelectionLength !== void 0 &&
         (self.maxKeepItemSelectionLength = config.maxKeepItemSelectionLength);
@@ -677,6 +751,52 @@ export const TableStore = iRendererStore
           rawIndex: index - 3,
           type: item.type || 'plain',
           pristine: item,
+          toggled: item.toggled !== false,
+          breakpoint: item.breakpoint,
+          isPrimary: index === 3,
+          className: item.className || ''
+        }));
+
+        self.columns.replace(columns as any);
+      }
+    }
+
+    function updateColumns(columns: Array<SColumn>) {
+      if (columns && Array.isArray(columns)) {
+        columns = columns.filter(column => column).concat();
+
+        if (!columns.length) {
+          columns.push({
+            type: 'text',
+            label: '空'
+          });
+        }
+
+        columns.unshift({
+          type: '__expandme',
+          toggable: false,
+          className: 'Table-expandCell'
+        });
+
+        columns.unshift({
+          type: '__checkme',
+          fixed: 'left',
+          toggable: false,
+          className: 'Table-checkCell'
+        });
+
+        columns.unshift({
+          type: '__dragme',
+          toggable: false,
+          className: 'Table-dragCell'
+        });
+
+        columns = columns.map((item, index) => ({
+          ...item,
+          index,
+          rawIndex: index - 3,
+          type: item.type || 'plain',
+          pristine: item.pristine || item,
           toggled: item.toggled !== false,
           breakpoint: item.breakpoint,
           isPrimary: index === 3
@@ -723,14 +843,22 @@ export const TableStore = iRendererStore
     function autoCombineCell(
       arr: Array<SRow>,
       columns: Array<IColumn>,
-      maxCount: number
+      maxCount: number,
+      fromIndex = 0
     ): Array<SRow> {
       if (!columns.length || !maxCount || !arr.length) {
         return arr;
       }
+      // 如果是嵌套模式，通常第一列都是存在差异的，所以从第二列开始。
+      fromIndex =
+        fromIndex ||
+        (arr.some(item => Array.isArray(item.children) && item.children.length)
+          ? 1
+          : 0);
 
       const keys: Array<string> = [];
-      for (let i = 0; i < maxCount; i++) {
+      const len = columns.length;
+      for (let i = 0; i < len; i++) {
         const column = columns[i];
 
         // maxCount 可能比实际配置的 columns 还有多。
@@ -750,6 +878,14 @@ export const TableStore = iRendererStore
         keys.push(key);
       }
 
+      while (fromIndex--) {
+        keys.shift();
+      }
+
+      while (keys.length > maxCount) {
+        keys.pop();
+      }
+
       return combineCell(arr, keys);
     }
 
@@ -767,12 +903,12 @@ export const TableStore = iRendererStore
           : {
               item
             };
-        const id = guid();
+        const id = item.__id ?? guid();
 
         return {
           // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
-          id: id,
-          parentId,
+          id: String(id),
+          parentId: String(parentId),
           key: String(`${pindex}-${depth}-${index}`),
           path: `${path}${index}`,
           depth: depth,
@@ -801,13 +937,22 @@ export const TableStore = iRendererStore
 
     function initRows(
       rows: Array<any>,
-      getEntryId?: (entry: any, index: number) => string
+      getEntryId?: (entry: any, index: number) => string,
+      reUseRow?: boolean
     ) {
       self.selectedRows.clear();
       // self.expandedRows.clear();
 
       let arr: Array<SRow> = rows.map((item, index) => {
-        let id = getEntryId ? getEntryId(item, index) : guid();
+        if (!isObject(item)) {
+          item = {
+            item
+          };
+        }
+
+        let id = String(
+          getEntryId ? getEntryId(item, index) : item.__id ?? guid()
+        );
         return {
           // id: getEntryId ? getEntryId(item, key) : String(item && (item as any)[self.primaryField] || `${key}-1-${key}`),
           id: id,
@@ -831,10 +976,15 @@ export const TableStore = iRendererStore
       });
 
       if (self.combineNum) {
-        arr = autoCombineCell(arr, self.columns, self.combineNum);
+        arr = autoCombineCell(
+          arr,
+          self.columns,
+          self.combineNum,
+          self.combineFromIndex
+        );
       }
 
-      replaceRow(arr);
+      replaceRow(arr, reUseRow);
       self.isNested = self.rows.some(item => item.children.length);
 
       const expand = self.footable && self.footable.expand;
@@ -856,7 +1006,12 @@ export const TableStore = iRendererStore
     }
 
     // 尽可能的复用 row
-    function replaceRow(arr: Array<SRow>) {
+    function replaceRow(arr: Array<SRow>, reUseRow?: boolean) {
+      if (reUseRow === false) {
+        self.rows.replace(arr.map(item => Row.create(item)));
+        return;
+      }
+
       const pool = arr.concat();
 
       // 把多的删了先
@@ -881,9 +1036,10 @@ export const TableStore = iRendererStore
 
     function updateSelected(selected: Array<any>, valueField?: string) {
       self.selectedRows.clear();
-      self.rows.forEach(item => {
+
+      eachTree(self.rows, item => {
         if (~selected.indexOf(item.pristine)) {
-          self.selectedRows.push(item);
+          self.selectedRows.push(item.id);
         } else if (
           find(
             selected,
@@ -892,9 +1048,10 @@ export const TableStore = iRendererStore
               a[valueField || 'value'] == item.pristine[valueField || 'value']
           )
         ) {
-          self.selectedRows.push(item);
+          self.selectedRows.push(item.id);
         }
       });
+
       updateCheckDisable();
     }
 
@@ -927,10 +1084,15 @@ export const TableStore = iRendererStore
       }
     }
 
+    // 记录最近一次点击的多选框，主要用于 shift 多选时判断上一个选的是什么
+    let lastCheckedRow: any = null;
+
     function toggle(row: IRow) {
       if (!row.checkable) {
         return;
       }
+
+      lastCheckedRow = row;
 
       const idx = self.selectedRows.indexOf(row);
 
@@ -941,6 +1103,50 @@ export const TableStore = iRendererStore
           ? self.selectedRows.splice(idx, 1)
           : self.selectedRows.replace([row]);
       }
+    }
+
+    // 按住 shift 的时候点击选项
+    function toggleShift(row: IRow) {
+      // 如果是同一个或非 multiple 模式下就和不用 shift 一样
+      if (!lastCheckedRow || row === lastCheckedRow || !self.multiple) {
+        toggle(row);
+        return;
+      }
+
+      const maxLength = self.maxKeepItemSelectionLength;
+      const checkableRows = self.checkableRows;
+      const lastCheckedRowIndex = checkableRows.findIndex(
+        row => row === lastCheckedRow
+      );
+      const rowIndex = checkableRows.findIndex(rowItem => row === rowItem);
+      const minIndex =
+        lastCheckedRowIndex > rowIndex ? rowIndex : lastCheckedRowIndex;
+      const maxIndex =
+        lastCheckedRowIndex > rowIndex ? lastCheckedRowIndex : rowIndex;
+
+      const rows = checkableRows.slice(minIndex, maxIndex);
+      rows.push(row); // 将当前行也加入进行判断
+      for (const rowItem of rows) {
+        const idx = self.selectedRows.indexOf(rowItem);
+        if (idx === -1) {
+          // 如果上一个是选中状态，则将之间的所有 check 都变成可选
+          if (lastCheckedRow.checked) {
+            if (maxLength) {
+              if (self.selectedRows.length < maxLength) {
+                self.selectedRows.push(rowItem);
+              }
+            } else {
+              self.selectedRows.push(rowItem);
+            }
+          }
+        } else {
+          if (!lastCheckedRow.checked) {
+            self.selectedRows.splice(idx, 1);
+          }
+        }
+      }
+
+      lastCheckedRow = row;
     }
 
     function updateCheckDisable() {
@@ -1071,12 +1277,28 @@ export const TableStore = iRendererStore
       });
     }
 
+    function toggleAllColumns() {
+      if (self.activeToggaleColumns.length) {
+        if (self.activeToggaleColumns.length === self.toggableColumns.length) {
+          self.toggableColumns.map(column => column.setToggled(false));
+        } else {
+          self.toggableColumns.map(column => column.setToggled(true));
+        }
+      } else {
+        // 如果没有一个激活的，那就改成全选
+        self.toggableColumns.map(column => column.setToggled(true));
+      }
+      persistSaveToggledColumns();
+    }
+
     return {
       update,
+      updateColumns,
       initRows,
       updateSelected,
       toggleAll,
       toggle,
+      toggleShift,
       toggleExpandAll,
       toggleExpanded,
       collapseAllAtDepth,
@@ -1087,7 +1309,7 @@ export const TableStore = iRendererStore
       stopDragging,
       exchange,
       addForm,
-
+      toggleAllColumns,
       persistSaveToggledColumns,
 
       // events

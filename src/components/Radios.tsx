@@ -11,25 +11,31 @@
  *      disabled: false
  *   }
  * ]
+ *
  */
 
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
 import Checkbox from './Checkbox';
+import Button from './Button';
 import {value2array, OptionProps, Option} from './Select';
 import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable} from '../theme';
+import {columnsSplit} from '../utils/columnsSplit';
 
 interface RadioProps extends OptionProps {
   id?: string;
   type: string;
+  optionType?: string;
   value?: string;
   className?: string;
   style?: React.CSSProperties;
   inline?: boolean;
+  level?: string; // 'link' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'light' | 'dark' | 'default';
+  btnActiveLevel?: string;
   disabled?: boolean;
   onChange?: Function;
-  columnsCount: number;
+  columnsCount: number | number[];
   itemClassName?: string;
   labelField?: string;
   labelClassName?: string;
@@ -40,6 +46,8 @@ interface RadioProps extends OptionProps {
 export class Radios extends React.Component<RadioProps, any> {
   static defaultProps = {
     type: 'radio',
+    optionType: 'default',
+    btnActiveLevel: 'primary',
     resetValue: '',
     inline: true,
     joinValues: true,
@@ -48,14 +56,8 @@ export class Radios extends React.Component<RadioProps, any> {
   };
 
   toggleOption(option: Option) {
-    const {
-      value,
-      onChange,
-      valueField,
-      clearable,
-      delimiter,
-      options
-    } = this.props;
+    const {value, onChange, valueField, clearable, delimiter, options} =
+      this.props;
 
     let valueArray = value2array(value, {
       multiple: false,
@@ -77,7 +79,7 @@ export class Radios extends React.Component<RadioProps, any> {
   }
 
   renderGroup(option: Option, index: number, valueArray: Array<Option>) {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, optionType, classPrefix: ns} = this.props;
 
     return (
       <div key={index} className={cx('RadiosControl-group', option.className)}>
@@ -107,8 +109,28 @@ export class Radios extends React.Component<RadioProps, any> {
       itemClassName,
       classnames: cx,
       labelClassName,
-      labelField
+      labelField,
+      optionType,
+      level,
+      btnActiveLevel,
+      classPrefix: ns
     } = this.props;
+
+    if (optionType === 'button') {
+      const active = !!~valueArray.indexOf(option);
+      return (
+        <Button
+          key={index}
+          active={active}
+          onClick={() => this.toggleOption(option)}
+          className={cx(itemClassName, option.className)}
+          disabled={disabled || option.disabled}
+          level={(active ? btnActiveLevel : '') || level}
+        >
+          <span>{`${option[labelField || 'label']}`}</span>
+        </Button>
+      );
+    }
 
     return (
       <Checkbox
@@ -140,8 +162,7 @@ export class Radios extends React.Component<RadioProps, any> {
       disabled,
       inline,
       delimiter,
-      valueField,
-      classPrefix
+      valueField
     } = this.props;
 
     let valueArray = value2array(value, {
@@ -158,20 +179,8 @@ export class Radios extends React.Component<RadioProps, any> {
       );
     }
 
-    if (!inline && columnsCount > 1) {
-      let weight = 12 / (columnsCount as number);
-      let cellClassName = `Grid-col--sm${
-        weight === Math.round(weight) ? weight : ''
-      }`;
-      body = chunk(body, columnsCount).map((group, groupIndex) => (
-        <div className={cx('Grid')} key={groupIndex}>
-          {Array.from({length: columnsCount as number}).map((_, index) => (
-            <div key={index} className={cx(cellClassName)}>
-              {group[index]}
-            </div>
-          ))}
-        </div>
-      ));
+    if (!inline) {
+      body = columnsSplit(body, cx, columnsCount);
     }
 
     return (

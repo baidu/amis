@@ -5,6 +5,7 @@ title: 将 amis 当成 UI 库用
 amis 不仅有纯配置的用法，还能当成 UI 库来使用，实现 90% 低代码，10% 代码开发的混合模式，在灵活性上。
 
 > 需要注意以下都需要在配置中写函数，因此不再是纯粹的 JSON，所以暂时不能在可视化编辑器的「代码」模式下使用
+> 从 1.3.0 开始按钮的 onClick 支持字符串格式，因此可以在可视化编辑器中使用
 
 ## 事件监听
 
@@ -22,23 +23,24 @@ let amisJSON = {
         console.log('form', values);
         return false; // 这样可以禁掉 amis 后续的默认行为
       },
-      controls: [
+      body: [
         {
           label: 'Name',
-          type: 'text',
+          type: 'input-text',
           name: 'name',
           onChange: value => {
             console.log('Name', value);
           }
+        },
+        {
+          type: 'button',
+          label: '按钮修改',
+          onClick: (e, props) => {
+            console.log('消息通知');
+            props.formStore.setValues({name: 'amis'});
+          }
         }
       ]
-    },
-    {
-      type: 'button',
-      label: '按钮',
-      onClick: () => {
-        console.log('消息通知');
-      }
     }
   ]
 };
@@ -46,7 +48,7 @@ let amisJSON = {
 
 这个例子中我们监听了 3 个事件，输入框数据变化、表单提交、按钮点击，然后在这些地方使用代码实现特殊功能。
 
-## 使用 amis 中的方法
+## 使用 amis 公共方法
 
 amis 对外还提供了一些方法，比如弹出消息通知，可以通过 `amisRequire('amis')` 获取到这些 amis 对外提供的方法。
 
@@ -60,7 +62,7 @@ let amisScoped = amis.embed('#root', {
     type: 'form',
     mode: 'horizontal',
     api: '/saveForm',
-    controls: [
+    body: [
       {
         type: 'button',
         label: '按钮',

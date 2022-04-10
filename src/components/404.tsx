@@ -20,7 +20,7 @@ export class NotFound extends React.Component<NotFoundProps, any> {
     const {links, footerText, description, children, code} = this.props;
 
     return (
-      <div className="container w-xxl w-auto-xs">
+      <div className="container w-xxl w-auto-xs m-auto">
         <div className="text-center m-b-lg">
           <h1 className="text-shadow text-white">{code || '404'}</h1>
           {description ? (

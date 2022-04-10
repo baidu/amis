@@ -1,25 +1,26 @@
 @import '../functions';
+@import './cxd-colors';
 
 $remFactor: 16px;
 
 $ns: 'cxd-';
 
-$info: #108cee;
-$primary: #108cee;
-$success: #5fb333;
-$warning: #f39000;
-$danger: #ea2e2e;
+$info: $B6;
+$primary: $B6;
+$success: $S6;
+$warning: $W6;
+$danger: $E6;
 $light: #eaf6fe;
 $white: #fff;
+$secondary: $G6;
 
-$info-bg: #eaf6fe;
-$success-bg: #f1fdeb;
-$warning-bg: #fcf7f1;
-$danger-bg: #fff5f5;
+$info-bg: $B1;
+$success-bg: $S1;
+$warning-bg: $W1;
+$danger-bg: $E1;
 
-$text-color: #666;
+$text-color: #151a26;
 
-$Toast-icon-fillHeight: false;
 $Number-handler-mode: 'horizontal';
 // css 变量似乎没法用 !important，所以这里用 sass 变量
 $Wizard-steps-liAfterBorder: none !important;
@@ -27,12 +28,60 @@ $Wizard-steps-liAfterBorder: none !important;
 @import '../variables';
 @import '../properties';
 
-:root {
-  --borderColor: #eceff8;
-  --body-bg: #ffffff;
-  --text-color: #666;
+// yunshe4.0 font-size
+$T1: 10px;
+$T2: 12px;
+$T3: 14px;
+$T4: 16px;
+$T5: 18px;
+$T6: 20px;
+$T7: 22px;
+$T8: 24px;
+$T9: 28px;
+$T10: 30px;
+$T11: 32px;
+$T12: 34px;
+$T13: 36px;
+$T14: 40px;
 
-  --text--muted-color: #999;
+// yunshe4.0 font-weight
+$W1: 200;
+$W2: 400;
+$W3: 500;
+$W4: 600;
+
+// yunshe4.0 间距
+$H1: 4px;
+$H2: 8px;
+$H3: 16px;
+$H5: 24px;
+$H6: 32px;
+$H7: 40px;
+$H8: 48px;
+$H9: 56px;
+$H10: 80px;
+
+// yunshe4.0 border-radius
+$R1: 0;
+$R2: px2rem(2px);
+$R3: px2rem(4px);
+$R4: px2rem(6px);
+$R5: px2rem(8px);
+$R6: px2rem(10px);
+$R7: px2rem(16px);
+$R8: 50%;
+
+// yunshe4.0 box-shadow
+$L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
+  0px 1px 10px 0px rgba(8, 14, 26, 0.05), 0px 2px 4px -1px rgba(8, 14, 26, 0.04);
+
+:root {
+  --borderColor: #{$G8};
+  --borderRadius: #{$R3};
+  --body-bg: #ffffff;
+  --text-color: #151a26;
+
+  --text--muted-color: #{$G6};
   --text--loud-color: #333;
   --link-onHover-decoration: none;
 
@@ -48,10 +97,10 @@ $Wizard-steps-liAfterBorder: none !important;
   --Layout-brand-color: #fff;
   --Layout-asideLink-iconColor: rgba(255, 255, 255, 0.6);
   --Layout-asideLink-color: #fff;
-  --Layout-asideLink-onHover-color: #108cee;
-  --Layout-asideLink-onActive-color: #108cee;
+  --Layout-asideLink-onHover-color: var(--primary);
+  --Layout-asideLink-onActive-color: var(--primary);
   --Layout-asideLink-onHover-iconSize: #{px2rem(16px)};
-  --Layout-asideLink-onHover-iconColor: #108cee;
+  --Layout-asideLink-onHover-iconColor: var(--primary);
   --Layout-asideLink-fontSize: #{px2rem(12px)};
   --Layout-asideLink-arrowFontSize: #{px2rem(12px)};
   --Layout-asideLink-arrowColor: #8d99b0;
@@ -70,17 +119,26 @@ $Wizard-steps-liAfterBorder: none !important;
   --Page-header-paddingX: var(--gap-md);
   --Page-header-paddingY: #{px2rem(10px)};
 
+  --Form-item-fontSize: var(--fontSizeBase);
+  --Form-item-fontColor: #{$G4};
   --Form-item-gap: var(--gap-base);
-  --Form-input-onFocused-bg: var(--white);
-  --Form-input-borderRadius: 0;
-  --Form-input-borderColor: #ccc;
-  --Form-input-onFocused-borderColor: var(--primary);
-  --Form-input-onError-borderColor: #d0021b;
+  --Form-input-bg: #{$G11};
+  --Form-input-color: #{$G2};
+  --Form-input-height: #{px2rem(32px)};
+  // --Form-input-lineHeight: #{px2rem(32px)};
+  --Form-input-borderColor: var(--borderColor);
+  --Form-input-borderRadius: #{$R3};
+  --Form-input-onHover-borderColor: #{$B6};
+  --Form-input-onFocused-bg: #{$G11};
+  --Form-input-onFocused-borderColor: #{$B7};
+  --Form-input-onError-borderColor: #{$E6};
+  --Form-input-onError-bg: #{$G11};
+  --Form-input-onDisabled-bg: #{$G10};
+  --Form-input-onDisabled-borderColor: #{$G8};
+  --Form-input-onDisabled-color: #{$G5};
+  --Form-input-iconColor: #{$G5};
   --Form-input-paddingX: #{px2rem(10px)};
   --Form-description-color: #999;
-  --Form-input-onError-bg: #fffbfb;
-  --Form-input-onDisabled-bg: #f5f5f5;
-  --Form-input-onDisabled-borderColor: #ebebeb;
   --Form--horizontal-label-whiteSpace: normal;
   --Form--horizontal-label-widthXs: #{px2rem(50px)};
   --Form--horizontal-label-widthSm: #{px2rem(70px)};
@@ -91,28 +149,33 @@ $Wizard-steps-liAfterBorder: none !important;
   --Form-input-addOnColor: #666;
   --Form-input-onFocus-addOnColor: var(--primary);
   --Form-input-addOnDividerBorderWidth: 0;
+  --Form-input-clearBtn-color: #{$G7};
+  --Form-input-clearBtn-color-onHover: #{$G4};
+  --Form-input-clearBtn-color-onActive: #{$G3};
 
   --Form-select-borderWidth: #{px2rem(1px)};
-  --Form-select-borderRadius: 0;
-  --Form-select-borderColor: #ccc;
+  --Form-select-borderRadius: #{$R3};
   --Form-select-bg: var(--white);
   --Form-select-onHover-bg: var(--white);
   --Form-select-onHover-borderColor: var(--primary);
   --Form-select-placeholderColor: #999;
   --Form-select-color: #000;
-  --Form-select-caret-iconColor: #999;
-  --Form-select-caret-onHover-iconColor: var(--primary);
+  --Form-select-caret-iconColor: #{$G5};
+  --Form-select-caret-onHover-iconColor: #{$G5};
   --Form-select-caret-fontSize: #{px2rem(12px)};
   --Form-select-outer-borderWidth: 0;
   --Form-select-outer-top: #{px2rem(32px)};
   --Form-select-outer-boxShadow: #{px2rem(2px)} #{px2rem(4px)} #{px2rem(8px)} rgba(0, 0, 0, 0.2);
-  --Form-select-menu-color: #333;
-  --Form-select-menu-onHover-color: #000;
-  --Form-select-menu-onHover-bg: #eaf6fe;
+  --Form-select-menu-color: #{$G2};
+  --Form-select-menu-onHover-color: #{$G2};
+  --Form-select-menu-onHover-bg: #{$B1};
+  --Form-select-menu-onActive-color: #{$B6};
   --Form-select-menu-height: #{px2rem(24px)};
-  --Form-select-popoverGap: #{px2rem(3px)};
+  --Form-select-popoverGap: #{$R3};
   --Form-select-search-height: #{px2rem(30px)};
   --Form-selectValue-color: var(--primary);
+  --Form-select-value-borderColor: #{$G9};
+  --Form-select-valueIcon-color: #{$G4};
 
   --InputGroup-select-borderWidth: #{px2rem(1px)};
   --InputGroup-select-onFocused-bg: #eaf6fe;
@@ -121,7 +184,7 @@ $Wizard-steps-liAfterBorder: none !important;
   --InputGroup-select-arrowColor: #999;
   --InputGroup-select-onFocused-arrowColor: var(--primary);
   --InputGroup-button-borderWidth: #{px2rem(1px)};
-  --InputGroup-button-borderRadius: 0;
+  --InputGroup-button-borderRadius: #{$R3};
 
   // $Number-bg: #eaf6fe;
   --Number-borderWidth: #{px2rem(1px)};
@@ -145,22 +208,37 @@ $Wizard-steps-liAfterBorder: none !important;
   --Checkbox-onDisabled-bg: #cccccc;
 
   --Checkbox-inner-size: #{px2rem(8px)};
-  --Checkbox--full-inner-size: #{px2rem(10px)};
+  --Checkbox--full-inner-size: #{px2rem(8px)};
   --Checkbox--sm-size: #{px2rem(14px)};
   --Checkbox--sm-inner-size: #{px2rem(8px)};
-  --Checkbox--sm--full-inner-size: #{px2rem(10px)};
+  --Checkbox--sm--full-inner-size: #{px2rem(8px)};
   --Radio-size: #{px2rem(16px)};
   --Radio-inner-size: #{px2rem(10px)};
 
-  --Switch-bgColor: #ccc;
-  --Switch-borderColor: #f0f0f0;
-  --Switch-onActive-bgColor: var(--primary);
-  --Switch-onDisabled-bgColor: #f5f5f5;
-  --Switch-onDisabled-color: #ccc;
-  --Switch-onDisabled-circle-BackgroundColor: #ccc;
+  --Switch-height: #{px2rem(20px)};
+  --Switch-width: #{px2rem(44px)};
+  --Switch-valueColor: #{$G11};
+  --Switch-bgColor: #{$G7};
+  --Switch-onActive-bgColor: #{$G6};
+  --Switch-onHover-bgColor: #{$G6};
+  --Switch-checked-bgColor: var(--primary);
+  --Switch-checked-onHover-bgColor: #{$B7};
+  --Switch-checked-onActive-bgColor: #{$B7};
+  --Switch-onDisabled-bgColor: #{$B2};
+  --Switch-onDisabled-color: #{$G11};
+  // --Switch-onDisabled-circle-BackgroundColor: #fff;
+
+  --Calendar-icon-bottom: #{px2rem(-4px)};
+  --Calendar-icon-width: #{px2rem(10px)};
+  --Calendar-icon-height: #{px2rem(10px)};
+  --Calendar-borderWidth: #{px2rem(1px)};
+  --Calendar-rdt-day: #{px2rem(100px)};
+  --Calendar-schedule-content-padding: 0 #{px2rem(4px)};
+  --Calendar-schedule-content-height: #{px2rem(20px)};
+  --Calendar-schedule-content-color: #{$white};
 
   --ColorPicker-borderWidth: #{px2rem(1px)};
-  --ColorPicker-borderRadius: 0;
+  --ColorPicker-borderRadius: #{$R3};
   --ColorPicker-bg: var(--white);
   --ColorPicker-onHover-bg: var(--white);
   --ColorPicker-onHover-borderColor: var(--primary);
@@ -168,9 +246,25 @@ $Wizard-steps-liAfterBorder: none !important;
   --ColorPicker-placeholderColor: #999;
   --ColorPicker-onDisabled-bg: #f5f5f5;
   --ColorPicker-onDisabled-color: #999;
+  --ColorPicker-boxShadow: #{$L1};
+
+  --Collapse-border: #{px2rem(1px)} solid #{$G8};
+  --Collapse-border-color: #{$G8};
+  --Collapse-header-fontSize: #{$T3};
+  --Collapse-header-fontWeight: #{$W2};
+  --Collapse-header-padding: #{px2rem(16px)};
+  --Collapse-header-bg: #{$G10};
+  --Collapse-header-onHover-bg: #{$G9};
+  --Collapse-header-bg-disabled-color: #{$G10};
+  --Collapse-header-collapsed-borderBottom: none;
+  --Collapse-header-wrapper-direction: row-reverse;
+  --Collapse-content-padding: #{px2rem(16px)};
+  --Collapse-content-color: #{$G4};
+  --Collapse-content-fontSize: #{$T2};
+  --Collapse-content-fontWeight: #{$W2};
 
   --DatePicker-borderWidth: #{px2rem(1px)};
-  --DatePicker-borderRadius: 0;
+  --DatePicker-borderRadius: #{$R3};
   --DatePicker-bg: var(--white);
   --DatePicker-onHover-bg: var(--white);
   --DatePicker-color: #000;
@@ -181,7 +275,10 @@ $Wizard-steps-liAfterBorder: none !important;
   --DatePicker-onHover-iconColor: var(--primary);
   --DatePicker-onHover-borderColor: var(--primary);
 
+  --LocationPicker-borderRadius: #{$R3};
+
   --Calendar-input-borderRadius: 0;
+  --Calendar-input-borderRadius: #{$R3};
   --Calendar-shortcuts-bg: #f5f5f5;
   --Calendar-shortcuts-height: #{px2rem(30px)};
 
@@ -189,45 +286,78 @@ $Wizard-steps-liAfterBorder: none !important;
   --Button-borderWidth: #{px2rem(1px)};
   --Button-boxShadow: none;
   --Button-onActive-boxShadow: none;
-  --Button-borderRadius: 0;
-  --Button--lg-borderRadius: 0;
-  --Button--sm-borderRadius: 0;
 
-  --Button-paddingX: #{px2rem(10px)};
+  --Button-borderRadius: #{$R3};
+
+  --Button-paddingX: #{px2rem(12px)};
 
   --Button--lg-height: #{px2rem(40px)};
   --Button--lg-fontSize: #{px2rem(14px)};
+  --Button--lg-lineHeight: 30 / 20;
+  --Button--lg-paddingX: #{px2rem(16px)};
 
-  --Button--default-bg: var(--white);
-  --Button--default-border: #cccccc;
-  --Button--default-color: #000;
-  --Button--default-onHover-bg: var(--white);
+  --Button--default-bg: #{$G11};
+  --Button--default-color: #{$G2};
+  --Button--default-onHover-bg: #{$G11};
   --Button--default-onHover-border: var(--primary);
   --Button--default-onHover-color: var(--primary);
-  --Button--default-onActive-bg: #f6fbff;
-  --Button--default-onActive-border: var(--primary);
-  --Button--default-onActive-color: var(--primary);
+  --Button--default-onActive-bg: #{$G11};
+  --Button--default-onActive-border: #{$B7};
+  --Button--default-onActive-color: #{$B7};
+
+  --Button--emphasize-bg: #{$G11};
+  --Button--emphasize-color: var(--primary);
+  --Button--emphasize-onHover-bg: #{$G11};
+  --Button--emphasize-onHover-border: var(--primary);
+  --Button--emphasize-onHover-color: #{$B5};
+  --Button--emphasize-onActive-bg: #{$G11};
+  --Button--emphasize-onActive-border: #{$B7};
+  --Button--emphasize-onActive-color: #{$B7};
 
   --Button--primary-bg: var(--primary);
   --Button--primary-border: var(--primary);
-  --Button--primary-onHover-bg: #209bfd;
-  --Button--primary-onHover-border: var(--primary);
-  --Button--primary-onHover-color: var(--white);
-  --Button--primary-onActive-bg: #047bdb;
-  --Button--primary-onActive-border: var(--primary);
-  --Button--primary-onActive-color: var(--white);
+  --Button--primary-onHover-bg: #{$B5};
+  --Button--primary-onHover-border: #{$B5};
+  --Button--primary-onHover-color: #{$G11};
+  --Button--primary-onActive-bg: #{$B7};
+  --Button--primary-onActive-border: #{$B7};
+  --Button--primary-onActive-color: #{$G11};
+
+  --Button--light-border: var(--light);
+  --Button--light-color: var(--text-color);
+
+  --Button-onDisabled-borderColor: #{$G9};
+  --Button-onDisabled-opacity: 0.65;
+  --Button-onDisabled-bg: #{$G9};
+
+  // 这个颜色太奇怪了，先不用
+  // --Button--danger-bg: #{$E6};
+  // --Button--danger-onHover-bg: #{$E5};
+  // --Button--danger-onHover-border: #{$E5};
+  // --Button--danger-onActive-bg: #{$E7};
+  // --Button--danger-onActive-border: #{$E7};
 
   --Button--danger-bg: #ea2e2e;
   --Button--danger-onHover-bg: #f64545;
+  --Button--danger-onHover-border: #f64545;
   --Button--danger-onActive-bg: #d72b2b;
+  --Button--danger-onActive-border: #d72b2b;
 
   --ButtonGroup-divider-width: #{px2rem(1px)};
   --ButtonGroup-divider-color: #fff;
   --ButtonGroup--primary-isActive-color: var(--primary);
-  --ButtonGroup--primary-isActive-bg: var(--white);
+  --ButtonGroup--primary-isActive-bg: #{$G11};
 
   --Button--link-color: var(--primary);
   --Button--link-onHover-color: #209bfd;
+
+  --Breadcrumb-item-default-color: #{$G5};
+  --Breadcrumb-item-hover-color: #{$B6};
+  --Breadcrumb-item-active-color: #{$B7};
+  --Breadcrumb-item-disabled-color: #{$G6};
+  --BreadcrumbDropdown-item-default-color: #{$G2};
+  --BreadcrumbDropdown-item-default-bg: #{$G11};
+  --BreadcrumbDropdown-item-hover-bg: #{$B1};
 
   --Spinner-bg: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB3aWR0aD0iMTkycHgiIGhlaWdodD0iMTkycHgiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMzQuNSA2MC41IEw5NiAyNC41IEwxNTguNSA2MC41IFYxMzIgTDk2LjUgMTY3LjUgTDM0LjUgMTMyIEwzNC41IDYwLjUgWiIgc3Ryb2tlPSIjMTA4Y2VlIgpzdHlsZT0ic3Ryb2tlLXdpZHRoOiAxNnB4OwogICAgICAgc3Ryb2tlLW9wYWNpdHk6IDE7CiAgICAgICBmaWxsLW9wYWNpdHk6IDA7CiAgICAgICBzdHJva2UtZGFzaGFycmF5OiA4MDAgODAwOwogICAgICAgc3Ryb2tlLWRhc2hvZmZzZXQ6IDgwMDsiPjxhbmltYXRlIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiBrZXlTcGxpbmVzPSIuNSAwIC41IDEiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNoYXJyYXkiIGlkPSJsaW5lIiBmcm9tPSI4MDAgODAwIiB0bz0iODAwIDgwMCIgYmVnaW49ImZpcnN0LmVuZCIgZHVyPSIxLjJzIiBmaWxsID0gImZyZWV6ZSIvPjxhbmltYXRlIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiBrZXlTcGxpbmVzPSIuNSAwIC41IDEiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBmcm9tPSI4MDAiIHRvPSItODAwIiBiZWdpbj0iZmlyc3QuZW5kIiBkdXI9IjEuMnMiIGZpbGwgPSAiZnJlZXplIi8+PC9wYXRoPjxjaXJjbGUgY3g9Ijk2LjUiIGN5PSI5Ni41IiByPSIxMCIgZmlsbD0iIzEwOGNlZSI+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iY3giIGlkPSJmaXJzdCIgdG89IjM0LjUiIGJlZ2luPSIwczsgc2Vjb25kLmVuZCArIDAuNyIgZHVyPSIwLjVzIiBmaWxsID0gImZyZWV6ZSIvPjxhbmltYXRlIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiBrZXlTcGxpbmVzPSIuOSAwIC4zIDEiIGF0dHJpYnV0ZU5hbWU9ImN5IiB0bz0iNjAuNSIgYmVnaW49IjBzOyBzZWNvbmQuZW5kICsgMC43IiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iciIgIHRvPSIyMCIgYmVnaW49IjBzOyBzZWNvbmQuZW5kICsgMC43IiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iY3giIGlkPSJzZWNvbmQiIGZyb209IjM0LjUiIHRvPSI5Ni41IiBiZWdpbj0iZmlyc3QuZW5kICsgMS4yIiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iY3kiIGZyb209IjYwLjUiIHRvPSI5Ni41IiBiZWdpbj0iZmlyc3QuZW5kICsgMS4yIiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iciIgIHRvPSIxMCIgYmVnaW49ImZpcnN0LmVuZCArIDEuMiIgZHVyPSIwLjVzIiBmaWxsID0gImZyZWV6ZSIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9Ijk2LjUiIGN5PSI5Ni41IiByPSIxMCIgZmlsbD0iIzEwOGNlZSI+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iY3kiIHRvPSIyNC41IiBiZWdpbj0iMHM7IHNlY29uZC5lbmQgKyAwLjciIGR1cj0iMC41cyIgZmlsbCA9ICJmcmVlemUiLz48YW5pbWF0ZSBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIga2V5U3BsaW5lcz0iLjkgMCAuMyAxIiBhdHRyaWJ1dGVOYW1lPSJyIiAgdG89IjIwIiBiZWdpbj0iMHM7IHNlY29uZC5lbmQgKyAwLjciIGR1cj0iMC41cyIgZmlsbCA9ICJmcmVlemUiLz48YW5pbWF0ZSBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIga2V5U3BsaW5lcz0iLjkgMCAuMyAxIiBhdHRyaWJ1dGVOYW1lPSJjeSIgZnJvbT0iMjQuNSIgdG89Ijk2LjUiIGJlZ2luPSJmaXJzdC5lbmQgKyAxLjIiIGR1cj0iMC41cyIgZmlsbCA9ICJmcmVlemUiLz48YW5pbWF0ZSBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIga2V5U3BsaW5lcz0iLjkgMCAuMyAxIiBhdHRyaWJ1dGVOYW1lPSJyIiAgdG89IjEwIiBiZWdpbj0iZmlyc3QuZW5kICsgMS4yIiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iOTYuNSIgY3k9Ijk2LjUiIHI9IjEwIiBmaWxsPSIjMTA4Y2VlIj48YW5pbWF0ZSBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIga2V5U3BsaW5lcz0iLjkgMCAuMyAxIiBhdHRyaWJ1dGVOYW1lPSJjeCIgZnJvbT0iOTYuNSIgdG89IjE1OC41IiBiZWdpbj0iMHM7IHNlY29uZC5lbmQgKyAwLjciIGR1cj0iMC41cyIgZmlsbCA9ICJmcmVlemUiLz48YW5pbWF0ZSBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIga2V5U3BsaW5lcz0iLjkgMCAuMyAxIiBhdHRyaWJ1dGVOYW1lPSJjeSIgZnJvbT0iOTYuNSIgdG89IjYwLjUiIGJlZ2luPSIwczsgc2Vjb25kLmVuZCArIDAuNyIgZHVyPSIwLjVzIiBmaWxsID0gImZyZWV6ZSIvPjxhbmltYXRlIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiBrZXlTcGxpbmVzPSIuOSAwIC4zIDEiIGF0dHJpYnV0ZU5hbWU9InIiICB0bz0iMjAiIGJlZ2luPSIwczsgc2Vjb25kLmVuZCArIDAuNyIgZHVyPSIwLjVzIiBmaWxsID0gImZyZWV6ZSIvPjxhbmltYXRlIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiBrZXlTcGxpbmVzPSIuOSAwIC4zIDEiIGF0dHJpYnV0ZU5hbWU9ImN4IiBmcm9tPSIxNTguNSIgdG89Ijk2LjUiIGJlZ2luPSJmaXJzdC5lbmQgKyAxLjIiIGR1cj0iMC41cyIgZmlsbCA9ICJmcmVlemUiLz48YW5pbWF0ZSBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIga2V5U3BsaW5lcz0iLjkgMCAuMyAxIiBhdHRyaWJ1dGVOYW1lPSJjeSIgZnJvbT0iNjAuNSIgdG89Ijk2LjUiIGJlZ2luPSJmaXJzdC5lbmQgKyAxLjIiIGR1cj0iMC41cyIgZmlsbCA9ICJmcmVlemUiLz48YW5pbWF0ZSBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIga2V5U3BsaW5lcz0iLjkgMCAuMyAxIiBhdHRyaWJ1dGVOYW1lPSJyIiAgdG89IjEwIiBiZWdpbj0iZmlyc3QuZW5kICsgMS4yIiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iOTYuNSIgY3k9Ijk2LjUiIHI9IjEwIiBmaWxsPSIjMTA4Y2VlIj48YW5pbWF0ZSBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIga2V5U3BsaW5lcz0iLjkgMCAuMyAxIiBhdHRyaWJ1dGVOYW1lPSJjeCIgZnJvbT0iOTYuNSIgdG89IjE1OC41IiBiZWdpbj0iMHM7IHNlY29uZC5lbmQgKyAwLjciIGR1cj0iMC41cyIgZmlsbCA9ICJmcmVlemUiLz48YW5pbWF0ZSBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIga2V5U3BsaW5lcz0iLjkgMCAuMyAxIiBhdHRyaWJ1dGVOYW1lPSJjeSIgZnJvbT0iOTYuNSIgdG89IjEzMiIgYmVnaW49IjBzOyBzZWNvbmQuZW5kICsgMC43IiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iciIgIHRvPSIyMCIgYmVnaW49IjBzOyBzZWNvbmQuZW5kICsgMC43IiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iY3giIGZyb209IjE1OC41IiB0bz0iOTYuNSIgYmVnaW49ImZpcnN0LmVuZCArIDEuMiIgZHVyPSIwLjVzIiBmaWxsID0gImZyZWV6ZSIvPjxhbmltYXRlIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiBrZXlTcGxpbmVzPSIuOSAwIC4zIDEiIGF0dHJpYnV0ZU5hbWU9ImN5IiBmcm9tPSIxMzIiIHRvPSI5Ni41IiBiZWdpbj0iZmlyc3QuZW5kICsgMS4yIiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iciIgIHRvPSIxMCIgYmVnaW49ImZpcnN0LmVuZCArIDEuMiIgZHVyPSIwLjVzIiBmaWxsID0gImZyZWV6ZSIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9Ijk2LjUiIGN5PSI5Ni41IiByPSIxMCIgZmlsbD0iIzEwOGNlZSI+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iY3kiIGZyb209Ijk2LjUiIHRvPSIxNjcuNSIgYmVnaW49IjBzOyBzZWNvbmQuZW5kICsgMC43IiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iciIgIHRvPSIyMCIgYmVnaW49IjBzOyBzZWNvbmQuZW5kICsgMC43IiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iY3kiIGZyb209IjE2Ny41IiB0bz0iOTYuNSIgYmVnaW49ImZpcnN0LmVuZCArIDEuMiIgZHVyPSIwLjVzIiBmaWxsID0gImZyZWV6ZSIvPjxhbmltYXRlIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiBrZXlTcGxpbmVzPSIuOSAwIC4zIDEiIGF0dHJpYnV0ZU5hbWU9InIiICB0bz0iMTAiIGJlZ2luPSJmaXJzdC5lbmQgKyAxLjIiIGR1cj0iMC41cyIgZmlsbCA9ICJmcmVlemUiLz48L2NpcmNsZT48Y2lyY2xlIGN4PSI5Ni41IiBjeT0iOTYuNSIgcj0iMTAiIGZpbGw9IiMxMDhjZWUiPjxhbmltYXRlIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiBrZXlTcGxpbmVzPSIuOSAwIC4zIDEiIGF0dHJpYnV0ZU5hbWU9ImN4IiBmcm9tPSI5Ni41IiB0bz0iMzQuNSIgYmVnaW49IjBzOyBzZWNvbmQuZW5kICsgMC43IiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iY3kiIGZyb209Ijk2LjUiIHRvPSIxMzIiIGJlZ2luPSIwczsgc2Vjb25kLmVuZCArIDAuNyIgZHVyPSIwLjVzIiBmaWxsID0gImZyZWV6ZSIvPjxhbmltYXRlIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiBrZXlTcGxpbmVzPSIuOSAwIC4zIDEiIGF0dHJpYnV0ZU5hbWU9InIiICB0bz0iMjAiIGJlZ2luPSIwczsgc2Vjb25kLmVuZCArIDAuNyIgZHVyPSIwLjVzIiBmaWxsID0gImZyZWV6ZSIvPjxhbmltYXRlIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiBrZXlTcGxpbmVzPSIuOSAwIC4zIDEiIGF0dHJpYnV0ZU5hbWU9ImN4IiBmcm9tPSIzNC41IiB0bz0iOTYuNSIgYmVnaW49ImZpcnN0LmVuZCArIDEuMiIgZHVyPSIwLjVzIiBmaWxsID0gImZyZWV6ZSIvPjxhbmltYXRlIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiBrZXlTcGxpbmVzPSIuOSAwIC4zIDEiIGF0dHJpYnV0ZU5hbWU9ImN5IiBmcm9tPSIxMzIiIHRvPSI5Ni41IiBiZWdpbj0iZmlyc3QuZW5kICsgMS4yIiBkdXI9IjAuNXMiIGZpbGwgPSAiZnJlZXplIi8+PGFuaW1hdGUgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiIGtleVNwbGluZXM9Ii45IDAgLjMgMSIgYXR0cmlidXRlTmFtZT0iciIgIHRvPSIxMCIgYmVnaW49ImZpcnN0LmVuZCArIDEuMiIgZHVyPSIwLjVzIiBmaWxsID0gImZyZWV6ZSIvPjwvY2lyY2xlPjwvc3ZnPg==');
 
@@ -244,15 +374,14 @@ $Wizard-steps-liAfterBorder: none !important;
   --Table-thead-bg: #f5f5f5;
   --Table-thead-borderColor: #fff;
   --Table-thead-iconColor: #999;
-  $Table-strip-bg: transparent;
   --Table-strip-bg: transparent;
-  --Table-onHover-bg: #f5fbff;
+  --Table-onHover-bg: #f5f5f5;
   --Table-onHover-bg-rgb: 245, 251, 255;
   --Table-onHover-borderColor: #eceff8;
-  --Table-onChecked-bg: transparent;
+  --Table-onChecked-bg: #f0faff;
   --Table-onChecked-borderColor: #eceff8;
   --Table-onChecked-color: #333;
-  --Table-onChecked-onHover-bg: #f5fbff;
+  --Table-onChecked-onHover-bg: #f5f5f5;
   --Table-onChecked-onHover-borderColor: #eceff8;
   --Table-onChecked-onHover-color: #666;
   --TableCell-paddingX: #{px2rem(10px)};
@@ -264,7 +393,7 @@ $Wizard-steps-liAfterBorder: none !important;
 
   // listControl
   --ListControl-item-borderWidth: #{px2rem(1px)};
-  --ListControl-item-borderColor: #ccc;
+  --ListControl-item-borderRadius: #{$R3};
   --ListControl-item-paddingX: #{px2rem(10px)};
   --ListControl-item-bg: var(--Button--default-bg);
   --ListControl-item-color: var(--Button--default-color);
@@ -273,21 +402,22 @@ $Wizard-steps-liAfterBorder: none !important;
   --ListControl-item-onHover-bg: var(--Button--default-onHover-bg);
   --ListControl-item-onHover-borderColor: var(--primary);
 
-  --ListControl-item-onActive-bg: var(--white);
-  --ListControl-item-onActive-onHover-bg: var(--white);
-  --ListControl-item-onActive-color: var(--primary);
-  --ListControl-item-onActive-borderColor: var(--primary);
-  --ListControl-item-onActive-before-bg: var(--primary);
-  --ListControl-item-onActive-after-borderColor: var(--white);
+  --ListControl-item-onActive-bg: #{$G11};
+  --ListControl-item-onActive-onHover-bg: #{$G11};
+  --ListControl-item-onActive-color: #{$B7};
+  --ListControl-item-onActive-borderColor: #{$B7};
+  --ListControl-item-onActive-before-bg: #{$B7};
+  --ListControl-item-onActive-after-borderColor: #{$G11};
 
   --ListControl-item-onDisabled-opacity: 1;
-  --ListControl-item-onDisabled-bg: #f5f5f5;
-  --ListControl-item-onDisabled-color: #999;
-  --ListControl-item-onDisabled-borderColor: #ebebeb;
+  --ListControl-item-onDisabled-bg: #{$G9};
+  --ListControl-item-onDisabled-color: #{$G6};
+  --ListControl-item-onDisabled-borderColor: #{$G9};
 
   // 图片上传
   --ImageControl-addBtn-bg: #fff;
   --ImageControl-addBtn-border: #dbdbdb;
+  --ImageControl-addBtn-borderRadius: #{$R3};
   --ImageControl-addBtn-color: #666;
   --ImageControl-addBtn-onHover-bg: var(--ImageControl-addBtn-bg);
   --ImageControl-addBtn-onHover-border: var(--primary);
@@ -298,23 +428,44 @@ $Wizard-steps-liAfterBorder: none !important;
   --ImageControl-addBtn-onDisabled-bg: #f5f5f5;
   --ImageControl-addBtn-onDisabled-border: #ebebeb;
   --ImageControl-addBtn-onDisabled-color: #ccc;
+  --ImageControl-progress-borderRadius: #{$R2};
+
+  // 文件上传
+  --FileControl-danger-color: #{$E6};
+  --FileControl-drag-color: #{$G3};
+  --FileControl-icon-onHover-color: #{$G4};
+  --FileControl-icon-color: #{$G5};
+  --FileControl-onDisabled-color: #{$G6};
+  --FileControl-border-color: #{$G8};
+  --FileControl-onHover-bg: #{$G9};
+  --FileControl-onDisabled-bg: #{$G10};
+  --FileControl-progress-borderRadius: #{$R2};
 
   // Modal
+  --Modal-title-fontSize: #{$T3};
+  --Modal-title-color: #{$W3};
+  --Modal-title-fontWeight: #{$G2};
   --Modal-overlay-bg: rgba(0, 0, 0, 0.7);
   --Modal-content-borderWidth: 0;
   --Modal-content-borderRadius: 0;
   --Modal-content-minHeight: #{px2rem(193px)};
-  --Modal-header-bg: #f6f7fb;
+  --Modal-header-bg: #fff;
+  --Modal-header-paddingY: 0;
+  --Modal-header-paddingX: 0;
   --Modal-title-color: #333;
   --Modal-body-paddingY: var(--gap-md);
   --Modal-body-paddingX: var(--gap-md);
   --Modal-body-borderTop: none;
-  --Modal-body-borderBottom: #{px2rem(1px)} solid #eceff8;
-  --Modal-footer-marginX: var(--gap-md);
-  --Modal-footer-padding: var(--gap-base) 0;
+  --Modal-body-borderBottom: none;
+  --Modal-footer-marginX: 0;
+  --Modal-footer-marginY: 0;
+  --Modal-footer-padding: 0;
 
   // Drawer
+  --Drawer-header-padding: #{px2rem(16px)} #{px2rem(24px)};
   --Drawer-widthBase: #{px2rem(400px)};
+  --Drawer-header-bg: #fff;
+  --Drawer-body-padding: #{px2rem(24px)};
 
   // Remark
   --Remark-icon-fontSize: #{px2rem(12px)};
@@ -341,6 +492,7 @@ $Wizard-steps-liAfterBorder: none !important;
   --Wizard-badge-size: #{px2rem(26px)};
   --Wizard-badge-color: #999999;
   --Wizard-badge-onActive-backgroundColor: #333333;
+  --Wizard-badge-onComplete-backgroundColor: #333333;
   --Wizard-badge-fontSize: #{px2rem(14px)};
   --Wizard-badge-border: #{px2rem(1px)} solid #999999;
   --Wizard-badge-borderRadius: 50%;
@@ -349,11 +501,15 @@ $Wizard-steps-liAfterBorder: none !important;
 
   // Tabs
   --Tabs-linkFontSize: #{px2rem(14px)};
+  --Tabs-link-disabled-color: #{$G6};
   --Tabs--card-onActive-borderColor: var(--white);
   --Tabs--card-bg: var(--Table-thead-bg);
   --Tabs--radio-bg: var(--white);
   --Tabs--chrome-onHover-bg: #fcfcfc;
   --Tabs--chrome-bg: #f5f5f5;
+  --Tabs--simple-split-color: #{$G9};
+  --Tabs--simple-split-size: var(--gap-xs) var(--gap-md);
+  --Tabs--sidebar-iconColor: #{$B6};
 
   // Pagination
   --Pagination-fontSize: #{px2rem(12px)};
@@ -362,8 +518,9 @@ $Wizard-steps-liAfterBorder: none !important;
   --Pagination-onActive-border: #{px2rem(1px)} solid var(--primary);
 
   // Panel
-  --Panel-borderRadius: 0;
+  --Panel-borderRadius: #{$R3};
   --Panel-fixedBottom-boxShadow: 0 -2px 10px 0 rgba(0, 0, 0, 0.05);
+  --Panel--default-bg: #f5f5f5;
 
   // Nav
   --Nav-item-fontSize: #{px2rem(16px)};
@@ -380,58 +537,59 @@ $Wizard-steps-liAfterBorder: none !important;
   --TransferSelect-heading-borderBottom: 0;
 
   // Alert
-  --Alert-height: #{px2rem(30px)};
-  --Alert-fontSize: #{px2rem(12px)};
-  --Alert-borderRadius: 0;
-  --Alert-marginBottom: var(--Alert-md);
+  --Alert-fontColor: #{$G4};
+  --Alert-title-fontColor: #{$G2};
 
-  --Alert--danger-color: #333;
+  --Alert-height: #{px2rem(40px)};
+  --Alert-paddingX: #{px2rem(16px)};
+  --Alert-fontSize: #{$T2};
+  --Alert-borderRadius: #{$R3};
+  --Alert-marginBottom: var(--gap-md);
+
+  --Alert--danger-color: #{$G4};
   --Alert--danger-bg: #{$danger-bg};
   --Alert--danger-borderColor: transparent;
 
-  --Alert--info-color: #333;
+  --Alert--info-color: #{$G4};
   --Alert--info-bg: #{$info-bg};
   --Alert--info-borderColor: transparent;
 
-  --Alert--success-color: #333;
+  --Alert--success-color: #{$G4};
   --Alert--success-bg: #{$success-bg};
   --Alert--success-borderColor: transparent;
 
-  --Alert--warning-color: #333;
+  --Alert--warning-color: #{$G4};
   --Alert--warning-bg: #{$warning-bg};
   --Alert--warning-borderColor: transparent;
 
   // Toast size
   --Toast-width: #{px2rem(300px)};
-  --Toast-borderRadius: 0;
-  --Toast-paddingY: var(--gap-xs);
-  --Toast-paddingX: var(--gap-md);
+  --Toast-borderRadius: #{$R3};
   --Toast-paddingL: #{px2rem(26px)};
+  --Toast-paddingX: #{px2rem(16px)};
   --Toast--info-paddingL: 0;
   --Toast-border-width: #{px2rem(1px)};
-  --Toast-icon-width: #{px2rem(16px)};
-  --Toast-icon-height: #{px2rem(16px)};
   --Toast-opacity: 1;
   --Toast-title-display: inline;
 
   // Toast color
   --Toast-color: var(--white);
 
-  --Toast--danger-color: var(--danger);
-  --Toast--danger-bgColor: #{$danger-bg};
-  --Toast--danger-borderColor: var(--danger);
+  --Toast--danger-color: #{$G2};
+  --Toast--danger-bgColor: #{$G11};
+  --Toast--danger-borderColor: #{$G11};
 
-  --Toast--info-color: var(--info);
-  --Toast--info-bgColor: #{$info-bg};
-  --Toast--info-borderColor: var(--info);
+  --Toast--info-color: #{$G2};
+  --Toast--info-bgColor: #{$G11};
+  --Toast--info-borderColor: #{$G11};
 
-  --Toast--success-color: var(--success);
-  --Toast--success-bgColor: #{$success-bg};
-  --Toast--success-borderColor: var(--success);
+  --Toast--success-color: #{$G2};
+  --Toast--success-bgColor: #{$G11};
+  --Toast--success-borderColor: #{$G11};
 
-  --Toast--warning-color: var(--warning);
-  --Toast--warning-bgColor: #{$warning-bg};
-  --Toast--warning-borderColor: var(--warning);
+  --Toast--warning-color: #{$G2};
+  --Toast--warning-bgColor: #{$G11};
+  --Toast--warning-borderColor: #{$G11};
 
   --Toast-close-color: var(--icon-color);
   --Toast-close--onHover-color: var(--icon-onHover-color);
@@ -444,9 +602,9 @@ $Wizard-steps-liAfterBorder: none !important;
   --Card-onChecked-borderColor: var(--primary);
   --Card-onChecked-color: var(--primary);
 
-  --Card-onModified-bg: #108cee;
+  --Card-onModified-bg: #e8f0fe;
   --Card-onModified-borderColor: var(--primary);
-  --Card-onModified-color: var(--primary);
+  --Card-onModified-color: #4285f4;
 
   --Card-actions-onHover-bg: white;
   --Card-actions-onHover-color: var(--primary);
@@ -464,8 +622,40 @@ $Wizard-steps-liAfterBorder: none !important;
   --ListMenu-item-color: #333;
   --ListMenu-item--onHover-color: #000;
   --ListMenu-item--onHover-bg: #eaf6fe;
+  --ListItem--strip-bg: #f6f6f6;
+  --ListItem-onChecked-color: #0052cc;
+  --ListItem-onChecked-bg: #f0f6ff;
+  --ListItem-onChecked-borderColor: #0052cc;
+  --ListItem-onChecked-fieldLabel-color: #0052cc;
 
   --Transfer-title-bg: var(--Table-thead-bg);
 
   --Satus-icon-width: #{px2rem(14px)};
+
+  --Tree-itemHeight: #{px2rem(32px)};
+
+  --Progress-borderRadius: #{$R7};
+
+  --Rating-inactive-color: #{$G9};
+
+  // Formula
+  --InputFormula-code-bgColor: #{$G10};
+
+  // ResultBox
+  --ResultBox-value-bg: #{$G10};
+  --ResultBox-value-clear-bg: #{$G8};
+  --ResultBox-value-clear-hover-bg: #{$G9};
+
+  // ContextMenu
+  --menu-background: #fff;
+  --menu-box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
+  --menu-border-radius: 4px;
+  --menu-font-color: #151b26;
+  --menu-font-family: PingFangSC-Regular;
+  --menu-border-color: #e8e9eb; // 默认的边框色
+  --menu-active-color: #2468f2;
+  --menu-hover-bg-color: #e6f0ff;
+  --menu-disabled-color: #b8babf; // 禁用文字颜色
+  --default-icon-color: #84868c; // 默认的icon颜色
+  --default-padding: 4px 12px; // 6px 12px
 }

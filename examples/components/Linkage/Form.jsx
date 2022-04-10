@@ -6,9 +6,9 @@ export default {
     target: 'detailForm',
     className: 'wrapper-sm', // 来点间隔
     wrapWithPanel: false, // 不要用 panel 包裹了。
-    controls: [
+    body: [
       {
-        type: 'text',
+        type: 'input-text',
         placeholder: '关键字',
         name: 'keywords',
         addOn: {
@@ -28,7 +28,7 @@ export default {
     title: '',
     initApi: '/api/mock2/form/initData?keywords=${keywords}',
     actions: [],
-    controls: [
+    body: [
       'Form 模型除了用来提交数据外，还比较适合用来做详情数据的展示',
       {
         type: 'divider'

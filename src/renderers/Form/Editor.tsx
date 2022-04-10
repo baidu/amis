@@ -8,6 +8,10 @@ import {
   isPureVariable,
   resolveVariableAndFilter
 } from '../../utils/tpl-builtin';
+import {bindRendererEvent} from '../../actions/Decorators';
+
+import type {Position} from 'monaco-editor';
+import type {ListenerAction} from '../../actions/Action';
 
 /**
  * Editor 代码编辑器
@@ -103,7 +107,14 @@ export interface EditorControlSchema extends Omit<FormBaseControl, 'size'> {
    * 编辑器大小
    */
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+
+  /**
+   * 是否展示全屏模式开关
+   */
+  allowFullscreen?: boolean;
 }
+
+export type EditorRendererEvent = 'blur' | 'focus';
 
 export interface EditorProps extends FormControlProps {
   options?: object;
@@ -113,6 +124,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
   static defaultProps: Partial<EditorProps> = {
     language: 'javascript',
     editorTheme: 'vs',
+    allowFullscreen: true,
     options: {
       automaticLayout: true,
       selectOnLineNumbers: true,
@@ -142,12 +154,31 @@ export default class EditorControl extends React.Component<EditorProps, any> {
     this.toDispose.forEach(fn => fn());
   }
 
+  doAction(action: ListenerAction, args: any) {
+    const actionType = action?.actionType as string;
+
+    if (actionType === 'focus') {
+      this.focus();
+    }
+  }
+
+  focus() {
+    this.editor.focus();
+    this.setState({focused: true});
+
+    // 最近一次光标位置
+    const position: Position | null = this.editor?.getPosition();
+    this.editor?.setPosition(position);
+  }
+
+  @bindRendererEvent<EditorProps, EditorRendererEvent>('focus')
   handleFocus() {
     this.setState({
       focused: true
     });
   }
 
+  @bindRendererEvent<EditorProps, EditorRendererEvent>('blur')
   handleBlur() {
     this.setState({
       focused: false
@@ -196,7 +227,8 @@ export default class EditorControl extends React.Component<EditorProps, any> {
       options,
       editorTheme,
       size,
-      data
+      data,
+      allowFullscreen
     } = this.props;
 
     let language = this.props.language;
@@ -226,6 +258,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
         <LazyComponent
           classPrefix={ns}
           component={Editor}
+          allowFullscreen={allowFullscreen}
           value={finnalValue}
           onChange={onChange}
           disabled={disabled}
@@ -286,26 +319,25 @@ export const availableLanguages = [
   'yaml'
 ];
 
-export const EditorControls: Array<
-  typeof EditorControl
-> = availableLanguages.map((lang: string) => {
-  @FormItem({
-    type: `${lang}-editor`,
-    sizeMutable: false
-  })
-  class EditorControlRenderer extends EditorControl {
-    static lang = lang;
-    static displayName = `${lang[0].toUpperCase()}${lang.substring(
-      1
-    )}EditorControlRenderer`;
-    static defaultProps = {
-      ...EditorControl.defaultProps,
-      language: lang
-    };
-  }
+export const EditorControls: Array<typeof EditorControl> =
+  availableLanguages.map((lang: string) => {
+    @FormItem({
+      type: `${lang}-editor`,
+      sizeMutable: false
+    })
+    class EditorControlRenderer extends EditorControl {
+      static lang = lang;
+      static displayName = `${lang[0].toUpperCase()}${lang.substring(
+        1
+      )}EditorControlRenderer`;
+      static defaultProps = {
+        ...EditorControl.defaultProps,
+        language: lang
+      };
+    }
 
-  return EditorControlRenderer;
-});
+    return EditorControlRenderer;
+  });
 
 @FormItem({
   type: 'js-editor',

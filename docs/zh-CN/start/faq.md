@@ -61,18 +61,45 @@ title: 常见问题
    ，就运行运行 `npm i amis@1.1.2-beta.2` 命令，在 `node_modules/amis/sdk` 目录中也能找到对应的 sdk 代码。
 2. 如果还是报错，可以使用最新代码自动编译的 sdk，下载地址是 `https://github.com/baidu/amis/blob/gh-pages/sdk.tar.gz`
 
-## 如何实现点击 xxx 后执行 yyy 代码？
+## 如何支持配置中的 URL 地址替换？
 
-因为几乎所有组件都会默认将属性传入 React 组件中，因此其实都支持 React 中的各种事件，比如 `onClick`
+> 1.5.0 及以上版本
 
-```
-{
-  type: 'button',
-  label: '按钮',
-  onClick: () => {
-    alert('hi');
+有个常用场景是在开发时使用 `localhost` 地址，而线上使用 `xxx.com`，这时可以使用 `replaceText` 属性，它是第四个参数，也就是 env 参数
+
+```javascript
+let amis = amisRequire('amis/embed');
+let amisJSON = {
+  type: 'page',
+  body: {
+    type: 'service',
+    api: 'HOST/api'
   }
-}
+};
+let amisScoped = amis.embed(
+  '#root',
+  amisJSON,
+  {},
+  {
+    replaceText: {
+      HOST: 'http://localhost'
+    }
+  }
+);
 ```
 
-这是其他 UI 框架中的做法，但在 amis 中并不推荐这样做，amis 的侧重点是低代码，应该使用内置的 [action](../concepts/action) 来实现，如果内置这些不能满足需求，可以想想这个问题是否能抽象成一种新的 action 配置，这样就能完全通过配置来实现了，后续遇到类似功能就不需要写代码了，这才是更符合 amis 低代码理念的方式。
+## 如何更新全局 data？
+
+使用下面的方式
+
+```
+amisScoped.updateProps({
+  data: {
+    xxx: 'yyy'
+  }
+})
+```
+
+## CRUD api 分页功能失效
+
+如果 api 地址中有变量，比如 `/api/mock2/sample/${id}`，amis 就不会自动加上分页参数，需要自己加上，改成 `/api/mock2/sample/${id}?page=${page}&perPage=${perPage}`

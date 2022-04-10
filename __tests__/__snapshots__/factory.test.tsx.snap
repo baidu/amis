@@ -36,23 +36,31 @@ exports[`factory load Renderer on need 1`] = `
 exports[`factory unregistered Renderer 1`] = `
 <div>
   <div
-    class="a-Alert a-Alert--danger"
+    class="cxd-Alert cxd-Alert--danger"
   >
-    <p>
-      Error: 找不到对应的渲染器
-    </p>
-    <p>
-      Path: 
-      my-renderer
-    </p>
-    <pre>
-      <code>
-        {
+    <div
+      class="cxd-Alert-content"
+    >
+      <div
+        class="cxd-Alert-desc"
+      >
+        <p>
+          Error: 找不到对应的渲染器
+        </p>
+        <p>
+          Path: 
+          my-renderer
+        </p>
+        <pre>
+          <code>
+            {
   "type": "my-renderer",
   "a": 23
 }
-      </code>
-    </pre>
+          </code>
+        </pre>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -60,22 +68,22 @@ exports[`factory unregistered Renderer 1`] = `
 exports[`factory:definitions 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-header"
+          class="cxd-Page-header"
         >
           <h2
-            class="a-Page-title"
+            class="cxd-Page-title"
           >
             <span
-              class="a-TplField"
+              class="cxd-TplField"
             >
               <span>
                 引用
@@ -84,20 +92,20 @@ exports[`factory:definitions 1`] = `
           </h2>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Panel--form"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
             style="position: relative;"
           >
             <div
-              class="a-Panel-heading"
+              class="cxd-Panel-heading"
             >
               <h3
-                class="a-Panel-title"
+                class="cxd-Panel-title"
               >
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     表单
@@ -106,22 +114,26 @@ exports[`factory:definitions 1`] = `
               </h3>
             </div>
             <div
-              class="a-Panel-body"
+              class="cxd-Panel-body"
             >
               <form
-                class="a-Form a-Form--normal"
+                class="cxd-Form cxd-Form--normal"
                 novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="a-Form-item a-Form-item--normal"
+                  class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
                 >
                   <label
-                    class="a-Form-label"
+                    class="cxd-Form-label"
                   >
                     <span>
                       <span
-                        class="a-TplField"
+                        class="cxd-TplField"
                       >
                         <span>
                           text2
@@ -130,10 +142,10 @@ exports[`factory:definitions 1`] = `
                     </span>
                   </label>
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="cxd-Form-control cxd-TextControl"
                   >
                     <div
-                      class="a-TextControl-input"
+                      class="cxd-TextControl-input"
                     >
                       <input
                         autocomplete="off"
@@ -146,10 +158,10 @@ exports[`factory:definitions 1`] = `
                     </div>
                   </div>
                   <div
-                    class="a-Remark a-Form-remark"
+                    class="cxd-Remark cxd-Form-remark"
                   >
                     <span
-                      class="a-Remark-icon"
+                      class="cxd-Remark-icon"
                     >
                       <icon-mock
                         classname=" icon-warning-mark"
@@ -159,15 +171,15 @@ exports[`factory:definitions 1`] = `
                   </div>
                 </div>
                 <div
-                  class="a-Form-item a-Form-item--normal"
+                  class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
                 >
                   <label
-                    class="a-Form-label"
+                    class="cxd-Form-label"
                   >
                     <span>
                       <span
-                        class="a-TplField"
+                        class="cxd-TplField"
                       >
                         <span>
                           combo
@@ -176,158 +188,25 @@ exports[`factory:definitions 1`] = `
                     </span>
                   </label>
                   <div
-                    class="a-ComboControl a-Form-control"
+                    class="cxd-ComboControl cxd-Form-control"
                   >
                     <div
-                      class="a-Combo a-Combo--multi a-Combo--ver"
+                      class="cxd-Combo cxd-Combo--multi cxd-Combo--ver"
                     >
                       <div
-                        class="a-Combo-items"
+                        class="cxd-Combo-items"
                       >
                         <div
-                          class="a-Combo-item"
+                          class="cxd-Combo-placeholder"
                         >
-                          <div
-                            class="a-Combo-itemInner"
-                          >
-                            <div
-                              class="a-Form a-Form--normal a-Combo-form"
-                              novalidate=""
-                            >
-                              <div
-                                class="a-Form-item a-Form-item--normal"
-                                data-role="form-item"
-                              >
-                                <label
-                                  class="a-Form-label"
-                                >
-                                  <span>
-                                    <span
-                                      class="a-TplField"
-                                    >
-                                      <span>
-                                        combo 1
-                                      </span>
-                                    </span>
-                                  </span>
-                                </label>
-                                <div
-                                  class="a-Form-control a-TextControl"
-                                >
-                                  <div
-                                    class="a-TextControl-input"
-                                  >
-                                    <input
-                                      autocomplete="off"
-                                      name="key"
-                                      placeholder=""
-                                      size="10"
-                                      type="text"
-                                      value=""
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="a-Form-item a-Form-item--normal"
-                                data-role="form-item"
-                              >
-                                <label
-                                  class="a-Form-label"
-                                >
-                                  <span>
-                                    <span
-                                      class="a-TplField"
-                                    >
-                                      <span>
-                                        combo 2
-                                      </span>
-                                    </span>
-                                  </span>
-                                </label>
-                                <div
-                                  class="a-Form-control a-TextControl"
-                                >
-                                  <div
-                                    class="a-TextControl-input"
-                                  >
-                                    <input
-                                      autocomplete="off"
-                                      name="value"
-                                      placeholder=""
-                                      size="10"
-                                      type="text"
-                                      value="ref value"
-                                    />
-                                  </div>
-                                </div>
-                                <div
-                                  class="a-Remark a-Form-remark"
-                                >
-                                  <span
-                                    class="a-Remark-icon"
-                                  >
-                                    <icon-mock
-                                      classname=" icon-warning-mark"
-                                      icon="warning-mark"
-                                    />
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                                class="a-Form-item a-Form-item--normal"
-                                data-role="form-item"
-                              >
-                                <label
-                                  class="a-Form-label"
-                                >
-                                  <span>
-                                    <span
-                                      class="a-TplField"
-                                    >
-                                      <span>
-                                        children
-                                      </span>
-                                    </span>
-                                  </span>
-                                </label>
-                                <div
-                                  class="a-Remark a-Form-remark"
-                                >
-                                  <span
-                                    class="a-Remark-icon"
-                                  >
-                                    <icon-mock
-                                      classname=" icon-warning-mark"
-                                      icon="warning-mark"
-                                    />
-                                  </span>
-                                </div>
-                              </div>
-                              <input
-                                style="display: none;"
-                                type="submit"
-                              />
-                            </div>
-                          </div>
-                          <a
-                            class="a-Combo-delBtn "
-                            data-position="bottom"
-                            data-tooltip="删除"
-                          >
-                            <icon-mock
-                              classname="icon icon-close"
-                              icon="close"
-                            />
-                          </a>
+                          &lt;空&gt;
                         </div>
                       </div>
                       <div
-                        class="a-Combo-toolbar"
+                        class="cxd-Combo-toolbar"
                       >
                         <button
-                          class="a-Button a-Combo-addBtn"
-                          data-tooltip="新增"
+                          class="cxd-Button cxd-Button--default cxd-Combo-addBtn"
                           type="button"
                         >
                           <icon-mock
@@ -342,10 +221,10 @@ exports[`factory:definitions 1`] = `
                     </div>
                   </div>
                   <div
-                    class="a-Remark a-Form-remark"
+                    class="cxd-Remark cxd-Form-remark"
                   >
                     <span
-                      class="a-Remark-icon"
+                      class="cxd-Remark-icon"
                     >
                       <icon-mock
                         classname=" icon-warning-mark"
@@ -354,10 +233,6 @@ exports[`factory:definitions 1`] = `
                     </span>
                   </div>
                 </div>
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
               </form>
             </div>
             <div
@@ -410,22 +285,22 @@ exports[`factory:definitions 1`] = `
 exports[`factory:definitions override 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-header"
+          class="cxd-Page-header"
         >
           <h2
-            class="a-Page-title"
+            class="cxd-Page-title"
           >
             <span
-              class="a-TplField"
+              class="cxd-TplField"
             >
               <span>
                 引用
@@ -434,20 +309,20 @@ exports[`factory:definitions override 1`] = `
           </h2>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Panel--form"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
             style="position: relative;"
           >
             <div
-              class="a-Panel-heading"
+              class="cxd-Panel-heading"
             >
               <h3
-                class="a-Panel-title"
+                class="cxd-Panel-title"
               >
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     表单
@@ -456,22 +331,26 @@ exports[`factory:definitions override 1`] = `
               </h3>
             </div>
             <div
-              class="a-Panel-body"
+              class="cxd-Panel-body"
             >
               <form
-                class="a-Form a-Form--normal"
+                class="cxd-Form cxd-Form--normal"
                 novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="a-Form-item a-Form-item--normal"
+                  class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
                 >
                   <label
-                    class="a-Form-label"
+                    class="cxd-Form-label"
                   >
                     <span>
                       <span
-                        class="a-TplField"
+                        class="cxd-TplField"
                       >
                         <span>
                           text2
@@ -480,10 +359,10 @@ exports[`factory:definitions override 1`] = `
                     </span>
                   </label>
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="cxd-Form-control cxd-TextControl"
                   >
                     <div
-                      class="a-TextControl-input"
+                      class="cxd-TextControl-input"
                     >
                       <input
                         autocomplete="off"
@@ -496,10 +375,10 @@ exports[`factory:definitions override 1`] = `
                     </div>
                   </div>
                   <div
-                    class="a-Remark a-Form-remark"
+                    class="cxd-Remark cxd-Form-remark"
                   >
                     <span
-                      class="a-Remark-icon"
+                      class="cxd-Remark-icon"
                     >
                       <icon-mock
                         classname=" icon-warning-mark"
@@ -509,15 +388,15 @@ exports[`factory:definitions override 1`] = `
                   </div>
                 </div>
                 <div
-                  class="a-Form-item a-Form-item--normal"
+                  class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
                 >
                   <label
-                    class="a-Form-label"
+                    class="cxd-Form-label"
                   >
                     <span>
                       <span
-                        class="a-TplField"
+                        class="cxd-TplField"
                       >
                         <span>
                           combo
@@ -526,10 +405,10 @@ exports[`factory:definitions override 1`] = `
                     </span>
                   </label>
                   <div
-                    class="a-CheckboxesControl a-Form-control is-inline"
+                    class="cxd-CheckboxesControl cxd-Form-control is-inline"
                   >
                     <label
-                      class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
                     >
                       <input
                         checked=""
@@ -543,7 +422,7 @@ exports[`factory:definitions override 1`] = `
                       </span>
                     </label>
                     <label
-                      class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
                     >
                       <input
                         type="checkbox"
@@ -557,10 +436,10 @@ exports[`factory:definitions override 1`] = `
                     </label>
                   </div>
                   <div
-                    class="a-Remark a-Form-remark"
+                    class="cxd-Remark cxd-Form-remark"
                   >
                     <span
-                      class="a-Remark-icon"
+                      class="cxd-Remark-icon"
                     >
                       <icon-mock
                         classname=" icon-warning-mark"
@@ -569,10 +448,6 @@ exports[`factory:definitions override 1`] = `
                     </span>
                   </div>
                 </div>
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
               </form>
             </div>
             <div

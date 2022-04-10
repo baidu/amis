@@ -1,0 +1,402 @@
+.#{$ns}FormulaEditor {
+  overflow: visible;
+  max-width: 100%;
+  box-sizing: content-box;
+
+  @mixin scrollbar {
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  @mixin panel-header {
+    width: 100%;
+    height: px2rem(30px);
+    line-height: px2rem(30px);
+    padding: 0 #{px2rem(10px)};
+    box-sizing: border-box;
+    background: var(--InputFormula-header-bgColor);
+    border-radius: var(--borderRadius) var(--borderRadius) 0 0;
+    border-bottom: none;
+    font-weight: 500;
+  }
+
+  &-content {
+    border-radius: var(--borderRadius);
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+  }
+
+  &-header {
+    @include panel-header();
+  }
+
+  &-editor {
+    @include scrollbar();
+    height: px2rem(200px);
+    padding: #{px2rem(5px)};
+    padding-right: 0;
+
+    .CodeMirror {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &.is-error &-editor {
+    border-color: var(--Form-input-onError-borderColor);
+  }
+
+  &.is-focused &-editor {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
+
+  &-settings {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+    height: #{px2rem(250px)};
+    margin-top: #{px2rem(10px)};
+  }
+
+  &-panel {
+    display: flex;
+    flex: 1;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    height: #{px2rem(250px)};
+    border-radius: var(--borderRadius);
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+
+    &:not(:last-child) {
+      margin-right: #{px2rem(10px)};
+    }
+
+    &:last-child {
+      flex: 1;
+    }
+
+    &-header {
+      @include panel-header();
+    }
+
+    &-body {
+      flex: 1;
+      display: flex;
+      flex-flow: column nowrap;
+      max-height: #{px2rem(220px)};
+
+      &--tabs {
+        max-height: #{px2rem(250px)};
+      }
+    }
+  }
+
+  /* 变量列表 */
+  &-VariableList {
+    &-root {
+      max-height: 100%;
+    }
+
+    &-body {
+      display: flex;
+      flex-flow: column nowrap;
+      max-height: 100%;
+    }
+
+    &-base {
+      --Form-input-fontSize: var(--fontSizeSm);
+      --gap-sm: #{px2rem(10px)};
+      flex: 1;
+      max-height: 100%;
+    }
+
+    &-base.is-scrollable {
+      @include scrollbar();
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    &-searchBox {
+      display: flex;
+      width: auto;
+      flex-shrink: 0;
+      padding: #{px2rem(8px)};
+
+      & > div {
+        flex: 1;
+        font-size: var(--fontSizeSm);
+        height: var(--gap-xl);
+      }
+    }
+
+    &-tabs {
+      --Tabs-linkFontSize: var(--fontSizeSm);
+      --Tabs--card-linkPadding: #{px2rem(5px)};
+
+      max-height: 100%;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: space-between;
+
+      .#{$ns}Tabs {
+        &-content {
+          padding: 0;
+          .#{$ns}FormulaEditor-VariableList {
+            &-sub {
+              .#{$ns}FormulaEditor-VariableList-body {
+                max-height: #{px2rem(220px)};
+                overflow-y: hidden;
+              }
+              &-FormulaEditor-VariableList-base {
+                @include scrollbar();
+                overflow-x: hidden;
+                overflow-y: auto;
+              }
+            }
+          }
+        }
+        &-linksContainer {
+          &-wrapper {
+            @include panel-header();
+            max-height: px2rem(30px);
+            min-height: px2rem(30px);
+            ul.#{$ns}Tabs-links {
+              > li {
+                height: 30px;
+                line-height: 30px;
+                > a {
+                  margin: 0;
+                  padding: 0;
+                }
+              }
+            }
+          }
+
+          &--overflow {
+            > div {
+              margin: 0;
+            }
+          }
+        }
+      }
+
+      & > div {
+        @include scrollbar();
+        overflow-x: hidden;
+        overflow-y: auto;
+        flex: 1;
+        border-radius: var(--borderRadius);
+      }
+    }
+
+    &-tab {
+      padding: 0;
+    }
+
+    &-item {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      white-space: nowrap;
+
+      & > label {
+        white-space: nowrap;
+      }
+
+      &-tag {
+        vertical-align: middle;
+        text-align: center;
+        padding: 0 #{px2rem(8px)};
+        line-height: 17px;
+        border-radius: var(--borderRadius);
+        background: #f5f5f5;
+        color: var(--black);
+      }
+    }
+  }
+
+  /* 函数列表 */
+  &-FuncList {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    flex: 1;
+
+    .#{$ns}FormulaEditor-panel {
+      width: #{px2rem(188px)};
+    }
+
+    &:not(:last-child) {
+      margin-right: #{px2rem(10px)};
+    }
+
+    &-searchBox {
+      display: flex;
+      width: auto;
+      flex-shrink: 0;
+      padding: #{px2rem(8px)};
+
+      & > div {
+        flex: 1;
+        font-size: var(--fontSizeSm);
+        height: var(--gap-xl);
+      }
+    }
+
+    &-body {
+      @include scrollbar();
+      flex: 1;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    &-collapseGroup {
+      .#{$ns}FormulaEditor-FuncList-collapse {
+        border: none;
+
+        .#{$ns}FormulaEditor-FuncList-expandIcon {
+          font-size: var(--fontSizeSm);
+          line-height: var(--fontSizeXl);
+          transform-origin: #{px2rem(7px)} #{px2rem(9px)};
+          transition: transform 0.2s;
+        }
+      }
+    }
+
+    &-groupTitle {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: unset;
+      padding: #{px2rem(5px)} #{px2rem(10px)};
+      background: transparent;
+      font-size: var(--fontSizeSm);
+      font-weight: bold;
+    }
+
+    &-groupBody {
+      > div {
+        padding: 5px 0;
+      }
+    }
+
+    &-item {
+      cursor: pointer;
+      padding: 0 #{px2rem(30px)};
+      height: var(--gap-xl);
+      line-height: var(--gap-xl);
+
+      &.is-active {
+        background: var(--Tree-item-onHover-bg);
+      }
+    }
+
+    &-doc {
+      display: flex;
+      flex-flow: column nowrap;
+      padding: #{px2rem(10px)};
+      max-height: #{px2rem(200px)};
+
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        background: var(--InputFormula-code-bgColor);
+        padding: #{px2rem(5px)} #{px2rem(10px)};
+        border-radius: var(--borderRadius);
+        margin-top: 0;
+
+        code {
+          color: #2468f2;
+        }
+      }
+
+      &-desc {
+        @include scrollbar();
+        color: var(--text--loud-color);
+        overflow-x: hidden;
+        overflow-y: auto;
+        flex: 1;
+      }
+    }
+  }
+
+  .cm-field,
+  .cm-func {
+    border-radius: 3px;
+    color: #fff;
+    margin: 0 1px;
+    padding: 0 2px;
+  }
+
+  .cm-field {
+    padding: 3px 5px;
+  }
+
+  .cm-field {
+    background: #007bff;
+  }
+  .cm-func {
+    color: #ae4597;
+    font-weight: bold;
+    line-height: 14px;
+  }
+}
+
+.#{$ns}FormulaPicker {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  &-input {
+    flex: 1;
+    margin-right: #{px2rem(10px)};
+  }
+
+  &-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-icon {
+    top: 0 !important;
+    font-size: var(--InputFormula-icon-size);
+
+    &:not(:last-child) {
+      margin-right: var(--fontSizeSm);
+    }
+
+    &.is-filled {
+      fill: var(--InputFormula-icon-color-onActive);
+      color: var(--InputFormula-icon-color-onActive);
+    }
+  }
+
+  &-ResultBox {
+    padding-right: 10px;
+    span.c-field {
+      background: #007bff;
+      padding: 3px 5px;
+      margin: 0 1px;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+    span.c-func {
+      color: #ae4597;
+      font-weight: bold;
+      line-height: 14px;
+      padding: 0 2px;
+    }
+  }
+}

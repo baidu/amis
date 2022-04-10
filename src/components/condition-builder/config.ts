@@ -19,31 +19,31 @@ export interface Config {
 }
 
 export const OperationMap = {
-  equal: '等于',
-  not_equal: '不等于',
-  less: '小于',
-  less_or_equal: '小于或等于',
-  greater: '大于',
-  greater_or_equal: '大于或等于',
-  between: '属于范围',
-  not_between: '不属于范围',
-  is_empty: '为空',
-  is_not_empty: '不为空',
-  like: '模糊匹配',
-  not_like: '不匹配',
-  starts_with: '匹配开头',
-  ends_with: '匹配结尾',
-  select_equals: '等于',
-  select_not_equals: '不等于',
-  select_any_in: '包含',
-  select_not_any_in: '不包含'
+  equal: 'Condition.equal',
+  not_equal: 'Condition.not_equal',
+  less: 'Condition.less',
+  less_or_equal: 'Condition.less_or_equal',
+  greater: 'Condition.greater',
+  greater_or_equal: 'Condition.greater_or_equal',
+  between: 'Condition.between',
+  not_between: 'Condition.not_between',
+  is_empty: 'Condition.is_empty',
+  is_not_empty: 'Condition.is_not_empty',
+  like: 'Condition.like',
+  not_like: 'Condition.not_like',
+  starts_with: 'Condition.starts_with',
+  ends_with: 'Condition.ends_with',
+  select_equals: 'Condition.select_equals',
+  select_not_equals: 'Condition.select_not_equals',
+  select_any_in: 'Condition.select_any_in',
+  select_not_any_in: 'Condition.select_not_any_in'
 };
 
 const defaultConfig: Config = {
   valueTypes: ['value'],
   types: {
     text: {
-      placeholder: '请输入文本',
+      placeholder: 'Condition.placeholder',
       defaultOp: 'equal',
       operators: [
         'equal',

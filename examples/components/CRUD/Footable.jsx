@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '开启单条底部展示功能',
   body: {
     type: 'crud',
@@ -75,7 +74,7 @@ export default {
               title: '查看',
               body: {
                 type: 'form',
-                controls: [
+                body: [
                   {
                     type: 'static',
                     name: 'engine',
@@ -118,8 +117,7 @@ export default {
                   },
                   {
                     type: 'html',
-                    html:
-                      '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                    html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                   }
                 ]
               }
@@ -137,9 +135,9 @@ export default {
                 type: 'form',
                 name: 'sample-edit-form',
                 api: '/api/sample/$id',
-                controls: [
+                body: [
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'engine',
                     label: 'Engine',
                     required: true
@@ -148,7 +146,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'browser',
                     label: 'Browser',
                     required: true
@@ -157,7 +155,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'platform',
                     label: 'Platform(s)',
                     required: true
@@ -166,7 +164,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'version',
                     label: 'Engine version'
                   },

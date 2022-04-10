@@ -3,17 +3,17 @@
 exports[`Renderer:repeat 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,22 +22,26 @@ exports[`Renderer:repeat 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   repeat
@@ -46,7 +50,7 @@ exports[`Renderer:repeat 1`] = `
             </span>
           </label>
           <div
-            class="a-RepeatControl a-Form-control"
+            class="cxd-RepeatControl cxd-Form-control"
           >
             <div
               class="repeat-control hbox"
@@ -63,58 +67,115 @@ exports[`Renderer:repeat 1`] = `
                 class="col v-middle"
               >
                 <div
-                  aria-disabled="false"
-                  class="a-InputRange"
+                  class="cxd-InputRange-wrap"
                 >
-                  <span
-                    class="a-InputRange-label a-InputRange-label--min"
-                  >
-                    <span
-                      class="a-InputRange-labelContainer"
-                    >
-                      1
-                    </span>
-                  </span>
                   <div
-                    class="a-InputRange-track a-InputRange-track--background"
+                    class="cxd-InputRange-track cxd-InputRange-track--background"
                   >
                     <div
-                      class="a-InputRange-track"
-                      style="left: 0%; width: 0%;"
+                      class="cxd-InputRange-track-active"
+                      style="width: 0%; left: 0%;"
                     />
-                    <span
-                      class="a-InputRange-sliderContainer"
-                      style="position: absolute; left: 0%;"
+                    <div
+                      class="cxd-InputRange-handle"
+                      style="left: 0%; z-index: 1; position: relative;"
                     >
-                      <span
-                        class="a-InputRange-label a-InputRange-label--value"
+                      <div
+                        class="cxd-InputRange-handle-icon"
                       >
-                        <span
-                          class="a-InputRange-labelContainer"
-                        >
+                        <icon-mock
+                          classname="icon icon-slider-handle"
+                          icon="slider-handle"
+                        />
+                      </div>
+                      <div
+                        class="cxd-InputRange-label pos-top"
+                        style="position: relative;"
+                      >
+                        <span>
                           1
                         </span>
-                      </span>
+                        <div
+                          class="resize-sensor"
+                          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+  
+                          <div
+                            class="resize-sensor-expand"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-shrink"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-appear"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                          />
+                        </div>
+                      </div>
                       <div
-                        aria-valuemax="20"
-                        aria-valuemin="1"
-                        aria-valuenow="1"
-                        class="a-InputRange-slider"
-                        draggable="false"
-                        role="slider"
-                        tabindex="0"
-                      />
-                    </span>
+                        class="resize-sensor"
+                        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+  
+                        <div
+                          class="resize-sensor-expand"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+    
+                          <div
+                            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-shrink"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+    
+                          <div
+                            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-appear"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <span
-                    class="a-InputRange-label a-InputRange-label--max"
-                  >
-                    <span
-                      class="a-InputRange-labelContainer"
-                    >
-                      20
-                    </span>
-                  </span>
                 </div>
               </div>
               <div
@@ -125,22 +186,22 @@ exports[`Renderer:repeat 1`] = `
                   aria-haspopup="listbox"
                   aria-labelledby="downshift-0-label"
                   aria-owns="downshift-0-menu"
-                  class="a-Select is-opened pull-right has-popover"
+                  class="cxd-Select is-opened pull-right has-popover"
                   role="combobox"
                   style="position: relative;"
                   tabindex="0"
                 >
                   <div
-                    class="a-Select-valueWrap"
+                    class="cxd-Select-valueWrap"
                   >
                     <div
-                      class="a-Select-value"
+                      class="cxd-Select-value"
                     >
                       年
                     </div>
                   </div>
                   <span
-                    class="a-Select-arrow"
+                    class="cxd-Select-arrow"
                   >
                     <icon-mock
                       classname="icon icon-caret"
@@ -148,18 +209,18 @@ exports[`Renderer:repeat 1`] = `
                     />
                   </span>
                   <div
-                    class="a-PopOver a-Select-popover a-PopOver--leftBottomLeftTop"
+                    class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
                     style="display: block; min-width: 0; left: 0px; top: 0px; position: relative;"
-                    theme="default"
+                    theme="cxd"
                   >
                     <div
-                      class="a-PopOver-overlay"
+                      class="cxd-PopOver-overlay"
                     />
                     <div
-                      class="a-Select-menu"
+                      class="cxd-Select-menu"
                     >
                       <div
-                        class="a-Select-option invisible"
+                        class="cxd-Select-option invisible"
                       >
                         <span>
                           Placeholder
@@ -167,7 +228,7 @@ exports[`Renderer:repeat 1`] = `
                       </div>
                       <div
                         aria-selected="false"
-                        class="a-Select-option"
+                        class="cxd-Select-option"
                         id="downshift-0-item-0"
                         role="option"
                       >
@@ -177,7 +238,7 @@ exports[`Renderer:repeat 1`] = `
                       </div>
                       <div
                         aria-selected="false"
-                        class="a-Select-option"
+                        class="cxd-Select-option"
                         id="downshift-0-item-1"
                         role="option"
                       >
@@ -187,7 +248,7 @@ exports[`Renderer:repeat 1`] = `
                       </div>
                       <div
                         aria-selected="false"
-                        class="a-Select-option"
+                        class="cxd-Select-option"
                         id="downshift-0-item-2"
                         role="option"
                       >
@@ -197,7 +258,7 @@ exports[`Renderer:repeat 1`] = `
                       </div>
                       <div
                         aria-selected="false"
-                        class="a-Select-option"
+                        class="cxd-Select-option"
                         id="downshift-0-item-3"
                         role="option"
                       >
@@ -207,7 +268,7 @@ exports[`Renderer:repeat 1`] = `
                       </div>
                       <div
                         aria-selected="false"
-                        class="a-Select-option"
+                        class="cxd-Select-option"
                         id="downshift-0-item-4"
                         role="option"
                       >
@@ -217,7 +278,7 @@ exports[`Renderer:repeat 1`] = `
                       </div>
                       <div
                         aria-selected="false"
-                        class="a-Select-option"
+                        class="cxd-Select-option"
                         id="downshift-0-item-5"
                         role="option"
                       >
@@ -227,7 +288,7 @@ exports[`Renderer:repeat 1`] = `
                       </div>
                       <div
                         aria-selected="false"
-                        class="a-Select-option"
+                        class="cxd-Select-option"
                         id="downshift-0-item-6"
                         role="option"
                       >
@@ -237,7 +298,7 @@ exports[`Renderer:repeat 1`] = `
                       </div>
                       <div
                         aria-selected="false"
-                        class="a-Select-option"
+                        class="cxd-Select-option"
                         id="downshift-0-item-7"
                         role="option"
                       >
@@ -247,7 +308,7 @@ exports[`Renderer:repeat 1`] = `
                       </div>
                       <div
                         aria-selected="false"
-                        class="a-Select-option is-active"
+                        class="cxd-Select-option is-active"
                         id="downshift-0-item-8"
                         role="option"
                       >
@@ -340,10 +401,6 @@ exports[`Renderer:repeat 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

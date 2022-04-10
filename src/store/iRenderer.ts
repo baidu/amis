@@ -1,5 +1,12 @@
 import {Instance, SnapshotIn, types} from 'mobx-state-tree';
-import {extendObject, createObject} from '../utils/helper';
+import {
+  extendObject,
+  createObject,
+  getVariable,
+  cloneObject,
+  setVariable,
+  deleteVariable
+} from '../utils/helper';
 import {dataMapping} from '../utils/tpl-builtin';
 import {SimpleMap} from '../utils/SimpleMap';
 import {StoreNode} from './node';
@@ -17,6 +24,15 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     drawerOpen: false,
     drawerData: types.optional(types.frozen(), undefined)
   })
+  .views(self => ({
+    getValueByName(name: string, canAccessSuper: boolean = true) {
+      return getVariable(self.data, name, canAccessSuper);
+    },
+
+    getPristineValueByName(name: string) {
+      return getVariable(self.pristine, name, false);
+    }
+  }))
   .actions(self => {
     const dialogCallbacks = new SimpleMap<(result?: any) => void>();
 
@@ -53,6 +69,71 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         });
 
         self.data = newData;
+      },
+
+      changeValue(
+        name: string,
+        value: any,
+        changePristine?: boolean,
+        force?: boolean,
+        otherModifier?: (data: Object) => void
+      ) {
+        if (!name) {
+          return;
+        }
+
+        const origin = getVariable(self.data, name, false);
+
+        if (value === origin && !force) {
+          return;
+        }
+
+        const prev = self.data;
+        const data = cloneObject(self.data);
+        if (prev.__prev) {
+          // 基于之前的 __prev 改
+          const prevData = cloneObject(prev.__prev);
+          setVariable(prevData, name, origin);
+          Object.defineProperty(data, '__prev', {
+            value: prevData,
+            enumerable: false,
+            configurable: false,
+            writable: false
+          });
+        } else {
+          Object.defineProperty(data, '__prev', {
+            value: {...prev},
+            enumerable: false,
+            configurable: false,
+            writable: false
+          });
+        }
+
+        if (value === undefined) {
+          deleteVariable(data, name);
+        } else {
+          setVariable(data, name, value);
+        }
+
+        otherModifier?.(data);
+
+        if (changePristine) {
+          const pristine = cloneObject(self.pristine);
+          setVariable(pristine, name, value);
+          otherModifier?.(pristine);
+          self.pristine = pristine;
+        }
+
+        if (!data.__pristine) {
+          Object.defineProperty(data, '__pristine', {
+            value: self.pristine,
+            enumerable: false,
+            configurable: false,
+            writable: false
+          });
+        }
+
+        self.data = data;
       },
 
       setCurrentAction(action: object) {

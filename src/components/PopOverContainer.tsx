@@ -1,7 +1,8 @@
 import React from 'react';
-import {autobind} from '../utils/helper';
+import {autobind, isMobile} from '../utils/helper';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
+import PopUp from './PopUp';
 import {findDOMNode} from 'react-dom';
 
 export interface PopOverContainerProps {
@@ -13,6 +14,7 @@ export interface PopOverContainerProps {
   popOverRender: (props: {onClose: () => void}) => JSX.Element;
   popOverContainer?: any;
   popOverClassName?: string;
+  useMobileUI?: boolean;
 }
 
 export interface PopOverContainerState {
@@ -60,11 +62,13 @@ export class PopOverContainer extends React.Component<
 
   render() {
     const {
+      useMobileUI,
       children,
       popOverContainer,
       popOverClassName,
       popOverRender: dropdownRender
     } = this.props;
+    const mobileUI = useMobileUI && isMobile();
     return (
       <>
         {children({
@@ -72,26 +76,36 @@ export class PopOverContainer extends React.Component<
           onClick: this.handleClick,
           ref: this.targetRef
         })}
-
-        <Overlay
-          container={popOverContainer || this.getParent}
-          target={this.getTarget}
-          placement={'auto'}
-          show={this.state.isOpened}
-        >
-          <PopOver
-            overlay
+        {mobileUI ? (
+          <PopUp
+            isShow={this.state.isOpened}
+            container={popOverContainer}
             className={popOverClassName}
-            style={{
-              minWidth: this.target
-                ? Math.max(this.target.getBoundingClientRect().width, 100)
-                : 'auto'
-            }}
             onHide={this.close}
           >
             {dropdownRender({onClose: this.close})}
-          </PopOver>
-        </Overlay>
+          </PopUp>
+        ) : (
+          <Overlay
+            container={popOverContainer || this.getParent}
+            target={this.getTarget}
+            placement={'auto'}
+            show={this.state.isOpened}
+          >
+            <PopOver
+              overlay
+              className={popOverClassName}
+              style={{
+                minWidth: this.target
+                  ? Math.max(this.target.offsetWidth, 100)
+                  : 'auto'
+              }}
+              onHide={this.close}
+            >
+              {dropdownRender({onClose: this.close})}
+            </PopOver>
+          </Overlay>
+        )}
       </>
     );
   }

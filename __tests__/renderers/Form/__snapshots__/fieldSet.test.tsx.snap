@@ -3,17 +3,17 @@
 exports[`Renderer:fieldSet 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,47 +22,75 @@ exports[`Renderer:fieldSet 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <fieldset
-          class="a-Collapse a-Collapse--collapsable no-border"
+          class="cxd-Collapse is-active no-border"
         >
+          <legend
+            class="cxd-Collapse-header bg-dark"
+          >
+            <span
+              class="cxd-Collapse-arrow"
+            />
+            <span
+              class="cxd-TplField"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+          </legend>
           <div
-            class="a-Collapse-content a-Collapse-body bg-white"
+            class="cxd-Collapse-contentWrapper"
           >
             <div
-              class="a-Form--horizontal"
+              class="cxd-Collapse-body bg-white"
             >
               <div
-                class="a-Form-item a-Form-item--horizontal"
-                data-role="form-item"
+                class="cxd-Collapse-content"
               >
-                <label
-                  class="a-Form-label a-Form-itemColumn--normal"
-                >
-                  <span />
-                </label>
                 <div
-                  class="a-Form-value a-Form-itemColumn--7"
+                  class="cxd-Form--horizontal"
                 >
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="cxd-Form-item cxd-Form-item--horizontal"
+                    data-role="form-item"
                   >
-                    <div
-                      class="a-TextControl-input"
+                    <label
+                      class="cxd-Form-label cxd-Form-itemColumn--normal"
                     >
-                      <input
-                        autocomplete="off"
-                        name="text"
-                        placeholder=""
-                        size="10"
-                        type="text"
-                        value=""
-                      />
+                      <span />
+                    </label>
+                    <div
+                      class="cxd-Form-value"
+                    >
+                      <div
+                        class="cxd-Form-control cxd-TextControl"
+                      >
+                        <div
+                          class="cxd-TextControl-input"
+                        >
+                          <input
+                            autocomplete="off"
+                            name="text"
+                            placeholder=""
+                            size="10"
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -70,10 +98,6 @@ exports[`Renderer:fieldSet 1`] = `
             </div>
           </div>
         </fieldset>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

@@ -28,6 +28,14 @@ export const StoreNode = types
 
       get __() {
         return getEnv(self).translate;
+      },
+
+      get hasChildren() {
+        return !!self.childrenIds.length;
+      },
+
+      get children(): Array<any> {
+        return self.childrenIds.map(item => getStoreById(item));
       }
     };
   })

@@ -1,9 +1,13 @@
+.#{$ns}NestedSelectControl {
+  position: relative;
+}
+
 .#{$ns}NestedSelect {
   position: relative;
-
+  @include input-border();
   &-optionArrowRight {
     display: inline-block;
-    padding-right: px2rem(10px);
+    padding-right: px2rem(40px);
 
     svg {
       width: px2rem(12px);
@@ -17,7 +21,19 @@
   }
 
   &-noResult {
+    width: px2rem(160px);
     padding: 0 var(--gap-xs);
+    color: var(--Form-select-placeholderColor);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-select-input-fontSize);
+    user-select: none;
+    padding: calc(
+        (
+            var(--Form-select-menu-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--Form-select-paddingX);
   }
 
   &-menu {
@@ -45,11 +61,14 @@
 
       > .#{$ns}NestedSelect-optionLabel {
         flex: 1;
-
+        height: px2rem(32px);
         &.is-disabled {
           cursor: not-allowed;
           color: var(--text--muted-color);
         }
+      }
+      .#{$ns}NestedSelect-optionLabel-highlight {
+        color: var(--Form-select-menu-onActive-color);
       }
 
       &.is-active {
@@ -66,9 +85,18 @@
         display: block;
       }
 
-      &.checkall {
-        border-bottom: px2rem(1px) solid #eceff8;
+      &.no-result {
+        justify-content: center;
+        cursor: default;
+        color: var(--Form-select-placeholderColor);
+        &:hover {
+          color: unset;
+          background: unset;
+        }
       }
     }
+  }
+  &-popup {
+    height: px2rem(460px);
   }
 }

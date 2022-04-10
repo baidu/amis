@@ -23,7 +23,7 @@ export default {
   tabs: [
     {
       title: '基础',
-      controls: buildOptions('tooltip.', tooltipOptions)
+      body: buildOptions('tooltip.', tooltipOptions)
     }
   ]
 };

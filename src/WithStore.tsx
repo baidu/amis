@@ -1,5 +1,6 @@
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {observer} from 'mobx-react';
+import {isAlive} from 'mobx-state-tree';
 import React from 'react';
 import {RendererProps} from './factory';
 import {IIRendererStore, IRendererStore} from './store';
@@ -10,13 +11,15 @@ import {
   extendObject,
   guid,
   isObjectShallowModified,
-  syncDataFromSuper
+  syncDataFromSuper,
+  isSuperDataModified
 } from './utils/helper';
+import {dataMapping} from './utils/tpl-builtin';
 import {RootStoreContext} from './WithRootStore';
 
 export function HocStoreFactory(renderer: {
   storeType: string;
-  extendsData?: boolean;
+  extendsData?: boolean | ((props: any) => boolean);
   shouldSyncSuperStore?: (
     store: any,
     props: any,
@@ -44,6 +47,78 @@ export function HocStoreFactory(renderer: {
       context!: React.ContextType<typeof RootStoreContext>;
       ref: any;
 
+      constructor(
+        props: Props,
+        context: React.ContextType<typeof RootStoreContext>
+      ) {
+        super(props);
+
+        const rootStore = context;
+        this.renderChild = this.renderChild.bind(this);
+        this.refFn = this.refFn.bind(this);
+
+        const store = rootStore.addStore({
+          id: guid(),
+          path: this.props.$path,
+          storeType: renderer.storeType,
+          parentId: this.props.store ? this.props.store.id : ''
+        }) as IIRendererStore;
+        this.store = store;
+
+        const extendsData =
+          typeof renderer.extendsData === 'function'
+            ? renderer.extendsData(props)
+            : renderer.extendsData;
+
+        if (extendsData === false) {
+          store.initData(
+            createObject(
+              (this.props.data as any)
+                ? (this.props.data as any).__super
+                : null,
+              {
+                ...this.formatData(
+                  dataMapping(this.props.defaultData, this.props.data)
+                ),
+                ...this.formatData(this.props.data)
+              }
+            )
+          );
+        } else if (
+          this.props.scope ||
+          (this.props.data && (this.props.data as any).__super)
+        ) {
+          if (this.props.store && this.props.data === this.props.store.data) {
+            store.initData(
+              createObject(this.props.store.data, {
+                ...this.formatData(
+                  dataMapping(this.props.defaultData, this.props.data)
+                )
+              })
+            );
+          } else {
+            store.initData(
+              createObject(
+                (this.props.data as any).__super || this.props.scope,
+                {
+                  ...this.formatData(
+                    dataMapping(this.props.defaultData, this.props.data)
+                  ),
+                  ...this.formatData(this.props.data)
+                }
+              )
+            );
+          }
+        } else {
+          store.initData({
+            ...this.formatData(
+              dataMapping(this.props.defaultData, this.props.data)
+            ),
+            ...this.formatData(this.props.data)
+          });
+        }
+      }
+
       getWrappedInstance() {
         return this.ref;
       }
@@ -62,150 +137,117 @@ export function HocStoreFactory(renderer: {
         return data as object;
       }
 
-      componentWillMount() {
-        const rootStore = this.context;
-        this.renderChild = this.renderChild.bind(this);
-        this.refFn = this.refFn.bind(this);
-
-        const store = rootStore.addStore({
-          id: guid(),
-          path: this.props.$path,
-          storeType: renderer.storeType,
-          parentId: this.props.store ? this.props.store.id : ''
-        }) as IIRendererStore;
-        this.store = store;
-
-        if (renderer.extendsData === false) {
-          store.initData(
-            createObject(
-              (this.props.data as any)
-                ? (this.props.data as any).__super
-                : null,
-              {
-                ...this.formatData(this.props.defaultData),
-                ...this.formatData(this.props.data)
-              }
-            )
-          );
-        } else if (
-          this.props.scope ||
-          (this.props.data && (this.props.data as any).__super)
-        ) {
-          if (this.props.store && this.props.data === this.props.store.data) {
-            store.initData(
-              createObject(this.props.store.data, {
-                ...this.formatData(this.props.defaultData)
-              })
-            );
-          } else {
-            store.initData(
-              createObject(
-                (this.props.data as any).__super || this.props.scope,
-                {
-                  ...this.formatData(this.props.defaultData),
-                  ...this.formatData(this.props.data)
-                }
-              )
-            );
-          }
-        } else {
-          store.initData({
-            ...this.formatData(this.props.defaultData),
-            ...this.formatData(this.props.data)
-          });
-        }
-      }
-
-      componentWillReceiveProps(nextProps: RendererProps) {
+      componentDidUpdate(prevProps: RendererProps) {
         const props = this.props;
         const store = this.store;
         const shouldSync = renderer.shouldSyncSuperStore?.(
           store,
-          nextProps,
-          props
+          props,
+          prevProps
         );
 
         if (shouldSync === false) {
           return;
         }
 
-        if (renderer.extendsData === false) {
+        const extendsData =
+          typeof renderer.extendsData === 'function'
+            ? renderer.extendsData(props)
+            : renderer.extendsData;
+        if (extendsData === false) {
           if (
             shouldSync === true ||
-            props.defaultData !== nextProps.defaultData ||
-            isObjectShallowModified(props.data, nextProps.data) ||
+            prevProps.defaultData !== props.defaultData ||
+            isObjectShallowModified(prevProps.data, props.data) ||
             //
             // 特殊处理 CRUD。
             // CRUD 中 toolbar 里面的 data 是空对象，但是 __super 会不一样
-            (nextProps.data &&
-              props.data &&
-              nextProps.data.__super !== props.data.__super)
+            (props.data &&
+              prevProps.data &&
+              props.data.__super !== prevProps.data.__super)
           ) {
             store.initData(
-              extendObject(nextProps.data, {
+              extendObject(props.data, {
                 ...(store.hasRemoteData ? store.data : null), // todo 只保留 remote 数据
-                ...this.formatData(nextProps.defaultData),
-                ...this.formatData(nextProps.data)
+                ...this.formatData(props.defaultData),
+                ...this.formatData(props.data)
               })
             );
           }
         } else if (
           shouldSync === true ||
-          isObjectShallowModified(props.data, nextProps.data)
+          isObjectShallowModified(prevProps.data, props.data) ||
+          (props.syncSuperStore !== false &&
+            isSuperDataModified(props.data, prevProps.data, store))
         ) {
-          if (nextProps.store && nextProps.store.data === nextProps.data) {
+          if (props.store && props.store.data === props.data) {
             store.initData(
               createObject(
-                nextProps.store.data,
-                nextProps.syncSuperStore === false
+                props.store.data,
+                props.syncSuperStore === false
                   ? {
                       ...store.data
                     }
                   : syncDataFromSuper(
                       store.data,
-                      nextProps.store.data,
-                      props.scope,
+                      props.store.data,
+                      prevProps.scope,
                       store,
-                      nextProps.syncSuperStore === true
+                      props.syncSuperStore === true
                     )
               )
             );
-          } else if (nextProps.data && (nextProps.data as any).__super) {
-            store.initData(extendObject(nextProps.data));
+          } else if (props.data && (props.data as any).__super) {
+            store.initData(
+              extendObject(
+                props.data,
+                store.hasRemoteData || store.path === 'page'
+                  ? {
+                      ...store.data,
+                      ...props.data
+                    }
+                  : undefined
+              )
+            );
           } else {
-            store.initData(createObject(nextProps.scope, nextProps.data));
+            store.initData(createObject(props.scope, props.data));
           }
         } else if (
           (shouldSync === true ||
-            !nextProps.store ||
-            nextProps.data !== nextProps.store.data) &&
-          nextProps.data &&
-          nextProps.data.__super
+            !props.store ||
+            props.data !== props.store.data) &&
+          props.data &&
+          props.data.__super
         ) {
           // 这个用法很少，当 data.__super 值发生变化时，更新 store.data
-          (!props.data ||
+          if (
+            !prevProps.data ||
             isObjectShallowModified(
-              nextProps.data.__super,
               props.data.__super,
+              prevProps.data.__super,
               false
-            )) &&
-            // nextProps.data.__super !== props.data.__super) &&
+            )
+          ) {
             store.initData(
-              createObject(nextProps.data.__super, {
-                ...nextProps.data,
+              createObject(props.data.__super, {
+                ...props.data,
                 ...store.data
               }),
 
               store.storeType === 'FormStore' &&
-                props.store?.storeType === 'CRUDStore'
+                prevProps.store?.storeType === 'CRUDStore'
             );
+          }
+          // nextProps.data.__super !== props.data.__super) &&
         } else if (
-          nextProps.scope &&
-          nextProps.data === nextProps.store!.data &&
-          (shouldSync === true || props.data !== nextProps.data)
+          props.scope &&
+          props.data === props.store!.data &&
+          (shouldSync === true || prevProps.data !== props.data)
         ) {
+          // 只有父级数据变动的时候才应该进来，
+          // 目前看来这个 case 很少有情况下能进来
           store.initData(
-            createObject(nextProps.scope, {
+            createObject(props.scope, {
               // ...nextProps.data,
               ...store.data
             })
@@ -216,7 +258,8 @@ export function HocStoreFactory(renderer: {
       componentWillUnmount() {
         const rootStore = this.context as IRendererStore;
         const store = this.store;
-        rootStore.removeStore(store);
+
+        isAlive(store) && rootStore.removeStore(store);
 
         // @ts-ignore
         delete this.store;

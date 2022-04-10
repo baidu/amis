@@ -8,6 +8,10 @@ import {
 } from '../../utils/tpl-builtin';
 import {SchemaTokenizeableString} from '../../Schema';
 import {autobind} from '../../utils/helper';
+import {bindRendererEvent} from '../../actions/Decorators';
+
+import type {Position} from 'monaco-editor';
+import type {ListenerAction} from '../../actions/Action';
 
 /**
  * Diff 编辑器
@@ -17,7 +21,7 @@ export interface DiffControlSchema extends FormBaseControl {
   /**
    * 指定为 Diff 编辑器
    */
-  type: 'diff';
+  type: 'diff-editor';
 
   /**
    * 左侧面板的值， 支持取变量。
@@ -34,6 +38,8 @@ export interface DiffControlSchema extends FormBaseControl {
    */
   options?: any;
 }
+
+export type DiffEditorRendererEvent = 'blur' | 'focus';
 
 function loadComponent(): Promise<any> {
   return import('../../components/Editor').then(item => item.default);
@@ -98,21 +104,39 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     this.handleBlur = this.handleBlur.bind(this);
     this.editorFactory = this.editorFactory.bind(this);
     this.handleEditorMounted = this.handleEditorMounted.bind(this);
-    this.handleModifiedEditorChange = this.handleModifiedEditorChange.bind(
-      this
-    );
+    this.handleModifiedEditorChange =
+      this.handleModifiedEditorChange.bind(this);
   }
 
   componentWillUnmount() {
     this.toDispose.forEach(fn => fn());
   }
 
+  doAction(action: ListenerAction, args: any) {
+    const actionType = action?.actionType as string;
+
+    if (actionType === 'focus') {
+      this.focus();
+    }
+  }
+
+  focus() {
+    this.editor.focus();
+    this.setState({focused: true});
+
+    // 最近一次光标位置
+    const position: Position | null = this.editor?.getPosition();
+    this.editor?.setPosition(position);
+  }
+
+  @bindRendererEvent<DiffEditorProps, DiffEditorRendererEvent>('focus')
   handleFocus() {
     this.setState({
       focused: true
     });
   }
 
+  @bindRendererEvent<DiffEditorProps, DiffEditorRendererEvent>('blur')
   handleBlur() {
     this.setState({
       focused: false
@@ -124,7 +148,6 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
 
     if (
       this.originalEditor &&
-      diffValue &&
       (diffValue !== prevProps.diffValue || data !== prevProps.data)
     ) {
       this.originalEditor.getModel().setValue(
@@ -144,7 +167,6 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
 
     if (
       this.modifiedEditor &&
-      value &&
       value !== prevProps.value &&
       !this.state.focused
     ) {
@@ -263,6 +285,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
             ...options,
             readOnly: disabled
           }}
+          isDiffEditor
         />
       </div>
     );
@@ -279,13 +302,13 @@ export class DiffEditorControlRenderer extends DiffEditor {
   };
 }
 
-@Renderer({
-  test: /(^|\/)diff-editor$/,
-  name: 'diff-editor'
-})
-export class DiffEditorRenderer extends DiffEditor {
-  static defaultProps = {
-    ...DiffEditor.defaultProps,
-    disabled: true
-  };
-}
+// @Renderer({
+//   test: /(^|\/)diff-editor$/,
+//   name: 'diff-editor'
+// })
+// export class DiffEditorRenderer extends DiffEditor {
+//   static defaultProps = {
+//     ...DiffEditor.defaultProps,
+//     disabled: true
+//   };
+// }

@@ -3,13 +3,13 @@
 exports[`Renderer:hbox 1`] = `
 <div>
   <div
-    class="a-Hbox"
+    class="cxd-Hbox cxd-Hbox--xs"
   >
     <div
-      class="a-Hbox-col w-xs"
+      class="cxd-Hbox-col w-xs"
     >
       <div
-        class="a-TplField bg-info"
+        class="cxd-TplField bg-info"
       >
         <span>
           w-xs
@@ -17,10 +17,10 @@ exports[`Renderer:hbox 1`] = `
       </div>
     </div>
     <div
-      class="a-Hbox-col w-sm"
+      class="cxd-Hbox-col w-sm"
     >
       <div
-        class="a-TplField bg-info lter"
+        class="cxd-TplField bg-info lter"
       >
         <span>
           w-sm
@@ -28,10 +28,10 @@ exports[`Renderer:hbox 1`] = `
       </div>
     </div>
     <div
-      class="a-Hbox-col w"
+      class="cxd-Hbox-col w"
     >
       <div
-        class="a-TplField bg-info dk"
+        class="cxd-TplField bg-info dk"
       >
         <span>
           w
@@ -39,10 +39,10 @@ exports[`Renderer:hbox 1`] = `
       </div>
     </div>
     <div
-      class="a-Hbox-col"
+      class="cxd-Hbox-col"
     >
       <div
-        class="a-TplField bg-success"
+        class="cxd-TplField bg-success"
       >
         <span>
           平均分配
@@ -50,10 +50,10 @@ exports[`Renderer:hbox 1`] = `
       </div>
     </div>
     <div
-      class="a-Hbox-col"
+      class="cxd-Hbox-col"
     >
       <div
-        class="a-TplField bg-primary"
+        class="cxd-TplField bg-primary"
       >
         <span>
           平均分配

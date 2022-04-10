@@ -12,21 +12,27 @@ import {Icon} from './icons';
 import Overlay from './Overlay';
 import Calendar from './calendar/Calendar';
 import PopOver from './PopOver';
+import PopUp from './PopUp';
 import {themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
-import {noop} from '../utils/helper';
+import {isMobile, noop} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import {DateRangePicker} from './DateRangePicker';
 import capitalize from 'lodash/capitalize';
+import {ShortCuts, ShortCutDateRange} from './DatePicker';
+import {availableRanges} from './DateRangePicker';
+import CalendarMobile from './CalendarMobile';
 
 export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
+  popoverClassName?: string;
   placeholder?: string;
   theme?: any;
   format: string;
   utc?: boolean;
   inputFormat?: string;
-  // ranges?: string | Array<ShortCuts>;
+  timeFormat?: string;
+  ranges?: string | Array<ShortCuts>;
   clearable?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
@@ -43,6 +49,9 @@ export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   resetValue?: any;
   popOverContainer?: any;
   embed?: boolean;
+  useMobileUI?: boolean;
+  onFocus?: Function;
+  onBlur?: Function;
 }
 
 export interface MonthRangePickerState {
@@ -93,6 +102,7 @@ export class MonthRangePicker extends React.Component<
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
     this.renderMonth = this.renderMonth.bind(this);
+    this.handleMobileChange = this.handleMobileChange.bind(this);
     const {format, joinValues, delimiter, value} = this.props;
 
     this.state = {
@@ -102,11 +112,11 @@ export class MonthRangePicker extends React.Component<
     };
   }
 
-  componentWillReceiveProps(nextProps: MonthRangePickerProps) {
+  componentDidUpdate(prevProps: MonthRangePickerProps) {
     const props = this.props;
-    const {value, format, joinValues, delimiter} = nextProps;
+    const {value, format, joinValues, delimiter} = props;
 
-    if (props.value !== value) {
+    if (prevProps.value !== value) {
       this.setState({
         ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter)
       });
@@ -129,16 +139,20 @@ export class MonthRangePicker extends React.Component<
     this.dom.current.blur();
   }
 
-  handleFocus() {
+  handleFocus(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: true
     });
+    const {onFocus} = this.props;
+    onFocus && onFocus(e);
   }
 
-  handleBlur() {
+  handleBlur(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: false
     });
+    const {onBlur} = this.props;
+    onBlur && onBlur(e);
   }
 
   open() {
@@ -274,12 +288,84 @@ export class MonthRangePicker extends React.Component<
     );
   }
 
+  handleMobileChange(data: any, callback?: () => void) {
+    this.setState(
+      {
+        startDate: data.startDate,
+        endDate: data.endDate
+      },
+      callback
+    );
+  }
+
+  selectRannge(range: PlainObject) {
+    const {closeOnSelect, minDate, maxDate} = this.props;
+    this.setState(
+      {
+        startDate: minDate
+          ? moment.max(range.startDate(moment()), minDate)
+          : range.startDate(moment()),
+        endDate: maxDate
+          ? moment.min(maxDate, range.endDate(moment()))
+          : range.endDate(moment())
+      },
+      closeOnSelect ? this.confirm : noop
+    );
+  }
+
+  renderRanges(ranges: string | Array<ShortCuts> | undefined) {
+    if (!ranges) {
+      return null;
+    }
+    const {classPrefix: ns} = this.props;
+    let rangeArr: Array<string | ShortCuts>;
+    if (typeof ranges === 'string') {
+      rangeArr = ranges.split(',');
+    } else {
+      rangeArr = ranges;
+    }
+    const __ = this.props.translate;
+
+    return (
+      <ul className={`${ns}DateRangePicker-rangers`}>
+        {rangeArr.map(item => {
+          if (!item) {
+            return null;
+          }
+          let range: PlainObject = {};
+          if (typeof item === 'string') {
+            range = availableRanges[item];
+            range.key = item;
+          } else if (
+            (item as ShortCutDateRange).startDate &&
+            (item as ShortCutDateRange).endDate
+          ) {
+            range = {
+              ...item,
+              startDate: () => (item as ShortCutDateRange).startDate,
+              endDate: () => (item as ShortCutDateRange).endDate
+            };
+          }
+          return (
+            <li
+              className={`${ns}DateRangePicker-ranger`}
+              onClick={() => this.selectRannge(range)}
+              key={range.key || range.label}
+            >
+              <a>{__(range.label)}</a>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  }
+
   clearValue(e: React.MouseEvent<any>) {
     e.preventDefault();
     e.stopPropagation();
-    const {resetValue, onChange} = this.props;
+    const {onChange} = this.props;
 
-    onChange(resetValue);
+    onChange('');
   }
 
   checkStartIsValidDate(currentDate: moment.Moment) {
@@ -374,7 +460,15 @@ export class MonthRangePicker extends React.Component<
   }
 
   renderCalendar() {
-    const {classPrefix: ns, classnames: cx, locale, embed} = this.props;
+    const {
+      classPrefix: ns,
+      classnames: cx,
+      locale,
+      embed,
+      ranges,
+      inputFormat,
+      timeFormat
+    } = this.props;
     const __ = this.props.translate;
     const viewMode: 'months' = 'months';
     const dateFormat = 'YYYY-MM';
@@ -382,12 +476,15 @@ export class MonthRangePicker extends React.Component<
 
     return (
       <div className={`${ns}DateRangePicker-wrap`}>
+        {this.renderRanges(ranges)}
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
           onChange={this.handleStartChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
+          inputFormat={inputFormat}
+          timeFormat={timeFormat}
           isValidDate={this.checkStartIsValidDate}
           viewMode={viewMode}
           input={false}
@@ -405,6 +502,8 @@ export class MonthRangePicker extends React.Component<
           onChange={this.handleEndChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
+          inputFormat={inputFormat}
+          timeFormat={timeFormat}
           viewDate={this.nextMonth}
           isEndDate
           isValidDate={this.checkEndIsValidDate}
@@ -437,6 +536,7 @@ export class MonthRangePicker extends React.Component<
   render() {
     const {
       className,
+      popoverClassName,
       classPrefix: ns,
       value,
       placeholder,
@@ -448,10 +548,18 @@ export class MonthRangePicker extends React.Component<
       clearable,
       disabled,
       embed,
-      overlayPlacement
+      overlayPlacement,
+      useMobileUI,
+      timeFormat,
+      minDate,
+      maxDate,
+      minDuration,
+      maxDuration,
+      ranges
     } = this.props;
+    const mobileUI = isMobile() && useMobileUI;
 
-    const {isOpened, isFocused} = this.state;
+    const {isOpened, isFocused, startDate, endDate} = this.state;
 
     const selectedDate = DateRangePicker.unFormatValue(
       value,
@@ -470,6 +578,26 @@ export class MonthRangePicker extends React.Component<
     endViewValue && arr.push(endViewValue);
     const __ = this.props.translate;
 
+    const calendarMobile = (
+      <CalendarMobile
+        timeFormat={timeFormat}
+        inputFormat={inputFormat}
+        startDate={startDate}
+        endDate={endDate}
+        minDate={minDate}
+        maxDate={maxDate}
+        minDuration={minDuration}
+        maxDuration={maxDuration}
+        embed={embed}
+        viewMode="months"
+        close={this.close}
+        confirm={this.confirm}
+        onChange={this.handleMobileChange}
+        footerExtra={this.renderRanges(ranges)}
+        showViewMode="years"
+      />
+    );
+
     if (embed) {
       return (
         <div
@@ -481,10 +609,16 @@ export class MonthRangePicker extends React.Component<
             className
           )}
         >
-          {this.renderCalendar()}
+          {mobileUI ? calendarMobile : this.renderCalendar()}
         </div>
       );
     }
+
+    const CalendarMobileTitle = (
+      <div className={`${ns}CalendarMobile-title`}>
+        {__('Calendar.datepicker')}
+      </div>
+    );
 
     return (
       <div
@@ -496,7 +630,8 @@ export class MonthRangePicker extends React.Component<
           `${ns}DateRangePicker`,
           {
             'is-disabled': disabled,
-            'is-focused': isFocused
+            'is-focused': isFocused,
+            'is-mobile': useMobileUI && isMobile()
           },
           className
         )}
@@ -520,28 +655,40 @@ export class MonthRangePicker extends React.Component<
         ) : null}
 
         <a className={`${ns}DateRangePicker-toggler`}>
-          <Icon icon="calendar" className="icon" />
+          <Icon icon="clock" className="icon" />
         </a>
 
         {isOpened ? (
-          <Overlay
-            target={() => this.dom.current}
-            onHide={this.close}
-            container={popOverContainer || (() => findDOMNode(this))}
-            rootClose={false}
-            placement={overlayPlacement}
-            show
-          >
-            <PopOver
-              classPrefix={ns}
-              className={`${ns}DateRangePicker-popover`}
+          mobileUI ? (
+            <PopUp
+              isShow={isOpened}
+              container={popOverContainer}
+              className={cx(`${ns}CalendarMobile-pop`)}
               onHide={this.close}
-              onClick={this.handlePopOverClick}
-              overlay
+              header={CalendarMobileTitle}
             >
-              {this.renderCalendar()}
-            </PopOver>
-          </Overlay>
+              {calendarMobile}
+            </PopUp>
+          ) : (
+            <Overlay
+              target={() => this.dom.current}
+              onHide={this.close}
+              container={popOverContainer || (() => findDOMNode(this))}
+              rootClose={false}
+              placement={overlayPlacement}
+              show
+            >
+              <PopOver
+                classPrefix={ns}
+                className={cx(`${ns}DateRangePicker-popover`, popoverClassName)}
+                onHide={this.close}
+                onClick={this.handlePopOverClick}
+                overlay
+              >
+                {this.renderCalendar()}
+              </PopOver>
+            </Overlay>
+          )
         ) : null}
       </div>
     );

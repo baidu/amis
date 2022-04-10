@@ -2,6 +2,9 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
+import {withBadge, BadgeSchema} from '../../components/Badge';
+import {autobind, createObject} from '../../utils/helper';
+import {Action} from '../../types';
 
 /**
  * Checkbox 勾选框。
@@ -16,17 +19,25 @@ export interface CheckboxControlSchema extends FormBaseControl {
   /**
    * 勾选值
    */
-  trueValue?: any;
+  trueValue?: boolean | string | number;
 
   /**
    * 未勾选值
    */
-  falseValue?: any;
+  falseValue?: boolean | string | number;
 
   /**
    * 选项说明
    */
   option?: string;
+
+  /**
+   * 角标
+   */
+  badge?: BadgeSchema;
+  partial?: boolean;
+  optionType?: 'default' | 'button';
+  checked?: boolean;
 }
 
 export interface CheckboxProps
@@ -44,6 +55,33 @@ export default class CheckboxControl extends React.Component<
     trueValue: true,
     falseValue: false
   };
+
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      onChange(resetValue ?? '');
+    }
+  }
+
+  @autobind
+  async dispatchChangeEvent(eventData: any = {}) {
+    const {dispatchEvent, data, onChange} = this.props;
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value: eventData,
+      })
+    );
+    
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onChange && onChange(eventData);
+  }
+
   render() {
     const {
       className,
@@ -54,6 +92,9 @@ export default class CheckboxControl extends React.Component<
       onChange,
       disabled,
       render,
+      partial,
+      optionType,
+      checked,
       classPrefix: ns
     } = this.props;
 
@@ -65,7 +106,10 @@ export default class CheckboxControl extends React.Component<
           trueValue={trueValue}
           falseValue={falseValue}
           disabled={disabled}
-          onChange={(value: any) => onChange(value)}
+          onChange={(value: any) => this.dispatchChangeEvent(value)}
+          partial={partial}
+          optionType={optionType}
+          checked={checked}
         >
           {option ? render('option', option) : null}
         </Checkbox>
@@ -78,4 +122,6 @@ export default class CheckboxControl extends React.Component<
   type: 'checkbox',
   sizeMutable: false
 })
+// @ts-ignore
+@withBadge
 export class CheckboxControlRenderer extends CheckboxControl {}

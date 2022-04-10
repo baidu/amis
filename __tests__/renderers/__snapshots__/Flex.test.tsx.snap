@@ -1,0 +1,307 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:flex 1`] = `
+<div>
+  <div
+    style="display: flex; flex-direction: row; justify-content: center; align-items: center; align-content: center;"
+  >
+    <span
+      class="cxd-TplField"
+      style="background-color: rgb(26, 92, 255); width: 100px; height: 50px; margin: 5px;"
+    >
+      <span>
+        <span
+          class="text-muted"
+        />
+      </span>
+    </span>
+    <span
+      class="cxd-TplField"
+      style="background-color: rgb(70, 201, 58); width: 100px; height: 50px; margin: 5px;"
+    >
+      <span>
+        <span
+          class="text-muted"
+        />
+      </span>
+    </span>
+    <span
+      class="cxd-TplField"
+      style="background-color: rgb(255, 71, 87); width: 100px; height: 50px; margin: 5px;"
+    >
+      <span>
+        <span
+          class="text-muted"
+        />
+      </span>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Renderer:flex justify 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              center
+            </span>
+          </span>
+          <div
+            style="display: flex; flex-direction: row; justify-content: center; align-items: center; align-content: center;"
+          >
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(26, 92, 255); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(70, 201, 58); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(255, 71, 87); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+          </div>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              flex-start
+            </span>
+          </span>
+          <div
+            style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center; align-content: center;"
+          >
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(26, 92, 255); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(70, 201, 58); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(255, 71, 87); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+          </div>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              flex-end
+            </span>
+          </span>
+          <div
+            style="display: flex; flex-direction: row; justify-content: flex-end; align-items: center; align-content: center;"
+          >
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(26, 92, 255); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(70, 201, 58); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(255, 71, 87); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+          </div>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              space-around
+            </span>
+          </span>
+          <div
+            style="display: flex; flex-direction: row; justify-content: space-around; align-items: center; align-content: center;"
+          >
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(26, 92, 255); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(70, 201, 58); margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(255, 71, 87); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+          </div>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              space-between
+            </span>
+          </span>
+          <div
+            style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; align-content: center;"
+          >
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(26, 92, 255); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(70, 201, 58); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(255, 71, 87); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+          </div>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              space-evenly
+            </span>
+          </span>
+          <div
+            style="display: flex; flex-direction: row; justify-content: space-evenly; align-items: center; align-content: center;"
+          >
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(26, 92, 255); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(70, 201, 58); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-TplField"
+              style="background-color: rgb(255, 71, 87); width: 100px; height: 30px; margin: 5px;"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

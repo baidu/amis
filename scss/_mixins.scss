@@ -228,11 +228,33 @@
     margin-left: $padding-x;
   }
 
+  .#{$ns}Button--loading:first-child:not(:last-child):not(.pull-right),
+  > svg.icon:not(:last-child):not(.pull-right),
+  > .pull-left {
+    margin-right: $padding-x;
+  }
+
+  .#{$ns}Button--loading:last-child:not(:first-child):not(.pull-left),
+  > .pull-right {
+    margin-left: $padding-x;
+  }
+
   // img 需要加一下高度限制
   img.#{$ns}Button-icon {
     height: var(--Button-fontSize);
     vertical-align: middle;
   }
+}
+
+@mixin button-loading-icon() {
+  transition: --Button-transition;
+  svg {
+    @include animation-svg(var(--Button-animation-spin));
+  }
+}
+
+@mixin animation-svg($animation) {
+  animation: $animation;
 }
 
 @mixin button-variant(
@@ -252,17 +274,17 @@
   box-shadow: var(--Button-boxShadow);
   text-shadow: var(--Button-textShadow);
 
-  @include hover {
-    // todo: 无法支持 css 变量
-    // @if ($color != $hover-color) {
-    color: $hover-color;
-    // }
-    // @if ($background != $hover-background) {
-    background: $hover-background;
-    // }
-    // @if ($border != $hover-border) {
-    border-color: $hover-border;
-    // }
+  &:not(:disabled):not(.is-disabled) {
+    @include hover {
+      color: $hover-color;
+      background: $hover-background;
+      border-color: $hover-border;
+    }
+    @include hover-active {
+      color: $active-color;
+      background: $active-background;
+      border-color: $active-border;
+    }
   }
 
   // @include focus {
@@ -281,22 +303,27 @@
 }
 
 @mixin input-clear {
-  padding: px2rem(3px);
+  padding: var(--Form-input-clearBtn-padding);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: auto;
+  text-decoration: none;
 
   svg {
-    fill: var(--Form-input-iconColor);
+    fill: var(--Form-input-clearBtn-color);
     top: 0;
-    width: px2rem(10px);
-    height: px2rem(10px);
+    width: var(--Form-input-clearBtn-size);
+    height: var(--Form-input-clearBtn-size);
   }
 
   &:hover svg {
-    fill: var(--Form-input-onHover-iconColor);
+    fill: var(--Form-input-clearBtn-color-onHover);
+  }
+
+  &:active svg {
+    fill: var(--Form-input-clearBtn-color-onActive);
   }
 }
 
@@ -333,6 +360,18 @@
   }
 }
 
+@mixin input-border {
+  &--borderHalf {
+    border-left-color: transparent !important;
+    border-right-color: transparent !important;
+    border-top-color: transparent !important;
+  }
+
+  &--borderNone {
+    border-color: transparent !important;
+  }
+}
+
 @mixin input-text {
   position: relative;
   max-width: 100%;
@@ -344,6 +383,7 @@
 
   &-input {
     @include input-input();
+    @include input-border();
   }
 
   &.is-error > &-input {

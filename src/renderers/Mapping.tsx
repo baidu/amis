@@ -12,7 +12,7 @@ import {
 } from '../Schema';
 import {withStore} from '../components/WithStore';
 import {flow, Instance, types} from 'mobx-state-tree';
-import {getVariable, guid, isObject} from '../utils/helper';
+import {getPropValue, getVariable, guid, isObject} from '../utils/helper';
 import {StoreNode} from '../store/node';
 import isPlainObject from 'lodash/isPlainObject';
 import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
@@ -20,7 +20,8 @@ import {
   buildApi,
   isApiOutdated,
   isEffectiveApi,
-  normalizeApi
+  normalizeApi,
+  normalizeApiResponseData
 } from '../utils/api';
 
 /**
@@ -72,7 +73,7 @@ export const Store = StoreNode.named('MappingStore')
           const ret: Payload = yield env.fetcher(api, data);
 
           if (ret.ok) {
-            const data = ret.data || {};
+            const data = normalizeApiResponseData(ret.data);
             (self as any).setMap(data);
           } else {
             throw new Error(ret.msg || 'fetch error');
@@ -175,7 +176,7 @@ export const MappingField = withStore(props =>
       }
     }
 
-    render() {
+    renderSingleValue(key: any, reactKey?: number) {
       const {
         className,
         placeholder,
@@ -185,18 +186,13 @@ export const MappingField = withStore(props =>
         data,
         store
       } = this.props;
-      const map = store.map;
-
-      let key =
-        this.props.value ?? (name ? getVariable(data, name) : undefined);
-
       let viewValue: React.ReactNode = (
         <span className="text-muted">{placeholder}</span>
       );
-
-      key = typeof key === 'string' ? key.trim() : key; // trim 一下，干掉一些空白字符。
+      const map = store.map;
       let value: any = undefined;
-
+      // trim 一下，干掉一些空白字符。
+      key = typeof key === 'string' ? key.trim() : key;
       if (
         typeof key !== 'undefined' &&
         map &&
@@ -211,7 +207,26 @@ export const MappingField = withStore(props =>
         viewValue = render('tpl', value);
       }
 
-      return <span className={cx('MappingField', className)}>{viewValue}</span>;
+      return (
+        <span key={`map-${reactKey}`} className={cx('MappingField', className)}>
+          {viewValue}
+        </span>
+      );
+    }
+
+    render() {
+      const mapKey = getPropValue(this.props);
+      if (Array.isArray(mapKey)) {
+        return (
+          <span>
+            {mapKey.map((singleKey: string, index: number) =>
+              this.renderSingleValue(singleKey, index)
+            )}
+          </span>
+        );
+      } else {
+        return this.renderSingleValue(mapKey, 0);
+      }
     }
   }
 );

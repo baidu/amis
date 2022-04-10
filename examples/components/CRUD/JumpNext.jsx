@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '操作并下一个',
   remark: '当存在下一条时，支持直接打开下一条操作。',
   body: {
@@ -78,9 +77,9 @@ export default {
                 type: 'form',
                 name: 'sample-edit-form',
                 api: '/api/sample/$id',
-                controls: [
+                body: [
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'engine',
                     label: 'Engine',
                     required: true
@@ -89,7 +88,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'browser',
                     label: 'Browser',
                     required: true
@@ -98,7 +97,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'platform',
                     label: 'Platform(s)',
                     required: true
@@ -107,7 +106,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'version',
                     label: 'Engine version'
                   },
@@ -115,7 +114,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'grade',
                     label: 'CSS grade'
                   }

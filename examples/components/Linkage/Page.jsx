@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   type: 'page',
   title: '地址栏变化自动更新',
   initApi: '/api/mock2/form/initData?id=${id}',

@@ -290,13 +290,13 @@ body {
 
     &:hover,
     &.is-active {
-      color: #108cee;
+      color: var(--primary);
       position: relative;
       text-decoration: none;
 
       &::before {
         content: '';
-        border-bottom: 2px solid #108cee;
+        border-bottom: 2px solid var(--primary);
         position: absolute;
         width: 100%;
         left: 0;
@@ -329,7 +329,7 @@ body {
 .Doc {
   height: 100%;
 
-  .anchor {
+  a.anchor {
     padding-top: 100px;
     margin-top: -100px;
   }
@@ -440,11 +440,11 @@ body {
 
         &.is-active {
           > a {
-            color: #108cee;
+            color: var(--primary);
             background: transparent;
 
             &:hover {
-              color: #108cee;
+              color: var(--primary);
               background: transparent;
             }
           }
@@ -496,14 +496,14 @@ body {
       &.is-active {
         &::before {
           content: ' ';
-          border-left: px2rem(2px) solid #108cee;
+          border-left: px2rem(2px) solid var(--primary);
           position: absolute;
           left: 0;
           height: px2rem(20px);
           transform: translateY(px2rem(4px));
         }
         > a {
-          color: #108cee;
+          color: var(--primary);
         }
       }
     }
@@ -536,7 +536,7 @@ body {
         }
         &:hover {
           font-weight: 700;
-          color: #108cee;
+          color: var(--primary);
         }
       }
     }
@@ -578,7 +578,7 @@ body {
       text-align: right;
 
       > a {
-        color: #108cee;
+        color: var(--primary);
         font-weight: 600;
       }
     }
@@ -602,11 +602,11 @@ body {
         text-decoration: none;
 
         &:hover {
-          border-color: #108cee;
-          color: #108cee;
+          border-color: var(--primary);
+          color: var(--primary);
 
           .Doc-navLinks-title {
-            color: #108cee;
+            color: var(--primary);
           }
         }
 
@@ -714,7 +714,7 @@ body {
 
     &.is-active > a,
     &.is-active.is-top > a {
-      color: #108cee;
+      color: var(--primary);
     }
   }
 }
@@ -747,7 +747,7 @@ body {
   .Backtop {
     color: #666;
     &:hover {
-      color: #108cee;
+      color: var(--primary);
     }
   }
 
@@ -781,7 +781,7 @@ body {
   background: #fff;
 
   &:hover {
-    color: #108cee;
+    color: var(--primary);
   }
 
   &.visible {
@@ -840,6 +840,7 @@ body {
       top: 100px;
       bottom: 0;
       overflow-y: auto;
+      overflow-x: hidden;
       border-right: 1px solid #e8ebee;
     }
   }
@@ -978,7 +979,7 @@ body {
 
       &::before {
         content: ' ';
-        border-left: 2px solid #108cee;
+        border-left: 2px solid var(--primary);
         margin-right: 10px;
       }
     }
@@ -1028,6 +1029,7 @@ body.dark {
 .Playgroud {
   border: 1px solid #ddd;
   background: var(--body-bg);
+  display: flex;
 
   body.dark & {
     background: #191c22;
@@ -1035,11 +1037,12 @@ body.dark {
   }
 
   &-preview {
-    border-bottom: 1px solid #ddd;
     position: relative;
     display: flex;
     align-items: stretch;
     flex-direction: column;
+    flex-grow: 1;
+    // overflow: hidden;
 
     > div {
       flex: 1;
@@ -1047,7 +1050,20 @@ body.dark {
   }
 
   &-code {
+    border-left: 1px solid #ddd;
+    width: 350px;
     flex-shrink: 0;
-    height: 200px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .Playgroud {
+    flex-direction: column;
+
+    &-code {
+      border-left: none;
+      width: auto;
+      height: 200px;
+    }
   }
 }

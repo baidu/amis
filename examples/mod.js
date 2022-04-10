@@ -296,8 +296,14 @@
     return script;
   };
 
+  require.aliasMapping = {};
   require.alias = function (id) {
+    id = require.aliasMapping[id] || id;
     return id.replace(/\.js$/i, '');
+  };
+  require.exists = function (id) {
+    id = require.alias(id);
+    return !!modulesMap[id];
   };
 
   require.timeout = 5000;

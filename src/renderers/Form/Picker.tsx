@@ -99,7 +99,7 @@ export default class PickerControl extends React.PureComponent<
   static defaultProps: Partial<PickerProps> = {
     modalMode: 'dialog',
     multiple: false,
-    placeholder: '请点击右侧的图标',
+    placeholder: 'Picker.placeholder',
     labelField: 'label',
     valueField: 'value',
     pickerSchema: {
@@ -123,20 +123,16 @@ export default class PickerControl extends React.PureComponent<
     this.fetchOptions();
   }
 
-  componentWillReceiveProps(nextProps: PickerProps) {
-    const props = this.props;
-
-    if (anyChanged(['pickerSchema', 'multiple', 'source'], props, nextProps)) {
-      this.setState({
-        schema: this.buildSchema(nextProps)
-      });
-    }
-  }
-
   componentDidUpdate(prevProps: PickerProps) {
     const props = this.props;
 
-    if (JSON.stringify(props.value) !== JSON.stringify(prevProps.value)) {
+    if (anyChanged(['pickerSchema', 'multiple', 'source'], prevProps, props)) {
+      this.setState({
+        schema: this.buildSchema(props)
+      });
+    } else if (
+      JSON.stringify(props.value) !== JSON.stringify(prevProps.value)
+    ) {
       this.fetchOptions();
     } else if (
       isApiOutdated(prevProps.source, props.source, prevProps.data, props.data)
@@ -357,6 +353,7 @@ export default class PickerControl extends React.PureComponent<
       selectedOptions,
       labelField,
       labelTpl,
+      translate: __,
       disabled
     } = this.props;
 
@@ -370,7 +367,7 @@ export default class PickerControl extends React.PureComponent<
             })}
           >
             <span
-              data-tooltip="删除"
+              data-tooltip={__('delete')}
               data-position="bottom"
               className={`${ns}Picker-valueIcon`}
               onClick={this.removeItem.bind(this, index)}
@@ -401,14 +398,15 @@ export default class PickerControl extends React.PureComponent<
       options,
       multiple,
       valueField,
-      embed
+      embed,
+      source
     } = this.props;
 
     return render('modal-body', this.state.schema, {
       value: selectedOptions,
       valueField,
       primaryField: valueField,
-      options: options,
+      options: source ? [] : options,
       multiple,
       onSelect: embed ? this.handleChange : undefined,
       ref: this.crudRef,
@@ -472,7 +470,7 @@ export default class PickerControl extends React.PureComponent<
 
               {clearable && !disabled && selectedOptions.length ? (
                 <a onClick={this.clearValue} className={cx('Picker-clear')}>
-                  <Icon icon="close" className="icon" />
+                  <Icon icon="input-clear" className="icon" />
                 </a>
               ) : null}
 
@@ -500,38 +498,6 @@ export default class PickerControl extends React.PureComponent<
               }
             )}
           </div>
-          // <div className={`${ns}Picker`}>
-          //         {this.renderValues()}
-
-          //         <Button
-          //             classPrefix={ns}
-          //             className={`${ns}Picker-pickBtn`}
-          //             tooltip="点击选择"
-          //             tooltipContainer={env && env.getModalContainer ? env.getModalContainer : undefined}
-          //             level="info"
-          //             size="sm"
-          //             disabled={disabled}
-          //             onClick={this.open}
-          //             iconOnly
-          //         >
-          //         选定
-          //         </Button>
-
-          //         {render('modal', {
-          //             title: '请选择',
-          //             size: size,
-          //             type: modalMode,
-          //             body: {
-          //                 children: this.renderBody
-          //             }
-          //         }, {
-          //             key: 'modal',
-          //             lazyRender: !!source,
-          //             onConfirm: this.handleModalConfirm,
-          //             onClose: this.close,
-          //             show: this.state.isOpened
-          //         })}
-          //     </div>
         )}
       </div>
     );

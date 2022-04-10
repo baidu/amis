@@ -1,5 +1,6 @@
 .#{$ns}InputBox {
   @include input-input();
+  @include input-border();
 
   &--inline {
     display: inline-flex;

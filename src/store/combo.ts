@@ -11,9 +11,7 @@ export const UniqueGroup = types
   })
   .views(self => ({
     get items() {
-      return self.itemsRef.map(
-        id => (getStoreById(id) as any) as IFormItemStore
-      );
+      return self.itemsRef.map(id => getStoreById(id) as any as IFormItemStore);
     }
   }))
   .actions(self => ({
@@ -149,8 +147,10 @@ export const ComboStore = iRendererStore
             }
           });
 
-          self.forms.forEach(item =>
-            item.items.forEach(item => item.unique && item.syncOptions())
+          self.forms.forEach(form =>
+            form.items.forEach(
+              item => item.unique && item.syncOptions(undefined, form.data)
+            )
           );
         }
       }

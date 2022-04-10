@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'CSV 导出的是原始数据，而 Excel 是尽可能还原展现效果',
   body: {
     type: 'crud',
@@ -16,7 +15,8 @@ export default {
           engine: {
             name: 'Trident',
             version: '4'
-          }
+          },
+          date: '1591326307'
         },
         {
           link: 'https://www.microsoft.com/',
@@ -29,7 +29,8 @@ export default {
             version: '4'
           },
           notExport: '1',
-          grade: 'B'
+          grade: 'B',
+          date: '1591322307'
         },
         {
           link: 'https://www.microsoft.com/',
@@ -41,7 +42,8 @@ export default {
             version: '4'
           },
           notExport: '1',
-          grade: 'C'
+          grade: 'C',
+          date: '1591322307'
         },
         {
           link: 'https://www.microsoft.com/',
@@ -53,7 +55,8 @@ export default {
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 98',
           notExport: '1',
-          grade: 'A'
+          grade: 'A',
+          date: '1591322307'
         },
         {
           link: 'https://www.microsoft.com/',
@@ -65,7 +68,8 @@ export default {
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 98',
           notExport: '1',
-          grade: 'A'
+          grade: 'A',
+          date: '1591322307'
         },
         {
           icon: __uri('../../static/firefox.png'),
@@ -77,7 +81,8 @@ export default {
             version: '4'
           },
           notExport: '1',
-          grade: 'A'
+          grade: 'A',
+          date: '1591322307'
         },
         {
           icon: __uri('../../static/firefox.png'),
@@ -89,7 +94,8 @@ export default {
             version: '5'
           },
           notExport: '1',
-          grade: 'A'
+          grade: 'A',
+          date: '1591322307'
         },
         {
           icon: __uri('../../static/firefox.png'),
@@ -101,7 +107,8 @@ export default {
           browser: 'Firefox 2.0',
           platform: 'Win 98+ / OSX.2+',
           notExport: '1',
-          grade: 'B'
+          grade: 'B',
+          date: '1591322307'
         },
         {
           icon: __uri('../../static/firefox.png'),
@@ -113,7 +120,8 @@ export default {
           browser: 'Firefox 2.0',
           platform: 'Win 98+ / OSX.2+',
           notExport: '1',
-          grade: 'C'
+          grade: 'C',
+          date: '1591322307'
         },
         {
           icon: __uri('../../static/firefox.png'),
@@ -156,7 +164,8 @@ export default {
       {
         name: 'engine.version',
         label: 'CSS版本',
-        tpl: '${engine.version}'
+        type: 'tpl',
+        tpl: '<b>${engine.version}</b>'
       },
       {
         name: 'grade',
@@ -168,6 +177,11 @@ export default {
           C: '差',
           D: '极差'
         }
+      },
+      {
+        name: 'date',
+        label: 'Date',
+        type: 'date'
       }
     ]
   }

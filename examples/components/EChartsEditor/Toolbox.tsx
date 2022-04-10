@@ -14,11 +14,11 @@ export default {
   tabs: [
     {
       title: '基础',
-      controls: buildOptions('toolbox.', toolboxOptions)
+      body: buildOptions('toolbox.', toolboxOptions)
     },
     {
       title: '位置',
-      controls: [viewport('toolbox.', '标题')]
+      body: [viewport('toolbox.', '标题')]
     }
   ]
 };

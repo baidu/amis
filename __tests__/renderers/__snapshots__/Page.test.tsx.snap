@@ -2,40 +2,40 @@
 
 exports[`Renderer:Page 1`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-headerRow"
+        className="cxd-Page-headerRow"
       >
         <div
-          className="a-Page-header"
+          className="cxd-Page-header"
         >
           <h2
-            className="a-Page-title"
+            className="cxd-Page-title"
           >
             <span
-              className="a-TplField"
+              className="cxd-TplField"
             >
               <span>
                 This is Title
               </span>
             </span>
             <div
-              className="a-Remark a-Remark--warning"
+              className="cxd-Remark cxd-Remark--warning"
               onBlur={[Function]}
               onFocus={[Function]}
               onMouseOut={[Function]}
               onMouseOver={[Function]}
             >
               <span
-                className="a-Remark-icon icon"
+                className="cxd-Remark-icon icon"
               >
                 <icon-mock
                   className=" icon-question-mark"
@@ -45,10 +45,10 @@ exports[`Renderer:Page 1`] = `
             </div>
           </h2>
           <small
-            className="a-Page-subTitle"
+            className="cxd-Page-subTitle"
           >
             <span
-              className="a-TplField"
+              className="cxd-TplField"
             >
               <span>
                 This is SubTitle
@@ -57,10 +57,10 @@ exports[`Renderer:Page 1`] = `
           </small>
         </div>
         <div
-          className="a-Page-toolbar"
+          className="cxd-Page-toolbar"
         >
           <span
-            className="a-TplField"
+            className="cxd-TplField"
           >
             <span>
               This is toolbar
@@ -69,10 +69,10 @@ exports[`Renderer:Page 1`] = `
         </div>
       </div>
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             This is body
@@ -86,51 +86,55 @@ exports[`Renderer:Page 1`] = `
 
 exports[`Renderer:Page classNames 1`] = `
 <div
-  className="a-Page a-Page--withSidebar"
+  className="cxd-Page cxd-Page--withSidebar"
   onClick={[Function]}
 >
   <div
-    className="a-Page-aside aside-class-name"
+    className="cxd-Page-aside cxd-Page-aside--withWidth aside-class-name"
   >
     <div
-      className="a-TplField a-Page-asideTplWrapper"
+      className="cxd-Page-asideInner"
     >
-      <span>
-        This is aside
-      </span>
+      <div
+        className="cxd-TplField cxd-Page-asideTplWrapper"
+      >
+        <span>
+          This is aside
+        </span>
+      </div>
     </div>
   </div>
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-headerRow"
+        className="cxd-Page-headerRow"
       >
         <div
-          className="a-Page-header header-class-name"
+          className="cxd-Page-header header-class-name"
         >
           <h2
-            className="a-Page-title"
+            className="cxd-Page-title"
           >
             <span
-              className="a-TplField"
+              className="cxd-TplField"
             >
               <span>
                 This is Title
               </span>
             </span>
             <div
-              className="a-Remark a-Remark--warning"
+              className="cxd-Remark cxd-Remark--warning"
               onBlur={[Function]}
               onFocus={[Function]}
               onMouseOut={[Function]}
               onMouseOver={[Function]}
             >
               <span
-                className="a-Remark-icon icon"
+                className="cxd-Remark-icon icon"
               >
                 <icon-mock
                   className=" icon-question-mark"
@@ -140,10 +144,10 @@ exports[`Renderer:Page classNames 1`] = `
             </div>
           </h2>
           <small
-            className="a-Page-subTitle"
+            className="cxd-Page-subTitle"
           >
             <span
-              className="a-TplField"
+              className="cxd-TplField"
             >
               <span>
                 This is SubTitle
@@ -152,10 +156,10 @@ exports[`Renderer:Page classNames 1`] = `
           </small>
         </div>
         <div
-          className="a-Page-toolbar toolbar-class-name"
+          className="cxd-Page-toolbar toolbar-class-name"
         >
           <span
-            className="a-TplField"
+            className="cxd-TplField"
           >
             <span>
               This is toolbar
@@ -164,10 +168,10 @@ exports[`Renderer:Page classNames 1`] = `
         </div>
       </div>
       <div
-        className="a-Page-body body-class-name"
+        className="cxd-Page-body body-class-name"
       >
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             This is body
@@ -182,19 +186,19 @@ exports[`Renderer:Page classNames 1`] = `
 exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -203,16 +207,10 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable a is 6
@@ -223,20 +221,20 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
     </div>
   </div>
   <div
-    class="amis-dialog-widget a-Modal a-Modal--1th"
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
     role="dialog"
   >
     <div
-      class="a-Modal-overlay in"
+      class="cxd-Modal-overlay in"
     />
     <div
-      class="a-Modal-content in"
+      class="cxd-Modal-content in"
     >
       <div
-        class="a-Modal-header"
+        class="cxd-Modal-header"
       >
         <a
-          class="a-Modal-close"
+          class="cxd-Modal-close"
           data-position="left"
           data-tooltip="关闭"
         >
@@ -246,16 +244,16 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
           />
         </a>
         <div
-          class="a-Modal-title"
+          class="cxd-Modal-title"
         >
           弹框
         </div>
       </div>
       <div
-        class="a-Modal-body"
+        class="cxd-Modal-body"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             this is feedback
@@ -263,10 +261,10 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
         </span>
       </div>
       <div
-        class="a-Modal-footer"
+        class="cxd-Modal-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="button"
         >
           <span>
@@ -274,7 +272,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
           </span>
         </button>
         <button
-          class="a-Button a-Button--primary"
+          class="cxd-Button cxd-Button--primary"
           type="button"
         >
           <span>
@@ -290,19 +288,19 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
 exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -311,10 +309,10 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable a is 6
@@ -330,19 +328,19 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
 exports[`Renderer:Page handleAction actionType=ajax 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -351,16 +349,10 @@ exports[`Renderer:Page handleAction actionType=ajax 1`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable a is 6
@@ -376,19 +368,19 @@ exports[`Renderer:Page handleAction actionType=ajax 1`] = `
 exports[`Renderer:Page handleAction actionType=dialog 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -397,26 +389,26 @@ exports[`Renderer:Page handleAction actionType=dialog 1`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         />
       </div>
     </div>
   </div>
   <div
-    class="amis-dialog-widget a-Modal a-Modal--1th"
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
     role="dialog"
   >
     <div
-      class="a-Modal-overlay in"
+      class="cxd-Modal-overlay in"
     />
     <div
-      class="a-Modal-content in"
+      class="cxd-Modal-content in"
     >
       <div
-        class="a-Modal-header"
+        class="cxd-Modal-header"
       >
         <a
-          class="a-Modal-close"
+          class="cxd-Modal-close"
           data-position="left"
           data-tooltip="关闭"
         >
@@ -426,16 +418,16 @@ exports[`Renderer:Page handleAction actionType=dialog 1`] = `
           />
         </a>
         <div
-          class="a-Modal-title"
+          class="cxd-Modal-title"
         >
           弹框
         </div>
       </div>
       <div
-        class="a-Modal-body"
+        class="cxd-Modal-body"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             this is dialog
@@ -443,10 +435,10 @@ exports[`Renderer:Page handleAction actionType=dialog 1`] = `
         </span>
       </div>
       <div
-        class="a-Modal-footer"
+        class="cxd-Modal-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="button"
         >
           <span>
@@ -454,7 +446,7 @@ exports[`Renderer:Page handleAction actionType=dialog 1`] = `
           </span>
         </button>
         <button
-          class="a-Button a-Button--primary"
+          class="cxd-Button cxd-Button--primary"
           type="button"
         >
           <span>
@@ -470,19 +462,19 @@ exports[`Renderer:Page handleAction actionType=dialog 1`] = `
 exports[`Renderer:Page handleAction actionType=dialog 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -491,7 +483,7 @@ exports[`Renderer:Page handleAction actionType=dialog 2`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         />
       </div>
     </div>
@@ -502,19 +494,19 @@ exports[`Renderer:Page handleAction actionType=dialog 2`] = `
 exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -523,10 +515,10 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable a is 
@@ -537,20 +529,20 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
     </div>
   </div>
   <div
-    class="amis-dialog-widget a-Modal a-Modal--1th"
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
     role="dialog"
   >
     <div
-      class="a-Modal-overlay in"
+      class="cxd-Modal-overlay in"
     />
     <div
-      class="a-Modal-content in"
+      class="cxd-Modal-content in"
     >
       <div
-        class="a-Modal-header"
+        class="cxd-Modal-header"
       >
         <a
-          class="a-Modal-close"
+          class="cxd-Modal-close"
           data-position="left"
           data-tooltip="关闭"
         >
@@ -560,28 +552,32 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
           />
         </a>
         <div
-          class="a-Modal-title"
+          class="cxd-Modal-title"
         >
           弹框
         </div>
       </div>
       <div
-        class="a-Modal-body"
+        class="cxd-Modal-body"
       >
         <form
-          class="a-Form a-Form--horizontal"
+          class="cxd-Form cxd-Form--horizontal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
-            class="a-Form-item a-Form-item--horizontal"
+            class="cxd-Form-item cxd-Form-item--horizontal"
             data-role="form-item"
           >
             <label
-              class="a-Form-label a-Form-itemColumn--2"
+              class="cxd-Form-label cxd-Form-itemColumn--normal"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     A
@@ -590,13 +586,13 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
               </span>
             </label>
             <div
-              class="a-Form-value"
+              class="cxd-Form-value"
             >
               <div
-                class="a-Form-control a-TextControl"
+                class="cxd-Form-control cxd-TextControl"
               >
                 <div
-                  class="a-TextControl-input"
+                  class="cxd-TextControl-input"
                 >
                   <input
                     autocomplete="off"
@@ -610,17 +606,13 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
-        class="a-Modal-footer"
+        class="cxd-Modal-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="submit"
         >
           <span>
@@ -636,19 +628,19 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
 exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -657,10 +649,10 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable a is 3
@@ -671,20 +663,20 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
     </div>
   </div>
   <div
-    class="amis-dialog-widget a-Modal a-Modal--1th"
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
     role="dialog"
   >
     <div
-      class="a-Modal-overlay out"
+      class="cxd-Modal-overlay out"
     />
     <div
-      class="a-Modal-content out"
+      class="cxd-Modal-content out"
     >
       <div
-        class="a-Modal-header"
+        class="cxd-Modal-header"
       >
         <a
-          class="a-Modal-close"
+          class="cxd-Modal-close"
           data-position="left"
           data-tooltip="关闭"
         >
@@ -694,28 +686,32 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
           />
         </a>
         <div
-          class="a-Modal-title"
+          class="cxd-Modal-title"
         >
           弹框
         </div>
       </div>
       <div
-        class="a-Modal-body"
+        class="cxd-Modal-body"
       >
         <form
-          class="a-Form a-Form--horizontal"
+          class="cxd-Form cxd-Form--horizontal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
-            class="a-Form-item a-Form-item--horizontal"
+            class="cxd-Form-item cxd-Form-item--horizontal"
             data-role="form-item"
           >
             <label
-              class="a-Form-label a-Form-itemColumn--2"
+              class="cxd-Form-label cxd-Form-itemColumn--normal"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     A
@@ -724,13 +720,13 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
               </span>
             </label>
             <div
-              class="a-Form-value"
+              class="cxd-Form-value"
             >
               <div
-                class="a-Form-control a-TextControl"
+                class="cxd-Form-control cxd-TextControl"
               >
                 <div
-                  class="a-TextControl-input"
+                  class="cxd-TextControl-input"
                 >
                   <input
                     autocomplete="off"
@@ -744,17 +740,13 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
-        class="a-Modal-footer"
+        class="cxd-Modal-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="submit"
         >
           <span>
@@ -770,19 +762,19 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
 exports[`Renderer:Page handleAction actionType=drawer 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -791,8 +783,65 @@ exports[`Renderer:Page handleAction actionType=drawer 1`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         />
+      </div>
+    </div>
+  </div>
+  <div
+    class="amis-dialog-widget cxd-Drawer cxd-Drawer--right cxd-Drawer--md cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Drawer-overlay in"
+    />
+    <div
+      class="cxd-Drawer-content in"
+    >
+      <a
+        class="cxd-Drawer-close"
+      >
+        <icon-mock
+          classname="icon icon-close"
+          icon="close"
+        />
+      </a>
+      <div
+        class="cxd-Drawer-header"
+      />
+      <div
+        class="cxd-Drawer-body"
+      >
+        <div
+          class="cxd-Spinner-overlay in"
+        />
+        <div
+          class="cxd-Spinner cxd-Spinner--overlay in"
+        >
+          <div
+            class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+        </div>
+      </div>
+      <div
+        class="cxd-Drawer-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
       </div>
     </div>
   </div>
@@ -802,19 +851,19 @@ exports[`Renderer:Page handleAction actionType=drawer 1`] = `
 exports[`Renderer:Page handleAction actionType=drawer 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -823,7 +872,7 @@ exports[`Renderer:Page handleAction actionType=drawer 2`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         />
       </div>
     </div>
@@ -834,19 +883,19 @@ exports[`Renderer:Page handleAction actionType=drawer 2`] = `
 exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -855,10 +904,10 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable a is 
@@ -868,25 +917,111 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
       </div>
     </div>
   </div>
+  <div
+    class="amis-dialog-widget cxd-Drawer cxd-Drawer--right cxd-Drawer--md cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Drawer-overlay in"
+    />
+    <div
+      class="cxd-Drawer-content in"
+    >
+      <a
+        class="cxd-Drawer-close"
+      >
+        <icon-mock
+          classname="icon icon-close"
+          icon="close"
+        />
+      </a>
+      <div
+        class="cxd-Drawer-header"
+      />
+      <div
+        class="cxd-Drawer-body"
+      >
+        <form
+          class="cxd-Form cxd-Form--horizontal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <div
+            class="cxd-Form-item cxd-Form-item--horizontal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label cxd-Form-itemColumn--normal"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    A
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-value"
+            >
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    name="a"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="3"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div
+        class="cxd-Drawer-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default"
+          type="submit"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`Renderer:Page handleAction actionType=drawer mergeData 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -895,10 +1030,10 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 2`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable a is 3
@@ -913,26 +1048,20 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 2`] = `
 
 exports[`Renderer:Page initApi 1`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
-        <div
-          className="a-Spinner-overlay"
-        />
-        <div
-          className="a-Spinner a-Spinner--overlay a-Spinner--lg"
-        />
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 2
@@ -946,29 +1075,32 @@ exports[`Renderer:Page initApi 1`] = `
 
 exports[`Renderer:Page initApi error show Message 1`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
         <div
-          className="a-Spinner-overlay"
-        />
-        <div
-          className="a-Spinner a-Spinner--overlay a-Spinner--lg"
-        />
-        <div
-          className="a-Alert a-Alert--danger"
+          className="cxd-Alert cxd-Alert--danger"
         >
+          <div
+            className="cxd-Alert-content"
+          >
+            <div
+              className="cxd-Alert-desc"
+            >
+              Internal Error
+            </div>
+          </div>
           <button
-            className="a-Alert-close"
+            className="cxd-Alert-close"
             onClick={[Function]}
             type="button"
           >
@@ -977,7 +1109,6 @@ exports[`Renderer:Page initApi error show Message 1`] = `
               icon="close"
             />
           </button>
-          Internal Error
         </div>
       </div>
     </div>
@@ -987,26 +1118,20 @@ exports[`Renderer:Page initApi error show Message 1`] = `
 
 exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
-        <div
-          className="a-Spinner-overlay"
-        />
-        <div
-          className="a-Spinner a-Spinner--overlay a-Spinner--lg"
-        />
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 1
@@ -1020,20 +1145,20 @@ exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
 
 exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 2
@@ -1048,19 +1173,19 @@ exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
 exports[`Renderer:Page initApi reload by Dialog action 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -1069,16 +1194,10 @@ exports[`Renderer:Page initApi reload by Dialog action 1`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 1
@@ -1094,19 +1213,19 @@ exports[`Renderer:Page initApi reload by Dialog action 1`] = `
 exports[`Renderer:Page initApi reload by Dialog action 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -1115,10 +1234,10 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 1
@@ -1129,20 +1248,20 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
     </div>
   </div>
   <div
-    class="amis-dialog-widget a-Modal a-Modal--1th"
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
     role="dialog"
   >
     <div
-      class="a-Modal-overlay in"
+      class="cxd-Modal-overlay in"
     />
     <div
-      class="a-Modal-content in"
+      class="cxd-Modal-content in"
     >
       <div
-        class="a-Modal-header"
+        class="cxd-Modal-header"
       >
         <a
-          class="a-Modal-close"
+          class="cxd-Modal-close"
           data-position="left"
           data-tooltip="关闭"
         >
@@ -1152,35 +1271,39 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           />
         </a>
         <div
-          class="a-Modal-title"
+          class="cxd-Modal-title"
         >
           弹框
         </div>
       </div>
       <div
-        class="a-Modal-body"
+        class="cxd-Modal-body"
       >
         <form
-          class="a-Form a-Form--horizontal"
+          class="cxd-Form cxd-Form--horizontal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
-            class="a-Form-item a-Form-item--horizontal"
+            class="cxd-Form-item cxd-Form-item--horizontal"
             data-role="form-item"
           >
             <label
-              class="a-Form-label a-Form-itemColumn--2"
+              class="cxd-Form-label cxd-Form-itemColumn--normal"
             >
               <span />
             </label>
             <div
-              class="a-Form-value"
+              class="cxd-Form-value"
             >
               <div
-                class="a-Form-control a-TextControl"
+                class="cxd-Form-control cxd-TextControl"
               >
                 <div
-                  class="a-TextControl-input"
+                  class="cxd-TextControl-input"
                 >
                   <input
                     autocomplete="off"
@@ -1194,17 +1317,13 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
-        class="a-Modal-footer"
+        class="cxd-Modal-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="button"
         >
           <span>
@@ -1212,7 +1331,7 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           </span>
         </button>
         <button
-          class="a-Button a-Button--primary"
+          class="cxd-Button cxd-Button--primary"
           type="button"
         >
           <span>
@@ -1228,19 +1347,19 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
 exports[`Renderer:Page initApi reload by Dialog action 3`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -1249,10 +1368,10 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 2
@@ -1262,119 +1381,25 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
       </div>
     </div>
   </div>
-  <div
-    class="amis-dialog-widget a-Modal a-Modal--1th"
-    role="dialog"
-  >
-    <div
-      class="a-Modal-overlay out"
-    />
-    <div
-      class="a-Modal-content out"
-    >
-      <div
-        class="a-Modal-header"
-      >
-        <a
-          class="a-Modal-close"
-          data-position="left"
-          data-tooltip="关闭"
-        >
-          <icon-mock
-            classname="icon icon-close"
-            icon="close"
-          />
-        </a>
-        <div
-          class="a-Modal-title"
-        >
-          弹框
-        </div>
-      </div>
-      <div
-        class="a-Modal-body"
-      >
-        <form
-          class="a-Form a-Form--horizontal"
-          novalidate=""
-        >
-          <div
-            class="a-Form-item a-Form-item--horizontal"
-            data-role="form-item"
-          >
-            <label
-              class="a-Form-label a-Form-itemColumn--2"
-            >
-              <span />
-            </label>
-            <div
-              class="a-Form-value"
-            >
-              <div
-                class="a-Form-control a-TextControl"
-              >
-                <div
-                  class="a-TextControl-input"
-                >
-                  <input
-                    autocomplete="off"
-                    name="a"
-                    placeholder=""
-                    size="10"
-                    type="text"
-                    value="1"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
-        </form>
-      </div>
-      <div
-        class="a-Modal-footer"
-      >
-        <button
-          class="a-Button a-Button--default"
-          type="button"
-        >
-          <span>
-            取消
-          </span>
-        </button>
-        <button
-          class="a-Button a-Button--primary"
-          type="button"
-        >
-          <span>
-            确认
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
 </div>
 `;
 
 exports[`Renderer:Page initApi reload by Drawer action 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -1383,16 +1408,10 @@ exports[`Renderer:Page initApi reload by Drawer action 1`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 1
@@ -1408,19 +1427,19 @@ exports[`Renderer:Page initApi reload by Drawer action 1`] = `
 exports[`Renderer:Page initApi reload by Drawer action 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -1429,10 +1448,10 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 1
@@ -1442,25 +1461,111 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
       </div>
     </div>
   </div>
+  <div
+    class="amis-dialog-widget cxd-Drawer cxd-Drawer--right cxd-Drawer--md cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Drawer-overlay in"
+    />
+    <div
+      class="cxd-Drawer-content in"
+    >
+      <a
+        class="cxd-Drawer-close"
+      >
+        <icon-mock
+          classname="icon icon-close"
+          icon="close"
+        />
+      </a>
+      <div
+        class="cxd-Drawer-header"
+      />
+      <div
+        class="cxd-Drawer-body"
+      >
+        <form
+          class="cxd-Form cxd-Form--horizontal"
+          novalidate=""
+        >
+          <input
+            style="display: none;"
+            type="submit"
+          />
+          <div
+            class="cxd-Form-item cxd-Form-item--horizontal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label cxd-Form-itemColumn--normal"
+            >
+              <span />
+            </label>
+            <div
+              class="cxd-Form-value"
+            >
+              <div
+                class="cxd-Form-control cxd-TextControl"
+              >
+                <div
+                  class="cxd-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    name="a"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="1"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div
+        class="cxd-Drawer-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`Renderer:Page initApi reload by Drawer action 3`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -1469,16 +1574,10 @@ exports[`Renderer:Page initApi reload by Drawer action 3`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 2
@@ -1494,29 +1593,29 @@ exports[`Renderer:Page initApi reload by Drawer action 3`] = `
 exports[`Renderer:Page initApi reload by Form submit 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <div
-            class="a-Panel a-Panel--default a-Panel--form"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
             style="position: relative;"
           >
             <div
-              class="a-Panel-heading"
+              class="cxd-Panel-heading"
             >
               <h3
-                class="a-Panel-title"
+                class="cxd-Panel-title"
               >
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     表单
@@ -1525,21 +1624,25 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
               </h3>
             </div>
             <div
-              class="a-Panel-body"
+              class="cxd-Panel-body"
             >
               <form
-                class="a-Form a-Form--normal"
+                class="cxd-Form cxd-Form--normal"
                 novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="a-Form-item a-Form-item--normal"
+                  class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
                 >
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="cxd-Form-control cxd-TextControl"
                   >
                     <div
-                      class="a-TextControl-input"
+                      class="cxd-TextControl-input"
                     >
                       <input
                         autocomplete="off"
@@ -1552,20 +1655,16 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
                     </div>
                   </div>
                 </div>
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
               </form>
             </div>
             <div
-              class="a-Panel-footerWrap"
+              class="cxd-Panel-footerWrap"
             >
               <div
-                class="a-Panel-btnToolbar a-Panel-footer"
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="a-Button a-Button--default"
+                  class="cxd-Button cxd-Button--default"
                   type="submit"
                 >
                   <span>
@@ -1616,16 +1715,10 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
           </div>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 1
@@ -1641,29 +1734,29 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
 exports[`Renderer:Page initApi reload by Form submit 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <div
-            class="a-Panel a-Panel--default a-Panel--form"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
             style="position: relative;"
           >
             <div
-              class="a-Panel-heading"
+              class="cxd-Panel-heading"
             >
               <h3
-                class="a-Panel-title"
+                class="cxd-Panel-title"
               >
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     表单
@@ -1672,21 +1765,25 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
               </h3>
             </div>
             <div
-              class="a-Panel-body"
+              class="cxd-Panel-body"
             >
               <form
-                class="a-Form a-Form--normal"
+                class="cxd-Form cxd-Form--normal"
                 novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="a-Form-item a-Form-item--normal"
+                  class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
                 >
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="cxd-Form-control cxd-TextControl"
                   >
                     <div
-                      class="a-TextControl-input"
+                      class="cxd-TextControl-input"
                     >
                       <input
                         autocomplete="off"
@@ -1699,20 +1796,16 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
                     </div>
                   </div>
                 </div>
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
               </form>
             </div>
             <div
-              class="a-Panel-footerWrap"
+              class="cxd-Panel-footerWrap"
             >
               <div
-                class="a-Panel-btnToolbar a-Panel-footer"
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="a-Button a-Button--default"
+                  class="cxd-Button cxd-Button--default"
                   type="submit"
                 >
                   <span>
@@ -1763,16 +1856,10 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
           </div>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 2
@@ -1788,19 +1875,19 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
 exports[`Renderer:Page initApi reload by action 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -1809,16 +1896,10 @@ exports[`Renderer:Page initApi reload by action 1`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 1
@@ -1834,19 +1915,19 @@ exports[`Renderer:Page initApi reload by action 1`] = `
 exports[`Renderer:Page initApi reload by action 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-toolbar"
+          class="cxd-Page-toolbar"
         >
           <button
-            class="a-Button a-Button--default"
+            class="cxd-Button cxd-Button--default"
             type="button"
           >
             <span>
@@ -1855,16 +1936,10 @@ exports[`Renderer:Page initApi reload by action 2`] = `
           </button>
         </div>
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               The variable value is 2
@@ -1879,26 +1954,30 @@ exports[`Renderer:Page initApi reload by action 2`] = `
 
 exports[`Renderer:Page initApi show loading 1`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
         <div
-          className="a-Spinner-overlay in"
+          className="cxd-Spinner-overlay in"
         />
         <div
-          className="a-Spinner in a-Spinner--overlay a-Spinner--lg"
-        />
+          className="cxd-Spinner cxd-Spinner--overlay in"
+        >
+          <div
+            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+        </div>
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 
@@ -1912,26 +1991,20 @@ exports[`Renderer:Page initApi show loading 1`] = `
 
 exports[`Renderer:Page initApi show loading 2`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
-        <div
-          className="a-Spinner-overlay"
-        />
-        <div
-          className="a-Spinner a-Spinner--overlay a-Spinner--lg"
-        />
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 3
@@ -1945,26 +2018,30 @@ exports[`Renderer:Page initApi show loading 2`] = `
 
 exports[`Renderer:Page initApi silentPolling 1`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
         <div
-          className="a-Spinner-overlay in"
+          className="cxd-Spinner-overlay in"
         />
         <div
-          className="a-Spinner in a-Spinner--overlay a-Spinner--lg"
-        />
+          className="cxd-Spinner cxd-Spinner--overlay in"
+        >
+          <div
+            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+        </div>
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 
@@ -1978,26 +2055,20 @@ exports[`Renderer:Page initApi silentPolling 1`] = `
 
 exports[`Renderer:Page initApi silentPolling 2`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
-        <div
-          className="a-Spinner-overlay"
-        />
-        <div
-          className="a-Spinner a-Spinner--overlay a-Spinner--lg"
-        />
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 3
@@ -2011,20 +2082,20 @@ exports[`Renderer:Page initApi silentPolling 2`] = `
 
 exports[`Renderer:Page initApi silentPolling 3`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 3
@@ -2038,20 +2109,20 @@ exports[`Renderer:Page initApi silentPolling 3`] = `
 
 exports[`Renderer:Page initApi silentPolling 4`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 4
@@ -2065,20 +2136,20 @@ exports[`Renderer:Page initApi silentPolling 4`] = `
 
 exports[`Renderer:Page initData 1`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 1
@@ -2092,26 +2163,20 @@ exports[`Renderer:Page initData 1`] = `
 
 exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes ture 1`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
-        <div
-          className="a-Spinner-overlay"
-        />
-        <div
-          className="a-Spinner a-Spinner--overlay a-Spinner--lg"
-        />
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 6
@@ -2125,20 +2190,20 @@ exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes 
 
 exports[`Renderer:Page location query 1`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 5
@@ -2152,20 +2217,20 @@ exports[`Renderer:Page location query 1`] = `
 
 exports[`Renderer:Page location query 2`] = `
 <div
-  className="a-Page"
+  className="cxd-Page"
   onClick={[Function]}
 >
   <div
-    className="a-Page-content"
+    className="cxd-Page-content"
   >
     <div
-      className="a-Page-main"
+      className="cxd-Page-main"
     >
       <div
-        className="a-Page-body"
+        className="cxd-Page-body"
       >
         <span
-          className="a-TplField"
+          className="cxd-TplField"
         >
           <span>
             The variable value is 6

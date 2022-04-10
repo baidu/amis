@@ -1,7 +1,7 @@
 import React = require('react');
 import PageRenderer from '../../../src/renderers/Form';
 import * as renderer from 'react-test-renderer';
-import {render, fireEvent, cleanup, getByText} from 'react-testing-library';
+import {render, fireEvent, cleanup, getByText} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv} from '../../helper';
@@ -31,8 +31,11 @@ test('Renderer:date', async () => {
     )
   );
 
-  const input = container.querySelector('.a-DatePicker-value');
-  expect(input?.innerHTML).toEqual(
+  const input = container.querySelector(
+    '.cxd-DatePicker input'
+  )! as HTMLInputElement;
+
+  expect(input.value).toEqual(
     moment(1559826660, 'X').format('YYYY-MM-DD HH:mm:ss')
   );
 

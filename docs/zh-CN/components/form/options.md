@@ -19,7 +19,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -78,7 +78,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -110,7 +110,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -128,7 +128,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -177,7 +177,7 @@ order: 2
             }
         ]
     },
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -197,12 +197,12 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
             "name": "select",
-            "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1"
+            "source": "/api/mock2/form/getOptions?waitSeconds=1"
         }
     ]
 }
@@ -247,7 +247,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -279,7 +279,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -341,7 +341,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -400,7 +400,7 @@ order: 2
             }
         ]
     },
-    "controls": [
+    "body": [
         {
             "label": "单选",
             "type": "select",
@@ -431,7 +431,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -464,7 +464,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -505,7 +505,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "单选",
             "type": "select",
@@ -562,7 +562,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -595,7 +595,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -631,7 +631,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -668,7 +668,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -707,7 +707,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -742,7 +742,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -772,12 +772,12 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "name": "select",
             "type": "select",
             "label": "选项自动补全",
-            "autoComplete": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/autoComplete?term=$term",
+            "autoComplete": "/api/mock2/options/autoComplete?term=$term",
             "placeholder": "请输入"
         }
     ]
@@ -786,7 +786,7 @@ order: 2
 
 可以在`autoComplete`配置中，用数据映射，获取变量`term`，为当前输入的关键字。
 
-支持该配置项的组件有：Text、Select、Chained-Select、TreeSelect。
+支持该配置项的组件有：Text、Select、Chained-Select、TreeSelect、Condition-Builder。
 
 ## 选项标签字段 labelField
 
@@ -798,7 +798,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -828,7 +828,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -865,7 +865,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -895,7 +895,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -935,7 +935,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -970,7 +970,7 @@ order: 2
   "title": "新增选项",
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
         "type": "text",
         "name": "label",
@@ -994,7 +994,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -1044,12 +1044,12 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
             "name": "select",
-            "addApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+            "addApi": "/api/mock2/form/saveForm",
             "options": [
                 {
                     "label":"A",
@@ -1087,7 +1087,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -1122,7 +1122,7 @@ order: 2
   "title": "新增选项",
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
         "type": "text",
         "name": "label",
@@ -1145,7 +1145,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -1191,12 +1191,12 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
             "name": "select",
-            "editApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+            "editApi": "/api/mock2/form/saveForm",
             "options": [
                 {
                     "label":"A",
@@ -1236,12 +1236,12 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
             "name": "select",
-            "deleteApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+            "deleteApi": "/api/mock2/form/saveForm",
             "options": [
                 {
                     "label":"A",
@@ -1270,15 +1270,16 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "type": "select",
             "label": "选项",
             "name": "select",
             "autoFill": {
-                "option": "${label}"
+                "option.instantValidate": "${label}",
+                "option.submitValidate": "${label}",
             },
             "clearable": true,
             "options": [
@@ -1293,15 +1294,38 @@ order: 2
             ]
         },
         {
-            "type": "text",
-            "name": "option",
-            "label": "选中项"
+            "type": "input-text",
+            "name": "option.instantValidate",
+            "label": "选中项",
+            "description": "填充后立即校验",
+            "required": true,
+            "validateOnChange": true,
+            "validations": {
+                "equals": "Option B"
+            },
+            "validationErrors": {
+                "equals": "校验失败，数据必须为Option B"
+            }
+        },
+        {
+            "type": "input-text",
+            "name": "option.submitValidate",
+            "label": "选中项1",
+            "description": "填充后提交表单时才校验",
+            "required": true,
+            "validations": {
+                "equals": "Option B"
+            },
+            "validationErrors": {
+                "equals": "校验失败，数据必须为Option B"
+            }
         }
     ]
 }
 ```
 
-上例中我们配置了`"autoFill": {"option": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前表单项中`name`为`option`的文本框中。
+上例中我们配置了`"autoFill": {"option.instantValidate": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前表单项中`name`为`option.instantValidate`的文本框中。可以额外配置`"validateOnChange": true`，实现自动填充后立即校验填充项。
+
 
 **多选模式**
 
@@ -1310,9 +1334,9 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "type": "select",
             "label": "选项",

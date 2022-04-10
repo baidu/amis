@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:searchbox 1`] = `
+<div>
+  <div
+    class="cxd-SearchBox is-disabled is-active"
+  >
+    <input
+      autocomplete="off"
+      disabled=""
+      name="keywords"
+      placeholder="请输入"
+      value=""
+    />
+    <a
+      class="cxd-SearchBox-searchBtn"
+    >
+      <icon-mock
+        classname="icon icon-search"
+        icon="search"
+      />
+    </a>
+  </div>
+</div>
+`;

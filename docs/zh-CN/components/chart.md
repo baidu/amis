@@ -15,7 +15,7 @@ order: 34
 ```schema: scope="body"
 {
     "type": "chart",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart",
+    "api": "/api/mock2/chart/chart",
     "interval": 5000
 }
 ```
@@ -124,7 +124,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
                 },
                 {
                     "type": "chart",
-                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
+                    "api": "/api/mock2/chart/chart1"
                 }
             ]
         }
@@ -139,7 +139,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
 ```schema: scope="body"
 {
     "type": "chart",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chartData",
+    "api": "/api/mock2/chart/chartData",
     "config": {
         "xAxis": {
             "type": "category",
@@ -177,7 +177,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chartData",
+    "api": "/api/mock2/chart/chartData",
     "interval": 3000,
     "body": [
         {
@@ -308,7 +308,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
                 },
                 {
                     "type": "chart",
-                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
+                    "api": "/api/mock2/chart/chart1"
                 }
             ]
         }
@@ -323,7 +323,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
 ```schema: scope="body"
 {
     "type": "chart",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
+    "api": "/api/mock2/chart/chart1"
 }
 ```
 
@@ -339,23 +339,23 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
         "className": "m-b",
         "wrapWithPanel": false,
         "mode": "inline",
-        "controls": [
+        "body": [
             {
-                "type": "date",
+                "type": "input-date",
                 "label": "开始日期",
                 "name": "starttime",
                 "value": "-8days",
                 "maxDate": "${endtime}"
             },
             {
-                "type": "date",
+                "type": "input-date",
                 "label": "结束日期",
                 "name": "endtime",
                 "value": "-1days",
                 "minDate": "${starttime}"
             },
             {
-                "type": "text",
+                "type": "input-text",
                 "label": "条件",
                 "name": "name",
                 "addOn": {
@@ -378,13 +378,13 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
                 "type": "chart",
                 "name": "chart1",
                 "initFetch": false,
-                "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart?name=$name&starttime=${starttime}&endtime=${endtime}"
+                "api": "/api/mock2/chart/chart?name=$name&starttime=${starttime}&endtime=${endtime}"
             },
             {
                 "type": "chart",
                 "name": "chart2",
                 "initFetch": false,
-                "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart2?name=$name"
+                "api": "/api/mock2/chart/chart2?name=$name"
             }
         ]
     }
@@ -421,7 +421,7 @@ ECharts 中有些配置项可以写函数，比如 formatter 和 sort，但在 J
 
 从 amis 1.1.0 版本开始，ECharts 版本升级到 5.0.0，为了规避政策风险，在这个版本删除了之前的地图 geojson，如果需要这个功能需要手动引入。
 
-方法是去 `https://github.com/apache/incubator-echarts/tree/master/test/data/map/js` 下载 `china.js` 和 `world.js`。
+方法是去 `https://github.com/apache/echarts/tree/master/test/data/map/js` 下载 `china.js` 和 `world.js`。
 
 对于 npm 版本，直接 `import` 这两个文件就行。
 

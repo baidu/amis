@@ -63,9 +63,9 @@ SchemaNode 是指每一个 amis 配置节点的类型，支持`模板`、`Schema
 [
     {
         "type": "form",
-        "controls": [
+        "body": [
             {
-                "type": "text",
+                "type": "input-text",
                 "label": "姓名",
                 "name": "name"
             }
@@ -74,9 +74,9 @@ SchemaNode 是指每一个 amis 配置节点的类型，支持`模板`、`Schema
     {
         "type": "form",
         "hidden": true,
-        "controls": [
+        "body": [
             {
-                "type": "text",
+                "type": "input-text",
                 "label": "姓名",
                 "name": "name"
             }
@@ -94,16 +94,16 @@ SchemaNode 是指每一个 amis 配置节点的类型，支持`模板`、`Schema
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-      "type": "number",
+      "type": "input-number",
       "label": "数量",
       "name": "number",
       "value": 0,
       "description": "调整数量大小查看效果吧！"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "name": "text",
       "hiddenOn": "this.number > 1",
@@ -131,11 +131,11 @@ SchemaNode 是指每一个 amis 配置节点的类型，支持`模板`、`Schema
   "body": [
       {
         "type":"tpl",
-        "tpl": "my name is ${name}" // 输出 Hello World!
+        "tpl": "my name is ${name}" // 输出 my name is amis
       },
       {
         "type":"tpl",
-        "tpl": "I am ${age} years old!" // 输出 Hello World!
+        "tpl": "I am ${age} years old" // 输出 I am 1 years old
       }
   ]
 }

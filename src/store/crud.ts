@@ -16,11 +16,14 @@ import {
   isObjectShallowModified,
   sortArray,
   isEmpty,
-  qsstringify
+  qsstringify,
+  getVariable
 } from '../utils/helper';
 import {Api, Payload, fetchOptions, Action, ApiObject} from '../types';
 import pick from 'lodash/pick';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {normalizeApiResponseData} from '../utils/api';
+import {matchSorter} from 'match-sorter';
 
 class ServerError extends Error {
   type = 'ServerError';
@@ -138,6 +141,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
+        columns?: Array<any>;
       }
     ) => Promise<any> = flow(function* getInitData(
       api: Api,
@@ -149,6 +153,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
+        columns?: Array<any>;
       } = {}
     ) {
       try {
@@ -163,6 +168,21 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                 '| raw'
               )
             : self.items.concat();
+
+          if (Array.isArray(options.columns)) {
+            options.columns.forEach((column: any) => {
+              let value: any;
+              if (
+                column.searchable &&
+                column.name &&
+                (value = getVariable(self.query, column.name))
+              ) {
+                items = matchSorter(items, value, {
+                  keys: [column.name]
+                });
+              }
+            });
+          }
 
           if (self.query.orderBy) {
             const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
@@ -191,9 +211,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         options.silent || self.markFetching(true);
         const ctx: any = createObject(self.data, {
           ...self.query,
+          ...data,
           [options.pageField || 'page']: self.page,
-          [options.perPageField || 'perPage']: self.perPage,
-          ...data
+          [options.perPageField || 'perPage']: self.perPage
         });
 
         // 一次性加载不要发送 perPage 属性
@@ -228,13 +248,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           self.updatedAt = Date.now();
-          let result = json.data;
-
-          if (Array.isArray(result)) {
-            result = {
-              items: result
-            };
-          }
+          let result = normalizeApiResponseData(json.data);
 
           const {
             total,
@@ -258,6 +272,16 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             items = result.items || result.rows;
           }
 
+          // 如果不按照 items 格式返回，就拿第一个数组当成 items
+          if (!Array.isArray(items)) {
+            for (const key of Object.keys(result)) {
+              if (result.hasOwnProperty(key) && Array.isArray(result[key])) {
+                items = result[key];
+                break;
+              }
+            }
+          }
+
           if (!Array.isArray(items)) {
             throw new Error(self.__('CRUD.invalidArray'));
           } else {
@@ -268,7 +292,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           // 点击加载更多数据
-          let rowsData = [];
+          let rowsData: Array<any> = [];
           if (options.loadDataMode && Array.isArray(self.data.items)) {
             rowsData = self.data.items.concat(items);
           } else {
@@ -287,16 +311,32 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           if (options.loadDataOnce) {
             // 记录原始集合，后续可能基于原始数据做排序查找。
             data.itemsRaw = oItems || oRows;
+            let filteredItems = rowsData.concat();
+
+            if (Array.isArray(options.columns)) {
+              options.columns.forEach((column: any) => {
+                let value: any;
+                if (
+                  column.searchable &&
+                  column.name &&
+                  (value = getVariable(self.query, column.name))
+                ) {
+                  filteredItems = matchSorter(filteredItems, value, {
+                    keys: [column.name]
+                  });
+                }
+              });
+            }
 
             if (self.query.orderBy) {
               const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
-              rowsData = sortArray(rowsData, self.query.orderBy, dir);
+              filteredItems = sortArray(filteredItems, self.query.orderBy, dir);
             }
-            data.items = rowsData.slice(
+            data.items = filteredItems.slice(
               (self.page - 1) * self.perPage,
               self.page * self.perPage
             );
-            data.count = data.total = rowsData.length;
+            data.count = data.total = filteredItems.length;
           }
 
           if (Array.isArray(columns)) {
@@ -384,7 +424,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!isEmpty(json.data) || json.ok) {
           self.updateData(
-            json.data,
+            normalizeApiResponseData(json.data),
             {
               __saved: Date.now()
             },
@@ -465,9 +505,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         '| raw'
       );
 
-      if (!Array.isArray(rowsData)) {
+      if (!Array.isArray(rowsData) && !self.items.length) {
         return;
       }
+
+      rowsData = Array.isArray(rowsData) ? rowsData : [];
 
       const data = {
         ...self.pristine,
@@ -478,6 +520,39 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
       self.items.replace(rowsData);
       self.reInitData(data);
+    };
+
+    const exportAsCSV = async (
+      options: {loadDataOnce?: boolean; api?: Api; data?: any} = {}
+    ) => {
+      let items = options.loadDataOnce ? self.data.itemsRaw : self.data.items;
+
+      if (options.api) {
+        const env = getEnv(self);
+        const res = await env.fetcher(options.api, options.data);
+        if (!res.data) {
+          return;
+        }
+        if (Array.isArray(res.data)) {
+          items = res.data;
+        } else {
+          items = res.data.rows || res.data.items;
+        }
+      }
+
+      import('papaparse').then((papaparse: any) => {
+        const csvText = papaparse.unparse(items);
+        if (csvText) {
+          const blob = new Blob(
+            // 加上 BOM 这样 Excel 打开的时候就不会乱码
+            [new Uint8Array([0xef, 0xbb, 0xbf]), csvText],
+            {
+              type: 'text/plain;charset=utf-8'
+            }
+          );
+          saveAs(blob, 'data.csv');
+        }
+      });
     };
 
     return {
@@ -493,40 +568,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       setUnSelectedItems,
       setInnerModalOpened,
       initFromScope,
-      async exportAsCSV(options: {loadDataOnce?: boolean; api?: Api} = {}) {
-        let items = options.loadDataOnce ? self.data.itemsRaw : self.data.items;
-
-        if (!options.loadDataOnce && options.api) {
-          const json = await self.fetchData(
-            options.api,
-            {
-              ...self.query,
-              page: undefined,
-              perPage: undefined,
-              op: 'export-csv'
-            },
-            {
-              autoAppend: true
-            }
-          );
-          if (
-            json.ok &&
-            (Array.isArray(json.data.items) || Array.isArray(json.data.rows))
-          ) {
-            items = json.data.items || json.data.rows;
-          }
-        }
-
-        import('papaparse').then((papaparse: any) => {
-          const csvText = papaparse.unparse(items);
-          if (csvText) {
-            const blob = new Blob([csvText], {
-              type: 'text/plain;charset=utf-8'
-            });
-            saveAs(blob, 'data.csv');
-          }
-        });
-      }
+      exportAsCSV
     };
   });
 

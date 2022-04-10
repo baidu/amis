@@ -7,7 +7,6 @@ import Transition, {
   ENTERING,
   EXITING
 } from 'react-transition-group/Transition';
-import {Portal} from 'react-overlays';
 import {calculatePosition} from '../utils/dom';
 const fadeStyles: {
   [propName: string]: string;
@@ -71,7 +70,10 @@ export class ContextMenu extends React.Component<
 
   menuRef: React.RefObject<HTMLDivElement> = React.createRef();
   originInstance: this | null;
-  componentWillMount() {
+
+  constructor(props: ContextMenuProps) {
+    super(props);
+
     this.originInstance = ContextMenu.instance;
     ContextMenu.instance = this;
   }

@@ -12,18 +12,36 @@ import {
   findTreeIndex,
   hasAbility,
   createObject,
-  getTreeParent
+  getTreeParent,
+  getTreeAncestors,
+  cloneObject
 } from '../utils/helper';
 import {Option, Options, value2array} from './Select';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {highlight} from '../renderers/Form/Options';
-import {Icon} from './icons';
+import {Icon, getIcon} from './icons';
 import Checkbox from './Checkbox';
 import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
 
+interface IDropIndicator {
+  left: number;
+  top: number;
+  width: number;
+  height?: number;
+}
+
+export interface IDropInfo {
+  dragNode: Option | null;
+  node: Option;
+  position: 'top' | 'bottom' | 'self';
+  indicator: IDropIndicator;
+}
+
 interface TreeSelectorProps extends ThemeProps, LocaleProps {
   highlightTxt?: string;
+
+  onRef: any;
 
   showIcon?: boolean;
   // 是否默认都展开
@@ -39,6 +57,8 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   withChildren?: boolean;
   // 多选时，选中父节点时，是否只将起子节点加入到值中。
   onlyChildren?: boolean;
+  // 单选时，只运行选择子节点
+  onlyLeaf?: boolean;
   // 名称、取值等字段名映射
   labelField: string;
   valueField: string;
@@ -62,6 +82,12 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   hideRoot?: boolean;
   rootLabel?: string;
   rootValue?: any;
+  // 是否开启节点路径记录
+  enableNodePath?: boolean;
+  // 路径节点的分隔符
+  pathSeparator?: string;
+  // 已选择节点路径
+  nodePath: any[];
 
   // 这个配置名字没取好，目前的含义是，如果这个配置成true，点父级的时候，子级点不会自选中。
   // 否则点击父级，子节点选中。
@@ -88,16 +114,21 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   removeTip?: string;
   onDelete?: (value: Option) => void;
   onDeferLoad?: (option: Option) => void;
+  onExpandTree?: (nodePathArr: any[]) => void;
+  draggable?: boolean;
+  onMove?: (dropInfo: IDropInfo) => void;
 }
 
 interface TreeSelectorState {
   value: Array<any>;
-
   inputValue: string;
   addingParent: Option | null;
   isAdding: boolean;
   isEditing: boolean;
   editingItem: Option | null;
+
+  // 拖拽指示器
+  dropIndicator?: IDropIndicator;
 }
 
 export class TreeSelector extends React.Component<
@@ -131,29 +162,58 @@ export class TreeSelector extends React.Component<
     rootCreateTip: 'Tree.addRoot',
     createTip: 'Tree.addChild',
     editTip: 'Tree.editNode',
-    removeTip: 'Tree.removeNode'
+    removeTip: 'Tree.removeNode',
+    enableNodePath: false,
+    pathSeparator: '/',
+    nodePath: []
   };
 
   unfolded: WeakMap<Object, boolean> = new WeakMap();
+  dragNode: Option | null;
+  dropInfo: IDropInfo | null;
+  startPoint: {
+    x: number;
+    y: number;
+  } = {
+    x: 0,
+    y: 0
+  };
+  root = React.createRef<HTMLDivElement>();
 
   constructor(props: TreeSelectorProps) {
     super(props);
+
     this.state = {
-      value: value2array(props.value, {
-        multiple: props.multiple,
-        delimiter: props.delimiter,
-        valueField: props.valueField,
-        options: props.options
-      }),
+      value: value2array(
+        props.value,
+        {
+          multiple: props.multiple,
+          delimiter: props.delimiter,
+          valueField: props.valueField,
+          labelField: props.labelField,
+          options: props.options,
+          pathSeparator: props.pathSeparator
+        },
+        props.enableNodePath
+      ),
 
       inputValue: '',
       addingParent: null,
       isAdding: false,
       isEditing: false,
-      editingItem: null
+      editingItem: null,
+      dropIndicator: undefined
     };
 
     this.syncUnFolded(props);
+  }
+
+  componentDidMount() {
+    const {enableNodePath} = this.props;
+
+    // onRef只有渲染器的情况才会使用
+    this.props.onRef?.(this);
+    enableNodePath && this.expandLazyLoadNodes();
   }
 
   componentDidUpdate(prevProps: TreeSelectorProps) {
@@ -168,30 +228,48 @@ export class TreeSelector extends React.Component<
       prevProps.options !== props.options
     ) {
       this.setState({
-        value: value2array(props.value, {
-          multiple: props.multiple,
-          delimiter: props.delimiter,
-          valueField: props.valueField,
-          options: props.options
-        })
+        value: value2array(
+          props.value,
+          {
+            multiple: props.multiple,
+            delimiter: props.delimiter,
+            valueField: props.valueField,
+            options: props.options
+          },
+          props.enableNodePath
+        )
       });
     }
   }
 
-  syncUnFolded(props: TreeSelectorProps) {
+  /**
+   * 展开懒加载节点的父节点
+   */
+  expandLazyLoadNodes() {
+    const {pathSeparator, onExpandTree, nodePath = []} = this.props;
+    const nodePathArr = nodePath.map(path =>
+      path ? path.toString().split(pathSeparator) : []
+    );
+    onExpandTree?.(nodePathArr);
+  }
+
+  syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: Number) {
+    // 传入默认展开层级需要重新初始化unfolded
+    let initFoldedLevel = typeof unfoldedLevel !== 'undefined';
+    let expandLevel = initFoldedLevel ? unfoldedLevel : props.unfoldedLevel;
     // 初始化树节点的展开状态
     let unfolded = this.unfolded;
     const {foldedField, unfoldedField} = this.props;
 
     eachTree(props.options, (node: Option, index, level) => {
-      if (unfolded.has(node)) {
+      if (unfolded.has(node) && !initFoldedLevel) {
         return;
       }
 
       if (node.children && node.children.length) {
         let ret: any = true;
 
-        if (node.defer && node.loaded) {
+        if (node.defer && node.loaded && !initFoldedLevel) {
           ret = true;
         } else if (
           unfoldedField &&
@@ -202,13 +280,15 @@ export class TreeSelector extends React.Component<
           ret = !node[foldedField];
         } else {
           ret = !!props.initiallyOpen;
-          if (!ret && level <= (props.unfoldedLevel as number)) {
+          if (!ret && level <= (expandLevel as number)) {
             ret = true;
           }
         }
         unfolded.set(node, ret);
       }
     });
+
+    initFoldedLevel && this.forceUpdate();
 
     return unfolded;
   }
@@ -246,15 +326,68 @@ export class TreeSelector extends React.Component<
     );
   }
 
+  /**
+   * enableNodePath为true时，将label和value转换成node path格式
+   */
+  transform2NodePath(value: any) {
+    const {
+      multiple,
+      options,
+      valueField,
+      labelField,
+      joinValues,
+      extractValue,
+      pathSeparator,
+      delimiter
+    } = this.props;
+
+    const nodesValuePath: string[] = [];
+    const selectedNodes = Array.isArray(value) ? value.concat() : [value];
+    const selectedNodesPath = selectedNodes.map(node => {
+      const nodePath = getTreeAncestors(options, node, true)?.reduce(
+        (acc, node) => {
+          acc[labelField as string].push(node[labelField as string]);
+          acc[valueField as string].push(node[valueField as string]);
+          return acc;
+        },
+        {[labelField as string]: [], [valueField as string]: []}
+      );
+      const nodeValuePath = nodePath[valueField as string].join(pathSeparator);
+
+      nodesValuePath.push(nodeValuePath);
+      return {
+        ...node,
+        [labelField]: nodePath[labelField as string].join(pathSeparator),
+        [valueField]: nodeValuePath
+      };
+    });
+
+    if (multiple) {
+      return joinValues
+        ? nodesValuePath.join(delimiter)
+        : extractValue
+        ? nodesValuePath
+        : selectedNodesPath;
+    } else {
+      return joinValues || extractValue
+        ? selectedNodesPath[0][valueField]
+        : selectedNodesPath[0];
+    }
+  }
+
   @autobind
   handleSelect(node: any, value?: any) {
-    const {joinValues, valueField, onChange} = this.props;
+    const {joinValues, valueField, onChange, enableNodePath, onlyLeaf} =
+      this.props;
 
     if (node[valueField as string] === undefined) {
       if (node.defer && !node.loaded) {
         this.toggleUnfolded(node);
       }
+      return;
+    }
 
+    if (onlyLeaf && node.children) {
       return;
     }
 
@@ -263,7 +396,13 @@ export class TreeSelector extends React.Component<
         value: [node]
       },
       () => {
-        onChange(joinValues ? node[valueField as string] : node);
+        onChange(
+          enableNodePath
+            ? this.transform2NodePath(node)
+            : joinValues
+            ? node[valueField as string]
+            : node
+        );
       }
     );
   }
@@ -290,7 +429,7 @@ export class TreeSelector extends React.Component<
             let child = children.shift();
             let index = value.indexOf(child);
 
-            if (child.children) {
+            if (child.children && child.children.length) {
               children.push.apply(children, child.children);
             } else if (!~index && child.value !== 'undefined') {
               value.push(child);
@@ -372,11 +511,14 @@ export class TreeSelector extends React.Component<
           extractValue,
           valueField,
           delimiter,
-          onChange
+          onChange,
+          enableNodePath
         } = props;
 
         onChange(
-          joinValues
+          enableNodePath
+            ? this.transform2NodePath(value)
+            : joinValues
             ? value.map(item => item[valueField as string]).join(delimiter)
             : extractValue
             ? value.map(item => item[valueField as string])
@@ -507,6 +649,129 @@ export class TreeSelector extends React.Component<
     );
   }
 
+  getOffsetPosition(element: HTMLElement) {
+    let left = 0;
+    let top = 0;
+
+    while (element.offsetParent) {
+      left += element.offsetLeft;
+      top += element.offsetTop;
+      element = element.offsetParent as HTMLElement;
+    }
+    return {left, top};
+  }
+
+  @autobind
+  getDropInfo(e: React.DragEvent<Element>, node: Option): IDropInfo {
+    let rect = e.currentTarget.getBoundingClientRect();
+
+    const dragNode = this.dragNode;
+    const deltaX = Math.min(50, rect.width * 0.3);
+    const gap = node?.children?.length ? 0 : 16;
+
+    // 计算相对位置
+    let offset = this.getOffsetPosition(this.root.current!);
+    let targetOffset = this.getOffsetPosition(e.currentTarget as HTMLElement);
+    let left = targetOffset.left - offset.left;
+    let top = targetOffset.top - offset.top;
+
+    let {clientX, clientY} = e;
+
+    let position: IDropInfo['position'] =
+      clientY >= rect.top + rect.height / 2 ? 'bottom' : 'top';
+    let indicator;
+    if (position === 'bottom' && clientX >= this.startPoint.x + deltaX) {
+      position = 'self';
+      indicator = {
+        top: top,
+        left: left,
+        width: rect.width,
+        height: rect.height
+      };
+    } else {
+      indicator = {
+        top: position === 'bottom' ? top + rect.height : top,
+        left: left + gap,
+        width: rect.width - gap
+      };
+    }
+
+    return {
+      node,
+      dragNode,
+      position,
+      indicator
+    };
+  }
+
+  @autobind
+  updateDropIndicator(e: React.DragEvent<Element>, node: Option) {
+    const gap = node?.children?.length ? 0 : 16;
+    this.dropInfo = this.getDropInfo(e, node);
+    let {dragNode, indicator} = this.dropInfo;
+    if (node === dragNode) {
+      this.setState({dropIndicator: undefined});
+      return;
+    }
+    this.setState({
+      dropIndicator: indicator
+    });
+  }
+
+  @autobind
+  onDragStart(node: Option) {
+    let draggable = this.props.draggable;
+    return (e: React.DragEvent<Element>) => {
+      if (draggable) {
+        e.dataTransfer.effectAllowed = 'copyMove';
+
+        this.dragNode = node;
+        this.dropInfo = null;
+        this.startPoint = {
+          x: e.clientX,
+          y: e.clientY
+        };
+
+        if (node?.children?.length) {
+          this.unfolded.set(node, false);
+          this.forceUpdate();
+        }
+      } else {
+        this.dragNode = null;
+        this.dropInfo = null;
+      }
+      e.stopPropagation();
+    };
+  }
+
+  @autobind
+  onDragOver(node: Option) {
+    return (e: React.DragEvent<Element>) => {
+      if (!this.dragNode) {
+        return;
+      }
+      this.updateDropIndicator(e, node);
+      e.preventDefault();
+    };
+  }
+
+  @autobind
+  onDragEnd(dragNode: Option) {
+    return (e: React.DragEvent<Element>) => {
+      this.setState({
+        dropIndicator: undefined
+      });
+      let node = this.dropInfo?.node;
+      if (!this.dropInfo || !node || dragNode === node) {
+        return;
+      }
+      this.props.onMove?.(this.dropInfo);
+      this.dragNode = null;
+      this.dropInfo = null;
+      e.preventDefault();
+    };
+  }
+
   @autobind
   renderList(
     list: Options,
@@ -537,7 +802,8 @@ export class TreeSelector extends React.Component<
       createTip,
       editTip,
       removeTip,
-      translate: __
+      translate: __,
+      draggable
     } = this.props;
     const {
       value: stateValue,
@@ -614,6 +880,8 @@ export class TreeSelector extends React.Component<
       const isLeaf =
         (!item.children || !item.children.length) && !item.placeholder;
 
+      const iconValue = item[iconField] || (childrenItems ? 'folder' : 'file');
+
       return (
         <li
           key={key}
@@ -631,7 +899,17 @@ export class TreeSelector extends React.Component<
                 'is-checked': checked,
                 'is-disabled': nodeDisabled
               })}
+              draggable={draggable}
+              onDragStart={this.onDragStart(item)}
+              onDragOver={this.onDragOver(item)}
+              onDragEnd={this.onDragEnd(item)}
             >
+              {draggable && (
+                <a className={cx('Tree-itemDrager drag-bar')}>
+                  <Icon icon="drag-bar" className="icon" />
+                </a>
+              )}
+
               {item.loading ? (
                 <Spinner
                   size="sm"
@@ -658,8 +936,7 @@ export class TreeSelector extends React.Component<
                 <i
                   className={cx(
                     `Tree-itemIcon ${
-                      item[iconField] ||
-                      (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')
+                      childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon'
                     }`
                   )}
                   onClick={() =>
@@ -669,10 +946,11 @@ export class TreeSelector extends React.Component<
                       : this.handleSelect(item))
                   }
                 >
-                  <Icon
-                    icon={childrenItems ? 'folder' : 'file'}
-                    className="icon"
-                  />
+                  {getIcon(iconValue) ? (
+                    <Icon icon={iconValue} className="icon" />
+                  ) : (
+                    <i className={iconValue}></i>
+                  )}
                 </i>
               ) : null}
 
@@ -776,10 +1054,18 @@ export class TreeSelector extends React.Component<
       rootCreatable,
       rootCreateTip,
       disabled,
+      draggable,
       translate: __
     } = this.props;
     let options = this.props.options;
-    const {value, isAdding, addingParent, isEditing, inputValue} = this.state;
+    const {
+      value,
+      isAdding,
+      addingParent,
+      isEditing,
+      inputValue,
+      dropIndicator
+    } = this.state;
 
     let addBtn = null;
 
@@ -801,8 +1087,10 @@ export class TreeSelector extends React.Component<
       <div
         className={cx(`Tree ${className || ''}`, {
           'Tree--outline': showOutline,
-          'is-disabled': disabled
+          'is-disabled': disabled,
+          'is-draggable': draggable
         })}
+        ref={this.root}
       >
         {(options && options.length) || addBtn || hideRoot === false ? (
           <ul className={cx('Tree-list')}>
@@ -861,6 +1149,15 @@ export class TreeSelector extends React.Component<
           </ul>
         ) : (
           <div className={cx('Tree-placeholder')}>{placeholder}</div>
+        )}
+
+        {dropIndicator && (
+          <div
+            className={cx('Tree-dropIndicator', {
+              'Tree-dropIndicator--hover': !!dropIndicator.height
+            })}
+            style={dropIndicator}
+          />
         )}
       </div>
     );

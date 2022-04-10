@@ -11,6 +11,7 @@ import {
   SchemaTpl
 } from '../Schema';
 import {ActionSchema} from './Action';
+import {FormSchemaHorizontal} from './Form/index';
 
 /**
  * Panel渲染器。
@@ -76,6 +77,15 @@ export interface PanelSchema extends BaseSchema {
    * 固定底部, 想要把按钮固定在底部的时候配置。
    */
   affixFooter?: boolean | 'always';
+
+  /**
+   * 配置子表单项默认的展示方式。
+   */
+  subFormMode?: 'normal' | 'inline' | 'horizontal';
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  subFormHorizontal?: FormSchemaHorizontal;
 }
 
 export interface PanelProps
@@ -88,6 +98,8 @@ export interface PanelProps
 export default class Panel extends React.Component<PanelProps> {
   static propsList: Array<string> = [
     'header',
+    'actions',
+    'children',
     'headerClassName',
     'footerClassName',
     'footerWrapClassName',
@@ -180,12 +192,18 @@ export default class Panel extends React.Component<PanelProps> {
       actions,
       footer,
       classPrefix: ns,
+      formMode,
+      formHorizontal,
+      subFormMode,
+      subFormHorizontal,
       ...rest
     } = this.props;
 
     const subProps = {
       data,
-      ...rest
+      ...rest,
+      formMode: subFormMode || formMode,
+      formHorizontal: subFormHorizontal || formHorizontal
     };
 
     return children
@@ -304,7 +322,6 @@ export default class Panel extends React.Component<PanelProps> {
 }
 
 @Renderer({
-  test: /(^|\/)panel$/,
-  name: 'panel'
+  type: 'panel'
 })
 export class PanelRenderer extends Panel {}

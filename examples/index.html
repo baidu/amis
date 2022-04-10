@@ -16,7 +16,6 @@
       rel="stylesheet"
       href="@fortawesome/fontawesome-free/css/v4-shims.css"
     />
-    <link rel="stylesheet" href="animate.css/animate.css" />
     <link rel="stylesheet" href="prismjs/themes/prism.css" />
     <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
     <link rel="stylesheet" href="./doc.css" />
@@ -32,14 +31,22 @@
       }
     </style>
     <script type="text/x-jsx">
-      const theme = localStorage.getItem('theme') || 'default';
+      // gitee 最近特别慢
+      if (location.hostname === 'baidu.gitee.io') {
+        location.hostname = 'aisuda.bce.baidu.com';
+      }
+
+      let theme = localStorage.getItem('amis-theme') || 'cxd';
+      if (theme === 'default') {
+        theme = 'cxd';
+      }
 
       // 非 IE 模式
       if (window.navigator.userAgent.indexOf('Trident') === -1) {
         document.write(
-          `<link rel="stylesheet" title="default" ${
-            theme !== 'default' ? 'disabled' : ''
-          }  href="${__uri('../scss/themes/default.scss')}" />`
+          `<link rel="stylesheet" title="ang" ${
+            theme !== 'ang' ? 'disabled' : ''
+          }  href="${__uri('../scss/themes/ang.scss')}" />`
         );
         document.write(
           `<link rel="stylesheet" title="cxd" ${
@@ -58,9 +65,9 @@
         );
       } else {
         document.write(
-          `<link rel="stylesheet" title="default" ${
-            theme !== 'default' ? 'disabled' : ''
-          }  href="${__uri('../scss/themes/default-ie11.scss')}" />`
+          `<link rel="stylesheet" title="ang" ${
+            theme !== 'ang' ? 'disabled' : ''
+          }  href="${__uri('../scss/themes/ang-ie11.scss')}" />`
         );
         document.write(
           `<link rel="stylesheet" title="cxd" ${
@@ -100,6 +107,8 @@
           s.parentNode.insertBefore(hm, s);
         })();
       }
+
+      window.enableAMISDebug = true;
 
       /* @require ./index.jsx 标记为同步依赖，提前加载 */
       amis.require(['./index.jsx'], function (app) {

@@ -58,10 +58,11 @@ export default class Pagination extends React.Component<
     pageNum: String(this.props.activePage) || ''
   };
 
-  componentWillReceiveProps(nextProps: PaginationProps) {
-    if (this.props.activePage !== nextProps.activePage) {
+  componentDidUpdate(prevProps: PaginationProps) {
+    const props = prevProps;
+    if (prevProps.activePage !== props.activePage) {
       this.setState({
-        pageNum: String(nextProps.activePage) || ''
+        pageNum: String(props.activePage) || ''
       });
     }
   }
@@ -264,7 +265,6 @@ export default class Pagination extends React.Component<
             <input
               type="text"
               onChange={this.handlePageChange}
-              onFocus={(e: any) => e.currentTarget.select()}
               onKeyUp={(e: any) =>
                 e.keyCode == 13 &&
                 onPageChange(parseInt(e.currentTarget.value, 10))

@@ -2,6 +2,7 @@
   display: inline-flex;
   vertical-align: middle;
   text-align: left;
+  align-items: center;
   outline: none;
   position: relative;
   font-size: var(--Form-input-fontSize);
@@ -38,6 +39,8 @@
     box-shadow: var(--Form-select-onFocus-boxShadow);
   }
 
+  @include input-border();
+
   &-valueWrap {
     user-select: none;
     position: relative;
@@ -46,12 +49,18 @@
     // width: 0;
     max-width: 100%;
   }
-
+  &-valuesNoWrap {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: px2rem(20px);
+  }
   &-placeholder {
     color: var(--Form-select-placeholderColor);
     line-height: var(--Form-input-lineHeight);
     user-select: none;
     white-space: nowrap;
+    color: var(--Form-select-placeholderColor);
   }
 
   &-value {
@@ -62,22 +71,22 @@
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
 
+    &.is-disabled {
+      color: var(--Form-selectValue-onDisabled-color);
+    }
+  }
   &--multi {
     height: auto;
     min-height: var(--Form-selectOption-height);
 
     .#{$ns}Select-valueWrap {
-      margin-bottom: calc(var(--gap-xs) * -1);
-
       > input {
         display: inline-block;
         width: px2rem(100px);
         margin-bottom: var(--gap-xs);
       }
     }
-
     .#{$ns}Select-values + .#{$ns}Select-input {
       transform: translateY(0);
     }
@@ -94,26 +103,34 @@
       display: inline-block;
       vertical-align: middle;
       font-size: var(--Form-selectValue-fontSize);
-      color: var(--Form-selectValue-color);
-      background: var(--Form-selectValue-bg);
-      border: px2rem(1px) solid var(--Form-selectValue-borderColor);
+      background: var(--Form-select-value-bgColor);
+      border: px2rem(1px) solid var(--Form-select-value-borderColor);
       border-radius: px2rem(2px);
       margin-right: var(--gap-xs);
       margin-bottom: var(--gap-xs);
+
+      &:hover {
+        background-color: var(--Form-selectValue-onHover-bgColor);
+      }
     }
 
     .#{$ns}Select-valueLabel {
+      display: inline-block;
+      max-width: var(--Form-valueLabel-maxWidth);
       padding: 0 var(--gap-xs);
+      overflow: hidden;
+      vertical-align: top;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
-
   &-valueIcon {
     cursor: pointer;
-    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
     padding: 1px 5px;
+    color: var(--Form-select-valueIcon-color);
 
     &:hover {
-      background: var(--Form-selectValue-onHover-bg);
+      color: var(--Form-select-valueIcon-onHover-color);
     }
 
     &.is-disabled {
@@ -125,7 +142,8 @@
   }
 
   &-arrow {
-    margin-right: var(--gap-xs);
+    margin-right: px2rem(12px);
+    // margin-right: var(--gap-xs);
     // margin-left: var(--gap-xs);
     width: var(--gap-md);
     text-align: center;
@@ -144,16 +162,49 @@
     }
   }
 
-  &.is-opened &-arrow > svg {
+  &.is-opened:not(.is-mobile) &-arrow > svg {
     transform: rotate(180deg);
+  }
+
+  &.is-mobile {
+    min-height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
+    border: none;
+    padding: 0;
+    font-size: var(--fontSizeLg);
+
+    .#{$ns}Select-valueWrap {
+      text-align: right;
+      padding-right: 4px;
+    }
+    .#{$ns}Select-arrow {
+      > svg {
+        transform: rotate(-90deg);
+      }
+    }
   }
 
   &-menu {
     max-height: px2rem(300px);
+    padding-top: px2rem(4px);
+    padding-bottom: px2rem(4px);
     overflow: auto;
     user-select: none;
+    .#{$ns}Checkbox--sm > i {
+      margin-top: px2rem(-3px);
+      margin-right: px2rem(4px);
+    }
+    &.is-mobile {
+      width: 100%;
+      text-align: center;
+      .#{$ns}Select-option {
+        line-height: px2rem(36px);
+      }
+    }
   }
-
+  &--longlist {
+    overflow: hidden;
+    max-height: max-content;
+  }
   &-input {
     cursor: pointer;
     outline: none;
@@ -213,10 +264,6 @@
       background: var(--Form-select-menu-onDisabled-bg);
     }
 
-    &--placeholder {
-      color: var(--Form-input-placeholderColor);
-    }
-
     > label {
       display: block;
     }
@@ -247,7 +294,7 @@
   }
 
   &-option-hl {
-    color: var(--danger);
+    color: var(--info);
   }
 
   &-addBtn {
@@ -272,8 +319,8 @@
     }
   }
 
-  &.is-focused,
-  &.is-opened {
+  &.is-focused:not(.is-mobile),
+  &.is-opened:not(.is-mobile) {
     border-color: var(--Form-input-onFocused-borderColor);
     color: var(--Form-select-onFocused-color);
   }
@@ -295,14 +342,20 @@
 
     svg {
       fill: var(--Form-input-iconColor);
-      width: px2rem(10px);
-      height: px2rem(10px);
+      width: px2rem(14px);
+      height: px2rem(14px);
       top: 0;
-    }
 
-    &:hover svg {
-      fill: var(--Form-input-onHover-iconColor);
+      &:hover > path {
+        &:first-of-type {
+          fill: var(--Form-select-valueIcon-color);
+        }
+      }
     }
+  }
+
+  &-popup {
+    height: px2rem(320px);
   }
 }
 

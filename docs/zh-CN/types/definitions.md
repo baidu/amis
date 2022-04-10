@@ -16,7 +16,7 @@ order: 40
 {
   "definitions": {
           "aa": {
-              "type": "text",
+              "type": "input-text",
               "name": "jack",
               "value": "ref value",
               "labelRemark": "通过<code>\\$ref</code>引入的组件"
@@ -29,7 +29,7 @@ order: 40
               "type": "form",
               "api": "api/xxx",
               "actions": [],
-              "controls": [
+              "body": [
                   {
                       "$ref": "aa"
                   }
@@ -51,20 +51,20 @@ order: 40
             "multiple": true,
             "multiLine": true,
             "name": "options",
-            "controls": [
+            "items": [
             {
                 "type": "group",
-                "controls": [
+                "body": [
                 {
                     "label": "名称",
                     "name": "label",
-                    "type": "text",
+                    "type": "input-text",
                     "required": true
                 },
                 {
                     "label": "值",
                     "name": "value",
-                    "type": "text",
+                    "type": "input-text",
                     "required": true
                 }
                 ]
@@ -93,7 +93,7 @@ order: 40
               "type": "form",
               "api": "api/xxx",
               "actions": [],
-              "controls": [
+              "body": [
                   {
                       "$ref": "options",
                       "label": "选项"

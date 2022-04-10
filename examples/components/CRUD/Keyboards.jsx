@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'Table 全键盘操作示例',
   remark: 'bla bla bla',
   body: [
@@ -29,7 +28,7 @@ export default {
           label: 'Rendering engine',
           sortable: true,
           quickEdit: {
-            type: 'text',
+            type: 'input-text',
             required: true,
             mode: 'inline'
           },
@@ -41,7 +40,7 @@ export default {
           label: 'Browser',
           sortable: true,
           quickEdit: {
-            type: 'text',
+            type: 'input-text',
             required: true
           },
           type: 'text',

@@ -3,17 +3,17 @@
 exports[`Renderer:formula 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,22 +22,26 @@ exports[`Renderer:formula 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   a
@@ -46,48 +50,46 @@ exports[`Renderer:formula 1`] = `
             </span>
           </label>
           <div
-            class="a-NumberControl a-Form-control"
+            class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="a-Number"
+              class="cxd-Number cxd-Number--borderFull"
             >
               <div
-                class="a-Number-handler-wrap"
+                class="cxd-Number-handler-wrap"
               >
                 <span
+                  aria-disabled="false"
                   aria-label="Increase Value"
-                  class="a-Number-handler a-Number-handler-up"
+                  class="cxd-Number-handler cxd-Number-handler-up"
                   role="button"
                   unselectable="on"
                 >
                   <span
-                    class="a-Number-handler-up-inner"
+                    class="cxd-Number-handler-up-inner"
                     unselectable="on"
                   />
                 </span>
                 <span
+                  aria-disabled="false"
                   aria-label="Decrease Value"
-                  class="a-Number-handler a-Number-handler-down"
+                  class="cxd-Number-handler cxd-Number-handler-down"
                   role="button"
                   unselectable="on"
                 >
                   <span
-                    class="a-Number-handler-down-inner"
+                    class="cxd-Number-handler-down-inner"
                     unselectable="on"
                   />
                 </span>
               </div>
               <div
-                class="a-Number-input-wrap"
+                class="cxd-Number-input-wrap"
               >
                 <input
-                  aria-valuemax="9007199254740991"
-                  aria-valuemin="-9007199254740991"
                   aria-valuenow="1"
                   autocomplete="off"
-                  class="a-Number-input"
-                  max="9007199254740991"
-                  min="-9007199254740991"
+                  class="cxd-Number-input"
                   role="spinbutton"
                   step="1"
                   value="1"
@@ -97,15 +99,15 @@ exports[`Renderer:formula 1`] = `
           </div>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   b
@@ -114,48 +116,46 @@ exports[`Renderer:formula 1`] = `
             </span>
           </label>
           <div
-            class="a-NumberControl a-Form-control"
+            class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="a-Number"
+              class="cxd-Number cxd-Number--borderFull"
             >
               <div
-                class="a-Number-handler-wrap"
+                class="cxd-Number-handler-wrap"
               >
                 <span
+                  aria-disabled="false"
                   aria-label="Increase Value"
-                  class="a-Number-handler a-Number-handler-up"
+                  class="cxd-Number-handler cxd-Number-handler-up"
                   role="button"
                   unselectable="on"
                 >
                   <span
-                    class="a-Number-handler-up-inner"
+                    class="cxd-Number-handler-up-inner"
                     unselectable="on"
                   />
                 </span>
                 <span
+                  aria-disabled="false"
                   aria-label="Decrease Value"
-                  class="a-Number-handler a-Number-handler-down"
+                  class="cxd-Number-handler cxd-Number-handler-down"
                   role="button"
                   unselectable="on"
                 >
                   <span
-                    class="a-Number-handler-down-inner"
+                    class="cxd-Number-handler-down-inner"
                     unselectable="on"
                   />
                 </span>
               </div>
               <div
-                class="a-Number-input-wrap"
+                class="cxd-Number-input-wrap"
               >
                 <input
-                  aria-valuemax="9007199254740991"
-                  aria-valuemin="-9007199254740991"
                   aria-valuenow="2"
                   autocomplete="off"
-                  class="a-Number-input"
-                  max="9007199254740991"
-                  min="-9007199254740991"
+                  class="cxd-Number-input"
                   role="spinbutton"
                   step="1"
                   value="2"
@@ -165,15 +165,15 @@ exports[`Renderer:formula 1`] = `
           </div>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   sum1
@@ -182,48 +182,46 @@ exports[`Renderer:formula 1`] = `
             </span>
           </label>
           <div
-            class="a-NumberControl a-Form-control"
+            class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="a-Number"
+              class="cxd-Number cxd-Number--borderFull"
             >
               <div
-                class="a-Number-handler-wrap"
+                class="cxd-Number-handler-wrap"
               >
                 <span
+                  aria-disabled="false"
                   aria-label="Increase Value"
-                  class="a-Number-handler a-Number-handler-up"
+                  class="cxd-Number-handler cxd-Number-handler-up"
                   role="button"
                   unselectable="on"
                 >
                   <span
-                    class="a-Number-handler-up-inner"
+                    class="cxd-Number-handler-up-inner"
                     unselectable="on"
                   />
                 </span>
                 <span
+                  aria-disabled="false"
                   aria-label="Decrease Value"
-                  class="a-Number-handler a-Number-handler-down"
+                  class="cxd-Number-handler cxd-Number-handler-down"
                   role="button"
                   unselectable="on"
                 >
                   <span
-                    class="a-Number-handler-down-inner"
+                    class="cxd-Number-handler-down-inner"
                     unselectable="on"
                   />
                 </span>
               </div>
               <div
-                class="a-Number-input-wrap"
+                class="cxd-Number-input-wrap"
               >
                 <input
-                  aria-valuemax="9007199254740991"
-                  aria-valuemin="-9007199254740991"
                   aria-valuenow="3"
                   autocomplete="off"
-                  class="a-Number-input"
-                  max="9007199254740991"
-                  min="-9007199254740991"
+                  class="cxd-Number-input"
                   role="spinbutton"
                   step="1"
                   value="3"
@@ -233,15 +231,15 @@ exports[`Renderer:formula 1`] = `
           </div>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   sum2
@@ -250,48 +248,46 @@ exports[`Renderer:formula 1`] = `
             </span>
           </label>
           <div
-            class="a-NumberControl a-Form-control"
+            class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="a-Number"
+              class="cxd-Number cxd-Number--borderFull"
             >
               <div
-                class="a-Number-handler-wrap"
+                class="cxd-Number-handler-wrap"
               >
                 <span
+                  aria-disabled="false"
                   aria-label="Increase Value"
-                  class="a-Number-handler a-Number-handler-up"
+                  class="cxd-Number-handler cxd-Number-handler-up"
                   role="button"
                   unselectable="on"
                 >
                   <span
-                    class="a-Number-handler-up-inner"
+                    class="cxd-Number-handler-up-inner"
                     unselectable="on"
                   />
                 </span>
                 <span
+                  aria-disabled="false"
                   aria-label="Decrease Value"
-                  class="a-Number-handler a-Number-handler-down"
+                  class="cxd-Number-handler cxd-Number-handler-down"
                   role="button"
                   unselectable="on"
                 >
                   <span
-                    class="a-Number-handler-down-inner"
+                    class="cxd-Number-handler-down-inner"
                     unselectable="on"
                   />
                 </span>
               </div>
               <div
-                class="a-Number-input-wrap"
+                class="cxd-Number-input-wrap"
               >
                 <input
-                  aria-valuemax="9007199254740991"
-                  aria-valuemin="-9007199254740991"
                   aria-valuenow="4"
                   autocomplete="off"
-                  class="a-Number-input"
-                  max="9007199254740991"
-                  min="-9007199254740991"
+                  class="cxd-Number-input"
                   role="spinbutton"
                   step="1"
                   value="4"
@@ -301,15 +297,15 @@ exports[`Renderer:formula 1`] = `
           </div>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   sum3
@@ -318,48 +314,46 @@ exports[`Renderer:formula 1`] = `
             </span>
           </label>
           <div
-            class="a-NumberControl a-Form-control"
+            class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="a-Number"
+              class="cxd-Number cxd-Number--borderFull"
             >
               <div
-                class="a-Number-handler-wrap"
+                class="cxd-Number-handler-wrap"
               >
                 <span
+                  aria-disabled="false"
                   aria-label="Increase Value"
-                  class="a-Number-handler a-Number-handler-up"
+                  class="cxd-Number-handler cxd-Number-handler-up"
                   role="button"
                   unselectable="on"
                 >
                   <span
-                    class="a-Number-handler-up-inner"
+                    class="cxd-Number-handler-up-inner"
                     unselectable="on"
                   />
                 </span>
                 <span
+                  aria-disabled="false"
                   aria-label="Decrease Value"
-                  class="a-Number-handler a-Number-handler-down"
+                  class="cxd-Number-handler cxd-Number-handler-down"
                   role="button"
                   unselectable="on"
                 >
                   <span
-                    class="a-Number-handler-down-inner"
+                    class="cxd-Number-handler-down-inner"
                     unselectable="on"
                   />
                 </span>
               </div>
               <div
-                class="a-Number-input-wrap"
+                class="cxd-Number-input-wrap"
               >
                 <input
-                  aria-valuemax="9007199254740991"
-                  aria-valuemin="-9007199254740991"
                   aria-valuenow="5"
                   autocomplete="off"
-                  class="a-Number-input"
-                  max="9007199254740991"
-                  min="-9007199254740991"
+                  class="cxd-Number-input"
                   role="spinbutton"
                   step="1"
                   value="5"
@@ -368,10 +362,72 @@ exports[`Renderer:formula 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  sum4
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="5"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  role="spinbutton"
+                  step="1"
+                  value="5"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
     <div

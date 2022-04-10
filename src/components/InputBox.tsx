@@ -1,7 +1,7 @@
 import React from 'react';
 import {ThemeProps, themeable} from '../theme';
 import Input from './Input';
-import {autobind} from '../utils/helper';
+import {autobind, ucFirst} from '../utils/helper';
 import {Icon} from './icons';
 
 export interface InputBoxProps
@@ -17,6 +17,7 @@ export interface InputBoxProps
   placeholder?: string;
   prefix?: JSX.Element;
   children?: JSX.Element;
+  borderMode?: 'full' | 'half' | 'none';
 }
 
 export interface InputBoxState {
@@ -37,7 +38,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
   clearValue(e: any) {
     e.preventDefault();
 
-    const onClear = this.props.onChange;
+    const onClear = this.props.onClear;
     const onChange = this.props.onChange;
     onClear?.(e);
     onChange?.('');
@@ -79,20 +80,20 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
       placeholder,
       prefix: result,
       children,
+      borderMode,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
 
     return (
       <div
-        className={cx(
-          'InputBox',
-          className,
-          isFocused ? 'is-focused' : '',
-          disabled ? 'is-disabled' : '',
-          hasError ? 'is-error' : '',
-          rest.onClick ? 'is-clickable' : ''
-        )}
+        className={cx('InputBox', className, {
+          'is-focused': isFocused,
+          'is-disabled': disabled,
+          'is-error': hasError,
+          'is-clickable': rest.onClick,
+          [`InputBox--border${ucFirst(borderMode)}`]: borderMode
+        })}
       >
         {result}
 

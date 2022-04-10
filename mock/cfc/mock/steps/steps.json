@@ -1,0 +1,23 @@
+{
+    "status": 0,
+    "msg": "",
+    "data": {
+        "steps": [
+            {
+                "title": "First",
+                "subTitle": "this is sub title",
+                "value": "first"
+            },
+            {
+                "title": "Secord",
+                "description": "this is description",
+                "value": "secord"
+            },
+            {
+                "title": "Last",
+                "value": "last"
+            }
+        ],
+        "current": "secord"
+    }
+}

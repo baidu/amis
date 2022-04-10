@@ -4,19 +4,31 @@
 
 import {SchemaNode, Schema} from './types';
 import {RendererProps, RendererConfig, addSchemaFilter} from './factory';
-
+import {findObjectsWithKey} from './utils/helper';
 const isMobile = (window as any).matchMedia?.('(max-width: 768px)').matches
   ? true
   : false;
 
-addSchemaFilter(function (schema: Schema, renderer, props?: any) {
+// 这里不能用 addSchemaFilter 是因为还需要更深层的替换，比如 select 里的 options
+export const envOverwrite = (schema: any, locale?: string) => {
   if (schema.mobile && isMobile) {
-    return {...schema, ...schema.mobile};
+    Object.assign(schema, schema.mobile);
+    delete schema.mobile;
   }
 
-  if (props?.locale && schema[props.locale]) {
-    return {...schema, ...schema[props.locale]};
+  if (locale) {
+    let schemaNodes = findObjectsWithKey(schema, locale);
+    for (let schemaNode of schemaNodes) {
+      Object.assign(schemaNode, schemaNode[locale]);
+      delete schemaNode[locale];
+    }
   }
 
-  return schema;
-});
+  if (isMobile) {
+    let schemaNodes = findObjectsWithKey(schema, 'mobile');
+    for (let schemaNode of schemaNodes) {
+      Object.assign(schemaNode, schemaNode['mobile']);
+      delete schemaNode['mobile'];
+    }
+  }
+};

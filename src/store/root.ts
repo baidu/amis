@@ -1,6 +1,5 @@
 import {Instance, types} from 'mobx-state-tree';
-import qs from 'qs';
-import {createObject} from '../utils/helper';
+import {createObject, qsparse} from '../utils/helper';
 import {ServiceStore} from './service';
 
 export const RootStore = ServiceStore.named('RootStore')
@@ -33,9 +32,9 @@ export const RootStore = ServiceStore.named('RootStore')
         (location && location.query) ||
         (location &&
           location.search &&
-          qs.parse(location.search.substring(1))) ||
+          qsparse(location.search.substring(1))) ||
         (window.location.search &&
-          qs.parse(window.location.search.substring(1)));
+          qsparse(window.location.search.substring(1)));
 
       self.query = query;
     }

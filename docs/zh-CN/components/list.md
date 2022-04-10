@@ -15,7 +15,7 @@ order: 56
 ```schema: scope="body"
 {
   "type": "service",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=5",
+  "api": "/api/mock2/sample?perPage=5",
   "body": [
     {
       "type": "panel",
@@ -50,7 +50,7 @@ order: 56
                 "title": "查看详情",
                 "body": {
                   "type": "form",
-                  "controls": [
+                  "body": [
                     {
                       "label": "Engine",
                       "name": "engine",
@@ -74,6 +74,81 @@ order: 56
 ```
 
 或者你也可以使用 CRUD 的 [list 模式](./crud#list-%E5%88%97%E8%A1%A8%E6%A8%A1%E5%BC%8F)
+
+## 单行点击操作
+
+> 1.4.0 及以上版本
+
+配置 itemAction 可以实现点击某一行后进行操作，支持 [action](./action) 里的所有配置，比如弹框、刷新其它组件等。
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/sample?perPage=5",
+  "body": [
+    {
+      "type": "panel",
+      "title": "简单 List 示例",
+      "body": {
+        "type": "list",
+        "source": "$rows",
+        "itemAction": {
+          "type": "button",
+          "actionType": "dialog",
+          "dialog": {
+            "title": "详情",
+            "body": "当前行的数据 browser: ${browser}, version: ${version}"
+          }
+        },
+        "listItem": {
+          "body": [
+            {
+              "type": "hbox",
+              "columns": [
+                {
+                  "label": "Engine",
+                  "name": "engine"
+                },
+
+                {
+                  "name": "version",
+                  "label": "Version"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": "button",
+              "level": "link",
+              "label": "查看详情",
+              "actionType": "dialog",
+              "dialog": {
+                "title": "查看详情",
+                "body": {
+                  "type": "form",
+                  "body": [
+                    {
+                      "label": "Engine",
+                      "name": "engine",
+                      "type": "static"
+                    },
+                    {
+                      "name": "version",
+                      "label": "Version",
+                      "type": "static"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
 
 ## 属性表
 

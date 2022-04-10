@@ -1,86 +1,118 @@
 .#{$ns}SubForm {
   &-values {
-    display: inline-block;
-    margin-top: calc(var(--gap-xs) * -1);
-    padding: calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize) - #{px2rem(2px)}
-          ) / 2
-      )
-      0;
+    margin: 2px -3px;
+
+    &:empty {
+      display: none;
+    }
   }
 
   &-value {
-    cursor: pointer;
+    background: var(--ResultBox-value-bg);
+    color: var(--ResultBox-value-color);
+    font-size: var(--Form-input-fontSize);
+    padding: 0 var(--gap-xs);
+    min-height: px2rem(24px);
+    flex-wrap: nowrap;
+    display: inline-flex;
+    align-items: center;
+    margin: 2px 3px;
     user-select: none;
-    line-height: calc(
-      var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
-    );
-    display: inline-block;
-    font-size: var(--Form-selectValue-fontSize);
-    color: var(--Form-selectValue-color);
-    background: var(--Form-selectValue-bg);
-    border: px2rem(1px) solid var(--Form-selectValue-borderColor);
-    border-radius: 2px;
-    margin-right: var(--gap-xs);
-    margin-top: var(--gap-xs);
+
+    &Label {
+      color: inherit;
+    }
+
+    &Del,
+    &Edit,
+    &DragBar {
+      cursor: pointer;
+      margin-left: var(--gap-xs);
+      color: var(--ResultBox-icon-color);
+      &:hover {
+        color: var(--ResultBox-icon--onHover-color);
+      }
+
+      > svg {
+        width: px2rem(12px);
+        height: px2rem(12px);
+      }
+    }
+
+    &DragBar {
+      margin-left: 0;
+      margin-right: var(--gap-xs);
+      cursor: move;
+    }
 
     &:hover {
-      background: var(--Form-selectValue-onHover-bg);
+      background: var(--ResultBox-value--onHover-bg);
     }
 
     &.is-disabled {
       pointer-events: none;
-      opacity: var(--Button-onDisabled-opacity);
+      color: var(--ResultBox-value--onDisabled-color);
+
+      > a {
+        color: var(--ResultBox-icon--onDisabled-color);
+      }
     }
-  }
 
-  &-valueIcon {
-    cursor: pointer;
-    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
-    padding: 1px 5px;
+    &--dragging {
+      position: relative;
 
-    &:hover {
-      background: var(--Form-selectValue-onHover-bg);
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 5;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+      }
     }
-  }
-
-  &-valueLabel {
-    padding: 0 var(--gap-xs);
   }
 
   &-addBtn {
-    font-size: var(--SubForm--addBtn-fontSize);
+    width: auto;
+    min-width: auto;
+    font-weight: var(--fontWeightNormal);
+    color: var(--Button--link-color);
+    text-decoration: var(--link-decoration);
+    border: none;
+    height: auto;
+    padding: 0 4px;
+    display: inline-flex;
+    align-items: center;
 
-    @include button-size(
-      var(--SubForm--addBtn-paddingY),
-      var(--SubForm--addBtn-paddingX),
-      var(--SubForm--addBtn-fontSize),
-      var(--SubForm--addBtn-lineHeight),
-      var(--SubForm--addBtn-borderRadius),
-      var(--SubForm--addBtn-height)
-    );
+    @include hover-focus {
+      color: var(--Button--link-onHover-color);
+      text-decoration: var(--link-onHover-decoration);
+      box-shadow: none;
+    }
 
-    @include button-variant(
-      var(--SubForm--addBtn-bg),
-      var(--SubForm--addBtn-border),
-      var(--SubForm--addBtn-color),
-      var(--SubForm--addBtn-onHover-bg),
-      var(--SubForm--addBtn-onHover-border),
-      var(--SubForm--addBtn-onHover-color),
-      var(--SubForm--addBtn-onActive-bg),
-      var(--SubForm--addBtn-onActive-border),
-      var(--SubForm--addBtn-onActive-color)
-    );
+    > svg {
+      width: 12px;
+      height: 12px;
+      margin-right: 4px !important;
+      top: 0;
+    }
 
+    &:disabled,
     &.is-disabled {
+      color: var(--text--muted-color);
       pointer-events: none;
-      opacity: var(--Button-onDisabled-opacity);
+      background: transparent;
     }
   }
-}
 
-.#{$ns}SubFormControl {
-  padding-top: calc(var(--Form-input-height) - var(--SubForm--addBtn-height));
+  &-placeholder {
+    color: var(--Form-input-placeholderColor);
+    user-select: none;
+    padding: 4px;
+  }
 }

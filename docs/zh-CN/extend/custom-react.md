@@ -12,14 +12,15 @@ amis 的配置最终会转成 React 组件来执行，所以如果只是想在�
   "title": "自定义组件示例",
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "label": "用户名",
         "name": "usename"
       },
       {
         "name": "mycustom",
+        "asFormItem": true,
         "children": ({
           value,
           onChange,
@@ -41,6 +42,9 @@ amis 的配置最终会转成 React 组件来执行，所以如果只是想在�
 
 其中的 `mycustom` 就是一个临时扩展，它的 `children` 属性是一个函数，它的返回内容和 React 的 Render 方法一样，即 jsx，在这个方法里你可以写任意 JavaScript 来实现自己的定制需求，这个函数有两个参数 `value` 和 `onChange`，`value` 就是组件的值，`onChange` 方法用来改变这个值，比如上面的例子中，点击链接后就会修改 `mycustom` 为一个随机数，在提交表单的时候就变成了这个随机数，而 `data` 可以拿到其它控件的值，比如 `data.username`。
 
+> 注意与 "children" 并列有个 "asFormItem" 属性，这个属性表示这个节点的渲染会自动包裹成表单项，包裹成表单项就能配置
+> "name"、"description"、"validation" 之类的跟表单项有关的配置了。包括其中的 value 和 onChange 自动会跟 name 关联等功能，跟下面 `@FormItem` 注解是一个功能。
+
 与之类似的还有个 `component` 属性，这个属性可以传入 React Component，如果想用 React Hooks，请通过 `component` 传递，而不是 `children`。
 
 这种扩展方式既简单又灵活，但它是写在配置中的，无法在其他地方复用，也无法在可视化编辑器里编辑，如果需要复用或在可视化编辑器中使用，请使用下面的「注册自定义类型」方式：
@@ -54,7 +58,8 @@ import * as React from 'react';
 import {Renderer} from 'amis';
 
 @Renderer({
-  test: /(^|\/)my\-renderer$/
+  type: 'my-renderer',
+  autoVar: true // amis 1.8 之后新增的功能，自动解析出参数里的变量
 })
 class CustomRenderer extends React.Component {
   render() {
@@ -68,7 +73,8 @@ class CustomRenderer extends React.Component {
 
 ```javascript
 Renderer({
-  test: /(^|\/)my\-renderer$/
+  type: 'my-renderer',
+  autoVar: true
 })(CustomRenderer);
 ```
 
@@ -94,7 +100,7 @@ import * as React from 'react';
 import {Renderer} from 'amis';
 
 @Renderer({
-  test: /(^|\/)my\-renderer2$/
+  type: 'my-renderer2'
 })
 class CustomRenderer extends React.Component {
   render() {
@@ -126,9 +132,9 @@ class CustomRenderer extends React.Component {
     "tip": "简单示例",
     "body": {
       "type": "form",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "label": "用户名",
           "name": "usename"
         }
@@ -143,6 +149,26 @@ class CustomRenderer extends React.Component {
 - `region` 区域名称，你有可能有多个区域可以作为容器，请不要重复。
 - `node` 子节点。
 - `props` 可选，可以通过此对象跟子节点通信等。
+
+### 属性支持变量
+
+> 1.8.0 及以上版本新增配置，之前版本需要调用 amis 里的 resolveVariableAndFilter 方法
+
+前面的例子中组件参数都是静态的，但因为配置了 `autoVar: true`，使得所有组件参数将自动支持变量，比如下面例子中的 `tip` 在组件内拿到的将是解析后的值
+
+```json
+{
+  "type": "page",
+  "data": {
+    "myVar": "var"
+  },
+  "title": "自定义组件示例",
+  "body": {
+    "type": "my-renderer",
+    "tip": "${myVar}"
+  }
+}
+```
 
 ### 表单项的扩展
 
@@ -183,9 +209,9 @@ class MyFormItem extends React.Component {
   "title": "自定义组件示例",
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "label": "用户名",
         "name": "usename"
       },
@@ -265,7 +291,7 @@ export default class CustomCheckbox extends React.Component {
 import * as React from 'react';
 import {Renderer, ScopedContext} from 'amis';
 @Renderer({
-  test: /(?:^|\/)my\-renderer$/
+  type: 'my-renderer'
 })
 export class CustomRenderer extends React.Component {
   static contextType = ScopedContext;

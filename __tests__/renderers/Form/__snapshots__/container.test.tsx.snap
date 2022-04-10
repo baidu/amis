@@ -3,17 +3,17 @@
 exports[`Renderer:container 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,22 +22,26 @@ exports[`Renderer:container 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-item a-Form-item--horizontal no-border"
+          class="cxd-Form-item cxd-Form-item--horizontal no-border"
           data-role="form-item"
         >
           <label
-            class="a-Form-label a-Form-itemColumn--normal"
+            class="cxd-Form-label cxd-Form-itemColumn--normal"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   container
@@ -46,53 +50,44 @@ exports[`Renderer:container 1`] = `
             </span>
           </label>
           <div
-            class="a-Form-value a-Form-itemColumn--7"
+            class="cxd-Form-value"
           >
             <div
-              class="a-Container a-Form-control"
+              class="cxd-Container"
             >
               <div
-                class="a-Form--horizontal bg-white"
+                class="cxd-Container-body bg-white"
               >
                 <div
-                  class="a-Form-item a-Form-item--horizontal"
+                  class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
                 >
-                  <label
-                    class="a-Form-label a-Form-itemColumn--normal"
-                  >
-                    <span />
-                  </label>
                   <div
-                    class="a-Form-value a-Form-itemColumn--7"
+                    class="cxd-Form-control cxd-TextControl cxd-TextControl--withAddOn"
                   >
                     <div
-                      class="a-Form-control a-TextControl a-TextControl--withAddOn"
+                      class="cxd-TextControl-input"
                     >
-                      <div
-                        class="a-TextControl-input"
+                      <input
+                        autocomplete="off"
+                        name="text"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                    <div
+                      class="cxd-TextControl-button"
+                    >
+                      <button
+                        class="cxd-Button cxd-Button--default"
+                        type="submit"
                       >
-                        <input
-                          autocomplete="off"
-                          name="text"
-                          placeholder=""
-                          size="10"
-                          type="text"
-                          value=""
-                        />
-                      </div>
-                      <div
-                        class="a-TextControl-button"
-                      >
-                        <button
-                          class="a-Button a-Button--default"
-                          type="submit"
-                        >
-                          <span>
-                            按钮
-                          </span>
-                        </button>
-                      </div>
+                        <span>
+                          按钮
+                        </span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -100,10 +95,6 @@ exports[`Renderer:container 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

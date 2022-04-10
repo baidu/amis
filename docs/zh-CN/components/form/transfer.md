@@ -12,8 +12,8 @@ icon:
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "label": "默认",
       "type": "transfer",
@@ -56,8 +56,8 @@ icon:
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "label": "分组",
       "type": "transfer",
@@ -113,8 +113,8 @@ icon:
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "label": "表格形式",
       "type": "transfer",
@@ -172,8 +172,8 @@ icon:
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "label": "树型展示",
       "type": "transfer",
@@ -230,8 +230,8 @@ icon:
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "label": "级联选择",
       "type": "transfer",
@@ -288,8 +288,8 @@ icon:
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "label": "带搜索",
       "type": "transfer",
@@ -348,14 +348,14 @@ icon:
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "label": "延时加载",
       "type": "transfer",
       "name": "transfer7",
       "selectMode": "tree",
-      "deferApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/deferOptions?label=${label}",
+      "deferApi": "/api/mock2/form/deferOptions?label=${label}&waitSeconds=2",
       "options": [
         {
           "label": "法师",
@@ -398,15 +398,15 @@ icon:
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "label": "关联选择模式",
       "type": "transfer",
       "name": "b",
       "sortable": true,
       "searchable": true,
-      "deferApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock/form/deferOptions?label=${label}",
+      "deferApi": "/api/mock2/form/deferOptions?label=${label}",
       "selectMode": "associated",
       "leftMode": "tree",
       "leftOptions": [
@@ -506,6 +506,24 @@ icon:
 }
 ```
 
+leftOptions 动态加载，默认 source 接口是返回 options 部分，而 leftOptions 是没有对应的接口可以动态返回了。为了方便，目前如果 source 接口返回的选中中，第一个 option 是以下这种格式则也会把 options[0].leftOptions 当成 leftOptions, options[0].children 当 options。同时 options[0].leftDefaultValue 可以用来配置左侧选项的默认值。
+
+```
+{
+    status: 0,
+    msg: '',
+    data: {
+        options: [
+            {
+                leftOptions: [],
+                children: [],
+                leftDefaultValue: ''
+            }
+        ]
+    }
+}
+```
+
 ## searchApi
 
 **发送**
@@ -541,26 +559,91 @@ icon:
 
 适用于需选择的数据/信息源较多时，用户可直观的知道自己所选择的数据/信息的场景，一般左侧框为数据/信息源，右侧为已选数据/信息，被选中信息同时存在于 2 个框内。
 
+## 自定义选项展示
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+      {
+        "label": "默认",
+        "type": "transfer",
+        "name": "transfer",
+        "menuTpl": "<div class='flex justify-between'><span>${label}</span><span class='text-muted m-r text-sm'>${tag}</span></div>",
+        "valueTpl": "${label}(${value})",
+        "options": [
+          {
+            "label": "诸葛亮",
+            "value": "zhugeliang",
+            "tag": "法师",
+          },
+          {
+            "label": "曹操",
+            "value": "caocao",
+            "tag": "战士",
+          },
+          {
+            "label": "钟无艳",
+            "value": "zhongwuyan",
+            "tag": "战士",
+          },
+          {
+            "label": "李白",
+            "value": "libai",
+            "tag": "打野"
+          },
+          {
+            "label": "韩信",
+            "value": "hanxin",
+            "tag": "打野"
+          },
+          {
+            "label": "云中君",
+            "value": "yunzhongjun",
+            "tag": "打野"
+          }
+        ]
+      }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名           | 类型                                      | 默认值       | 说明                                                                                                                                                                                                        |
-| ---------------- | ----------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| options          | `Array<object>`或`Array<string>`          |              | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                                                                                                                                   |
-| source           | `string`或 [API](../../../docs/types/api) |              | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                                                                                                                                |
-| delimeter        | `string`                                  | `false`      | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                                                                                                                   |
-| joinValues       | `boolean`                                 | `true`       | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                                                                                                                  |
-| extractValue     | `boolean`                                 | `false`      | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                                                                                              |
-| searchable       | `boolean`                                 | `false`      | 当设置为 `true` 时表示可以通过输入部分内容检索出选项。                                                                                                                                                      |
-| searchApi        | [API](../../../docs/types/api)            |              | 如果想通过接口检索，可以设置个 api。                                                                                                                                                                        |
-| statistics       | `boolean`                                 | `true`       | 是否显示统计数据                                                                                                                                                                                            |
-| selectTitle      | `string`                                  | `"请选择"`   | 左侧的标题文字                                                                                                                                                                                              |
-| resultTitle      | `string`                                  | `"当前选择"` | 右侧结果的标题文字                                                                                                                                                                                          |
-| sortable         | `boolean`                                 | `false`      | 结果可以进行拖拽排序                                                                                                                                                                                        |
-| selectMode       | `string`                                  | `list`       | 可选：`list`、`table`、`tree`、`chained`、`associated`。分别为：列表形式、表格形式、树形选择形式、级联选择形式，关联选择形式（与级联选择的区别在于，级联是无限极，而关联只有一级，关联左边可以是个 tree）。 |
-| searchResultMode | `string`                                  |              | 如果不设置将采用 `selectMode` 的值，可以单独配置，参考 `selectMode`，决定搜索结果的展示形式。                                                                                                               |
-| columns          | `Array<Object>`                           |              | 当展示形式为 `table` 可以用来配置展示哪些列，跟 table 中的 columns 配置相似，只是只有展示功能。                                                                                                             |
-| leftOptions      | `Array<Object>`                           |              | 当展示形式为 `associated` 时用来配置左边的选项集。                                                                                                                                                          |
-| leftMode         | `string`                                  |              | 当展示形式为 `associated` 时用来配置左边的选择形式，支持 `list` 或者 `tree`。默认为 `list`。                                                                                                                |
-| rightMode        | `string`                                  |              | 当展示形式为 `associated` 时用来配置右边的选择形式，可选：`list`、`table`、`tree`、`chained`。                                                                                                              |
+| 属性名           | 类型                                                  | 默认值       | 说明                                                                                                                                                                                                        |
+| ---------------- | ----------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| options          | `Array<object>`或`Array<string>`                      |              | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                                                                                                                                   |
+| source           | `string`或 [API](../../../docs/types/api)             |              | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                                                                                                                                |
+| delimiter        | `string`                                              | `false`      | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                                                                                                                   |
+| joinValues       | `boolean`                                             | `true`       | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                                                                                                                  |
+| extractValue     | `boolean`                                             | `false`      | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                                                                                              |
+| searchable       | `boolean`                                             | `false`      | 当设置为 `true` 时表示可以通过输入部分内容检索出选项。                                                                                                                                                      |
+| searchApi        | [API](../../../docs/types/api)                        |              | 如果想通过接口检索，可以设置个 api。                                                                                                                                                                        |
+| statistics       | `boolean`                                             | `true`       | 是否显示统计数据                                                                                                                                                                                            |
+| selectTitle      | `string`                                              | `"请选择"`   | 左侧的标题文字                                                                                                                                                                                              |
+| resultTitle      | `string`                                              | `"当前选择"` | 右侧结果的标题文字                                                                                                                                                                                          |
+| sortable         | `boolean`                                             | `false`      | 结果可以进行拖拽排序                                                                                                                                                                                        |
+| selectMode       | `string`                                              | `list`       | 可选：`list`、`table`、`tree`、`chained`、`associated`。分别为：列表形式、表格形式、树形选择形式、级联选择形式，关联选择形式（与级联选择的区别在于，级联是无限极，而关联只有一级，关联左边可以是个 tree）。 |
+| searchResultMode | `string`                                              |              | 如果不设置将采用 `selectMode` 的值，可以单独配置，参考 `selectMode`，决定搜索结果的展示形式。                                                                                                               |
+| columns          | `Array<Object>`                                       |              | 当展示形式为 `table` 可以用来配置展示哪些列，跟 table 中的 columns 配置相似，只是只有展示功能。                                                                                                             |
+| leftOptions      | `Array<Object>`                                       |              | 当展示形式为 `associated` 时用来配置左边的选项集。                                                                                                                                                          |
+| leftMode         | `string`                                              |              | 当展示形式为 `associated` 时用来配置左边的选择形式，支持 `list` 或者 `tree`。默认为 `list`。                                                                                                                |
+| rightMode        | `string`                                              |              | 当展示形式为 `associated` 时用来配置右边的选择形式，可选：`list`、`table`、`tree`、`chained`。                                                                                                              |
+| menuTpl          | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义选项展示                                                                                                                                                                                          |
+| valueTpl         | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义值的展示                                                                                                                                                                                          |
+
+## 事件表
+
+| 事件名称           | 事件参数                                        | 说明                  |
+|-------------------|------------------------------------------------|----------------------|
+| change            |  `value: string` 时间值            |  值变化                           |
+
+## 动作表
+
+| 动作名称           | 动作配置                 | 说明                    |
+|-------------------|-------------------------|------------------------|
+| clear             | -                       | 清空                    |
+| reset             | -            | 值重置                   |
+| selectAll             | -            | 全选                   |

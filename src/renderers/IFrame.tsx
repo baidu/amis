@@ -6,7 +6,7 @@ import {ScopedContext, IScopedContext} from '../Scoped';
 import {buildApi, isApiOutdated} from '../utils/api';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 import {ActionSchema} from './Action';
-import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {dataMapping, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 /**
  * IFrame 渲染器
@@ -113,10 +113,8 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     const {src, data} = this.props;
 
     if (src) {
-      (this.IFrameRef.current as HTMLIFrameElement).src = buildApi(
-        src,
-        data
-      ).url;
+      (this.IFrameRef.current as HTMLIFrameElement).src =
+        resolveVariableAndFilter(src, data, '| raw');
     }
   }
 
@@ -129,10 +127,8 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     this.postMessage('receive', newData);
 
     if (isApiOutdated(src, src, data, newData)) {
-      (this.IFrameRef.current as HTMLIFrameElement).src = buildApi(
-        src,
-        newData
-      ).url;
+      (this.IFrameRef.current as HTMLIFrameElement).src =
+        resolveVariableAndFilter(src, newData, '| raw');
     }
   }
 
@@ -141,7 +137,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     (this.IFrameRef.current as HTMLIFrameElement)?.contentWindow?.postMessage(
       {
         type: `amis:${type}`,
-        data
+        data: JSON.parse(JSON.stringify(data))
       },
       '*'
     );
@@ -149,7 +145,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 
   render() {
     const {width, height} = this.state;
-    let {className, src, frameBorder, data, style} = this.props;
+    let {className, src, name, frameBorder, data, style} = this.props;
 
     let tempStyle: any = {};
 
@@ -161,11 +157,9 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       ...style
     };
 
-    if (isPureVariable(src)) {
-      src = resolveVariableAndFilter(src, data);
-    }
-
-    const finalSrc = src ? buildApi(src, data).url : undefined;
+    const finalSrc = src
+      ? resolveVariableAndFilter(src, data, '| raw')
+      : undefined;
 
     if (
       typeof finalSrc === 'string' &&
@@ -177,6 +171,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 
     return (
       <iframe
+        name={name}
         className={className}
         frameBorder={frameBorder}
         style={style}
@@ -189,14 +184,15 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)iframe$/,
-  name: 'iframe'
+  type: 'iframe'
 })
 export class IFrameRenderer extends IFrame {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    const scoped = this.context as IScopedContext;
+  constructor(props: IFrameProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
   }
 

@@ -21,3 +21,20 @@ export function makeEnv(env?: Partial<RenderOptions>): RenderOptions {
     ...env
   };
 }
+
+export const createMockMediaMatcher =
+  (matchesOrMapOfMatches: any) => (qs: any) => ({
+    matches:
+      typeof matchesOrMapOfMatches === 'object'
+        ? matchesOrMapOfMatches[qs]
+        : matchesOrMapOfMatches,
+    media: '',
+    addListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    onchange: () => {},
+    removeListener: () => {},
+    dispatchEvent: () => {
+      return true;
+    }
+  });

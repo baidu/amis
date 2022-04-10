@@ -29,29 +29,15 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
     "type": "crud",
     "draggable": true,
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/mock2/sample",
     "keepItemSelectionOnPageChange": true,
-    "filter": {
-      "title": "筛选",
-      "submitText": "",
-      "controls": [
-        {
-          "type": "text",
-          "name": "keywords",
-          "placeholder": "关键字",
-          "addOn": {
-            "label": "搜索",
-            "type": "submit"
-          }
-        }
-      ]
-    },
+    "autoGenerateFilter": true,
     "bulkActions": [
       {
         "type": "button",
         "label": "批量删除",
         "actionType": "ajax",
-        "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/${ids|raw}",
+        "api": "delete:/api/mock2/sample/${ids|raw}",
         "confirmText": "确定要批量删除?"
       },
       {
@@ -63,14 +49,14 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
           "name": "sample-bulk-edit",
           "body": {
             "type": "form",
-            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate2",
-            "controls": [
+            "api": "/api/mock2/sample/bulkUpdate2",
+            "body": [
               {
                 "type": "hidden",
                 "name": "ids"
               },
               {
-                "type": "text",
+                "type": "input-text",
                 "name": "engine",
                 "label": "Engine"
               }
@@ -79,18 +65,16 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         }
       }
     ],
-    "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
-    "quickSaveItemApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id",
-    "filterTogglable": true,
+    "quickSaveApi": "/api/mock2/sample/bulkUpdate",
+    "quickSaveItemApi": "/api/mock2/sample/$id",
     "headerToolbar": [
-      "filter-toggler",
       "bulkActions",
       {
         "type": "button",
         "label": "重置测试数据",
         "actionType": "ajax",
         "size": "sm",
-        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/reset"
+        "api": "/api/mock2/sample/reset"
       },
       "export-excel",
       {
@@ -100,14 +84,11 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
       },
       {
         "type": "columns-toggler",
-        "align": "right"
+        "align": "right",
+        "draggable": true
       },
       {
         "type": "drag-toggler",
-        "align": "right"
-      },
-      {
-        "type": "pagination",
         "align": "right"
       }
     ],
@@ -118,20 +99,43 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         "label": "ID",
         "width": 20,
         "sortable": true,
-        "type": "text"
+        "type": "text",
+        "searchable": {
+          "type": "input-text",
+          "name": "id",
+          "label": "主键",
+          "placeholder": "输入id"
+        }
       },
       {
-        "name": "engine",
-        "label": "渲染引擎",
-        "sortable": true,
-        "searchable": true,
-        "type": "text",
-        "remark": "Trident 就是 IE，Gecko 就是 Firefox"
+        "name": "browser",
+        "label": "Browser",
+        "searchable": {
+          "type": "select",
+          "name": "browser",
+          "label": "浏览器",
+          "placeholder": "选择浏览器",
+          "options": [
+            {
+              "label": "Internet Explorer ",
+              "value": "ie"
+            },
+            {
+              "label": "AOL browser",
+              "value": "aol"
+            },
+            {
+              "label": "Firefox",
+              "value": "firefox"
+            }
+          ]
+        }
       },
       {
         "name": "platform",
         "label": "平台",
         "popOver": {
+          "trigger": "hover",
           "body": {
             "type": "tpl",
             "tpl": "就是为了演示有个叫 popOver 的功能"
@@ -143,12 +147,8 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
       {
         "name": "grade",
         "label": "CSS 等级",
-        "quickEdit": {
-          "mode": "inline",
-          "type": "select",
-          "options": ["A", "B", "C", "D", "X"]
-        },
-        "type": "text"
+        "type": "select",
+        "options": ["A", "B", "C", "D", "X"]
       },
       {
         "type": "operation",
@@ -160,7 +160,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
             "actionType": "ajax",
             "label": "删除",
             "confirmText": "您确认要删除?",
-            "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id"
+            "api": "delete:/api/mock2/sample/$id"
           }
         ]
       }
@@ -175,9 +175,11 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
 - 有按钮可以刷新数据
 - 编辑单行数据
 - 批量修改和删除
-- 查询某列
 - 按某列排序
-- 隐藏某列
+- 可以隐藏某些列
+- 可以调整列顺序
+- 自动生成顶部查询区域
+- 可调整列宽度
 - 开启整页内容拖拽排序
 - 表格有分页（页数还能同步到地址栏，不过这个例子中关了）
 - 有数据汇总
@@ -197,17 +199,17 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
 为了实现用最简单方式来生成大部分页面，amis 的解决方案是基于 [JSON](https://baike.baidu.com/item/JSON) 来配置，它的独特好处是：
 
 - **不需要懂前端**：在百度内部，大部分 amis 用户之前从来没写过前端页面，也不会 `JavaScript`，却能做出专业且复杂的后台界面，这是所有其他前端 UI 库都无法做到的；
-- **不受前端技术更新的影响**：百度内部最老的 amis 页面是 4 年多前创建的，至今还在使用，而当年的 `Angular/Vue/React` 版本现在都废弃了，当年流行的 `Gulp` 也被 `Webpack` 取代了，如果这些页面不是用 amis，现在的维护成本会很高；
+- **不受前端技术更新的影响**：百度内部最老的 amis 页面是 6 年多前创建的，至今还在使用，而当年的 `Angular/Vue/React` 版本现在都废弃了，当年流行的 `Gulp` 也被 `Webpack` 取代了，如果这些页面不是用 amis，现在的维护成本会很高；
 - **享受 amis 的不断升级**：amis 一直在提升细节交互体验，比如表格首行冻结、下拉框大数据下不卡顿等，之前的 JSON 配置完全不需要修改；
 - 可以 **完全** 使用 [可视化页面编辑器](https://aisuda.github.io/amis-editor-demo/) 来制作页面：一般前端可视化编辑器只能用来做静态原型，而 amis 可视化编辑器做出的页面是可以直接上线的。
 
 ## amis 的其它亮点
 
 - **提供完整的界面解决方案**：其它 UI 框架必须使用 JavaScript 来组装业务逻辑，而 amis 只需 JSON 配置就能完成完整功能开发，包括数据获取、表单提交及验证等功能，做出来的页面不需要经过二次开发就能直接上线；
-- **大量内置组件（100+），一站式解决**：其它 UI 框架大部分都只有最通用的组件，如果遇到一些稍微不常用的组件就得自己找第三方，而这些第三方组件往往在展现和交互上不一致，整合起来效果不好，而 amis 则内置大量组件，包括了富文本编辑器、代码编辑器、diff、条件组合、实时日志等业务组件，绝大部分中后台页面开发只需要了解 amis 就足够了；
+- **大量内置组件（120+），一站式解决**：其它 UI 框架大部分都只有最通用的组件，如果遇到一些稍微不常用的组件就得自己找第三方，而这些第三方组件往往在展现和交互上不一致，整合起来效果不好，而 amis 则内置大量组件，包括了富文本编辑器、代码编辑器、diff、条件组合、实时日志等业务组件，绝大部分中后台页面开发只需要了解 amis 就足够了；
 - **支持扩展**：除了低代码模式，还可以通过 [自定义组件](./extend/internal) 来扩充组件，实际上 amis 可以当成普通 UI 库来使用，实现 90% 低代码，10% 代码开发的混合模式，既提升了效率，又不失灵活性；
 - **容器支持无限级嵌套**：可以通过嵌套来满足各种布局及展现需求；
-- **经历了长时间的实战考验**：amis 在百度内部得到了广泛使用，**在 5 年多的时间里创建了 3.8 万页面**，从内容审核到机器管理，从数据分析到模型训练，amis 满足了各种各样的页面需求，最复杂的页面有超过 1 万行 JSON 配置。
+- **经历了长时间的实战考验**：amis 在百度内部得到了广泛使用，**在 6 年多的时间里创建了 5 万页面**，从内容审核到机器管理，从数据分析到模型训练，amis 满足了各种各样的页面需求，最复杂的页面有超过 1 万行 JSON 配置。
 
 ## amis 不适合做什么？
 

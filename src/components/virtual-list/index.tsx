@@ -181,8 +181,8 @@ export default class VirtualList extends React.PureComponent<Props, State> {
     const itemsDom = this.rootNode.children[0].children;
     const scrollbarWidth =
       window.innerWidth - document.documentElement.clientWidth || 15;
-    const containerWidth = this.rootNode.parentElement!.getBoundingClientRect()
-      .width;
+    const containerWidth =
+      this.rootNode.parentElement!.getBoundingClientRect().width;
     let maxItemWidth = 0;
     for (let i = 0; i < itemsDom.length; i++) {
       let itemWidth = itemsDom[i].getBoundingClientRect().width;
@@ -195,7 +195,8 @@ export default class VirtualList extends React.PureComponent<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    const props = this.props;
     const {
       estimatedItemSize,
       itemCount,
@@ -203,28 +204,28 @@ export default class VirtualList extends React.PureComponent<Props, State> {
       scrollOffset,
       scrollToAlignment,
       scrollToIndex
-    } = this.props;
+    } = prevProps;
     const scrollPropsHaveChanged =
-      nextProps.scrollToIndex !== scrollToIndex ||
-      nextProps.scrollToAlignment !== scrollToAlignment;
+      props.scrollToIndex !== scrollToIndex ||
+      props.scrollToAlignment !== scrollToAlignment;
     const itemPropsHaveChanged =
-      nextProps.itemCount !== itemCount ||
-      nextProps.itemSize !== itemSize ||
-      nextProps.estimatedItemSize !== estimatedItemSize;
+      props.itemCount !== itemCount ||
+      props.itemSize !== itemSize ||
+      props.estimatedItemSize !== estimatedItemSize;
 
-    if (nextProps.itemSize !== itemSize) {
+    if (props.itemSize !== itemSize) {
       this.sizeAndPositionManager.updateConfig({
-        itemSizeGetter: this.itemSizeGetter(nextProps.itemSize)
+        itemSizeGetter: this.itemSizeGetter(props.itemSize)
       });
     }
 
     if (
-      nextProps.itemCount !== itemCount ||
-      nextProps.estimatedItemSize !== estimatedItemSize
+      props.itemCount !== itemCount ||
+      props.estimatedItemSize !== estimatedItemSize
     ) {
       this.sizeAndPositionManager.updateConfig({
-        itemCount: nextProps.itemCount,
-        estimatedItemSize: this.getEstimatedItemSize(nextProps)
+        itemCount: props.itemCount,
+        estimatedItemSize: this.getEstimatedItemSize(props)
       });
     }
 
@@ -232,27 +233,25 @@ export default class VirtualList extends React.PureComponent<Props, State> {
       this.recomputeSizes();
     }
 
-    if (nextProps.scrollOffset !== scrollOffset) {
+    if (props.scrollOffset !== scrollOffset) {
       this.setState({
-        offset: nextProps.scrollOffset || 0,
+        offset: props.scrollOffset || 0,
         scrollChangeReason: SCROLL_CHANGE_REASON.REQUESTED
       });
     } else if (
-      typeof nextProps.scrollToIndex === 'number' &&
+      typeof props.scrollToIndex === 'number' &&
       (scrollPropsHaveChanged || itemPropsHaveChanged)
     ) {
       this.setState({
         offset: this.getOffsetForIndex(
-          nextProps.scrollToIndex,
-          nextProps.scrollToAlignment,
-          nextProps.itemCount
+          props.scrollToIndex,
+          props.scrollToAlignment,
+          props.itemCount
         ),
         scrollChangeReason: SCROLL_CHANGE_REASON.REQUESTED
       });
     }
-  }
 
-  componentDidUpdate(_: Props, prevState: State) {
     const {offset, scrollChangeReason} = this.state;
     if (
       prevState.offset !== offset &&
@@ -428,10 +427,8 @@ export default class VirtualList extends React.PureComponent<Props, State> {
     }
 
     const {scrollDirection = DIRECTION.VERTICAL} = this.props;
-    const {
-      size,
-      offset
-    } = this.sizeAndPositionManager.getSizeAndPositionForIndex(index);
+    const {size, offset} =
+      this.sizeAndPositionManager.getSizeAndPositionForIndex(index);
 
     return (this.styleCache[index] = sticky
       ? {

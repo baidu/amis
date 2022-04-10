@@ -89,9 +89,9 @@ order: 9
     },
     {
       "type": "form",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "name",
           "label": "姓名"
         }
@@ -132,7 +132,7 @@ Page
     "type": "form",
     "panelClassName": "mb-0",
     "title": "",
-    "controls": [{
+    "body": [{
       "type": "select",
       "label": "区域",
       "name": "businessLineId",
@@ -142,7 +142,7 @@ Page
       "checkAll": false
     }, {
       "label": "时间范围",
-      "type": "date-range",
+      "type": "input-date-range",
       "name": "dateRange",
       "inline": true,
       "value": "-1month,+0month",
@@ -243,7 +243,7 @@ Page
   }, {
     "type": "crud",
     "className": "m-t-sm",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/mock2/sample",
     "columns": [{
       "name": "id",
       "label": "ID"

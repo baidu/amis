@@ -19,7 +19,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+    "api": "/api/mock2/page/initData",
     "body": {
         "type": "panel",
         "title": "$title",
@@ -50,7 +50,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/crud/table?perPage=5",
+    "api": "/api/mock2/crud/table?perPage=5",
     "body": [
         {
             "type": "table",
@@ -188,7 +188,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="body"
 {
   "type": "service",
-  "schemaApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/service/schema?type=tabs"
+  "schemaApi": "/api/mock2/service/schema?type=tabs"
 }
 ```
 
@@ -216,6 +216,87 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 
 它将`data`返回的对象作为 amis 页面配置，进行了解析渲染，实现动态渲染页面的功能。
 
+`schemaApi` 同样支持 `jsonp` 请求，完整用法请参考 amis-admin 项目。
+
+```schema: scope="body"
+{
+  "type": "service",
+  "schemaApi": "jsonp:/api/mock2/service/jsonp"
+}
+```
+
+`schemaApi接口` 返回的内容其实是一段立即执行的 js 代码。我们可以通过 `callback` 参数执行函数名，或者通过 `request._callback` 获取
+
+```js
+(function () {
+  window.axiosJsonpCallbackxxxx &&
+    window.axiosJsonpCallbackxxxx({
+      status: 0,
+      msg: '',
+      data: {
+        type: 'page',
+        title: 'jsonp 示例',
+        body: 'this is tpl from jsonp'
+      }
+    });
+})();
+```
+
+## 动态渲染表单项
+
+默认 Service 可以通过配置`schemaApi` [动态渲染页面内容](../service#%E5%8A%A8%E6%80%81%E6%B8%B2%E6%9F%93%E9%A1%B5%E9%9D%A2)，但是如果想渲染表单项，请返回下面这种格式：
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "type": "container",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "text",
+        "label": "文本输入"
+      }
+    ]
+  }
+}
+```
+
+例如下例：
+
+```schema: scope="form-item2"
+{
+  "type": "service",
+  "schemaApi": "/api/mock2/service/schema?type=controls"
+}
+```
+
+`schemaApi` 除了能返回表单项之外，还能同时返回表单数据，如果你这样返回接口
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "data": {
+      "a": "b" // 这样返回的选项会选中第二个选项B
+    },
+    "body": [
+      {
+        "type": "select",
+        "name": "a",
+        "label": "选项",
+        "options": [
+          {"label": "A", "value": "a"},
+          {"label": "B", "value": "b"}
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## 接口联动
 
 `api`和`schemaApi`都支持[接口联动](../../docs/concepts/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)
@@ -224,9 +305,9 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 {
     "title": "",
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock/saveForm?waitSeconds=1",
+    "api": "/api/mock/saveForm?waitSeconds=1",
     "mode": "horizontal",
-    "controls": [
+    "body": [
         {
         "label": "数据模板",
         "type": "select",
@@ -251,21 +332,21 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
         },
         {
         "type": "service",
-        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?tpl=${tpl}",
-        "controls": [
+        "api": "/api/mock2/form/initData?tpl=${tpl}",
+        "body": [
             {
             "label": "名称",
-            "type": "text",
+            "type": "input-text",
             "name": "name"
             },
             {
             "label": "作者",
-            "type": "text",
+            "type": "input-text",
             "name": "author"
             },
             {
             "label": "请求时间",
-            "type": "datetime",
+            "type": "input-datetime",
             "name": "date"
             }
         ]
@@ -290,12 +371,32 @@ Service 支持通过 WebSocket 获取数据，只需要设置 ws（由于无示�
 ```json
 {
   "type": "service",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
   "ws": "ws://localhost:8777",
   "body": {
     "type": "panel",
     "title": "$title",
     "body": "随机数：${random}"
+  }
+}
+```
+
+> 1.4.0 及以上版本
+
+或者是对象的方式支持配置初始 `data`，这个 data 会在建立连接时发送初始数据
+
+```json
+{
+  "type": "service",
+  "ws": {
+    "url": "ws://localhost:8777?name=${name}",
+    "data": {
+      "name": "${name}"
+    }
+  },
+  "body": {
+    "label": "名称",
+    "type": "static",
+    "name": "name"
   }
 }
 ```
@@ -324,28 +425,145 @@ ws.on('connection', function connection(ws) {
 
 WebSocket 客户端的默认实现是使用标准 WebSocket，如果后端使用定制的 WebSocket，比如 socket.io，可以通过覆盖 `env.wsFetcher` 来自己实现数据获取方法，默认实现是：
 
+> 1.4.0 及以上版本修改了 ws 类型，将之前的字符串改成了对象的方式，会有两个参数 url 和 body
+
+下面是目前 amis 中 WebSocket 支持的默认实现：
+
 ```javascript
 wsFetcher(ws, onMessage, onError) {
-  if (ws) {
-    const socket = new WebSocket(ws);
-    socket.onmessage = (event: any) => {
-      if (event.data) {
-        onMessage(JSON.parse(event.data));
-      }
-    };
-    socket.onerror = onError;
-    return {
-      close: socket.close
-    };
-  } else {
-    return {
-      close: () => {}
-    };
+    if (ws) {
+      const socket = new WebSocket(ws.url);
+      socket.onopen = event => {
+        if (ws.body) {
+          socket.send(JSON.stringify(ws.body));
+        }
+      };
+      socket.onmessage = event => {
+        if (event.data) {
+          let data;
+          try {
+            data = JSON.parse(event.data);
+          } catch (error) {}
+          if (typeof data !== 'object') {
+            let key = ws.responseKey || 'data';
+            data = {
+              [key]: event.data
+            };
+          }
+          onMessage(data);
+        }
+      };
+      socket.onerror = onError;
+      return {
+        close: socket.close
+      };
+    } else {
+      return {
+        close: () => {}
+      };
+    }
+  }
+```
+
+通过 onMessage 来通知 amis 数据修改了，并返回 close 函数来关闭连接。
+
+> 1.8.0 及以上版本
+
+如果 WebSocket 返回的结果不是 JSON 而只是某个字符串，需要配置 `responseKey` 属性来将这个结果放在这个 key 上，比如下面的例子
+
+```json
+{
+  "type": "service",
+  "ws": {
+    "url": "ws://localhost:8777?name=${name}",
+    "data": {
+      "name": "${name}"
+    },
+    "responseKey": "name"
+  },
+  "body": {
+    "label": "名称",
+    "type": "static",
+    "name": "name"
   }
 }
 ```
 
-通过 onMessage 来通知 amis 数据修改了，并返回 close 函数来关闭连接。
+对应的后端就只需要返回字符串
+
+```javascript
+const WebSocket = require('ws');
+
+const ws = new WebSocket.Server({port: 8777});
+
+ws.on('connection', function connection(ws) {
+  setInterval(() => {
+    const random = Math.floor(Math.random() * Math.floor(100));
+    ws.send(random);
+  }, 500);
+});
+```
+
+## 调用外部函数获取数据
+
+> 1.4.0 及以上版本
+
+对于更复杂的数据获取情况，可以使用 `dataProvider` 属性来实现外部函数获取数据，它支持字符串和函数两种形式
+
+```schema: scope="body"
+{
+    "type": "service",
+    "dataProvider": "setData({ now: new Date().toString() })",
+    "body": {
+        "type": "tpl",
+        "tpl": "现在是：${now}"
+    }
+}
+```
+
+函数将会传递两个参数：`data` 和 `setData`，其中 `data` 可以拿到上下文数据，而 `setData` 函数可以用来更新数据，比如下面的例子
+
+```schema: scope="body"
+{
+    "type": "service",
+    "dataProvider": "const timer = setInterval(() => { setData({date: new Date().toString()}) }, 1000); return () => { clearInterval(timer) }",
+    "body": {
+        "type": "tpl",
+        "tpl": "现在是：${date}"
+    }
+}
+```
+
+上面这个例子还返回了一个函数，这个函数会在组件销毁的时候执行，可以用来清理资源。
+
+下面是使用函数类型的示例，注意这个示例不能放在 JSON 中，只能在 jssdk 或 react 项目里使用。
+
+```javascript
+{
+    "type": "service",
+    "dataProvider": (data, setData) => {
+      const timer = setInterval(() => {
+        setData({date: new Date().toString()})
+      }, 1000);
+      return () => { clearInterval(timer) }
+    },
+    "body": {
+        "type": "tpl",
+        "tpl": "现在是：${now}"
+    }
+}
+```
+
+> 1.8.0 及以上版本
+
+新增了一个 `env` 属性，可以调用系统环境中的方法，比如 env.fetcher、tracker 等，比如下面的例子会调用 `env.notify` 来弹出提示
+
+```javascript
+{
+    "type": "service",
+    "dataProvider": "env.notify('info', 'msg')"
+}
+```
 
 ## 属性表
 
@@ -356,6 +574,7 @@ wsFetcher(ws, onMessage, onError) {
 | body                  | [SchemaNode](../../docs/types/schemanode) |                | 内容容器                                                                      |
 | api                   | [api](../../docs/types/api)               |                | 初始化数据域接口地址                                                          |
 | ws                    | `string`                                  |                | WebScocket 地址                                                               |
+| dataProvider          | `string`                                  |                | 数据获取函数                                                                  |
 | initFetch             | `boolean`                                 |                | 是否默认拉取                                                                  |
 | schemaApi             | [api](../../docs/types/api)               |                | 用来获取远程 Schema 接口地址                                                  |
 | initFetchSchema       | `boolean`                                 |                | 是否默认拉取 Schema                                                           |

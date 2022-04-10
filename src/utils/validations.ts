@@ -14,6 +14,79 @@ const makeRegexp = (reg: string | RegExp) => {
 
   return /^$/;
 };
+import memoize from 'lodash/memoize';
+import isPlainObject from 'lodash/isPlainObject';
+
+const makeUrlRegexp = memoize(function (options: any) {
+  options = {
+    schemes: ['http', 'https', 'ftp', 'sftp'],
+    allowLocal: true,
+    allowDataUrl: false,
+    ...(isPlainObject(options) ? options : {})
+  };
+
+  // https://github.com/ansman/validate.js/blob/master/validate.js#L1098-L1164
+  let {schemes, allowLocal, allowDataUrl} = options;
+
+  if (!Array.isArray(schemes)) {
+    schemes = ['http', 'https', 'ftp', 'sftp'];
+  }
+
+  let regex =
+    '^' +
+    // protocol identifier
+    '(?:(?:' +
+    schemes.join('|') +
+    ')://)' +
+    // user:pass authentication
+    '(?:\\S+(?::\\S*)?@)?' +
+    '(?:';
+
+  var tld = '(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))';
+
+  if (allowLocal) {
+    tld += '?';
+  } else {
+    regex +=
+      // IP address exclusion
+      // private & local networks
+      '(?!(?:10|127)(?:\\.\\d{1,3}){3})' +
+      '(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})' +
+      '(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})';
+  }
+
+  regex +=
+    // IP address dotted notation octets
+    // excludes loopback network 0.0.0.0
+    // excludes reserved space >= 224.0.0.0
+    // excludes network & broacast addresses
+    // (first & last IP address of each class)
+    '(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])' +
+    '(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}' +
+    '(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))' +
+    '|' +
+    // host name
+    '(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)' +
+    // domain name
+    '(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*' +
+    tld +
+    ')' +
+    // port number
+    '(?::\\d{2,5})?' +
+    // resource path
+    '(?:[/?#]\\S*)?' +
+    '$';
+
+  if (allowDataUrl) {
+    // RFC 2397
+    var mediaType = '\\w+\\/[-+.\\w]+(?:;[\\w=]+)*';
+    var urlchar = "[A-Za-z0-9-_.!~\\*'();\\/?:@&=+$,%]*";
+    var dataurl = 'data:(?:' + mediaType + ')?(?:;base64)?,' + urlchar;
+    regex = '(?:' + regex + ')|(?:^' + dataurl + '$)';
+  }
+
+  return new RegExp(regex, 'i');
+});
 
 export interface ValidateFn {
   (
@@ -55,12 +128,8 @@ export const validations: {
       /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i
     );
   },
-  isUrl: function (values, value) {
-    return validations.matchRegexp(
-      values,
-      value,
-      /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i
-    );
+  isUrl: function (values, value, options) {
+    return validations.matchRegexp(values, value, makeUrlRegexp(options));
   },
   isTrue: function (values, value) {
     return value === true;
@@ -149,7 +218,11 @@ export const validations: {
   isJson: function (values, value, minimum) {
     if (isExisty(value) && !isEmpty(value) && typeof value === 'string') {
       try {
-        JSON.parse(value);
+        const result = JSON.parse(value);
+        if (typeof result === 'object' && result) {
+          return true;
+        }
+        return false;
       } catch (e) {
         return false;
       }
@@ -260,8 +333,14 @@ export function validate(
   rules: {[propName: string]: any},
   messages?: {[propName: string]: string},
   __ = (str: string) => str
-): Array<string> {
-  const errors: Array<string> = [];
+): Array<{
+  rule: string;
+  msg: string;
+}> {
+  const errors: Array<{
+    rule: string;
+    msg: string;
+  }> = [];
 
   rules &&
     Object.keys(rules).forEach(ruleName => {
@@ -272,9 +351,8 @@ export function validate(
       }
 
       const fn = validations[ruleName];
-      const args = (Array.isArray(rules[ruleName])
-        ? rules[ruleName]
-        : [rules[ruleName]]
+      const args = (
+        Array.isArray(rules[ruleName]) ? rules[ruleName] : [rules[ruleName]]
       ).map((item: any) => {
         if (typeof item === 'string' && isPureVariable(item)) {
           return resolveVariableAndFilter(item, values, '|raw');
@@ -284,14 +362,15 @@ export function validate(
       });
 
       if (!fn(values, value, ...args)) {
-        errors.push(
-          filter(
+        errors.push({
+          rule: ruleName,
+          msg: filter(
             __((messages && messages[ruleName]) || validateMessages[ruleName]),
             {
               ...[''].concat(args)
             }
           )
-        );
+        });
       }
     });
 
@@ -305,7 +384,10 @@ export function validateObject(
   __ = (str: string) => str
 ) {
   const ret: {
-    [propName: string]: string[];
+    [propName: string]: {
+      rule: string;
+      msg: string;
+    }[];
   } = {};
 
   Object.keys(rules).forEach(key => {
@@ -342,9 +424,9 @@ const splitValidations = function (str: string): Array<string> {
     .map(str => (/^__\d+$/.test(str) ? placeholder[str] : str.trim()));
 };
 
-export function str2rules(
-  validations: string | {[propName: string]: any}
-): {[propName: string]: any} {
+export function str2rules(validations: string | {[propName: string]: any}): {
+  [propName: string]: any;
+} {
   if (typeof validations === 'string') {
     return validations
       ? splitValidations(validations).reduce(function (

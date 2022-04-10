@@ -10,14 +10,9 @@ import {
 } from '../../utils/helper';
 import cx from 'classnames';
 import getExprProperties from '../../utils/filter-schema';
-import {
-  FormItem,
-  FormControlProps,
-  FormBaseControl,
-  FormControlSchema
-} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {IFormItemStore, IFormStore} from '../../store/form';
-import {SchemaClassName} from '../../Schema';
+import {SchemaClassName, SchemaCollection, SchemaObject} from '../../Schema';
 
 /**
  * InputGroup
@@ -29,11 +24,11 @@ export interface InputGroupControlSchema extends FormBaseControl {
   /**
    * FormItem 集合
    */
-  controls: Array<FormControlSchema>;
+  body: SchemaCollection;
 }
 
 export interface InputGroupProps extends FormControlProps {
-  controls: Array<any>;
+  body: Array<any>;
   formStore: IFormStore;
 }
 
@@ -75,19 +70,7 @@ export class InputGroup extends React.Component<
       return null;
     }
 
-    const subSchema: any =
-      control && (control as Schema).type === 'control'
-        ? control
-        : {
-            type: 'control',
-            control
-          };
-
-    if (subSchema.control) {
-      let control = subSchema.control as Schema;
-      control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
-      control.visibleOn && (subSchema.visibleOn = control.visibleOn);
-    }
+    const subSchema: any = control;
 
     return render(`${index}`, subSchema, {
       onChange,
@@ -100,6 +83,7 @@ export class InputGroup extends React.Component<
 
     const errors: Array<string> = [];
 
+    // issue 处理这个，按理不需要这么弄。
     formItem?.subFormItems.forEach((item: IFormItemStore) => {
       if (item.errors.length) {
         errors.push(...item.errors);
@@ -111,6 +95,7 @@ export class InputGroup extends React.Component<
 
   render() {
     let {
+      body,
       controls,
       className,
       mode,
@@ -122,8 +107,12 @@ export class InputGroup extends React.Component<
     } = this.props;
 
     formMode = mode || formMode;
+    let inputs: Array<any> = Array.isArray(controls) ? controls : body;
+    if (!Array.isArray(inputs)) {
+      inputs = [];
+    }
 
-    controls = controls.filter(item => {
+    inputs = inputs.filter(item => {
       if (item && (item.hidden || item.visible === false)) {
         return false;
       }
@@ -138,14 +127,16 @@ export class InputGroup extends React.Component<
 
     let horizontalDeeper =
       horizontal ||
-      makeHorizontalDeeper(formHorizontal as any, controls.length);
+      (formHorizontal
+        ? makeHorizontalDeeper(formHorizontal as any, inputs.length)
+        : undefined);
     return (
       <div
         className={cx(`InputGroup`, className, {
           'is-focused': this.state.isFocused
         })}
       >
-        {controls.map((control, index) => {
+        {inputs.map((control, index) => {
           const isAddOn = ~[
             'icon',
             'plain',

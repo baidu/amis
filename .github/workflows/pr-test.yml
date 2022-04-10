@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -24,5 +24,6 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: test
         run: |
-          npm i
+          npm i --legacy-peer-deps
           npm test
+          sh deploy-gh-pages.sh

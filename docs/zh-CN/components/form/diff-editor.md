@@ -13,8 +13,8 @@ order: 17
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "api": "/api/mock2/form/saveForm",
+    "body": [
         {
             "type": "diff-editor",
             "name": "diff",
@@ -33,8 +33,8 @@ order: 17
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "api": "/api/mock2/form/saveForm",
+    "body": [
         {
             "type": "diff-editor",
             "name": "diff",
@@ -59,12 +59,12 @@ order: 17
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "data": {
         "value1": "hello world",
         "value2": "hello wrold"
     },
-    "controls": [
+    "body": [
         {
             "type": "diff-editor",
             "name": "value2",
@@ -83,3 +83,16 @@ order: 17
 | --------- | ------------- | ------------ | ------------------------------------------------------------------------------------------- |
 | language  | `string`      | `javascript` | 编辑器高亮的语言，可选 [支持的语言](./editor#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80) |
 | diffValue | [Tpl](../tpl) |              | 左侧值                                                                                      |
+
+## 事件表
+
+| 事件名称 | 事件参数        | 说明     |
+| -------- | --------------- | -------- |
+| focus    | `value: string` | 获取焦点 |
+| blur     | `value: string` | 失去焦点 |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明     |
+| -------- | -------- | -------- |
+| focus    | -        | 获取焦点 |

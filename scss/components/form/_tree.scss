@@ -59,6 +59,10 @@
     pointer-events: none;
   }
 
+  &.is-draggable {
+    position: relative;
+  }
+
   &--outline &-sublist &-item--isLeaf {
     &:before {
       position: absolute;
@@ -82,10 +86,31 @@
   &-itemLabel {
     display: flex;
     align-items: center;
+    position: relative;
 
     &:hover {
       background: var(--Tree-item-onHover-bg);
     }
+
+    // & > * {
+    //   position: relative;
+    //   z-index: 2;
+    // }
+
+    // &:hover:after {
+    //   position: absolute;
+    //   content: '';
+    //   z-index: 1;
+    //   background: var(--Tree-item-onHover-bg);
+    //   top: 0;
+    //   right: 0;
+    //   bottom: 0;
+    //   left: -99999px;
+    // }
+  }
+
+  &.is-draggable &-itemLabel:hover::after {
+    display: none;
   }
 
   &-item-icons {
@@ -214,6 +239,11 @@
     width: calc(var(--Tree-itemArrowWidth) + var(--gap-xs));
   }
 
+  &-itemDrager {
+    cursor: move;
+    color: var(--icon-color);
+  }
+
   &-spinner {
     margin-right: var(--gap-xs);
   }
@@ -260,5 +290,34 @@
 
   &-placeholder {
     color: var(--text--muted-color);
+  }
+
+  &-dropIndicator {
+    position: absolute;
+    height: px2rem(2px);
+    background-color: var(--Tree-itemLabel--onChecked-color);
+    border-radius: px2rem(1px);
+    z-index: 1;
+
+    &::after {
+      position: absolute;
+      top: px2rem(-3px);
+      left: px2rem(-6px);
+      width: px2rem(8px);
+      height: px2rem(8px);
+      background-color: transparent;
+      border: px2rem(2px) solid var(--Tree-itemLabel--onChecked-color);
+      border-radius: 50%;
+      content: '';
+    }
+
+    &--hover {
+      border-radius: 0;
+      background-color: var(--Tree-item-onHover-bg);
+
+      &::after {
+        display: none;
+      }
+    }
   }
 }

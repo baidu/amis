@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:markdown 1`] = `
+<div>
+  <div
+    class="cxd-Markdown"
+  >
+    <div>
+      <div
+        class="cxd-Spinner in"
+      >
+        <div
+          class="cxd-Spinner-icon cxd-Spinner-icon--default"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

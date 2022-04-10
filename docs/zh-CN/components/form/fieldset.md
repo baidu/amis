@@ -12,26 +12,26 @@ FieldSet 是用于分组展示表单项的一种容器型组件，可以折叠�
 
 ## 基本用法
 
-可以通过配置标题`title`和表单项数组`controls`，实现多个表单项分组展示
+可以通过配置标题`title`和表单项数组`body`，实现多个表单项分组展示
 
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "type": "fieldSet",
       "title": "基本配置",
-      "controls": [
+      "body": [
         {
           "name": "text1",
-          "type": "text",
+          "type": "input-text",
           "label": "文本1"
         },
 
         {
           "name": "text2",
-          "type": "text",
+          "type": "input-text",
           "label": "文本2"
         }
       ]
@@ -49,9 +49,9 @@ FieldSet 是用于分组展示表单项的一种容器型组件，可以折叠�
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "name": "text",
         "label": "文本"
     },
@@ -62,16 +62,16 @@ FieldSet 是用于分组展示表单项的一种容器型组件，可以折叠�
       "type": "fieldSet",
       "title": "基本配置",
       "mode": "horizontal",
-      "controls": [
+      "body": [
         {
           "name": "text1",
-          "type": "text",
+          "type": "input-text",
           "label": "文本1"
         },
 
         {
           "name": "text2",
-          "type": "text",
+          "type": "input-text",
           "label": "文本2"
         }
       ]
@@ -87,22 +87,22 @@ FieldSet 是用于分组展示表单项的一种容器型组件，可以折叠�
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "type": "fieldSet",
       "title": "基本配置",
       "collapsable": true,
-      "controls": [
+      "body": [
         {
           "name": "text1",
-          "type": "text",
+          "type": "input-text",
           "label": "文本1"
         },
 
         {
           "name": "text2",
-          "type": "text",
+          "type": "input-text",
           "label": "文本2"
         }
       ]
@@ -118,23 +118,23 @@ FieldSet 是用于分组展示表单项的一种容器型组件，可以折叠�
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "type": "fieldSet",
       "title": "基本配置",
       "collapsable": true,
       "collapsed": true,
-      "controls": [
+      "body": [
         {
           "name": "text1",
-          "type": "text",
+          "type": "input-text",
           "label": "文本1"
         },
 
         {
           "name": "text2",
-          "type": "text",
+          "type": "input-text",
           "label": "文本2"
         }
       ]
@@ -152,8 +152,8 @@ fieldSet 的另一种标题展现样式，不同的是展开的时候收起文�
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "type": "fieldSet",
       "title": "展开更多设置",
@@ -161,16 +161,16 @@ fieldSet 的另一种标题展现样式，不同的是展开的时候收起文�
       "titlePosition": "bottom",
       "collapsable": true,
       "collapsed": true,
-      "controls": [
+      "body": [
         {
           "name": "text1",
-          "type": "text",
+          "type": "input-text",
           "label": "文本1"
         },
 
         {
           "name": "text2",
-          "type": "text",
+          "type": "input-text",
           "label": "文本2"
         }
       ]
@@ -187,7 +187,7 @@ fieldSet 的另一种标题展现样式，不同的是展开的时候收起文�
 | headingClassName | `string`                                     |         | 标题 CSS 类名                                                              |
 | bodyClassName    | `string`                                     |         | 内容区域 CSS 类名                                                          |
 | title            | [SchemaNode](../../../docs/types/schemanode) |         | 标题                                                                       |
-| controls         | Array<[表单项](./formitem)>                  |         | 表单项集合                                                                 |
+| body             | Array<[表单项](./formitem)>                  |         | 表单项集合                                                                 |
 | mode             | `string`                                     |         | 展示默认，同 [Form](./index#%E8%A1%A8%E5%8D%95%E5%B1%95%E7%A4%BA) 中的模式 |
 | collapsable      | `boolean`                                    | `false` | 是否可折叠                                                                 |
 | collapsed        | `booelan`                                    | `false` | 默认是否折叠                                                               |

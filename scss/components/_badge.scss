@@ -3,7 +3,8 @@
   position: relative;
 
   &-text,
-  &-dot {
+  &-dot,
+  &-ribbon {
     background: var(--danger);
     position: absolute;
     top: 0;
@@ -12,7 +13,6 @@
     transform-origin: 100% 0;
     z-index: auto;
     border-radius: calc(var(--Badge-size) / 2);
-    box-shadow: 0 0 0 1px #fff;
   }
 
   &--top-left {
@@ -38,6 +38,21 @@
     transform: translate(50%, 50%);
   }
 
+  &--danger {
+    background: var(--Badge--danger-bg);
+  }
+
+  &--info {
+    background: var(--Badge--info-bg);
+  }
+
+  &--success {
+    background: var(--Badge--success-bg);
+  }
+
+  &--warning {
+    background: var(--Badge--warning-bg);
+  }
   // 显示文字
   &-text {
     color: var(--Badge-color);
@@ -54,5 +69,68 @@
     width: var(--Badge-size);
     height: var(--Badge-size);
     border-radius: 50%;
+  }
+
+  // 横幅
+  &-ribbon-out {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0
+  }
+
+  &-ribbon {
+    color: var(--Badge-color);
+    height: var(--Badge-size);
+    line-height: var(--Badge-size);
+    transform: translateX(calc(50% - 5px)) rotate(45deg) scale(.7);
+    transform-origin: 50% 0;
+    border-radius: 0;
+    text-align: center;
+    width: px2rem(1000px);
+    top: 5px;
+  }
+
+  &-ribbon-out--top-left, &-ribbon-out--bottom-left {
+    left: 0;
+    right: auto
+  }
+
+  &-ribbon--top-left {
+    transform: translateX(calc(-50% + 5px)) rotate(-45deg) scale(.7);
+    left: 0;
+    right: auto;
+  }
+
+  &-ribbon--bottom-left {
+    transform: translateX(calc(-50% + 5px)) rotate(45deg) scale(.7);
+    transform-origin: 50% 100%;
+    left: 0;
+    right: auto;
+    bottom: 5px;
+    top: auto;
+  }
+
+  &-ribbon--bottom-right {
+    transform: translateX(calc(50% - 5px)) rotate(-45deg) scale(.7);
+    transform-origin: 50% 100%;
+    left: auto;
+    right: 0;
+    bottom: 5px;
+    top: auto;
+  }
+
+  // 小红点的动画
+  @keyframes badgeDotAnimation {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.4;
+    }
+
+    to {
+      transform: scale(3.2);
+      opacity: 0;
+    }
   }
 }

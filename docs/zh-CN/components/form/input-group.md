@@ -15,15 +15,15 @@ order: 28
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "api": "/api/mock2/form/saveForm",
+  "body": [
     {
       "type": "input-group",
       "name": "input-group",
       "label": "input 组合",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "placeholder": "搜索作业ID/名称",
           "inputClassName": "b-r-none p-r-none",
           "name": "input-group"
@@ -38,7 +38,7 @@ order: 28
     {
       "type": "input-group",
       "label": "各种组合",
-      "controls": [
+      "body": [
         {
           "type": "select",
           "name": "memoryUnits",
@@ -59,7 +59,7 @@ order: 28
           "value": "Gi"
         },
         {
-          "type": "text",
+          "type": "input-text",
           "name": "memory"
         },
         {
@@ -97,11 +97,11 @@ order: 28
 input-group 配置校验方法较为特殊，需要配置下面步骤：
 
 1. input-group 上配置任意`name`值
-2. input-group 的 controls 内配置的表单项上配置校验规则
+2. input-group 的 body 内配置的表单项上配置校验规则
 
 ## 属性表
 
 | 属性名    | 类型                        | 默认值 | 说明       |
 | --------- | --------------------------- | ------ | ---------- |
 | className | `string`                    |        | CSS 类名   |
-| controls  | Array<[表单项](./formitem)> |        | 表单项集合 |
+| body      | Array<[表单项](./formitem)> |        | 表单项集合 |

@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:alert 1`] = `
+<div>
+  <div
+    class="cxd-Video"
+  >
+    <div
+      class="cxd-Video-player"
+    >
+      <div
+        class="video-react-controls-enabled video-react-paused video-react-fluid video-react-user-active video-react-workinghover video-react"
+        role="region"
+        style="padding-top: 56.25%;"
+        tabindex="-1"
+      >
+        <video
+          class="video-react-video"
+          poster=""
+          preload="auto"
+          src="https://example.com/video.mp4"
+          tabindex="-1"
+        >
+          <source
+            src="https://example.com/video.mp4"
+          />
+        </video>
+        <div
+          class="video-react-loading-spinner"
+        />
+        <button
+          aria-live="polite"
+          class="video-react-button video-react-big-play-button video-react-big-play-button-center big-play-button-hide"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="video-react-control-text"
+          >
+            Play Video
+          </span>
+        </button>
+        <div
+          class="video-react-control-bar video-react-control-bar-auto-hide"
+        >
+          <button
+            class="video-react-play-control video-react-control video-react-button video-react-paused"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="video-react-control-text"
+            >
+              Play
+            </span>
+          </button>
+          <div
+            class="video-react-volume-menu-button-horizontal video-react-vol-3 video-react-volume-menu-button video-react-menu-button-inline video-react-control video-react-button video-react-menu-button"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="video-react-menu"
+            >
+              <div
+                class="video-react-menu-content"
+              >
+                <div
+                  aria-label="volume level"
+                  aria-valuemax="100"
+                  aria-valuemin="0"
+                  aria-valuenow="100.00"
+                  aria-valuetext="100.00%"
+                  class="video-react-volume-bar video-react-slider-bar video-react-slider-horizontal video-react-slider"
+                  role="slider"
+                  tabindex="0"
+                >
+                  <div
+                    class="video-react-volume-level"
+                    style="width: 100.00%;"
+                  >
+                    <span
+                      class="video-react-control-text"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="video-react-current-time video-react-time-control video-react-control"
+          >
+            <div
+              aria-live="off"
+              class="video-react-current-time-display"
+            >
+              <span
+                class="video-react-control-text"
+              >
+                Current Time 
+              </span>
+              0:00
+            </div>
+          </div>
+          <div
+            class="video-react-time-control video-react-time-divider"
+            dir="ltr"
+          >
+            <div>
+              <span>
+                /
+              </span>
+            </div>
+          </div>
+          <div
+            class="video-react-duration video-react-time-control video-react-control"
+          >
+            <div
+              aria-live="off"
+              class="video-react-duration-display"
+            >
+              <span
+                class="video-react-control-text"
+              >
+                Duration Time 
+              </span>
+              0:00
+            </div>
+          </div>
+          <div
+            class="video-react-progress-control video-react-control"
+          >
+            <div
+              aria-label="video progress bar"
+              aria-valuemax="100"
+              aria-valuemin="0"
+              aria-valuenow="NaN"
+              aria-valuetext="0:00"
+              class="video-react-progress-holder video-react-slider-horizontal video-react-slider"
+              role="slider"
+              tabindex="0"
+            >
+              <div
+                class="video-react-play-progress video-react-slider-bar"
+                data-current-time="0:00"
+              >
+                <span
+                  class="video-react-control-text"
+                >
+                  Progress: NaN%
+                </span>
+              </div>
+            </div>
+          </div>
+          <button
+            class="video-react-icon-fullscreen video-react-fullscreen-control video-react-control video-react-button video-react-icon"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="video-react-control-text"
+            >
+              Non-Fullscreen
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
