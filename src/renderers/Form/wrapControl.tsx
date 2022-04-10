@@ -401,10 +401,6 @@ export function wrapControl<
             this.control = control;
             const scoped = this.context as IScopedContext;
 
-            if (!this.control) {
-              return;
-            }
-
             if (control) {
               scoped.registerComponent(this.control);
             } else {
