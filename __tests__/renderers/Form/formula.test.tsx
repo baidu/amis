@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, fireEvent} from '@testing-library/react';
+import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
@@ -77,7 +77,7 @@ test('Renderer:formula', async () => {
     )
   );
 
-  const inputs = document.querySelectorAll('input[role="spinbutton"]') as any;
+  const inputs = container.querySelectorAll('input[role="spinbutton"]') as any;
   fireEvent.change(inputs[0], {
     target: {
       value: 1
@@ -88,11 +88,12 @@ test('Renderer:formula', async () => {
       value: 2
     }
   });
-  await wait(600);
-  expect(inputs[2].value).toBe('3');
-  expect(inputs[3].value).toBe('4');
-  expect(inputs[4].value).toBe('5');
-  expect(inputs[5].value).toBe('5');
+  await waitFor(() => {
+    expect(inputs[2].value).toBe('3');
+    expect(inputs[3].value).toBe('4');
+    expect(inputs[4].value).toBe('5');
+    expect(inputs[5].value).toBe('5');
+  });
 
   expect(container).toMatchSnapshot();
 });

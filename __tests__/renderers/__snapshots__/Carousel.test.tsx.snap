@@ -48,22 +48,6 @@ exports[`Renderer:carousel 1`] = `
           </div>
         </span>
       </div>
-      <div
-        class="cxd-Carousel-item fade out"
-      >
-        <div
-          class="cxd-Image cxd-Image--original cxd-Carousel-image"
-        >
-          <div
-            class="cxd-Image-origin cxd-Image-origin--contain"
-          >
-            <img
-              class="cxd-Image-image"
-              src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
-            />
-          </div>
-        </div>
-      </div>
     </div>
     <div
       class="cxd-Carousel-dotsControl"

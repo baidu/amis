@@ -20,6 +20,7 @@ import {Config} from './config';
 import InputBox from '../InputBox';
 import Formula from './Formula';
 import {FormulaPickerProps} from '../formula/Picker';
+import {localeable, LocaleProps} from '../../locale';
 
 /**
  * 支持4中表达式设置方式
@@ -30,7 +31,7 @@ import {FormulaPickerProps} from '../formula/Picker';
  * 4. 粗暴点，函数让用户自己书写。
  */
 
-export interface ExpressionProps extends ThemeProps {
+export interface ExpressionProps extends ThemeProps, LocaleProps {
   value: ExpressionComplex;
   data?: any;
   index?: number;
@@ -46,6 +47,7 @@ export interface ExpressionProps extends ThemeProps {
   fieldClassName?: string;
   formula?: FormulaPickerProps;
   popOverContainer?: any;
+  renderEtrValue?: any;
 }
 
 const fieldMap = {
@@ -137,7 +139,8 @@ export class Expression extends React.Component<ExpressionProps> {
       disabled,
       searchable,
       formula,
-      popOverContainer
+      popOverContainer,
+      renderEtrValue
     } = this.props;
     const inputType =
       ((value as any)?.type === 'field'
@@ -169,6 +172,7 @@ export class Expression extends React.Component<ExpressionProps> {
             disabled={disabled}
             formula={formula}
             popOverContainer={popOverContainer}
+            renderEtrValue={renderEtrValue}
           />
         ) : null}
 
@@ -231,4 +235,4 @@ export class Expression extends React.Component<ExpressionProps> {
   }
 }
 
-export default themeable(Expression);
+export default themeable(localeable(Expression));

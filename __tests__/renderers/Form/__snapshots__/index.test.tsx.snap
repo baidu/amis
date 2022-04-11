@@ -180,6 +180,16 @@ exports[`Renderer:Form initApi 1`] = `
           type="submit"
         />
         <div
+          class="cxd-Spinner-overlay"
+        />
+        <div
+          class="cxd-Spinner cxd-Spinner--overlay"
+        >
+          <div
+            class="cxd-Spinner-icon cxd-Spinner-icon--default"
+          />
+        </div>
+        <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >

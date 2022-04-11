@@ -494,7 +494,7 @@ export class Tabs extends React.Component<TabsProps, any> {
     const iconElement = generateIcon(cx, icon, 'Icon');
 
     const link = (
-      <a>
+      <a title={typeof title === 'string' ? title : undefined}>
         {editable && editingIndex === index ? (
           <input
             className={cx('Tabs-link-edit')}

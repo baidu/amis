@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, cleanup, fireEvent} from '@testing-library/react';
+import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
@@ -56,6 +56,11 @@ test('Renderer:radios', async () => {
   );
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/Option A/));
-  await wait(300);
+
+  await waitFor(async () => {
+    expect(
+      (container.querySelector('.cxd-PlainField') as Element).innerHTML
+    ).toBe('a');
+  });
   expect(container).toMatchSnapshot();
 });

@@ -613,12 +613,12 @@
   );
   --DatePicker-placeholderColor: var(--Form-input-placeholderColor);
   --DatePicker-minWidth: calc(
-    var(--fontSizeLg) * 5 +var(--DatePicker-paddingX) * 2 + var(
+    var(--fontSizeLg) * 5 + var(--DatePicker-paddingX) * 2 + var(
         --Form-input-clearBtn-size
       ) * 2
   );
   --DateRangePicker-minWidth: calc(
-    var(--fontSizeLg) * 8 +var(--DatePicker-paddingX) * 2 + var(
+    var(--fontSizeLg) * 8 + var(--DatePicker-paddingX) * 2 + var(
         --Form-input-clearBtn-size
       ) * 2
   );

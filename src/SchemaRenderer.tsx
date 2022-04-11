@@ -13,7 +13,7 @@ import {
 } from './factory';
 import {asFormItem} from './renderers/Form/Item';
 import {renderChild, renderChildren} from './Root';
-import {IScopedContext, ScopedContext} from './Scoped';
+import {ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
 import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
@@ -21,18 +21,14 @@ import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
 
 import type {RendererEvent} from './utils/renderer-event';
-import {observer} from 'mobx-react';
 import {isAlive} from 'mobx-state-tree';
-import {isPureVariable, resolveVariableAndFilter} from './utils/tpl-builtin';
+import {reaction} from 'mobx';
+import {resolveVariableAndFilter} from './utils/tpl-builtin';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
   $path: string;
   env: RendererEnv;
-}
-
-interface BroadcastCmptProps extends RendererProps {
-  component: RendererComponent;
 }
 
 const defaultOmitList = [
@@ -62,96 +58,9 @@ const defaultOmitList = [
 
 const componentCache: SimpleMap = new SimpleMap();
 
-@observer
-class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
-  ref: any;
-  unbindEvent: (() => void) | undefined = undefined;
-  static contextType = ScopedContext;
-
-  constructor(props: BroadcastCmptProps, context: IScopedContext) {
-    super(props);
-    this.dispatchEvent = this.dispatchEvent.bind(this);
-  }
-
-  componentDidMount() {
-    const {env} = this.props;
-    this.unbindEvent = env.bindEvent(this.ref);
-  }
-
-  componentWillUnmount() {
-    this.unbindEvent?.();
-  }
-
-  getWrappedInstance() {
-    return this.ref;
-  }
-
-  async dispatchEvent(
-    e: React.MouseEvent<any>,
-    data: any
-  ): Promise<RendererEvent<any> | undefined> {
-    return await this.props.env.dispatchEvent(e, this.ref, this.context, data);
-  }
-
-  @autobind
-  childRef(ref: any) {
-    while (ref && ref.getWrappedInstance) {
-      ref = ref.getWrappedInstance();
-    }
-
-    this.ref = ref;
-  }
-
-  render() {
-    const {component: Component, rootStore, autoVar, ...rest} = this.props;
-    const visible = isAlive(rootStore)
-      ? rootStore.visibleState[rest.$schema.id || rest.$path]
-      : true;
-    const disable = isAlive(rootStore)
-      ? rootStore.disableState[rest.$schema.id || rest.$path]
-      : false;
-    const isClassComponent = Component.prototype?.isReactComponent;
-
-    if (disable) {
-      (rest as any).disabled = true;
-    }
-    const props = {...rest};
-
-    // 自动解析变量模式，主要是方便直接引入第三方组件库，无需为了支持变量封装一层
-    if (autoVar) {
-      for (const key of Object.keys(rest.$schema)) {
-        if (typeof props[key] === 'string') {
-          props[key] = resolveVariableAndFilter(
-            props[key],
-            props.data,
-            '| raw'
-          );
-        }
-      }
-    }
-
-    // 函数组件不支持 ref https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
-    return visible !== false ? (
-      isClassComponent ? (
-        <Component
-          ref={this.childRef}
-          {...props}
-          rootStore={rootStore}
-          dispatchEvent={this.dispatchEvent}
-        />
-      ) : (
-        <Component
-          {...props}
-          rootStore={rootStore}
-          dispatchEvent={this.dispatchEvent}
-        />
-      )
-    ) : null;
-  }
-}
-
 export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   static displayName: string = 'Renderer';
+  static contextType = ScopedContext;
 
   rendererKey = '';
   renderer: RendererConfig | null;
@@ -160,12 +69,36 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   schema: any;
   path: string;
 
+  reaction: any;
+  unbindEvent: (() => void) | undefined = undefined;
+
   constructor(props: SchemaRendererProps) {
     super(props);
     this.refFn = this.refFn.bind(this);
     this.renderChild = this.renderChild.bind(this);
     this.reRender = this.reRender.bind(this);
     this.resolveRenderer(this.props);
+
+    this.dispatchEvent = this.dispatchEvent.bind(this);
+
+    // 监听rootStore更新
+    this.reaction = reaction(
+      () =>
+        `${props.rootStore.visibleState[props.schema.id || props.$path]}${
+          props.rootStore.disableState[props.schema.id || props.$path]
+        }`,
+      () => this.forceUpdate()
+    );
+  }
+
+  componentDidMount() {
+    const {env} = this.props;
+    this.unbindEvent = env.bindEvent(this.ref);
+  }
+
+  componentWillUnmount() {
+    this.reaction?.();
+    this.unbindEvent?.();
   }
 
   // 限制：只有 schema 除外的 props 变化，或者 schema 里面的某个成员值发生变化才更新。
@@ -259,6 +192,22 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.ref = ref;
   }
 
+  @autobind
+  childRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
+
+    this.ref = ref;
+  }
+
+  async dispatchEvent(
+    e: React.MouseEvent<any>,
+    data: any
+  ): Promise<RendererEvent<any> | undefined> {
+    return await this.props.env.dispatchEvent(e, this.ref, this.context, data);
+  }
+
   renderChild(
     region: string,
     node?: SchemaNode,
@@ -291,7 +240,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   render(): JSX.Element | null {
-    let {$path: _, schema: __, ...rest} = this.props;
+    let {$path: _, schema: __, rootStore, ...rest} = this.props;
 
     if (__ == null) {
       return null;
@@ -310,15 +259,25 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const exprProps: any = detectData
       ? getExprProperties(schema, detectData, undefined, rest)
       : {};
+    const $schema = {...schema, ...exprProps};
+    // 控制显隐
+    const visible = isAlive(rootStore)
+      ? rootStore.visibleState[$schema.id || $path]
+      : undefined;
+    const disable = isAlive(rootStore)
+      ? rootStore.disableState[$schema.id || $path]
+      : undefined;
 
     if (
-      exprProps &&
-      (exprProps.hidden ||
-        exprProps.visible === false ||
-        schema.hidden ||
-        schema.visible === false ||
-        rest.hidden ||
-        rest.visible === false)
+      visible === false ||
+      (visible !== true &&
+        exprProps &&
+        (exprProps.hidden ||
+          exprProps.visible === false ||
+          schema.hidden ||
+          schema.visible === false ||
+          rest.hidden ||
+          rest.visible === false))
     ) {
       (rest as any).invisible = true;
     }
@@ -400,6 +359,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       ...restSchema
     } = schema;
     const Component = renderer.component;
+
     // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
     // 而 visibleOn 和 hiddenOn 是无效的，
     // 这个本来就是个bug，但是已经被广泛使用了
@@ -414,23 +374,46 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       return null;
     }
 
-    const component = (
-      <BroadcastCmpt
-        {...theme.getRendererConfig(renderer.name)}
-        {...restSchema}
-        {...chainEvents(rest, restSchema)}
-        {...exprProps}
-        defaultData={restSchema.defaultData ?? defaultData}
-        defaultValue={restSchema.defaultValue ?? defaultValue}
-        defaultActiveKey={defaultActiveKey}
-        propKey={propKey}
-        $path={$path}
-        $schema={{...schema, ...exprProps}}
-        ref={this.refFn}
-        render={this.renderChild}
-        component={Component}
-        autoVar={renderer.autoVar}
-      />
+    const isClassComponent = Component.prototype?.isReactComponent;
+
+    let props = {
+      ...theme.getRendererConfig(renderer.name),
+      ...restSchema,
+      ...chainEvents(rest, restSchema),
+      ...exprProps,
+      defaultData: restSchema.defaultData ?? defaultData,
+      defaultValue: restSchema.defaultValue ?? defaultValue,
+      defaultActiveKey: defaultActiveKey,
+      propKey: propKey,
+      $path: $path,
+      $schema: $schema,
+      ref: this.refFn,
+      render: this.renderChild,
+      rootStore: rootStore,
+      dispatchEvent: this.dispatchEvent
+    };
+
+    if (disable) {
+      (props as any).disabled = true;
+    }
+
+    // 自动解析变量模式，主要是方便直接引入第三方组件库，无需为了支持变量封装一层
+    if (renderer.autoVar) {
+      for (const key of Object.keys($schema)) {
+        if (typeof props[key] === 'string') {
+          props[key] = resolveVariableAndFilter(
+            props[key],
+            props.data,
+            '| raw'
+          );
+        }
+      }
+    }
+
+    const component = isClassComponent ? (
+      <Component ref={this.childRef} {...props} />
+    ) : (
+      <Component {...props} />
     );
 
     return this.props.env.enableAMISDebug ? (

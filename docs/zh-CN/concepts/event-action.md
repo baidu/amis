@@ -829,15 +829,15 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型     | 默认值    | 说明 |
-| ---------- | -------- | --------- | -------------- |
-| actionType | `string` | `"toast"` | 指定 toast 动作 |
-| msgType    | `string` |           | 消息类型 `"info"、"success"、"error"、"warning"`  |
-| msg        | `string` |           | 消息内容 |
-| position     | `string` | `top-center（移动端为center）` | 提示显示位置，可用'top-right'、'top-center'、'top-left'、'bottom-center'、'bottom-left'、'bottom-right'、'center' |
-| closeButton  | `boolean` | `false` | 是否展示关闭按钮 |
-| showIcon     | `boolean` | `true` | 是否展示图标 |
-| timeout      | `number` | `5000（error类型为6000，移动端为3000）` | 持续时间 |
+| 属性名      | 类型      | 默认值                                  | 说明                                                                                                              |
+| ----------- | --------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| actionType  | `string`  | `"toast"`                               | 指定 toast 动作                                                                                                   |
+| msgType     | `string`  |                                         | 消息类型 `"info"、"success"、"error"、"warning"`                                                                  |
+| msg         | `string`  |                                         | 消息内容                                                                                                          |
+| position    | `string`  | `top-center（移动端为center）`          | 提示显示位置，可用'top-right'、'top-center'、'top-left'、'bottom-center'、'bottom-left'、'bottom-right'、'center' |
+| closeButton | `boolean` | `false`                                 | 是否展示关闭按钮                                                                                                  |
+| showIcon    | `boolean` | `true`                                  | 是否展示图标                                                                                                      |
+| timeout     | `number`  | `5000（error类型为6000，移动端为3000）` | 持续时间                                                                                                          |
 
 ### 复制
 
@@ -1008,7 +1008,7 @@ order: 9
 
 ### 显示与隐藏
 
-通过配置`actionType: 'show'`或`'hidden'`实现对指定组件的显示和隐藏。
+通过配置`actionType: 'show'`或`'hidden'`实现对指定组件的显示和隐藏，且显隐动作的控制高于组件显隐属性的设置。
 
 ```schema
 {
@@ -1048,7 +1048,8 @@ order: 9
       type: 'input-text',
       label: '愿望',
       id: 'input-text_001',
-      mode: 'horizontal'
+      mode: 'horizontal',
+      hidden: true
     }
   ]
 }

@@ -88,7 +88,7 @@ exports[`Renderer:chained-select 1`] = `
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-3-label"
+              aria-labelledby="downshift-2-label"
               class="cxd-Select cxd-Select--inline"
               role="combobox"
               tabindex="0"
@@ -114,7 +114,7 @@ exports[`Renderer:chained-select 1`] = `
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-4-label"
+              aria-labelledby="downshift-3-label"
               class="cxd-Select cxd-Select--inline"
               role="combobox"
               tabindex="0"
