@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import memoize from 'lodash/memoize';
 import {Renderer, RendererProps} from '../factory';
 
@@ -86,6 +87,7 @@ export class Custom extends React.Component<CustomProps, object> {
         this.onUnmount = props.onUnmount;
       }
     }
+    this.renderChild = this.renderChild.bind(this);
   }
 
   componentDidUpdate(prevProps: CustomProps) {
@@ -102,6 +104,27 @@ export class Custom extends React.Component<CustomProps, object> {
 
   componentWillUnmount() {
     this.onUnmount(this.props);
+  }
+
+  /**
+   * 渲染子元素
+   * 备注：
+   **/
+   renderChild(
+    schemaPosition: string,
+    childSchema: any,
+    insertElemId: string,
+  ) {
+    const { render } = this.props;
+    let childEleCont = null;
+    if (childSchema && insertElemId) {
+      const childElem = render(schemaPosition, childSchema);
+      childEleCont = ReactDOM.render(
+        childElem,
+        document.getElementById(insertElemId),
+      );
+    }
+    return childEleCont;
   }
 
   render() {
