@@ -6,22 +6,24 @@ import {
 import '../src/themes/default';
 import {render as amisRender} from '../src/index';
 import React = require('react');
-import {render, fireEvent, cleanup} from '@testing-library/react';
+import {render, fireEvent, cleanup, waitFor} from '@testing-library/react';
 import {wait, makeEnv} from './helper';
 
 test('factory unregistered Renderer', async () => {
-  const {container} = render(
+  const {container, getByText} = render(
     amisRender({
       type: 'my-renderer',
       a: 23
     })
   );
-  await wait(300);
-  expect(container).toMatchSnapshot(); // not found
+  await waitFor(() => {
+    expect(getByText('Error: 找不到对应的渲染器')).toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
 });
 
 test('factory custom not found!', async () => {
-  const {container} = render(
+  const {container, getByText} = render(
     amisRender(
       {
         type: 'my-renderer',
@@ -33,12 +35,14 @@ test('factory custom not found!', async () => {
       })
     )
   );
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('Not Found')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot(); // not found
 });
 
 test('factory custom not found 2!', async () => {
-  const {container} = render(
+  const {container, getByText} = render(
     amisRender(
       {
         type: 'my-renderer',
@@ -50,12 +54,14 @@ test('factory custom not found 2!', async () => {
       })
     )
   );
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('Not Found')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot(); // not found
 });
 
 test('factory custom not found 3!', async () => {
-  const {container} = render(
+  const {container, getByText} = render(
     amisRender(
       {
         type: 'my-renderer',
@@ -67,12 +73,14 @@ test('factory custom not found 3!', async () => {
       })
     )
   );
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('Not Found')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot(); // not found
 });
 
 test('factory load Renderer on need', async () => {
-  const {container} = render(
+  const {container, getByText} = render(
     amisRender(
       {
         type: 'my-renderer2',
@@ -100,7 +108,9 @@ test('factory load Renderer on need', async () => {
       })
     )
   );
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('This is Custom Renderer2, a is 23')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot(); // not found
 });
 
@@ -193,13 +203,18 @@ test('factory:definitions', async () => {
     )
   );
 
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('新增')).toBeInTheDocument();
+  });
   fireEvent.click(getByText('新增'));
+  await waitFor(() => {
+    expect(getByText('combo 1')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });
 
-test('factory:definitions override', () => {
-  const {container} = render(
+test('factory:definitions override', async () => {
+  const {container, getByText} = render(
     amisRender(
       {
         definitions: {
@@ -271,5 +286,8 @@ test('factory:definitions override', () => {
     )
   );
 
+  await waitFor(() => {
+    expect(getByText('combo')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });

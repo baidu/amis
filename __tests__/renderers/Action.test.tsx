@@ -1,7 +1,13 @@
 import React = require('react');
 import Action from '../../src/renderers/Action';
 import * as renderer from 'react-test-renderer';
-import {render, fireEvent, cleanup, screen} from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  cleanup,
+  screen,
+  waitFor
+} from '@testing-library/react';
 import {render as amisRender} from '../../src/index';
 import {makeEnv, wait} from '../helper';
 import '../../src/themes/default';
@@ -158,10 +164,9 @@ test('Renderers:Action countDown', async () => {
   button = container.querySelector('button');
   expect(button).toBeNull();
 
-  await wait(2000);
-
-  button = container.querySelector('button');
-  expect(button).not.toBeNull();
+  await waitFor(() => {
+    expect(container.querySelector('button')).not.toBeInTheDocument();
+  });
 });
 
 test('Renderers:Action tooltip', async () => {

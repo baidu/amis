@@ -57,7 +57,7 @@ test('Renderer:radios', async () => {
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/Option A/));
 
-  await waitFor(async () => {
+  await waitFor(() => {
     expect(
       (container.querySelector('.cxd-PlainField') as Element).innerHTML
     ).toBe('a');

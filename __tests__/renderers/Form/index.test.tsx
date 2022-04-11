@@ -1,7 +1,13 @@
 import React = require('react');
 import PageRenderer from '../../../src/renderers/Form';
 import * as renderer from 'react-test-renderer';
-import {render, fireEvent, cleanup, getByText} from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  cleanup,
+  getByText,
+  waitFor
+} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {wait, makeEnv} from '../../helper';
@@ -240,18 +246,16 @@ test('Renderer:Form:onValidate', async () => {
 
 test('Renderer:Form initApi', async () => {
   const notify = jest.fn();
-  let p0;
-  const fetcher = jest.fn().mockImplementation(
-    () =>
-      (p0 = Promise.resolve({
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
         data: {
-          status: 0,
-          data: {
-            a: 1,
-            b: 2
-          }
+          a: 1,
+          b: 2
         }
-      }))
+      }
+    })
   );
   const {container, getByText} = render(
     amisRender(
@@ -280,10 +284,14 @@ test('Renderer:Form initApi', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="a"][value="1"]')
+    ).toBeInTheDocument();
+  });
+
   // fetch 调用了，所有 initApi 接口调用了
   expect(fetcher).toHaveBeenCalled();
-  await p0;
-  await wait(10);
 
   // 通过 snapshot 可断定 initApi 返回值已经作用到了表单项上。
   expect(container).toMatchSnapshot();

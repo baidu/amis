@@ -42,13 +42,19 @@ test('Form:initData', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="a"][value="1"]')
+    ).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Submit/));
-  await wait(500);
 
-  expect(onSubmit).toBeCalled();
-  expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
+  await waitFor(() => {
+    expect(onSubmit).toBeCalled();
+    expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
+  });
 });
 
 test('Form:initData:super', async () => {
@@ -90,17 +96,18 @@ test('Form:initData:super', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Submit/));
-  await wait(500);
 
-  expect(onSubmit).toBeCalled();
-  expect(onSubmit.mock.calls[0][0]).toMatchInlineSnapshot(
-    `
+  await waitFor(() => {
+    expect(onSubmit).toBeCalled();
+    expect(onSubmit.mock.calls[0][0]).toMatchInlineSnapshot(
+      `
     Object {
       "a": 1,
       "b": 2,
     }
   `
-  );
+    );
+  });
 });
 
 test('Form:initData:without-super', async () => {
@@ -144,10 +151,11 @@ test('Form:initData:without-super', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Submit/));
-  await wait(500);
 
-  expect(onSubmit).toBeCalled();
-  expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
+  await waitFor(() => {
+    expect(onSubmit).toBeCalled();
+    expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
+  });
 });
 
 test('Form:initData:remote', async () => {
@@ -191,21 +199,25 @@ test('Form:initData:remote', async () => {
       })
     )
   );
-  expect(container).toMatchSnapshot();
-  await wait(300);
 
-  await resultPromise;
-  await wait(300);
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="a"][value="1"]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
 
   expect(fetcher).toHaveBeenCalled();
   expect(fetcher.mock.calls[0][0]).toMatchSnapshot();
 
-  expect(container).toMatchSnapshot();
-
   fireEvent.click(getByText('Submit'));
-  await wait(500);
-  expect(onSubmit).toBeCalled();
-  expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
+  await waitFor(() => {
+    expect(onSubmit).toBeCalled();
+    expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
+  });
 });
 
 // 主要用来测试 form 的 source 接口是否在 initApi 后调用
@@ -286,20 +298,26 @@ test('Form:initData:remote:options:source', async () => {
     )
   );
 
-  await initApiPromise;
-  await waitFor(() => expect(fetcherinitApi).toHaveBeenCalled());
+  await waitFor(() => {
+    expect(getByText('OptionB')).toBeInTheDocument();
+  });
+
+  expect(fetcherinitApi).toHaveBeenCalled();
   expect(fetcherinitApi.mock.calls[0][0].url).toEqual('/api/initApi?op=init');
 
-  await sourceApiPromise;
-  await waitFor(() => expect(fetcherSourceApi).toHaveBeenCalled());
-  // 这里要取 mock.call[1] 而不是 [0]，因为这里其实会调用两次，第一次被cancel了
-  expect(fetcherSourceApi.mock.calls[1][0].url).toEqual('/api/source?id=1');
+  await waitFor(() => {
+    expect(fetcherSourceApi).toHaveBeenCalledTimes(2);
+    // 这里要取 mock.call[1] 而不是 [0]，因为这里其实会调用两次，第一次被cancel了
+    expect(fetcherSourceApi.mock.calls[1][0].url).toEqual('/api/source?id=1');
+  });
 
   fireEvent.click(getByText('Submit'));
-  await waitFor(() => expect(onSubmit).toBeCalled());
-  expect(onSubmit.mock.calls[0][0]).toMatchObject({
-    id: 1,
-    op: 'init',
-    a: 'b'
+  await waitFor(() => {
+    expect(onSubmit).toBeCalled();
+    expect(onSubmit.mock.calls[0][0]).toMatchObject({
+      id: 1,
+      op: 'init',
+      a: 'b'
+    });
   });
 });

@@ -184,6 +184,7 @@ exports[`Renderer:Form initApi 1`] = `
         />
         <div
           class="cxd-Spinner cxd-Spinner--overlay"
+          data-testid="spinner"
         >
           <div
             class="cxd-Spinner-icon cxd-Spinner-icon--default"

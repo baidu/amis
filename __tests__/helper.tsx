@@ -1,7 +1,7 @@
 import {RenderOptions} from '../src/factory';
 
 // jest.useFakeTimers 会修改 global 的 setTimeout 所以需要把原始的记录下来。
-const timerFn = setTimeout;
+const timerFn = (global as any).originSetTimeout || setTimeout;
 export function wait(duration: number, fn?: Function) {
   return new Promise<void>(resolve => {
     timerFn(() => {
