@@ -10,19 +10,19 @@ import {autobind} from '../utils/helper';
 import {Icon} from './icons';
 import Select from './Select';
 
-type MODE_TYPE = 'simple' | 'normal';
+export type MODE_TYPE = 'simple' | 'normal';
 export interface BasicPaginationProps {
 
   /**
    * 通过控制layout属性的顺序，调整分页结构 total,perPage,pager,go
-   * @default 'total,perPage,pager,go'
+   * @default 'pager'
    */
   layout?: string | Array<string>;
 
   /**
    * 最多显示多少个分页按钮。
    *
-   * @default 7
+   * @default 5
    */
   maxButtons: number;
 
@@ -55,7 +55,7 @@ export interface BasicPaginationProps {
 
   /**
    * 是否展示分页切换，也同时受layout控制
-   * @default true
+   * @default false
    */
   showPerPage: boolean;
 
@@ -67,6 +67,7 @@ export interface BasicPaginationProps {
 
   /**
    * 是否显示快速跳转输入框
+   * @default false
    */
   showPageInput?: boolean;
 
@@ -93,14 +94,12 @@ export class Pagination extends React.Component<
   PaginationState
 > {
   static defaultProps = {
-    layout: 'total,perPage,pager,go',
-    maxButtons: 7,
+    layout: ['pager'],
+    maxButtons: 5,
     mode: 'normal' as MODE_TYPE,
     activePage: 1,
     perPage: 10,
-    showPerPage: true,
-    perPageAvailable: [10, 20, 50, 100],
-    showPageInput: true
+    perPageAvailable: [10, 20, 50, 100]
   };
 
   state = {
@@ -281,7 +280,6 @@ export class Pagination extends React.Component<
       );
     }
 
-
     let pageButtons: any = [];
     let layoutList: Array<string> = [];
     if (Array.isArray(layout)) {
@@ -290,14 +288,24 @@ export class Pagination extends React.Component<
     else if (typeof layout === 'string') {
       layoutList = (layout as string).split(',');
     }
+    layoutList = layoutList.map(v => v.trim());
+
+    // 兼容历史showPageInput
+    if (showPageInput && !layout.includes('go')) {
+      layoutList.push('go');
+    }
+    if (showPerPage && !layout.includes('perPage')) {
+      layoutList.unshift('perPage');
+    }
+
 
     // 页码全部显示 [1, 2, 3, 4]
     if (lastPage <= maxButtons) {
-      pageButtons = this.handlePageNums(activePage, maxButtons, 1, maxButtons);
+      pageButtons = this.handlePageNums(activePage, maxButtons, 1, Math.min(maxButtons, lastPage));
     }
     //当前为1234页时， [1, 2, 3, 4, 5, ... 12]
     else if (activePage <= maxButtons - 3) {
-      pageButtons = this.handlePageNums(activePage, maxButtons - 2, 1, maxButtons - 2);
+      pageButtons = this.handlePageNums(activePage, maxButtons - 2, 1, Math.min(maxButtons - 2, lastPage));
       pageButtons.push(this.renderEllipsis('next-ellipsis'));
       pageButtons.push(this.renderPageItem(lastPage));
     }
@@ -404,7 +412,8 @@ export class Pagination extends React.Component<
                 this.handlePageNumChange(1, p.value);
               }}
             />;
-    const totalPage = <div className={cx('Pagination-total Pagination-item')} key="total">{
+    // total或者lastpage不存在，不渲染总数
+    const totalPage = !(total || lastPage) ? null : <div className={cx('Pagination-total Pagination-item')} key="total">{
       total || total === 0
       ? __('Pagination.totalCount', {total})
       : __('Pagination.totalPage', {lastPage})
@@ -416,10 +425,10 @@ export class Pagination extends React.Component<
             if (layoutItem === 'pager') {
               return <ul key="pager-items" className={cx('Pagination', 'Pagination--sm','Pagination-item')}>{pageButtons}</ul>;
             }
-            else if (layoutItem === 'go' && showPageInput) {
+            else if (layoutItem === 'go') {
               return go;
             }
-            else if (layoutItem === 'perPage'&& showPerPage) {
+            else if (layoutItem === 'perPage') {
               return perPageEle;
             }
             else if (layoutItem === 'total') {

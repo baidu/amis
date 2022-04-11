@@ -55,13 +55,14 @@ order: 73
 | ------------- | ----------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------- |
 | type          | `string`                  | `"pagination"` | 指定为 Pagination渲染器          |
 | mode     | `normal \| simple`                                  | `normal`              | 迷你版本/简易版本    只显示左右箭头，配合hasNext使用                                    |
-| layout   | `string \| string[]`       | `total,perPage,pager,go`                | 通过控制layout属性的顺序，调整分页结构布局                                                      |
-| maxButtons    | `number`                                  | `7`                    | 最多显示多少个分页按钮，最小为5                                                             |
+| layout   | `string \| string[]`       | `["pager"]`                | 通过控制layout属性的顺序，调整分页结构布局                                                      |
+| maxButtons    | `number`                                  | `5`                    | 最多显示多少个分页按钮，最小为5                                                             |
 | lastPage    | `number`                                  |            | 总页数 （设置总条数total的时候，lastPage会重新计算）                                                                    |
 | total    | `number`                                  |            | 总条数                                                                     |
 | activePage  | `number`    |  `1`  |    当前页数    |
 | perPage       | `number`                                  | `10`                   | 每页显示多条数据                                                                   |
-|  showPerPage  | `boolean`  |  TRUE  |    是否展示perPage切换器 layout和showPerPage都可以控制 |
+|  showPerPage  | `boolean`  |  false  |    是否展示perPage切换器 layout和showPerPage都可以控制 |
 |  perPageAvailable  | `number[]`    | `[10, 20, 50, 100]` | 指定每页可以显示多少条 |
+|  showPageInput  | `boolean`  |  false  |    是否显示快速跳转输入框  layout和showPageInput都可以控制|
 |  disabled  |  `boolean`  | false    |  是否禁用  |
 | onPageChange      | page、perPage改变时会触发         | (page: number, perPage: number) => void;              | 分页改变触发 |
