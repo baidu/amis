@@ -224,36 +224,39 @@ test('Form:initData:remote', async () => {
 // 并且发送的参数是否可以携带 initApi 返回的数据
 // 并且 source 接口如果返回了 value 是否可以应用上。
 test('Form:initData:remote:options:source', async () => {
-  const initApiPromise = Promise.resolve({
-    data: {
-      status: 0,
-      msg: 'ok',
+  const fetcherinitApi = jest.fn().mockImplementation(() =>
+    Promise.resolve({
       data: {
-        id: 1
+        status: 0,
+        msg: 'ok',
+        data: {
+          id: 1
+        }
       }
-    }
-  });
-  const fetcherinitApi = jest.fn().mockImplementation(() => initApiPromise);
-  const sourceApiPromise = Promise.resolve({
-    data: {
-      status: 0,
-      msg: 'ok',
+    })
+  );
+
+  const fetcherSourceApi = jest.fn().mockImplementation(() =>
+    Promise.resolve({
       data: {
-        value: 'b',
-        options: [
-          {
-            label: 'OptionA',
-            value: 'a'
-          },
-          {
-            label: 'OptionB',
-            value: 'b'
-          }
-        ]
+        status: 0,
+        msg: 'ok',
+        data: {
+          value: 'b',
+          options: [
+            {
+              label: 'OptionA',
+              value: 'a'
+            },
+            {
+              label: 'OptionB',
+              value: 'b'
+            }
+          ]
+        }
       }
-    }
-  });
-  const fetcherSourceApi = jest.fn().mockImplementation(() => sourceApiPromise);
+    })
+  );
   const onSubmit = jest.fn();
   const fetcher = (arg1: any, ...rest: Array<any>) => {
     const api = /\/api\/(\w+)/.test(arg1.url) ? RegExp.$1 : '';
@@ -298,17 +301,13 @@ test('Form:initData:remote:options:source', async () => {
     )
   );
 
-  await waitFor(() => {
+  await waitFor(async () => {
     expect(getByText('OptionB')).toBeInTheDocument();
-  });
 
-  expect(fetcherinitApi).toHaveBeenCalled();
-  expect(fetcherinitApi.mock.calls[0][0].url).toEqual('/api/initApi?op=init');
+    expect(fetcherinitApi).toHaveBeenCalled();
+    expect(fetcherinitApi.mock.calls[0][0].url).toEqual('/api/initApi?op=init');
 
-  await waitFor(() => {
-    expect(fetcherSourceApi).toHaveBeenCalledTimes(2);
-    // 这里要取 mock.call[1] 而不是 [0]，因为这里其实会调用两次，第一次被cancel了
-    expect(fetcherSourceApi.mock.calls[1][0].url).toEqual('/api/source?id=1');
+    await wait(200); // 只有出现在 waitFor 里面的才有用。
   });
 
   fireEvent.click(getByText('Submit'));

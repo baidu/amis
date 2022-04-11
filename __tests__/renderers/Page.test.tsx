@@ -111,49 +111,50 @@ test('Renderer:Page initApi error show Message', async () => {
 });
 
 // todo 不知为何报错，先注释掉
-// test('Renderer:Page initApi show loading', async () => {
-//   const fetcher = jest.fn().mockImplementationOnce(() => {
-//     return new Promise(resolve =>
-//       resolve({
-//         data: {
-//           status: 0,
-//           msg: 'ok',
-//           data: {
-//             a: 3
-//           }
-//         }
-//       })
-//     );
-//   });
-//   const {container, getByText, getByTestId, unmount} = render(
-//     amisRender(
-//       {
-//         type: 'page',
-//         initApi: '/api/xxx',
-//         body: 'The variable value is ${a}'
-//       },
-//       {},
-//       makeEnv({
-//         fetcher
-//       })
-//     )
-//   );
+test('Renderer:Page initApi show loading', async () => {
+  const fetcher = jest.fn().mockImplementationOnce(() => {
+    return new Promise(resolve =>
+      resolve({
+        data: {
+          status: 0,
+          msg: 'ok',
+          data: {
+            a: 3
+          }
+        }
+      })
+    );
+  });
+  const {container, getByText, getByTestId, unmount} = render(
+    amisRender(
+      {
+        type: 'page',
+        initApi: '/api/xxx',
+        body: 'The variable value is ${a}'
+      },
+      {},
+      makeEnv({
+        fetcher
+      })
+    )
+  );
 
-//   await waitFor(() => {
-//     expect(
-//       container.querySelector('[data-testid="spinner"]')
-//     ).toBeInTheDocument();
-//   });
-//   expect(container).toMatchSnapshot();
+  // todo 这个不知为何加了就报错
+  // await waitFor(() => {
+  //   expect(
+  //     container.querySelector('[data-testid="spinner"]')
+  //   ).toBeInTheDocument();
+  // });
+  // expect(container).toMatchSnapshot();
 
-//   await waitFor(() => {
-//     expect(getByText('The variable value is 3')).toBeInTheDocument();
-//     expect(
-//       container.querySelector('[data-testid="spinner"]')
-//     ).not.toBeInTheDocument();
-//   });
-//   expect(container).toMatchSnapshot();
-// });
+  await waitFor(() => {
+    expect(getByText('The variable value is 3')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
+});
 
 test('Renderer:Page initApi initFetch:false', async () => {
   const fetcher = jest.fn().mockImplementationOnce(() =>
@@ -353,7 +354,7 @@ test('Renderer:Page initApi interval 轮询调用', async () => {
     )
   );
 
-  await wait(10);
+  await wait(10, false);
   jest.advanceTimersByTime(3000);
 
   const times = fetcher.mock.calls.length;
