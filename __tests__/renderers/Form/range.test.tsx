@@ -2,7 +2,7 @@ import React = require('react');
 import {render, fireEvent} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 
 test('Renderer:range', async () => {
   const {container} = render(
@@ -40,6 +40,7 @@ test('Renderer:range', async () => {
       value: '7'
     }
   });
+  await wait(200);
 
   expect(container).toMatchSnapshot();
 });
@@ -83,6 +84,8 @@ test('Renderer:range:multiple', async () => {
   const close = container.querySelector('a.cxd-InputRange-clear');
   fireEvent.click(close!);
 
+  await wait(200);
+
   expect(container).toMatchSnapshot();
 });
 
@@ -109,6 +112,7 @@ test('Renderer:range:showSteps', async () => {
     )
   );
 
+  await wait(200);
   expect(container).toMatchSnapshot();
 });
 
@@ -141,6 +145,7 @@ test('Renderer:range:marks', async () => {
     )
   );
 
+  await wait(200);
   expect(container).toMatchSnapshot();
 });
 
@@ -166,5 +171,6 @@ test('Renderer:range:tooltipVisible', async () => {
     )
   );
 
+  await wait(200);
   expect(container).toMatchSnapshot();
 });

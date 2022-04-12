@@ -2,7 +2,7 @@ import React = require('react');
 import {render, waitForElementToBeRemoved} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 
 test('Renderer:chained-select', async () => {
   const {container, findByText} = render(
@@ -44,11 +44,6 @@ test('Renderer:chained-select', async () => {
     )
   );
 
-  await findByText('B 0');
-
-  await waitForElementToBeRemoved(() =>
-    container.querySelector('.cxd-Spinner')
-  );
-
+  await wait(500);
   expect(container).toMatchSnapshot();
 });

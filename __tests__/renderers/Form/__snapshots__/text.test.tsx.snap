@@ -1248,7 +1248,7 @@ exports[`Renderer:text with counter 2`] = `
               <span
                 class="cxd-TextControl-counter"
               >
-                0
+                4
               </span>
             </div>
           </div>
@@ -1512,7 +1512,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
               <span
                 class="cxd-TextControl-counter"
               >
-                0/10
+                4/10
               </span>
             </div>
           </div>

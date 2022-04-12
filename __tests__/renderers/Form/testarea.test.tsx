@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, fireEvent} from '@testing-library/react';
+import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv} from '../../helper';
@@ -29,17 +29,21 @@ test('Renderer:textarea', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(container.querySelector('[name="a"]')).toBeInTheDocument();
+  });
   const textarea = container.querySelector('textarea');
   expect(textarea?.innerHTML).toEqual('123');
-  fireEvent.focus(textarea!);
+
   fireEvent.change(textarea!, {
     target: {
       value: '456'
     }
   });
-  fireEvent.blur(textarea!);
-  const textareaChanged = container.querySelector('textarea');
-  expect(textareaChanged?.innerHTML).toEqual('456');
+  await waitFor(() => {
+    const textareaChanged = container.querySelector('textarea');
+    expect(textareaChanged?.innerHTML).toEqual('456');
+  });
 
   expect(container).toMatchSnapshot();
 });

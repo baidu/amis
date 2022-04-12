@@ -75,6 +75,7 @@ export class Spinner extends React.Component<SpinnerProps> {
 
               {/* spinner图标和文案 */}
               <div
+                data-testid="spinner"
                 className={cx(
                   `Spinner`,
                   tip && {
