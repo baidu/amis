@@ -420,6 +420,11 @@
     @include input-clear();
   }
 
+  &-passwordReveal {
+    cursor: pointer;
+    color: var(--text--muted-color);
+  }
+
   // 需要能撑开
   @include media-breakpoint-up(sm) {
     &.#{$ns}Form-control--sizeXs > &-input,

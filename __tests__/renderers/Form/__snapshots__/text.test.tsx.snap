@@ -451,6 +451,13 @@ exports[`Renderer:text type is password 1`] = `
                 type="password"
                 value="abcd"
               />
+              <a
+                class="cxd-TextControl-revealPassword"
+              >
+                <i
+                  class="fa fa-eye-slash"
+                />
+              </a>
             </div>
           </div>
         </div>
