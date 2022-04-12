@@ -189,19 +189,17 @@ test('Renderer:Wizard initApi default', async () => {
 
 test('Renderer:Wizard initApi show loading', async () => {
   const fetcher = jest.fn().mockImplementationOnce(() => {
-    return new Promise(async resolve => {
-      await wait(200, () =>
-        resolve({
+    return new Promise(async resolve =>
+      resolve({
+        data: {
+          status: 0,
+          msg: 'ok',
           data: {
-            status: 0,
-            msg: 'ok',
-            data: {
-              a: 3
-            }
+            a: 3
           }
-        })
-      );
-    });
+        }
+      })
+    );
   });
 
   const {container, getByTestId} = render(
@@ -255,11 +253,9 @@ test('Renderer:Wizard initApi show loading', async () => {
   await waitFor(() => {
     expect(getByTestId('spinner')).toBeInTheDocument();
   });
-
   expect(container).toMatchSnapshot();
 
   await waitForElementToBeRemoved(() => getByTestId('spinner'));
-
   expect(container).toMatchSnapshot();
 });
 
