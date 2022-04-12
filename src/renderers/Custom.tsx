@@ -110,18 +110,14 @@ export class Custom extends React.Component<CustomProps, object> {
    * 渲染子元素
    * 备注：现有custom组件通过props.render生成的子元素是react虚拟dom对象，需要使用ReactDOM.render渲染，不能直接插入到当前dom中。
    **/
-   renderChild(
-    schemaPosition: string,
-    childSchema: any,
-    insertElemId: string,
-  ) {
-    const { render } = this.props;
+  renderChild(schemaPosition: string, childSchema: any, insertElemId: string) {
+    const {render} = this.props;
     let childEleCont = null;
     if (childSchema && insertElemId) {
       const childElem = render(schemaPosition, childSchema);
       childEleCont = ReactDOM.render(
         childElem,
-        document.getElementById(insertElemId),
+        document.getElementById(insertElemId)
       );
     }
     return childEleCont;
