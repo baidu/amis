@@ -110,10 +110,10 @@ test('Renderer:Page initApi error show Message', async () => {
   expect(container).toMatchSnapshot();
 });
 
-// todo 不知为何报错，先注释掉
 test('Renderer:Page initApi show loading', async () => {
   const fetcher = jest.fn().mockImplementationOnce(() => {
-    return new Promise(resolve =>
+    return new Promise(async resolve => {
+      await wait(200, false);
       resolve({
         data: {
           status: 0,
@@ -122,8 +122,8 @@ test('Renderer:Page initApi show loading', async () => {
             a: 3
           }
         }
-      })
-    );
+      });
+    });
   });
   const {container, getByText, getByTestId, unmount} = render(
     amisRender(
@@ -139,13 +139,12 @@ test('Renderer:Page initApi show loading', async () => {
     )
   );
 
-  // todo 这个不知为何加了就报错
-  // await waitFor(() => {
-  //   expect(
-  //     container.querySelector('[data-testid="spinner"]')
-  //   ).toBeInTheDocument();
-  // });
-  // expect(container).toMatchSnapshot();
+  await waitFor(() => {
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
 
   await waitFor(() => {
     expect(getByText('The variable value is 3')).toBeInTheDocument();
