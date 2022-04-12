@@ -189,7 +189,9 @@ test('Renderer:Wizard initApi default', async () => {
 
 test('Renderer:Wizard initApi show loading', async () => {
   const fetcher = jest.fn().mockImplementationOnce(() => {
-    return new Promise(async resolve =>
+    return new Promise(async resolve => {
+      await wait(200, false); // 等一小会，否则会报没有被  act 包裹的错误
+
       resolve({
         data: {
           status: 0,
@@ -198,8 +200,8 @@ test('Renderer:Wizard initApi show loading', async () => {
             a: 3
           }
         }
-      })
-    );
+      });
+    });
   });
 
   const {container, getByTestId} = render(
