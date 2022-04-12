@@ -34,6 +34,26 @@ export interface JsonSchema extends BaseSchema {
    * 是否显示数据类型
    */
   displayDataTypes?: boolean;
+
+   /**
+   * 是否可复制
+   */
+  enableClipboard?: boolean;
+
+  /**
+   * 图标风格
+   */
+  iconStyle?: "square" | "circle" | "triangle"
+
+  /**
+   * 是否显示键的引号
+   */
+  quotesOnKeys?: boolean
+
+  /**
+   * 是否为键排序
+   */
+  sortKeys?: boolean
 }
 
 export interface JSONProps extends RendererProps, JsonSchema {
@@ -50,7 +70,11 @@ export class JSONField extends React.Component<JSONProps, object> {
     placeholder: '-',
     levelExpand: 1,
     source: '',
-    displayDataTypes: false
+    displayDataTypes: false,
+    enableClipboard: false,
+    iconStyle:"square",
+    quotesOnKeys: true,
+    sortKeys:false,
   };
 
   @autobind
@@ -86,6 +110,10 @@ export class JSONField extends React.Component<JSONProps, object> {
       levelExpand,
       mutable,
       displayDataTypes,
+      enableClipboard,
+      iconStyle,
+      quotesOnKeys,
+      sortKeys,
       name
     } = this.props;
 
@@ -127,9 +155,11 @@ export class JSONField extends React.Component<JSONProps, object> {
             src={data}
             theme={(jsonThemeValue as any) ?? 'rjv-default'}
             shouldCollapse={this.shouldExpandNode}
-            enableClipboard={false}
+            enableClipboard={enableClipboard}
             displayDataTypes={displayDataTypes}
-            iconStyle="square"
+            iconStyle={iconStyle}
+            quotesOnKeys={quotesOnKeys}
+            sortKeys={sortKeys}
             onEdit={name && mutable ? this.emitChange : false}
             onDelete={name && mutable ? this.emitChange : false}
             onAdd={name && mutable ? this.emitChange : false}
