@@ -197,9 +197,141 @@ exports[`factory:definitions 1`] = `
                         class="cxd-Combo-items"
                       >
                         <div
-                          class="cxd-Combo-placeholder"
+                          class="cxd-Combo-item"
                         >
-                          &lt;空&gt;
+                          <div
+                            class="cxd-Combo-itemInner"
+                          >
+                            <div
+                              class="cxd-Form cxd-Form--normal cxd-Combo-form"
+                              novalidate=""
+                            >
+                              <input
+                                style="display: none;"
+                                type="submit"
+                              />
+                              <div
+                                class="cxd-Form-item cxd-Form-item--normal"
+                                data-role="form-item"
+                              >
+                                <label
+                                  class="cxd-Form-label"
+                                >
+                                  <span>
+                                    <span
+                                      class="cxd-TplField"
+                                    >
+                                      <span>
+                                        combo 1
+                                      </span>
+                                    </span>
+                                  </span>
+                                </label>
+                                <div
+                                  class="cxd-Form-control cxd-TextControl"
+                                >
+                                  <div
+                                    class="cxd-TextControl-input"
+                                  >
+                                    <input
+                                      autocomplete="off"
+                                      name="key"
+                                      placeholder=""
+                                      size="10"
+                                      type="text"
+                                      value=""
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Form-item cxd-Form-item--normal"
+                                data-role="form-item"
+                              >
+                                <label
+                                  class="cxd-Form-label"
+                                >
+                                  <span>
+                                    <span
+                                      class="cxd-TplField"
+                                    >
+                                      <span>
+                                        combo 2
+                                      </span>
+                                    </span>
+                                  </span>
+                                </label>
+                                <div
+                                  class="cxd-Form-control cxd-TextControl"
+                                >
+                                  <div
+                                    class="cxd-TextControl-input"
+                                  >
+                                    <input
+                                      autocomplete="off"
+                                      name="value"
+                                      placeholder=""
+                                      size="10"
+                                      type="text"
+                                      value="ref value"
+                                    />
+                                  </div>
+                                </div>
+                                <div
+                                  class="cxd-Remark cxd-Form-remark"
+                                >
+                                  <span
+                                    class="cxd-Remark-icon"
+                                  >
+                                    <icon-mock
+                                      classname=" icon-warning-mark"
+                                      icon="warning-mark"
+                                    />
+                                  </span>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-Form-item cxd-Form-item--normal"
+                                data-role="form-item"
+                              >
+                                <label
+                                  class="cxd-Form-label"
+                                >
+                                  <span>
+                                    <span
+                                      class="cxd-TplField"
+                                    >
+                                      <span>
+                                        children
+                                      </span>
+                                    </span>
+                                  </span>
+                                </label>
+                                <div
+                                  class="cxd-Remark cxd-Form-remark"
+                                >
+                                  <span
+                                    class="cxd-Remark-icon"
+                                  >
+                                    <icon-mock
+                                      classname=" icon-warning-mark"
+                                      icon="warning-mark"
+                                    />
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <a
+                            class="cxd-Combo-delBtn "
+                            data-position="bottom"
+                            data-tooltip="删除"
+                          >
+                            <icon-mock
+                              classname="icon icon-status-close"
+                              icon="status-close"
+                            />
+                          </a>
                         </div>
                       </div>
                       <div

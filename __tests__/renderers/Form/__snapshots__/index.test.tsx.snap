@@ -184,6 +184,7 @@ exports[`Renderer:Form initApi 1`] = `
         />
         <div
           class="cxd-Spinner cxd-Spinner--overlay"
+          data-testid="spinner"
         >
           <div
             class="cxd-Spinner-icon cxd-Spinner-icon--default"
@@ -1138,7 +1139,7 @@ exports[`Renderer:Form:valdiate 2`] = `
           type="submit"
         />
         <div
-          class="cxd-Form-item cxd-Form-item--normal is-required"
+          class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
           data-role="form-item"
         >
           <label
@@ -1160,7 +1161,7 @@ exports[`Renderer:Form:valdiate 2`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control cxd-TextControl"
+            class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
           >
             <div
               class="cxd-TextControl-input"
@@ -1175,6 +1176,13 @@ exports[`Renderer:Form:valdiate 2`] = `
               />
             </div>
           </div>
+          <ul
+            class="cxd-Form-feedback"
+          >
+            <li>
+              这是必填项
+            </li>
+          </ul>
         </div>
       </form>
     </div>

@@ -1,12 +1,12 @@
 import React = require('react');
-import {render} from '@testing-library/react';
+import {render, waitFor} from '@testing-library/react';
 import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
 import {makeEnv, wait} from '../helper';
 import rows from '../mockData/rows';
 
 test('Renderer:crud', async () => {
-  const {container, findByText} = render(
+  const {container, getByText} = render(
     amisRender(
       {
         type: 'page',
@@ -62,9 +62,12 @@ test('Renderer:crud', async () => {
     )
   );
 
-  await findByText('Internet Explorer 4.0');
-
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('Internet Explorer 4.0')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
 });

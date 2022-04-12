@@ -2,7 +2,7 @@ import React = require('react');
 import {fireEvent, render} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender, setIconVendor} from '../../../src/index';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 
 test('Renderer:icon-picker', async () => {
   const vendors = [
@@ -46,7 +46,7 @@ test('Renderer:icon-picker', async () => {
   );
 
   const input = container.querySelector('input[name="a"]') as any;
-  input?.focus();
+  fireEvent.focus(input!);
   fireEvent.click(await findByText(/Glyphicons/));
 
   fireEvent.change(input!, {
@@ -57,5 +57,6 @@ test('Renderer:icon-picker', async () => {
 
   fireEvent.click(getByTitle('glyphicon glyphicon-plus'));
 
+  await wait(500);
   expect(container).toMatchSnapshot();
 });

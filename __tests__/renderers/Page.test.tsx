@@ -1,7 +1,7 @@
 import React = require('react');
 import PageRenderer from '../../src/renderers/Page';
 import * as renderer from 'react-test-renderer';
-import {render, fireEvent, cleanup} from '@testing-library/react';
+import {render, fireEvent, cleanup, waitFor} from '@testing-library/react';
 import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
 import {wait, makeEnv} from '../helper';
@@ -46,14 +46,8 @@ test('Renderer:Page initData', () => {
 });
 
 test('Renderer:Page initApi', async () => {
-  let done: Function;
-  let wating = new Promise(resolve => {
-    done = resolve;
-  });
-
-  const fetcher = jest.fn().mockImplementationOnce(() => {
-    setTimeout(done, 100);
-    return Promise.resolve({
+  const fetcher = jest.fn().mockImplementationOnce(() =>
+    Promise.resolve({
       data: {
         status: 0,
         msg: 'ok',
@@ -61,9 +55,9 @@ test('Renderer:Page initApi', async () => {
           a: 2
         }
       }
-    });
-  });
-  const component = renderer.create(
+    })
+  );
+  const {container, getByText, rerender}: any = render(
     amisRender(
       {
         type: 'page',
@@ -77,28 +71,25 @@ test('Renderer:Page initApi', async () => {
     )
   );
 
-  await wating;
-  let tree = component.toJSON();
-
-  expect(tree).toMatchSnapshot();
+  await waitFor(() => {
+    expect(getByText('The variable value is 2')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
 });
 
 test('Renderer:Page initApi error show Message', async () => {
-  let done: Function;
-  let wating = new Promise(resolve => {
-    done = resolve;
-  });
-
-  const fetcher = jest.fn().mockImplementationOnce(() => {
-    setTimeout(done, 100);
-    return Promise.resolve({
+  const fetcher = jest.fn().mockImplementationOnce(() =>
+    Promise.resolve({
       data: {
         status: 500,
         msg: 'Internal Error'
       }
-    });
-  });
-  const component = renderer.create(
+    })
+  );
+  const {container, getByText, rerender}: any = render(
     amisRender(
       {
         type: 'page',
@@ -111,38 +102,30 @@ test('Renderer:Page initApi error show Message', async () => {
     )
   );
 
-  await wating;
-  let tree = component.toJSON();
-
-  expect(tree).toMatchSnapshot();
+  await waitFor(() => {
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
 });
 
 test('Renderer:Page initApi show loading', async () => {
-  let done: Function;
-  let wating = new Promise(resolve => {
-    done = resolve;
-  });
-
   const fetcher = jest.fn().mockImplementationOnce(() => {
     return new Promise(async resolve => {
-      await wait(100, () => expect(component.toJSON()).toMatchSnapshot());
-      await wait(100, () =>
-        expect(
-          resolve({
-            data: {
-              status: 0,
-              msg: 'ok',
-              data: {
-                a: 3
-              }
-            }
-          })
-        )
-      );
-      await wait(100, done);
+      await wait(200, false);
+      resolve({
+        data: {
+          status: 0,
+          msg: 'ok',
+          data: {
+            a: 3
+          }
+        }
+      });
     });
   });
-  const component = renderer.create(
+  const {container, getByText, getByTestId, unmount} = render(
     amisRender(
       {
         type: 'page',
@@ -156,10 +139,20 @@ test('Renderer:Page initApi show loading', async () => {
     )
   );
 
-  await wating;
-  let tree = component.toJSON();
+  await waitFor(() => {
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
 
-  expect(tree).toMatchSnapshot();
+  await waitFor(() => {
+    expect(getByText('The variable value is 3')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
 });
 
 test('Renderer:Page initApi initFetch:false', async () => {
@@ -174,7 +167,7 @@ test('Renderer:Page initApi initFetch:false', async () => {
       }
     })
   );
-  renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'page',
@@ -189,7 +182,9 @@ test('Renderer:Page initApi initFetch:false', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('The variable value is')).toBeInTheDocument();
+  });
   expect(fetcher).not.toHaveBeenCalled();
 });
 
@@ -205,7 +200,7 @@ test('Renderer:Page initApi initFetch:true', async () => {
       }
     })
   );
-  renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'page',
@@ -220,7 +215,12 @@ test('Renderer:Page initApi initFetch:true', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('The variable value is 2')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(fetcher).toHaveBeenCalled();
 });
 
@@ -236,7 +236,7 @@ test('Renderer:Page initApi initFetchOn -> true', async () => {
       }
     })
   );
-  renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'page',
@@ -255,7 +255,12 @@ test('Renderer:Page initApi initFetchOn -> true', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('The variable value is 2')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(fetcher).toHaveBeenCalled();
 });
 
@@ -271,7 +276,7 @@ test('Renderer:Page initApi initFetchOn -> false', async () => {
       }
     })
   );
-  renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'page',
@@ -290,12 +295,14 @@ test('Renderer:Page initApi initFetchOn -> false', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('The variable value is')).toBeInTheDocument();
+  });
   expect(fetcher).not.toHaveBeenCalled();
 });
 
-test('Renderer:Page classNames', () => {
-  const component = renderer.create(
+test('Renderer:Page classNames', async () => {
+  const {container, getByText, getByTestId} = render(
     amisRender({
       type: 'page',
       title: 'This is Title',
@@ -311,9 +318,11 @@ test('Renderer:Page classNames', () => {
       toolbarClassName: 'toolbar-class-name'
     })
   );
-  let tree = component.toJSON();
+  await waitFor(() => {
+    expect(getByText('This is body')).toBeInTheDocument();
+  });
 
-  expect(tree).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 test('Renderer:Page initApi interval 轮询调用', async () => {
@@ -344,7 +353,7 @@ test('Renderer:Page initApi interval 轮询调用', async () => {
     )
   );
 
-  await wait(10);
+  await wait(10, false);
   jest.advanceTimersByTime(3000);
 
   const times = fetcher.mock.calls.length;
@@ -398,52 +407,36 @@ test('Renderer:Page initApi interval 轮询调用自动停止', async () => {
 });
 
 test('Renderer:Page initApi silentPolling', async () => {
-  let done: Function;
-  let wating = new Promise(resolve => {
-    done = resolve;
-  });
-
+  jest.useFakeTimers();
   const fetcher = jest
     .fn()
     .mockImplementationOnce(() => {
-      return new Promise(async resolve => {
-        await wait(100, () => expect(component.toJSON()).toMatchSnapshot());
-        await wait(100, () =>
-          expect(
-            resolve({
-              data: {
-                status: 0,
-                msg: 'ok',
-                data: {
-                  a: 3
-                }
-              }
-            })
-          )
-        );
-        await wait(100, () => expect(component.toJSON()).toMatchSnapshot());
-      });
+      return new Promise(resolve =>
+        resolve({
+          data: {
+            status: 0,
+            msg: 'ok',
+            data: {
+              a: 3
+            }
+          }
+        })
+      );
     })
     .mockImplementationOnce(() => {
       return new Promise(async resolve => {
-        await wait(100, () => expect(component.toJSON()).toMatchSnapshot());
-        await wait(100, () =>
-          expect(
-            resolve({
-              data: {
-                status: 0,
-                msg: 'ok',
-                data: {
-                  a: 4
-                }
-              }
-            })
-          )
-        );
-        done();
+        resolve({
+          data: {
+            status: 0,
+            msg: 'ok',
+            data: {
+              a: 4
+            }
+          }
+        });
       });
     });
-  const component = renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'page',
@@ -459,10 +452,19 @@ test('Renderer:Page initApi silentPolling', async () => {
     )
   );
 
-  await wating;
-  let tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
-  component.unmount();
+  await waitFor(() => {
+    expect(getByText('The variable value is 3')).toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
+  jest.advanceTimersByTime(3000);
+
+  await waitFor(() => {
+    expect(getByText('The variable value is 4')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
 });
 
 test('Renderer:Page initApi sendOn -> true', async () => {
@@ -477,7 +479,7 @@ test('Renderer:Page initApi sendOn -> true', async () => {
       }
     })
   );
-  renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'page',
@@ -499,7 +501,12 @@ test('Renderer:Page initApi sendOn -> true', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('The variable value is 2')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(fetcher).toHaveBeenCalled();
 });
 
@@ -515,7 +522,7 @@ test('Renderer:Page initApi sendOn -> false', async () => {
       }
     })
   );
-  renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'page',
@@ -537,7 +544,9 @@ test('Renderer:Page initApi sendOn -> false', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('The variable value is')).toBeInTheDocument();
+  });
   expect(fetcher).not.toHaveBeenCalled();
 });
 
@@ -666,13 +675,16 @@ test('Renderer:Page handleAction actionType=url|link', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(getByText('JumpTo')).toBeInTheDocument();
+  });
   fireEvent.click(getByText(/JumpTo/));
   await wait(300);
   expect(jumpTo).toHaveBeenCalled();
   expect(jumpTo.mock.calls[0][0]).toEqual('/goToPath?a=1');
 });
 
-test('Renderer:Page handleAction actionType=dialog', async () => {
+test('Renderer:Page handleAction actionType=dialog default', async () => {
   const {getByText, container}: any = render(
     amisRender(
       {
@@ -695,12 +707,21 @@ test('Renderer:Page handleAction actionType=dialog', async () => {
     )
   );
 
-  fireEvent.click(getByText(/OpenDialog/));
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('OpenDialog')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('OpenDialog'));
   expect(container).toMatchSnapshot();
 
-  fireEvent.click(getByText(/取消/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('取消')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('取消'));
+
+  await waitFor(() => {
+    expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
+  });
+
   expect(container).toMatchSnapshot();
 });
 
@@ -745,16 +766,24 @@ test('Renderer:Page handleAction actionType=dialog mergeData', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(getByText('OpenDialog')).toBeInTheDocument();
+  });
   fireEvent.click(getByText(/OpenDialog/));
-  await wait(300);
+
+  await waitFor(() => {
+    expect(getByText('确认')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/确认/));
-  await wait(500);
+  await waitFor(() => {
+    expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:Page handleAction actionType=drawer', async () => {
+test('Renderer:Page handleAction actionType=drawer default', async () => {
   const {getByText, container}: any = render(
     amisRender(
       {
@@ -777,12 +806,20 @@ test('Renderer:Page handleAction actionType=drawer', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(getByText('OpenDrawer')).toBeInTheDocument();
+  });
   fireEvent.click(getByText(/OpenDrawer/));
-  await wait(300);
+
+  await waitFor(() => {
+    expect(getByText('取消')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/取消/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });
 
@@ -827,12 +864,21 @@ test('Renderer:Page handleAction actionType=drawer mergeData', async () => {
     )
   );
 
-  fireEvent.click(getByText(/OpenDrawer/));
-  await wait(600);
+  await waitFor(() => {
+    expect(getByText('OpenDrawer')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('OpenDrawer'));
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="a"][value="3"]')
+    ).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/确认/));
-  await wait(600);
+  await waitFor(() => {
+    expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });
 
@@ -870,8 +916,13 @@ test('Renderer:Page handleAction actionType=ajax', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(getByText('RequestAjax')).toBeInTheDocument();
+  });
   fireEvent.click(getByText(/RequestAjax/));
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('The variable a is 6')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });
 
@@ -945,11 +996,15 @@ test('Renderer:Page handleAction actionType=ajax & feedback', async () => {
   );
 
   fireEvent.click(getByText(/RequestAjax/));
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('确认')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/确认/));
-  await wait(600);
+  await waitFor(() => {
+    expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });
 
@@ -1053,12 +1108,19 @@ test('Renderer:Page initApi reload by action', async () => {
     )
   );
 
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('The variable value is 1')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Reload/));
 
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('The variable value is 2')).toBeInTheDocument();
+  });
   expect(fetcher).toHaveBeenCalledTimes(2);
   expect(container).toMatchSnapshot();
 });
@@ -1138,18 +1200,29 @@ test('Renderer:Page initApi reload by Dialog action', async () => {
     )
   );
 
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('The variable value is 1')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/OpenDialog/));
-  await wait(400);
 
+  await waitFor(() => {
+    expect(getByText(/确认/)).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/确认/));
-  await wait(1000);
+
+  await waitFor(() => {
+    expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
+    expect(getByText('The variable value is 2')).toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
-  await wait(1000);
+
   expect(fetcher).toHaveBeenCalledTimes(2);
 });
 
@@ -1203,15 +1276,28 @@ test('Renderer:Page initApi reload by Drawer action', async () => {
     )
   );
 
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('The variable value is 1')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/OpenDialog/));
-  await wait(500);
 
+  await waitFor(() => {
+    expect(getByText(/确认/)).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/确认/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
+    expect(getByText('The variable value is 2')).toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
   expect(fetcher).toHaveBeenCalledTimes(2);
@@ -1266,11 +1352,21 @@ test('Renderer:Page initApi reload by Form submit', async () => {
     )
   );
 
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText(/Submit/)).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('The variable value is 2')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
   expect(fetcher).toHaveBeenCalledTimes(2);

@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, cleanup, fireEvent} from '@testing-library/react';
+import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
@@ -10,7 +10,7 @@ afterEach(() => {
   clearStoresCache();
 });
 
-const setup = (inputOptions: any = {}, formOptions: any = {}) => {
+const setup = async (inputOptions: any = {}, formOptions: any = {}) => {
   const utils = render(
     amisRender(
       {
@@ -32,6 +32,16 @@ const setup = (inputOptions: any = {}, formOptions: any = {}) => {
     )
   );
 
+  await waitFor(() => {
+    expect(
+      utils.container.querySelector('input[name="text"]')
+    ).toBeInTheDocument();
+
+    expect(
+      utils.container.querySelector('button[type="submit"]')
+    ).toBeInTheDocument();
+  });
+
   const input = utils.container.querySelector(
     'input[name="text"]'
   ) as HTMLInputElement;
@@ -51,7 +61,7 @@ const setup = (inputOptions: any = {}, formOptions: any = {}) => {
  * 基本使用
  */
 test('Renderer:text', async () => {
-  const {container, input} = setup();
+  const {container, input} = await setup();
 
   expect(container).toMatchSnapshot();
   // 输入是否正常
@@ -65,7 +75,7 @@ test('Renderer:text', async () => {
  * type 为 url，主要测试校验
  */
 test('Renderer:text type is url', async () => {
-  const {container, input, submitBtn} = setup({
+  const {container, input, submitBtn} = await setup({
     type: 'input-url'
   });
 
@@ -75,7 +85,7 @@ test('Renderer:text type is url', async () => {
   expect(container).toMatchSnapshot('validate fail');
 
   fireEvent.change(input, {target: {value: 'https://www.baidu.com'}});
-  await wait(200);
+  await wait(300);
   expect(container).toMatchSnapshot('validate success');
 });
 
@@ -83,7 +93,7 @@ test('Renderer:text type is url', async () => {
  * type 为 email，主要测试校验
  */
 test('Renderer:text type is email', async () => {
-  const {container, input, submitBtn} = setup({
+  const {container, input, submitBtn} = await setup({
     type: 'input-email'
   });
 
@@ -93,27 +103,28 @@ test('Renderer:text type is email', async () => {
   expect(container).toMatchSnapshot('validate fail');
 
   fireEvent.change(input, {target: {value: 'test@baidu.com'}});
-  await wait(200);
+  await wait(300);
   expect(container).toMatchSnapshot('validate success');
 });
 
 /**
  * type 为 password
  */
-test('Renderer:text type is password', () => {
-  const {container, input} = setup({
+test('Renderer:text type is password', async () => {
+  const {container, input} = await setup({
     type: 'input-password'
   });
 
   fireEvent.change(input, {target: {value: 'abcd'}});
+  await wait(300);
   expect(container).toMatchSnapshot();
 });
 
 /**
  * 配置addOn
  */
-test('Renderer:text with addOn', () => {
-  const {container, input} = setup({
+test('Renderer:text with addOn', async () => {
+  const {container, input} = await setup({
     addOn: {
       type: 'button',
       label: '搜索'
@@ -127,7 +138,7 @@ test('Renderer:text with addOn', () => {
  * 配置 clearable
  */
 test('Renderer:text with clearable', async () => {
-  const {container, input} = setup({
+  const {container, input} = await setup({
     clearable: true
   });
   fireEvent.change(input, {target: {value: 'abcd'}}); // 有值之后才会显示clear的icon
@@ -145,7 +156,7 @@ test('Renderer:text with clearable', async () => {
  * 选择器模式
  */
 test('Renderer:text with options', async () => {
-  const {container, input} = setup(
+  const {container, input} = await setup(
     {
       options: [
         {
@@ -184,7 +195,7 @@ test('Renderer:text with options', async () => {
  * 选择器模式,多选
  */
 test('Renderer:text with options and multiple', async () => {
-  const {container, input} = setup(
+  const {container, input} = await setup(
     {
       multiple: true,
       options: [
@@ -249,8 +260,8 @@ test('Renderer:text with options and multiple', async () => {
 /**
  * 前缀和后缀
  */
-test('Renderer:text with prefix and suffix', () => {
-  const {container} = setup({
+test('Renderer:text with prefix and suffix', async () => {
+  const {container} = await setup({
     prefix: '￥',
     suffix: 'RMB'
   });
@@ -261,27 +272,34 @@ test('Renderer:text with prefix and suffix', () => {
 /**
  * 显示计数器
  */
-test('Renderer:text with counter', () => {
-  const {container, input} = setup({
+test('Renderer:text with counter', async () => {
+  const {container, input} = await setup({
     showCounter: true
   });
   expect(container).toMatchSnapshot();
 
   fireEvent.change(input, {target: {value: 'abcd'}});
+  await wait(300);
   expect(container).toMatchSnapshot();
 });
 
 /**
  * 显示计数器且配置最大值
  */
-test('Renderer:text with counter and maxLength', () => {
-  const {container, input} = setup({
+test('Renderer:text with counter and maxLength', async () => {
+  const {container, input} = await setup({
     showCounter: true,
     maxLength: 10
   });
   expect(container).toMatchSnapshot();
 
   fireEvent.change(input, {target: {value: 'abcd'}});
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="text"][value="abcd"]')
+    ).toBeInTheDocument();
+  });
+  await wait(300);
   expect(container).toMatchSnapshot();
 });
 
@@ -289,7 +307,7 @@ test('Renderer:text with counter and maxLength', () => {
  * 转小写
  */
 test('Renderer:text with transform lowerCase', async () => {
-  const {input} = setup({transform: {lowerCase: true}});
+  const {input} = await setup({transform: {lowerCase: true}});
 
   fireEvent.change(input, {target: {value: 'AbCd'}});
   await wait(300);
@@ -300,7 +318,7 @@ test('Renderer:text with transform lowerCase', async () => {
  * 转大写
  */
 test('Renderer:text with transform upperCase', async () => {
-  const {input} = setup({transform: {upperCase: true}});
+  const {input} = await setup({transform: {upperCase: true}});
 
   fireEvent.change(input, {target: {value: 'AbCd'}});
   await wait(300);

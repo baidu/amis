@@ -25,14 +25,18 @@ exports[`Renderer:portlet 1`] = `
               <li
                 class="cxd-Tabs-link is-active"
               >
-                <a>
+                <a
+                  title="Tab 1"
+                >
                   Tab 1
                 </a>
               </li>
               <li
                 class="cxd-Tabs-link"
               >
-                <a>
+                <a
+                  title="Tab 2"
+                >
                   Tab 2
                 </a>
               </li>
