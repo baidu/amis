@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, fireEvent} from '@testing-library/react';
+import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
@@ -27,8 +27,11 @@ test('Renderer:city', async () => {
     )
   );
 
-  // 第一个用 findByText 来等待 suspense 组件加载出来，后面的一般来说就不需要await的，除非是耗时操作
-  fireEvent.click(await findByText('请选择'));
+  await waitFor(() => {
+    getByText('请选择');
+  });
+
+  fireEvent.click(getByText('请选择'));
   fireEvent.click(getByText('北京市'));
   fireEvent.click(getByText('请选择'));
   fireEvent.click(getByText('北京市市辖区'));
