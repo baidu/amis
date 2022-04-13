@@ -72,6 +72,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
+    &.is-invalid {
+      color: var(--Form-selectValue-onInvalid-color);
+    }
+
     &.is-disabled {
       color: var(--Form-selectValue-onDisabled-color);
     }
