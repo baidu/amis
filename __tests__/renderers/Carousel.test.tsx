@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, fireEvent} from '@testing-library/react';
+import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
 import {makeEnv, wait} from '../helper';
@@ -43,6 +43,12 @@ test('Renderer:carousel', async () => {
   const rightArrow = container.querySelector('div.cxd-Carousel-rightArrow');
   fireEvent.click(rightArrow as HTMLDivElement);
 
-  await wait(500);
+  // 等到第二个点变成激活状态
+  await waitFor(() => {
+    expect(
+      container.querySelector('span:nth-child(2).is-active')
+    ).toBeInTheDocument();
+  });
+
   expect(container).toMatchSnapshot();
 });

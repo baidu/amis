@@ -22,14 +22,18 @@ exports[`Renderer:tabs 1`] = `
             <li
               class="cxd-Tabs-link is-active"
             >
-              <a>
+              <a
+                title="基本配置"
+              >
                 基本配置
               </a>
             </li>
             <li
               class="cxd-Tabs-link"
             >
-              <a>
+              <a
+                title="其他配置"
+              >
                 其他配置
               </a>
             </li>

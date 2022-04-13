@@ -25,7 +25,7 @@ export class EmailAction implements Action {
   ) {
     const mailTo = filter(action.to, action.args);
     const mailInfo = mapValues(
-      pick(action, 'to', 'cc', 'bcc', 'subject', 'body'),
+      pick(action, 'cc', 'bcc', 'subject', 'body'),
       val => filter(val, action.args)
     );
     const mailStr = qs.stringify(mailInfo);

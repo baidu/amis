@@ -13,6 +13,7 @@ import {iRendererStore} from './iRenderer';
 import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
+import sortBy from 'lodash/sortBy';
 import {
   isBreakpoint,
   createObject,
@@ -31,6 +32,13 @@ import {
 import {evalExpression} from '../utils/tpl';
 import {IFormStore} from './form';
 import {getStoreById} from './manager';
+
+import type {SchemaObject} from '../Schema';
+
+/**
+ * 内部列的数量 '__checkme' | '__dragme' | '__expandme'
+ */
+const PARTITION_INDEX = 3;
 
 export const Column = types
   .model('Column', {
@@ -74,6 +82,9 @@ export const Column = types
 
     setEnableSearch(value: boolean) {
       self.enableSearch = value;
+
+      const table = getParent(self, 2) as ITableStore;
+      table.persistSaveToggledColumns();
     }
   }));
 
@@ -726,6 +737,25 @@ export const TableStore = iRendererStore
           });
         }
 
+        // 更新列顺序，afterCreate生命周期中更新columns不会触发组件的render
+        const key = getPersistDataKey(columns);
+        const data = localStorage.getItem(key);
+        let tableMetaData = null;
+
+        if (data) {
+          try {
+            tableMetaData = JSON.parse(data);
+          } catch (error) {}
+
+          const order = tableMetaData?.columnOrder;
+
+          if (Array.isArray(order) && order.length != 0) {
+            columns = sortBy(columns, (item, index) =>
+              order.indexOf(item.name || item.label || index)
+            );
+          }
+        }
+
         columns.unshift({
           type: '__expandme',
           toggable: false,
@@ -748,12 +778,12 @@ export const TableStore = iRendererStore
         columns = columns.map((item, index) => ({
           ...item,
           index,
-          rawIndex: index - 3,
+          rawIndex: index - PARTITION_INDEX,
           type: item.type || 'plain',
           pristine: item,
           toggled: item.toggled !== false,
           breakpoint: item.breakpoint,
-          isPrimary: index === 3,
+          isPrimary: index === PARTITION_INDEX,
           className: item.className || ''
         }));
 
@@ -794,15 +824,16 @@ export const TableStore = iRendererStore
         columns = columns.map((item, index) => ({
           ...item,
           index,
-          rawIndex: index - 3,
+          rawIndex: index - PARTITION_INDEX,
           type: item.type || 'plain',
           pristine: item.pristine || item,
           toggled: item.toggled !== false,
           breakpoint: item.breakpoint,
-          isPrimary: index === 3
+          isPrimary: index === PARTITION_INDEX
         }));
 
         self.columns.replace(columns as any);
+        persistSaveToggledColumns();
       }
     }
 
@@ -1259,14 +1290,26 @@ export const TableStore = iRendererStore
       self.rows.replace(newRows);
     }
 
+    /**
+     * 前端持久化记录列排序，查询字段，显示列信息
+     */
     function persistSaveToggledColumns() {
-      const key =
-        location.pathname +
-        self.path +
-        self.toggableColumns.map(item => item.name || item.index).join('-');
+      const key = getPersistDataKey(self.columnsData);
+
       localStorage.setItem(
         key,
-        JSON.stringify(self.activeToggaleColumns.map(item => item.index))
+        JSON.stringify({
+          // 可显示列index
+          toggledColumnIndex: self.activeToggaleColumns.map(item => item.index),
+          // 列排序，name，label可能不存在
+          columnOrder: self.columnsData.map(
+            item => item.name || item.label || item.rawIndex
+          ),
+          // 已激活的可查询列
+          enabledSearchableColumn: self.activedSearchableColumns.map(
+            item => item.name
+          )
+        })
       );
     }
 
@@ -1289,6 +1332,18 @@ export const TableStore = iRendererStore
         self.toggableColumns.map(column => column.setToggled(true));
       }
       persistSaveToggledColumns();
+    }
+
+    function getPersistDataKey(columns: any[]) {
+      // 这里的columns使用除了__开头的所有列
+      // sort保证存储和读取的key值保持一致
+      return (
+        location.pathname +
+        self.path +
+        sortBy(
+          columns.map((item, index) => item.name || item.label || index)
+        ).join('-')
+      );
     }
 
     return {
@@ -1318,18 +1373,26 @@ export const TableStore = iRendererStore
           if (!isAlive(self)) {
             return;
           }
-          const key =
-            location.pathname +
-            self.path +
-            self.toggableColumns.map(item => item.name || item.index).join('-');
-
+          const key = getPersistDataKey(self.columnsData);
           const data = localStorage.getItem(key);
 
           if (data) {
-            const selectedColumns = JSON.parse(data);
+            const tableMetaData = JSON.parse(data);
+            const toggledColumns = isObject(tableMetaData)
+              ? tableMetaData?.toggledColumnIndex
+              : tableMetaData; // 兼容之前的类型
+
             self.toggableColumns.forEach(item =>
-              item.setToggled(!!~selectedColumns.indexOf(item.index))
+              item.setToggled(!!~toggledColumns.indexOf(item.index))
             );
+
+            self.searchableColumns.forEach(item => {
+              item.setEnableSearch(
+                !!~(tableMetaData?.enabledSearchableColumn ?? []).indexOf(
+                  item.name
+                )
+              );
+            });
           }
         }, 200);
       }

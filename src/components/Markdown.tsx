@@ -42,6 +42,12 @@ export default class Markdown extends React.Component<MarkdownProps> {
   }
 
   render() {
-    return <div className="markdown-body" ref={this.htmlRef}></div>;
+    return (
+      <div
+        data-testid="markdown-body"
+        className="markdown-body"
+        ref={this.htmlRef}
+      ></div>
+    );
   }
 }

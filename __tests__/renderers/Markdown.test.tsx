@@ -1,11 +1,12 @@
 import React = require('react');
-import {render} from '@testing-library/react';
+import {render, waitFor} from '@testing-library/react';
+
 import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
 import {makeEnv} from '../helper';
 
-test('Renderer:markdown', () => {
-  const {container} = render(
+test('Renderer:markdown', async () => {
+  const {container, getByTestId} = render(
     amisRender(
       {
         type: 'markdown',
@@ -16,5 +17,8 @@ test('Renderer:markdown', () => {
     )
   );
 
+  await waitFor(() => {
+    expect(getByTestId('markdown-body')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });

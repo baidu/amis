@@ -4,8 +4,6 @@ import {Renderer, RendererProps} from '../../factory';
 import {SchemaNode, Action, Schema} from '../../types';
 import forEach from 'lodash/forEach';
 import {filter} from '../../utils/tpl';
-import DropDownButton from '../DropDownButton';
-import './ColumnToggler';
 import Checkbox from '../../components/Checkbox';
 import Button from '../../components/Button';
 import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
@@ -2207,6 +2205,7 @@ export default class Table extends React.Component<TableProps, object> {
         label={config?.label}
         draggable={config?.draggable}
         columns={store.columnsData}
+        activeToggaleColumns={store.activeToggaleColumns}
         onColumnToggle={this.handleColumnToggle}
       >
         {store.toggableColumns.length ? (

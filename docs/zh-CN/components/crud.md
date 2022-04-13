@@ -539,6 +539,16 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
     "api": "/api/mock2/sample",
     "syncLocation": false,
     "autoGenerateFilter": true,
+    "headerToolbar": [
+        {
+            "type": "columns-toggler",
+            "align": "right",
+            "draggable": true,
+            "icon": "fas fa-cog",
+            "overlay": true,
+            "footerBtnSize": "sm"
+        }
+    ],
     "columns": [
         {
             "name": "id",

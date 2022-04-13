@@ -16,6 +16,7 @@ exports[`Renderer:bar-code 1`] = `
         >
           <div
             class="cxd-BarCode"
+            data-testid="barcode"
           >
             <img
               src="data:image/png;base64,00"
