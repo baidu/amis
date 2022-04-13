@@ -377,6 +377,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     const isClassComponent = Component.prototype?.isReactComponent;
+    const $schema = {...schema, ...exprProps};
     let props = {
       ...theme.getRendererConfig(renderer.name),
       ...restSchema,
@@ -387,7 +388,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       defaultActiveKey: defaultActiveKey,
       propKey: propKey,
       $path: $path,
-      $schema: {...schema, ...exprProps},
+      $schema: $schema,
       ref: this.refFn,
       render: this.renderChild,
       rootStore: rootStore,

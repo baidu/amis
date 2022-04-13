@@ -393,14 +393,17 @@ const defaultOptions: RenderOptions = {
     if (listeners) {
       // 暂存
       for (let key of Object.keys(listeners)) {
-        const listener = this.rendererEventListeners.some(item => item.renderer === renderer && item.type === key);
+        const listener = this.rendererEventListeners.some(
+          (item: RendererEventListener) =>
+            item.renderer === renderer && item.type === key
+        );
         if (!listener) {
-        this.rendererEventListeners.push({
-          renderer,
-          type: key,
-          weight: listeners[key].weight || 0,
-          actions: listeners[key].actions
-        });
+          this.rendererEventListeners.push({
+            renderer,
+            type: key,
+            weight: listeners[key].weight || 0,
+            actions: listeners[key].actions
+          });
         }
       }
 
@@ -447,7 +450,7 @@ const defaultOptions: RenderOptions = {
         data,
         scoped
       });
-      
+
     // 过滤&排序
     const listeners = this.rendererEventListeners
       .filter(

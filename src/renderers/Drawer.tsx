@@ -830,7 +830,7 @@ export class DrawerRenderer extends Drawer {
   }
 
   async handleAction(
-    e: React.UIEvent<any>,
+    e: React.UIEvent<any> | void,
     action: Action,
     data: object,
     throwErrors: boolean = false,

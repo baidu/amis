@@ -727,7 +727,7 @@ export class DialogRenderer extends Dialog {
   }
 
   async handleAction(
-    e: React.UIEvent<any>,
+    e: React.UIEvent<any> | void,
     action: Action,
     data: object,
     throwErrors: boolean = false,
@@ -760,7 +760,6 @@ export class DialogRenderer extends Dialog {
       this.handleSelfClose();
       action.close && this.closeTarget(action.close);
     } else if (action.actionType === 'confirm') {
-      debugger
       const rendererEvent = await dispatchEvent(
         'confirm',
         createObject(this.props.data, {data})
