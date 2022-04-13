@@ -1,3 +1,4 @@
+import {isEmpty, isObject, qsstringify} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {filter} from '../utils/tpl';
 import {
@@ -24,12 +25,18 @@ export class LinkAction implements Action {
       throw new Error('env.jumpTo is required!');
     }
 
+    let url = (action.to || action.url || action.link) as string;
+
+    // 处理参数
+    if (!isEmpty(action.params)) {
+      if (!isObject(action.params)) {
+        throw new Error('action.params must be an object');
+      }
+      url = `${/\?/.test(url) ? '&' : '?'}${qsstringify(action.params)}`;
+    }
+
     renderer.props.env.jumpTo(
-      filter(
-        (action.to || action.url || action.link) as string,
-        action.args,
-        '| raw'
-      ),
+      filter(url, action.args, '| raw'),
       action,
       action.args
     );
