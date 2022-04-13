@@ -114,7 +114,7 @@ export function value2array(
     return value
       .map((value: any) =>
         expandValue(value, props.options, props.valueField) ||
-        (isObject(value) && value.hasOwnProperty(props.valueField))
+        (isObject(value) && value.hasOwnProperty(props.valueField || 'value'))
           ? value
           : undefined
       )
@@ -130,7 +130,8 @@ export function value2array(
   );
   return expandedValue
     ? [expandedValue]
-    : isObject(value) && (value as Option).hasOwnProperty(props.valueField)
+    : isObject(value) &&
+      (value as Option).hasOwnProperty(props.valueField || 'value')
     ? [value as Option]
     : [];
 }
