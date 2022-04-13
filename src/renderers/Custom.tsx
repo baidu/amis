@@ -134,22 +134,22 @@ export class Custom extends React.Component<CustomProps, object> {
   renderChild(schemaPosition: string, childSchema: any, insertElemDom: HTMLElement | string) {
     const {render} = this.props;
     let childEleCont = null;
-    let curInsertHTMLElem: any = null;
+    let curInsertElemDom: any = null;
     if (isString(insertElemDom)) {
       const _curInsertElem = document.getElementById(insertElemDom);
       if (_curInsertElem) {
-        curInsertHTMLElem = _curInsertElem as HTMLElement;
+        curInsertElemDom = _curInsertElem as HTMLElement;
       }
     } else {
-      curInsertHTMLElem = insertElemDom;
+      curInsertElemDom = insertElemDom;
     }
-    if (childSchema && curInsertHTMLElem) {
+    if (childSchema && curInsertElemDom) {
       const childHTMLElem = render(schemaPosition, childSchema);
       childEleCont = ReactDOM.render(
         childHTMLElem,
-        curInsertHTMLElem,
+        curInsertElemDom,
         () => {
-          this.recordChildElem(curInsertHTMLElem);
+          this.recordChildElem(curInsertElemDom);
         }
       );
     }
