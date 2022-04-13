@@ -112,7 +112,12 @@ export function value2array(
     }
 
     return value
-      .map((value: any) => expandValue(value, props.options, props.valueField))
+      .map((value: any) =>
+        expandValue(value, props.options, props.valueField) ||
+        (isObject(value) && value.hasOwnProperty(props.valueField || 'value'))
+          ? value
+          : undefined
+      )
       .filter((item: any) => item) as Array<Option>;
   } else if (Array.isArray(value)) {
     value = value[0];
@@ -123,7 +128,12 @@ export function value2array(
     props.options,
     props.valueField
   );
-  return expandedValue ? [expandedValue] : [];
+  return expandedValue
+    ? [expandedValue]
+    : isObject(value) &&
+      (value as Option).hasOwnProperty(props.valueField || 'value')
+    ? [value as Option]
+    : [];
 }
 
 export function expandValue(
@@ -692,7 +702,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
       multiple,
       valuesNoWrap,
       placeholder,
-      classPrefix: ns,
       labelField,
       disabled,
       translate: __
@@ -703,7 +712,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     if (!selection.length) {
       return (
-        <div key="placeholder" className={`${ns}Select-placeholder`}>
+        <div key="placeholder" className={cx('Select-placeholder')}>
           {__(placeholder)}
         </div>
       );
@@ -714,7 +723,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
         return (
           <div
             className={cx('Select-value', {
-              'is-disabled': disabled
+              'is-disabled': disabled,
+              'is-invalid': item.__unmatched
             })}
             key={index}
           >
@@ -734,8 +744,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
           trigger={'hover'}
           key={index}
         >
-          <div className={`${ns}Select-value`}>
-            <span className={`${ns}Select-valueLabel`}>
+          <div
+            className={cx('Select-value', {
+              'is-disabled': disabled,
+              'is-invalid': item.__unmatched
+            })}
+          >
+            <span className={cx('Select-valueLabel')}>
               {item[labelField || 'label']}
             </span>
             <span
