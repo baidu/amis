@@ -144,6 +144,10 @@ order: 9
               dialog: {
                 type: 'dialog',
                 title: '模态弹窗',
+                id: 'dialog_001',
+                data: {
+                   myage: '22' 
+                },
                 body: [
                   {
                     type: 'tpl',
@@ -153,7 +157,17 @@ order: 9
                   {
                     type: 'input-text',
                     name: 'myname',
-                    mode: 'horizontal'
+                    mode: 'horizontal',
+                    onEvent: {
+                      change: {
+                        actions: [
+                          {
+                            actionType: 'confirm',
+                            componentId: 'dialog_001'
+                          }
+                        ]
+                      }
+                    }
                   }
                 ],
                 onEvent: {
@@ -162,6 +176,14 @@ order: 9
                       {
                         actionType: 'toast',
                         msg: 'confirm'
+                      }
+                    ]
+                  },
+                  cancel: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        msg: 'cancel'
                       }
                     ]
                   }
@@ -203,7 +225,7 @@ order: 9
               actionType: 'dialog',
               dialog: {
                 type: 'dialog',
-                id: 'dialog_1',
+                id: 'dialog_002',
                 title: '模态弹窗',
                 body: [
                   {
@@ -226,7 +248,7 @@ order: 9
                                       actions: [
                                         {
                                           actionType: 'closeDialog',
-                                          componentId: 'dialog_1'
+                                          componentId: 'dialog_002'
                                         }
                                       ]
                                     }
@@ -291,7 +313,6 @@ order: 9
               actionType: 'drawer',
               drawer: {
                 type: 'drawer',
-                id: 'drawer_1',
                 title: '模态抽屉',
                 body: [
                   {
@@ -299,7 +320,25 @@ order: 9
                     tpl: '<p>对，你打开了模态抽屉</p>',
                     inline: false
                   }
-                ]
+                ],
+                onEvent: {
+                  confirm: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        msg: 'confirm'
+                      }
+                    ]
+                  },
+                  cancel: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        msg: 'cancel'
+                      }
+                    ]
+                  }
+                }
               }
             }
           ]
@@ -454,7 +493,7 @@ order: 9
         click: {
           actions: [
             {
-              actionType: 'confirm',
+              actionType: 'confirmDialog',
               title: '操作确认',
               msg: '要删除它吗？'
             }
@@ -470,7 +509,7 @@ order: 9
 
 | 属性名     | 类型     | 默认值    | 说明           |
 | ---------- | -------- | --------- | -------------- |
-| actionType | `string` | `confirm` | 打开确认对话框 |
+| actionType | `string` | `confirmDialog` | 打开确认对话框 |
 | title      | `string` | -         | 对话框标题     |
 | msg        | `string` | -         | 对话框提示内容 |
 
@@ -483,6 +522,9 @@ order: 9
 ```schema
 {
   type: 'page',
+  data: {
+    myname: 'lvxj'
+  },
   body: [
     {
       type: 'button',
@@ -1249,7 +1291,7 @@ order: 9
               actionType: 'dialog',
               "dialog": {
                 "title": "在弹框中的表单",
-                "id": "dialog_data",
+                "id": "dialog_003",
                 "data": {
                   username: 'amis'
                 },
@@ -1294,7 +1336,7 @@ order: 9
                           },
                           {
                             actionType: 'setValue',
-                            componentId: 'dialog_data',
+                            componentId: 'dialog_003',
                             value: {
                               username: '${myResult.name}'
                             }
@@ -1623,7 +1665,7 @@ order: 9
                   actionType: 'dialog',
                   "dialog": {
                     "title": "登录",
-                    "id": "dialog_data",
+                    "id": "dialog_004",
                     "data": {
                       username: 'amis'
                     },
@@ -2351,7 +2393,7 @@ order: 9
               },
               dialog: {
                 type: 'dialog',
-                id: 'dialog_1',
+                id: 'dialog_005',
                 title: '弹框标题1',
                 data: {
                   id: '${id}'

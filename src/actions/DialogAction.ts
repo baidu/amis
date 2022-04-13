@@ -19,9 +19,7 @@ export class DialogAction implements Action {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    const store = renderer.props.store;
-    store.setCurrentAction(action);
-    store.openDialog(action.args);
+    renderer.props.onAction?.(event, action, action.args);
   }
 }
 
@@ -43,7 +41,10 @@ export class CloseDialogAction implements Action {
       event.context.scoped.closeById(action.componentId);
     } else {
       // 关闭当前弹窗
-      renderer.props.store.parentStore.closeDialog();
+      renderer.props.onAction?.(event, {
+        ...action,
+        actionType: 'close'
+      }, action.args);
     }
   }
 }
@@ -77,4 +78,4 @@ export class ConfirmAction implements Action {
 registerAction('dialog', new DialogAction());
 registerAction('closeDialog', new CloseDialogAction());
 registerAction('alert', new AlertAction());
-registerAction('confirm', new ConfirmAction());
+registerAction('confirmDialog', new ConfirmAction());
