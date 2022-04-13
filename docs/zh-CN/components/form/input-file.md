@@ -316,7 +316,7 @@ order: 21
 
 | 事件名称 | 事件参数                 | 说明                 |
 | -------- | ------------------------ | -------------------- |
-| change   | `file: Array<FileValue>` | 选中值发生变化时触发 |
+| change   | `file: Array<FileValue>` | 文件值发生变化时触发 |
 | remove   | `file: FileValue`        | 被移除的文件         |
 | success  | `file: FileValue`        | 上传成功的文件       |
 | fail     | `file: FileValue`        | 上传失败的文件       |

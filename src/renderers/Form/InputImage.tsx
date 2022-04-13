@@ -703,7 +703,7 @@ export default class ImageControl extends React.Component<
           locked: false
         },
         () => {
-          this.onChange(!!this.resolve, false);
+          this.onChange(!!this.resolve);
 
           if (this.resolve) {
             this.resolve(
@@ -773,7 +773,7 @@ export default class ImageControl extends React.Component<
     });
   }
 
-  async onChange(changeImmediately?: boolean, isFileChange = true) {
+  async onChange(changeImmediately?: boolean) {
     const {
       multiple,
       onChange,
@@ -806,11 +806,10 @@ export default class ImageControl extends React.Component<
         ? newValue[valueField || 'value']
         : newValue;
     }
-    if (isFileChange) {
-      const dispatcher = await this.dispatchEvent('change');
-      if (dispatcher?.prevented) {
-        return;
-      }
+
+    const dispatcher = await this.dispatchEvent('change');
+    if (dispatcher?.prevented) {
+      return;
     }
 
     onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
@@ -999,7 +998,6 @@ export default class ImageControl extends React.Component<
         }
       }
     );
-    this.dispatchEvent('change');
   }
 
   sendFile(

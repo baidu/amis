@@ -519,7 +519,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         }
       }
     );
-    this.dispatchEvent('change');
   }
 
   handleDropRejected(
@@ -724,7 +723,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           uploading: false
         },
         () => {
-          this.onChange(!!this.resolve, false);
+          this.onChange(!!this.resolve);
 
           if (this.resolve) {
             this.resolve(
@@ -872,7 +871,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     });
   }
 
-  async onChange(changeImmediately?: boolean, isFileChange = true) {
+  async onChange(changeImmediately?: boolean) {
     const {
       multiple,
       onChange,
@@ -906,11 +905,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     } else {
       value = typeof resetValue === 'undefined' ? '' : resetValue;
     }
-    if (isFileChange) {
-      const dispatcher = await this.dispatchEvent('change');
-      if (dispatcher?.prevented) {
-        return;
-      }
+
+    const dispatcher = await this.dispatchEvent('change');
+    if (dispatcher?.prevented) {
+      return;
     }
 
     onChange((this.emitValue = value), undefined, changeImmediately);
