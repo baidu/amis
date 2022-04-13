@@ -417,9 +417,7 @@ export default class TextControl extends React.PureComponent<
 
       onChange(this.normalizeValue(newValue));
     } else {
-      onChange(
-        toggledOption ? this.normalizeValue([toggledOption])?.[0] : value
-      );
+      onChange(toggledOption ? this.normalizeValue(toggledOption) : value);
     }
 
     if (multiple || creatable === false) {
@@ -487,14 +485,23 @@ export default class TextControl extends React.PureComponent<
     onChange(this.transformValue(value));
   }
 
-  normalizeValue(value: Option[]) {
-    const {delimiter, joinValues, extractValue, valueField} = this.props;
+  normalizeValue(value: Option[] | Option | undefined | null) {
+    const {multiple, delimiter, joinValues, extractValue, valueField} =
+      this.props;
+    const selectedOptions = Array.isArray(value) ? value : value ? [value] : [];
 
-    return joinValues
-      ? value.map(item => item[valueField || 'value']).join(delimiter || ',')
-      : extractValue
-      ? value.map(item => item[valueField || 'value'])
-      : value;
+    if (joinValues) {
+      return selectedOptions
+        .map(item => item[valueField || 'value'])
+        .join(delimiter || ',');
+    } else if (extractValue) {
+      const mappedValue = selectedOptions.map(
+        item => item[valueField || 'value']
+      );
+      return multiple ? mappedValue : mappedValue[0];
+    } else {
+      return multiple ? selectedOptions : selectedOptions[0];
+    }
   }
 
   transformValue(value: string) {
