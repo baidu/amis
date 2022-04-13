@@ -393,12 +393,15 @@ const defaultOptions: RenderOptions = {
     if (listeners) {
       // 暂存
       for (let key of Object.keys(listeners)) {
+        const listener = this.rendererEventListeners.some(item => item.renderer === renderer && item.type === key);
+        if (!listener) {
         this.rendererEventListeners.push({
           renderer,
           type: key,
           weight: listeners[key].weight || 0,
           actions: listeners[key].actions
         });
+        }
       }
 
       return () => {
@@ -417,7 +420,9 @@ const defaultOptions: RenderOptions = {
     data: any,
     broadcast?: RendererEvent<any>
   ) {
+    let unbindEvent = null;
     const eventName = typeof e === 'string' ? e : e.type;
+
     if (!broadcast) {
       const eventConfig = renderer?.props?.onEvent?.[eventName];
 
@@ -425,13 +430,14 @@ const defaultOptions: RenderOptions = {
         // 没命中也没关系
         return Promise.resolve(undefined);
       }
+
+      unbindEvent = this.bindEvent(renderer);
     }
 
     // 没有可处理的监听
     if (!this.rendererEventListeners.length) {
       return Promise.resolve();
     }
-
     // 如果是广播动作，就直接复用
     const rendererEvent =
       broadcast ||
@@ -441,7 +447,7 @@ const defaultOptions: RenderOptions = {
         data,
         scoped
       });
-
+      
     // 过滤&排序
     const listeners = this.rendererEventListeners
       .filter(
@@ -462,6 +468,8 @@ const defaultOptions: RenderOptions = {
         break;
       }
     }
+
+    unbindEvent?.();
 
     return rendererEvent;
   },

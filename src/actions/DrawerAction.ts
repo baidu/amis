@@ -19,10 +19,7 @@ export class DrawerAction implements Action {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    const store = renderer.props.store;
-    // 打开抽屉
-    store.setCurrentAction(action);
-    store.openDrawer(action.args);
+    renderer.props.onAction?.(event, action, action.args);
   }
 }
 
@@ -44,7 +41,10 @@ export class CloseDrawerAction implements Action {
       event.context.scoped.closeById(action.componentId);
     } else {
       // 关闭当前抽屉
-      renderer.props.store.parentStore.closeDrawer();
+      renderer.props.onAction?.(event, {
+        ...action,
+        actionType: 'close'
+      }, action.args);
     }
   }
 }
