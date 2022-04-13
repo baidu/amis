@@ -52,6 +52,8 @@ export class Custom extends React.Component<CustomProps, object> {
   onMount: Function = () => {};
   onUnmount: Function = () => {};
 
+  childElemArr: HTMLElement[] = []; // 用于记录子元素的Dom节点，以便销毁
+
   constructor(props: CustomProps) {
     super(props);
     this.dom = React.createRef();
@@ -89,6 +91,8 @@ export class Custom extends React.Component<CustomProps, object> {
       }
     }
     this.renderChild = this.renderChild.bind(this);
+    this.recordChildElem = this.recordChildElem.bind(this);
+    this.unmountChildElem = this.unmountChildElem.bind(this);
   }
 
   componentDidUpdate(prevProps: CustomProps) {
@@ -105,26 +109,48 @@ export class Custom extends React.Component<CustomProps, object> {
 
   componentWillUnmount() {
     this.onUnmount(this.props);
+    // 自动销毁所有子节点
+    this.unmountChildElem();
+  }
+
+  // 记录子元素的dom节点
+  recordChildElem(insertElem: HTMLElement) {
+    if (insertElem && !this.childElemArr.some(item => item === insertElem)) {
+      this.childElemArr.push(insertElem);
+    }
+  }
+
+  // 销毁所有子元素的dom节点
+  unmountChildElem() {
+    if (this.childElemArr && this.childElemArr.length > 0) {
+      this.childElemArr.forEach(childElemItem => ReactDOM.unmountComponentAtNode(childElemItem));
+    }
   }
 
   /**
    * 渲染子元素
    * 备注：现有custom组件通过props.render生成的子元素是react虚拟dom对象，需要使用ReactDOM.render渲染，不能直接插入到当前dom中。
    **/
-  renderChild(schemaPosition: string, childSchema: any, insertElem: HTMLElement | string) {
+  renderChild(schemaPosition: string, childSchema: any, insertElemDom: HTMLElement | string) {
     const {render} = this.props;
     let childEleCont = null;
-    let curInsertElem = null;
-    if (isString(insertElem)) {
-      curInsertElem = document.getElementById(insertElem);
+    let curInsertHTMLElem: any = null;
+    if (isString(insertElemDom)) {
+      const _curInsertElem = document.getElementById(insertElemDom);
+      if (_curInsertElem) {
+        curInsertHTMLElem = _curInsertElem as HTMLElement;
+      }
     } else {
-      curInsertElem = insertElem;
+      curInsertHTMLElem = insertElemDom;
     }
-    if (childSchema && insertElem) {
-      const childElem = render(schemaPosition, childSchema);
+    if (childSchema && curInsertHTMLElem) {
+      const childHTMLElem = render(schemaPosition, childSchema);
       childEleCont = ReactDOM.render(
-        childElem,
-        curInsertElem
+        childHTMLElem,
+        curInsertHTMLElem,
+        () => {
+          this.recordChildElem(curInsertHTMLElem);
+        }
       );
     }
     return childEleCont;
