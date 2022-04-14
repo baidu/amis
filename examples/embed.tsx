@@ -46,7 +46,7 @@ export function embed(
     container = div;
   }
   container.classList.add('amis-scope');
-  let scoped: any;
+  let scoped = {};
 
   const requestAdaptor = (config: any) => {
     const fn =
@@ -254,7 +254,9 @@ export function embed(
     amisProps = {
       ...amisProps,
       ...props,
-      scopeRef: (ref: any) => (scoped = ref)
+      scopeRef: (ref: any) => {
+        if (ref) Object.assign(scoped, ref);
+      }
     };
 
     return (
@@ -280,13 +282,12 @@ export function embed(
   const root = createRoot(container);
   root.render(createElements(props));
 
-  return {
-    ...scoped,
+  return Object.assign(scoped, {
     updateProps: (props: any, callback?: () => void) => {
       root.render(createElements(props));
     },
     unmount: () => {
       root.unmount();
     }
-  };
+  });
 }
