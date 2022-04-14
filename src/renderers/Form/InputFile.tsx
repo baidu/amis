@@ -2,8 +2,6 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
-// @ts-ignore
-import mapLimit from 'async/mapLimit';
 import ImageControl from './InputImage';
 import {Payload, ApiObject, ApiString, Action} from '../../types';
 import {filter} from '../../utils/tpl';
@@ -82,6 +80,11 @@ export interface FileControlSchema extends FormBaseControl {
    * @default 5242880
    */
   chunkSize?: number;
+
+  /**
+   * 分块上传的并发数
+   */
+  concurrency?: number;
 
   /**
    * 分割符
@@ -302,6 +305,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     startChunkApi: '/api/upload/startChunk',
     chunkApi: '/api/upload/chunk',
     finishChunkApi: '/api/upload/finishChunk',
+    concurrency: 3,
     accept: '',
     multiple: false,
     autoUpload: true,
@@ -979,6 +983,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     onProgress: (progress: number) => void
   ): Promise<Payload> {
     const chunkSize = config.chunkSize || 5 * 1024 * 1024;
+    const concurrency = this.props.concurrency;
     const self = this;
     let startProgress = 0.2;
     let endProgress = 0.9;
@@ -1020,7 +1025,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
       self._send(file, startApi).then(startChunk).catch(reject);
 
-      function startChunk(ret: Payload) {
+      async function startChunk(ret: Payload) {
         onProgress(startProgress);
         const tasks = getTasks(file);
         progressArr = tasks.map(() => 0);
@@ -1036,18 +1041,25 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           total: tasks.length
         };
 
-        mapLimit(
-          tasks,
-          3,
-          uploadPartFile(state, config),
-          function (err: any, results: any) {
-            if (err) {
-              reject(err);
-            } else {
-              finishChunk(results, state);
-            }
-          }
-        );
+        let results: any[] = [];
+        while (tasks.length) {
+          const res = await Promise.all(
+            tasks.splice(0, concurrency).map(async task => {
+              return await uploadPartFile(state, config)(
+                task,
+                (err: any, value: any) => {
+                  if (err) {
+                    reject(err);
+                    throw new Error(err);
+                  }
+                  return value;
+                }
+              );
+            })
+          );
+          results = results.concat(res);
+        }
+        finishChunk(results, state);
       }
 
       function updateProgress(partNumber: number, progress: number) {
