@@ -852,7 +852,7 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 | 动作名称        | 动作配置                                            | 说明                 |
 |----------------|-------------------------------------------------- |---------------------|
-| expand         | openLevel: `number`<br />initiallyOpen为false时生效| 配置展开层级 |
+| expand         | openLevel: `number`                               | 配置展开层级 |
 | collapse       | -                                                 |  关闭树|
 | clear          | -                                                 | 清除数据 |
 | reset          | -                                                 | 重置数据 |

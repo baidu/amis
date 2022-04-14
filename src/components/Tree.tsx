@@ -279,7 +279,7 @@ export class TreeSelector extends React.Component<
         } else if (foldedField && typeof node[foldedField] !== 'undefined') {
           ret = !node[foldedField];
         } else {
-          ret = !!props.initiallyOpen;
+          ret = !!props.initiallyOpen && !initFoldedLevel;
           if (!ret && level <= (expandLevel as number)) {
             ret = true;
           }
