@@ -10,7 +10,7 @@ order: 63
 
 amis 中部分组件，作为展示组件，自身没有**使用接口初始化数据域的能力**，例如：[Table](./table)、[Cards](./cards)、[List](./list)等，他们需要使用某些配置项，例如`source`，通过[数据映射](../../docs/concepts/data-mapping)功能，在当前的 **数据链** 中获取数据，并进行数据展示。
 
-而`Service`组件就是专门为该类组件而生，它的功能是：：**配置初始化接口，进行数据域的初始化，然后在`Service`内容器中配置子组件，这些子组件通过数据链的方法，获取`Service`所拉取到的数据**
+而`Service`组件就是专门为该类组件而生，它的功能是：**配置初始化接口，进行数据域的初始化，然后在`Service`内容器中配置子组件，这些子组件通过数据链的方法，获取`Service`所拉取到的数据**
 
 ## 基本使用
 
@@ -584,3 +584,18 @@ ws.on('connection', function connection(ws) {
 | interval              | `number`                                  |                | 轮询时间间隔(最低 3000)                                                       |
 | silentPolling         | `boolean`                                 | `false`        | 配置轮询时是否显示加载动画                                                    |
 | stopAutoRefreshWhen   | [表达式](../../docs/concepts/expression)  |                | 配置停止轮询的条件                                                            |
+
+## 事件表
+
+| 事件名称          | 事件参数               | 说明                 |
+| ----------------- | ---------------------- | -------------------- |
+| fetchInited       | `data: any` 数据域数据 | api 初始化完成       |
+| fetchSchemaInited | `data: any` 数据域数据 | schemaApi 初始化完成 |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明                                            |
+| -------- | -------- | ----------------------------------------------- |
+| reload   | -        | 重新加载，调用 api，刷新数据域数据              |
+| rebuild  | -        | 重新构建，调用 schemaApi，重新构建容器内 Schema |
+| setValue | -        | 更新数据域数据                                  |

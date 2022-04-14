@@ -86,6 +86,7 @@ import InputTreeEventSchema from './EventAction/InputTreeEvent';
 import treeSelectEventSchema from './EventAction/treeSelectEvent';
 import FormEventActionSchema from './EventAction/FormEvent';
 import TransferEventSchema from './EventAction/TransferEvent';
+import ServiceEventSchema from './EventAction/ServiceEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -607,6 +608,11 @@ export const examples = [
                 label: '穿梭框类组件',
                 path: 'examples/event/transfer',
                 component: makeSchemaRenderer(TransferEventSchema)
+              },
+              {
+                label: 'Service组件',
+                path: 'examples/event/service',
+                component: makeSchemaRenderer(ServiceEventSchema)
               }
             ]
           },

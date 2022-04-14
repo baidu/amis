@@ -27,7 +27,7 @@ export default {
       onEvent: {
         click: {
           actions: [
-           {
+            {
               actionType: 'reset',
               componentId: 'form-action-receiver'
             }
@@ -86,7 +86,7 @@ export default {
     {
       name: 'form-action-receiver',
       id: 'form-action-receiver',
-      title: "表单：用于接收上面按钮的动作，派发form本身的事件",
+      title: '表单：用于接收上面按钮的动作，派发form本身的事件',
       type: 'form',
       debug: true,
       api: '/api/mock2/form/saveForm',
@@ -298,7 +298,7 @@ export default {
       type: 'form',
       debug: true,
       api: '/api/mock2/form/saveForm',
-      title: "表单：派发formItem的校验事件",
+      title: '表单：派发formItem的校验事件',
       data: {
         data1: '初始化数据1',
         data2: '初始化数据2'
