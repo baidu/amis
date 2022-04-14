@@ -22,7 +22,11 @@ import Html from '../../components/Html';
 import {filter} from '../../utils/tpl';
 import {Icon} from '../../components/icons';
 import {isEmpty} from '../../utils/helper';
-import {dataMapping} from '../../utils/tpl-builtin';
+import {
+  dataMapping,
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 import {SchemaCollection, SchemaTpl} from '../../Schema';
 import {CRUDSchema} from '../CRUD';
 import {isApiOutdated, isEffectiveApi} from '../../utils/api';
@@ -162,13 +166,18 @@ export default class PickerControl extends React.PureComponent<
       op: 'loadOptions'
     });
 
-    isEffectiveApi(source, ctx) &&
+    if (isPureVariable(source)) {
+      formItem.setOptions(resolveVariableAndFilter(source, data, '| raw'));
+    } else if (isEffectiveApi(source, ctx)) {
       formItem.loadOptions(source, ctx, {
         autoAppend: true
       });
+    }
   }
 
   buildSchema(props: PickerProps) {
+    const isScopeData = isPureVariable(props.source);
+
     return {
       checkOnItemClick: true,
       ...props.pickerSchema,
@@ -176,7 +185,8 @@ export default class PickerControl extends React.PureComponent<
       type: 'crud',
       pickerMode: true,
       syncLocation: false,
-      api: props.source,
+      api: isScopeData ? null : props.source,
+      source: isScopeData ? props.source : null,
       keepItemSelectionOnPageChange: true,
       valueField: props.valueField,
       labelField: props.labelField,
