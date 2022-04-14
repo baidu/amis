@@ -542,7 +542,15 @@ order: 9
             {
               actionType: 'url',
               url: 'http://www.baidu.com',
-              blank: true
+              blank: true,
+              params: {
+                name: 'jack',
+                jon: 'player'
+              },
+              args: {
+                name: '${myname}',
+                age: 18
+              }
             }
           ]
         }

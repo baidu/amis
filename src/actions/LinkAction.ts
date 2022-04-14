@@ -1,3 +1,4 @@
+import {buildApi} from '../utils/api';
 import {isEmpty, isObject, qsstringify} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {filter} from '../utils/tpl';
@@ -10,7 +11,15 @@ import {
 
 export interface ILinkAction extends ListenerAction {
   link: string;
+  url?: never;
+  params?: {
+    [key: string]: string;
+  };
+}
+
+export interface IUrlAction extends ListenerAction {
   url: string;
+  link?: never;
   params?: {
     [key: string]: string;
   };
@@ -25,7 +34,7 @@ export interface ILinkAction extends ListenerAction {
  */
 export class LinkAction implements Action {
   async run(
-    action: ILinkAction,
+    action: ILinkAction | IUrlAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -33,21 +42,19 @@ export class LinkAction implements Action {
       throw new Error('env.jumpTo is required!');
     }
 
-    let url = (action.url || action.link) as string;
-
-    // 处理参数
-    if (!isEmpty(action.params)) {
-      if (!isObject(action.params)) {
-        throw new Error('action.params must be an object');
+    // 通过buildApi兼容较复杂的url情况
+    let urlObj = buildApi(
+      {
+        url: (action.url || action.link) as string,
+        method: 'get'
+      },
+      {...action.params, ...action.args},
+      {
+        autoAppend: true
       }
-      url = `${/\?/.test(url) ? '&' : '?'}${qsstringify(action.params)}`;
-    }
-
-    renderer.props.env.jumpTo(
-      filter(url, action.args, '| raw'),
-      action,
-      action.args
     );
+
+    renderer.props.env.jumpTo(urlObj.url, action, action.args);
   }
 }
 
