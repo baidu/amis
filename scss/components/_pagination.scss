@@ -5,7 +5,8 @@
   border-radius: px2rem(4px);
 
   > li {
-    display: inline;
+    display: inline-flex;
+    cursor: pointer;
 
     > a,
     > span {
@@ -32,6 +33,14 @@
     > span:focus {
       background: transparent;
       color: var(--primary);
+    }
+  }
+  .ellipsis {
+    cursor: unset;
+    > a {
+      cursor: unset;
+      position: relative;
+      top: px2rem(-4px);
     }
   }
 
@@ -64,19 +73,28 @@
       border-radius: var(--borderRadius);
     }
   }
-
+  &-simple {
+    >ul >li {
+      &:hover,
+      &:focus {
+        outline: none;
+      }
+      &.is-active > a {
+        border: none;
+        &:hover,
+        &:focus {
+          border: none;
+        }
+      }
+    }
+  }
   &-prev {
     > span {
       cursor: pointer;
     }
   }
 
-  &-ellipsis {
-    > a > span {
-      position: relative;
-      top: px2rem(-4px);
-    }
-  }
+
 
   &-next {
     > span {
@@ -84,27 +102,88 @@
     }
   }
 
+  &-total {
+    display: inline-block;
+    color: var(--Pagination-light-color);
+  }
+
   &-inputGroup {
     display: inline-flex;
     flex-wrap: nowrap;
     align-items: center;
+    height: var(--Pagination-height);
 
-    input {
-      width: px2rem(56px);
-      height: var(--Pagination-height);
-      border: var(--borderWidth) solid var(--borderColor);
-      border-radius: var(--borderRadius);
-      padding: var(--gap-xs) px2rem(10px);
-      margin: 0 px2rem(10px);
-      text-align: center;
-
-      &:focus {
-        width: auto;
+      .go-left {
+        color: var(--Pagination-light-color);
       }
-      &:focus,
-      &:hover {
-        outline: none;
-        border: var(--borderWidth) solid var(--primary);
+      input {
+        min-width: px2rem(50px);
+        width: px2rem(50px);
+        height: var(--Pagination-height);
+        line-height: var(--Pagination-height);
+        // height: var(--Pagination-height);
+        border: none;
+        border: var(--borderWidth) solid var(--borderColor);
+        border-radius: var(--borderRadius) 0 0 var(--borderRadius);
+        padding: var(--Pagination-padding);
+        margin-left: px2rem(10px);
+        text-align: center;
+
+        &:focus,
+        &:hover {
+          outline: none;
+          // border: var(--borderWidth) solid var(--primary);
+          border-color: var(--primary);
+        }
+      }
+      .go-right {
+        display: inline-block;
+        width: px2rem(32px);
+        cursor: pointer;
+        text-align: center;
+        height: var(--Pagination-height);
+        line-height: var(--Pagination-height);
+        border: var(--borderWidth) solid var(--borderColor);
+        border-left: none;
+        border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
+        font-size: var(--fontSizeSm);
+        &:hover {
+          color: var(--primary);
+          border-color: var(--primary);
+          border-left: var(--borderWidth) solid var(--primary);
+        }
+      }
+  }
+}
+
+.#{$ns}Pagination-wrap {
+  .#{$ns}Pagination-item {
+    margin-left: px2rem(10px);
+    &:nth-child(1) {
+      margin-left: 0;
+    }
+  }
+  &.disabled {
+    background-color: #fff;
+    .#{$ns}Pagination {
+      > li {
+        > a,
+        > span {
+          color: var(--Pagination-onDisabled-color);
+          cursor: not-allowed;
+        }
+
+        &.is-active {
+          > a,
+          > span,
+          > a:hover,
+          > span:hover,
+          > a:focus,
+          > span:focus {
+            background-color: var(--Pagination-onDisabled-backgroundColor);
+            border-color: var(--Pagination-onDisabled-color);
+          }
+        }
       }
     }
   }
