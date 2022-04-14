@@ -151,7 +151,7 @@ order: 9
                 title: '模态弹窗',
                 id: 'dialog_001',
                 data: {
-                   myage: '22' 
+                   myage: '22'
                 },
                 body: [
                   {
@@ -512,11 +512,11 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型     | 默认值    | 说明           |
-| ---------- | -------- | --------- | -------------- |
+| 属性名     | 类型     | 默认值          | 说明           |
+| ---------- | -------- | --------------- | -------------- |
 | actionType | `string` | `confirmDialog` | 打开确认对话框 |
-| title      | `string` | -         | 对话框标题     |
-| msg        | `string` | -         | 对话框提示内容 |
+| title      | `string` | -               | 对话框标题     |
+| msg        | `string` | -               | 对话框提示内容 |
 
 ### 跳转链接
 
@@ -542,7 +542,15 @@ order: 9
             {
               actionType: 'url',
               url: 'http://www.baidu.com',
-              blank: true
+              blank: true,
+              params: {
+                name: 'jack',
+                jon: 'player'
+              },
+              args: {
+                name: '${myname}',
+                age: 18
+              }
             }
           ]
         }

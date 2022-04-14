@@ -46,9 +46,12 @@ export class LinkAction implements Action {
     let urlObj = buildApi(
       {
         url: (action.url || action.link) as string,
-        data: action.params
+        method: 'get'
       },
-      action.args
+      {...action.params, ...action.args},
+      {
+        autoAppend: true
+      }
     );
 
     renderer.props.env.jumpTo(urlObj.url, action, action.args);
