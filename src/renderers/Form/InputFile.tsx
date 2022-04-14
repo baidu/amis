@@ -1076,7 +1076,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         partList: Array<any> | undefined,
         state: ObjectState
       ) {
-        console.log('---partList', partList);
         onProgress(endProgress);
         const endApi = buildApi(
           config.finishChunkApi!,
