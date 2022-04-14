@@ -112,11 +112,12 @@ export function value2array(
     }
 
     return value
-      .map((value: any) =>
-        expandValue(value, props.options, props.valueField) ||
-        (isObject(value) && value.hasOwnProperty(props.valueField || 'value'))
-          ? value
-          : undefined
+      .map(
+        (value: any) =>
+          expandValue(value, props.options, props.valueField) ||
+          (isObject(value) && value.hasOwnProperty(props.valueField || 'value')
+            ? value
+            : undefined)
       )
       .filter((item: any) => item) as Array<Option>;
   } else if (Array.isArray(value)) {
