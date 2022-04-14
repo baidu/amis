@@ -6,12 +6,28 @@ import {
   registerAction
 } from './Action';
 
+export interface IToastAction extends ListenerAction {
+  msg: string;
+  msgType?: string;
+  position?:
+    | 'top-right'
+    | 'top-center'
+    | 'top-left'
+    | 'bottom-center'
+    | 'bottom-left'
+    | 'bottom-right'
+    | 'center';
+  closeButton?: boolean;
+  showIcon?: boolean;
+  timeout?: number;
+}
+
 /**
  * 全局toast
  */
 export class ToastAction implements Action {
   async run(
-    action: ListenerAction,
+    action: IToastAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {

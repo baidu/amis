@@ -537,11 +537,11 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 **属性表**
 
-| 属性名        | 类型                       | 默认值   | 说明                                          |
-| ------------- | -------------------------- | -------- | --------------------------------------------- |
-| actionType    | `string`                   | `dialog` | 点击后显示一个弹出框                          |
-| dialog        | `string` 或 `DialogObject` | -        | 指定弹框内容，格式可参考[Dialog](./dialog)    |
-| nextCondition | `boolean`                  | -        | 可以用来设置下一条数据的条件，默认为 `true`。 |
+| 属性名        | 类型                     | 默认值   | 说明                                          |
+| ------------- | ------------------------ | -------- | --------------------------------------------- |
+| actionType    | `string`                 | `dialog` | 点击后显示一个弹出框                          |
+| dialog        | `string` 或 `SchemaNode` | -        | 指定弹框内容，格式可参考[Dialog](./dialog)    |
+| nextCondition | `boolean`                | -        | 可以用来设置下一条数据的条件，默认为 `true`。 |
 
 ## 抽屉
 

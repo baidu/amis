@@ -1,3 +1,4 @@
+import {SchemaNode} from '../types';
 import {RendererEvent} from '../utils/renderer-event';
 import {
   Action,
@@ -5,6 +6,19 @@ import {
   ListenerContext,
   registerAction
 } from './Action';
+
+export interface IAlertAction extends ListenerAction {
+  msg: string;
+}
+
+export interface IConfirmAction extends ListenerAction {
+  title: string;
+  msg: string;
+}
+
+export interface IDialogAction extends ListenerAction {
+  dialog: SchemaNode;
+}
 
 /**
  * 打开弹窗动作
@@ -15,7 +29,7 @@ import {
  */
 export class DialogAction implements Action {
   async run(
-    action: ListenerAction,
+    action: IDialogAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -41,10 +55,14 @@ export class CloseDialogAction implements Action {
       event.context.scoped.closeById(action.componentId);
     } else {
       // 关闭当前弹窗
-      renderer.props.onAction?.(event, {
-        ...action,
-        actionType: 'close'
-      }, action.args);
+      renderer.props.onAction?.(
+        event,
+        {
+          ...action,
+          actionType: 'close'
+        },
+        action.args
+      );
     }
   }
 }
@@ -54,7 +72,7 @@ export class CloseDialogAction implements Action {
  */
 export class AlertAction implements Action {
   async run(
-    action: ListenerAction,
+    action: IAlertAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -67,7 +85,7 @@ export class AlertAction implements Action {
  */
 export class ConfirmAction implements Action {
   async run(
-    action: ListenerAction,
+    action: IConfirmAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
