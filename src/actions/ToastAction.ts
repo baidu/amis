@@ -5,6 +5,7 @@ import {
   ListenerContext,
   registerAction
 } from './Action';
+import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 export interface IToastAction extends ListenerAction {
   msg: string;
@@ -31,7 +32,11 @@ export class ToastAction implements Action {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    event.context.env.notify?.(action.msgType || 'info', action.msg, action);
+    event.context.env.notify?.(
+      action.msgType || 'info',
+      resolveVariableAndFilter(action.msg, event?.data, '| raw'),
+      action
+    );
   }
 }
 
