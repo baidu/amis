@@ -587,10 +587,10 @@ ws.on('connection', function connection(ws) {
 
 ## 事件表
 
-| 事件名称          | 事件参数               | 说明                 |
-| ----------------- | ---------------------- | -------------------- |
-| fetchInited       | `data: any` 数据域数据 | api 初始化完成       |
-| fetchSchemaInited | `data: any` 数据域数据 | schemaApi 初始化完成 |
+| 事件名称          | 事件参数             | 说明                 |
+| ----------------- | -------------------- | -------------------- |
+| fetchInited       | api 初始化数据       | api 初始化完成       |
+| fetchSchemaInited | schemaApi 初始化数据 | schemaApi 初始化完成 |
 
 ## 动作表
 
