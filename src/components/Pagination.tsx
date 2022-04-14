@@ -40,30 +40,30 @@ export interface BasicPaginationProps {
   /**
    * 总条数
    */
-  total: number;
+  total?: number;
 
   /**
    * 最后一页，总页数（如果传入了total，会重新计算lastPage）
    */
-  lastPage: number;
+  lastPage?: number;
 
   /**
    * 每页显示条数
    * @default 10
    */
-  perPage: number;
+  perPage?: number;
 
   /**
    * 是否展示分页切换，也同时受layout控制
    * @default false
    */
-  showPerPage: boolean;
+  showPerPage?: boolean;
 
   /**
    * 指定每页可以显示多少条
    * @default [10, 20, 50, 100]
    */
-  perPageAvailable: Array<number>;
+  perPageAvailable?: Array<number>;
 
   /**
    * 是否显示快速跳转输入框
@@ -78,8 +78,8 @@ export interface BasicPaginationProps {
   disabled?: boolean;
 
 
-  hasNext: boolean;
-  onPageChange: (page: number, perPage?: number) => void;
+  hasNext?: boolean;
+  onPageChange?: (page: number, perPage?: number) => void;
 }
 export interface PaginationProps extends BasicPaginationProps, ThemeProps, LocaleProps {
 }
@@ -197,7 +197,7 @@ export class Pagination extends React.Component<
     const {total, perPage, lastPage, activePage, hasNext} = this.props;
     // 输入total，重新计算lastPage
     if (total || total === 0) {
-      return Math.ceil(total / perPage);
+      return Math.ceil(total / (perPage as number));
     }
     if (lastPage) {
       return Number(lastPage);
@@ -393,7 +393,7 @@ export class Pagination extends React.Component<
             }}
             >GO</span>
       </div>;
-    const selection = perPageAvailable.filter(v => !!v).map(v => ({label: __('Pagination.select', {count: v}), value: v}));
+    const selection = (perPageAvailable as Array<number>).filter(v => !!v).map(v => ({label: __('Pagination.select', {count: v}), value: v}));
     const perPageEle =
             <Select
               key="perpage"

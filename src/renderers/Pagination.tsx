@@ -21,7 +21,7 @@ export interface PaginationSchema extends BaseSchema {
    *
    * @default 5
    */
-  maxButtons: number;
+  maxButtons?: number;
 
   /**
    * 模式，默认normal，如果只想简单显示可以配置成 `simple`。
@@ -37,30 +37,30 @@ export interface PaginationSchema extends BaseSchema {
   /**
    * 总条数
    */
-  total: number;
+  total?: number;
 
   /**
    * 最后一页，总页数（如果传入了total，会重新计算lastPage）
    */
-  lastPage: number;
+  lastPage?: number;
 
   /**
    * 每页显示条数
    * @default 10
    */
-  perPage: number;
+  perPage?: number;
 
   /**
    * 是否展示分页切换，也同时受layout控制
    * @default false
    */
-  showPerPage: boolean;
+  showPerPage?: boolean;
 
   /**
    * 指定每页可以显示多少条
    * @default [10, 20, 50, 100]
    */
-  perPageAvailable: Array<number>;
+  perPageAvailable?: Array<number>;
 
   /**
    * 是否显示快速跳转输入框
@@ -75,7 +75,7 @@ export interface PaginationSchema extends BaseSchema {
   disabled?: boolean;
 
 
-  hasNext: boolean;
+  hasNext?: boolean;
 }
 
 export interface PaginationProps
