@@ -159,7 +159,7 @@ order: 59
 
 ## 选中父节点是否自动选中子节点
 
-默认选中父节点会自动选中子节点，可以设置`"cascade": true`，不自动选中子节点
+`autoCheckChildren`默认为true，选中父节点会自动选中子节点，可以设置`"autoCheckChildren": false`，不自动选中子节点
 
 ```schema: scope="body"
 {
@@ -209,6 +209,92 @@ order: 59
       "name": "tree2",
       "label": "不自动选中子节点",
       "multiple": true,
+      "autoCheckChildren": false,
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b",
+          "children": [
+            {
+              "label": "B-1",
+              "value": "b-1"
+            },
+            {
+              "label": "B-2",
+              "value": "b-2"
+            },
+            {
+              "label": "B-3",
+              "value": "b-3"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 选中父节点自动选中子节点，数据是否包含父子节点的值
+`cascade`默认为false，子节点禁止反选，值不包含子节点值，配置`"cascade": true`，子节点可以反选，值包含父子节点值
+
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree1",
+      "label": "默认子节点禁止反选，值不包含子节点值",
+      "multiple": true,
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b",
+          "children": [
+            {
+              "label": "B-1",
+              "value": "b-1"
+            },
+            {
+              "label": "B-2",
+              "value": "b-2"
+            },
+            {
+              "label": "B-3",
+              "value": "b-3"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    },
+    {
+        "type": "divider"
+    },
+     {
+      "type": "input-tree",
+      "name": "tree2",
+      "label": "子节点可以反选，值包含父子节点值",
+      "multiple": true,
       "cascade": true,
       "options": [
         {
@@ -243,9 +329,7 @@ order: 59
 }
 ```
 
-## 选中父节点，值是否包含子节点
-
-默认选中父节点，是不会带上子节点的值，想要自动带上子节点的值，那么配置`"withChildren": true`
+`withChildren`默认为false，子节点禁止反选，值包含父子节点值，配置`withChildren": true`，子节点禁止反选，值包含父子节点值
 
 ```schema: scope="body"
 {
@@ -256,7 +340,7 @@ order: 59
     {
       "type": "input-tree",
       "name": "tree1",
-      "label": "默认不自动带上子节点的值",
+      "label": "默认不包含子节点的值",
       "multiple": true,
       "options": [
         {
@@ -340,7 +424,7 @@ order: 59
     {
       "type": "input-tree",
       "name": "tree1",
-      "label": "默认不自动带上子节点的值",
+      "label": "默认不包含子节点的值",
       "multiple": true,
       "options": [
         {
@@ -825,9 +909,10 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | showRadio              | `boolean`                                    | `false`          | 是否显示单选按钮，`multiple` 为 `false` 是有效。                                                                    |
 | initiallyOpen          | `boolean`                                    | `true`           | 设置是否默认展开所有层级。                                                                                          |
 | unfoldedLevel          | `number`                                     | `0`              | 设置默认展开的级数，只有`initiallyOpen`不是`true`时生效。                                                           |
-| cascade                | `boolean`                                    | `false`          | 当选中父节点时不自动选择子节点。                                                                                    |
-| withChildren           | `boolean`                                    | `false`          | 选中父节点时，值里面将包含子节点的值，否则只会保留父节点的值。                                                      |
-| onlyChildren           | `boolean`                                    | `false`          | 多选时，选中父节点时，是否只将其子节点加入到值中。                                                                  |
+| autoCheckChildren      | `boolean`                                    | `true`           | 当选中父节点时级联选择子节点。                                                                                    |
+| cascade                | `boolean`                                    | `false`          | autoCheckChildren为true时生效；默认行为：子节点禁用，值只包含父节点值；设置为true时，子节点可反选，值包含父子节点值。          |
+| withChildren           | `boolean`                                    | `false`          | cascade为false时生效，选中父节点时，值里面将包含父子节点的值，否则只会保留父节点的值。                                                
+| onlyChildren           | `boolean`                                    | `false`          | autoCheckChildren为true时生效，不受cascade影响；onlyChildren为true，ui行为级联选中子节点，子节点可反选，值只包含子节点的值。                                                                  |
 | rootCreatable          | `boolean`                                    | `false`          | 是否可以创建顶级节点                                                                                                |
 | rootCreateTip          | `string`                                     | `"添加一级节点"` | 创建顶级节点的悬浮提示                                                                                              |
 | minLength              | `number`                                     |                  | 最少选中的节点数                                                                                                    |
