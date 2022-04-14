@@ -40,7 +40,8 @@ export class LinkAction implements Action {
       if (!isObject(action.params)) {
         throw new Error('action.params must be an object');
       }
-      url = `${/\?/.test(url) ? '&' : '?'}${qsstringify(action.params)}`;
+
+      url += `${/\?/.test(url) ? '&' : '?'}${qsstringify(action.params)}`;
     }
 
     renderer.props.env.jumpTo(
