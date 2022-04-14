@@ -209,7 +209,7 @@ order: 59
       "name": "tree2",
       "label": "不自动选中子节点",
       "multiple": true,
-      "onlyChildren": true,
+      "autoCheckChildren": false,
       "options": [
         {
           "label": "A",
@@ -258,7 +258,6 @@ order: 59
       "name": "tree1",
       "label": "默认子节点禁止反选，值不包含子节点值",
       "multiple": true,
-      "onlyChildren": true,
       "options": [
         {
           "label": "A",
