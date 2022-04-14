@@ -33,19 +33,18 @@ export class LinkAction implements Action {
       throw new Error('env.jumpTo is required!');
     }
 
-    let url = (action.url || action.link) as string;
+    let url = filter((action.url || action.link) as string, action.args, '| raw');
 
     // 处理参数
     if (!isEmpty(action.params)) {
       if (!isObject(action.params)) {
         throw new Error('action.params must be an object');
       }
-
       url += `${/\?/.test(url) ? '&' : '?'}${qsstringify(action.params)}`;
     }
 
     renderer.props.env.jumpTo(
-      filter(url, action.args, '| raw'),
+      url,
       action,
       action.args
     );
