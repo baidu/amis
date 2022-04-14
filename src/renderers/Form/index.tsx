@@ -657,7 +657,10 @@ export default class Form extends React.Component<FormProps, object> {
       };
     }
 
-    persistData && store.getLocalPersistData();
+    if (persistData) {
+      store.getLocalPersistData();
+      data = cloneObject(store.data);
+    }
 
     // 派发init事件，参数为初始化数据
     const dispatcher = dispatchEvent(
