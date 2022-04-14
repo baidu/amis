@@ -658,7 +658,7 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     persistData && store.getLocalPersistData();
-    debugger;
+
     // 派发init事件，参数为初始化数据
     const dispatcher = dispatchEvent(
       'inited',
