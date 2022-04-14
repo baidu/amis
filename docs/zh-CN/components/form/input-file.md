@@ -105,6 +105,8 @@ order: 21
 - `chunkApi` 用来接收每个分块上传
 - `finishChunkApi` 用来收尾分块上传
 
+还可以通过 `concurrency` 控制并行数量，默认是 3
+
 ### startChunkApi
 
 用来做分块前的准备工作，一个文件只会调用一次。如果出错了，后续的分块上传就会中断。
@@ -293,7 +295,7 @@ order: 21
 | maxSize          | `number`                       |                                                                                                            | 默认没有限制，当设置后，文件大小大于此值将不允许上传。单位为`B`                                                                      |
 | maxLength        | `number`                       |                                                                                                            | 默认没有限制，当设置后，一次只允许上传指定数量文件。                                                                                 |
 | multiple         | `boolean`                      | `false`                                                                                                    | 是否多选。                                                                                                                           |
-| drag             | `boolean`                      | `false`                                              | 是否为拖拽上传 | |
+| drag             | `boolean`                      | `false`                                                                                                    | 是否为拖拽上传                                                                                                                       |
 | joinValues       | `boolean`                      | `true`                                                                                                     | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                                           |
 | extractValue     | `boolean`                      | `false`                                                                                                    | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                       |
 | delimiter        | `string`                       | `,`                                                                                                        | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                                            |
@@ -311,6 +313,7 @@ order: 21
 | startChunkApi    | [API](../../../docs/types/api) |                                                                                                            | startChunkApi                                                                                                                        |
 | chunkApi         | [API](../../../docs/types/api) |                                                                                                            | chunkApi                                                                                                                             |
 | finishChunkApi   | [API](../../../docs/types/api) |                                                                                                            | finishChunkApi                                                                                                                       |
+| concurrency      | `number`                       |                                                                                                            | 分块上传时并行个数                                                                                                                   |
 
 ## 事件表
 
@@ -329,6 +332,7 @@ order: 21
 | value  | `string` | 上传成功后返回的 url                               |
 | state  | `string` | 文件当前状态,值可为 `pending` `uploaded` `invalid` |
 | error  | `string` | 错误信息                                           |
+
 ## 动作表
 
 | 动作名称 | 动作配置 | 说明 |
