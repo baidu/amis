@@ -867,10 +867,7 @@ export class ActionRenderer extends React.Component<
     const {env, onAction, data, ignoreConfirm, dispatchEvent} = this.props;
 
     // 触发渲染器事件
-    const rendererEvent = await dispatchEvent(
-      e as React.MouseEvent<any>,
-      createObject(data, action)
-    );
+    const rendererEvent = await dispatchEvent(e as React.MouseEvent<any>, data);
 
     // 阻止原有动作执行
     if (rendererEvent?.prevented) {
