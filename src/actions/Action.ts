@@ -16,16 +16,13 @@ export enum LoopStatus {
 // 监听器动作定义
 export interface ListenerAction {
   actionType: 'broadcast' | LogicActionType | 'custom' | string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
-  eventName?: string; // 事件名称，actionType: broadcast
   description?: string; // 事件描述，actionType: broadcast
   componentId?: string; // 组件ID，用于直接执行指定组件的动作
   args?: any; // 参数，可以配置数据映射
   outputVar?: any; // 输出数据变量名
   preventDefault?: boolean; // 阻止原有组件的动作行为
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
-  execOn?: string; // 执行条件
-  script?: string; // 自定义JS，actionType: custom
-  [propName: string]: any; // 扩展各种Action
+  expression?: string; // 执行条件
 }
 
 export interface LogicAction extends ListenerAction {
@@ -111,7 +108,10 @@ export const runAction = async (
     event
   });
 
-  if (actionConfig.execOn && !evalExpression(actionConfig.execOn, mergeData)) {
+  if (
+    actionConfig.expression &&
+    !evalExpression(actionConfig.expression, mergeData)
+  ) {
     return;
   }
 

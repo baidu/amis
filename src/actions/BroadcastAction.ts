@@ -7,6 +7,10 @@ import {
   registerAction
 } from './Action';
 
+export interface IBroadcastAction extends ListenerAction {
+  eventName: string; // 事件名称，actionType: broadcast
+}
+
 /**
  * broadcast
  *
@@ -16,7 +20,7 @@ import {
  */
 export class BroadcastAction implements Action {
   async run(
-    action: ListenerAction,
+    action: IBroadcastAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {

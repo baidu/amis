@@ -62,7 +62,7 @@ export default {
         }
       ],
       data: {
-        execOn: 'kkk',
+        expression: 'kkk',
         param: '1'
       },
       onEvent: {
@@ -74,7 +74,7 @@ export default {
                 age: '${event.data.age}'
               },
               preventDefault: true, // 阻止按钮的弹窗
-              execOn: 'execOn === "kkk"' // or this.xxx
+              expression: 'expression === "kkk"' // or this.xxx
             }
           ]
         }
@@ -97,7 +97,7 @@ export default {
         }
       ],
       data: {
-        execOn: 'kkk',
+        expression: 'kkk',
         param: '1'
       },
       onEvent: {
@@ -110,7 +110,7 @@ export default {
               },
               preventDefault: false, // 阻止按钮的弹窗
               stopPropagation: true,
-              execOn: 'execOn === "kkk"' // or this.xxx
+              expression: 'expression === "kkk"' // or this.xxx
             },
             {
               actionType: 'ajax',
@@ -118,7 +118,7 @@ export default {
                 param: '2'
               },
               api: 'https://api/form/ajax?param=${param}', // param=2，如果想要拿到当前域的数据需要通过args数据映射
-              execOn: 'execOn === "kkk"',
+              expression: 'expression === "kkk"',
               preventDefault: false,
               stopPropagation: false
             }

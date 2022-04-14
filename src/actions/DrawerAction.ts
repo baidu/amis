@@ -1,3 +1,4 @@
+import {SchemaNode} from '../types';
 import {RendererEvent} from '../utils/renderer-event';
 import {
   Action,
@@ -5,6 +6,10 @@ import {
   ListenerContext,
   registerAction
 } from './Action';
+
+export interface IDrawerAction extends ListenerAction {
+  drawer: SchemaNode;
+}
 
 /**
  * 打开抽屉动作
@@ -15,7 +20,7 @@ import {
  */
 export class DrawerAction implements Action {
   async run(
-    action: ListenerAction,
+    action: IDrawerAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -41,10 +46,14 @@ export class CloseDrawerAction implements Action {
       event.context.scoped.closeById(action.componentId);
     } else {
       // 关闭当前抽屉
-      renderer.props.onAction?.(event, {
-        ...action,
-        actionType: 'close'
-      }, action.args);
+      renderer.props.onAction?.(
+        event,
+        {
+          ...action,
+          actionType: 'close'
+        },
+        action.args
+      );
     }
   }
 }

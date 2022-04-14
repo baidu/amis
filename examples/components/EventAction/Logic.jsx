@@ -16,7 +16,7 @@ export default {
         }
       ],
       branchCont: 18,
-      execOn: 'kkk'
+      expression: 'kkk'
     },
     body: [
       {
@@ -32,7 +32,7 @@ export default {
                   param: '0'
                 },
                 api: 'https://api/form/ajax?param=${param}', // param=2，如果想要拿到当前域的数据需要通过args数据映射
-                execOn: 'execOn === "kkk"'
+                expression: 'expression === "kkk"'
               },
               {
                 actionType: 'ajax',
@@ -40,7 +40,7 @@ export default {
                   param: '1'
                 },
                 api: 'https://api/form/ajax?param=${param}', // param=2，如果想要拿到当前域的数据需要通过args数据映射
-                execOn: 'execOn === "jjj"'
+                expression: 'expression === "jjj"'
               },
               {
                 actionType: 'ajax',
@@ -48,7 +48,7 @@ export default {
                   param: '2'
                 },
                 api: 'https://api/form/ajax?param=${param}', // param=2，如果想要拿到当前域的数据需要通过args数据映射
-                execOn: 'execOn === "kkk"'
+                expression: 'expression === "kkk"'
               }
             ]
           }
