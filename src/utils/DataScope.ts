@@ -25,11 +25,34 @@ export class DataScope {
     this.id = id;
   }
 
-  addChild(id: string, schema?: JSONSchema): DataScope {}
+  addChild(id: string, schema?: JSONSchema): DataScope {
+    const child = new DataScope(
+      schema || {
+        type: 'object',
+        properties: {}
+      },
+      id
+    );
 
-  removeChild(idOrScope: string | DataScope) {}
+    this.children.push(child);
+    return child;
+  }
 
-  extendsSchema(schema: Partial<JSONSchema>) {}
+  removeChild(idOrScope: string | DataScope) {
+    const idx = this.children.findIndex(item =>
+      typeof idOrScope === 'string'
+        ? idOrScope === item.id
+        : idOrScope === idOrScope
+    );
+    if (~idx) {
+      this.children.splice(idx, 1);
+    }
+  }
+
+  extendsSchema(schema: Partial<JSONSchema>) {
+    Object.assign(this.schema, schema);
+    return this;
+  }
 
   contains(scope: DataScope) {
     let from: DataScope | undefined = scope;
