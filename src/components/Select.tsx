@@ -883,7 +883,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           ) : null}
 
           {renderMenu ? (
-            checkAll || multiple ? (
+            multiple ? (
               <Checkbox
                 checked={checked}
                 trueValue={item.value}
@@ -913,7 +913,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 index
               })
             )
-          ) : checkAll || multiple ? (
+          ) : multiple ? (
             <Checkbox
               checked={checked}
               trueValue={item.value}
@@ -1101,7 +1101,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         isOpen={this.state.isOpen}
         inputValue={inputValue}
         onChange={
-          /*展示 Checkbox 的时候，会出发多次 onChange 原因待查*/ multiple ||
+          /*展示 Checkbox 的时候，会出发多次 onChange 原因待查*/ multiple &&
           checkAll
             ? noop
             : this.handleChange
