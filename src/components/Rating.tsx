@@ -9,6 +9,9 @@ import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
 
 import {isObject} from '../utils/helper';
+import {
+  validations
+} from '../utils/validations';
 import {Icon} from './icons';
 
 export type textPositionType = 'left' | 'right';
@@ -113,7 +116,7 @@ export class Rating extends React.Component<RatingProps, any> {
 
   sortKeys(map: {[propName: number]: string}) {
     // 需验证 key 是否是数字，需要过滤掉非数字key，如 $$id
-    return Object.keys(map).filter(item => !isNaN(Number(item))).sort(
+    return Object.keys(map).filter(item => validations.isNumeric({}, item)).sort(
       (a: number | string, b: number | string) => Number(a) - Number(b)
     );
   }
