@@ -883,7 +883,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           ) : null}
 
           {renderMenu ? (
-            checkAll || multiple ? (
+            multiple ? (
               <Checkbox
                 checked={checked}
                 trueValue={item.value}
