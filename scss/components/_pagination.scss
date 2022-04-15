@@ -157,6 +157,8 @@
 }
 
 .#{$ns}Pagination-wrap {
+  line-height: px2rem(30px);
+
   .#{$ns}Pagination-item {
     margin-left: px2rem(10px);
     &:nth-child(1) {
