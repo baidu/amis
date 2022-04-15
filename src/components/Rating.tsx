@@ -138,9 +138,12 @@ export class Rating extends React.Component<RatingProps, any> {
       const showKey = keys.filter(item => Number(item) < value).length;
 
       const showColor = keys[showKey] !== undefined && colors[keys[showKey]];
+      
+      // 取最大 key 的颜色，避免如下情况：colors 只设置了 1-4，value 为 5，导致取不到颜色而无法显示
+      const lastColor = keys.length && colors[keys[keys.length - 1]];
 
       this.setState({
-        showColor: showColor || ''
+        showColor: showColor || lastColor || ''
       });
     } else if (colors && typeof colors === 'string') {
       this.setState({
