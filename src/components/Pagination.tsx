@@ -291,7 +291,7 @@ export class Pagination extends React.Component<
     layoutList = layoutList.map(v => v.trim());
 
     // 兼容历史showPageInput
-    if (showPageInput && !layoutList.includes('go')) {
+    if ((showPageInput || lastPage > 9) && !layoutList.includes('go')) {
       layoutList.push('go');
     }
     if (showPerPage && !layoutList.includes('perPage')) {
