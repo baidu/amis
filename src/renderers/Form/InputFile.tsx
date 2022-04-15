@@ -1356,8 +1356,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   <Button
                     level="default"
                     disabled={disabled}
-                    className={cx('FileControl-selectBtn', {
-                      btnClassName,
+                    className={cx('FileControl-selectBtn', btnClassName, {
                       'is-disabled':
                         multiple && !!maxLength && files.length >= maxLength
                     })}
