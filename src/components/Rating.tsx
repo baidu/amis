@@ -112,7 +112,8 @@ export class Rating extends React.Component<RatingProps, any> {
   }
 
   sortKeys(map: {[propName: number]: string}) {
-    return Object.keys(map).sort(
+    // 需验证 key 是否是数字，需要过滤掉非数字key，如 $$id
+    return Object.keys(map).filter(item => !isNaN(Number(item))).sort(
       (a: number | string, b: number | string) => Number(a) - Number(b)
     );
   }
@@ -137,10 +138,10 @@ export class Rating extends React.Component<RatingProps, any> {
       const showKey = keys.filter(item => Number(item) < value).length;
 
       const showColor = keys[showKey] !== undefined && colors[keys[showKey]];
-      showColor &&
-        this.setState({
-          showColor
-        });
+
+      this.setState({
+        showColor: showColor || ''
+      });
     } else if (colors && typeof colors === 'string') {
       this.setState({
         showColor: colors
@@ -153,10 +154,10 @@ export class Rating extends React.Component<RatingProps, any> {
       const showText =
         keys[showKey] !== undefined &&
         texts[keys[showKey] as keyof typeof texts];
-      showText &&
-        this.setState({
-          showText
-        });
+
+      this.setState({
+        showText: showText || ''
+      });
     }
   }
 
