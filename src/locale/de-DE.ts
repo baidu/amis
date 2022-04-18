@@ -300,5 +300,10 @@ register('de-DE', {
   'pullRefresh.loosingText': 'Zum Aktualisieren freigeben...',
   'pullRefresh.loadingText': 'Laden...',
   'pullRefresh.successText': 'Laden erfolgreich',
-  'Picker.placeholder': 'Klicken Sie rechts auf das Symbol'
+  'Picker.placeholder': 'Klicken Sie rechts auf das Symbol',
+  'UserSelect.edit': 'bearbeiten',
+  'UserSelect.save': 'Konservierung',
+  'UserSelect.resultSort': 'Ergebnissortierung auswählen',
+  'UserSelect.selected': 'Ausgewählt',
+  'UserSelect.clear': 'leer'
 });

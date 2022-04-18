@@ -302,5 +302,10 @@ register('en-US', {
   'pullRefresh.loosingText': 'Release to refresh...',
   'pullRefresh.loadingText': 'Loading...',
   'pullRefresh.successText': 'Loading success',
-  'Picker.placeholder': 'Click icon on the right'
+  'Picker.placeholder': 'Click icon on the right',
+  'UserSelect.edit': 'edit',
+  'UserSelect.save': 'preservation',
+  'UserSelect.resultSort': 'Select result sort',
+  'UserSelect.selected': 'Selected',
+  'UserSelect.clear': 'empty'
 });

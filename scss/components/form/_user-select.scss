@@ -1,0 +1,371 @@
+.#{$ns}UserSelect {
+  position: relative;
+
+  &-popup {
+    height: 100vh;
+  }
+
+  &-selectPopup {
+    height: 100vh;
+    z-index: var($zindex-top) + 1;
+  }
+
+  &-searchBox {
+    height: px2rem(52px);
+    margin: 0 px2rem(16px);
+    flex: none;
+    display: flex;
+    align-items: center;
+  }
+
+  &-search {
+    background: var(--UserSelect--content-bg);
+    flex: 1;
+  }
+
+  &-searchResult {
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: var(--UserSelect--content-bg);
+  }
+
+  &-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  &-navbar {
+    position: relative;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+    padding-left: px2rem(12px);
+    padding-right: px2rem(16px);
+
+    &-title {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      line-height: 44px;
+      text-align: center;
+    }
+
+    &-btnEdit {
+      color: var(--UserSelect--bread-color);
+      font-size: px2rem(16px);
+    }
+  }
+
+  &-breadcrumb {
+    line-height: px2rem(44px);
+    padding-left: px2rem(16px);
+    flex: none;
+    white-space: nowrap;
+    overflow-x: auto;
+
+    &-item {
+      cursor: pointer;
+      color: var(--UserSelect--bread-color);
+
+      &:last-child {
+        color: inherit;
+      }
+    }
+
+    &-separator {
+      margin: 0 px2rem(8px);
+      transform: rotate(-90deg) scale(0.5);
+    }
+  }
+
+  &-contentBox {
+    width: 100vw;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    flex: 1;
+    background: var(--UserSelect--content-bg);
+  }
+
+  &-scroll {
+    height: 100%;
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: left var(--animation-duration) ease-in-out;
+  }
+
+  &-memberList-box {
+    width: 100vw;
+    margin-top: px2rem(16px);
+  }
+
+  &-selectList-box {
+    margin-top: px2rem(16px);
+  }
+
+  &-memberList,
+  &-selection {
+    height: 100%;
+    list-style: none;
+    margin: 0 px2rem(16px);
+    padding: px2rem(8px) px2rem(16px);
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: var(--white);
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: px2rem(42px);
+      line-height: px2rem(42px);
+      cursor: pointer;
+      user-select: none;
+      padding: 0 px2rem(16px);
+      border-bottom: px2rem(1px) solid var(--UserSelect--border-color);
+
+      > span {
+        flex: 1;
+      }
+    }
+  }
+
+  &-selection {
+    margin: 0;
+    padding: 0;
+    li {
+      padding: 0;
+    }
+  }
+
+  &-memberName {
+    font-size: 14px;
+    flex: 2 !important;
+    text-align: left;
+    user-select: none;
+    display: flex;
+    align-items: center;
+  }
+
+  &-label {
+    flex: 1;
+  }
+
+  &-icon-box {
+    width: px2rem(28px);
+    height: px2rem(28px);
+    border-radius: 100%;
+    overflow: hidden;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > svg {
+      position: static;
+    }
+
+    &.role {
+      background-color: var(--UserSelect--role-bg);
+    }
+
+    &.department {
+      background-color: var(--UserSelect--department-bg);
+    }
+
+    &.post {
+      background-color: var(--UserSelect--post-bg);
+    }
+  }
+
+  &-userPic {
+    width: px2rem(28px);
+    height: px2rem(28px);
+    border-radius: 100%;
+    overflow: hidden;
+  }
+
+  &-userPic-box {
+    width: px2rem(28px);
+    margin-right: px2rem(10px);
+    flex: none !important;
+    display: flex;
+    align-items: center;
+  }
+
+  &-text-userPic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--UserSelect--post-bg);
+    text-align: center;
+    line-height: px2rem(28px);
+    width: px2rem(28px);
+    height: px2rem(28px);
+    border-radius: 50%;
+    overflow: hidden;
+    color: var(--white);
+    margin: 0;
+  }
+
+  &-more {
+    text-align: right;
+    svg {
+      width: 10px;
+      height: 10px;
+      transform: rotateZ(-90deg);
+    }
+  }
+
+  &-resultBox {
+    height: px2rem(48px);
+    display: flex;
+    align-items: center;
+    padding: 0 px2rem(16px);
+    flex: none;
+  }
+
+  &-selectNum {
+    flex: none;
+  }
+
+  &-selectList {
+    flex: 1;
+    padding: 0;
+    overflow-x: scroll;
+    white-space: nowrap;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    &-item {
+      list-style: none;
+      margin-right: px2rem(8px);
+      display: flex;
+      align-items: center;
+      background: var(--UserSelect--border-color);
+      border-radius: 4px;
+      padding: 0 px2rem(8px);
+      padding-right: 0;
+
+      &-closeBox {
+        height: 100%;
+        margin-left: px2rem(4px);
+        padding: 0 px2rem(6px);
+        display: flex;
+        align-items: center;
+
+        .icon {
+          font-size: 8px;
+        }
+      }
+    }
+  }
+
+  &-selectSort-box {
+    margin-left: px2rem(10px);
+    padding: px2rem(4px) px2rem(10px);
+  }
+
+  &-noRecord {
+    width: 100%;
+    height: 100%;
+    margin: 0 px2rem(16px);
+    margin-top: px2rem(16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    padding: px2rem(100px) 0;
+  }
+
+  &-selectList-pop {
+    margin: 0;
+    padding: 0 10px;
+    li {
+      height: 40px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &-btnSure {
+    flex: none;
+  }
+
+  &-del {
+    text-align: right;
+    flex: none !important;
+    padding: 0 10px;
+  }
+
+  &-dragBar {
+    flex: none;
+    margin-right: 10px;
+  }
+
+  &-checkContent {
+    li {
+      > label {
+        flex: 1 !important;
+      }
+    }
+  }
+
+  &-selectBody {
+    width: 100%;
+    background: var(--UserSelect--content-bg);
+  }
+
+  &-searchLoadingBox {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-spinnerBox {
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-selectList-box {
+    margin-top: px2rem(16px);
+    background: var(--white);
+    border-radius: 4px;
+    padding: 0 px2rem(16px);
+    margin: px2rem(16px);
+  }
+
+  &-select-head {
+    height: px2rem(48px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-text {
+      font-size: px2rem(16px);
+      color: #151b26;
+    }
+
+    &-btnClear {
+      color: var(--UserSelect--bread-color);
+      font-size: px2rem(16px);
+      cursor: pointer;
+    }
+  }
+}

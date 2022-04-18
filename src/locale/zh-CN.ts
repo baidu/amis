@@ -309,5 +309,10 @@ register('zh-CN', {
   'pullRefresh.loosingText': '释放即可刷新...',
   'pullRefresh.loadingText': '加载中...',
   'pullRefresh.successText': '加载成功',
-  'Picker.placeholder': '请点击右侧的图标'
+  'Picker.placeholder': '请点击右侧的图标',
+  'UserSelect.edit': '编辑',
+  'UserSelect.save': '保存',
+  'UserSelect.resultSort': '选择结果排序',
+  'UserSelect.selected': '已选',
+  'UserSelect.clear': '清空'
 });
