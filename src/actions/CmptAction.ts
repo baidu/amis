@@ -63,7 +63,7 @@ export class CmptAction implements Action {
     }
 
     // 执行组件动作
-    return component.doAction?.(action, action.args);
+    return component?.doAction?.(action, action.args);
   }
 }
 
