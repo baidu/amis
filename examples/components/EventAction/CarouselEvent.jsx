@@ -2,6 +2,9 @@ export default {
   type: 'page',
   title: '轮播图组件事件',
   regions: ['body', 'toolbar', 'header'],
+  data: {
+    index: 2
+  },
   body: [
     {
       type: 'action',
@@ -46,7 +49,9 @@ export default {
             {
               actionType: 'goto-image',
               componentId: 'carousel_001',
-              activeIndex: 2
+              args: {
+                activeIndex: '${index}'
+              }
             }
           ]
         }

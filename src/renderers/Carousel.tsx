@@ -193,13 +193,13 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     this.clearAutoTimeout();
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean): any {
+  doAction(action: Action, args: object, throwErrors: boolean): any {
     const actionType = action?.actionType as string;
 
     if (!!~['next', 'prev'].indexOf(actionType)) {
       this.autoSlide(actionType);
     } else if (actionType === 'goto-image') {
-      this.changeSlide(action.activeIndex);
+      this.changeSlide((args as any).activeIndex);
     }
   }
 

@@ -249,9 +249,9 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
   }
 
   // 动作
-  doAction(action: Action) {
+  doAction(action: Action, args: any) {
     const {resetValue, onChange} = this.props;
-    const activeKey = action?.activeKey as number;
+    const activeKey = args?.activeKey as number;
     switch (action.actionType) {
       case 'clear':
         onChange('');
