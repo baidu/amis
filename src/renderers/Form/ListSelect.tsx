@@ -5,7 +5,7 @@ import {
   Option,
   FormOptionsControl
 } from './Options';
-import {Schema} from '../../types';
+import {Action, Schema} from '../../types';
 import {createObject, isEmpty} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaClassName, SchemaCollection} from '../../Schema';
@@ -57,6 +57,14 @@ export default class ListControl extends React.Component<ListProps, any> {
     imageClassName: '',
     submitOnDBClick: false
   };
+
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      onChange(resetValue ?? '');
+    }
+  }
 
   handleDBClick(option: Option, e: React.MouseEvent<HTMLElement>) {
     this.props.onToggle(option, false, true);
