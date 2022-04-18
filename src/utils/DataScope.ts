@@ -45,6 +45,8 @@ export class DataScope {
         : idOrScope === idOrScope
     );
     if (~idx) {
+      const scope = this.children[idx];
+      delete scope.parent;
       this.children.splice(idx, 1);
     }
   }

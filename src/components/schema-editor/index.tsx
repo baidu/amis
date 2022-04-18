@@ -1,0 +1,84 @@
+/**
+ * 用来定义数据结构的编辑器
+ */
+
+import React from 'react';
+import {localeable, LocaleProps} from '../../locale';
+import {themeable, ThemeProps} from '../../theme';
+import type {JSONSchema} from '../../utils/DataScope';
+import {uncontrollable} from 'uncontrollable';
+import {SchemaEditorItem} from './Item';
+import type {JSONSchema7TypeName} from 'json-schema';
+
+export interface SchemaEditorProps extends LocaleProps, ThemeProps {
+  value?: JSONSchema;
+  onChange: (value: JSONSchema) => void;
+  disabled?: boolean;
+  defaultType: JSONSchema7TypeName;
+  renderExtraProps?: (
+    value: JSONSchema,
+    onChange: (value: JSONSchema) => void
+  ) => JSX.Element;
+
+  /**
+   * 顶层是否允许修改类型
+   */
+  rootTypeMutable: boolean;
+
+  /**
+   * 顶层类型信息是否隐藏
+   */
+  showRootInfo: boolean;
+}
+
+export class SchemaEditor extends React.Component<SchemaEditorProps> {
+  static defaultProps: Pick<
+    SchemaEditorProps,
+    'defaultType' | 'rootTypeMutable' | 'showRootInfo'
+  > = {
+    defaultType: 'object',
+    rootTypeMutable: false,
+    showRootInfo: false
+  };
+
+  render() {
+    const {
+      defaultType,
+      classnames: cx,
+      onChange,
+      renderExtraProps,
+      translate,
+      locale,
+      classPrefix,
+      rootTypeMutable,
+      showRootInfo
+    } = this.props;
+    const value: JSONSchema = this.props.value || {
+      type: defaultType || 'object'
+    };
+
+    return (
+      <div className={cx('SchemaEditor')}>
+        <SchemaEditorItem
+          typeMutable={rootTypeMutable}
+          showInfo={showRootInfo}
+          value={value}
+          onChange={onChange}
+          renderExtraProps={renderExtraProps}
+          locale={locale}
+          translate={translate}
+          classnames={cx}
+          classPrefix={classPrefix}
+        />
+      </div>
+    );
+  }
+}
+
+export default themeable(
+  localeable(
+    uncontrollable(SchemaEditor, {
+      value: 'onChange'
+    })
+  )
+);

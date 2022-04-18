@@ -309,5 +309,18 @@ register('zh-CN', {
   'pullRefresh.loosingText': '释放即可刷新...',
   'pullRefresh.loadingText': '加载中...',
   'pullRefresh.successText': '加载成功',
-  'Picker.placeholder': '请点击右侧的图标'
+  'Picker.placeholder': '请点击右侧的图标',
+  'SchemaType.string': '字符串',
+  'SchemaType.number': '数字',
+  'SchemaType.interger': '整数',
+  'SchemaType.object': '对象',
+  'SchemaType.array': '数组',
+  'SchemaType.boolean': '布尔',
+  'SchemaType.null': 'Null',
+  'JSONSchema.title': '名称',
+  'JSONSchema.key': '字段名',
+  'JSONSchema.description': '描述',
+  'JSONSchema.add_prop': '添加属性',
+  'JSONSchema.array_items': '成员类型',
+  'Required': '必填'
 });
