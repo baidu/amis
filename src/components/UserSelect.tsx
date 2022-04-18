@@ -18,6 +18,7 @@ import Checkbox from '../components/Checkbox';
 import {optionValueCompare, value2array} from './Select';
 import Spinner from '../components/Spinner';
 import flatten from 'lodash/flatten';
+import {findDOMNode} from 'react-dom';
 
 export interface UserSelectProps extends ThemeProps, LocaleProps {
   showNav?: boolean;
@@ -210,8 +211,9 @@ export class UserSelect extends React.Component<
 
   initDragging() {
     const ns = this.props.classPrefix;
+    const oDom = findDOMNode(this) as HTMLElement;
     this.sortable = new Sortable(
-      document.querySelector(`.${ns}UserSelect-checkContent`) as HTMLElement,
+      oDom.querySelector(`.${ns}UserSelect-checkContent`) as HTMLElement,
       {
         group: `UserSelect-checkContent`,
         animation: 150,
