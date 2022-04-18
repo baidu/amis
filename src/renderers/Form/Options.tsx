@@ -26,6 +26,7 @@ import {
   FormBaseControl
 } from './Item';
 import {IFormItemStore} from '../../store/formItem';
+import {ScopedContext, IScopedContext} from '../../Scoped';
 
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
@@ -258,6 +259,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
   class FormOptionsItem extends React.Component<OptionsProps, any> {
     static displayName = `OptionsControl(${config.type})`;
+    static contextType = ScopedContext;
     static defaultProps = {
       delimiter: ',',
       labelField: 'label',
@@ -280,8 +282,11 @@ export function registerOptionsControl(config: OptionsConfig) {
     input: any;
     mounted = false;
 
-    constructor(props: OptionsProps) {
+    constructor(props: OptionsProps, context: IScopedContext) {
       super(props);
+
+      const scoped = context;
+      scoped.registerComponent(this);
 
       const {
         initFetch,
@@ -450,6 +455,9 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     componentWillUnmount() {
+      super.componentWillUnmount?.();
+      const scoped = this.context as IScopedContext;
+      scoped.unRegisterComponent(this);
       this.props.removeHook?.(this.reload, 'init');
       this.toDispose.forEach(fn => fn());
       this.toDispose = [];

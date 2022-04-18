@@ -5,6 +5,7 @@ import Checkbox from '../../components/Checkbox';
 import {withBadge, BadgeSchema} from '../../components/Badge';
 import {autobind, createObject} from '../../utils/helper';
 import {Action} from '../../types';
+import {ScopedContext, IScopedContext} from '../../Scoped';
 
 /**
  * Checkbox 勾选框。
@@ -55,6 +56,7 @@ export default class CheckboxControl extends React.Component<
     trueValue: true,
     falseValue: false
   };
+  static contextType = ScopedContext;
 
   doAction(action: Action, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
@@ -124,4 +126,19 @@ export default class CheckboxControl extends React.Component<
 })
 // @ts-ignore
 @withBadge
-export class CheckboxControlRenderer extends CheckboxControl {}
+export class CheckboxControlRenderer extends CheckboxControl {
+  static contextType = ScopedContext;
+
+  constructor(props: CheckboxProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
+    scoped.registerComponent(this);
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount?.();
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
+  }
+}

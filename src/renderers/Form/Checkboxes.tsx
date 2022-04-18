@@ -12,6 +12,11 @@ import {Icon} from '../../components/icons';
 import {Api} from '../../types';
 import {autobind, hasAbility} from '../../utils/helper';
 import {columnsSplit} from '../../utils/columnsSplit';
+import Scoped, {
+  ScopedContext,
+  IScopedContext,
+  ScopedComponentType
+} from '../../Scoped';
 
 /**
  * 复选框
@@ -343,4 +348,19 @@ export default class CheckboxesControl extends React.Component<
   type: 'checkboxes',
   sizeMutable: false
 })
-export class CheckboxesControlRenderer extends CheckboxesControl {}
+export class CheckboxesControlRenderer extends CheckboxesControl {
+  static contextType = ScopedContext;
+
+  constructor(props: CheckboxesProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
+    scoped.registerComponent(this);
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount?.();
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
+  }
+}
