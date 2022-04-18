@@ -242,6 +242,7 @@
 
 .#{$ns}TransferControl {
   position: relative;
+  overflow: hidden;
 
   &.is-inline {
     display: inline-block;

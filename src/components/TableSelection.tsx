@@ -1,6 +1,7 @@
+import React from 'react';
+
 import {BaseSelection, BaseSelectionProps} from './Selection';
 import {themeable} from '../theme';
-import React from 'react';
 import {uncontrollable} from 'uncontrollable';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
@@ -27,7 +28,7 @@ export interface TableSelectionProps extends BaseSelectionProps {
 
   isCloseSide: boolean;
 
-  onCloseItem?: (option: Option) => void
+  onCloseItem?: (option: Option) => void;
 }
 
 export class TableSelection extends BaseSelection<TableSelectionProps> {
@@ -151,7 +152,9 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
                   itemClassName,
                   option.className,
                   disabled || option.disabled ? 'is-disabled' : '',
-                  !!~valueArray.indexOf(option) && !isCloseSide ? 'is-active' : ''
+                  !!~valueArray.indexOf(option) && !isCloseSide
+                    ? 'is-active'
+                    : ''
                 )}
               >
                 {multiple ? (
@@ -160,18 +163,22 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
                   </td>
                 ) : null}
                 {columns.map((column, colIndex) => (
-                  <td key={colIndex} className={cx(isCloseSide ? 'Table-close' : '')}>
+                  <td
+                    key={colIndex}
+                    className={cx(isCloseSide ? 'Table-close' : '')}
+                  >
                     {cellRender(column, option, colIndex, rowIndex)}
-                    {isCloseSide && colIndex === columns.length - 1 ?
+                    {isCloseSide && colIndex === columns.length - 1 ? (
                       <span
                         className={cx('Table-close-btn')}
                         onClick={(e: React.SyntheticEvent<HTMLElement>) => {
                           e.stopPropagation();
                           this.handleCloseItem(option);
-                        }}>
+                        }}
+                      >
                         <CloseIcon />
                       </span>
-                      : null}
+                    ) : null}
                   </td>
                 ))}
               </tr>

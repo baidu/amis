@@ -2,13 +2,14 @@
  * 用来显示选择结果，垂直显示。支持移出、排序等操作。
  */
 import React from 'react';
+import Sortable from 'sortablejs';
+import {findDOMNode} from 'react-dom';
 import {cloneDeep, debounce, isEqual, omit} from 'lodash';
+
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from '../theme';
 import {Icon} from './icons';
 import {autobind, guid, noop} from '../utils/helper';
-import Sortable from 'sortablejs';
-import {findDOMNode} from 'react-dom';
 import {LocaleProps, localeable} from '../locale';
 import {BaseSelection, BaseSelectionProps} from './Selection';
 import InputBox from './InputBox';
@@ -18,13 +19,16 @@ import Tree from './Tree';
 import {SelectMode} from './Transfer';
 
 type TreeNode = {
-  label?: string
-  value?: string
-  children?: Array<TreeNode>
-  isChecked?: boolean
+  label?: string;
+  value?: string;
+  children?: Array<TreeNode>;
+  isChecked?: boolean;
 };
 
-export interface ResultListProps extends ThemeProps, LocaleProps, BaseSelectionProps {
+export interface ResultListProps
+  extends ThemeProps,
+    LocaleProps,
+    BaseSelectionProps {
   className?: string;
   value?: Array<Option>;
   onChange?: (value: Array<Option>, optionModified?: boolean) => void;
@@ -53,7 +57,7 @@ export interface ResultListProps extends ThemeProps, LocaleProps, BaseSelectionP
   resultSearchable?: boolean;
   resultPlaceholder?: string;
   onResultSearch?: Function;
-  selectMode: SelectMode
+  selectMode: SelectMode;
 }
 
 export interface ItemRenderStates {
@@ -67,11 +71,17 @@ interface ResultListState {
   searchResult: Options | null;
 }
 
-export class ResultList extends React.Component<ResultListProps, ResultListState> {
+export class ResultList extends React.Component<
+  ResultListProps,
+  ResultListState
+> {
   static itemRender(option: any) {
     return <span>{`${option.scopeLabel || ''}${option.label}`}</span>;
   }
-  static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender' | 'isFollowMode'> = {
+  static defaultProps: Pick<
+    ResultListProps,
+    'placeholder' | 'itemRender' | 'isFollowMode'
+  > = {
     placeholder: 'placeholder.selectData',
     itemRender: ResultList.itemRender,
     isFollowMode: false
@@ -80,7 +90,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
   state: ResultListState = {
     inputValue: '',
     searchResult: null
-  }
+  };
 
   cancelSearch?: () => void;
   id = guid();
@@ -185,7 +195,8 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
   getDeep(
     node: TreeNode,
     cb: (node: TreeNode) => boolean,
-    pathNodes: Array<TreeNode>) {
+    pathNodes: Array<TreeNode>
+  ) {
     if (node.value && cb(node)) {
       node.isChecked = true;
       for (let i = pathNodes.length - 2; i >= 0; i--) {
@@ -195,9 +206,8 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
         }
         break;
       }
-    }
-    else if (node.children && Array.isArray(node.children)){
-      node.children.forEach((n) => {
+    } else if (node.children && Array.isArray(node.children)) {
+      node.children.forEach(n => {
         pathNodes.push(n);
         this.getDeep(n, cb, pathNodes);
         pathNodes.pop();
@@ -208,7 +218,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
   // 递归删除树多余的节点
   deepCheckedTreeNode(nodes: Array<TreeNode>) {
     let arr: Array<Option> = [];
-    for(let i = 0; i < nodes.length; i++) {
+    for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
       if (node.isChecked) {
         if (node.children && Array.isArray(node.children)) {
@@ -223,15 +233,17 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
   // 根据选项获取到结果
   getResultOptions(value: Options = [], options: Options) {
     const newOptions = cloneDeep(options) as Array<TreeNode>;
-    const callBack = (node: TreeNode) => !!(value || []).find(target => target.value === node.value);
-    newOptions && newOptions.forEach(op => {
-      this.getDeep(op, callBack, [op]);
-    });
+    const callBack = (node: TreeNode) =>
+      !!(value || []).find(target => target.value === node.value);
+    newOptions &&
+      newOptions.forEach(op => {
+        this.getDeep(op, callBack, [op]);
+      });
     return this.deepCheckedTreeNode(newOptions);
   }
 
   deepTree(nodes: Options, cb: (node: Option) => void) {
-    for(let i = 0; i < nodes.length; i++) {
+    for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
       cb(node);
       if (node.children && Array.isArray(node.children)) {
@@ -248,65 +260,76 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
       if (isEqual(node, option)) {
         temNode = [node];
       }
-    }
+    };
     this.deepTree(this.treeOptions || [], cb);
     let arr: Options = [];
     const cb2 = (node: Option) => {
       if (node.isChecked && node.value) {
         arr.push(node);
       }
-    }
+    };
     this.deepTree(temNode, cb2);
     const {value = [], onChange} = this.props;
-    onChange && onChange(value.filter(item =>
-      !arr.find(arrItem => isEqual(omit(arrItem, ['isChecked', 'childrens']), item))));
+    onChange &&
+      onChange(
+        value.filter(
+          item =>
+            !arr.find(arrItem =>
+              isEqual(omit(arrItem, ['isChecked', 'childrens']), item)
+            )
+        )
+      );
   }
 
   @autobind
   handleSearch(inputValue: string) {
     // text 有值的时候，走搜索否则直接走 handleSeachCancel ，等同于右侧的 clear 按钮
-    this.setState({inputValue},
-      () => {
-        if (inputValue) {
-          // 如果有取消搜索，先取消掉。
-          this.cancelSearch && this.cancelSearch();
-          this.lazySearch();
-        }
-        else {
-          this.handleSeachCancel()
-        }
+    this.setState({inputValue}, () => {
+      if (inputValue) {
+        // 如果有取消搜索，先取消掉。
+        this.cancelSearch && this.cancelSearch();
+        this.lazySearch();
+      } else {
+        this.handleSeachCancel();
       }
-    );
+    });
   }
 
-  lazySearch = debounce(() => {
-    const {inputValue} = this.state;
-    // 防止由于防抖导致空值问题，导致后续由于
-    if (!inputValue) {
-      return;
-    }
-    const {onResultSearch, value, selectMode, isFollowMode} = this.props;
-    if (selectMode === 'tree' && isFollowMode) {
-      let temOptions = this.clearTreeOptions || [];
-      if (this.clearTreeOptions === null) {
-        const cb = (node: Option) => {
-          node.isChecked = false;
-          return true;
-        }
-        temOptions = this.treeOptions || [];
-        this.deepTree(temOptions, cb);
+  lazySearch = debounce(
+    () => {
+      const {inputValue} = this.state;
+      // 防止由于防抖导致空值问题，导致后续由于
+      if (!inputValue) {
+        return;
       }
-      const callBack = (node: TreeNode) => !!onResultSearch && onResultSearch(inputValue, node);
-      temOptions && temOptions.forEach(op => {
-        this.getDeep(op, callBack, [op]);
-      });
-      this.setState({searchResult: this.deepCheckedTreeNode(temOptions)});
-    }
-    else {
-      const searchResult = (value || []).filter(item => onResultSearch && onResultSearch(inputValue, item));
-      this.setState({searchResult});
-    }
-  }, 250, {trailing: true, leading: false});
+      const {onResultSearch, value, selectMode, isFollowMode} = this.props;
+      if (selectMode === 'tree' && isFollowMode) {
+        let temOptions = this.clearTreeOptions || [];
+        if (this.clearTreeOptions === null) {
+          const cb = (node: Option) => {
+            node.isChecked = false;
+            return true;
+          };
+          temOptions = this.treeOptions || [];
+          this.deepTree(temOptions, cb);
+        }
+        const callBack = (node: TreeNode) =>
+          !!onResultSearch && onResultSearch(inputValue, node);
+        temOptions &&
+          temOptions.forEach(op => {
+            this.getDeep(op, callBack, [op]);
+          });
+        this.setState({searchResult: this.deepCheckedTreeNode(temOptions)});
+      } else {
+        const searchResult = (value || []).filter(
+          item => onResultSearch && onResultSearch(inputValue, item)
+        );
+        this.setState({searchResult});
+      }
+    },
+    250,
+    {trailing: true, leading: false}
+  );
 
   @autobind
   handleSearchKeyDown(e: React.KeyboardEvent<any>) {
@@ -326,13 +349,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
   // 关闭表格最后一项
   @autobind
   handleCloseItem(option: Option) {
-    const {
-      value,
-      onChange,
-      option2value,
-      options,
-      disabled,
-    } = this.props;
+    const {value, onChange, option2value, options, disabled} = this.props;
 
     if (disabled || option.disabled) {
       return;
@@ -350,7 +367,11 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
 
     let {searchResult} = this.state;
     if (searchResult) {
-      let searchArray = BaseSelection.value2array(searchResult, options, option2value);
+      let searchArray = BaseSelection.value2array(
+        searchResult,
+        options,
+        option2value
+      );
       let searchIdx = searchArray.indexOf(option);
       searchResult.splice(searchIdx, 1);
       this.setState({searchResult});
@@ -360,15 +381,18 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
   // 向下删
   deepDeleteTree(nodes: Options, option: Option) {
     let arr: Array<Option> = [];
-    for(let i = 0; i < nodes.length; i++) {
+    for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
       if (isEqual(node, option)) {
         continue;
-      };
+      }
       if (node.children && Array.isArray(node.children)) {
         node.children = this.deepDeleteTree(node.children, option);
       }
-      if ((node.children && node.children.length > 0) || node.value !== undefined) {
+      if (
+        (node.children && node.children.length > 0) ||
+        node.value !== undefined
+      ) {
         arr.push(node);
       }
     }
@@ -377,7 +401,10 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
 
   // 搜索树点击删除时，删除对应节点
   deleteResultTreeNode(option: Option) {
-    const arr = this.deepDeleteTree(cloneDeep(this.state.searchResult) || [], option);
+    const arr = this.deepDeleteTree(
+      cloneDeep(this.state.searchResult) || [],
+      option
+    );
     this.setState({searchResult: arr});
   }
 
@@ -399,7 +426,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
         }}
         removable
       />
-    )
+    );
   }
 
   // 普通树
@@ -421,7 +448,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
         onDelete={this.deleteTreeChecked}
         removable
       />
-    )
+    );
   }
 
   renderNormalList(value?: Options) {
@@ -441,7 +468,11 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
           <div className={cx('Selections-items')}>
             {value.map((option, index) => (
               <div
-                className={cx('Selections-item', itemClassName, option?.className)}
+                className={cx(
+                  'Selections-item',
+                  itemClassName,
+                  option?.className
+                )}
                 key={index}
               >
                 {sortable && !disabled && value.length > 1 ? (
@@ -463,7 +494,9 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
                   <a
                     className={cx('Selections-delBtn')}
                     data-index={index}
-                    onClick={(e: React.MouseEvent<HTMLElement>) => this.handleCloseItem(option)}
+                    onClick={(e: React.MouseEvent<HTMLElement>) =>
+                      this.handleCloseItem(option)
+                    }
                   >
                     <Icon icon="close" className="icon" />
                   </a>
@@ -490,19 +523,20 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
     } = this.props;
 
     return (
-    <TableSelection
-      className={cx('Transfer-selection')}
-      columns={columns}
-      options={options || []}
-      value={value}
-      disabled={disabled}
-      option2value={option2value}
-      cellRender={cellRender}
-      onChange={onChange}
-      onCloseItem={this.handleCloseItem}
-      multiple={false}
-      isCloseSide={true}
-    />)
+      <TableSelection
+        className={cx('Transfer-selection')}
+        columns={columns}
+        options={options || []}
+        value={value}
+        disabled={disabled}
+        option2value={option2value}
+        cellRender={cellRender}
+        onChange={onChange}
+        onCloseItem={this.handleCloseItem}
+        multiple={false}
+        isCloseSide={true}
+      />
+    );
   }
 
   renderSearchResult(searchResult: Options) {
@@ -515,8 +549,8 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
     return selectMode === 'table' && isFollowMode
       ? this.renderTable(searchResult)
       : selectMode === 'tree' && isFollowMode
-        ? this.renderSearchTree(searchResult)
-        : this.renderNormalList(searchResult);
+      ? this.renderSearchTree(searchResult)
+      : this.renderNormalList(searchResult);
   }
 
   renderNormalResult() {
@@ -524,8 +558,8 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
     return selectMode === 'table' && isFollowMode
       ? this.renderTable(value)
       : selectMode === 'tree' && isFollowMode
-        ? this.renderTree()
-        : this.renderNormalList(value);
+      ? this.renderTree()
+      : this.renderNormalList(value);
   }
 
   render() {
@@ -552,11 +586,13 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
               onKeyDown={this.handleSearchKeyDown}
               placeholder={resultPlaceholder}
             >
-              {searchResult !== null
-              ? (<a onClick={this.handleSeachCancel}>
+              {searchResult !== null ? (
+                <a onClick={this.handleSeachCancel}>
                   <Icon icon="close" className="icon" />
-                </a>)
-              : <Icon icon="search" className="icon" /> }
+                </a>
+              ) : (
+                <Icon icon="search" className="icon" />
+              )}
             </InputBox>
           </div>
         ) : null}

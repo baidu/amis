@@ -1,13 +1,13 @@
-import {BaseSelection, BaseSelectionProps} from './Selection';
-import {themeable} from '../theme';
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
+
+import {BaseSelection, BaseSelectionProps} from './Selection';
+import {themeable} from '../theme';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {localeable} from '../locale';
 
 export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
-
   valueArray: Array<Option>;
 
   renderOption(option: Option, index: number) {
@@ -59,13 +59,15 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
         )}
         onClick={() => this.toggleOption(option)}
       >
-        {multiple ? <Checkbox
-          size="sm"
-          checked={!!~valueArray.indexOf(option)}
-          disabled={disabled || option.disabled}
-          labelClassName={labelClassName}
-          description={option.description}
-        /> : null}
+        {multiple ? (
+          <Checkbox
+            size="sm"
+            checked={!!~valueArray.indexOf(option)}
+            disabled={disabled || option.disabled}
+            labelClassName={labelClassName}
+            description={option.description}
+          />
+        ) : null}
         <div className={cx('GroupedSelection-itemLabel')}>
           {itemRender(option, {
             index: index,

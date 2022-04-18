@@ -173,11 +173,8 @@
   }
 
   .#{$ns}TableSelection {
-
     tbody {
-
       tr {
-
         &.is-active {
           color: unset;
         }
@@ -187,7 +184,6 @@
 }
 
 .#{$ns}GroupedSelection {
-
   &-item {
     padding-left: var(--gap-base);
     padding-right: var(--gap-base);

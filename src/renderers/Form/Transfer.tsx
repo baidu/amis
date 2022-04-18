@@ -1,9 +1,11 @@
+import React from 'react';
+import find from 'lodash/find';
+
 import {
   OptionsControlProps,
   OptionsControl,
   FormOptionsControl
 } from './Options';
-import React from 'react';
 import Transfer, {Transfer as BaseTransfer} from '../../components/Transfer';
 import type {Option} from './Options';
 import {
@@ -17,7 +19,6 @@ import {
   spliceTree
 } from '../../utils/helper';
 import Spinner from '../../components/Spinner';
-import find from 'lodash/find';
 import {optionValueCompare} from '../../components/Select';
 import {resolveVariable} from '../../utils/tpl-builtin';
 import {SchemaApi, SchemaObject} from '../../Schema';
@@ -90,7 +91,6 @@ export interface TransferControlSchema extends FormOptionsControl {
    */
   searchable?: boolean;
 
-
   /**
    * 结果（右则）列表的检索功能，当设置为true时，可以通过输入检索模糊匹配检索内容
    */
@@ -134,7 +134,7 @@ export interface TransferControlSchema extends FormOptionsControl {
   /**
    * 结果搜索函数
    */
-  resultSearchFilter?: string
+  resultSearchFilter?: string;
 }
 
 export interface BaseTransferProps
@@ -153,12 +153,7 @@ export interface BaseTransferProps
 export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
 > extends React.Component<T> {
-
   tranferRef?: BaseTransfer;
-
-  static defaultProps = {
-    checkboxPosition: 'right'
-  }
 
   @autobind
   async handleChange(value: Array<Option> | Option, optionModified?: boolean) {
@@ -411,7 +406,7 @@ export class BaseTransferRenderer<
       searchPlaceholder,
       isFollowMode = false,
       resultPlaceholder,
-      resultSearchable = false,
+      resultSearchable = false
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -435,7 +430,10 @@ export class BaseTransferRenderer<
 
     if (typeof resultSearchFilter === 'string') {
       try {
-        resultSearchFunc = new Function('text', 'item', resultSearchFilter) as (text: string, item: Option) => boolean;
+        resultSearchFunc = new Function('text', 'item', resultSearchFilter) as (
+          text: string,
+          item: Option
+        ) => boolean;
       } catch (e) {
         console.warn(resultSearchFilter, e);
       }

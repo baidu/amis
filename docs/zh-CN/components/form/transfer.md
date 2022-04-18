@@ -397,7 +397,7 @@ icon:
 }
 ```
 
-leftOptions 动态加载，默认 source 接口是返回 options 部分，而 leftOptions 是没有对应的接口可以动态返回了。为了方便，目前如果 source 接口返回的选中中，第一个 option 是以下这种格式则也会把 options[0].leftOptions 当成 leftOptions, options[0].children 当 options。同时 options[0].leftDefaultValue 可以用来配置左侧选项的默认值。
+`leftOptions` 动态加载，默认 source 接口是返回 options 部分，而 `leftOptions` 是没有对应的接口可以动态返回了。为了方便，目前如果 source 接口返回的选中中，第一个 option 是以下这种格式则也会把 options[0].leftOptions 当成 `leftOptions`, options[0].children 当 options。同时 options[0].leftDefaultValue 可以用来配置左侧选项的默认值。
 
 ```
 {
@@ -655,7 +655,6 @@ isFollowMode开启结果面板跟随模式。
       "type": "transfer",
       "name": "transfer",
       "selectMode": "table",
-      "checkboxPosition": "right",
       "isFollowMode": true,
       "columns": [
         {
