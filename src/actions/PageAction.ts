@@ -6,6 +6,10 @@ import {
   registerAction
 } from './Action';
 
+export interface IPageGoAction extends ListenerAction {
+  delta?: number;
+}
+
 /**
  * 返回上个页面
  *
@@ -32,7 +36,7 @@ export class PageGoBackAction implements Action {
  */
 export class PageGoAction implements Action {
   async run(
-    action: ListenerAction,
+    action: IPageGoAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {

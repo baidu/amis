@@ -37,7 +37,7 @@ register('de-DE', {
   'CRUD.exportExcel': 'In Excel exportieren',
   'CRUD.fetchFailed': 'Fehler beim Abrufen',
   'CRUD.filter': 'Filtern',
-  'CRUD.selected': 'Ausgewählte Elemente: ',
+  'CRUD.selected': 'Ausgewählte {{total}} Elemente: ',
   'CRUD.invalidArray': '"data.items" muss ein Array sein',
   'CRUD.invalidData': '"data" ist leer',
   'CRUD.loadMore': 'Weitere laden',

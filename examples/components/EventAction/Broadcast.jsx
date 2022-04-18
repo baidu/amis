@@ -131,7 +131,7 @@ export default {
         }
       ],
       data: {
-        execOn: 'kkk',
+        expression: 'kkk',
         param: '1'
       },
       onEvent: {
@@ -145,7 +145,7 @@ export default {
               },
               preventDefault: false,
               stopPropagation: false,
-              execOn: 'execOn === "kkk"' // or this.xxx
+              expression: 'expression === "kkk"' // or this.xxx
             },
             {
               actionType: 'ajax',
@@ -154,7 +154,7 @@ export default {
               },
               api: 'https://api/form/form2-ajax?param=${param}', // param=2，如果想要拿到当前域的数据需要通过args数据映射
               // api: 'https://api/form/form2-ajax?param=${name}', // param=lvxj 事件数据最终会丢给执行动作，所以这里可以拿到事件数据
-              execOn: 'execOn === "kkk"',
+              expression: 'expression === "kkk"',
               preventDefault: false,
               stopPropagation: false
             },

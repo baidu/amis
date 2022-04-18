@@ -7,6 +7,10 @@ import {
   registerAction
 } from './Action';
 
+export interface ICustomAction extends ListenerAction {
+  script: string; // 自定义JS，actionType: custom
+}
+
 /**
  * 自定义动作，JS脚本
  *
@@ -16,7 +20,7 @@ import {
  */
 export class CustomAction implements Action {
   async run(
-    action: ListenerAction,
+    action: ICustomAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {

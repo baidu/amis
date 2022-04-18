@@ -657,12 +657,15 @@ export default class Form extends React.Component<FormProps, object> {
       };
     }
 
-    persistData && store.getLocalPersistData();
+    if (persistData) {
+      store.getLocalPersistData();
+      data = cloneObject(store.data);
+    }
 
     // 派发init事件，参数为初始化数据
     const dispatcher = dispatchEvent(
       'inited',
-      createObject(this.props.data, {formData: data})
+      createObject(this.props.data, data)
     );
     if (!dispatcher?.prevented) {
       onInit && onInit(data, this.props);
@@ -874,10 +877,7 @@ export default class Form extends React.Component<FormProps, object> {
     if (!isAlive(store)) {
       return;
     }
-    const dispatcher = dispatchEvent(
-      'change',
-      createObject(data, {formData: store.data})
-    );
+    const dispatcher = dispatchEvent('change', createObject(data, store.data));
     if (!dispatcher?.prevented) {
       onChange &&
         onChange(

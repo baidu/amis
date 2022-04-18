@@ -404,6 +404,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   control: any;
   lastQuery: any;
+  lastData: any;
+
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
   constructor(props: CRUDProps) {
@@ -571,15 +573,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     ) {
       dataInvalid = true;
     } else if (!props.api && isPureVariable(props.source)) {
-      const prev = resolveVariableAndFilter(
-        prevProps.source,
-        prevProps.data,
-        '| raw'
-      );
       const next = resolveVariableAndFilter(props.source, props.data, '| raw');
 
-      if (prev !== next) {
+      if (!this.lastData || this.lastData !== next) {
         store.initFromScope(props.data, props.source);
+        this.lastData = next;
       }
     }
 
@@ -1993,7 +1991,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     return (
       <div className={cx('Crud-selection')}>
-        <div className={cx('Crud-selectionLabel')}>{__('CRUD.selected')}</div>
+        <div className={cx('Crud-selectionLabel')}>
+          {__('CRUD.selected', {total: store.selectedItems.length})}
+        </div>
         {store.selectedItems.map((item, index) => (
           <div key={index} className={cx(`Crud-value`)}>
             <span

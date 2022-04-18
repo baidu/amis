@@ -10,6 +10,14 @@ import {
   registerAction
 } from './Action';
 
+export interface IEmailAction extends ListenerAction {
+  to: string;
+  cc: string;
+  bcc: string;
+  subject: string;
+  body: string;
+}
+
 /**
  * 邮件动作
  *
@@ -19,7 +27,7 @@ import {
  */
 export class EmailAction implements Action {
   async run(
-    action: ListenerAction,
+    action: IEmailAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {

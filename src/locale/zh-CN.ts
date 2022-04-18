@@ -37,7 +37,7 @@ register('zh-CN', {
   'CRUD.exportExcel': '导出 Excel',
   'CRUD.fetchFailed': '获取失败',
   'CRUD.filter': '筛选',
-  'CRUD.selected': '已选条目：',
+  'CRUD.selected': '已选{{total}}条：',
   'CRUD.invalidArray': 'data.items 必须是数组',
   'CRUD.invalidData': '返回数据格式不正确，data 没有数据',
   'CRUD.loadMore': '加载更多',
