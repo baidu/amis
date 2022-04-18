@@ -1,6 +1,6 @@
 export default {
   type: 'page',
-  title: '标签页组件事件',
+  title: '轮播图组件事件',
   regions: ['body', 'toolbar', 'header'],
   body: [
     {
