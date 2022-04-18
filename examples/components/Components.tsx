@@ -734,6 +734,16 @@ export const components = [
             wrapDoc
           )
         )
+      },
+
+      {
+        label: 'JsonSchema Editor',
+        path: '/zh-CN/components/form/json-schema-editor',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/form/json-schema-editor.md').then(
+            wrapDoc
+          )
+        )
       }
     ]
   },
