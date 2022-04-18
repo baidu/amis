@@ -318,7 +318,7 @@ export function wrapControl<
                     getVariable(prevProps.data, model.name, false)) &&
                 value !== model.tmpValue
               ) {
-                model.changeTmpValue(value);
+                model.changeTmpValue(value ?? model.tmpValue);
               }
             }
           }
