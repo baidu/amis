@@ -144,8 +144,7 @@ export default {
                 blur,
                 focus
               }
-            },
-            
+            }
           ]
         }
       ]
@@ -185,7 +184,7 @@ export default {
               name: 'clear-matrix-checkboxes',
               id: 'clear-matrix-checkboxes',
               type: 'matrix-checkboxes',
-              rowLabel: "行标题说明",
+              rowLabel: '行标题说明',
               columns: [
                 {
                   label: '列1'
@@ -205,8 +204,7 @@ export default {
               onEvent: {
                 change
               }
-            },
-            
+            }
           ]
         }
       ]
@@ -245,12 +243,12 @@ export default {
             {
               name: 'clear-radios',
               id: 'clear-radios',
-              type: "radios",
+              type: 'radios',
               options,
               onEvent: {
                 change
               }
-            },
+            }
           ]
         }
       ]
@@ -294,8 +292,8 @@ export default {
               mode: 'row',
               options: [
                 {
-                  label: "选项A",
-                  value: "A",
+                  label: '选项A',
+                  value: 'A',
                   children: []
                 },
                 {
@@ -323,7 +321,7 @@ export default {
                 blur,
                 focus
               }
-            },
+            }
           ]
         }
       ]
@@ -368,7 +366,7 @@ export default {
               onEvent: {
                 change
               }
-            },
+            }
           ]
         }
       ]
@@ -407,14 +405,14 @@ export default {
             {
               name: 'clear-checkbox',
               id: 'clear-checkbox',
-              type: "checkbox",
+              type: 'checkbox',
               label: 'clear动作测试',
               mode: 'row',
               option: '勾选框',
               onEvent: {
                 change
-              },
-            },
+              }
+            }
           ]
         },
         {
@@ -449,7 +447,7 @@ export default {
               onEvent: {
                 change
               }
-            },
+            }
           ]
         }
       ]
@@ -468,6 +466,43 @@ export default {
           type: 'group',
           body: [
             {
+              type: 'group',
+              body: [
+                {
+                  name: 'trigger5',
+                  id: 'trigger5',
+                  type: 'action',
+                  label: 'clear触发器',
+                  level: 'primary',
+                  onEvent: {
+                    click: {
+                      actions: [
+                        {
+                          actionType: 'clear',
+                          componentId: 'clear-options_001',
+                          description: '点击清空指定下拉框选中值'
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  name: 'clear-options_001',
+                  id: 'clear-options_001',
+                  type: 'button-group-select',
+                  options,
+                  onEvent: {
+                    change
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          type: 'group',
+          body: [
+            {
               name: 'trigger5',
               id: 'trigger5',
               type: 'action',
@@ -478,7 +513,7 @@ export default {
                   actions: [
                     {
                       actionType: 'clear',
-                      componentId: 'clear-options',
+                      componentId: 'clear-options_002',
                       description: '点击清空指定下拉框选中值'
                     }
                   ]
@@ -486,26 +521,17 @@ export default {
               }
             },
             {
-              name: 'clear-options',
-              id: 'clear-options',
-              type: 'button-group-select',
-              options,
-              onEvent: {
-                change
-              }
-            },
-            {
-              name: 'clear-options',
-              id: 'clear-options',
+              name: 'clear-options_002',
+              id: 'clear-options_002',
               type: 'list-select',
               options,
               onEvent: {
                 change
               }
-            },
+            }
           ]
         }
       ]
-    },
-  ],
+    }
+  ]
 };

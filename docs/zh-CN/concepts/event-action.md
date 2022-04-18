@@ -1842,7 +1842,7 @@ order: 9
 
 ## 触发其他组件的动作
 
-通过配置`componentId`来触发指定组件的动作，组件动作参考具体组件文档。
+通过配置`componentId`来触发指定组件的动作，组件动作参考通过`args`传入，动作参数请查看对应的组件文档。
 
 ```schema
 {
@@ -1859,7 +1859,9 @@ order: 9
             {
               actionType: 'changeActiveKey',
               componentId: 'tabs-change-receiver',
-              activeKey: 1
+              args: {
+                activeKey: 1
+              }
             }
           ]
         }

@@ -43,18 +43,20 @@ const wizardSchema = {
       api: '/api/mock2/form/saveForm?waitSeconds=2'
     }
   ]
-}
+};
 
 function generateEventAcions(events) {
   const onEvent = {};
   events.forEach(event => {
     onEvent[event] = {
-      actions: [{
-        actionType: 'toast',
-        msgType: 'info',
-        msg: `派发 ${event} 事件`
-      }]
-    }
+      actions: [
+        {
+          actionType: 'toast',
+          msgType: 'info',
+          msg: `派发 ${event} 事件`
+        }
+      ]
+    };
   });
 
   return onEvent;
@@ -63,7 +65,7 @@ function generateEventAcions(events) {
 function generateActions(actions) {
   return actions.map(action => ({
     name: `wizard-${action.actionName}`,
-    type: "button",
+    type: 'button',
     label: action.label,
     level: actions.level || 'primary',
     className: 'mr-3 mb-3',
@@ -79,7 +81,7 @@ function generateActions(actions) {
         ]
       }
     }
-  }))
+  }));
 }
 
 export default {

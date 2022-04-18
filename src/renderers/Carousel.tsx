@@ -18,6 +18,7 @@ import {Icon} from '../components/icons';
 import {BaseSchema, SchemaCollection, SchemaName, SchemaTpl} from '../Schema';
 import Html from '../components/Html';
 import Image from '../renderers/Image';
+import {ScopedContext, IScopedContext} from '../Scoped';
 
 /**
  * Carousel 轮播图渲染器。
@@ -192,14 +193,13 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     this.clearAutoTimeout();
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean): any {
+  doAction(action: Action, args: object, throwErrors: boolean): any {
     const actionType = action?.actionType as string;
-    
+
     if (!!~['next', 'prev'].indexOf(actionType)) {
       this.autoSlide(actionType);
-    }
-    else if (actionType === 'goto-image') {
-      this.changeSlide((data as any).activeIndex);
+    } else if (actionType === 'goto-image') {
+      this.changeSlide((args as any).activeIndex);
     }
   }
 
@@ -480,4 +480,19 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 @Renderer({
   type: 'carousel'
 })
-export class CarouselRenderer extends Carousel {}
+export class CarouselRenderer extends Carousel {
+  static contextType = ScopedContext;
+
+  constructor(props: CarouselProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
+    scoped.registerComponent(this);
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount?.();
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
+  }
+}
