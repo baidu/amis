@@ -61,7 +61,7 @@ export class CmptAction implements Action {
     if (action.actionType === 'reload') {
       return component.reload?.(undefined, action.args);
     }
-
+    debugger;
     // 执行组件动作
     return component?.doAction?.(action, action.args);
   }
