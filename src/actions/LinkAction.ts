@@ -1,9 +1,10 @@
+import {Action} from '../types';
 import {buildApi} from '../utils/api';
 import {isEmpty, isObject, qsstringify} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {filter} from '../utils/tpl';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
@@ -12,6 +13,7 @@ import {
 export interface ILinkAction extends ListenerAction {
   link: string;
   url?: never;
+  blank?: boolean;
   params?: {
     [key: string]: string;
   };
@@ -20,6 +22,7 @@ export interface ILinkAction extends ListenerAction {
 export interface IUrlAction extends ListenerAction {
   url: string;
   link?: never;
+  blank?: boolean;
   params?: {
     [key: string]: string;
   };
@@ -32,7 +35,7 @@ export interface IUrlAction extends ListenerAction {
  * @class LinkAction
  * @implements {Action}
  */
-export class LinkAction implements Action {
+export class LinkAction implements RendererAction {
   async run(
     action: ILinkAction | IUrlAction,
     renderer: ListenerContext,
@@ -54,7 +57,7 @@ export class LinkAction implements Action {
       }
     );
 
-    renderer.props.env.jumpTo(urlObj.url, action, action.args);
+    renderer.props.env.jumpTo(urlObj.url, action as Action, action.args);
   }
 }
 

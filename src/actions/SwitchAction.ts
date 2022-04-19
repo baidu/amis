@@ -2,7 +2,7 @@ import {inflate} from 'zlib';
 import {RendererEvent} from '../utils/renderer-event';
 import {evalExpression} from '../utils/tpl';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   LogicAction,
@@ -15,7 +15,7 @@ export interface ISwitchAction extends ListenerAction, LogicAction {}
 /**
  * 排他动作
  */
-export class SwitchAction implements Action {
+export class SwitchAction implements RendererAction {
   async run(
     action: ISwitchAction,
     renderer: ListenerContext,

@@ -1,7 +1,7 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {createObject} from '../utils/helper';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   LogicAction,
@@ -23,7 +23,7 @@ export interface ILoopAction extends ListenerAction, LogicAction {
  * @class LoopAction
  * @implements {Action}
  */
-export class LoopAction implements Action {
+export class LoopAction implements RendererAction {
   async run(
     action: ILoopAction,
     renderer: ListenerContext,

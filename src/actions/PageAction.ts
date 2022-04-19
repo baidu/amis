@@ -1,6 +1,6 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
@@ -17,7 +17,7 @@ export interface IPageGoAction extends ListenerAction {
  * @class PageGoBackAction
  * @implements {Action}
  */
-export class PageGoBackAction implements Action {
+export class PageGoBackAction implements RendererAction {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,
@@ -34,7 +34,7 @@ export class PageGoBackAction implements Action {
  * @class PageGoAction
  * @implements {Action}
  */
-export class PageGoAction implements Action {
+export class PageGoAction implements RendererAction {
   async run(
     action: IPageGoAction,
     renderer: ListenerContext,
@@ -51,7 +51,7 @@ export class PageGoAction implements Action {
  * @class PageRefreshAction
  * @implements {Action}
  */
-export class PageRefreshAction implements Action {
+export class PageRefreshAction implements RendererAction {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,

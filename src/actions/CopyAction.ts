@@ -1,7 +1,7 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {filter} from '../utils/tpl';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   LoopStatus,
@@ -20,7 +20,7 @@ export interface ICopyAction extends ListenerAction {
  * @class CopyAction
  * @implements {Action}
  */
-export class CopyAction implements Action {
+export class CopyAction implements RendererAction {
   async run(
     action: ICopyAction,
     renderer: ListenerContext,

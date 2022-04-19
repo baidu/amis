@@ -20,7 +20,7 @@ import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
 
-import type {RendererEvent} from './utils/renderer-event';
+import {bindEvent, dispatchEvent, RendererEvent} from './utils/renderer-event';
 import {isAlive} from 'mobx-state-tree';
 import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
@@ -93,9 +93,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   componentDidMount() {
-    const {env} = this.props;
     // 这里无法区分监听的是不是广播，所以又bind一下，主要是为了绑广播
-    this.unbindEvent = env.bindEvent(this.cRef);
+    this.unbindEvent = bindEvent(this.cRef);
   }
 
   componentWillUnmount() {
@@ -206,8 +205,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   async dispatchEvent(
     e: React.MouseEvent<any>,
     data: any
-  ): Promise<RendererEvent<any> | undefined> {
-    return await this.props.env.dispatchEvent(e, this.cRef, this.context, data);
+  ): Promise<RendererEvent<any> | void> {
+    return await dispatchEvent(e, this.cRef, this.context, data);
   }
 
   renderChild(
