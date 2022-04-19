@@ -1,6 +1,6 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
@@ -26,7 +26,7 @@ export interface IToastAction extends ListenerAction {
 /**
  * 全局toast
  */
-export class ToastAction implements Action {
+export class ToastAction implements RendererAction {
   async run(
     action: IToastAction,
     renderer: ListenerContext,

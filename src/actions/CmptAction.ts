@@ -1,7 +1,7 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {dataMapping} from '../utils/tpl-builtin';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   LoopStatus,
@@ -19,7 +19,7 @@ export interface ICmptAction extends ListenerAction {
  * @class CmptAction
  * @implements {Action}
  */
-export class CmptAction implements Action {
+export class CmptAction implements RendererAction {
   async run(
     action: ICmptAction,
     renderer: ListenerContext,

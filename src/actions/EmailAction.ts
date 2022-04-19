@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
 import qs from 'qs';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
@@ -25,7 +25,7 @@ export interface IEmailAction extends ListenerAction {
  * @class EmailAction
  * @implements {Action}
  */
-export class EmailAction implements Action {
+export class EmailAction implements RendererAction {
   async run(
     action: IEmailAction,
     renderer: ListenerContext,

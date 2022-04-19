@@ -5,7 +5,7 @@ import {createObject, isEmpty, isVisible} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {filter} from '../utils/tpl';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
@@ -27,7 +27,7 @@ export interface IAjaxAction extends ListenerAction {
  * @class AjaxAction
  * @implements {Action}
  */
-export class AjaxAction implements Action {
+export class AjaxAction implements RendererAction {
   async run(
     action: IAjaxAction,
     renderer: ListenerContext,
