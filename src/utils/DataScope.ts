@@ -1,4 +1,5 @@
 import type {JSONSchema7} from 'json-schema';
+import {keyToPath} from './helper';
 
 // 先只支持 JSONSchema draft07 好了
 // https://json-schema.org/draft-07/json-schema-release-notes.html
@@ -11,6 +12,9 @@ export class DataScope {
 
   // 全局不能重复，用来快速定位
   readonly id: string;
+
+  // todo 如果想要跨过层级直接获取某一层的数据域，用这个字段
+  ref?: string;
 
   // scope 的名字，同一个层级不允许重名
   name?: string;
@@ -35,6 +39,7 @@ export class DataScope {
     );
 
     this.children.push(child);
+    child.parent = this;
     return child;
   }
 
@@ -44,6 +49,7 @@ export class DataScope {
         ? idOrScope === item.id
         : idOrScope === idOrScope
     );
+
     if (~idx) {
       const scope = this.children[idx];
       delete scope.parent;
@@ -65,5 +71,53 @@ export class DataScope {
       from = from.parent;
     }
     return false;
+  }
+
+  protected buildOptions(
+    options: Array<any>,
+    schema: JSONSchema,
+    path: string
+  ) {
+    if (schema.type === 'object' && schema.properties) {
+      const keys = Object.keys(schema.properties);
+
+      keys.forEach(key => {
+        const child: any = schema.properties![key];
+
+        const option: any = {
+          label: child.title || key,
+          value: path + key,
+          type: child.type,
+          description: child.description
+        };
+
+        if (child.type === 'object') {
+          option.children = [];
+          this.buildOptions(option.children, child, path + key + '.');
+        }
+
+        options.push(option);
+      });
+    }
+  }
+
+  getDataPropsAsOptions() {
+    const variables: Array<any> = [];
+
+    this.buildOptions(variables, this.schema, '');
+
+    return variables;
+  }
+
+  getSchemaByPath(path: string) {
+    const parts = keyToPath(path);
+
+    return parts.reduce((schema: JSONSchema, key: string) => {
+      if (schema && schema.type === 'object' && schema.properties) {
+        return schema.properties[key] as JSONSchema;
+      }
+
+      return null;
+    }, this.schema);
   }
 }

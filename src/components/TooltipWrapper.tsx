@@ -92,7 +92,7 @@ export interface TooltipWrapperProps {
   rootClose: boolean;
   overlay?: any;
   delay: number;
-  theme?: string;
+  tooltipTheme?: string;
   tooltipClassName?: string;
   style?: React.CSSProperties;
 }
@@ -262,6 +262,7 @@ export class TooltipWrapper extends React.Component<
       tooltipClassName: props.tooltipClassName,
       style: props.style,
       mouseLeaveDelay: props.delay,
+      tooltipTheme: props.tooltipTheme as 'dark' | 'light',
       ...(typeof props.tooltip === 'string'
         ? {content: props.tooltip}
         : props.tooltip)

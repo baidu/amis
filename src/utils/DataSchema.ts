@@ -1,5 +1,6 @@
 import {DataScope} from './DataScope';
 import type {JSONSchema} from './DataScope';
+import {guid} from './helper';
 
 /**
  * 用来定义数据本身的数据结构，比如有类型是什么，有哪些属性。
@@ -25,7 +26,11 @@ export class DataSchema {
     return this;
   }
 
-  addScope(id: string, schema?: JSONSchema) {
+  addScope(schema?: JSONSchema, id: string = guid()) {
+    if (this.idMap[id]) {
+      throw new Error('scope id `' + id + '` already exists');
+    }
+
     this.current = this.current.addChild(id, schema);
     this.idMap[id] = this.current;
     return this;
@@ -72,5 +77,29 @@ export class DataSchema {
     return this;
   }
 
-  getDataProps() {}
+  getDataPropsAsOptions() {
+    const variables: Array<any> = [];
+    let current: DataScope | void = this.current;
+
+    while (current) {
+      variables.push(...current.getDataPropsAsOptions());
+      current = current.parent;
+    }
+
+    return variables;
+  }
+
+  getSchemaByPath(path: string) {
+    let current: DataScope | void = this.current;
+
+    while (current) {
+      const schema = current.getSchemaByPath(path);
+      if (schema) {
+        return schema;
+      }
+      current = current.parent;
+    }
+
+    return null;
+  }
 }

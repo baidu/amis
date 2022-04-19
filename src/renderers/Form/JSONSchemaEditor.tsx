@@ -13,6 +13,24 @@ export interface JSONSchemaEditorControlSchema extends FormBaseControl {
   type: 'json-schema-editor';
 
   /**
+   * 可以理解为类型模板，方便快速定义复杂类型
+   */
+  definitions?: {
+    [propName: string]: {
+      title: string;
+      type:
+        | 'string'
+        | 'number'
+        | 'interger'
+        | 'object'
+        | 'array'
+        | 'boolean'
+        | 'null';
+      [propName: string]: any;
+    };
+  };
+
+  /**
    * 顶层是否允许修改类型
    */
   rootTypeMutable: boolean;

@@ -35,7 +35,9 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
       translate: __,
       classPrefix,
       disabled,
-      showInfo
+      showInfo,
+      types,
+      onTypeChange
     } = this.props;
     const items = value?.items || {
       type: 'string'
@@ -47,23 +49,23 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
           'SchemaEditorProps--depth': showInfo !== false
         })}
       >
-        <div className={cx('SchemaEditorProp')}>
-          <SchemaEditorItem
-            prefix={
-              <div className={cx('SchemaEditor-itemsLabel')}>
-                {__('JSONSchema.array_items')}
-              </div>
-            }
-            value={items as any}
-            onChange={this.handleItemsChange}
-            renderExtraProps={renderExtraProps}
-            locale={locale}
-            translate={__}
-            classnames={cx}
-            classPrefix={classPrefix}
-            disabled={disabled}
-          />
-        </div>
+        <SchemaEditorItem
+          types={types}
+          onTypeChange={onTypeChange}
+          prefix={
+            <div className={cx('SchemaEditor-itemsLabel')}>
+              {__('JSONSchema.array_items')}
+            </div>
+          }
+          value={items as any}
+          onChange={this.handleItemsChange}
+          renderExtraProps={renderExtraProps}
+          locale={locale}
+          translate={__}
+          classnames={cx}
+          classPrefix={classPrefix}
+          disabled={disabled || !!(items as any)?.$ref}
+        />
       </div>
     );
   }

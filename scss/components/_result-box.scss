@@ -2,7 +2,7 @@
   @include input-input();
   @include input-border();
   flex-wrap: wrap;
-  padding: 0 px2rem(26px) 0 px2rem(3px);
+  padding: 0 px2rem(5px);
   min-height: var(--Form-input-height);
   align-items: center;
   border-radius: 3px;
@@ -172,7 +172,7 @@
       }
     }
   }
-  
+
   &.is-mobile {
     min-height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
     border: none;

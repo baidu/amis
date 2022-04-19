@@ -10,6 +10,16 @@ import Select from '../Select';
 export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   value?: JSONSchema;
   onChange: (value: JSONSchema) => void;
+  types: Array<{
+    label: string;
+    value: string;
+    [propName: string]: any;
+  }>;
+  onTypeChange?: (
+    type: string,
+    value: JSONSchema,
+    origin?: JSONSchema
+  ) => JSONSchema | void;
   disabled?: boolean;
   required?: boolean;
   onRequiredChange?: (value: boolean) => void;
@@ -27,62 +37,14 @@ export class SchemaEditorItemCommon<
   P extends SchemaEditorItemCommonProps = SchemaEditorItemCommonProps,
   S = any
 > extends React.Component<P, S> {
-  typeOptions: Array<any>;
-
-  constructor(props: P) {
-    super(props);
-    const __ = props.translate;
-
-    this.typeOptions = [
-      {
-        label: __('SchemaType.string'),
-        value: 'string'
-      },
-
-      {
-        label: __('SchemaType.number'),
-        value: 'number'
-      },
-
-      {
-        label: __('SchemaType.interger'),
-        value: 'interger'
-      },
-
-      {
-        label: __('SchemaType.object'),
-        value: 'object'
-      },
-
-      {
-        label: __('SchemaType.array'),
-        value: 'array'
-      },
-
-      {
-        label: __('SchemaType.boolean'),
-        value: 'boolean'
-      },
-
-      {
-        label: __('SchemaType.null'),
-        value: 'null'
-      }
-    ];
-  }
-
   @autobind
   handleTypeChange(type: any) {
-    const {value, onChange} = this.props;
-    const newValue: any = {
+    const {value, onChange, onTypeChange} = this.props;
+    let newValue: any = {
       type
     };
 
-    if (type === 'array') {
-      newValue.items = {
-        type: 'string'
-      };
-    }
+    newValue = onTypeChange?.(type, newValue, value) ?? newValue;
     onChange?.(newValue);
   }
 
@@ -104,6 +66,9 @@ export class SchemaEditorItemCommon<
     });
   }
 
+  // @autobind
+  // handleSettingClick() {}
+
   renderCommon() {
     const {
       value,
@@ -115,7 +80,8 @@ export class SchemaEditorItemCommon<
       onRequiredChange,
       renderExtraProps,
       prefix,
-      affix
+      affix,
+      types
     } = this.props;
 
     return (
@@ -123,9 +89,9 @@ export class SchemaEditorItemCommon<
         {prefix}
 
         <Select
-          options={this.typeOptions}
+          options={types}
           className={cx('SchemaEditor-type')}
-          value={value?.type || 'string'}
+          value={value?.$ref || value?.type || 'string'}
           onChange={this.handleTypeChange}
           clearable={false}
           disabled={disabled || typeMutable === false}
@@ -151,6 +117,14 @@ export class SchemaEditorItemCommon<
         />
 
         {renderExtraProps?.(value!, this.handleExtraPropsChange)}
+
+        {/* <Button
+          className={cx('SchemaEditor-btn')}
+          onClick={this.handleSettingClick}
+          iconOnly
+        >
+          <Icon icon="setting" className="icon" />
+        </Button> */}
 
         {affix}
       </>

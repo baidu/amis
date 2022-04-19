@@ -193,7 +193,9 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
       locale,
       classPrefix,
       disabled,
-      showInfo
+      showInfo,
+      types,
+      onTypeChange
     } = this.props;
     const members = this.state.members;
 
@@ -207,6 +209,8 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
           members.map((member, index) => (
             <SchemaEditorItem
               key={member.id}
+              types={types}
+              onTypeChange={onTypeChange}
               prefix={
                 <>
                   <InputBox
@@ -215,7 +219,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
                     value={member.key || ''}
                     onChange={this.handlePropKeyChange.bind(this, index)}
                     placeholder={__('JSONSchema.key')}
-                    disabled={disabled}
+                    disabled={disabled || !!value?.$ref}
                   />
 
                   <InputBox
@@ -223,15 +227,16 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
                     value={member.schema.title || ''}
                     onChange={this.handlePropTitleChange.bind(this, index)}
                     placeholder={__('JSONSchema.title')}
-                    disabled={disabled}
+                    disabled={disabled || !!member.schema?.$ref}
                   />
                 </>
               }
               affix={
                 <Button
-                  className={cx('CBDelete')}
+                  className={cx('SchemaEditor-btn')}
                   onClick={this.handlePropRemove.bind(this, index)}
                   iconOnly
+                  disabled={disabled || !!member.schema?.$ref}
                 >
                   <Icon icon="remove" className="icon" />
                 </Button>
@@ -243,7 +248,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
               translate={__}
               classnames={cx}
               classPrefix={classPrefix}
-              disabled={disabled}
+              disabled={disabled || !!member.schema?.$ref}
               required={member.required}
               onRequiredChange={this.handlePropRequiredChange.bind(this, index)}
             />
