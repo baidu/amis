@@ -95,6 +95,10 @@ export interface TooltipWrapperProps {
   theme?: string;
   tooltipClassName?: string;
   style?: React.CSSProperties;
+  /**
+   * 显示&隐藏时触发
+   */
+   onVisibleChange?: (visible: boolean) => void;
 }
 
 interface TooltipWrapperState {
@@ -151,6 +155,10 @@ export class TooltipWrapper extends React.Component<
   show() {
     this.setState({
       show: true
+    }, () => {
+      if (this.props.onVisibleChange) {
+        this.props.onVisibleChange(true);
+      }
     });
   }
 
@@ -159,6 +167,10 @@ export class TooltipWrapper extends React.Component<
     this.moutned &&
       this.setState({
         show: false
+      }, () => {
+        if (this.props.onVisibleChange) {
+          this.props.onVisibleChange(false);
+        }
       });
   }
 
