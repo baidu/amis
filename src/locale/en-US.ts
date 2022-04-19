@@ -45,6 +45,7 @@ register('en-US', {
   'PaginationWrapper.placeholder': 'please config body',
   'Pagination.select': '{{count}} items/page',
   'Pagination.goto': 'goto',
+  'Pagination.go': 'GO',
   'Pagination.totalPage': 'total {{lastPage}} pages',
   'Pagination.totalCount': 'total {{total}} items',
   'Date.titleYear': 'select year',

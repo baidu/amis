@@ -48,6 +48,7 @@ register('de-DE', {
   'PaginationWrapper.placeholder': 'Textkörper konfigurieren',
   'Pagination.select': '{{count}} items/page',
   'Pagination.goto': 'goto',
+  'Pagination.go': 'GO',
   'Pagination.totalPage': 'total {{lastPage}} pages',
   'Pagination.totalCount': 'total {{total}} items',
   'Date.titleYear': '',

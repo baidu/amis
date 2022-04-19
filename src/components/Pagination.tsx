@@ -86,8 +86,6 @@ export interface PaginationProps extends BasicPaginationProps, ThemeProps, Local
 export interface PaginationState {
   pageNum: string;
   perPage: number;
-  activePage: number;
-  lastPage: number;
 }
 export class Pagination extends React.Component<
   PaginationProps,
@@ -104,9 +102,7 @@ export class Pagination extends React.Component<
 
   state = {
     pageNum: '',
-    perPage: Number(this.props.perPage),
-    activePage: Number(this.props.activePage),
-    lastPage: this.getLastPage()
+    perPage: Number(this.props.perPage)
   };
 
   constructor(props: PaginationProps) {
@@ -123,7 +119,6 @@ export class Pagination extends React.Component<
     if (props.disabled) {
       return;
     }
-    this.setState({activePage: page});
     props.onPageChange && props.onPageChange(page, perPage);
   }
 
@@ -133,13 +128,13 @@ export class Pagination extends React.Component<
   * @param page 页码
   */
   renderPageItem(page: number) {
-    const {classnames: cx} = this.props;
-    const {perPage, activePage} = this.state;
+    const {classnames: cx, activePage} = this.props;
+    const {perPage} = this.state;
 
     return (<li
       onClick={() => this.handlePageNumChange(page, perPage)}
       key={page}
-      className={cx('page-item', {
+      className={cx('Pagination-pager-item', {
         'is-active': page === activePage
       })}
     >
@@ -211,7 +206,7 @@ export class Pagination extends React.Component<
 
   @autobind
   handlePageChange(e: React.ChangeEvent<any>) {
-    const {lastPage} = this.state;
+    const lastPage = this.getLastPage();
     let value = e.currentTarget.value;
 
     if (/^\d+$/.test(value) && parseInt(value, 10) > lastPage) {
@@ -226,6 +221,7 @@ export class Pagination extends React.Component<
       layout,
       maxButtons,
       mode,
+      activePage,
       total,
       showPerPage,
       perPageAvailable,
@@ -236,13 +232,14 @@ export class Pagination extends React.Component<
       hasNext,
       translate: __
     } = this.props;
-    const {pageNum, perPage, activePage, lastPage} = this.state;
+    const {pageNum, perPage} = this.state;
+    const lastPage = this.getLastPage();
 
     // 简易模式
     if (mode === 'simple') {
       return (
         <div className={cx('Pagination-wrap', 'Pagination-simple',  {'disabled': disabled}, className)}>
-          <ul key="pager-items" className={cx('Pagination', 'Pagination--sm', 'Pagination-item')}>
+          <ul key="pager-items" className={cx('Pagination', 'Pagination--sm', 'Pagination-pager-items', 'Pagination-item')}>
             <li
               className={cx('Pagination-prev', {
                 'is-disabled': activePage < 2
@@ -364,9 +361,9 @@ export class Pagination extends React.Component<
     );
 
     const go = <div className={cx('Pagination-inputGroup Pagination-item')} key="go">
-        <span className={cx('go-left')} key="go-left">{__('Pagination.goto')}</span>
+        <span className={cx('Pagination-inputGroup-left')} key="go-left">{__('Pagination.goto')}</span>
           <input
-            className={cx('go-input')} key="go-input"
+            className={cx('Pagination-inputGroup-input')} key="go-input"
             type="text"
             disabled={disabled}
             onChange={this.handlePageChange}
@@ -376,22 +373,22 @@ export class Pagination extends React.Component<
               if (!v || e.code != 'Enter') {
                 return;
               }
-              this.setState({pageNum: String(v)});
-
+              this.setState({pageNum: ''});
               this.handlePageNumChange(v, perPage);
             }}
             value={pageNum}
           />
           <span
-            className={cx('go-right')}
+            className={cx('Pagination-inputGroup-right')}
             key="go-right"
             onClick={(e: any) => {
               if (!pageNum) {
                 return;
               }
+              this.setState({pageNum: ''});
               this.handlePageNumChange(+pageNum, perPage);
             }}
-            >GO</span>
+            >{__('Pagination.go')}</span>
       </div>;
     const selection = (perPageAvailable as Array<number>).filter(v => !!v).map(v => ({label: __('Pagination.select', {count: v}), value: v}));
     const perPageEle =
@@ -404,11 +401,10 @@ export class Pagination extends React.Component<
               value={perPage}
               options={selection}
               onChange={(p: any) => {
-                this.setState({perPage: p.value});
-                this.setState({pageNum: ''});
-                if (total) {
-                  this.setState({lastPage: Math.ceil(total / p.value)})
-                }
+                this.setState({
+                  perPage: p.value,
+                  pageNum: ''
+                });
                 this.handlePageNumChange(1, p.value);
               }}
             />;

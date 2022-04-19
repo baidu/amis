@@ -113,7 +113,7 @@
     align-items: center;
     height: var(--Pagination-height);
 
-      .go-left {
+      &-left {
         color: var(--Pagination-light-color);
       }
       input {
@@ -136,7 +136,7 @@
           border-color: var(--primary);
         }
       }
-      .go-right {
+      &-right {
         display: inline-block;
         width: px2rem(32px);
         cursor: pointer;
