@@ -241,6 +241,7 @@
   --Button--light-onHover-color: var(--Button--light-color);
   --Button--link-color: var(--primary);
   --Button--link-onDisabled-color: #{$gray600};
+  --Button--link-onDisabled-backgroundColor: transparent;
   --Button--link-onHover-color: var(--primary-onHover);
   --Button--link-onActive-color: var(--primary-onActive);
   --Button--md-fontSize: var(--Button-fontSize);
