@@ -65,6 +65,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   rendererKey = '';
   renderer: RendererConfig | null;
   ref: any;
+  cRef: any;
 
   schema: any;
   path: string;
@@ -93,7 +94,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
   componentDidMount() {
     const {env} = this.props;
-    this.unbindEvent = env.bindEvent(this.ref);
+    // 这里无法区分监听的是不是广播，所以又bind一下，主要是为了绑广播
+    this.unbindEvent = env.bindEvent(this.cRef);
   }
 
   componentWillUnmount() {
@@ -185,7 +187,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   getWrappedInstance() {
-    return this.ref;
+    return this.cRef;
   }
 
   refFn(ref: any) {
@@ -198,14 +200,14 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       ref = ref.getWrappedInstance();
     }
 
-    this.ref = ref;
+    this.cRef = ref;
   }
 
   async dispatchEvent(
     e: React.MouseEvent<any>,
     data: any
   ): Promise<RendererEvent<any> | undefined> {
-    return await this.props.env.dispatchEvent(e, this.ref, this.context, data);
+    return await this.props.env.dispatchEvent(e, this.cRef, this.context, data);
   }
 
   renderChild(
@@ -259,13 +261,13 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const exprProps: any = detectData
       ? getExprProperties(schema, detectData, undefined, rest)
       : {};
-    const $schema = {...schema, ...exprProps};
+
     // 控制显隐
     const visible = isAlive(rootStore)
-      ? rootStore.visibleState[$schema.id || $path]
+      ? rootStore.visibleState[schema.id || $path]
       : undefined;
     const disable = isAlive(rootStore)
-      ? rootStore.disableState[$schema.id || $path]
+      ? rootStore.disableState[schema.id || $path]
       : undefined;
 
     if (
@@ -375,7 +377,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     const isClassComponent = Component.prototype?.isReactComponent;
-
+    const $schema = {...schema, ...exprProps};
     let props = {
       ...theme.getRendererConfig(renderer.name),
       ...restSchema,
@@ -411,7 +413,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     const component = isClassComponent ? (
-      <Component ref={this.childRef} {...props} />
+      <Component {...props} ref={this.childRef} />
     ) : (
       <Component {...props} />
     );

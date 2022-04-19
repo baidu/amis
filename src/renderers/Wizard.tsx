@@ -342,7 +342,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
     const rendererEvent = await dispatchEvent(
       action,
-      createObject(data, value ? value : {})
+      value ? createObject(data, value) : data
     );
 
     return rendererEvent?.prevented ?? false;
@@ -350,9 +350,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
   async handleInitEvent(data: any) {
     const {onInit} = this.props;
-    (await this.dispatchEvent('inited', {formData: data})) &&
-      onInit &&
-      onInit(data);
+    (await this.dispatchEvent('inited', data)) && onInit && onInit(data);
   }
 
   @autobind
@@ -390,8 +388,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     if (index != this.state.currentStep) {
       if (
         await this.dispatchEvent('stepChange', {
-          step: index,
-          formData: this.props.store.data
+          step: index
         })
       ) {
         return;
@@ -812,7 +809,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         store
           .saveRemote(action.api || step.api!, store.data, {
             onSuccess: () => {
-              this.dispatchEvent('stepSubmitSucc', {formData: store.data});
+              this.dispatchEvent('stepSubmitSucc');
 
               if (
                 !isEffectiveApi(finnalAsyncApi, store.data) ||

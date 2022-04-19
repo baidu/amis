@@ -1246,7 +1246,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 closeOnClick: true
               },
               {
-                buttons: conditions.map(item => ({
+                buttons: conditions?.map(item => ({
                   label: item.label,
                   onClick: (e: any) => {
                     this.addItemWith(item);

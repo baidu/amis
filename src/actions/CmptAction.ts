@@ -8,6 +8,10 @@ import {
   registerAction
 } from './Action';
 
+export interface ICmptAction extends ListenerAction {
+  value?: string | {[key: string]: string};
+}
+
 /**
  * 组件动作
  *
@@ -17,7 +21,7 @@ import {
  */
 export class CmptAction implements Action {
   async run(
-    action: ListenerAction,
+    action: ICmptAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -59,7 +63,7 @@ export class CmptAction implements Action {
     }
 
     // 执行组件动作
-    return component.doAction?.(action, action.args);
+    return component?.doAction?.(action, action.args);
   }
 }
 

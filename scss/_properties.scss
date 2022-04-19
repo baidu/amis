@@ -613,14 +613,12 @@
   );
   --DatePicker-placeholderColor: var(--Form-input-placeholderColor);
   --DatePicker-minWidth: calc(
-    var(--fontSizeLg) * 5 + var(--DatePicker-paddingX) * 2 + var(
-        --Form-input-clearBtn-size
-      ) * 2
+    var(--fontSizeLg) * 5 + var(--DatePicker-paddingX) * 2 +
+      var(--Form-input-clearBtn-size) * 2
   );
   --DateRangePicker-minWidth: calc(
-    var(--fontSizeLg) * 8 + var(--DatePicker-paddingX) * 2 + var(
-        --Form-input-clearBtn-size
-      ) * 2
+    var(--fontSizeLg) * 8 + var(--DatePicker-paddingX) * 2 +
+      var(--Form-input-clearBtn-size) * 2
   );
 
   --LocationPicker-borderRadius: var(--Form-input-borderWidth);
@@ -805,6 +803,7 @@
       5%
     )};
   --Form-selectValue-onDisabled-color: var(--Form-select-caret-iconColor);
+  --Form-selectValue-onInvalid-color: var(--danger);
   --Form-valueLabel-maxWidth: #{px2rem(120px)};
   --Form-select-onFocus-boxShadow: none;
 
@@ -1496,8 +1495,10 @@
   --TabsTransfer-border-color: #e8e9eb;
 
   --Tree-indent: var(--gap-md);
+  --Tree-icon-gap: var(--gap-xs);
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
   --Tree-item-onHover-bg: rgba(0, 126, 255, 0.08);
+  --Tree-item-onHover-bg-pure: rgba(0, 126, 255, 0.08);
   --Tree-itemArrowWidth: #{px2rem(12px)};
   --Tree-itemHeight: #{px2rem(30px)};
   --Tree-itemLabel--onChecked-color: var(--Form-selectValue-color);

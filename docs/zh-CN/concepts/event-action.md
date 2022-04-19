@@ -38,7 +38,8 @@ order: 9
   body: [
     {
       type: 'button',
-      label: '尝试点击我、鼠标移入移出',
+      label: '尝试点击、鼠标移入/移出',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -97,7 +98,8 @@ order: 9
     {
       type: 'button',
       id: 'b_001',
-      label: '发送Ajax请求',
+      label: '发送 Ajax 请求',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -119,10 +121,12 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型                           | 默认值 | 说明                 |
-| ---------- | ------------------------------ | ------ | -------------------- |
-| actionType | `string`                       | `ajax` | 点击后显示一个弹出框 |
-| api        | [API](../../../docs/types/api) | -      | 请求接口配置         |
+| 属性名     | 类型                                | 默认值 | 说明                      |
+| ---------- | ----------------------------------- | ------ | ------------------------- |
+| actionType | `string`                            | `ajax` | ajax 请求                 |
+| api        | [API](../../../docs/types/api)      | -      | 接口配置                  |
+| options    | `object`                            | -      | 其他配置                  |
+| messages   | `{success: string, failed: string}` | -      | 请求成功/失败后的提示信息 |
 
 ### 打开弹窗（模态）
 
@@ -136,6 +140,7 @@ order: 9
       type: 'button',
       className: 'ml-2',
       label: '打开弹窗（模态）',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -144,6 +149,10 @@ order: 9
               dialog: {
                 type: 'dialog',
                 title: '模态弹窗',
+                id: 'dialog_001',
+                data: {
+                   myage: '22'
+                },
                 body: [
                   {
                     type: 'tpl',
@@ -153,7 +162,17 @@ order: 9
                   {
                     type: 'input-text',
                     name: 'myname',
-                    mode: 'horizontal'
+                    mode: 'horizontal',
+                    onEvent: {
+                      change: {
+                        actions: [
+                          {
+                            actionType: 'confirm',
+                            componentId: 'dialog_001'
+                          }
+                        ]
+                      }
+                    }
                   }
                 ],
                 onEvent: {
@@ -162,6 +181,14 @@ order: 9
                       {
                         actionType: 'toast',
                         msg: 'confirm'
+                      }
+                    ]
+                  },
+                  cancel: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        msg: 'cancel'
                       }
                     ]
                   }
@@ -195,7 +222,7 @@ order: 9
       type: 'button',
       id: 'b_003',
       label: '打开弹窗（模态）',
-      className: 'ml-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -203,7 +230,7 @@ order: 9
               actionType: 'dialog',
               dialog: {
                 type: 'dialog',
-                id: 'dialog_1',
+                id: 'dialog_002',
                 title: '模态弹窗',
                 body: [
                   {
@@ -226,7 +253,7 @@ order: 9
                                       actions: [
                                         {
                                           actionType: 'closeDialog',
-                                          componentId: 'dialog_1'
+                                          componentId: 'dialog_002'
                                         }
                                       ]
                                     }
@@ -282,7 +309,7 @@ order: 9
     {
       type: 'button',
       id: 'b_004',
-      className: 'ml-2',
+      level: 'primary',
       label: '打开抽屉（模态）',
       onEvent: {
         click: {
@@ -291,7 +318,6 @@ order: 9
               actionType: 'drawer',
               drawer: {
                 type: 'drawer',
-                id: 'drawer_1',
                 title: '模态抽屉',
                 body: [
                   {
@@ -299,7 +325,25 @@ order: 9
                     tpl: '<p>对，你打开了模态抽屉</p>',
                     inline: false
                   }
-                ]
+                ],
+                onEvent: {
+                  confirm: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        msg: 'confirm'
+                      }
+                    ]
+                  },
+                  cancel: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        msg: 'cancel'
+                      }
+                    ]
+                  }
+                }
               }
             }
           ]
@@ -328,7 +372,7 @@ order: 9
     {
       type: 'button',
       label: '打开抽屉（模态）',
-      className: 'ml-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -417,7 +461,7 @@ order: 9
     {
       type: 'button',
       label: '提示对话框（模态）',
-      className: 'ml-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -449,12 +493,12 @@ order: 9
     {
       type: 'button',
       label: '确认对话框（模态）',
-      className: 'ml-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
             {
-              actionType: 'confirm',
+              actionType: 'confirmDialog',
               title: '操作确认',
               msg: '要删除它吗？'
             }
@@ -468,11 +512,11 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型     | 默认值    | 说明           |
-| ---------- | -------- | --------- | -------------- |
-| actionType | `string` | `confirm` | 打开确认对话框 |
-| title      | `string` | -         | 对话框标题     |
-| msg        | `string` | -         | 对话框提示内容 |
+| 属性名     | 类型     | 默认值          | 说明           |
+| ---------- | -------- | --------------- | -------------- |
+| actionType | `string` | `confirmDialog` | 打开确认对话框 |
+| title      | `string` | -               | 对话框标题     |
+| msg        | `string` | -               | 对话框提示内容 |
 
 ### 跳转链接
 
@@ -483,10 +527,14 @@ order: 9
 ```schema
 {
   type: 'page',
+  data: {
+    myname: 'lvxj'
+  },
   body: [
     {
       type: 'button',
       label: '百度一下',
+      level: 'primary',
       className: 'ml-2',
       onEvent: {
         click: {
@@ -494,7 +542,15 @@ order: 9
             {
               actionType: 'url',
               url: 'http://www.baidu.com',
-              blank: true
+              blank: true,
+              params: {
+                name: 'jack',
+                jon: 'player'
+              },
+              args: {
+                name: '${myname}',
+                age: 18
+              }
             }
           ]
         }
@@ -520,7 +576,8 @@ order: 9
   body: [
     {
       type: 'button',
-      label: '跳转至表达式',
+      label: '跳转至「表达式」',
+      level: 'primary',
       className: 'ml-2',
       onEvent: {
         click: {
@@ -554,6 +611,7 @@ order: 9
     {
       type: 'button',
       label: '回退',
+      level: 'primary',
       className: 'ml-2',
       onEvent: {
         click: {
@@ -586,6 +644,7 @@ order: 9
     {
       type: 'button',
       label: '后退到上上个页面',
+      level: 'primary',
       className: 'ml-2',
       onEvent: {
         click: {
@@ -620,6 +679,7 @@ order: 9
     {
       type: 'button',
       label: '刷新页面',
+      level: 'primary',
       className: 'ml-2',
       onEvent: {
         click: {
@@ -652,7 +712,8 @@ order: 9
     {
       type: 'button',
       label: '警告',
-      className: 'ml-2',
+      level: 'warning',
+      className: 'mr-2 mb-2',
       onEvent: {
         click: {
           actions: [
@@ -669,7 +730,8 @@ order: 9
     {
       type: 'button',
       label: '成功',
-      className: 'ml-2',
+      level: 'success',
+      className: 'mr-2 mb-2',
       onEvent: {
         click: {
           actions: [
@@ -686,7 +748,8 @@ order: 9
     {
       type: 'button',
       label: '错误',
-      className: 'ml-2',
+      level: 'danger',
+      className: 'mr-2 mb-2',
       onEvent: {
         click: {
           actions: [
@@ -703,7 +766,8 @@ order: 9
     {
       type: 'button',
       label: '提示',
-      className: 'ml-2',
+      level: 'info',
+      className: 'mb-2',
       onEvent: {
         click: {
           actions: [
@@ -719,12 +783,12 @@ order: 9
     },
     {
       type: 'tpl',
-      tpl: '<br>'
+      tpl: '<br>',
     },
     {
       type: 'button',
       label: '左上',
-      className: 'ml-2 m',
+      className: 'mr-2 mt-2',
       onEvent: {
         click: {
           actions: [
@@ -741,7 +805,7 @@ order: 9
     {
       type: 'button',
       label: '中上',
-      className: 'ml-2',
+      className: 'mr-2 mt-2',
       onEvent: {
         click: {
           actions: [
@@ -758,7 +822,7 @@ order: 9
     {
       type: 'button',
       label: '右上',
-      className: 'ml-2',
+      className: 'mt-2',
       onEvent: {
         click: {
           actions: [
@@ -773,9 +837,34 @@ order: 9
       }
     },
     {
+      type: 'tpl',
+      tpl: '<br>',
+    },
+    {
+      type: 'button',
+      label: '屏幕的中央',
+      className: 'ml-10 mt-2 mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'toast',
+              msgType: 'info',
+              msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
+              position: 'center'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'tpl',
+      tpl: '<br>',
+    },
+    {
       type: 'button',
       label: '左下',
-      className: 'ml-2',
+      className: 'mr-2',
       onEvent: {
         click: {
           actions: [
@@ -792,7 +881,7 @@ order: 9
     {
       type: 'button',
       label: '中下',
-      className: 'ml-2',
+      className: 'mr-2',
       onEvent: {
         click: {
           actions: [
@@ -809,7 +898,6 @@ order: 9
     {
       type: 'button',
       label: '右下',
-      className: 'ml-2',
       onEvent: {
         click: {
           actions: [
@@ -832,8 +920,8 @@ order: 9
 | 属性名      | 类型      | 默认值                                  | 说明                                                                                                              |
 | ----------- | --------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | actionType  | `string`  | `"toast"`                               | 指定 toast 动作                                                                                                   |
-| msgType     | `string`  |                                         | 消息类型 `"info"、"success"、"error"、"warning"`                                                                  |
-| msg         | `string`  |                                         | 消息内容                                                                                                          |
+| msgType     | `string`  | `"info"`                                | 消息类型 `"info"、"success"、"error"、"warning"`                                                                  |
+| msg         | `string`  | -                                       | 消息内容                                                                                                          |
 | position    | `string`  | `top-center（移动端为center）`          | 提示显示位置，可用'top-right'、'top-center'、'top-left'、'bottom-center'、'bottom-left'、'bottom-right'、'center' |
 | closeButton | `boolean` | `false`                                 | 是否展示关闭按钮                                                                                                  |
 | showIcon    | `boolean` | `true`                                  | 是否展示图标                                                                                                      |
@@ -841,7 +929,7 @@ order: 9
 
 ### 复制
 
-通过配置`actionType: 'copy'`和复制属性实现文本的复制操作。
+通过配置`actionType: 'copy'`和复制属性实现文本的复制操作，该动作需实现 env.copy(contents: string, options?: any) => void 方法。
 
 ```schema
 {
@@ -850,7 +938,8 @@ order: 9
     {
       type: 'button',
       label: '复制一段文本',
-      className: 'ml-2',
+      level: 'primary',
+      className: 'mr-2',
       onEvent: {
         click: {
           actions: [
@@ -865,7 +954,7 @@ order: 9
     {
       type: 'button',
       label: '复制一段富文本',
-      className: 'ml-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -901,7 +990,7 @@ order: 9
     {
       type: 'button',
       label: '发送邮件',
-      className: 'ml-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -942,7 +1031,8 @@ order: 9
     {
       type: 'button',
       label: '刷新(表单)',
-      className: 'ml-2',
+      className: 'mr-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -957,7 +1047,7 @@ order: 9
     {
       type: 'button',
       label: '刷新(下拉框)',
-      className: 'ml-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -974,7 +1064,7 @@ order: 9
       type: 'select',
       id: 'select-reload',
       mode: 'horizontal',
-      className: 'm-t',
+      className: 'mt-2',
       name: 'select',
       source:
         'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1'
@@ -1017,7 +1107,8 @@ order: 9
     {
       type: 'button',
       label: '显示',
-      className: 'ml-2 m',
+      level: 'primary',
+      className: 'mr-2',
       onEvent: {
         click: {
           actions: [
@@ -1032,7 +1123,7 @@ order: 9
     {
       type: 'button',
       label: '隐藏',
-      className: 'ml-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -1047,6 +1138,7 @@ order: 9
     {
       type: 'input-text',
       label: '愿望',
+      className: 'mt-2',
       id: 'input-text_001',
       mode: 'horizontal',
       hidden: true
@@ -1074,7 +1166,8 @@ order: 9
       type: 'button',
       id: 'b_dis',
       label: '禁用',
-      className: 'ml-2 m',
+      level: 'primary',
+      className: 'mr-2 mb-2',
       onEvent: {
         click: {
           actions: [
@@ -1089,7 +1182,8 @@ order: 9
     {
       type: 'button',
       label: '启用',
-      className: 'ml-2',
+      level: 'primary',
+      className: 'mb-2',
       onEvent: {
         click: {
           actions: [
@@ -1118,6 +1212,7 @@ order: 9
               type: 'button',
               className: 'ml-2',
               label: '禁用上面的按钮',
+              level: 'primary',
               onEvent: {
                 click: {
                   actions: [
@@ -1133,6 +1228,7 @@ order: 9
               type: 'button',
               className: 'ml-2',
               label: '启用用上面的按钮',
+              level: 'primary',
               onEvent: {
                 click: {
                   actions: [
@@ -1180,7 +1276,8 @@ order: 9
     {
       type: 'button',
       label: '更新',
-      className: 'ml-2 m',
+      level: 'primary',
+      className: 'mb-2',
       onEvent: {
         click: {
           actions: [
@@ -1241,7 +1338,7 @@ order: 9
     {
       type: 'button',
       label: '打开弹窗',
-      className: 'ml-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -1249,7 +1346,7 @@ order: 9
               actionType: 'dialog',
               "dialog": {
                 "title": "在弹框中的表单",
-                "id": "dialog_data",
+                "id": "dialog_003",
                 "data": {
                   username: 'amis'
                 },
@@ -1294,7 +1391,7 @@ order: 9
                           },
                           {
                             actionType: 'setValue',
-                            componentId: 'dialog_data',
+                            componentId: 'dialog_003',
                             value: {
                               username: '${myResult.name}'
                             }
@@ -1331,7 +1428,8 @@ order: 9
     {
       type: 'button',
       label: '更新',
-      className: 'ml-2 m',
+      level: 'primary',
+      className: 'mb-2',
       onEvent: {
         click: {
           actions: [
@@ -1399,7 +1497,8 @@ order: 9
     {
       type: 'button',
       label: '更新',
-      className: 'ml-2 m',
+      level: 'primary',
+      className: 'mr-2 mb-2',
       onEvent: {
         click: {
           actions: [
@@ -1415,7 +1514,8 @@ order: 9
     {
       type: 'button',
       label: '更新表单内输入框',
-      className: 'ml-2 m',
+      level: 'primary',
+      className: 'mb-2',
       onEvent: {
         click: {
           actions: [
@@ -1477,7 +1577,7 @@ order: 9
     {
       type: 'input-text',
       label: '输入角色',
-      className: 'ml-2 m',
+      mode: 'horizontal',
       onEvent: {
         change: {
           actions: [
@@ -1495,7 +1595,7 @@ order: 9
     {
       type: 'input-text',
       label: '输入年龄',
-      className: 'ml-2 m',
+      mode: 'horizontal',
       onEvent: {
         change: {
           actions: [
@@ -1537,6 +1637,7 @@ order: 9
       type: 'select',
       label: '选择消息',
       name: 'message',
+      mode: 'horizontal',
       "options": [
         {
           "label": "Hi",
@@ -1551,7 +1652,6 @@ order: 9
           "value": "Hey!"
         }
       ],
-      className: 'ml-2 m',
       onEvent: {
         change: {
           actions: [
@@ -1623,7 +1723,7 @@ order: 9
                   actionType: 'dialog',
                   "dialog": {
                     "title": "登录",
-                    "id": "dialog_data",
+                    "id": "dialog_004",
                     "data": {
                       username: 'amis'
                     },
@@ -1709,7 +1809,8 @@ order: 9
   body: [
     {
       type: 'button',
-      label: '点我一下',
+      label: '发送一个 http 请求',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -1726,16 +1827,22 @@ order: 9
 }
 ```
 
+如果是在 js 中也能直接写函数，这个函数可以接收到 3 个参数，分别是：
+
+- context，上下文信息
+- doAction 方法，用于调用其它动作
+- event，事件传递的数据，以及可以禁止
+
 **动作属性**
 
 | 属性名     | 类型     | 默认值   | 说明                                                                                                                                            |
 | ---------- | -------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | actionType | `string` | `custom` | 自定义 JS                                                                                                                                       |
-| script     | `string` |          | 自定义 JS 脚本代码，代码内可以通过调用`doAction`执行任何[动作](../../docs/concepts/event-action#动作) ，通过事件对象`event`可以实现事件动作干预 |
+| script     | `string` | -        | 自定义 JS 脚本代码，代码内可以通过调用`doAction`执行任何[动作](../../docs/concepts/event-action#动作) ，通过事件对象`event`可以实现事件动作干预 |
 
 ## 触发其他组件的动作
 
-通过配置`componentId`来触发指定组件的动作，组件动作参考具体组件文档。
+通过配置`componentId`来触发指定组件的动作，组件动作参考通过`args`传入，动作参数请查看对应的组件文档。
 
 ```schema
 {
@@ -1744,6 +1851,7 @@ order: 9
     {
       type: 'button',
       label: '选中选项卡2',
+      level: 'primary',
       className: 'mr-3 mb-3',
       onEvent: {
         click: {
@@ -1751,7 +1859,9 @@ order: 9
             {
               actionType: 'changeActiveKey',
               componentId: 'tabs-change-receiver',
-              activeKey: 1
+              args: {
+                activeKey: 1
+              }
             }
           ]
         }
@@ -1939,7 +2049,7 @@ order: 9
 | 属性名     | 类型     | 默认值      | 说明                                             |
 | ---------- | -------- | ----------- | ------------------------------------------------ |
 | actionType | `string` | `broadcast` | 广播动作                                         |
-| eventName  | `string` |             | 广播动作对应的自定义事件名称，用于广播事件的监听 |
+| eventName  | `string` | -           | 广播动作对应的自定义事件名称，用于广播事件的监听 |
 
 ## 自定义动作
 
@@ -1973,7 +2083,7 @@ order: 9
       {
         type: 'button',
         label: '循环发送两次请求，且每次携带了循环的数据',
-        className: 'ml-2',
+        level: 'primary',
         onEvent: {
           click: {
             actions: [
@@ -2004,7 +2114,7 @@ order: 9
 | 属性名     | 类型                                                 | 默认值 | 说明                                  |
 | ---------- | ---------------------------------------------------- | ------ | ------------------------------------- |
 | actionType | `string`                                             | `for`  | 循环执行动作                          |
-| loopName   | `string`                                             |        | 循环变量                              |
+| loopName   | `string`                                             | -      | 循环变量                              |
 | children   | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作，可以通过`break动作`来跳出循环 |
 
 ## Break 动作
@@ -2031,7 +2141,7 @@ order: 9
       {
         type: 'button',
         label: '只执行了第一个动作就跳出了循环',
-        className: 'ml-2',
+        level: 'primary',
         onEvent: {
           click: {
             actions: [
@@ -2099,7 +2209,7 @@ order: 9
       {
         type: 'button',
         label: '只循环执行第一个动作',
-        className: 'ml-2',
+        level: 'primary',
         onEvent: {
           click: {
             actions: [
@@ -2157,7 +2267,7 @@ order: 9
       {
         type: 'button',
         label: '只执行动作2',
-        className: 'ml-2',
+        level: 'primary',
         onEvent: {
           click: {
             actions: [
@@ -2216,7 +2326,7 @@ order: 9
       {
         type: 'button',
         label: '同时执行动作1、2',
-        className: 'ml-2',
+        level: 'primary',
         onEvent: {
           click: {
             actions: [
@@ -2267,7 +2377,8 @@ order: 9
       type: 'button',
       id: 'b_001',
       label: '发一个广播，携带动作参数',
-      className: 'm',
+      className: 'mb-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -2331,7 +2442,7 @@ order: 9
     {
       type: 'button',
       label: '发送Ajax请求，并把返回数据传给弹窗',
-      className: 'ml-2',
+      level: 'primary',
       onEvent: {
         click: {
           actions: [
@@ -2351,7 +2462,7 @@ order: 9
               },
               dialog: {
                 type: 'dialog',
-                id: 'dialog_1',
+                id: 'dialog_005',
                 title: '弹框标题1',
                 data: {
                   id: '${id}'
@@ -2430,7 +2541,7 @@ order: 9
     {
       "type": "button",
       "label": "停止执行动作3",
-      "className": "ml-2",
+      level: 'primary',
       "onEvent": {
         "click": {
           "actions": [
@@ -2464,11 +2575,11 @@ order: 9
 
 # 通用属性表
 
-| 属性名          | 类型                             | 默认值 | 说明             |
-| --------------- | -------------------------------- | ------ | ---------------- |
-| actionType      | `string`                         |        | 动作名称         |
-| args            | `{key:value}`                    |        | 动作参数         |
-| preventDefault  | `boolean`                        | false  | 阻止事件默认行为 |
-| stopPropagation | `boolean`                        | false  | 停止后续动作执行 |
-| execOn          | [表达式](../concepts/expression) |        | 执行条件         |
-| outputVar       | `string`                         |        | 输出数据变量名   |
+| 属性名          | 类型                             | 默认值 | 说明                         |
+| --------------- | -------------------------------- | ------ | ---------------------------- |
+| actionType      | `string`                         | -      | 动作名称                     |
+| args            | `{key:value}`                    | -      | 动作参数                     |
+| preventDefault  | `boolean`                        | false  | 阻止事件默认行为             |
+| stopPropagation | `boolean`                        | false  | 停止后续动作执行             |
+| expression      | [表达式](../concepts/expression) | -      | 执行条件，不设置表示默认执行 |
+| outputVar       | `string`                         | -      | 输出数据变量名               |

@@ -54,7 +54,9 @@ export default {
             {
               actionType: 'changeActiveKey',
               componentId: 'tabs-change-receiver',
-              activeKey: 2
+              args: {
+                activeKey: 2
+              }
             }
           ]
         }

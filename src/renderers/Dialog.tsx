@@ -9,6 +9,7 @@ import {
   guid,
   isVisible,
   autobind,
+  createObject,
   isObjectShallowModified
 } from '../utils/helper';
 import {reaction} from 'mobx';
@@ -721,15 +722,18 @@ export class DialogRenderer extends Dialog {
     return false;
   }
 
-  handleAction(
-    e: React.UIEvent<any>,
+  doAction(action: Action, data: object, throwErrors: boolean): any {
+    this.handleAction(undefined, action, data);
+  }
+
+  async handleAction(
+    e: React.UIEvent<any> | void,
     action: Action,
     data: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {onAction, store, onConfirm, env} = this.props;
-
+    const {onAction, store, onConfirm, env, dispatchEvent} = this.props;
     if (action.from === this.$$id) {
       return onAction
         ? onAction(e, action, data, throwErrors, delegate || this.context)
@@ -745,10 +749,24 @@ export class DialogRenderer extends Dialog {
       action.actionType === 'close' ||
       action.actionType === 'cancel'
     ) {
+      const rendererEvent = await dispatchEvent(
+        'cancel',
+        createObject(this.props.data, data)
+      );
+      if (rendererEvent?.prevented) {
+        return;
+      }
       store.setCurrentAction(action);
       this.handleSelfClose();
       action.close && this.closeTarget(action.close);
     } else if (action.actionType === 'confirm') {
+      const rendererEvent = await dispatchEvent(
+        'confirm',
+        createObject(this.props.data, data)
+      );
+      if (rendererEvent?.prevented) {
+        return;
+      }
       store.setCurrentAction(action);
       this.tryChildrenToHandle(
         {
