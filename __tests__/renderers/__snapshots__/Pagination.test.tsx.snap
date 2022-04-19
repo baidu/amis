@@ -25,7 +25,7 @@ exports[`Renderer:Pagination 1`] = `
             </span>
           </li>
           <li
-            class="page-item is-active"
+            class="cxd-Pagination-pager-item is-active"
           >
             <a
               role="button"
@@ -34,7 +34,7 @@ exports[`Renderer:Pagination 1`] = `
             </a>
           </li>
           <li
-            class="page-item"
+            class="cxd-Pagination-pager-item"
           >
             <a
               role="button"
@@ -43,7 +43,7 @@ exports[`Renderer:Pagination 1`] = `
             </a>
           </li>
           <li
-            class="page-item"
+            class="cxd-Pagination-pager-item"
           >
             <a
               role="button"
@@ -52,7 +52,7 @@ exports[`Renderer:Pagination 1`] = `
             </a>
           </li>
           <li
-            class="page-item"
+            class="cxd-Pagination-pager-item"
           >
             <a
               role="button"
@@ -61,7 +61,7 @@ exports[`Renderer:Pagination 1`] = `
             </a>
           </li>
           <li
-            class="page-item"
+            class="cxd-Pagination-pager-item"
           >
             <a
               role="button"
