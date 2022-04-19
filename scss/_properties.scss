@@ -1131,7 +1131,10 @@
   --Pagination-onActive-backgroundColor: var(--primary);
   --Pagination-onActive-border: 0;
   --Pagination-onActive-color: var(--white);
+  --Pagination-onDisabled-color: var(--text--muted-color);
+  --Pagination-onDisabled-backgroundColor: #{$gray200};
   --Pagination-padding: 0 #{px2rem(8px)};
+  --Pagination-light-color: #84868c;
 
   --Panel--default-badgeBg: #333;
   --Panel--default-badgeColor: #f5f5f5;
