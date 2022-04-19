@@ -466,7 +466,7 @@ export class Navigation extends React.Component<
           <a
             data-id={link.__id}
             data-depth={depth}
-            title={link?.label?.toString()}
+            title={typeof link?.label === 'string' ? link?.label : undefined}
             onClick={this.handleClick.bind(this, link)}
             style={{
               paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)
@@ -858,7 +858,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         }
       }
       this.props.updateConfig(links, 'update');
-      this.props.onOrderChange!(links);
+      this.props.onOrderChange?.(links);
       await this.saveOrder(
         mapTree(links, (link: Link) => {
           // 清除内部加的字段

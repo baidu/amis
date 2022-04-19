@@ -6,6 +6,7 @@ import {Action, Api} from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';
 import {default as CTabs, Tab} from '../../components/Tabs';
 import Button from '../../components/Button';
+import {ButtonSchema} from '../Action';
 
 import {
   guid,
@@ -299,7 +300,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     formClassName: '',
     subFormMode: 'normal',
     draggableTip: '',
-    addButtonText: 'Combo.add',
+    addButtonText: 'add',
     canAccessSuperData: false,
     addIcon: true,
     dragIcon: '',
@@ -679,8 +680,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     if (
       syncDefaultValue !== false &&
       !nullable &&
-      isObjectShallowModified(value, values) &&
-      setPrinstineValue
+      isObjectShallowModified(value, values)
     ) {
       setPrinstineValue({
         ...values
@@ -965,6 +965,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       tabsLabelTpl,
       conditions,
       changeImmediately,
+      addBtnText,
       translate: __
     } = this.props;
 
@@ -988,6 +989,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     return (
       <CTabs
+        addBtnText={__(addBtnText || 'add')}
         className={'ComboTabs'}
         mode={tabsStyle}
         activeKey={store.activeKey}
@@ -995,43 +997,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         additionBtns={
           !disabled ? (
             <li className={cx(`Tabs-link ComboTabs-addLink`)}>
-              {store.addable && addable !== false ? (
-                Array.isArray(conditions) && conditions.length ? (
-                  render(
-                    'add-button',
-                    {
-                      type: 'dropdown-button',
-                      icon: addIcon ? (
-                        <Icon icon="plus" className="icon" />
-                      ) : (
-                        ''
-                      ),
-                      label: __(addButtonText || 'Combo.add'),
-                      level: 'info',
-                      size: 'sm',
-                      closeOnClick: true
-                    },
-                    {
-                      buttons: conditions.map(item => ({
-                        label: item.label,
-                        onClick: (e: any) => {
-                          this.addItemWith(item);
-                          return false;
-                        }
-                      }))
-                    }
-                  )
-                ) : (
-                  <a
-                    onClick={this.addItem}
-                    data-position="left"
-                    data-tooltip={__('Combo.add')}
-                  >
-                    {addIcon ? <Icon icon="plus" className="icon" /> : null}
-                    <span>{__(addButtonText || 'Combo.add')}</span>
-                  </a>
-                )
-              ) : null}
+              {this.renderAddBtn()}
             </li>
           ) : null
         }
@@ -1190,7 +1156,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         type: 'button',
         className: cx(
           'Combo-delController',
-          deleteBtn ? deleteBtn.classname : ''
+          deleteBtn ? deleteBtn.className : ''
         ),
         onClick: (e: any) => {
           if (!deleteBtn.onClick) {
@@ -1244,6 +1210,72 @@ export default class ComboControl extends React.Component<ComboProps> {
           <Icon icon="status-close" className="icon" />
         )}
       </a>
+    );
+  }
+
+  renderAddBtn() {
+    const {
+      classPrefix: ns,
+      classnames: cx,
+      render,
+      addButtonClassName,
+      store,
+      addButtonText,
+      addBtn,
+      addable,
+      addIcon,
+      conditions,
+      translate: __,
+      tabsMode
+    } = this.props;
+
+    const hasConditions = Array.isArray(conditions) && conditions.length;
+    return (
+      <>
+        {store.addable &&
+          addable !== false &&
+          (hasConditions ? (
+            render(
+              'add-button',
+              {
+                type: 'dropdown-button',
+                icon: addIcon ? <Icon icon="plus" className="icon" /> : '',
+                label: __(addButtonText || 'Combo.add'),
+                level: 'info',
+                size: 'sm',
+                closeOnClick: true
+              },
+              {
+                buttons: conditions?.map(item => ({
+                  label: item.label,
+                  onClick: (e: any) => {
+                    this.addItemWith(item);
+                    return false;
+                  }
+                }))
+              }
+            )
+          ) : tabsMode ? (
+            <a onClick={this.addItem}>
+              {addIcon ? <Icon icon="plus" className="icon" /> : null}
+              <span>{__(addButtonText || 'Combo.add')}</span>
+            </a>
+          ) : isObject(addBtn) ? (
+            render('add-button', {
+              ...addBtn,
+              type: 'button',
+              onClick: () => this.addItem()
+            })
+          ) : (
+            <Button
+              className={cx(`Combo-addBtn`, addButtonClassName)}
+              onClick={this.addItem}
+            >
+              {addIcon ? <Icon icon="plus" className="icon" /> : null}
+              <span>{__(addButtonText || 'Combo.add')}</span>
+            </Button>
+          ))}
+      </>
     );
   }
 
@@ -1406,38 +1438,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         </div>
         {!disabled ? (
           <div className={cx(`Combo-toolbar`)}>
-            {store.addable && addable !== false ? (
-              Array.isArray(conditions) && conditions.length ? (
-                render(
-                  'add-button',
-                  {
-                    type: 'dropdown-button',
-                    label: __(addButtonText || 'Combo.add'),
-                    level: 'info',
-                    size: 'sm',
-                    closeOnClick: true
-                  },
-                  {
-                    buttons: conditions.map(item => ({
-                      label: item.label,
-                      onClick: (e: any) => {
-                        this.addItemWith(item);
-                        return false;
-                      }
-                    }))
-                  }
-                )
-              ) : (
-                <Button
-                  className={cx(`Combo-addBtn`, addButtonClassName)}
-                  tooltip={__('Combo.add')}
-                  onClick={this.addItem}
-                >
-                  {addIcon ? <Icon icon="plus" className="icon" /> : null}
-                  <span>{__(addButtonText || 'Combo.add')}</span>
-                </Button>
-              )
-            ) : null}
+            {this.renderAddBtn()}
             {draggable ? (
               <span className={cx(`Combo-dragableTip`)} ref={this.dragTipRef}>
                 {Array.isArray(value) && value.length > 1

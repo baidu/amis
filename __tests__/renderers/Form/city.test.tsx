@@ -1,11 +1,11 @@
 import React = require('react');
-import {render, fireEvent} from '@testing-library/react';
+import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
 
 test('Renderer:city', async () => {
-  const {container, getByText} = render(
+  const {container, getByText, findByText} = render(
     amisRender(
       {
         type: 'form',
@@ -27,7 +27,9 @@ test('Renderer:city', async () => {
     )
   );
 
-  await wait(200);
+  await waitFor(() => {
+    getByText('请选择');
+  });
 
   fireEvent.click(getByText('请选择'));
   fireEvent.click(getByText('北京市'));
@@ -36,5 +38,6 @@ test('Renderer:city', async () => {
   fireEvent.click(getByText('请选择'));
   fireEvent.click(getByText('东城区'));
 
+  await wait(500);
   expect(container).toMatchSnapshot();
 });

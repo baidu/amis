@@ -4,11 +4,19 @@ import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
 import qs from 'qs';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
+
+export interface IEmailAction extends ListenerAction {
+  to: string;
+  cc: string;
+  bcc: string;
+  subject: string;
+  body: string;
+}
 
 /**
  * 邮件动作
@@ -17,15 +25,15 @@ import {
  * @class EmailAction
  * @implements {Action}
  */
-export class EmailAction implements Action {
+export class EmailAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: IEmailAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
     const mailTo = filter(action.to, action.args);
     const mailInfo = mapValues(
-      pick(action, 'to', 'cc', 'bcc', 'subject', 'body'),
+      pick(action, 'cc', 'bcc', 'subject', 'body'),
       val => filter(val, action.args)
     );
     const mailStr = qs.stringify(mailInfo);

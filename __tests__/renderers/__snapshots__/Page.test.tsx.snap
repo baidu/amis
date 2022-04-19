@@ -85,98 +85,96 @@ exports[`Renderer:Page 1`] = `
 `;
 
 exports[`Renderer:Page classNames 1`] = `
-<div
-  className="cxd-Page cxd-Page--withSidebar"
-  onClick={[Function]}
->
+<div>
   <div
-    className="cxd-Page-aside cxd-Page-aside--withWidth aside-class-name"
+    class="cxd-Page cxd-Page--withSidebar"
   >
     <div
-      className="cxd-Page-asideInner"
+      class="cxd-Page-aside cxd-Page-aside--withWidth aside-class-name"
     >
       <div
-        className="cxd-TplField cxd-Page-asideTplWrapper"
-      >
-        <span>
-          This is aside
-        </span>
-      </div>
-    </div>
-  </div>
-  <div
-    className="cxd-Page-content"
-  >
-    <div
-      className="cxd-Page-main"
-    >
-      <div
-        className="cxd-Page-headerRow"
+        class="cxd-Page-asideInner"
+        style="position: sticky; top: 0px;"
       >
         <div
-          className="cxd-Page-header header-class-name"
-        >
-          <h2
-            className="cxd-Page-title"
-          >
-            <span
-              className="cxd-TplField"
-            >
-              <span>
-                This is Title
-              </span>
-            </span>
-            <div
-              className="cxd-Remark cxd-Remark--warning"
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-            >
-              <span
-                className="cxd-Remark-icon icon"
-              >
-                <icon-mock
-                  className=" icon-question-mark"
-                  icon="question-mark"
-                />
-              </span>
-            </div>
-          </h2>
-          <small
-            className="cxd-Page-subTitle"
-          >
-            <span
-              className="cxd-TplField"
-            >
-              <span>
-                This is SubTitle
-              </span>
-            </span>
-          </small>
-        </div>
-        <div
-          className="cxd-Page-toolbar toolbar-class-name"
-        >
-          <span
-            className="cxd-TplField"
-          >
-            <span>
-              This is toolbar
-            </span>
-          </span>
-        </div>
-      </div>
-      <div
-        className="cxd-Page-body body-class-name"
-      >
-        <span
-          className="cxd-TplField"
+          class="cxd-TplField cxd-Page-asideTplWrapper"
         >
           <span>
-            This is body
+            This is aside
           </span>
-        </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-headerRow"
+        >
+          <div
+            class="cxd-Page-header header-class-name"
+          >
+            <h2
+              class="cxd-Page-title"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  This is Title
+                </span>
+              </span>
+              <div
+                class="cxd-Remark cxd-Remark--warning"
+              >
+                <span
+                  class="cxd-Remark-icon icon"
+                >
+                  <icon-mock
+                    classname=" icon-question-mark"
+                    icon="question-mark"
+                  />
+                </span>
+              </div>
+            </h2>
+            <small
+              class="cxd-Page-subTitle"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  This is SubTitle
+                </span>
+              </span>
+            </small>
+          </div>
+          <div
+            class="cxd-Page-toolbar toolbar-class-name"
+          >
+            <span
+              class="cxd-TplField"
+            >
+              <span>
+                This is toolbar
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          class="cxd-Page-body body-class-name"
+        >
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              This is body
+            </span>
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -365,7 +363,7 @@ exports[`Renderer:Page handleAction actionType=ajax 1`] = `
 </div>
 `;
 
-exports[`Renderer:Page handleAction actionType=dialog 1`] = `
+exports[`Renderer:Page handleAction actionType=dialog default 1`] = `
 <div>
   <div
     class="cxd-Page"
@@ -394,72 +392,10 @@ exports[`Renderer:Page handleAction actionType=dialog 1`] = `
       </div>
     </div>
   </div>
-  <div
-    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
-    role="dialog"
-  >
-    <div
-      class="cxd-Modal-overlay in"
-    />
-    <div
-      class="cxd-Modal-content in"
-    >
-      <div
-        class="cxd-Modal-header"
-      >
-        <a
-          class="cxd-Modal-close"
-          data-position="left"
-          data-tooltip="关闭"
-        >
-          <icon-mock
-            classname="icon icon-close"
-            icon="close"
-          />
-        </a>
-        <div
-          class="cxd-Modal-title"
-        >
-          弹框
-        </div>
-      </div>
-      <div
-        class="cxd-Modal-body"
-      >
-        <span
-          class="cxd-TplField"
-        >
-          <span>
-            this is dialog
-          </span>
-        </span>
-      </div>
-      <div
-        class="cxd-Modal-footer"
-      >
-        <button
-          class="cxd-Button cxd-Button--default"
-          type="button"
-        >
-          <span>
-            取消
-          </span>
-        </button>
-        <button
-          class="cxd-Button cxd-Button--primary"
-          type="button"
-        >
-          <span>
-            确认
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
 </div>
 `;
 
-exports[`Renderer:Page handleAction actionType=dialog 2`] = `
+exports[`Renderer:Page handleAction actionType=dialog default 2`] = `
 <div>
   <div
     class="cxd-Page"
@@ -662,104 +598,10 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
       </div>
     </div>
   </div>
-  <div
-    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
-    role="dialog"
-  >
-    <div
-      class="cxd-Modal-overlay out"
-    />
-    <div
-      class="cxd-Modal-content out"
-    >
-      <div
-        class="cxd-Modal-header"
-      >
-        <a
-          class="cxd-Modal-close"
-          data-position="left"
-          data-tooltip="关闭"
-        >
-          <icon-mock
-            classname="icon icon-close"
-            icon="close"
-          />
-        </a>
-        <div
-          class="cxd-Modal-title"
-        >
-          弹框
-        </div>
-      </div>
-      <div
-        class="cxd-Modal-body"
-      >
-        <form
-          class="cxd-Form cxd-Form--horizontal"
-          novalidate=""
-        >
-          <input
-            style="display: none;"
-            type="submit"
-          />
-          <div
-            class="cxd-Form-item cxd-Form-item--horizontal"
-            data-role="form-item"
-          >
-            <label
-              class="cxd-Form-label cxd-Form-itemColumn--normal"
-            >
-              <span>
-                <span
-                  class="cxd-TplField"
-                >
-                  <span>
-                    A
-                  </span>
-                </span>
-              </span>
-            </label>
-            <div
-              class="cxd-Form-value"
-            >
-              <div
-                class="cxd-Form-control cxd-TextControl"
-              >
-                <div
-                  class="cxd-TextControl-input"
-                >
-                  <input
-                    autocomplete="off"
-                    name="a"
-                    placeholder=""
-                    size="10"
-                    type="text"
-                    value="3"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div
-        class="cxd-Modal-footer"
-      >
-        <button
-          class="cxd-Button cxd-Button--default"
-          type="submit"
-        >
-          <span>
-            确认
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
 </div>
 `;
 
-exports[`Renderer:Page handleAction actionType=drawer 1`] = `
+exports[`Renderer:Page handleAction actionType=drawer default 1`] = `
 <div>
   <div
     class="cxd-Page"
@@ -817,6 +659,7 @@ exports[`Renderer:Page handleAction actionType=drawer 1`] = `
         />
         <div
           class="cxd-Spinner cxd-Spinner--overlay in"
+          data-testid="spinner"
         >
           <div
             class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
@@ -848,7 +691,7 @@ exports[`Renderer:Page handleAction actionType=drawer 1`] = `
 </div>
 `;
 
-exports[`Renderer:Page handleAction actionType=drawer 2`] = `
+exports[`Renderer:Page handleAction actionType=drawer default 2`] = `
 <div>
   <div
     class="cxd-Page"
@@ -1047,26 +890,27 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 2`] = `
 `;
 
 exports[`Renderer:Page initApi 1`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+<div>
   <div
-    className="cxd-Page-content"
+    class="cxd-Page"
   >
     <div
-      className="cxd-Page-main"
+      class="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        class="cxd-Page-main"
       >
-        <span
-          className="cxd-TplField"
+        <div
+          class="cxd-Page-body"
         >
-          <span>
-            The variable value is 2
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              The variable value is 2
+            </span>
           </span>
-        </span>
+        </div>
       </div>
     </div>
   </div>
@@ -1074,41 +918,41 @@ exports[`Renderer:Page initApi 1`] = `
 `;
 
 exports[`Renderer:Page initApi error show Message 1`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+<div>
   <div
-    className="cxd-Page-content"
+    class="cxd-Page"
   >
     <div
-      className="cxd-Page-main"
+      class="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        class="cxd-Page-main"
       >
         <div
-          className="cxd-Alert cxd-Alert--danger"
+          class="cxd-Page-body"
         >
           <div
-            className="cxd-Alert-content"
+            class="cxd-Alert cxd-Alert--danger"
           >
             <div
-              className="cxd-Alert-desc"
+              class="cxd-Alert-content"
             >
-              Internal Error
+              <div
+                class="cxd-Alert-desc"
+              >
+                Internal Error
+              </div>
             </div>
+            <button
+              class="cxd-Alert-close"
+              type="button"
+            >
+              <icon-mock
+                classname="icon icon-close"
+                icon="close"
+              />
+            </button>
           </div>
-          <button
-            className="cxd-Alert-close"
-            onClick={[Function]}
-            type="button"
-          >
-            <icon-mock
-              className="icon icon-close"
-              icon="close"
-            />
-          </button>
         </div>
       </div>
     </div>
@@ -1953,36 +1797,38 @@ exports[`Renderer:Page initApi reload by action 2`] = `
 `;
 
 exports[`Renderer:Page initApi show loading 1`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+<div>
   <div
-    className="cxd-Page-content"
+    class="cxd-Page"
   >
     <div
-      className="cxd-Page-main"
+      class="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        class="cxd-Page-main"
       >
         <div
-          className="cxd-Spinner-overlay in"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay in"
+          class="cxd-Page-body"
         >
           <div
-            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+            class="cxd-Spinner-overlay"
           />
-        </div>
-        <span
-          className="cxd-TplField"
-        >
-          <span>
-            The variable value is 
+          <div
+            class="cxd-Spinner cxd-Spinner--overlay"
+            data-testid="spinner"
+          >
+            <div
+              class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+            />
+          </div>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              The variable value is 
+            </span>
           </span>
-        </span>
+        </div>
       </div>
     </div>
   </div>
@@ -1990,26 +1836,27 @@ exports[`Renderer:Page initApi show loading 1`] = `
 `;
 
 exports[`Renderer:Page initApi show loading 2`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+<div>
   <div
-    className="cxd-Page-content"
+    class="cxd-Page"
   >
     <div
-      className="cxd-Page-main"
+      class="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        class="cxd-Page-main"
       >
-        <span
-          className="cxd-TplField"
+        <div
+          class="cxd-Page-body"
         >
-          <span>
-            The variable value is 3
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              The variable value is 3
+            </span>
           </span>
-        </span>
+        </div>
       </div>
     </div>
   </div>
@@ -2017,36 +1864,27 @@ exports[`Renderer:Page initApi show loading 2`] = `
 `;
 
 exports[`Renderer:Page initApi silentPolling 1`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+<div>
   <div
-    className="cxd-Page-content"
+    class="cxd-Page"
   >
     <div
-      className="cxd-Page-main"
+      class="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        class="cxd-Page-main"
       >
         <div
-          className="cxd-Spinner-overlay in"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay in"
+          class="cxd-Page-body"
         >
-          <div
-            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
-          />
-        </div>
-        <span
-          className="cxd-TplField"
-        >
-          <span>
-            The variable value is 
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              The variable value is 3
+            </span>
           </span>
-        </span>
+        </div>
       </div>
     </div>
   </div>
@@ -2054,80 +1892,27 @@ exports[`Renderer:Page initApi silentPolling 1`] = `
 `;
 
 exports[`Renderer:Page initApi silentPolling 2`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+<div>
   <div
-    className="cxd-Page-content"
+    class="cxd-Page"
   >
     <div
-      className="cxd-Page-main"
+      class="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        class="cxd-Page-main"
       >
-        <span
-          className="cxd-TplField"
+        <div
+          class="cxd-Page-body"
         >
-          <span>
-            The variable value is 3
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              The variable value is 4
+            </span>
           </span>
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:Page initApi silentPolling 3`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
-  <div
-    className="cxd-Page-content"
-  >
-    <div
-      className="cxd-Page-main"
-    >
-      <div
-        className="cxd-Page-body"
-      >
-        <span
-          className="cxd-TplField"
-        >
-          <span>
-            The variable value is 3
-          </span>
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:Page initApi silentPolling 4`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
-  <div
-    className="cxd-Page-content"
-  >
-    <div
-      className="cxd-Page-main"
-    >
-      <div
-        className="cxd-Page-body"
-      >
-        <span
-          className="cxd-TplField"
-        >
-          <span>
-            The variable value is 4
-          </span>
-        </span>
+        </div>
       </div>
     </div>
   </div>

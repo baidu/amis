@@ -272,7 +272,7 @@ export default {
         click: {
           actions: [
             {
-              actionType: 'confirm',
+              actionType: 'confirmDialog',
               title: '操作确认',
               msg: '要删除它吗？'
             }

@@ -68,7 +68,6 @@ import OptionsLocalPageSchema from './Linkage/OptionsLocal';
 import FormSubmitSchema from './Linkage/FormSubmit';
 import CommonEventActionSchema from './EventAction/Common';
 import BroadcastEventActionSchema from './EventAction/Broadcast';
-import CmptEventActionSchema from './EventAction/Cmpt';
 import CustomEventActionSchema from './EventAction/Custom';
 import LogicEventActionSchema from './EventAction/Logic';
 import StopEventActionSchema from './EventAction/Stop';
@@ -87,6 +86,8 @@ import InputTreeEventSchema from './EventAction/InputTreeEvent';
 import treeSelectEventSchema from './EventAction/treeSelectEvent';
 import FormEventActionSchema from './EventAction/FormEvent';
 import TransferEventSchema from './EventAction/TransferEvent';
+import ServiceEventSchema from './EventAction/ServiceEvent';
+import CarouselEventSchema from './EventAction/CarouselEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -99,13 +100,14 @@ import ServicesDataSchema from './Services/Data';
 import ServicesSchemaSchema from './Services/Schema';
 import ServicesFormSchema from './Services/Form';
 import IFrameSchema from './IFrame';
-
+import ThemeSchema from './Theme';
 import NormalTabSchema from './Tabs/Normal';
 import FormTabSchema from './Tabs/Form';
 import DynamicTabSchema from './Tabs/Dynamic';
 import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
+
 import TestComponent from './Test';
 
 import {normalizeLink} from '../../src/utils/normalizeLink';
@@ -538,8 +540,6 @@ export const examples = [
           },
           {
             label: '执行其他组件动作',
-            path: '/examples/event-action/cmpt',
-            component: makeSchemaRenderer(CmptEventActionSchema),
             children: [
               {
                 label: '按钮类组件',
@@ -610,6 +610,16 @@ export const examples = [
                 label: '穿梭框类组件',
                 path: 'examples/event/transfer',
                 component: makeSchemaRenderer(TransferEventSchema)
+              },
+              {
+                label: '轮播图组件',
+                path: 'examples/event/carousel',
+                component: makeSchemaRenderer(CarouselEventSchema)
+              },
+              {
+                label: 'Service组件',
+                path: 'examples/event/service',
+                component: makeSchemaRenderer(ServiceEventSchema)
               }
             ]
           },
@@ -656,6 +666,13 @@ export const examples = [
             component: makeSchemaRenderer(ServicesFormSchema)
           }
         ]
+      },
+
+      {
+        label: '主题编辑器',
+        icon: 'fa fa-glasses',
+        path: '/examples/theme',
+        component: makeSchemaRenderer(ThemeSchema)
       },
 
       {

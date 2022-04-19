@@ -44,7 +44,7 @@ export class BarCodeField extends React.Component<BarCodeProps, object> {
 
     return (
       <Suspense fallback={<div>...</div>}>
-        <div className={cx('BarCode', className)}>
+        <div data-testid="barcode" className={cx('BarCode', className)}>
           <BarCode value={value} options={options}></BarCode>
         </div>
       </Suspense>

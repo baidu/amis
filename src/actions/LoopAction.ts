@@ -1,7 +1,8 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {createObject} from '../utils/helper';
 import {
-  Action,
+  RendererAction,
+  ListenerAction,
   ListenerContext,
   LogicAction,
   LoopStatus,
@@ -11,6 +12,10 @@ import {
 } from './Action';
 import {resolveVariable} from '../utils/tpl-builtin';
 
+export interface ILoopAction extends ListenerAction, LogicAction {
+  loopName: string;
+}
+
 /**
  * 循环动作
  *
@@ -18,9 +23,9 @@ import {resolveVariable} from '../utils/tpl-builtin';
  * @class LoopAction
  * @implements {Action}
  */
-export class LoopAction implements Action {
+export class LoopAction implements RendererAction {
   async run(
-    action: LogicAction,
+    action: ILoopAction,
     renderer: ListenerContext,
     event: RendererEvent<any>,
     mergeData: any

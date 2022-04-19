@@ -6,7 +6,7 @@ import {
   Option,
   FormOptionsControl
 } from './Options';
-import {Button} from '../../types';
+import {Action, Button} from '../../types';
 import {getLevelFromClassName, autobind, isEmpty} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {ButtonGroupSchema} from '../ButtonGroup';
@@ -47,6 +47,15 @@ export default class ButtonGroupControl extends React.Component<
     clearable: false,
     vertical: false
   };
+
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      onChange(resetValue ?? '');
+    }
+  }
 
   @autobind
   handleToggle(option: Option) {

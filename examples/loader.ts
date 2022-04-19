@@ -26,7 +26,6 @@
     'amis/embed': __moduleId('./embed.tsx'),
     'amis@@version/embed': __moduleId('./embed.tsx'),
     'prop-types': __moduleId('prop-types'),
-    'async/mapLimit': __moduleId('async/mapLimit'),
     'qs': __moduleId('qs'),
     'path-to-regexp': __moduleId('path-to-regexp'),
     'history': __moduleId('history')

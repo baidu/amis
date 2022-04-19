@@ -714,6 +714,8 @@
       padding: 0 px2rem(10px);
       padding-top: px2rem(8px);
       display: flex;
+      width: 100%;
+
       > li {
         position: relative;
         margin-bottom: 0;
@@ -732,7 +734,7 @@
           z-index: 5;
           overflow: hidden;
           padding: 0;
-          text-overflow: unset;
+          text-overflow: ellipsis;
         }
 
         &.is-active {

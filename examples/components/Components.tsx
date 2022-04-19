@@ -76,6 +76,15 @@ export const components = [
         )
       },
       {
+        label: 'Pagination分页',
+        path: '/zh-CN/components/pagination',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/pagination.md').then(
+            wrapDoc
+          )
+        )
+      },
+      {
         label: 'PaginationWrapper 分页容器',
         path: '/zh-CN/components/pagination-wrapper',
         component: React.lazy(() =>

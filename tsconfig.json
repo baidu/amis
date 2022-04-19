@@ -22,6 +22,12 @@
     "skipLibCheck": true
   },
   "include": ["src/**/*", "examples/**/*"],
-  "exclude": ["node_modules", "acceptance-tests", "webpack", "jest", "jest_cache"],
-  "types": ["node", "typePatches"]
+  "exclude": [
+    "node_modules",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "jest_cache"
+  ],
+  "types": ["node", "typePatches", "@testing-library/jest-dom"]
 }

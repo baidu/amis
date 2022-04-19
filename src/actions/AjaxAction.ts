@@ -1,16 +1,24 @@
-import {IRootStore} from '../store/root';
-import {fetchOptions} from '../types';
+import {Api} from '../types';
 import {normalizeApiResponseData} from '../utils/api';
 import {ServerError} from '../utils/errors';
 import {createObject, isEmpty, isVisible} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {filter} from '../utils/tpl';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
+
+export interface IAjaxAction extends ListenerAction {
+  api: Api;
+  messages: {
+    success: string;
+    failed: string;
+  };
+  options: object;
+}
 
 /**
  * 发送请求动作
@@ -19,23 +27,18 @@ import {
  * @class AjaxAction
  * @implements {Action}
  */
-export class AjaxAction implements Action {
+export class AjaxAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: IAjaxAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
     const env = event.context.env;
     try {
-      const options = {
-        ...(action.options ?? {}),
-        method: action.method ?? 'post'
-      };
-
       const result = await env.fetcher(
         action.api as string,
         action.args,
-        options
+        action.options ?? {}
       );
 
       if (!isEmpty(result.data) || result.ok) {

@@ -632,11 +632,16 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   --Satus-icon-width: #{px2rem(14px)};
 
-  --Tree-itemHeight: #{px2rem(32px)};
-
   --Progress-borderRadius: #{$R7};
 
   --Rating-inactive-color: #{$G9};
+
+  // tree
+  --Tree-item-onHover-bg-pure: #{$G10};
+  --Tree-item-onChekced-bg: var(--Form-select-menu-onHover-bg);
+  --Tree-item-onChekced-bg-borderRadius: #{px2rem(2px)};
+  --Tree-itemHeight: #{px2rem(24px)};
+  --Tree-icon-gap: var(--gap-sm);
 
   // Formula
   --InputFormula-code-bgColor: #{$G10};
@@ -645,17 +650,4 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --ResultBox-value-bg: #{$G10};
   --ResultBox-value-clear-bg: #{$G8};
   --ResultBox-value-clear-hover-bg: #{$G9};
-
-  // ContextMenu
-  --menu-background: #fff;
-  --menu-box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
-  --menu-border-radius: 4px;
-  --menu-font-color: #151b26;
-  --menu-font-family: PingFangSC-Regular;
-  --menu-border-color: #e8e9eb; // 默认的边框色
-  --menu-active-color: #2468f2;
-  --menu-hover-bg-color: #e6f0ff;
-  --menu-disabled-color: #b8babf; // 禁用文字颜色
-  --default-icon-color: #84868c; // 默认的icon颜色
-  --default-padding: 4px 12px; // 6px 12px
 }

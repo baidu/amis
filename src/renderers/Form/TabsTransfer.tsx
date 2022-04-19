@@ -36,19 +36,17 @@ export interface TabsTransferProps
       | 'className'
       | 'descriptionClassName'
     > {}
-  
+
 interface BaseTransferState {
-  activeKey: number
+  activeKey: number;
 }
 
 export class BaseTabsTransferRenderer<
   T extends OptionsControlProps = TabsTransferProps
 > extends BaseTransferRenderer<T> {
-
   state: BaseTransferState = {
     activeKey: 0
-  }
-
+  };
 
   @autobind
   async onTabChange(key: number) {
@@ -68,7 +66,14 @@ export class BaseTabsTransferRenderer<
     option: Option,
     cancelExecutor: Function
   ) {
-    const {options, labelField, valueField, env, data} = this.props;
+    const {
+      options,
+      labelField,
+      valueField,
+      env,
+      data,
+      translate: __
+    } = this.props;
     const {searchApi} = option;
 
     if (searchApi) {
@@ -82,13 +87,13 @@ export class BaseTabsTransferRenderer<
         );
 
         if (!payload.ok) {
-          throw new Error(payload.msg || '搜索请求异常');
+          throw new Error(__(payload.msg || 'networkError'));
         }
 
         const result =
           payload.data.options || payload.data.items || payload.data;
         if (!Array.isArray(result)) {
-          throw new Error('CRUD.invalidArray');
+          throw new Error(__('CRUD.invalidArray'));
         }
 
         return result.map(item => {
@@ -244,9 +249,9 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
   }
 
   // 动作
-  doAction(action: Action) {
+  doAction(action: Action, args: any) {
     const {resetValue, onChange} = this.props;
-    const activeKey = action?.activeKey as number;
+    const activeKey = args?.activeKey as number;
     switch (action.actionType) {
       case 'clear':
         onChange('');

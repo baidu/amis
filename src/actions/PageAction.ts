@@ -1,10 +1,14 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
+
+export interface IPageGoAction extends ListenerAction {
+  delta?: number;
+}
 
 /**
  * 返回上个页面
@@ -13,7 +17,7 @@ import {
  * @class PageGoBackAction
  * @implements {Action}
  */
-export class PageGoBackAction implements Action {
+export class PageGoBackAction implements RendererAction {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,
@@ -30,9 +34,9 @@ export class PageGoBackAction implements Action {
  * @class PageGoAction
  * @implements {Action}
  */
-export class PageGoAction implements Action {
+export class PageGoAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: IPageGoAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -47,7 +51,7 @@ export class PageGoAction implements Action {
  * @class PageRefreshAction
  * @implements {Action}
  */
-export class PageRefreshAction implements Action {
+export class PageRefreshAction implements RendererAction {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,

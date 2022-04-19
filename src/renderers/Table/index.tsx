@@ -4,8 +4,6 @@ import {Renderer, RendererProps} from '../../factory';
 import {SchemaNode, Action, Schema} from '../../types';
 import forEach from 'lodash/forEach';
 import {filter} from '../../utils/tpl';
-import DropDownButton from '../DropDownButton';
-import './ColumnToggler';
 import Checkbox from '../../components/Checkbox';
 import Button from '../../components/Button';
 import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
@@ -413,6 +411,8 @@ export default class Table extends React.Component<TableProps, object> {
     'saveImmediately',
     'rowClassName',
     'rowClassNameExpr',
+    'affixRowClassNameExpr',
+    'prefixRowClassNameExpr',
     'popOverContainer',
     'headerToolbarClassName',
     'toolbarClassName',
@@ -2205,8 +2205,33 @@ export default class Table extends React.Component<TableProps, object> {
         label={config?.label}
         draggable={config?.draggable}
         columns={store.columnsData}
+        activeToggaleColumns={store.activeToggaleColumns}
         onColumnToggle={this.handleColumnToggle}
       >
+        {store.toggableColumns.length ? (
+          <li
+            className={cx('ColumnToggler-menuItem')}
+            key={'selectAll'}
+            onClick={store.toggleAllColumns}
+          >
+            <Checkbox
+              size="sm"
+              classPrefix={ns}
+              key="checkall"
+              checked={!!store.activeToggaleColumns.length}
+              partial={
+                !!(
+                  store.activeToggaleColumns.length &&
+                  store.activeToggaleColumns.length !==
+                    store.toggableColumns.length
+                )
+              }
+            >
+              {__('Checkboxes.selectAll')}
+            </Checkbox>
+          </li>
+        ) : null}
+
         {store.toggableColumns.map(column => (
           <li
             className={cx('ColumnToggler-menuItem')}
@@ -2480,6 +2505,10 @@ export default class Table extends React.Component<TableProps, object> {
       tableContentClassName,
       translate,
       itemAction,
+      affixRowClassNameExpr,
+      affixRowClassName,
+      prefixRowClassNameExpr,
+      prefixRowClassName,
       autoFillHeight,
       itemActions
     } = this.props;
@@ -2522,6 +2551,8 @@ export default class Table extends React.Component<TableProps, object> {
         data={store.data}
         prefixRow={prefixRow}
         affixRow={affixRow}
+        prefixRowClassName={prefixRowClassName}
+        affixRowClassName={affixRowClassName}
         locale={locale}
         translate={translate}
       />

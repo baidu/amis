@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, cleanup, fireEvent} from '@testing-library/react';
+import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
@@ -71,7 +71,12 @@ test('Renderer:service', async () => {
     )
   );
 
-  await wait(300);
+  await waitFor(() => {
+    expect(container.querySelector('[name="dy_1"]')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(fetcher).toHaveBeenCalled();
   expect(container).toMatchSnapshot();
 });
@@ -120,14 +125,22 @@ test('form:service:remoteData', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="child-a"][value="123"]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText('Submit'));
-  await wait(500);
-  expect(onSubmit).toBeCalled();
-  expect(onSubmit.mock.calls[0][0]).toMatchObject({
-    'child-a': '123'
+  await waitFor(() => {
+    expect(onSubmit).toBeCalled();
+    expect(onSubmit.mock.calls[0][0]).toMatchObject({
+      'child-a': '123'
+    });
   });
 });
 
@@ -183,15 +196,23 @@ test('form:service:remoteSchmea+data', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="child-a"][value="123"]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText('Submit'));
-  await wait(500);
-  expect(onSubmit).toBeCalled();
-  expect(onSubmit.mock.calls[0][0]).toMatchObject({
-    'child-a': '123',
-    'child-b': '344'
+  await waitFor(() => {
+    expect(onSubmit).toBeCalled();
+    expect(onSubmit.mock.calls[0][0]).toMatchObject({
+      'child-a': '123',
+      'child-b': '344'
+    });
   });
 });
 
@@ -234,12 +255,19 @@ test('form:service:onChange', async () => {
       value: '123'
     }
   });
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="child-a"][value="123"]')
+    ).toBeInTheDocument();
+  });
 
   fireEvent.click(getByText('Submit'));
-  await wait(500);
-  expect(onSubmit).toBeCalled();
-  expect(onSubmit.mock.calls[0][0]).toMatchObject({
-    'child-a': '123'
+
+  await waitFor(() => {
+    expect(onSubmit).toBeCalled();
+    expect(onSubmit.mock.calls[0][0]).toMatchObject({
+      'child-a': '123'
+    });
   });
 });
 
@@ -288,7 +316,14 @@ test('form:service:super-remoteData', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="child-a"][value="123"]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
 });

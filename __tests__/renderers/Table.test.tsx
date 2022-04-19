@@ -308,6 +308,7 @@ test('Renderer:table children', () => {
   expect(container).toMatchSnapshot();
 });
 
+// 合并单元格
 test('Renderer:table combineNum', () => {
   const {container} = render(
     amisRender(
@@ -359,7 +360,139 @@ test('Renderer:table combineNum', () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:table group', () => {
+// 超级表头
+test('Renderer:table groupName-default', () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'service',
+          data: {
+            rows
+          },
+          body: [
+            {
+              type: 'table',
+              source: '$rows',
+              className: 'm-b-none',
+              columns: [
+                {
+                  name: 'engine',
+                  label: 'Engine',
+                  groupName: '分组1'
+                },
+                {
+                  name: 'grade',
+                  label: 'Grade',
+                  groupName: '分组1'
+                },
+                {
+                  name: 'version',
+                  label: 'Version',
+                  groupName: '分组2'
+                },
+                {
+                  name: 'browser',
+                  label: 'Browser',
+                  groupName: '分组2'
+                },
+                {
+                  name: 'id',
+                  label: 'ID',
+                  toggled: false,
+                  groupName: '分组2'
+                },
+                {
+                  name: 'platform',
+                  label: 'Platform',
+                  groupName: '分组2'
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  expect(container).toMatchSnapshot();
+});
+
+// 超级表头，但是 tpl
+test('Renderer:table groupName-withTpl', () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          groups: [
+            {
+              group: '分组1'
+            },
+            {
+              group: '分组1'
+            }
+          ]
+        },
+        body: {
+          type: 'service',
+          data: {
+            rows
+          },
+          body: [
+            {
+              type: 'table',
+              source: '$rows',
+              className: 'm-b-none',
+              columns: [
+                {
+                  name: 'engine',
+                  label: 'Engine',
+                  groupName: '${groups[0].group}'
+                },
+                {
+                  name: 'grade',
+                  label: 'Grade',
+                  groupName: '${groups[1].group}'
+                },
+                {
+                  name: 'version',
+                  label: 'Version',
+                  groupName: '分组2'
+                },
+                {
+                  name: 'browser',
+                  label: 'Browser',
+                  groupName: '分组2'
+                },
+                {
+                  name: 'id',
+                  label: 'ID',
+                  toggled: false,
+                  groupName: '分组2'
+                },
+                {
+                  name: 'platform',
+                  label: 'Platform',
+                  groupName: '分组2'
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  expect(container).toMatchSnapshot();
+});
+
+test('Renderer:table column head style', () => {
   const {container} = render(
     amisRender(
       {

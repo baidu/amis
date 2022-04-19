@@ -1,11 +1,16 @@
+import {RendererProps} from '../factory';
 import {createObject} from '../utils/helper';
-import {RendererEvent} from '../utils/renderer-event';
+import {RendererEvent, dispatchEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
+
+export interface IBroadcastAction extends ListenerAction {
+  eventName: string; // 事件名称，actionType: broadcast
+}
 
 /**
  * broadcast
@@ -14,9 +19,9 @@ import {
  * @class BroadcastAction
  * @implements {Action}
  */
-export class BroadcastAction implements Action {
+export class BroadcastAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: IBroadcastAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -29,7 +34,7 @@ export class BroadcastAction implements Action {
     event.setData(createObject(event.data, action.args));
 
     // 直接触发对应的动作
-    return await event.context.env.dispatchEvent(
+    return await dispatchEvent(
       action.eventName,
       renderer,
       event.context.scoped,

@@ -1,5 +1,11 @@
 import React = require('react');
-import {render, fireEvent, findByText} from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  findByText,
+  waitFor,
+  act
+} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
@@ -97,28 +103,36 @@ test('Renderer:combo multiple', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(getByText('新增')).toBeInTheDocument();
+  });
   const add = await findByText(container, '新增');
   // 点击新增
   add.click();
 
-  await wait(500);
+  await waitFor(() => {
+    expect(container.querySelector('input[name="text"]')).toBeInTheDocument();
+  });
 
   // 输入
   const input = container.querySelector(
-    '.cxd-TextControl-input input'
+    'input[name="text"]'
   ) as HTMLInputElement;
 
   fireEvent.change(input, {target: {value: 'amis'}});
+  await wait(300);
 
   // 下拉框点击
-  (container.querySelector('.cxd-Select') as HTMLDivElement).click();
+  fireEvent.click(container.querySelector('.cxd-Select')!);
 
-  await findByText(container, 'aOptions');
+  await waitFor(() => {
+    expect(getByText('aOptions')).toBeInTheDocument();
+  });
 
   fireEvent.click(getByText('aOptions'));
-  await wait(500);
+  await wait(300);
 
-  const formDebug = JSON.parse(document.querySelector('pre code')!.innerHTML);
+  const formDebug = JSON.parse(container.querySelector('pre code')!.innerHTML);
 
   expect(formDebug).toEqual({
     combo: [

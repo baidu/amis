@@ -240,11 +240,11 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       store.updateData(values[0]);
     }
 
-    const dialog = store.action.dialog as any;
+    const drawer = store.action.drawer as any;
     if (
-      dialog &&
-      dialog.onConfirm &&
-      dialog.onConfirm(values, action, ...args) === false
+      drawer &&
+      drawer.onConfirm &&
+      drawer.onConfirm(values, action, ...args) === false
     ) {
       return;
     }

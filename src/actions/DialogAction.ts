@@ -1,10 +1,24 @@
+import {SchemaNode} from '../types';
 import {RendererEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
+
+export interface IAlertAction extends ListenerAction {
+  msg: string;
+}
+
+export interface IConfirmAction extends ListenerAction {
+  title: string;
+  msg: string;
+}
+
+export interface IDialogAction extends ListenerAction {
+  dialog: SchemaNode;
+}
 
 /**
  * 打开弹窗动作
@@ -13,15 +27,13 @@ import {
  * @class DialogAction
  * @implements {Action}
  */
-export class DialogAction implements Action {
+export class DialogAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: IDialogAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    const store = renderer.props.store;
-    store.setCurrentAction(action);
-    store.openDialog(action.args);
+    renderer.props.onAction?.(event, action, action.args);
   }
 }
 
@@ -32,7 +44,7 @@ export class DialogAction implements Action {
  * @class CloseDialogAction
  * @implements {Action}
  */
-export class CloseDialogAction implements Action {
+export class CloseDialogAction implements RendererAction {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,
@@ -43,7 +55,14 @@ export class CloseDialogAction implements Action {
       event.context.scoped.closeById(action.componentId);
     } else {
       // 关闭当前弹窗
-      renderer.props.store.parentStore.closeDialog();
+      renderer.props.onAction?.(
+        event,
+        {
+          ...action,
+          actionType: 'close'
+        },
+        action.args
+      );
     }
   }
 }
@@ -51,9 +70,9 @@ export class CloseDialogAction implements Action {
 /**
  * alert提示动作
  */
-export class AlertAction implements Action {
+export class AlertAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: IAlertAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -64,9 +83,9 @@ export class AlertAction implements Action {
 /**
  * confirm确认提示动作
  */
-export class ConfirmAction implements Action {
+export class ConfirmAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: IConfirmAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -77,4 +96,4 @@ export class ConfirmAction implements Action {
 registerAction('dialog', new DialogAction());
 registerAction('closeDialog', new CloseDialogAction());
 registerAction('alert', new AlertAction());
-registerAction('confirm', new ConfirmAction());
+registerAction('confirmDialog', new ConfirmAction());

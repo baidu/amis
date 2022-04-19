@@ -92,7 +92,7 @@ const docVersions = [
   {
     label: '主干版本',
     value: '',
-    url: '/zh-CN/docs/start/1-2-0'
+    url: '/zh-CN/docs/index'
   },
   {
     label: '1.1.x 文档',

@@ -8,6 +8,7 @@ import {Config} from './config';
 import {Icon} from '../icons';
 import {localeable, LocaleProps} from '../../locale';
 import {FormulaPickerProps} from '../formula/Picker';
+import Select from '../Select';
 
 export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   builderMode?: 'simple' | 'full';
@@ -27,13 +28,14 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   fieldClassName?: string;
   formula?: FormulaPickerProps;
   popOverContainer?: any;
+  renderEtrValue?: any;
 }
 
 export class ConditionGroup extends React.Component<ConditionGroupProps> {
   getValue() {
     return {
       id: guid(),
-      conjunction: 'and' as 'and',
+      conjunction: 'and',
       ...this.props.value
     } as ConditionGroupValue;
   }
@@ -48,10 +50,10 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
   }
 
   @autobind
-  handleConjunctionClick() {
+  handleConjunctionChange(val: {value: 'or' | 'and'}) {
     const onChange = this.props.onChange;
     let value = this.getValue();
-    value.conjunction = value.conjunction === 'and' ? 'or' : 'and';
+    value.conjunction = val.value;
     onChange(value);
   }
 
@@ -136,74 +138,42 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       searchable,
       translate: __,
       formula,
-      popOverContainer
+      popOverContainer,
+      renderEtrValue
     } = this.props;
     return (
       <div className={cx('CBGroup')} data-group-id={value?.id}>
-        <div className={cx('CBGroup-toolbar')}>
-          {builderMode === 'simple' && showANDOR === false ? null : (
-            <div className={cx('CBGroup-toolbarCondition')}>
-              {showNot ? (
-                <Button
-                  onClick={this.handleNotClick}
-                  className="m-r-xs"
-                  size="xs"
-                  active={value?.not}
-                  disabled={disabled}
-                >
-                  {__('Condition.not')}
-                </Button>
-              ) : null}
-              <div className={cx('ButtonGroup')}>
-                <Button
-                  size="xs"
-                  onClick={this.handleConjunctionClick}
-                  active={value?.conjunction !== 'or'}
-                  disabled={disabled}
-                >
-                  {__('Condition.and')}
-                </Button>
-                <Button
-                  size="xs"
-                  onClick={this.handleConjunctionClick}
-                  active={value?.conjunction === 'or'}
-                  disabled={disabled}
-                >
-                  {__('Condition.or')}
-                </Button>
-              </div>
-            </div>
-          )}
-          <div
-            className={cx(
-              `CBGroup-toolbarConditionAdd${
-                builderMode === 'simple' ? '-simple' : ''
-              }`
-            )}
-          >
-            <div className={cx('ButtonGroup')}>
-              <Button onClick={this.handleAdd} size="xs" disabled={disabled}>
-                <Icon icon="plus" className="icon" />
-                {__('Condition.add_cond')}
+        {builderMode === 'simple' && showANDOR === false ? null : (
+          <div className={cx('CBGroup-toolbarCondition')}>
+            {showNot ? (
+              <Button
+                onClick={this.handleNotClick}
+                className="m-r-xs"
+                size="xs"
+                active={value?.not}
+                disabled={disabled}
+              >
+                {__('Condition.not')}
               </Button>
-              {builderMode === 'simple' ? null : (
-                <Button
-                  onClick={this.handleAddGroup}
-                  size="xs"
-                  disabled={disabled}
-                >
-                  <Icon icon="plus-cicle" className="icon" />
-                  {__('Condition.add_cond_group')}
-                </Button>
-              )}
-            </div>
+            ) : null}
+            <Select
+              options={[
+                {
+                  label: __('Condition.and'),
+                  value: 'and'
+                },
+                {
+                  label: __('Condition.or'),
+                  value: 'or'
+                }
+              ]}
+              value={value?.conjunction || 'and'}
+              disabled={disabled}
+              onChange={this.handleConjunctionChange}
+              clearable={false}
+            />
           </div>
-          {removeable ? (
-            <a className={cx('CBDelete')} onClick={onRemove}>
-              <Icon icon="close" className="icon" />
-            </a>
-          ) : null}
-        </div>
+        )}
         <div className={cx('CBGroup-body')}>
           {Array.isArray(value?.children) && value!.children.length ? (
             value!.children.map((item, index) => (
@@ -225,6 +195,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 builderMode={builderMode}
                 formula={formula}
                 popOverContainer={popOverContainer}
+                renderEtrValue={renderEtrValue}
               />
             ))
           ) : (
@@ -238,6 +209,41 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
               {__('Condition.blank')}
             </div>
           )}
+        </div>
+        <div className={cx('CBGroup-toolbar')}>
+          <div
+            className={cx(
+              `CBGroup-toolbarConditionAdd${
+                builderMode === 'simple' ? '-simple' : ''
+              }`
+            )}
+          >
+            <div className={cx('ButtonGroup')}>
+              <Button
+                level="link"
+                onClick={this.handleAdd}
+                size="xs"
+                disabled={disabled}
+              >
+                {__('Condition.add_cond')}
+              </Button>
+              {builderMode === 'simple' ? null : (
+                <Button
+                  onClick={this.handleAddGroup}
+                  size="xs"
+                  disabled={disabled}
+                  level="link"
+                >
+                  {__('Condition.add_cond_group')}
+                </Button>
+              )}
+            </div>
+          </div>
+          {removeable ? (
+            <a className={cx('CBDelete')} onClick={onRemove}>
+              {__('Condition.delete_cond_group')}
+            </a>
+          ) : null}
         </div>
       </div>
     );

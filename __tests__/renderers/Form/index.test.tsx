@@ -1,7 +1,13 @@
 import React = require('react');
 import PageRenderer from '../../../src/renderers/Form';
 import * as renderer from 'react-test-renderer';
-import {render, fireEvent, cleanup, getByText} from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  cleanup,
+  getByText,
+  waitFor
+} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {wait, makeEnv} from '../../helper';
@@ -23,13 +29,14 @@ afterEach(() => {
 });
 
 test('Renderer:Form', async () => {
-  const resultPromise = Promise.resolve({
-    data: {
-      status: 0,
-      msg: 'ok'
-    }
-  });
-  const fetcher = jest.fn().mockImplementation(() => resultPromise);
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok'
+      }
+    })
+  );
   const {container, getByText} = render(
     amisRender(
       {
@@ -60,11 +67,10 @@ test('Renderer:Form', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText('Submit'));
-  await resultPromise;
-  await wait(300);
-
-  expect(fetcher).toHaveBeenCalled();
-  expect(fetcher.mock.calls[0][0]).toMatchSnapshot();
+  await waitFor(() => {
+    expect(fetcher).toHaveBeenCalled();
+    expect(fetcher.mock.calls[0][0]).toMatchSnapshot();
+  });
 });
 
 test('Renderer:Form:valdiate', async () => {
@@ -100,12 +106,13 @@ test('Renderer:Form:valdiate', async () => {
   );
 
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+  await waitFor(() => {
+    expect(container.querySelector('.cxd-Form-feedback')).toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
   expect(onSubmit).not.toHaveBeenCalled();
 
-  await wait(300);
   expect(notify).toHaveBeenCalledWith('error', '依赖的部分字段没有通过验证');
 
   const input = container.querySelector('input[name=a]');
@@ -115,13 +122,20 @@ test('Renderer:Form:valdiate', async () => {
       value: '123'
     }
   });
-  await wait(500); // 有 250 秒左右的节流
+
+  await waitFor(() => {
+    expect(
+      container.querySelector('input[name=a][value="123"]')
+    ).toBeInTheDocument();
+  });
+
   fireEvent.click(getByText('Submit'));
   expect(container).toMatchSnapshot();
 
-  await wait(300);
-  expect(onSubmit).toHaveBeenCalled();
-  expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
+  await waitFor(() => {
+    expect(onSubmit).toHaveBeenCalled();
+    expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
+  });
 });
 
 test('Renderer:Form:remoteValidate', async () => {
@@ -166,7 +180,9 @@ test('Renderer:Form:remoteValidate', async () => {
   );
 
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+  await waitFor(() => {
+    expect(container.querySelector('.cxd-Form-feedback')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });
 
@@ -219,19 +235,29 @@ test('Renderer:Form:onValidate', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(getByText('Submit')).toBeInTheDocument();
+  });
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+
+  await waitFor(() => {
+    expect(container.querySelector('.cxd-Form-feedback')).toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
   expect(onSubmit).not.toHaveBeenCalled();
   expect(onValidate).toHaveBeenCalled();
   expect(onValidate.mock.calls[0][0]).toMatchSnapshot();
 
-  await wait(300);
   expect(notify).toHaveBeenCalledWith('error', '依赖的部分字段没有通过验证');
 
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+
+  await waitFor(() => {
+    expect(
+      container.querySelector('.cxd-Form-feedback')
+    ).not.toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
   expect(onSubmit).toHaveBeenCalled();
@@ -240,18 +266,16 @@ test('Renderer:Form:onValidate', async () => {
 
 test('Renderer:Form initApi', async () => {
   const notify = jest.fn();
-  let p0;
-  const fetcher = jest.fn().mockImplementation(
-    () =>
-      (p0 = Promise.resolve({
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
         data: {
-          status: 0,
-          data: {
-            a: 1,
-            b: 2
-          }
+          a: 1,
+          b: 2
         }
-      }))
+      }
+    })
   );
   const {container, getByText} = render(
     amisRender(
@@ -280,10 +304,14 @@ test('Renderer:Form initApi', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="a"][value="1"]')
+    ).toBeInTheDocument();
+  });
+
   // fetch 调用了，所有 initApi 接口调用了
   expect(fetcher).toHaveBeenCalled();
-  await p0;
-  await wait(10);
 
   // 通过 snapshot 可断定 initApi 返回值已经作用到了表单项上。
   expect(container).toMatchSnapshot();
@@ -434,18 +462,16 @@ test('Renderer:Form sendOn:false', async () => {
 
 test('Renderer:Form sendOn:true', async () => {
   const notify = jest.fn();
-  let p0;
-  const fetcher = jest.fn().mockImplementation(
-    () =>
-      (p0 = Promise.resolve({
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
         data: {
-          status: 0,
-          data: {
-            a: 1,
-            b: 2
-          }
+          a: 1,
+          b: 2
         }
-      }))
+      }
+    })
   );
   const {container, getByText} = render(
     amisRender(
@@ -482,8 +508,14 @@ test('Renderer:Form sendOn:true', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="a"][value="1"]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(fetcher).toHaveBeenCalled();
-  await p0;
-  await wait(10);
   expect(container).toMatchSnapshot();
 });

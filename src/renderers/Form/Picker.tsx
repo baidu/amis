@@ -22,7 +22,11 @@ import Html from '../../components/Html';
 import {filter} from '../../utils/tpl';
 import {Icon} from '../../components/icons';
 import {isEmpty} from '../../utils/helper';
-import {dataMapping} from '../../utils/tpl-builtin';
+import {
+  dataMapping,
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 import {SchemaCollection, SchemaTpl} from '../../Schema';
 import {CRUDSchema} from '../CRUD';
 import {isApiOutdated, isEffectiveApi} from '../../utils/api';
@@ -99,7 +103,7 @@ export default class PickerControl extends React.PureComponent<
   static defaultProps: Partial<PickerProps> = {
     modalMode: 'dialog',
     multiple: false,
-    placeholder: '请点击右侧的图标',
+    placeholder: 'Picker.placeholder',
     labelField: 'label',
     valueField: 'value',
     pickerSchema: {
@@ -162,13 +166,18 @@ export default class PickerControl extends React.PureComponent<
       op: 'loadOptions'
     });
 
-    isEffectiveApi(source, ctx) &&
+    if (isPureVariable(source)) {
+      formItem.setOptions(resolveVariableAndFilter(source, data, '| raw'));
+    } else if (isEffectiveApi(source, ctx)) {
       formItem.loadOptions(source, ctx, {
         autoAppend: true
       });
+    }
   }
 
   buildSchema(props: PickerProps) {
+    const isScopeData = isPureVariable(props.source);
+
     return {
       checkOnItemClick: true,
       ...props.pickerSchema,
@@ -176,7 +185,8 @@ export default class PickerControl extends React.PureComponent<
       type: 'crud',
       pickerMode: true,
       syncLocation: false,
-      api: props.source,
+      api: isScopeData ? null : props.source,
+      source: isScopeData ? props.source : null,
       keepItemSelectionOnPageChange: true,
       valueField: props.valueField,
       labelField: props.labelField,
@@ -498,38 +508,6 @@ export default class PickerControl extends React.PureComponent<
               }
             )}
           </div>
-          // <div className={`${ns}Picker`}>
-          //         {this.renderValues()}
-
-          //         <Button
-          //             classPrefix={ns}
-          //             className={`${ns}Picker-pickBtn`}
-          //             tooltip="点击选择"
-          //             tooltipContainer={env && env.getModalContainer ? env.getModalContainer : undefined}
-          //             level="info"
-          //             size="sm"
-          //             disabled={disabled}
-          //             onClick={this.open}
-          //             iconOnly
-          //         >
-          //         选定
-          //         </Button>
-
-          //         {render('modal', {
-          //             title: '请选择',
-          //             size: size,
-          //             type: modalMode,
-          //             body: {
-          //                 children: this.renderBody
-          //             }
-          //         }, {
-          //             key: 'modal',
-          //             lazyRender: !!source,
-          //             onConfirm: this.handleModalConfirm,
-          //             onClose: this.close,
-          //             show: this.state.isOpened
-          //         })}
-          //     </div>
         )}
       </div>
     );

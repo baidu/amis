@@ -1,3 +1,4 @@
+import {RendererProps} from '../factory';
 import {extendObject} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {evalExpression} from '../utils/tpl';
@@ -16,42 +17,39 @@ export enum LoopStatus {
 // 监听器动作定义
 export interface ListenerAction {
   actionType: 'broadcast' | LogicActionType | 'custom' | string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
-  eventName?: string; // 事件名称，actionType: broadcast
   description?: string; // 事件描述，actionType: broadcast
   componentId?: string; // 组件ID，用于直接执行指定组件的动作
   args?: any; // 参数，可以配置数据映射
   outputVar?: any; // 输出数据变量名
   preventDefault?: boolean; // 阻止原有组件的动作行为
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
-  execOn?: string; // 执行条件
-  script?: string; // 自定义JS，actionType: custom
-  [propName: string]: any; // 扩展各种Action
+  expression?: string; // 执行条件
 }
 
 export interface LogicAction extends ListenerAction {
   children?: ListenerAction[]; // 子动作
 }
 
-export interface ListenerContext {
+export interface ListenerContext extends React.Component<RendererProps> {
   [propName: string]: any;
 }
 
 // Action 基础接口
-export interface Action {
+export interface RendererAction {
   // 运行这个 Action，每个类型的 Action 都只有一个实例，run 函数是个可重入的函数
   run: (
     action: ListenerAction,
     renderer: ListenerContext,
     event: RendererEvent<any>,
     mergeData?: any // 有些Action内部需要通过上下文数据处理专有逻辑，这里的数据是事件数据+渲染器数据
-  ) => Promise<void>;
+  ) => Promise<RendererEvent<any> | void>;
 }
 
 // 存储 Action 和类型的映射关系，用于后续查找
-const ActionTypeMap: {[key: string]: Action} = {};
+const ActionTypeMap: {[key: string]: RendererAction} = {};
 
 // 注册 Action
-export const registerAction = (type: string, action: Action) => {
+export const registerAction = (type: string, action: RendererAction) => {
   ActionTypeMap[type] = action;
 };
 
@@ -100,7 +98,7 @@ export const runActions = async (
 
 // 执行动作，与原有动作处理打通
 export const runAction = async (
-  actionInstrance: Action,
+  actionInstrance: RendererAction,
   actionConfig: ListenerAction,
   renderer: ListenerContext,
   event: any
@@ -111,7 +109,10 @@ export const runAction = async (
     event
   });
 
-  if (actionConfig.execOn && !evalExpression(actionConfig.execOn, mergeData)) {
+  if (
+    actionConfig.expression &&
+    !evalExpression(actionConfig.expression, mergeData)
+  ) {
     return;
   }
 

@@ -1,6 +1,12 @@
 import React = require('react');
 import * as renderer from 'react-test-renderer';
-import {render, fireEvent, cleanup} from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  cleanup,
+  waitFor,
+  waitForElementToBeRemoved
+} from '@testing-library/react';
 import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
 import {wait, makeEnv} from '../helper';
@@ -11,8 +17,8 @@ afterEach(() => {
   clearStoresCache();
 });
 
-test('Renderer:Wizard', () => {
-  const component = renderer.create(
+test('Renderer:Wizard default', () => {
+  const {container, getByTestId} = render(
     amisRender(
       {
         type: 'wizard',
@@ -53,16 +59,15 @@ test('Renderer:Wizard', () => {
         ]
       },
       {},
-      makeEnv()
+      makeEnv({})
     )
   );
-  let tree = component.toJSON();
 
-  expect(tree).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 test('Renderer:Wizard readOnly', () => {
-  const component = renderer.create(
+  const {container, getByTestId} = render(
     amisRender(
       {
         type: 'wizard',
@@ -107,12 +112,11 @@ test('Renderer:Wizard readOnly', () => {
       makeEnv()
     )
   );
-  let tree = component.toJSON();
 
-  expect(tree).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
-test('Renderer:Wizard initApi', async () => {
+test('Renderer:Wizard initApi default', async () => {
   const fetcher = jest.fn().mockImplementationOnce(() =>
     Promise.resolve({
       data: {
@@ -128,7 +132,7 @@ test('Renderer:Wizard initApi', async () => {
     })
   );
 
-  const component = renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'wizard',
@@ -176,35 +180,31 @@ test('Renderer:Wizard initApi', async () => {
     )
   );
 
-  await wait(500);
-  expect(component.toJSON()).toMatchSnapshot();
+  await waitFor(() => {
+    expect(getByText('名称')).toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
   expect(fetcher).toHaveBeenCalled();
 });
 
 test('Renderer:Wizard initApi show loading', async () => {
-  let done: Function;
-  let wating = new Promise(resolve => {
-    done = resolve;
-  });
-
   const fetcher = jest.fn().mockImplementationOnce(() => {
     return new Promise(async resolve => {
-      await wait(100, () => expect(component.toJSON()).toMatchSnapshot());
-      await wait(100, () =>
-        resolve({
+      await wait(200, false); // 等一小会，否则会报没有被  act 包裹的错误
+
+      resolve({
+        data: {
+          status: 0,
+          msg: 'ok',
           data: {
-            status: 0,
-            msg: 'ok',
-            data: {
-              a: 3
-            }
+            a: 3
           }
-        })
-      );
-      await wait(100, done);
+        }
+      });
     });
   });
-  const component = renderer.create(
+
+  const {container, getByTestId} = render(
     amisRender(
       {
         type: 'wizard',
@@ -252,10 +252,13 @@ test('Renderer:Wizard initApi show loading', async () => {
     )
   );
 
-  await wating;
-  let tree = component.toJSON();
+  await waitFor(() => {
+    expect(getByTestId('spinner')).toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
 
-  expect(tree).toMatchSnapshot();
+  await waitForElementToBeRemoved(() => getByTestId('spinner'));
+  expect(container).toMatchSnapshot();
 });
 
 test('Renderer:Wizard initApi initFetch:false', async () => {
@@ -274,7 +277,7 @@ test('Renderer:Wizard initApi initFetch:false', async () => {
     })
   );
 
-  renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'wizard',
@@ -323,7 +326,9 @@ test('Renderer:Wizard initApi initFetch:false', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('名称')).toBeInTheDocument();
+  });
   expect(fetcher).not.toHaveBeenCalled();
 });
 
@@ -343,7 +348,7 @@ test('Renderer:Wizard initApi initFetch:true', async () => {
     })
   );
 
-  renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'wizard',
@@ -392,7 +397,9 @@ test('Renderer:Wizard initApi initFetch:true', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('名称')).toBeInTheDocument();
+  });
   expect(fetcher).toHaveBeenCalled();
 });
 
@@ -412,7 +419,7 @@ test('Renderer:Wizard initApi initFetchOn:false', async () => {
     })
   );
 
-  renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'wizard',
@@ -465,7 +472,9 @@ test('Renderer:Wizard initApi initFetchOn:false', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('名称')).toBeInTheDocument();
+  });
   expect(fetcher).not.toHaveBeenCalled();
 });
 
@@ -485,7 +494,7 @@ test('Renderer:Wizard initApi initFetchOn:true', async () => {
     })
   );
 
-  renderer.create(
+  const {container, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'wizard',
@@ -538,7 +547,9 @@ test('Renderer:Wizard initApi initFetchOn:true', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('名称')).toBeInTheDocument();
+  });
   expect(fetcher).toHaveBeenCalled();
 });
 
@@ -592,16 +603,25 @@ test('Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel classNam
     )
   );
 
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('NextStep')).toBeInTheDocument();
+  });
   fireEvent.click(getByText(/NextStep/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('Submit')).toBeInTheDocument();
+  });
   fireEvent.click(getByText(/Submit/));
-  await wait(1000);
+
+  await waitFor(() => {
+    expect(fetcher).toHaveBeenCalled();
+  });
+
   expect(container).toMatchSnapshot();
-  expect(fetcher).toHaveBeenCalled();
 
   fireEvent.click(getByText(/PrevStep/));
-  await wait(300);
+  await waitFor(() => {
+    expect(getByText('网址')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });
 
@@ -652,10 +672,13 @@ test('Renderer:Wizard actionNextSaveLabel', async () => {
     )
   );
 
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('saveAndNext')).toBeInTheDocument();
+  });
   fireEvent.click(getByText(/saveAndNext/));
-  await wait(1000);
-  expect(fetcher).toHaveBeenCalled();
+  await waitFor(() => {
+    expect(fetcher).toHaveBeenCalled();
+  });
 });
 
 test('Renderer:Wizard send data', async () => {
@@ -705,19 +728,23 @@ test('Renderer:Wizard send data', async () => {
     )
   );
 
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('下一步')).toBeInTheDocument();
+  });
   fireEvent.click(getByText(/下一步/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('完成')).toBeInTheDocument();
+  });
   fireEvent.click(getByText(/完成/));
-  await wait(1000);
-  expect(fetcher).toHaveBeenCalled();
+  await waitFor(() => {
+    expect(fetcher).toHaveBeenCalled();
+  });
   expect(fetcher.mock.calls[0][0]).toMatchObject({
     data: {
       name: 'Amis',
       website: 'http://amis.baidu.com'
     }
   });
-  await wait(1000);
   expect(container).toMatchSnapshot();
 });
 
@@ -779,10 +806,13 @@ test('Renderer:Wizard step api', async () => {
     )
   );
 
-  expect(fetcher).not.toHaveBeenCalled();
-  fireEvent.click(getByText(/下一步/));
-  await wait(1000);
-  expect(fetcher).toHaveBeenCalled();
+  await waitFor(() => {
+    expect(getByText('保存并下一步')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('保存并下一步'));
+  await waitFor(() => {
+    expect(fetcher).toHaveBeenCalled();
+  });
 });
 
 test('Renderer:Wizard step initApi', async () => {
@@ -800,7 +830,7 @@ test('Renderer:Wizard step initApi', async () => {
     })
   );
 
-  const {getByText, container} = render(
+  const {getByText, getByTestId, container} = render(
     amisRender(
       {
         type: 'wizard',
@@ -848,9 +878,18 @@ test('Renderer:Wizard step initApi', async () => {
     )
   );
 
-  expect(fetcher).not.toHaveBeenCalled();
+  await waitFor(() => {
+    expect(getByText('下一步')).toBeInTheDocument();
+  });
   fireEvent.click(getByText(/下一步/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(
+      container.querySelector('[value="xxx@xxx.com"]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(fetcher).toHaveBeenCalled();
   expect(container).toMatchSnapshot();
 });
@@ -915,9 +954,17 @@ test('Renderer:Wizard step initFetch:false', async () => {
     )
   );
 
-  expect(fetcher).not.toHaveBeenCalled();
-  fireEvent.click(getByText(/下一步/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('下一步')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('下一步'));
+  await waitFor(() => {
+    expect(getByText('邮箱')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('下一步'));
+  await waitFor(() => {
+    expect(getByText('这是必填项')).toBeInTheDocument();
+  });
   expect(fetcher).not.toHaveBeenCalled();
 });
 
@@ -927,12 +974,14 @@ test('Renderer:Wizard step initFetch:true', async () => {
       data: {
         status: 0,
         msg: '保存成功',
-        data: {}
+        data: {
+          email2: 'xxx@xxx.com'
+        }
       }
     })
   );
 
-  const {getByText} = render(
+  const {container, getByText} = render(
     amisRender(
       {
         type: 'wizard',
@@ -981,9 +1030,15 @@ test('Renderer:Wizard step initFetch:true', async () => {
     )
   );
 
-  expect(fetcher).not.toHaveBeenCalled();
-  fireEvent.click(getByText(/下一步/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('下一步')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('下一步'));
+  await waitFor(() => {
+    expect(
+      container.querySelector('[value="xxx@xxx.com"]')
+    ).toBeInTheDocument();
+  });
   expect(fetcher).toHaveBeenCalled();
 });
 
@@ -998,7 +1053,7 @@ test('Renderer:Wizard step initFetchOn:false', async () => {
     })
   );
 
-  const {getByText} = render(
+  const {container, getByText} = render(
     amisRender(
       {
         type: 'wizard',
@@ -1051,9 +1106,17 @@ test('Renderer:Wizard step initFetchOn:false', async () => {
     )
   );
 
-  expect(fetcher).not.toHaveBeenCalled();
-  fireEvent.click(getByText(/下一步/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('下一步')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('下一步'));
+  await waitFor(() => {
+    expect(getByText('邮箱')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('下一步'));
+  await waitFor(() => {
+    expect(getByText('这是必填项')).toBeInTheDocument();
+  });
   expect(fetcher).not.toHaveBeenCalled();
 });
 
@@ -1063,12 +1126,14 @@ test('Renderer:Wizard step initFetchOn:true', async () => {
       data: {
         status: 0,
         msg: '保存成功',
-        data: {}
+        data: {
+          email2: 'xxx@xxx.com'
+        }
       }
     })
   );
 
-  const {getByText} = render(
+  const {getByText, container} = render(
     amisRender(
       {
         type: 'wizard',
@@ -1121,9 +1186,16 @@ test('Renderer:Wizard step initFetchOn:true', async () => {
     )
   );
 
-  expect(fetcher).not.toHaveBeenCalled();
-  fireEvent.click(getByText(/下一步/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('下一步')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText('下一步'));
+  await waitFor(() => {
+    expect(
+      container.querySelector('[value="xxx@xxx.com"]')
+    ).toBeInTheDocument();
+  });
   expect(fetcher).toHaveBeenCalled();
 });
 
@@ -1174,8 +1246,14 @@ test('Renderer:Wizard validate', async () => {
     )
   );
 
-  fireEvent.click(getByText(/下一步/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('下一步')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('下一步'));
+
+  await waitFor(() => {
+    expect(getByText('这是必填项')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });
 
@@ -1232,28 +1310,39 @@ test('Renderer:Wizard initApi reload', async () => {
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('下一步')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/下一步/));
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('完成')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/完成/));
-  await wait(1000);
-  expect(fetcher).toHaveBeenCalledTimes(3);
+
+  await waitFor(() => {
+    expect(fetcher).toHaveBeenCalledTimes(3);
+  });
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:Wizard steps not array', () => {
-  const component = renderer.create(
+test('Renderer:Wizard steps not array', async () => {
+  const {container, getByText} = render(
     amisRender({
       type: 'wizard',
       api: '/api/mock2/form/saveForm?waitSeconds=2',
       steps: ''
     })
   );
-  let tree = component.toJSON();
+  await waitFor(() => {
+    expect(getByText('配置错误')).toBeInTheDocument();
+  });
 
-  expect(tree).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 test('Renderer:Wizard target', async () => {
@@ -1311,11 +1400,21 @@ test('Renderer:Wizard target', async () => {
     )
   );
 
-  await wait(1000);
-  fireEvent.click(getByText(/下一步/));
-  await wait(1000);
-  fireEvent.click(getByText(/完成/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(getByText('下一步')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('下一步'));
+  await waitFor(() => {
+    expect(getByText('完成')).toBeInTheDocument();
+  });
+  fireEvent.click(getByText('完成'));
+
+  await waitFor(() => {
+    expect(
+      container.querySelector('[name="name"][value="Amis"]')
+    ).toBeInTheDocument();
+  });
+
   expect(container).toMatchSnapshot();
 });
 
@@ -1378,11 +1477,21 @@ test('Renderer:Wizard dialog', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(getByText(/OpenDialog/)).toBeInTheDocument();
+  });
   fireEvent.click(getByText(/OpenDialog/));
-  await wait(300);
+
+  await waitFor(() => {
+    expect(getByText(/添加/)).toBeInTheDocument();
+  });
+
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/取消/));
-  await wait(1000);
+  await waitFor(() => {
+    expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
+  });
+
   expect(container).toMatchSnapshot();
 });

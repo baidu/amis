@@ -39,7 +39,16 @@ export interface TreeControlSchema extends FormOptionsControl {
   showIcon?: boolean;
 
   /**
-   * 父子之间是否完全独立。
+   * ui级联关系，true代表级联选中，false代表不级联，默认为true
+   */
+  autoCheckChildren?: boolean;
+
+  /**
+   * 该属性代表数据级联关系，autoCheckChildren为true时生效，默认为false，具体数据级联关系如下：
+   * 1.casacde为false，ui行为为级联选中子节点，子节点禁用；值只包含父节点的值
+   * 2.cascade为false，withChildren为true，ui行为为级联选中子节点，子节点禁用；值包含父子节点的值
+   * 3.cascade为true，ui行为级联选中子节点，子节点可反选，值包含父子节点的值，此时withChildren属性失效
+   * 4.cascade不论为true还是false，onlyChildren为true，ui行为级联选中子节点，子节点可反选，值只包含子节点的值
    */
   cascade?: boolean;
 
@@ -94,7 +103,7 @@ export default class TreeControl extends React.Component<TreeProps> {
   static defaultProps: Partial<TreeProps> = {
     placeholder: 'loading',
     multiple: false,
-    rootLabel: '顶级',
+    rootLabel: 'Tree.root',
     rootValue: '',
     showIcon: true,
     enableNodePath: false,
@@ -166,6 +175,7 @@ export default class TreeControl extends React.Component<TreeProps> {
       loading,
       hideRoot,
       rootLabel,
+      autoCheckChildren,
       cascade,
       rootValue,
       showIcon,
@@ -222,6 +232,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             showIcon={showIcon}
             showRadio={showRadio}
             showOutline={showOutline}
+            autoCheckChildren={autoCheckChildren}
             cascade={cascade}
             foldedField="collapsed"
             value={value || ''}

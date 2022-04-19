@@ -613,14 +613,12 @@
   );
   --DatePicker-placeholderColor: var(--Form-input-placeholderColor);
   --DatePicker-minWidth: calc(
-    var(--fontSizeLg) * 5 +var(--DatePicker-paddingX) * 2 + var(
-        --Form-input-clearBtn-size
-      ) * 2
+    var(--fontSizeLg) * 5 + var(--DatePicker-paddingX) * 2 +
+      var(--Form-input-clearBtn-size) * 2
   );
   --DateRangePicker-minWidth: calc(
-    var(--fontSizeLg) * 8 +var(--DatePicker-paddingX) * 2 + var(
-        --Form-input-clearBtn-size
-      ) * 2
+    var(--fontSizeLg) * 8 + var(--DatePicker-paddingX) * 2 +
+      var(--Form-input-clearBtn-size) * 2
   );
 
   --LocationPicker-borderRadius: var(--Form-input-borderWidth);
@@ -805,6 +803,7 @@
       5%
     )};
   --Form-selectValue-onDisabled-color: var(--Form-select-caret-iconColor);
+  --Form-selectValue-onInvalid-color: var(--danger);
   --Form-valueLabel-maxWidth: #{px2rem(120px)};
   --Form-select-onFocus-boxShadow: none;
 
@@ -1132,7 +1131,10 @@
   --Pagination-onActive-backgroundColor: var(--primary);
   --Pagination-onActive-border: 0;
   --Pagination-onActive-color: var(--white);
+  --Pagination-onDisabled-color: var(--text--muted-color);
+  --Pagination-onDisabled-backgroundColor: #{$gray200};
   --Pagination-padding: 0 #{px2rem(8px)};
+  --Pagination-light-color: #84868c;
 
   --Panel--default-badgeBg: #333;
   --Panel--default-badgeColor: #f5f5f5;
@@ -1496,8 +1498,10 @@
   --TabsTransfer-border-color: #e8e9eb;
 
   --Tree-indent: var(--gap-md);
+  --Tree-icon-gap: var(--gap-xs);
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
   --Tree-item-onHover-bg: rgba(0, 126, 255, 0.08);
+  --Tree-item-onHover-bg-pure: rgba(0, 126, 255, 0.08);
   --Tree-itemArrowWidth: #{px2rem(12px)};
   --Tree-itemHeight: #{px2rem(30px)};
   --Tree-itemLabel--onChecked-color: var(--Form-selectValue-color);
@@ -1604,4 +1608,19 @@
   --Timeline--info-bg: var(--info);
   --Timeline--warning-bg: var(--warning);
   --Timeline--danger-bg: var(--danger);
+
+  // ContextMenu
+  --menu-background: #fff;
+  --menu-box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
+  --menu-border-radius: 4px;
+  --menu-font-color: #151b26;
+  --menu-font-family: PingFangSC-Regular;
+  --menu-border-color: #e8e9eb; // 默认的边框色
+  --menu-active-color: #2468f2;
+  --menu-hover-bg-color: #e6f0ff;
+  --menu-disabled-color: #b8babf; // 禁用文字颜色
+  --default-icon-color: #84868c; // 默认的icon颜色
+  --default-padding: 4px 12px; // 6px 12px
+  --menu-min-width: 150px; // 一级子项最小宽度
+  --menu-sub-min-width: 100px; // 二级子项最小宽度
 }

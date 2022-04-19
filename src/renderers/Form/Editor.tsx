@@ -112,6 +112,11 @@ export interface EditorControlSchema extends Omit<FormBaseControl, 'size'> {
    * 是否展示全屏模式开关
    */
   allowFullscreen?: boolean;
+
+  /**
+   * 获取编辑器底层实例
+   */
+  editorDidMount?: string;
 }
 
 export type EditorRendererEvent = 'blur' | 'focus';
@@ -195,7 +200,16 @@ export default class EditorControl extends React.Component<EditorProps, any> {
         ); // folding
       }).dispose
     );
-    this.props.editorDidMount && this.props.editorDidMount(editor, monaco);
+    if (this.props.editorDidMount) {
+      let editorDidMount = this.props.editorDidMount;
+      if (typeof editorDidMount === 'string') {
+        editorDidMount = new Function('editor', 'monaco');
+      }
+      const dispose = editorDidMount(editor, monaco);
+      if (typeof dispose === 'function') {
+        this.toDispose.push(dispose);
+      }
+    }
   }
 
   prevHeight = 0;

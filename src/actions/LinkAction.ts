@@ -1,11 +1,32 @@
+import {Action} from '../types';
+import {buildApi} from '../utils/api';
+import {isEmpty, isObject, qsstringify} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {filter} from '../utils/tpl';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
+
+export interface ILinkAction extends ListenerAction {
+  link: string;
+  url?: never;
+  blank?: boolean;
+  params?: {
+    [key: string]: string;
+  };
+}
+
+export interface IUrlAction extends ListenerAction {
+  url: string;
+  link?: never;
+  blank?: boolean;
+  params?: {
+    [key: string]: string;
+  };
+}
 
 /**
  * 打开页面动作
@@ -14,9 +35,9 @@ import {
  * @class LinkAction
  * @implements {Action}
  */
-export class LinkAction implements Action {
+export class LinkAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: ILinkAction | IUrlAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -24,15 +45,19 @@ export class LinkAction implements Action {
       throw new Error('env.jumpTo is required!');
     }
 
-    renderer.props.env.jumpTo(
-      filter(
-        (action.to || action.url || action.link) as string,
-        action.args,
-        '| raw'
-      ),
-      action,
-      action.args
+    // 通过buildApi兼容较复杂的url情况
+    let urlObj = buildApi(
+      {
+        url: (action.url || action.link) as string,
+        method: 'get'
+      },
+      {...action.params, ...action.args},
+      {
+        autoAppend: true
+      }
     );
+
+    renderer.props.env.jumpTo(urlObj.url, action as Action, action.args);
   }
 }
 

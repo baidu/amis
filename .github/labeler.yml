@@ -1,0 +1,25 @@
+# labeler "simple" schema
+# Comment is applied to both issues and pull requests.
+# If you need a more robust solution, consider the "full" schema.
+comment: |
+  👍 Thanks for this!
+  🏷 I have applied any labels matching special text in your issue.
+
+  Please review the labels and make any necessary changes.
+
+# Labels is an object where:
+# - keys are labels
+# - values are array of string patterns to match against title + body in issues/prs
+labels:
+  'bug':
+    - '\bbug[s]?\b'
+  'help wanted':
+    - '\bhelp( wanted)?\b'
+  'feat':
+    - '\bfeat'
+  'fix':
+    - '\bfix'
+  'chore':
+    - '\bchore'
+  'doc':
+    - '\bdoc[s]?'

@@ -1,8 +1,8 @@
 import React = require('react');
-import {render} from '@testing-library/react';
+import {render, waitForElementToBeRemoved} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 
 test('Renderer:chained-select', async () => {
   const {container, findByText} = render(
@@ -44,7 +44,6 @@ test('Renderer:chained-select', async () => {
     )
   );
 
-  await findByText('A 0');
-
+  await wait(500);
   expect(container).toMatchSnapshot();
 });

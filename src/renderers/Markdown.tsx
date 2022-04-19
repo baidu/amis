@@ -4,7 +4,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema} from '../Schema';
-import {resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import LazyComponent from '../components/LazyComponent';
 import {getPropValue} from '../utils/helper';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
@@ -57,7 +57,9 @@ export class Markdown extends React.Component<MarkdownProps, MarkdownState> {
     } else {
       const content =
         getPropValue(this.props) ||
-        (name ? resolveVariableAndFilter(name, data, '| raw') : null);
+        (name && isPureVariable(name)
+          ? resolveVariableAndFilter(name, data, '| raw')
+          : null);
       this.state = {content};
     }
   }
@@ -66,7 +68,7 @@ export class Markdown extends React.Component<MarkdownProps, MarkdownState> {
     const props = this.props;
     if (props.src) {
       if (isApiOutdated(prevProps.src, props.src, prevProps.data, props.data)) {
-          this.updateContent();
+        this.updateContent();
       }
     } else {
       this.updateContent();
@@ -87,7 +89,9 @@ export class Markdown extends React.Component<MarkdownProps, MarkdownState> {
     } else {
       const content =
         getPropValue(this.props) ||
-        (name ? resolveVariableAndFilter(name, data, '| raw') : null);
+        (name && isPureVariable(name)
+          ? resolveVariableAndFilter(name, data, '| raw')
+          : null);
       if (content !== this.state.content) {
         this.setState({content});
       }
@@ -95,13 +99,14 @@ export class Markdown extends React.Component<MarkdownProps, MarkdownState> {
   }
 
   render() {
-    const {className, classnames: cx} = this.props;
+    const {className, classnames: cx, options} = this.props;
 
     return (
       <div className={cx('Markdown', className)}>
         <LazyComponent
           getComponent={loadComponent}
-          content={this.state.content}
+          content={this.state.content || ''}
+          options={options}
         />
       </div>
     );

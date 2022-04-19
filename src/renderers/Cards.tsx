@@ -919,9 +919,9 @@ export default class Cards extends React.Component<GridProps, object> {
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
-    const itemFinalClassName: string = cx(itemClassName, {
-      [`Grid-col--sm${Math.round(12 / columnsCount)}`]: columnsCount
-    });
+    const itemFinalClassName: string = columnsCount
+      ? `Grid-col--sm${Math.round(12 / columnsCount)}`
+      : itemClassName || '';
 
     const header = this.renderHeader();
     const heading = this.renderHeading();

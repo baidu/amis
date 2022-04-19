@@ -31,6 +31,9 @@ import {
 } from '../Schema';
 import {IIRendererStore} from '../store';
 
+import type {ScopedComponentType} from '../Scoped';
+import type {ListenerAction} from '../actions/Action';
+
 /**
  * Service 服务类控件。
  * 文档：https://baidu.gitee.io/amis/docs/components/service
@@ -209,6 +212,32 @@ export default class Service extends React.Component<ServiceProps> {
     }
   }
 
+  doAction(action: ListenerAction, args: any) {
+    if (action?.actionType === 'rebuild') {
+      const {
+        schemaApi,
+        store,
+        dataProvider,
+        messages: {fetchSuccess, fetchFailed}
+      } = this.props;
+
+      store.updateData(args);
+      clearTimeout(this.timer);
+      if (isEffectiveApi(schemaApi, store.data)) {
+        store
+          .fetchSchema(schemaApi, store.data, {
+            successMessage: fetchSuccess,
+            errorMessage: fetchFailed
+          })
+          .then(this.afterSchemaFetch);
+      }
+
+      if (dataProvider) {
+        this.runDataProvider();
+      }
+    }
+  }
+
   @autobind
   initFetch() {
     const {
@@ -331,7 +360,10 @@ export default class Service extends React.Component<ServiceProps> {
     // 初始化接口返回的是整个 response，
     // 保存 ajax 请求的时候返回时数据部分。
     const data = result?.hasOwnProperty('ok') ? result.data : result;
-    const {onBulkChange} = this.props;
+    const {onBulkChange, dispatchEvent} = this.props;
+
+    dispatchEvent?.('fetchInited', data);
+
     if (!isEmpty(data) && onBulkChange) {
       onBulkChange(data);
     }
@@ -340,7 +372,10 @@ export default class Service extends React.Component<ServiceProps> {
   }
 
   afterSchemaFetch(schema: any) {
-    const {onBulkChange, formStore} = this.props;
+    const {onBulkChange, formStore, dispatchEvent} = this.props;
+
+    dispatchEvent?.('fetchSchemaInited', schema);
+
     if (formStore && schema?.data && onBulkChange) {
       onBulkChange && onBulkChange(schema.data);
     }
@@ -586,7 +621,7 @@ export class ServiceRenderer extends Service {
     super(props);
 
     const scoped = context;
-    scoped.registerComponent(this);
+    scoped.registerComponent(this as ScopedComponentType);
   }
 
   reload(subpath?: string, query?: any, ctx?: any, silent?: boolean) {
@@ -613,7 +648,7 @@ export class ServiceRenderer extends Service {
   componentWillUnmount() {
     super.componentWillUnmount();
     const scoped = this.context as IScopedContext;
-    scoped.unRegisterComponent(this);
+    scoped.unRegisterComponent(this as ScopedComponentType);
   }
 
   reloadTarget(target: string, data?: any) {
@@ -622,6 +657,6 @@ export class ServiceRenderer extends Service {
   }
 
   setData(values: object) {
-    return super.afterDataFetch(values);
+    return this.props.store.updateData(values);
   }
 }

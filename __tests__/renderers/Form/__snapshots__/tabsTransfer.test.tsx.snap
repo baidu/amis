@@ -90,14 +90,18 @@ exports[`Renderer:tabs-transfer 1`] = `
                                   <li
                                     class="cxd-Tabs-link is-active"
                                   >
-                                    <a>
+                                    <a
+                                      title="成员"
+                                    >
                                       成员
                                     </a>
                                   </li>
                                   <li
                                     class="cxd-Tabs-link"
                                   >
-                                    <a>
+                                    <a
+                                      title="用户"
+                                    >
                                       用户
                                     </a>
                                   </li>

@@ -8,6 +8,7 @@ import {
   guid,
   isVisible,
   autobind,
+  createObject,
   isObjectShallowModified
 } from '../utils/helper';
 import {reaction} from 'mobx';
@@ -645,13 +646,19 @@ export default class Drawer extends React.Component<DrawerProps> {
           {title ? (
             <div className={cx('Drawer-title')}>
               {render('title', title, {
-                data: store.formData
+                data: store.formData,
+                onConfirm: this.handleDrawerConfirm,
+                onClose: this.handleDrawerClose,
+                onAction: this.handleAction
               })}
             </div>
           ) : null}
           {header
             ? render('header', header, {
-                data: store.formData
+                data: store.formData,
+                onConfirm: this.handleDrawerConfirm,
+                onClose: this.handleDrawerClose,
+                onAction: this.handleAction
               })
             : null}
         </div>
@@ -818,14 +825,18 @@ export class DrawerRenderer extends Drawer {
     return false;
   }
 
-  handleAction(
-    e: React.UIEvent<any>,
+  doAction(action: Action, data: object, throwErrors: boolean): any {
+    this.handleAction(undefined, action, data);
+  }
+
+  async handleAction(
+    e: React.UIEvent<any> | void,
     action: Action,
     data: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {onClose, onAction, store, env} = this.props;
+    const {onClose, onAction, store, env, dispatchEvent} = this.props;
 
     if (action.from === this.$$id) {
       return onAction
@@ -836,10 +847,24 @@ export class DrawerRenderer extends Drawer {
     const scoped = this.context as IScopedContext;
 
     if (action.actionType === 'close' || action.actionType === 'cancel') {
+      const rendererEvent = await dispatchEvent(
+        'cancel',
+        createObject(this.props.data, data)
+      );
+      if (rendererEvent?.prevented) {
+        return;
+      }
       store.setCurrentAction(action);
       onClose();
       action.close && this.closeTarget(action.close);
     } else if (action.actionType === 'confirm') {
+      const rendererEvent = await dispatchEvent(
+        'confirm',
+        createObject(this.props.data, data)
+      );
+      if (rendererEvent?.prevented) {
+        return;
+      }
       store.setCurrentAction(action);
       this.tryChildrenToHandle(action, data) || onClose();
     } else if (action.actionType === 'drawer') {

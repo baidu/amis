@@ -66,25 +66,25 @@ test('Renderer:inputDate click', async () => {
     )
   );
 
-  const inputDate = document.querySelector('.cxd-DatePicker') as HTMLElement;
+  const inputDate = container.querySelector('.cxd-DatePicker') as HTMLElement;
 
-  inputDate!.click();
+  fireEvent.click(inputDate);
 
   // 点击前一年
-  (
-    document.querySelector('.cxd-DatePicker-popover .rdtPrev') as HTMLElement
-  ).click();
+  fireEvent.click(
+    container.querySelector('.cxd-DatePicker-popover .rdtPrev') as HTMLElement
+  );
 
   // 点击下一个月
-  (
-    document.querySelector('.cxd-DatePicker-popover .rdtNext') as HTMLElement
-  ).click();
+  fireEvent.click(
+    container.querySelector('.cxd-DatePicker-popover .rdtNext') as HTMLElement
+  );
 
   const date = container.querySelector(
     '.cxd-DatePicker-popover tr td[data-value="1"]'
   ) as HTMLElement;
 
-  date!.click();
+  fireEvent.click(date);
 
   const tpl = container.querySelector('.cxd-DateField') as HTMLElement;
 
@@ -125,7 +125,7 @@ test('Renderer:inputDate embed', async () => {
     '.cxd-DateCalendar tr td[data-value="1"]'
   ) as HTMLElement;
 
-  date!.click();
+  fireEvent.click(date);
 
   const tpl = container.querySelector('.cxd-DateField') as HTMLElement;
 

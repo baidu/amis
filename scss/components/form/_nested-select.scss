@@ -88,6 +88,7 @@
       &.no-result {
         justify-content: center;
         cursor: default;
+        color: var(--Form-select-placeholderColor);
         &:hover {
           color: unset;
           background: unset;

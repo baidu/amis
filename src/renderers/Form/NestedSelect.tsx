@@ -100,7 +100,7 @@ export default class NestedSelectControl extends React.Component<
     searchPromptText: 'Select.searchPromptText',
     noResultsText: 'noResult',
     checkAll: true,
-    checkAllLabel: '全选',
+    checkAllLabel: 'Select.checkAll',
     hideNodePathLabel: false
   };
   target: any;
@@ -306,12 +306,8 @@ export default class NestedSelectControl extends React.Component<
     const {stack} = this.state;
 
     let valueField = this.props.valueField || 'value';
-    
-    if (
-      onlyLeaf
-      && !Array.isArray(option)
-      && option.children
-    ) {
+
+    if (onlyLeaf && !Array.isArray(option) && option.children) {
       return;
     }
 
@@ -674,6 +670,7 @@ export default class NestedSelectControl extends React.Component<
     const {stack, inputValue} = this.state;
     const {
       classnames: cx,
+      translate: __,
       options: propOptions,
       labelField,
       cascade,
@@ -681,8 +678,13 @@ export default class NestedSelectControl extends React.Component<
       multiple,
       disabled,
       onlyChildren,
-      noResultsText
+      render
     } = this.props;
+
+    let noResultsText: any = this.props.noResultsText;
+    if (noResultsText) {
+      noResultsText = render('noResultText', __(noResultsText));
+    }
     const regexp = string2regExp(inputValue || '');
     const flattenTreeWithNodes = flattenTree(stack[0]).filter(option => {
       return regexp.test(option[labelField || 'label']);
@@ -851,7 +853,7 @@ export default class NestedSelectControl extends React.Component<
           useMobileUI={useMobileUI}
           disabled={disabled}
           ref={this.domRef}
-          placeholder={__(placeholder || '空')}
+          placeholder={__(placeholder ?? 'placeholder.empty')}
           className={cx(`NestedSelect`, {
             'NestedSelect--inline': inline,
             'NestedSelect--single': !multiple,
@@ -899,6 +901,7 @@ export default class NestedSelectControl extends React.Component<
             <Cascader
               onClose={this.close}
               {...this.props}
+              onChange={this.handleResultChange}
               options={this.props.options.slice()}
               value={selectedOptions}
             />

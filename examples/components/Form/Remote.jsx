@@ -63,8 +63,7 @@ export default {
           label: '级联选项',
           source:
             '/api/mock2/options/chainedOptions?waitSeconds=1&parentId=$parentId&level=$level&maxLevel=4&waiSeconds=1',
-          desc:
-            '无限级别, 只要 api 返回数据就能继续往下选择. 当没有下级时请返回 null.',
+          desc: '无限级别, 只要 api 返回数据就能继续往下选择. 当没有下级时请返回 null.',
           value: 'a,b'
         },
         {

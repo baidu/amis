@@ -111,13 +111,19 @@ export function buildApi(
     .join('');
 
   const idx = url.indexOf('?');
-  let replaceExpression = (fragment: string, defaultFilter = 'url_encode') => {
+  let replaceExpression = (
+    fragment: string,
+    defaultFilter = 'url_encode',
+    defVal: any = undefined
+  ) => {
     return fragment.replace(
       /__expression__(\d+)__/g,
       (_: any, index: string) => {
-        return evaluate(ast.body[index], data, {
-          defaultFilter: defaultFilter
-        });
+        return (
+          evaluate(ast.body[index], data, {
+            defaultFilter: defaultFilter
+          }) ?? defVal
+        );
       }
     );
   };
@@ -131,15 +137,17 @@ export function buildApi(
     // 将里面的表达式运算完
     JSONTraverse(params, (value: any, key: string | number, host: any) => {
       if (typeof value === 'string' && /^__expression__(\d+)__$/.test(value)) {
-        host[key] = evaluate(ast.body[RegExp.$1].body, data);
+        host[key] = evaluate(ast.body[RegExp.$1].body, data) ?? '';
       } else if (typeof value === 'string') {
         // 参数值里面的片段不能 url_encode 了，所以是不处理
-        host[key] = replaceExpression(host[key], 'raw');
+        host[key] = replaceExpression(host[key], 'raw', '');
       }
     });
 
+    const left = replaceExpression(url.substring(0, idx), 'raw', '');
     api.url =
-      replaceExpression(url.substring(0, idx + 1)) +
+      left +
+      (~left.indexOf('?') ? '&' : '?') +
       qsstringify(
         (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
       ) +
@@ -147,7 +155,7 @@ export function buildApi(
         ? replaceExpression(url.substring(hashIdx))
         : '');
   } else {
-    api.url = replaceExpression(url);
+    api.url = replaceExpression(url, 'raw', '');
   }
 
   if (ignoreData) {

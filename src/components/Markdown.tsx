@@ -4,10 +4,18 @@ import markdownRender from '../utils/markdown';
 
 interface MarkdownProps {
   content: string;
+  options: object;
 }
 
 export default class Markdown extends React.Component<MarkdownProps> {
   dom: any;
+
+  static defaultProps = {
+    content: '',
+    options: {
+      linkify: true
+    }
+  };
 
   constructor(props: MarkdownProps) {
     super(props);
@@ -29,11 +37,17 @@ export default class Markdown extends React.Component<MarkdownProps> {
   }
 
   _render() {
-    const {content} = this.props;
-    this.dom.innerHTML = markdownRender(content || '');
+    const {content, options} = this.props;
+    this.dom.innerHTML = markdownRender(content, options);
   }
 
   render() {
-    return <div className="markdown-body" ref={this.htmlRef}></div>;
+    return (
+      <div
+        data-testid="markdown-body"
+        className="markdown-body"
+        ref={this.htmlRef}
+      ></div>
+    );
   }
 }

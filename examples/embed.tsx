@@ -24,10 +24,15 @@ import attachmentAdpator from '../src/utils/attachmentAdpator';
 export function embed(
   container: string | HTMLElement,
   schema: any,
-  props?: any,
+  props: any = {},
   env?: any
 ) {
   const __ = makeTranslator(env?.locale || props?.locale);
+
+  // app 模式自动加 affixOffsetTop
+  if (!('affixOffsetTop' in props) && schema.type === 'app') {
+    props.affixOffsetTop = 50;
+  }
 
   if (typeof container === 'string') {
     container = document.querySelector(container) as HTMLElement;
@@ -41,7 +46,7 @@ export function embed(
     container = div;
   }
   container.classList.add('amis-scope');
-  let scoped: any;
+  let scoped = {};
 
   const requestAdaptor = (config: any) => {
     const fn =
@@ -249,7 +254,9 @@ export function embed(
     amisProps = {
       ...amisProps,
       ...props,
-      scopeRef: (ref: any) => (scoped = ref)
+      scopeRef: (ref: any) => {
+        if (ref) Object.assign(scoped, ref);
+      }
     };
 
     return (
@@ -275,13 +282,12 @@ export function embed(
   const root = createRoot(container);
   root.render(createElements(props));
 
-  return {
-    ...scoped,
+  return Object.assign(scoped, {
     updateProps: (props: any, callback?: () => void) => {
       root.render(createElements(props));
     },
     unmount: () => {
       root.unmount();
     }
-  };
+  });
 }

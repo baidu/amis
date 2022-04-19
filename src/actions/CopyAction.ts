@@ -1,17 +1,17 @@
 import {RendererEvent} from '../utils/renderer-event';
-import {dataMapping} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
-import pick from 'lodash/pick';
-import mapValues from 'lodash/mapValues';
-import qs from 'qs';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   LoopStatus,
   registerAction
 } from './Action';
-import {isVisible} from '../utils/helper';
+
+export interface ICopyAction extends ListenerAction {
+  content: string;
+  copyFormat?: string;
+}
 
 /**
  * 复制动作
@@ -20,19 +20,16 @@ import {isVisible} from '../utils/helper';
  * @class CopyAction
  * @implements {Action}
  */
-export class CopyAction implements Action {
+export class CopyAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: ICopyAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    if (action.content || action.copy) {
-      renderer.props.env.copy?.(
-        filter(action.content || action.copy, action.args, '| raw'),
-        {
-          format: action.copyFormat
-        }
-      );
+    if (action.content) {
+      renderer.props.env.copy?.(filter(action.content, action.args, '| raw'), {
+        format: action.copyFormat
+      });
     }
   }
 }

@@ -510,8 +510,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     const localTabs = this.state.localTabs.concat();
 
     localTabs.push({
-      title: `新增tab${this.newTabDefaultId++}`,
-      body: '新增tab 内容'
+      title: `tab${this.newTabDefaultId++}`,
+      body: 'tab'
     } as TabSource);
 
     this.setState(
@@ -612,7 +612,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
    */
   doAction(action: Action, args: any) {
     const actionType = action?.actionType as string;
-    const activeKey = action?.activeKey as number;
+    const activeKey = args?.activeKey as number;
     if (actionType === 'changeActiveKey') {
       this.handleSelect(activeKey);
     }
@@ -679,6 +679,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       showTipClassName,
       editable,
       sidePosition,
+      translate: __,
       addBtnText
     } = this.props;
 
@@ -764,6 +765,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     return (
       <CTabs
+        addBtnText={__(addBtnText || 'add')}
         classPrefix={ns}
         classnames={cx}
         mode={mode}
@@ -784,7 +786,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         editable={editable}
         onEdit={this.handleEdit}
         sidePosition={sidePosition}
-        addBtnText={addBtnText}
       >
         {children}
       </CTabs>

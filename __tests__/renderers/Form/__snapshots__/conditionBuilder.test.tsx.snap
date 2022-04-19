@@ -73,55 +73,33 @@ exports[`Renderer:condition-builder 1`] = `
                       class="cxd-CBGroup"
                     >
                       <div
-                        class="cxd-CBGroup-toolbar"
+                        class="cxd-CBGroup-toolbarCondition"
                       >
                         <div
-                          class="cxd-CBGroup-toolbarCondition"
+                          aria-expanded="false"
+                          aria-haspopup="listbox"
+                          aria-labelledby="downshift-0-label"
+                          class="cxd-Select"
+                          role="combobox"
+                          tabindex="0"
                         >
                           <div
-                            class="cxd-ButtonGroup"
+                            class="cxd-Select-valueWrap"
                           >
-                            <button
-                              class="cxd-Button cxd-Button--default cxd-Button--xs is-active"
-                              type="button"
+                            <div
+                              class="cxd-Select-value"
                             >
                               并且
-                            </button>
-                            <button
-                              class="cxd-Button cxd-Button--default cxd-Button--xs"
-                              type="button"
-                            >
-                              或者
-                            </button>
+                            </div>
                           </div>
-                        </div>
-                        <div
-                          class="cxd-CBGroup-toolbarConditionAdd"
-                        >
-                          <div
-                            class="cxd-ButtonGroup"
+                          <span
+                            class="cxd-Select-arrow"
                           >
-                            <button
-                              class="cxd-Button cxd-Button--default cxd-Button--xs"
-                              type="button"
-                            >
-                              <icon-mock
-                                classname="icon icon-plus"
-                                icon="plus"
-                              />
-                              添加条件
-                            </button>
-                            <button
-                              class="cxd-Button cxd-Button--default cxd-Button--xs"
-                              type="button"
-                            >
-                              <icon-mock
-                                classname="icon icon-plus-cicle"
-                                icon="plus-cicle"
-                              />
-                              添加条件组
-                            </button>
-                          </div>
+                            <icon-mock
+                              classname="icon icon-caret"
+                              icon="caret"
+                            />
+                          </span>
                         </div>
                       </div>
                       <div
@@ -131,6 +109,30 @@ exports[`Renderer:condition-builder 1`] = `
                           class="cxd-CBGroup-placeholder "
                         >
                           空
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-CBGroup-toolbar"
+                      >
+                        <div
+                          class="cxd-CBGroup-toolbarConditionAdd"
+                        >
+                          <div
+                            class="cxd-ButtonGroup"
+                          >
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--xs"
+                              type="button"
+                            >
+                              添加条件
+                            </button>
+                            <button
+                              class="cxd-Button cxd-Button--link cxd-Button--xs"
+                              type="button"
+                            >
+                              添加条件组
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>

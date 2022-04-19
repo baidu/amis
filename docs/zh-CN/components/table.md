@@ -1434,6 +1434,45 @@ popOver 的其它配置请参考 [popover](./popover)
 }
 ```
 
+> 1.8.1 及以上版本
+
+新增 `affixRowClassNameExpr`、`affixRowClassName`、`prefixRowClassNameExpr`、`prefixRowClassName` 来控制总结行样式，比如下面的例子
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "columns": [
+                {
+                    "name": "browser",
+                    "label": "Browser"
+                },
+
+                {
+                    "name": "version",
+                    "label": "Version"
+                }
+            ],
+            "affixRowClassNameExpr": "${SUM(ARRAYMAP(rows, item => item.version)) > 30 ? 'text-success' : ''}",
+            "affixRow":[
+                {
+                    "type": "text",
+                    "text": "总计"
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "${rows|pick:version|sum}"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ### 配置合并单元格
 
 可以配置 `colSpan` 来设置一列所合并的列数，例如
