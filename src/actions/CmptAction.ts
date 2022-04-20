@@ -49,11 +49,10 @@ export class CmptAction implements RendererAction {
 
     // 数据更新
     if (action.actionType === 'setValue') {
-      const value = dataMapping(action.value, event.data);
       if (component.setData) {
-        return component.setData(value);
+        return component.setData(action.args?.value);
       } else {
-        return component.props.onChange?.(value);
+        return component.props.onChange?.(action.args?.value);
       }
     }
 

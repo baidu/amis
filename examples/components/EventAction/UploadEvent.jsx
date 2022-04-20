@@ -3,8 +3,10 @@ const getEventDesc = eventName => {
     actions: [
       {
         actionType: 'toast',
-        msgType: 'info',
-        msg: `派发${eventName}事件`
+        args: {
+          msgType: 'info',
+          msg: `派发${eventName}事件`
+        }
       }
     ]
   };

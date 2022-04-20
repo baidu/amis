@@ -4,13 +4,15 @@ import {
   RendererAction,
   ListenerAction,
   ListenerContext,
-  LoopStatus,
   registerAction
 } from './Action';
 
 export interface ICopyAction extends ListenerAction {
-  content: string;
-  copyFormat?: string;
+  args: {
+    content: string;
+    copyFormat?: string;
+    [propName: string]: any;
+  };
 }
 
 /**
@@ -26,9 +28,9 @@ export class CopyAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    if (action.content) {
-      renderer.props.env.copy?.(filter(action.content, action.args, '| raw'), {
-        format: action.copyFormat
+    if (action.args?.content) {
+      renderer.props.env.copy?.(action.args.content, {
+        format: action.args?.copyFormat ?? 'text/html'
       });
     }
   }

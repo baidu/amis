@@ -37,8 +37,10 @@ export default {
                 actions: [
                   {
                     actionType: 'toast',
-                    msgType: 'success',
-                    msg: 'API inited: <b>${date}</b>'
+                    args: {
+                      msgType: 'success',
+                      msg: 'API inited: <b>${event.data.date}</b>'
+                    }
                   }
                 ]
               }
@@ -73,8 +75,10 @@ export default {
                 actions: [
                   {
                     actionType: 'toast',
-                    msgType: 'info',
-                    msg: 'SchemaAPI inited: <b>title: ${title}</b>'
+                    args: {
+                      msgType: 'info',
+                      msg: 'SchemaAPI inited: <b>title: ${event.data.title}</b>'
+                    }
                   }
                 ]
               }
@@ -195,7 +199,9 @@ export default {
             {
               actionType: 'setValue',
               componentId: 'service-setvalue',
-              value: {language: ['🇨🇳 中国']}
+              args: {
+                value: {language: ['🇨🇳 中国']}
+              }
             }
           ]
         }

@@ -1,6 +1,6 @@
 const wizardSchema = {
   type: 'wizard',
-  initApi: '/api/mock2/form/initForm',
+  initApi: '/api/mock2/form/initData',
   steps: [
     {
       title: '第一步',
@@ -34,7 +34,7 @@ const wizardSchema = {
           name: 'name'
         }
       ],
-      initApi: '/api/mock2/form/initForm',
+      initApi: '/api/mock2/form/initData',
       api: '/api/mock2/form/saveForm?waitSeconds=2'
     },
     {
@@ -52,8 +52,10 @@ function generateEventAcions(events) {
       actions: [
         {
           actionType: 'toast',
-          msgType: 'info',
-          msg: `派发 ${event} 事件`
+          args: {
+            msgType: 'info',
+            msg: `派发 ${event} 事件，数据：` + '${event.data|json}'
+          }
         }
       ]
     };

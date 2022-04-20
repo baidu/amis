@@ -26,7 +26,7 @@ export class BroadcastAction implements RendererAction {
     event: RendererEvent<any>
   ) {
     if (!action.eventName) {
-      console.warn('eventName 未定义，请定义事件名称');
+      console.error('eventName 未定义，请定义事件名称');
       return;
     }
 

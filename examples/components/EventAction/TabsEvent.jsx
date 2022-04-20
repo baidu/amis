@@ -16,7 +16,9 @@ export default {
             {
               actionType: 'changeActiveKey',
               componentId: 'tabs-change-receiver',
-              activeKey: 0
+              args: {
+                activeKey: 0
+              }
             }
           ]
         }
@@ -35,7 +37,9 @@ export default {
             {
               actionType: 'changeActiveKey',
               componentId: 'tabs-change-receiver',
-              activeKey: 1
+              args: {
+                activeKey: 1
+              }
             }
           ]
         }
@@ -86,8 +90,10 @@ export default {
           actions: [
             {
               actionType: 'toast',
-              msgType: 'info',
-              msg: '派发change事件'
+              args: {
+                msgType: 'info',
+                msg: '更新至${event.data.value}'
+              }
             }
           ]
         }

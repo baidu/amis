@@ -66,12 +66,6 @@ import CRUDLinkPageSchema from './Linkage/CRUD';
 import OptionsPageSchema from './Linkage/Options';
 import OptionsLocalPageSchema from './Linkage/OptionsLocal';
 import FormSubmitSchema from './Linkage/FormSubmit';
-import CommonEventActionSchema from './EventAction/Common';
-import BroadcastEventActionSchema from './EventAction/Broadcast';
-import CustomEventActionSchema from './EventAction/Custom';
-import LogicEventActionSchema from './EventAction/Logic';
-import StopEventActionSchema from './EventAction/Stop';
-import DataFlowEventActionSchema from './EventAction/DataFlow';
 import InputEventSchema from './EventAction/InputEvent';
 import DateEventSchema from './EventAction/DateEvent';
 import SwitchEventSchema from './EventAction/SwitchEvent';
@@ -529,16 +523,6 @@ export const examples = [
         icon: 'fa fa-bullhorn',
         children: [
           {
-            label: '执行通用动作',
-            path: '/examples/event-action/common',
-            component: makeSchemaRenderer(CommonEventActionSchema)
-          },
-          {
-            label: '广播(自定义事件)',
-            path: '/examples/event-action/broadcat',
-            component: makeSchemaRenderer(BroadcastEventActionSchema)
-          },
-          {
             label: '执行其他组件动作',
             children: [
               {
@@ -622,26 +606,6 @@ export const examples = [
                 component: makeSchemaRenderer(ServiceEventSchema)
               }
             ]
-          },
-          {
-            label: '自定义JS',
-            path: '/examples/event-action/custom',
-            component: makeSchemaRenderer(CustomEventActionSchema)
-          },
-          {
-            label: '执行逻辑编排动作',
-            path: '/examples/event-action/logic',
-            component: makeSchemaRenderer(LogicEventActionSchema)
-          },
-          {
-            label: '事件/动作干预',
-            path: '/examples/event-action/stop',
-            component: makeSchemaRenderer(StopEventActionSchema)
-          },
-          {
-            label: '动作间数据传递',
-            path: '/examples/event-action/dataflow',
-            component: makeSchemaRenderer(DataFlowEventActionSchema)
           }
         ]
       },

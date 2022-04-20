@@ -8,12 +8,18 @@ import {
 } from './Action';
 
 export interface IAlertAction extends ListenerAction {
-  msg: string;
+  args: {
+    msg: string;
+    [propName: string]: any;
+  };
 }
 
 export interface IConfirmAction extends ListenerAction {
-  title: string;
-  msg: string;
+  args: {
+    title: string;
+    msg: string;
+    [propName: string]: any;
+  };
 }
 
 export interface IDialogAction extends ListenerAction {
@@ -76,7 +82,7 @@ export class AlertAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    event.context.env.alert?.(action.msg);
+    event.context.env.alert?.(action.args?.msg);
   }
 }
 
@@ -89,7 +95,7 @@ export class ConfirmAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    event.context.env.confirm?.(action.msg, action.title);
+    event.context.env.confirm?.(action.args?.msg, action.args?.title);
   }
 }
 
