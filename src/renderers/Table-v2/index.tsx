@@ -8,11 +8,7 @@ import {IScopedContext} from '../../Scoped';
 import {Renderer, RendererProps} from '../../factory';
 import {Action} from '../../types';
 import Table from '../../components/table';
-import {
-  BaseSchema,
-  SchemaObject,
-  SchemaTokenizeableString
-} from '../../Schema';
+import {BaseSchema, SchemaObject, SchemaTokenizeableString} from '../../Schema';
 import {
   isObject,
   anyChanged,
@@ -206,53 +202,54 @@ export interface TableSchemaV2 extends BaseSchema {
   type: 'table-v2';
 
   /**
-  * 表格标题
-  */
+   * 表格标题
+   */
   title?: string | SchemaObject | Array<SchemaObject>;
 
   /**
-  * 表格数据源
-  */
+   * 表格数据源
+   */
   source: SchemaTokenizeableString;
 
   /**
-  * 表格可自定义列
-  */
+   * 表格可自定义列
+   */
   columnsTogglable: boolean;
 
   /**
-  * 表格可自定义列的一些配置
-  */
-  columnsToggler: ColumnTogglerProps;
+   * 表格可自定义列的一些配置
+   */
+  columnsToggler: any;
+  // columnsToggler: ColumnTogglerProps;
 
   /**
-  * 表格列配置
-  */
+   * 表格列配置
+   */
   columns: Array<ColumnSchema>;
 
   /**
-  * 表格可选择配置
-  */
+   * 表格可选择配置
+   */
   rowSelection?: RowSelectionSchema;
 
   /**
-  * 表格行可展开配置
-  */
+   * 表格行可展开配置
+   */
   expandable?: ExpandableSchema;
 
   /**
-  * 表格行可展开内容配置
-  */
+   * 表格行可展开内容配置
+   */
   expandableBody?: Array<SchemaObject>;
 
   /**
-  * 粘性头部
-  */
+   * 粘性头部
+   */
   sticky?: boolean;
 
   /**
-  * 加载中
-  */
+   * 加载中
+   */
   loading?: boolean | string | SchemaObject;
 
   /**
@@ -350,7 +347,8 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
   syncSelected() {
     const {store, rowSelection} = this.props;
 
-    rowSelection && rowSelection.onSelect &&
+    rowSelection &&
+      rowSelection.onSelect &&
       rowSelection.onSelectonSelect(
         store.selectedRowKeys.map(item => item),
         store.selectedRows.map(item => item.data)
@@ -386,13 +384,22 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
         rows = resolved;
       }
     }
-    updateRows && store.initRows(rows, props.getEntryId, props.reUseRow, props.childrenColumnName);
+    updateRows &&
+      store.initRows(
+        rows,
+        props.getEntryId,
+        props.reUseRow,
+        props.childrenColumnName
+      );
 
     let selectedRowKeys: Array<string | number> = [];
     // selectedRowKeysExpr比selectedRowKeys优先级高
     if (props.rowSelection && props.rowSelection.selectedRowKeysExpr) {
       rows.forEach((row: any, index: number) => {
-        const flag = filter(props.rowSelection.selectedRowKeysExpr, {record: row, rowIndex: index});
+        const flag = filter(props.rowSelection.selectedRowKeysExpr, {
+          record: row,
+          rowIndex: index
+        });
         if (flag === 'true') {
           selectedRowKeys.push(row[props?.rowSelection?.keyField || 'key']);
         }
@@ -402,16 +409,16 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
     }
 
     if (updateRows && selectedRowKeys.length > 0) {
-        store.updateSelected(
-          selectedRowKeys,
-          props.rowSelection.keyField
-        );
+      store.updateSelected(selectedRowKeys, props.rowSelection.keyField);
     }
 
     let expandedRowKeys: Array<string | number> = [];
     if (props.expandable && props.expandable.expandedRowKeysExpr) {
       rows.forEach((row: any, index: number) => {
-        const flag = filter(props.expandable.expandedRowKeysExpr, {record: row, rowIndex: index});
+        const flag = filter(props.expandable.expandedRowKeysExpr, {
+          record: row,
+          rowIndex: index
+        });
         if (flag === 'true') {
           expandedRowKeys.push(row[props?.expandable?.keyField || 'key']);
         }
@@ -431,15 +438,7 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
     const props = this.props;
     const store = props.store;
 
-    if (
-      anyChanged(
-        [
-          'columnsTogglable'
-        ],
-        prevProps,
-        props
-      )
-    ) {
+    if (anyChanged(['columnsTogglable'], prevProps, props)) {
       store.update({
         columnsTogglable: props.columnsTogglable
       });
@@ -477,13 +476,17 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
       // 否则加上padding 就超出单元格的区域了
       // children属性在schema里是一个关键字 在渲染器schema中 自定义的children没有用 去掉
       const {width, children, ...rest} = schema;
-      return render('cell-field', {
-        ...rest,
-        type: 'cell-field',
-        column: rest,
-        data: props.data,
-        name: schema.key
-      }, props);
+      return render(
+        'cell-field',
+        {
+          ...rest,
+          type: 'cell-field',
+          column: rest,
+          data: props.data,
+          name: schema.key
+        },
+        props
+      );
     }
 
     return schema;
@@ -497,10 +500,18 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
       return render(key || 'field', {...schema, data: props.data}, props);
     } else if (Array.isArray(schema)) {
       const renderers: Array<any> = [];
-      schema.forEach((s, i) => renderers.push(render(key || 'field', {
-        ...s,
-        data: props.data
-      }, {...props, key: i})));
+      schema.forEach((s, i) =>
+        renderers.push(
+          render(
+            key || 'field',
+            {
+              ...s,
+              data: props.data
+            },
+            {...props, key: i}
+          )
+        )
+      );
       return renderers;
     }
 
@@ -523,130 +534,161 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
     const rowSpans: Array<CellSpan> = [];
     const colSpans: Array<CellSpan> = [];
 
-    Array.isArray(columns) && columns.forEach((column, col) => {
-      const clone = {...column} as any;
+    Array.isArray(columns) &&
+      columns.forEach((column, col) => {
+        const clone = {...column} as any;
 
-      let titleSchema: any = null;
-      const titleProps = {
-        popOverContainer: popOverContainer || this.getPopOverContainer,
-        value: column.title
-      };
-      if (isObject(column.title)) {
-        titleSchema = cloneDeep(column.title);
-      } else if (typeof column.title === 'string') {
-        titleSchema = {type: 'plain'};
-      }
+        let titleSchema: any = null;
+        const titleProps = {
+          popOverContainer: popOverContainer || this.getPopOverContainer,
+          value: column.title
+        };
+        if (isObject(column.title)) {
+          titleSchema = cloneDeep(column.title);
+        } else if (typeof column.title === 'string') {
+          titleSchema = {type: 'plain'};
+        }
 
-      const titleRender = (children: any) => {
-        const content = this.renderCellSchema(titleSchema, titleProps);
+        const titleRender = (children: any) => {
+          const content = this.renderCellSchema(titleSchema, titleProps);
 
-        let remark = null;
-        if (column.remark) {
-          remark = render('remark', {
-            type: 'remark',
-            tooltip: column.remark,
-            container:
-              env && env.getModalContainer
-                ? env.getModalContainer
-                : undefined
+          let remark = null;
+          if (column.remark) {
+            remark = render('remark', {
+              type: 'remark',
+              tooltip: column.remark,
+              container:
+                env && env.getModalContainer ? env.getModalContainer : undefined
+            });
+          }
+
+          return (
+            <div className={cx('Table-head-cell-wrapper')}>
+              {content}
+              {remark}
+              {children}
+            </div>
+          );
+        };
+
+        Object.assign(clone, {
+          title: titleRender
+        });
+
+        // 设置了type值 就完全按渲染器处理了
+        if (column.type) {
+          Object.assign(clone, {
+            render: (
+              text: string,
+              record: any,
+              rowIndex: number,
+              colIndex: number
+            ) => {
+              const props: RenderProps = {};
+              const item = store.getRowByIndex(rowIndex);
+              const obj = {
+                children: this.renderCellSchema(column, {
+                  data: item.locals,
+                  value: column.key
+                    ? resolveVariable(
+                        column.key,
+                        canAccessSuperData ? item.locals : item.data
+                      )
+                    : column.key,
+                  popOverContainer:
+                    popOverContainer || this.getPopOverContainer,
+                  onQuickChange: (
+                    values: object,
+                    saveImmediately?: boolean,
+                    savePristine?: boolean,
+                    resetOnFailed?: boolean
+                  ) => {
+                    this.handleQuickChange(
+                      item,
+                      values,
+                      saveImmediately,
+                      savePristine,
+                      resetOnFailed
+                    );
+                  },
+                  row: item,
+                  showBadge,
+                  itemBadge
+                }),
+                props
+              };
+              if (column.rowSpanExpr) {
+                const rowSpan = +filter(column.rowSpanExpr, {
+                  record,
+                  rowIndex,
+                  colIndex
+                });
+                if (rowSpan) {
+                  obj.props.rowSpan = rowSpan;
+                  rowSpans.push({colIndex, rowIndex, rowSpan});
+                }
+              }
+
+              if (column.colSpanExpr) {
+                const colSpan = +filter(column.colSpanExpr, {
+                  record,
+                  rowIndex,
+                  colIndex
+                });
+                if (colSpan) {
+                  obj.props.colSpan = colSpan;
+                  colSpans.push({colIndex, rowIndex, colSpan});
+                }
+              }
+
+              rowSpans.forEach(item => {
+                if (
+                  colIndex === item.colIndex &&
+                  rowIndex > item.rowIndex &&
+                  rowIndex < item.rowIndex + (item.rowSpan || 0)
+                ) {
+                  obj.props.rowSpan = 0;
+                }
+              });
+
+              colSpans.forEach(item => {
+                if (
+                  rowIndex === item.rowIndex &&
+                  colIndex > item.colIndex &&
+                  colIndex < item.colIndex + (item.colSpan || 0)
+                ) {
+                  obj.props.colSpan = 0;
+                }
+              });
+
+              return obj;
+            }
           });
         }
 
-        return <div className={cx('Table-head-cell-wrapper')}>
-          {content}{remark}{children}
-        </div>;
-      };
+        // 设置了列搜索
+        if (column.searchable) {
+          clone.filterDropdown = (
+            <HeadCellSearchDropDown
+              {...this.props}
+              popOverContainer={this.getPopOverContainer}
+              name={column.key}
+              searchable={column.searchable}
+              orderBy={store.orderBy}
+              orderDir={store.order}
+              data={store.query}
+              key={'th-search-' + col}
+              store={store}
+            />
+          );
+        }
 
-      Object.assign(clone, {
-          title: titleRender
+        if (column.children) {
+          clone.children = this.buildColumns(column.children);
+        }
+
+        cols.push(clone);
       });
-
-      // 设置了type值 就完全按渲染器处理了
-      if (column.type) {
-        Object.assign(clone, {
-          render: (text: string, record: any, rowIndex: number, colIndex: number) => {
-            const props: RenderProps = {};
-            const item = store.getRowByIndex(rowIndex);
-            const obj = {
-              children: this.renderCellSchema(column, {
-                data: item.locals,
-                value: column.key
-                  ? resolveVariable(
-                      column.key,
-                      canAccessSuperData ? item.locals : item.data
-                    )
-                  : column.key,
-                popOverContainer: popOverContainer || this.getPopOverContainer,
-                onQuickChange: (
-                  values: object,
-                  saveImmediately?: boolean,
-                  savePristine?: boolean,
-                  resetOnFailed?: boolean) => {
-                    this.handleQuickChange(item, values, saveImmediately, savePristine, resetOnFailed)
-                  },
-                row: item,
-                showBadge,
-                itemBadge
-              }),
-              props
-            };
-            if (column.rowSpanExpr) {
-              const rowSpan = +filter(column.rowSpanExpr, {record, rowIndex, colIndex});
-              if (rowSpan) {
-                obj.props.rowSpan = rowSpan;
-                rowSpans.push({colIndex, rowIndex, rowSpan})
-              }
-            }
-
-            if (column.colSpanExpr) {
-              const colSpan = +filter(column.colSpanExpr, {record, rowIndex, colIndex});
-              if (colSpan) {
-                obj.props.colSpan = colSpan;
-                colSpans.push({colIndex, rowIndex, colSpan});
-              }
-            }
-
-            rowSpans.forEach(item => {
-              if (colIndex === item.colIndex
-                && rowIndex > item.rowIndex
-                && rowIndex < item.rowIndex + (item.rowSpan || 0)) {
-                obj.props.rowSpan = 0;
-              }
-            });
-
-            colSpans.forEach(item => {
-              if (rowIndex === item.rowIndex
-                && colIndex > item.colIndex
-                && colIndex < item.colIndex + (item.colSpan || 0)) {
-                obj.props.colSpan = 0;
-              }
-            });
-
-            return obj;
-          }
-        }); 
-      }
-
-      // 设置了列搜索
-      if (column.searchable) {
-        clone.filterDropdown = (<HeadCellSearchDropDown
-          {...this.props}
-          popOverContainer={this.getPopOverContainer}
-          name={column.key}
-          searchable={column.searchable}
-          orderBy={store.orderBy}
-          orderDir={store.order}
-          data={store.query}
-          key={'th-search-' + col}
-          store={store} />);
-      }
-
-      if (column.children) {
-        clone.children = this.buildColumns(column.children);
-      }
-
-      cols.push(clone);
-    });
 
     return cols;
   }
@@ -659,9 +701,10 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
           result.push({
             colSpan: s.colSpan,
             fixed: s.fixed,
-            render: (dataSouce: Array<any>) => this.renderSchema(key, s, {
-              data: dataSouce
-            })
+            render: (dataSouce: Array<any>) =>
+              this.renderSchema(key, s, {
+                data: dataSouce
+              })
           });
         } else if (Array.isArray(s)) {
           if (!result[index]) {
@@ -671,9 +714,10 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
             result[index].push({
               colSpan: d.colSpan,
               fixed: d.fixed,
-              render: (dataSouce: Array<any>) => this.renderSchema(key, d, {
-                data: dataSouce
-              })
+              render: (dataSouce: Array<any>) =>
+                this.renderSchema(key, d, {
+                  data: dataSouce
+                })
             });
           });
         }
@@ -769,17 +813,12 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
     savePristine?: boolean,
     resetOnFailed?: boolean
   ) {
-
     if (!isAlive(item)) {
       return;
     }
 
-    const {
-      onSave,
-      onPristineChange,
-      primaryField,
-      quickSaveItemApi
-    } = this.props;
+    const {onSave, onPristineChange, primaryField, quickSaveItemApi} =
+      this.props;
 
     item.change(values, savePristine);
 
@@ -803,21 +842,23 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
       return;
     }
 
-    onSave ? onSave(
-      item.data,
-      difference(item.data, item.pristine, ['id', primaryField]),
-      item.path,
-      undefined,
-      item.pristine,
-      resetOnFailed
-    ) : this.handleSave(
-      quickSaveItemApi ? item.data : [item.data],
-      difference(item.data, item.pristine, ['id', primaryField]),
-      [item.path],
-      undefined,
-      item.pristine,
-      resetOnFailed
-    );
+    onSave
+      ? onSave(
+          item.data,
+          difference(item.data, item.pristine, ['id', primaryField]),
+          item.path,
+          undefined,
+          item.pristine,
+          resetOnFailed
+        )
+      : this.handleSave(
+          quickSaveItemApi ? item.data : [item.data],
+          difference(item.data, item.pristine, ['id', primaryField]),
+          [item.path],
+          undefined,
+          item.pristine,
+          resetOnFailed
+        );
   }
 
   handleColumnToggle(columns: Array<IColumn>) {
@@ -857,9 +898,7 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
         key="columns-toggable"
         size={config?.size || 'sm'}
         icon={config?.icon}
-        label={
-          config?.label || ''
-        }
+        label={config?.label || ''}
         draggable={config?.draggable}
         columns={store.columnsData}
         onColumnToggle={this.handleColumnToggle}
@@ -874,7 +913,8 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
               key={'toggable-select' + index}
               size="sm"
               classPrefix={ns}
-              checked={column.toggled}>
+              checked={column.toggled}
+            >
               {column.title ? render('tpl', column.title) : null}
             </Checkbox>
           </li>
@@ -891,7 +931,14 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
   }
 
   renderActions(region: string) {
-    let {actions, render, store, classnames: cx, data, columnsToggler} = this.props;
+    let {
+      actions,
+      render,
+      store,
+      classnames: cx,
+      data,
+      columnsToggler
+    } = this.props;
 
     actions = Array.isArray(actions) ? actions.concat() : [];
 
@@ -953,7 +1000,7 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
       expandableConfig = {
         expandedRowKeys: store.currentExpandedKeys,
         ...rest
-      }
+      };
 
       if (expandable.expandableOn) {
         expandableConfig.rowExpandable = (record: any, rowIndex: number) =>
@@ -962,13 +1009,15 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
       }
 
       if (expandableBody && expandableBody.length > 0) {
-        expandableConfig.expandedRowRender = (record: any, rowIndex: number) => 
+        expandableConfig.expandedRowRender = (record: any, rowIndex: number) =>
           this.renderSchema('expandableBody', expandableBody, {data: record});
       }
-      
+
       if (expandable.expandedRowClassNameExpr) {
-        expandableConfig.expandedRowClassName = (record: any, rowIndex: number) =>
-          filter(expandable.expandedRowClassNameExpr, {record, rowIndex});
+        expandableConfig.expandedRowClassName = (
+          record: any,
+          rowIndex: number
+        ) => filter(expandable.expandedRowClassNameExpr, {record, rowIndex});
         delete expandableConfig.expandedRowClassNameExpr;
       }
     }
@@ -984,7 +1033,10 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
       if (rowSelection.disableOn) {
         const disableOn = rowSelection.disableOn;
 
-        rowSelectionConfig.getCheckboxProps = (record: any, rowIndex: number) => ({
+        rowSelectionConfig.getCheckboxProps = (
+          record: any,
+          rowIndex: number
+        ) => ({
           disabled: evalExpression(disableOn, {record, rowIndex})
         });
 
@@ -1028,7 +1080,7 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
               });
               store.updateSelected(newSelectedRowKeys, rowSelection.keyField);
             }
-          })
+          });
         });
       }
 
@@ -1042,8 +1094,8 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
       ) => {
         store.updateSelected(selectedRowKeys, rowSelection.keyField);
 
-        rowSelection.onSelect
-          && rowSelection.onSelect(record, value, selectedRows, selectedRowKeys);
+        rowSelection.onSelect &&
+          rowSelection.onSelect(record, value, selectedRows, selectedRowKeys);
       };
     }
 
@@ -1055,32 +1107,34 @@ export class TableRenderer extends React.Component<TableV2Props, object> {
       };
     }
 
-    return <Table
-      {...rest}
-      title={this.renderSchema('title', title, {data: this.props.data})}
-      footer={this.renderSchema('footer', footer, {data: this.props.data})}
-      columns={this.buildColumns(store.filteredColumns)}
-      dataSource={store.dataSource}
-      rowSelection={rowSelectionConfig}
-      rowClassName={rowClassName}
-      expandable={expandableConfig}
-      footSummary={this.buildSummary('footSummary', footSummary)}
-      headSummary={this.buildSummary('headSummary', headSummary)}
-      loading={this.renderSchema('loading', loading)}
-      placeholder={this.renderSchema('placeholder', placeholder)}>
-    </Table>;
+    return (
+      <Table
+        {...rest}
+        title={this.renderSchema('title', title, {data: this.props.data})}
+        footer={this.renderSchema('footer', footer, {data: this.props.data})}
+        columns={this.buildColumns(store.filteredColumns)}
+        dataSource={store.dataSource}
+        rowSelection={rowSelectionConfig}
+        rowClassName={rowClassName}
+        expandable={expandableConfig}
+        footSummary={this.buildSummary('footSummary', footSummary)}
+        headSummary={this.buildSummary('headSummary', headSummary)}
+        loading={this.renderSchema('loading', loading)}
+        placeholder={this.renderSchema('placeholder', placeholder)}
+      ></Table>
+    );
   }
 
   render() {
-    const {
-      classnames: cx
-    } = this.props;
+    const {classnames: cx} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
 
-    return <div className={cx('Table-render-wrapper')}>
-      {this.renderActions('header')}
-      {this.renderTable()}
-    </div>;
+    return (
+      <div className={cx('Table-render-wrapper')}>
+        {this.renderActions('header')}
+        {this.renderTable()}
+      </div>
+    );
   }
 }
