@@ -1014,6 +1014,13 @@ export const components = [
         )
       },
       {
+        label: 'Tag 标签',
+        path: '/zh-CN/components/tag',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/tag.md').then(wrapDoc)
+        )
+      },
+      {
         label: 'Video 视频',
         path: '/zh-CN/components/video',
         component: React.lazy(() =>

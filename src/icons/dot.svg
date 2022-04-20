@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>状态圆</title>
+    <g id="状态圆" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="dot" fill="currentColor" cx="8" cy="8" r="6"></circle>
+        <circle id="dotWave" cx="8" cy="8" r="6" fill="currentColor" opacity="0.5">
+            <animate attributeName="r" begin="0" values="6;8;6" dur="1.5" repeatCount="indefinite"></animate>
+        </circle>
+    </g>
+</svg>
+
