@@ -243,6 +243,7 @@
 }
 
 .#{$ns}TooltipWrapper {
+  cursor: pointer;
   &--inline {
     display: inline-block;
   }
