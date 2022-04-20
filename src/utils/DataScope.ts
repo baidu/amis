@@ -1,5 +1,5 @@
 import type {JSONSchema7} from 'json-schema';
-import {keyToPath} from './helper';
+import {guid, keyToPath} from './helper';
 
 // 先只支持 JSONSchema draft07 好了
 // https://json-schema.org/draft-07/json-schema-release-notes.html
@@ -25,7 +25,10 @@ export class DataScope {
   // scope 的描述信息
   description?: string;
 
-  constructor(protected schema: JSONSchema, id: string) {
+  readonly schemas: Array<JSONSchema> = [];
+
+  constructor(schemas: JSONSchema | Array<JSONSchema>, id: string) {
+    this.schemas.push(...(Array.isArray(schemas) ? schemas : [schemas]));
     this.id = id;
   }
 
@@ -57,8 +60,20 @@ export class DataScope {
     }
   }
 
-  extendsSchema(schema: Partial<JSONSchema>) {
-    Object.assign(this.schema, schema);
+  addSchema(schema: JSONSchema) {
+    schema = {
+      $id: guid(),
+      ...schema
+    };
+    this.schemas.push(schema);
+    return this;
+  }
+
+  removeSchema(id: string) {
+    const idx = this.schemas.findIndex(schema => schema.$id === id);
+    if (~idx) {
+      this.schemas.splice(idx, 1);
+    }
     return this;
   }
 
@@ -104,7 +119,9 @@ export class DataScope {
   getDataPropsAsOptions() {
     const variables: Array<any> = [];
 
-    this.buildOptions(variables, this.schema, '');
+    this.schemas.forEach(schema => {
+      this.buildOptions(variables, schema, '');
+    });
 
     return variables;
   }
@@ -112,12 +129,19 @@ export class DataScope {
   getSchemaByPath(path: string) {
     const parts = keyToPath(path);
 
-    return parts.reduce((schema: JSONSchema, key: string) => {
-      if (schema && schema.type === 'object' && schema.properties) {
-        return schema.properties[key] as JSONSchema;
-      }
+    for (let schema of this.schemas) {
+      const result = parts.reduce((schema: JSONSchema, key: string) => {
+        if (schema && schema.type === 'object' && schema.properties) {
+          return schema.properties[key] as JSONSchema;
+        }
 
-      return null;
-    }, this.schema);
+        return null;
+      }, schema);
+
+      if (result) {
+        return result;
+      }
+    }
+    return null;
   }
 }

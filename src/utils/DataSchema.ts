@@ -21,8 +21,13 @@ export class DataSchema {
     this.current = this.root;
   }
 
-  extendsSchema(schema: Partial<JSONSchema>) {
-    this.current.extendsSchema(schema);
+  addSchema(schema: Partial<JSONSchema>) {
+    this.current.addSchema(schema);
+    return this;
+  }
+
+  removeSchema(id: string) {
+    this.current.removeSchema(id);
     return this;
   }
 
