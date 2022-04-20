@@ -438,6 +438,12 @@ export interface TransferDropDownProps
 }
 
 class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProps> {
+  @autobind
+  renderItem(item: Option): any {
+    const {labelField} = this.props;
+    return `${item.scopeLabel || ''}${item[labelField || 'label']}`;
+  }
+
   render() {
     const {
       className,
@@ -488,6 +494,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           options={options}
           onChange={this.handleChange}
           option2value={this.option2value}
+          itemRender={this.renderItem}
           sortable={sortable}
           searchResultMode={searchResultMode}
           onSearch={searchable ? this.handleSearch : undefined}
