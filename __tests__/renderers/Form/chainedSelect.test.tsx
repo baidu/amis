@@ -17,7 +17,7 @@ test('Renderer:chained-select', async () => {
             type: 'chained-select',
             label: '级联下拉',
             source:
-              '/api/mock2/options/chainedOptions?waitSeconds=1&parentId=$parentId&level=$level&maxLevel=4',
+              '/api/mock2/options/chainedOptions?parentId=$parentId&level=$level&maxLevel=4',
             value: 'a,b'
           }
         ]
