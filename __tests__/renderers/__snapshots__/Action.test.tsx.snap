@@ -83,6 +83,190 @@ exports[`Renderers:Action MenuItem display icon 2`] = `
 </a>
 `;
 
+exports[`Renderers:Action all levels 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--link"
+            type="button"
+          >
+            <span>
+              按钮 link
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              按钮 primary
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--secondary"
+            type="button"
+          >
+            <span>
+              按钮 secondary
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--info"
+            type="button"
+          >
+            <span>
+              按钮 info
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--success"
+            type="button"
+          >
+            <span>
+              按钮 success
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--warning"
+            type="button"
+          >
+            <span>
+              按钮 warning
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--danger"
+            type="button"
+          >
+            <span>
+              按钮 danger
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--light"
+            type="button"
+          >
+            <span>
+              按钮 light
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--dark"
+            type="button"
+          >
+            <span>
+              按钮 dark
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              按钮 default
+            </span>
+          </button>
+          <div
+            class="cxd-Divider cxd-Divider--dashed"
+          />
+          <div
+            class="cxd-Button cxd-Button--link is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮link
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--primary is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮primary
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--secondary is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮secondary
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--info is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮info
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--success is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮success
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--warning is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮warning
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--danger is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮danger
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--light is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮light
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--dark is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮dark
+            </span>
+          </div>
+          <div
+            class="cxd-Button cxd-Button--default is-disabled"
+            disabled=""
+          >
+            <span>
+              按钮default
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderers:Action custom activeClass 1`] = `
 <button
   className="cxd-Button cxd-Button--default a"

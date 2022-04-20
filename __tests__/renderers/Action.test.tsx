@@ -14,6 +14,51 @@ import '../../src/themes/default';
 
 afterEach(cleanup);
 
+test('Renderers:Action all levels', () => {
+  const levels = [
+    'link',
+    'primary',
+    'secondary',
+    'info',
+    'success',
+    'warning',
+    'danger',
+    'light',
+    'dark',
+    'default'
+  ];
+
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          levels.map(item => ({
+            type: 'button',
+            level: item,
+            label: `按钮 ${item}`
+          })),
+
+          {
+            type: 'divider'
+          },
+
+          levels.map(item => ({
+            type: 'button',
+            level: item,
+            disabled: true,
+            label: `按钮${item}`
+          }))
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  expect(container).toMatchSnapshot();
+});
+
 test('Renderers:Action MenuItem changes class when actived & disabled', () => {
   const component = renderer.create(
     <Action isMenuItem className="a" label="123" />
