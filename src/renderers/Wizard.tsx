@@ -648,7 +648,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     const previous = store.data;
     const final = {...previous, ...values};
 
-    if (await this.dispatchEvent('change', {formData: final})) {
+    if (await this.dispatchEvent('change', final)) {
       return;
     }
 
@@ -692,7 +692,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       onFinished
     } = this.props;
 
-    if (await this.dispatchEvent('finished', {formData: store.data})) {
+    if (await this.dispatchEvent('finished', store.data)) {
       return;
     }
 
@@ -719,7 +719,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       formStore
         .saveRemote(action.api || step.api || api!, store.data, {
           onSuccess: () => {
-            this.dispatchEvent('submitSucc', {formData: store.data});
+            this.dispatchEvent('submitSucc', store.data);
 
             if (
               !isEffectiveApi(finnalAsyncApi, store.data) ||

@@ -2,8 +2,10 @@ const change = {
   actions: [
     {
       actionType: 'toast',
-      msgType: 'info',
-      msg: '派发change事件'
+      args: {
+        msgType: 'info',
+        msg: '派发change事件'
+      }
     }
   ]
 };
@@ -12,8 +14,10 @@ const blur = {
   actions: [
     {
       actionType: 'toast',
-      msgType: 'info',
-      msg: '派发blur事件'
+      args: {
+        msgType: 'info',
+        msg: '派发blur事件'
+      }
     }
   ]
 };
@@ -22,8 +26,10 @@ const focus = {
   actions: [
     {
       actionType: 'toast',
-      msgType: 'info',
-      msg: '派发focus事件'
+      args: {
+        msgType: 'info',
+        msg: '派发focus事件'
+      }
     }
   ]
 };

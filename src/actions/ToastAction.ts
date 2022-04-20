@@ -32,8 +32,15 @@ export class ToastAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    const msg = resolveVariableAndFilter(action.msg, action.args, '| raw');
-    event.context.env.notify?.(action.msgType || 'info', String(msg), action);
+    if (!renderer.props.env?.notify) {
+      throw new Error('env.notify is required!');
+    }
+
+    event.context.env.notify?.(
+      action.args?.msgType || 'info',
+      String(action.args?.msg),
+      action.args
+    );
   }
 }
 
