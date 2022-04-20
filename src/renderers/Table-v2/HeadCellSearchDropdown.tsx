@@ -1,12 +1,12 @@
 import React from 'react';
+import {findDOMNode} from 'react-dom';
+
 import {RendererProps} from '../../factory';
 import {Action} from '../../types';
 import {Icon} from '../../components/icons';
-import Overlay from '../../components/Overlay';
-import {findDOMNode} from 'react-dom';
-import PopOver from '../../components/PopOver';
-import {ITableStore} from '../../store/table';
 import {setVariable} from '../../utils/helper';
+import {ITableStore} from '../../store/table-v2';
+import HeadCellDropDown from '../../components/table/HeadCellDropDown';
 
 export interface QuickSearchConfig {
   type?: string;
@@ -20,23 +20,20 @@ export interface HeadCellSearchProps extends RendererProps {
   name: string;
   searchable: boolean | QuickSearchConfig;
   classPrefix: string;
-  onQuery: (values: object) => void;
+  onFilter?: (values: object) => void;
+  onAction?: Function;
+  store: ITableStore;
 }
 
 export class HeadCellSearchDropDown extends React.Component<
   HeadCellSearchProps,
   any
 > {
-  state = {
-    isOpened: false
-  };
 
   formItems: Array<string> = [];
   constructor(props: HeadCellSearchProps) {
     super(props);
 
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAction = this.handleAction.bind(this);
   }
@@ -92,7 +89,7 @@ export class HeadCellSearchDropDown extends React.Component<
         },
         {
           type: 'button-group',
-          name: 'orderDir',
+          name: 'order',
           label: __('sort'),
           options: [
             {
@@ -114,7 +111,7 @@ export class HeadCellSearchDropDown extends React.Component<
         (item: any) =>
           item.name &&
           item.name !== 'orderBy' &&
-          item.name !== 'orderDir' &&
+          item.name !== 'order' &&
           formItems.push(item.name)
       );
       this.formItems = formItems;
@@ -147,32 +144,16 @@ export class HeadCellSearchDropDown extends React.Component<
     return schema || 'error';
   }
 
-  handleClickOutside() {
-    this.close();
-  }
-
-  open() {
-    this.setState({
-      isOpened: true
-    });
-  }
-
-  close() {
-    this.setState({
-      isOpened: false
-    });
-  }
-
-  handleAction(e: any, action: Action, ctx: object) {
+  handleAction(e: any, action: Action, ctx: object, confirm: Function) {
     const {onAction} = this.props;
 
     if (action.actionType === 'cancel' || action.actionType === 'close') {
-      this.close();
+      confirm();
       return;
     }
 
     if (action.actionType === 'reset') {
-      this.close();
+      confirm();
       this.handleReset();
       return;
     }
@@ -181,36 +162,41 @@ export class HeadCellSearchDropDown extends React.Component<
   }
 
   handleReset() {
-    const {onQuery, data, name} = this.props;
+    const {onFilter, data, name, store} = this.props;
     const values = {...data};
     this.formItems.forEach(key => setVariable(values, key, undefined));
 
     if (values.orderBy === name) {
       values.orderBy = '';
-      values.orderDir = 'asc';
+      values.order = 'asc';
     }
-    onQuery(values);
+
+    store.updateQuery(values);
+
+    onFilter && onFilter(values);
   }
 
-  handleSubmit(values: any) {
-    const {onQuery, name} = this.props;
+  handleSubmit(values: any, confirm: Function) {
+    const {onFilter, name, store} = this.props;
 
-    this.close();
-
-    if (values.orderDir) {
+    if (values.order) {
       values = {
         ...values,
         orderBy: name
       };
     }
 
-    onQuery(values);
+    store.updateQuery(values);
+
+    onFilter && onFilter(values);
+
+    confirm();
   }
 
   isActive() {
     const {data, name, orderBy} = this.props;
 
-    return orderBy === name || this.formItems.some(key => data?.[key]);
+    return (orderBy && orderBy === name) || this.formItems.some(key => data?.[key]);
   }
 
   render() {
@@ -230,46 +216,29 @@ export class HeadCellSearchDropDown extends React.Component<
     const isActive = this.isActive();
 
     return (
-      <span
-        className={cx(`${ns}TableCell-searchBtn`, isActive ? 'is-active' : '')}
-      >
-        <span onClick={this.open}>
-          <Icon icon="search" className="icon" />
-        </span>
-        {this.state.isOpened ? (
-          <Overlay
-            container={popOverContainer || (() => findDOMNode(this))}
-            placement="left-bottom-left-top right-bottom-right-top"
-            target={
-              popOverContainer ? () => findDOMNode(this)!.parentNode : null
+      <HeadCellDropDown
+        className={`${ns}TableCell-searchBtn`}
+        layerClassName={cx(
+          `${ns}TableCell-searchPopOver`,
+          (searchable as any).className
+        )}
+        active={isActive}
+        filterIcon={<Icon icon="search" className="icon" />}
+        popOverContainer={popOverContainer ? popOverContainer : () => findDOMNode(this)}
+        filterDropdown={({setSelectedKeys, selectedKeys, confirm, clearFilters}) => {
+          return render('quick-search-form', formSchema, {
+            data: {
+              ...data,
+              orderBy,
+              order: orderBy && orderBy === name ? (store as ITableStore).order : ''
+            },
+            onSubmit: (values: object) => this.handleSubmit(values, confirm),
+            onAction: (e: any, action: Action, ctx: object) => {
+              this.handleAction(e, action, ctx, confirm);
             }
-            show
-          >
-            <PopOver
-              classPrefix={ns}
-              onHide={this.close}
-              className={cx(
-                `${ns}TableCell-searchPopOver`,
-                (searchable as any).className
-              )}
-              overlay
-            >
-              {
-                render('quick-search-form', formSchema, {
-                  data: {
-                    ...data,
-                    orderBy: orderBy,
-                    orderDir:
-                      orderBy === name ? (store as ITableStore).orderDir : ''
-                  },
-                  onSubmit: this.handleSubmit,
-                  onAction: this.handleAction
-                }) as JSX.Element
-              }
-            </PopOver>
-          </Overlay>
-        ) : null}
-      </span>
+          }) as JSX.Element;
+        }}>
+      </HeadCellDropDown>
     );
   }
 }

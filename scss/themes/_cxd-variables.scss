@@ -369,13 +369,13 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Table-color: #333;
   --Table-thead-color: #333;
   --Table-lineHeight: 20 / 12;
-  --Table-borderColor: #f5f5f5;
+  --Table-borderColor: #{$G8};
   --Table-tree-borderColor: #{darken(#f5f5f5, 10%)};
-  --Table-thead-bg: #f5f5f5;
+  --Table-thead-bg: #{$G10};
   --Table-thead-borderColor: #fff;
   --Table-thead-iconColor: #999;
   --Table-strip-bg: transparent;
-  --Table-onHover-bg: #f5f5f5;
+  --Table-onHover-bg: #{$B1};
   --Table-onHover-bg-rgb: 245, 251, 255;
   --Table-onHover-borderColor: #eceff8;
   --Table-onChecked-bg: #f0faff;
@@ -390,6 +390,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   --TableCell-filterPopOver-dropDownItem-height: #{px2rem(30px)};
   --TableCell-filterPopOver-dropDownItem-padding: 0 #{px2rem(10px)};
+
+  --TableRow-onDisabled-bg: #{$G10};
+  --TableRow-onDisabled-color: #{$G6};
 
   // listControl
   --ListControl-item-borderWidth: #{px2rem(1px)};
