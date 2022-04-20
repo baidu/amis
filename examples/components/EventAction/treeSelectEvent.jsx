@@ -1,4 +1,3 @@
-
 const options = [
   {
     label: 'Folder A',
@@ -33,15 +32,17 @@ const options = [
     label: 'file D',
     value: 5
   }
-]
+];
 
 const onEvent = {
   blur: {
     actions: [
       {
         actionType: 'toast',
-        msgType: 'info',
-        msg: '派发blur事件'
+        args: {
+          msgType: 'info',
+          msg: '派发blur事件'
+        }
       }
     ]
   },
@@ -49,8 +50,10 @@ const onEvent = {
     actions: [
       {
         actionType: 'toast',
-        msgType: 'info',
-        msg: '派发focus事件'
+        args: {
+          msgType: 'info',
+          msg: '派发focus事件'
+        }
       }
     ]
   },
@@ -58,8 +61,10 @@ const onEvent = {
     actions: [
       {
         actionType: 'toast',
-        msgType: 'info',
-        msg: '派发change事件'
+        args: {
+          msgType: 'info',
+          msg: '派发change事件'
+        }
       }
     ]
   },
@@ -76,8 +81,10 @@ const onEvent = {
     actions: [
       {
         actionType: 'toast',
-        msgType: 'info',
-        msg: '派发edit事件'
+        args: {
+          msgType: 'info',
+          msg: '派发edit事件'
+        }
       }
     ]
   },
@@ -85,8 +92,10 @@ const onEvent = {
     actions: [
       {
         actionType: 'toast',
-        msgType: 'info',
-        msg: '派发delete事件'
+        args: {
+          msgType: 'info',
+          msg: '派发delete事件'
+        }
       }
     ]
   },
@@ -94,12 +103,14 @@ const onEvent = {
     actions: [
       {
         actionType: 'toast',
-        msgType: 'info',
-        msg: '派发loadFinished事件'
+        args: {
+          msgType: 'info',
+          msg: '派发loadFinished事件'
+        }
       }
     ]
   }
-}
+};
 
 export default {
   type: 'page',
@@ -111,8 +122,8 @@ export default {
       debug: true,
       body: [
         {
-          name: "tree-select-clear",
-          type: "action",
+          name: 'tree-select-clear',
+          type: 'action',
           label: 'clear触发器',
           level: 'primary',
           className: 'mr-3',
@@ -129,8 +140,8 @@ export default {
           }
         },
         {
-          name: "tree-select-reset",
-          type: "action",
+          name: 'tree-select-reset',
+          type: 'action',
           label: 'reset触发器',
           level: 'primary',
           className: 'mr-3',

@@ -1,12 +1,63 @@
 import React = require('react');
 import Action from '../../src/renderers/Action';
 import * as renderer from 'react-test-renderer';
-import {render, fireEvent, cleanup, screen} from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  cleanup,
+  screen,
+  waitFor
+} from '@testing-library/react';
 import {render as amisRender} from '../../src/index';
 import {makeEnv, wait} from '../helper';
 import '../../src/themes/default';
 
 afterEach(cleanup);
+
+test('Renderers:Action all levels', () => {
+  const levels = [
+    'link',
+    'primary',
+    'secondary',
+    'info',
+    'success',
+    'warning',
+    'danger',
+    'light',
+    'dark',
+    'default'
+  ];
+
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          levels.map(item => ({
+            type: 'button',
+            level: item,
+            label: `按钮 ${item}`
+          })),
+
+          {
+            type: 'divider'
+          },
+
+          levels.map(item => ({
+            type: 'button',
+            level: item,
+            disabled: true,
+            label: `按钮${item}`
+          }))
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  expect(container).toMatchSnapshot();
+});
 
 test('Renderers:Action MenuItem changes class when actived & disabled', () => {
   const component = renderer.create(
@@ -158,10 +209,9 @@ test('Renderers:Action countDown', async () => {
   button = container.querySelector('button');
   expect(button).toBeNull();
 
-  await wait(2000);
-
-  button = container.querySelector('button');
-  expect(button).not.toBeNull();
+  await waitFor(() => {
+    expect(container.querySelector('button')).not.toBeInTheDocument();
+  });
 });
 
 test('Renderers:Action tooltip', async () => {

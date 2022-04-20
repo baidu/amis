@@ -401,13 +401,9 @@ export function wrapControl<
             this.control = control;
             const scoped = this.context as IScopedContext;
 
-            if (!this.control) {
-              return;
-            }
-
             if (control) {
               scoped.registerComponent(this.control);
-            } else {
+            } else if (originRef) {
               scoped.unRegisterComponent(originRef);
             }
           }
@@ -425,17 +421,20 @@ export function wrapControl<
                 const group = combo.uniques.get(
                   this.model.name
                 ) as IUniqueGroup;
-                const validPromises = group.items.map(item => item.validate(data));
+                const validPromises = group.items.map(item =>
+                  item.validate(data)
+                );
                 result = await Promise.all(validPromises);
               } else {
-                const validPromises = form?.getItemsByName(this.model.name)
+                const validPromises = form
+                  ?.getItemsByName(this.model.name)
                   .map(item => item.validate(data));
                 if (validPromises && validPromises.length) {
                   result = await Promise.all(validPromises);
                 }
               }
             }
-            if (result && result.length){
+            if (result && result.length) {
               if (result.indexOf(false) > -1) {
                 formItemDispatchEvent('formItemValidateError', data);
               } else {

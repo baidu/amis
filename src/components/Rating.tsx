@@ -9,6 +9,9 @@ import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
 
 import {isObject} from '../utils/helper';
+import {
+  validations
+} from '../utils/validations';
 import {Icon} from './icons';
 
 export type textPositionType = 'left' | 'right';
@@ -112,7 +115,8 @@ export class Rating extends React.Component<RatingProps, any> {
   }
 
   sortKeys(map: {[propName: number]: string}) {
-    return Object.keys(map).sort(
+    // 需验证 key 是否是数字，需要过滤掉非数字key，如 $$id
+    return Object.keys(map).filter(item => validations.isNumeric({}, item)).sort(
       (a: number | string, b: number | string) => Number(a) - Number(b)
     );
   }
@@ -137,10 +141,13 @@ export class Rating extends React.Component<RatingProps, any> {
       const showKey = keys.filter(item => Number(item) < value).length;
 
       const showColor = keys[showKey] !== undefined && colors[keys[showKey]];
-      showColor &&
-        this.setState({
-          showColor
-        });
+      
+      // 取最大 key 的颜色，避免如下情况：colors 只设置了 1-4，value 为 5，导致取不到颜色而无法显示
+      const lastColor = keys.length && colors[keys[keys.length - 1]];
+
+      this.setState({
+        showColor: showColor || lastColor || ''
+      });
     } else if (colors && typeof colors === 'string') {
       this.setState({
         showColor: colors
@@ -153,10 +160,10 @@ export class Rating extends React.Component<RatingProps, any> {
       const showText =
         keys[showKey] !== undefined &&
         texts[keys[showKey] as keyof typeof texts];
-      showText &&
-        this.setState({
-          showText
-        });
+
+      this.setState({
+        showText: showText || ''
+      });
     }
   }
 

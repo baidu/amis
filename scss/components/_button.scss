@@ -48,7 +48,6 @@
     box-shadow: none;
     cursor: not-allowed;
     color: var(--text--muted-color);
-    pointer-events: auto;
     border: var(--Button-borderWidth) solid var(--Button-onDisabled-borderColor);
     background: var(--Button-onDisabled-bg);
 
@@ -62,9 +61,44 @@
     cursor: pointer;
   }
 
-  &.cxd-Button--link.is-disabled {
-    background: transparent;
+  &--link {
+    width: auto;
+    min-width: auto;
+    font-weight: var(--fontWeightNormal);
+    color: var(--Button--link-color);
+    text-decoration: var(--link-decoration);
     border: none;
+    height: auto;
+
+    @include hover-focus {
+      color: var(--Button--link-onHover-color);
+      box-shadow: none;
+    }
+
+    @include hover-active {
+      color: var(--Button--link-onActive-color);
+      box-shadow: none;
+    }
+
+    &:disabled,
+    &.is-disabled {
+      color: var(--text--muted-color);
+      border: none;
+      background: var(--Button--link-onDisabled-backgroundColor);
+
+      @include hover-active {
+        color: var(--text--muted-color);
+      }
+    }
+  }
+
+  &--block {
+    display: block;
+    width: 100%;
+
+    + .#{$ns}Button--block {
+      margin-top: var(--gap-base);
+    }
   }
 
   > .pull-left,
@@ -315,42 +349,6 @@ fieldset:disabled a.#{$ns}Button {
 
 .#{$ns}Button--loading {
   @include button-loading-icon();
-}
-
-.#{$ns}Button--link {
-  width: auto;
-  min-width: auto;
-  font-weight: var(--fontWeightNormal);
-  color: var(--Button--link-color);
-  text-decoration: var(--link-decoration);
-  border: none;
-  height: auto;
-
-  @include hover-focus {
-    color: var(--Button--link-onHover-color);
-    box-shadow: none;
-  }
-
-  @include hover-active {
-    color: var(--Button--link-onActive-color);
-    box-shadow: none;
-  }
-
-  &:disabled,
-  &.is-disabled {
-    color: var(--text--muted-color);
-    pointer-events: none;
-    background: var(--Button-onDisabled-bg);
-  }
-}
-
-.#{$ns}Button--block {
-  display: block;
-  width: 100%;
-
-  + .#{$ns}Button--block {
-    margin-top: var(--gap-base);
-  }
 }
 
 input[type='submit'],

@@ -4,7 +4,6 @@ import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
 import {
-  createObject,
   findIndex,
   isObject,
   JSONTraverse,
@@ -13,9 +12,7 @@ import {
   string2regExp
 } from './utils/helper';
 import {
-  Api,
   fetcherResult,
-  Payload,
   SchemaNode,
   Schema,
   Action,
@@ -23,8 +20,8 @@ import {
   PlainObject
 } from './types';
 import {observer} from 'mobx-react';
-import Scoped, {IScopedContext} from './Scoped';
-import {getTheme, ThemeInstance, ThemeProps} from './theme';
+import Scoped from './Scoped';
+import {getTheme, ThemeProps} from './theme';
 import find from 'lodash/find';
 import Alert from './components/Alert2';
 import {toast} from './components/Toast';
@@ -34,14 +31,7 @@ import ScopedRootRenderer, {RootRenderProps} from './Root';
 import {HocStoreFactory} from './WithStore';
 import {EnvContext, RendererEnv} from './env';
 import {envOverwrite} from './envOverwrite';
-import {
-  EventListeners,
-  createRendererEvent,
-  RendererEventListener,
-  OnEventProps,
-  RendererEvent
-} from './utils/renderer-event';
-import {runActions} from './actions/Action';
+import {OnEventProps} from './utils/renderer-event';
 import {enableDebug} from './utils/debug';
 
 export interface TestFunc {
@@ -283,7 +273,6 @@ const defaultOptions: RenderOptions = {
     location.search.indexOf('amisDebug=1') !== -1 ??
     false,
   loadRenderer,
-  rendererEventListeners: [],
   fetcher() {
     return Promise.reject('fetcher is required');
   },
@@ -384,87 +373,6 @@ const defaultOptions: RenderOptions = {
   },
   // 用于跟踪用户在界面中的各种操作
   tracker(eventTrack: EventTrack, props: PlainObject) {},
-  // 返回解绑函数
-  bindEvent(renderer: any) {
-    if (!renderer) {
-      return undefined;
-    }
-    const listeners: EventListeners = renderer.props.$schema.onEvent;
-    if (listeners) {
-      // 暂存
-      for (let key of Object.keys(listeners)) {
-        this.rendererEventListeners.push({
-          renderer,
-          type: key,
-          weight: listeners[key].weight || 0,
-          actions: listeners[key].actions
-        });
-      }
-
-      return () => {
-        this.rendererEventListeners = this.rendererEventListeners.filter(
-          (item: RendererEventListener) => item.renderer !== renderer
-        );
-      };
-    }
-
-    return undefined;
-  },
-  async dispatchEvent(
-    e: string | React.MouseEvent<any>,
-    renderer: React.Component<RendererProps>,
-    scoped: IScopedContext,
-    data: any,
-    broadcast?: RendererEvent<any>
-  ) {
-    const eventName = typeof e === 'string' ? e : e.type;
-    if (!broadcast) {
-      const eventConfig = renderer?.props?.onEvent?.[eventName];
-
-      if (!eventConfig) {
-        // 没命中也没关系
-        return Promise.resolve(undefined);
-      }
-    }
-
-    // 没有可处理的监听
-    if (!this.rendererEventListeners.length) {
-      return Promise.resolve();
-    }
-
-    // 如果是广播动作，就直接复用
-    const rendererEvent =
-      broadcast ||
-      createRendererEvent(eventName, {
-        env: this,
-        nativeEvent: e,
-        data,
-        scoped
-      });
-
-    // 过滤&排序
-    const listeners = this.rendererEventListeners
-      .filter(
-        (item: RendererEventListener) =>
-          item.type === eventName &&
-          (broadcast ? true : item.renderer === renderer)
-      )
-      .sort(
-        (prev: RendererEventListener, next: RendererEventListener) =>
-          next.weight - prev.weight
-      );
-
-    for (let listener of listeners) {
-      await runActions(listener.actions, listener.renderer, rendererEvent);
-
-      // 停止后续监听器执行
-      if (rendererEvent.stoped) {
-        break;
-      }
-    }
-
-    return rendererEvent;
-  },
   rendererResolver: resolveRenderer,
   replaceTextIgnoreKeys: [
     'type',

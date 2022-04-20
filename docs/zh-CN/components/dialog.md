@@ -149,6 +149,78 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
   "type": "crud",
   "api": "/api/mock2/sample",
   "draggable": true,
+  "syncLocation": false,
+  "filter": {
+    "title": "过滤器",
+    "body": [
+      {
+        "type": "select",
+        "label": "状态",
+        "name": "status",
+        "options": [
+          {
+            "label": "运行中",
+            "value": "running"
+          },
+          {
+            "label": "创建中",
+            "value": "creating"
+          }
+        ],
+        "checkAll": true,
+        "multiple": true,
+        "joinValues": true,
+        "defaultCheckAll": true,
+        "checkAllLabel": "全选",
+        "valuesNoWrap": false
+      }
+    ]
+  },
+  "headerToolbar": [
+    {
+      "label": "新增",
+      "type": "button",
+      "actionType": "dialog",
+      "level": "primary",
+      "dialog": {
+        "type": "dialog",
+        "title": "新增",
+        "closeOnEsc": false,
+        "closeOnOutside": false,
+        "showCloseButton": true,
+        "data": {
+          "&": "\$\$",
+          "status": "__undefined"
+        },
+        "body": [
+          {
+            "type": "form",
+            "api": "/api/mock2/form/saveForm",
+            "debug": true,
+            "body": [
+              {
+                "type": "select",
+                "name": "status",
+                "label": "状态",
+                "options": [
+                  {
+                    "label": "运行中",
+                    "value": "running"
+                  },
+                  {
+                    "label": "创建中",
+                    "value": "creating"
+                  }
+                ],
+                "disabled": false,
+                "selectFirst": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
   "columns": [
     {
       "name": "id",
@@ -202,7 +274,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 }
 ```
 
-上例给 `dialog` 中配置 `data` 属性，可以将上层的 `engine` 变量映射为 `engine2`
+上例给 `dialog` 中配置 `data` 属性，可以将上层的 `engine` 变量映射为 `engine2`。请注意点击“新增”按钮后 dialog 内 form 的数据域会直接继承 CRUD 所在的数据域，如果 CRUD 过滤器中查询字段和 dialog 表单中的字段相同时，会错误的将外部数据映射到表单数据域内，需要配置数据映射将相关字段绑定的数据删除`{"&": "$$", "status": "__undefined"}`
 
 ## 多级弹框
 
@@ -477,7 +549,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 
 feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，进行反馈操作
 
-### 基本使用
+### feedback 基本使用
 
 ```schema: scope="body"
 {
@@ -790,3 +862,17 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 | disabled        | `boolean`                                 | `false`            | 如果设置此属性，则该 Dialog 只读没有提交操作。                                                   |
 | actions         | Array<[Action](./action)>                 | 【确认】和【取消】 | 如果想不显示底部按钮，可以配置：`[]`                                                             |
 | data            | `object`                                  |                    | 支持[数据映射](../../docs/concepts/data-mapping)，如果不设定将默认将触发按钮的上下文中继承数据。 |
+
+## 事件表
+
+| 事件名称 | 事件参数 | 说明 |
+| -------- | -------- | ---- |
+| confirm  | 弹窗数据 | 确认 |
+| cancel   | 弹窗数据 | 取消 |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明         |
+| -------- | -------- | ------------ |
+| confirm  | -        | 确认（提交） |
+| cancel   | -        | 取消（关闭） |

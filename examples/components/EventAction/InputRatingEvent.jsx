@@ -14,8 +14,8 @@ export default {
       debug: true,
       body: [
         {
-          name: "input-rating-clear",
-          type: "action",
+          name: 'input-rating-clear',
+          type: 'action',
           label: 'clear触发器',
           level: 'primary',
           onEvent: {
@@ -40,16 +40,18 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发change事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发change事件'
+                  }
                 }
               ]
             }
           }
         },
         {
-          name: "input-rating-reset",
-          type: "action",
+          name: 'input-rating-reset',
+          type: 'action',
           label: 'reset触发器',
           level: 'primary',
           onEvent: {
@@ -75,8 +77,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发change事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发change事件'
+                  }
                 }
               ]
             }

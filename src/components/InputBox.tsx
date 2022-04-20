@@ -105,6 +105,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           size={12}
+          disabled={disabled}
         />
 
         {children}

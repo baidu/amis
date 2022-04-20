@@ -451,6 +451,13 @@ exports[`Renderer:text type is password 1`] = `
                 type="password"
                 value="abcd"
               />
+              <a
+                class="cxd-TextControl-revealPassword"
+              >
+                <i
+                  class="fa fa-eye-slash"
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -1248,7 +1255,7 @@ exports[`Renderer:text with counter 2`] = `
               <span
                 class="cxd-TextControl-counter"
               >
-                0
+                4
               </span>
             </div>
           </div>
@@ -1512,7 +1519,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
               <span
                 class="cxd-TextControl-counter"
               >
-                0/10
+                4/10
               </span>
             </div>
           </div>

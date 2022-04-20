@@ -27,7 +27,7 @@ export default {
       onEvent: {
         click: {
           actions: [
-           {
+            {
               actionType: 'reset',
               componentId: 'form-action-receiver'
             }
@@ -86,7 +86,7 @@ export default {
     {
       name: 'form-action-receiver',
       id: 'form-action-receiver',
-      title: "表单：用于接收上面按钮的动作，派发form本身的事件",
+      title: '表单：用于接收上面按钮的动作，派发form本身的事件',
       type: 'form',
       debug: true,
       api: '/api/mock2/form/saveForm',
@@ -119,21 +119,9 @@ export default {
         change: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: '触发表单change事件',
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '值更新：${val|json}'
-                  }
-                ]
+                msg: '${event.data|json}'
               }
             }
           ]
@@ -141,21 +129,9 @@ export default {
         inited: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: '触发表单init事件',
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '表单初始化数据：${val|json}'
-                  }
-                ]
+                msg: '${event.data|json}'
               }
             }
           ]
@@ -163,21 +139,9 @@ export default {
         formItemValidateSucc: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: '触发表单项校验成功事件',
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '当前表单数据：${val|json}'
-                  }
-                ]
+                msg: '${event.data|json}'
               }
             }
           ]
@@ -185,21 +149,9 @@ export default {
         formItemValidateError: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: '触发表单项校验失败事件',
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '当前表单数据：${val|json}'
-                  }
-                ]
+                msg: '${event.data|json}'
               }
             }
           ]
@@ -207,21 +159,9 @@ export default {
         validateSucc: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: '触发表单校验成功事件',
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '当前表单数据：${val|json}'
-                  }
-                ]
+                msg: '${event.data|json}'
               }
             }
           ]
@@ -229,21 +169,9 @@ export default {
         validateFail: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: '触发表单校验失败事件',
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '当前表单数据：${val|json}'
-                  }
-                ]
+                msg: '${event.data|json}'
               }
             }
           ]
@@ -251,21 +179,9 @@ export default {
         submitSucc: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: '触发表单提交成功事件',
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '保存接口返回内容：${val|json}'
-                  }
-                ]
+                msg: '${event.data|json}'
               }
             }
           ]
@@ -273,21 +189,9 @@ export default {
         submitFail: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: '触发表单提交失败事件',
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '保存接口返回内容：${val|json}'
-                  }
-                ]
+                msg: '${event.data|json}'
               }
             }
           ]
@@ -298,7 +202,7 @@ export default {
       type: 'form',
       debug: true,
       api: '/api/mock2/form/saveForm',
-      title: "表单：派发formItem的校验事件",
+      title: '表单：派发formItem的校验事件',
       data: {
         data1: '初始化数据1',
         data2: '初始化数据2'
@@ -328,21 +232,9 @@ export default {
         formItemValidateSucc: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: '触发表单项校验成功事件',
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '当前表单数据：${val|json}'
-                  }
-                ]
+                msg: '${event.data|json}'
               }
             }
           ]
@@ -350,21 +242,9 @@ export default {
         formItemValidateError: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: '触发表单项校验失败事件',
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '当前表单数据：${val|json}'
-                  }
-                ]
+                msg: '${event.data|json}'
               }
             }
           ]

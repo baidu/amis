@@ -27,7 +27,7 @@ export interface WebComponentSchema extends BaseSchema {
   /**
    * 组件属性
    */
-  prpos?: {
+  props?: {
     [propName: string]: any;
   };
 }

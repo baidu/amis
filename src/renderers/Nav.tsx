@@ -466,7 +466,7 @@ export class Navigation extends React.Component<
           <a
             data-id={link.__id}
             data-depth={depth}
-            title={link?.label?.toString()}
+            title={typeof link?.label === 'string' ? link?.label : undefined}
             onClick={this.handleClick.bind(this, link)}
             style={{
               paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)

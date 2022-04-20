@@ -1,11 +1,15 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   LoopStatus,
   registerAction
 } from './Action';
+
+export interface ICustomAction extends ListenerAction {
+  script: string; // 自定义JS，actionType: custom
+}
 
 /**
  * 自定义动作，JS脚本
@@ -14,9 +18,9 @@ import {
  * @class CustomAction
  * @implements {Action}
  */
-export class CustomAction implements Action {
+export class CustomAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: ICustomAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {

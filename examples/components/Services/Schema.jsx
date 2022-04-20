@@ -38,7 +38,6 @@ export default {
         }
       ]
     },
-
     {
       name: 'service1',
       type: 'service',

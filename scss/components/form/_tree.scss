@@ -50,7 +50,7 @@
         top: 2px;
         width: px2rem(16px);
         height: px2rem(16px);
-        margin-left: var(--gap-xs);
+        margin-left: var(--Tree-icon-gap);
       }
     }
   }
@@ -87,26 +87,35 @@
     display: flex;
     align-items: center;
     position: relative;
-
-    &:hover {
-      background: var(--Tree-item-onHover-bg);
+    user-select: none;
+    margin-bottom: px2rem(4px);
+    padding-left: var(--Tree-icon-gap);
+    & > * {
+      position: relative;
+      z-index: 2;
     }
+    > .#{$ns}Checkbox {
+      display: inline-flex;
+      align-self: center;
+    }
+  
+    &:hover {
+      background: var(--Tree-item-onHover-bg-pure);
+    }
+  }
 
-    // & > * {
-    //   position: relative;
-    //   z-index: 2;
-    // }
-
-    // &:hover:after {
-    //   position: absolute;
-    //   content: '';
-    //   z-index: 1;
-    //   background: var(--Tree-item-onHover-bg);
-    //   top: 0;
-    //   right: 0;
-    //   bottom: 0;
-    //   left: -99999px;
-    // }
+  &-item {
+    .is-checked {
+      background: var(--Tree-item-onChekced-bg);
+      border-radius: var(--Tree-item-onChekced-bg-borderRadius);
+    }
+    .is-disabled {
+      color: var(--text--muted-color);
+      background: none;
+      &:hover {
+        background: none;
+      }
+    }
   }
 
   &.is-draggable &-itemLabel:hover::after {
@@ -120,12 +129,12 @@
     vertical-align: top;
     height: var(--Tree-itemHeight);
     line-height: var(--Tree-itemHeight);
-    padding-right: var(--gap-xs);
+    padding-right: var(--Tree-icon-gap);
 
     > a {
       display: inline-block;
       vertical-align: middle;
-      margin-left: var(--gap-xs);
+      margin-left: var(--Tree-icon-gap);
       cursor: pointer;
 
       > svg {
@@ -146,7 +155,7 @@
     > a {
       display: inline-block;
       cursor: pointer;
-      margin-left: var(--gap-sm);
+      margin-left: var(--Tree-icon-gap);
       color: var(--icon-color);
 
       &:hover {
@@ -205,7 +214,7 @@
       width: $svgSize;
       height: $svgSize;
       top: $svgSize * 0.125;
-      margin-right: var(--gap-xs);
+      margin-right: var(--Tree-icon-gap);
     }
   }
 
@@ -213,7 +222,7 @@
     cursor: pointer;
     width: var(--Tree-itemArrowWidth);
     display: inline-flex;
-    margin-right: var(--gap-xs);
+    margin-right: var(--Tree-icon-gap);
 
     // &:before {
     //   font-style: normal;
@@ -236,7 +245,7 @@
 
   &-itemArrowPlaceholder {
     display: inline-block;
-    width: calc(var(--Tree-itemArrowWidth) + var(--gap-xs));
+    width: calc(var(--Tree-itemArrowWidth) + var(--Tree-icon-gap));
   }
 
   &-itemDrager {
@@ -245,12 +254,12 @@
   }
 
   &-spinner {
-    margin-right: var(--gap-xs);
+    margin-right: var(--Tree-icon-gap);
   }
 
   &-itemIcon {
     display: inline-flex;
-    margin-right: var(--gap-xs);
+    margin-right: var(--Tree-icon-gap);
   }
 
   &-rootIcon,
@@ -262,30 +271,16 @@
       height: px2rem(14px);
     }
   }
-
-  &-itemLabel {
-    user-select: none;
-
-    &.is-checked,
-    &.is-children-checked {
-      color: var(--Tree-itemLabel--onChecked-color);
-    }
-
-    &.is-disabled {
-      color: var(--text--muted-color);
-    }
-
-    > .#{$ns}Checkbox {
-      display: inline-flex;
-      align-self: center;
-    }
-  }
+    
 
   &-itemText {
     cursor: pointer;
     flex: 1 auto;
+    color: var(--Form-input-color);
     line-height: var(--lineHeightBase);
-    padding: px2rem(4px) 0;
+  }
+  .is-disabled &-itemText {
+    color: var(--text--muted-color);
   }
 
   &-placeholder {
@@ -313,7 +308,7 @@
 
     &--hover {
       border-radius: 0;
-      background-color: var(--Tree-item-onHover-bg);
+      background-color: var(--Tree-item-onHover-bg-pure);
 
       &::after {
         display: none;

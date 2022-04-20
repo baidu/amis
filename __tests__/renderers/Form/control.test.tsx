@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, cleanup, fireEvent} from '@testing-library/react';
+import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
@@ -125,13 +125,15 @@ test('Control:formItem:reload', async () => {
     )
   );
 
-  await wait(300);
-  expect(fetcher).toHaveBeenCalled();
+  await waitFor(() => {
+    expect(fetcher).toHaveBeenCalled();
+  });
 
   fireEvent.click(getByText('Reload'));
-  await wait(500);
 
-  expect(fetcher).toBeCalledTimes(2);
+  await waitFor(() => {
+    expect(fetcher).toBeCalledTimes(2);
+  });
 });
 
 test('options:clearValueOnHidden ', async () => {

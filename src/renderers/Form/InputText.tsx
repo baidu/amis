@@ -109,6 +109,7 @@ export interface TextProps extends OptionsControlProps {
   autoComplete?: any;
   allowInputText?: boolean;
   spinnerClassName: string;
+  revealPassword?: boolean;
   transform?: {
     lowerCase?: boolean; // 用户输入的字符自动转小写
     upperCase?: boolean; // 用户输入的字符自动转大写
@@ -119,6 +120,7 @@ export interface TextState {
   isOpen?: boolean;
   inputValue?: string;
   isFocused?: boolean;
+  revealPassword?: boolean; // 主要用于 password 的时候切换一下显影
 }
 
 export default class TextControl extends React.PureComponent<
@@ -139,10 +141,12 @@ export default class TextControl extends React.PureComponent<
         props.multiple || props.creatable === false
           ? ''
           : this.valueToString(value),
-      isFocused: false
+      isFocused: false,
+      revealPassword: false
     };
     this.focus = this.focus.bind(this);
     this.clearValue = this.clearValue.bind(this);
+    this.toggleRevealPassword = this.toggleRevealPassword.bind(this);
     this.inputRef = this.inputRef.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
@@ -413,9 +417,7 @@ export default class TextControl extends React.PureComponent<
 
       onChange(this.normalizeValue(newValue));
     } else {
-      onChange(
-        toggledOption ? this.normalizeValue([toggledOption])?.[0] : value
-      );
+      onChange(toggledOption ? this.normalizeValue(toggledOption) : value);
     }
 
     if (multiple || creatable === false) {
@@ -483,14 +485,23 @@ export default class TextControl extends React.PureComponent<
     onChange(this.transformValue(value));
   }
 
-  normalizeValue(value: Option[]) {
-    const {delimiter, joinValues, extractValue, valueField} = this.props;
+  normalizeValue(value: Option[] | Option | undefined | null) {
+    const {multiple, delimiter, joinValues, extractValue, valueField} =
+      this.props;
+    const selectedOptions = Array.isArray(value) ? value : value ? [value] : [];
 
-    return joinValues
-      ? value.map(item => item[valueField || 'value']).join(delimiter || ',')
-      : extractValue
-      ? value.map(item => item[valueField || 'value'])
-      : value;
+    if (joinValues) {
+      return selectedOptions
+        .map(item => item[valueField || 'value'])
+        .join(delimiter || ',');
+    } else if (extractValue) {
+      const mappedValue = selectedOptions.map(
+        item => item[valueField || 'value']
+      );
+      return multiple ? mappedValue : mappedValue[0];
+    } else {
+      return multiple ? selectedOptions : selectedOptions[0];
+    }
   }
 
   transformValue(value: string) {
@@ -742,6 +753,10 @@ export default class TextControl extends React.PureComponent<
     );
   }
 
+  toggleRevealPassword() {
+    this.setState({revealPassword: !this.state.revealPassword});
+  }
+
   renderNormal(): JSX.Element {
     const {
       classPrefix: ns,
@@ -757,6 +772,7 @@ export default class TextControl extends React.PureComponent<
       min,
       step,
       clearable,
+      revealPassword = true,
       name,
       borderMode,
       prefix,
@@ -789,7 +805,7 @@ export default class TextControl extends React.PureComponent<
           ref={this.inputRef}
           disabled={disabled}
           readOnly={readOnly}
-          type={type}
+          type={this.state.revealPassword ? 'text' : type}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           max={max}
@@ -803,6 +819,18 @@ export default class TextControl extends React.PureComponent<
         {clearable && !disabled && value ? (
           <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>
             <Icon icon="input-clear" className="icon" />
+          </a>
+        ) : null}
+        {type === 'password' && revealPassword && !disabled ? (
+          <a
+            onClick={this.toggleRevealPassword}
+            className={`${ns}TextControl-revealPassword`}
+          >
+            {this.state.revealPassword ? (
+              <i className="fa fa-eye"></i>
+            ) : (
+              <i className="fa fa-eye-slash"></i>
+            )}
           </a>
         ) : null}
         {showCounter ? (

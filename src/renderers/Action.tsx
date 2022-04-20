@@ -614,7 +614,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
     const {onAction, disabled, countDown, env} = this.props;
 
     // https://reactjs.org/docs/legacy-event-pooling.html
-    e.persist();
+    // e.persist(); // react 17之后去掉 event pooling 了，这个应该没用了
     let onClick = this.props.onClick;
 
     if (typeof onClick === 'string') {
@@ -827,8 +827,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
         disabled={disabled}
         componentClass={isMenuItem ? 'a' : componentClass}
         overrideClassName={isMenuItem}
-        tooltip={filterContents(tooltip, data)}
-        disabledTip={filterContents(disabledTip, data)}
+        tooltip={tooltip}
+        disabledTip={disabledTip}
         tooltipPlacement={tooltipPlacement}
         tooltipContainer={tooltipContainer}
         tooltipTrigger={tooltipTrigger}
@@ -867,10 +867,7 @@ export class ActionRenderer extends React.Component<
     const {env, onAction, data, ignoreConfirm, dispatchEvent} = this.props;
 
     // 触发渲染器事件
-    const rendererEvent = await dispatchEvent(
-      e as React.MouseEvent<any>,
-      createObject(data, action)
-    );
+    const rendererEvent = await dispatchEvent(e as React.MouseEvent<any>, data);
 
     // 阻止原有动作执行
     if (rendererEvent?.prevented) {

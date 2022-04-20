@@ -1,6 +1,6 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   LoopStatus,
@@ -14,7 +14,7 @@ import {
  * @class BreakAction
  * @implements {Action}
  */
-export class BreakAction implements Action {
+export class BreakAction implements RendererAction {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,

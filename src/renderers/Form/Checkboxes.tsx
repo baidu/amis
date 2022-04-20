@@ -9,7 +9,7 @@ import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 
 import {Icon} from '../../components/icons';
-import {Api} from '../../types';
+import {Action, Api} from '../../types';
 import {autobind, hasAbility} from '../../utils/helper';
 import {columnsSplit} from '../../utils/columnsSplit';
 
@@ -56,7 +56,7 @@ export interface CheckboxesProps
   createBtnLabel: string;
   editable?: boolean;
   removable?: boolean;
-  optionType?: 'default' | 'button'
+  optionType?: 'default' | 'button';
 }
 
 export default class CheckboxesControl extends React.Component<
@@ -72,6 +72,14 @@ export default class CheckboxesControl extends React.Component<
     createBtnLabel: 'Select.createLabel',
     optionType: 'default'
   };
+
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      onChange(resetValue ?? '');
+    }
+  }
 
   reload() {
     const reload = this.props.reloadOptions;
@@ -117,27 +125,27 @@ export default class CheckboxesControl extends React.Component<
     const wrapDom = this.refs.checkboxRef as HTMLElement;
     const wrapWidth = wrapDom.clientWidth;
     const childs = Array.from(wrapDom.children) as HTMLElement[];
-    
+
     childs.forEach(child => {
       child.style.borderRadius = '0';
       child.style.borderLeftWidth = '1px';
       child.style.borderTopWidth = '1px';
     });
-    const childTotalWidth = childs.reduce((pre, next) =>
-        pre + next.clientWidth, 0);
+    const childTotalWidth = childs.reduce(
+      (pre, next) => pre + next.clientWidth,
+      0
+    );
     if (childTotalWidth <= wrapWidth) {
       if (childs.length === 1) {
-        childs[0].style.borderRadius = "4px";
-      }
-      else {
-        childs[0].style.borderRadius = "4px 0 0 4px";
-        childs[childs.length - 1].style.borderRadius = "0 4px 4px 0";
+        childs[0].style.borderRadius = '4px';
+      } else {
+        childs[0].style.borderRadius = '4px 0 0 4px';
+        childs[childs.length - 1].style.borderRadius = '0 4px 4px 0';
         childs.forEach((child, idx) => {
           idx !== 0 && (child.style.borderLeftWidth = '0');
         });
       }
-    }
-    else {
+    } else {
       let curRowWidth = 0;
       let curRow = 0;
       const rowNum = Math.floor(childTotalWidth / wrapWidth);
@@ -157,34 +165,32 @@ export default class CheckboxesControl extends React.Component<
         }
         rowColArr[curRow].push(child);
       });
-      
+
       rowColArr.forEach((row: HTMLElement[], rowIdx: number) => {
         if (rowIdx === 0) {
           row.forEach((r: HTMLElement, colIdx: number) => {
             r.style.borderRadius = '0';
             colIdx !== 0 && (r.style.borderLeftWidth = '0');
-            row.length > rowColArr[rowIdx + 1].length
-              && (row[row.length - 1].style.borderBottomRightRadius = "4px");
+            row.length > rowColArr[rowIdx + 1].length &&
+              (row[row.length - 1].style.borderBottomRightRadius = '4px');
           });
-          row[0].style.borderTopLeftRadius = "4px";
-          row[row.length - 1].style.borderTopRightRadius = "4px";
-        }
-        else if (rowIdx === rowNum) {
+          row[0].style.borderTopLeftRadius = '4px';
+          row[row.length - 1].style.borderTopRightRadius = '4px';
+        } else if (rowIdx === rowNum) {
           row.forEach((r: HTMLElement, colIdx: number) => {
             r.style.borderRadius = '0';
             colIdx !== 0 && (r.style.borderLeftWidth = '0');
             r.style.borderTopWidth = '0';
-            row[0].style.borderBottomLeftRadius = "4px";
-            row[row.length - 1].style.borderBottomRightRadius = "4px";
+            row[0].style.borderBottomLeftRadius = '4px';
+            row[row.length - 1].style.borderBottomRightRadius = '4px';
           });
-        }
-        else {
+        } else {
           row.forEach((r: HTMLElement, colIdx: number) => {
             r.style.borderRadius = '0';
             colIdx !== 0 && (r.style.borderLeftWidth = '0');
             r.style.borderTopWidth = '0';
-            row.length > rowColArr[rowIdx + 1].length
-              && (row[row.length - 1].style.borderBottomRightRadius = "4px");
+            row.length > rowColArr[rowIdx + 1].length &&
+              (row[row.length - 1].style.borderBottomRightRadius = '4px');
           });
         }
       });

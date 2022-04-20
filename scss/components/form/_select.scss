@@ -56,9 +56,11 @@
     line-height: px2rem(20px);
   }
   &-placeholder {
+    color: var(--Form-select-placeholderColor);
     line-height: var(--Form-input-lineHeight);
     user-select: none;
     white-space: nowrap;
+    color: var(--Form-select-placeholderColor);
   }
 
   &-value {
@@ -69,6 +71,10 @@
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    &.is-invalid {
+      color: var(--Form-selectValue-onInvalid-color);
+    }
 
     &.is-disabled {
       color: var(--Form-selectValue-onDisabled-color);
@@ -260,10 +266,6 @@
     &.is-disabled {
       color: var(--Form-select-menu-onDisabled-color);
       background: var(--Form-select-menu-onDisabled-bg);
-    }
-
-    &--placeholder {
-      color: var(--Form-input-placeholderColor);
     }
 
     > label {

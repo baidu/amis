@@ -37,7 +37,6 @@ export class HeadCellSearchDropDown extends React.Component<
 
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
-    this.close = this.close.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAction = this.handleAction.bind(this);
   }

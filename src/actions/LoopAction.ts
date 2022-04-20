@@ -1,7 +1,8 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {createObject} from '../utils/helper';
 import {
-  Action,
+  RendererAction,
+  ListenerAction,
   ListenerContext,
   LogicAction,
   LoopStatus,
@@ -11,6 +12,13 @@ import {
 } from './Action';
 import {resolveVariable} from '../utils/tpl-builtin';
 
+export interface ILoopAction extends ListenerAction, LogicAction {
+  args: {
+    loopName: string;
+    [propName: string]: any;
+  };
+}
+
 /**
  * 循环动作
  *
@@ -18,25 +26,26 @@ import {resolveVariable} from '../utils/tpl-builtin';
  * @class LoopAction
  * @implements {Action}
  */
-export class LoopAction implements Action {
+export class LoopAction implements RendererAction {
   async run(
-    action: LogicAction,
+    action: ILoopAction,
     renderer: ListenerContext,
     event: RendererEvent<any>,
     mergeData: any
   ) {
-    if (typeof action.loopName !== 'string') {
-      console.warn('loopName 必须是字符串类型');
+    const loopName = action.args?.loopName;
+    if (typeof loopName !== 'string') {
+      console.error('loopName 必须是字符串类型');
       return;
     }
 
-    const loopData = resolveVariable(action.loopName, mergeData) || [];
+    const loopData = resolveVariable(loopName, mergeData) || [];
 
     // 必须是数组
     if (!loopData) {
-      console.warn(`没有找到数据 ${action.loopName}`);
+      console.error(`没有找到数据 ${loopName}`);
     } else if (!Array.isArray(loopData)) {
-      console.warn(`${action.loopName} 数据不是数组`);
+      console.error(`${loopName} 数据不是数组`);
     } else if (action.children?.length) {
       // 暂存一下
       const protoData = event.data;
@@ -57,6 +66,7 @@ export class LoopAction implements Action {
           if (renderer.loopStatus === LoopStatus.BREAK || event.stoped) {
             // 还原事件数据
             event.setData(protoData);
+            event.stopPropagation();
             break;
           }
         }

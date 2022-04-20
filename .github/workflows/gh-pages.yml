@@ -25,18 +25,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Generate coverage report
-        run: |
-          npm i --legacy-peer-deps
-          npm run coverage
-      - uses: codecov/codecov-action@v2
-        with:
-          files: ./coverage/clover.xml 
-          name: codecov-umbrella # optional
-          fail_ci_if_error: false
-          verbose: true # optional (default = false)
       - name: build gh-pages
         run: |
+          npm i --legacy-peer-deps
           sh deploy-gh-pages.sh
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
@@ -46,3 +37,12 @@ jobs:
           FOLDER: gh-pages # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
           SINGLE_COMMIT: true
+      - name: Generate coverage report
+        run: |
+          npm run coverage
+      - uses: codecov/codecov-action@v2
+        with:
+          files: ./coverage/clover.xml
+          name: codecov-umbrella # optional
+          fail_ci_if_error: false
+          verbose: true # optional (default = false)

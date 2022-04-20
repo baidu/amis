@@ -56,7 +56,7 @@ export function filterContents(
   tooltip:
     | string
     | undefined
-    | {title?: string; render?: any; content?: string; body?: string},
+    | {title?: string; children?: any; content?: string; body?: string},
   data: any
 ) {
   if (typeof tooltip === 'string') {
@@ -64,7 +64,7 @@ export function filterContents(
   } else if (tooltip) {
     return tooltip.title
       ? {
-          render: tooltip.render ? () => tooltip.render(data) : undefined,
+          children: tooltip?.children,
           title: filter(tooltip.title, data),
           content:
             tooltip.content || tooltip.body

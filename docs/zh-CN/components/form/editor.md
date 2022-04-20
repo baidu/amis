@@ -124,6 +124,34 @@ order: 19
 }
 ```
 
+## 编辑器自定义开发
+
+amis 的编辑器是基于 monaco 开发的，如果想进行深度定制，比如自动完成功能，可以通过自定义 `editorDidMount` 属性来获取到 monaco 实例，它有两种写法，一种是在 JS 中直接用函数，示例如下：
+
+```javascript
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "editor",
+            "name": "editor",
+            "label": "编辑器",
+            "language": "myLan",
+            "editorDidMount": (editor, monaco) => {
+                // editor 是 monaco 实例，monaco 是全局的名称空间
+                const dispose = monaco.languages.registerCompletionItemProvider('myLan', {
+                    /// 其他细节参考 monaco 手册
+                });
+
+                // 如果返回一个函数，这个函数会在编辑器组件卸载的时候调用，主要用于清理资源
+                return dispose;
+            }
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

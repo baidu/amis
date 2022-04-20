@@ -243,6 +243,7 @@ export const detectProps = itemDetectProps.concat([
   'multiple',
   'hideRoot',
   'checkAll',
+  'defaultCheckAll',
   'showIcon',
   'showRadio',
   'btnDisabled',
@@ -470,7 +471,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     doAction(action: Action, data: object, throwErrors: boolean) {
       const {resetValue, onChange} = this.props;
       const actionType = action?.actionType as string;
-
+      debugger;
       if (!!~['clear', 'reset'].indexOf(actionType)) {
         onChange(resetValue ?? '');
       }

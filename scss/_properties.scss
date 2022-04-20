@@ -241,6 +241,7 @@
   --Button--light-onHover-color: var(--Button--light-color);
   --Button--link-color: var(--primary);
   --Button--link-onDisabled-color: #{$gray600};
+  --Button--link-onDisabled-backgroundColor: transparent;
   --Button--link-onHover-color: var(--primary-onHover);
   --Button--link-onActive-color: var(--primary-onActive);
   --Button--md-fontSize: var(--Button-fontSize);
@@ -613,14 +614,12 @@
   );
   --DatePicker-placeholderColor: var(--Form-input-placeholderColor);
   --DatePicker-minWidth: calc(
-    var(--fontSizeLg) * 5 +var(--DatePicker-paddingX) * 2 + var(
-        --Form-input-clearBtn-size
-      ) * 2
+    var(--fontSizeLg) * 5 + var(--DatePicker-paddingX) * 2 +
+      var(--Form-input-clearBtn-size) * 2
   );
   --DateRangePicker-minWidth: calc(
-    var(--fontSizeLg) * 8 +var(--DatePicker-paddingX) * 2 + var(
-        --Form-input-clearBtn-size
-      ) * 2
+    var(--fontSizeLg) * 8 + var(--DatePicker-paddingX) * 2 +
+      var(--Form-input-clearBtn-size) * 2
   );
 
   --LocationPicker-borderRadius: var(--Form-input-borderWidth);
@@ -805,6 +804,7 @@
       5%
     )};
   --Form-selectValue-onDisabled-color: var(--Form-select-caret-iconColor);
+  --Form-selectValue-onInvalid-color: var(--danger);
   --Form-valueLabel-maxWidth: #{px2rem(120px)};
   --Form-select-onFocus-boxShadow: none;
 
@@ -1132,7 +1132,10 @@
   --Pagination-onActive-backgroundColor: var(--primary);
   --Pagination-onActive-border: 0;
   --Pagination-onActive-color: var(--white);
+  --Pagination-onDisabled-color: var(--text--muted-color);
+  --Pagination-onDisabled-backgroundColor: #{$gray200};
   --Pagination-padding: 0 #{px2rem(8px)};
+  --Pagination-light-color: #84868c;
 
   --Panel--default-badgeBg: #333;
   --Panel--default-badgeColor: #f5f5f5;
@@ -1306,14 +1309,34 @@
   --Table-searchableForm-borderRadius: #{px2rem(4px)};
 
   --TableCell--edge-paddingX: var(--gap-md);
+  --TableCell--edge-paddingX-default: var(--gap-base);
   --TableCell-filterBtn--onActive-color: var(--primary);
   --TableCell-filterBtn-width: #{px2rem(16px)};
   --TableCell-filterPopOver-dropDownItem-height: #{px2rem(34px)};
   --TableCell-filterPopOver-dropDownItem-padding: 0 #{px2rem(12px)};
+  --TableCell-line-height-large: #{px2rem(40px)};
+  --TableCell-line-height-middle: #{px2rem(30px)};
   --TableCell-height: #{px2rem(40px)};
+  --TableCell-height-default: #{px2rem(41px)};
+  --TableCell-height-large: #{px2rem(61px)};
+  --TableCell-height-small: #{px2rem(33px)};
   --TableCell-paddingX: var(--gap-sm);
+  --TableCell-paddingX-large: var(--gap-base);
+  --TableCell-paddingX-small: var(--gap-xs);
   --TableCell-paddingY: calc(
     (var(--TableCell-height) - var(--Table-fontSize) * var(--Table-lineHeight)) /
+      2
+  );
+  --TableCell-paddingY-default: calc(
+    (var(--TableCell-height-default) - var(--Table-fontSize) * var(--Table-lineHeight)) /
+      2
+  );
+  --TableCell-paddingY-large: calc(
+    (var(--TableCell-height-large) - var(--Table-fontSize) * var(--Table-lineHeight)) /
+      2
+  );
+  --TableCell-paddingY-small: calc(
+    (var(--TableCell-height-small) - var(--Table-fontSize) * var(--Table-lineHeight)) /
       2
   );
   --TableCell-searchBtn--onActive-color: var(--primary);
@@ -1322,6 +1345,11 @@
   --TableCell-sortBtn--default-opacity: 0;
   --TableCell-sortBtn--onActive-color: var(--primary);
   --TableCell-sortBtn-width: #{px2rem(8px)};
+  --TableCell-icon-gap: var(--gap-sm);
+
+  --Table-fixedLeftLast-boxShadow: inset 10px 0 8px -8px #00000026;
+  --Table-fixedRightFirst-boxShadow: inset -10px 0 8px -8px #00000026;
+  --Table-loading-padding: 30px 0px;
 
   --Tabs--card-bg: #f6f8f8;
   --Tabs--card-borderTopColor: var(--borderColor);
@@ -1496,8 +1524,10 @@
   --TabsTransfer-border-color: #e8e9eb;
 
   --Tree-indent: var(--gap-md);
+  --Tree-icon-gap: var(--gap-xs);
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
   --Tree-item-onHover-bg: rgba(0, 126, 255, 0.08);
+  --Tree-item-onHover-bg-pure: rgba(0, 126, 255, 0.08);
   --Tree-itemArrowWidth: #{px2rem(12px)};
   --Tree-itemHeight: #{px2rem(30px)};
   --Tree-itemLabel--onChecked-color: var(--Form-selectValue-color);
@@ -1629,4 +1659,19 @@
   --Tag-checkable-bgColor-onChecked: #2468f2;
 
   --Tag-checkable-fontColor-onDisable: #b4b6ba;
+
+  // ContextMenu
+  --menu-background: #fff;
+  --menu-box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
+  --menu-border-radius: 4px;
+  --menu-font-color: #151b26;
+  --menu-font-family: PingFangSC-Regular;
+  --menu-border-color: #e8e9eb; // 默认的边框色
+  --menu-active-color: #2468f2;
+  --menu-hover-bg-color: #e6f0ff;
+  --menu-disabled-color: #b8babf; // 禁用文字颜色
+  --default-icon-color: #84868c; // 默认的icon颜色
+  --default-padding: 4px 12px; // 6px 12px
+  --menu-min-width: 150px; // 一级子项最小宽度
+  --menu-sub-min-width: 100px; // 二级子项最小宽度
 }

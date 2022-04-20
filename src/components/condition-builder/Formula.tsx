@@ -1,8 +1,9 @@
 import React from 'react';
+import {localeable, LocaleProps} from '../../locale';
 import {ThemeProps, themeable} from '../../theme';
 import InputBox from '../InputBox';
 
-export interface FormulaProps extends ThemeProps {
+export interface FormulaProps extends ThemeProps, LocaleProps {
   value: any;
   onChange: (value: any) => void;
   disabled?: boolean;
@@ -10,7 +11,13 @@ export interface FormulaProps extends ThemeProps {
 
 export class Formula extends React.Component<FormulaProps> {
   render() {
-    const {classnames: cx, value, onChange, disabled} = this.props;
+    const {
+      classnames: cx,
+      value,
+      onChange,
+      disabled,
+      translate: __
+    } = this.props;
 
     return (
       <div className={cx('CBFormula')}>
@@ -18,12 +25,16 @@ export class Formula extends React.Component<FormulaProps> {
           disabled={disabled}
           value={value}
           onChange={onChange}
-          placeholder="请输入公式"
-          prefix={<span className={cx('CBFormula-label')}>表达式</span>}
+          placeholder={__('Condition.formula_placeholder')}
+          prefix={
+            <span className={cx('CBFormula-label')}>
+              {__('Condition.expression')}
+            </span>
+          }
         />
       </div>
     );
   }
 }
 
-export default themeable(Formula);
+export default themeable(localeable(Formula));

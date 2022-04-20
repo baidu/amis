@@ -5,14 +5,23 @@ exports[`Renderer:markdown 1`] = `
   <div
     class="cxd-Markdown"
   >
-    <div>
-      <div
-        class="cxd-Spinner in"
-      >
-        <div
-          class="cxd-Spinner-icon cxd-Spinner-icon--default"
-        />
-      </div>
+    <div
+      class="markdown-body"
+      data-testid="markdown-body"
+    >
+      <h1>
+        title
+      </h1>
+      
+
+      <p>
+        markdown 
+        <strong>
+          text
+        </strong>
+      </p>
+      
+
     </div>
   </div>
 </div>

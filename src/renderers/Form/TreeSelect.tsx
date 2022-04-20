@@ -94,6 +94,11 @@ export interface TreeSelectControlSchema extends FormOptionsControl {
    * 开启节点路径模式后，节点路径的分隔符
    */
   pathSeparator?: string;
+
+  /**
+   * 是否显示展开线
+   */
+  showOutline?: boolean;
 }
 
 export interface TreeSelectProps extends OptionsControlProps {
@@ -536,7 +541,8 @@ export default class TreeSelectControl extends React.Component<
       translate: __,
       deferLoad,
       expandTreeOptions,
-      selfDisabledAffectChildren
+      selfDisabledAffectChildren,
+      showOutline
     } = this.props;
 
     let filtedOptions =
@@ -568,6 +574,7 @@ export default class TreeSelectControl extends React.Component<
         rootValue={rootValue}
         showIcon={showIcon}
         showRadio={showRadio}
+        showOutline={showOutline}
         cascade={cascade}
         foldedField="collapsed"
         hideRoot

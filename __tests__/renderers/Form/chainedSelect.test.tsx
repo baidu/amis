@@ -1,8 +1,8 @@
 import React = require('react');
-import {render} from '@testing-library/react';
+import {render, waitForElementToBeRemoved} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 
 test('Renderer:chained-select', async () => {
   const {container, findByText} = render(
@@ -17,7 +17,7 @@ test('Renderer:chained-select', async () => {
             type: 'chained-select',
             label: '级联下拉',
             source:
-              '/api/mock2/options/chainedOptions?waitSeconds=1&parentId=$parentId&level=$level&maxLevel=4',
+              '/api/mock2/options/chainedOptions?parentId=$parentId&level=$level&maxLevel=4',
             value: 'a,b'
           }
         ]
@@ -44,7 +44,6 @@ test('Renderer:chained-select', async () => {
     )
   );
 
-  await findByText('A 0');
-
+  await wait(500);
   expect(container).toMatchSnapshot();
 });
