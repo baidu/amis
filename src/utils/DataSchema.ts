@@ -31,7 +31,7 @@ export class DataSchema {
     return this;
   }
 
-  addScope(schema?: JSONSchema, id: string = guid()) {
+  addScope(schema?: JSONSchema | Array<JSONSchema>, id: string = guid()) {
     if (this.idMap[id]) {
       throw new Error('scope id `' + id + '` already exists');
     }

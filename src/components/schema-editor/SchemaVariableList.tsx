@@ -42,13 +42,8 @@ export class SchemaVariableList extends React.Component<
     if (!schemas.length) {
       return [];
     }
-    const root = schemas.shift()!;
-    const dataSchema = new DataSchema(root);
+    const dataSchema = new DataSchema(schemas);
     this.dataSchema = dataSchema;
-    schemas.reduce((dataSchema: DataSchema, schema: any) => {
-      return dataSchema.addScope(schema);
-    }, dataSchema);
-
     return dataSchema.getDataPropsAsOptions();
   }
 
