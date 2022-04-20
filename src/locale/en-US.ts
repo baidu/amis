@@ -307,5 +307,16 @@ register('en-US', {
   'pullRefresh.loosingText': 'Release to refresh...',
   'pullRefresh.loadingText': 'Loading...',
   'pullRefresh.successText': 'Loading success',
-  'Picker.placeholder': 'Click icon on the right'
+  'Picker.placeholder': 'Click icon on the right',
+  'SchemaType.string': 'String',
+  'SchemaType.number': 'Number',
+  'SchemaType.interger': 'Interger',
+  'SchemaType.object': 'Object',
+  'SchemaType.array': 'Array',
+  'SchemaType.boolean': 'Boolean',
+  'SchemaType.null': 'Null',
+  'JSONSchema.title': 'Title',
+  'JSONSchema.description': 'Description',
+  'JSONSchema.key': 'Key',
+  'JSONSchema.array_items': 'Items'
 });

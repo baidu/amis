@@ -305,5 +305,16 @@ register('de-DE', {
   'pullRefresh.loosingText': 'Zum Aktualisieren freigeben...',
   'pullRefresh.loadingText': 'Laden...',
   'pullRefresh.successText': 'Laden erfolgreich',
-  'Picker.placeholder': 'Klicken Sie rechts auf das Symbol'
+  'Picker.placeholder': 'Klicken Sie rechts auf das Symbol',
+  'SchemaType.string': 'String',
+  'SchemaType.number': 'Number',
+  'SchemaType.interger': 'Interger',
+  'SchemaType.object': 'Object',
+  'SchemaType.array': 'Array',
+  'SchemaType.boolean': 'Boolean',
+  'SchemaType.null': 'Null',
+  'JSONSchema.title': 'Title',
+  'JSONSchema.description': 'Description',
+  'JSONSchema.key': 'Key',
+  'JSONSchema.array_items': 'Items'
 });
