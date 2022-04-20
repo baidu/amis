@@ -85,7 +85,7 @@ export interface RendererEnv {
     scoped: IScopedContext,
     data: any,
     broadcast?: RendererEvent<any>
-  ) => Promise<RendererEvent<any> | undefined>;
+  ) => void;
   [propName: string]: any;
 }
 
