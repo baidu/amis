@@ -36,6 +36,10 @@ export class AjaxAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
+    if (!renderer.props.env?.fetcher) {
+      throw new Error('env.fetcher is required!');
+    }
+
     const env = event.context.env;
     try {
       const result = await env.fetcher(

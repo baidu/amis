@@ -32,6 +32,10 @@ export class ToastAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
+    if (!renderer.props.env?.notify) {
+      throw new Error('env.notify is required!');
+    }
+
     event.context.env.notify?.(
       action.args?.msgType || 'info',
       String(action.args?.msg),

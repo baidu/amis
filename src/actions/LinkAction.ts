@@ -52,20 +52,15 @@ export class LinkAction implements RendererAction {
       throw new Error('env.jumpTo is required!');
     }
 
-    if (!action.args) {
-      console.error('action.args 未定义，请定义动作参数');
-      return;
-    }
-
     // 通过buildApi兼容较复杂的url情况
     let urlObj = buildApi(
       {
-        url: (action.args.url || action.args.link) as string,
+        url: (action.args?.url || action.args?.link) as string,
         method: 'get'
       },
       {
-        ...action.args.params,
-        ...omit(action.args, ['params', 'blank', 'url', 'link'])
+        ...(action.args?.params ?? {}),
+        ...omit(action.args ?? {}, ['params', 'blank', 'url', 'link'])
       },
       {
         autoAppend: true
