@@ -17,9 +17,6 @@ export interface SchemaVariableListPickerProps extends SchemaVariableListProps {
 }
 
 export class SchemaVariableListPicker extends React.Component<SchemaVariableListPickerProps> {
-  @autobind
-  handleConfirm() {}
-
   render() {
     const {
       translate: __,
@@ -36,7 +33,7 @@ export class SchemaVariableListPicker extends React.Component<SchemaVariableList
         bodyRender={({onClose, value, onChange, setState, ...states}) => {
           return (
             <SchemaVariableList
-              value={value}
+              value={value?.value ?? value}
               onSelect={(value, schema) =>
                 onChange({
                   value,

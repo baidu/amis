@@ -82,6 +82,7 @@ export class SchemaVariableList extends React.Component<
     return (
       <VariableList
         data={this.state.variables}
+        value={this.props.value}
         onSelect={this.handleSelect}
         selectMode="tree"
         itemRender={this.itemRender}

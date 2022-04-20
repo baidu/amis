@@ -59,9 +59,8 @@ export class SchemaEditorItemCommon<
 
   @autobind
   handleExtraPropsChange(newValue: JSONSchema) {
-    const {value, onChange} = this.props;
+    const {onChange} = this.props;
     onChange?.({
-      ...value,
       ...newValue
     });
   }

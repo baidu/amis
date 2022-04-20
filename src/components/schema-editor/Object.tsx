@@ -158,7 +158,6 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
     members[index] = {
       ...members[index],
       schema: {
-        ...members[index].schema,
         ...item
       }
     };
@@ -227,7 +226,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
                     value={member.schema.title || ''}
                     onChange={this.handlePropTitleChange.bind(this, index)}
                     placeholder={__('JSONSchema.title')}
-                    disabled={disabled || !!member.schema?.$ref}
+                    disabled={disabled || !!value?.$ref}
                   />
                 </>
               }
@@ -236,7 +235,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
                   className={cx('SchemaEditor-btn')}
                   onClick={this.handlePropRemove.bind(this, index)}
                   iconOnly
-                  disabled={disabled || !!member.schema?.$ref}
+                  disabled={disabled || !!value?.$ref}
                 >
                   <Icon icon="remove" className="icon" />
                 </Button>
@@ -248,7 +247,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
               translate={__}
               classnames={cx}
               classPrefix={classPrefix}
-              disabled={disabled || !!member.schema?.$ref}
+              disabled={disabled || !!value?.$ref}
               required={member.required}
               onRequiredChange={this.handlePropRequiredChange.bind(this, index)}
             />
@@ -263,7 +262,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
           level="link"
           onClick={this.handleAdd}
           size="xs"
-          disabled={disabled}
+          disabled={disabled || !!value?.$ref}
         >
           {__('JSONSchema.add_prop')}
         </Button>

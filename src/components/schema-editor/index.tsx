@@ -97,12 +97,12 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
       {
         label: __('SchemaType.boolean'),
         value: 'boolean'
-      },
-
-      {
-        label: __('SchemaType.null'),
-        value: 'null'
       }
+
+      // {
+      //   label: __('SchemaType.null'),
+      //   value: 'null'
+      // }
     ];
   }
 
@@ -120,7 +120,7 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
       value = {
         ...value,
         ...definitions[type],
-        $ref: 'type'
+        $ref: type
       };
     }
 
@@ -193,7 +193,7 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
           translate={translate}
           classnames={cx}
           classPrefix={classPrefix}
-          disabled={disabled || !!value?.$ref}
+          disabled={disabled}
           onTypeChange={this.handleTypeChange}
         />
       </div>
