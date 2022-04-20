@@ -32,7 +32,7 @@ export class DataScope {
     this.id = id;
   }
 
-  addChild(id: string, schema?: JSONSchema): DataScope {
+  addChild(id: string, schema?: JSONSchema | Array<JSONSchema>): DataScope {
     const child = new DataScope(
       schema || {
         type: 'object',

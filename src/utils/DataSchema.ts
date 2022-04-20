@@ -16,7 +16,7 @@ export class DataSchema {
   // 这个经常变动，游离于整个链中
   current: DataScope;
 
-  constructor(schema: JSONSchema) {
+  constructor(schema: JSONSchema | Array<JSONSchema>) {
     this.root = new DataScope(schema, 'root');
     this.current = this.root;
   }
