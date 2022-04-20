@@ -120,6 +120,14 @@ export async function dispatchEvent(
   let unbindEvent = null;
   const eventName = typeof e === 'string' ? e : e.type;
 
+  renderer?.props?.env?.beforeDispatchEvent?.(
+    e,
+    renderer,
+    scoped,
+    data,
+    broadcast
+  );
+
   if (!broadcast) {
     const eventConfig = renderer?.props?.onEvent?.[eventName];
 
