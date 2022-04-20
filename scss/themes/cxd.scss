@@ -47,7 +47,7 @@
 // input选择器模式
 .#{$ns}TextControl-sugs {
   border-radius: px2rem(3px);
-  top: calc(var(--Form-input-height) + #{px2rem(4px)});
+  // top: calc(var(--Form-input-height) + #{px2rem(4px)});
   box-shadow: #{px2rem(2px)} #{px2rem(4px)} #{px2rem(8px)} rgba(0, 0, 0, 0.2);
   border: none;
 }
