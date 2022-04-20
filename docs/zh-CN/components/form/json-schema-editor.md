@@ -43,9 +43,54 @@ order: 61
 }
 ```
 
+## 预设类型
+
+通过设置 definitions 属性可以提供一些默认类型，可以减少类型的定义成本。
+
+```schema: scope="form-item"
+{
+    label: 'JSON Schema Editor',
+    name: 'schema',
+    // showRootInfo: true,
+    // rootTypeMutable: true,
+    type: 'json-schema-editor',
+    disabledTypes: ['null', 'interger', 'boolean'],
+    definitions: {
+        user: {
+            type: 'object',
+            title: '用户',
+            properties: {
+            name: {
+                type: 'string',
+                title: '用户名',
+                description: '用户名信息'
+            },
+
+            id: {
+                type: 'interger',
+                title: '用户ID'
+            },
+
+            email: {
+                type: 'string',
+                title: '用户邮箱'
+            },
+
+            displayName: {
+                type: 'string',
+                title: '用户昵称'
+            }
+            }
+        }
+    }
+}
+```
+
 ## 属性表
 
-| 属性名          | 类型      | 默认值 | 说明                 |
-| --------------- | --------- | ------ | -------------------- |
-| rootTypeMutable | 'boolean' | false  | 顶级类型是否可配置   |
-| showRootInfo    | 'boolean' | false  | 是否显示顶级类型信息 |
+| 属性名          | 类型            | 默认值 | 说明                                                                                             |
+| --------------- | --------------- | ------ | ------------------------------------------------------------------------------------------------ |
+| rootTypeMutable | `boolean`       | false  | 顶级类型是否可配置                                                                               |
+| showRootInfo    | `boolean`       | false  | 是否显示顶级类型信息                                                                             |
+| disabledTypes   | `Array<string>` |        | 用来禁用默认数据类型，默认类型有：string、number、interger、object、number、array、boolean、null |
+| definitions     | `object`        |        | 用来配置预设类型                                                                                 |

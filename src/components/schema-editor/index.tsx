@@ -55,11 +55,12 @@ export interface SchemaEditorProps extends LocaleProps, ThemeProps {
 export class SchemaEditor extends React.Component<SchemaEditorProps> {
   static defaultProps: Pick<
     SchemaEditorProps,
-    'defaultType' | 'rootTypeMutable' | 'showRootInfo'
+    'defaultType' | 'rootTypeMutable' | 'showRootInfo' | 'disabledTypes'
   > = {
     defaultType: 'object',
     rootTypeMutable: false,
-    showRootInfo: false
+    showRootInfo: false,
+    disabledTypes: ['null']
   };
 
   defaultTypes: Array<any>;
@@ -97,12 +98,12 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
       {
         label: __('SchemaType.boolean'),
         value: 'boolean'
-      }
+      },
 
-      // {
-      //   label: __('SchemaType.null'),
-      //   value: 'null'
-      // }
+      {
+        label: __('SchemaType.null'),
+        value: 'null'
+      }
     ];
   }
 
@@ -177,7 +178,7 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
     }
 
     if (disabledTypes.length) {
-      types = types.filter(item => !~disabledTypes.indexOf(item));
+      types = types.filter(item => !~disabledTypes.indexOf(item.value));
     }
 
     return (

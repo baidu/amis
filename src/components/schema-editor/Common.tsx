@@ -117,7 +117,8 @@ export class SchemaEditorItemCommon<
 
         {renderExtraProps?.(value!, this.handleExtraPropsChange)}
 
-        {/* <Button
+        {/* todo 后面扩充详细配置
+         <Button
           className={cx('SchemaEditor-btn')}
           onClick={this.handleSettingClick}
           iconOnly
