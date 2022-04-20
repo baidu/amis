@@ -9,6 +9,7 @@ import SchemaVariableList, {
 export interface SchemaVariableListPickerProps extends SchemaVariableListProps {
   children: (props: {
     onClick: (e: React.MouseEvent) => void;
+    setState: (state: any) => void;
     isOpened: boolean;
   }) => JSX.Element;
   value?: any;
