@@ -1,6 +1,6 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
@@ -26,16 +26,20 @@ export interface IToastAction extends ListenerAction {
 /**
  * 全局toast
  */
-export class ToastAction implements Action {
+export class ToastAction implements RendererAction {
   async run(
     action: IToastAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
+    if (!renderer.props.env?.notify) {
+      throw new Error('env.notify is required!');
+    }
+
     event.context.env.notify?.(
-      action.msgType || 'info',
-      resolveVariableAndFilter(action.msg, event?.data, '| raw'),
-      action
+      action.args?.msgType || 'info',
+      String(action.args?.msg),
+      action.args
     );
   }
 }

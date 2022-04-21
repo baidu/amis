@@ -43,6 +43,11 @@ register('en-US', {
   'CRUD.paginationGoText': 'Go to',
   'CRUD.paginationPageText': 'page',
   'PaginationWrapper.placeholder': 'please config body',
+  'Pagination.select': '{{count}} items/page',
+  'Pagination.goto': 'goto',
+  'Pagination.go': 'GO',
+  'Pagination.totalPage': 'total {{lastPage}} pages',
+  'Pagination.totalCount': 'total {{total}} items',
   'Date.titleYear': 'select year',
   'Date.titleMonth': 'select month and year',
   'Date.titleDate': 'select month, year and day',
@@ -308,4 +313,15 @@ register('en-US', {
   'UserSelect.resultSort': 'Select result sort',
   'UserSelect.selected': 'Selected',
   'UserSelect.clear': 'empty'
+  'SchemaType.string': 'String',
+  'SchemaType.number': 'Number',
+  'SchemaType.interger': 'Interger',
+  'SchemaType.object': 'Object',
+  'SchemaType.array': 'Array',
+  'SchemaType.boolean': 'Boolean',
+  'SchemaType.null': 'Null',
+  'JSONSchema.title': 'Title',
+  'JSONSchema.description': 'Description',
+  'JSONSchema.key': 'Key',
+  'JSONSchema.array_items': 'Items'
 });

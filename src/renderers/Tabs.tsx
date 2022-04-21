@@ -612,7 +612,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
    */
   doAction(action: Action, args: any) {
     const actionType = action?.actionType as string;
-    const activeKey = action?.activeKey as number;
+    const activeKey = args?.activeKey as number;
     if (actionType === 'changeActiveKey') {
       this.handleSelect(activeKey);
     }

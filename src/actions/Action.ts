@@ -1,3 +1,4 @@
+import {RendererProps} from '../factory';
 import {extendObject} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {evalExpression} from '../utils/tpl';
@@ -29,26 +30,26 @@ export interface LogicAction extends ListenerAction {
   children?: ListenerAction[]; // 子动作
 }
 
-export interface ListenerContext {
+export interface ListenerContext extends React.Component<RendererProps> {
   [propName: string]: any;
 }
 
 // Action 基础接口
-export interface Action {
+export interface RendererAction {
   // 运行这个 Action，每个类型的 Action 都只有一个实例，run 函数是个可重入的函数
   run: (
     action: ListenerAction,
     renderer: ListenerContext,
     event: RendererEvent<any>,
     mergeData?: any // 有些Action内部需要通过上下文数据处理专有逻辑，这里的数据是事件数据+渲染器数据
-  ) => Promise<void>;
+  ) => Promise<RendererEvent<any> | void>;
 }
 
 // 存储 Action 和类型的映射关系，用于后续查找
-const ActionTypeMap: {[key: string]: Action} = {};
+const ActionTypeMap: {[key: string]: RendererAction} = {};
 
 // 注册 Action
-export const registerAction = (type: string, action: Action) => {
+export const registerAction = (type: string, action: RendererAction) => {
   ActionTypeMap[type] = action;
 };
 
@@ -97,7 +98,7 @@ export const runActions = async (
 
 // 执行动作，与原有动作处理打通
 export const runAction = async (
-  actionInstrance: Action,
+  actionInstrance: RendererAction,
   actionConfig: ListenerAction,
   renderer: ListenerContext,
   event: any

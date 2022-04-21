@@ -1,7 +1,7 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {dataMapping} from '../utils/tpl-builtin';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   LoopStatus,
@@ -19,7 +19,7 @@ export interface ICmptAction extends ListenerAction {
  * @class CmptAction
  * @implements {Action}
  */
-export class CmptAction implements Action {
+export class CmptAction implements RendererAction {
   async run(
     action: ICmptAction,
     renderer: ListenerContext,
@@ -49,11 +49,10 @@ export class CmptAction implements Action {
 
     // 数据更新
     if (action.actionType === 'setValue') {
-      const value = dataMapping(action.value, event.data);
       if (component.setData) {
-        return component.setData(value);
+        return component.setData(action.args?.value);
       } else {
-        return component.props.onChange?.(value);
+        return component.props.onChange?.(action.args?.value);
       }
     }
 
@@ -63,7 +62,7 @@ export class CmptAction implements Action {
     }
 
     // 执行组件动作
-    return component.doAction?.(action, action.args);
+    return component?.doAction?.(action, action.args);
   }
 }
 

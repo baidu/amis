@@ -1,0 +1,177 @@
+.#{$ns}Tag {
+  display: inline-flex;
+  height: var(--Tag-height);
+  padding: 0 var(--gap-sm);
+  justify-content: center;
+  align-items: center;
+  font-size: var(--Tag-content-fontSize);
+  max-width: 160px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: all 0.3;
+  border-radius: var(--Tag-borderRadius);
+  background-color: var(--Tag-default-color);
+  color: var(--Tag-fontColor);
+  &:not(:last-child) {
+    margin-right: var(--gap-sm);
+  }
+
+  &--normal {
+    &--hasColor {
+      color: var(--white);
+    }
+    border-radius: var(--Tag-borderRadius);
+    &--inactive {
+      background: var(--Tag-inactive-color);
+    }
+    &--active {
+      background: var(--Tag-active-color);
+    }
+    &--processing {
+      background: var(--Tag-processing-color);
+    }
+    &--success {
+      background: var(--Tag-success-color);
+    }
+    &--error {
+      background: var(--Tag-error-color);
+    }
+    &--warning {
+      background: var(--Tag-warning-color);
+    }
+  }
+
+  &--rounded {
+    background-color: var(--white);
+    border-radius: calc((var(--Tag-height) + 2px) / 2);
+    border: 1px solid var(--Tag-default-color);
+    color: var(--Tag-default-color);
+    &--inactive {
+      border-color: var(--Tag-inactive-color);
+      color: var(--Tag-inactive-color);
+    }
+    &--active {
+      border-color: var(--Tag-active-color);
+      color: var(--Tag-active-color);
+    }
+    &--processing {
+      border-color: var(--Tag-processing-color);
+      color: var(--Tag-processing-color);
+    }
+    &--success {
+      border-color: var(--Tag-success-color);
+      color: var(--Tag-success-color);
+    }
+    &--error {
+      border-color: var(--Tag-error-color);
+      color: var(--Tag-error-color);
+    }
+    &--warning {
+      border-color: var(--Tag-warning-color);
+      color: var(--Tag-warning-color);
+    }
+  }
+
+  &--status {
+    background-color: var(--white);
+    &--inactive .#{$ns}Tag--prev {
+      color: var(--Tag-inactive-color);
+    }
+    &--active .#{$ns}Tag--prev {
+      color: var(--Tag-active-color);
+    }
+    &--processing .#{$ns}Tag--prev {
+      color: var(--Tag-processing-color);
+    }
+    &--success .#{$ns}Tag--prev {
+      color: var(--Tag-success-color);
+    }
+    &--error .#{$ns}Tag--prev {
+      color: var(--Tag-error-color);
+    }
+    &--warning .#{$ns}Tag--prev {
+      color: var(--Tag-warning-color);
+    }
+
+    &:not(&--processing):not(&--active) {
+      .icon-dot {
+        #dotWave {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &--prev {
+    color: var(--Tag-default-color);
+    margin-right: var(--gap-sm);
+    i {
+      font-size: #{px2rem(8px)};
+    }
+    .icon {
+      width: #{px2rem(8px)};
+      height: #{px2rem(8px)};
+      top: 0;
+    }
+  }
+
+  &--close {
+    margin-left: var(--gap-sm);
+    margin-right: var(--gap-xs);
+    i {
+      font-size: #{px2rem(8px)};
+    }
+    .icon {
+      width: #{px2rem(8px)};
+      height: #{px2rem(8px)};
+      position: inherit;
+    }
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+    &:active {
+      opacity: 0.3;
+    }
+  }
+
+  &--disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+
+    .#{$ns}Tag--close {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+
+  &--checkable {
+    background-color: var(--Tag-checkable-bgColor);
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--Tag-checkable-bgColor-onHover);
+    }
+    &:active {
+      background-color: var(--Tag-checkable-bgColor-onActive);
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+      background-color: var(--Tag-checkable-bgColor-onDisable);
+      color: var(--Tag-checkable-fontColor-onDisable);
+    }
+
+    &--checked:not(&--disabled) {
+      color: var(--white);
+      background-color: var(--Tag-checkable-bgColor-onChecked);
+      &:hover {
+        background-color: var(--Tag-checkable-bgColor-onHover-onChecked);
+      }
+      &:active {
+        background-color: var(--Tag-checkable-bgColor-onActive-onChecked);
+      }
+    }
+  }
+}

@@ -89,6 +89,7 @@ import UserRemove from '../icons/user-remove.svg';
 import Role from '../icons/role.svg';
 import Department from '../icons/department.svg';
 import Post from '../icons/post.svg';
+import DotIcon from '../icons/dot.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -204,6 +205,7 @@ registerIcon('user-remove', UserRemove);
 registerIcon('role', Role);
 registerIcon('department', Department);
 registerIcon('post', Post);
+registerIcon('dot', DotIcon);
 
 export function Icon({
   icon,

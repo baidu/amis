@@ -58,6 +58,7 @@ import TableSelection from './TableSelection';
 import TreeSelection from './TreeSelection';
 import AssociatedSelection from './AssociatedSelection';
 import PullRefresh from './PullRefresh';
+import Table from './table';
 
 export {
   NotFound,
@@ -119,5 +120,6 @@ export {
   NumberInput,
   ArrayInput,
   AnchorNav,
-  PullRefresh
+  PullRefresh,
+  Table
 };

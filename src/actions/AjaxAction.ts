@@ -1,23 +1,26 @@
+import omit from 'lodash/omit';
 import {Api} from '../types';
 import {normalizeApiResponseData} from '../utils/api';
 import {ServerError} from '../utils/errors';
-import {createObject, isEmpty, isVisible} from '../utils/helper';
+import {createObject, isEmpty} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
-import {filter} from '../utils/tpl';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
 export interface IAjaxAction extends ListenerAction {
-  api: Api;
-  messages: {
-    success: string;
-    failed: string;
+  args: {
+    api: Api;
+    messages: {
+      success: string;
+      failed: string;
+    };
+    options: object;
+    [propName: string]: any;
   };
-  options: object;
 }
 
 /**
@@ -27,23 +30,27 @@ export interface IAjaxAction extends ListenerAction {
  * @class AjaxAction
  * @implements {Action}
  */
-export class AjaxAction implements Action {
+export class AjaxAction implements RendererAction {
   async run(
     action: IAjaxAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
+    if (!renderer.props.env?.fetcher) {
+      throw new Error('env.fetcher is required!');
+    }
+
     const env = event.context.env;
     try {
       const result = await env.fetcher(
-        action.api as string,
-        action.args,
-        action.options ?? {}
+        action.args?.api as string,
+        omit(action.args ?? {}, ['api', 'options', 'messages']),
+        action.args?.options ?? {}
       );
 
       if (!isEmpty(result.data) || result.ok) {
         const responseData = normalizeApiResponseData(result.data);
-        // 记录请求返回的数据
+        // 记录请求返回的数据
         event.setData(
           createObject(
             event.data,
@@ -58,20 +65,22 @@ export class AjaxAction implements Action {
 
       if (!result.ok) {
         throw new ServerError(
-          (action.messages && action.messages.failed) ?? result.msg,
+          action.args?.messages?.failed ?? result.msg,
           result
         );
       } else {
-        env.notify(
-          'success',
-          (action.messages && action.messages.success) ?? result.msg,
-          result.msgTimeout !== undefined
-            ? {
-                closeButton: true,
-                timeout: result.msgTimeout
-              }
-            : undefined
-        );
+        const msg = action.args?.messages?.success ?? result.msg;
+        msg &&
+          env.notify(
+            'success',
+            msg,
+            result.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: result.msgTimeout
+                }
+              : undefined
+          );
       }
 
       return result.data;

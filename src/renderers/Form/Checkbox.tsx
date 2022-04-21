@@ -71,10 +71,10 @@ export default class CheckboxControl extends React.Component<
     const rendererEvent = await dispatchEvent(
       'change',
       createObject(data, {
-        value: eventData,
+        value: eventData
       })
     );
-    
+
     if (rendererEvent?.prevented) {
       return;
     }
@@ -118,10 +118,10 @@ export default class CheckboxControl extends React.Component<
   }
 }
 
+// @ts-ignore
+@withBadge
 @FormItem({
   type: 'checkbox',
   sizeMutable: false
 })
-// @ts-ignore
-@withBadge
 export class CheckboxControlRenderer extends CheckboxControl {}

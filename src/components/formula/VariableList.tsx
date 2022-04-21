@@ -15,6 +15,7 @@ import type {TabsMode} from '../Tabs';
 export interface VariableListProps extends ThemeProps {
   className?: string;
   itemClassName?: string;
+  value?: any;
   data: Array<VariableItem>;
   selectMode?: 'list' | 'tree' | 'tabs';
   tabsMode?: TabsMode;

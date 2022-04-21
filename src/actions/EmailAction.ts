@@ -4,18 +4,21 @@ import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
 import qs from 'qs';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
 export interface IEmailAction extends ListenerAction {
-  to: string;
-  cc: string;
-  bcc: string;
-  subject: string;
-  body: string;
+  args: {
+    to: string;
+    cc: string;
+    bcc: string;
+    subject: string;
+    body: string;
+    [propName: string]: any;
+  };
 }
 
 /**
@@ -25,17 +28,14 @@ export interface IEmailAction extends ListenerAction {
  * @class EmailAction
  * @implements {Action}
  */
-export class EmailAction implements Action {
+export class EmailAction implements RendererAction {
   async run(
     action: IEmailAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    const mailTo = filter(action.to, action.args);
-    const mailInfo = mapValues(
-      pick(action, 'cc', 'bcc', 'subject', 'body'),
-      val => filter(val, action.args)
-    );
+    const mailTo = action.args?.to;
+    const mailInfo = pick(action.args ?? {}, 'cc', 'bcc', 'subject', 'body');
     const mailStr = qs.stringify(mailInfo);
     const mailto = `mailto:${mailTo}?${mailStr}`;
 

@@ -1,6 +1,6 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   LoopStatus,
@@ -18,7 +18,7 @@ export interface ICustomAction extends ListenerAction {
  * @class CustomAction
  * @implements {Action}
  */
-export class CustomAction implements Action {
+export class CustomAction implements RendererAction {
   async run(
     action: ICustomAction,
     renderer: ListenerContext,

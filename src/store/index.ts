@@ -12,6 +12,7 @@ import {ComboStore} from './combo';
 import {FormStore} from './form';
 import {CRUDStore} from './crud';
 import {TableStore} from './table';
+import {TableStoreV2} from './table-v2';
 import {ListStore} from './list';
 import {ModalStore} from './modal';
 import {TranslateFn} from '../locale';
@@ -33,6 +34,7 @@ const allowedStoreList = [
   ComboStore,
   CRUDStore,
   TableStore,
+  TableStoreV2,
   ListStore,
   ModalStore,
   FormItemStore,

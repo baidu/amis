@@ -907,6 +907,7 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | rootLabel              | `boolean`                                    | `"顶级"`         | 当 `hideRoot` 不为 `false` 时有用，用来设置顶级节点的文字。                                                         |
 | showIcon               | `boolean`                                    | `true`           | 是否显示图标                                                                                                        |
 | showRadio              | `boolean`                                    | `false`          | 是否显示单选按钮，`multiple` 为 `false` 是有效。                                                                    |
+| showOutline            | `boolean`                                    | `false`          | 是否显示树层级展开线                                                                                                |
 | initiallyOpen          | `boolean`                                    | `true`           | 设置是否默认展开所有层级。                                                                                          |
 | unfoldedLevel          | `number`                                     | `0`              | 设置默认展开的级数，只有`initiallyOpen`不是`true`时生效。                                                           |
 | autoCheckChildren      | `boolean`                                    | `true`           | 当选中父节点时级联选择子节点。                                                                                    |
