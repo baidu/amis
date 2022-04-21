@@ -1,21 +1,23 @@
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
+import isBoolean from 'lodash/isBoolean';
 import {FormulaEditor, FormulaEditorProps} from './Editor';
 import {autobind, noop} from '../../utils/helper';
 import {generateIcon} from '../../utils/icon';
-import PickerContainer from '../PickerContainer';
 import Editor from './Editor';
 import ResultBox from '../ResultBox';
 import Button from '../Button';
 import {Icon} from '../icons';
+import Modal from '../Modal';
 import {themeable} from '../../theme';
 import {localeable} from '../../locale';
-
 import type {SchemaIcon} from '../../Schema';
 import {
   resolveVariableAndFilter,
   isPureVariable
 } from '../../utils/tpl-builtin';
+import {toast} from '../../components';
+import {parse, Evaluator} from 'amis-formula';
 
 export interface FormulaPickerProps extends FormulaEditorProps {
   // 新的属性？
@@ -95,9 +97,27 @@ export interface FormulaPickerProps extends FormulaEditorProps {
   data?: any;
 }
 
-export class FormulaPicker extends React.Component<FormulaPickerProps> {
+export interface FormulaPickerState {
+  isOpened: boolean;
+  value: string;
+  editorValue: string;
+  isError: boolean | string;
+}
+
+export class FormulaPicker extends React.Component<
+  FormulaPickerProps,
+  FormulaPickerState
+> {
+  state: FormulaPickerState = {
+    isOpened: false,
+    value: this.props.value,
+    editorValue: this.props.value,
+    isError: false
+  };
+
   @autobind
-  handleConfirm(value: any) {
+  handleConfirm() {
+    const value = this.state.value;
     this.props.onChange?.(value);
   }
 
@@ -116,10 +136,90 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
     );
   }
 
+  @autobind
+  handleInputChange(value: string) {
+    const validate = this.validate(value);
+    if (validate === true) {
+      this.setState(
+        {
+          value,
+          isError: false
+        },
+        () => this.handleConfirm()
+      );
+    } else {
+      this.setState({isError: validate});
+    }
+  }
+
+  @autobind
+  handleEditorChange(value: string) {
+    this.setState({
+      editorValue: value
+    });
+  }
+
+  @autobind
+  handleEditorConfirm() {
+    const {translate: __} = this.props;
+    const value = this.state.editorValue;
+    const validate = this.validate(value, true);
+
+    if (validate === true) {
+      this.setState({value}, () => {
+        this.close(undefined, () => this.handleConfirm());
+      });
+    } else {
+      this.setState({isError: validate});
+    }
+  }
+
+  @autobind
+  handleClick() {
+    this.setState({
+      isOpened: true
+    });
+  }
+
+  @autobind
+  close(e?: any, callback?: () => void) {
+    this.setState(
+      {
+        isOpened: false,
+        isError: false
+      },
+      () => {
+        if (callback) {
+          callback();
+          return;
+        }
+      }
+    );
+  }
+
+  @autobind
+  validate(value: string, remind?: boolean) {
+    const {translate: __} = this.props;
+
+    try {
+      const ast = parse(value, {
+        evalMode: isBoolean(this.props.evalMode) ? this.props.evalMode : true,
+        allowFilter: false
+      });
+
+      new Evaluator({}).evalute(ast);
+
+      return true;
+    } catch (e) {
+      const [, position] = /\s(\d+:\d+)$/.exec(e.message) || [];
+      remind && toast.error(__('FormulaEditor.invalidData', {position}));
+      return position;
+    }
+  }
+
   render() {
     let {
       classnames: cx,
-      value,
       translate: __,
       disabled,
       allowInput,
@@ -139,6 +239,8 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
       functions,
       ...rest
     } = this.props;
+    const {isOpened, value, editorValue, isError} = this.state;
+
     if (isPureVariable(variables)) {
       // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
       variables = resolveVariableAndFilter(variables, this.props.data, '| raw');
@@ -151,98 +253,106 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
     const iconElement = generateIcon(cx, icon, 'Icon');
 
     return (
-      <PickerContainer
-        title={__(title || 'FormulaEditor.title')}
-        headerClassName="font-bold"
-        bodyRender={({onClose, value, onChange}) => {
-          return (
+      <>
+        <div className={cx('FormulaPicker', className)}>
+          {mode === 'button' ? (
+            <Button
+              className={cx('FormulaPicker-action', 'w-full')}
+              level={level}
+              size={btnSize}
+              onClick={this.handleClick}
+            >
+              {iconElement ? (
+                React.cloneElement(iconElement, {
+                  className: cx(
+                    iconElement?.props?.className ?? '',
+                    'FormulaPicker-icon',
+                    {
+                      ['is-filled']: !!value
+                    }
+                  )
+                })
+              ) : (
+                <Icon
+                  icon="function"
+                  className={cx('FormulaPicker-icon', 'icon', {
+                    ['is-filled']: !!value
+                  })}
+                />
+              )}
+              <span className={cx('FormulaPicker-label')}>
+                {__(btnLabel || 'FormulaEditor.btnLabel')}
+              </span>
+            </Button>
+          ) : (
+            <>
+              <ResultBox
+                className={cx(
+                  'FormulaPicker-input',
+                  isOpened ? 'is-active' : '',
+                  !!isError ? 'is-error' : ''
+                )}
+                allowInput={allowInput}
+                clearable={clearable}
+                value={value}
+                result={
+                  allowInput
+                    ? void 0
+                    : FormulaEditor.highlightValue(value, variables, functions)
+                }
+                itemRender={this.renderFormulaValue}
+                onResultChange={noop}
+                onChange={this.handleInputChange}
+                disabled={disabled}
+                borderMode={borderMode}
+                placeholder={placeholder}
+              />
+
+              <Button
+                className={cx('FormulaPicker-action')}
+                onClick={this.handleClick}
+              >
+                <Icon
+                  icon="function"
+                  className={cx('FormulaPicker-icon', 'icon', {
+                    ['is-filled']: !!value
+                  })}
+                />
+              </Button>
+            </>
+          )}
+        </div>
+        {!!isError ? (
+          <ul className={cx('Form-feedback')}>
+            <li>{__('FormulaEditor.invalidData', {position: isError})}</li>
+          </ul>
+        ) : null}
+        <Modal
+          size="md"
+          closeOnEsc
+          show={this.state.isOpened}
+          onHide={this.close}
+        >
+          <Modal.Header onClose={this.close} className="font-bold">
+            {__(title || 'FormulaEditor.title')}
+          </Modal.Header>
+          <Modal.Body>
             <Editor
               {...rest}
               variables={variables}
               functions={functions}
-              value={value}
-              onChange={onChange}
+              value={editorValue}
+              onChange={this.handleEditorChange}
             />
-          );
-        }}
-        value={value}
-        onConfirm={this.handleConfirm}
-        size={'md'}
-      >
-        {({onClick, isOpened}) => (
-          <div className={cx('FormulaPicker', className)}>
-            {mode === 'button' ? (
-              <Button
-                className={cx('FormulaPicker-action', 'w-full')}
-                level={level}
-                size={btnSize}
-                onClick={onClick}
-              >
-                {iconElement ? (
-                  React.cloneElement(iconElement, {
-                    className: cx(
-                      iconElement?.props?.className ?? '',
-                      'FormulaPicker-icon',
-                      {
-                        ['is-filled']: !!value
-                      }
-                    )
-                  })
-                ) : (
-                  <Icon
-                    icon="function"
-                    className={cx('FormulaPicker-icon', 'icon', {
-                      ['is-filled']: !!value
-                    })}
-                  />
-                )}
-                <span className={cx('FormulaPicker-label')}>
-                  {__(btnLabel || 'FormulaEditor.btnLabel')}
-                </span>
-              </Button>
-            ) : (
-              <>
-                <ResultBox
-                  className={cx(
-                    'FormulaPicker-input',
-                    isOpened ? 'is-active' : ''
-                  )}
-                  allowInput={allowInput}
-                  clearable={clearable}
-                  value={value}
-                  result={
-                    allowInput
-                      ? void 0
-                      : FormulaEditor.highlightValue(
-                          value,
-                          variables,
-                          functions
-                        )
-                  }
-                  itemRender={this.renderFormulaValue}
-                  onResultChange={noop}
-                  onChange={this.handleConfirm}
-                  disabled={disabled}
-                  borderMode={borderMode}
-                  placeholder={placeholder}
-                />
-
-                <Button
-                  className={cx('FormulaPicker-action')}
-                  onClick={onClick}
-                >
-                  <Icon
-                    icon="function"
-                    className={cx('FormulaPicker-icon', 'icon', {
-                      ['is-filled']: !!value
-                    })}
-                  />
-                </Button>
-              </>
-            )}
-          </div>
-        )}
-      </PickerContainer>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.close}>{__('cancel')}</Button>
+            <Button onClick={this.handleEditorConfirm} level="primary">
+              {__('confirm')}
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
     );
   }
 }

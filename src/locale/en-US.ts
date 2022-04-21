@@ -303,6 +303,7 @@ register('en-US', {
   'FormulaEditor.title': 'Formula Editor',
   'FormulaEditor.variable': 'Variable',
   'FormulaEditor.function': 'Function',
+  'FormulaEditor.invalidData': 'invalid data, position in {{position}}',
   'pullRefresh.pullingText': 'Pull down to refresh...',
   'pullRefresh.loosingText': 'Release to refresh...',
   'pullRefresh.loadingText': 'Loading...',

@@ -159,7 +159,7 @@ export class FormulaEditor extends React.Component<
       let from = 0;
       let idx = -1;
       while (~(idx = content.indexOf(v, from))) {
-        html = content.replace(v, `<span class="c-field">${varMap[v]}</span>`);
+        html = html.replace(v, `<span class="c-field">${varMap[v]}</span>`);
         from = idx + v.length;
       }
     });

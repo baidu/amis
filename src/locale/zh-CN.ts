@@ -310,6 +310,7 @@ register('zh-CN', {
   'FormulaEditor.title': '公式编辑器',
   'FormulaEditor.variable': '变量',
   'FormulaEditor.function': '函数',
+  'FormulaEditor.invalidData': '公式值校验错误，错误的位置是 {{position}}',
   'pullRefresh.pullingText': '下拉即可刷新...',
   'pullRefresh.loosingText': '释放即可刷新...',
   'pullRefresh.loadingText': '加载中...',
