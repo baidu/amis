@@ -312,7 +312,7 @@ register('en-US', {
   'UserSelect.save': 'preservation',
   'UserSelect.resultSort': 'Select result sort',
   'UserSelect.selected': 'Selected',
-  'UserSelect.clear': 'empty'
+  'UserSelect.clear': 'empty',
   'SchemaType.string': 'String',
   'SchemaType.number': 'Number',
   'SchemaType.interger': 'Interger',
