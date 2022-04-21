@@ -59,6 +59,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
   .props({
     isFocused: false,
     type: '',
+    label: '',
     unique: false,
     loading: false,
     required: false,
@@ -238,7 +239,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       validateApi,
       maxLength,
       minLength,
-      validateOnChange
+      validateOnChange,
+      label
     }: {
       required?: boolean;
       unique?: boolean;
@@ -260,6 +262,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       minLength?: number;
       maxLength?: number;
       validateOnChange?: boolean;
+      label?: string;
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -287,6 +290,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       typeof validateApi !== 'undefined' && (self.validateApi = validateApi);
       typeof validateOnChange !== 'undefined' &&
         (self.validateOnChange = !!validateOnChange);
+      typeof label === 'string' && (self.label = label);
 
       rules = {
         ...rules,

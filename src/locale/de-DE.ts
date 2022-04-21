@@ -313,6 +313,7 @@ register('de-DE', {
   'SchemaType.array': 'Array',
   'SchemaType.boolean': 'Boolean',
   'SchemaType.null': 'Null',
+  'SchemaType.any': 'Any',
   'JSONSchema.title': 'Title',
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',

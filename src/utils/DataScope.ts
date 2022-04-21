@@ -60,6 +60,17 @@ export class DataScope {
     }
   }
 
+  setSchemas(schemas: Array<JSONSchema>) {
+    this.schemas.splice(0, this.schemas.length);
+    this.schemas.push(
+      ...schemas.map(schema => ({
+        $id: guid(),
+        ...schema
+      }))
+    );
+    return this;
+  }
+
   addSchema(schema: JSONSchema) {
     schema = {
       $id: guid(),
@@ -99,6 +110,7 @@ export class DataScope {
       keys.forEach(key => {
         const child: any = schema.properties![key];
 
+        // todo 支持 oneOf, anyOf
         const option: any = {
           label: child.title || key,
           value: path + key,

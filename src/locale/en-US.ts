@@ -314,6 +314,7 @@ register('en-US', {
   'SchemaType.object': 'Object',
   'SchemaType.array': 'Array',
   'SchemaType.boolean': 'Boolean',
+  'SchemaType.any': 'Any',
   'SchemaType.null': 'Null',
   'JSONSchema.title': 'Title',
   'JSONSchema.description': 'Description',

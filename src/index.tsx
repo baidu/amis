@@ -222,6 +222,8 @@ import {
 const classPrefix = getClassPrefix();
 
 import './actions';
+import {DataScope} from './utils/DataScope';
+import {DataSchema} from './utils/DataSchema';
 
 export * from './components/index';
 
@@ -279,5 +281,7 @@ export {
   setDefaultLocale,
   registerLocale,
   makeTranslator,
-  animation
+  animation,
+  DataSchema,
+  DataScope
 };
