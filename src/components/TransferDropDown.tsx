@@ -15,6 +15,7 @@ export interface TransferDropDownProps extends TransferProps {
   borderMode?: 'full' | 'half' | 'none';
   useMobileUI?: boolean;
   popOverContainer?: any;
+  itemRender: (value: any) => JSX.Element | string;
 }
 
 export class TransferDropDown extends Transfer<TransferDropDownProps> {
@@ -22,6 +23,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
     const {
       classnames: cx,
       value,
+      itemRender,
       translate: __,
       disabled,
       clearable,
@@ -108,6 +110,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             disabled={disabled}
             clearable={clearable}
             ref={ref}
+            itemRender={itemRender}
             useMobileUI={useMobileUI}
           >
             {!mobileUI ? (

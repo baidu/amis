@@ -14,16 +14,18 @@ export default {
       debug: true,
       body: [
         {
-          name: "switch",
-          type: "switch",
-          option: "开关事件",
+          name: 'switch',
+          type: 'switch',
+          option: '开关事件',
           onEvent: {
             change: {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发change事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发change事件'
+                  }
                 }
               ]
             }

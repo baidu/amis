@@ -1,7 +1,7 @@
 import {SchemaNode} from '../types';
 import {RendererEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
@@ -18,7 +18,7 @@ export interface IDrawerAction extends ListenerAction {
  * @class DrawerAction
  * @implements {Action}
  */
-export class DrawerAction implements Action {
+export class DrawerAction implements RendererAction {
   async run(
     action: IDrawerAction,
     renderer: ListenerContext,
@@ -35,7 +35,7 @@ export class DrawerAction implements Action {
  * @class CloseDrawerAction
  * @implements {Action}
  */
-export class CloseDrawerAction implements Action {
+export class CloseDrawerAction implements RendererAction {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,

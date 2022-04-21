@@ -8,8 +8,8 @@ export default {
       debug: true,
       body: [
         {
-          name: "input-tree-clear",
-          type: "action",
+          name: 'input-tree-clear',
+          type: 'action',
           label: 'clear触发器',
           level: 'primary',
           className: 'mr-3',
@@ -26,8 +26,8 @@ export default {
           }
         },
         {
-          name: "input-tree-reset",
-          type: "action",
+          name: 'input-tree-reset',
+          type: 'action',
           label: 'reset触发器',
           level: 'primary',
           className: 'mr-3',
@@ -44,8 +44,8 @@ export default {
           }
         },
         {
-          name: "input-tree-expand",
-          type: "action",
+          name: 'input-tree-expand',
+          type: 'action',
           label: 'expand触发器（openLevel: 1）',
           level: 'primary',
           className: 'mr-3',
@@ -56,15 +56,17 @@ export default {
                   actionType: 'expand',
                   componentId: 'input-tree-action',
                   description: '点击展开',
-                  openLevel: 1
+                  args: {
+                    openLevel: 1
+                  }
                 }
               ]
             }
           }
         },
         {
-          name: "input-tree-collapse",
-          type: "action",
+          name: 'input-tree-collapse',
+          type: 'action',
           label: 'collapse触发器',
           level: 'primary',
           className: 'mr-3',
@@ -131,8 +133,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发change事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发change事件'
+                  }
                 }
               ]
             },
@@ -149,8 +153,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发edit事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发edit事件'
+                  }
                 }
               ]
             },
@@ -158,8 +164,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发delete事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发delete事件'
+                  }
                 }
               ]
             },
@@ -167,8 +175,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发loadFinished事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发loadFinished事件'
+                  }
                 }
               ]
             }

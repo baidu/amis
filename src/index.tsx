@@ -87,6 +87,7 @@ import './renderers/Form/ChartRadios';
 import './renderers/Form/InputRating';
 import './renderers/Form/Switch';
 import './renderers/Form/Radios';
+import './renderers/Form/JSONSchemaEditor';
 import './renderers/Form/ListSelect';
 import './renderers/Form/LocationPicker';
 import './renderers/Form/Select';
@@ -177,6 +178,8 @@ import './renderers/Code';
 import './renderers/WebComponent';
 import './renderers/GridNav';
 import './renderers/TooltipWrapper';
+import './renderers/Tag';
+import './renderers/Table-v2';
 
 import Scoped, {ScopedContext} from './Scoped';
 

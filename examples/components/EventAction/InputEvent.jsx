@@ -34,8 +34,10 @@ export default {
                     },
                     {
                       actionType: 'toast',
-                      msgType: 'info',
-                      msg: '派发clear事件'
+                      args: {
+                        msgType: 'info',
+                        msg: '派发clear事件'
+                      }
                     }
                   ]
                 }
@@ -71,8 +73,10 @@ export default {
                     },
                     {
                       actionType: 'toast',
-                      msgType: 'info',
-                      msg: '派发focus事件'
+                      args: {
+                        msgType: 'info',
+                        msg: '派发focus事件'
+                      }
                     }
                   ]
                 }
@@ -123,8 +127,10 @@ export default {
                     },
                     {
                       actionType: 'toast',
-                      msgType: 'info',
-                      msg: '派发clear事件'
+                      args: {
+                        msgType: 'info',
+                        msg: '派发clear事件'
+                      }
                     }
                   ]
                 }
@@ -160,8 +166,10 @@ export default {
                     },
                     {
                       actionType: 'toast',
-                      msgType: 'info',
-                      msg: '派发focus事件'
+                      args: {
+                        msgType: 'info',
+                        msg: '派发focus事件'
+                      }
                     }
                   ]
                 }
@@ -207,7 +215,7 @@ export default {
                       actionType: 'clear',
                       componentId: 'clear-input-number-receiver',
                       description: '点击清空指定输入框的内容'
-                    },
+                    }
                   ]
                 }
               }
@@ -223,8 +231,10 @@ export default {
                   actions: [
                     {
                       actionType: 'toast',
-                      msgType: 'info',
-                      msg: '派发blur事件'
+                      args: {
+                        msgType: 'info',
+                        msg: '派发blur事件'
+                      }
                     }
                   ]
                 },
@@ -232,8 +242,10 @@ export default {
                   actions: [
                     {
                       actionType: 'toast',
-                      msgType: 'info',
-                      msg: '派发focus事件'
+                      args: {
+                        msgType: 'info',
+                        msg: '派发focus事件'
+                      }
                     }
                   ]
                 },
@@ -241,8 +253,10 @@ export default {
                   actions: [
                     {
                       actionType: 'toast',
-                      msgType: 'info',
-                      msg: '派发change事件'
+                      args: {
+                        msgType: 'info',
+                        msg: '派发change事件'
+                      }
                     }
                   ]
                 }
@@ -287,8 +301,10 @@ export default {
                     },
                     {
                       actionType: 'toast',
-                      msgType: 'info',
-                      msg: '派发focus事件'
+                      args: {
+                        msgType: 'info',
+                        msg: '派发focus事件'
+                      }
                     }
                   ]
                 }
@@ -326,8 +342,10 @@ export default {
                     },
                     {
                       actionType: 'toast',
-                      msgType: 'info',
-                      msg: '派发focus事件'
+                      args: {
+                        msgType: 'info',
+                        msg: '派发focus事件'
+                      }
                     }
                   ]
                 }

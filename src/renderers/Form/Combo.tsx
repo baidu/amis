@@ -434,7 +434,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   getValueAsArray(props = this.props) {
-    const {flat, joinValues, delimiter} = props;
+    const {flat, joinValues, delimiter, type} = props;
     let value = props.value;
 
     if (joinValues && flat && typeof value === 'string') {
@@ -581,7 +581,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   handleChange(values: any, diff: any, {index}: any) {
-    const {flat, store, joinValues, delimiter, disabled, submitOnChange} =
+    const {flat, store, joinValues, delimiter, disabled, submitOnChange, type} =
       this.props;
 
     if (disabled) {
@@ -595,7 +595,23 @@ export default class ComboControl extends React.Component<ComboProps> {
       value = value.join(delimiter || ',');
     }
 
-    this.props.onChange(value, submitOnChange, true);
+    if (type === 'input-kv') {
+      let hasDuplicateKey = false;
+      const keys: {[key: string]: boolean} = {};
+      for (const item of value) {
+        if (keys[item.key]) {
+          hasDuplicateKey = true;
+        } else {
+          keys[item.key] = true;
+        }
+      }
+      // 有重复值就不触发修改，因为 KV 模式下无法支持重复值
+      if (!hasDuplicateKey) {
+        this.props.onChange(value, submitOnChange, true);
+      }
+    } else {
+      this.props.onChange(value, submitOnChange, true);
+    }
 
     store.forms.forEach(
       form =>
@@ -1246,7 +1262,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 closeOnClick: true
               },
               {
-                buttons: conditions.map(item => ({
+                buttons: conditions?.map(item => ({
                   label: item.label,
                   onClick: (e: any) => {
                     this.addItemWith(item);

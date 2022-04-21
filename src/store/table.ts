@@ -497,7 +497,7 @@ export const TableStore = iRendererStore
           prev.has.push(current);
         } else {
           groups.push({
-            label: current.groupName,
+            label: current.groupName || ' ', // 如果中间没有配置groupName，那么样式会错乱，这里加一个空白字符，当做一个占位表头
             colSpan: 1,
             rowSpan: 1,
             index: current.index,

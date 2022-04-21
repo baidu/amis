@@ -1,16 +1,18 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {filter} from '../utils/tpl';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
-  LoopStatus,
   registerAction
 } from './Action';
 
 export interface ICopyAction extends ListenerAction {
-  content: string;
-  copyFormat?: string;
+  args: {
+    content: string;
+    copyFormat?: string;
+    [propName: string]: any;
+  };
 }
 
 /**
@@ -20,15 +22,19 @@ export interface ICopyAction extends ListenerAction {
  * @class CopyAction
  * @implements {Action}
  */
-export class CopyAction implements Action {
+export class CopyAction implements RendererAction {
   async run(
     action: ICopyAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    if (action.content) {
-      renderer.props.env.copy?.(filter(action.content, action.args, '| raw'), {
-        format: action.copyFormat
+    if (!renderer.props.env?.copy) {
+      throw new Error('env.copy is required!');
+    }
+
+    if (action.args?.content) {
+      renderer.props.env.copy?.(action.args.content, {
+        format: action.args?.copyFormat ?? 'text/html'
       });
     }
   }

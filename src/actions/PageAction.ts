@@ -1,13 +1,16 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
 export interface IPageGoAction extends ListenerAction {
-  delta?: number;
+  args: {
+    delta?: number;
+    [propName: string]: any;
+  };
 }
 
 /**
@@ -17,7 +20,7 @@ export interface IPageGoAction extends ListenerAction {
  * @class PageGoBackAction
  * @implements {Action}
  */
-export class PageGoBackAction implements Action {
+export class PageGoBackAction implements RendererAction {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,
@@ -34,13 +37,13 @@ export class PageGoBackAction implements Action {
  * @class PageGoAction
  * @implements {Action}
  */
-export class PageGoAction implements Action {
+export class PageGoAction implements RendererAction {
   async run(
     action: IPageGoAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    window.history.go(action.delta || 0);
+    window.history.go(action.args?.delta || 0);
   }
 }
 
@@ -51,7 +54,7 @@ export class PageGoAction implements Action {
  * @class PageRefreshAction
  * @implements {Action}
  */
-export class PageRefreshAction implements Action {
+export class PageRefreshAction implements RendererAction {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,

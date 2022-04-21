@@ -1,19 +1,25 @@
 import {SchemaNode} from '../types';
 import {RendererEvent} from '../utils/renderer-event';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
 export interface IAlertAction extends ListenerAction {
-  msg: string;
+  args: {
+    msg: string;
+    [propName: string]: any;
+  };
 }
 
 export interface IConfirmAction extends ListenerAction {
-  title: string;
-  msg: string;
+  args: {
+    title: string;
+    msg: string;
+    [propName: string]: any;
+  };
 }
 
 export interface IDialogAction extends ListenerAction {
@@ -27,7 +33,7 @@ export interface IDialogAction extends ListenerAction {
  * @class DialogAction
  * @implements {Action}
  */
-export class DialogAction implements Action {
+export class DialogAction implements RendererAction {
   async run(
     action: IDialogAction,
     renderer: ListenerContext,
@@ -44,7 +50,7 @@ export class DialogAction implements Action {
  * @class CloseDialogAction
  * @implements {Action}
  */
-export class CloseDialogAction implements Action {
+export class CloseDialogAction implements RendererAction {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,
@@ -70,26 +76,26 @@ export class CloseDialogAction implements Action {
 /**
  * alert提示动作
  */
-export class AlertAction implements Action {
+export class AlertAction implements RendererAction {
   async run(
     action: IAlertAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    event.context.env.alert?.(action.msg);
+    event.context.env.alert?.(action.args?.msg);
   }
 }
 
 /**
  * confirm确认提示动作
  */
-export class ConfirmAction implements Action {
+export class ConfirmAction implements RendererAction {
   async run(
     action: IConfirmAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    event.context.env.confirm?.(action.msg, action.title);
+    event.context.env.confirm?.(action.args?.msg, action.args?.title);
   }
 }
 

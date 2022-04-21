@@ -1,8 +1,8 @@
 import React = require('react');
-import {render, screen, fireEvent} from '@testing-library/react';
+import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 
 test('Renderer:select menutpl', () => {
   const {container} = render(
@@ -177,6 +177,94 @@ test('Renderer:select table', () => {
   );
 
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:select table with labelField & valueField', async () => {
+  const onSubmit = jest.fn();
+  const {debug, container, findByText, getByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        submitText: 'Submit',
+        body: [
+          {
+            label: '表格形式',
+            type: 'select',
+            name: 'a',
+            selectMode: 'table',
+            multiple: true,
+            labelField: 'text',
+            valueField: 'val',
+            columns: [
+              {
+                name: 'text',
+                label: '英雄'
+              },
+              {
+                name: 'position',
+                label: '位置'
+              }
+            ],
+            options: [
+              {
+                text: '诸葛亮',
+                val: 'zhugeliang',
+                position: '中单'
+              },
+              {
+                text: '曹操',
+                val: 'caocao',
+                position: '上单'
+              },
+              {
+                text: '钟无艳',
+                val: 'zhongwuyan',
+                position: '上单'
+              },
+              {
+                text: '李白',
+                val: 'libai',
+                position: '打野'
+              },
+              {
+                text: '韩信',
+                val: 'hanxin',
+                position: '打野'
+              },
+              {
+                text: '云中君',
+                val: 'yunzhongjun',
+                position: '打野'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        onSubmit
+      },
+      makeEnv({})
+    )
+  );
+
+  fireEvent.click(await findByText('请选择'));
+
+  await waitFor(() => {
+    expect(
+      container.querySelector('.cxd-TransferDropDown-popover')
+    ).toBeInTheDocument();
+  });
+
+  fireEvent.click(await findByText('诸葛亮'));
+  await wait(500);
+  fireEvent.click(await findByText('李白'));
+  await wait(500);
+  expect(container).toMatchSnapshot();
+
+  fireEvent.click(await findByText('Submit'));
+  await wait(200);
+  expect(onSubmit).toBeCalled();
+  expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
 });
 
 test('Renderer:select tree', () => {

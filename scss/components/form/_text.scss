@@ -167,7 +167,7 @@
       var(--Form-input-onFocused-borderColor);
     left: px2rem(-1px);
     right: px2rem(-1px);
-    top: 100%;
+    top: calc(100% + #{px2rem(4px)});
     z-index: 10;
     max-height: px2rem(300px);
     overflow: auto;

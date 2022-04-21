@@ -1,4 +1,6 @@
-import {ListenerAction, ListenerContext} from '../actions/Action';
+import {ListenerAction, ListenerContext, runActions} from '../actions/Action';
+import {RendererProps} from '../factory';
+import {IScopedContext} from '../Scoped';
 
 // 事件监听器
 export interface EventListeners {
@@ -20,7 +22,7 @@ export interface OnEventProps {
 
 // 渲染器事件监听器
 export interface RendererEventListener {
-  renderer: ListenerContext;
+  renderer: React.Component<RendererProps>;
   type: string;
   weight: number;
   actions: ListenerAction[];
@@ -42,6 +44,8 @@ export interface RendererEventContext {
   data?: any;
   [propName: string]: any;
 }
+
+let rendererEventListeners: RendererEventListener[] = [];
 
 // 创建渲染器事件对象
 export function createRendererEvent<T extends RendererEventContext>(
@@ -71,5 +75,112 @@ export function createRendererEvent<T extends RendererEventContext>(
   };
   return rendererEvent;
 }
+
+// 绑定事件
+export const bindEvent = (renderer: any) => {
+  if (!renderer) {
+    return undefined;
+  }
+  const listeners: EventListeners = renderer.props.$schema.onEvent;
+  if (listeners) {
+    // 暂存
+    for (let key of Object.keys(listeners)) {
+      const listener = rendererEventListeners.some(
+        (item: RendererEventListener) =>
+          item.renderer === renderer && item.type === key
+      );
+      if (!listener) {
+        rendererEventListeners.push({
+          renderer,
+          type: key,
+          weight: listeners[key].weight || 0,
+          actions: listeners[key].actions
+        });
+      }
+    }
+
+    return () => {
+      rendererEventListeners = rendererEventListeners.filter(
+        (item: RendererEventListener) => item.renderer !== renderer
+      );
+    };
+  }
+
+  return undefined;
+};
+
+// 触发事件
+export async function dispatchEvent(
+  e: string | React.MouseEvent<any>,
+  renderer: React.Component<RendererProps>,
+  scoped: IScopedContext,
+  data: any,
+  broadcast?: RendererEvent<any>
+): Promise<RendererEvent<any> | void> {
+  let unbindEvent = null;
+  const eventName = typeof e === 'string' ? e : e.type;
+
+  renderer?.props?.env?.beforeDispatchEvent?.(
+    e,
+    renderer,
+    scoped,
+    data,
+    broadcast
+  );
+
+  if (!broadcast) {
+    const eventConfig = renderer?.props?.onEvent?.[eventName];
+
+    if (!eventConfig) {
+      // 没命中也没关系
+      return Promise.resolve();
+    }
+
+    unbindEvent = bindEvent(renderer);
+  }
+
+  // 没有可处理的监听
+  if (!rendererEventListeners.length) {
+    return Promise.resolve();
+  }
+  // 如果是广播动作，就直接复用
+  const rendererEvent =
+    broadcast ||
+    createRendererEvent(eventName, {
+      env: renderer?.props?.env,
+      nativeEvent: e,
+      data,
+      scoped
+    });
+
+  // 过滤&排序
+  const listeners = rendererEventListeners
+    .filter(
+      (item: RendererEventListener) =>
+        item.type === eventName &&
+        (broadcast ? true : item.renderer === renderer)
+    )
+    .sort(
+      (prev: RendererEventListener, next: RendererEventListener) =>
+        next.weight - prev.weight
+    );
+
+  for (let listener of listeners) {
+    await runActions(listener.actions, listener.renderer, rendererEvent);
+
+    // 停止后续监听器执行
+    if (rendererEvent.stoped) {
+      break;
+    }
+  }
+
+  unbindEvent?.();
+
+  return Promise.resolve(rendererEvent);
+}
+
+export const getRendererEventListeners = () => {
+  return rendererEventListeners;
+};
 
 export default {};

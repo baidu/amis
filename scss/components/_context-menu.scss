@@ -57,7 +57,7 @@
     position: absolute;
 
     margin: 0;
-    padding: 0;
+    padding: 4px 0;
 
     background: var(--menu-background);
     box-shadow: var(--menu-box-shadow);
@@ -95,7 +95,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    min-width: 100px;
+    min-width: var(--menu-min-width);
   }
 
   &-item {
@@ -162,7 +162,7 @@
     position: absolute;
     left: 100%; // calc(100% + 3px);
     top: -3px;
-    min-width: 100px;
+    min-width: var(--menu-sub-min-width);
 
     margin: 0;
     padding: 0;

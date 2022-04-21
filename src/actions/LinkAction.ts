@@ -1,27 +1,37 @@
+import {Action} from '../types';
 import {buildApi} from '../utils/api';
 import {isEmpty, isObject, qsstringify} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {filter} from '../utils/tpl';
+import omit from 'lodash/omit';
 import {
-  Action,
+  RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
 export interface ILinkAction extends ListenerAction {
-  link: string;
-  url?: never;
-  params?: {
-    [key: string]: string;
+  args: {
+    link: string;
+    url?: never;
+    blank?: boolean;
+    params?: {
+      [key: string]: string;
+    };
+    [propName: string]: any;
   };
 }
 
 export interface IUrlAction extends ListenerAction {
-  url: string;
-  link?: never;
-  params?: {
-    [key: string]: string;
+  args: {
+    url: string;
+    link?: never;
+    blank?: boolean;
+    params?: {
+      [key: string]: string;
+    };
+    [propName: string]: any;
   };
 }
 
@@ -32,9 +42,9 @@ export interface IUrlAction extends ListenerAction {
  * @class LinkAction
  * @implements {Action}
  */
-export class LinkAction implements Action {
+export class LinkAction implements RendererAction {
   async run(
-    action: ILinkAction | IUrlAction,
+    action: ListenerAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -45,16 +55,26 @@ export class LinkAction implements Action {
     // 通过buildApi兼容较复杂的url情况
     let urlObj = buildApi(
       {
-        url: (action.url || action.link) as string,
+        url: (action.args?.url || action.args?.link) as string,
         method: 'get'
       },
-      {...action.params, ...action.args},
+      {
+        ...(action.args?.params ?? {}),
+        ...omit(action.args ?? {}, ['params', 'blank', 'url', 'link'])
+      },
       {
         autoAppend: true
       }
     );
 
-    renderer.props.env.jumpTo(urlObj.url, action, action.args);
+    renderer.props.env.jumpTo(
+      urlObj.url,
+      {
+        actionType: action.actionType,
+        ...action.args
+      },
+      action.args
+    );
   }
 }
 

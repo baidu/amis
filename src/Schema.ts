@@ -117,6 +117,8 @@ import {UUIDControlSchema} from './renderers/Form/UUID';
 import {FormControlSchema} from './renderers/Form/Control';
 import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
 import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
+import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
+import {TableSchemaV2} from './renderers/Table-v2';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -168,6 +170,7 @@ export type SchemaType =
   | 'static-image' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'images'
   | 'static-images' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
+  | 'json-schema-editor'
   | 'json'
   | 'static-json' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'link'
@@ -198,6 +201,7 @@ export type SchemaType =
   | 'switch'
   | 'table'
   | 'static-table' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
+  | 'table-v2'
   | 'tabs'
   | 'html'
   | 'tpl'
@@ -330,6 +334,7 @@ export type SchemaType =
   | 'table-view'
   | 'portlet'
   | 'grid-nav'
+  | 'tag'
 
   // 原生 input 类型
   | 'native-date'
@@ -389,6 +394,7 @@ export type SchemaObject =
   | StatusSchema
   | SpinnerSchema
   | TableSchema
+  | TableSchemaV2
   | TabsSchema
   | TasksSchema
   | VBoxSchema
@@ -432,6 +438,7 @@ export type SchemaObject =
   | ImageControlSchema
   | InputGroupControlSchema
   | ListControlSchema
+  | JSONSchemaEditorControlSchema
   | LocationControlSchema
   | UUIDControlSchema
   | MatrixControlSchema
