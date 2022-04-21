@@ -310,7 +310,7 @@ register('de-DE', {
   'UserSelect.save': 'Konservierung',
   'UserSelect.resultSort': 'Ergebnissortierung auswählen',
   'UserSelect.selected': 'Ausgewählt',
-  'UserSelect.clear': 'leer'
+  'UserSelect.clear': 'leer',
   'SchemaType.string': 'String',
   'SchemaType.number': 'Number',
   'SchemaType.interger': 'Interger',
