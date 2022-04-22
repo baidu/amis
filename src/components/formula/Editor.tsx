@@ -129,7 +129,7 @@ export class FormulaEditor extends React.Component<
   static highlightValue(
     value: string,
     variables: Array<VariableItem>,
-    functions: Array<FuncGroup>
+    evalMode: boolean = true
   ) {
     if (!Array.isArray(variables) || !variables.length || !value) {
       return;
@@ -139,10 +139,12 @@ export class FormulaEditor extends React.Component<
       [propname: string]: string;
     } = {};
 
-    eachTree(
-      variables,
-      item => item.value && (varMap[item.value] = item.label)
-    );
+    eachTree(variables, item => {
+      if (item.value) {
+        const key = evalMode ? item.value : '${' + item.value + '}';
+        varMap[key] = item.label;
+      }
+    });
     const vars = Object.keys(varMap)
       .filter(item => item)
       .sort((a, b) => b.length - a.length);
@@ -159,7 +161,7 @@ export class FormulaEditor extends React.Component<
       let from = 0;
       let idx = -1;
       while (~(idx = content.indexOf(v, from))) {
-        html = content.replace(v, `<span class="c-field">${varMap[v]}</span>`);
+        html = html.replace(v, `<span class="c-field">${varMap[v]}</span>`);
         from = idx + v.length;
       }
     });
