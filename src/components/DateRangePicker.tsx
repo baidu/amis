@@ -19,7 +19,6 @@ import {isMobile, noop, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import CalendarMobile from './CalendarMobile';
 import Input from './Input';
-import {current} from './ModalManager';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;

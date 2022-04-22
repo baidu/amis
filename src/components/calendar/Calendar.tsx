@@ -40,8 +40,6 @@ const viewModes = Object.freeze({
 interface BaseDatePickerProps {
   className?: string;
   value?: any;
-  startDateValue?: any;
-  endDateValue?: any;
   defaultValue?: any;
   viewMode?: 'years' | 'months' | 'days' | 'time' | 'quarters';
   dateFormat?: boolean | string;
