@@ -58,11 +58,18 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
           required: true,
           validateOnChange: true
         },
-        {
-          placeholder: schema.valuePlaceholder ?? 'Value',
-          type: schema.valueType || 'input-text',
-          name: 'value'
-        }
+        schema.valueComponent
+          ? {
+              placeholder: schema.valuePlaceholder ?? 'Value',
+              component: schema.valueComponent,
+              asFormItem: true,
+              name: 'value'
+            }
+          : {
+              placeholder: schema.valuePlaceholder ?? 'Value',
+              type: schema.valueType || 'input-text',
+              name: 'value'
+            }
       ]
     };
   }

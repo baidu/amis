@@ -322,6 +322,7 @@ register('zh-CN', {
   'SchemaType.array': '数组',
   'SchemaType.boolean': '布尔',
   'SchemaType.null': 'Null',
+  'SchemaType.any': '任意',
   'JSONSchema.title': '名称',
   'JSONSchema.key': '字段名',
   'JSONSchema.description': '描述',

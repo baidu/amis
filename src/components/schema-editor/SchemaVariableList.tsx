@@ -32,6 +32,16 @@ export class SchemaVariableList extends React.Component<
     super(props);
   }
 
+  componentDidUpdate(prevProps: SchemaVariableListProps) {
+    const props = this.props;
+
+    if (props.schemas !== prevProps.schemas) {
+      this.setState({
+        variables: this.schemasToVaraibles(props)
+      });
+    }
+  }
+
   schemasToVaraibles(props: SchemaVariableListProps) {
     const schemas = Array.isArray(props.schemas)
       ? props.schemas.concat()
@@ -62,13 +72,11 @@ export class SchemaVariableList extends React.Component<
     return (
       <span className={cx(`FormulaEditor-VariableList-item`)}>
         <label>{option.label}</label>
-        {option?.type ? (
-          <TooltipWrapper tooltip={option.description} tooltipTheme="dark">
-            <span className={cx(`FormulaEditor-VariableList-item-tag`)}>
-              {__(`SchemaType.${option.type}`)}
-            </span>
-          </TooltipWrapper>
-        ) : null}
+        <TooltipWrapper tooltip={option.description} tooltipTheme="dark">
+          <span className={cx(`FormulaEditor-VariableList-item-tag`)}>
+            {__(`SchemaType.${option.type || 'any'}`)}
+          </span>
+        </TooltipWrapper>
       </span>
     );
   }

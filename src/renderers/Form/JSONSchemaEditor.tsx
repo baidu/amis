@@ -33,12 +33,12 @@ export interface JSONSchemaEditorControlSchema extends FormBaseControl {
   /**
    * 顶层是否允许修改类型
    */
-  rootTypeMutable: boolean;
+  rootTypeMutable?: boolean;
 
   /**
    * 顶层类型信息是否隐藏
    */
-  showRootInfo: boolean;
+  showRootInfo?: boolean;
 
   /**
    * 禁用类型，默认禁用了 null 类型

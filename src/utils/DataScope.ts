@@ -28,7 +28,7 @@ export class DataScope {
   readonly schemas: Array<JSONSchema> = [];
 
   constructor(schemas: JSONSchema | Array<JSONSchema>, id: string) {
-    this.schemas.push(...(Array.isArray(schemas) ? schemas : [schemas]));
+    this.setSchemas(Array.isArray(schemas) ? schemas : [schemas]);
     this.id = id;
   }
 
@@ -60,6 +60,21 @@ export class DataScope {
     }
   }
 
+  setSchemas(schemas: Array<JSONSchema>) {
+    this.schemas.splice(0, this.schemas.length);
+
+    for (let schema of schemas) {
+      if (schema.type !== 'object') {
+        throw new TypeError('data scope accept only object');
+      }
+      this.schemas.push({
+        $id: guid(),
+        ...schema
+      });
+    }
+    return this;
+  }
+
   addSchema(schema: JSONSchema) {
     schema = {
       $id: guid(),
@@ -88,6 +103,37 @@ export class DataScope {
     return false;
   }
 
+  getMergedSchema() {
+    const mergedSchema: any = {
+      type: 'object',
+      properties: {}
+    };
+
+    // todo 以后再来细化这一块，先粗略的写个大概
+    this.schemas.forEach(schema => {
+      const properties: any = schema.properties || {};
+      Object.keys(properties).forEach(key => {
+        const value = properties[key];
+        if (mergedSchema.properties[key]) {
+          if (Array.isArray(mergedSchema.properties[key].oneOf)) {
+            mergedSchema.properties[key].oneOf.push();
+          } else if (
+            mergedSchema.properties[key].type &&
+            mergedSchema.properties[key].type !== value.type
+          ) {
+            mergedSchema.properties[key] = {
+              oneOf: [mergedSchema.properties[key], value]
+            };
+          }
+        } else {
+          mergedSchema.properties[key] = value;
+        }
+      });
+    });
+
+    return mergedSchema;
+  }
+
   protected buildOptions(
     options: Array<any>,
     schema: JSONSchema,
@@ -99,6 +145,7 @@ export class DataScope {
       keys.forEach(key => {
         const child: any = schema.properties![key];
 
+        // todo 支持 oneOf, anyOf
         const option: any = {
           label: child.title || key,
           value: path + key,
@@ -118,11 +165,7 @@ export class DataScope {
 
   getDataPropsAsOptions() {
     const variables: Array<any> = [];
-
-    this.schemas.forEach(schema => {
-      this.buildOptions(variables, schema, '');
-    });
-
+    this.buildOptions(variables, this.getMergedSchema(), '');
     return variables;
   }
 
