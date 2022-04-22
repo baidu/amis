@@ -8,7 +8,7 @@ categories:
   - title: 日常维护
     label: chore
   - title: 文档
-    label: docs
+    label: doc
 
 autolabeler:
   - label: 'feat'
@@ -20,9 +20,9 @@ autolabeler:
   - label: 'chore'
     title:
       - '/chore/i'
-  - label: 'docs'
+  - label: 'doc'
     title:
-      - '/docs/i'
+      - '/doc/i'
 
 template: |
  
