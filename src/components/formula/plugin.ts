@@ -39,30 +39,37 @@ export class FormulaPlugin {
   }
 
   insertContent(value: any, type: 'variable' | 'func') {
+    const {evalMode} = this.getProps();
+
     const from = this.editor.getCursor();
     if (type === 'variable') {
-      this.editor.replaceSelection(value.key);
+      const key = evalMode ? value.key : '${' + value.key + '}';
+      this.editor.replaceSelection(key);
       var to = this.editor.getCursor();
 
       this.markText(from, to, value.name, 'cm-field');
     } else if (type === 'func') {
       // todo 支持 snippet，目前是不支持的
 
-      this.editor.replaceSelection(`${value}()`);
+      const key = evalMode ? `${value}()` : '${' + value + '()}';
+      this.editor.replaceSelection(key);
       var to = this.editor.getCursor();
-      this.markText(
-        from,
-        {
-          line: to.line,
-          ch: to.ch - 2
-        },
-        value,
-        'cm-func'
-      );
+
+      // todo 模板模式下 ${XXX()} 高亮处理
+      evalMode &&
+        this.markText(
+          from,
+          {
+            line: to.line,
+            ch: to.ch - 2
+          },
+          value,
+          'cm-func'
+        );
 
       this.editor.setCursor({
         line: to.line,
-        ch: to.ch - 1
+        ch: evalMode ? to.ch - 1 : to.ch - 2
       });
     } else if (typeof value === 'string') {
       this.editor.replaceSelection(value);
@@ -90,15 +97,17 @@ export class FormulaPlugin {
     if (!Array.isArray(variables) || !variables.length) {
       return;
     }
-
+    const {evalMode} = this.getProps();
     const varMap: {
       [propname: string]: string;
     } = {};
 
-    eachTree(
-      variables,
-      item => item.value && (varMap[item.value] = item.label)
-    );
+    eachTree(variables, item => {
+      if (item.value) {
+        const key = evalMode ? item.value : '${' + item.value + '}';
+        varMap[key] = item.label;
+      }
+    });
     const vars = Object.keys(varMap).sort((a, b) => b.length - a.length);
 
     const editor = this.editor;

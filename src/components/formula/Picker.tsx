@@ -1,6 +1,5 @@
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
-import isBoolean from 'lodash/isBoolean';
 import {FormulaEditor, FormulaEditorProps} from './Editor';
 import {autobind, noop} from '../../utils/helper';
 import {generateIcon} from '../../utils/icon';
@@ -108,6 +107,10 @@ export class FormulaPicker extends React.Component<
   FormulaPickerProps,
   FormulaPickerState
 > {
+  static defaultProps = {
+    evalMode: true
+  };
+
   state: FormulaPickerState = {
     isOpened: false,
     value: this.props.value,
@@ -177,6 +180,7 @@ export class FormulaPicker extends React.Component<
   @autobind
   handleClick() {
     this.setState({
+      editorValue: this.props.value,
       isOpened: true
     });
   }
@@ -203,7 +207,7 @@ export class FormulaPicker extends React.Component<
 
     try {
       const ast = parse(value, {
-        evalMode: isBoolean(this.props.evalMode) ? this.props.evalMode : true,
+        evalMode: this.props.evalMode,
         allowFilter: false
       });
 
@@ -212,7 +216,10 @@ export class FormulaPicker extends React.Component<
       return true;
     } catch (e) {
       const [, position] = /\s(\d+:\d+)$/.exec(e.message) || [];
-      remind && toast.error(__('FormulaEditor.invalidData', {position}));
+      remind &&
+        toast.error(
+          __('FormulaEditor.invalidData', {position: position || '-'})
+        );
       return position;
     }
   }
@@ -298,7 +305,11 @@ export class FormulaPicker extends React.Component<
                 result={
                   allowInput
                     ? void 0
-                    : FormulaEditor.highlightValue(value, variables, functions)
+                    : FormulaEditor.highlightValue(
+                        value,
+                        variables,
+                        this.props.evalMode
+                      )
                 }
                 itemRender={this.renderFormulaValue}
                 onResultChange={noop}
