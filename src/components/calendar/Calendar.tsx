@@ -40,6 +40,8 @@ const viewModes = Object.freeze({
 interface BaseDatePickerProps {
   className?: string;
   value?: any;
+  startDateValue?: any;
+  endDateValue?: any;
   defaultValue?: any;
   viewMode?: 'years' | 'months' | 'days' | 'time' | 'quarters';
   dateFormat?: boolean | string;
@@ -55,7 +57,7 @@ interface BaseDatePickerProps {
   onViewModeChange?: (type: string) => void;
   requiredConfirm?: boolean;
   onClose?: () => void;
-  onChange?: (value: any) => void;
+  onChange?: (value: any, isEndDate?: boolean) => void;
   isEndDate?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
@@ -557,7 +559,7 @@ class BaseDatePicker extends React.Component<
       }
     }
 
-    that.props.onChange(date);
+    that.props.onChange(date, this.props.isEndDate);
   };
 
   getDateBoundary = (currentDate: moment.Moment) => {
@@ -648,11 +650,9 @@ class BaseDatePicker extends React.Component<
         'quarters',
         this.props.renderQuarter
       ];
-    }
-    else if (viewMode === 'years') {
+    } else if (viewMode === 'years') {
       viewProps.updateOn = 'years';
-    }
-    else if (viewMode === 'months') {
+    } else if (viewMode === 'months') {
       viewProps.updateOn = 'months';
     }
 
@@ -663,32 +663,37 @@ class BaseDatePicker extends React.Component<
     viewProps.timeRangeHeader = this.props.timeRangeHeader;
 
     return (
-      <div 
+      <div
         className={cx(
-          'rdt rdtStatic rdtOpen', 
-          this.props.className, 
-          (timeFormat && !dateFormat || typeof dateFormat !== 'string')
+          'rdt rdtStatic rdtOpen',
+          this.props.className,
+          (timeFormat && !dateFormat) || typeof dateFormat !== 'string'
             ? 'rdtTimeWithoutD'
-            : (timeFormat && timeFormat.toLowerCase().indexOf('s') > 0)
+            : timeFormat && timeFormat.toLowerCase().indexOf('s') > 0
             ? 'rdtTimeWithS'
             : timeFormat
             ? 'rdtTime'
             : ''
         )}
       >
-        <div key="dt" 
+        <div
+          key="dt"
           className={cx(
-            'rdtPicker', 
-            (timeFormat && !dateFormat)
+            'rdtPicker',
+            timeFormat && !dateFormat
               ? 'rdtPickerTimeWithoutD'
-              : (timeFormat && dateFormat)
+              : timeFormat && dateFormat
               ? 'rdtPickerTime'
-              : (dateFormat && !timeFormat)
+              : dateFormat && !timeFormat
               ? 'rdtPickerDate'
               : ''
           )}
         >
-          <Component view={this.state.currentView} viewProps={viewProps} timeRangeHeader={timeRangeHeader}/>
+          <Component
+            view={this.state.currentView}
+            viewProps={viewProps}
+            timeRangeHeader={timeRangeHeader}
+          />
         </div>
       </div>
     );

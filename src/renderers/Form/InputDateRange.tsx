@@ -82,6 +82,14 @@ export interface DateRangeControlSchema extends FormBaseControl {
    * 日期范围快捷键
    */
   ranges?: string | Array<ShortCuts>;
+  /**
+   * 日期范围开始时间-占位符
+   */
+  startPlaceholder?: string;
+  /**
+   * 日期范围结束时间-占位符
+   */
+  endPlaceholder?: string;
 }
 
 export interface DateRangeProps

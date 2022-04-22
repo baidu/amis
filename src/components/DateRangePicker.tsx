@@ -19,6 +19,7 @@ import {isMobile, noop, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import CalendarMobile from './CalendarMobile';
 import Input from './Input';
+import {current} from './ModalManager';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -219,6 +220,17 @@ export const availableRanges: {[propName: string]: any} = {
     }
   },
 
+  'prevyear': {
+    label: 'DateRange.lastYear',
+    startDate: (now: moment.Moment) => {
+      return now.startOf('year').add(-1, 'year');
+    },
+    endDate: (now: moment.Moment) => {
+      return now.endOf('year').add(-1, 'year').endOf('day');
+    }
+  },
+
+  // 兼容一下之前的用法
   'lastYear': {
     label: 'DateRange.lastYear',
     startDate: (now: moment.Moment) => {
@@ -485,7 +497,6 @@ export class DateRangePicker extends React.Component<
     this.calendarRef = React.createRef();
     this.open = this.open.bind(this);
     this.openStart = this.openStart.bind(this);
-    this.openEnd = this.openEnd.bind(this);
     this.close = this.close.bind(this);
     this.startInputChange = this.startInputChange.bind(this);
     this.endInputChange = this.endInputChange.bind(this);
@@ -622,16 +633,6 @@ export class DateRangePicker extends React.Component<
     });
   }
 
-  openEnd() {
-    if (this.props.disabled) {
-      return;
-    }
-    this.setState({
-      isOpened: true,
-      editState: 'end'
-    });
-  }
-
   close() {
     this.setState(
       {
@@ -706,12 +707,11 @@ export class DateRangePicker extends React.Component<
     return value;
   }
 
-  handleDateChange(newValue: moment.Moment) {
-    let {editState} = this.state;
-    if (editState === 'start') {
-      this.handleStartDateChange(newValue);
-    } else if (editState === 'end') {
+  handleDateChange(newValue: moment.Moment, isEndDate: boolean) {
+    if (isEndDate) {
       this.handeleEndDateChange(newValue);
+    } else {
+      this.handleStartDateChange(newValue);
     }
   }
 
@@ -735,7 +735,8 @@ export class DateRangePicker extends React.Component<
     if (
       type === 'input-date-range' ||
       type === 'input-year-range' ||
-      type === 'input-quarter-range'
+      type === 'input-quarter-range' ||
+      type === 'input-month-range'
     ) {
       newState.editState = 'end';
     }
@@ -1033,7 +1034,8 @@ export class DateRangePicker extends React.Component<
 
   // 重置
   reset() {
-    const {resetValue, onChange, format, joinValues, delimiter, inputFormat} = this.props;
+    const {resetValue, onChange, format, joinValues, delimiter, inputFormat} =
+      this.props;
     if (!resetValue) {
       return;
     }
@@ -1047,20 +1049,14 @@ export class DateRangePicker extends React.Component<
     this.setState({
       startInputValue: startDate?.format(inputFormat),
       endInputValue: endDate?.format(inputFormat)
-    })
+    });
   }
 
   checkStartIsValidDate(currentDate: moment.Moment) {
     let {endDate, startDate} = this.state;
     let {minDate, maxDate, minDuration, maxDuration, viewMode} = this.props;
     const precision = viewMode === 'time' ? 'hours' : viewMode || 'day';
-
-    maxDate =
-      maxDate && endDate
-        ? maxDate.isBefore(endDate)
-          ? maxDate
-          : endDate
-        : undefined;
+    maxDate = maxDate && maxDate.isBefore(endDate) ? maxDate : endDate;
 
     if (minDate && currentDate.isBefore(minDate, precision)) {
       return false;
@@ -1089,12 +1085,7 @@ export class DateRangePicker extends React.Component<
     let {minDate, maxDate, minDuration, maxDuration, viewMode} = this.props;
     const precision = viewMode === 'time' ? 'hours' : viewMode || 'day';
 
-    minDate =
-      minDate && startDate
-        ? minDate.isAfter(startDate)
-          ? minDate
-          : startDate
-        : undefined;
+    minDate = minDate && minDate.isAfter(startDate) ? minDate : startDate;
 
     if (minDate && currentDate.isBefore(minDate, precision)) {
       return false;
@@ -1362,7 +1353,7 @@ export class DateRangePicker extends React.Component<
             isActive: this.state.editState === 'end'
           })}
           onChange={this.endInputChange}
-          onClick={this.openEnd}
+          onClick={this.openStart}
           ref={this.endInputRef}
           placeholder={__(endPlaceholder)}
           autoComplete="off"
