@@ -44,14 +44,12 @@
   max-height: px2rem(300px);
   overflow: auto;
   user-select: none;
+  padding: var(--gap-xs) 0;
 
-  &-group:not(:first-child) > &-itemLabel {
-    border-top: px2rem(1px) solid var(--ListMenu-divider-color);
-  }
 
   &-group > &-itemLabel {
     padding: var(--gap-xs) var(--gap-base);
-    color: var(--text--muted-color);
+    color: var(--FileControl-icon-color);
   }
 
   &-item {
@@ -75,12 +73,15 @@
     user-select: none;
 
     &.is-active {
-      color: var(--Form-select-menu-onActive-color);
       background: var(--Form-select-menu-onActive-bg);
     }
 
     &:hover {
       background: var(--Tree-item-onHover-bg);
+      
+        i {
+          border: 1px solid var(--menu-active-color);
+        }
     }
 
     &.is-disabled {
@@ -148,7 +149,6 @@
 .#{$ns}TreeSelection {
   .#{$ns}Table-expandBtn {
     color: var(--icon-color);
-    margin-right: 5px;
   }
 
   &-sublist {
@@ -156,16 +156,6 @@
     margin: 0 0 0 px2rem(35px);
     display: none;
 
-    &:before {
-      width: 1px;
-      content: '';
-      display: block;
-      position: absolute;
-      top: calc(var(--gap-xs) * -1);
-      bottom: calc(var(--Form-input-height) / 2);
-      left: -19px;
-      border-left: dashed 1px var(--icon-color);
-    }
   }
 
   &-item {
@@ -227,6 +217,10 @@
     &.is-disabled {
       pointer-events: none;
       color: var(--text--muted-color);
+    }
+
+    .#{$ns}TreeSelection-itemLabel {
+      margin-left: var(--gap-xs);
     }
   }
 

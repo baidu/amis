@@ -27,10 +27,10 @@
 
     + span {
       pointer-events: all;
-      margin-left: var(--Checkbox-gap);
+      margin-left: var(--gap-sm);
       cursor: pointer;
       display: inline-block;
-      vertical-align: middle;
+      vertical-align: baseline;
 
       > a {
         // float: right;
@@ -84,7 +84,6 @@
         &:before {
           width: var(--Checkbox-inner-size);
           height: calc(var(--Checkbox-inner-size) / 2);
-          background: var(--Checkbox-onDisabled-bg);
         }
       }
 
@@ -113,6 +112,22 @@
         border-color: var(--Checkbox-onHover-color);
         background: var(--Checkbox-onHover-color);
 
+        &:hover {
+          background: var(--Button--primary-onHover-bg);
+
+          &:before {
+            background: var(--Button--primary-onHover-bg);
+          }
+        }
+
+        &:active {
+          background: var(--Switch-checked-onHover-bgColor);
+
+          &:before {
+            background: var(--Switch-checked-onHover-bgColor);
+          }
+        }
+
         &:before {
           width: var(--Checkbox--full-inner-size);
           height: calc(var(--Checkbox--full-inner-size) / 2);
@@ -122,7 +137,7 @@
 
       &[disabled] + i {
         border-color: var(--Checkbox-onDisabled-color);
-        background: var(--Checkbox-onDisabled-bg);
+        background: var(--FileControl-onDisabled-bg);
       }
 
       &[disabled]:checked + i {
@@ -133,7 +148,12 @@
 
       &:checked[disabled] + i {
         border-color: var(--Checkbox-onDisabled-color);
-        background: var(--Checkbox-onDisabled-bg);
+        background: var(--FileControl-onDisabled-bg);
+
+        &:before {
+          background: var(--FileControl-onDisabled-bg);
+          border-color: var(--Checkbox-inner-onDisabled-bg);
+        }
       }
     }
 
@@ -223,6 +243,15 @@
           border-color: var(--Checkbox-onHover-color) transparent transparent var(--Checkbox-onHover-color);
           border-radius: 0;
 
+          &:hover {
+            background: transparent;
+            border-color: var(--Button--primary-onHover-bg) transparent transparent var(--Button--primary-onHover-bg);
+          }
+          &:active {
+            background: transparent;
+            border-color: var(--Switch-checked-onHover-bgColor) transparent transparent var(--Switch-checked-onHover-bgColor);
+          }
+
           &:before {
             position: absolute;
             top: 0;
@@ -264,12 +293,23 @@
       }
     }
   }
-  &--button--checked.#{$ns}Checkbox--checkbox {
+  &--button--checked.#{$ns}Checkbox--checkbox.#{$ns}Checkbox--button {
     border-color: var(--Checkbox-onHover-color);
     color: var(--Checkbox-onHover-color);
+
+      &:hover {
+        border-color: var(--menu-active-color);
+        color: var(--menu-active-color);
+      }
+      &:active {
+        border-color: var(--Switch-checked-onHover-bgColor);
+        color: var(--Switch-checked-onHover-bgColor);
+      }
   }
-  &--button--disabled--unchecked.#{$ns}Checkbox--checkbox {
-    background: var(--Checkbox-disabled-unchecked-bg);
+  &--button--disabled--unchecked.#{$ns}Checkbox--checkbox.#{$ns}Checkbox--full {
+    i {
+      background: var(--FileControl-onDisabled-bg);
+    }
   }
   &--radio {
     padding-left: var(--Radio-size);
@@ -316,6 +356,19 @@
       margin-left: calc(var(--Radio-size) * -1);
       margin-top: px2rem(-2px);
       border-radius: 50%;
+    }
+
+    &.#{$ns}Checkbox--button--disabled--unchecked.#{$ns}Checkbox--full{
+      background: none;
+
+      i {
+        background: var(--FileControl-onDisabled-bg);
+        border: 1px solid var(--menu-border-color);
+
+        &:before {
+          background: var(--Checkbox-inner-onDisabled-bg);
+        }
+      }
     }
   }
 
@@ -381,6 +434,17 @@
   
   .#{$ns}Checkbox--button {
     margin-bottom: 0;
+
+    &--disabled--unchecked {
+      background: var(--FileControl-onDisabled-bg);
+    }
+
+    &-checked {
+      &:active {
+        border-color: var(--Switch-checked-onHover-bgColor);
+        border-color: red;
+      }
+    }
   }
 
   &.is-inline .#{$ns}Checkbox {
