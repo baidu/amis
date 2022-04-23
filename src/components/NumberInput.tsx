@@ -37,6 +37,7 @@ export interface NumberProps extends ThemeProps {
    * 指定从 formatter 里转换回数字的方式，和 formatter 搭配使用
    */
   parser?: Function;
+  inputRef?: Function;
   /**
    * 获取焦点事件
    */
@@ -49,7 +50,6 @@ export interface NumberProps extends ThemeProps {
    * 指定输入框是基础输入框，增强输入框
    */
   displayMode?: 'base' | 'enhance';
-  autoFocus?: Boolean;
   keyboard?: Boolean;
 }
 
@@ -144,7 +144,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
       borderMode,
       readOnly,
       displayMode,
-      autoFocus,
+      inputRef,
       keyboard
     } = this.props;
 
@@ -158,6 +158,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
         displayMode === 'enhance' ? 'Number--enhance-input' : '', {
         [`Number--border${ucFirst(borderMode)}`]: borderMode
       })}
+      ref={inputRef}
       readOnly={readOnly}
       prefixCls={`${ns}Number`}
       value={value}
@@ -171,7 +172,6 @@ export class NumberInput extends React.Component<NumberProps, any> {
       placeholder={placeholder}
       onFocus={this.handleFocus}
       onBlur={this.handleBlur}
-      autoFocus={autoFocus}
       keyboard={keyboard}
       {...precisionProps}
     />

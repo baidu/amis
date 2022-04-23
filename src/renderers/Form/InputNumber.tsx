@@ -65,10 +65,6 @@ export interface NumberControlSchema extends FormBaseControl {
    */
   readOnly?: boolean;
   /**
-   * 是否自动聚焦，出现在表单下
-   */
-  autoFocus?: boolean;
-  /**
    * 是否启用键盘行为
    */
   keyboard?: boolean;
@@ -105,10 +101,6 @@ export interface NumberProps extends FormControlProps {
    */
   readOnly?: boolean;
   /**
-   * 自动聚焦
-   */
-  autoFocus?: boolean;
-  /**
    * 启用键盘行为，即通过上下方向键控制是否生效
    */
   keyboard?: boolean;
@@ -131,6 +123,7 @@ export default class NumberControl extends React.Component<
   NumberProps,
   NumberState
 > {
+  input?: HTMLInputElement;
   static defaultProps: Partial<NumberProps> = {
     step: 1,
     resetValue: ''
@@ -249,7 +242,16 @@ export default class NumberControl extends React.Component<
       this.setState({unitOptions: normalizeOptions(this.props.unitOptions)});
     }
   }
-
+  @autobind
+  inputRef(ref: any) {
+    this.input = ref;
+  }
+  focus() {
+    if (!this.input) {
+      return;
+    }
+    this.input.focus();
+  }
   render(): JSX.Element {
     const {
       className,
@@ -268,7 +270,6 @@ export default class NumberControl extends React.Component<
       kilobitSeparator,
       unitOptions,
       readOnly,
-      autoFocus,
       keyboard,
       displayMode
     } = this.props;
@@ -315,6 +316,7 @@ export default class NumberControl extends React.Component<
         )}
       >
         <NumberInput
+          inputRef={this.inputRef}
           value={finalValue}
           step={step}
           max={this.filterNum(max)}
@@ -330,7 +332,6 @@ export default class NumberControl extends React.Component<
           readOnly={readOnly}
           onFocus={this.dispatchEvent}
           onBlur={this.dispatchEvent}
-          autoFocus={autoFocus}
           keyboard={keyboard}
           displayMode={displayMode}
         />
