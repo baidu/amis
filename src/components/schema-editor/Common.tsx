@@ -3,8 +3,11 @@ import {LocaleProps} from '../../locale';
 import {ThemeProps} from '../../theme';
 import type {JSONSchema} from '../../utils/DataScope';
 import {autobind} from '../../utils/helper';
+import Button from '../Button';
 import Checkbox from '../Checkbox';
+import {Icon} from '../icons';
 import InputBox from '../InputBox';
+import PickerContainer from '../PickerContainer';
 import Select from '../Select';
 
 export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
@@ -29,6 +32,10 @@ export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
     value: JSONSchema,
     onChange: (value: JSONSchema) => void
   ) => JSX.Element;
+  renderModalProps?: (
+    value: JSONSchema,
+    onChange: (value: JSONSchema) => void
+  ) => JSX.Element;
   prefix?: JSX.Element;
   affix?: JSX.Element;
 }
@@ -41,7 +48,8 @@ export class SchemaEditorItemCommon<
   handleTypeChange(type: any) {
     const {value, onChange, onTypeChange} = this.props;
     let newValue: any = {
-      type
+      type,
+      title: value?.title
     };
 
     newValue = onTypeChange?.(type, newValue, value) ?? newValue;
@@ -49,24 +57,13 @@ export class SchemaEditorItemCommon<
   }
 
   @autobind
-  handleDescriptionChange(description: string) {
-    const {value, onChange} = this.props;
+  handlePropsChange(newValue: JSONSchema) {
+    const {onChange, value} = this.props;
     onChange?.({
       ...value,
-      description
-    });
-  }
-
-  @autobind
-  handleExtraPropsChange(newValue: JSONSchema) {
-    const {onChange} = this.props;
-    onChange?.({
       ...newValue
     });
   }
-
-  // @autobind
-  // handleSettingClick() {}
 
   renderCommon() {
     const {
@@ -78,6 +75,7 @@ export class SchemaEditorItemCommon<
       required,
       onRequiredChange,
       renderExtraProps,
+      renderModalProps,
       prefix,
       affix,
       types
@@ -107,24 +105,23 @@ export class SchemaEditorItemCommon<
           />
         ) : null}
 
-        <InputBox
-          className={cx('SchemaEditor-description')}
-          value={value?.description || ''}
-          onChange={this.handleDescriptionChange}
-          placeholder={__('JSONSchema.description')}
-          disabled={disabled}
-        />
+        {renderExtraProps?.(value!, this.handlePropsChange)}
 
-        {renderExtraProps?.(value!, this.handleExtraPropsChange)}
-
-        {/* todo 后面扩充详细配置
-         <Button
-          className={cx('SchemaEditor-btn')}
-          onClick={this.handleSettingClick}
-          iconOnly
-        >
-          <Icon icon="setting" className="icon" />
-        </Button> */}
+        {renderModalProps ? (
+          <PickerContainer
+            value={value}
+            bodyRender={renderModalProps as any}
+            onConfirm={this.handlePropsChange}
+            size="md"
+            title={__('SubForm.editDetail')}
+          >
+            {({onClick}) => (
+              <Button className={cx('SchemaEditor-btn')} onClick={onClick}>
+                <Icon icon="setting" className="icon" />
+              </Button>
+            )}
+          </PickerContainer>
+        ) : null}
 
         {affix}
       </>

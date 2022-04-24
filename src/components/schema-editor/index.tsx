@@ -20,6 +20,10 @@ export interface SchemaEditorProps extends LocaleProps, ThemeProps {
     value: JSONSchema,
     onChange: (value: JSONSchema) => void
   ) => JSX.Element;
+  renderModalProps?: (
+    value: JSONSchema,
+    onChange: (value: JSONSchema) => void
+  ) => JSX.Element;
 
   disabledTypes?: Array<string>;
 
@@ -86,16 +90,6 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
       },
 
       {
-        label: __('SchemaType.object'),
-        value: 'object'
-      },
-
-      {
-        label: __('SchemaType.array'),
-        value: 'array'
-      },
-
-      {
         label: __('SchemaType.boolean'),
         value: 'boolean'
       },
@@ -103,6 +97,16 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
       {
         label: __('SchemaType.null'),
         value: 'null'
+      },
+
+      {
+        label: __('SchemaType.object'),
+        value: 'object'
+      },
+
+      {
+        label: __('SchemaType.array'),
+        value: 'array'
       }
     ];
   }
@@ -134,6 +138,7 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
       classnames: cx,
       onChange,
       renderExtraProps,
+      renderModalProps,
       translate,
       locale,
       classPrefix,
@@ -190,6 +195,7 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
           value={value}
           onChange={onChange}
           renderExtraProps={renderExtraProps}
+          renderModalProps={renderModalProps}
           locale={locale}
           translate={translate}
           classnames={cx}

@@ -31,6 +31,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
       classnames: cx,
       value,
       renderExtraProps,
+      renderModalProps,
       locale,
       translate: __,
       classPrefix,
@@ -60,6 +61,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
           value={items as any}
           onChange={this.handleItemsChange}
           renderExtraProps={renderExtraProps}
+          renderModalProps={renderModalProps}
           locale={locale}
           translate={__}
           classnames={cx}
