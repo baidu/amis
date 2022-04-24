@@ -406,8 +406,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             creatable={creatable}
             searchable={searchable || !!autoComplete}
             onChange={this.changeValue}
-            onBlur={(e: any) => this.dispatchEvent('blur', e)}
-            onFocus={(e: any) => this.dispatchEvent('focus', e)}
+            onBlur={(e: any) => this.dispatchEvent('blur', {value: e.value})}
+            onFocus={(e: any) => this.dispatchEvent('focus', {value: e.value})}
             onAdd={() => this.dispatchEvent('add')}
             onEdit={(item: any) => this.dispatchEvent('edit', {value: item})}
             onDelete={(item: any) =>
