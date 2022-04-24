@@ -14,6 +14,7 @@ export interface SchemaVariableListPickerProps extends SchemaVariableListProps {
     isOpened: boolean;
   }) => JSX.Element;
   value?: any;
+  title?: string;
   onConfirm?: (value?: any) => void;
   onCancel?: () => void;
 }
@@ -26,12 +27,13 @@ export class SchemaVariableListPicker extends React.Component<SchemaVariableList
       value,
       onConfirm,
       onCancel,
-      children
+      children,
+      title
     } = this.props;
 
     return (
       <PickerContainer
-        title={__('Select.placeholder')}
+        title={title ?? __('Select.placeholder')}
         bodyRender={({
           onClose,
           value,
