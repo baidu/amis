@@ -105,7 +105,7 @@ export default class TagControl extends React.PureComponent<
   }
 
   @autobind
-  getValue(type: 'push' | 'pop' = 'pop', option: any = {}) {
+  getValue(type: 'push' | 'pop' | 'normal' = 'normal', option: any = {}) {
     const {
       selectedOptions,
       joinValues,
@@ -117,7 +117,7 @@ export default class TagControl extends React.PureComponent<
     const newValue = selectedOptions.concat();
     if (type === 'push') {
       newValue.push(option);
-    } else {
+    } else if (type === 'pop') {
       newValue.pop();
     }
 
@@ -157,7 +157,10 @@ export default class TagControl extends React.PureComponent<
       isOpened: true
     });
 
-    const isPrevented = await this.dispatchEvent('focus', e);
+    const newValueRes = this.getValue('normal');
+    const isPrevented = await this.dispatchEvent('focus', {
+      value: newValueRes
+    });
     isPrevented || this.props.onFocus?.(e);
   }
 
@@ -173,8 +176,11 @@ export default class TagControl extends React.PureComponent<
     } = this.props;
 
     const value = this.state.inputValue.trim();
+    const newValueRes = this.getValue('normal');
 
-    const isPrevented = await this.dispatchEvent('blur', e);
+    const isPrevented = await this.dispatchEvent('blur', {
+      value: newValueRes
+    });
     isPrevented || this.props.onBlur?.(e);
     this.setState(
       {
