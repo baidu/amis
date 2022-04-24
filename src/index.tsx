@@ -179,7 +179,7 @@ import './renderers/WebComponent';
 import './renderers/GridNav';
 import './renderers/TooltipWrapper';
 import './renderers/Tag';
-import './renderers/Table-v2';
+import './renderers/Table-v2/index';
 
 import Scoped, {ScopedContext} from './Scoped';
 
