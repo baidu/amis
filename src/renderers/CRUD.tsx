@@ -1731,7 +1731,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     return (
       <div className={cx('Crud-pageSwitch')}>
-        {__('CRUD.perPage')}
+        <span>{__('CRUD.perPage')}</span>
         <Select
           classPrefix={ns}
           searchable={false}
