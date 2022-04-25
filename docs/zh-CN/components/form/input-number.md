@@ -66,6 +66,23 @@ order: 32
 }
 ```
 
+## 加强版输入框
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-number",
+            "name": "number",
+            "label": "数字",
+            "displayMode": "enhance"
+        }
+    ]
+}
+```
+
 ## 原生数字组件
 
 原生数字组件将直接使用浏览器的实现，最终展现效果和浏览器有关，而且只支持 `min`、`max`、`step` 这几个属性设置。
@@ -98,6 +115,8 @@ order: 32
 | prefix           | `string`                                |        | 前缀                 |
 | suffix           | `string`                                |        | 后缀                 |
 | kilobitSeparator | `boolean`                               |        | 千分分隔             |
+| keyboard         | `boolean`                               |        | 键盘事件（方向上下） |
+| displayMode      | `string`                                |        | 样式类型             |
 
 ## 事件表
 
