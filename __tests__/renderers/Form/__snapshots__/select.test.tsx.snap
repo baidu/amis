@@ -1105,12 +1105,16 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                             </label>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               诸葛亮
                             </span>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               中单
                             </span>
@@ -1134,12 +1138,16 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                             </label>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               曹操
                             </span>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               上单
                             </span>
@@ -1163,12 +1171,16 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                             </label>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               钟无艳
                             </span>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               上单
                             </span>
@@ -1192,12 +1204,16 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                             </label>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               李白
                             </span>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               打野
                             </span>
@@ -1221,12 +1237,16 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                             </label>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               韩信
                             </span>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               打野
                             </span>
@@ -1250,12 +1270,16 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                             </label>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               云中君
                             </span>
                           </td>
-                          <td>
+                          <td
+                            class=""
+                          >
                             <span>
                               打野
                             </span>

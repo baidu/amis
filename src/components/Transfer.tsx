@@ -93,7 +93,6 @@ export interface TransferProps
   ) => JSX.Element;
   resultSearchable?: boolean;
   onResultSearch?: (text: string, item: Option) => boolean;
-  resultSearchPlaceholder?: string;
   sortable?: boolean;
   onRef?: (ref: Transfer) => void;
   onSelectAll?: (options: Options) => void;
