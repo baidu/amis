@@ -231,7 +231,7 @@
     background: var(--Table-bg);
     border-spacing: 0;
     border-collapse: collapse;
-    border: var(--Table-borderWidth) solid var(--Table-borderColor);
+    border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
 
     & th,
     & td {
