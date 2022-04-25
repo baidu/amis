@@ -117,7 +117,6 @@ order: 32
 | kilobitSeparator | `boolean`                               |        | 千分分隔             |
 | keyboard         | `boolean`                               |        | 键盘事件（方向上下） |
 | displayMode      | `string`                                |        | 样式类型             |
-| autoFocus        | `boolean`                               |        | 自动聚焦             |
 
 ## 事件表
 
