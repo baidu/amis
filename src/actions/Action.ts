@@ -69,7 +69,6 @@ export const runActions = async (
 
   for (const actionConfig of actions) {
     let actionInstrance = getActionByType(actionConfig.actionType);
-
     // 如果存在指定组件ID，说明是组件专有动作
     if (!actionInstrance && actionConfig.componentId) {
       actionInstrance = getActionByType('component');
@@ -86,7 +85,6 @@ export const runActions = async (
     if (!actionInstrance) {
       actionInstrance = getActionByType('component');
     }
-
     // 这些节点的子节点运行逻辑由节点内部实现
     await runAction(actionInstrance, actionConfig, renderer, event);
 
