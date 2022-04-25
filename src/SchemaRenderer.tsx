@@ -302,7 +302,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       const isSFC = !(schema.component.prototype instanceof React.Component);
       const {
         data: defaultData,
-        value: defaultValue,
+        value: defaultValue, // render时的value改放defaultValue中
         activeKey: defaultActiveKey,
         key: propKey,
         ...restSchema
@@ -313,6 +313,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             ...rest,
             ...restSchema,
             ...exprProps,
+            // value: defaultValue, // 备注: 此处并没有将value传递给渲染器
             defaultData,
             defaultValue,
             defaultActiveKey,
@@ -388,6 +389,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       ...restSchema,
       ...chainEvents(rest, restSchema),
       ...exprProps,
+      // value: defaultValue, // 备注: 此处并没有将value传递给渲染器
       defaultData: restSchema.defaultData ?? defaultData,
       defaultValue: restSchema.defaultValue ?? defaultValue,
       defaultActiveKey: defaultActiveKey,

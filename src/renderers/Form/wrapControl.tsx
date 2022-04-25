@@ -149,7 +149,7 @@ export function wrapControl<
               return;
             }
 
-            let propValue = this.props.value;
+            let propValue = this.props.value || this.props.defaultValue;
             const model = rootStore.addStore({
               id: guid(),
               path: this.props.$path,
@@ -258,6 +258,7 @@ export function wrapControl<
                   'validations',
                   'validationErrors',
                   'value',
+                  'defaultValue',
                   'required',
                   'unique',
                   'multiple',
@@ -301,13 +302,14 @@ export function wrapControl<
               });
             }
 
-            if (model && typeof props.value !== 'undefined') {
+            // 此处需要使用 defaultValue 才能获取到渲染器中的value数值
+            if (model && typeof props.defaultValue !== 'undefined') {
               // 自己控制的 value 优先
               if (
-                props.value !== prevProps.value &&
-                props.value !== model.tmpValue
+                props.defaultValue !== prevProps.defaultValue &&
+                props.defaultValue !== model.tmpValue
               ) {
-                model.changeTmpValue(props.value);
+                model.changeTmpValue(props.defaultValue);
               }
             } else if (
               // 然后才是查看关联的 name 属性值是否变化
