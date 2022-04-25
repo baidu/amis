@@ -129,7 +129,7 @@ export interface TransferControlSchema extends FormOptionsControl {
   /**
    * 右侧列表搜索框提示
    */
-  resultPlaceholder?: string;
+  resultSearchPlaceholder?: string;
 
   /**
    * 结果搜索函数
@@ -405,7 +405,7 @@ export class BaseTransferRenderer<
       resultSearchFilter,
       searchPlaceholder,
       isFollowMode = false,
-      resultPlaceholder,
+      resultSearchPlaceholder,
       resultSearchable = false
     } = this.props;
 
@@ -465,7 +465,7 @@ export class BaseTransferRenderer<
           onResultSearch={resultSearchFunc}
           searchPlaceholder={searchPlaceholder}
           resultSearchable={resultSearchable}
-          resultPlaceholder={resultPlaceholder}
+          resultSearchPlaceholder={resultSearchPlaceholder}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
           onSelectAll={this.onSelectAll}

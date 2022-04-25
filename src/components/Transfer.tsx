@@ -93,7 +93,7 @@ export interface TransferProps
   ) => JSX.Element;
   resultSearchable?: boolean;
   onResultSearch?: (text: string, item: Option) => boolean;
-  resultPlaceholder?: string;
+  resultSearchPlaceholder?: string;
   sortable?: boolean;
   onRef?: (ref: Transfer) => void;
   onSelectAll?: (options: Options) => void;
@@ -623,7 +623,7 @@ export class Transfer<
       isFollowMode,
       resultSearchable,
       onResultSearch,
-      resultPlaceholder,
+      resultSearchPlaceholder,
       selectMode = 'list',
       translate: __
     } = this.props;
@@ -690,7 +690,7 @@ export class Transfer<
             cellRender={cellRender}
             multiple={multiple}
             resultSearchable={!this.state.isTreeDeferLoad && resultSearchable}
-            resultPlaceholder={resultPlaceholder}
+            resultSearchPlaceholder={resultSearchPlaceholder}
             onResultSearch={onResultSearch}
             selectMode={selectMode}
           />

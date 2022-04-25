@@ -397,7 +397,7 @@ icon:
 }
 ```
 
-`leftOptions` 动态加载，默认 source 接口是返回 options 部分，而 `leftOptions` 是没有对应的接口可以动态返回了。为了方便，目前如果 source 接口返回的选中中，第一个 option 是以下这种格式则也会把 options[0].leftOptions 当成 `leftOptions`, options[0].children 当 options。同时 options[0].leftDefaultValue 可以用来配置左侧选项的默认值。
+`leftOptions` 动态加载，默认 `source` 接口是返回 options 部分，而 `leftOptions` 是没有对应的接口可以动态返回了。为了方便，目前如果 `source` 接口返回的选中中，第一个 option 是以下这种格式则也会把 options[0].leftOptions 当成 `leftOptions`, options[0].children 当 options。同时 options[0].leftDefaultValue 可以用来配置左侧选项的默认值。
 
 ```
 {
@@ -468,9 +468,9 @@ icon:
 
 ### 支持搜索
 #### 左侧搜索功能
-通过searchable字段来控制左侧选项栏的搜索功能。
+通过 `searchable` 字段来控制左侧选项栏的搜索功能。
 
-在不设置searchApi情况下，对输入框内容和对应列表项的value、label进行匹配，匹配成功就会左侧面板中显示。 
+在不设置 `searchApi` 情况下，对输入框内容和对应列表项的value、label进行匹配，匹配成功就会左侧面板中显示。 
 
 ```schema: scope="body"
 {
@@ -532,11 +532,11 @@ icon:
 
 #### 右侧结果搜索功能
 
-右侧结果搜索是通过resultSearchable字段开启，设置该字段为true时开启。
+右侧结果搜索是通过`resultSearchable`字段开启，设置该字段为true时开启。
 
 开启结果搜索后，目前默认通过value、label对输入内容进行模糊匹配。
 
-如需要自定义搜索方式，可以通过设置resultSearchFilter字段来实现。
+如需要自定义搜索方式，可以通过设置`resultSearchFilter`字段来实现。
 
 目前树的延时加载不支持结果搜索功能。
 
@@ -642,7 +642,7 @@ icon:
 
 ### 结果面板跟随模式 	
 
-isFollowMode开启结果面板跟随模式。
+`isFollowMode` 开启结果面板跟随模式。
 
 #### 表格跟随模式
 ```schema: scope="body"
@@ -840,7 +840,7 @@ isFollowMode开启结果面板跟随模式。
 | leftMode         | `string`                                              |              | 当展示形式为 `associated` 时用来配置左边的选择形式，支持 `list` 或者 `tree`。默认为 `list`。|
 | rightMode        | `string`                                              |              | 当展示形式为 `associated` 时用来配置右边的选择形式，可选：`list`、`table`、`tree`、`chained`。 |
 | resultSearchable       | `boolean`                                             | `false`      | 结果（右则）列表的检索功能，当设置为true时，可以通过输入检索模糊匹配检索内容（目前树的延时加载不支持结果搜索功能）  |
-| resultPlaceholder     | `string`                                 |       | 右侧列表搜索框提示 |
+| resultSearchPlaceholder     | `string`                                 |       | 右侧列表搜索框提示 |
 | resultSearchFilter       | `string`          | `false`      | 结果（右则）列表的检索功能的检索字符串，这个字符串是一个New Function内部执行的字符串，第一个参数是text（当前输入值），第二个参数是item（这是一个对象，对象对应option项的值），这个字符串需要返回boolean值。设置 "item.value.indexOf(text) > -1"意味着当前项值和输入值一致时，搜索结果显示该项  |
 | menuTpl          | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义选项展示 |
 | valueTpl         | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义值的展示  |

@@ -55,7 +55,7 @@ export interface ResultListProps
   ) => JSX.Element;
   isFollowMode?: boolean;
   resultSearchable?: boolean;
-  resultPlaceholder?: string;
+  resultSearchPlaceholder?: string;
   onResultSearch?: Function;
   selectMode: SelectMode;
 }
@@ -298,7 +298,7 @@ export class ResultList extends React.Component<
   lazySearch = debounce(
     () => {
       const {inputValue} = this.state;
-      // 防止由于防抖导致空值问题，导致后续由于
+      // 防止由于防抖导致空值问题
       if (!inputValue) {
         return;
       }
@@ -569,7 +569,7 @@ export class ResultList extends React.Component<
       title,
       resultSearchable,
       translate: __,
-      resultPlaceholder = __('Transfer.searchKeyword')
+      resultSearchPlaceholder = __('Transfer.searchKeyword')
     } = this.props;
 
     const {searchResult, inputValue} = this.state;
@@ -584,7 +584,7 @@ export class ResultList extends React.Component<
               onChange={this.handleSearch}
               clearable={false}
               onKeyDown={this.handleSearchKeyDown}
-              placeholder={resultPlaceholder}
+              placeholder={resultSearchPlaceholder}
             >
               {searchResult !== null ? (
                 <a onClick={this.handleSeachCancel}>
