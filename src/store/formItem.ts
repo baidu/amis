@@ -9,6 +9,7 @@ import {
   getEnv,
   Instance
 } from 'mobx-state-tree';
+import isEqualWith from 'lodash/isEqualWith';
 import {FormStore, IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
 import {Api, Payload, fetchOptions} from '../types';
@@ -819,7 +820,21 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       data: object,
       config?: fetchOptions
     ) {
-      const indexes = findTreeIndex(self.options, item => item === option);
+      const labelField = self.labelField || 'label';
+      const valueField = self.valueField || 'value';
+      const indexes = findTreeIndex(
+        self.options,
+        item =>
+          item === option ||
+          /** tree-select中会对option添加collapsed, visible属性，导致item === option不通过 */
+          isEqualWith(
+            item,
+            option,
+            (source, target) =>
+              source?.[labelField] === target?.[labelField] &&
+              source?.[valueField] === target?.[valueField]
+          )
+      );
       if (!indexes) {
         const leftOptions = self.options[0]?.leftOptions;
         return yield tryDeferLoadLeftOptions(
