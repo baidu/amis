@@ -302,9 +302,17 @@ export function wrapControl<
               });
             }
 
-            // 此处需要使用 defaultValue 才能获取到渲染器中的value数值
-            if (model && typeof props.defaultValue !== 'undefined') {
-              // 自己控制的 value 优先
+            // 此处需要同时考虑 defaultValue 和 value
+            if (model && typeof props.value !== 'undefined') {
+              // 渲染器中的 value 优先
+              if (
+                props.value !== prevProps.value &&
+                props.value !== model.tmpValue
+              ) {
+                model.changeTmpValue(props.value);
+              }
+            } else if (model && typeof props.defaultValue !== 'undefined') {
+              // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
               if (
                 props.defaultValue !== prevProps.defaultValue &&
                 props.defaultValue !== model.tmpValue
