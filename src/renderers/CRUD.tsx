@@ -1808,7 +1808,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             data
           })
         }
-        size="sm"
       >
         {toolbar.label || __('CRUD.exportCSV')}
       </Button>
