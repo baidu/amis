@@ -158,7 +158,8 @@ export class FormulaPicker extends React.Component<
   @autobind
   handleEditorChange(value: string) {
     this.setState({
-      editorValue: value
+      editorValue: value,
+      isError: false
     });
   }
 
@@ -166,7 +167,7 @@ export class FormulaPicker extends React.Component<
   handleEditorConfirm() {
     const {translate: __} = this.props;
     const value = this.state.editorValue;
-    const validate = this.validate(value, true);
+    const validate = this.validate(value);
 
     if (validate === true) {
       this.setState({value}, () => {
@@ -202,7 +203,7 @@ export class FormulaPicker extends React.Component<
   }
 
   @autobind
-  validate(value: string, remind?: boolean) {
+  validate(value: string) {
     const {translate: __} = this.props;
 
     try {
@@ -216,10 +217,6 @@ export class FormulaPicker extends React.Component<
       return true;
     } catch (e) {
       const [, position] = /\s(\d+:\d+)$/.exec(e.message) || [];
-      remind &&
-        toast.error(
-          __('FormulaEditor.invalidData', {position: position || '-'})
-        );
       return position;
     }
   }
@@ -333,7 +330,7 @@ export class FormulaPicker extends React.Component<
             </>
           )}
         </div>
-        {!!isError ? (
+        {!!isError && !this.state.isOpened ? (
           <ul className={cx('Form-feedback')}>
             <li>{__('FormulaEditor.invalidData', {position: isError})}</li>
           </ul>
@@ -357,6 +354,13 @@ export class FormulaPicker extends React.Component<
             />
           </Modal.Body>
           <Modal.Footer>
+            {!!isError ? (
+              <div className={cx('Dialog-info')} key="info">
+                <span className={cx('Dialog-error')}>
+                  {__('FormulaEditor.invalidData', {position: isError})}
+                </span>
+              </div>
+            ) : null}
             <Button onClick={this.close}>{__('cancel')}</Button>
             <Button onClick={this.handleEditorConfirm} level="primary">
               {__('confirm')}

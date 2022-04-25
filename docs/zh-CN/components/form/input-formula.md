@@ -21,7 +21,7 @@ order: 21
       "type": "input-formula",
       "name": "formula",
       "label": "公式",
-      "evalMode": false,
+      "evalMode": true,
       "value": "SUM(1 + 2)",
       "variables": [
         {
@@ -93,7 +93,7 @@ order: 21
       "label": "公式",
       "variableMode": "tree",
       "evalMode": false,
-      "value": "SUM(1 + 2)",
+      "value": "${SUM(1 + 2)}",
       "inputMode": "button",
       "variables": [
         {
@@ -164,7 +164,7 @@ order: 21
       "name": "formula",
       "label": "公式",
       "variableMode": "tree",
-      "evalMode": false,
+      "evalMode": true,
       "variables": [
         {
           "label": "表单字段",
@@ -302,7 +302,7 @@ Tab 结构：
       "name": "formula",
       "allowInput": false,
       "label": "公式",
-      "evalMode": false,
+      "evalMode": true,
       "value": "SUM(1 + 2)",
       "variables": [
         {
