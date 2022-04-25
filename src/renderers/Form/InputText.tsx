@@ -652,15 +652,14 @@ export default class TextControl extends React.PureComponent<
                 {selectedOptions.map((item, index) =>
                   multiple ? (
                     <div className={cx('TextControl-value')} key={index}>
-                      <span
-                        className={cx('TextControl-valueIcon')}
-                        onClick={this.removeItem.bind(this, index)}
-                      >
-                        ×
-                      </span>
                       <span className={cx('TextControl-valueLabel')}>
                         {`${item[labelField || 'label']}`}
                       </span>
+                      <Icon
+                        icon="close"
+                        className={cx('TextControl-valueIcon', 'icon')}
+                        onClick={this.removeItem.bind(this, index)}
+                      />
                     </div>
                   ) : (inputValue && isOpen) || creatable !== false ? null : (
                     <div className={cx('TextControl-value')} key={index}>
