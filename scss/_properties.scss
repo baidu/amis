@@ -886,8 +886,8 @@
   --InputRange-track-onActive-transition: transform var(--animation-duration)
     ease-out left;
   --InputRange-track-border-radius: #{px2rem(4px)};
-  --InputRange-track-dot-width: #{px2rem(4px)};
-  --InputRange-track-dot-height: #{px2rem(4px)};
+  --InputRange-track-dot-width: #{px2rem(6px)};
+  --InputRange-track-dot-height: #{px2rem(6px)};
   --InputRange-track-dot-bg: var(--white);
   --InputRange-track-transition: left var(--animation-duration) ease-out,
     width var(--animation-duration) ease-out;
