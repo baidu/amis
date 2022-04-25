@@ -655,4 +655,16 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --ResultBox-value-bg: #{$G10};
   --ResultBox-value-clear-bg: #{$G8};
   --ResultBox-value-clear-hover-bg: #{$G9};
+
+  // SearchBox
+  --SearchBox-hover-color: #{$B6};
+  --SearchBox-focus-color: #{$B7};
+  --SearchBox-enhonce-icon-color: #{$G11};
+  --SearchBox-clearable-icon-color: #{$G7};
+  --SearchBox-clearable-icon-size: #{px2rem(16px)};
+  --SearchBox-height: #{px2rem(30px)};
+  --SearchBox-disabled-color: #{$G10};
+  --SearchBox-enhonce-disabled-color: #{$G9};
+  --SearchBox-enhonce-disabled-search-color: #{$G6};
+  --SearchBox-enhonce-clearable-gap: #{$R4};
 }
