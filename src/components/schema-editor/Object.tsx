@@ -189,6 +189,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
       translate: __,
       classnames: cx,
       renderExtraProps,
+      renderModalProps,
       locale,
       classPrefix,
       disabled,
@@ -243,6 +244,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
               value={member.schema}
               onChange={this.handlePropChange.bind(this, index)}
               renderExtraProps={renderExtraProps}
+              renderModalProps={renderModalProps}
               locale={locale}
               translate={__}
               classnames={cx}

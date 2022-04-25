@@ -10,6 +10,8 @@ order: 61
 
 ## 基本用法
 
+> 1.9.0 及以上版本
+
 ```schema: scope="body"
 {
     "type": "form",
@@ -83,6 +85,40 @@ order: 61
             }
         }
     }
+}
+```
+
+## 开启高级配置
+
+通过 `enableAdvancedSetting` 可以开启高级配置，同时通过 `advancedSettings` 可以定制弹窗中的配置面板。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "type": "json-schema-editor",
+            "name": "schema",
+            "label": "字段类型",
+            "enableAdvancedSetting": true,
+            "advancedSettings": {
+                "string": [
+                    {
+                        "type": "input-text",
+                        "name": "maxLength",
+                        "label": "Max Length"
+                    }
+                ],
+                "number": [
+                    {
+                        "type": "input-number",
+                        "name": "max",
+                        "label": "Max"
+                    }
+                ]
+            }
+        }
+    ]
 }
 ```
 
