@@ -12,6 +12,8 @@ export interface SchemaVariableListProps extends LocaleProps, ThemeProps {
   schemas?: Array<JSONSchema> | JSONSchema;
   value?: string;
   onSelect?: (value: string, schema: JSONSchema) => void;
+  selectMode?: 'list' | 'tree' | 'tabs';
+  beforeBuildVariables?: (dataSchema: DataSchema) => void;
 }
 
 export interface SchemaVariableListState {
@@ -27,10 +29,6 @@ export class SchemaVariableList extends React.Component<
   };
 
   dataSchema?: DataSchema;
-
-  constructor(props: SchemaVariableListProps) {
-    super(props);
-  }
 
   componentDidUpdate(prevProps: SchemaVariableListProps) {
     const props = this.props;
@@ -48,12 +46,9 @@ export class SchemaVariableList extends React.Component<
       : props.schemas
       ? [props.schemas]
       : [];
-
-    if (!schemas.length) {
-      return [];
-    }
     const dataSchema = new DataSchema(schemas);
     this.dataSchema = dataSchema;
+    this.props.beforeBuildVariables?.(dataSchema);
     return dataSchema.getDataPropsAsOptions();
   }
 
@@ -82,12 +77,14 @@ export class SchemaVariableList extends React.Component<
   }
 
   render() {
+    const {selectMode} = this.props;
+
     return (
       <VariableList
         data={this.state.variables}
         value={this.props.value}
         onSelect={this.handleSelect}
-        selectMode="tree"
+        selectMode={selectMode || 'tree'}
         itemRender={this.itemRender}
       />
     );

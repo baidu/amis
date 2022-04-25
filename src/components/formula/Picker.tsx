@@ -1,6 +1,11 @@
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
-import {FormulaEditor, FormulaEditorProps} from './Editor';
+import {
+  FormulaEditor,
+  FormulaEditorProps,
+  FuncGroup,
+  VariableItem
+} from './Editor';
 import {autobind, noop} from '../../utils/helper';
 import {generateIcon} from '../../utils/icon';
 import Editor from './Editor';
@@ -94,6 +99,11 @@ export interface FormulaPickerProps extends FormulaEditorProps {
    * 外层透传的 data，和source配合使用
    */
   data?: any;
+
+  /**
+   * 公式弹出的时候，可以外部设置 variables 和 functions
+   */
+  onPickerOpen?: (props: FormulaPickerProps) => any;
 }
 
 export interface FormulaPickerState {
@@ -101,6 +111,9 @@ export interface FormulaPickerState {
   value: string;
   editorValue: string;
   isError: boolean | string;
+
+  variables?: Array<VariableItem>;
+  functions?: Array<FuncGroup>;
 }
 
 export class FormulaPicker extends React.Component<
@@ -179,10 +192,13 @@ export class FormulaPicker extends React.Component<
 
   @autobind
   handleClick() {
-    this.setState({
+    const state = {
+      ...this.props.onPickerOpen?.(this.props),
       editorValue: this.props.value,
       isOpened: true
-    });
+    };
+
+    this.setState(state);
   }
 
   @autobind
@@ -350,8 +366,8 @@ export class FormulaPicker extends React.Component<
           <Modal.Body>
             <Editor
               {...rest}
-              variables={variables}
-              functions={functions}
+              variables={this.state.variables ?? variables}
+              functions={this.state.functions ?? functions}
               value={editorValue}
               onChange={this.handleEditorChange}
             />

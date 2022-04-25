@@ -612,9 +612,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
   @autobind
   async handleAction(e: React.MouseEvent<any>) {
     const {onAction, disabled, countDown, env} = this.props;
-
     // https://reactjs.org/docs/legacy-event-pooling.html
-    // e.persist(); // react 17之后去掉 event pooling 了，这个应该没用了
+    e.persist(); // 等 react 17之后去掉 event pooling 了，这个应该就没用了
     let onClick = this.props.onClick;
 
     if (typeof onClick === 'string') {
