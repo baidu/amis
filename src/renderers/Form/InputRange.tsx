@@ -629,7 +629,7 @@ export default class RangeControl extends React.PureComponent<
         {showInput && <Input {...props} type="max" />}
         {clearable && !disabled && showInput ? (
           <a
-            onClick={() => this.clearValue('clear')}
+            onClick={() => this.clearValue()}
             className={cx('InputRange-clear', {
               'is-active': multiple
                 ? isEqual(this.state.value, {min: min, max: max})
