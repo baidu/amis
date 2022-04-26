@@ -614,7 +614,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
     const {onAction, disabled, countDown, env} = this.props;
 
     // https://reactjs.org/docs/legacy-event-pooling.html
-    // e.persist(); // react 17之后去掉 event pooling 了，这个应该没用了
+    e.persist();
     let onClick = this.props.onClick;
 
     if (typeof onClick === 'string') {

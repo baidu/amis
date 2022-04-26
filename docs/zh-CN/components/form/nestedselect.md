@@ -621,8 +621,8 @@ order: 31
 | 事件名称 | 事件参数                           | 说明                 |
 | -------- | ---------------------------------- | -------------------- |
 | change   | `value: string \| Option[]` 选中值 | 选中值发生变化时触发 |
-| blur     | `(event: Event)` 原始事件          | 失去焦点时触发       |
-| focus    | `(event: Event)` 原始事件          | 获得焦点时触发       |
+| blur     | `value: string \| Option[]` 选中值          | 失去焦点时触发       |
+| focus    | `value: string \| Option[]` 选中值          | 获得焦点时触发       |
 
 ## 动作表
 

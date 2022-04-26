@@ -64,6 +64,14 @@ export interface NumberControlSchema extends FormBaseControl {
    * 只读
    */
   readOnly?: boolean;
+  /**
+   * 是否启用键盘行为
+   */
+  keyboard?: boolean;
+  /**
+   * 输入框为基础输入框还是加强输入框
+   */
+  displayMode?: 'base' | 'enhance';
 }
 
 export interface NumberProps extends FormControlProps {
@@ -92,6 +100,14 @@ export interface NumberProps extends FormControlProps {
    * 只读
    */
   readOnly?: boolean;
+  /**
+   * 启用键盘行为，即通过上下方向键控制是否生效
+   */
+  keyboard?: boolean;
+  /**
+   * 输入框为基础输入框还是加强输入框
+   */
+  displayMode?: 'base' | 'enhance';
 }
 
 interface NumberState {
@@ -107,6 +123,7 @@ export default class NumberControl extends React.Component<
   NumberProps,
   NumberState
 > {
+  input?: HTMLInputElement;
   static defaultProps: Partial<NumberProps> = {
     step: 1,
     resetValue: ''
@@ -225,7 +242,16 @@ export default class NumberControl extends React.Component<
       this.setState({unitOptions: normalizeOptions(this.props.unitOptions)});
     }
   }
-
+  @autobind
+  inputRef(ref: any) {
+    this.input = ref;
+  }
+  focus() {
+    if (!this.input) {
+      return;
+    }
+    this.input.focus();
+  }
   render(): JSX.Element {
     const {
       className,
@@ -243,7 +269,9 @@ export default class NumberControl extends React.Component<
       prefix,
       kilobitSeparator,
       unitOptions,
-      readOnly
+      readOnly,
+      keyboard,
+      displayMode
     } = this.props;
 
     let precisionProps: any = {};
@@ -288,6 +316,7 @@ export default class NumberControl extends React.Component<
         )}
       >
         <NumberInput
+          inputRef={this.inputRef}
           value={finalValue}
           step={step}
           max={this.filterNum(max)}
@@ -303,6 +332,8 @@ export default class NumberControl extends React.Component<
           readOnly={readOnly}
           onFocus={this.dispatchEvent}
           onBlur={this.dispatchEvent}
+          keyboard={keyboard}
+          displayMode={displayMode}
         />
         {unitOptions ? (
           <Select

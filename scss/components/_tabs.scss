@@ -314,7 +314,6 @@
 
     > .#{$ns}Tabs-content {
       border-width: 0;
-      padding: var(--Tabs--line-content-padding);
       background: var(--Tabs--line-content-bg);
     }
   }
@@ -701,6 +700,7 @@
     > .#{$ns}Tabs-linksWrapper {
       background: var(--Tabs--chrome-bg);
       border-bottom: none;
+      overflow-x: hidden;
 
       > .#{$ns}Tabs-addable {
         margin-left: 0;
@@ -726,6 +726,11 @@
         cursor: pointer;
         flex: 1;
         overflow: inherit;
+
+        > a {
+          /* 最少展示一个字 */
+          min-width: var(--fontSizeBase);
+        }
 
         > a:first-child {
           background: none;

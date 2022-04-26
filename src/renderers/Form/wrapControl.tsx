@@ -133,7 +133,8 @@ export function wrapControl<
                 validateApi,
                 minLength,
                 maxLength,
-                validateOnChange
+                validateOnChange,
+                label
               }
             } = this.props;
 
@@ -179,7 +180,8 @@ export function wrapControl<
               validateApi,
               minLength,
               maxLength,
-              validateOnChange
+              validateOnChange,
+              label
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -267,7 +269,10 @@ export function wrapControl<
                   'selectFirst',
                   'autoFill',
                   'clearValueOnHidden',
-                  'validateApi'
+                  'validateApi',
+                  'minLength',
+                  'maxLength',
+                  'label'
                 ],
                 prevProps.$schema,
                 props.$schema
@@ -290,8 +295,9 @@ export function wrapControl<
                 autoFill: props.$schema.autoFill,
                 clearValueOnHidden: props.$schema.clearValueOnHidden,
                 validateApi: props.$schema.validateApi,
-                minLength: props.minLength,
-                maxLength: props.maxLength
+                minLength: props.$schema.minLength,
+                maxLength: props.$schema.maxLength,
+                label: props.$schema.label
               });
             }
 

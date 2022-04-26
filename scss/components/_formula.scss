@@ -360,6 +360,8 @@
   &-input {
     flex: 1;
     margin-right: #{px2rem(10px)};
+    padding-right: 0;
+    max-width: calc(100% - #{px2rem(42px)});
   }
 
   &-action {
@@ -384,6 +386,9 @@
 
   &-ResultBox {
     padding-right: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     span.c-field {
       background: #007bff;
       padding: 3px 5px;

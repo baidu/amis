@@ -730,6 +730,11 @@
   --Form-input-onHover-bg: #{rgba($white, 0.6)};
   --Form-input-onHover-borderColor: var(--Form-input-onFocused-borderColor);
   --Form-input-paddingX: #{px2rem(8px)};
+  --Form-inputNumber-paddingX: #{px2rem(12px)};
+  --Form-inputNumber-base-width: #{px2rem(24px)};
+  --Form-inputNumber-base-height: #{px2rem(32px)};
+  --Form-inputNumber-strong-disabled-color: #b4b6ba;
+
   --Form-input-paddingY: calc(
     (
         var(--Form-input-height) - var(--Form-input-lineHeight) *

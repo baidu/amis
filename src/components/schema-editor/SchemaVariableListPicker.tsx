@@ -1,5 +1,6 @@
 import React from 'react';
 import {localeable} from '../../locale';
+import {themeable} from '../../theme';
 import {autobind} from '../../utils/helper';
 import PickerContainer from '../PickerContainer';
 import SchemaVariableList, {
@@ -13,6 +14,7 @@ export interface SchemaVariableListPickerProps extends SchemaVariableListProps {
     isOpened: boolean;
   }) => JSX.Element;
   value?: any;
+  title?: string;
   onConfirm?: (value?: any) => void;
   onCancel?: () => void;
 }
@@ -25,13 +27,21 @@ export class SchemaVariableListPicker extends React.Component<SchemaVariableList
       value,
       onConfirm,
       onCancel,
-      children
+      children,
+      title
     } = this.props;
 
     return (
       <PickerContainer
-        title={__('Select.placeholder')}
-        bodyRender={({onClose, value, onChange, setState, ...states}) => {
+        title={title ?? __('Select.placeholder')}
+        bodyRender={({
+          onClose,
+          value,
+          onChange,
+          setState,
+          schemas: stateSchemas,
+          ...states
+        }) => {
           return (
             <SchemaVariableList
               value={value?.value ?? value}
@@ -41,7 +51,7 @@ export class SchemaVariableListPicker extends React.Component<SchemaVariableList
                   schema
                 })
               }
-              schemas={schemas}
+              schemas={stateSchemas ?? schemas}
             />
           );
         }}
@@ -55,4 +65,4 @@ export class SchemaVariableListPicker extends React.Component<SchemaVariableList
   }
 }
 
-export default localeable(SchemaVariableListPicker);
+export default localeable(themeable(SchemaVariableListPicker));

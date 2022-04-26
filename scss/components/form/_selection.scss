@@ -179,6 +179,10 @@
     bottom: 0;
   }
 
+  &-item.is-disabled {
+    color: var(--text--muted-color);
+  }
+
   &-sublist &-item:before {
     height: 1px;
     content: '';

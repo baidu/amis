@@ -436,15 +436,43 @@ export default class NestedSelectControl extends React.Component<
   }
 
   @autobind
+  getValue() {
+    let {
+      selectedOptions,
+      joinValues,
+      valueField,
+      extractValue,
+      delimiter,
+      value
+    } = this.props;
+
+    if (joinValues) {
+      value = (selectedOptions as Options)
+        .map(item => item[valueField || 'value'])
+        .join(delimiter || ',');
+    } else if (extractValue) {
+      value = (selectedOptions as Options).map(
+        item => item[valueField || 'value']
+      );
+    }
+
+    return value;
+  }
+
+  @autobind
   async onFocus(e: any) {
     const {onFocus, disabled} = this.props;
+
+    const value = this.getValue();
 
     if (!disabled && !this.state.isOpened) {
       this.setState({
         isFocused: true
       });
 
-      const isPrevented = await this.dispatchEvent('focus', e);
+      const isPrevented = await this.dispatchEvent('focus', {
+        value
+      });
       isPrevented || (onFocus && onFocus(e));
     }
   }
@@ -453,11 +481,15 @@ export default class NestedSelectControl extends React.Component<
   async onBlur(e: any) {
     const {onBlur} = this.props;
 
+    const value = this.getValue();
+
     this.setState({
       isFocused: false
     });
 
-    const isPrevented = await this.dispatchEvent('blur', e);
+    const isPrevented = await this.dispatchEvent('blur', {
+      value
+    });
     isPrevented || (onBlur && onBlur(e));
   }
 

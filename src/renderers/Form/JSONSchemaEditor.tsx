@@ -1,6 +1,7 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import JSONSchemaEditor from '../../components/schema-editor/index';
+import {autobind} from '../../utils/helper';
 
 /**
  * JSON Schema Editor
@@ -33,17 +34,37 @@ export interface JSONSchemaEditorControlSchema extends FormBaseControl {
   /**
    * 顶层是否允许修改类型
    */
-  rootTypeMutable: boolean;
+  rootTypeMutable?: boolean;
 
   /**
    * 顶层类型信息是否隐藏
    */
-  showRootInfo: boolean;
+  showRootInfo?: boolean;
 
   /**
    * 禁用类型，默认禁用了 null 类型
    */
   disabledTypes?: Array<string>;
+
+  /**
+   * 开启详情配置
+   */
+  enableAdvancedSetting?: boolean;
+
+  /**
+   * 自定义详情配置面板如：
+   *
+   * {
+   *   boolean: [
+   *      {type: "input-text", name: "aa", label: "AA" }
+   *   ]
+   * }
+   *
+   * 当配置布尔字段详情时，就会出现以上配置
+   */
+  advancedSettings?: {
+    [propName: string]: any;
+  };
 }
 
 export interface JSONSchemaEditorProps
@@ -54,10 +75,58 @@ export interface JSONSchemaEditorProps
     > {}
 
 export default class JSONSchemaEditorControl extends React.PureComponent<JSONSchemaEditorProps> {
-  render() {
-    const {...rest} = this.props;
+  static defaultProps = {
+    enableAdvancedSetting: false
+  };
 
-    return <JSONSchemaEditor {...rest} />;
+  // todo 完善这块配置
+  settings: any = {
+    common: [
+      {
+        type: 'input-text',
+        name: 'title',
+        label: this.props.translate('JSONSchema.title')
+      },
+
+      {
+        type: 'textarea',
+        name: 'description',
+        label: this.props.translate('JSONSchema.description')
+      }
+    ]
+  };
+
+  @autobind
+  renderModalProps({value, onChange}: any) {
+    const {render, advancedSettings} = this.props;
+    return render(
+      `modal`,
+      {
+        type: 'form',
+        wrapWithPanel: false,
+        body: [
+          ...(this.settings[value?.type] || this.settings.common),
+          ...(advancedSettings?.[value?.type] || [])
+        ]
+      },
+      {
+        data: value,
+        onChange: (value: any) => onChange(value)
+      }
+    );
+  }
+
+  render() {
+    const {enableAdvancedSetting, ...rest} = this.props;
+
+    return (
+      <JSONSchemaEditor
+        {...rest}
+        renderModalProps={
+          enableAdvancedSetting ? this.renderModalProps : undefined
+        }
+      />
+    );
   }
 }
 

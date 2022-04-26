@@ -73,8 +73,6 @@ export interface RowSelectionProps {
   columnWidth?: number;
   selections?: Array<RowSelectionOptionProps>;
   onChange?: Function;
-  onSelect?: Function;
-  onSelectAll?: Function;
   getCheckboxProps: Function;
 }
 
@@ -102,6 +100,11 @@ export interface OnRowProps {
   onRowMouseEnter?: Function;
   onRowMouseLeave?: Function;
   onRowClick?: Function
+}
+
+export interface SortProps {
+  orderBy: string;
+  order: string
 }
 
 export interface TableProps extends ThemeProps, LocaleProps {
@@ -133,6 +136,8 @@ export interface TableProps extends ThemeProps, LocaleProps {
   rowClassName?: Function;
   lineHeight?: string; // 可设置large、middle固定高度，不设置则跟随内容
   showHeader?: boolean; // 是否展示表头
+  onSelect?: Function;
+  onSelectAll?: Function;
 }
 
 export interface ScrollProps {
@@ -504,7 +509,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   exchange(fromIndex: number, toIndex: number, item: any) {
-    const {scroll, headSummary, onDrag} = this.props;
+    const {scroll, headSummary} = this.props;
     // 如果有头部总结行 fromIndex就会+1
     if ((!scroll || scroll && !scroll.y) && headSummary) {
       fromIndex = fromIndex - 1;
@@ -531,13 +536,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       data.splice(rowIndex + index, 0, row);
     }
 
-    // 先通过事件把最新的排序数据提供出去
-    // Sortable修改了dom 数据排序后再通过state更新 会有问题
-    onDrag && onDrag(dataSource);
+    return data;
   }
 
   initDragging() {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, onDrag} = this.props;
 
     this.sortable = new Sortable(
       this.tbodyDom.current as HTMLElement,
@@ -565,13 +568,20 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
           return true;
         },
-        onEnd: (e: any) => {
+        onEnd: async (e: any) => {
           // 没有移动
           if (e.newIndex === e.oldIndex) {
             return;
           }
 
-          this.exchange(e.oldIndex, e.newIndex, e.item);
+          const {onDrag} = this.props;
+          if (onDrag) {
+            const data = this.exchange(e.oldIndex, e.newIndex, e.item);
+            const prevented = await onDrag(data);
+            if (prevented) {
+              return;
+            }
+          }
         }
       }
     );
@@ -814,7 +824,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       onSort,
       expandable,
       draggable,
-      resizable
+      resizable,
+      onSelectAll,
+      onFilter
     } = this.props;
 
     const thColumns = this.thColumns;
@@ -867,7 +879,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                   partial={this.state.selectedRowKeys.length > 0
                     && this.state.selectedRowKeys.length < allRowKeys.length}
                   checked={this.state.selectedRowKeys.length > 0}
-                  onChange={value => {
+                  onChange={async value => {
                     let changeRows;
                     if (value) {
                       changeRows = dataList.filter(data => !this.hasCheckedRows(data));
@@ -875,12 +887,15 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                       changeRows = this.selectedRows;
                     }
                     const selectedRows = value ? allRows : [];
-                    this.setState({
-                      selectedRowKeys: value ? allRowKeys : []
-                    });
+                    const selectedRowKeys = value ? allRowKeys : [];
+                    if (onSelectAll) {
+                      const prevented = await onSelectAll(value, selectedRowKeys, selectedRows, changeRows);
+                      if (prevented) {
+                        return;
+                      }
+                    }
 
-                    rowSelection.onSelectAll
-                      && rowSelection.onSelectAll(value, selectedRows, changeRows);
+                    this.setState({selectedRowKeys});
                   }}></CheckBox>,
                   rowSelection.selections && rowSelection.selections.length > 0
                     ? <HeadCellSelect
@@ -904,7 +919,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
               sort = (
                 <HeadCellSort
                   column={item}
-                  onSort={onSort ? onSort : (payload: any) => {
+                  onSort={onSort ? onSort : (payload: SortProps) => {
                     if (typeof item.sorter === 'function') {
                       if (payload.orderBy) {
                         const sortList = [...this.state.dataSource];
@@ -925,7 +940,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
               filter = (
                 <HeadCellFilter
                   column={item}
-                  popOverContainer={this.getPopOverContainer}>
+                  popOverContainer={this.getPopOverContainer}
+                  onFilter={onFilter}>
                 </HeadCellFilter>
               );
             }
@@ -1119,27 +1135,22 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         </i>;
   }
 
-  selectedSingleRow(value: boolean, data: any) {
-    const {rowSelection} = this.props;
+  async selectedSingleRow(value: boolean, data: any) {
+    const {rowSelection, onSelect} = this.props;
 
     const defaultKey = this.getRowSelectionKeyField();
     const isRadio = rowSelection && rowSelection.type === 'radio';
 
-    const callback = () => {
-      rowSelection && rowSelection.onSelect
-        && rowSelection.onSelect(
-          data,
-          value,
-          this.selectedRows,
-          this.state.selectedRowKeys
-        );
-    };
+    if (onSelect) {
+      const prevented = await  onSelect(data, value, this.selectedRows, this.state.selectedRowKeys);
+      if (prevented) {
+        return;
+      }
+    }
 
     if (value) {
       if (isRadio) {
-        this.setState({
-          selectedRowKeys: [data[defaultKey]]
-        }, callback);
+        this.setState({selectedRowKeys: [data[defaultKey]]});
       } else {
         this.setState(prevState => (
           {
@@ -1149,14 +1160,14 @@ export class Table extends React.PureComponent<TableProps, TableState> {
               ...this.getDataChildrenKeys(data)
             ].filter((key, i, a) => a.indexOf(key) === i)
           }
-        ), callback);
+        ));
       }
     } else {
       if (!isRadio) {
         this.setState({
           selectedRowKeys: this.state.selectedRowKeys.filter(key =>
             ![data[defaultKey], ...this.getDataChildrenKeys(data)].includes(key))
-        }, callback);
+        });
       }
     }
   }

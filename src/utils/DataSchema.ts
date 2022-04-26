@@ -18,17 +18,36 @@ export class DataSchema {
 
   constructor(schema: JSONSchema | Array<JSONSchema>) {
     this.root = new DataScope(schema, 'root');
+    this.idMap['root'] = this.root;
     this.current = this.root;
   }
 
-  addSchema(schema: Partial<JSONSchema>) {
+  setSchema(schemas: Array<JSONSchema>) {
+    this.current.setSchemas(schemas);
+    return this;
+  }
+
+  addSchema(schema: JSONSchema) {
     this.current.addSchema(schema);
     return this;
   }
 
   removeSchema(id: string) {
     this.current.removeSchema(id);
+    delete this.idMap[id];
     return this;
+  }
+
+  getSchemas() {
+    const schemas: Array<JSONSchema> = [];
+    let current: DataScope | void = this.current;
+
+    while (current) {
+      schemas.push(...current.schemas);
+      current = current.parent;
+    }
+
+    return schemas;
   }
 
   addScope(schema?: JSONSchema | Array<JSONSchema>, id: string = guid()) {
@@ -43,6 +62,10 @@ export class DataSchema {
 
   removeScope(idOrScope: string | DataScope) {
     const scope = this.getScope(idOrScope);
+
+    if (!scope.parent) {
+      throw new Error('cannot remove root scope');
+    }
 
     if (scope.contains(this.current)) {
       this.current = scope.parent!;
@@ -64,8 +87,6 @@ export class DataSchema {
 
     if (!scope) {
       throw new Error('scope not found!');
-    } else if (!scope.parent) {
-      throw new Error('cannot remove root scope');
     }
 
     return scope;
