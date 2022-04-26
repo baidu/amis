@@ -6,7 +6,7 @@ import {makeEnv} from '../../helper';
 import moment from 'moment';
 
 test('Renderer:inputMonth click', async () => {
-  const {container, findByText, getByText} = render(
+  const {container, findByPlaceholderText, getByText} = render(
     amisRender(
       {
         type: 'form',
@@ -26,19 +26,25 @@ test('Renderer:inputMonth click', async () => {
     )
   );
 
-  const inputDate = await findByText('请选择月份范围');
+  const inputDate = await findByPlaceholderText('选择开始时间');
 
   fireEvent.click(inputDate);
 
+  const thisMonthText = moment().format('M[月]');
+  const nextMonthText = moment().add(1, 'month').format('M[月]');
+
+  const thisMonthValue = moment().format('YYYY-MM');
+  const nextMonthValue = moment().add(1, 'month').format('YYYY-MM');
+
   const startMonth = await within(
     document.querySelector('.cxd-DateRangePicker-start')!
-  ).findByText('2月');
+  ).findByText(thisMonthText);
 
   fireEvent.click(startMonth);
 
   const endMonth = await within(
     document.querySelector('.cxd-DateRangePicker-end')!
-  ).findByText('8月');
+  ).findByText(nextMonthText);
 
   fireEvent.click(endMonth);
 
@@ -46,11 +52,8 @@ test('Renderer:inputMonth click', async () => {
 
   fireEvent.click(confirm);
 
-  const monthRange =
-    moment().format('YYYY') +
-    '-02 至 ' +
-    moment().add(1, 'year').format('YYYY') +
-    '-08';
+  const value = document.querySelectorAll('.cxd-DateRangePicker-input')!;
 
-  await findByText(monthRange);
+  expect((value[0] as HTMLInputElement).value).toEqual(thisMonthValue);
+  expect((value[1] as HTMLInputElement).value).toEqual(nextMonthValue);
 });

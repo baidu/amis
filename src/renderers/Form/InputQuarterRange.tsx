@@ -18,8 +18,6 @@ export default class QuarterRangeControl extends InputDateRange {
     const {
       className,
       classPrefix: ns,
-      defaultValue,
-      defaultData,
       minDate,
       maxDate,
       minDuration,
@@ -34,10 +32,7 @@ export default class QuarterRangeControl extends InputDateRange {
       <div className={cx(`${ns}DateRangeControl`, className)}>
         <DateRangePicker
           viewMode="quarters"
-          format="YYYY-[Q]Q"
-          inputFormat="YYYY-[Q]Q"
-          placeholder="QuarterRange.placeholder"
-          ranges="thisquarter,prevquarter"
+          format={format}
           classPrefix={ns}
           data={data}
           {...rest}
@@ -60,8 +55,10 @@ export default class QuarterRangeControl extends InputDateRange {
 export class QuarterRangeControlRenderer extends QuarterRangeControl {
   static defaultProps = {
     format: 'X',
+    inputFormat: 'YYYY-[Q]Q',
     joinValues: true,
     delimiter: ',',
-    timeFormat: ''
+    timeFormat: '',
+    ranges: 'thisquarter,prevquarter'
   };
 }

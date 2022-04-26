@@ -219,6 +219,17 @@ export const availableRanges: {[propName: string]: any} = {
     }
   },
 
+  // 兼容一下之前的用法 'lastYear'
+  'prevyear': {
+    label: 'DateRange.lastYear',
+    startDate: (now: moment.Moment) => {
+      return now.startOf('year').add(-1, 'year');
+    },
+    endDate: (now: moment.Moment) => {
+      return now.endOf('year').add(-1, 'year').endOf('day');
+    }
+  },
+
   'lastYear': {
     label: 'DateRange.lastYear',
     startDate: (now: moment.Moment) => {
@@ -735,7 +746,8 @@ export class DateRangePicker extends React.Component<
     if (
       type === 'input-date-range' ||
       type === 'input-year-range' ||
-      type === 'input-quarter-range'
+      type === 'input-quarter-range' ||
+      type === 'input-month-range'
     ) {
       newState.editState = 'end';
     }
@@ -1033,7 +1045,8 @@ export class DateRangePicker extends React.Component<
 
   // 重置
   reset() {
-    const {resetValue, onChange, format, joinValues, delimiter, inputFormat} = this.props;
+    const {resetValue, onChange, format, joinValues, delimiter, inputFormat} =
+      this.props;
     if (!resetValue) {
       return;
     }
@@ -1047,7 +1060,7 @@ export class DateRangePicker extends React.Component<
     this.setState({
       startInputValue: startDate?.format(inputFormat),
       endInputValue: endDate?.format(inputFormat)
-    })
+    });
   }
 
   checkStartIsValidDate(currentDate: moment.Moment) {
