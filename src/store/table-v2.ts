@@ -406,6 +406,12 @@ export const TableStoreV2 = ServiceStore
       updateSelectedRows(self.rows, selectedKeys, keyField);
     }
 
+    function updateSelectedAll(keyField?: string) {
+      const selectedKeys: Array<any> = [];
+      eachTree(self.rows, item => selectedKeys.push(item.pristine[keyField || 'key']));
+      updateSelectedRows(self.rows, selectedKeys, keyField);
+    }
+
     function updateExpanded(expandedRowKeys: Array<any>, keyField?: string) {
       self.expandedRowKeys.clear();
 
@@ -611,6 +617,7 @@ export const TableStoreV2 = ServiceStore
       updateQuery,
       initRows,
       updateSelected,
+      updateSelectedAll,
       updateExpanded,
 
       // events
