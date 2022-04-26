@@ -33,6 +33,7 @@ import {
   SchemaObject,
   SchemaTpl
 } from '../../Schema';
+import {ListenerAction} from '../../actions/Action';
 
 export type ComboCondition = {
   test: string;
@@ -431,6 +432,17 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.toDispose = [];
     this.memoizedFormatValue.cache.clear?.();
     this.makeFormRef.cache.clear?.();
+  }
+
+  doAction(action: ListenerAction, args: any) {
+    const actionType = action?.actionType as string;
+    const {onChange, resetValue} = this.props;
+
+    if (actionType === 'clear') {
+      onChange('');
+    } else if (actionType === 'reset') {
+      onChange(resetValue ?? '');
+    }
   }
 
   getValueAsArray(props = this.props) {

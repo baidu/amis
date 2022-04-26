@@ -339,10 +339,10 @@ export class BaseTransferRenderer<
     const {resetValue, onChange} = this.props;
     switch (action.actionType) {
       case 'clear':
-        onChange('');
+        onChange?.('');
         break;
       case 'reset':
-        onChange(resetValue);
+        onChange?.(resetValue ?? '');
         break;
       case 'selectAll':
         this.tranferRef?.selectAll();

@@ -161,8 +161,13 @@ export default class EditorControl extends React.Component<EditorProps, any> {
 
   doAction(action: ListenerAction, args: any) {
     const actionType = action?.actionType as string;
+    const {onChange, resetValue} = this.props;
 
-    if (actionType === 'focus') {
+    if (actionType === 'clear') {
+      onChange('');
+    } else if (actionType === 'reset') {
+      onChange(resetValue ?? '');
+    } else if (actionType === 'focus') {
       this.focus();
     }
   }

@@ -144,8 +144,12 @@ export default class NumberControl extends React.Component<
   doAction(action: Action, args: any) {
     const actionType = action?.actionType as string;
     const {resetValue, onChange} = this.props;
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
-      this.handleChange(resetValue ?? '');
+
+    if (actionType === 'clear') {
+      onChange?.('');
+    } else if (actionType === 'reset') {
+      const value = this.getValue(resetValue ?? '');
+      onChange?.(value);
     }
   }
 
@@ -176,22 +180,8 @@ export default class NumberControl extends React.Component<
     return undefined;
   }
 
-  // 派发有event的事件
-  @autobind
-  dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(e, data);
-  }
-
-  async handleChange(inputValue: any) {
-    const {
-      classPrefix: ns,
-      onChange,
-      resetValue,
-      unitOptions,
-      data,
-      dispatchEvent
-    } = this.props;
+  getValue(inputValue: any) {
+    const {resetValue, unitOptions} = this.props;
 
     if (inputValue && typeof inputValue !== 'number') {
       return;
@@ -200,7 +190,20 @@ export default class NumberControl extends React.Component<
     if (inputValue !== null && unitOptions && this.state.unit) {
       inputValue = inputValue + this.state.unit;
     }
-    const value = inputValue === null ? resetValue ?? null : inputValue;
+    return inputValue === null ? resetValue ?? null : inputValue;
+  }
+
+  // 派发有event的事件
+  @autobind
+  dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
+
+  async handleChange(inputValue: any) {
+    const {onChange, data, dispatchEvent} = this.props;
+    const value = this.getValue(inputValue);
+
     const rendererEvent = await dispatchEvent(
       'change',
       createObject(data, {
