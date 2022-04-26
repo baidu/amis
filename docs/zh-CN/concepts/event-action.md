@@ -1079,7 +1079,7 @@ order: 9
 
 ### 刷新
 
-通过配置`actionType: 'reload'`实现对指定组件的刷新（重新加载）操作，仅支持`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`、`crud`，以及支持动态数据的`输入类`组件，详见组件动作表。
+通过配置`actionType: 'reload'`实现对指定组件的刷新（重新加载）操作，仅支持`form`、`wizard`、`service`、`page`、`app`、`chart`、`crud`，以及支持动态数据的`输入类`组件，详见组件的`动作表`。
 
 #### 刷新 表单
 
@@ -1313,7 +1313,7 @@ order: 9
 
 ### 控制状态
 
-通过配置`actionType: 'enabled'`或`actionType: 'disabled'`实现对指定组件的启用和禁用，仅支持数据输入类组件。
+通过配置`actionType: 'enabled'`或`actionType: 'disabled'`实现对指定组件的启用和禁用，仅支持实现了状态控制功能的数据`输入类`组件。
 
 ```schema
 {
