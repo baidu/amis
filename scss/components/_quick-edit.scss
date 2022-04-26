@@ -10,6 +10,10 @@
     color: var(--QuickEdit-onHover-iconColor);
     opacity: 1;
   }
+
+  > svg {
+    top: 0;
+  }
 }
 
 .#{$ns}Field--quickEditable {

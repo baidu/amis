@@ -48,6 +48,8 @@ import TreeDownIcon from '../icons/tree-down.svg';
 import CloudUploadIcon from '../icons/cloud-upload.svg';
 import ImageIcon from '../icons/image.svg';
 import RefreshIcon from '../icons/refresh.svg';
+import DragIcon from '../icons/drag.svg';
+import EditIcon from '../icons/edit.svg';
 
 import CopyIcon from '../icons/copy.svg';
 import FilterIcon from '../icons/filter.svg';
@@ -196,6 +198,8 @@ registerIcon('image', ImageIcon);
 registerIcon('refresh', RefreshIcon);
 registerIcon('trash', TrashIcon);
 registerIcon('dot', DotIcon);
+registerIcon('drag', DragIcon);
+registerIcon('edit', EditIcon);
 
 export function Icon({
   icon,

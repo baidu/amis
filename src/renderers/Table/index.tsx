@@ -1884,7 +1884,7 @@ export default class Table extends React.Component<TableProps, object> {
             'is-dragDisabled': !item.draggable
           })}
         >
-          {item.draggable ? <Icon icon="drag-bar" className="icon" /> : null}
+          {item.draggable ? <Icon icon="drag" className="icon" /> : null}
         </td>
       );
     } else if (column.type === '__expandme') {
@@ -1928,7 +1928,7 @@ export default class Table extends React.Component<TableProps, object> {
           onDragStart={this.handleDragStart}
           className={cx('Table-dragBtn')}
         >
-          <Icon icon="drag-bar" className="icon" />
+          <Icon icon="drag" className="icon" />
         </a>
       );
     }
