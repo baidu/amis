@@ -1463,11 +1463,11 @@
   --Tooltip--attr-transition: all var(--animation-duration) ease-in-out;
   --Tooltip-arrow-color: var(--Tooltip-bg);
   --Tooltip-arrow-color--dark: rgba(7, 12, 20, 0.85);
-  --Tooltip-arrow-height: #{px2rem(4px)};
-  --Tooltip-arrow-height: 0.25rem;
+  --Tooltip-arrow-height: #{px2rem(8px)};
+  --Tooltip-arrow-height: 0.5rem;
   --Tooltip-arrow-outerColor: #{fade-in($borderColor, 0.05)};
-  --Tooltip-arrow-width: #{px2rem(8px)};
-  --Tooltip-arrow-width: 0.5rem;
+  --Tooltip-arrow-width: #{px2rem(16px)};
+  --Tooltip-arrow-width: 1rem;
   --Tooltip-bg: var(--background);
   --Tooltip-bg--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-body-color: var(--text-color);
@@ -1579,7 +1579,7 @@
   --TimelineItem--icon-height: #{px2rem(16px)};
   --TimelineItem--icon-left: #{px2rem(6px)};
   --TimelineItem--content-padding-bottom: var(--gap-md);
-  --TimelineItem--content-margin-left:  #{px2rem(2px)};
+  --TimelineItem--content-margin-left: var(--gap-base);
   --TimelineItem--content-time-margin-bottom: var(--gap-xs);
   --TimelineItem--content-title-margin-bottom: var(--gap-xs);
   --TimelineItem--detail-button-margin-bottom: var(--gap-base);
