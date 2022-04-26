@@ -1293,7 +1293,7 @@
   --Table-onModified-bg: #e8f0fe;
   --Table-onModified-borderColor: #{darken(#e8f0fe, 5%)};
   --Table-onModified-color: #4285f4;
-  --Table-placeholder-height: #{px2rem(100px)};
+  --Table-placeholder-height: #{px2rem(200px)};
   --Table-strip-bg: #{$Table-strip-bg};
   --Table-tbody-borderTopColor: #{lighten($borderColor, 2.5%)};
   --Table-thead-bg: #f6f8f8;
@@ -1307,6 +1307,7 @@
   --Table-tree-borderColor: var(--Table-borderColor);
   --Table-searchableForm-backgroundColor: #f6f7f8;
   --Table-searchableForm-borderRadius: #{px2rem(4px)};
+  --Table-empty-icon-size: #{px2rem(74px)};
 
   --TableCell--edge-paddingX: var(--gap-md);
   --TableCell--edge-paddingX-default: var(--gap-base);

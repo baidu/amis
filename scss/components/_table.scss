@@ -134,6 +134,13 @@
       vertical-align: middle !important;
       text-align: center;
     }
+
+    &-empty-icon.icon {
+      display: block;
+      margin: 0 auto;
+      width: var(--Table-empty-icon-size);
+      height: var(--Table-empty-icon-size);
+    }
   }
 
   &-searchableForm {

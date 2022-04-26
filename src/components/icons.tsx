@@ -50,6 +50,7 @@ import ImageIcon from '../icons/image.svg';
 import RefreshIcon from '../icons/refresh.svg';
 import DragIcon from '../icons/drag.svg';
 import EditIcon from '../icons/edit.svg';
+import DeskEmptyIcon from '../icons/desk-empty.svg';
 
 import CopyIcon from '../icons/copy.svg';
 import FilterIcon from '../icons/filter.svg';
@@ -200,6 +201,7 @@ registerIcon('trash', TrashIcon);
 registerIcon('dot', DotIcon);
 registerIcon('drag', DragIcon);
 registerIcon('edit', EditIcon);
+registerIcon('desk-empty', DeskEmptyIcon);
 
 export function Icon({
   icon,
