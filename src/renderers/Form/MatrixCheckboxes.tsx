@@ -151,8 +151,10 @@ export default class MatrixCheckbox extends React.Component<
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
-      onChange(resetValue ?? '');
+    if (actionType === 'clear') {
+      onChange?.('');
+    } else if (actionType === 'reset') {
+      onChange?.(resetValue ?? '');
     }
   }
 
@@ -271,9 +273,10 @@ export default class MatrixCheckbox extends React.Component<
       }
     }
 
-    const rendererEvent = await dispatchEvent('change',
+    const rendererEvent = await dispatchEvent(
+      'change',
       createObject(data, {
-        value: value.concat(),
+        value: value.concat()
       })
     );
     if (rendererEvent?.prevented) {

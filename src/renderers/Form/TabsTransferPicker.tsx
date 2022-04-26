@@ -30,17 +30,16 @@ export interface TabsTransferProps
     > {}
 
 interface BaseTransferState {
-  activeKey: number
+  activeKey: number;
 }
 
 @OptionsControl({
   type: 'tabs-transfer-picker'
 })
 export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTransferProps> {
-
   state: BaseTransferState = {
     activeKey: 0
-  }
+  };
 
   @autobind
   optionItemRender(option: any, states: ItemRenderStates) {
@@ -62,16 +61,15 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
     return BaseSelection.itemRender(option, states);
   }
 
-
   // 动作
   doAction(action: Action) {
     const {resetValue, onChange} = this.props;
     switch (action.actionType) {
       case 'clear':
-        onChange('');
+        onChange?.('');
         break;
       case 'reset':
-        onChange(resetValue);
+        onChange?.(resetValue ?? '');
         break;
     }
   }

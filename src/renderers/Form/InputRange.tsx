@@ -488,19 +488,28 @@ export default class RangeControl extends React.PureComponent<
   }
 
   doAction(action: Action, data: object, throwErrors: boolean) {
-    if (action.actionType === 'clear') {
-      this.clearValue();
+    const actionType = action?.actionType as string;
+    const {multiple, min, max} = this.props;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      this.clearValue(actionType);
     }
   }
 
   @autobind
-  clearValue() {
-    const {multiple, min, max} = this.props;
-    if (multiple) {
-      this.updateValue({min, max});
-    } else {
-      this.updateValue(min);
+  clearValue(type: string = 'clear') {
+    const {multiple, min, max, onChange} = this.props;
+    let resetValue = this.props.resetValue;
+
+    if (type === 'clear') {
+      resetValue = undefined;
     }
+
+    const value = this.getFormatValue(
+      resetValue ?? (multiple ? {min, max} : min)
+    );
+
+    onChange?.(value);
   }
 
   @autobind
@@ -535,7 +544,7 @@ export default class RangeControl extends React.PureComponent<
       return;
     }
 
-    onChange && onChange(result);
+    onChange?.(result);
   }
 
   /**
@@ -619,7 +628,7 @@ export default class RangeControl extends React.PureComponent<
         {showInput && <Input {...props} type="max" />}
         {clearable && !disabled && showInput ? (
           <a
-            onClick={() => this.clearValue()}
+            onClick={() => this.clearValue('clear')}
             className={cx('InputRange-clear', {
               'is-active': multiple
                 ? isEqual(this.state.value, {min: min, max: max})

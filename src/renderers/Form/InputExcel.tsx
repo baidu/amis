@@ -166,9 +166,13 @@ export default class ExcelControl extends React.PureComponent<
   }
 
   doAction(action: any, data: object, throwErrors: boolean) {
-    const {onChange} = this.props;
-    if (action.actionType === 'clear') {
+    const actionType = action?.actionType as string;
+    const {onChange, resetValue} = this.props;
+
+    if (actionType === 'clear') {
       onChange('');
+    } else if (actionType === 'reset') {
+      onChange(resetValue ?? '');
     }
   }
 

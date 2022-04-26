@@ -347,17 +347,20 @@ order: 56
 
 ## 事件表
 
-| 事件名称 | 事件参数                    | 说明     |
-| -------- | --------------------------- | -------- |
-| click    | `value: string \| string[]` | 点击     |
-| focus    | `value: string \| string[]` | 获取焦点 |
-| blur     | `value: string \| string[]` | 失去焦点 |
-| enter    | `value: string \| string[]` | 回车     |
-| change   | `value: string \| string[]` | 值变化   |
+| 事件名称 | 事件参数        | 说明     |
+| -------- | --------------- | -------- |
+| click    | `value: string` | 点击     |
+| focus    | `value: string` | 获取焦点 |
+| blur     | `value: string` | 失去焦点 |
+| enter    | `value: string` | 回车     |
+| change   | `value: string` | 值变化   |
 
 ## 动作表
 
-| 动作名称 | 动作配置 | 说明     |
-| -------- | -------- | -------- |
-| clear    | -        | 清空     |
-| focus    | -        | 获取焦点 |
+| 动作名称 | 动作配置                 | 说明                                               |
+| -------- | ------------------------ | -------------------------------------------------- |
+| clear    | -                        | 清空                                               |
+| reset    | -                        | 重置                                               |
+| focus    | -                        | 获取焦点                                           |
+| reload   | -                        | 刷新（重新加载），只针对配置了`source`的输入框有效 |
+| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`多选时用`,`分隔            |
