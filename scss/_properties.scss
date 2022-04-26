@@ -628,8 +628,8 @@
 
   --Drawer-bg: var(--background);
   --Drawer-body-padding: var(--gap-base);
-  --Drawer-close-color: rgba(255, 255, 255, 0.8);
-  --Drawer-close-onHover-color: rgba(255, 255, 255, 1);
+  --Drawer-close-color: var(--text--muted-color);
+  --Drawer-close-onHover-color: var(--text-color);
   --Drawer-content-borderColor: var(--borderColor);
   --Drawer-content-borderRadius: 0;
   --Drawer-content-borderWidth: var(--borderWidth);

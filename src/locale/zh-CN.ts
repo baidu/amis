@@ -136,7 +136,7 @@ register('zh-CN', {
   'File.retry': '重试上传',
   'File.sizeLimit': '文件大小不超过 {{maxSize}} B',
   'File.start': '开始上传',
-  'File.upload': '文件上传',
+  'File.upload': '上传文件',
   'File.uploadFailed': '接口返回错误，请仔细检查',
   'File.uploading': '上传中...',
   'FormItem.autoUpdateloadFaild': '接口返回错误，请仔细检查',
