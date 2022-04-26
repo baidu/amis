@@ -104,7 +104,8 @@ export interface RangeControlSchema extends FormBaseControl {
 }
 
 type MarksType = {
-  [index: number | string]: MarksValue;
+  [index: string]: MarksValue;
+  [index: number]: MarksValue;
 };
 
 type MarksValue = Record<
@@ -604,7 +605,7 @@ export default class RangeControl extends React.PureComponent<
     // 处理自定义json配置
     let renderMarks:
       | MarksType
-      | {[index: number | string]: ReactNode}
+      | {[index: string]: ReactNode; [index: number]: ReactNode}
       | undefined = marks ? {...marks} : marks;
     marks &&
       forEach(marks, (item, key) => {
