@@ -32,6 +32,8 @@ export interface PickerContainerProps extends ThemeProps, LocaleProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   onFocus?: () => void;
   onClose?: () => void;
+
+  onPickerOpen?: (props: PickerContainerProps) => any;
 }
 
 export interface PickerContainerState {
@@ -60,6 +62,10 @@ export class PickerContainer extends React.Component<
 
   @autobind
   handleClick() {
+    const state = {
+      ...this.props.onPickerOpen?.(this.props),
+      isOpened: true
+    };
     this.setState(
       {
         isOpened: true

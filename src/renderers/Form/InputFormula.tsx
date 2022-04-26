@@ -155,7 +155,8 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       title,
       variableClassName,
       functionClassName,
-      data
+      data,
+      onPickerOpen
     } = this.props;
     return (
       <FormulaPicker
@@ -181,6 +182,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         variableClassName={variableClassName}
         functionClassName={functionClassName}
         data={data}
+        onPickerOpen={onPickerOpen}
       />
     );
   }
