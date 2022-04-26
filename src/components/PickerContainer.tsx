@@ -61,9 +61,9 @@ export class PickerContainer extends React.Component<
   }
 
   @autobind
-  handleClick() {
+  async handleClick() {
     const state = {
-      ...this.props.onPickerOpen?.(this.props),
+      ...(await this.props.onPickerOpen?.(this.props)),
       isOpened: true
     };
     this.setState(state, () => this.props.onFocus?.());
