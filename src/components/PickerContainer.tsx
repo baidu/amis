@@ -66,12 +66,7 @@ export class PickerContainer extends React.Component<
       ...this.props.onPickerOpen?.(this.props),
       isOpened: true
     };
-    this.setState(
-      {
-        isOpened: true
-      },
-      () => this.props.onFocus?.()
-    );
+    this.setState(state, () => this.props.onFocus?.());
   }
 
   @autobind
