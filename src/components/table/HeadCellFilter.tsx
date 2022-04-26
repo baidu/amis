@@ -148,16 +148,24 @@ export class HeadCellFilter extends React.Component<Props, State> {
     );
   }
 
-  handleClick(
+  async handleClick(
     confirm: (payload?: FilterPayload) => void,
     setSelectedKeys?: (keys?: (string | Array<string | number>)) => void,
     selectedKeys?: Array<string>
   ) {
     const {onFilter, column} = this.props;
+    const payload = {[column.key] : selectedKeys};
+
+    if (onFilter) {
+      const prevented = await onFilter(payload);
+      if (prevented) {
+        return;
+      }
+    }
 
     setSelectedKeys && setSelectedKeys(selectedKeys);
 
-    onFilter && onFilter({[column.key] : selectedKeys});
+    onFilter && onFilter(payload);
     confirm();
   }
 

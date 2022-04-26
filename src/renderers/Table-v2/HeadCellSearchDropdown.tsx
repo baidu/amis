@@ -4,7 +4,7 @@ import {findDOMNode} from 'react-dom';
 import {RendererProps} from '../../factory';
 import {Action} from '../../types';
 import {Icon} from '../../components/icons';
-import {setVariable} from '../../utils/helper';
+import {setVariable, createObject} from '../../utils/helper';
 import {ITableStore} from '../../store/table-v2';
 import HeadCellDropDown from '../../components/table/HeadCellDropDown';
 
@@ -20,7 +20,7 @@ export interface HeadCellSearchProps extends RendererProps {
   name: string;
   searchable: boolean | QuickSearchConfig;
   classPrefix: string;
-  onFilter?: (values: object) => void;
+  onSearch?: (values: object) => void;
   onAction?: Function;
   store: ITableStore;
 }
@@ -161,9 +161,18 @@ export class HeadCellSearchDropDown extends React.Component<
     onAction && onAction(e, action, ctx);
   }
 
-  handleReset() {
-    const {onFilter, data, name, store} = this.props;
+  async handleReset() {
+    const {onSearch, data, name, store, dispatchEvent} = this.props;
     const values = {...data};
+
+    const rendererEvent = await dispatchEvent('columnSearch', createObject(data, {
+      ...values
+    }));
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     this.formItems.forEach(key => setVariable(values, key, undefined));
 
     if (values.orderBy === name) {
@@ -173,11 +182,11 @@ export class HeadCellSearchDropDown extends React.Component<
 
     store.updateQuery(values);
 
-    onFilter && onFilter(values);
+    onSearch && onSearch(values);
   }
 
-  handleSubmit(values: any, confirm: Function) {
-    const {onFilter, name, store} = this.props;
+  async handleSubmit(values: any, confirm: Function) {
+    const {onSearch, name, store, dispatchEvent, data} = this.props;
 
     if (values.order) {
       values = {
@@ -186,9 +195,17 @@ export class HeadCellSearchDropDown extends React.Component<
       };
     }
 
+    const rendererEvent = await dispatchEvent('columnSearch', createObject(data, {
+      ...values
+    }));
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     store.updateQuery(values);
 
-    onFilter && onFilter(values);
+    onSearch && onSearch(values);
 
     confirm();
   }
