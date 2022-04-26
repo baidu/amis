@@ -924,7 +924,7 @@ export class TreeSelector extends React.Component<
                     'is-folded': !this.isUnfolded(item)
                   })}
                 >
-                  <Icon icon="down-arrow-bold" className="icon" />
+                  <Icon icon="right-arrow-bold" className="icon" />
                 </div>
               ) : (
                 <span className={cx('Tree-itemArrowPlaceholder')} />
