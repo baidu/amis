@@ -123,8 +123,8 @@ order: 32
 | 事件名称 | 事件参数               | 说明                 |
 | -------- | ---------------------- | -------------------- |
 | change   | `value: number` 值变化 | 输入值发生变化时触发 |
-| blur     | `value: number` 值变化 | -                    |
-| focus    | `value: number` 值变化 | -                    |
+| blur     | `value: number` 当前值 | -                    |
+| focus    | `value: number` 当前值 | -                    |
 
 ## 动作表
 
