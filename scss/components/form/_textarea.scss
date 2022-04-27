@@ -16,7 +16,7 @@
     width: 100%;
     line-height: var(--Form-input-lineHeight);
     outline: none;
-    resize: vertical;
+    resize: none;
 
     &::placeholder {
       color: var(--Form-input-placeholderColor);
@@ -35,10 +35,12 @@
     font-size: var(--fontSizeSm);
     padding: 0 5px;
     border-radius: 3px;
-    color: #84868c;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
 
     &.is-empty {
-      color: #84868c;
+      color: #666;
+      background: rgba(0, 0, 0, 0.4);
     }
 
     &.is-clearable {
