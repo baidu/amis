@@ -59,6 +59,10 @@
     overflow: initial;
   }
 
+  &-select {
+    overflow: hidden;
+  }
+
   &-search + &-selection {
     border-top: 1px solid var(--borderColor);
   }
