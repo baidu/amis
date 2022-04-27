@@ -27,14 +27,25 @@
       var(--ImageControl-addBtn-onHover-color),
       var(--ImageControl-addBtn-onActive-bg),
       var(--ImageControl-addBtn-onActive-border),
-      var(--ImageControl-addBtn-onActive-color)
+      var(--ImageControl-addBtn-onActive-color),
     );
+
+    &:hover {
+      &-text {
+        color: var(--ImageControl-addBtn-onHover-color) !important;
+      }
+    }
+
 
     > svg {
       width: px2rem(24px);
       height: px2rem(24px);
       top: 0;
       margin-bottom: px2rem(8px);
+    }
+
+    &-text {
+      color: var(--ImageControl-addBtn-upload-color);
     }
 
     &.is-disabled {
@@ -69,7 +80,17 @@
   &-dropzone:focus &-addBtn {
     border-color: var(--ImageControl-addBtn-onHover-border);
     background: var(--ImageControl-addBtn-onHover-bg);
+    color: var(--ImageControl-addBtn-onHover-color) !important;
+  }
+
+  &-dropzone:hover &-addBtn {
+    border-color: var(--ImageControl-addBtn-onHover-border);
+    background: var(--ImageControl-addBtn-onHover-bg);
     color: var(--ImageControl-addBtn-onHover-color);
+    border-color: var(--ImageControl-addBtn-onHover-border);
+    &-text {
+      color: var(--ImageControl-addBtn-onHover-color);
+    }
   }
 
   &-item {

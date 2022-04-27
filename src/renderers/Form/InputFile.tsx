@@ -1364,8 +1364,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   </span>
                   <div
                     className={cx('FileControl-acceptTip-help', 'TplField')}>
-                      <a href={documentLink}>{documentation ? documentation : __('File.helpText')}</a>
-                    </div>
+                    {documentation ?
+                      <a
+                        href={documentLink}
+                        onClick={e => e.stopPropagation()}
+                      >{documentation ? documentation : __('File.helpText')}</a> : null}
+                  </div>
                   {maxSize ? (
                     <div className={cx('FileControl-sizeTip')}>
                       {__('File.sizeLimit', {maxSize})}

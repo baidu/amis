@@ -840,6 +840,7 @@
   --ImageControl-addBtn-onHover-bg: #{darken($white, 7.5%)};
   --ImageControl-addBtn-onHover-border: #{darken($borderColor, 10%)};
   --ImageControl-addBtn-onHover-color: var(--Button--default-color);
+  --ImageControl-addBtn-upload-color: var(--Button--default-color);
   --ImageControl-progress-borderRadius: 0;
 
   --FileControl-danger-color: #f33e3e;
