@@ -8,7 +8,7 @@
 .rdtPicker {
   display: none;
   position: absolute;
-  width: 250px;
+  width: 240px;
   padding: 4px;
   margin-top: 1px;
   z-index: 99999 !important;
@@ -31,14 +31,38 @@
 .rdtPicker table {
   width: 100%;
   margin: 0;
+  padding: 0 12px;
+  border-spacing: 0 8px;
+}
+
+.rdtPicker thead {
+  border-spacing: 0;
+}
+
+.rdtMonths,
+.rdtYears {
+  table {
+    border-spacing: 0 12px;
+  }
+  .headerTable {
+    border-spacing: 0;
+  }
 }
 .rdtPicker td,
 .rdtPicker th {
   text-align: center;
-  height: 28px;
+  height: 24px;
+  line-height: 24px;
+  width: 24px;
 }
 .rdtPicker td {
   cursor: pointer;
+  > span {
+    display: inline-block;
+    border-radius: 2px;
+    height: 100%;
+    width: 24px;
+  }
 }
 .rdtPicker td.rdtDay:hover,
 .rdtPicker td.rdtHour:hover,
@@ -50,20 +74,13 @@
 }
 .rdtPicker td.rdtOld,
 .rdtPicker td.rdtNew {
-  color: #999999;
+  color: #B8BABF;
 }
 .rdtPicker td.rdtToday {
   position: relative;
-}
-.rdtPicker td.rdtToday:before {
-  content: '';
-  display: inline-block;
-  border-left: 7px solid transparent;
-  border-bottom: 7px solid #428bca;
-  border-top-color: rgba(0, 0, 0, 0.2);
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
+  > span {
+    border: 1px solid #2468F2;
+  }
 }
 .rdtPicker td.rdtActive,
 .rdtPicker td.rdtActive:hover {
@@ -77,18 +94,21 @@
 .rdtPicker td.rdtDisabled,
 .rdtPicker td.rdtDisabled:hover {
   background: none;
-  color: #999999;
+  color: #B8BABF;
   cursor: not-allowed;
 }
 
 .rdtPicker td span.rdtOld {
-  color: #999999;
+  color: #B8BABF;
 }
 .rdtPicker td span.rdtDisabled,
 .rdtPicker td span.rdtDisabled:hover {
   background: none;
-  color: #999999;
+  color: #B8BABF;
   cursor: not-allowed;
+  > span {
+    border-color: #E8E9EB;
+  }
 }
 .rdtPicker th {
   border-bottom: 1px solid #f9f9f9;
@@ -100,11 +120,15 @@
 }
 .rdtPicker th.rdtSwitch {
   width: 100px;
+  height: 40px;
+  line-height: 40px;
 }
 .rdtPicker th.rdtNext,
 .rdtPicker th.rdtPrev {
   font-size: 21px;
   vertical-align: top;
+  height: 40px;
+  line-height: 40px;
 }
 
 .rdtPrev span,
@@ -121,7 +145,7 @@
 .rdtPicker th.rdtDisabled,
 .rdtPicker th.rdtDisabled:hover {
   background: none;
-  color: #999999;
+  color: #B8BABF;
   cursor: not-allowed;
 }
 .rdtPicker thead tr:first-of-type th {
@@ -151,9 +175,15 @@
 
 td.rdtMonth,
 td.rdtYear {
-  height: 50px;
-  width: 25%;
+  height: 24px;
+  width: 48px;
+  line-height: 24px;
+  text-align: center;
   cursor: pointer;
+
+  > span {
+    width: 48px;
+  }
 }
 td.rdtMonth:hover,
 td.rdtYear:hover {

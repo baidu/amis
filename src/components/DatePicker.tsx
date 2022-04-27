@@ -788,7 +788,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         ) : null}
 
         <a className={cx(`DatePicker-toggler`)}>
-          <Icon icon="clock" className="icon" />
+          <Icon icon="date" className="icon" />
         </a>
 
         {!(useMobileUI && isMobile()) && isOpened ? (
