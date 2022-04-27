@@ -497,6 +497,9 @@ export class ChartRenderer extends Chart {
   }
 
   setData(values: object) {
-    return this.props.store.updateData(values);
+    const {store} = this.props;
+    store.updateData(values);
+    // 重新渲染
+    this.renderChart(this.props.config, values);
   }
 }

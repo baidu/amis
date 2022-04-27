@@ -141,7 +141,7 @@ export class FormulaEditor extends React.Component<
 
     eachTree(variables, item => {
       if (item.value) {
-        const key = evalMode ? item.value : '${' + item.value + '}';
+        const key = item.value;
         varMap[key] = item.label;
       }
     });

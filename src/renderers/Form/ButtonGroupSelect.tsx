@@ -52,7 +52,9 @@ export default class ButtonGroupControl extends React.Component<
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
+    if (actionType === 'clear') {
+      onChange('');
+    } else if (actionType === 'reset') {
       onChange(resetValue ?? '');
     }
   }

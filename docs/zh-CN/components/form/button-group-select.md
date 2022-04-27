@@ -162,3 +162,18 @@ order: 6
 | joinValues     | `boolean`                                                                                                           | `true`                  | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                  |
 | extractValue   | `boolean`                                                                                                           | `false`                 | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)              |
 | autoFill       | `object`                                                                                                            |                         | [自动填充](./options#%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85-autofill)                         |
+
+## 事件表
+
+| 事件名称 | 事件参数        | 说明   |
+| -------- | --------------- | ------ |
+| change   | `value: string` | 值变化 |
+
+## 动作表
+
+| 动作名称 | 动作配置                 | 说明                                                   |
+| -------- | ------------------------ | ------------------------------------------------------ |
+| clear    | -                        | 清空                                                   |
+| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
+| reload   | -                        | 刷新（重新加载），只针对配置了`source`的点选按钮有效   |
+| setValue | `value: string` 更新的值 | 更新数据                                               |
