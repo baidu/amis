@@ -269,7 +269,6 @@ order: 21
 {
     "type": "form",
     "api": "/api/mock2/form/saveForm",
-},
     "body": [
         {
             "type": "input-file",
