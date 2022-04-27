@@ -230,7 +230,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     return renderChild(`${$path}${region ? `/${region}` : ''}`, node || '', {
       ...omit(rest, omitList),
       ...subProps,
-      data: subProps.data || rest.data,
+      data: rest.data || subProps.data, // 优先使用当前数据域
       env: env
     });
   }
