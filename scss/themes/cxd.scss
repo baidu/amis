@@ -189,7 +189,7 @@
 
 .#{$ns}Drawer {
   &-content {
-    border-radius: #{$R4};
+    border-radius: 0;
   }
   &-header {
     border-radius: #{$R4} 0 0 0;

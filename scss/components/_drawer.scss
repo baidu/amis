@@ -19,8 +19,6 @@
     background-clip: padding-box;
     outline: 0;
     z-index: 2;
-    border: var(--Drawer-content-borderWidth) solid
-      var(--Drawer-content-borderColor);
     border-radius: var(--Drawer-content-borderRadius);
     transition: transform ease-in-out var(--animation-duration);
   }
@@ -64,8 +62,8 @@
 
     svg {
       margin-top: px2rem(2px);
-      width: var(--gap-md);
-      height: var(--gap-md);
+      width: var(--Drawer-close-size);
+      height: var(--Drawer-close-size);
       fill: var(--Drawer-close-color);
     }
 
@@ -226,8 +224,8 @@
 
   // &.#{$ns}Drawer--noOverlay {
   .#{$ns}Drawer-close {
-    top: var(--gap-base);
-    right: var(--gap-base);
+    top: var(--gap-md);
+    right: var(--gap-md);
     margin-right: 0;
   }
   // }

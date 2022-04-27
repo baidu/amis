@@ -630,6 +630,7 @@
   --Drawer-body-padding: var(--gap-base);
   --Drawer-close-color: var(--text--muted-color);
   --Drawer-close-onHover-color: var(--text-color);
+  --Drawer-close-size: #{px2rem(12px)};
   --Drawer-content-borderColor: var(--borderColor);
   --Drawer-content-borderRadius: 0;
   --Drawer-content-borderWidth: var(--borderWidth);
