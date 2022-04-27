@@ -269,8 +269,6 @@ order: 21
 {
     "type": "form",
     "api": "/api/mock2/form/saveForm",
-    "data": {
-    "html": "<div>这是一段<code>html</code></div>"
   },
     "body": [
         {
@@ -279,8 +277,7 @@ order: 21
             "label": "File",
             "accept": "*",
             "receiver": "/api/upload/file",
-            "drag": true,
-             "hideUploadButton": true,
+            "drag": true
         }
     ]
 }

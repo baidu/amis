@@ -27,7 +27,6 @@ import {
 } from '../../Schema';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
-import {TplSchema} from '../../renderers/Tpl';
 
 /**
  * File 文件上传控件
@@ -223,7 +222,7 @@ export interface FileControlSchema extends FormBaseControl {
   /**
    * 说明文档内容配置
    */
-   documentation?: SchemaClassName;
+   documentation?: string;
 
    /**
    * 说明文档链接配置
@@ -1367,8 +1366,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     className={cx('FileControl-acceptTip-help', 'TplField')}>
                       <a href={documentLink}>{documentation ? documentation : __('File.helpText')}</a>
                     </div>
-                    {/* <TplSchema></TplSchema> */}
-                    
                   {maxSize ? (
                     <div className={cx('FileControl-sizeTip')}>
                       {__('File.sizeLimit', {maxSize})}
