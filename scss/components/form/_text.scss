@@ -246,18 +246,26 @@
     background: var(--Form-select-multiple-bgColor);
     border-radius: px2rem(2px);
     margin: 2px 3px;
+
+    display: flex;
+    align-items: center;
+    padding: 0 var(--gap-sm);
   }
 
   &-valueIcon.icon-close {
+    top: 0;
     cursor: pointer;
-    margin-right: var(--gap-xs);
+    margin-left: var(--gap-sm);
     width: px2rem(10px);
     color: var(--default-icon-color);
   }
 
   &-input--multiple &-valueLabel {
-    padding: 0 var(--gap-xs);
     line-height: var(--gap-xl);
+    max-width: px2rem(60px);
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &-counter {
