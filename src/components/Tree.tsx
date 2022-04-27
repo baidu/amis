@@ -823,7 +823,6 @@ export class TreeSelector extends React.Component<
       const checked = !!~value.indexOf(item);
       const selfDisabled = item[disabledField];
       let selfChecked = !!uncheckable || checked;
-
       let childrenItems = null;
       let selfChildrenChecked = false;
       if (item.children && item.children.length) {
@@ -850,7 +849,8 @@ export class TreeSelector extends React.Component<
         childrenChecked++;
       }
 
-      let nodeDisabled = !!uncheckable || !!disabled || selfDisabled;
+      let nodeDisabled = !!uncheckable || !!disabled || selfDisabled
+      || (multiple && !autoCheckChildren && !item[valueField]);
 
       if (
         !nodeDisabled &&
@@ -859,7 +859,6 @@ export class TreeSelector extends React.Component<
       ) {
         nodeDisabled = true;
       }
-
       const checkbox: JSX.Element | null = multiple ? (
         <Checkbox
           size="sm"

@@ -159,6 +159,8 @@ order: 59
 
 ## 选中父节点是否自动选中子节点
 
+> since 1.9.0
+
 `autoCheckChildren`默认为 true，选中父节点会自动选中子节点，可以设置`"autoCheckChildren": false`，不自动选中子节点
 
 ```schema: scope="body"
@@ -245,7 +247,7 @@ order: 59
 
 ## 选中父节点自动选中子节点，数据是否包含父子节点的值
 
-`cascade`默认为 false，子节点禁止反选，值不包含子节点值，配置`"cascade": true`，子节点可以反选，值包含父子节点值
+`cascade`默认为 false，子节点禁止反选，值不包含子节点值，配置`"cascade": true`，子节点可以反选，值包含父子节点值（1.9.0之前的版本cascade配置为true的效果为：选中父节点不默认选中子节点）
 
 ```schema: scope="body"
 {
