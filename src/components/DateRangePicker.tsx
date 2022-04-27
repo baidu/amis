@@ -1143,7 +1143,7 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
-    return <td {...props}>{currentDate.date()}</td>;
+    return <td {...props}><span>{currentDate.date()}</span></td>;
   }
 
   renderMonth(props: any, month: number, year: number, date: any) {
@@ -1417,7 +1417,7 @@ export class DateRangePicker extends React.Component<
           value={this.state.startInputValue || ''}
           disabled={disabled}
         />
-        <span className={cx('DateRangePicker-input-separator')}>~</span>
+        <span className={cx('DateRangePicker-input-separator')}>-</span>
         <Input
           className={cx('DateRangePicker-input', {
             isActive: this.state.editState === 'end'
@@ -1438,7 +1438,7 @@ export class DateRangePicker extends React.Component<
         ) : null}
 
         <a className={`${ns}DateRangePicker-toggler`}>
-          <Icon icon="clock" className="icon" />
+          <Icon icon="date" className="icon" />
         </a>
 
         {isOpened ? (

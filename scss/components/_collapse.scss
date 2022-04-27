@@ -2,6 +2,7 @@
   border: var(--Collapse-border);
   padding: 0;
   line-height: px2rem(20px);
+  border-radius: 4px;
 
   &-header {
     font-size: var(--Collapse-header-fontSize);
@@ -31,6 +32,7 @@
     width: px2rem(16px);
     text-align: center;
     margin-right: var(--gap-sm);
+    color: #151B26;
 
     &:before {
       content: '';
