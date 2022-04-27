@@ -360,18 +360,18 @@ export const FormStore = ServiceStore.named('FormStore')
           self.updateMessage(
             json.msg ?? self.__(options && options.successMessage)
           );
-          // self.msg &&
-          //   getEnv(self).notify(
-          //     'success',
-          //     self.msg,
-          //     json.msgTimeout !== undefined
-          //       ? {
-          //           closeButton: true,
-          //           timeout: json.msgTimeout
-          //         }
-          //       : undefined
-          //   );
-          // return json.data;
+          self.msg &&
+            getEnv(self).notify(
+              'success',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
+          return json.data;
         }
       } catch (e) {
         self.markSaving(false);

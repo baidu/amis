@@ -145,6 +145,7 @@ export function renderChild(
 
     props = transform(props);
   }
+
   return (
     <SchemaRenderer
       {...props}

@@ -1034,6 +1034,7 @@ export default class Form extends React.Component<FormProps, object> {
             store.updateData({
               [finishedField || 'finished']: false
             });
+
           return store
             .saveRemote(action.api || (api as Api), values, {
               successMessage: saveSuccess,

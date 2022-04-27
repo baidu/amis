@@ -119,7 +119,7 @@ export async function dispatchEvent(
 ): Promise<RendererEvent<any> | void> {
   let unbindEvent = null;
   const eventName = typeof e === 'string' ? e : e.type;
- 
+
   renderer?.props?.env?.beforeDispatchEvent?.(
     e,
     renderer,
@@ -164,6 +164,7 @@ export async function dispatchEvent(
       (prev: RendererEventListener, next: RendererEventListener) =>
         next.weight - prev.weight
     );
+
   for (let listener of listeners) {
     await runActions(listener.actions, listener.renderer, rendererEvent);
 
