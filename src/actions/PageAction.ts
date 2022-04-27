@@ -7,7 +7,10 @@ import {
 } from './Action';
 
 export interface IPageGoAction extends ListenerAction {
-  delta?: number;
+  args: {
+    delta?: number;
+    [propName: string]: any;
+  };
 }
 
 /**
@@ -40,7 +43,7 @@ export class PageGoAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    window.history.go(action.delta || 0);
+    window.history.go(action.args?.delta || 0);
   }
 }
 

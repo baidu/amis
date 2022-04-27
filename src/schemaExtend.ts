@@ -19,22 +19,15 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
         const arr: Array<any> = [];
         Object.keys(value).forEach(key => {
           const valueType = typeof value[key];
-          if (key.endsWith('___tmp')) {
-            arr.push({
-              key: key.replace('___tmp', ''),
-              value: ''
-            });
-          } else {
-            arr.push({
-              key: key || '',
-              value:
-                valueType === 'string' ||
-                valueType === 'number' ||
-                valueType === 'boolean'
-                  ? value[key]
-                  : JSON.stringify(value[key])
-            });
-          }
+          arr.push({
+            key: key || '',
+            value:
+              valueType === 'string' ||
+              valueType === 'number' ||
+              valueType === 'boolean'
+                ? value[key]
+                : JSON.stringify(value[key])
+          });
         });
         return arr;
       },
@@ -52,12 +45,7 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
             } catch (e) {}
           }
 
-          // 如果先输入了 a 作为 key，想输入 aa 的时候会先进入这里，导致无法输入 aa，因此当遇到 key 相同的时候加个 ___tmp 后缀
-          if (key in obj) {
-            obj[key + '___tmp'] = value;
-          } else {
-            obj[key] = value;
-          }
+          obj[key] = value;
         });
         return obj;
       },
@@ -67,13 +55,21 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
           type: 'input-text',
           unique: true,
           name: 'key',
-          required: true
+          required: true,
+          validateOnChange: true
         },
-        {
-          placeholder: schema.valuePlaceholder ?? 'Value',
-          type: schema.valueType || 'input-text',
-          name: 'value'
-        }
+        schema.valueComponent
+          ? {
+              placeholder: schema.valuePlaceholder ?? 'Value',
+              component: schema.valueComponent,
+              asFormItem: true,
+              name: 'value'
+            }
+          : {
+              placeholder: schema.valuePlaceholder ?? 'Value',
+              type: schema.valueType || 'input-text',
+              name: 'value'
+            }
       ]
     };
   }

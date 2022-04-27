@@ -11,11 +11,14 @@ import {
 } from './Action';
 
 export interface IEmailAction extends ListenerAction {
-  to: string;
-  cc: string;
-  bcc: string;
-  subject: string;
-  body: string;
+  args: {
+    to: string;
+    cc: string;
+    bcc: string;
+    subject: string;
+    body: string;
+    [propName: string]: any;
+  };
 }
 
 /**
@@ -31,11 +34,8 @@ export class EmailAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    const mailTo = filter(action.to, action.args);
-    const mailInfo = mapValues(
-      pick(action, 'cc', 'bcc', 'subject', 'body'),
-      val => filter(val, action.args)
-    );
+    const mailTo = action.args?.to;
+    const mailInfo = pick(action.args ?? {}, 'cc', 'bcc', 'subject', 'body');
     const mailStr = qs.stringify(mailInfo);
     const mailto = `mailto:${mailTo}?${mailStr}`;
 

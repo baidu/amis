@@ -38,18 +38,34 @@ export class FormulaPlugin {
     }
   }
 
-  insertContent(value: any, type: 'variable' | 'func') {
+  insertBraces(originFrom: CodeMirror.Position, originTo: CodeMirror.Position) {
+    this.editor.setCursor({
+      line: originFrom.line,
+      ch: originFrom.ch
+    });
+    this.editor.replaceSelection('${');
+
+    this.editor.setCursor({
+      line: originTo.line,
+      ch: originTo.ch + 2
+    });
+    this.editor.replaceSelection('}');
+  }
+
+  insertContent(value: any, type?: 'variable' | 'func') {
     const from = this.editor.getCursor();
+    const {evalMode} = this.getProps();
     if (type === 'variable') {
       this.editor.replaceSelection(value.key);
-      var to = this.editor.getCursor();
+      const to = this.editor.getCursor();
 
       this.markText(from, to, value.name, 'cm-field');
-    } else if (type === 'func') {
-      // todo 支持 snippet，目前是不支持的
 
+      !evalMode && this.insertBraces(from, to);
+    } else if (type === 'func') {
       this.editor.replaceSelection(`${value}()`);
-      var to = this.editor.getCursor();
+      const to = this.editor.getCursor();
+
       this.markText(
         from,
         {
@@ -64,6 +80,14 @@ export class FormulaPlugin {
         line: to.line,
         ch: to.ch - 1
       });
+
+      if (!evalMode) {
+        this.insertBraces(from, to);
+        this.editor.setCursor({
+          line: to.line,
+          ch: to.ch + 1
+        });
+      }
     } else if (typeof value === 'string') {
       this.editor.replaceSelection(value);
     }
@@ -90,15 +114,16 @@ export class FormulaPlugin {
     if (!Array.isArray(variables) || !variables.length) {
       return;
     }
-
     const varMap: {
       [propname: string]: string;
     } = {};
 
-    eachTree(
-      variables,
-      item => item.value && (varMap[item.value] = item.label)
-    );
+    eachTree(variables, item => {
+      if (item.value) {
+        const key = item.value;
+        varMap[key] = item.label;
+      }
+    });
     const vars = Object.keys(varMap).sort((a, b) => b.length - a.length);
 
     const editor = this.editor;

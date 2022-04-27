@@ -98,6 +98,10 @@
   }
 
   &-pageSwitch {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+
     .#{$ns}Select {
       margin-left: var(--Crud-toolbar-gap);
     }

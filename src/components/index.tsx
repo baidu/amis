@@ -58,6 +58,9 @@ import TableSelection from './TableSelection';
 import TreeSelection from './TreeSelection';
 import AssociatedSelection from './AssociatedSelection';
 import PullRefresh from './PullRefresh';
+import Table from './table';
+import SchemaVariableListPicker from './schema-editor/SchemaVariableListPicker';
+import SchemaVariableList from './schema-editor/SchemaVariableList';
 
 export {
   NotFound,
@@ -119,5 +122,8 @@ export {
   NumberInput,
   ArrayInput,
   AnchorNav,
-  PullRefresh
+  PullRefresh,
+  Table,
+  SchemaVariableListPicker,
+  SchemaVariableList
 };

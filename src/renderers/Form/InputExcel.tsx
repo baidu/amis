@@ -115,7 +115,7 @@ export default class ExcelControl extends React.PureComponent<
    */
   readWorksheet(worksheet: any) {
     const result: any[] = [];
-    const {parseMode, plainText} = this.props;
+    const {parseMode, plainText, includeEmpty} = this.props;
 
     if (parseMode === 'array') {
       worksheet.eachRow((row: any, rowNumber: number) => {
@@ -132,6 +132,11 @@ export default class ExcelControl extends React.PureComponent<
           firstRowValues = row.values;
         } else {
           const data: any = {};
+          if (includeEmpty) {
+            firstRowValues.forEach((item: any) => {
+              data[item] = '';
+            });
+          }
           row.eachCell((cell: any, colNumber: any) => {
             if (firstRowValues[colNumber]) {
               let value = cell.value;
@@ -161,9 +166,13 @@ export default class ExcelControl extends React.PureComponent<
   }
 
   doAction(action: any, data: object, throwErrors: boolean) {
-    const {onChange} = this.props;
-    if (action.actionType === 'clear') {
+    const actionType = action?.actionType as string;
+    const {onChange, resetValue} = this.props;
+
+    if (actionType === 'clear') {
       onChange('');
+    } else if (actionType === 'reset') {
+      onChange(resetValue ?? '');
     }
   }
 

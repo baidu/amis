@@ -1209,19 +1209,20 @@ Form 支持轮询初始化接口，步骤如下：
 | --------------------- | ----------------------------- | -------------- |
 | inited                | 表单数据                      | 初始化完成     |
 | change                | 表单数据                      | 值变化         |
-| formItemValidateSucc  | -                             | 表单项校验成功 |
-| formItemValidateError | -                             | 表单项校验失败 |
-| validateSucc          | -                             | 表单校验成功   |
-| validateError         | -                             | 表单校验成功   |
+| formItemValidateSucc  | 表单数据                      | 表单项校验成功 |
+| formItemValidateError | 表单数据                      | 表单项校验失败 |
+| validateSucc          | 表单数据                      | 表单校验成功   |
+| validateError         | 表单数据                      | 表单校验成功   |
 | submitSucc            | `result: object` 接口返回内容 | 提交成功       |
 | submitFail            | `error: object` 接口返回内容  | 提交失败       |
 
 ## 动作表
 
-| 动作名称 | 动作配置 | 说明     |
-| -------- | -------- | -------- |
-| submit   | -        | 提交表单 |
-| reset    | -        | 重置表单 |
-| clear    | -        | 清空表单 |
-| validate | -        | 校验表单 |
-| reload   | -        | 重新加载 |
+| 动作名称 | 动作配置                       | 说明                       |
+| -------- | ------------------------------ | -------------------------- |
+| submit   | -                              | 提交表单                   |
+| reset    | -                              | 重置表单                   |
+| clear    | -                              | 清空表单                   |
+| validate | -                              | 校验表单                   |
+| reload   | -                              | 刷新（重新加载）           |
+| setValue | `value: object` 更新的表单数据 | 更新数据，对数据进行 merge |

@@ -473,6 +473,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   @autobind
   onFocus(e: any) {
+    const {simpleValue} = this.props;
+    const {selection} = this.state;
+    const value = simpleValue ? selection.map(item => item.value) : selection;
+    
     this.props.disabled ||
       this.state.isOpen ||
       this.setState(
@@ -482,16 +486,26 @@ export class Select extends React.Component<SelectProps, SelectState> {
         this.focus
       );
 
-    this.props.onFocus && this.props.onFocus(e);
+    this.props.onFocus && this.props.onFocus({
+      ...e,
+      value
+    });
   }
 
   @autobind
   onBlur(e: any) {
+    const {simpleValue} = this.props;
+    const {selection} = this.state;
+    const value = simpleValue ? selection.map(item => item.value) : selection;
+
     this.setState({
       isFocused: false
     });
 
-    this.props.onBlur && this.props.onBlur(e);
+    this.props.onBlur && this.props.onBlur({
+      ...e,
+      value
+    });
   }
 
   @autobind
@@ -1101,7 +1115,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         isOpen={this.state.isOpen}
         inputValue={inputValue}
         onChange={
-          /*展示 Checkbox 的时候，会出发多次 onChange 原因待查*/ multiple &&
+          /*展示 Checkbox 的时候，会出发多次 onChange 原因待查*/ multiple ||
           checkAll
             ? noop
             : this.handleChange

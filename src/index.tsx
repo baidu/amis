@@ -87,6 +87,7 @@ import './renderers/Form/ChartRadios';
 import './renderers/Form/InputRating';
 import './renderers/Form/Switch';
 import './renderers/Form/Radios';
+import './renderers/Form/JSONSchemaEditor';
 import './renderers/Form/ListSelect';
 import './renderers/Form/LocationPicker';
 import './renderers/Form/Select';
@@ -177,6 +178,8 @@ import './renderers/Code';
 import './renderers/WebComponent';
 import './renderers/GridNav';
 import './renderers/TooltipWrapper';
+import './renderers/Tag';
+import './renderers/Table-v2/index';
 
 import Scoped, {ScopedContext} from './Scoped';
 
@@ -219,6 +222,8 @@ import {
 const classPrefix = getClassPrefix();
 
 import './actions';
+import {DataScope} from './utils/DataScope';
+import {DataSchema} from './utils/DataSchema';
 
 export * from './components/index';
 
@@ -276,5 +281,7 @@ export {
   setDefaultLocale,
   registerLocale,
   makeTranslator,
-  animation
+  animation,
+  DataSchema,
+  DataScope
 };

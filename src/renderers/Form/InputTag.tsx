@@ -85,8 +85,10 @@ export default class TagControl extends React.PureComponent<
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
-      onChange(resetValue ?? '');
+    if (actionType === 'clear') {
+      onChange?.('');
+    } else if (actionType === 'reset') {
+      onChange?.(resetValue ?? '');
     }
   }
 
@@ -105,26 +107,19 @@ export default class TagControl extends React.PureComponent<
   }
 
   @autobind
-  getValue(type: 'push' | 'pop' = 'pop', option: any = {}) {
-    const {
-      selectedOptions,
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField
-    } = this.props;
+  getValue(type: 'push' | 'pop' | 'normal' = 'normal', option: any = {}) {
+    const {selectedOptions, joinValues, extractValue, delimiter, valueField} =
+      this.props;
 
     const newValue = selectedOptions.concat();
     if (type === 'push') {
       newValue.push(option);
-    } else {
+    } else if (type === 'pop') {
       newValue.pop();
     }
 
     const newValueRes = joinValues
-      ? newValue
-          .map(item => item[valueField || 'value'])
-          .join(delimiter || ',')
+      ? newValue.map(item => item[valueField || 'value']).join(delimiter || ',')
       : extractValue
       ? newValue.map(item => item[valueField || 'value'])
       : newValue;
@@ -132,10 +127,7 @@ export default class TagControl extends React.PureComponent<
   }
 
   async addItem(option: Option) {
-    const {
-      selectedOptions,
-      onChange
-    } = this.props;
+    const {selectedOptions, onChange} = this.props;
     const newValue = selectedOptions.concat();
 
     if (find(newValue, item => item.value == option.value)) {
@@ -157,7 +149,10 @@ export default class TagControl extends React.PureComponent<
       isOpened: true
     });
 
-    const isPrevented = await this.dispatchEvent('focus', e);
+    const newValueRes = this.getValue('normal');
+    const isPrevented = await this.dispatchEvent('focus', {
+      value: newValueRes
+    });
     isPrevented || this.props.onFocus?.(e);
   }
 
@@ -173,8 +168,11 @@ export default class TagControl extends React.PureComponent<
     } = this.props;
 
     const value = this.state.inputValue.trim();
+    const newValueRes = this.getValue('normal');
 
-    const isPrevented = await this.dispatchEvent('blur', e);
+    const isPrevented = await this.dispatchEvent('blur', {
+      value: newValueRes
+    });
     isPrevented || this.props.onBlur?.(e);
     this.setState(
       {
@@ -249,11 +247,7 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   async handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
-    const {
-      selectedOptions,
-      onChange,
-      delimiter
-    } = this.props;
+    const {selectedOptions, onChange, delimiter} = this.props;
 
     const value = this.state.inputValue.trim();
 

@@ -17,8 +17,10 @@ export default {
           actions: [
             {
               actionType: 'toast',
-              msgType: 'info',
-              msg: '派发点击事件'
+              args: {
+                msgType: 'info',
+                msg: '派发点击事件'
+              }
             }
           ]
         },
@@ -26,8 +28,10 @@ export default {
           actions: [
             {
               actionType: 'toast',
-              msgType: 'info',
-              msg: '派发鼠标移入事件'
+              args: {
+                msgType: 'info',
+                msg: '派发鼠标移入事件'
+              }
             }
           ]
         },
@@ -35,8 +39,10 @@ export default {
           actions: [
             {
               actionType: 'toast',
-              msgType: 'info',
-              msg: '派发鼠标移出事件'
+              args: {
+                msgType: 'info',
+                msg: '派发鼠标移出事件'
+              }
             }
           ]
         }
@@ -68,8 +74,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发点击事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发点击事件'
+                  }
                 }
               ]
             }
@@ -83,8 +91,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发点击事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发点击事件'
+                  }
                 }
               ]
             }
@@ -109,8 +119,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发点击事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发点击事件'
+                  }
                 }
               ]
             }
@@ -124,8 +136,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发点击事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发点击事件'
+                  }
                 }
               ]
             }
@@ -144,8 +158,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发点击事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发点击事件'
+                  }
                 }
               ]
             }
@@ -159,8 +175,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发点击事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发点击事件'
+                  }
                 }
               ]
             }
@@ -186,8 +204,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发点击事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发点击事件'
+                  }
                 }
               ]
             }
@@ -201,8 +221,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发点击事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发点击事件'
+                  }
                 }
               ]
             }
@@ -230,12 +252,14 @@ export default {
         }
       ],
       onEvent: {
-        click: {
+        change: {
           actions: [
             {
               actionType: 'toast',
-              msgType: 'info',
-              msg: '派发点击事件'
+              args: {
+                msgType: 'info',
+                msg: '派发点选事件'
+              }
             }
           ]
         }
@@ -260,8 +284,10 @@ export default {
           actions: [
             {
               actionType: 'toast',
-              msgType: 'info',
-              msg: '派发点击事件'
+              args: {
+                msgType: 'info',
+                msg: '派发点击事件'
+              }
             }
           ]
         },
@@ -269,8 +295,10 @@ export default {
           actions: [
             {
               actionType: 'toast',
-              msgType: 'info',
-              msg: '派发鼠标移入事件'
+              args: {
+                msgType: 'info',
+                msg: '派发鼠标移入事件'
+              }
             }
           ]
         },
@@ -278,8 +306,10 @@ export default {
           actions: [
             {
               actionType: 'toast',
-              msgType: 'info',
-              msg: '派发鼠标移出事件'
+              args: {
+                msgType: 'info',
+                msg: '派发鼠标移出事件'
+              }
             }
           ]
         }

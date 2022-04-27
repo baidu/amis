@@ -241,6 +241,7 @@
   --Button--light-onHover-color: var(--Button--light-color);
   --Button--link-color: var(--primary);
   --Button--link-onDisabled-color: #{$gray600};
+  --Button--link-onDisabled-backgroundColor: transparent;
   --Button--link-onHover-color: var(--primary-onHover);
   --Button--link-onActive-color: var(--primary-onActive);
   --Button--md-fontSize: var(--Button-fontSize);
@@ -729,6 +730,11 @@
   --Form-input-onHover-bg: #{rgba($white, 0.6)};
   --Form-input-onHover-borderColor: var(--Form-input-onFocused-borderColor);
   --Form-input-paddingX: #{px2rem(8px)};
+  --Form-inputNumber-paddingX: #{px2rem(12px)};
+  --Form-inputNumber-base-width: #{px2rem(24px)};
+  --Form-inputNumber-base-height: #{px2rem(32px)};
+  --Form-inputNumber-strong-disabled-color: #b4b6ba;
+
   --Form-input-paddingY: calc(
     (
         var(--Form-input-height) - var(--Form-input-lineHeight) *
@@ -1308,14 +1314,34 @@
   --Table-searchableForm-borderRadius: #{px2rem(4px)};
 
   --TableCell--edge-paddingX: var(--gap-md);
+  --TableCell--edge-paddingX-default: var(--gap-base);
   --TableCell-filterBtn--onActive-color: var(--primary);
   --TableCell-filterBtn-width: #{px2rem(16px)};
   --TableCell-filterPopOver-dropDownItem-height: #{px2rem(34px)};
   --TableCell-filterPopOver-dropDownItem-padding: 0 #{px2rem(12px)};
+  --TableCell-line-height-large: #{px2rem(40px)};
+  --TableCell-line-height-middle: #{px2rem(30px)};
   --TableCell-height: #{px2rem(40px)};
+  --TableCell-height-default: #{px2rem(41px)};
+  --TableCell-height-large: #{px2rem(61px)};
+  --TableCell-height-small: #{px2rem(33px)};
   --TableCell-paddingX: var(--gap-sm);
+  --TableCell-paddingX-large: var(--gap-base);
+  --TableCell-paddingX-small: var(--gap-xs);
   --TableCell-paddingY: calc(
     (var(--TableCell-height) - var(--Table-fontSize) * var(--Table-lineHeight)) /
+      2
+  );
+  --TableCell-paddingY-default: calc(
+    (var(--TableCell-height-default) - var(--Table-fontSize) * var(--Table-lineHeight)) /
+      2
+  );
+  --TableCell-paddingY-large: calc(
+    (var(--TableCell-height-large) - var(--Table-fontSize) * var(--Table-lineHeight)) /
+      2
+  );
+  --TableCell-paddingY-small: calc(
+    (var(--TableCell-height-small) - var(--Table-fontSize) * var(--Table-lineHeight)) /
       2
   );
   --TableCell-searchBtn--onActive-color: var(--primary);
@@ -1324,6 +1350,11 @@
   --TableCell-sortBtn--default-opacity: 0;
   --TableCell-sortBtn--onActive-color: var(--primary);
   --TableCell-sortBtn-width: #{px2rem(8px)};
+  --TableCell-icon-gap: var(--gap-sm);
+
+  --Table-fixedLeftLast-boxShadow: inset 10px 0 8px -8px #00000026;
+  --Table-fixedRightFirst-boxShadow: inset -10px 0 8px -8px #00000026;
+  --Table-loading-padding: 30px 0px;
 
   --Tabs--card-bg: #f6f8f8;
   --Tabs--card-borderTopColor: var(--borderColor);
@@ -1608,6 +1639,31 @@
   --Timeline--info-bg: var(--info);
   --Timeline--warning-bg: var(--warning);
   --Timeline--danger-bg: var(--danger);
+
+  // tag
+  --Tag-content-fontSize: var(--fontSizeSm);
+  --Tag-height: #{px2rem(24px)};
+  --Tag-borderRadius: #{px2rem(2px)};
+  --Tag-fontColor: #151a26;
+
+  --Tag-default-color: #f2f2f4;
+  --Tag-inactive-color: #b4b6ba;
+  --Tag-active-color: #2468f2;
+  --Tag-processing-color: #1ac5ff;
+  --Tag-success-color: #0bc286;
+  --Tag-error-color: #e8684a;
+  --Tag-warning-color: #ffb200;
+
+  --Tag-checkable-bgColor: #f2f2f4;
+  --Tag-checkable-bgColor-onDisable: #e6e6e8;
+  --Tag-checkable-bgColor-onHover: #e6e6e8;
+  --Tag-checkable-bgColor-onActive: #e6e6e8;
+
+  --Tag-checkable-bgColor-onHover-onChecked: #4f86f4;
+  --Tag-checkable-bgColor-onActive-onChecked: #1c53c1;
+  --Tag-checkable-bgColor-onChecked: #2468f2;
+
+  --Tag-checkable-fontColor-onDisable: #b4b6ba;
 
   // ContextMenu
   --menu-background: #fff;

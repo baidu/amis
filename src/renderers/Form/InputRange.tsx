@@ -104,7 +104,8 @@ export interface RangeControlSchema extends FormBaseControl {
 }
 
 type MarksType = {
-  [index: number | string]: MarksValue;
+  [index: string]: MarksValue;
+  [index: number]: MarksValue;
 };
 
 type MarksValue = Record<
@@ -488,19 +489,28 @@ export default class RangeControl extends React.PureComponent<
   }
 
   doAction(action: Action, data: object, throwErrors: boolean) {
-    if (action.actionType === 'clear') {
-      this.clearValue();
+    const actionType = action?.actionType as string;
+    const {multiple, min, max} = this.props;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      this.clearValue(actionType);
     }
   }
 
   @autobind
-  clearValue() {
-    const {multiple, min, max} = this.props;
-    if (multiple) {
-      this.updateValue({min, max});
-    } else {
-      this.updateValue(min);
+  clearValue(type: string = 'clear') {
+    const {multiple, min, max, onChange} = this.props;
+    let resetValue = this.props.resetValue;
+
+    if (type === 'clear') {
+      resetValue = undefined;
     }
+
+    const value = this.getFormatValue(
+      resetValue ?? (multiple ? {min, max} : min)
+    );
+
+    onChange?.(value);
   }
 
   @autobind
@@ -535,7 +545,7 @@ export default class RangeControl extends React.PureComponent<
       return;
     }
 
-    onChange && onChange(result);
+    onChange?.(result);
   }
 
   /**
@@ -595,7 +605,7 @@ export default class RangeControl extends React.PureComponent<
     // 处理自定义json配置
     let renderMarks:
       | MarksType
-      | {[index: number | string]: ReactNode}
+      | {[index: string]: ReactNode; [index: number]: ReactNode}
       | undefined = marks ? {...marks} : marks;
     marks &&
       forEach(marks, (item, key) => {

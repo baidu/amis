@@ -254,10 +254,10 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
     const activeKey = args?.activeKey as number;
     switch (action.actionType) {
       case 'clear':
-        onChange('');
+        onChange?.('');
         break;
       case 'reset':
-        onChange(resetValue);
+        onChange?.(resetValue ?? '');
         break;
       case 'changeTabKey':
         this.setState({

@@ -151,38 +151,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input && this.input.focus();
   }
 
-  async dispatchEvent(eventName: SelectRendererEvent, eventData: any = {}) {
-    const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
-    const {dispatchEvent, options, data} = this.props;
-    // 触发渲染器事件
-    const rendererEvent = await dispatchEvent(
-      eventName,
-      createObject(data, {
-        options,
-        ...eventData
-      })
-    );
-    if (rendererEvent?.prevented) {
-      return;
-    }
-    this.props[event](eventData);
-  }
-
-  async changeValue(value: Option | Array<Option> | string | void) {
-    const {
-      joinValues,
-      extractValue,
-      delimiter,
-      multiple,
-      type,
-      valueField,
-      onChange,
-      setOptions,
-      options,
-      data,
-      dispatchEvent
-    } = this.props;
-
+  getValue(value: Option | Array<Option> | string | void) {
+    const {joinValues, extractValue, delimiter, multiple, valueField, options} =
+      this.props;
     let newValue: string | Option | Array<Option> | void = value;
     let additonalOptions: Array<any> = [];
 
@@ -221,6 +192,31 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       }
     }
 
+    return newValue;
+  }
+
+  async dispatchEvent(eventName: SelectRendererEvent, eventData: any = {}) {
+    const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
+    const {dispatchEvent, options, data} = this.props;
+    // 触发渲染器事件
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      createObject(data, {
+        options,
+        ...eventData
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    this.props[event](eventData);
+  }
+
+  async changeValue(value: Option | Array<Option> | string | void) {
+    const {onChange, setOptions, options, data, dispatchEvent} = this.props;
+
+    let newValue: string | Option | Array<Option> | void = this.getValue(value);
+    let additonalOptions: Array<any> = [];
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
@@ -235,7 +231,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       return;
     }
 
-    onChange(newValue);
+    onChange?.(newValue);
   }
 
   async loadRemote(input: string) {
@@ -336,11 +332,14 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   }
 
   doAction(action: Action, data: object, throwErrors: boolean): any {
-    const {resetValue} = this.props;
+    const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
-      this.changeValue(resetValue ?? '');
+    if (actionType === 'clear') {
+      onChange?.('');
+    } else if (actionType === 'reset') {
+      const value = this.getValue(resetValue ?? '');
+      onChange?.(value);
     }
   }
 
@@ -406,8 +405,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             creatable={creatable}
             searchable={searchable || !!autoComplete}
             onChange={this.changeValue}
-            onBlur={(e: any) => this.dispatchEvent('blur', e)}
-            onFocus={(e: any) => this.dispatchEvent('focus', e)}
+            onBlur={(e: any) => this.dispatchEvent('blur', {value: e.value})}
+            onFocus={(e: any) => this.dispatchEvent('focus', {value: e.value})}
             onAdd={() => this.dispatchEvent('add')}
             onEdit={(item: any) => this.dispatchEvent('edit', {value: item})}
             onDelete={(item: any) =>
@@ -438,6 +437,12 @@ export interface TransferDropDownProps
 }
 
 class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProps> {
+  @autobind
+  renderItem(item: Option): any {
+    const {labelField} = this.props;
+    return `${item.scopeLabel || ''}${item[labelField || 'label']}`;
+  }
+
   render() {
     const {
       className,
@@ -488,6 +493,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           options={options}
           onChange={this.handleChange}
           option2value={this.option2value}
+          itemRender={this.renderItem}
           sortable={sortable}
           searchResultMode={searchResultMode}
           onSearch={searchable ? this.handleSearch : undefined}

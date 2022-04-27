@@ -256,7 +256,9 @@ API 还支持配置对象类型
 
 #### application/json
 
-默认是`application/json`，不需要额外配置
+默认是`application/json`，不需要额外配置。
+
+> 注意：当数据域里的 key 为 `&` 且值为 `$$` 时, 将所有原始数据打平设置到 `data` 中.
 
 ```schema: scope="body"
 {
@@ -504,6 +506,8 @@ API 还支持配置对象类型
 ### 配置返回数据
 
 如果接口返回的数据结构不符合预期，可以通过配置 `responseData`来修改，同样支持[数据映射](../concepts/data-mapping)，可用来映射的数据为接口的实际数据（接口返回的 `data` 部分），额外加 `api` 变量。其中 `api.query` 为接口发送的 query 参数，`api.body` 为接口发送的内容体原始数据。
+
+> 注意：当数据域里的 key 为 `&` 且值为 `$$` 时, 表示将所有原始数据打平设置到 `data` 中.
 
 ```json
 {

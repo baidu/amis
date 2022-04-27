@@ -83,7 +83,9 @@ export default {
           actions: [
             {
               actionType: 'toast',
-              msg: '${activeIndex}'
+              args: {
+                msg: '滚动至${event.data.activeIndex}'
+              }
             }
           ]
         }

@@ -301,9 +301,22 @@ register('de-DE', {
   'FormulaEditor.title': 'Formel Editor',
   'FormulaEditor.variable': 'Variable',
   'FormulaEditor.function': 'Funktion',
+  'FormulaEditor.invalidData': 'Überprüfungsfehler, position in {{position}}',
   'pullRefresh.pullingText': 'Zum Aktualisieren nach unten ziehen...',
   'pullRefresh.loosingText': 'Zum Aktualisieren freigeben...',
   'pullRefresh.loadingText': 'Laden...',
   'pullRefresh.successText': 'Laden erfolgreich',
-  'Picker.placeholder': 'Klicken Sie rechts auf das Symbol'
+  'Picker.placeholder': 'Klicken Sie rechts auf das Symbol',
+  'SchemaType.string': 'String',
+  'SchemaType.number': 'Number',
+  'SchemaType.interger': 'Interger',
+  'SchemaType.object': 'Object',
+  'SchemaType.array': 'Array',
+  'SchemaType.boolean': 'Boolean',
+  'SchemaType.null': 'Null',
+  'SchemaType.any': 'Any',
+  'JSONSchema.title': 'Title',
+  'JSONSchema.description': 'Description',
+  'JSONSchema.key': 'Key',
+  'JSONSchema.array_items': 'Items'
 });

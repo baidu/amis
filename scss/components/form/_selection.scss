@@ -179,6 +179,10 @@
     bottom: 0;
   }
 
+  &-item.is-disabled {
+    color: var(--text--muted-color);
+  }
+
   &-sublist &-item:before {
     height: 1px;
     content: '';
@@ -212,20 +216,7 @@
     cursor: pointer;
     user-select: none;
 
-    position: relative;
-    & > * {
-      position: relative;
-      z-index: 2;
-    }
-
-    &:hover:after {
-      position: absolute;
-      content: '';
-      z-index: 1;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: -99999px;
+    &:hover {
       background: var(--Tree-item-onHover-bg);
     }
 

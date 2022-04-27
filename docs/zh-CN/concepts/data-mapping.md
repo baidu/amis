@@ -1195,7 +1195,7 @@ ${xxx|minus:2}
 乘法运算
 
 ```
-${xxx|division:2}
+${xxx|times:2}
 ```
 
 ### division
