@@ -59,7 +59,7 @@
   &-searchBtn,
   &-cancelBtn {
     cursor: pointer;
-    color: var(--icon-color);
+    color: var(--SearchBox-search-icon-color);
 
     &:hover {
       color: var(--icon-onHover-color);
