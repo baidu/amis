@@ -1572,6 +1572,18 @@ export default class ImageControl extends React.Component<
                                           />
                                         </a>
                                       ) : null}
+                                      {!disabled ? (
+                                        <a
+                                          data-tooltip={__('Select.upload')}
+                                          data-position="bottom"
+                                          onClick={this.handleSelect}
+                                        >
+                                          <Icon
+                                            icon="upload"
+                                            className="icon"
+                                          />
+                                        </a>
+                                      ) : null}
                                       <a
                                         data-tooltip={
                                           file.name ||
@@ -1621,7 +1633,7 @@ export default class ImageControl extends React.Component<
                           />
                         ) : (
                           <>
-                            <Icon icon="plus" className="icon" />
+                            <Icon icon="plus-fine" className="icon" />
                             <span>{__('File.upload')}</span>
                           </>
                         )}

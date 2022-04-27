@@ -269,6 +269,9 @@ order: 21
 {
     "type": "form",
     "api": "/api/mock2/form/saveForm",
+    "data": {
+    "html": "<div>这是一段<code>html</code></div>"
+  },
     "body": [
         {
             "type": "input-file",
@@ -276,7 +279,8 @@ order: 21
             "label": "File",
             "accept": "*",
             "receiver": "/api/upload/file",
-            "drag": true
+            "drag": true,
+             "hideUploadButton": true,
         }
     ]
 }
@@ -313,7 +317,9 @@ order: 21
 | startChunkApi    | [API](../../../docs/types/api) |                                                                                                            | startChunkApi                                                                                                                        |
 | chunkApi         | [API](../../../docs/types/api) |                                                                                                            | chunkApi                                                                                                                             |
 | finishChunkApi   | [API](../../../docs/types/api) |                                                                                                            | finishChunkApi                                                                                                                       |
-| concurrency      | `number`                       |                                                                                                            | 分块上传时并行个数                                                                                                                   |
+| concurrency      | `number`                       |                                                                                                            | 分块上传时并行个数    
+| documentation      | `string`                       |                                                                                                            | 文档内容
+| documentLink        | `string`                       |                                                                                                            | 文档链接                                                                                                               |
 
 ## 事件表
 

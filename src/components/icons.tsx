@@ -70,6 +70,7 @@ import SortAscIcon from '../icons/sort-asc.svg';
 import SortDescIcon from '../icons/sort-desc.svg';
 import SettingIcon from '../icons/setting.svg';
 import PlusCicleIcon from '../icons/plus-cicle.svg';
+import PlusFineIcon from '../icons/plus-fine.svg';
 import EllipsisVIcon from '../icons/ellipsis-v.svg';
 import ExpandAltIcon from '../icons/expand-alt.svg';
 import CompressAltIcon from '../icons/compress-alt.svg';
@@ -196,6 +197,7 @@ registerIcon('image', ImageIcon);
 registerIcon('refresh', RefreshIcon);
 registerIcon('trash', TrashIcon);
 registerIcon('dot', DotIcon);
+registerIcon('plus-fine', PlusFineIcon);
 
 export function Icon({
   icon,
