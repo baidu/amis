@@ -4,7 +4,7 @@ import {findDOMNode} from 'react-dom';
 import {RendererProps} from '../../factory';
 import {Action} from '../../types';
 import {Icon} from '../../components/icons';
-import {setVariable} from '../../utils/helper';
+import {setVariable, createObject} from '../../utils/helper';
 import {ITableStore} from '../../store/table-v2';
 import HeadCellDropDown from '../../components/table/HeadCellDropDown';
 
@@ -20,7 +20,7 @@ export interface HeadCellSearchProps extends RendererProps {
   name: string;
   searchable: boolean | QuickSearchConfig;
   classPrefix: string;
-  onFilter?: (values: object) => void;
+  onSearch?: (values: object) => void;
   onAction?: Function;
   store: ITableStore;
 }
@@ -29,7 +29,6 @@ export class HeadCellSearchDropDown extends React.Component<
   HeadCellSearchProps,
   any
 > {
-
   formItems: Array<string> = [];
   constructor(props: HeadCellSearchProps) {
     super(props);
@@ -161,9 +160,21 @@ export class HeadCellSearchDropDown extends React.Component<
     onAction && onAction(e, action, ctx);
   }
 
-  handleReset() {
-    const {onFilter, data, name, store} = this.props;
+  async handleReset() {
+    const {onSearch, data, name, store, dispatchEvent} = this.props;
     const values = {...data};
+
+    const rendererEvent = await dispatchEvent(
+      'columnSearch',
+      createObject(data, {
+        ...values
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     this.formItems.forEach(key => setVariable(values, key, undefined));
 
     if (values.orderBy === name) {
@@ -173,11 +184,11 @@ export class HeadCellSearchDropDown extends React.Component<
 
     store.updateQuery(values);
 
-    onFilter && onFilter(values);
+    onSearch && onSearch(values);
   }
 
-  handleSubmit(values: any, confirm: Function) {
-    const {onFilter, name, store} = this.props;
+  async handleSubmit(values: any, confirm: Function) {
+    const {onSearch, name, store, dispatchEvent, data} = this.props;
 
     if (values.order) {
       values = {
@@ -186,9 +197,20 @@ export class HeadCellSearchDropDown extends React.Component<
       };
     }
 
+    const rendererEvent = await dispatchEvent(
+      'columnSearch',
+      createObject(data, {
+        ...values
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     store.updateQuery(values);
 
-    onFilter && onFilter(values);
+    onSearch && onSearch(values);
 
     confirm();
   }
@@ -196,7 +218,9 @@ export class HeadCellSearchDropDown extends React.Component<
   isActive() {
     const {data, name, orderBy} = this.props;
 
-    return (orderBy && orderBy === name) || this.formItems.some(key => data?.[key]);
+    return (
+      (orderBy && orderBy === name) || this.formItems.some(key => data?.[key])
+    );
   }
 
   render() {
@@ -224,21 +248,29 @@ export class HeadCellSearchDropDown extends React.Component<
         )}
         active={isActive}
         filterIcon={<Icon icon="search" className="icon" />}
-        popOverContainer={popOverContainer ? popOverContainer : () => findDOMNode(this)}
-        filterDropdown={({setSelectedKeys, selectedKeys, confirm, clearFilters}) => {
+        popOverContainer={
+          popOverContainer ? popOverContainer : () => findDOMNode(this)
+        }
+        filterDropdown={({
+          setSelectedKeys,
+          selectedKeys,
+          confirm,
+          clearFilters
+        }) => {
           return render('quick-search-form', formSchema, {
             data: {
               ...data,
               orderBy,
-              order: orderBy && orderBy === name ? (store as ITableStore).order : ''
+              order:
+                orderBy && orderBy === name ? (store as ITableStore).order : ''
             },
             onSubmit: (values: object) => this.handleSubmit(values, confirm),
             onAction: (e: any, action: Action, ctx: object) => {
               this.handleAction(e, action, ctx, confirm);
             }
           }) as JSX.Element;
-        }}>
-      </HeadCellDropDown>
+        }}
+      ></HeadCellDropDown>
     );
   }
 }

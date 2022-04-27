@@ -64,6 +64,14 @@ export interface NumberControlSchema extends FormBaseControl {
    * 只读
    */
   readOnly?: boolean;
+  /**
+   * 是否启用键盘行为
+   */
+  keyboard?: boolean;
+  /**
+   * 输入框为基础输入框还是加强输入框
+   */
+  displayMode?: 'base' | 'enhance';
 }
 
 export interface NumberProps extends FormControlProps {
@@ -92,6 +100,14 @@ export interface NumberProps extends FormControlProps {
    * 只读
    */
   readOnly?: boolean;
+  /**
+   * 启用键盘行为，即通过上下方向键控制是否生效
+   */
+  keyboard?: boolean;
+  /**
+   * 输入框为基础输入框还是加强输入框
+   */
+  displayMode?: 'base' | 'enhance';
 }
 
 interface NumberState {
@@ -107,6 +123,7 @@ export default class NumberControl extends React.Component<
   NumberProps,
   NumberState
 > {
+  input?: HTMLInputElement;
   static defaultProps: Partial<NumberProps> = {
     step: 1,
     resetValue: ''
@@ -127,8 +144,12 @@ export default class NumberControl extends React.Component<
   doAction(action: Action, args: any) {
     const actionType = action?.actionType as string;
     const {resetValue, onChange} = this.props;
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
-      this.handleChange(resetValue ?? '');
+
+    if (actionType === 'clear') {
+      onChange?.('');
+    } else if (actionType === 'reset') {
+      const value = this.getValue(resetValue ?? '');
+      onChange?.(value);
     }
   }
 
@@ -159,22 +180,8 @@ export default class NumberControl extends React.Component<
     return undefined;
   }
 
-  // 派发有event的事件
-  @autobind
-  dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(e, data);
-  }
-
-  async handleChange(inputValue: any) {
-    const {
-      classPrefix: ns,
-      onChange,
-      resetValue,
-      unitOptions,
-      data,
-      dispatchEvent
-    } = this.props;
+  getValue(inputValue: any) {
+    const {resetValue, unitOptions} = this.props;
 
     if (inputValue && typeof inputValue !== 'number') {
       return;
@@ -183,7 +190,26 @@ export default class NumberControl extends React.Component<
     if (inputValue !== null && unitOptions && this.state.unit) {
       inputValue = inputValue + this.state.unit;
     }
-    const value = inputValue === null ? resetValue ?? null : inputValue;
+    return inputValue === null ? resetValue ?? null : inputValue;
+  }
+
+  // 派发有event的事件
+  @autobind
+  async dispatchEvent(eventName: string) {
+    const {dispatchEvent, data, value} = this.props;
+
+    dispatchEvent(
+      eventName,
+      createObject(data, {
+        value
+      })
+    );
+  }
+
+  async handleChange(inputValue: any) {
+    const {onChange, data, dispatchEvent} = this.props;
+    const value = this.getValue(inputValue);
+
     const rendererEvent = await dispatchEvent(
       'change',
       createObject(data, {
@@ -225,7 +251,16 @@ export default class NumberControl extends React.Component<
       this.setState({unitOptions: normalizeOptions(this.props.unitOptions)});
     }
   }
-
+  @autobind
+  inputRef(ref: any) {
+    this.input = ref;
+  }
+  focus() {
+    if (!this.input) {
+      return;
+    }
+    this.input.focus();
+  }
   render(): JSX.Element {
     const {
       className,
@@ -243,7 +278,9 @@ export default class NumberControl extends React.Component<
       prefix,
       kilobitSeparator,
       unitOptions,
-      readOnly
+      readOnly,
+      keyboard,
+      displayMode
     } = this.props;
 
     let precisionProps: any = {};
@@ -288,6 +325,7 @@ export default class NumberControl extends React.Component<
         )}
       >
         <NumberInput
+          inputRef={this.inputRef}
           value={finalValue}
           step={step}
           max={this.filterNum(max)}
@@ -301,8 +339,10 @@ export default class NumberControl extends React.Component<
           showSteps={showSteps}
           borderMode={borderMode}
           readOnly={readOnly}
-          onFocus={this.dispatchEvent}
-          onBlur={this.dispatchEvent}
+          onFocus={() => this.dispatchEvent('focus')}
+          onBlur={() => this.dispatchEvent('blur')}
+          keyboard={keyboard}
+          displayMode={displayMode}
         />
         {unitOptions ? (
           <Select

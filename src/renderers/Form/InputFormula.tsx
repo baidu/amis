@@ -9,6 +9,10 @@ import {autobind} from '../../utils/helper';
 
 import type {FuncGroup, VariableItem} from '../../components/formula/Editor';
 import type {SchemaIcon} from '../../Schema';
+import {
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 
 /**
  * InputFormula 公式编辑器
@@ -134,9 +138,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       disabled,
       onChange,
       evalMode,
-      variables,
       variableMode,
-      functions,
       header,
       label,
       value,
@@ -155,8 +157,21 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       title,
       variableClassName,
       functionClassName,
-      data
+      data,
+      onPickerOpen
     } = this.props;
+    let {variables, functions} = this.props;
+
+    if (isPureVariable(variables)) {
+      // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
+      variables = resolveVariableAndFilter(variables, this.props.data, '| raw');
+    }
+
+    if (isPureVariable(functions)) {
+      // 如果 functions 是 ${xxx} 这种形式，将其处理成实际的值
+      functions = resolveVariableAndFilter(functions, this.props.data, '| raw');
+    }
+
     return (
       <FormulaPicker
         className={className}
@@ -181,6 +196,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         variableClassName={variableClassName}
         functionClassName={functionClassName}
         data={data}
+        onPickerOpen={onPickerOpen}
       />
     );
   }

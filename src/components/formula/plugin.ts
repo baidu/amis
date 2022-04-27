@@ -34,43 +34,60 @@ export class FormulaPlugin {
     const {functions, variables, value} = this.getProps();
     if (value) {
       // todo functions 也需要自动替换
-      this.autoMark(variables);
+      this.autoMark(variables!);
     }
   }
 
-  insertContent(value: any, type: 'variable' | 'func') {
-    const {evalMode} = this.getProps();
+  insertBraces(originFrom: CodeMirror.Position, originTo: CodeMirror.Position) {
+    this.editor.setCursor({
+      line: originFrom.line,
+      ch: originFrom.ch
+    });
+    this.editor.replaceSelection('${');
 
+    this.editor.setCursor({
+      line: originTo.line,
+      ch: originTo.ch + 2
+    });
+    this.editor.replaceSelection('}');
+  }
+
+  insertContent(value: any, type?: 'variable' | 'func') {
     const from = this.editor.getCursor();
+    const {evalMode} = this.getProps();
     if (type === 'variable') {
-      const key = evalMode ? value.key : '${' + value.key + '}';
-      this.editor.replaceSelection(key);
-      var to = this.editor.getCursor();
+      this.editor.replaceSelection(value.key);
+      const to = this.editor.getCursor();
 
       this.markText(from, to, value.name, 'cm-field');
+
+      !evalMode && this.insertBraces(from, to);
     } else if (type === 'func') {
-      // todo 支持 snippet，目前是不支持的
+      this.editor.replaceSelection(`${value}()`);
+      const to = this.editor.getCursor();
 
-      const key = evalMode ? `${value}()` : '${' + value + '()}';
-      this.editor.replaceSelection(key);
-      var to = this.editor.getCursor();
-
-      // todo 模板模式下 ${XXX()} 高亮处理
-      evalMode &&
-        this.markText(
-          from,
-          {
-            line: to.line,
-            ch: to.ch - 2
-          },
-          value,
-          'cm-func'
-        );
+      this.markText(
+        from,
+        {
+          line: to.line,
+          ch: to.ch - 2
+        },
+        value,
+        'cm-func'
+      );
 
       this.editor.setCursor({
         line: to.line,
-        ch: evalMode ? to.ch - 1 : to.ch - 2
+        ch: to.ch - 1
       });
+
+      if (!evalMode) {
+        this.insertBraces(from, to);
+        this.editor.setCursor({
+          line: to.line,
+          ch: to.ch + 1
+        });
+      }
     } else if (typeof value === 'string') {
       this.editor.replaceSelection(value);
     }
@@ -97,14 +114,13 @@ export class FormulaPlugin {
     if (!Array.isArray(variables) || !variables.length) {
       return;
     }
-    const {evalMode} = this.getProps();
     const varMap: {
       [propname: string]: string;
     } = {};
 
     eachTree(variables, item => {
       if (item.value) {
-        const key = evalMode ? item.value : '${' + item.value + '}';
+        const key = item.value;
         varMap[key] = item.label;
       }
     });

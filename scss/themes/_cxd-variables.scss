@@ -191,7 +191,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Number-borderWidth: #{px2rem(1px)};
 
   --Number-handler-borderBottom: 0;
-  --Number-handler-width: var(--gap-md);
+  --Number-handler-width: var(--gap-xl);
+  --Number-borderColor: #{$G7};
   --Number-handler-color: #666;
   --Number-handler-onDisabled-color: #999;
   // $Number-handler-bg: var(--info);

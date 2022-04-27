@@ -996,19 +996,20 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 ## 事件表
 
-| 事件名称 | 事件参数                           | 说明                 |
-| -------- | ---------------------------------- | -------------------- |
-| change   | `value: string \| Option[]` 选中值 | 选中值发生变化时触发 |
-| blur     | `value: string \| Option[]` 选中值          | 失去焦点时触发       |
-| focus    | `value: string \| Option[]` 选中值          | 获得焦点时触发       |
-| add      | -                                  | 新增选项的时候触发   |
-| edit     | `value: Option` 修改的选项         | 编辑选项时触发       |
-| delete   | `value: Option` 删除的选项         | 删除选项时触发       |
+| 事件名称 | 事件参数                                       | 说明                 |
+| -------- | ---------------------------------------------- | -------------------- |
+| change   | `value: string` 选中值                         | 选中值发生变化时触发 |
+| blur     | `value: string` 选中值                         | 失去焦点时触发       |
+| focus    | `value: string` 选中值                         | 获得焦点时触发       |
+| add      | -                                              | 新增选项的时候触发   |
+| edit     | `options: Option[]`,`value: Option` 修改的选项 | 编辑选项时触发       |
+| delete   | `options: Option[]`,`value: Option` 删除的选项 | 删除选项时触发       |
 
 ## 动作表
 
-| 动作名称 | 动作配置                     | 说明 |
-| -------- | ---------------------------- | ---- |
-| clear    | -                            | 清空 |
-| reset    | `resetValue: boolean` 重置值 | 重置 |
-
+| 动作名称 | 动作配置                 | 说明                                                   |
+| -------- | ------------------------ | ------------------------------------------------------ |
+| clear    | -                        | 清空                                                   |
+| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
+| reload   | -                        | 刷新（重新加载），只针对配置了`source`的点选按钮有效   |
+| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`，多值用`,`分隔                |

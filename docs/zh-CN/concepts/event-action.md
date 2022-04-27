@@ -91,7 +91,7 @@ order: 9
 
 ## 触发通用动作
 
-通用动作包含发送 http 请求、跳转链接、打开/关闭弹窗、打开/关闭抽屉、打开对话框、弹出 Toast 提示、刷新、控制显示隐藏、控制启用禁用状态。
+通用动作包含发送 http 请求、跳转链接、浏览器回退、浏览器刷新、打开/关闭弹窗、打开/关闭抽屉、打开对话框、弹出 Toast 提示、复制、发送邮件、刷新、控制显示隐藏、控制启用禁用状态、更新数据。
 
 ### 发送 http 请求
 
@@ -594,6 +594,7 @@ order: 9
 | actionType                     | `string`  | `url`   | 页面跳转                                         |
 | url / args.url`(>=v1.9.0)`     | `string`  | -       | 按钮点击后，会打开指定页面。可用 `${xxx}` 取值。 |
 | blank / args.blank`(>=v1.9.0)` | `boolean` | `false` | 如果为 `true` 将在新 tab 页面打开。              |
+| args.params`(>=v1.9.0)`        | `object`  | -       | 页面参数`{key:value}`，支持数据映射。            |
 
 **打开单页链接**
 
@@ -626,6 +627,7 @@ order: 9
 | ---------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------- |
 | actionType | `string` | `link` | 单页跳转 |
 | link / args.link`(>=v1.9.0)` | `string` | `link` | 用来指定跳转地址，跟 url 不同的是，这是单页跳转方式，不会渲染浏览器，请指定 amis 平台内的页面。可用 `${xxx}` 取值。 |
+| args.params`(>=v1.9.0)` | `object` | - | 页面参数`{key:value}`，支持数据映射。 |
 
 ### 浏览器回退
 
@@ -1077,7 +1079,9 @@ order: 9
 
 ### 刷新
 
-通过配置`actionType: 'reload'`实现对指定组件的刷新操作，限于`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`、`crud`，以及选择类组件。
+通过配置`actionType: 'reload'`实现对指定组件的刷新（重新加载）操作，仅支持`form`、`wizard`、`service`、`page`、`app`、`chart`、`crud`，以及支持动态数据的`输入类`组件，详见组件的`动作表`。
+
+#### 刷新 表单
 
 ```schema
 {
@@ -1085,8 +1089,8 @@ order: 9
   body: [
     {
       type: 'button',
-      label: '刷新(表单)',
-      className: 'mr-2',
+      label: '刷新',
+      className: 'mb-2',
       level: 'primary',
       onEvent: {
         click: {
@@ -1100,8 +1104,88 @@ order: 9
       }
     },
     {
+      type: 'form',
+      id: 'form-reload',
+      name: 'form-reload',
+      initApi:
+        'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData',
+      title: '表单',
+      body: [
+        {
+          type: 'input-text',
+          id: 'date-input-01',
+          name: 'date',
+          label: '时间戳'
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### 刷新 图表
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
       type: 'button',
-      label: '刷新(下拉框)',
+      label: '刷新',
+      level: 'primary',
+      className: 'mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'reload',
+              componentId: 'chart_reload'
+            }
+          ]
+        }
+      }
+    },
+    {
+    "type": "chart",
+    id: 'chart_reload',
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chartData",
+    "config": {
+      "xAxis": {
+        "type": "category",
+        "data": [
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat"
+        ]
+      },
+      "yAxis": {
+        "type": "value"
+      },
+      "series": [
+        {
+          "data": "${line}",
+          "type": "line"
+        }
+      ]
+    }
+  }
+  ]
+}
+```
+
+#### 刷新 下拉框
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '刷新',
+      className: 'mb-2',
       level: 'primary',
       onEvent: {
         click: {
@@ -1123,22 +1207,40 @@ order: 9
       name: 'select',
       source:
         'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1'
+    }
+  ]
+}
+```
+
+**刷新 输入框**
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '刷新',
+      className: 'mb-2',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'reload',
+              componentId: 'input-text-reload'
+            }
+          ]
+        }
+      }
     },
     {
-      type: 'form',
-      id: 'form-reload',
-      name: 'form-reload',
-      initApi:
-        'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData',
-      title: '表单',
-      body: [
-        {
-          type: 'input-text',
-          id: 'date-input-01',
-          name: 'date',
-          label: '时间戳'
-        }
-      ]
+      "name": "input-text-reload",
+      "id": "input-text-reload",
+      "type": "input-text",
+      "label": "text",
+      "creatable": false,
+      "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1"
     }
   ]
 }
@@ -1211,7 +1313,7 @@ order: 9
 
 ### 控制状态
 
-通过配置`actionType: 'enabled'`或`actionType: 'disabled'`实现对指定组件的启用和禁用，限于数据输入类组件。
+通过配置`actionType: 'enabled'`或`actionType: 'disabled'`实现对指定组件的启用和禁用，仅支持实现了状态控制功能的数据`输入类`组件。
 
 ```schema
 {
@@ -1312,7 +1414,7 @@ order: 9
 
 ### 更新数据
 
-通过配置`actionType: 'setValue'`实现组件数据变量的更新，限于`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据输入类组件。
+更新数据即变量赋值，通过配置`actionType: 'setValue'`实现组件数据域变量的更新，支持`基础类型`、`对象类型`、`数组类型`，数据类型取决于目标组件所需数据值类型，仅支持`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据`输入类`组件。
 
 #### 更新 表单 数据
 
@@ -1543,9 +1645,74 @@ order: 9
 }
 ```
 
+#### 更新 图表 数据
+
+直接更新图表的数据等于更新图表所依赖数据域中的变量，例如下面的例子，`setValue`等于更新绑定的变量`${line}`。
+
+```schema
+{
+  type: 'page',
+  data: {
+    lineData: {
+      line: [65, 63, 10, 73, 42, 21]
+    }
+  },
+  body: [
+    {
+      type: 'button',
+      label: '更新',
+      level: 'primary',
+      className: 'mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'chart_setvalue',
+              args: {
+                value: '${lineData}'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+    "type": "chart",
+    id: 'chart_setvalue',
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chartData",
+    "config": {
+      "xAxis": {
+        "type": "category",
+        "data": [
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat"
+        ]
+      },
+      "yAxis": {
+        "type": "value"
+      },
+      "series": [
+        {
+          "data": "${line}",
+          "type": "line"
+        }
+      ]
+    }
+  }
+  ]
+}
+```
+
 #### 更新 输入类组件 数据
 
-直接更新指定输入框、下拉框等输入类组件的数据。
+直接更新指定输入框、下拉框、输入组合等输入类组件的数据。
+
+**更新 输入框 字段值**
 
 ```schema
 {
@@ -1561,7 +1728,7 @@ order: 9
   body: [
     {
       type: 'button',
-      label: '更新',
+      label: '更新输入框',
       level: 'primary',
       className: 'mr-2 mb-2',
       onEvent: {
@@ -1607,7 +1774,6 @@ order: 9
     {
       type: 'form',
       title: '表单',
-      debug: true,
       data: {
         myrole: '杀手',
         age: '18'
@@ -1631,6 +1797,283 @@ order: 9
         }
       ]
     }
+  ]
+}
+```
+
+**更新 下拉框 选中值**
+
+```schema
+{
+  type: 'page',
+  id: 'mypage',
+  data: {
+    singleData: 'a',
+    multipleData: 'caocao,libai'
+  },
+  body: [
+    {
+      type: 'button',
+      label: '更新单选数据',
+      level: 'primary',
+      className: 'mr-2 mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'single-select',
+              args: {
+                value: '${singleData}'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      label: '更新多选数据',
+      level: 'primary',
+      className: 'mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'multiple-select',
+              args: {
+                value: '${multipleData}'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+        "label": "选项",
+        "type": "select",
+        "name": "single-select",
+        id: 'single-select',
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ]
+      },
+    {
+        "label": "分组",
+        "type": "select",
+        "name": "multiple-select",
+        id: 'multiple-select',
+        "multiple": true,
+        "selectMode": "group",
+        "options": [
+          {
+            "label": "法师",
+            "children": [
+              {
+                "label": "诸葛亮",
+                "value": "zhugeliang"
+              }
+            ]
+          },
+          {
+            "label": "战士",
+            "children": [
+              {
+                "label": "曹操",
+                "value": "caocao"
+              },
+              {
+                "label": "钟无艳",
+                "value": "zhongwuyan"
+              }
+            ]
+          },
+          {
+            "label": "打野",
+            "children": [
+              {
+                "label": "李白",
+                "value": "libai"
+              },
+              {
+                "label": "韩信",
+                "value": "hanxin"
+              },
+              {
+                "label": "云中君",
+                "value": "yunzhongjun"
+              }
+            ]
+          }
+        ]
+      }
+  ]
+}
+```
+
+**更新 点选按钮 选中值**
+
+```schema
+{
+  type: 'page',
+  id: 'mypage',
+  data: {
+    btnData: 'c'
+  },
+  body: [
+    {
+      type: 'button',
+      label: '更新',
+      level: 'primary',
+      className: 'mr-2 mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'button-group-select_setvalue',
+              args: {
+                value: '${btnData}'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+        "type": "button-group-select",
+        id: 'button-group-select_setvalue',
+        "label": "选项",
+        "name": "type",
+        "options": [
+          {
+            "label": "Option A",
+            "value": "a"
+          },
+          {
+            "label": "Option B",
+            "value": "b"
+          },
+          {
+            "label": "Option C",
+            "value": "c"
+          }
+        ]
+      }
+  ]
+}
+```
+
+**更新 输入组合(Combo) 字段值**
+
+```schema
+{
+  type: 'page',
+  id: 'mypage',
+  data: {
+    objData: {
+      name: '路飞',
+      role: '海贼王'
+    },
+    arrayData: [
+      {
+        name: '苹果',
+        count: 10
+      },
+      {
+        name: '黄瓜',
+        count: 5
+      }
+    ]
+  },
+  body: [
+    {
+      type: 'button',
+      label: '更新对象类型数据',
+      level: 'primary',
+      className: 'mr-2 mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'userinfo',
+              args: {
+                value: '${objData}'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      label: '更新数组类型数据',
+      level: 'primary',
+      className: 'mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'shoppingcart',
+              args: {
+                value: '${arrayData}'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+        "type": "combo",
+        "name": "userinfo",
+        "id": "userinfo",
+        "label": "用户信息",
+        "items": [
+          {
+            "name": "name",
+            "label": "姓名",
+            "type": "input-text"
+          },
+          {
+            "name": "role",
+            "label": "角色",
+            "type": "input-text"
+          }
+        ]
+      },
+    {
+        "type": "combo",
+        "name": "shoppingcart",
+        "id": "shoppingcart",
+        "label": "购物车",
+        "multiple": true,
+        "items": [
+          {
+            "name": "name",
+            "label": "商品名称",
+            "type": "input-text"
+          },
+          {
+            "name": "count",
+            "label": "购买数量",
+            "type": "input-text"
+          }
+        ]
+      }
   ]
 }
 ```
@@ -1687,7 +2130,6 @@ order: 9
       type: 'form',
       id: 'form_data_2',
       title: '表单',
-      debug: true,
       "initApi": "/api/mock2/form/initData",
       body: [
         {
@@ -1768,7 +2210,6 @@ order: 9
       type: 'form',
       id: 'form_data_3',
       title: '表单',
-      debug: true,
       body: [
         {
           type: 'input-text',

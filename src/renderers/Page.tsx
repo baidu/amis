@@ -16,7 +16,8 @@ import {
   isVisible,
   autobind,
   bulkBindFunctions,
-  isObjectShallowModified
+  isObjectShallowModified,
+  createObject
 } from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';
@@ -630,7 +631,12 @@ export default class Page extends React.Component<PageProps> {
   }
 
   initInterval(value: any) {
-    const {interval, silentPolling, stopAutoRefreshWhen, data} = this.props;
+    const {interval, silentPolling, stopAutoRefreshWhen, data, dispatchEvent} =
+      this.props;
+
+    if (value.data) {
+      dispatchEvent('inited', createObject(data, value.data));
+    }
 
     interval &&
       this.mounted &&

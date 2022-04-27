@@ -54,7 +54,7 @@ function mockResponse(event, context, callback) {
 function createHeaders(headers) {
   let referer = '';
 
-  if (/^(https?\:\/\/[^:\/]+(?:\:\d+)?\/)/i.test(headers['Referer'])) {
+  if (/^(https?\:\/\/[^:\/]+(?:\:\d+)?\/)/i.test(headers['referer'])) {
     referer = RegExp.$1.replace(/\/$/, '');
   }
 

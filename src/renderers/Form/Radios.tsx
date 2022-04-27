@@ -41,23 +41,34 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
-      onChange(resetValue ?? '');
+    if (actionType === 'clear') {
+      onChange?.('');
+    } else if (actionType === 'reset') {
+      onChange?.(resetValue ?? '');
     }
   }
 
   @autobind
   async handleChange(option: Option) {
-    const {joinValues, extractValue, valueField, onChange, dispatchEvent, options, data} = this.props;
+    const {
+      joinValues,
+      extractValue,
+      valueField,
+      onChange,
+      dispatchEvent,
+      options,
+      data
+    } = this.props;
 
     if (option && (joinValues || extractValue)) {
       option = option[valueField || 'value'];
     }
 
-    const rendererEvent = await dispatchEvent('change',
+    const rendererEvent = await dispatchEvent(
+      'change',
       createObject(data, {
         value: option,
-        options,
+        options
       })
     );
     if (rendererEvent?.prevented) {

@@ -1,5 +1,5 @@
 import type {JSONSchema7} from 'json-schema';
-import {guid, keyToPath} from './helper';
+import {guid, keyToPath, mapTree} from './helper';
 
 // 先只支持 JSONSchema draft07 好了
 // https://json-schema.org/draft-07/json-schema-release-notes.html
@@ -137,36 +137,55 @@ export class DataScope {
   protected buildOptions(
     options: Array<any>,
     schema: JSONSchema,
-    path: string
+    path: string = '',
+    key: string = ''
   ) {
+    // todo 支持 oneOf, anyOf
+    const option: any = {
+      label: schema.title || key,
+      value: path,
+      type: schema.type,
+      description: schema.description
+    };
+
+    options.push(option);
+
     if (schema.type === 'object' && schema.properties) {
+      option.children = [];
       const keys = Object.keys(schema.properties);
 
       keys.forEach(key => {
         const child: any = schema.properties![key];
 
-        // todo 支持 oneOf, anyOf
-        const option: any = {
-          label: child.title || key,
-          value: path + key,
-          type: child.type,
-          description: child.description
-        };
-
-        if (child.type === 'object') {
-          option.children = [];
-          this.buildOptions(option.children, child, path + key + '.');
-        }
-
-        options.push(option);
+        this.buildOptions(
+          option.children,
+          child,
+          path + (path ? '.' : '') + key,
+          key
+        );
       });
+    } else if (schema.type === 'array' && schema.items) {
+      option.children = [];
+      this.buildOptions(
+        option.children,
+        {
+          title: 'Member',
+          ...(schema.items as any)
+        },
+        path + (path ? '.' : '') + 'items',
+        'items'
+      );
+      option.children = mapTree(option.children, item => ({
+        ...item,
+        disabled: true
+      }));
     }
   }
 
   getDataPropsAsOptions() {
     const variables: Array<any> = [];
-    this.buildOptions(variables, this.getMergedSchema(), '');
-    return variables;
+    this.buildOptions(variables, this.getMergedSchema());
+    return variables[0].children;
   }
 
   getSchemaByPath(path: string) {

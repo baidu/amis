@@ -66,6 +66,23 @@ order: 32
 }
 ```
 
+## 加强版输入框
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-number",
+            "name": "number",
+            "label": "数字",
+            "displayMode": "enhance"
+        }
+    ]
+}
+```
+
 ## 原生数字组件
 
 原生数字组件将直接使用浏览器的实现，最终展现效果和浏览器有关，而且只支持 `min`、`max`、`step` 这几个属性设置。
@@ -98,17 +115,21 @@ order: 32
 | prefix           | `string`                                |        | 前缀                 |
 | suffix           | `string`                                |        | 后缀                 |
 | kilobitSeparator | `boolean`                               |        | 千分分隔             |
+| keyboard         | `boolean`                               |        | 键盘事件（方向上下） |
+| displayMode      | `string`                                |        | 样式类型             |
 
 ## 事件表
 
-| 事件名称 |      事件参数          | 说明 |
-| ------  | -------------------- | ------------------ |
-| change |  `value: number` 值变化 | 输入值发生变化时触发 |
-| blur   | - | - |
-| focus  | - | - |
+| 事件名称 | 事件参数               | 说明                 |
+| -------- | ---------------------- | -------------------- |
+| change   | `value: number` 值变化 | 输入值发生变化时触发 |
+| blur     | `value: number` 当前值 | -                    |
+| focus    | `value: number` 当前值 | -                    |
 
 ## 动作表
 
-| 动作名称 | 动作配置 | 说明  |
-| -------- | ----- | ----  |
-| clear    |  -    | 清空  |
+| 动作名称 | 动作配置                   | 说明                                                   |
+| -------- | -------------------------- | ------------------------------------------------------ |
+| clear    | -                          | 清空                                                   |
+| reset    | -                          | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
+| setValue | `value: number` 更新的数值 | 更新数据                                               |

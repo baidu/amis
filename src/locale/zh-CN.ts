@@ -316,7 +316,7 @@ register('zh-CN', {
   'pullRefresh.loadingText': '加载中...',
   'pullRefresh.successText': '加载成功',
   'Picker.placeholder': '请点击右侧的图标',
-  'SchemaType.string': '字符串',
+  'SchemaType.string': '文本',
   'SchemaType.number': '数字',
   'SchemaType.interger': '整数',
   'SchemaType.object': '对象',

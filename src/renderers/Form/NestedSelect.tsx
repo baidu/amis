@@ -129,8 +129,10 @@ export default class NestedSelectControl extends React.Component<
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
-      onChange(resetValue ?? '');
+    if (actionType === 'clear') {
+      onChange?.('');
+    } else if (actionType === 'reset') {
+      onChange?.(resetValue ?? '');
     }
   }
 
