@@ -162,9 +162,15 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
 
   // 派发有event的事件
   @autobind
-  dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(e, data);
+  dispatchEvent(eventName: string) {
+    const {dispatchEvent, data, value} = this.props;
+
+    dispatchEvent(
+      eventName,
+      createObject(data, {
+        value
+      })
+    );
   }
 
   // 动作
@@ -220,8 +226,8 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
           maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
           onChange={this.handleChange}
-          onFocus={this.dispatchEvent}
-          onBlur={this.dispatchEvent}
+          onFocus={() => this.dispatchEvent('focus')}
+          onBlur={() => this.dispatchEvent('blur')}
         />
       </div>
     );

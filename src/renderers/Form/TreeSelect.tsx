@@ -205,19 +205,23 @@ export default class TreeSelectControl extends React.Component<
   }
 
   handleFocus(e: any) {
-    const {dispatchEvent} = this.props;
+    const {dispatchEvent, value, data} = this.props;
     this.setState({
       isFocused: true
     });
-    dispatchEvent('focus', e);
+    dispatchEvent('focus', createObject(data, {
+      value
+    }));
   }
 
   handleBlur(e: any) {
-    const {dispatchEvent} = this.props;
+    const {dispatchEvent, value, data} = this.props;
     this.setState({
       isFocused: false
     });
-    dispatchEvent('blur', e);
+    dispatchEvent('blur', createObject(data, {
+      value
+    }));
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
