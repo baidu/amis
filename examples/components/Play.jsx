@@ -10,6 +10,7 @@ import JSON5 from 'json5';
 import CodeEditor from '../../src/components/Editor';
 import copy from 'copy-to-clipboard';
 import {matchPath} from 'react-router-dom';
+import Drawer from '../../src/components/Drawer';
 
 const DEFAULT_CONTENT = `{
     "$schema": "/schemas/page.json#",
@@ -107,7 +108,8 @@ export default class PlayGround extends React.Component {
     this.state = {
       asideWidth: props.asideWidth || Math.max(300, window.innerWidth * 0.3),
       schema: schema,
-      schemaCode: JSON.stringify(schema, null, 2)
+      schemaCode: JSON.stringify(schema, null, 2),
+      isOpened: false
     };
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -115,6 +117,8 @@ export default class PlayGround extends React.Component {
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.removeWindowEvents = this.removeWindowEvents.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.close = this.close.bind(this);
     this.schemaProps = {};
 
     const __ = makeTranslator(props.locale);
@@ -397,6 +401,18 @@ export default class PlayGround extends React.Component {
     window.removeEventListener('mousemove', this.handleMouseMove);
   }
 
+  toggleDrawer() {
+    this.setState({
+      isOpened: !this.state.isOpened
+    });
+  }
+
+  close() {
+    this.setState({
+      isOpened: false
+    });
+  }
+
   editorDidMount = (editor, monaco) => {
     this.editor = editor;
     this.monaco = monaco;
@@ -463,8 +479,36 @@ export default class PlayGround extends React.Component {
   }
 
   render() {
-    const {vertical, height} = this.props;
-    if (vertical) {
+    const {vertical, mini, height, theme, classPrefix} = this.props;
+    console.log(classPrefix);
+    if (mini) {
+      return (
+        <div className="Playgroud Playgroud--mini">
+          <a onClick={this.toggleDrawer}>
+            编辑代码 <i className="fa fa-code p-l-xs"></i>
+          </a>
+          <Drawer
+            showCloseButton
+            resizable
+            theme={theme}
+            overlay={false}
+            position="right"
+            show={this.state.isOpened}
+            onHide={this.close}
+          >
+            <div className={`${classPrefix}Drawer-header`}>
+              编辑代码（支持编辑实时预览）
+            </div>
+            <div className={`${classPrefix}Drawer-body no-padder`}>
+              {this.renderEditor()}
+            </div>
+          </Drawer>
+          <div style={{minHeight: height}} className="Playgroud-preview">
+            {this.renderPreview()}
+          </div>
+        </div>
+      );
+    } else if (vertical) {
       return (
         <div className="Playgroud">
           <div style={{minHeight: height}} className="Playgroud-preview">

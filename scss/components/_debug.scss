@@ -9,6 +9,7 @@
   right: 0;
   height: 100vh;
   width: 24px;
+  pointer-events: none;
 
   h3 {
     color: inherit;
@@ -63,6 +64,7 @@
   }
 
   &-toggle {
+    pointer-events: all;
     background: var(--body-bg);
     position: fixed;
     top: 50%;
@@ -86,6 +88,7 @@
   }
 
   &-content {
+    pointer-events: all;
     display: none;
   }
 
