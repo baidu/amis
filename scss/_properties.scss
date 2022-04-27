@@ -1198,6 +1198,7 @@
   --Portlet-borderRadius: var(--borderRadius);
 
   --QuickEdit-iconColor: inherit;
+  --QuickEdit-iconSize: #{px2rem(13px)};
   --QuickEdit-onFocus-borderColor: var(--info);
   --QuickEdit-onFocus-borderWidth: var(--borderWidth);
   --QuickEdit-onHover-iconColor: inherit;

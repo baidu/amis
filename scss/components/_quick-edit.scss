@@ -12,6 +12,8 @@
   }
 
   > svg {
+    width: var(--QuickEdit-iconSize);
+    height: var(--QuickEdit-iconSize);
     top: 0;
   }
 }

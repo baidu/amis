@@ -591,25 +591,22 @@
       }
     }
 
-    > thead > tr > th.#{$ns}TableCell--sortable {
-      padding-right: calc(
-        var(--TableCell-paddingX) + var(--TableCell-sortBtn-width)
-      );
-      position: relative;
-    }
-
-    > thead > tr > th.#{$ns}TableCell--searchable {
-      padding-right: calc(
-        var(--TableCell-paddingX) + var(--TableCell-searchBtn-width)
-      );
-      position: relative;
-    }
-
+    > thead > tr > th.#{$ns}TableCell--sortable,
+    > thead > tr > th.#{$ns}TableCell--searchable,
     > thead > tr > th.#{$ns}TableCell--filterable {
-      padding-right: calc(
-        var(--TableCell-paddingX) + var(--TableCell-filterBtn-width)
-      );
-      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+  }
+
+  &Cell-sortBtn,
+  &Cell-searchBtn,
+  &Cell-filterBtn {
+    padding-left: var(--gap-sm);
+    
+    &:hover {
+      color: var(--TableCell-searchBtn--onActive-color);
     }
   }
 
@@ -621,15 +618,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    right: calc(var(--TableCell-paddingX) - var(--TableCell-sortBtn-width) / 2);
-    top: 50%;
-    transform: translateY(-50%);
     color: var(--icon-color);
-
-    &:hover {
-      color: var(--icon-onHover-color);
-    }
 
     &--up > svg,
     &--down > svg,
@@ -656,7 +645,7 @@
       &.is-active {
         color: var(--text--muted-color);
         &:hover {
-          color: var(--text-color);
+          color: var(--TableCell-searchBtn--onActive-color);
         }
       }
     }
@@ -670,11 +659,6 @@
 
   &Cell-searchBtn {
     cursor: pointer;
-    // width: var(--TableCell-searchBtn-width);
-    position: absolute;
-    right: var(--gap-xs);
-    top: 50%;
-    transform: translateY(-50%);
     color: var(--text--muted-color);
 
     svg.icon {
@@ -703,21 +687,11 @@
   &Cell-filterBtn {
     cursor: pointer;
     width: var(--TableCell-filterBtn-width);
-    position: absolute;
-    right: calc(
-      var(--TableCell-paddingX) - var(--TableCell-filterBtn-width) / 2
-    );
-    top: 50%;
-    transform: translateY(-50%);
     color: var(--text--muted-color);
 
     svg.icon {
       width: 12px;
       height: 12px;
-    }
-
-    &:hover {
-      color: var(--text-color);
     }
 
     &.is-active {
