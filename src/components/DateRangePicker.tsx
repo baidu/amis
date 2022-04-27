@@ -516,7 +516,9 @@ export class DateRangePicker extends React.Component<
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
     this.renderDay = this.renderDay.bind(this);
+    this.renderMonth = this.renderMonth.bind(this);
     this.renderQuarter = this.renderQuarter.bind(this);
+    this.renderYear = this.renderYear.bind(this);
     this.handleMobileChange = this.handleMobileChange.bind(this);
     this.handleOutClick = this.handleOutClick.bind(this);
     const {format, joinValues, delimiter, value, inputFormat} = this.props;
@@ -1144,6 +1146,30 @@ export class DateRangePicker extends React.Component<
     return <td {...props}>{currentDate.date()}</td>;
   }
 
+  renderMonth(props: any, month: number, year: number, date: any) {
+    const m = moment();
+    const currentDate = m.year(year).month(month);
+    const {startDate, endDate} = this.state;
+
+    var localMoment = m.localeData().monthsShort(m.month(month));
+    var strLength = 3;
+    var monthStrFixedLength = localMoment.substring(0, strLength);
+
+    if (
+      startDate &&
+      endDate &&
+      currentDate.isBetween(startDate, endDate, 'month', '[]')
+    ) {
+      props.className += ' rdtBetween';
+    }
+
+    return (
+      <td {...props}>
+        <span>{monthStrFixedLength}</span>
+      </td>
+    );
+  }
+
   renderQuarter(props: any, quarter: number, year: number) {
     const currentDate = moment().year(year).quarter(quarter);
     const {startDate, endDate} = this.state;
@@ -1159,6 +1185,24 @@ export class DateRangePicker extends React.Component<
     return (
       <td {...props}>
         <span>Q{quarter}</span>
+      </td>
+    );
+  }
+  renderYear(props: any, year: number) {
+    const currentDate = moment().year(year);
+    const {startDate, endDate} = this.state;
+
+    if (
+      startDate &&
+      endDate &&
+      currentDate.isBetween(startDate, endDate, 'year', '[]')
+    ) {
+      props.className += ' rdtBetween';
+    }
+
+    return (
+      <td {...props}>
+        <span>{year}</span>
       </td>
     );
   }
@@ -1204,7 +1248,9 @@ export class DateRangePicker extends React.Component<
           input={false}
           onClose={this.close}
           renderDay={this.renderDay}
+          renderMonth={this.renderMonth}
           renderQuarter={this.renderQuarter}
+          renderYear={this.renderYear}
           locale={locale}
           timeRangeHeader="开始时间"
         />
@@ -1229,7 +1275,9 @@ export class DateRangePicker extends React.Component<
           input={false}
           onClose={this.close}
           renderDay={this.renderDay}
+          renderMonth={this.renderMonth}
           renderQuarter={this.renderQuarter}
+          renderYear={this.renderYear}
           locale={locale}
           timeRangeHeader="结束时间"
         />
