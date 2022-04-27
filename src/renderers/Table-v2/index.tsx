@@ -8,11 +8,7 @@ import {ScopedContext, IScopedContext} from '../../Scoped';
 import {Renderer, RendererProps} from '../../factory';
 import {Action} from '../../types';
 import Table, {SortProps} from '../../components/table';
-import {
-  BaseSchema,
-  SchemaObject,
-  SchemaTokenizeableString
-} from '../../Schema';
+import {BaseSchema, SchemaObject, SchemaTokenizeableString} from '../../Schema';
 import {
   isObject,
   anyChanged,
@@ -217,8 +213,8 @@ export interface TableSchemaV2 extends BaseSchema {
   source: SchemaTokenizeableString;
 
   /**
-  * 表格可自定义列
-  */
+   * 表格可自定义列
+   */
   columnsTogglable?: boolean;
 
   /**
@@ -303,7 +299,7 @@ export interface TableSchemaV2 extends BaseSchema {
 }
 
 export type TableV2RendererEvent =
-  'selected'
+  | 'selected'
   | 'columnSort'
   | 'columnFilter'
   | 'columnSearch'
@@ -325,7 +321,10 @@ export interface TableV2Props extends RendererProps {
   name: 'table-v2',
   isolateScope: true
 })
-export default class TableRenderer extends React.Component<TableV2Props, object> {
+export default class TableRenderer extends React.Component<
+  TableV2Props,
+  object
+> {
   static contextType = ScopedContext;
 
   renderedToolbars: Array<string> = [];
@@ -367,7 +366,8 @@ export default class TableRenderer extends React.Component<TableV2Props, object>
   syncSelected() {
     const {store, onSelect} = this.props;
 
-    onSelect && onSelect(
+    onSelect &&
+      onSelect(
         null,
         false,
         store.selectedRowKeys.map(item => item),
@@ -884,9 +884,12 @@ export default class TableRenderer extends React.Component<TableV2Props, object>
   async handleColumnToggle(columns: Array<IColumn>) {
     const {dispatchEvent, data, store} = this.props;
 
-    const rendererEvent = await dispatchEvent('columnToggled', createObject(data, {
-      columns
-    }));
+    const rendererEvent = await dispatchEvent(
+      'columnToggled',
+      createObject(data, {
+        columns
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return;
@@ -921,20 +924,25 @@ export default class TableRenderer extends React.Component<TableV2Props, object>
           key={'toggable-select' + index}
           size="sm"
           classPrefix={ns}
-          checked={column.toggled}>
+          checked={column.toggled}
+        >
           {column.title ? render('tpl', column.title) : null}
         </Checkbox>
       </li>
     ));
 
-    return render('column-toggler', {
-      type: 'column-toggler'
-    }, {
-      isActived: store.hasColumnHidden(),
-      columns: store.columnsData,
-      onColumnToggle: this.handleColumnToggle,
-      children
-    });
+    return render(
+      'column-toggler',
+      {
+        type: 'column-toggler'
+      },
+      {
+        isActived: store.hasColumnHidden(),
+        columns: store.columnsData,
+        onColumnToggle: this.handleColumnToggle,
+        children
+      }
+    );
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
@@ -989,12 +997,15 @@ export default class TableRenderer extends React.Component<TableV2Props, object>
     selectedRowKeys: Array<string | number>
   ) {
     const {dispatchEvent, data, rowSelection, onSelect, store} = this.props;
-    const rendererEvent = await dispatchEvent('selected', createObject(data, {
-      record,
-      value,
-      selectedRows,
-      selectedRowKeys
-    }));
+    const rendererEvent = await dispatchEvent(
+      'selected',
+      createObject(data, {
+        record,
+        value,
+        selectedRows,
+        selectedRowKeys
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return rendererEvent?.prevented;
@@ -1012,27 +1023,34 @@ export default class TableRenderer extends React.Component<TableV2Props, object>
     changeRows: Array<any>
   ) {
     const {dispatchEvent, data, rowSelection, onSelectAll, store} = this.props;
-    const rendererEvent = await dispatchEvent('selectedAll', createObject(data, {
-      value,
-      selectedRowKeys,
-      selectedRows,
-      changeRows
-    }));
+    const rendererEvent = await dispatchEvent(
+      'selectedAll',
+      createObject(data, {
+        value,
+        selectedRowKeys,
+        selectedRows,
+        changeRows
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return rendererEvent?.prevented;
     }
 
     store.updateSelected(selectedRowKeys, rowSelection.keyField);
-    onSelectAll && onSelectAll(value, selectedRowKeys, selectedRows, selectedRowKeys);
+    onSelectAll &&
+      onSelectAll(value, selectedRowKeys, selectedRows, selectedRowKeys);
   }
 
   @autobind
   async handleSort(payload: SortProps) {
     const {dispatchEvent, data, onSort} = this.props;
-    const rendererEvent = await dispatchEvent('columnSort', createObject(data, {
-      ...payload
-    }));
+    const rendererEvent = await dispatchEvent(
+      'columnSort',
+      createObject(data, {
+        ...payload
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return rendererEvent?.prevented;
@@ -1044,9 +1062,12 @@ export default class TableRenderer extends React.Component<TableV2Props, object>
   @autobind
   async handleFilter(payload: any) {
     const {dispatchEvent, data, onFilter} = this.props;
-    const rendererEvent = await dispatchEvent('columnFilter', createObject(data, {
-      payload
-    }));
+    const rendererEvent = await dispatchEvent(
+      'columnFilter',
+      createObject(data, {
+        payload
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return rendererEvent?.prevented;
@@ -1056,13 +1077,14 @@ export default class TableRenderer extends React.Component<TableV2Props, object>
   }
 
   @autobind
-  async handleDragOver(
-    dataSource: Array<any>
-  ) {
+  async handleDragOver(dataSource: Array<any>) {
     const {dispatchEvent, data, onDrag} = this.props;
-    const rendererEvent = await dispatchEvent('dragOver', createObject(data, {
-      dataSource
-    }));
+    const rendererEvent = await dispatchEvent(
+      'dragOver',
+      createObject(data, {
+        dataSource
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return rendererEvent?.prevented;
@@ -1087,7 +1109,8 @@ export default class TableRenderer extends React.Component<TableV2Props, object>
       case 'select':
         store.updateSelected(args?.selectedRowKeys, keyField);
         break;
-      default: break;
+      default:
+        break;
     }
   }
 
@@ -1210,25 +1233,27 @@ export default class TableRenderer extends React.Component<TableV2Props, object>
       };
     }
 
-    return <Table
-      {...rest}
-      title={this.renderSchema('title', title, {data: this.props.data})}
-      footer={this.renderSchema('footer', footer, {data: this.props.data})}
-      columns={this.buildColumns(store.filteredColumns)}
-      dataSource={store.dataSource}
-      rowSelection={rowSelectionConfig}
-      rowClassName={rowClassName}
-      expandable={expandableConfig}
-      footSummary={this.buildSummary('footSummary', footSummary)}
-      headSummary={this.buildSummary('headSummary', headSummary)}
-      loading={this.renderSchema('loading', loading)}
-      placeholder={this.renderSchema('placeholder', placeholder)}
-      onSelect={this.handleSelected}
-      onSelectAll={this.handleSelectedAll}
-      onSort={this.handleSort}
-      onFilter={this.handleFilter}
-      onDrag={this.handleDragOver}>
-    </Table>;
+    return (
+      <Table
+        {...rest}
+        title={this.renderSchema('title', title, {data: this.props.data})}
+        footer={this.renderSchema('footer', footer, {data: this.props.data})}
+        columns={this.buildColumns(store.filteredColumns)}
+        dataSource={store.dataSource}
+        rowSelection={rowSelectionConfig}
+        rowClassName={rowClassName}
+        expandable={expandableConfig}
+        footSummary={this.buildSummary('footSummary', footSummary)}
+        headSummary={this.buildSummary('headSummary', headSummary)}
+        loading={this.renderSchema('loading', loading)}
+        placeholder={this.renderSchema('placeholder', placeholder)}
+        onSelect={this.handleSelected}
+        onSelectAll={this.handleSelectedAll}
+        onSort={this.handleSort}
+        onFilter={this.handleFilter}
+        onDrag={this.handleDragOver}
+      ></Table>
+    );
   }
 
   render() {

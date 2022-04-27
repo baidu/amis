@@ -9,7 +9,10 @@ import isEqual from 'lodash/isEqual';
 
 import {themeable, ThemeProps} from '../../theme';
 import {LocaleProps, localeable} from '../../locale';
-import HeadCellDropDown, {FilterDropdownProps, FilterPayload} from './HeadCellDropDown';
+import HeadCellDropDown, {
+  FilterDropdownProps,
+  FilterPayload
+} from './HeadCellDropDown';
 import CheckBox from '../Checkbox';
 import Button from '../Button';
 import {Icon} from '../icons';
@@ -31,7 +34,7 @@ export interface OptionProps {
 
 export interface State {
   options: Array<OptionProps>;
-  filteredValue:  Array<string>;
+  filteredValue: Array<string>;
 }
 
 export class HeadCellFilter extends React.Component<Props, State> {
@@ -46,7 +49,7 @@ export class HeadCellFilter extends React.Component<Props, State> {
     this.state = {
       options: [],
       filteredValue: props.filteredValue || []
-    }
+    };
   }
 
   alterOptions(options: Array<any>) {
@@ -67,8 +70,11 @@ export class HeadCellFilter extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props, prevState: State) {
     const {column} = this.props;
-    if (column.filters && column.filters.length > 0
-      && !isEqual(prevState.filteredValue, this.state.filteredValue)) {
+    if (
+      column.filters &&
+      column.filters.length > 0 &&
+      !isEqual(prevState.filteredValue, this.state.filteredValue)
+    ) {
       this.setState({options: this.alterOptions(column.filters)});
     }
   }
@@ -84,7 +90,7 @@ export class HeadCellFilter extends React.Component<Props, State> {
 
     const filterProps = {
       filterDropdown: (payload: FilterDropdownProps) => {
-        const {setSelectedKeys, selectedKeys, confirm, clearFilters} = payload
+        const {setSelectedKeys, selectedKeys, confirm, clearFilters} = payload;
         return options && options.length > 0 ? (
           <ul className={cx('DropDown-menu')}>
             {!column.filterMultiple
@@ -94,7 +100,9 @@ export class HeadCellFilter extends React.Component<Props, State> {
                     className={cx({
                       'is-active': option.selected
                     })}
-                    onClick={() => this.handleClick(confirm, setSelectedKeys, [option.value])}
+                    onClick={() =>
+                      this.handleClick(confirm, setSelectedKeys, [option.value])
+                    }
                   >
                     {option.text}
                   </li>
@@ -104,8 +112,12 @@ export class HeadCellFilter extends React.Component<Props, State> {
                     <CheckBox
                       classPrefix={ns}
                       onChange={e =>
-                        this.handleCheck(confirm, setSelectedKeys, e
-                          ? [option.value] : option.value)}
+                        this.handleCheck(
+                          confirm,
+                          setSelectedKeys,
+                          e ? [option.value] : option.value
+                        )
+                      }
                       checked={option.selected}
                     >
                       {option.text}
@@ -121,17 +133,24 @@ export class HeadCellFilter extends React.Component<Props, State> {
                   size={'xs'}
                   level={'primary'}
                   onClick={() => this.handleConfirmClick(confirm)}
-                  >确定</Button>
+                >
+                  确定
+                </Button>
                 <Button
                   size={'xs'}
-                  onClick={() => this.handleCancelClick(confirm, setSelectedKeys)}
-                  >取消</Button>
+                  onClick={() =>
+                    this.handleCancelClick(confirm, setSelectedKeys)
+                  }
+                >
+                  取消
+                </Button>
               </li>
             ) : null}
           </ul>
-        ) : null
+        ) : null;
       },
-      setSelectedKeys: (keys: Array<string>) => this.setState({filteredValue: keys})
+      setSelectedKeys: (keys: Array<string>) =>
+        this.setState({filteredValue: keys})
     };
 
     return (
@@ -139,22 +158,26 @@ export class HeadCellFilter extends React.Component<Props, State> {
         className={`${ns}TableCell-filterBtn`}
         layerClassName={`${ns}TableCell-filterPopOver`}
         filterIcon={<Icon icon="column-filter" className="icon" />}
-        active={column.filtered || options && options.some((item: any) => item.selected)}
-        popOverContainer={popOverContainer ? popOverContainer : () => findDOMNode(this)}
+        active={
+          column.filtered ||
+          (options && options.some((item: any) => item.selected))
+        }
+        popOverContainer={
+          popOverContainer ? popOverContainer : () => findDOMNode(this)
+        }
         selectedKeys={this.state.filteredValue}
         {...filterProps}
-        >
-      </HeadCellDropDown>
+      ></HeadCellDropDown>
     );
   }
 
   async handleClick(
     confirm: (payload?: FilterPayload) => void,
-    setSelectedKeys?: (keys?: (string | Array<string | number>)) => void,
+    setSelectedKeys?: (keys?: string | Array<string | number>) => void,
     selectedKeys?: Array<string>
   ) {
     const {onFilter, column} = this.props;
-    const payload = {[column.key] : selectedKeys};
+    const payload = {[column.key]: selectedKeys};
 
     if (onFilter) {
       const prevented = await onFilter(payload);
@@ -171,27 +194,33 @@ export class HeadCellFilter extends React.Component<Props, State> {
 
   handleCheck(
     confirm: (payload?: FilterPayload) => void,
-    setSelectedKeys?: ((keys: (string | Array<string | number>)) => void | undefined),
+    setSelectedKeys?: (
+      keys: string | Array<string | number>
+    ) => void | undefined,
     selectedKeys?: Array<string>
   ) {
     const filteredValue = this.state.filteredValue;
     // 选中
     if (Array.isArray(selectedKeys)) {
       setSelectedKeys && setSelectedKeys([...filteredValue, ...selectedKeys]);
-    } else { // 取消选中
-      setSelectedKeys && setSelectedKeys(filteredValue.filter(v => v !== selectedKeys));
+    } else {
+      // 取消选中
+      setSelectedKeys &&
+        setSelectedKeys(filteredValue.filter(v => v !== selectedKeys));
     }
   }
 
   handleConfirmClick(confirm: (payload?: FilterPayload) => void) {
     const {onFilter, column} = this.props;
-    onFilter && onFilter({[column.key] : this.state.filteredValue});
+    onFilter && onFilter({[column.key]: this.state.filteredValue});
     confirm();
   }
 
   handleCancelClick(
     confirm: (payload?: FilterPayload) => void,
-    setSelectedKeys?: ((keys: (string | Array<string | number>)) => void | undefined)
+    setSelectedKeys?: (
+      keys: string | Array<string | number>
+    ) => void | undefined
   ) {
     setSelectedKeys && setSelectedKeys([]);
     confirm();

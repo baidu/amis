@@ -1,7 +1,6 @@
 import React from 'react';
 import {localeable} from '../../locale';
 import {themeable} from '../../theme';
-import {autobind} from '../../utils/helper';
 import PickerContainer from '../PickerContainer';
 import SchemaVariableList, {
   SchemaVariableListProps
@@ -17,6 +16,7 @@ export interface SchemaVariableListPickerProps extends SchemaVariableListProps {
   title?: string;
   onConfirm?: (value?: any) => void;
   onCancel?: () => void;
+  onPickerOpen?: (props: any) => any;
 }
 
 export class SchemaVariableListPicker extends React.Component<SchemaVariableListPickerProps> {
@@ -28,21 +28,18 @@ export class SchemaVariableListPicker extends React.Component<SchemaVariableList
       onConfirm,
       onCancel,
       children,
-      title
+      title,
+      selectMode,
+      beforeBuildVariables,
+      onPickerOpen
     } = this.props;
 
     return (
       <PickerContainer
+        onPickerOpen={onPickerOpen}
         title={title ?? __('Select.placeholder')}
-        bodyRender={({
-          onClose,
-          value,
-          onChange,
-          setState,
-          schemas: stateSchemas,
-          ...states
-        }) => {
-          return (
+        bodyRender={({value, onChange, schemas: stateSchemas, isOpened}) => {
+          return isOpened ? (
             <SchemaVariableList
               value={value?.value ?? value}
               onSelect={(value, schema) =>
@@ -52,7 +49,11 @@ export class SchemaVariableListPicker extends React.Component<SchemaVariableList
                 })
               }
               schemas={stateSchemas ?? schemas}
+              selectMode={selectMode}
+              beforeBuildVariables={beforeBuildVariables}
             />
+          ) : (
+            <></>
           );
         }}
         value={value}
