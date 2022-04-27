@@ -17,7 +17,7 @@ export default {
               actionType: 'changeActiveKey',
               componentId: 'tabs-change-receiver',
               args: {
-                activeKey: 0
+                activeKey: 1
               }
             }
           ]
@@ -38,7 +38,7 @@ export default {
               actionType: 'changeActiveKey',
               componentId: 'tabs-change-receiver',
               args: {
-                activeKey: 1
+                activeKey: 2
               }
             }
           ]
@@ -59,7 +59,7 @@ export default {
               actionType: 'changeActiveKey',
               componentId: 'tabs-change-receiver',
               args: {
-                activeKey: 2
+                activeKey: 3
               }
             }
           ]
@@ -92,7 +92,7 @@ export default {
               actionType: 'toast',
               args: {
                 msgType: 'info',
-                msg: '更新至${event.data.value}'
+                msg: '切换至选项卡${event.data.value}'
               }
             }
           ]

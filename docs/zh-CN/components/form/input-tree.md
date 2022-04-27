@@ -545,9 +545,9 @@ order: 59
 }
 ```
 
-如果层级较多，也可以配置`unfoldedLevel`指定展开的层级数。
+如果层级较多，也可以配置`unfoldedLevel`指定展开的层级数，默认展开第 1 层
 
-下例中设置`"unfoldedLevel": 1`，默认展开第 1 层
+下例中设置`"unfoldedLevel": 2`，表示展开第 2 层
 
 ```schema: scope="body"
 {
@@ -560,7 +560,7 @@ order: 59
       "name": "tree1",
       "label": "默认不自动带上子节点的值",
       "initiallyOpen": false,
-      "unfoldedLevel": 1,
+      "unfoldedLevel": 2,
       "options": [
         {
           "label": "A",
@@ -909,7 +909,7 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | showRadio              | `boolean`                                    | `false`          | 是否显示单选按钮，`multiple` 为 `false` 是有效。                                                                                     |
 | showOutline            | `boolean`                                    | `false`          | 是否显示树层级展开线                                                                                                                 |
 | initiallyOpen          | `boolean`                                    | `true`           | 设置是否默认展开所有层级。                                                                                                           |
-| unfoldedLevel          | `number`                                     | `0`              | 设置默认展开的级数，只有`initiallyOpen`不是`true`时生效。                                                                            |
+| unfoldedLevel          | `number`                                     | `1`              | 设置默认展开的级数，只有`initiallyOpen`不是`true`时生效。                                                                            |
 | autoCheckChildren      | `boolean`                                    | `true`           | 当选中父节点时级联选择子节点。                                                                                                       |
 | cascade                | `boolean`                                    | `false`          | autoCheckChildren 为 true 时生效；默认行为：子节点禁用，值只包含父节点值；设置为 true 时，子节点可反选，值包含父子节点值。           |
 | withChildren           | `boolean`                                    | `false`          | cascade 为 false 时生效，选中父节点时，值里面将包含父子节点的值，否则只会保留父节点的值。                                            |

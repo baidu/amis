@@ -199,7 +199,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     if (!!~['next', 'prev'].indexOf(actionType)) {
       this.autoSlide(actionType);
     } else if (actionType === 'goto-image') {
-      this.changeSlide((args as any).activeIndex);
+      this.changeSlide((args as any)?.activeIndex - 1);
     }
   }
 
@@ -258,7 +258,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     const rendererEvent = await dispatchEvent(
       'change',
       createObject(data, {
-        activeIndex: current,
+        activeIndex: current + 1,
         prevIndex
       })
     );

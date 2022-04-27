@@ -146,7 +146,7 @@ export class TreeSelector extends React.Component<
     showIcon: true,
     showOutline: false,
     initiallyOpen: true,
-    unfoldedLevel: 0,
+    unfoldedLevel: 1,
     showRadio: false,
     multiple: false,
     disabled: false,
@@ -260,10 +260,11 @@ export class TreeSelector extends React.Component<
     onExpandTree?.(nodePathArr);
   }
 
-  syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: Number) {
+  syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: number) {
     // 传入默认展开层级需要重新初始化unfolded
     let initFoldedLevel = typeof unfoldedLevel !== 'undefined';
-    let expandLevel = initFoldedLevel ? unfoldedLevel : props.unfoldedLevel;
+    let expandLevel = Number(initFoldedLevel ? unfoldedLevel : props.unfoldedLevel) - 1;
+
     // 初始化树节点的展开状态
     let unfolded = this.unfolded;
     const {foldedField, unfoldedField} = this.props;
