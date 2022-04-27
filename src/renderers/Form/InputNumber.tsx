@@ -195,9 +195,15 @@ export default class NumberControl extends React.Component<
 
   // 派发有event的事件
   @autobind
-  dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(e, data);
+  async dispatchEvent(eventName: string) {
+    const {dispatchEvent, data, value} = this.props;
+
+    dispatchEvent(
+      eventName,
+      createObject(data, {
+        value
+      })
+    );
   }
 
   async handleChange(inputValue: any) {
@@ -333,8 +339,8 @@ export default class NumberControl extends React.Component<
           showSteps={showSteps}
           borderMode={borderMode}
           readOnly={readOnly}
-          onFocus={this.dispatchEvent}
-          onBlur={this.dispatchEvent}
+          onFocus={() => this.dispatchEvent('focus')}
+          onBlur={() => this.dispatchEvent('blur')}
           keyboard={keyboard}
           displayMode={displayMode}
         />

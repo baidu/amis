@@ -334,6 +334,55 @@ export default {
     },
     {
       type: 'tpl',
+      tpl: 'chained-select级联下拉框',
+      inline: false,
+      wrapperComponent: 'h2'
+    },
+    {
+      type: 'form',
+      debug: true,
+      body: [
+        {
+          type: 'group',
+          body: [
+            {
+              name: 'trigger11',
+              id: 'trigger11',
+              type: 'action',
+              label: 'clear触发器',
+              level: 'primary',
+              onEvent: {
+                click: {
+                  actions: [
+                    {
+                      actionType: 'clear',
+                      componentId: 'clear-chained-select',
+                      description: '点击清空指定级联下拉框选中值'
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              name: 'clear-chained-select',
+              id: 'clear-chained-select',
+              label: 'clear动作测试',
+              mode: 'row',
+              type: 'chained-select',
+              source: '/api/mock2/options/chainedOptions?waitSeconds=1&parentId=$parentId&level=$level&maxLevel=4',
+              value: 'a,b',
+              onEvent: {
+                change,
+                blur,
+                focus
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'tpl',
       tpl: 'input-city城市选择器',
       inline: false,
       wrapperComponent: 'h2'
