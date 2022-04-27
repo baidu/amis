@@ -34,7 +34,7 @@ export class FormulaPlugin {
     const {functions, variables, value} = this.getProps();
     if (value) {
       // todo functions 也需要自动替换
-      this.autoMark(variables);
+      this.autoMark(variables!);
     }
   }
 
