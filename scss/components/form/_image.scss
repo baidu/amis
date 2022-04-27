@@ -27,15 +27,8 @@
       var(--ImageControl-addBtn-onHover-color),
       var(--ImageControl-addBtn-onActive-bg),
       var(--ImageControl-addBtn-onActive-border),
-      var(--ImageControl-addBtn-onActive-color),
+      var(--ImageControl-addBtn-onActive-color)
     );
-
-    &:hover {
-      &-text {
-        color: var(--ImageControl-addBtn-onHover-color) !important;
-      }
-    }
-
 
     > svg {
       width: px2rem(24px);
