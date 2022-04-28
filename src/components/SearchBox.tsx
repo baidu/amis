@@ -117,8 +117,6 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
 
     const isFocused = this.state.isFocused;
 
-    console.log('this.props', this.props);
-
     return (
       <div
         className={cx(
