@@ -82,6 +82,14 @@ export interface DateRangeControlSchema extends FormBaseControl {
    * 日期范围快捷键
    */
   ranges?: string | Array<ShortCuts>;
+  /**
+   * 日期范围开始时间-占位符
+   */
+  startPlaceholder?: string;
+  /**
+   * 日期范围结束时间-占位符
+   */
+  endPlaceholder?: string;
 }
 
 export interface DateRangeProps
@@ -179,9 +187,15 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
 
   // 派发有event的事件
   @autobind
-  dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(e, data);
+  dispatchEvent(eventName: string) {
+    const {dispatchEvent, data, value} = this.props;
+
+    dispatchEvent(
+      eventName,
+      createObject(data, {
+        value
+      })
+    );
   }
 
   // 动作
@@ -258,8 +272,8 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
           maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
           onChange={this.handleChange}
-          onFocus={this.dispatchEvent}
-          onBlur={this.dispatchEvent}
+          onFocus={() => this.dispatchEvent('focus')}
+          onBlur={() => this.dispatchEvent('blur')}
         />
       </div>
     );

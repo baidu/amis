@@ -568,6 +568,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   @autobind
   async handleSelect(key: any) {
     const {dispatchEvent, data, env, onSelect, id} = this.props;
+    const {localTabs} = this.state;
 
     env.tracker?.({
       eventType: 'tabChange',
@@ -576,11 +577,13 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         key
       }
     });
+    // 获取激活元素项
+    const tab = localTabs?.find((item, index) => key === (item.hash ? item.hash : index));
 
     const rendererEvent = await dispatchEvent(
       'change',
       createObject(data, {
-        value: key
+        value: tab?.hash ? tab?.hash : key + 1
       })
     );
     if (rendererEvent?.prevented) {
@@ -612,7 +615,11 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
    */
   doAction(action: Action, args: any) {
     const actionType = action?.actionType as string;
-    const activeKey = args?.activeKey as number;
+    let activeKey = args?.activeKey as number;
+    // 处理非用户自定义key
+    if (typeof args?.activeKey !== 'string') {
+      activeKey--;
+    }
     if (actionType === 'changeActiveKey') {
       this.handleSelect(activeKey);
     }

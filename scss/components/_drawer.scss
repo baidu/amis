@@ -193,6 +193,7 @@
       right: var(--gap-base);
       left: auto;
       margin-top: 0;
+      z-index: 10;
     }
   }
 
@@ -228,6 +229,7 @@
       top: var(--gap-base);
       right: var(--gap-base);
       margin-right: 0;
+      z-index: 10;
     }
   }
 
@@ -286,6 +288,7 @@
       right: var(--gap-base);
       left: auto;
       margin-bottom: 0;
+      z-index: 10;
     }
   }
 
@@ -321,6 +324,7 @@
       left: auto;
       right: var(--gap-base);
       top: var(--gap-base);
+      z-index: 10;
     }
   }
 

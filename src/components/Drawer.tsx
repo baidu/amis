@@ -36,6 +36,7 @@ export interface DrawerProps {
   disabled?: boolean;
   closeOnOutside?: boolean;
   classPrefix: string;
+  resizable?: boolean;
   classnames: ClassNamesFn;
   onExited?: () => void;
   onEntered?: () => void;
@@ -62,6 +63,8 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   modalDom: HTMLElement;
   contentDom: HTMLElement;
   isRootClosed = false;
+  resizer = React.createRef<HTMLDivElement>();
+  resizeCoord: number = 0;
 
   componentDidMount() {
     if (this.props.show) {
@@ -170,15 +173,97 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   getDrawerStyle() {
     const {width, height, position} = this.props;
     const offsetStyle: {
-      width?: number | string,
-      height?: number | string
+      width?: number | string;
+      height?: number | string;
     } = {};
     if ((position === 'left' || position === 'right') && width !== undefined) {
       offsetStyle.width = width;
-    } else if ((position === 'top' || position === 'bottom') && height !== undefined) {
+    } else if (
+      (position === 'top' || position === 'bottom') &&
+      height !== undefined
+    ) {
       offsetStyle.height = height;
     }
     return offsetStyle;
+  }
+
+  @autobind
+  resizeMouseDown(e: React.MouseEvent<any>) {
+    const {position, classPrefix: ns} = this.props;
+    const drawer = this.contentDom;
+    const resizer = this.resizer.current!;
+
+    const drawerWidth = getComputedStyle(drawer).width as string;
+    const drawerHeight = getComputedStyle(drawer).height as string;
+
+    this.resizeCoord =
+      (position === 'left' &&
+        e.clientX -
+          resizer.offsetWidth -
+          parseInt(drawerWidth.substring(0, drawerWidth.length - 2))) ||
+      (position === 'right' &&
+        document.body.offsetWidth -
+          e.clientX -
+          resizer.offsetWidth -
+          parseInt(drawerWidth.substring(0, drawerWidth.length - 2))) ||
+      (position === 'top' &&
+        e.clientY -
+          resizer.offsetHeight -
+          parseInt(drawerHeight.substring(0, drawerHeight.length - 2))) ||
+      (position === 'bottom' &&
+        document.body.offsetHeight -
+          e.clientY -
+          resizer.offsetHeight -
+          parseInt(drawerHeight.substring(0, drawerHeight.length - 2))) ||
+      0;
+
+    document.body.addEventListener('mousemove', this.bindResize);
+    document.body.addEventListener('mouseup', this.removeResize);
+  }
+
+  @autobind
+  bindResize(e: any) {
+    const {position} = this.props;
+    const maxWH = 'calc(100% - 50px)';
+    const drawer = this.contentDom;
+    const drawerStyle = drawer.style;
+    let wh =
+      (position === 'left' && e.clientX) ||
+      (position === 'right' && document.body.offsetWidth - e.clientX) ||
+      (position === 'top' && e.clientY) ||
+      (position === 'bottom' && document.body.offsetHeight - e.clientY) ||
+      0;
+    wh = wh - this.resizeCoord + 'px';
+
+    if (position === 'left' || position === 'right') {
+      drawerStyle.maxWidth = maxWH;
+      drawerStyle.width = wh;
+    }
+
+    if (position === 'top' || position === 'bottom') {
+      drawerStyle.maxHeight = maxWH;
+      drawerStyle.height = wh;
+    }
+  }
+
+  @autobind
+  removeResize() {
+    document.body.removeEventListener('mousemove', this.bindResize);
+    document.body.removeEventListener('mouseup', this.removeResize);
+  }
+
+  renderResizeCtrl() {
+    const {classnames: cx} = this.props;
+
+    return (
+      <div
+        className={cx('Drawer-resizeCtrl')}
+        ref={this.resizer}
+        onMouseDown={this.resizeMouseDown}
+      >
+        <div className={cx('Drawer-resizeIcon')}>···</div>
+      </div>
+    );
   }
 
   render() {
@@ -194,7 +279,8 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
       onHide,
       disabled,
       overlay,
-      bodyClassName
+      bodyClassName,
+      resizable
     } = this.props;
 
     const bodyStyle = this.getDrawerStyle();
@@ -257,6 +343,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                     </a>
                   ) : null}
                   {status === EXITED ? null : children}
+                  {resizable ? this.renderResizeCtrl() : null}
                 </div>
               </div>
             );

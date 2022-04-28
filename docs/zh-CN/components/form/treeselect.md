@@ -318,8 +318,8 @@ order: 60
 | edit         | `options: Option[]`,`value: Option` 编辑节点信息 | 编辑选项       |
 | delete       | `options: Option[]`,`value: Option` 删除节点信息 | 删除选项       |
 | loadFinished | value: `json` 懒加载返回的数据                   | 懒加载完成触发 |
-| blur         | -                                                | 输入框失去焦点 |
-| focus        | -                                                | 输入框获取焦点 |
+| blur         | `value: string` 选中值                         | 输入框失去焦点 |
+| focus        | `value: string` 选中值                         | 输入框获取焦点 |
 
 ## 动作表
 

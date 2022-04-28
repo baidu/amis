@@ -146,7 +146,7 @@ export class TreeSelector extends React.Component<
     showIcon: true,
     showOutline: false,
     initiallyOpen: true,
-    unfoldedLevel: 0,
+    unfoldedLevel: 1,
     showRadio: false,
     multiple: false,
     disabled: false,
@@ -260,10 +260,11 @@ export class TreeSelector extends React.Component<
     onExpandTree?.(nodePathArr);
   }
 
-  syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: Number) {
+  syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: number) {
     // 传入默认展开层级需要重新初始化unfolded
     let initFoldedLevel = typeof unfoldedLevel !== 'undefined';
-    let expandLevel = initFoldedLevel ? unfoldedLevel : props.unfoldedLevel;
+    let expandLevel = Number(initFoldedLevel ? unfoldedLevel : props.unfoldedLevel) - 1;
+
     // 初始化树节点的展开状态
     let unfolded = this.unfolded;
     const {foldedField, unfoldedField} = this.props;
@@ -823,7 +824,6 @@ export class TreeSelector extends React.Component<
       const checked = !!~value.indexOf(item);
       const selfDisabled = item[disabledField];
       let selfChecked = !!uncheckable || checked;
-
       let childrenItems = null;
       let selfChildrenChecked = false;
       if (item.children && item.children.length) {
@@ -850,7 +850,8 @@ export class TreeSelector extends React.Component<
         childrenChecked++;
       }
 
-      let nodeDisabled = !!uncheckable || !!disabled || selfDisabled;
+      let nodeDisabled = !!uncheckable || !!disabled || selfDisabled
+      || (multiple && !autoCheckChildren && !item[valueField]);
 
       if (
         !nodeDisabled &&
@@ -859,7 +860,6 @@ export class TreeSelector extends React.Component<
       ) {
         nodeDisabled = true;
       }
-
       const checkbox: JSX.Element | null = multiple ? (
         <Checkbox
           size="sm"

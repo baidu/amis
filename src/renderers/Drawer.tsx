@@ -218,9 +218,6 @@ export default class Drawer extends React.Component<DrawerProps> {
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
     this.handleChildFinished = this.handleChildFinished.bind(this);
-    this.resizeMouseDown = this.resizeMouseDown.bind(this);
-    this.bindResize = this.bindResize.bind(this);
-    this.removeResize = this.removeResize.bind(this);
     this.handleEntered = this.handleEntered.bind(this);
     this.handleExited = this.handleExited.bind(this);
     this.handleFormInit = this.handleFormInit.bind(this);
@@ -489,84 +486,6 @@ export default class Drawer extends React.Component<DrawerProps> {
     );
   }
 
-  renderResizeCtrl() {
-    const {classnames: cx} = this.props;
-
-    return (
-      <div
-        className={cx('Drawer-resizeCtrl')}
-        onMouseDown={this.resizeMouseDown}
-      >
-        <div className={cx('Drawer-resizeIcon')}>···</div>
-      </div>
-    );
-  }
-
-  resizeMouseDown(e: React.MouseEvent<any>) {
-    const {position, classPrefix: ns, store} = this.props;
-
-    this.drawer = (findDOMNode(this) as HTMLElement).querySelector(
-      `.${ns}Drawer-content`
-    ) as HTMLElement;
-    const resizeCtrl = (findDOMNode(this) as HTMLElement).querySelector(
-      `.${ns}Drawer-content .${ns}Drawer-resizeCtrl`
-    ) as HTMLElement;
-    const drawerWidth = getComputedStyle(this.drawer).width as string;
-    const drawerHeight = getComputedStyle(this.drawer).height as string;
-
-    store.setResizeCoord(
-      (position === 'left' &&
-        e.clientX -
-          resizeCtrl.offsetWidth -
-          parseInt(drawerWidth.substring(0, drawerWidth.length - 2))) ||
-        (position === 'right' &&
-          document.body.offsetWidth -
-            e.clientX -
-            resizeCtrl.offsetWidth -
-            parseInt(drawerWidth.substring(0, drawerWidth.length - 2))) ||
-        (position === 'top' &&
-          e.clientY -
-            resizeCtrl.offsetHeight -
-            parseInt(drawerHeight.substring(0, drawerHeight.length - 2))) ||
-        (position === 'bottom' &&
-          document.body.offsetHeight -
-            e.clientY -
-            resizeCtrl.offsetHeight -
-            parseInt(drawerHeight.substring(0, drawerHeight.length - 2))) ||
-        0
-    );
-
-    document.body.addEventListener('mousemove', this.bindResize);
-    document.body.addEventListener('mouseup', this.removeResize);
-  }
-
-  bindResize(e: any) {
-    const {position, store} = this.props;
-    const maxWH = 'calc(100% - 50px)';
-    const drawerStyle = this.drawer.style;
-    let wh =
-      (position === 'left' && e.clientX) ||
-      (position === 'right' && document.body.offsetWidth - e.clientX) ||
-      (position === 'top' && e.clientY) ||
-      (position === 'bottom' && document.body.offsetHeight - e.clientY) ||
-      0;
-    wh = wh - store.resizeCoord + 'px';
-
-    if (position === 'left' || position === 'right') {
-      drawerStyle.maxWidth = maxWH;
-      drawerStyle.width = wh;
-    }
-
-    if (position === 'top' || position === 'bottom') {
-      drawerStyle.maxHeight = maxWH;
-      drawerStyle.height = wh;
-    }
-  }
-  removeResize() {
-    document.body.removeEventListener('mousemove', this.bindResize);
-    document.body.removeEventListener('mouseup', this.removeResize);
-  }
-
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
@@ -615,6 +534,7 @@ export default class Drawer extends React.Component<DrawerProps> {
 
     return (
       <Container
+        resizable={resizable}
         classPrefix={ns}
         className={className}
         size={size}
@@ -712,8 +632,6 @@ export default class Drawer extends React.Component<DrawerProps> {
               }
             )
           : null}
-
-        {resizable ? this.renderResizeCtrl() : null}
       </Container>
     );
   }

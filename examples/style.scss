@@ -1055,6 +1055,22 @@ body.dark {
     width: 350px;
     flex-shrink: 0;
   }
+
+  &--mini {
+    display: block;
+    position: relative;
+    > a {
+      cursor: pointer;
+      display: block;
+      text-align: right;
+      position: absolute;
+      right: 0;
+      top: -20px;
+    }
+    .Playgroud-preview {
+      width: 100%;
+    }
+  }
 }
 
 @media screen and (max-width: 767px) {

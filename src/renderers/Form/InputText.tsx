@@ -321,9 +321,17 @@ export default class TextControl extends React.PureComponent<
     onBlur && onBlur(e);
   }
 
-  handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
+  async handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
     let value = this.transformValue(evt.currentTarget.value);
     const {creatable, multiple, onChange} = this.props;
+    const dispatcher = await rendererEventDispatcher<
+      TextProps,
+      InputTextRendererEvent
+    >(this.props, 'change', {value});
+
+    if (dispatcher?.prevented) {
+      return;
+    }
 
     this.setState(
       {

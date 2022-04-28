@@ -21,7 +21,7 @@ class CodePreview extends React.Component {
   render() {
     const {container, setAsideFolded, setHeaderVisible, ...rest} = this.props;
 
-    return <Play {...rest} vertical />;
+    return <Play {...rest} mini />;
   }
 }
 

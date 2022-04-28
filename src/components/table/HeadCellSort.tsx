@@ -30,11 +30,7 @@ export class HeadCellSort extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      column,
-      onSort,
-      classnames: cx
-    } = this.props;
+    const {column, onSort, classnames: cx} = this.props;
 
     return (
       <span

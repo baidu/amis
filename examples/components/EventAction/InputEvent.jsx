@@ -5,6 +5,63 @@ export default {
   body: [
     {
       type: 'tpl',
+      tpl: '事件',
+      inline: false,
+      wrapperComponent: 'h1'
+    },
+    {
+      type: 'form',
+      name: 'input-event-form',
+      debug: true,
+      api: '/api/mock2/form/saveForm',
+      body: ['click', 'focus', 'blur', 'enter', 'change'].map(event => ({
+        name: `${event}-dispatch`,
+        id: `${event}-dispatch`,
+        type: 'input-text',
+        clearable: true,
+        label: `${event}事件测试`,
+        mode: 'horizontal',
+        horizontal: {
+          justify: true,
+          left: 4
+        },
+        multiple: true,
+        options: [
+          {
+            label: 'aa',
+            value: 'aa'
+          },
+          {
+            label: 'bb',
+            value: 'bb'
+          }
+        ],
+        onEvent: {
+          [event]: {
+            actions: [
+              {
+                actionType: 'toast',
+                args: {
+                  msgType: 'info',
+                  msg: `触发<b>${event}</b>事件`
+                }
+              }
+            ]
+          }
+        }
+      }))
+    },
+    {
+      type: 'divider'
+    },
+    {
+      type: 'tpl',
+      tpl: '动作',
+      inline: false,
+      wrapperComponent: 'h1'
+    },
+    {
+      type: 'tpl',
       tpl: 'InputText输入框',
       inline: false,
       wrapperComponent: 'h2'
