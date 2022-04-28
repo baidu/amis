@@ -289,6 +289,13 @@
           min-height: 1px;
         }
       }
+      .#{$ns}Form-itemColumn--align-left {
+        text-align: left;
+      }
+      .#{$ns}Form-itemColumn--align-right {
+        text-align: right;
+      }
+
     }
 
     &--inline {
