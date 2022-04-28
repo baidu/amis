@@ -72,6 +72,7 @@ export class DataSchema {
     }
 
     scope.parent?.removeChild(scope);
+    delete this.idMap[scope.id];
     return this;
   }
 
