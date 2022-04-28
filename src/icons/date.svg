@@ -3,7 +3,7 @@
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g transform="translate(-1.338385, -2.000000)">
             <rect x="0" y="0" width="16" height="16"></rect>
-            <path d="M6,2 L6,3 L10,3 L10,2 L11,2 L11,3 L14,3 L14,14 L2,14 L2,3 L5,3 L5,2 L6,2 Z M13,7 L3,7 L3,13 L13,13 L13,7 Z M5,4 L3,4 L3,6 L13,6 L13,4 L11,4 L11,5 L10,5 L10,4 L6,4 L6,5 L5,5 L5,4 Z" fill="#151B26"></path>
+            <path d="M6,2 L6,3 L10,3 L10,2 L11,2 L11,3 L14,3 L14,14 L2,14 L2,3 L5,3 L5,2 L6,2 Z M13,7 L3,7 L3,13 L13,13 L13,7 Z M5,4 L3,4 L3,6 L13,6 L13,4 L11,4 L11,5 L10,5 L10,4 L6,4 L6,5 L5,5 L5,4 Z" fill="#84868C"></path>
         </g>
     </g>
 </svg>
