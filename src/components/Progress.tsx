@@ -52,7 +52,7 @@ export class Progress extends React.Component<ProgressProps, Object> {
       (a: {value: number}, b: {value: number}) => a.value - b.value
     );
     for (let i = 0; i < colorArray.length; i++) {
-      if (colorArray[i].value > value) {
+      if (colorArray[i].value >= value) {
         return colorArray[i].color;
       }
     }
