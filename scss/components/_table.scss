@@ -594,15 +594,16 @@
     > thead > tr > th.#{$ns}TableCell--sortable,
     > thead > tr > th.#{$ns}TableCell--searchable,
     > thead > tr > th.#{$ns}TableCell--filterable {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
+      > .#{$ns}TableCell--title {
+        display: inline-block;
+      }
     }
   }
 
   &Cell-sortBtn,
   &Cell-searchBtn,
   &Cell-filterBtn {
+    display: inline-block;
     padding-left: var(--gap-sm);
     
     &:hover {
@@ -614,7 +615,6 @@
     cursor: pointer;
     width: var(--TableCell-sortBtn-width);
     height: var(--gap-md);
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
