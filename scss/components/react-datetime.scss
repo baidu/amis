@@ -35,10 +35,6 @@
   border-spacing: 0 8px;
 }
 
-.rdtPicker thead {
-  border-spacing: 0;
-}
-
 .rdtMonths,
 .rdtYears {
   table {
@@ -46,6 +42,7 @@
   }
   .headerTable {
     border-spacing: 0;
+    border-bottom: 1px solid #E8E9EB;
   }
 }
 .rdtPicker td,

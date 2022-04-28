@@ -447,8 +447,10 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
         );
         return (
           <td {...props}>
-            <span>{currentDate.date()}</span>
-            {ScheduleIcon}
+            <span>
+              {currentDate.date()}
+              {ScheduleIcon}
+            </span>
           </td>
         );
       }

@@ -225,10 +225,10 @@ exports[`Renderer:calendar 1`] = `
                             >
                               <span>
                                 11
+                                <span
+                                  class="cxd-ScheduleCalendar-icon bg-warning"
+                                />
                               </span>
-                              <span
-                                class="cxd-ScheduleCalendar-icon bg-warning"
-                              />
                             </td>
                             <td
                               class="rdtDay"
@@ -312,10 +312,10 @@ exports[`Renderer:calendar 1`] = `
                             >
                               <span>
                                 21
+                                <span
+                                  class="cxd-ScheduleCalendar-icon bg-danger"
+                                />
                               </span>
-                              <span
-                                class="cxd-ScheduleCalendar-icon bg-danger"
-                              />
                             </td>
                             <td
                               class="rdtDay"
@@ -323,10 +323,10 @@ exports[`Renderer:calendar 1`] = `
                             >
                               <span>
                                 22
+                                <span
+                                  class="cxd-ScheduleCalendar-icon bg-danger"
+                                />
                               </span>
-                              <span
-                                class="cxd-ScheduleCalendar-icon bg-danger"
-                              />
                             </td>
                             <td
                               class="rdtDay"
@@ -1359,10 +1359,10 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                             >
                               <span>
                                 11
+                                <span
+                                  class="cxd-ScheduleCalendar-icon bg-warning"
+                                />
                               </span>
-                              <span
-                                class="cxd-ScheduleCalendar-icon bg-warning"
-                              />
                             </td>
                             <td
                               class="rdtDay"
@@ -1446,10 +1446,10 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                             >
                               <span>
                                 21
+                                <span
+                                  class="cxd-ScheduleCalendar-icon bg-danger"
+                                />
                               </span>
-                              <span
-                                class="cxd-ScheduleCalendar-icon bg-danger"
-                              />
                             </td>
                             <td
                               class="rdtDay"
@@ -1457,10 +1457,10 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                             >
                               <span>
                                 22
+                                <span
+                                  class="cxd-ScheduleCalendar-icon bg-danger"
+                                />
                               </span>
-                              <span
-                                class="cxd-ScheduleCalendar-icon bg-danger"
-                              />
                             </td>
                             <td
                               class="rdtDay"
