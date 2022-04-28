@@ -41,6 +41,9 @@
     td.rdtActive {
       background: transparent;
       color: var(--Calendar-color);
+      > span {
+        background: transparent !important;
+      }
     }
     td.rdtActive:hover{
       background: var(--Calendar-cell-onHover-bg);
