@@ -203,12 +203,15 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       eventName,
       createObject(data, {
         options,
-        ...eventData
+        value: ['onEdit', 'onDelete'].includes(event)
+          ? eventData
+          : eventData && eventData.value
       })
     );
     if (rendererEvent?.prevented) {
       return;
     }
+    // 触发外部方法
     this.props[event](eventData);
   }
 
@@ -405,12 +408,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             creatable={creatable}
             searchable={searchable || !!autoComplete}
             onChange={this.changeValue}
-            onBlur={(e: any) => this.dispatchEvent('blur', {value: e.value})}
-            onFocus={(e: any) => this.dispatchEvent('focus', {value: e.value})}
+            onBlur={(e: any) => this.dispatchEvent('blur', e)}
+            onFocus={(e: any) => this.dispatchEvent('focus', e)}
             onAdd={() => this.dispatchEvent('add')}
-            onEdit={(item: any) => this.dispatchEvent('edit', {value: item})}
+            onEdit={(item: any) => this.dispatchEvent('edit', item)}
             onDelete={(item: any) =>
-              this.dispatchEvent('delete', {value: item})
+              this.dispatchEvent('delete', item)
             }
             loading={loading}
             noResultsText={noResultsText}
