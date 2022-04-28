@@ -121,7 +121,7 @@ export default {
             {
               actionType: 'toast',
               args: {
-                msg: '${event.data|json}'
+                msg: '表单值变化：${event.data|json}'
               }
             }
           ]
@@ -131,7 +131,7 @@ export default {
             {
               actionType: 'toast',
               args: {
-                msg: '${event.data|json}'
+                msg: '表单初始化完成：${event.data|json}'
               }
             }
           ]
@@ -141,7 +141,7 @@ export default {
             {
               actionType: 'toast',
               args: {
-                msg: '${event.data|json}'
+                msg: '表单项校验成功：${event.data|json}'
               }
             }
           ]
@@ -151,7 +151,7 @@ export default {
             {
               actionType: 'toast',
               args: {
-                msg: '${event.data|json}'
+                msg: '表单项校验失败：${event.data|json}'
               }
             }
           ]
@@ -161,7 +161,7 @@ export default {
             {
               actionType: 'toast',
               args: {
-                msg: '${event.data|json}'
+                msg: '表单校验成功：${event.data|json}'
               }
             }
           ]
@@ -171,7 +171,7 @@ export default {
             {
               actionType: 'toast',
               args: {
-                msg: '${event.data|json}'
+                msg: '表单校验成功：${event.data|json}'
               }
             }
           ]
@@ -179,9 +179,21 @@ export default {
         submitSucc: {
           actions: [
             {
-              actionType: 'toast',
+              actionType: 'dialog',
               args: {
-                msg: '${event.data|json}'
+                val: '${event.data}'
+              },
+              dialog: {
+                title: `提交成功`,
+                data: {
+                  val: '${val}'
+                },
+                body: [
+                  {
+                    type: 'tpl',
+                    tpl: '${val|json}'
+                  }
+                ]
               }
             }
           ]
@@ -189,9 +201,21 @@ export default {
         submitFail: {
           actions: [
             {
-              actionType: 'toast',
+              actionType: 'dialog',
               args: {
-                msg: '${event.data|json}'
+                val: '${event.data}'
+              },
+              dialog: {
+                title: `提交失败`,
+                data: {
+                  val: '${val}'
+                },
+                body: [
+                  {
+                    type: 'tpl',
+                    tpl: '${val|json}'
+                  }
+                ]
               }
             }
           ]
@@ -234,7 +258,7 @@ export default {
             {
               actionType: 'toast',
               args: {
-                msg: '${event.data|json}'
+                msg: '表单项校验成功：${event.data|json}'
               }
             }
           ]
@@ -244,11 +268,47 @@ export default {
             {
               actionType: 'toast',
               args: {
-                msg: '${event.data|json}'
+                msg: '表单项校验失败：${event.data|json}'
               }
             }
           ]
         }
+      }
+    },
+    {
+      type: 'form',
+      debug: true,
+      title: "表单：提交表单无target，无api，只触发提交成功事件",
+      body: [
+        {
+          type: 'input-text',
+          name: 'name',
+          label: '姓名',
+          required: true,
+          validateOnChange: true
+        },
+        {
+          type: 'input-text',
+          name: 'email',
+          label: '邮箱',
+          required: true,
+          validateOnChange: true,
+          validations: {
+            isEmail: true
+          }
+        }
+      ],
+      onEvent: {
+        submitSucc: {
+          actions: [
+            {
+              actionType: 'toast',
+              args: {
+                msg: '提交成功：${event.data|json}'
+              }
+            }
+          ]
+        },
       }
     }
   ]

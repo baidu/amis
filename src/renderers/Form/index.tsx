@@ -1020,6 +1020,7 @@ export default class Form extends React.Component<FormProps, object> {
 
         if (target) {
           this.submitToTarget(target, values);
+          dispatchEvent('submitSucc', createObject(this.props.data, values));
         } else if (action.actionType === 'reload') {
           action.target && this.reloadTarget(action.target, values);
         } else if (action.actionType === 'dialog') {
@@ -1082,6 +1083,9 @@ export default class Form extends React.Component<FormProps, object> {
 
               // return values;
             });
+        } else {
+          // type为submit，但是没有配api以及target时，只派发事件
+          dispatchEvent('submitSucc', createObject(this.props.data, values));
         }
 
         return Promise.resolve(null);
