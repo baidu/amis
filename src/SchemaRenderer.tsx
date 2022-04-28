@@ -17,7 +17,7 @@ import {ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
 import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
-import {anyChanged, chainEvents, autobind} from './utils/helper';
+import {anyChanged, chainEvents, autobind, createObject} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
 
 import {bindEvent, dispatchEvent, RendererEvent} from './utils/renderer-event';
@@ -230,7 +230,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     return renderChild(`${$path}${region ? `/${region}` : ''}`, node || '', {
       ...omit(rest, omitList),
       ...subProps,
-      data: rest.data || subProps.data, // 优先使用当前数据域
+      data: subProps.data || rest.data,
       env: env
     });
   }

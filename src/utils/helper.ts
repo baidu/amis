@@ -22,7 +22,10 @@ import {
   resolveVariable,
   resolveVariableAndFilter
 } from 'amis-formula';
+import {filter} from './tpl';
+import {getFilters} from './tpl-builtin';
 import {isObservable} from 'mobx';
+import { toast } from '../components';
 
 export {
   createObject,
@@ -1443,6 +1446,114 @@ export function getPropValue<
   return (
     value ?? getter?.(props) ?? resolveValueByName(data, name) ?? defaultValue
   );
+}
+
+// 缓存，用于提升性能
+const FORMULA_EVAL_CACHE: {[key: string]: Function} = {};
+
+/**
+ * 用于存储当前可用运算器，默认支持 tpl、formula、js、var 四种类型运算器
+ * 备注：会在这里统一参数，对外暴漏统一的入参。
+ */
+const FormulaExec: {
+  [key: string]: Function
+} = {
+  'tpl': (expression: string, data?: object) => {
+    const curData = data || {};
+    return filter(expression, curData);
+  },
+  'formula': (expression: string, data?: object) => {
+    const curData = data || {};
+    return resolveValueByName(curData, expression);
+  },
+  'js': (expression: string, data?: object) => {
+    let debug = false;
+    const idx = expression.indexOf('debugger');
+    if (~idx) {
+      debug = true;
+      expression = expression.replace(/debugger;?/, '');
+    }
+
+    let fn;
+    if (expression in FORMULA_EVAL_CACHE) {
+      fn = FORMULA_EVAL_CACHE[expression];
+    } else {
+      fn = new Function(
+        'data',
+        'utils',
+        `with(data) {${debug ? 'debugger;' : ''}return !!(${expression});}`
+      );
+      FORMULA_EVAL_CACHE[expression] = fn;
+    }
+
+    data = data || {};
+    return fn.call(data, data, getFilters());
+  },
+  'var': (expression: string, data?: object) => {
+    const curData = data || {};
+    return getVariable(curData, expression);
+  },
+};
+
+export function registerFormulaExec(execMode: string, formulaExec: Function) {
+  if (FormulaExec[execMode]) {
+    console.error(`registerFormulaExec: 运算器注册失败，存在同名运算器（$(execMode)）。`);
+  } else {
+    FormulaExec[execMode] = formulaExec;
+  }
+}
+/**
+ * 运算器：根据当前字符串类型执行对应运算，也可按指定执行模式执行运算
+ * 
+ * 支持以下 6 种运算模式（execMode）: 
+ * 1. raw: 直接返回原始字符串；
+ * 2. tpl: 按模板字符串执行；
+ * 3. formula: 按新版公式表达式执行；
+ * 4. =: 按新版公式表达式执行；
+ * 5. js: 按Javascript执行；
+ * 6. var: 以此字符串作为key值从当前数据域data中获取数值；
+ * 
+ * 备注：如字符串以特殊字符开头也可启动指定运算模式，这个优先级比指定execMode要低。
+ * 1. 当字符串以'raw:'开头则直接返回原始字符串；
+ * 2. 当字符串以'tpl:'开头则按模板字符串执行；
+ * 3. 当字符串以'formula:'或'='开头则按新版公式表达式执行；
+ * 4. 当字符串以'js:'开头则按Javascript执行；
+ * 5. 当字符串以'var:'开头则以此字符串作为key值从当前数据域data中获取数值；
+ */
+export function formulaExec(value: any, data: any, execMode?: string) {
+  if (!value) {
+    return '';
+  }
+  if (isObject(value)) {
+    // Object类型
+    return JSON.stringify(value);
+  } else if (typeof value !== 'string') {
+    // 非字符串类型，直接返回，比如：boolean、Int类型
+    return value;
+  } else if (execMode && FormulaExec[execMode]) {
+    return FormulaExec[execMode];
+  }
+  
+  if (value.startsWith('raw:')) {
+    return value.substring(4);
+  } else if (value.startsWith('tpl:')) {
+    const curValue = value.substring(4);
+    return FormulaExec['tpl'](curValue, data);
+  } else if (value.startsWith('formula:')) {
+    const curValue = value.substring(8);
+    return FormulaExec['formula'](curValue, data);
+  } else if (value.startsWith('=')) {
+    const curValue = value.substring(1);
+    return FormulaExec['formula'](curValue, data);
+  } else if (value.startsWith('js:')) {
+    const curValue = value.substring(3);
+    return FormulaExec['js'](curValue, data);
+  } else if (value.startsWith('var:')) {
+    const curValue = value.substring(4);
+    return FormulaExec['var'](curValue, data);
+  }
+
+  return FormulaExec['formula'](value, data);
 }
 
 // 检测 value 是否有变化，有变化就执行 onChange
