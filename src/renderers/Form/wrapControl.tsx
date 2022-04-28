@@ -12,7 +12,8 @@ import {
   isEmpty,
   autobind,
   getVariable,
-  createObject
+  createObject,
+  formulaExec
 } from '../../utils/helper';
 import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
@@ -160,12 +161,13 @@ export function wrapControl<
             this.model = model;
             // @issue 打算干掉这个
             formItem?.addSubFormItem(model);
+            const curValue = formulaExec(value, data); // 对组件默认值进行运算
             model.config({
               id,
               type,
               required,
               unique,
-              value,
+              value: curValue,
               rules: validations,
               messages: validationErrors,
               multiple,
@@ -195,7 +197,7 @@ export function wrapControl<
 
             // 同步 value
             model.changeTmpValue(
-              propValue ?? store?.getValueByName(model.name) ?? value
+              value ? curValue : propValue ?? store?.getValueByName(model.name)
             );
 
             // 如果没有初始值，通过 onChange 设置过去
@@ -283,7 +285,7 @@ export function wrapControl<
                 required: props.$schema.required,
                 id: props.$schema.id,
                 unique: props.$schema.unique,
-                value: props.$schema.value,
+                value: formulaExec(props.$schema.value, props.data), // props.$schema.value,
                 rules: props.$schema.validations,
                 multiple: props.$schema.multiple,
                 delimiter: props.$schema.delimiter,
@@ -309,7 +311,7 @@ export function wrapControl<
                 props.value !== prevProps.value &&
                 props.value !== model.tmpValue
               ) {
-                model.changeTmpValue(props.value);
+                model.changeTmpValue(formulaExec(props.value, props.data));
               }
             } else if (model && typeof props.defaultValue !== 'undefined') {
               // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
@@ -317,7 +319,7 @@ export function wrapControl<
                 props.defaultValue !== prevProps.defaultValue &&
                 props.defaultValue !== model.tmpValue
               ) {
-                model.changeTmpValue(props.defaultValue);
+                model.changeTmpValue(formulaExec(props.defaultValue, props.data));
               }
             } else if (
               // 然后才是查看关联的 name 属性值是否变化
@@ -612,7 +614,7 @@ export function wrapControl<
 
           getValue() {
             const {formStore: data, $schema: control} = this.props;
-            let value: any = this.model ? this.model.tmpValue : control.value;
+            let value: any = this.model ? this.model.tmpValue : control.value; // formulaExec(control.value, data)
 
             if (control.pipeIn) {
               value = control.pipeIn(value, data);
