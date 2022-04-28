@@ -546,7 +546,8 @@ export default class TreeSelectControl extends React.Component<
       deferLoad,
       expandTreeOptions,
       selfDisabledAffectChildren,
-      showOutline
+      showOutline,
+      autoCheckChildren
     } = this.props;
 
     let filtedOptions =
@@ -574,6 +575,7 @@ export default class TreeSelectControl extends React.Component<
         initiallyOpen={initiallyOpen}
         unfoldedLevel={unfoldedLevel}
         withChildren={withChildren}
+        autoCheckChildren={autoCheckChildren}
         rootLabel={__(rootLabel)}
         rootValue={rootValue}
         showIcon={showIcon}
