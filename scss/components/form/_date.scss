@@ -186,18 +186,6 @@
   }
 }
 
-// override third-party styles
-.rdtTime {
-  // width: #{px2rem(393px)};
-}
-
-.rdtTimeWithS {
-  // width: #{px2rem(472px)};
-}
-
-.rdtTimeWithoutD {
-}
-
 .rdt {
   user-select: none;
   font-size: var(--Calendar-fontSize);
@@ -242,6 +230,9 @@
   .rdtPickerTimeWithoutD {
     width: 100%;
     // height: #{px2rem(240px)};
+    .TimeContentWrapper {
+      display: flex;
+    }
   }
 
   .rdtPicker {
@@ -383,6 +374,21 @@
   padding-top: 10px;
   text-align: center;
   border-bottom: 1px solid var(--Calendar-input-borderColor);
+}
+
+.#{$ns}TimeFooterWrapper {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+
+  .#{$ns}Button {
+    height: 24px;
+    line-height: 24px;
+    padding: 0 8px;
+    border-radius: 2px;
+  }
 }
 
 .#{$ns}CalendarInput {
@@ -583,30 +589,38 @@ td.rdtQuarter {
   }
 
   &.rdtBetween {
-    background: transparent !important;
-
-    > span {
-      background: var(--Calendar-cell-onBetween-bg);
-    }
+    background: var(--Calendar-cell-onBetween-bg);
   }
 
   &:hover,
-  &.rdtActive {
-    background: transparent !important;
+  &.rdtActive,
+  &.rdtActive:hover {
+    background: transparent;
 
     > span {
-      background: var(--info);
+      background: var(--info) !important;
       color: var(--white);
     }
   }
 
-  &.rdtDisabled {
-    background: transparent !important;
+  &.rdtDisabled,
+  &.rdtDisabled:hover {
+    background: var(--Calendar-cell-onDisabled-bg);
+    color: #B8BABF;
+  }
+  
+}
 
-    > span {
-      background: #edf1f2;
-      color: #999;
-    }
+.#{$ns}DateRangePicker-start {
+  .rdtPicker .rdtActive.rdtBetween {
+    background: linear-gradient(to right, transparent 0%, transparent 50%, var(--Calendar-cell-onBetween-bg) 51%, var(--Calendar-cell-onBetween-bg) 100%);
+  }
+}
+
+
+.#{$ns}DateRangePicker-end {
+  .rdtPicker .rdtActive.rdtBetween {
+    background: linear-gradient(to right, var(--Calendar-cell-onBetween-bg) 0%, var(--Calendar-cell-onBetween-bg) 50%, transparent 51%, transparent 100%);
   }
 }
 

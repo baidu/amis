@@ -332,5 +332,6 @@ register('zh-CN', {
   'JSONSchema.description': '描述',
   'JSONSchema.add_prop': '添加属性',
   'JSONSchema.array_items': '成员类型',
-  'Required': '必填'
+  'Required': '必填',
+  'TimeNow': '此刻',
 });

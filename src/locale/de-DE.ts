@@ -321,5 +321,6 @@ register('de-DE', {
   'JSONSchema.title': 'Title',
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
-  'JSONSchema.array_items': 'Items'
+  'JSONSchema.array_items': 'Items',
+  'TimeNow': 'Jetzt',
 });
