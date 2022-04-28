@@ -222,7 +222,7 @@
     cursor: pointer;
     width: var(--Tree-itemArrowWidth);
     display: inline-flex;
-    margin-right: var(--Tree-icon-gap);
+    margin-right: var(--Tree-icon-margin-right);
 
     // &:before {
     //   font-style: normal;
