@@ -46,7 +46,7 @@ export default {
         {
           name: 'input-tree-expand',
           type: 'action',
-          label: 'expand触发器（openLevel: 1）',
+          label: 'expand触发器（openLevel: 2）',
           level: 'primary',
           className: 'mr-3',
           onEvent: {
@@ -57,7 +57,7 @@ export default {
                   componentId: 'input-tree-action',
                   description: '点击展开',
                   args: {
-                    openLevel: 1
+                    openLevel: 2
                   }
                 }
               ]
@@ -91,7 +91,7 @@ export default {
           removable: true,
           editable: true,
           initiallyOpen: false,
-          unfoldedLevel: 0,
+          unfoldedLevel: 1,
           deferApi: '/api/mock2/form/deferOptions?label=${label}&waitSeconds=2',
           options: [
             {
