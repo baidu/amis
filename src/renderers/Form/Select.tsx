@@ -198,18 +198,14 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   async dispatchEvent(eventName: SelectRendererEvent, eventData: any = {}) {
     const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
     const {dispatchEvent, options, data} = this.props;
-    // 抛出事件数据
-    let dispatchData = {
-      value: ['onEdit', 'onDelete'].includes(event)
-        ? eventData
-        : eventData && eventData.value
-    };
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       eventName,
       createObject(data, {
         options,
-        ...dispatchData
+        value: ['onEdit', 'onDelete'].includes(event)
+          ? eventData
+          : eventData && eventData.value
       })
     );
     if (rendererEvent?.prevented) {
