@@ -85,6 +85,27 @@ export function localeable<
       static contextType = LocaleContext;
       static ComposedComponent = ComposedComponent as React.ComponentType<T>;
 
+      constructor(props: OuterProps) {
+        super(props);
+
+        this.childRef = this.childRef.bind(this);
+        this.getWrappedInstance = this.getWrappedInstance.bind(this);
+      }
+
+      ref: any;
+
+      childRef(ref: any) {
+        while (ref && ref.getWrappedInstance) {
+          ref = ref.getWrappedInstance();
+        }
+
+        this.ref = ref;
+      }
+
+      getWrappedInstance() {
+        return this.ref;
+      }
+
       render() {
         const locale: string =
           this.props.locale || this.context || defaultLocale;
@@ -105,6 +126,7 @@ export function localeable<
                 React.ComponentProps<T>
               >)}
               {...injectedProps}
+              ref={this.childRef}
             />
           </LocaleContext.Provider>
         );
