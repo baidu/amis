@@ -39,6 +39,19 @@
     box-shadow: var(--Form-select-onFocus-boxShadow);
   }
 
+  .#{$ns}PopOver.#{$ns}Select-popover {
+    .#{$ns}Select-menu {
+      .#{$ns}Select-option {
+        height: px2rem(32px);
+        line-height: px2rem(22px);
+      }
+      .#{$ns}Select-addBtn {
+        height: px2rem(32px);
+        line-height: px2rem(30px);
+      }
+    }
+  }
+
   @include input-border();
 
   &-valueWrap {

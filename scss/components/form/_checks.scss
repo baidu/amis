@@ -100,6 +100,18 @@
       border-radius: var(--Checkbox-borderRadius);
       margin-left: calc(var(--Checkbox-size) * -1);
     }
+
+    &.#{$ns}Checkbox {
+      & > i {
+        &:hover::before {
+          background: var(--Button--primary-onHover-bg);
+        }
+  
+        &:active:before {
+          background: var(--Switch-checked-onHover-bgColor);
+        }
+      }
+    }
   }
 
   &--full.#{$ns}Checkbox--checkbox {

@@ -200,7 +200,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         ) : null}
         {hasDropDownArrow && !mobileUI && (
           <span className={cx('ResultBox-pc-arrow')}>
-            <Icon icon="caret" className="icon" />
+            <Icon icon="right-arrow-bold" className="icon" />
           </span>
         )}
         {!allowInput && mobileUI ? (
