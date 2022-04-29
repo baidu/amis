@@ -1,11 +1,15 @@
-import {RendererEvent} from '../utils/renderer-event';
+import { RendererEvent } from '../utils/renderer-event';
 import {
   RendererAction,
-  ListenerAction,
   ListenerContext,
   LoopStatus,
-  registerAction
+  registerAction,
+  ILogicAction
 } from './Action';
+
+export interface IContinueAction extends ILogicAction {
+  actionType: 'continue';
+}
 
 /**
  * continue
@@ -16,7 +20,7 @@ import {
  */
 export class ContinueAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: IContinueAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {

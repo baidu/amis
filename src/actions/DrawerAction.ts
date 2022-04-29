@@ -1,13 +1,15 @@
-import {SchemaNode} from '../types';
-import {RendererEvent} from '../utils/renderer-event';
+import { SchemaNode } from '../types';
+import { RendererEvent } from '../utils/renderer-event';
 import {
   RendererAction,
+  IListenerAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
-export interface IDrawerAction extends ListenerAction {
+export interface IDrawerAction extends IListenerAction {
+  actionType: 'drawer';
   drawer: SchemaNode;
 }
 
@@ -27,6 +29,11 @@ export class DrawerAction implements RendererAction {
     renderer.props.onAction?.(event, action, action.args);
   }
 }
+
+export interface ICloseDrawerAction extends IListenerAction {
+  actionType: 'closeDrawer';
+}
+
 
 /**
  * 关闭抽屉动作

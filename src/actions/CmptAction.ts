@@ -1,15 +1,16 @@
-import {RendererEvent} from '../utils/renderer-event';
-import {dataMapping} from '../utils/tpl-builtin';
+import { RendererEvent } from '../utils/renderer-event';
 import {
   RendererAction,
-  ListenerAction,
+  IListenerAction,
   ListenerContext,
-  LoopStatus,
   registerAction
 } from './Action';
 
-export interface ICmptAction extends ListenerAction {
-  value?: string | {[key: string]: string};
+export interface ICmptAction extends IListenerAction {
+  actionType: 'setValue' | 'show' | 'hidden' | 'enabled' | 'disabled' | 'reload';
+  args: {
+    value?: string | { [key: string]: string };
+  }
 }
 
 /**
