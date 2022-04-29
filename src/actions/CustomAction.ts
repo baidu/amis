@@ -1,14 +1,21 @@
-import {RendererEvent} from '../utils/renderer-event';
+import { Action } from '../types';
+import { RendererEvent } from '../utils/renderer-event';
 import {
   RendererAction,
-  ListenerAction,
+  IListenerAction,
   ListenerContext,
-  LoopStatus,
-  registerAction
+  registerAction,
+  ListenerAction
 } from './Action';
 
-export interface ICustomAction extends ListenerAction {
-  script: string; // 自定义JS，actionType: custom
+export interface ICustomAction extends IListenerAction {
+  actionType: 'custom';
+  script: string | ((
+    renderer: any,
+    doAction: (action: Action, data: Record<string, any>) => void,
+    event: RendererEvent<any>,
+    action: ListenerAction,
+  ) => void); // 自定义JS，actionType: custom
 }
 
 /**
@@ -42,7 +49,7 @@ export class CustomAction implements RendererAction {
       null,
       renderer,
       renderer.props.onAction?.bind(renderer, event.context.nativeEvent) ||
-        renderer.doAction?.bind(renderer),
+      renderer.doAction?.bind(renderer),
       event,
       action
     );

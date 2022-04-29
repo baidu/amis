@@ -1,11 +1,25 @@
-import {RendererProps} from '../factory';
-import {extendObject} from '../utils/helper';
-import {RendererEvent} from '../utils/renderer-event';
-import {evalExpression} from '../utils/tpl';
-import {dataMapping} from '../utils/tpl-builtin';
+import { RendererProps } from '../factory';
+import { extendObject } from '../utils/helper';
+import { RendererEvent } from '../utils/renderer-event';
+import { evalExpression } from '../utils/tpl';
+import { dataMapping } from '../utils/tpl-builtin';
+import { IAjaxAction } from './AjaxAction';
+import { IBreakAction } from './BreakAction';
+import { IBroadcastAction } from './BroadcastAction';
+import { ICmptAction } from './CmptAction';
+import { IContinueAction } from './ContinueAction';
+import { ICopyAction } from './CopyAction';
+import { ICustomAction } from './CustomAction';
+import { IAlertAction, IConfirmAction, IDialogAction, ICloseDialogAction } from './DialogAction';
+import { IDrawerAction, ICloseDrawerAction } from './DrawerAction';
+import { IEmailAction } from './EmailAction';
+import { ILinkAction } from './LinkAction';
+import { ILoopAction } from './LoopAction';
+import { IPageGoAction } from './PageAction';
+import { IParallelAction } from './ParallelAction';
+import { ISwitchAction } from './SwitchAction';
+import { IToastAction } from './ToastAction';
 
-// 逻辑动作类型，支持并行、排他（switch）、循环（支持continue和break）
-type LogicActionType = 'parallel' | 'switch' | 'loop' | 'continue' | 'break';
 
 // 循环动作执行状态
 export enum LoopStatus {
@@ -15,20 +29,47 @@ export enum LoopStatus {
 }
 
 // 监听器动作定义
-export interface ListenerAction {
-  actionType: 'broadcast' | LogicActionType | 'custom' | string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
+export interface IListenerAction {
+  actionType: string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
   description?: string; // 事件描述，actionType: broadcast
   componentId?: string; // 组件ID，用于直接执行指定组件的动作
-  args?: any; // 参数，可以配置数据映射
-  outputVar?: any; // 输出数据变量名
+  args?: Record<string, any>; // 参数，可以配置数据映射
+  outputVar?: string; // 输出数据变量名
   preventDefault?: boolean; // 阻止原有组件的动作行为
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
   expression?: string; // 执行条件
 }
 
-export interface LogicAction extends ListenerAction {
+// 监听器动作联合类型
+export type ListenerAction =
+  | IToastAction
+  | IBroadcastAction
+  | IAjaxAction
+  | ICmptAction
+  | ICopyAction
+  | ICustomAction
+  | IAlertAction
+  | IConfirmAction
+  | IDialogAction
+  | ICloseDialogAction
+  | IDrawerAction
+  | ICloseDrawerAction
+  | IEmailAction
+  | ILinkAction
+  | LogicAction
+  | IPageGoAction;
+
+export interface ILogicAction extends IListenerAction {
   children?: ListenerAction[]; // 子动作
 }
+
+// 逻辑动作类型，支持并行、排他（switch）、循环（支持continue和break）
+export type LogicAction =
+  | IParallelAction
+  | ISwitchAction
+  | ILoopAction
+  | IContinueAction
+  | IBreakAction;
 
 export interface ListenerContext extends React.Component<RendererProps> {
   [propName: string]: any;
@@ -46,7 +87,7 @@ export interface RendererAction {
 }
 
 // 存储 Action 和类型的映射关系，用于后续查找
-const ActionTypeMap: {[key: string]: RendererAction} = {};
+const ActionTypeMap: { [key: string]: RendererAction } = {};
 
 // 注册 Action
 export const registerAction = (type: string, action: RendererAction) => {
@@ -104,7 +145,7 @@ export const runAction = async (
   event: any
 ) => {
   // 用户可能，需要用到事件数据和当前域的数据，因此merge事件数据和当前渲染器数据
-  // 需要保持渲染器数据链完整
+  // 需要保持渲染器数据链完整
   const mergeData = extendObject(renderer.props.data, {
     event
   });
@@ -120,7 +161,7 @@ export const runAction = async (
   let args = event.data;
 
   if (actionConfig.args) {
-    args = dataMapping(actionConfig.args, mergeData);
+    args = dataMapping(actionConfig.args, mergeData, (key) => ['adaptor', 'responseAdaptor', 'requestAdaptor'].includes(key));
   }
 
   await actionInstrance.run(
