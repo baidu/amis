@@ -612,7 +612,9 @@ order: 9
           actions: [
             {
               actionType: 'link',
-              link: './expression'
+              args: {
+                link: './expression'
+              }
             }
           ]
         }
