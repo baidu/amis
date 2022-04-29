@@ -349,7 +349,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
           const json: Payload = yield getEnv(self).fetcher(
             self.validateApi,
-            data,
+            /** 如果配置validateApi，需要将用户最新输入同步到数据域内 */
+            createObject(data, {[self.name]: self.tmpValue}),
             {
               cancelExecutor: (executor: Function) =>
                 (validateCancel = executor)
