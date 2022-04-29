@@ -1,14 +1,14 @@
-import { RendererProps } from '../factory';
-import { createObject } from '../utils/helper';
-import { RendererEvent, dispatchEvent } from '../utils/renderer-event';
+import {RendererProps} from '../factory';
+import {createObject} from '../utils/helper';
+import {RendererEvent, dispatchEvent} from '../utils/renderer-event';
 import {
   RendererAction,
-  IListenerAction,
+  ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
-export interface IBroadcastAction extends IListenerAction {
+export interface IBroadcastAction extends ListenerAction {
   actionType: 'broadcast';
   eventName: string; // 事件名称，actionType: broadcast
 }

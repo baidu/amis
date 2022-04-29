@@ -1,14 +1,13 @@
-import { SchemaNode } from '../types';
-import { RendererEvent } from '../utils/renderer-event';
+import {SchemaNode} from '../types';
+import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
   ListenerAction,
-  IListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
-export interface IAlertAction extends IListenerAction {
+export interface IAlertAction extends ListenerAction {
   actionType: 'alert';
   args: {
     msg: string;
@@ -16,7 +15,7 @@ export interface IAlertAction extends IListenerAction {
   };
 }
 
-export interface IConfirmAction extends IListenerAction {
+export interface IConfirmAction extends ListenerAction {
   actionType: 'confirm';
   args: {
     title: string;
@@ -25,7 +24,7 @@ export interface IConfirmAction extends IListenerAction {
   };
 }
 
-export interface IDialogAction extends IListenerAction {
+export interface IDialogAction extends ListenerAction {
   actionType: 'dialog';
   dialog: SchemaNode;
 }
@@ -47,7 +46,7 @@ export class DialogAction implements RendererAction {
   }
 }
 
-export interface ICloseDialogAction extends IListenerAction {
+export interface ICloseDialogAction extends ListenerAction {
   actionType: 'closeDialog';
 }
 

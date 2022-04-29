@@ -1,28 +1,28 @@
-import { RendererEvent } from '../utils/renderer-event';
+import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
   ListenerContext,
   registerAction,
-  IListenerAction
+  ListenerAction
 } from './Action';
 
-export interface IToastAction extends IListenerAction {
+export interface IToastAction extends ListenerAction {
   actionType: 'toast';
   args: {
     msg: string;
     msgType?: string;
     position?:
-    | 'top-right'
-    | 'top-center'
-    | 'top-left'
-    | 'bottom-center'
-    | 'bottom-left'
-    | 'bottom-right'
-    | 'center';
+      | 'top-right'
+      | 'top-center'
+      | 'top-left'
+      | 'bottom-center'
+      | 'bottom-left'
+      | 'bottom-right'
+      | 'center';
     closeButton?: boolean;
     showIcon?: boolean;
     timeout?: number;
-  }
+  };
 }
 
 /**

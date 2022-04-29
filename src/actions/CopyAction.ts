@@ -1,12 +1,12 @@
-import { RendererEvent } from '../utils/renderer-event';
+import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
-  IListenerAction,
+  ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
-export interface ICopyAction extends IListenerAction {
+export interface ICopyAction extends ListenerAction {
   actionType: 'copy';
   args: {
     content: string;

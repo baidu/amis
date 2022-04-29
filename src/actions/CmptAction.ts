@@ -1,16 +1,22 @@
-import { RendererEvent } from '../utils/renderer-event';
+import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
-  IListenerAction,
+  ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
-export interface ICmptAction extends IListenerAction {
-  actionType: 'setValue' | 'show' | 'hidden' | 'enabled' | 'disabled' | 'reload';
+export interface ICmptAction extends ListenerAction {
+  actionType:
+    | 'setValue'
+    | 'show'
+    | 'hidden'
+    | 'enabled'
+    | 'disabled'
+    | 'reload';
   args: {
-    value?: string | { [key: string]: string };
-  }
+    value?: string | {[key: string]: string};
+  };
 }
 
 /**

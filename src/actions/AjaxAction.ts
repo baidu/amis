@@ -1,17 +1,17 @@
 import omit from 'lodash/omit';
-import { Api } from '../types';
-import { normalizeApiResponseData } from '../utils/api';
-import { ServerError } from '../utils/errors';
-import { createObject, isEmpty } from '../utils/helper';
-import { RendererEvent } from '../utils/renderer-event';
+import {Api} from '../types';
+import {normalizeApiResponseData} from '../utils/api';
+import {ServerError} from '../utils/errors';
+import {createObject, isEmpty} from '../utils/helper';
+import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
-  IListenerAction,
+  ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
-export interface IAjaxAction extends IListenerAction {
+export interface IAjaxAction extends ListenerAction {
   action: 'ajax';
   args: {
     api: Api;
@@ -19,7 +19,7 @@ export interface IAjaxAction extends IListenerAction {
       success: string;
       failed: string;
     };
-    options?: Record<string, any>
+    options?: Record<string, any>;
     [propName: string]: any;
   };
 }
@@ -57,8 +57,8 @@ export class AjaxAction implements RendererAction {
             event.data,
             action.outputVar
               ? {
-                [`${action.outputVar}`]: responseData
-              }
+                  [`${action.outputVar}`]: responseData
+                }
               : responseData
           )
         );
@@ -77,9 +77,9 @@ export class AjaxAction implements RendererAction {
             msg,
             result.msgTimeout !== undefined
               ? {
-                closeButton: true,
-                timeout: result.msgTimeout
-              }
+                  closeButton: true,
+                  timeout: result.msgTimeout
+                }
               : undefined
           );
       }
@@ -93,9 +93,9 @@ export class AjaxAction implements RendererAction {
           e.message,
           result.msgTimeout !== undefined
             ? {
-              closeButton: true,
-              timeout: result.msgTimeout
-            }
+                closeButton: true,
+                timeout: result.msgTimeout
+              }
             : undefined
         );
       } else {

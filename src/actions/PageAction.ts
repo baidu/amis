@@ -1,12 +1,12 @@
-import { RendererEvent } from '../utils/renderer-event';
+import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
-  IListenerAction,
+  ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
 
-export interface IPageGoAction extends IListenerAction {
+export interface IPageGoAction extends ListenerAction {
   actionType: 'goBack' | 'refresh' | 'goPage';
   args: {
     delta?: number;

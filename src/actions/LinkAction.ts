@@ -1,14 +1,14 @@
-import { buildApi } from '../utils/api';
-import { RendererEvent } from '../utils/renderer-event';
+import {buildApi} from '../utils/api';
+import {RendererEvent} from '../utils/renderer-event';
 import omit from 'lodash/omit';
 import {
   RendererAction,
   ListenerContext,
   registerAction,
-  IListenerAction
+  ListenerAction
 } from './Action';
 
-export interface ILinkAction extends IListenerAction {
+export interface ILinkAction extends ListenerAction {
   actionType: 'link' | 'url' | 'jump';
   args: {
     link?: string;
