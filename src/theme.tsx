@@ -183,7 +183,7 @@ export function themeable<
         };
         const refConfig = ComposedComponent.prototype?.isReactComponent
           ? {ref: this.childRef}
-          : {};
+          : {forwardedRef: this.childRef};
 
         return (
           <ThemeContext.Provider value={theme}>
