@@ -612,7 +612,9 @@ order: 9
           actions: [
             {
               actionType: 'link',
-              link: './expression'
+              args: {
+                link: './expression'
+              }
             }
           ]
         }
@@ -2795,11 +2797,11 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型                                                 | 默认值 | 说明                                  |
-| ---------- | ---------------------------------------------------- | ------ | ------------------------------------- |
-| actionType | `string`                                             | `for`  | 循环执行动作                          |
-| loopName   | `string`                                             | -      | 循环变量                              |
-| children   | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作，可以通过`break动作`来跳出循环 |
+| 属性名                               | 类型                                                 | 默认值 | 说明                                  |
+| ------------------------------------ | ---------------------------------------------------- | ------ | ------------------------------------- |
+| actionType                           | `string`                                             | `for`  | 循环执行动作                          |
+| loopName / args.loopName`(>=v1.9.0)` | `string`                                             | -      | 循环变量名称                          |
+| children                             | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作，可以通过`break动作`来跳出循环 |
 
 ## Break 动作
 
@@ -2971,9 +2973,9 @@ order: 9
                     args: {
                       msgType: 'info',
                       msg: '动作1',
-                      position: 'top-right',
-                      expression: 'this.branchCont > 19'
+                      position: 'top-right'
                     },
+                    expression: 'this.branchCont > 19',
                     stopPropagation: true // 这里无效，因为条件不成立
                   },
                   {

@@ -301,7 +301,7 @@ register('de-DE', {
   'FormulaEditor.title': 'Formel Editor',
   'FormulaEditor.variable': 'Variable',
   'FormulaEditor.function': 'Funktion',
-  'FormulaEditor.invalidData': 'Überprüfungsfehler, position in {{position}}',
+  'FormulaEditor.invalidData': 'Überprüfungsfehler, position or reason is {{err}}',
   'pullRefresh.pullingText': 'Zum Aktualisieren nach unten ziehen...',
   'pullRefresh.loosingText': 'Zum Aktualisieren freigeben...',
   'pullRefresh.loadingText': 'Laden...',

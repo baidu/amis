@@ -146,6 +146,27 @@ export function themeable<
       static contextType = ThemeContext;
       static ComposedComponent = ComposedComponent as React.ComponentType<T>;
 
+      constructor(props: OuterProps) {
+        super(props);
+
+        this.childRef = this.childRef.bind(this);
+        this.getWrappedInstance = this.getWrappedInstance.bind(this);
+      }
+
+      ref: any;
+
+      childRef(ref: any) {
+        while (ref && ref.getWrappedInstance) {
+          ref = ref.getWrappedInstance();
+        }
+
+        this.ref = ref;
+      }
+
+      getWrappedInstance() {
+        return this.ref;
+      }
+
       render() {
         const theme: string = this.props.theme || this.context || defaultTheme;
         const config = hasTheme(theme)
@@ -160,6 +181,9 @@ export function themeable<
           classnames: config.classnames,
           theme
         };
+        const refConfig = ComposedComponent.prototype?.isReactComponent
+          ? {ref: this.childRef}
+          : {forwardedRef: this.childRef};
 
         return (
           <ThemeContext.Provider value={theme}>
@@ -170,6 +194,7 @@ export function themeable<
                 React.ComponentProps<T>
               >)}
               {...injectedProps}
+              {...refConfig}
             />
           </ThemeContext.Provider>
         );

@@ -12,7 +12,7 @@ export interface ILinkAction extends IListenerAction {
   actionType: 'link' | 'url' | 'jump';
   args: {
     link?: string;
-    url?: never;
+    url?: string;
     blank?: boolean;
     params?: {
       [key: string]: string;
