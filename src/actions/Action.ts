@@ -1,25 +1,29 @@
-import { RendererProps } from '../factory';
-import { extendObject } from '../utils/helper';
-import { RendererEvent } from '../utils/renderer-event';
-import { evalExpression } from '../utils/tpl';
-import { dataMapping } from '../utils/tpl-builtin';
-import { IAjaxAction } from './AjaxAction';
-import { IBreakAction } from './BreakAction';
-import { IBroadcastAction } from './BroadcastAction';
-import { ICmptAction } from './CmptAction';
-import { IContinueAction } from './ContinueAction';
-import { ICopyAction } from './CopyAction';
-import { ICustomAction } from './CustomAction';
-import { IAlertAction, IConfirmAction, IDialogAction, ICloseDialogAction } from './DialogAction';
-import { IDrawerAction, ICloseDrawerAction } from './DrawerAction';
-import { IEmailAction } from './EmailAction';
-import { ILinkAction } from './LinkAction';
-import { ILoopAction } from './LoopAction';
-import { IPageGoAction } from './PageAction';
-import { IParallelAction } from './ParallelAction';
-import { ISwitchAction } from './SwitchAction';
-import { IToastAction } from './ToastAction';
-
+import {RendererProps} from '../factory';
+import {extendObject} from '../utils/helper';
+import {RendererEvent} from '../utils/renderer-event';
+import {evalExpression} from '../utils/tpl';
+import {dataMapping} from '../utils/tpl-builtin';
+import {IAjaxAction} from './AjaxAction';
+import {IBreakAction} from './BreakAction';
+import {IBroadcastAction} from './BroadcastAction';
+import {ICmptAction} from './CmptAction';
+import {IContinueAction} from './ContinueAction';
+import {ICopyAction} from './CopyAction';
+import {ICustomAction} from './CustomAction';
+import {
+  IAlertAction,
+  IConfirmAction,
+  IDialogAction,
+  ICloseDialogAction
+} from './DialogAction';
+import {IDrawerAction, ICloseDrawerAction} from './DrawerAction';
+import {IEmailAction} from './EmailAction';
+import {ILinkAction} from './LinkAction';
+import {ILoopAction} from './LoopAction';
+import {IPageGoAction} from './PageAction';
+import {IParallelAction} from './ParallelAction';
+import {ISwitchAction} from './SwitchAction';
+import {IToastAction} from './ToastAction';
 
 // 循环动作执行状态
 export enum LoopStatus {
@@ -87,7 +91,7 @@ export interface RendererAction {
 }
 
 // 存储 Action 和类型的映射关系，用于后续查找
-const ActionTypeMap: { [key: string]: RendererAction } = {};
+const ActionTypeMap: {[key: string]: RendererAction} = {};
 
 // 注册 Action
 export const registerAction = (type: string, action: RendererAction) => {
@@ -161,7 +165,9 @@ export const runAction = async (
   let args = event.data;
 
   if (actionConfig.args) {
-    args = dataMapping(actionConfig.args, mergeData, (key) => ['adaptor', 'responseAdaptor', 'requestAdaptor'].includes(key));
+    args = dataMapping(actionConfig.args, mergeData, key =>
+      ['adaptor', 'responseAdaptor', 'requestAdaptor'].includes(key)
+    );
   }
 
   await actionInstrance.run(
