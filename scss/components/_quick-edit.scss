@@ -2,9 +2,10 @@
   color: var(--QuickEdit-iconColor);
   margin-left: var(--gap-xs);
   display: inline-block;
-  vertical-align: text-top;
+  vertical-align: text-bottom;
   cursor: pointer;
   opacity: 0.6;
+  font-size: 0;
 
   &:hover {
     color: var(--QuickEdit-onHover-iconColor);
