@@ -42,6 +42,12 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
   };
 
   @autobind
+  dispatchEvent(name: string) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(name, data);
+  }
+
+  @autobind
   optionItemRender(option: any, states: ItemRenderStates) {
     const {menuTpl, render, data} = this.props;
     const ctx = arguments[2] || {};
@@ -115,6 +121,8 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
           leftOptions={leftOptions}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
+          onFocus={() => this.dispatchEvent('focus')}
+          onBlur={() => this.dispatchEvent('blur')}
         />
 
         <Spinner overlay key="info" show={loading} />
