@@ -1364,7 +1364,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   </span>
                   <div
                     className={cx('FileControl-acceptTip-help', 'TplField')}>
-                    {documentation ?
+                    {documentLink ?
                       <a
                         href={documentLink}
                         onClick={e => e.stopPropagation()}
