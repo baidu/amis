@@ -1,14 +1,14 @@
-import { RendererEvent } from '../utils/renderer-event';
+import {RendererEvent} from '../utils/renderer-event';
 import pick from 'lodash/pick';
 import qs from 'qs';
 import {
   RendererAction,
   ListenerContext,
   registerAction,
-  IListenerAction
+  ListenerAction
 } from './Action';
 
-export interface IEmailAction extends IListenerAction {
+export interface IEmailAction extends ListenerAction {
   actionType: 'email';
   args: {
     to: string;

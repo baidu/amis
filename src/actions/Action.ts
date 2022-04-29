@@ -3,27 +3,11 @@ import {extendObject} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {evalExpression} from '../utils/tpl';
 import {dataMapping} from '../utils/tpl-builtin';
-import {IAjaxAction} from './AjaxAction';
 import {IBreakAction} from './BreakAction';
-import {IBroadcastAction} from './BroadcastAction';
-import {ICmptAction} from './CmptAction';
 import {IContinueAction} from './ContinueAction';
-import {ICopyAction} from './CopyAction';
-import {ICustomAction} from './CustomAction';
-import {
-  IAlertAction,
-  IConfirmAction,
-  IDialogAction,
-  ICloseDialogAction
-} from './DialogAction';
-import {IDrawerAction, ICloseDrawerAction} from './DrawerAction';
-import {IEmailAction} from './EmailAction';
-import {ILinkAction} from './LinkAction';
 import {ILoopAction} from './LoopAction';
-import {IPageGoAction} from './PageAction';
 import {IParallelAction} from './ParallelAction';
 import {ISwitchAction} from './SwitchAction';
-import {IToastAction} from './ToastAction';
 
 // 循环动作执行状态
 export enum LoopStatus {
@@ -33,7 +17,7 @@ export enum LoopStatus {
 }
 
 // 监听器动作定义
-export interface IListenerAction {
+export interface ListenerAction {
   actionType: string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
   description?: string; // 事件描述，actionType: broadcast
   componentId?: string; // 组件ID，用于直接执行指定组件的动作
@@ -44,26 +28,7 @@ export interface IListenerAction {
   expression?: string; // 执行条件
 }
 
-// 监听器动作联合类型
-export type ListenerAction =
-  | IToastAction
-  | IBroadcastAction
-  | IAjaxAction
-  | ICmptAction
-  | ICopyAction
-  | ICustomAction
-  | IAlertAction
-  | IConfirmAction
-  | IDialogAction
-  | ICloseDialogAction
-  | IDrawerAction
-  | ICloseDrawerAction
-  | IEmailAction
-  | ILinkAction
-  | LogicAction
-  | IPageGoAction;
-
-export interface ILogicAction extends IListenerAction {
+export interface ILogicAction extends ListenerAction {
   children?: ListenerAction[]; // 子动作
 }
 
