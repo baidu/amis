@@ -102,12 +102,14 @@
     }
 
     &.#{$ns}Checkbox {
-      & > i {
-        &:hover::before {
+      &:hover {
+        & > i:before {
           background: var(--Button--primary-onHover-bg);
         }
-  
-        &:active:before {
+      }
+
+      &:active {
+        & > i:before {
           background: var(--Switch-checked-onHover-bgColor);
         }
       }
@@ -119,26 +121,34 @@
       border-color: var(--Checkbox-color);
     }
 
+    &:hover {
+      input:checked + i {
+        background: var(--Button--primary-onHover-bg);
+
+        &:before {
+          background: var(--Button--primary-onHover-bg);
+        }
+      }
+
+      & > i:before {
+        background: transparent;
+      }
+    }
+
+    &:active {
+      input:checked + i {
+        background: var(--Switch-checked-onHover-bgColor);
+
+        &:before {
+          background: var(--Switch-checked-onHover-bgColor);
+        }
+      }
+    }
+
     input {
       &:checked + i {
         border-color: var(--Checkbox-onHover-color);
         background: var(--Checkbox-onHover-color);
-
-        &:hover {
-          background: var(--Button--primary-onHover-bg);
-
-          &:before {
-            background: var(--Button--primary-onHover-bg);
-          }
-        }
-
-        &:active {
-          background: var(--Switch-checked-onHover-bgColor);
-
-          &:before {
-            background: var(--Switch-checked-onHover-bgColor);
-          }
-        }
 
         &:before {
           width: var(--Checkbox--full-inner-size);
@@ -244,6 +254,20 @@
       color: var(--Checkbox-onHover-color);
     }
 
+    &:hover {
+      input:checked + i {
+        background: transparent;
+            border-color: var(--Button--primary-onHover-bg) transparent transparent var(--Button--primary-onHover-bg);
+      }
+    }
+
+    &:active {
+      input:checked + i {
+        background: transparent;
+        border-color: var(--Switch-checked-onHover-bgColor) transparent transparent var(--Switch-checked-onHover-bgColor);
+      }
+    }
+
     input {
         &:checked + i {
           background: transparent;
@@ -254,15 +278,6 @@
           border-width: px2rem(8px);
           border-color: var(--Checkbox-onHover-color) transparent transparent var(--Checkbox-onHover-color);
           border-radius: 0;
-
-          &:hover {
-            background: transparent;
-            border-color: var(--Button--primary-onHover-bg) transparent transparent var(--Button--primary-onHover-bg);
-          }
-          &:active {
-            background: transparent;
-            border-color: var(--Switch-checked-onHover-bgColor) transparent transparent var(--Switch-checked-onHover-bgColor);
-          }
 
           &:before {
             position: absolute;
@@ -454,7 +469,6 @@
     &-checked {
       &:active {
         border-color: var(--Switch-checked-onHover-bgColor);
-        border-color: red;
       }
     }
   }
