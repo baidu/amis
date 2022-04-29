@@ -32,7 +32,12 @@ interface CustomTimeViewProps extends LocaleProps {
   isEndDate?: boolean;
   classnames: ClassNamesFn;
   setTime: (type: string, amount: number) => void;
-  scrollToTop: (type: string, amount: number, i: number, lable?: string) => void;
+  scrollToTop: (
+    type: string,
+    amount: number,
+    i: number,
+    lable?: string
+  ) => void;
   onClose?: () => void;
   onConfirm?: (value: number[], types: string[]) => void;
   setDateTimeState: (state: any) => void;
@@ -56,7 +61,6 @@ export class CustomTimeView extends React.Component<
   CustomTimeViewProps & LocaleProps,
   CustomTimeViewState
 > {
-
   padValues = {
     hours: 2,
     minutes: 2,
@@ -98,8 +102,8 @@ export class CustomTimeView extends React.Component<
     super(props);
     this.state = {
       ...this.calculateState(this.props),
-      uniqueTag: 0,
-    }
+      uniqueTag: 0
+    };
 
     if (this.props.timeConstraints) {
       this.timeConstraints = merge(
@@ -110,16 +114,11 @@ export class CustomTimeView extends React.Component<
   }
 
   componentWillMount() {
-    this.setState({uniqueTag: (new Date()).valueOf()})
+    this.setState({uniqueTag: new Date().valueOf()});
   }
 
   componentDidMount() {
-    const {
-      timeFormat,
-      selectedDate,
-      viewDate,
-      isEndDate,
-    } = this.props;
+    const {timeFormat, selectedDate, viewDate, isEndDate} = this.props;
     const formatMap = {
       hours: 'HH',
       minutes: 'mm',
@@ -135,9 +134,14 @@ export class CustomTimeView extends React.Component<
         ? 'seconds'
         : '';
       if (type) {
-        this.scrollToTop(type, parseInt(date.format(formatMap[type]), 10), i, 'init')
+        this.scrollToTop(
+          type,
+          parseInt(date.format(formatMap[type]), 10),
+          i,
+          'init'
+        );
       }
-    })
+    });
   }
 
   updateSelectedDate = (event: React.MouseEvent<any>) => {
@@ -173,7 +177,7 @@ export class CustomTimeView extends React.Component<
 
     this.props.updateSelectedDate(event, true);
   };
-  
+
   componentDidUpdate(preProps: CustomTimeViewProps) {
     if (
       preProps.viewDate !== this.props.viewDate ||
@@ -528,10 +532,7 @@ export class CustomTimeView extends React.Component<
     );
   };
 
-  setTime = (
-    type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
-    value: number
-  ) => {
+  setTime = (type: TimeScale, value: number) => {
     const date = (this.props.selectedDate || this.props.viewDate).clone();
     date[type](value);
 
@@ -545,17 +546,14 @@ export class CustomTimeView extends React.Component<
     }
   };
 
-  scrollToTop = (
-    type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
-    value: number,
-    i: number,
-    label?: string,
-  ) => {
-    let elf: any = document.getElementById(`${this.state.uniqueTag}-${i}-input`);
+  scrollToTop = (type: TimeScale, value: number, i: number, label?: string) => {
+    let elf: any = document.getElementById(
+      `${this.state.uniqueTag}-${i}-input`
+    );
     elf.parentNode.scrollTo({
       top: value * 28,
       behavior: label === 'init' ? 'auto' : 'smooth'
-    })
+    });
   };
 
   confirm = () => {
@@ -577,15 +575,16 @@ export class CustomTimeView extends React.Component<
     this.props.onClose && this.props.onClose();
   };
 
-  computedTimeOptions(total: number) {
-    const times: {label: string; value: string}[] = [];
+  computedTimeOptions(timeScale: TimeScale) {
+    const {min, max, step} = this.timeConstraints?.[timeScale];
 
-    for (let t = 0; t < total; t++) {
-      const label = t < 10 ? `0${t}` : `${t}`;
-      times.push({label, value: label});
-    }
+    return Array.from({length: max - min + 1}, (item, index) => {
+      const value = (index + min)
+        .toString()
+        .padStart(timeScale !== 'milliseconds' ? 2 : 3, '0');
 
-    return times;
+      return index % step === 0 ? {label: value, value} : undefined;
+    }).filter((item): item is {label: string; value: string} => !!item);
   }
 
   render() {
@@ -597,9 +596,10 @@ export class CustomTimeView extends React.Component<
       classnames: cx,
       timeRangeHeader
     } = this.props;
-    
+
     const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
     const inputs: Array<React.ReactNode> = [];
+    const timeConstraints = this.timeConstraints;
 
     if (isMobile() && this.props.useMobileUI) {
       return (
@@ -616,11 +616,9 @@ export class CustomTimeView extends React.Component<
         ? 'seconds'
         : '';
       if (type) {
-        const min = 0;
-        const max = type === 'hours' ? 23 : 59;
-        const hours = this.computedTimeOptions(24);
-        const times = this.computedTimeOptions(60);
-        const options = type === 'hours' ? hours : times;
+        const min = timeConstraints[type].min;
+        const max = timeConstraints[type].max;
+        const options = this.computedTimeOptions(type);
         const formatMap = {
           hours: 'HH',
           minutes: 'mm',
@@ -652,11 +650,13 @@ export class CustomTimeView extends React.Component<
               });
               return (
                 <div className={cx('CalendarInputWrapper')}>
-                  <div 
+                  <div
                     className={cx(
                       'CalendarInput-sugs',
-                      type === 'hours' ? 'CalendarInput-sugsHours' : 'CalendarInput-sugsTimes'
-                    )} 
+                      type === 'hours'
+                        ? 'CalendarInput-sugsHours'
+                        : 'CalendarInput-sugsTimes'
+                    )}
                     id={`${this.state.uniqueTag}-${i}-input`}
                   >
                     {options.map(option => {
@@ -669,7 +669,11 @@ export class CustomTimeView extends React.Component<
                           })}
                           onClick={() => {
                             this.setTime(type, parseInt(option.value, 10));
-                            this.scrollToTop(type, parseInt(option.value, 10), i);
+                            this.scrollToTop(
+                              type,
+                              parseInt(option.value, 10),
+                              i
+                            );
                             closeMenu();
                           }}
                         >
@@ -687,7 +691,6 @@ export class CustomTimeView extends React.Component<
       }
     });
     inputs.length && inputs.pop();
-    console.log(this.props)
     return (
       <>
         <div className={cx(timeRangeHeader ? 'TimeRangeHeaderWrapper' : null)}>
@@ -695,7 +698,7 @@ export class CustomTimeView extends React.Component<
         </div>
         <div>{inputs}</div>
       </>
-    )
+    );
   }
 }
 
