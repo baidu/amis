@@ -72,6 +72,7 @@ export class DataSchema {
     }
 
     scope.parent?.removeChild(scope);
+    delete this.idMap[scope.id];
     return this;
   }
 
@@ -108,7 +109,15 @@ export class DataSchema {
     let current: DataScope | void = this.current;
 
     while (current) {
-      variables.push(...current.getDataPropsAsOptions());
+      if (current.tag) {
+        variables.push({
+          label: current.tag,
+          children: current.getDataPropsAsOptions()
+        });
+      } else {
+        variables.push(...current.getDataPropsAsOptions());
+      }
+
       current = current.parent;
     }
 

@@ -1,6 +1,11 @@
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
-import {FormulaEditor, FormulaEditorProps} from './Editor';
+import {
+  FormulaEditor,
+  FormulaEditorProps,
+  FuncGroup,
+  VariableItem
+} from './Editor';
 import {autobind, noop} from '../../utils/helper';
 import {generateIcon} from '../../utils/icon';
 import Editor from './Editor';
@@ -11,11 +16,6 @@ import Modal from '../Modal';
 import {themeable} from '../../theme';
 import {localeable} from '../../locale';
 import type {SchemaIcon} from '../../Schema';
-import {
-  resolveVariableAndFilter,
-  isPureVariable
-} from '../../utils/tpl-builtin';
-import {toast} from '../../components';
 import {parse, Evaluator} from 'amis-formula';
 
 export interface FormulaPickerProps extends FormulaEditorProps {
@@ -94,6 +94,21 @@ export interface FormulaPickerProps extends FormulaEditorProps {
    * 外层透传的 data，和source配合使用
    */
   data?: any;
+
+  /**
+   * 公式弹出的时候，可以外部设置 variables 和 functions
+   */
+  onPickerOpen?: (props: FormulaPickerProps) => any;
+
+  children?: (props: {
+    onClick: (e: React.MouseEvent) => void;
+    setState: (state: any) => void;
+    isOpened: boolean;
+  }) => JSX.Element;
+
+  onConfirm?: (value?: any) => void;
+
+  onRef?: (node: any) => void;
 }
 
 export interface FormulaPickerState {
@@ -101,27 +116,41 @@ export interface FormulaPickerState {
   value: string;
   editorValue: string;
   isError: boolean | string;
+
+  variables?: Array<VariableItem>;
+  functions?: Array<FuncGroup>;
+  variableMode?: any;
 }
 
 export class FormulaPicker extends React.Component<
   FormulaPickerProps,
   FormulaPickerState
 > {
+  constructor(props: FormulaPickerProps) {
+    super(props);
+    this.props.onRef && this.props.onRef(this);
+  }
+
   static defaultProps = {
     evalMode: true
   };
 
   state: FormulaPickerState = {
     isOpened: false,
-    value: this.props.value,
-    editorValue: this.props.value,
+    value: this.props.value!,
+    editorValue: this.props.value!,
     isError: false
   };
 
   @autobind
   handleConfirm() {
     const value = this.state.value;
-    this.props.onChange?.(value);
+
+    if (this.props.onConfirm) {
+      this.props.onConfirm(value);
+    } else {
+      this.props.onChange?.(value);
+    }
   }
 
   @autobind
@@ -141,18 +170,7 @@ export class FormulaPicker extends React.Component<
 
   @autobind
   handleInputChange(value: string) {
-    const validate = this.validate(value);
-    if (validate === true) {
-      this.setState(
-        {
-          value,
-          isError: false
-        },
-        () => this.handleConfirm()
-      );
-    } else {
-      this.setState({isError: validate});
-    }
+    this.setState({value}, () => this.handleConfirm());
   }
 
   @autobind
@@ -179,11 +197,14 @@ export class FormulaPicker extends React.Component<
   }
 
   @autobind
-  handleClick() {
-    this.setState({
+  async handleClick() {
+    const state = {
+      ...(await this.props.onPickerOpen?.(this.props)),
       editorValue: this.props.value,
       isOpened: true
-    });
+    };
+
+    this.setState(state);
   }
 
   @autobind
@@ -203,6 +224,15 @@ export class FormulaPicker extends React.Component<
   }
 
   @autobind
+  updateState(state: any = {}) {
+    const {isOpened, ...rest} = state;
+    this.setState({
+      ...this.state,
+      ...rest
+    });
+  }
+
+  @autobind
   validate(value: string) {
     const {translate: __} = this.props;
 
@@ -216,8 +246,11 @@ export class FormulaPicker extends React.Component<
 
       return true;
     } catch (e) {
-      const [, position] = /\s(\d+:\d+)$/.exec(e.message) || [];
-      return position;
+      if (/\s(\d+:\d+)$/.test(e.message)) {
+        const [, position] = /\s(\d+:\d+)$/.exec(e.message) || [];
+        return position;
+      }
+      return e.message;
     }
   }
 
@@ -241,100 +274,95 @@ export class FormulaPicker extends React.Component<
       clearable,
       variables,
       functions,
+      children,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
 
-    if (isPureVariable(variables)) {
-      // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
-      variables = resolveVariableAndFilter(variables, this.props.data, '| raw');
-    }
-
-    if (isPureVariable(functions)) {
-      // 如果 functions 是 ${xxx} 这种形式，将其处理成实际的值
-      functions = resolveVariableAndFilter(functions, this.props.data, '| raw');
-    }
     const iconElement = generateIcon(cx, icon, 'Icon');
 
     return (
       <>
-        <div className={cx('FormulaPicker', className)}>
-          {mode === 'button' ? (
-            <Button
-              className={cx('FormulaPicker-action', 'w-full')}
-              level={level}
-              size={btnSize}
-              onClick={this.handleClick}
-            >
-              {iconElement ? (
-                React.cloneElement(iconElement, {
-                  className: cx(
-                    iconElement?.props?.className ?? '',
-                    'FormulaPicker-icon',
-                    {
-                      ['is-filled']: !!value
-                    }
-                  )
-                })
-              ) : (
-                <Icon
-                  icon="function"
-                  className={cx('FormulaPicker-icon', 'icon', {
-                    ['is-filled']: !!value
-                  })}
-                />
-              )}
-              <span className={cx('FormulaPicker-label')}>
-                {__(btnLabel || 'FormulaEditor.btnLabel')}
-              </span>
-            </Button>
-          ) : (
-            <>
-              <ResultBox
-                className={cx(
-                  'FormulaPicker-input',
-                  isOpened ? 'is-active' : '',
-                  !!isError ? 'is-error' : ''
-                )}
-                allowInput={allowInput}
-                clearable={clearable}
-                value={value}
-                result={
-                  allowInput
-                    ? void 0
-                    : FormulaEditor.highlightValue(
-                        value,
-                        variables,
-                        this.props.evalMode
-                      )
-                }
-                itemRender={this.renderFormulaValue}
-                onResultChange={noop}
-                onChange={this.handleInputChange}
-                disabled={disabled}
-                borderMode={borderMode}
-                placeholder={placeholder}
-              />
-
+        {children ? (
+          children({
+            isOpened: this.state.isOpened,
+            onClick: this.handleClick,
+            setState: this.updateState
+          })
+        ) : (
+          <div className={cx('FormulaPicker', className)}>
+            {mode === 'button' ? (
               <Button
-                className={cx('FormulaPicker-action')}
+                className={cx('FormulaPicker-action', 'w-full')}
+                level={level}
+                size={btnSize}
                 onClick={this.handleClick}
               >
-                <Icon
-                  icon="function"
-                  className={cx('FormulaPicker-icon', 'icon', {
-                    ['is-filled']: !!value
-                  })}
-                />
+                {iconElement ? (
+                  React.cloneElement(iconElement, {
+                    className: cx(
+                      iconElement?.props?.className ?? '',
+                      'FormulaPicker-icon',
+                      {
+                        ['is-filled']: !!value
+                      }
+                    )
+                  })
+                ) : (
+                  <Icon
+                    icon="function"
+                    className={cx('FormulaPicker-icon', 'icon', {
+                      ['is-filled']: !!value
+                    })}
+                  />
+                )}
+                <span className={cx('FormulaPicker-label')}>
+                  {__(btnLabel || 'FormulaEditor.btnLabel')}
+                </span>
               </Button>
-            </>
-          )}
-        </div>
-        {!!isError && !this.state.isOpened ? (
-          <ul className={cx('Form-feedback')}>
-            <li>{__('FormulaEditor.invalidData', {position: isError})}</li>
-          </ul>
-        ) : null}
+            ) : (
+              <>
+                <ResultBox
+                  className={cx(
+                    'FormulaPicker-input',
+                    isOpened ? 'is-active' : '',
+                    !!isError ? 'is-error' : ''
+                  )}
+                  allowInput={allowInput}
+                  clearable={clearable}
+                  value={value}
+                  result={
+                    allowInput
+                      ? void 0
+                      : FormulaEditor.highlightValue(
+                          value,
+                          variables!,
+                          this.props.evalMode
+                        )
+                  }
+                  itemRender={this.renderFormulaValue}
+                  onResultChange={noop}
+                  onChange={this.handleInputChange}
+                  disabled={disabled}
+                  borderMode={borderMode}
+                  placeholder={placeholder}
+                />
+
+                <Button
+                  className={cx('FormulaPicker-action')}
+                  onClick={this.handleClick}
+                >
+                  <Icon
+                    icon="function"
+                    className={cx('FormulaPicker-icon', 'icon', {
+                      ['is-filled']: !!value
+                    })}
+                  />
+                </Button>
+              </>
+            )}
+          </div>
+        )}
         <Modal
           size="md"
           closeOnEsc
@@ -347,8 +375,9 @@ export class FormulaPicker extends React.Component<
           <Modal.Body>
             <Editor
               {...rest}
-              variables={variables}
-              functions={functions}
+              variables={this.state.variables ?? variables}
+              functions={this.state.functions ?? functions}
+              variableMode={this.state.variableMode}
               value={editorValue}
               onChange={this.handleEditorChange}
             />
@@ -357,7 +386,7 @@ export class FormulaPicker extends React.Component<
             {!!isError ? (
               <div className={cx('Dialog-info')} key="info">
                 <span className={cx('Dialog-error')}>
-                  {__('FormulaEditor.invalidData', {position: isError})}
+                  {__('FormulaEditor.invalidData', {err: isError})}
                 </span>
               </div>
             ) : null}

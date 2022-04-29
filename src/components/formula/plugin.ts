@@ -34,22 +34,74 @@ export class FormulaPlugin {
     const {functions, variables, value} = this.getProps();
     if (value) {
       // todo functions 也需要自动替换
-      this.autoMark(variables);
+      this.autoMark(variables!);
     }
   }
 
-  insertBraces(originFrom: CodeMirror.Position, originTo: CodeMirror.Position) {
-    this.editor.setCursor({
-      line: originFrom.line,
-      ch: originFrom.ch
-    });
-    this.editor.replaceSelection('${');
+  // 计算 `${`、`}` 括号的位置，如 ${a}+${b}, 结果是 [ { from: 0, to: 3 }, { from: 5, to: 8 } ]
+  computedBracesPosition(exp: string) {
+    const braces: {begin: number; end: number}[] = [];
 
-    this.editor.setCursor({
-      line: originTo.line,
-      ch: originTo.ch + 2
+    exp?.replace(/\$\{/g, (val, offset) => {
+      if (val) {
+        const charArr = exp.slice(offset + val.length).split('');
+        const cache = ['${'];
+
+        for (let index = 0; index < charArr.length; index++) {
+          const char = charArr[index];
+          if (char === '$' && charArr[index + 1] === '{') {
+            cache.push('${');
+          } else if (char === '}') {
+            cache.pop();
+          }
+
+          if (cache.length === 0) {
+            braces.push({begin: offset + 2, end: index + offset + 2});
+            break;
+          }
+        }
+      }
+      return '';
     });
-    this.editor.replaceSelection('}');
+
+    return braces;
+  }
+
+  // 判断字符串是否在 ${} 中
+  checkStrIsInBraces(
+    [from, to]: number[],
+    braces: {begin: number; end: number}[]
+  ) {
+    let isIn = false;
+    if (braces.length) {
+      for (let index = 0; index < braces.length; index++) {
+        const brace = braces[index];
+        if (from > brace.begin && to <= brace.end) {
+          isIn = true;
+          break;
+        }
+      }
+    }
+    return isIn;
+  }
+
+  insertBraces(originFrom: CodeMirror.Position, originTo: CodeMirror.Position) {
+    const str = this.editor.getValue();
+    const braces = this.computedBracesPosition(str);
+
+    if (!this.checkStrIsInBraces([originFrom.ch, originTo.ch], braces)) {
+      this.editor.setCursor({
+        line: originFrom.line,
+        ch: originFrom.ch
+      });
+      this.editor.replaceSelection('${');
+
+      this.editor.setCursor({
+        line: originTo.line,
+        ch: originTo.ch + 2
+      });
+      this.editor.replaceSelection('}');
+    }
   }
 
   insertContent(value: any, type?: 'variable' | 'func') {

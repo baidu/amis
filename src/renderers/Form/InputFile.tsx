@@ -1378,17 +1378,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                         : __('File.upload')}
                     </span>
                   </Button>
-
-                  {description
-                    ? render('desc', description!, {
-                        className: cx(
-                          'FileControl-description',
-                          descriptionClassName
-                        )
-                      })
-                    : null}
                 </>
               )}
+              {description
+                ? render('desc', description, {
+                    className: cx(
+                      'FileControl-description',
+                      descriptionClassName
+                    )
+                  })
+                : null}
             </div>
           )}
         </DropZone>

@@ -60,6 +60,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         children,
         classPrefix,
         translate: __,
+        forwardedRef,
         ...rest
       }: ThemeProps &
         LocaleProps & {
@@ -67,6 +68,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
           showCloseButton?: boolean;
           onClose?: () => void;
           children?: React.ReactNode;
+          forwardedRef?: any;
         } & React.HTMLAttributes<HTMLDivElement>) => (
         <div {...rest} className={cx('Modal-header', className)}>
           {showCloseButton !== false ? (
@@ -91,10 +93,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       className,
       children,
       classPrefix,
+      forwardedRef,
       ...rest
     }: ThemeProps & {
       className?: string;
       children?: React.ReactNode;
+      forwardedRef?: any;
     } & React.HTMLAttributes<HTMLDivElement>) => (
       <div {...rest} className={cx('Modal-title', className)}>
         {children}
@@ -108,10 +112,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       className,
       children,
       classPrefix,
+      forwardedRef,
       ...rest
     }: ThemeProps & {
       className?: string;
       children?: React.ReactNode;
+      forwardedRef?: any;
     } & React.HTMLAttributes<HTMLDivElement>) => (
       <div {...rest} className={cx('Modal-body', className)}>
         {children}
@@ -125,10 +131,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       className,
       children,
       classPrefix,
+      forwardedRef,
       ...rest
     }: ThemeProps & {
       className?: string;
       children?: React.ReactNode;
+      forwardedRef?: any;
     } & React.HTMLAttributes<HTMLDivElement>) => (
       <div {...rest} className={cx('Modal-footer', className)}>
         {children}

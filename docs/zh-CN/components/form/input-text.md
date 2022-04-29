@@ -139,7 +139,6 @@ order: 56
                     "value": "dd"
                 }
             ]
-
         }
     ]
 }
@@ -288,23 +287,28 @@ order: 56
 
 可以配置 transform，来自动转换值，支持转小写或大写。
 
+> 注意下面第一个示例，只有输入的内容才会触发 transform，下拉框选中的值是不会处理的。
+
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "body": [
     {
-      "name": "a",
+      "name": "lower",
       "type": "input-text",
-      "label": "A",
+      "label": "转换小写",
       "placeholder": "输入的英文自动转为小写",
       "transform": {
         "lowerCase": true
-      }
+      },
+      "multiple": true,
+      "options": ["APPLE", "ORANGE", "WATERMELON"],
     },
     {
-      "name": "b",
+      "name": "upper",
       "type": "input-text",
-      "label": "B",
+      "label": "转换大写",
       "placeholder": "输入的英文自动转为大写",
       "transform": {
         "upperCase": true

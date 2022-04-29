@@ -86,6 +86,16 @@ export interface TextControlSchema extends FormOptionsControl {
    * 后缀
    */
   suffix?: string;
+
+  /**
+   * 自动转换值
+   */
+  transform: {
+    /** 用户输入的字符自动转小写 */
+    lowerCase?: boolean;
+    /** 用户输入的字符自动转大写 */
+    upperCase?: boolean;
+  };
 }
 
 export type InputTextRendererEvent =
@@ -311,9 +321,17 @@ export default class TextControl extends React.PureComponent<
     onBlur && onBlur(e);
   }
 
-  handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    let value = evt.currentTarget.value;
+  async handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
+    let value = this.transformValue(evt.currentTarget.value);
     const {creatable, multiple, onChange} = this.props;
+    const dispatcher = await rendererEventDispatcher<
+      TextProps,
+      InputTextRendererEvent
+    >(this.props, 'change', {value});
+
+    if (dispatcher?.prevented) {
+      return;
+    }
 
     this.setState(
       {

@@ -4,110 +4,110 @@
 title: Text Color
 ---
 
-| Class       | Properties               |
-| ----------- | ------------------------ |
-| text-transparent | color: transparent |
-| text-current | color: currentColor |
-| text-black | color: #000 |
-| text-white | color: #fff |
-| text-primary | color: #007bff |
-| text-secondary | color: #6c757d |
-| text-success | color: #28a745 |
-| text-info | color: #007bff |
-| text-warning | color: #fad733 |
-| text-danger | color: #dc3545 |
-| text-light | color: #f8f9fa |
-| text-dark | color: #343a40 |
-| text-gray-50 | color: #f9fafb |
-| text-gray-100 | color: #f3f4f6 |
-| text-gray-200 | color: #e5e7eb |
-| text-gray-300 | color: #d1d5db |
-| text-gray-400 | color: #9ca3af |
-| text-gray-500 | color: #6b7280 |
-| text-gray-600 | color: #4b5563 |
-| text-gray-700 | color: #374151 |
-| text-gray-800 | color: #1f2937 |
-| text-gray-900 | color: #111827 |
-| text-red-50 | color: #fef2f2 |
-| text-red-100 | color: #fee2e2 |
-| text-red-200 | color: #fecaca |
-| text-red-300 | color: #fca5a5 |
-| text-red-400 | color: #f87171 |
-| text-red-500 | color: #ef4444 |
-| text-red-600 | color: #dc2626 |
-| text-red-700 | color: #b91c1c |
-| text-red-800 | color: #991b1b |
-| text-red-900 | color: #7f1d1d |
-| text-yellow-50 | color: #fffbeb |
-| text-yellow-100 | color: #fef3c7 |
-| text-yellow-200 | color: #fde68a |
-| text-yellow-300 | color: #fcd34d |
-| text-yellow-400 | color: #fbbf24 |
-| text-yellow-500 | color: #f59e0b |
-| text-yellow-600 | color: #d97706 |
-| text-yellow-700 | color: #b45309 |
-| text-yellow-800 | color: #92400e |
-| text-yellow-900 | color: #78350f |
-| text-green-50 | color: #ecfdf5 |
-| text-green-100 | color: #d1fae5 |
-| text-green-200 | color: #a7f3d0 |
-| text-green-300 | color: #6ee7b7 |
-| text-green-400 | color: #34d399 |
-| text-green-500 | color: #10b981 |
-| text-green-600 | color: #059669 |
-| text-green-700 | color: #047857 |
-| text-green-800 | color: #065f46 |
-| text-green-900 | color: #064e3b |
-| text-blue-50 | color: #eff6ff |
-| text-blue-100 | color: #dbeafe |
-| text-blue-200 | color: #bfdbfe |
-| text-blue-300 | color: #93c5fd |
-| text-blue-400 | color: #60a5fa |
-| text-blue-500 | color: #3b82f6 |
-| text-blue-600 | color: #2563eb |
-| text-blue-700 | color: #1d4ed8 |
-| text-blue-800 | color: #1e40af |
-| text-blue-900 | color: #1e3a8a |
-| text-cyan-50 | color: #ecfeff |
-| text-cyan-100 | color: #cffafe |
-| text-cyan-200 | color: #a5f3fc |
-| text-cyan-300 | color: #67e8f9 |
-| text-cyan-400 | color: #22d3ee |
-| text-cyan-500 | color: #06b6d4 |
-| text-cyan-600 | color: #0891b2 |
-| text-cyan-700 | color: #0e7490 |
-| text-cyan-800 | color: #155e75 |
-| text-cyan-900 | color: #164e63 |
-| text-indigo-50 | color: #eef2ff |
-| text-indigo-100 | color: #e0e7ff |
-| text-indigo-200 | color: #c7d2fe |
-| text-indigo-300 | color: #a5b4fc |
-| text-indigo-400 | color: #818cf8 |
-| text-indigo-500 | color: #6366f1 |
-| text-indigo-600 | color: #4f46e5 |
-| text-indigo-700 | color: #4338ca |
-| text-indigo-800 | color: #3730a3 |
-| text-indigo-900 | color: #312e81 |
-| text-purple-50 | color: #f5f3ff |
-| text-purple-100 | color: #ede9fe |
-| text-purple-200 | color: #ddd6fe |
-| text-purple-300 | color: #c4b5fd |
-| text-purple-400 | color: #a78bfa |
-| text-purple-500 | color: #8b5cf6 |
-| text-purple-600 | color: #7c3aed |
-| text-purple-700 | color: #6d28d9 |
-| text-purple-800 | color: #5b21b6 |
-| text-purple-900 | color: #4c1d95 |
-| text-pink-50 | color: #fdf2f8 |
-| text-pink-100 | color: #fce7f3 |
-| text-pink-200 | color: #fbcfe8 |
-| text-pink-300 | color: #f9a8d4 |
-| text-pink-400 | color: #f472b6 |
-| text-pink-500 | color: #ec4899 |
-| text-pink-600 | color: #db2777 |
-| text-pink-700 | color: #be185d |
-| text-pink-800 | color: #9d174d |
-| text-pink-900 | color: #831843 |
+| Class       | Properties               | 示例效果               |
+| ----------- | ------------------------ | ------------------------ |
+| text-transparent | color: transparent | <span style="color: #transparent">AaBbCcDd</span>|
+| text-current | color: currentColor | <span style="color: #currentColor">AaBbCcDd</span>|
+| text-black | color: #000 | <span style="color: #000">AaBbCcDd</span>|
+| text-white | color: #fff | <span style="color: #fff">AaBbCcDd</span>|
+| text-primary | color: #007bff | <span style="color: #007bff">AaBbCcDd</span>|
+| text-secondary | color: #6c757d | <span style="color: #6c757d">AaBbCcDd</span>|
+| text-success | color: #28a745 | <span style="color: #28a745">AaBbCcDd</span>|
+| text-info | color: #007bff | <span style="color: #007bff">AaBbCcDd</span>|
+| text-warning | color: #fad733 | <span style="color: #fad733">AaBbCcDd</span>|
+| text-danger | color: #dc3545 | <span style="color: #dc3545">AaBbCcDd</span>|
+| text-light | color: #f8f9fa | <span style="color: #f8f9fa">AaBbCcDd</span>|
+| text-dark | color: #343a40 | <span style="color: #343a40">AaBbCcDd</span>|
+| text-gray-50 | color: #f9fafb | <span style="color: #f9fafb">AaBbCcDd</span>|
+| text-gray-100 | color: #f3f4f6 | <span style="color: #f3f4f6">AaBbCcDd</span>|
+| text-gray-200 | color: #e5e7eb | <span style="color: #e5e7eb">AaBbCcDd</span>|
+| text-gray-300 | color: #d1d5db | <span style="color: #d1d5db">AaBbCcDd</span>|
+| text-gray-400 | color: #9ca3af | <span style="color: #9ca3af">AaBbCcDd</span>|
+| text-gray-500 | color: #6b7280 | <span style="color: #6b7280">AaBbCcDd</span>|
+| text-gray-600 | color: #4b5563 | <span style="color: #4b5563">AaBbCcDd</span>|
+| text-gray-700 | color: #374151 | <span style="color: #374151">AaBbCcDd</span>|
+| text-gray-800 | color: #1f2937 | <span style="color: #1f2937">AaBbCcDd</span>|
+| text-gray-900 | color: #111827 | <span style="color: #111827">AaBbCcDd</span>|
+| text-red-50 | color: #fef2f2 | <span style="color: #fef2f2">AaBbCcDd</span>|
+| text-red-100 | color: #fee2e2 | <span style="color: #fee2e2">AaBbCcDd</span>|
+| text-red-200 | color: #fecaca | <span style="color: #fecaca">AaBbCcDd</span>|
+| text-red-300 | color: #fca5a5 | <span style="color: #fca5a5">AaBbCcDd</span>|
+| text-red-400 | color: #f87171 | <span style="color: #f87171">AaBbCcDd</span>|
+| text-red-500 | color: #ef4444 | <span style="color: #ef4444">AaBbCcDd</span>|
+| text-red-600 | color: #dc2626 | <span style="color: #dc2626">AaBbCcDd</span>|
+| text-red-700 | color: #b91c1c | <span style="color: #b91c1c">AaBbCcDd</span>|
+| text-red-800 | color: #991b1b | <span style="color: #991b1b">AaBbCcDd</span>|
+| text-red-900 | color: #7f1d1d | <span style="color: #7f1d1d">AaBbCcDd</span>|
+| text-yellow-50 | color: #fffbeb | <span style="color: #fffbeb">AaBbCcDd</span>|
+| text-yellow-100 | color: #fef3c7 | <span style="color: #fef3c7">AaBbCcDd</span>|
+| text-yellow-200 | color: #fde68a | <span style="color: #fde68a">AaBbCcDd</span>|
+| text-yellow-300 | color: #fcd34d | <span style="color: #fcd34d">AaBbCcDd</span>|
+| text-yellow-400 | color: #fbbf24 | <span style="color: #fbbf24">AaBbCcDd</span>|
+| text-yellow-500 | color: #f59e0b | <span style="color: #f59e0b">AaBbCcDd</span>|
+| text-yellow-600 | color: #d97706 | <span style="color: #d97706">AaBbCcDd</span>|
+| text-yellow-700 | color: #b45309 | <span style="color: #b45309">AaBbCcDd</span>|
+| text-yellow-800 | color: #92400e | <span style="color: #92400e">AaBbCcDd</span>|
+| text-yellow-900 | color: #78350f | <span style="color: #78350f">AaBbCcDd</span>|
+| text-green-50 | color: #ecfdf5 | <span style="color: #ecfdf5">AaBbCcDd</span>|
+| text-green-100 | color: #d1fae5 | <span style="color: #d1fae5">AaBbCcDd</span>|
+| text-green-200 | color: #a7f3d0 | <span style="color: #a7f3d0">AaBbCcDd</span>|
+| text-green-300 | color: #6ee7b7 | <span style="color: #6ee7b7">AaBbCcDd</span>|
+| text-green-400 | color: #34d399 | <span style="color: #34d399">AaBbCcDd</span>|
+| text-green-500 | color: #10b981 | <span style="color: #10b981">AaBbCcDd</span>|
+| text-green-600 | color: #059669 | <span style="color: #059669">AaBbCcDd</span>|
+| text-green-700 | color: #047857 | <span style="color: #047857">AaBbCcDd</span>|
+| text-green-800 | color: #065f46 | <span style="color: #065f46">AaBbCcDd</span>|
+| text-green-900 | color: #064e3b | <span style="color: #064e3b">AaBbCcDd</span>|
+| text-blue-50 | color: #eff6ff | <span style="color: #eff6ff">AaBbCcDd</span>|
+| text-blue-100 | color: #dbeafe | <span style="color: #dbeafe">AaBbCcDd</span>|
+| text-blue-200 | color: #bfdbfe | <span style="color: #bfdbfe">AaBbCcDd</span>|
+| text-blue-300 | color: #93c5fd | <span style="color: #93c5fd">AaBbCcDd</span>|
+| text-blue-400 | color: #60a5fa | <span style="color: #60a5fa">AaBbCcDd</span>|
+| text-blue-500 | color: #3b82f6 | <span style="color: #3b82f6">AaBbCcDd</span>|
+| text-blue-600 | color: #2563eb | <span style="color: #2563eb">AaBbCcDd</span>|
+| text-blue-700 | color: #1d4ed8 | <span style="color: #1d4ed8">AaBbCcDd</span>|
+| text-blue-800 | color: #1e40af | <span style="color: #1e40af">AaBbCcDd</span>|
+| text-blue-900 | color: #1e3a8a | <span style="color: #1e3a8a">AaBbCcDd</span>|
+| text-cyan-50 | color: #ecfeff | <span style="color: #ecfeff">AaBbCcDd</span>|
+| text-cyan-100 | color: #cffafe | <span style="color: #cffafe">AaBbCcDd</span>|
+| text-cyan-200 | color: #a5f3fc | <span style="color: #a5f3fc">AaBbCcDd</span>|
+| text-cyan-300 | color: #67e8f9 | <span style="color: #67e8f9">AaBbCcDd</span>|
+| text-cyan-400 | color: #22d3ee | <span style="color: #22d3ee">AaBbCcDd</span>|
+| text-cyan-500 | color: #06b6d4 | <span style="color: #06b6d4">AaBbCcDd</span>|
+| text-cyan-600 | color: #0891b2 | <span style="color: #0891b2">AaBbCcDd</span>|
+| text-cyan-700 | color: #0e7490 | <span style="color: #0e7490">AaBbCcDd</span>|
+| text-cyan-800 | color: #155e75 | <span style="color: #155e75">AaBbCcDd</span>|
+| text-cyan-900 | color: #164e63 | <span style="color: #164e63">AaBbCcDd</span>|
+| text-indigo-50 | color: #eef2ff | <span style="color: #eef2ff">AaBbCcDd</span>|
+| text-indigo-100 | color: #e0e7ff | <span style="color: #e0e7ff">AaBbCcDd</span>|
+| text-indigo-200 | color: #c7d2fe | <span style="color: #c7d2fe">AaBbCcDd</span>|
+| text-indigo-300 | color: #a5b4fc | <span style="color: #a5b4fc">AaBbCcDd</span>|
+| text-indigo-400 | color: #818cf8 | <span style="color: #818cf8">AaBbCcDd</span>|
+| text-indigo-500 | color: #6366f1 | <span style="color: #6366f1">AaBbCcDd</span>|
+| text-indigo-600 | color: #4f46e5 | <span style="color: #4f46e5">AaBbCcDd</span>|
+| text-indigo-700 | color: #4338ca | <span style="color: #4338ca">AaBbCcDd</span>|
+| text-indigo-800 | color: #3730a3 | <span style="color: #3730a3">AaBbCcDd</span>|
+| text-indigo-900 | color: #312e81 | <span style="color: #312e81">AaBbCcDd</span>|
+| text-purple-50 | color: #f5f3ff | <span style="color: #f5f3ff">AaBbCcDd</span>|
+| text-purple-100 | color: #ede9fe | <span style="color: #ede9fe">AaBbCcDd</span>|
+| text-purple-200 | color: #ddd6fe | <span style="color: #ddd6fe">AaBbCcDd</span>|
+| text-purple-300 | color: #c4b5fd | <span style="color: #c4b5fd">AaBbCcDd</span>|
+| text-purple-400 | color: #a78bfa | <span style="color: #a78bfa">AaBbCcDd</span>|
+| text-purple-500 | color: #8b5cf6 | <span style="color: #8b5cf6">AaBbCcDd</span>|
+| text-purple-600 | color: #7c3aed | <span style="color: #7c3aed">AaBbCcDd</span>|
+| text-purple-700 | color: #6d28d9 | <span style="color: #6d28d9">AaBbCcDd</span>|
+| text-purple-800 | color: #5b21b6 | <span style="color: #5b21b6">AaBbCcDd</span>|
+| text-purple-900 | color: #4c1d95 | <span style="color: #4c1d95">AaBbCcDd</span>|
+| text-pink-50 | color: #fdf2f8 | <span style="color: #fdf2f8">AaBbCcDd</span>|
+| text-pink-100 | color: #fce7f3 | <span style="color: #fce7f3">AaBbCcDd</span>|
+| text-pink-200 | color: #fbcfe8 | <span style="color: #fbcfe8">AaBbCcDd</span>|
+| text-pink-300 | color: #f9a8d4 | <span style="color: #f9a8d4">AaBbCcDd</span>|
+| text-pink-400 | color: #f472b6 | <span style="color: #f472b6">AaBbCcDd</span>|
+| text-pink-500 | color: #ec4899 | <span style="color: #ec4899">AaBbCcDd</span>|
+| text-pink-600 | color: #db2777 | <span style="color: #db2777">AaBbCcDd</span>|
+| text-pink-700 | color: #be185d | <span style="color: #be185d">AaBbCcDd</span>|
+| text-pink-800 | color: #9d174d | <span style="color: #9d174d">AaBbCcDd</span>|
+| text-pink-900 | color: #831843 | <span style="color: #831843">AaBbCcDd</span>|
 
 还有 hover、active、focus、disabled 扩展，比如 `hover:text-black`
 
@@ -161,23 +161,23 @@ title: Text Color
     @include text-colors('.' + selector-escape($deivce + ':'));
 
     @include text-colors(
-      '.' + selector-escape($deivce + ':') + selector-escape('hover:'),
-      ':hover'
+        '.' + selector-escape($deivce + ':') + selector-escape('hover:'),
+        ':hover'
     );
     @include text-colors(
-      '.' + selector-escape($deivce + ':') + selector-escape('active:'),
-      '.is-active'
+        '.' + selector-escape($deivce + ':') + selector-escape('active:'),
+        '.is-active'
     );
     @include text-colors(
-      '.' + selector-escape($deivce + ':') + selector-escape('focus:'),
-      ':focus'
+        '.' + selector-escape($deivce + ':') + selector-escape('focus:'),
+        ':focus'
     );
     @include text-colors(
-      '.' + selector-escape($deivce + ':') + selector-escape('disabled:'),
-      '.is-disabled'
+        '.' + selector-escape($deivce + ':') + selector-escape('disabled:'),
+        '.is-disabled'
     );
     @include text-colors(
-      '.group:hover .' + selector-escape($deivce + ':') +
+        '.group:hover .' + selector-escape($deivce + ':') +
         selector-escape('group-hover:')
     );
   }

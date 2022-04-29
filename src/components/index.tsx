@@ -61,6 +61,7 @@ import PullRefresh from './PullRefresh';
 import Table from './table';
 import SchemaVariableListPicker from './schema-editor/SchemaVariableListPicker';
 import SchemaVariableList from './schema-editor/SchemaVariableList';
+import FormulaPicker from './formula/Picker';
 
 export {
   NotFound,
@@ -125,5 +126,6 @@ export {
   PullRefresh,
   Table,
   SchemaVariableListPicker,
-  SchemaVariableList
+  SchemaVariableList,
+  FormulaPicker
 };

@@ -1056,6 +1056,7 @@
   --Modal-content-minHeight: unset;
   --Modal-content-startMarginTop: #{px2rem(60px)};
   --Modal-content-stepMarginTop: #{px2rem(30px)};
+  --Modal-footer-button-width: #{px2rem(72px)};
   --Modal-footer-marginX: 0;
   --Modal-footer-marginY: 0;
   --Modal-footer-padding: var(--gap-sm);
@@ -1071,7 +1072,8 @@
   --Modal-overlay-bg: rgba(0, 0, 0, 0.6);
   --Modal-title-color: var(--text--loud-color);
   --Modal-title-fontSize: var(--fontSizeBase);
-  --Modal-title-fontWeight: normal;
+  --Modal-title-fontSize: var(--fontSizeBase);
+  --Modal-title-fontWeight: 500;
   --Modal-title-lineHeight: var(--lineHeightBase);
   --Modal-widthBase: #{px2rem(500px)};
   --Modal-widthLg: #{px2rem(1100px)};
@@ -1494,11 +1496,11 @@
   --Tooltip--attr-transition: all var(--animation-duration) ease-in-out;
   --Tooltip-arrow-color: var(--Tooltip-bg);
   --Tooltip-arrow-color--dark: rgba(7, 12, 20, 0.85);
-  --Tooltip-arrow-height: #{px2rem(8px)};
-  --Tooltip-arrow-height: 0.5rem;
+  --Tooltip-arrow-height: #{px2rem(4px)};
+  --Tooltip-arrow-height: 0.25rem;
   --Tooltip-arrow-outerColor: #{fade-in($borderColor, 0.05)};
-  --Tooltip-arrow-width: #{px2rem(16px)};
-  --Tooltip-arrow-width: 1rem;
+  --Tooltip-arrow-width: #{px2rem(8px)};
+  --Tooltip-arrow-width: 0.5rem;
   --Tooltip-bg: var(--background);
   --Tooltip-bg--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-body-color: var(--text-color);
@@ -1530,6 +1532,7 @@
 
   --Tree-indent: var(--gap-md);
   --Tree-icon-gap: var(--gap-xs);
+  --Tree-icon-margin-right: #{px2rem(10px)};
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
   --Tree-item-onHover-bg: rgba(0, 126, 255, 0.08);
   --Tree-item-onHover-bg-pure: rgba(0, 126, 255, 0.08);
@@ -1610,7 +1613,7 @@
   --TimelineItem--icon-height: #{px2rem(16px)};
   --TimelineItem--icon-left: #{px2rem(6px)};
   --TimelineItem--content-padding-bottom: var(--gap-md);
-  --TimelineItem--content-margin-left: var(--gap-base);
+  --TimelineItem--content-margin-left: #{px2rem(2px)};
   --TimelineItem--content-time-margin-bottom: var(--gap-xs);
   --TimelineItem--content-title-margin-bottom: var(--gap-xs);
   --TimelineItem--detail-button-margin-bottom: var(--gap-base);

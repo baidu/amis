@@ -46,6 +46,8 @@ import {ListSchema} from './List';
 import {TableSchema} from './Table';
 import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
+import type {PaginationProps} from './Pagination';
+
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
   | 'drag-toggler'
@@ -1647,7 +1649,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   renderPagination(toolbar: SchemaNode) {
     const {store, render, classnames: cx, alwaysShowPagination} = this.props;
-
     const {page, lastPage} = store;
 
     if (
@@ -1658,10 +1659,21 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const extraProps: any = {};
+    const extraProps: Pick<
+      PaginationProps,
+      'showPageInput' | 'maxButtons' | 'layout'
+    > = {};
+
+    /** 优先级：showPageInput显性配置 > (lastPage > 9) */
     if (typeof toolbar !== 'string') {
-      extraProps.showPageInput = (toolbar as Schema).showPageInput;
+      const showPageInput = (toolbar as Schema).showPageInput;
+
+      extraProps.showPageInput =
+        showPageInput === true || (lastPage > 9 && showPageInput == null);
       extraProps.maxButtons = (toolbar as Schema).maxButtons;
+      extraProps.layout = (toolbar as Schema).layout;
+    } else {
+      extraProps.showPageInput = lastPage > 9;
     }
 
     return (

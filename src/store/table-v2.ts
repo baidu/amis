@@ -167,8 +167,7 @@ export const Row = types
 export type IRow = Instance<typeof Row>;
 export type SRow = SnapshotIn<typeof Row>;
 
-export const TableStoreV2 = ServiceStore
-  .named('TableStoreV2')
+export const TableStoreV2 = ServiceStore.named('TableStoreV2')
   .props({
     columns: types.array(Column),
     rows: types.array(Row),
@@ -214,25 +213,29 @@ export const TableStoreV2 = ServiceStore
 
     function getAllFilteredColumns(columns?: Array<SColumn>): Array<any> {
       if (columns) {
-        return columns.filter(
-          item =>
-          item &&
-            isVisible(
-              item.pristine,
-              hasVisibleExpression(item.pristine) ? self.data : {}
-            ) &&
-            (item.toggled || !item.toggable)
-        ).map(item => ({
-          ...item.pristine,
-          type: item.type,
-          children: item.children ? getAllFilteredColumns(item.children) : undefined
-        })); 
+        return columns
+          .filter(
+            item =>
+              item &&
+              isVisible(
+                item.pristine,
+                hasVisibleExpression(item.pristine) ? self.data : {}
+              ) &&
+              (item.toggled || !item.toggable)
+          )
+          .map(item => ({
+            ...item.pristine,
+            type: item.type,
+            children: item.children
+              ? getAllFilteredColumns(item.children)
+              : undefined
+          }));
       }
       return [];
     }
 
     function getFilteredColumns() {
-      return getAllFilteredColumns(self.columns);      
+      return getAllFilteredColumns(self.columns);
     }
 
     function getUnSelectedRows() {
@@ -292,30 +295,28 @@ export const TableStoreV2 = ServiceStore
       getData,
 
       isSelected
-    }
+    };
   })
   .actions(self => {
     function updateColumns(columns: Array<SColumn>) {
       if (columns && Array.isArray(columns)) {
-        let cols: Array<SColumn> = columns
-          .filter(column => column)
-          .concat();
+        let cols: Array<SColumn> = columns.filter(column => column).concat();
 
-          cols = cols.map((item, index) => ({
-            ...item,
-            index,
-            type: item.type || 'plain',
-            pristine: item,
-            toggled: item.toggled !== false,
-            breakpoint: item.breakpoint,
-            children: item.children ? updateColumns(item.children) : []
+        cols = cols.map((item, index) => ({
+          ...item,
+          index,
+          type: item.type || 'plain',
+          pristine: item,
+          toggled: item.toggled !== false,
+          breakpoint: item.breakpoint,
+          children: item.children ? updateColumns(item.children) : []
         }));
 
         return cols;
       }
       return;
     }
-  
+
     function update(config: Partial<STableStore>) {
       config.columnsTogglable !== void 0 &&
         (self.columnsTogglable = config.columnsTogglable);
@@ -378,18 +379,17 @@ export const TableStoreV2 = ServiceStore
         setTimeout(updater.bind(null, `?${qsstringify(self.query)}`), 4);
     }
 
-    function updateSelectedRows(rows: Array<any>, selectedKeys: Array<any>, keyField?: string) {
+    function updateSelectedRows(
+      rows: Array<any>,
+      selectedKeys: Array<any>,
+      keyField?: string
+    ) {
       eachTree(rows, item => {
         if (~selectedKeys.indexOf(item.pristine[keyField || 'key'])) {
           self.selectedRows.push(item.id);
           self.selectedRowKeys.push(item.pristine[keyField || 'key']);
         } else if (
-          find(
-            selectedKeys,
-            a =>
-              a &&
-              a == item.pristine[keyField || 'key']
-          )
+          find(selectedKeys, a => a && a == item.pristine[keyField || 'key'])
         ) {
           self.selectedRows.push(item.id);
           self.selectedRowKeys.push(item.pristine[keyField || 'key']);
@@ -408,7 +408,9 @@ export const TableStoreV2 = ServiceStore
 
     function updateSelectedAll(keyField?: string) {
       const selectedKeys: Array<any> = [];
-      eachTree(self.rows, item => selectedKeys.push(item.pristine[keyField || 'key']));
+      eachTree(self.rows, item =>
+        selectedKeys.push(item.pristine[keyField || 'key'])
+      );
       updateSelectedRows(self.rows, selectedKeys, keyField);
     }
 
@@ -419,12 +421,7 @@ export const TableStoreV2 = ServiceStore
         if (~expandedRowKeys.indexOf(item.pristine[keyField || 'key'])) {
           self.expandedRowKeys.push(item.pristine[keyField || 'key']);
         } else if (
-          find(
-            expandedRowKeys,
-            a =>
-              a &&
-              a == item.pristine[keyField || 'key']
-          )
+          find(expandedRowKeys, a => a && a == item.pristine[keyField || 'key'])
         ) {
           self.expandedRowKeys.push(item.pristine[keyField || 'key']);
         }
@@ -492,14 +489,7 @@ export const TableStoreV2 = ServiceStore
           rowSpans: {},
           children:
             item && Array.isArray(item[key])
-              ? initChildren(
-                  item[key],
-                  depth,
-                  index,
-                  id,
-                  `${path}${index}.`,
-
-                )
+              ? initChildren(item[key], depth, index, id, `${path}${index}.`)
               : []
         };
       });

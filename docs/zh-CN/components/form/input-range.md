@@ -283,8 +283,8 @@ order: 38
 | 事件名称 | 事件参数                                                          | 说明                                           |
 | -------- | ----------------------------------------------------------------- | ---------------------------------------------- |
 | change   | `value: number \| string \|{min: number, max: number}` 滑块当前值 | 当值变化时触发的事件                           |
-| blur     | -                                                                 | 输入框失去焦点<br/>前置条件：showInput 为 true |
-| focus    | -                                                                 | 输入框获取焦点<br/>前置条件：showInput 为 true |
+| blur     | `value: number \| string \|{min: number, max: number}` 滑块当前值 | 输入框失去焦点<br/>前置条件：showInput 为 true |
+| focus    | `value: number \| string \|{min: number, max: number}` 滑块当前值 | 输入框获取焦点<br/>前置条件：showInput 为 true |
 
 ## 动作表
 

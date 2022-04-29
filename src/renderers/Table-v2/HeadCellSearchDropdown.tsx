@@ -29,7 +29,6 @@ export class HeadCellSearchDropDown extends React.Component<
   HeadCellSearchProps,
   any
 > {
-
   formItems: Array<string> = [];
   constructor(props: HeadCellSearchProps) {
     super(props);
@@ -165,9 +164,12 @@ export class HeadCellSearchDropDown extends React.Component<
     const {onSearch, data, name, store, dispatchEvent} = this.props;
     const values = {...data};
 
-    const rendererEvent = await dispatchEvent('columnSearch', createObject(data, {
-      ...values
-    }));
+    const rendererEvent = await dispatchEvent(
+      'columnSearch',
+      createObject(data, {
+        ...values
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return;
@@ -195,9 +197,12 @@ export class HeadCellSearchDropDown extends React.Component<
       };
     }
 
-    const rendererEvent = await dispatchEvent('columnSearch', createObject(data, {
-      ...values
-    }));
+    const rendererEvent = await dispatchEvent(
+      'columnSearch',
+      createObject(data, {
+        ...values
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return;
@@ -213,7 +218,9 @@ export class HeadCellSearchDropDown extends React.Component<
   isActive() {
     const {data, name, orderBy} = this.props;
 
-    return (orderBy && orderBy === name) || this.formItems.some(key => data?.[key]);
+    return (
+      (orderBy && orderBy === name) || this.formItems.some(key => data?.[key])
+    );
   }
 
   render() {
@@ -241,21 +248,29 @@ export class HeadCellSearchDropDown extends React.Component<
         )}
         active={isActive}
         filterIcon={<Icon icon="search" className="icon" />}
-        popOverContainer={popOverContainer ? popOverContainer : () => findDOMNode(this)}
-        filterDropdown={({setSelectedKeys, selectedKeys, confirm, clearFilters}) => {
+        popOverContainer={
+          popOverContainer ? popOverContainer : () => findDOMNode(this)
+        }
+        filterDropdown={({
+          setSelectedKeys,
+          selectedKeys,
+          confirm,
+          clearFilters
+        }) => {
           return render('quick-search-form', formSchema, {
             data: {
               ...data,
               orderBy,
-              order: orderBy && orderBy === name ? (store as ITableStore).order : ''
+              order:
+                orderBy && orderBy === name ? (store as ITableStore).order : ''
             },
             onSubmit: (values: object) => this.handleSubmit(values, confirm),
             onAction: (e: any, action: Action, ctx: object) => {
               this.handleAction(e, action, ctx, confirm);
             }
           }) as JSX.Element;
-        }}>
-      </HeadCellDropDown>
+        }}
+      ></HeadCellDropDown>
     );
   }
 }

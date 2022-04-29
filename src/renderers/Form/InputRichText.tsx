@@ -5,6 +5,7 @@ import LazyComponent from '../../components/LazyComponent';
 import {tokenize} from '../../utils/tpl-builtin';
 import {normalizeApi} from '../../utils/api';
 import {ucFirst} from '../../utils/helper';
+import type {SchemaApi} from '../../Schema';
 
 /**
  * RichText
@@ -13,10 +14,24 @@ import {ucFirst} from '../../utils/helper';
 export interface RichTextControlSchema extends FormBaseControl {
   type: 'input-rich-text';
 
+  /**
+   * 编辑器类型
+   */
   vendor?: 'froala' | 'tinymce';
 
-  receiver?: string;
-  videoReceiver?: string;
+  /**
+   * 图片保存 API
+   *
+   * @default /api/upload/image
+   */
+  receiver?: SchemaApi;
+
+  /**
+   * 视频保存 API
+   *
+   * @default /api/upload/video
+   */
+  videoReceiver?: SchemaApi;
 
   /**
    * 接收器的字段名
@@ -28,6 +43,9 @@ export interface RichTextControlSchema extends FormBaseControl {
    */
   borderMode?: 'full' | 'half' | 'none';
 
+  /**
+   *  tinymce 或 froala 的配置
+   */
   options?: any;
 }
 
@@ -152,6 +170,7 @@ export default class RichTextControl extends React.Component<
             blobInfo.blob(),
             blobInfo.filename()
           );
+
           try {
             const receiver = {
               adaptor: (payload: object) => {
@@ -160,8 +179,9 @@ export default class RichTextControl extends React.Component<
                   data: payload
                 };
               },
-              ...normalizeApi(props.receiver, 'post')
+              ...normalizeApi(tokenize(props.receiver, props.data), 'post')
             };
+
             const response = await fetcher(receiver, formData, {
               method: 'post'
             });

@@ -381,4 +381,5 @@ icon:
 | clear     | -                        | 清空                                                   |
 | reset     | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
 | selectAll | -                        | 全选                                                   |
+| changeTabKey | `activeKey: number` 选中的Tab          | 修改当前选中tab，来选择其他选项        |
 | setValue  | `value: string` 更新的值 | 更新数据，多值用`,`分隔                                |

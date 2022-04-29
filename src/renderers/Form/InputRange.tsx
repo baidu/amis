@@ -375,17 +375,29 @@ export class Input extends React.Component<RangeItemProps, any> {
    */
   @autobind
   onBlur() {
-    const {data, dispatchEvent} = this.props;
-    dispatchEvent('blur', data);
+    const {data, dispatchEvent, value} = this.props;
+
+    dispatchEvent(
+      'blur',
+      createObject(data, {
+        value
+      })
+    );
   }
 
   /**
    * 聚焦事件
    */
   @autobind
-  onFocus() {
-    const {data, dispatchEvent} = this.props;
-    dispatchEvent('focus', data);
+  async onFocus() {
+    const {data, dispatchEvent, value} = this.props;
+
+    dispatchEvent(
+      'focus',
+      createObject(data, {
+        value
+      })
+    );
   }
 
   render() {

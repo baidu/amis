@@ -214,7 +214,6 @@ export const HocPopOver =
           (popOver.mode === 'dialog' || popOver.mode === 'drawer')
         ) {
           schema = {
-            type: popOver.mode,
             actions: [
               {
                 label: __('Dialog.close'),
@@ -222,7 +221,8 @@ export const HocPopOver =
                 actionType: 'cancel'
               }
             ],
-            ...popOver
+            ...popOver,
+            type: popOver.mode
           };
         } else if (typeof popOver === 'string') {
           schema = {
