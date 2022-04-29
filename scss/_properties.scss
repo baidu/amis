@@ -1073,8 +1073,7 @@
   --Modal-overlay-bg: rgba(0, 0, 0, 0.6);
   --Modal-title-color: var(--text--loud-color);
   --Modal-title-fontSize: var(--fontSizeBase);
-  --Modal-title-fontSize: var(--fontSizeBase);
-  --Modal-title-fontWeight: 500;
+  --Modal-title-fontWeight: var(--fontWeightMd);
   --Modal-title-lineHeight: var(--lineHeightBase);
   --Modal-widthBase: #{px2rem(500px)};
   --Modal-widthLg: #{px2rem(1100px)};
