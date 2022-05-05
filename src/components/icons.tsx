@@ -88,6 +88,7 @@ import InputClearIcon from '../icons/input-clear.svg';
 import SliderHandleIcon from '../icons/slider-handle-icon.svg';
 import TrashIcon from '../icons/trash.svg';
 import DotIcon from '../icons/dot.svg';
+import Invisible from '../icons/invisible.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -202,6 +203,7 @@ registerIcon('dot', DotIcon);
 registerIcon('drag', DragIcon);
 registerIcon('edit', EditIcon);
 registerIcon('desk-empty', DeskEmptyIcon);
+registerIcon('invisible', Invisible);
 
 export function Icon({
   icon,

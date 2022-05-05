@@ -836,7 +836,10 @@ export default class TextControl extends React.PureComponent<
             {this.state.revealPassword ? (
               <i className="fa fa-eye"></i>
             ) : (
-              <i className="fa fa-eye-slash"></i>
+              <Icon
+                icon="invisible"
+                className="icon"
+              />
             )}
           </a>
         ) : null}
