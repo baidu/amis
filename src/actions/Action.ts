@@ -26,6 +26,7 @@ export interface ListenerAction {
   preventDefault?: boolean; // 阻止原有组件的动作行为
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
   expression?: string; // 执行条件
+  execOn?: string; // 执行条件，1.9.0废弃
 }
 
 export interface ILogicAction extends ListenerAction {
@@ -119,10 +120,10 @@ export const runAction = async (
     event
   });
 
-  if (
-    actionConfig.expression &&
-    !evalExpression(actionConfig.expression, mergeData)
-  ) {
+  // 兼容一下1.9.0之前的版本
+  const expression = actionConfig.expression ?? actionConfig.execOn;
+
+  if (expression && !evalExpression(expression, mergeData)) {
     return;
   }
 
