@@ -63,8 +63,10 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
     htmlTarget: ''
   };
 
-  async handleClick(href: string) {
-    const {env, blank, body, dispatchEvent, data} = this.props;
+  @autobind
+  handleClick(e: React.MouseEvent<any>) {
+    const {env, href, blank, body} = this.props;
+
     env?.tracker(
       {
         eventType: 'url',
@@ -73,21 +75,6 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       },
       this.props
     );
-    // 触发渲染器事件
-    const rendererEvent = await dispatchEvent(
-      'click',
-      createObject(data, {
-        // 注意：每个组件都必须把数据链带上
-        url: href,
-        blank,
-        label: body
-      })
-    );
-
-    // 阻止原有动作执行
-    if (rendererEvent?.prevented) {
-      return;
-    }
   }
 
   getHref() {}
@@ -123,6 +110,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
         htmlTarget={htmlTarget || (blank ? '_blank' : '_self')}
         icon={icon}
         rightIcon={rightIcon}
+        onClick={this.handleClick}
       >
         {body ? render('body', body) : value || __('link')}
       </Link>

@@ -3231,9 +3231,9 @@ order: 9
               "actionType": "toast",
               args: {
                 "msgType": 'info',
-                "msg": '动作1',
-                "preventDefault": true
-              }
+                "msg": '动作1'
+              },
+              "preventDefault": true
             }
           ]
         }
