@@ -90,7 +90,7 @@ export interface TextControlSchema extends FormOptionsControl {
   /**
    * 自动转换值
    */
-  transform: {
+  transform?: {
     /** 用户输入的字符自动转小写 */
     lowerCase?: boolean;
     /** 用户输入的字符自动转大写 */
