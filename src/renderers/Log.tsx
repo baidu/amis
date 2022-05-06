@@ -7,6 +7,7 @@ import {BaseSchema, SchemaTpl} from '../Schema';
 import Ansi from 'ansi-to-react';
 import {filter} from '../utils/tpl';
 import {buildApi, isApiOutdated} from '../utils/api';
+import VirtualList from '../components/virtual-list';
 
 /**
  * 日志展示组件
@@ -42,6 +43,21 @@ export interface LogSchema extends BaseSchema {
    * 返回内容字符编码
    */
   encoding?: string;
+
+  /**
+   * 限制最大日志数量
+   */
+  maxLength?: number;
+
+  /**
+   * 每行高度
+   */
+  rowHeight?: number;
+
+  /**
+   * 关闭 ANSI 颜色支持
+   */
+  disableColors?: boolean;
 }
 
 export interface LogProps
@@ -125,7 +141,7 @@ export class Log extends React.Component<LogProps, LogState> {
   }
 
   async loadLogs() {
-    const {source, data, env, translate: __, encoding} = this.props;
+    const {source, data, env, translate: __, encoding, maxLength} = this.props;
     // 因为这里返回结果是流式的，和普通 api 请求不一样，如果直接用 fetcher 经过 responseAdaptor 可能会导致出错，所以就直接 fetch 了
     const api = buildApi(source, data);
     if (!api.url) {
@@ -162,6 +178,11 @@ export class Log extends React.Component<LogProps, LogState> {
             lines[0] = lastline + lines[0];
             // 最后一个要么是空，要么是下一行的数据
             lastline = lines.pop() || '';
+            if (maxLength) {
+              if (logs.length + lines.length > maxLength) {
+                logs.splice(0, lines.length);
+              }
+            }
             logs = logs.concat(lines);
             this.setState({
               logs: logs,
@@ -180,6 +201,18 @@ export class Log extends React.Component<LogProps, LogState> {
     }
   }
 
+  /**
+   * 渲染某一行
+   */
+  renderLine(index: number, line: string) {
+    const {classnames: cx, disableColors} = this.props;
+    return (
+      <div className={cx('Log-line')} key={index}>
+        {disableColors ? line : <Ansi useClasses>{line}</Ansi>}
+      </div>
+    );
+  }
+
   render() {
     const {
       source,
@@ -187,6 +220,8 @@ export class Log extends React.Component<LogProps, LogState> {
       classnames: cx,
       placeholder,
       height,
+      rowHeight,
+      disableColors,
       translate: __
     } = this.props;
 
@@ -195,25 +230,45 @@ export class Log extends React.Component<LogProps, LogState> {
     if (!source) {
       loading = __('Log.mustHaveSource');
     }
+    let lines: any;
 
-    const lines = this.state.logs.map((line, index) => {
-      return (
-        <div className={cx('Log-line')} key={index}>
-          <Ansi useClasses>{line}</Ansi>
-        </div>
+    const logs = this.state.logs.concat([this.state.lastLine]);
+
+    // const
+    if (rowHeight) {
+      lines = (
+        <VirtualList
+          height={height as number}
+          itemCount={logs.length}
+          itemSize={rowHeight}
+          renderItem={({index, style}) => (
+            <div
+              className={cx('Log-line')}
+              key={index}
+              style={{...style, whiteSpace: 'nowrap'}}
+            >
+              {disableColors ? (
+                logs[index]
+              ) : (
+                <Ansi useClasses>{logs[index]}</Ansi>
+              )}
+            </div>
+          )}
+        />
       );
-    });
+    } else {
+      lines = logs.map((line, index) => {
+        return this.renderLine(index, line);
+      });
+    }
 
     return (
       <div
         ref={this.logRef}
         className={cx('Log', className)}
-        style={{height: height}}
+        style={{height: rowHeight ? 'auto' : height}}
       >
-        {lines.length ? lines : loading}
-        <div className={cx('Log-line')} key="last">
-          <code>{this.state.lastLine}</code>
-        </div>
+        {lines ? lines : loading}
       </div>
     );
   }
