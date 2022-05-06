@@ -57,7 +57,7 @@ export interface LogSchema extends BaseSchema {
   /**
    * 关闭 ANSI 颜色支持
    */
-  disableColors?: boolean;
+  disableColor?: boolean;
 }
 
 export interface LogProps
@@ -205,10 +205,10 @@ export class Log extends React.Component<LogProps, LogState> {
    * 渲染某一行
    */
   renderLine(index: number, line: string) {
-    const {classnames: cx, disableColors} = this.props;
+    const {classnames: cx, disableColor} = this.props;
     return (
       <div className={cx('Log-line')} key={index}>
-        {disableColors ? line : <Ansi useClasses>{line}</Ansi>}
+        {disableColor ? line : <Ansi useClasses>{line}</Ansi>}
       </div>
     );
   }
@@ -221,7 +221,7 @@ export class Log extends React.Component<LogProps, LogState> {
       placeholder,
       height,
       rowHeight,
-      disableColors,
+      disableColor,
       translate: __
     } = this.props;
 
@@ -251,7 +251,7 @@ export class Log extends React.Component<LogProps, LogState> {
               key={index}
               style={{...style, whiteSpace: 'nowrap'}}
             >
-              {disableColors ? (
+              {disableColor ? (
                 logs[index]
               ) : (
                 <Ansi useClasses>{logs[index]}</Ansi>
