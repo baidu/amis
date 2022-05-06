@@ -232,10 +232,14 @@ export class Log extends React.Component<LogProps, LogState> {
     }
     let lines: any;
 
-    const logs = this.state.logs.concat([this.state.lastLine]);
+    const logs = this.state.lastLine
+      ? this.state.logs.concat([this.state.lastLine])
+      : this.state.logs;
 
-    // const
-    if (rowHeight) {
+    // 如果设置 rowHeight 就开启延迟渲染
+    const useVirtualRender = rowHeight;
+
+    if (useVirtualRender) {
       lines = (
         <VirtualList
           height={height as number}
@@ -266,9 +270,9 @@ export class Log extends React.Component<LogProps, LogState> {
       <div
         ref={this.logRef}
         className={cx('Log', className)}
-        style={{height: rowHeight ? 'auto' : height}}
+        style={{height: useVirtualRender ? 'auto' : height}}
       >
-        {lines ? lines : loading}
+        {useVirtualRender ? lines : lines.length ? lines : loading}
       </div>
     );
   }
