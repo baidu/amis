@@ -3,9 +3,8 @@
  */
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {BaseSchema, SchemaTpl} from '../Schema';
+import {BaseSchema} from '../Schema';
 import Ansi from 'ansi-to-react';
-import {filter} from '../utils/tpl';
 import {buildApi, isApiOutdated} from '../utils/api';
 
 /**
@@ -42,11 +41,18 @@ export interface LogSchema extends BaseSchema {
    * 返回内容字符编码
    */
   encoding?: string;
+
+  /**
+   * 为了保证浏览器性能，超过最大行数后将会移除前面的行
+   * 默认为 2000
+   */
+  maxLine?: number;
 }
 
 export interface LogProps
   extends RendererProps,
-    Omit<LogSchema, 'type' | 'className'> {}
+    Omit<LogSchema, 'type' | 'className'> {
+}
 
 export interface LogState {
   lastLine: string;
@@ -58,7 +64,8 @@ export class Log extends React.Component<LogProps, LogState> {
     height: 500,
     autoScroll: true,
     placeholder: 'loading',
-    encoding: 'utf-8'
+    encoding: 'utf-8',
+    maxLine: 2000
   };
 
   isDone: boolean = false;
@@ -125,7 +132,7 @@ export class Log extends React.Component<LogProps, LogState> {
   }
 
   async loadLogs() {
-    const {source, data, env, translate: __, encoding} = this.props;
+    const {source, data, env, translate: __, encoding, maxLine} = this.props;
     // 因为这里返回结果是流式的，和普通 api 请求不一样，如果直接用 fetcher 经过 responseAdaptor 可能会导致出错，所以就直接 fetch 了
     const api = buildApi(source, data);
     if (!api.url) {
@@ -145,7 +152,7 @@ export class Log extends React.Component<LogProps, LogState> {
       const reader = body.getReader();
       let lastline = '';
       let logs: string[] = [];
-      for (;;) {
+      for (; ;) {
         let {done, value} = await reader.read();
         if (value) {
           let text = new TextDecoder(encoding).decode(value, {stream: true});
@@ -163,6 +170,12 @@ export class Log extends React.Component<LogProps, LogState> {
             // 最后一个要么是空，要么是下一行的数据
             lastline = lines.pop() || '';
             logs = logs.concat(lines);
+            // 超过最大行数之后进行截断，保证浏览器性能
+            if (typeof maxLine !== 'undefined') {
+              if (logs.length > maxLine) {
+                logs = logs.slice(logs.length - maxLine, logs.length)
+              }
+            }
             this.setState({
               logs: logs,
               lastLine: lastline
@@ -222,4 +235,5 @@ export class Log extends React.Component<LogProps, LogState> {
 @Renderer({
   type: 'log'
 })
-export class LogRenderer extends Log {}
+export class LogRenderer extends Log {
+}

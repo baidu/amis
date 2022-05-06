@@ -151,3 +151,4 @@ public class StreamingResponseBodyController {
 | placeholder | `string`  |        | 加载中的文字       |
 | encoding    | `string`  | utf-8  | 返回内容的字符编码 |
 | source      | `string`  |        | 接口               |
+| maxLine     | `number`  | 2000   | 最大显示行数，超过后从首行进行截断     |
