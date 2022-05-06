@@ -454,8 +454,9 @@ exports[`Renderer:text type is password 1`] = `
               <a
                 class="cxd-TextControl-revealPassword"
               >
-                <i
-                  class="fa fa-eye-slash"
+                <icon-mock
+                  classname="icon icon-invisible"
+                  icon="invisible"
                 />
               </a>
             </div>
