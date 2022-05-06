@@ -70,7 +70,9 @@
     }
   }
 
-  .#{$ns}AssociatedSelection {  
+  .#{$ns}AssociatedSelection {
+    overflow: hidden;
+
     &-left,
     &-right {
       min-height: unset;
