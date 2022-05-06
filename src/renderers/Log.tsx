@@ -57,7 +57,7 @@ export interface LogSchema extends BaseSchema {
   /**
    * 关闭 ANSI 颜色支持
    */
-  disableColor?: boolean;
+  disableColors?: boolean;
 }
 
 export interface LogProps
@@ -205,10 +205,10 @@ export class Log extends React.Component<LogProps, LogState> {
    * 渲染某一行
    */
   renderLine(index: number, line: string) {
-    const {classnames: cx, disableColor} = this.props;
+    const {classnames: cx, disableColors} = this.props;
     return (
       <div className={cx('Log-line')} key={index}>
-        {disableColor ? line : <Ansi useClasses>{line}</Ansi>}
+        {disableColors ? line : <Ansi useClasses>{line}</Ansi>}
       </div>
     );
   }
@@ -221,7 +221,7 @@ export class Log extends React.Component<LogProps, LogState> {
       placeholder,
       height,
       rowHeight,
-      disableColor,
+      disableColors,
       translate: __
     } = this.props;
 
@@ -232,14 +232,10 @@ export class Log extends React.Component<LogProps, LogState> {
     }
     let lines: any;
 
-    const logs = this.state.lastLine
-      ? this.state.logs.concat([this.state.lastLine])
-      : this.state.logs;
+    const logs = this.state.logs.concat([this.state.lastLine]);
 
-    // 如果设置 rowHeight 就开启延迟渲染
-    const useVirtualRender = rowHeight;
-
-    if (useVirtualRender) {
+    // const
+    if (rowHeight) {
       lines = (
         <VirtualList
           height={height as number}
@@ -251,7 +247,7 @@ export class Log extends React.Component<LogProps, LogState> {
               key={index}
               style={{...style, whiteSpace: 'nowrap'}}
             >
-              {disableColor ? (
+              {disableColors ? (
                 logs[index]
               ) : (
                 <Ansi useClasses>{logs[index]}</Ansi>
@@ -270,9 +266,9 @@ export class Log extends React.Component<LogProps, LogState> {
       <div
         ref={this.logRef}
         className={cx('Log', className)}
-        style={{height: useVirtualRender ? 'auto' : height}}
+        style={{height: rowHeight ? 'auto' : height}}
       >
-        {useVirtualRender ? lines : lines.length ? lines : loading}
+        {lines ? lines : loading}
       </div>
     );
   }

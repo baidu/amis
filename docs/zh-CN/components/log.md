@@ -93,7 +93,7 @@ public class StreamingResponseBodyController {
 2. 设置 `maxLength`，限制最大显示行数
    - 优点：某一行日志很长的时候会自动折行
    - 缺点：无法查看之前的日志
-3. 试试通过 `"disableColor": false` 关闭 ANSI 颜色
+3. 试试通过 `"disableColors": false` 关闭 ANSI 颜色
 
 ## 自动滚动到底部
 
@@ -160,6 +160,7 @@ public class StreamingResponseBodyController {
 
 ## 属性表
 
+<<<<<<< HEAD
 | 属性名       | 类型      | 默认值 | 说明                           |
 | ------------ | --------- | ------ | ------------------------------ |
 | height       | `number`  | 500    | 展示区域高度                   |
@@ -171,3 +172,16 @@ public class StreamingResponseBodyController {
 | rowHeight    | `number`  |        | 设置每行高度，将会开启虚拟渲染 |
 | maxLength    | `number`  |        | 最大显示行数                   |
 | disableColor | `boolean` |        | 关闭 ANSI 颜色支持             |
+=======
+| 属性名        | 类型      | 默认值 | 说明                           |
+| ------------- | --------- | ------ | ------------------------------ |
+| height        | `number`  | 500    | 展示区域高度                   |
+| className     | `string`  |        | 外层 CSS 类名                  |
+| autoScroll    | `boolean` | true   | 是否自动滚动                   |
+| placeholder   | `string`  |        | 加载中的文字                   |
+| encoding      | `string`  | utf-8  | 返回内容的字符编码             |
+| source        | `string`  |        | 接口                           |
+| rowHeight     | `number`  |        | 设置每行高度，将会开启虚拟渲染 |
+| maxLength     | `number`  |        | 最大显示行数                   |
+| disableColors | `boolean` |        | 关闭 ANSI 颜色支持             |
+>>>>>>> feat: Log 组件支持虚拟渲染及限制最大行数
