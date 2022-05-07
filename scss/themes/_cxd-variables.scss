@@ -215,7 +215,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Checkbox--sm-inner-size: #{px2rem(8px)};
   --Checkbox--sm--full-inner-size: #{px2rem(8px)};
   --Radio-size: #{px2rem(16px)};
-  --Radio-inner-size: #{px2rem(10px)};
+  --Radio-inner-size: #{px2rem(8px)};
 
   --Switch-height: #{px2rem(20px)};
   --Switch-width: #{px2rem(44px)};
@@ -424,7 +424,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --ImageControl-addBtn-bg: #fff;
   --ImageControl-addBtn-border: #dbdbdb;
   --ImageControl-addBtn-borderRadius: #{$R3};
-  --ImageControl-addBtn-color: #666;
+  --ImageControl-addBtn-color: #84868c;
   --ImageControl-addBtn-onHover-bg: var(--ImageControl-addBtn-bg);
   --ImageControl-addBtn-onHover-border: var(--primary);
   --ImageControl-addBtn-onHover-color: var(--primary);
@@ -450,7 +450,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   // Modal
   --Modal-title-fontSize: #{$T3};
   --Modal-title-color: #{$W3};
-  --Modal-title-fontWeight: #{$G2};
+  --Modal-title-fontWeight: #{$W3};
   --Modal-overlay-bg: rgba(0, 0, 0, 0.7);
   --Modal-content-borderWidth: 0;
   --Modal-content-borderRadius: 0;

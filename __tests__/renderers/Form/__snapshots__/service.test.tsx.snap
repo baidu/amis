@@ -78,8 +78,8 @@ exports[`Renderer:service 1`] = `
                 class="cxd-Select-arrow"
               >
                 <icon-mock
-                  classname="icon icon-caret"
-                  icon="caret"
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
                 />
               </span>
             </div>

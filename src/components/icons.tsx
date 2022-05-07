@@ -56,6 +56,7 @@ import CopyIcon from '../icons/copy.svg';
 import FilterIcon from '../icons/filter.svg';
 import CaretIcon from '../icons/caret.svg';
 import RightArrowBoldIcon from '../icons/right-arrow-bold.svg';
+import DownArrowBoldIcon from '../icons/down-arrow-bold.svg';
 import ColumnFilterIcon from '../icons/column-filter.svg';
 import ZoomInIcon from '../icons/zoom-in.svg';
 import ZoomOutIcon from '../icons/zoom-out.svg';
@@ -73,6 +74,7 @@ import SortAscIcon from '../icons/sort-asc.svg';
 import SortDescIcon from '../icons/sort-desc.svg';
 import SettingIcon from '../icons/setting.svg';
 import PlusCicleIcon from '../icons/plus-cicle.svg';
+import PlusFineIcon from '../icons/plus-fine.svg';
 import EllipsisVIcon from '../icons/ellipsis-v.svg';
 import ExpandAltIcon from '../icons/expand-alt.svg';
 import CompressAltIcon from '../icons/compress-alt.svg';
@@ -168,6 +170,7 @@ registerIcon('filter', FilterIcon);
 registerIcon('column-filter', ColumnFilterIcon);
 registerIcon('caret', CaretIcon);
 registerIcon('right-arrow-bold', RightArrowBoldIcon);
+registerIcon('down-arrow-bold', DownArrowBoldIcon);
 registerIcon('zoom-in', ZoomInIcon);
 registerIcon('zoom-out', ZoomOutIcon);
 registerIcon('question', QuestionIcon);
@@ -204,6 +207,7 @@ registerIcon('drag', DragIcon);
 registerIcon('edit', EditIcon);
 registerIcon('desk-empty', DeskEmptyIcon);
 registerIcon('invisible', Invisible);
+registerIcon('plus-fine', PlusFineIcon);
 
 export function Icon({
   icon,

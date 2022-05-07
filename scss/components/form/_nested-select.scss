@@ -13,6 +13,7 @@
       width: px2rem(12px);
       height: px2rem(12px);
       fill: var(--Form-input-iconColor);
+      color: var(--default-icon-color);
     }
   }
 
@@ -38,7 +39,7 @@
 
   &-menu {
     width: px2rem(160px);
-    height: px2rem(175px); // 高度写死，否则有可能会上下闪动
+    min-height: px2rem(32px);
     background: var(--Form-select-menu-bg);
     color: var(--Form-select-menu-color);
     border: var(--Form-select-outer-borderWidth) solid
