@@ -82,6 +82,14 @@ export interface DateRangeControlSchema extends FormBaseControl {
    * 日期范围快捷键
    */
   ranges?: string | Array<ShortCuts>;
+  /**
+   * 日期范围开始时间-占位符
+   */
+  startPlaceholder?: string;
+  /**
+   * 日期范围结束时间-占位符
+   */
+  endPlaceholder?: string;
 }
 
 export interface DateRangeProps
@@ -208,7 +216,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   @autobind
   async handleChange(nextValue: any) {
     const {dispatchEvent, data} = this.props;
-    const dispatcher = dispatchEvent('change', createObject(data, nextValue));
+    const dispatcher = dispatchEvent('change', createObject(data, {value: nextValue}));
     if (dispatcher?.prevented) {
       return;
     }

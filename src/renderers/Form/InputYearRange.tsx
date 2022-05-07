@@ -19,8 +19,6 @@ export default class YearRangeControl extends InputDateRange {
     const {
       className,
       classPrefix: ns,
-      defaultValue,
-      defaultData,
       minDate,
       maxDate,
       minDuration,
@@ -35,10 +33,7 @@ export default class YearRangeControl extends InputDateRange {
       <div className={cx(`${ns}DateRangeControl`, className)}>
         <DateRangePicker
           viewMode="years"
-          format="YYYY"
-          inputFormat="YYYY"
-          placeholder="YearRange.placeholder"
-          ranges="thisyear,lastYear"
+          format={format}
           classPrefix={ns}
           data={data}
           {...rest}
@@ -61,10 +56,10 @@ export default class YearRangeControl extends InputDateRange {
 export class YearRangeControlRenderer extends YearRangeControl {
   static defaultProps = {
     format: 'X',
+    inputFormat: 'YYYY',
     joinValues: true,
     delimiter: ',',
     timeFormat: '',
-    inputFormat: 'YYYY',
-    dateFormat: 'YYYY'
+    ranges: 'thisyear,prevyear'
   };
 }

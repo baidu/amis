@@ -16,11 +16,6 @@ import Modal from '../Modal';
 import {themeable} from '../../theme';
 import {localeable} from '../../locale';
 import type {SchemaIcon} from '../../Schema';
-import {
-  resolveVariableAndFilter,
-  isPureVariable
-} from '../../utils/tpl-builtin';
-import {toast} from '../../components';
 import {parse, Evaluator} from 'amis-formula';
 
 export interface FormulaPickerProps extends FormulaEditorProps {
@@ -112,6 +107,8 @@ export interface FormulaPickerProps extends FormulaEditorProps {
   }) => JSX.Element;
 
   onConfirm?: (value?: any) => void;
+
+  onRef?: (node: any) => void;
 }
 
 export interface FormulaPickerState {
@@ -129,6 +126,11 @@ export class FormulaPicker extends React.Component<
   FormulaPickerProps,
   FormulaPickerState
 > {
+  constructor(props: FormulaPickerProps) {
+    super(props);
+    this.props.onRef && this.props.onRef(this);
+  }
+
   static defaultProps = {
     evalMode: true
   };
@@ -168,18 +170,7 @@ export class FormulaPicker extends React.Component<
 
   @autobind
   handleInputChange(value: string) {
-    const validate = this.validate(value);
-    if (validate === true) {
-      this.setState(
-        {
-          value,
-          isError: false
-        },
-        () => this.handleConfirm()
-      );
-    } else {
-      this.setState({isError: validate});
-    }
+    this.setState({value}, () => this.handleConfirm());
   }
 
   @autobind
@@ -255,8 +246,11 @@ export class FormulaPicker extends React.Component<
 
       return true;
     } catch (e) {
-      const [, position] = /\s(\d+:\d+)$/.exec(e.message) || [];
-      return position;
+      if (/\s(\d+:\d+)$/.test(e.message)) {
+        const [, position] = /\s(\d+:\d+)$/.exec(e.message) || [];
+        return position;
+      }
+      return e.message;
     }
   }
 
@@ -369,11 +363,6 @@ export class FormulaPicker extends React.Component<
             )}
           </div>
         )}
-        {!!isError && !this.state.isOpened ? (
-          <ul className={cx('Form-feedback')}>
-            <li>{__('FormulaEditor.invalidData', {position: isError})}</li>
-          </ul>
-        ) : null}
         <Modal
           size="md"
           closeOnEsc
@@ -397,7 +386,7 @@ export class FormulaPicker extends React.Component<
             {!!isError ? (
               <div className={cx('Dialog-info')} key="info">
                 <span className={cx('Dialog-error')}>
-                  {__('FormulaEditor.invalidData', {position: isError})}
+                  {__('FormulaEditor.invalidData', {err: isError})}
                 </span>
               </div>
             ) : null}

@@ -1,26 +1,28 @@
 import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
-  ListenerAction,
   ListenerContext,
-  registerAction
+  registerAction,
+  ListenerAction
 } from './Action';
-import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 export interface IToastAction extends ListenerAction {
-  msg: string;
-  msgType?: string;
-  position?:
-    | 'top-right'
-    | 'top-center'
-    | 'top-left'
-    | 'bottom-center'
-    | 'bottom-left'
-    | 'bottom-right'
-    | 'center';
-  closeButton?: boolean;
-  showIcon?: boolean;
-  timeout?: number;
+  actionType: 'toast';
+  args: {
+    msg: string;
+    msgType?: string;
+    position?:
+      | 'top-right'
+      | 'top-center'
+      | 'top-left'
+      | 'bottom-center'
+      | 'bottom-left'
+      | 'bottom-right'
+      | 'center';
+    closeButton?: boolean;
+    showIcon?: boolean;
+    timeout?: number;
+  };
 }
 
 /**

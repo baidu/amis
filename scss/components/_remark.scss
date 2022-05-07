@@ -32,6 +32,9 @@
       display: block;
     }
   }
+  &-icon--circle {
+    border-radius: 50%;
+  }
 
   > span + .#{$ns}Remark-icon {
     margin-left: var(--gap-xs);

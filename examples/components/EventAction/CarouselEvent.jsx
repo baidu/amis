@@ -3,7 +3,7 @@ export default {
   title: '轮播图组件事件',
   regions: ['body', 'toolbar', 'header'],
   data: {
-    index: 2
+    index: 3
   },
   body: [
     {

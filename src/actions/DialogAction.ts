@@ -8,6 +8,7 @@ import {
 } from './Action';
 
 export interface IAlertAction extends ListenerAction {
+  actionType: 'alert';
   args: {
     msg: string;
     [propName: string]: any;
@@ -15,6 +16,7 @@ export interface IAlertAction extends ListenerAction {
 }
 
 export interface IConfirmAction extends ListenerAction {
+  actionType: 'confirm';
   args: {
     title: string;
     msg: string;
@@ -23,6 +25,7 @@ export interface IConfirmAction extends ListenerAction {
 }
 
 export interface IDialogAction extends ListenerAction {
+  actionType: 'dialog';
   dialog: SchemaNode;
 }
 
@@ -41,6 +44,10 @@ export class DialogAction implements RendererAction {
   ) {
     renderer.props.onAction?.(event, action, action.args);
   }
+}
+
+export interface ICloseDialogAction extends ListenerAction {
+  actionType: 'closeDialog';
 }
 
 /**

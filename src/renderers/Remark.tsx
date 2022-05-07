@@ -48,6 +48,11 @@ export interface RemarkSchema extends BaseSchema {
    * 点击其他内容时是否关闭弹框信息
    */
   rootClose?: boolean;
+
+  /**
+   * icon的形状
+   */
+  shape?: 'circle' | 'square'; 
 }
 
 export type SchemaRemark = string | Omit<RemarkSchema, 'type'>;
@@ -116,20 +121,23 @@ class Remark extends React.Component<RemarkProps> {
     };
   }
 
-  renderLabel(finalIcon: any, finalLabel: string, cx: ClassNamesFn) {
+  renderLabel(finalIcon: any, finalLabel: string, cx: ClassNamesFn, shape?: 'circle'|'square') {
+
+    const shapeClass = shape ? `Remark-icon--${shape}` : undefined;
+
     return (
       <>
         {finalLabel ? <span>{finalLabel}</span> : null}
         {finalIcon ? (
           hasIcon(finalIcon) ? (
-            <span className={cx('Remark-icon')}>
+            <span className={cx('Remark-icon', shapeClass)}>
               <Icon icon={finalIcon} />
             </span>
           ) : (
             <i className={cx('Remark-icon', finalIcon)} />
           )
         ) : finalIcon === false && finalLabel ? null : (
-          <span className={cx('Remark-icon icon')}>
+          <span className={cx('Remark-icon icon', shapeClass)}>
             <Icon icon="question-mark" />
           </span>
         )}
@@ -142,6 +150,7 @@ class Remark extends React.Component<RemarkProps> {
       className,
       icon,
       label,
+      shape,
       tooltip,
       placement,
       rootClose,
@@ -170,7 +179,7 @@ class Remark extends React.Component<RemarkProps> {
           )}
           onClick={this.showModalTip(parsedTip)}
         >
-          {this.renderLabel(finalIcon, finalLabel, cx)}
+          {this.renderLabel(finalIcon, finalLabel, cx, shape)}
         </div>
       );
     }
@@ -195,7 +204,7 @@ class Remark extends React.Component<RemarkProps> {
             (tooltip && tooltip.className) || className || `Remark--warning`
           )}
         >
-          {this.renderLabel(finalIcon, finalLabel, cx)}
+          {this.renderLabel(finalIcon, finalLabel, cx, shape)}
         </div>
       </TooltipWrapper>
     );

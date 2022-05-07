@@ -320,6 +320,28 @@ export const TableStore = iRendererStore
       }));
     }
 
+    function getExportedColumns() {
+      return self.columns.filter(item => {
+        return (
+          item &&
+          isVisible(
+            item.pristine,
+            hasVisibleExpression(item.pristine) ? self.data : {}
+          ) &&
+          (item.type === '__checkme'
+            ? self.selectable &&
+              !self.dragging &&
+              !self.hideCheckToggler &&
+              self.rows.length
+            : item.type === '__dragme'
+            ? self.dragging
+            : item.type === '__expandme'
+            ? (getFootableColumns().length || self.isNested) && !self.dragging
+            : item.toggled || !item.toggable)
+        );
+      });
+    }
+
     function getFilteredColumns() {
       return self.columns.filter(
         item =>
@@ -551,6 +573,11 @@ export const TableStore = iRendererStore
 
       get activedSearchableColumns() {
         return getSearchableColumns().filter(column => column.enableSearch);
+      },
+
+      /** 导出excel列（包含breakpoint列） */
+      get exportColumns() {
+        return getExportedColumns();
       },
 
       get filteredColumns() {

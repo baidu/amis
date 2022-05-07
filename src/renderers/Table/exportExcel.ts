@@ -38,7 +38,7 @@ export async function exportExcel(
   toolbar: ExportExcelToolbar
 ) {
   const {store, env, classnames: cx, translate: __, data} = props;
-  let columns = store.filteredColumns || [];
+  let columns = store.exportColumns || [];
 
   let rows = [];
   let tmpStore;

@@ -12,13 +12,14 @@ import {
 } from './Action';
 
 export interface IAjaxAction extends ListenerAction {
+  action: 'ajax';
   args: {
     api: Api;
-    messages: {
+    messages?: {
       success: string;
       failed: string;
     };
-    options: object;
+    options?: Record<string, any>;
     [propName: string]: any;
   };
 }

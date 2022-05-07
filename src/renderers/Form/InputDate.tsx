@@ -445,7 +445,7 @@ export default class DateControl extends React.PureComponent<
   @autobind
   async handleChange(nextValue: any) {
     const {dispatchEvent, data} = this.props;
-    const dispatcher = dispatchEvent('change', createObject(data, nextValue));
+    const dispatcher = dispatchEvent('change', createObject(data, {value: nextValue}));
     if (dispatcher?.prevented) {
       return;
     }
