@@ -4,12 +4,15 @@ import moment from 'moment';
 import React from 'react';
 import Downshift from 'downshift';
 import findIndex from 'lodash/findIndex';
+import merge from 'lodash/merge';
 import {LocaleProps, localeable} from '../../locale';
 import {ClassNamesFn} from '../../theme';
 import {isMobile, convertArrayValueToMoment} from '../../utils/helper';
 import Picker from '../Picker';
 import {PickerOption} from '../PickerColumn';
 import {DateType} from './Calendar';
+
+import type {TimeScale} from './TimeView';
 
 interface CustomDaysViewProps extends LocaleProps {
   classPrefix?: string;
@@ -66,9 +69,33 @@ interface CustomDaysViewProps extends LocaleProps {
   hideHeader?: boolean;
   getColumns: (types: DateType[], dateBoundary: void) => any;
   getDateBoundary: (currentDate: moment.Moment) => any;
+  timeConstraints?: any;
 }
 
 export class CustomDaysView extends React.Component<CustomDaysViewProps> {
+  timeConstraints = {
+    hours: {
+      min: 0,
+      max: 23,
+      step: 1
+    },
+    minutes: {
+      min: 0,
+      max: 59,
+      step: 1
+    },
+    seconds: {
+      min: 0,
+      max: 59,
+      step: 1
+    },
+    milliseconds: {
+      min: 0,
+      max: 999,
+      step: 1
+    }
+  };
+
   state: {
     columns: {options: PickerOption[]}[];
     types: DateType[];
@@ -184,6 +211,10 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       pickerValue: currentDate.toArray(),
       uniqueTag: 0
     };
+
+    if (this.props.timeConstraints) {
+      this.timeConstraints = merge(this.timeConstraints, props.timeConstraints);
+    }
   }
 
   componentWillMount() {
@@ -283,11 +314,15 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     i: number,
     label?: string
   ) => {
-    let elf: any = document.getElementById(
+    const elf: any = document.getElementById(
       `${this.state.uniqueTag}-${i}-input`
     );
+    const {min, step} = this.timeConstraints[type];
+    const offset = (value - min) / step;
+    const height = 28; /** 单个选项的高度 */
+
     elf?.parentNode?.scrollTo({
-      top: value * 28,
+      top: offset * height,
       behavior: label === 'init' ? 'auto' : 'smooth'
     });
   };
@@ -460,15 +495,17 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     return <td {...props}>{currentDate.date()}</td>;
   };
 
-  computedTimeOptions(total: number) {
-    const times: {label: string; value: string}[] = [];
+  /** 时间选择器数据源 */
+  computedTimeOptions(timeScale: TimeScale) {
+    const {min, max, step} = this.timeConstraints?.[timeScale];
 
-    for (let t = 0; t < total; t++) {
-      const label = t < 10 ? `0${t}` : `${t}`;
-      times.push({label, value: label});
-    }
+    return Array.from({length: max - min + 1}, (item, index) => {
+      const value = (index + min)
+        .toString()
+        .padStart(timeScale !== 'milliseconds' ? 2 : 3, '0');
 
-    return times;
+      return index % step === 0 ? {label: value, value} : undefined;
+    }).filter((item): item is {label: string; value: string} => !!item);
   }
 
   renderTimes = () => {
@@ -482,6 +519,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
     const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
     const inputs: Array<React.ReactNode> = [];
+    const timeConstraints = this.timeConstraints;
 
     inputs.push(this.showTime());
 
@@ -494,11 +532,9 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
         ? 'seconds'
         : '';
       if (type) {
-        const min = 0;
-        const max = type === 'hours' ? 23 : 59;
-        const hours = this.computedTimeOptions(24);
-        const times = this.computedTimeOptions(60);
-        const options = type === 'hours' ? hours : times;
+        const min = timeConstraints[type].min;
+        const max = timeConstraints[type].max;
+        const options = this.computedTimeOptions(type);
         const formatMap = {
           hours: 'HH',
           minutes: 'mm',
@@ -557,8 +593,9 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                         <div
                           key={option.value}
                           className={cx('CalendarInput-sugsItem', {
-                            'is-highlight':
-                              option.value === date.format(formatMap[type])
+                            'is-highlight': selectedDate
+                              ? option.value === date.format(formatMap[type])
+                              : option.value === options?.[0]?.value
                           })}
                           onClick={() => {
                             this.setTime(type, parseInt(option.value, 10));
