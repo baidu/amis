@@ -57,7 +57,6 @@ import {ActionSchema} from '../Action';
 import {ButtonGroupControlSchema} from './ButtonGroupSelect';
 import {DialogSchemaBase} from '../Dialog';
 import Alert from '../../components/Alert2';
-import { promises } from 'fs';
 
 export interface FormSchemaHorizontal {
   left?: number;
