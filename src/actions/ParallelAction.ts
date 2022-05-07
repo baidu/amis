@@ -1,14 +1,16 @@
-import {RendererEvent} from '../utils/renderer-event';
+import { RendererEvent } from '../utils/renderer-event';
 import {
   RendererAction,
-  ListenerAction,
   ListenerContext,
+  ILogicAction,
   LogicAction,
   registerAction,
   runActions
 } from './Action';
 
-export interface IParallelAction extends ListenerAction, LogicAction {}
+export interface IParallelAction extends ILogicAction {
+  actionType: 'parallel';
+}
 
 export class ParallelAction implements RendererAction {
   async run(

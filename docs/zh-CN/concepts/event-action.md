@@ -195,7 +195,9 @@ order: 9
                     actions: [
                       {
                         actionType: 'toast',
-                        msg: 'confirm'
+                        args: {
+                          msg: 'confirm'
+                        }
                       }
                     ]
                   },
@@ -203,7 +205,9 @@ order: 9
                     actions: [
                       {
                         actionType: 'toast',
-                        msg: 'cancel'
+                        args: {
+                          msg: 'cancel'
+                        }
                       }
                     ]
                   }
@@ -346,7 +350,9 @@ order: 9
                     actions: [
                       {
                         actionType: 'toast',
-                        msg: 'confirm'
+                        args: {
+                          msg: 'confirm'
+                        }
                       }
                     ]
                   },
@@ -354,7 +360,9 @@ order: 9
                     actions: [
                       {
                         actionType: 'toast',
-                        msg: 'cancel'
+                        args: {
+                          msg: 'cancel'
+                        }
                       }
                     ]
                   }
@@ -2382,7 +2390,7 @@ order: 9
               actionType: 'changeActiveKey',
               componentId: 'tabs-change-receiver',
               args: {
-                activeKey: 1
+                activeKey: 2
               }
             }
           ]
@@ -3223,9 +3231,9 @@ order: 9
               "actionType": "toast",
               args: {
                 "msgType": 'info',
-                "msg": '动作1',
-                "preventDefault": true
-              }
+                "msg": '动作1'
+              },
+              "preventDefault": true
             }
           ]
         }

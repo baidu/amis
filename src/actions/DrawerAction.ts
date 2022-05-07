@@ -8,6 +8,7 @@ import {
 } from './Action';
 
 export interface IDrawerAction extends ListenerAction {
+  actionType: 'drawer';
   drawer: SchemaNode;
 }
 
@@ -26,6 +27,10 @@ export class DrawerAction implements RendererAction {
   ) {
     renderer.props.onAction?.(event, action, action.args);
   }
+}
+
+export interface ICloseDrawerAction extends ListenerAction {
+  actionType: 'closeDrawer';
 }
 
 /**

@@ -1,16 +1,16 @@
-import {inflate} from 'zlib';
-import {RendererEvent} from '../utils/renderer-event';
-import {evalExpression} from '../utils/tpl';
+import { RendererEvent } from '../utils/renderer-event';
+import { evalExpression } from '../utils/tpl';
 import {
   RendererAction,
-  ListenerAction,
   ListenerContext,
-  LogicAction,
   registerAction,
-  runActions
+  runActions,
+  ILogicAction
 } from './Action';
 
-export interface ISwitchAction extends ListenerAction, LogicAction {}
+export interface ISwitchAction extends ILogicAction {
+  actionType: 'switch';
+}
 
 /**
  * 排他动作

@@ -35,6 +35,10 @@
     }
   }
 
+  &-select {
+    overflow: hidden;
+  }
+
   &-select,
   &-result {
     width: 0;
@@ -55,12 +59,24 @@
     position: relative; // 貌似不加 relative 会有 bug。
   }
 
-  &-select > &-selection.#{$ns}AssociatedSelection {
-    overflow: initial;
+  &-select > .#{$ns}ChainedSelection {
+    min-height: unset;
+    overflow: hidden;
+    
+    .#{$ns}ChainedSelection-col {
+      height: 100%;
+      overflow: auto;
+      min-width: px2rem(130px);
+    }
   }
 
-  &-select {
+  .#{$ns}AssociatedSelection {
     overflow: hidden;
+
+    &-left,
+    &-right {
+      min-height: unset;
+    }
   }
 
   &-search + &-selection {
