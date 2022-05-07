@@ -150,6 +150,7 @@ export class Log extends React.Component<LogProps, LogState> {
         return;
       }
       const reader = body.getReader();
+      reader.cancel()
       let lastline = '';
       let logs: string[] = [];
       for (; ;) {
@@ -173,7 +174,7 @@ export class Log extends React.Component<LogProps, LogState> {
             // 超过最大行数之后进行截断，保证浏览器性能
             if (typeof maxLine !== 'undefined') {
               if (logs.length > maxLine) {
-                logs = logs.slice(logs.length - maxLine, logs.length)
+                logs.splice(0, logs.length - maxLine);
               }
             }
             this.setState({
