@@ -215,6 +215,49 @@ order: 24
 }
 ```
 
+也可以单独设置表单label的对齐方式，在horizontal中设置labelAlign。
+
+```schema: scope="body"
+{
+  "type": "container",
+  "style": {
+    "width": "300px",
+  },
+  "body": [
+    {
+      "type": "form",
+      "title": "左对齐",
+      "mode": "horizontal",
+      "horizontal": {
+        "left": 3,
+        "right": 9,
+        "labelAlign": "left"
+      },
+      "body": [
+        {
+          "type": "input-text",
+          "name": "name",
+          "label": "姓名"
+        },
+        {
+          "type": "input-text",
+          "name": "name",
+          "label": "班级"
+        },
+        {
+          "type": "switch",
+          "name": "status",
+          "inputClassName": "is-inline",
+          "label": "是否在职",
+          "onText": "在职",
+          "offText": "非在职"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### 内联模式
 
 使用内联模式展现表单项

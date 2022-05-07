@@ -63,6 +63,7 @@ export interface FormSchemaHorizontal {
   right?: number;
   leftFixed?: boolean | number | 'xs' | 'sm' | 'md' | 'lg';
   justify?: boolean; // 两端对齐
+  labelAlign?: 'left' | 'right' // label对齐方式
 }
 
 /**
