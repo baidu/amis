@@ -16,6 +16,11 @@
     &:hover {
       background: var(--Log-line--onHover-bg);
     }
+    &-number {
+      color: #999;
+      font-style: italic;
+      margin-right: 5px;
+    }
   }
 
   .ansi-bold {
@@ -106,4 +111,15 @@
   .ansi-white-bg {
     background-color: #eee;
   }
+  &-operation {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: rgba(0,0,0,0.4);
+      width: 100%;
+      .#{$ns}Button {
+        margin-right: 0.5rem;
+        margin-left: 0.1rem;
+      }
+    }
 }

@@ -3,11 +3,14 @@
  */
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {BaseSchema, SchemaTpl} from '../Schema';
+import {BaseSchema} from '../Schema';
 import Ansi from 'ansi-to-react';
-import {filter} from '../utils/tpl';
 import {buildApi, isApiOutdated} from '../utils/api';
 import VirtualList from '../components/virtual-list';
+import Button from '../components/Button';
+import {InputClearIcon, MinusIcon, PauseIcon, PlayIcon, PlusIcon} from '../components/icons';
+
+export type LogOperation = 'stop' | 'restart' | 'showLineNumber' | 'clear'
 
 /**
  * 日志展示组件
@@ -58,15 +61,23 @@ export interface LogSchema extends BaseSchema {
    * 关闭 ANSI 颜色支持
    */
   disableColor?: boolean;
+
+  /**
+   * 一些可操作选项
+   */
+  operation?: Array<LogOperation>;
 }
 
 export interface LogProps
   extends RendererProps,
-    Omit<LogSchema, 'type' | 'className'> {}
+    Omit<LogSchema, 'type' | 'className'> {
+}
 
 export interface LogState {
   lastLine: string;
   logs: string[];
+  refresh: boolean;
+  showLineNumber: boolean;
 }
 
 export class Log extends React.Component<LogProps, LogState> {
@@ -85,7 +96,9 @@ export class Log extends React.Component<LogProps, LogState> {
 
   state: LogState = {
     lastLine: '',
-    logs: []
+    logs: [],
+    refresh: true,
+    showLineNumber: false
   };
 
   constructor(props: LogProps) {
@@ -140,6 +153,30 @@ export class Log extends React.Component<LogProps, LogState> {
     }
   }
 
+  refresh = () => {
+    let origin = this.state.refresh
+    this.setState({
+      refresh: !origin
+    });
+    if (!origin) {
+      this.clear();
+      this.loadLogs();
+    }
+  }
+
+  clear = () => {
+    this.setState({
+      logs: [],
+      lastLine: ''
+    })
+  }
+
+  lineNumber = () => {
+    this.setState({
+      showLineNumber: !this.state.showLineNumber
+    });
+  }
+
   async loadLogs() {
     const {source, data, env, translate: __, encoding, maxLength} = this.props;
     // 因为这里返回结果是流式的，和普通 api 请求不一样，如果直接用 fetcher 经过 responseAdaptor 可能会导致出错，所以就直接 fetch 了
@@ -161,7 +198,13 @@ export class Log extends React.Component<LogProps, LogState> {
       const reader = body.getReader();
       let lastline = '';
       let logs: string[] = [];
-      for (;;) {
+      for (; ;) {
+        if (!this.state.refresh) {
+          await reader.cancel("click cancel button").then(() => {
+            this.props.env.notify('success', '日志已经停止刷新');
+            return;
+          })
+        }
         let {done, value} = await reader.read();
         if (value) {
           let text = new TextDecoder(encoding).decode(value, {stream: true});
@@ -180,7 +223,7 @@ export class Log extends React.Component<LogProps, LogState> {
             lastline = lines.pop() || '';
             if (maxLength) {
               if (logs.length + lines.length > maxLength) {
-                logs.splice(0, lines.length);
+                logs.splice(0, logs.length + lines.length - maxLength);
               }
             }
             logs = logs.concat(lines);
@@ -204,11 +247,12 @@ export class Log extends React.Component<LogProps, LogState> {
   /**
    * 渲染某一行
    */
-  renderLine(index: number, line: string) {
+  renderLine(index: number, line: string, showLineNumber: boolean) {
     const {classnames: cx, disableColor} = this.props;
     return (
       <div className={cx('Log-line')} key={index}>
-        {disableColor ? line : <Ansi useClasses>{line}</Ansi>}
+        {showLineNumber && (<span className={cx('Log-line-number')}>{index + 1}</span>)}{disableColor ? line :
+        <Ansi useClasses>{line}</Ansi>}
       </div>
     );
   }
@@ -222,8 +266,11 @@ export class Log extends React.Component<LogProps, LogState> {
       height,
       rowHeight,
       disableColor,
-      translate: __
+      translate: __,
+      operation
     } = this.props;
+
+    const {refresh, showLineNumber} = this.state;
 
     let loading = __(placeholder);
 
@@ -250,11 +297,10 @@ export class Log extends React.Component<LogProps, LogState> {
               className={cx('Log-line')}
               key={index}
               style={{...style, whiteSpace: 'nowrap'}}
-            >
+            >{showLineNumber && (<span className={cx('Log-line-number')}>{index + 1}</span>)}
               {disableColor ? (
                 logs[index]
-              ) : (
-                <Ansi useClasses>{logs[index]}</Ansi>
+              ) : (<Ansi useClasses>{logs[index]}</Ansi>
               )}
             </div>
           )}
@@ -262,7 +308,7 @@ export class Log extends React.Component<LogProps, LogState> {
       );
     } else {
       lines = logs.map((line, index) => {
-        return this.renderLine(index, line);
+        return this.renderLine(index, line, showLineNumber);
       });
     }
 
@@ -273,6 +319,29 @@ export class Log extends React.Component<LogProps, LogState> {
         style={{height: useVirtualRender ? 'auto' : height}}
       >
         {useVirtualRender ? lines : lines.length ? lines : loading}
+        {operation && operation?.length > 0 && (
+          <div className={cx('Log-operation')}>
+            {operation.includes("stop") && (
+              <Button size="xs" title="停止" disabled={!refresh} onClick={this.refresh}>
+                <PauseIcon/>
+              </Button>)}
+
+            {operation.includes("restart") && (
+              <Button size="xs" title="重新加载数据" disabled={refresh} onClick={this.refresh}>
+                <PlayIcon/>
+              </Button>)}
+
+            {operation.includes("showLineNumber") && (
+              <Button size="xs" title={showLineNumber ? "关闭行数显示" : "显示行数"} onClick={this.lineNumber}>
+                {showLineNumber ? <MinusIcon/> : <PlusIcon/>}
+              </Button>)}
+
+            {operation.includes("clear") && (
+              <Button size="xs" title={"清屏"} onClick={this.clear}>
+                <InputClearIcon/>
+              </Button>)}
+          </div>
+        )}
       </div>
     );
   }
@@ -281,4 +350,5 @@ export class Log extends React.Component<LogProps, LogState> {
 @Renderer({
   type: 'log'
 })
-export class LogRenderer extends Log {}
+export class LogRenderer extends Log {
+}
