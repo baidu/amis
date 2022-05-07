@@ -113,14 +113,27 @@
     background-color: #eee;
   }
   &-operation {
-      position: absolute;
-      bottom: 0;
+      position: fixed;
+      top: 50%;
       left: 0;
       background: rgba(0,0,0,0.4);
-      width: 100%;
       .#{$ns}Button {
-        margin-right: 0.5rem;
-        margin-left: 0.1rem;
+        margin-right: 0.6rem;
+      }
+      &-hidden {
+        position: fixed;
+        top: 50%;
+        left: 0;
+        background: #f0f2f5;
+        width: 24px;
+        height: 48px;
+        box-shadow: 0 4px 6px 0 rgb(8 14 26 / 4%), 0 1px 10px 0 rgb(8 14 26 / 5%), 0 2px 4px -1px rgb(8 14 26 / 6%);
+        border-radius: 0 2px 2px 0;
+        padding-top: 14px;
+        padding-left: 6px;
+        cursor: pointer;
+        color: #000;
+        transition: all 0.3s;
       }
     }
 }

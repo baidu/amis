@@ -8,7 +8,15 @@ import Ansi from 'ansi-to-react';
 import {buildApi, isApiOutdated} from '../utils/api';
 import VirtualList from '../components/virtual-list';
 import Button from '../components/Button';
-import {InputClearIcon, MinusIcon, PauseIcon, PlayIcon, PlusIcon} from '../components/icons';
+import {
+  InputClearIcon,
+  LeftArrowIcon,
+  MinusIcon,
+  PauseIcon,
+  PlayIcon,
+  PlusIcon,
+  RightArrowIcon
+} from '../components/icons';
 
 export type LogOperation = 'stop' | 'restart' | 'showLineNumber' | 'clear'
 
@@ -78,6 +86,7 @@ export interface LogState {
   logs: string[];
   refresh: boolean;
   showLineNumber: boolean;
+  showOperation: boolean;
 }
 
 export class Log extends React.Component<LogProps, LogState> {
@@ -98,7 +107,8 @@ export class Log extends React.Component<LogProps, LogState> {
     lastLine: '',
     logs: [],
     refresh: true,
-    showLineNumber: false
+    showLineNumber: false,
+    showOperation: false
   };
 
   constructor(props: LogProps) {
@@ -171,9 +181,15 @@ export class Log extends React.Component<LogProps, LogState> {
     })
   }
 
-  lineNumber = () => {
+  changeShowLineNumber = () => {
     this.setState({
       showLineNumber: !this.state.showLineNumber
+    });
+  }
+
+  changeShowOperation = () => {
+    this.setState({
+      showOperation: !this.state.showOperation
     });
   }
 
@@ -267,10 +283,11 @@ export class Log extends React.Component<LogProps, LogState> {
       rowHeight,
       disableColor,
       translate: __,
-      operation
+      operation,
+      env
     } = this.props;
 
-    const {refresh, showLineNumber} = this.state;
+    const {refresh, showLineNumber, showOperation} = this.state;
 
     let loading = __(placeholder);
 
@@ -319,29 +336,36 @@ export class Log extends React.Component<LogProps, LogState> {
         style={{height: useVirtualRender ? 'auto' : height}}
       >
         {useVirtualRender ? lines : lines.length ? lines : loading}
-        {operation && operation?.length > 0 && (
+        {operation && operation?.length > 0 && (showOperation ? (
           <div className={cx('Log-operation')}>
             {operation.includes("stop") && (
-              <Button size="xs" title="停止" disabled={!refresh} onClick={this.refresh}>
+              <Button size="sm" title="停止" disabled={!refresh} onClick={this.refresh}>
                 <PauseIcon/>
               </Button>)}
 
             {operation.includes("restart") && (
-              <Button size="xs" title="重新加载数据" disabled={refresh} onClick={this.refresh}>
+              <Button size="sm" title="重新加载数据" disabled={refresh} onClick={this.refresh}>
                 <PlayIcon/>
               </Button>)}
 
             {operation.includes("showLineNumber") && (
-              <Button size="xs" title={showLineNumber ? "关闭行数显示" : "显示行数"} onClick={this.lineNumber}>
+              <Button size="sm" title={showLineNumber ? "关闭行数显示" : "显示行数"} onClick={this.changeShowLineNumber}>
                 {showLineNumber ? <MinusIcon/> : <PlusIcon/>}
               </Button>)}
 
             {operation.includes("clear") && (
-              <Button size="xs" title={"清屏"} onClick={this.clear}>
+              <Button size="sm" title={"清屏"} onClick={this.clear}>
                 <InputClearIcon/>
               </Button>)}
+
+            <Button size="sm" title={"收起工具栏"} onClick={this.changeShowOperation}>
+              <LeftArrowIcon/>
+            </Button>
           </div>
-        )}
+        ) : (
+          <div title={"展开工具栏"} className={cx('Log-operation-hidden')} onClick={this.changeShowOperation}>
+            <RightArrowIcon/>
+          </div>))}
       </div>
     );
   }
