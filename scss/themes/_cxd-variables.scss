@@ -119,9 +119,16 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Page-header-paddingX: var(--gap-md);
   --Page-header-paddingY: #{px2rem(10px)};
 
-  --Form-item-fontSize: var(--fontSizeBase);
+  --Form-item-fontSize: var(--fontSizeSm);
+  --Form-label-paddingTop: calc(
+    (
+        var(--Form-input-height) - var(--Form-input-lineHeight) *
+          var(--Form-item-fontSize)
+      ) / 2
+  );
+  --Form-feedback-position: absolute;
   --Form-item-fontColor: #{$G4};
-  --Form-item-gap: var(--gap-base);
+  --Form-item-gap: var(--gap-xl);
   --Form-input-bg: #{$G11};
   --Form-input-color: #{$G2};
   --Form-input-height: #{px2rem(32px)};
