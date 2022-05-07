@@ -282,6 +282,13 @@
       border-color: var(--Form-input-onHover-borderColor);
     }
   }
+
+  &-revealPassword .icon {
+    width: var(--Form-input-password-icon-size);
+    height: var(--Form-input-password-icon-size);
+    color: var(--Form-input-password-icon-color);
+    cursor: pointer;
+  }
 }
 
 .#{$ns}TextControl.is-disabled {
