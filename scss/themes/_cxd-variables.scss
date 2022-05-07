@@ -159,6 +159,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-clearBtn-color: #{$G7};
   --Form-input-clearBtn-color-onHover: #{$G4};
   --Form-input-clearBtn-color-onActive: #{$G3};
+  --Form-input-password-icon-size: #{px2rem(16px)};
+  --Form-input-password-icon-color:  #{$G5};
 
   --Form-select-borderWidth: #{px2rem(1px)};
   --Form-select-borderRadius: #{$R3};
