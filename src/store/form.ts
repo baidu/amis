@@ -346,7 +346,10 @@ export const FormStore = ServiceStore.named('FormStore')
           throw new ServerError(self.msg, json);
         } else {
           updateSavedData();
-          const ret = options && options.onSuccess && options.onSuccess(json);
+          let ret = options && options.onSuccess && options.onSuccess(json);
+          if (ret?.then) {
+            ret = yield ret;
+          }
           if (ret?.cbResult?.then) {
             yield ret.cbResult;
           }
@@ -371,8 +374,10 @@ export const FormStore = ServiceStore.named('FormStore')
         }
       } catch (e) {
         self.markSaving(false);
-        const ret = options && options.onFailed && options.onFailed(e.response || {});
-
+        let ret = options && options.onFailed && options.onFailed(e.response || {});
+        if (ret?.then) {
+          ret = yield ret;
+        }
         if (!isAlive(self) || self.disposed) {
           return;
         }

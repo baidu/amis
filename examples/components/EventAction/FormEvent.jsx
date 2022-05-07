@@ -89,7 +89,7 @@ export default {
       title: '表单：用于接收上面按钮的动作，派发form本身的事件',
       type: 'form',
       debug: true,
-      api: '/api/mock2/form/saveForm',
+      api: '/api/mock2/form/saveForm11',
       data: {
         data1: '初始化数据1',
         data2: '初始化数据2'

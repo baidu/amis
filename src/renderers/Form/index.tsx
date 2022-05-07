@@ -57,6 +57,7 @@ import {ActionSchema} from '../Action';
 import {ButtonGroupControlSchema} from './ButtonGroupSelect';
 import {DialogSchemaBase} from '../Dialog';
 import Alert from '../../components/Alert2';
+import { promises } from 'fs';
 
 export interface FormSchemaHorizontal {
   left?: number;
@@ -663,7 +664,7 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     // 派发init事件，参数为初始化数据
-    const dispatcher = dispatchEvent(
+    const dispatcher = await dispatchEvent(
       'inited',
       createObject(this.props.data, data)
     );
@@ -869,13 +870,13 @@ export default class Form extends React.Component<FormProps, object> {
     };
   }
 
-  emitChange(submit: boolean) {
+  async emitChange(submit: boolean) {
     const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
     if (!isAlive(store)) {
       return;
     }
-    const dispatcher = dispatchEvent('change', createObject(data, store.data));
+    const dispatcher = await dispatchEvent('change', createObject(data, store.data));
     if (!dispatcher?.prevented) {
       onChange &&
         onChange(
@@ -978,9 +979,9 @@ export default class Form extends React.Component<FormProps, object> {
       data = store.data;
     }
     if (Array.isArray(action.required) && action.required.length) {
-      return store.validateFields(action.required).then(result => {
+      return store.validateFields(action.required).then(async result => {
         if (!result) {
-          const dispatcher = dispatchEvent('validateError', this.props.data);
+          const dispatcher = await dispatchEvent('validateError', this.props.data);
           if (!dispatcher?.prevented) {
             env.notify('error', __('Form.validateFailed'));
           }
@@ -1039,9 +1040,9 @@ export default class Form extends React.Component<FormProps, object> {
             .saveRemote(action.api || (api as Api), values, {
               successMessage: saveSuccess,
               errorMessage: saveFailed,
-              onSuccess: (result: Payload) => {
+              onSuccess: async (result: Payload) => {
                 // result为提交接口返回的内容
-                const dispatcher = dispatchEvent(
+                const dispatcher = await dispatchEvent(
                   'submitSucc',
                   createObject(this.props.data, {result})
                 );
@@ -1049,7 +1050,10 @@ export default class Form extends React.Component<FormProps, object> {
                   !isEffectiveApi(finnalAsyncApi, store.data) ||
                   store.data[finishedField || 'finished']
                 ) {
-                  return;
+                  return Promise.resolve({
+                    cbResult: null,
+                    dispatcher
+                  });
                 }
                 const cbResult = until(
                   () => store.checkRemote(finnalAsyncApi as Api, store.data),
@@ -1057,19 +1061,19 @@ export default class Form extends React.Component<FormProps, object> {
                   cancel => (this.asyncCancel = cancel),
                   checkInterval
                 )
-                return {
+                return Promise.resolve({
                   cbResult,
                   dispatcher
-                };
+                });
               },
-              onFailed: (result: Payload) => {
-                const dispatcher = dispatchEvent(
+              onFailed: async (result: Payload) => {
+                const dispatcher = await dispatchEvent(
                   'submitFail',
                   createObject(this.props.data, {error: result})
                 );
-                return {
+                return Promise.resolve({
                   dispatcher
-                };
+                });
               }
             })
             .then(async response => {
