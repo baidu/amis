@@ -560,7 +560,7 @@ export const components = [
       },
 
       {
-        label: 'Chart 单选框',
+        label: ' ChartRadios 图表单选框',
         path: '/zh-CN/components/form/chart-radios',
         component: React.lazy(() =>
           import('../../docs/zh-CN/components/form/chart-radios.md').then(
