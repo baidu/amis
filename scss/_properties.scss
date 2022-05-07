@@ -840,6 +840,7 @@
   --ImageControl-addBtn-onHover-bg: #{darken($white, 7.5%)};
   --ImageControl-addBtn-onHover-border: #{darken($borderColor, 10%)};
   --ImageControl-addBtn-onHover-color: var(--Button--default-color);
+  --ImageControl-addBtn-upload-color: var(--Button--default-color);
   --ImageControl-progress-borderRadius: 0;
 
   --FileControl-danger-color: #f33e3e;
@@ -1072,8 +1073,7 @@
   --Modal-overlay-bg: rgba(0, 0, 0, 0.6);
   --Modal-title-color: var(--text--loud-color);
   --Modal-title-fontSize: var(--fontSizeBase);
-  --Modal-title-fontSize: var(--fontSizeBase);
-  --Modal-title-fontWeight: 500;
+  --Modal-title-fontWeight: var(--fontWeightMd);
   --Modal-title-lineHeight: var(--lineHeightBase);
   --Modal-widthBase: #{px2rem(500px)};
   --Modal-widthLg: #{px2rem(1100px)};

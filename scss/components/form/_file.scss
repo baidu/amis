@@ -203,6 +203,17 @@
     background: var(--white);
     cursor: pointer;
 
+    &-click {
+      color: var(--Spinner-color);
+    }
+
+    &-help {
+      a {
+        color: var(--FileControl-icon-color);
+        font-size: var(--fontSizeSm);
+      }
+    }
+
     &:hover {
       border-color: var(--info);
     }

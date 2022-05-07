@@ -1432,7 +1432,7 @@ export default class ImageControl extends React.Component<
                                       data-position="bottom"
                                       onClick={this.handleRetry.bind(this, key)}
                                     >
-                                      <Icon icon="refresh" className="icon" />
+                                      <Icon icon="upload" className="icon" />
                                     </a>
 
                                     {!disabled ? (
@@ -1506,7 +1506,7 @@ export default class ImageControl extends React.Component<
                                   thumbRatio={thumbRatio}
                                   overlays={
                                     <>
-                                      {file.info ? (
+                                      {/* {file.info ? (
                                         [
                                           <div key="info">
                                             {file.info.width} x{' '}
@@ -1522,7 +1522,7 @@ export default class ImageControl extends React.Component<
                                         ]
                                       ) : (
                                         <div>...</div>
-                                      )}
+                                      )} */}
 
                                       <a
                                         data-tooltip={__('Image.zoomIn')}
@@ -1556,6 +1556,20 @@ export default class ImageControl extends React.Component<
                                           />
                                         </a>
                                       ) : null}
+
+                                      {!disabled ? (
+                                        <a
+                                          data-tooltip={__('Select.upload')}
+                                          data-position="bottom"
+                                          onClick={this.handleSelect}
+                                        >
+                                          <Icon
+                                            icon="upload"
+                                            className="icon"
+                                          />
+                                        </a>
+                                      ) : null}
+        
                                       {!disabled ? (
                                         <a
                                           data-tooltip={__('Select.clear')}
@@ -1572,7 +1586,7 @@ export default class ImageControl extends React.Component<
                                           />
                                         </a>
                                       ) : null}
-                                      <a
+                                      {/* <a
                                         data-tooltip={
                                           file.name ||
                                           getNameFromUrl(file.value || file.url)
@@ -1581,7 +1595,7 @@ export default class ImageControl extends React.Component<
                                         target="_blank"
                                       >
                                         <Icon icon="info" className="icon" />
-                                      </a>
+                                      </a> */}
                                     </>
                                   }
                                 />
@@ -1621,8 +1635,8 @@ export default class ImageControl extends React.Component<
                           />
                         ) : (
                           <>
-                            <Icon icon="plus" className="icon" />
-                            <span>{__('File.upload')}</span>
+                            <Icon icon="plus-fine" className="icon" />
+                            <span className={cx('ImageControl-addBtn-text')}>{__('File.upload')}</span>
                           </>
                         )}
 
