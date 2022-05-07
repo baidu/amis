@@ -5,6 +5,8 @@ import type {JSONSchema} from '../../utils/DataScope';
 import {autobind} from '../../utils/helper';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
+import Form from '../Form';
+import FormField, {Controller} from '../FormField';
 import {Icon} from '../icons';
 import InputBox from '../InputBox';
 import PickerContainer from '../PickerContainer';
@@ -65,6 +67,11 @@ export class SchemaEditorItemCommon<
     });
   }
 
+  @autobind
+  handleBeforeSubmit(form: any) {
+    return form.submit();
+  }
+
   renderCommon() {
     const {
       value,
@@ -107,21 +114,47 @@ export class SchemaEditorItemCommon<
 
         {renderExtraProps?.(value!, this.handlePropsChange)}
 
-        {renderModalProps ? (
-          <PickerContainer
-            value={value}
-            bodyRender={renderModalProps as any}
-            onConfirm={this.handlePropsChange}
-            size="md"
-            title={__('SubForm.editDetail')}
-          >
-            {({onClick}) => (
-              <Button className={cx('SchemaEditor-btn')} onClick={onClick}>
-                <Icon icon="setting" className="icon" />
-              </Button>
-            )}
-          </PickerContainer>
-        ) : null}
+        <PickerContainer
+          value={value}
+          bodyRender={({isOpened, value, onChange, ref}) => {
+            return isOpened ? (
+              <Form defaultValues={value} onSubmit={onChange} ref={ref}>
+                {({control, formState: {errors}}) => (
+                  <>
+                    <Controller
+                      label={__('JSONSchema.title')}
+                      name="title"
+                      hasError={errors.title}
+                      errors={errors.title}
+                      control={control}
+                      render={({field}) => (
+                        <InputBox
+                          className={cx('SchemaEditor-title')}
+                          {...field}
+                          disabled={disabled || !!value?.$ref}
+                        />
+                      )}
+                    />
+                  </>
+                )}
+              </Form>
+            ) : null;
+          }}
+          beforeConfirm={this.handleBeforeSubmit}
+          onConfirm={this.handlePropsChange}
+          size="md"
+          title={__('SubForm.editDetail')}
+        >
+          {({onClick}) => (
+            <Button
+              disabled={disabled}
+              className={cx('SchemaEditor-btn')}
+              onClick={onClick}
+            >
+              <Icon icon="setting" className="icon" />
+            </Button>
+          )}
+        </PickerContainer>
 
         {affix}
       </>
