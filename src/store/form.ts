@@ -482,7 +482,7 @@ export const FormStore = ServiceStore.named('FormStore')
           let msg = failedMessage ?? self.__('Form.validateFailed');
           const env = getEnv(self);
           const dispatcher: any = validateErrCb && validateErrCb();
-          if (dispatcher?.prevented){
+          if (!dispatcher?.prevented){
             msg && env.notify('error', msg);
           }
           throw new Error(msg);
