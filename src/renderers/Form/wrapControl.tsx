@@ -1,6 +1,7 @@
 import React from 'react';
 import {IFormStore, IFormItemStore} from '../../store/form';
 import debouce from 'lodash/debounce';
+import isEqual from 'lodash/isEqual';
 
 import {RendererProps, Renderer} from '../../factory';
 import {ComboStore, IComboStore, IUniqueGroup} from '../../store/combo';
@@ -254,7 +255,7 @@ export function wrapControl<
 
             if (
               model &&
-              anyChanged(
+              (anyChanged(
                 [
                   'id',
                   'validations',
@@ -279,7 +280,7 @@ export function wrapControl<
                 ],
                 prevProps.$schema,
                 props.$schema
-              )
+              ))
             ) {
               model.config({
                 required: props.$schema.required,
@@ -308,16 +309,17 @@ export function wrapControl<
             if (model && typeof props.value !== 'undefined') {
               // 渲染器中的 value 优先
               if (
-                props.value !== prevProps.value &&
-                props.value !== model.tmpValue
+                props.value !== prevProps.value  ||
+                (!isEqual(props.data, prevProps.data) && (!model.emitedValue || model.emitedValue === model.tmpValue))
               ) {
                 model.changeTmpValue(formulaExec(props.value, props.data));
               }
             } else if (model && typeof props.defaultValue !== 'undefined') {
               // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
               if (
-                props.defaultValue !== prevProps.defaultValue &&
-                props.defaultValue !== model.tmpValue
+                props.defaultValue !== prevProps.defaultValue ||
+                (!isEqual(props.data, prevProps.data) &&
+                (!model.emitedValue || model.emitedValue === model.tmpValue))
               ) {
                 model.changeTmpValue(formulaExec(props.defaultValue, props.data));
               }

@@ -1529,14 +1529,28 @@ const FormulaExec: {
   },
   'formula': (expression: string, data?: object) => {
     const curData = data || {};
-    return resolveValueByName(curData, expression); // 执行 ${} 格式类表达式，且支持 filter 过滤器
+    let result = undefined;
+    try {
+      result = resolveValueByName(curData, expression); // 执行 ${} 格式类表达式，且支持 filter 过滤器
+    } catch (e) {
+      console.warn(e);
+      return expression;
+    }
+    return result;
   },
   'evalFormula': (expression: string, data?: object) => {
     const curData = data || {};
-    return evaluate(expression, curData, {
-      evalMode: true, // evalMode 为 true 时，不用 ${} 包裹也可以执行，
-      allowFilter: true // 支持 filter 过滤器
-    });
+    let result = undefined;
+    try {
+      result = evaluate(expression, curData, {
+        evalMode: true, // evalMode 为 true 时，不用 ${} 包裹也可以执行，
+        allowFilter: true // 支持 filter 过滤器
+      });
+    } catch (e) {
+      console.warn(e);
+      return expression;
+    }
+    return result;
   },
   'js': (expression: string, data?: object) => {
     let debug = false;
@@ -1565,7 +1579,7 @@ const FormulaExec: {
       curResult = fn.call(data, data, getFilters());
     } catch (e) {
       console.warn(e);
-      return undefined;
+      return expression;
     }
     return curResult;
   },

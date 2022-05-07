@@ -149,6 +149,7 @@ export function evalJS(js: string, data: object): any {
 }
 
 [registerBulitin, registerLodash].forEach(fn => {
+  if (!fn) return;
   const info = fn();
 
   registerTplEnginer(info.name, {
