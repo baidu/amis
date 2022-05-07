@@ -39,6 +39,19 @@
     box-shadow: var(--Form-select-onFocus-boxShadow);
   }
 
+  .#{$ns}PopOver.#{$ns}Select-popover {
+    .#{$ns}Select-menu {
+      .#{$ns}Select-option {
+        height: px2rem(32px);
+        line-height: px2rem(22px);
+      }
+      .#{$ns}Select-addBtn {
+        height: px2rem(32px);
+        line-height: px2rem(30px);
+      }
+    }
+  }
+
   @include input-border();
 
   &-valueWrap {
@@ -83,12 +96,17 @@
   &--multi {
     height: auto;
     min-height: var(--Form-selectOption-height);
+    padding: var(--gap-xs) 0 var(--gap-xs) var(--gap-xs);
 
     .#{$ns}Select-valueWrap {
       > input {
         display: inline-block;
         width: px2rem(100px);
         margin-bottom: var(--gap-xs);
+      }
+
+      .#{$ns}Select-placeholder {
+        margin-left: var(--gap-sm);
       }
     }
     .#{$ns}Select-values + .#{$ns}Select-input {
@@ -143,6 +161,11 @@
       cursor: not-allowed;
       background: var(--Form-selectValue-onDisable-bg);
     }
+
+    svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+    }
   }
 
   &-arrow {
@@ -155,6 +178,7 @@
     align-items: center;
     justify-content: center;
     line-height: 1;
+    transform: rotate(90deg);
 
     > svg {
       transition: transform var(--animation-duration);

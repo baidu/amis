@@ -60,6 +60,14 @@
         // height: var(--Form-input-height);
         line-height: 1.1;
         padding: px2rem(5px) px2rem(12px);
+
+        &.is-highlight:hover > span {
+          color: var(--menu-active-color);
+        }
+
+        svg {
+          color: var(--default-icon-color);
+        }
       }
     }
   }
