@@ -275,6 +275,7 @@ export class FormulaPicker extends React.Component<
       variables,
       functions,
       children,
+      variableMode,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
@@ -377,7 +378,7 @@ export class FormulaPicker extends React.Component<
               {...rest}
               variables={this.state.variables ?? variables}
               functions={this.state.functions ?? functions}
-              variableMode={this.state.variableMode}
+              variableMode={this.state.variableMode ?? variableMode}
               value={editorValue}
               onChange={this.handleEditorChange}
             />
