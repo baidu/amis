@@ -80,6 +80,7 @@
       width: px2rem(10px);
       height: px2rem(10px);
       top: 0.125em;
+      color: var(--default-icon-color);
     }
   }
 
@@ -135,7 +136,7 @@
 
     > a {
       cursor: pointer;
-      margin-left: px2rem(10px);;
+      margin-left: px2rem(10px);
       color: var(--ResultBox-icon-color);
       &:hover {
         color: var(--ResultBox-icon--onHover-color);
