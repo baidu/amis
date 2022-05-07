@@ -9,6 +9,7 @@ import {
 } from './Action';
 
 export interface IBroadcastAction extends ListenerAction {
+  actionType: 'broadcast';
   eventName: string; // 事件名称，actionType: broadcast
 }
 

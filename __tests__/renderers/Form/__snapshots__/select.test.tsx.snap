@@ -65,7 +65,7 @@ exports[`Renderer: chained select 1`] = `
                     class="cxd-SelectControl cxd-Form-control"
                   >
                     <div
-                      class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
+                      class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable is-group"
                       tabindex="-1"
                     >
                       <span
@@ -77,8 +77,8 @@ exports[`Renderer: chained select 1`] = `
                         class="cxd-TransferDropDown-icon"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </div>
@@ -226,8 +226,8 @@ exports[`Renderer:select associated 1`] = `
                         class="cxd-TransferDropDown-icon"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </div>
@@ -375,8 +375,8 @@ exports[`Renderer:select chained 1`] = `
                         class="cxd-TransferDropDown-icon"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </div>
@@ -524,8 +524,8 @@ exports[`Renderer:select group 1`] = `
                         class="cxd-TransferDropDown-icon"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </div>
@@ -681,8 +681,8 @@ exports[`Renderer:select menutpl 1`] = `
                         class="cxd-Select-arrow"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </div>
@@ -830,8 +830,8 @@ exports[`Renderer:select table 1`] = `
                         class="cxd-TransferDropDown-icon"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </div>
@@ -955,7 +955,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
             class="cxd-SelectControl cxd-Form-control has-popover"
           >
             <div
-              class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-active is-clickable"
+              class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-active is-clickable is-group"
               style="position: relative;"
               tabindex="-1"
             >
@@ -997,8 +997,8 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                 class="cxd-TransferDropDown-icon"
               >
                 <icon-mock
-                  classname="icon icon-caret"
-                  icon="caret"
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
                 />
               </span>
               <div
@@ -1452,8 +1452,8 @@ exports[`Renderer:select tree 1`] = `
                         class="cxd-TransferDropDown-icon"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </div>
@@ -1599,8 +1599,8 @@ exports[`Renderer:select virtual 1`] = `
                 class="cxd-Select-arrow"
               >
                 <icon-mock
-                  classname="icon icon-caret"
-                  icon="caret"
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
                 />
               </span>
               <div

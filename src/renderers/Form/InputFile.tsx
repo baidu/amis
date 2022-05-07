@@ -1055,16 +1055,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         while (tasks.length) {
           const res = await Promise.all(
             tasks.splice(0, concurrency).map(async task => {
-              return await uploadPartFile(state, config)(
-                task,
-                (err: any, value: any) => {
-                  if (err) {
-                    reject(err);
-                    throw new Error(err);
-                  }
-                  return value;
-                }
-              );
+              return await uploadPartFile(state, config)(task);
             })
           );
           results = results.concat(res);
@@ -1114,7 +1105,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       }
 
       function uploadPartFile(state: ObjectState, conf: Partial<FileProps>) {
-        return (task: Task, callback: (error: any, value?: any) => void) => {
+        return (task: Task) => {
           const api = buildApi(
             conf.chunkApi!,
             createObject(config.data, params),
@@ -1147,12 +1138,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             )
             .then(ret => {
               state.loaded++;
-              callback(null, {
+              return {
                 partNumber: task.partNumber,
                 eTag: (ret.data as any).eTag
-              });
-            })
-            .catch(callback);
+              };
+            });
         };
       }
 

@@ -88,6 +88,7 @@ test('Renderer:formula', async () => {
       value: 2
     }
   });
+  await wait(300);
   await waitFor(() => {
     expect(inputs[2].value).toBe('3');
     expect(inputs[3].value).toBe('4');

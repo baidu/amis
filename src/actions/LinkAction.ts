@@ -1,14 +1,11 @@
-import {Action} from '../types';
 import {buildApi} from '../utils/api';
-import {isEmpty, isObject, qsstringify} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
-import {filter} from '../utils/tpl';
 import omit from 'lodash/omit';
 import {
   RendererAction,
-  ListenerAction,
   ListenerContext,
-  registerAction
+  registerAction,
+  ListenerAction
 } from './Action';
 
 export interface ILinkAction extends ListenerAction {
