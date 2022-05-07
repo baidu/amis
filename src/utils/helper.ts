@@ -1493,23 +1493,36 @@ export function formulaExec(value: any, data: any, execMode?: string) {
     return FormulaExec[execMode];
   }
 
-  const formulaKey = catchFormulaExecSign(value);
+  const curValue = value.trim(); // 剔除前后空格
   
-  if (value.startsWith('raw:')) {
-    return value.substring(4);
-  } else if (value.startsWith('=')) {
+  if (/^[0-9a-zA-z_]+$/.test(curValue)) {
+    // 普通字符串类型（非公式表达式），先试一下从上下文中获取数据
+    const curValueTemp = FormulaExec['var'](curValue, data);
+    // 备注: 其他特殊格式，比如邮箱、日期
+    return curValueTemp ?? curValue;
+  }
+
+  const formulaKey = catchFormulaExecSign(curValue);
+  
+  if (curValue.startsWith('raw:')) {
+    return curValue.substring(4);
+  } else if (curValue.startsWith('=')) {
     // 以'='开头启动 evalFormula 运算器
-    const curValue = value.substring(1);
-    return FormulaExec['evalFormula'](curValue, data);
+    const curValueTemp = curValue.substring(1);
+    return FormulaExec['evalFormula'](curValueTemp, data);
   } else if (formulaKey) {
-    const curExpression = catchFormulaExecExpression(value, formulaKey);
+    const curExpression = catchFormulaExecExpression(curValue, formulaKey);
     return FormulaExec[formulaKey](curExpression, data);
   }
 
-  if (value.startsWith('${') && value.endsWith('}')) {
-    return FormulaExec['formula'](value, data);
+  if (curValue.startsWith('${') && curValue.endsWith('}')) {
+    // ${ xxx } 格式 使用 formula 表达式运算器
+    return FormulaExec['formula'](curValue, data);
+  } else if (/(\${).+(\})/.test(curValue)) {
+    // 包含 ${ xxx } 则使用 tpl 运算器
+    return FormulaExec['tpl'](curValue, data);
   } else {
-    return FormulaExec['evalFormula'](value, data); // 不用 ${} 包裹也可以执行表达式
+    return FormulaExec['evalFormula'](curValue, data); // 不用 ${} 包裹也可以执行表达式
   }
 }
 
@@ -1536,7 +1549,7 @@ const FormulaExec: {
       console.warn(e);
       return expression;
     }
-    return result;
+    return result ?? expression;
   },
   'evalFormula': (expression: string, data?: object) => {
     const curData = data || {};
@@ -1550,7 +1563,7 @@ const FormulaExec: {
       console.warn(e);
       return expression;
     }
-    return result;
+    return result ?? expression;
   },
   'js': (expression: string, data?: object) => {
     let debug = false;
@@ -1585,7 +1598,8 @@ const FormulaExec: {
   },
   'var': (expression: string, data?: object) => {
     const curData = data || {};
-    return getVariable(curData, expression); // 不支持过滤器
+    const result = getVariable(curData, expression); // 不支持过滤器
+    return result ?? expression;
   },
 };
 
