@@ -326,10 +326,7 @@ export const FormStore = ServiceStore.named('FormStore')
         }
 
         if (!json.ok) {
-          // 验证错误
-          if (options && options.onFailed) {
-            options.onFailed(json);
-          }
+
           if (json.status === 422 && json.errors) {
             setFormItemErrors(json.errors);
 
@@ -349,18 +346,16 @@ export const FormStore = ServiceStore.named('FormStore')
           throw new ServerError(self.msg, json);
         } else {
           updateSavedData();
-          if (options && options.onSuccess) {
-            const ret = options.onSuccess(json);
-
-            if (ret && ret.then) {
-              yield ret;
-            }
+          const ret = options && options.onSuccess && options.onSuccess(json);
+          if (ret?.cbResult?.then) {
+            yield ret.cbResult;
           }
           self.markSaving(false);
           self.updateMessage(
             json.msg ?? self.__(options && options.successMessage)
           );
-          self.msg &&
+          if (!ret?.dispatcher?.prevented) {
+            self.msg &&
             getEnv(self).notify(
               'success',
               self.msg,
@@ -371,31 +366,33 @@ export const FormStore = ServiceStore.named('FormStore')
                   }
                 : undefined
             );
+          }
           return json.data;
         }
       } catch (e) {
         self.markSaving(false);
+        const ret = options && options.onFailed && options.onFailed(e.response || {});
 
         if (!isAlive(self) || self.disposed) {
           return;
         }
-
-        if (e.type === 'ServerError') {
-          const result = (e as ServerError).response;
-          getEnv(self).notify(
-            'error',
-            e.message,
-            result.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: result.msgTimeout
-                }
-              : undefined
-          );
-        } else {
-          getEnv(self).notify('error', e.message);
+        if (!ret?.dispatcher?.prevented) {
+          if (e.type === 'ServerError') {
+            const result = (e as ServerError).response;
+            getEnv(self).notify(
+              'error',
+              e.message,
+              result.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: result.msgTimeout
+                  }
+                : undefined
+            );
+          } else {
+            getEnv(self).notify('error', e.message);
+          }
         }
-
         throw e;
       }
     });
@@ -479,9 +476,10 @@ export const FormStore = ServiceStore.named('FormStore')
         ) {
           let msg = failedMessage ?? self.__('Form.validateFailed');
           const env = getEnv(self);
-
-          msg && env.notify('error', msg);
-          validateErrCb && validateErrCb();
+          const dispatcher: any = validateErrCb && validateErrCb();
+          if (dispatcher?.prevented){
+            msg && env.notify('error', msg);
+          }
           throw new Error(msg);
         }
 
