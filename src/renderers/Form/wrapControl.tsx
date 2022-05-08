@@ -169,7 +169,7 @@ export function wrapControl<
               type,
               required,
               unique,
-              value: curValue,
+              value, // value: curValue,
               rules: validations,
               messages: validationErrors,
               multiple,
@@ -199,11 +199,13 @@ export function wrapControl<
 
             // 同步 value
             model.changeTmpValue(
-              value ? curValue : propValue ?? store?.getValueByName(model.name)
+              curValue ?? propValue ?? store?.getValueByName(model.name) ?? value
             );
 
-            // 如果没有初始值，通过 onChange 设置过去
-            if (
+            if (onChange && value !== undefined && model.tmpValue !== undefined) {
+              // 组件默认值支持表达式需要
+              onChange(model.tmpValue, model.name, false, true);
+            } else if (
               onChange &&
               typeof propValue === 'undefined' &&
               typeof store?.getValueByName(model.name, false) === 'undefined' &&
@@ -212,6 +214,7 @@ export function wrapControl<
               // 对应 issue 为 https://github.com/baidu/amis/issues/2674
               store?.storeType !== TableStore.name
             ) {
+              // 如果没有初始值，通过 onChange 设置过去
               onChange(model.tmpValue, model.name, false, true);
             }
           }
@@ -328,7 +331,7 @@ export function wrapControl<
                 const curResult = formulaExec(props.defaultValue, props.data);
                 const prevResult = formulaExec(prevProps.defaultValue, prevProps.data);
                 if (curResult !== prevResult) {
-                  // 识别上下文变动、自身数值变动、公式运算结果变动。备注：curResult === props.defaultValue 说明是自身value
+                  // 识别上下文变动、自身数值变动、公式运算结果变动
                   model.changeTmpValue(curResult);
                 }
               }
