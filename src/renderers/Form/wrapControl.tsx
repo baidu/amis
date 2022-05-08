@@ -14,7 +14,8 @@ import {
   autobind,
   getVariable,
   createObject,
-  formulaExec
+  formulaExec,
+  isPureValue
 } from '../../utils/helper';
 import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
@@ -162,7 +163,7 @@ export function wrapControl<
             this.model = model;
             // @issue 打算干掉这个
             formItem?.addSubFormItem(model);
-            const curValue = formulaExec(value, data); // 对组件默认值进行运算
+            const curValue = isPureValue(value) ? value : formulaExec(value, data); // 对组件默认值进行运算
             model.config({
               id,
               type,
@@ -286,7 +287,7 @@ export function wrapControl<
                 required: props.$schema.required,
                 id: props.$schema.id,
                 unique: props.$schema.unique,
-                value: formulaExec(props.$schema.value, props.data), // props.$schema.value,
+                value: isPureValue(props.$schema.value) ? props.$schema.value : formulaExec(props.$schema.value, props.data), // props.$schema.value,
                 rules: props.$schema.validations,
                 multiple: props.$schema.multiple,
                 delimiter: props.$schema.delimiter,
@@ -309,19 +310,27 @@ export function wrapControl<
             if (model && typeof props.value !== 'undefined') {
               // 渲染器中的 value 优先
               if (
-                props.value !== prevProps.value  ||
-                (!isEqual(props.data, prevProps.data) && (!model.emitedValue || model.emitedValue === model.tmpValue))
+                props.value !== prevProps.value ||
+                !isEqual(props.data, prevProps.data)
               ) {
-                model.changeTmpValue(formulaExec(props.value, props.data));
+                const curResult = formulaExec(props.value, props.data);
+                const prevResult = formulaExec(prevProps.defaultValue, prevProps.data);
+                if (curResult !== prevResult) {
+                  model.changeTmpValue(curResult);
+                }
               }
             } else if (model && typeof props.defaultValue !== 'undefined') {
               // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
               if (
                 props.defaultValue !== prevProps.defaultValue ||
-                (!isEqual(props.data, prevProps.data) &&
-                (!model.emitedValue || model.emitedValue === model.tmpValue))
+                !isEqual(props.data, prevProps.data)
               ) {
-                model.changeTmpValue(formulaExec(props.defaultValue, props.data));
+                const curResult = formulaExec(props.defaultValue, props.data);
+                const prevResult = formulaExec(prevProps.defaultValue, prevProps.data);
+                if (curResult !== prevResult) {
+                  // 识别上下文变动、自身数值变动、公式运算结果变动。备注：curResult === props.defaultValue 说明是自身value
+                  model.changeTmpValue(curResult);
+                }
               }
             } else if (
               // 然后才是查看关联的 name 属性值是否变化

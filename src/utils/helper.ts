@@ -1473,6 +1473,7 @@ export function getPropValue<
  * 备注2: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现;
  * 备注3: 模板字符串 和 Javascript 模板引擎 不可以交叉使用。
  */
+let OpenFormulaExecEvalMode = true; // 是否开启表达式模式，非 ${ xxx } 格式也使用表达式运算器
 export function formulaExec(value: any, data: any, execMode?: string) {
   if (!value) {
     return '';
@@ -1494,36 +1495,38 @@ export function formulaExec(value: any, data: any, execMode?: string) {
   }
 
   const curValue = value.trim(); // 剔除前后空格
-  
-  if (/^[0-9a-zA-z_]+$/.test(curValue)) {
-    // 普通字符串类型（非公式表达式），先试一下从上下文中获取数据
-    const curValueTemp = FormulaExec['var'](curValue, data);
-    // 备注: 其他特殊格式，比如邮箱、日期
-    return curValueTemp ?? curValue;
-  }
-
   const formulaKey = catchFormulaExecSign(curValue);
-  
-  if (curValue.startsWith('raw:')) {
+
+  // OpenFormulaExecEvalMode 为 true 时，非 ${ xxx } 格式也会尝试使用表达式运算器
+  if (OpenFormulaExecEvalMode && curValue.startsWith('raw:')) {
     return curValue.substring(4);
-  } else if (curValue.startsWith('=')) {
+  } else if (OpenFormulaExecEvalMode && curValue.startsWith('=')) {
     // 以'='开头启动 evalFormula 运算器
     const curValueTemp = curValue.substring(1);
     return FormulaExec['evalFormula'](curValueTemp, data);
-  } else if (formulaKey) {
+  } else if (OpenFormulaExecEvalMode && formulaKey) {
     const curExpression = catchFormulaExecExpression(curValue, formulaKey);
     return FormulaExec[formulaKey](curExpression, data);
-  }
-
-  if (curValue.startsWith('${') && curValue.endsWith('}')) {
+  } else if (OpenFormulaExecEvalMode && /^[0-9a-zA-z_]+$/.test(curValue)) {
+    // 普通字符串类型（非表达式），先试一下从上下文中获取数据
+    const curValueTemp = FormulaExec['var'](curValue, data);
+    // 备注: 其他特殊格式，比如邮箱、日期
+    return curValueTemp ?? curValue;
+  } else if (curValue.startsWith('${') && curValue.endsWith('}')) {
     // ${ xxx } 格式 使用 formula 表达式运算器
     return FormulaExec['formula'](curValue, data);
   } else if (/(\${).+(\})/.test(curValue)) {
     // 包含 ${ xxx } 则使用 tpl 运算器
     return FormulaExec['tpl'](curValue, data);
-  } else {
+  } else if (OpenFormulaExecEvalMode) {
     return FormulaExec['evalFormula'](curValue, data); // 不用 ${} 包裹也可以执行表达式
+  } else {
+    return curValue;
   }
+}
+
+export function updateOpenFormulaExecEvalMode(evalMode: boolean) {
+  OpenFormulaExecEvalMode = evalMode;
 }
 
 // 缓存，用于提升性能
@@ -1533,7 +1536,7 @@ const FORMULA_EVAL_CACHE: {[key: string]: Function} = {};
  * 用于存储当前可用运算器，默认支持 tpl、formula、js、var 四种类型运算器
  * 备注：在这里统一参数。
  */
-const FormulaExec: {
+ export const FormulaExec: {
   [key: string]: Function
 } = {
   'tpl': (expression: string, data?: object) => {
@@ -1629,6 +1632,22 @@ function catchFormulaExecExpression(expression: string, formulaKey: string): str
     return expression.substring(formulaKey.length + 1);
   }
   return '';
+}
+
+// 用于判断是否是普通数值: 
+export function isPureValue(value: any) {
+  if (!isString(value)) {
+    // 非字符串类型，比如：Object、Array类型、boolean、number类型
+    return true;
+  } else if (/^(\d{4})\-(\d{2})\-(\d{2})[ T](\d{2})(?:\:\d{2}|:(\d{2}):(\d{2}))(\+(\d{2}):(\d{2}))?$/.test(value) ||
+    /^(\d{4})\-(\d{2})\-(\d{2})$/.test(value) ||
+    /^(\d{2})(?:\:\d{2}|:(\d{2}):(\d{2}))$/.test(value)
+  ) {
+    // 日期类型
+    return true;
+  } else {
+    return false;
+  }
 }
 
 // 检测 value 是否有变化，有变化就执行 onChange
