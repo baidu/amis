@@ -311,7 +311,7 @@ register('en-US', {
   'Picker.placeholder': 'Click icon on the right',
   'SchemaType.string': 'String',
   'SchemaType.number': 'Number',
-  'SchemaType.interger': 'Interger',
+  'SchemaType.integer': 'integer',
   'SchemaType.object': 'Object',
   'SchemaType.array': 'Array',
   'SchemaType.boolean': 'Boolean',

@@ -1,0 +1,240 @@
+import React from 'react';
+import {guid} from '../../utils/helper';
+import Button from '../Button';
+import {Icon} from '../icons';
+import InputBox from '../InputBox';
+import type {InputJSONSchemaItemProps} from './index';
+import {InputJSONSchemaItem} from './Item';
+
+type JSONSchemaObjectMember = {
+  key: string;
+  name: string;
+  nameMutable?: boolean;
+  schema?: any;
+  invalid?: boolean;
+};
+export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
+  const {
+    classnames: cx,
+    value,
+    onChange,
+    disabled,
+    translate: __,
+    renderKey,
+    collapsable
+  } = props;
+  const buildDefaultMembers = React.useCallback((schema: any) => {
+    const members: Array<JSONSchemaObjectMember> = [];
+
+    Object.keys(schema.properties || {}).forEach(key => {
+      const child = schema.properties[key];
+      members.push({
+        key: guid(),
+        name: key,
+        nameMutable: false,
+        schema: child
+      });
+    });
+
+    if (!members.length) {
+      members.push({
+        key: guid(),
+        name: '',
+        nameMutable: true,
+        schema: {
+          type: 'string'
+        }
+      });
+    }
+
+    // todo 外部 value 发生变化，也需要构建这个
+
+    return members;
+  }, []);
+
+  const [members, setMembers] = React.useState<Array<JSONSchemaObjectMember>>(
+    buildDefaultMembers(props.schema)
+  );
+  const [collapsed, setCollapsed] = React.useState<boolean>(
+    collapsable ? true : false
+  );
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
+
+  const onMemberChange = (member: JSONSchemaObjectMember, memberValue: any) => {
+    const newValue = {
+      ...props.value,
+      [member.name]: memberValue
+    };
+    onChange?.(newValue);
+  };
+  const onMemberKeyChange = (
+    member: JSONSchemaObjectMember,
+    memberValue: any
+  ) => {
+    const idx = members.indexOf(member);
+    if (!~idx) {
+      throw new Error('member object not found');
+    }
+
+    const m = members.concat();
+    m.splice(idx, 1, {
+      ...member,
+      name: memberValue,
+      invalid:
+        !memberValue ||
+        members.some((a, b) => a.name === memberValue && b !== idx)
+    });
+
+    setMembers(m);
+  };
+  const onMemberDelete = (member: JSONSchemaObjectMember) => {
+    const idx = members.indexOf(member);
+    if (!~idx) {
+      throw new Error('member object not found');
+    }
+
+    const m = members.concat();
+    m.splice(idx, 1);
+    setMembers(m);
+
+    const newValue = {
+      ...props.value
+    };
+    delete newValue[member.name];
+    onChange?.(newValue);
+  };
+
+  React.useEffect(() => {
+    setMembers(buildDefaultMembers(props.schema));
+  }, [props.schema]);
+
+  const handleAdd = React.useCallback(() => {
+    const m = members.concat();
+    m.push({
+      key: guid(),
+      name: '',
+      invalid: true,
+      nameMutable: true
+    });
+    setMembers(m);
+  }, [members]);
+
+  // todo additionalProperties 还有其他格式
+  const allowAdd = props.schema.additionalProperties !== false;
+
+  return (
+    <>
+      {collapsable ? (
+        <a
+          className={cx('JSONSchemaObject-caret', {
+            'is-collapsed': collapsed
+          })}
+          onClick={toggleCollapsed}
+        >
+          <Icon icon="caret" className="icon" />
+        </a>
+      ) : null}
+
+      <div
+        className={cx('JSONSchemaObject', {
+          'is-expanded': collapsable && !collapsed
+        })}
+      >
+        {collapsed ? (
+          <InputJSONSchemaItem
+            {...props}
+            value={value}
+            onChange={onChange}
+            schema={{
+              type: 'string'
+            }}
+            placeholder={props.schema?.description}
+          />
+        ) : (
+          members.map(member => {
+            return (
+              <div key={member.key} className={cx('JSONSchemaMember')}>
+                <div className={cx('JSONSchemaMember-key')}>
+                  {member.nameMutable ? (
+                    <>
+                      {renderKey ? (
+                        renderKey(
+                          member.name,
+                          onMemberKeyChange.bind(null, member),
+                          member.schema
+                        )
+                      ) : (
+                        <InputBox
+                          value={member.name}
+                          hasError={member.invalid}
+                          onChange={onMemberKeyChange.bind(null, member)}
+                          clearable={false}
+                          placeholder={__('JSONSchema.key')}
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <span>
+                      {member.schema?.title || member.name}
+                      {/* {member.schema?.description ? (
+                        <TooltipWrapper
+                          tooltipTheme="dark"
+                          tooltip={member.schema.description}
+                          trigger="click"
+                          rootClose
+                        >
+                          <div className={cx(`Remark`, `Remark--warning`)}>
+                            <span className={cx('Remark-icon icon')}>
+                              <Icon icon="question-mark" />
+                            </span>
+                          </div>
+                        </TooltipWrapper>
+                      ) : null} */}
+                    </span>
+                  )}
+                </div>
+                <div className={cx('JSONSchemaMember-value')}>
+                  <InputJSONSchemaItem
+                    {...props}
+                    value={value?.[member.name]}
+                    onChange={onMemberChange.bind(null, member)}
+                    schema={
+                      member.schema || {
+                        type: 'string'
+                      }
+                    }
+                    placeholder={member.schema?.description}
+                    collapsable
+                  />
+                </div>
+                {member.nameMutable ? (
+                  <Button
+                    className={cx('SchemaEditor-btn')}
+                    onClick={onMemberDelete.bind(null, member)}
+                    iconOnly
+                    disabled={disabled || !!value?.$ref}
+                  >
+                    <Icon icon="remove" className="icon" />
+                  </Button>
+                ) : null}
+              </div>
+            );
+          })
+        )}
+
+        {allowAdd && !collapsed ? (
+          <Button
+            level="link"
+            onClick={handleAdd}
+            size="xs"
+            disabled={disabled}
+          >
+            {__('JSONSchema.add_prop')}
+          </Button>
+        ) : null}
+      </div>
+    </>
+  );
+}

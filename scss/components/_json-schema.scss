@@ -1,0 +1,121 @@
+.#{$ns}JSONSchemaMember {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: var(--gap-sm);
+
+  &-key {
+    min-width: 100px;
+    max-width: 150px;
+
+    & > span {
+      display: flex;
+      background: var(--Form-input-bg);
+      border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+      border-radius: var(--Form-input-borderRadius);
+      // height: var(--Form-input-height);
+      line-height: var(--Form-input-lineHeight);
+      padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+      font-size: var(--Form-input-fontSize);
+      flex-wrap: wrap;
+      justify-content: flex-start;
+
+      color: var(--Form-input-color);
+    }
+  }
+
+  &-value {
+    flex: 1;
+    margin-left: auto;
+    display: flex;
+    gap: var(--gap-sm);
+
+    > a {
+      display: inline-block;
+    }
+
+    > div {
+      flex: 1;
+    }
+  }
+
+  & + & {
+    margin-top: var(--gap-sm);
+  }
+}
+
+.#{$ns}JSONSchemaObject {
+  &-caret {
+    display: inline-block;
+    height: px2rem(24px);
+    text-align: center;
+    line-height: px2rem(24px);
+    vertical-align: middle;
+    cursor: pointer;
+    transform: rotate(0deg);
+    transition: transform var(--animation-duration);
+    color: var(--icon-color);
+    margin-top: calc((var(--Form-input-height) - var(--Switch-height)) / 2);
+
+    > svg {
+      width: 10px;
+      height: 10px;
+      top: 0;
+    }
+  }
+
+  &-caret.is-collapsed {
+    transform: rotate(-90deg);
+  }
+
+  &.is-expanded {
+    position: relative;
+    margin-left: px2rem(20px);
+
+    &:before {
+      width: 1px;
+      content: '';
+      display: block;
+      position: absolute;
+      top: 30px;
+      bottom: 10px;
+      left: -33px;
+      border-left: dashed 1px var(--icon-color);
+    }
+
+    & .#{$ns}JSONSchemaMember {
+      position: relative;
+    }
+
+    & .#{$ns}JSONSchemaMember:before {
+      height: 1px;
+      content: '';
+      display: block;
+      position: absolute;
+      top: 17px;
+      width: 25px;
+      left: -33px;
+      border-top: dashed 1px var(--icon-color);
+    }
+
+    & .#{$ns}JSONSchemaMember:first-child:before {
+      left: -20px;
+      width: 12px;
+    }
+
+    & > button {
+      position: relative;
+
+      &:before {
+        height: 1px;
+        content: '';
+        display: block;
+        position: absolute;
+        top: 10px;
+        width: 25px;
+        left: -33px;
+        border-top: dashed 1px var(--icon-color);
+      }
+    }
+  }
+}

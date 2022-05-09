@@ -1,6 +1,11 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {autobind} from '../../utils/helper';
+import InputJSONSchema from '../../components/json-schema/index';
+import {
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 
 /**
  * JSON Schema
@@ -27,13 +32,17 @@ export interface JSONSchemaProps
 
 export default class JSONSchemaControl extends React.PureComponent<JSONSchemaProps> {
   render() {
-    const {} = this.props;
+    const {schema, ...rest} = this.props;
+    const finalSchema = isPureVariable(schema)
+      ? resolveVariableAndFilter(schema, rest.data, '| raw')
+      : schema;
 
-    return <p>233</p>;
+    return <InputJSONSchema {...rest} schema={finalSchema} />;
   }
 }
 
 @FormItem({
-  type: 'json-schema'
+  type: 'json-schema',
+  strictMode: false
 })
 export class JSONSchemaRenderer extends JSONSchemaControl {}

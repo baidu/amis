@@ -22,7 +22,7 @@ export interface JSONSchemaEditorControlSchema extends FormBaseControl {
       type:
         | 'string'
         | 'number'
-        | 'interger'
+        | 'integer'
         | 'object'
         | 'array'
         | 'boolean'

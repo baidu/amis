@@ -318,7 +318,7 @@ register('zh-CN', {
   'Picker.placeholder': '请点击右侧的图标',
   'SchemaType.string': '文本',
   'SchemaType.number': '数字',
-  'SchemaType.interger': '整数',
+  'SchemaType.integer': '整数',
   'SchemaType.object': '对象',
   'SchemaType.array': '数组',
   'SchemaType.boolean': '布尔',

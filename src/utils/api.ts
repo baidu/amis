@@ -307,7 +307,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   if (data.hasOwnProperty('errorCode')) {
     // 阿里 Java 规范
     data.status = data.errorCode;
-    data.msg = data.errorMessage;
+    data.msg = data.errorMessage || data.errorMsg;
   } else if (data.hasOwnProperty('errno')) {
     data.status = data.errno;
     data.msg = data.errmsg || data.errstr || data.msg;

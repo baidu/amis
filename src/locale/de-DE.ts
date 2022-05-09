@@ -309,7 +309,7 @@ register('de-DE', {
   'Picker.placeholder': 'Klicken Sie rechts auf das Symbol',
   'SchemaType.string': 'String',
   'SchemaType.number': 'Number',
-  'SchemaType.interger': 'Interger',
+  'SchemaType.integer': 'integer',
   'SchemaType.object': 'Object',
   'SchemaType.array': 'Array',
   'SchemaType.boolean': 'Boolean',
