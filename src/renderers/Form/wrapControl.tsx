@@ -197,13 +197,12 @@ export function wrapControl<
               combo.bindUniuqueItem(model);
             }
 
+            const curTmpValue = curValue ?? propValue ?? store?.getValueByName(model.name) ?? value;
             // 同步 value
-            model.changeTmpValue(
-              curValue ?? propValue ?? store?.getValueByName(model.name) ?? value
-            );
+            model.changeTmpValue(curTmpValue);
 
-            if (onChange && value !== undefined && model.tmpValue !== undefined) {
-              // 组件默认值支持表达式需要
+            if (onChange && value !== undefined && curTmpValue !== undefined) {
+              // 组件默认值支持表达式需要: 避免初始化时上下文中丢失组件默认值
               onChange(model.tmpValue, model.name, false, true);
             } else if (
               onChange &&

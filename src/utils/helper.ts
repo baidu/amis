@@ -1544,6 +1544,10 @@ const FORMULA_EVAL_CACHE: {[key: string]: Function} = {};
     return filter(expression, curData);
   },
   'formula': (expression: string, data?: object) => {
+    // 邮箱格式直接返回，后续需要在 amis-formula 中处理
+    if (/^\$\{([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})\}$/.test(expression)) {
+      return expression.substring(2, expression.length - 1); // 剔除前后特殊字符
+  }
     const curData = data || {};
     let result = undefined;
     try {
@@ -1552,7 +1556,8 @@ const FORMULA_EVAL_CACHE: {[key: string]: Function} = {};
       console.warn(e);
       return expression;
     }
-    return result ?? expression;
+    // 备注: 此处不用 result ?? expression 是为了避免 没有对应结果时直接显示 expression: ${xxx}
+    return result;
   },
   'evalFormula': (expression: string, data?: object) => {
     const curData = data || {};
