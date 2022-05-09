@@ -98,15 +98,11 @@ amis.embed(
   {
     // 这里是初始 props
   },
+  // 注意是第四个参数
   {
     theme: 'antd'
   }
 );
-
-// 或者
-amisScoped.updateProps({
-  theme: 'antd'
-});
 ```
 
 > 如果想使用 amis 1.2.2 之前的默认主题，名字是 ang
