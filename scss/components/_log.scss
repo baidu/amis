@@ -7,30 +7,31 @@
     padding: var(--Log-padding);
     overflow-y: auto;
     font-family: var(--fontFamilyMonospace);
-    &-line {
-      padding: var(--Log-line-padding);
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      // bootstrap 会修改这些，覆盖掉
-      code {
-        color: inherit;
-        background: inherit;
-      }
-      &:hover {
-        background: var(--Log-line--onHover-bg);
-      }
-      &-number {
-        color: #999;
-        font-style: italic;
-        margin-right: 5px;
-      }
+  }
+
+  &-line {
+    padding: var(--Log-line-padding);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    // bootstrap 会修改这些，覆盖掉
+    code {
+      color: inherit;
+      background: inherit;
+    }
+    &:hover {
+      background: var(--Log-line--onHover-bg);
+    }
+    &-number {
+      color: #999;
+      font-style: italic;
+      margin-right: 5px;
     }
   }
 
   &-operation {
     position: absolute;
     top: 0;
-    left: -24px;
+    left: -16px;
     .#{$ns}Button {
       margin-right: var(--gap-xs);
     }
