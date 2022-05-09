@@ -13,12 +13,12 @@ import {
   LeftArrowIcon,
   MinusIcon,
   PauseIcon,
-  PlayIcon,
   PlusIcon,
+  ReloadIcon,
   RightArrowIcon
 } from '../components/icons';
 
-export type LogOperation = 'stop' | 'restart' | 'showLineNumber' | 'clear'
+export type LogOperation = 'stop' | 'restart' | 'showLineNumber' | 'clear';
 
 /**
  * 日志展示组件
@@ -78,8 +78,7 @@ export interface LogSchema extends BaseSchema {
 
 export interface LogProps
   extends RendererProps,
-    Omit<LogSchema, 'type' | 'className'> {
-}
+    Omit<LogSchema, 'type' | 'className'> {}
 
 export interface LogState {
   lastLine: string;
@@ -164,7 +163,7 @@ export class Log extends React.Component<LogProps, LogState> {
   }
 
   refresh = () => {
-    let origin = this.state.refresh
+    let origin = this.state.refresh;
     this.setState({
       refresh: !origin
     });
@@ -172,26 +171,26 @@ export class Log extends React.Component<LogProps, LogState> {
       this.clear();
       this.loadLogs();
     }
-  }
+  };
 
   clear = () => {
     this.setState({
       logs: [],
       lastLine: ''
-    })
-  }
+    });
+  };
 
   changeShowLineNumber = () => {
     this.setState({
       showLineNumber: !this.state.showLineNumber
     });
-  }
+  };
 
   changeShowOperation = () => {
     this.setState({
       showOperation: !this.state.showOperation
     });
-  }
+  };
 
   async loadLogs() {
     const {source, data, env, translate: __, encoding, maxLength} = this.props;
@@ -214,12 +213,12 @@ export class Log extends React.Component<LogProps, LogState> {
       const reader = body.getReader();
       let lastline = '';
       let logs: string[] = [];
-      for (; ;) {
+      for (;;) {
         if (!this.state.refresh) {
-          await reader.cancel("click cancel button").then(() => {
+          await reader.cancel('click cancel button').then(() => {
             this.props.env.notify('success', '日志已经停止刷新');
             return;
-          })
+          });
         }
         let {done, value} = await reader.read();
         if (value) {
@@ -267,8 +266,10 @@ export class Log extends React.Component<LogProps, LogState> {
     const {classnames: cx, disableColor} = this.props;
     return (
       <div className={cx('Log-line')} key={index}>
-        {showLineNumber && (<span className={cx('Log-line-number')}>{index + 1}</span>)}{disableColor ? line :
-        <Ansi useClasses>{line}</Ansi>}
+        {showLineNumber && (
+          <span className={cx('Log-line-number')}>{index + 1} </span>
+        )}
+        {disableColor ? line : <Ansi useClasses>{line}</Ansi>}
       </div>
     );
   }
@@ -314,10 +315,14 @@ export class Log extends React.Component<LogProps, LogState> {
               className={cx('Log-line')}
               key={index}
               style={{...style, whiteSpace: 'nowrap'}}
-            >{showLineNumber && (<span className={cx('Log-line-number')}>{index + 1}</span>)}
+            >
+              {showLineNumber && (
+                <span className={cx('Log-line-number')}>{index + 1} </span>
+              )}
               {disableColor ? (
                 logs[index]
-              ) : (<Ansi useClasses>{logs[index]}</Ansi>
+              ) : (
+                <Ansi useClasses>{logs[index]}</Ansi>
               )}
             </div>
           )}
@@ -330,42 +335,75 @@ export class Log extends React.Component<LogProps, LogState> {
     }
 
     return (
-      <div
-        ref={this.logRef}
-        className={cx('Log', className)}
-        style={{height: useVirtualRender ? 'auto' : height}}
-      >
-        {useVirtualRender ? lines : lines.length ? lines : loading}
-        {operation && operation?.length > 0 && (showOperation ? (
-          <div className={cx('Log-operation')}>
-            {operation.includes("stop") && (
-              <Button size="sm" title="停止" disabled={!refresh} onClick={this.refresh}>
-                <PauseIcon/>
-              </Button>)}
+      <div className={cx('Log', className)}>
+        <div
+          ref={this.logRef}
+          className={cx('Log-body')}
+          style={{height: useVirtualRender ? 'auto' : height}}
+        >
+          {useVirtualRender ? lines : lines.length ? lines : loading}
+        </div>
+        <div className={cx('Log-operation')}>
+          {operation &&
+            operation?.length > 0 &&
+            (showOperation ? (
+              <>
+                {operation.includes('stop') && (
+                  <Button
+                    size="sm"
+                    title="停止"
+                    disabled={!refresh}
+                    onClick={this.refresh}
+                  >
+                    <PauseIcon />
+                  </Button>
+                )}
 
-            {operation.includes("restart") && (
-              <Button size="sm" title="重新加载数据" disabled={refresh} onClick={this.refresh}>
-                <PlayIcon/>
-              </Button>)}
+                {operation.includes('restart') && (
+                  <Button
+                    size="sm"
+                    title="重新加载数据"
+                    disabled={refresh}
+                    onClick={this.refresh}
+                  >
+                    <ReloadIcon />
+                  </Button>
+                )}
 
-            {operation.includes("showLineNumber") && (
-              <Button size="sm" title={showLineNumber ? "关闭行数显示" : "显示行数"} onClick={this.changeShowLineNumber}>
-                {showLineNumber ? <MinusIcon/> : <PlusIcon/>}
-              </Button>)}
+                {operation.includes('showLineNumber') && (
+                  <Button
+                    size="sm"
+                    title={showLineNumber ? '关闭行数显示' : '显示行数'}
+                    onClick={this.changeShowLineNumber}
+                  >
+                    {showLineNumber ? <MinusIcon /> : <PlusIcon />}
+                  </Button>
+                )}
 
-            {operation.includes("clear") && (
-              <Button size="sm" title={"清屏"} onClick={this.clear}>
-                <InputClearIcon/>
-              </Button>)}
+                {operation.includes('clear') && (
+                  <Button size="sm" title={'清屏'} onClick={this.clear}>
+                    <InputClearIcon />
+                  </Button>
+                )}
 
-            <Button size="sm" title={"收起工具栏"} onClick={this.changeShowOperation}>
-              <LeftArrowIcon/>
-            </Button>
-          </div>
-        ) : (
-          <div title={"展开工具栏"} className={cx('Log-operation-hidden')} onClick={this.changeShowOperation}>
-            <RightArrowIcon/>
-          </div>))}
+                <Button
+                  size="sm"
+                  title={'收起工具栏'}
+                  onClick={this.changeShowOperation}
+                >
+                  <LeftArrowIcon />
+                </Button>
+              </>
+            ) : (
+              <div
+                title={'展开工具栏'}
+                className={cx('Log-operation-hidden')}
+                onClick={this.changeShowOperation}
+              >
+                <RightArrowIcon />
+              </div>
+            ))}
+        </div>
       </div>
     );
   }
@@ -374,5 +412,4 @@ export class Log extends React.Component<LogProps, LogState> {
 @Renderer({
   type: 'log'
 })
-export class LogRenderer extends Log {
-}
+export class LogRenderer extends Log {}

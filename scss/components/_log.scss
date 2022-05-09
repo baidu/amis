@@ -1,26 +1,51 @@
 .#{$ns}Log {
   position: relative;
-  background: var(--Log-bg);
-  color: var(--Log-color);
-  padding: var(--Log-padding);
-  overflow-y: auto;
-  font-family: var(--fontFamilyMonospace);
-  &-line {
-    padding: var(--Log-line-padding);
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    // bootstrap 会修改这些，覆盖掉
-    code {
-      color: inherit;
-      background: inherit;
+
+  &-body {
+    background: var(--Log-bg);
+    color: var(--Log-color);
+    padding: var(--Log-padding);
+    overflow-y: auto;
+    font-family: var(--fontFamilyMonospace);
+    &-line {
+      padding: var(--Log-line-padding);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      // bootstrap 会修改这些，覆盖掉
+      code {
+        color: inherit;
+        background: inherit;
+      }
+      &:hover {
+        background: var(--Log-line--onHover-bg);
+      }
+      &-number {
+        color: #999;
+        font-style: italic;
+        margin-right: 5px;
+      }
     }
-    &:hover {
-      background: var(--Log-line--onHover-bg);
+  }
+
+  &-operation {
+    position: absolute;
+    top: 0;
+    left: -24px;
+    .#{$ns}Button {
+      margin-right: var(--gap-xs);
     }
-    &-number {
-      color: #999;
-      font-style: italic;
-      margin-right: 5px;
+    &-hidden {
+      background: #f0f2f5;
+      width: 24px;
+      height: 48px;
+      box-shadow: 0 4px 6px 0 rgb(8 14 26 / 4%), 0 1px 10px 0 rgb(8 14 26 / 5%),
+        0 2px 4px -1px rgb(8 14 26 / 6%);
+      border-radius: 0 2px 2px 0;
+      padding-top: 14px;
+      padding-left: 6px;
+      cursor: pointer;
+      color: #000;
+      transition: all 0.3s;
     }
   }
 
@@ -112,28 +137,4 @@
   .ansi-white-bg {
     background-color: #eee;
   }
-  &-operation {
-      position: fixed;
-      top: 50%;
-      left: 0;
-      background: rgba(0,0,0,0.4);
-      .#{$ns}Button {
-        margin-right: 0.6rem;
-      }
-      &-hidden {
-        position: fixed;
-        top: 50%;
-        left: 0;
-        background: #f0f2f5;
-        width: 24px;
-        height: 48px;
-        box-shadow: 0 4px 6px 0 rgb(8 14 26 / 4%), 0 1px 10px 0 rgb(8 14 26 / 5%), 0 2px 4px -1px rgb(8 14 26 / 6%);
-        border-radius: 0 2px 2px 0;
-        padding-top: 14px;
-        padding-left: 6px;
-        cursor: pointer;
-        color: #000;
-        transition: all 0.3s;
-      }
-    }
 }

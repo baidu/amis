@@ -227,6 +227,7 @@ export {
   MuteIcon,
   PlayIcon,
   PauseIcon,
+  ReloadIcon,
   LeftArrowIcon,
   RightArrowIcon,
   CheckIcon,
