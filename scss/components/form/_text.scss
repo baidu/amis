@@ -283,12 +283,21 @@
     }
   }
 
-  &-revealPassword .icon {
-    width: var(--Form-input-password-icon-size);
-    height: var(--Form-input-password-icon-size);
-    color: var(--Form-input-password-icon-color);
-    cursor: pointer;
+  &-revealPassword {
+    font-size: 0;
+
+    .icon {
+      width: var(--Form-input-password-icon-size);
+      height: var(--Form-input-password-icon-size);
+      color: var(--Form-input-password-icon-color);
+      cursor: pointer;
+    }
   }
+}
+
+// 特殊处理 input-password。否则 form 内联模式，icon 会换行
+input.#{$ns}TextControl-input-password {
+  flex-basis: 0;
 }
 
 .#{$ns}TextControl.is-disabled {

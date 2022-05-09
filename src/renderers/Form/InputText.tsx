@@ -832,6 +832,7 @@ export default class TextControl extends React.PureComponent<
           step={step}
           onChange={this.handleNormalInputChange}
           value={this.valueToString(value)}
+          className={cx(type === 'password' && revealPassword && 'TextControl-input-password')}
         />
         {clearable && !disabled && value ? (
           <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>
