@@ -16,6 +16,12 @@
     // box-shadow: 0 0 px2rem(1px) var(--Checkbox-onHover-color) inset;
   }
 
+  &.#{$ns}Checkbox--checkbox.#{$ns}Checkbox--button {
+    > i + span {
+      margin-left: 0;
+    }
+  }
+
   > i {
     cursor: pointer;
     line-height: 1;
