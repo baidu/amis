@@ -550,7 +550,7 @@ export class CustomTimeView extends React.Component<
     let elf: any = document.getElementById(
       `${this.state.uniqueTag}-${i}-input`
     );
-    elf.parentNode.scrollTo({
+    elf?.parentNode?.scrollTo({
       top: value * 28,
       behavior: label === 'init' ? 'auto' : 'smooth'
     });
