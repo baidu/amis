@@ -127,6 +127,7 @@ export async function dispatchEvent(
     data,
     broadcast
   );
+
   if (!broadcast) {
     const eventConfig = renderer?.props?.onEvent?.[eventName];
 
@@ -174,6 +175,7 @@ export async function dispatchEvent(
   }
 
   unbindEvent?.();
+
   return Promise.resolve(rendererEvent);
 }
 
