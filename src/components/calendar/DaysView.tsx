@@ -31,7 +31,12 @@ interface CustomDaysViewProps extends LocaleProps {
   setDateTimeState: (state: any) => void;
   showTime: () => void;
   setTime: (type: string, amount: number) => void;
-  scrollToTop: (type: string, amount: number, i: number, lable?: string) => void;
+  scrollToTop: (
+    type: string,
+    amount: number,
+    i: number,
+    lable?: string
+  ) => void;
   subtractTime: (
     amount: number,
     type: string,
@@ -177,21 +182,16 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       columns,
       types,
       pickerValue: currentDate.toArray(),
-      uniqueTag: 0,
-    }
+      uniqueTag: 0
+    };
   }
 
   componentWillMount() {
-    this.setState({uniqueTag: (new Date()).valueOf()})
+    this.setState({uniqueTag: new Date().valueOf()});
   }
 
   componentDidMount() {
-    const {
-      timeFormat,
-      selectedDate,
-      viewDate,
-      isEndDate,
-    } = this.props;
+    const {timeFormat, selectedDate, viewDate, isEndDate} = this.props;
     const formatMap = {
       hours: 'HH',
       minutes: 'mm',
@@ -207,9 +207,14 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
         ? 'seconds'
         : '';
       if (type) {
-        this.scrollToTop(type, parseInt(date.format(formatMap[type]), 10), i, 'init')
+        this.scrollToTop(
+          type,
+          parseInt(date.format(formatMap[type]), 10),
+          i,
+          'init'
+        );
       }
-    })
+    });
   }
 
   updateSelectedDate = (event: React.MouseEvent<any>) => {
@@ -246,17 +251,14 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     this.props.updateSelectedDate(event, true);
   };
 
-  showTime = () =>{
-    const {selectedDate, viewDate, timeFormat} = this.props
+  showTime = () => {
+    const {selectedDate, viewDate, timeFormat} = this.props;
     return (
-      <div 
-        key="stb"
-        className="rdtShowTime"
-      >
+      <div key="stb" className="rdtShowTime">
         {(selectedDate || viewDate || moment()).format(timeFormat)}
       </div>
-    )
-  }
+    );
+  };
 
   setTime = (
     type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
@@ -279,13 +281,15 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
     value: number,
     i: number,
-    label?: string,
+    label?: string
   ) => {
-    let elf: any = document.getElementById(`${this.state.uniqueTag}-${i}-input`);
-    elf.parentNode.scrollTo({
+    let elf: any = document.getElementById(
+      `${this.state.uniqueTag}-${i}-input`
+    );
+    elf?.parentNode?.scrollTo({
       top: value * 28,
       behavior: label === 'init' ? 'auto' : 'smooth'
-    })
+    });
   };
 
   confirm = () => {
@@ -479,7 +483,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
     const inputs: Array<React.ReactNode> = [];
 
-    inputs.push(this.showTime())
+    inputs.push(this.showTime());
 
     timeFormat.split(':').forEach((format, i) => {
       const type = /h/i.test(format)
@@ -525,7 +529,12 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                   )
               });
               return (
-                <div className={cx('CalendarInputWrapper', 'CalendarInputWrapperMT')}>
+                <div
+                  className={cx(
+                    'CalendarInputWrapper',
+                    'CalendarInputWrapperMT'
+                  )}
+                >
                   {/* <input
                     type="text"
                     value={date.format(formatMap[type])}
@@ -534,24 +543,30 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                     max={max}
                     {...inputProps}
                   /> */}
-                  <div 
+                  <div
                     className={cx(
                       'CalendarInput-sugs',
-                      type === 'hours' ? 'CalendarInput-sugsHours' : 'CalendarInput-sugsTimes'
-                    )} 
+                      type === 'hours'
+                        ? 'CalendarInput-sugsHours'
+                        : 'CalendarInput-sugsTimes'
+                    )}
                     id={`${this.state.uniqueTag}-${i}-input`}
                   >
                     {options.map(option => {
                       return (
                         <div
                           key={option.value}
-                          className={cx(
-                            'CalendarInput-sugsItem', 
-                            {'is-highlight': option.value === date.format(formatMap[type])}
-                          )}
+                          className={cx('CalendarInput-sugsItem', {
+                            'is-highlight':
+                              option.value === date.format(formatMap[type])
+                          })}
                           onClick={() => {
                             this.setTime(type, parseInt(option.value, 10));
-                            this.scrollToTop(type, parseInt(option.value, 10), i);
+                            this.scrollToTop(
+                              type,
+                              parseInt(option.value, 10),
+                              i
+                            );
                             closeMenu();
                           }}
                         >
@@ -649,7 +664,13 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
   };
 
   render() {
-    const {viewDate: date, useMobileUI, embed, timeFormat, classnames: cx} = this.props;
+    const {
+      viewDate: date,
+      useMobileUI,
+      embed,
+      timeFormat,
+      classnames: cx
+    } = this.props;
     const locale = date.localeData();
     const __ = this.props.translate;
     if (isMobile() && useMobileUI && !embed) {
@@ -718,9 +739,19 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     return (
       <>
         <div className={timeFormat ? 'rdtDays' : ''}>
-          <table className={timeFormat ? 'rdtDaysPart' : ''}>{tableChildren}</table>
+          <table className={timeFormat ? 'rdtDaysPart' : ''}>
+            {tableChildren}
+          </table>
           {timeFormat ? (
-            <div className={timeFormat.toLowerCase().indexOf('s') > 0 ? "rdtTimePartWithS" : "rdtTimePart"}>{this.renderTimes()}</div>
+            <div
+              className={
+                timeFormat.toLowerCase().indexOf('s') > 0
+                  ? 'rdtTimePartWithS'
+                  : 'rdtTimePart'
+              }
+            >
+              {this.renderTimes()}
+            </div>
           ) : null}
         </div>
         <table>{this.renderFooter()}</table>
