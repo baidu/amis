@@ -13,6 +13,10 @@
   min-width: var(--DateRangePicker-minWidth);
   @include input-border();
 
+  .#{$ns}DateRangePicker-clear {
+    display: none;
+  }
+
   &:not(.is-disabled) {
     cursor: pointer;
 
@@ -20,8 +24,12 @@
       background: var(--DatePicker-onHover-bg);
       border-color: var(--DatePicker-onHover-borderColor);
 
-      .#{$ns}DateRangePicker-toggler {
-        color: var(--DatePicker-onHover-iconColor);
+      .#{$ns}DateRangePicker-clear {
+        display: flex;
+      }
+
+      .#{$ns}DateRangePicker-clear + .#{$ns}DateRangePicker-toggler {
+        display: none;
       }
     }
   }
@@ -72,26 +80,11 @@
   &-toggler {
     @include input-clear();
     line-height: 1;
-
-    svg {
-      polyline,
-      circle {
-        stroke: var(--DatePicker-iconColor);
-      }
-    }
-
-    &:hover svg {
-      polyline,
-      circle {
-        stroke: var(--DatePicker-onHover-iconColor);
-      }
-    }
   }
 
   &-clear {
     @include input-clear();
     line-height: 1;
-    margin-right: var(--gap-xs);
   }
 }
 
@@ -120,16 +113,24 @@
 .#{$ns}DateRangePicker-rangers {
   // margin: 0 0 var(--gap-sm);
   margin: 0;
-  padding: 10px 0 0 10px;
+  padding-left: px2rem(10px);
   list-style: none;
+  background: #F7F7F9;
+  line-height: px2rem(32px);
 }
 
 .#{$ns}DateRangePicker-ranger {
   display: inline-block;
-  margin-right: var(--gap-sm);
+  margin-right: px2rem(32px);
+  font-size: var(--fontSizeSm);
 
   a {
     cursor: pointer;
+    color: var(--DatePicker-color);
+
+    &:hover {
+      color: var(--DatePicker-header-onHover-color);
+    }
   }
 }
 

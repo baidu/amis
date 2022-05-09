@@ -13,8 +13,8 @@ register('zh-CN', {
   'Calendar.end': '结束',
   'Calendar.beginAndEnd': '始/终',
   'Calendar.toast': '超出日期范围',
-  'Calendar.startPick': '选择开始时间',
-  'Calendar.endPick': '选择结束时间',
+  'Calendar.startPick': '开始时间',
+  'Calendar.endPick': '结束时间',
   'Schedule': '日程',
   'Time': '时间',
   'Content': '内容',
@@ -332,5 +332,6 @@ register('zh-CN', {
   'JSONSchema.description': '描述',
   'JSONSchema.add_prop': '添加属性',
   'JSONSchema.array_items': '成员类型',
-  'Required': '必填'
+  'Required': '必填',
+  'TimeNow': '此刻',
 });

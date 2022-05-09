@@ -91,6 +91,7 @@ import SliderHandleIcon from '../icons/slider-handle-icon.svg';
 import TrashIcon from '../icons/trash.svg';
 import DotIcon from '../icons/dot.svg';
 import Invisible from '../icons/invisible.svg';
+import DateIcon from '../icons/date.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -208,6 +209,7 @@ registerIcon('edit', EditIcon);
 registerIcon('desk-empty', DeskEmptyIcon);
 registerIcon('invisible', Invisible);
 registerIcon('plus-fine', PlusFineIcon);
+registerIcon('date', DateIcon);
 
 export function Icon({
   icon,

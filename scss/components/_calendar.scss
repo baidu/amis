@@ -41,6 +41,9 @@
     td.rdtActive {
       background: transparent;
       color: var(--Calendar-color);
+      > span {
+        background: transparent !important;
+      }
     }
     td.rdtActive:hover{
       background: var(--Calendar-cell-onHover-bg);
@@ -289,6 +292,9 @@
     .rdtBetween {
       background: var(--Calendar-cell-onBetween-bg) !important;
       color: var(--Button--primary-bg);
+      &::after {
+        width: 0;
+      }
     }
     .rdtRangeStart,
     .rdtRangeStart:hover,
@@ -309,6 +315,13 @@
     .rdtRangeEnd,
     .rdtRangeEnd:hover {
       background: linear-gradient(to right, var(--Calendar-cell-onBetween-bg) 0%, var(--Calendar-cell-onBetween-bg) 50%, transparent 51%, transparent 100%) !important;
+    }
+
+    .rdtToday {
+      border: none;
+      .calendar-wrap {
+        border: 1px solid #2468F2;
+      }
     }
   }
 

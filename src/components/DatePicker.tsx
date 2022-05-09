@@ -788,7 +788,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         ) : null}
 
         <a className={cx(`DatePicker-toggler`)}>
-          <Icon icon="clock" className="icon" />
+          <Icon icon={viewMode === 'time' ? 'clock' : 'date'} className="icon" />
         </a>
 
         {!(useMobileUI && isMobile()) && isOpened ? (
@@ -811,7 +811,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
               <Calendar
                 value={date}
                 onChange={this.handleChange}
-                requiredConfirm={false}
+                requiredConfirm={viewMode === 'time'}
                 dateFormat={dateFormat}
                 inputFormat={inputFormat}
                 timeFormat={timeFormat}
