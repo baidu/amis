@@ -295,6 +295,11 @@
   }
 }
 
+// 特殊处理 input-password。否则 form 内联模式，icon 会换行
+input.#{$ns}TextControl-input-password {
+  flex-basis: 0;
+}
+
 .#{$ns}TextControl.is-disabled {
   &-input input {
     color: var(--Form-input-onDisabled-color);
