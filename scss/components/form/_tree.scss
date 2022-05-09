@@ -235,11 +235,10 @@
       display: block;
       transition: transform var(--animation-duration);
       top: 0;
-      transform: rotate(90deg);
     }
 
     &.is-folded > svg {
-      transform: rotate(0deg);
+      transform: rotate(-90deg);
     }
   }
 

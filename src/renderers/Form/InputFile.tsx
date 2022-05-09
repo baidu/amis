@@ -220,6 +220,16 @@ export interface FileControlSchema extends FormBaseControl {
   };
 
   /**
+   * 说明文档内容配置
+   */
+   documentation?: string;
+
+   /**
+   * 说明文档链接配置
+   */
+    documentLink?: string;
+
+  /**
    * 是否为拖拽上传
    */
   drag?: boolean;
@@ -1045,16 +1055,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         while (tasks.length) {
           const res = await Promise.all(
             tasks.splice(0, concurrency).map(async task => {
-              return await uploadPartFile(state, config)(
-                task,
-                (err: any, value: any) => {
-                  if (err) {
-                    reject(err);
-                    throw new Error(err);
-                  }
-                  return value;
-                }
-              );
+              return await uploadPartFile(state, config)(task);
             })
           );
           results = results.concat(res);
@@ -1104,7 +1105,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       }
 
       function uploadPartFile(state: ObjectState, conf: Partial<FileProps>) {
-        return (task: Task, callback: (error: any, value?: any) => void) => {
+        return (task: Task) => {
           const api = buildApi(
             conf.chunkApi!,
             createObject(config.data, params),
@@ -1137,12 +1138,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             )
             .then(ret => {
               state.loaded++;
-              callback(null, {
+              return {
                 partNumber: task.partNumber,
                 eTag: (ret.data as any).eTag
-              });
-            })
-            .catch(callback);
+              };
+            });
         };
       }
 
@@ -1281,7 +1281,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       render,
       downloadUrl,
       templateUrl,
-      drag
+      drag,
+      documentation,
+      documentLink,
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
@@ -1344,7 +1346,20 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   onClick={this.handleSelect}
                 >
                   <Icon icon="cloud-upload" className="icon" />
-                  <span>{__('File.dragDrop')}</span>
+                  <span>
+                    {__('File.dragDrop')}
+                    <span 
+                      className={cx('FileControl-acceptTip-click')}
+                    >{__('File.clickUpload')}</span>
+                  </span>
+                  <div
+                    className={cx('FileControl-acceptTip-help', 'TplField')}>
+                    {documentLink ?
+                      <a
+                        href={documentLink}
+                        onClick={e => e.stopPropagation()}
+                      >{documentation ? documentation : __('File.helpText')}</a> : null}
+                  </div>
                   {maxSize ? (
                     <div className={cx('FileControl-sizeTip')}>
                       {__('File.sizeLimit', {maxSize})}
@@ -1378,17 +1393,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                         : __('File.upload')}
                     </span>
                   </Button>
-
-                  {description
-                    ? render('desc', description!, {
-                        className: cx(
-                          'FileControl-description',
-                          descriptionClassName
-                        )
-                      })
-                    : null}
                 </>
               )}
+              {description
+                ? render('desc', description, {
+                    className: cx(
+                      'FileControl-description',
+                      descriptionClassName
+                    )
+                  })
+                : null}
             </div>
           )}
         </DropZone>

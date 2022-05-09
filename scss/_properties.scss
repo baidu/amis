@@ -402,10 +402,10 @@
   --Calendar-cell-bg: var(--white);
   --Calendar-cell-onActive-bg: var(--info);
   --Calendar-cell-onBetween-bg: #{rgba($info, 0.1)};
-  --Calendar-cell-onDisabled-bg: var(--light);
-  --Calendar-cell-onHover-bg: #{darken($white, 7%)};
-  --Calendar-color: var(--text-color);
-  --Calendar-fontSize: var(--fontSizeBase);
+  --Calendar-cell-onDisabled-bg: #F7F7F9;
+  --Calendar-cell-onHover-bg:  #F7F7F9;
+  --Calendar-color: #151b26;;
+  --Calendar-fontSize: var(--fontSizeSm);
   --Calendar-input-borderColor: var(--borderColor);
   --Calendar-input-borderRadius: var(--borderRadius);
   --Calendar-input-color: var(--info);
@@ -420,7 +420,7 @@
           var(--Calendar-input-fontSize)
       ) / 2
   );
-  --Calendar-shortcut-color: var(--info);
+  --Calendar-shortcut-color: #151B26;
   --Calendar-shortcut-decoration: none;
   --Calendar-shortcut-onHover-color: #{darken($info, 15%)};
   --Calendar-shortcut-onHover-decoration: none;
@@ -595,8 +595,10 @@
   --DatePicker-borderColor: var(--Form-input-borderColor);
   --DatePicker-borderRadius: var(--Form-input-borderRadius);
   --DatePicker-borderWidth: var(--Form-input-borderWidth);
-  --DatePicker-color: var(--Form-input-color);
-  --DatePicker-fontSize: var(--Form-input-fontSize);
+  --DatePicker-color: #151b26;;
+  --DatePicker-header-onHover-color: #{darken($info, 15%)};
+  --DatePicker-arrow-color: #84868C;
+  --DatePicker-fontSize: var(--fontSizeSm);
   --DatePicker-header-select-borderColor: #fff;
   --DatePicker-height: var(--Form-input-height);
   --DatePicker-iconColor: var(--icon-color);
@@ -840,6 +842,7 @@
   --ImageControl-addBtn-onHover-bg: #{darken($white, 7.5%)};
   --ImageControl-addBtn-onHover-border: #{darken($borderColor, 10%)};
   --ImageControl-addBtn-onHover-color: var(--Button--default-color);
+  --ImageControl-addBtn-upload-color: var(--Button--default-color);
   --ImageControl-progress-borderRadius: 0;
 
   --FileControl-danger-color: #f33e3e;
@@ -891,8 +894,8 @@
   --InputRange-track-onActive-transition: transform var(--animation-duration)
     ease-out left;
   --InputRange-track-border-radius: #{px2rem(4px)};
-  --InputRange-track-dot-width: #{px2rem(4px)};
-  --InputRange-track-dot-height: #{px2rem(4px)};
+  --InputRange-track-dot-width: #{px2rem(6px)};
+  --InputRange-track-dot-height: #{px2rem(6px)};
   --InputRange-track-dot-bg: var(--white);
   --InputRange-track-transition: left var(--animation-duration) ease-out,
     width var(--animation-duration) ease-out;
@@ -1072,8 +1075,7 @@
   --Modal-overlay-bg: rgba(0, 0, 0, 0.6);
   --Modal-title-color: var(--text--loud-color);
   --Modal-title-fontSize: var(--fontSizeBase);
-  --Modal-title-fontSize: var(--fontSizeBase);
-  --Modal-title-fontWeight: 500;
+  --Modal-title-fontWeight: var(--fontWeightMd);
   --Modal-title-lineHeight: var(--lineHeightBase);
   --Modal-widthBase: #{px2rem(500px)};
   --Modal-widthLg: #{px2rem(1100px)};
@@ -1205,6 +1207,7 @@
   --Portlet-borderRadius: var(--borderRadius);
 
   --QuickEdit-iconColor: inherit;
+  --QuickEdit-iconSize: #{px2rem(13px)};
   --QuickEdit-onFocus-borderColor: var(--info);
   --QuickEdit-onFocus-borderWidth: var(--borderWidth);
   --QuickEdit-onHover-iconColor: inherit;
@@ -1300,7 +1303,7 @@
   --Table-onModified-bg: #e8f0fe;
   --Table-onModified-borderColor: #{darken(#e8f0fe, 5%)};
   --Table-onModified-color: #4285f4;
-  --Table-placeholder-height: #{px2rem(100px)};
+  --Table-placeholder-height: #{px2rem(200px)};
   --Table-strip-bg: #{$Table-strip-bg};
   --Table-tbody-borderTopColor: #{lighten($borderColor, 2.5%)};
   --Table-thead-bg: #f6f8f8;
@@ -1314,6 +1317,7 @@
   --Table-tree-borderColor: var(--Table-borderColor);
   --Table-searchableForm-backgroundColor: #f6f7f8;
   --Table-searchableForm-borderRadius: #{px2rem(4px)};
+  --Table-empty-icon-size: #{px2rem(74px)};
 
   --TableCell--edge-paddingX: var(--gap-md);
   --TableCell--edge-paddingX-default: var(--gap-base);
@@ -1480,7 +1484,7 @@
   --Toast-paddingX: var(--gap-md);
   --Toast-paddingY: var(--gap-xs);
   --Toast-title-display: block;
-  --Toast-width: #{px2rem(300px)};
+  --Toast-width: #{px2rem(400px)};
 
   --Tooltip--attr-bg: rgba(0, 0, 0, 0.7);
   --Tooltip--attr-borderColor: var(--borderColor);
@@ -1536,7 +1540,7 @@
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
   --Tree-item-onHover-bg: rgba(0, 126, 255, 0.08);
   --Tree-item-onHover-bg-pure: rgba(0, 126, 255, 0.08);
-  --Tree-itemArrowWidth: #{px2rem(12px)};
+  --Tree-itemArrowWidth: #{px2rem(16px)};
   --Tree-itemHeight: #{px2rem(30px)};
   --Tree-itemLabel--onChecked-color: var(--Form-selectValue-color);
   --TreeSelect-popover-bg: #fff;

@@ -1,11 +1,15 @@
-import {RendererEvent} from '../utils/renderer-event';
+import { RendererEvent } from '../utils/renderer-event';
 import {
   RendererAction,
-  ListenerAction,
   ListenerContext,
   LoopStatus,
-  registerAction
+  registerAction,
+  ILogicAction
 } from './Action';
+
+export interface IBreakAction extends ILogicAction {
+  actionType: 'break';
+}
 
 /**
  * breach
@@ -16,7 +20,7 @@ import {
  */
 export class BreakAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: IBreakAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {

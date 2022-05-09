@@ -97,7 +97,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
    * 2.cascade为false，withChildren为true，ui行为为级联选中子节点，子节点禁用；值包含父子节点的值
    * 3.cascade为true，ui行为级联选中子节点，子节点可反选，值包含父子节点的值，此时withChildren属性失效
    * 4.cascade不论为true还是false，onlyChildren为true，ui行为级联选中子节点，子节点可反选，值只包含子节点的值
-  */
+   */
   cascade?: boolean;
 
   selfDisabledAffectChildren?: boolean;
@@ -830,15 +830,17 @@ export class TreeSelector extends React.Component<
         childrenItems = this.renderList(
           item.children,
           value,
-          (!autoCheckChildren || cascade)
-            ? false: (uncheckable
-            || (selfDisabledAffectChildren ? selfDisabled : false)
-            || (multiple && checked))
+          !autoCheckChildren || cascade
+            ? false
+            : uncheckable ||
+                (selfDisabledAffectChildren ? selfDisabled : false) ||
+                (multiple && checked)
         );
         selfChildrenChecked = !!childrenItems.childrenChecked;
         if (
           !selfChecked &&
-          onlyChildren && autoCheckChildren &&
+          onlyChildren &&
+          autoCheckChildren &&
           item.children.length === childrenItems.childrenChecked
         ) {
           selfChecked = true;
@@ -924,7 +926,7 @@ export class TreeSelector extends React.Component<
                     'is-folded': !this.isUnfolded(item)
                   })}
                 >
-                  <Icon icon="right-arrow-bold" className="icon" />
+                  <Icon icon="down-arrow-bold" className="icon" />
                 </div>
               ) : (
                 <span className={cx('Tree-itemArrowPlaceholder')} />

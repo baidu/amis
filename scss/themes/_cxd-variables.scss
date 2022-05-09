@@ -160,6 +160,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-clearBtn-color: #{$G7};
   --Form-input-clearBtn-color-onHover: #{$G4};
   --Form-input-clearBtn-color-onActive: #{$G3};
+  --Form-input-password-icon-size: #{px2rem(16px)};
+  --Form-input-password-icon-color:  #{$G5};
 
   --Form-select-borderWidth: #{px2rem(1px)};
   --Form-select-borderRadius: #{$R3};
@@ -184,6 +186,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-selectValue-color: var(--primary);
   --Form-select-value-borderColor: #{$G9};
   --Form-select-valueIcon-color: #{$G4};
+  --Form-select-multiple-bgColor: #{$G10};
 
   --InputGroup-select-borderWidth: #{px2rem(1px)};
   --InputGroup-select-onFocused-bg: #eaf6fe;
@@ -222,7 +225,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Checkbox--sm-inner-size: #{px2rem(8px)};
   --Checkbox--sm--full-inner-size: #{px2rem(8px)};
   --Radio-size: #{px2rem(16px)};
-  --Radio-inner-size: #{px2rem(10px)};
+  --Radio-inner-size: #{px2rem(8px)};
 
   --Switch-height: #{px2rem(20px)};
   --Switch-width: #{px2rem(44px)};
@@ -393,6 +396,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Table-onChecked-onHover-bg: #f5f5f5;
   --Table-onChecked-onHover-borderColor: #eceff8;
   --Table-onChecked-onHover-color: #666;
+  --Table-expandBtn-color: #{$G5};
   --TableCell-paddingX: #{px2rem(10px)};
 
   --TableCell-sortBtn-width: #{px2rem(14px)};
@@ -430,7 +434,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --ImageControl-addBtn-bg: #fff;
   --ImageControl-addBtn-border: #dbdbdb;
   --ImageControl-addBtn-borderRadius: #{$R3};
-  --ImageControl-addBtn-color: #666;
+  --ImageControl-addBtn-color: #84868c;
   --ImageControl-addBtn-onHover-bg: var(--ImageControl-addBtn-bg);
   --ImageControl-addBtn-onHover-border: var(--primary);
   --ImageControl-addBtn-onHover-color: var(--primary);
@@ -456,7 +460,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   // Modal
   --Modal-title-fontSize: #{$T3};
   --Modal-title-color: #{$W3};
-  --Modal-title-fontWeight: #{$G2};
+  --Modal-title-fontWeight: #{$W3};
   --Modal-overlay-bg: rgba(0, 0, 0, 0.7);
   --Modal-content-borderWidth: 0;
   --Modal-content-borderRadius: 0;
@@ -575,7 +579,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Alert--warning-borderColor: transparent;
 
   // Toast size
-  --Toast-width: #{px2rem(300px)};
+  --Toast-width: #{px2rem(400px)};
   --Toast-borderRadius: #{$R3};
   --Toast-paddingL: #{px2rem(26px)};
   --Toast-paddingX: #{px2rem(16px)};
@@ -662,4 +666,17 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --ResultBox-value-bg: #{$G10};
   --ResultBox-value-clear-bg: #{$G8};
   --ResultBox-value-clear-hover-bg: #{$G9};
+
+  // SearchBox
+  --SearchBox-hover-color: #{$B6};
+  --SearchBox-focus-color: #{$B7};
+  --SearchBox-search-icon-color: #{$G5};
+  --SearchBox-enhonce-icon-color: #{$G11};
+  --SearchBox-clearable-icon-color: #{$G7};
+  --SearchBox-clearable-icon-size: #{px2rem(16px)};
+  --SearchBox-height: #{px2rem(30px)};
+  --SearchBox-disabled-color: #{$G10};
+  --SearchBox-enhonce-disabled-color: #{$G9};
+  --SearchBox-enhonce-disabled-search-color: #{$G6};
+  --SearchBox-enhonce-clearable-gap: #{$R4};
 }

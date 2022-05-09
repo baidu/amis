@@ -1,5 +1,4 @@
 import {RendererEvent} from '../utils/renderer-event';
-import {filter} from '../utils/tpl';
 import {
   RendererAction,
   ListenerAction,
@@ -8,6 +7,7 @@ import {
 } from './Action';
 
 export interface ICopyAction extends ListenerAction {
+  actionType: 'copy';
   args: {
     content: string;
     copyFormat?: string;

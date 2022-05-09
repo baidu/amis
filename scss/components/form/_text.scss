@@ -197,6 +197,10 @@
       color: var(--Form-select-menu-onHover-color);
       background: var(--Form-select-menu-onHover-bg);
     }
+
+    .is-matched {
+      color: var(--Form-select-menu-onActive-color);
+    }
   }
 
   &-value {
@@ -239,25 +243,29 @@
       var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
     );
     font-size: var(--Form-selectValue-fontSize);
-    color: var(--Form-selectValue-color);
-    background: var(--Form-selectValue-bg);
-    border: px2rem(1px) solid var(--Form-selectValue-borderColor);
+    background: var(--Form-select-multiple-bgColor);
     border-radius: px2rem(2px);
     margin: 2px 3px;
+
+    display: flex;
+    align-items: center;
+    padding: 0 var(--gap-sm);
   }
 
-  &-valueIcon {
+  &-valueIcon.icon-close {
+    top: 0;
     cursor: pointer;
-    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
-    padding: 1px 5px;
-
-    &:hover {
-      background: var(--Form-selectValue-onHover-bg);
-    }
+    margin-left: var(--gap-sm);
+    width: px2rem(10px);
+    color: var(--default-icon-color);
   }
 
   &-input--multiple &-valueLabel {
-    padding: 0 var(--gap-xs);
+    line-height: var(--gap-xl);
+    max-width: px2rem(60px);
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &-counter {
@@ -273,6 +281,13 @@
     &:hover {
       border-color: var(--Form-input-onHover-borderColor);
     }
+  }
+
+  &-revealPassword .icon {
+    width: var(--Form-input-password-icon-size);
+    height: var(--Form-input-password-icon-size);
+    color: var(--Form-input-password-icon-color);
+    cursor: pointer;
   }
 }
 

@@ -242,9 +242,7 @@ export const validations: {
     );
   },
   isZipcode: function (values, value) {
-    return (
-      !isExisty(value) || isEmpty(value) || /^[1-9]{1}(\d+){5}$/.test(value)
-    );
+    return !isExisty(value) || isEmpty(value) || /^\d{6}$/.test(value);
   },
   isId: function (values, value) {
     return (

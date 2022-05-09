@@ -42,7 +42,9 @@ import {
   SchemaClassName,
   SchemaObject,
   SchemaTokenizeableString,
-  SchemaType
+  SchemaType,
+  SchemaTpl,
+  SchemaIcon
 } from '../../Schema';
 import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
@@ -227,7 +229,12 @@ export interface TableSchema extends BaseSchema {
   /**
    * 占位符
    */
-  placeholder?: string;
+  placeholder?: string | SchemaTpl;
+
+  /**
+   * 无数据展示 icon
+   */
+  emptyIcon?: string | SchemaIcon;
 
   /**
    * 是否显示底部
@@ -1884,7 +1891,7 @@ export default class Table extends React.Component<TableProps, object> {
             'is-dragDisabled': !item.draggable
           })}
         >
-          {item.draggable ? <Icon icon="drag-bar" className="icon" /> : null}
+          {item.draggable ? <Icon icon="drag" className="icon" /> : null}
         </td>
       );
     } else if (column.type === '__expandme') {
@@ -1928,7 +1935,7 @@ export default class Table extends React.Component<TableProps, object> {
           onDragStart={this.handleDragStart}
           className={cx('Table-dragBtn')}
         >
-          <Icon icon="drag-bar" className="icon" />
+          <Icon icon="drag" className="icon" />
         </a>
       );
     }
@@ -2510,7 +2517,8 @@ export default class Table extends React.Component<TableProps, object> {
       prefixRowClassNameExpr,
       prefixRowClassName,
       autoFillHeight,
-      itemActions
+      itemActions,
+      emptyIcon
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2533,6 +2541,7 @@ export default class Table extends React.Component<TableProps, object> {
         columnsGroup={store.columnGroup}
         rows={store.rows}
         placeholder={placeholder}
+        emptyIcon={emptyIcon}
         render={render}
         onMouseMove={this.handleMouseMove}
         onScroll={this.handleOutterScroll}
