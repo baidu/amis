@@ -486,7 +486,7 @@ export const FormStore = ServiceStore.named('FormStore')
           if (dispatcher?.then) {
             dispatcher = yield dispatcher;
           }
-          if (dispatcher && dispatcher?.prevented){
+          if (!dispatcher?.prevented){
             msg && env.notify('error', msg);
           }
           throw new Error(msg);
