@@ -166,12 +166,12 @@ export default {
             }
           ]
         },
-        validateFail: {
+        validateError: {
           actions: [
             {
               actionType: 'toast',
               args: {
-                msg: '表单校验成功：${event.data|json}'
+                msg: '表单校验失败：${event.data|json}'
               }
             }
           ]

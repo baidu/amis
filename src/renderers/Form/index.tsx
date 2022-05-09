@@ -663,7 +663,7 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     // 派发init事件，参数为初始化数据
-    const dispatcher = dispatchEvent(
+    const dispatcher = await dispatchEvent(
       'inited',
       createObject(this.props.data, data)
     );
@@ -767,7 +767,7 @@ export default class Form extends React.Component<FormProps, object> {
         if (result) {
           dispatchEvent('validateSucc', data);
         } else {
-          dispatchEvent('validateFail', data);
+          dispatchEvent('validateError', data);
         }
         return result;
       });
@@ -794,9 +794,7 @@ export default class Form extends React.Component<FormProps, object> {
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
     const {store, messages, translate: __, dispatchEvent, data} = this.props;
     this.flush();
-    const validateErrCb = () => {
-      dispatchEvent('validateFail', data);
-    };
+    const validateErrCb = () => dispatchEvent('validateError', data);
     return store.submit(
       fn,
       this.hooks['validate'] || [],
@@ -871,13 +869,13 @@ export default class Form extends React.Component<FormProps, object> {
     };
   }
 
-  emitChange(submit: boolean) {
+  async emitChange(submit: boolean) {
     const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
     if (!isAlive(store)) {
       return;
     }
-    const dispatcher = dispatchEvent('change', createObject(data, store.data));
+    const dispatcher = await dispatchEvent('change', createObject(data, store.data));
     if (!dispatcher?.prevented) {
       onChange &&
         onChange(
@@ -980,10 +978,12 @@ export default class Form extends React.Component<FormProps, object> {
       data = store.data;
     }
     if (Array.isArray(action.required) && action.required.length) {
-      return store.validateFields(action.required).then(result => {
+      return store.validateFields(action.required).then(async result => {
         if (!result) {
-          dispatchEvent('validateError', this.props.data);
-          env.notify('error', __('Form.validateFailed'));
+          const dispatcher = await dispatchEvent('validateError', this.props.data);
+          if (!dispatcher?.prevented) {
+            env.notify('error', __('Form.validateFailed'));
+          }
         } else {
           dispatchEvent('validateSucc', this.props.data);
           this.handleAction(
@@ -1039,9 +1039,9 @@ export default class Form extends React.Component<FormProps, object> {
             .saveRemote(action.api || (api as Api), values, {
               successMessage: saveSuccess,
               errorMessage: saveFailed,
-              onSuccess: (result: Payload) => {
+              onSuccess: async (result: Payload) => {
                 // result为提交接口返回的内容
-                dispatchEvent(
+                const dispatcher = await dispatchEvent(
                   'submitSucc',
                   createObject(this.props.data, {result})
                 );
@@ -1049,20 +1049,30 @@ export default class Form extends React.Component<FormProps, object> {
                   !isEffectiveApi(finnalAsyncApi, store.data) ||
                   store.data[finishedField || 'finished']
                 ) {
-                  return;
+                  return {
+                    cbResult: null,
+                    dispatcher
+                  };
                 }
-                return until(
+                const cbResult = until(
                   () => store.checkRemote(finnalAsyncApi as Api, store.data),
                   (ret: any) => ret && ret[finishedField || 'finished'],
                   cancel => (this.asyncCancel = cancel),
                   checkInterval
-                );
+                )
+                return {
+                  cbResult,
+                  dispatcher
+                };
               },
-              onFailed: (result: Payload) => {
-                dispatchEvent(
+              onFailed: async (result: Payload) => {
+                const dispatcher = await dispatchEvent(
                   'submitFail',
                   createObject(this.props.data, {error: result})
                 );
+                return {
+                  dispatcher
+                };
               }
             })
             .then(async response => {
