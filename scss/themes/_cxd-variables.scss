@@ -76,6 +76,14 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   0px 1px 10px 0px rgba(8, 14, 26, 0.05), 0px 2px 4px -1px rgba(8, 14, 26, 0.04);
 
 :root {
+  
+  --fontSizeXs: #{$T1};
+  --fontSizeSm: #{$T2};
+  --fontSizeMd: #{$T3};
+  --fontSizeLg: #{$T4};
+  --fontSizeXl: #{$T5};
+  --fontSizeBase: var(--fontSizeSm);
+
   --borderColor: #{$G8};
   --borderRadius: #{$R3};
   --body-bg: #ffffff;
@@ -118,15 +126,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Page-title-color: #000;
   --Page-header-paddingX: var(--gap-md);
   --Page-header-paddingY: #{px2rem(10px)};
-
-  --Form-item-fontSize: var(--fontSizeSm);
-  --Form-label-paddingTop: calc(
-    (
-        var(--Form-input-height) - var(--Form-input-lineHeight) *
-          var(--Form-item-fontSize)
-      ) / 2
-  );
-  --Form-feedback-position: absolute;
+  --Form-item-fontSize: var(--fontSizeBase);
+  --Form-input-marginBottom: #{px2rem(4px)};
   --Form-item-fontColor: #{$G4};
   --Form-item-gap: var(--gap-xl);
   --Form-input-bg: #{$G11};

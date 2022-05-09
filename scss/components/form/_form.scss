@@ -71,7 +71,6 @@
   margin: var(--Form-input-marginBottom) 0 0;
   padding-left: var(--gap-base);
   font-size: var(--fontSizeSm);
-  position: var(--Form-feedback-position);
 }
 
 .#{$ns}Form-description {
@@ -93,9 +92,6 @@
 
   &:last-child {
     margin-bottom: 0;
-    .#{$ns}Form-feedback {
-      position: relative;
-    }
   }
 
   .#{$ns}Grid-form > &:last-child {
