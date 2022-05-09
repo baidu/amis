@@ -119,17 +119,16 @@ export class SchemaEditorItemCommon<
           bodyRender={({isOpened, value, onChange, ref}) => {
             return isOpened ? (
               <Form defaultValues={value} onSubmit={onChange} ref={ref}>
-                {({control, formState: {errors}}) => (
+                {({control}) => (
                   <>
                     <Controller
                       label={__('JSONSchema.title')}
                       name="title"
-                      hasError={errors.title}
-                      errors={errors.title}
                       control={control}
+                      rules={{isInt: true}}
+                      isRequired
                       render={({field}) => (
                         <InputBox
-                          className={cx('SchemaEditor-title')}
                           {...field}
                           disabled={disabled || !!value?.$ref}
                         />

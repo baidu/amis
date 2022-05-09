@@ -10,7 +10,8 @@
     cursor: inherit;
   }
 
-  &.is-error {
+  &.is-error,
+  .is-error > & {
     border-color: var(--Form-input-onError-borderColor);
     background: var(--Form-input-onError-bg);
   }

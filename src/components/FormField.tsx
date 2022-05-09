@@ -5,8 +5,10 @@ import React from 'react';
 import {themeable, ThemeProps} from '../theme';
 import {
   ControllerProps as ReactHookFormControllerProps,
-  Controller as ReactHookFormController
+  Controller as ReactHookFormController,
+  RegisterOptions
 } from 'react-hook-form';
+import {method} from 'lodash';
 
 export interface FormFieldProps extends ThemeProps {
   mode?: 'normal' | 'horizontal';
@@ -63,6 +65,7 @@ function FormField(props: FormFieldProps) {
           </span>
         </label>
       ) : null}
+
       {children}
 
       {hasError && errors.length ? (
@@ -86,17 +89,22 @@ export default ThemedFormField;
 
 export interface ControllerProps
   extends ReactHookFormControllerProps,
-    Omit<FormFieldProps, keyof ThemeProps> {}
+    Omit<FormFieldProps, keyof ThemeProps> {
+  rules: Omit<
+    RegisterOptions,
+    'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
+  > & {
+    [propName: string]: any;
+  };
+}
 export function Controller(props: ControllerProps) {
-  const {
-    render,
-    name,
-    rules,
-    shouldUnregister,
-    defaultValue,
-    control,
-    ...rest
-  } = props;
+  const {render, name, shouldUnregister, defaultValue, control, ...rest} =
+    props;
+  let rules = {...props.rules};
+
+  if (rest.isRequired) {
+    rules.required = true;
+  }
 
   return (
     <ReactHookFormController
@@ -106,7 +114,13 @@ export function Controller(props: ControllerProps) {
       defaultValue={defaultValue}
       control={control}
       render={methods => (
-        <ThemedFormField {...rest}>{render(methods)}</ThemedFormField>
+        <ThemedFormField
+          {...rest}
+          hasError={!!methods.fieldState.error}
+          errors={methods.fieldState.error?.message}
+        >
+          {render(methods)}
+        </ThemedFormField>
       )}
     />
   );

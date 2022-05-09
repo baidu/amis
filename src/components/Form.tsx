@@ -4,6 +4,8 @@
 import React from 'react';
 import {themeable, ThemeProps} from '../theme';
 import {useForm, UseFormReturn} from 'react-hook-form';
+import {useValidationResolver} from '../hooks/use-validation-resolver';
+import {localeable, LocaleProps} from '../locale';
 
 export type FormRef = React.MutableRefObject<
   | {
@@ -12,7 +14,7 @@ export type FormRef = React.MutableRefObject<
   | undefined
 >;
 
-export interface FormProps extends ThemeProps {
+export interface FormProps extends ThemeProps, LocaleProps {
   defaultValues: any;
   onSubmit: (value: any) => void;
   forwardRef?: FormRef;
@@ -21,7 +23,10 @@ export interface FormProps extends ThemeProps {
 
 export function Form(props: FormProps) {
   const {classnames: cx} = props;
-  const methods = useForm({defaultValues: props.defaultValues});
+  const methods = useForm({
+    defaultValues: props.defaultValues,
+    resolver: useValidationResolver(props.translate)
+  });
 
   React.useEffect(() => {
     if (props.forwardRef) {
@@ -60,8 +65,8 @@ export function Form(props: FormProps) {
   );
 }
 
-const ThemedForm = themeable(Form);
-type ThemedFormProps = Omit<FormProps, keyof ThemeProps>;
+const ThemedForm = themeable(localeable(Form));
+type ThemedFormProps = Omit<FormProps, keyof ThemeProps & LocaleProps>;
 
 export default React.forwardRef((props: ThemedFormProps, ref: FormRef) => (
   <ThemedForm {...props} forwardRef={ref} />
