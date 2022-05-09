@@ -381,22 +381,23 @@ export const FormStore = ServiceStore.named('FormStore')
         if (!isAlive(self) || self.disposed) {
           return;
         }
-        if (!ret?.dispatcher?.prevented) {
-          if (e.type === 'ServerError') {
-            const result = (e as ServerError).response;
-            getEnv(self).notify(
-              'error',
-              e.message,
-              result.msgTimeout !== undefined
-                ? {
-                    closeButton: true,
-                    timeout: result.msgTimeout
-                  }
-                : undefined
-            );
-          } else {
-            getEnv(self).notify('error', e.message);
-          }
+        if (ret?.dispatcher?.prevented) {
+          return;
+        }
+        if (e.type === 'ServerError') {
+          const result = (e as ServerError).response;
+          getEnv(self).notify(
+            'error',
+            e.message,
+            result.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: result.msgTimeout
+                }
+              : undefined
+          );
+        } else {
+          getEnv(self).notify('error', e.message);
         }
         throw e;
       }
@@ -481,8 +482,11 @@ export const FormStore = ServiceStore.named('FormStore')
         ) {
           let msg = failedMessage ?? self.__('Form.validateFailed');
           const env = getEnv(self);
-          const dispatcher: any = validateErrCb && validateErrCb();
-          if (!dispatcher?.prevented){
+          let dispatcher: any = validateErrCb && validateErrCb();
+          if (dispatcher?.then) {
+            dispatcher = yield dispatcher;
+          }
+          if (dispatcher && dispatcher?.prevented){
             msg && env.notify('error', msg);
           }
           throw new Error(msg);

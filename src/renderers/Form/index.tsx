@@ -1049,10 +1049,10 @@ export default class Form extends React.Component<FormProps, object> {
                   !isEffectiveApi(finnalAsyncApi, store.data) ||
                   store.data[finishedField || 'finished']
                 ) {
-                  return Promise.resolve({
+                  return {
                     cbResult: null,
                     dispatcher
-                  });
+                  };
                 }
                 const cbResult = until(
                   () => store.checkRemote(finnalAsyncApi as Api, store.data),
@@ -1060,19 +1060,19 @@ export default class Form extends React.Component<FormProps, object> {
                   cancel => (this.asyncCancel = cancel),
                   checkInterval
                 )
-                return Promise.resolve({
+                return {
                   cbResult,
                   dispatcher
-                });
+                };
               },
               onFailed: async (result: Payload) => {
                 const dispatcher = await dispatchEvent(
                   'submitFail',
                   createObject(this.props.data, {error: result})
                 );
-                return Promise.resolve({
+                return {
                   dispatcher
-                });
+                };
               }
             })
             .then(async response => {
