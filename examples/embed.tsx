@@ -58,35 +58,35 @@ export function embed(
     return request;
   };
 
-  const responseAdaptor = (api: any) => (value: any) => {
-    let response = value.data || {}; // blob 下可能会返回内容为空？
+  const responseAdaptor = (api: any) => (response: any) => {
+    let payload = response.data || {}; // blob 下可能会返回内容为空？
     // 之前拼写错了，需要兼容
     if (env && env.responseAdpater) {
       env.responseAdaptor = env.responseAdpater;
     }
     if (env && env.responseAdaptor) {
       const url = api.url;
-      const idx = api.url.indexOf('?');
-      const query = ~idx ? qs.parse(api.url.substring(idx)) : {};
+      const idx = url.indexOf('?');
+      const query = ~idx ? qs.parse(url.substring(idx)) : {};
       const request = {
         ...api,
         query: query,
         body: api.data
       };
-      response = env.responseAdaptor(api, response, query, request);
+      payload = env.responseAdaptor(api, payload, query, request, response);
     } else {
-      if (response.hasOwnProperty('errno')) {
-        response.status = response.errno;
-        response.msg = response.errmsg;
-      } else if (response.hasOwnProperty('no')) {
-        response.status = response.no;
-        response.msg = response.error;
+      if (payload.hasOwnProperty('errno')) {
+        payload.status = payload.errno;
+        payload.msg = payload.errmsg;
+      } else if (payload.hasOwnProperty('no')) {
+        payload.status = payload.no;
+        payload.msg = payload.error;
       }
     }
 
     const result = {
-      ...value,
-      data: response
+      ...response,
+      data: payload
     };
     return result;
   };
