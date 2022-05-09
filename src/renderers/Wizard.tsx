@@ -719,7 +719,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       formStore
         .saveRemote(action.api || step.api || api!, store.data, {
           onSuccess: async (result: any) => {
-            const dispatcher = this.dispatchEvent(
+            const dispatcher = await this.dispatchEvent(
               'submitSucc',
               createObject(this.props.data, {result})
             );
@@ -745,7 +745,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             };
           },
           onFailed: async (error: any) => {
-            const dispatcher = await dispatchEvent(
+            const dispatcher = await this.dispatchEvent(
               'submitFail',
               createObject(this.props.data, {error})
             );
