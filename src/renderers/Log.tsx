@@ -351,7 +351,7 @@ export class Log extends React.Component<LogProps, LogState> {
                 {operation.includes('stop') && (
                   <Button
                     size="sm"
-                    title="停止"
+                    title="__('stop')"
                     disabled={!refresh}
                     onClick={this.refresh}
                   >
@@ -362,7 +362,7 @@ export class Log extends React.Component<LogProps, LogState> {
                 {operation.includes('restart') && (
                   <Button
                     size="sm"
-                    title="重新加载数据"
+                    title={__('reload')}
                     disabled={refresh}
                     onClick={this.refresh}
                   >
@@ -373,7 +373,11 @@ export class Log extends React.Component<LogProps, LogState> {
                 {operation.includes('showLineNumber') && (
                   <Button
                     size="sm"
-                    title={showLineNumber ? '关闭行数显示' : '显示行数'}
+                    title={
+                      showLineNumber
+                        ? __('Log.notShowLineNumber')
+                        : __('Log.showLineNumber')
+                    }
                     onClick={this.changeShowLineNumber}
                   >
                     {showLineNumber ? <MinusIcon /> : <PlusIcon />}
@@ -381,14 +385,14 @@ export class Log extends React.Component<LogProps, LogState> {
                 )}
 
                 {operation.includes('clear') && (
-                  <Button size="sm" title={'清屏'} onClick={this.clear}>
+                  <Button size="sm" title={__('clear')} onClick={this.clear}>
                     <InputClearIcon />
                   </Button>
                 )}
 
                 <Button
                   size="sm"
-                  title={'收起工具栏'}
+                  title={__('Log.collapse')}
                   onClick={this.changeShowOperation}
                 >
                   <LeftArrowIcon />
@@ -396,7 +400,7 @@ export class Log extends React.Component<LogProps, LogState> {
               </>
             ) : (
               <div
-                title={'展开工具栏'}
+                title={__('Log.expand')}
                 className={cx('Log-operation-hidden')}
                 onClick={this.changeShowOperation}
               >
