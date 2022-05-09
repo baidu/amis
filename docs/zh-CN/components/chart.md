@@ -450,3 +450,10 @@ window.echarts = amisRequire('echarts');
 | height             | `string`                                     |           | 设置根元素的高度                                                   |
 | replaceChartOption | `boolean`                                    | `false`   | 每次更新是完全覆盖配置项还是追加？                                 |
 | `trackExpression`  | `string`                                     |           | 当这个表达式的值有变化时更新图表                                   |
+
+## 动作表
+
+| 动作名称 | 动作配置                   | 说明                                       |
+| -------- | -------------------------- | ------------------------------------------ |
+| reload   | -                          | 刷新（重新加载）                           |
+| setValue | `value: object` 更新的数据 | 更新数据，等于更新图表所依赖数据域中的变量 |

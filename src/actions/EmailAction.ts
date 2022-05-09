@@ -1,16 +1,15 @@
 import {RendererEvent} from '../utils/renderer-event';
-import {filter} from '../utils/tpl';
 import pick from 'lodash/pick';
-import mapValues from 'lodash/mapValues';
 import qs from 'qs';
 import {
   RendererAction,
-  ListenerAction,
   ListenerContext,
-  registerAction
+  registerAction,
+  ListenerAction
 } from './Action';
 
 export interface IEmailAction extends ListenerAction {
+  actionType: 'email';
   args: {
     to: string;
     cc: string;

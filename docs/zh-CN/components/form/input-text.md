@@ -139,7 +139,6 @@ order: 56
                     "value": "dd"
                 }
             ]
-
         }
     ]
 }
@@ -288,23 +287,28 @@ order: 56
 
 可以配置 transform，来自动转换值，支持转小写或大写。
 
+> 注意下面第一个示例，只有输入的内容才会触发 transform，下拉框选中的值是不会处理的。
+
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "body": [
     {
-      "name": "a",
+      "name": "lower",
       "type": "input-text",
-      "label": "A",
+      "label": "转换小写",
       "placeholder": "输入的英文自动转为小写",
       "transform": {
         "lowerCase": true
-      }
+      },
+      "multiple": true,
+      "options": ["APPLE", "ORANGE", "WATERMELON"],
     },
     {
-      "name": "b",
+      "name": "upper",
       "type": "input-text",
-      "label": "B",
+      "label": "转换大写",
       "placeholder": "输入的英文自动转为大写",
       "transform": {
         "upperCase": true
@@ -347,17 +351,20 @@ order: 56
 
 ## 事件表
 
-| 事件名称 | 事件参数                    | 说明     |
-| -------- | --------------------------- | -------- |
-| click    | `value: string \| string[]` | 点击     |
-| focus    | `value: string \| string[]` | 获取焦点 |
-| blur     | `value: string \| string[]` | 失去焦点 |
-| enter    | `value: string \| string[]` | 回车     |
-| change   | `value: string \| string[]` | 值变化   |
+| 事件名称 | 事件参数        | 说明     |
+| -------- | --------------- | -------- |
+| click    | `value: string` | 点击     |
+| focus    | `value: string` | 获取焦点 |
+| blur     | `value: string` | 失去焦点 |
+| enter    | `value: string` | 回车     |
+| change   | `value: string` | 值变化   |
 
 ## 动作表
 
-| 动作名称 | 动作配置 | 说明     |
-| -------- | -------- | -------- |
-| clear    | -        | 清空     |
-| focus    | -        | 获取焦点 |
+| 动作名称 | 动作配置                 | 说明                                               |
+| -------- | ------------------------ | -------------------------------------------------- |
+| clear    | -                        | 清空                                               |
+| reset    | -                        | 重置                                               |
+| focus    | -                        | 获取焦点                                           |
+| reload   | -                        | 刷新（重新加载），只针对配置了`source`的输入框有效 |
+| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`多选时用`,`分隔            |

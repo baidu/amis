@@ -97,7 +97,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
    * 2.cascade为false，withChildren为true，ui行为为级联选中子节点，子节点禁用；值包含父子节点的值
    * 3.cascade为true，ui行为级联选中子节点，子节点可反选，值包含父子节点的值，此时withChildren属性失效
    * 4.cascade不论为true还是false，onlyChildren为true，ui行为级联选中子节点，子节点可反选，值只包含子节点的值
-  */
+   */
   cascade?: boolean;
 
   selfDisabledAffectChildren?: boolean;
@@ -146,7 +146,7 @@ export class TreeSelector extends React.Component<
     showIcon: true,
     showOutline: false,
     initiallyOpen: true,
-    unfoldedLevel: 0,
+    unfoldedLevel: 1,
     showRadio: false,
     multiple: false,
     disabled: false,
@@ -260,10 +260,11 @@ export class TreeSelector extends React.Component<
     onExpandTree?.(nodePathArr);
   }
 
-  syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: Number) {
+  syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: number) {
     // 传入默认展开层级需要重新初始化unfolded
     let initFoldedLevel = typeof unfoldedLevel !== 'undefined';
-    let expandLevel = initFoldedLevel ? unfoldedLevel : props.unfoldedLevel;
+    let expandLevel = Number(initFoldedLevel ? unfoldedLevel : props.unfoldedLevel) - 1;
+
     // 初始化树节点的展开状态
     let unfolded = this.unfolded;
     const {foldedField, unfoldedField} = this.props;
@@ -823,22 +824,23 @@ export class TreeSelector extends React.Component<
       const checked = !!~value.indexOf(item);
       const selfDisabled = item[disabledField];
       let selfChecked = !!uncheckable || checked;
-
       let childrenItems = null;
       let selfChildrenChecked = false;
       if (item.children && item.children.length) {
         childrenItems = this.renderList(
           item.children,
           value,
-          (!autoCheckChildren || cascade)
-            ? false: (uncheckable
-            || (selfDisabledAffectChildren ? selfDisabled : false)
-            || (multiple && checked))
+          !autoCheckChildren || cascade
+            ? false
+            : uncheckable ||
+                (selfDisabledAffectChildren ? selfDisabled : false) ||
+                (multiple && checked)
         );
         selfChildrenChecked = !!childrenItems.childrenChecked;
         if (
           !selfChecked &&
-          onlyChildren && autoCheckChildren &&
+          onlyChildren &&
+          autoCheckChildren &&
           item.children.length === childrenItems.childrenChecked
         ) {
           selfChecked = true;
@@ -850,7 +852,8 @@ export class TreeSelector extends React.Component<
         childrenChecked++;
       }
 
-      let nodeDisabled = !!uncheckable || !!disabled || selfDisabled;
+      let nodeDisabled = !!uncheckable || !!disabled || selfDisabled
+      || (multiple && !autoCheckChildren && !item[valueField]);
 
       if (
         !nodeDisabled &&
@@ -859,7 +862,6 @@ export class TreeSelector extends React.Component<
       ) {
         nodeDisabled = true;
       }
-
       const checkbox: JSX.Element | null = multiple ? (
         <Checkbox
           size="sm"
@@ -924,7 +926,7 @@ export class TreeSelector extends React.Component<
                     'is-folded': !this.isUnfolded(item)
                   })}
                 >
-                  <Icon icon="right-arrow-bold" className="icon" />
+                  <Icon icon="down-arrow-bold" className="icon" />
                 </div>
               ) : (
                 <span className={cx('Tree-itemArrowPlaceholder')} />

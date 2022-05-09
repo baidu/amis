@@ -34,43 +34,112 @@ export class FormulaPlugin {
     const {functions, variables, value} = this.getProps();
     if (value) {
       // todo functions 也需要自动替换
-      this.autoMark(variables);
+      this.autoMark(variables!);
     }
   }
 
-  insertContent(value: any, type: 'variable' | 'func') {
-    const {evalMode} = this.getProps();
+  // 计算 `${`、`}` 括号的位置，如 ${a}+${b}, 结果是 [ { from: 0, to: 3 }, { from: 5, to: 8 } ]
+  computedBracesPosition(exp: string) {
+    const braces: {begin: number; end: number}[] = [];
 
+    exp?.replace(/\$\{/g, (val, offset) => {
+      if (val) {
+        const charArr = exp.slice(offset + val.length).split('');
+        const cache = ['${'];
+
+        for (let index = 0; index < charArr.length; index++) {
+          const char = charArr[index];
+          if (char === '$' && charArr[index + 1] === '{') {
+            cache.push('${');
+          } else if (char === '}') {
+            cache.pop();
+          }
+
+          if (cache.length === 0) {
+            braces.push({begin: offset + 2, end: index + offset + 2});
+            break;
+          }
+        }
+      }
+      return '';
+    });
+
+    return braces;
+  }
+
+  // 判断字符串是否在 ${} 中
+  checkStrIsInBraces(
+    [from, to]: number[],
+    braces: {begin: number; end: number}[]
+  ) {
+    let isIn = false;
+    if (braces.length) {
+      for (let index = 0; index < braces.length; index++) {
+        const brace = braces[index];
+        if (from > brace.begin && to <= brace.end) {
+          isIn = true;
+          break;
+        }
+      }
+    }
+    return isIn;
+  }
+
+  insertBraces(originFrom: CodeMirror.Position, originTo: CodeMirror.Position) {
+    const str = this.editor.getValue();
+    const braces = this.computedBracesPosition(str);
+
+    if (!this.checkStrIsInBraces([originFrom.ch, originTo.ch], braces)) {
+      this.editor.setCursor({
+        line: originFrom.line,
+        ch: originFrom.ch
+      });
+      this.editor.replaceSelection('${');
+
+      this.editor.setCursor({
+        line: originTo.line,
+        ch: originTo.ch + 2
+      });
+      this.editor.replaceSelection('}');
+    }
+  }
+
+  insertContent(value: any, type?: 'variable' | 'func') {
     const from = this.editor.getCursor();
+    const {evalMode} = this.getProps();
     if (type === 'variable') {
-      const key = evalMode ? value.key : '${' + value.key + '}';
-      this.editor.replaceSelection(key);
-      var to = this.editor.getCursor();
+      this.editor.replaceSelection(value.key);
+      const to = this.editor.getCursor();
 
       this.markText(from, to, value.name, 'cm-field');
+
+      !evalMode && this.insertBraces(from, to);
     } else if (type === 'func') {
-      // todo 支持 snippet，目前是不支持的
+      this.editor.replaceSelection(`${value}()`);
+      const to = this.editor.getCursor();
 
-      const key = evalMode ? `${value}()` : '${' + value + '()}';
-      this.editor.replaceSelection(key);
-      var to = this.editor.getCursor();
-
-      // todo 模板模式下 ${XXX()} 高亮处理
-      evalMode &&
-        this.markText(
-          from,
-          {
-            line: to.line,
-            ch: to.ch - 2
-          },
-          value,
-          'cm-func'
-        );
+      this.markText(
+        from,
+        {
+          line: to.line,
+          ch: to.ch - 2
+        },
+        value,
+        'cm-func'
+      );
 
       this.editor.setCursor({
         line: to.line,
-        ch: evalMode ? to.ch - 1 : to.ch - 2
+        ch: to.ch - 1
       });
+
+      if (!evalMode) {
+        this.insertBraces(from, to);
+        this.editor.setCursor({
+          line: to.line,
+          ch: to.ch + 1
+        });
+      }
     } else if (typeof value === 'string') {
       this.editor.replaceSelection(value);
     }
@@ -97,14 +166,13 @@ export class FormulaPlugin {
     if (!Array.isArray(variables) || !variables.length) {
       return;
     }
-    const {evalMode} = this.getProps();
     const varMap: {
       [propname: string]: string;
     } = {};
 
     eachTree(variables, item => {
       if (item.value) {
-        const key = evalMode ? item.value : '${' + item.value + '}';
+        const key = item.value;
         varMap[key] = item.label;
       }
     });

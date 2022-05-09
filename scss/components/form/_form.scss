@@ -71,6 +71,7 @@
   margin: var(--Form-input-marginBottom) 0 0;
   padding-left: var(--gap-base);
   font-size: var(--fontSizeSm);
+  position: var(--Form-feedback-position);
 }
 
 .#{$ns}Form-description {
@@ -92,6 +93,9 @@
 
   &:last-child {
     margin-bottom: 0;
+    .#{$ns}Form-feedback {
+      position: relative;
+    }
   }
 
   .#{$ns}Grid-form > &:last-child {
@@ -289,6 +293,13 @@
           min-height: 1px;
         }
       }
+      .#{$ns}Form-itemColumn--align-left {
+        text-align: left;
+      }
+      .#{$ns}Form-itemColumn--align-right {
+        text-align: right;
+      }
+
     }
 
     &--inline {

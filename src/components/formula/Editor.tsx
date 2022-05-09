@@ -37,7 +37,7 @@ export interface FuncItem {
 
 export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   onChange?: (value: string) => void;
-  value: string;
+  value?: string;
   /**
    * evalMode 即直接就是表达式，否则
    * 需要 ${这里面才是表达式}
@@ -48,7 +48,7 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   /**
    * 用于提示的变量集合，默认为空
    */
-  variables: Array<VariableItem>;
+  variables?: Array<VariableItem>;
 
   /**
    * 变量展现模式，可选值：'tabs' ｜ 'tree'
@@ -59,7 +59,7 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
    * 函数集合，默认不需要传，即  amis-formula 里面那个函数
    * 如果有扩充，则需要传。
    */
-  functions: Array<FuncGroup>;
+  functions?: Array<FuncGroup>;
 
   /**
    * 顶部标题，默认为表达式
@@ -141,7 +141,7 @@ export class FormulaEditor extends React.Component<
 
     eachTree(variables, item => {
       if (item.value) {
-        const key = evalMode ? item.value : '${' + item.value + '}';
+        const key = item.value;
         varMap[key] = item.label;
       }
     });
@@ -304,7 +304,7 @@ export class FormulaEditor extends React.Component<
                   variableClassName
                 )}
                 selectMode={variableMode}
-                data={variables}
+                data={variables!}
                 onSelect={this.handleVariableSelect}
               />
             </div>

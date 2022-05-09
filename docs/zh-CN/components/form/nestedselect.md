@@ -613,20 +613,22 @@ order: 31
 | searchPromptText  | `string`                                  | `"输入内容进行检索"` | 搜索框占位文本                                                                              |
 | noResultsText     | `string`                                  | `"未找到任何结果"`   | 无结果时的文本                                                                              |
 | multiple          | `boolean`                                 | `false`              | 可否多选                                                                                    |
-| hideNodePathLabel | `boolean`                                 | `false`              | 是否隐藏选择框中已选择节点的路径 label 信息    
-| onlyLeaf | `boolean`                                 | `false`              | 只允许选择叶子节点                                                 |
+| hideNodePathLabel | `boolean`                                 | `false`              | 是否隐藏选择框中已选择节点的路径 label 信息                                                 |
+| onlyLeaf          | `boolean`                                 | `false`              | 只允许选择叶子节点                                                                          |
 
 ## 事件表
 
-| 事件名称 | 事件参数                           | 说明                 |
-| -------- | ---------------------------------- | -------------------- |
-| change   | `value: string \| Option[]` 选中值 | 选中值发生变化时触发 |
-| blur     | `value: string \| Option[]` 选中值          | 失去焦点时触发       |
-| focus    | `value: string \| Option[]` 选中值          | 获得焦点时触发       |
+| 事件名称 | 事件参数               | 说明                 |
+| -------- | ---------------------- | -------------------- |
+| change   | `value: string` 选中值 | 选中值发生变化时触发 |
+| blur     | `value: string` 选中值 | 失去焦点时触发       |
+| focus    | `value: string` 选中值 | 获得焦点时触发       |
 
 ## 动作表
 
-| 动作名称 | 动作配置 | 说明 |
-| -------- | -------- | ---- |
-| clear    | -        | 清空 |
-| reset    | -        | 重置 |
+| 动作名称 | 动作配置                 | 说明                                                   |
+| -------- | ------------------------ | ------------------------------------------------------ |
+| clear    | -                        | 清空                                                   |
+| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
+| reload   | -                        | 刷新（重新加载），只针对配置了`source`的点选按钮有效   |
+| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`时，多个值用`,`分隔            |

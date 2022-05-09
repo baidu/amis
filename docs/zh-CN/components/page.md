@@ -267,7 +267,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | toolbar             | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的右上角加内容，需要注意的是，当有 title 时，该区域在右上角，没有时该区域在顶部 |
 | body                | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的内容区域加内容                                                                |
 | className           | `string`                                  |                                            | 外层 dom 类名                                                                         |
-| cssVars             | `object`                                  |                                            | 自定义 CSS 变量，请参考[样式](../../../style)                                         |
+| cssVars             | `object`                                  |                                            | 自定义 CSS 变量，请参考[样式](../style)                                               |
 | toolbarClassName    | `string`                                  | `v-middle wrapper text-right bg-light b-b` | Toolbar dom 类名                                                                      |
 | bodyClassName       | `string`                                  | `wrapper`                                  | Body dom 类名                                                                         |
 | asideClassName      | `string`                                  | `w page-aside-region bg-auto`              | Aside dom 类名                                                                        |
@@ -278,12 +278,18 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | interval            | `number`                                  | `3000`                                     | 刷新时间(最小 1000)                                                                   |
 | silentPolling       | `boolean`                                 | `false`                                    | 配置刷新时是否显示加载动画                                                            |
 | stopAutoRefreshWhen | [表达式](../../docs/concepts/expression)  | `""`                                       | 通过表达式来配置停止刷新的条件                                                        |
-| pullRefresh         | `object`                                 | `{disabled: true}`                          | 下拉刷新配置（仅用于移动端）                                                              |
+| pullRefresh         | `object`                                  | `{disabled: true}`                         | 下拉刷新配置（仅用于移动端）                                                          |
 
 ## 事件表
-| 事件名称     | 事件参数 | 说明                                  |
-| ----------- | ------ | ------------------------------------- |
-| pullRefresh |        | 配置下拉刷新后下拉释放后触发（仅用于移动端） |
+
+| 事件名称    | 事件参数       | 说明                                         |
+| ----------- | -------------- | -------------------------------------------- |
+| inited      | api 初始化数据 | 初始化完成                                   |
+| pullRefresh |                | 配置下拉刷新后下拉释放后触发（仅用于移动端） |
 
 ## 动作表
-无
+
+| 动作名称 | 动作配置                   | 说明             |
+| -------- | -------------------------- | ---------------- |
+| reload   | -                          | 刷新（重新加载） |
+| setValue | `value: object` 更新的数据 | 更新数据         |

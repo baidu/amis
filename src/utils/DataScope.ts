@@ -48,9 +48,7 @@ export class DataScope {
 
   removeChild(idOrScope: string | DataScope) {
     const idx = this.children.findIndex(item =>
-      typeof idOrScope === 'string'
-        ? idOrScope === item.id
-        : idOrScope === idOrScope
+      typeof idOrScope === 'string' ? idOrScope === item.id : item === idOrScope
     );
 
     if (~idx) {

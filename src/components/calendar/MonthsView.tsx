@@ -121,10 +121,8 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
 
       months.push(renderer(props, i, year, date && date.clone()));
 
-      if (months.length === 4) {
-        rows.push(
-          React.createElement('tr', {key: month + '_' + rows.length}, months)
-        );
+      if (months.length === 3) {
+        rows.push(React.createElement('tr', {key: i}, months));
         months = [];
       }
 
@@ -138,7 +136,12 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
     this.props.updateSelectedDate(event);
   }
 
-  renderMonth = (props: any, month: number) => {
+  renderMonth = (
+    props: any,
+    month: number,
+    year: number,
+    date: moment.Moment
+  ) => {
     var localMoment = this.props.viewDate;
     var monthStr = localMoment
       .localeData()
@@ -235,7 +238,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
     return (
       <div className="rdtMonths">
         {showYearHead && (
-          <table>
+          <table className="headerTable">
             <thead>
               <tr>
                 <th

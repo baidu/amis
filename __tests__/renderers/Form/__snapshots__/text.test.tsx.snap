@@ -454,8 +454,9 @@ exports[`Renderer:text type is password 1`] = `
               <a
                 class="cxd-TextControl-revealPassword"
               >
-                <i
-                  class="fa fa-eye-slash"
+                <icon-mock
+                  classname="icon icon-invisible"
+                  icon="invisible"
                 />
               </a>
             </div>
@@ -1794,15 +1795,14 @@ exports[`Renderer:text with options and multiple: first option selected 1`] = `
                 class="cxd-TextControl-value"
               >
                 <span
-                  class="cxd-TextControl-valueIcon"
-                >
-                  ×
-                </span>
-                <span
                   class="cxd-TextControl-valueLabel"
                 >
                   OptionA
                 </span>
+                <icon-mock
+                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  icon="close"
+                />
               </div>
               <input
                 aria-autocomplete="list"
@@ -2168,15 +2168,14 @@ exports[`Renderer:text with options and multiple: options is opened again, and f
                 class="cxd-TextControl-value"
               >
                 <span
-                  class="cxd-TextControl-valueIcon"
-                >
-                  ×
-                </span>
-                <span
                   class="cxd-TextControl-valueLabel"
                 >
                   OptionA
                 </span>
+                <icon-mock
+                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  icon="close"
+                />
               </div>
               <input
                 aria-autocomplete="list"
@@ -2358,29 +2357,27 @@ exports[`Renderer:text with options and multiple: second option selected 1`] = `
                 class="cxd-TextControl-value"
               >
                 <span
-                  class="cxd-TextControl-valueIcon"
-                >
-                  ×
-                </span>
-                <span
                   class="cxd-TextControl-valueLabel"
                 >
                   OptionA
                 </span>
+                <icon-mock
+                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  icon="close"
+                />
               </div>
               <div
                 class="cxd-TextControl-value"
               >
                 <span
-                  class="cxd-TextControl-valueIcon"
-                >
-                  ×
-                </span>
-                <span
                   class="cxd-TextControl-valueLabel"
                 >
                   OptionB
                 </span>
+                <icon-mock
+                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  icon="close"
+                />
               </div>
               <input
                 aria-autocomplete="list"

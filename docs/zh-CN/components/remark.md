@@ -22,6 +22,18 @@ order: 62
 }
 ```
 
+## 图标形状
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "remark",
+        "content": "这是一段提醒",
+        "shape": "circle"
+    }
+}
+```
 ## 可配置标题
 
 ```schema
@@ -98,3 +110,5 @@ order: 62
 | placement | `string` |                         | 弹出位置      |
 | trigger   | `string` | `['hover', 'focus']`    | 触发条件      |
 | icon      | `string` | `fa fa-question-circle` | 图标          |
+| shape     | `'circle' \| 'square'`             | 图标形状       |
+

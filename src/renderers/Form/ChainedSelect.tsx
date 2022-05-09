@@ -86,7 +86,9 @@ export default class ChainedSelectControl extends React.Component<
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
+    if (actionType === 'clear') {
+      onChange('');
+    } else if (actionType === 'reset') {
       onChange(resetValue ?? '');
     }
   }
@@ -95,12 +97,14 @@ export default class ChainedSelectControl extends React.Component<
     const {delimiter, joinValues, extractValue} = this.props;
     // 判断arr的项是否已抽取
     return isExtracted
-      ? (joinValues ? arr.join(delimiter || ',') : arr)
-      : (joinValues
+      ? joinValues
         ? arr.join(delimiter || ',')
-        : extractValue
-        ? arr.map(item => item.value || item)
-        : arr)
+        : arr
+      : joinValues
+      ? arr.join(delimiter || ',')
+      : extractValue
+      ? arr.map(item => item.value || item)
+      : arr;
   }
 
   loadMore() {
@@ -158,7 +162,7 @@ export default class ChainedSelectControl extends React.Component<
             parentId,
             parent: arr[idx]
           })
-          .then(async (ret) => {
+          .then(async ret => {
             // todo 没有检测 response.ok
 
             const stack = this.state.stack.concat();
@@ -179,7 +183,7 @@ export default class ChainedSelectControl extends React.Component<
                   value: valueRes
                 })
               );
-              
+
               if (rendererEvent?.prevented) {
                 return;
               }
@@ -209,7 +213,15 @@ export default class ChainedSelectControl extends React.Component<
   }
 
   async handleChange(index: number, currentValue: any) {
-    const {value, delimiter, onChange, joinValues, extractValue, dispatchEvent, data} = this.props;
+    const {
+      value,
+      delimiter,
+      onChange,
+      joinValues,
+      extractValue,
+      dispatchEvent,
+      data
+    } = this.props;
 
     const arr = Array.isArray(value)
       ? value.concat()
@@ -220,14 +232,14 @@ export default class ChainedSelectControl extends React.Component<
     arr.push(joinValues ? currentValue.value : currentValue);
 
     const valueRes = this.array2value(arr);
-      
+
     const rendererEvent = await dispatchEvent(
       'change',
       createObject(data, {
         value: valueRes
       })
     );
-    
+
     if (rendererEvent?.prevented) {
       return;
     }

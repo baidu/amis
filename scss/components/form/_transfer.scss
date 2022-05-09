@@ -35,6 +35,10 @@
     }
   }
 
+  &-select {
+    overflow: hidden;
+  }
+
   &-select,
   &-result {
     width: 0;
@@ -55,8 +59,24 @@
     position: relative; // 貌似不加 relative 会有 bug。
   }
 
-  &-select > &-selection.#{$ns}AssociatedSelection {
-    overflow: initial;
+  &-select > .#{$ns}ChainedSelection {
+    min-height: unset;
+    overflow: hidden;
+    
+    .#{$ns}ChainedSelection-col {
+      height: 100%;
+      overflow: auto;
+      min-width: px2rem(130px);
+    }
+  }
+
+  .#{$ns}AssociatedSelection {
+    overflow: hidden;
+
+    &-left,
+    &-right {
+      min-height: unset;
+    }
   }
 
   &-search + &-selection {
@@ -235,9 +255,13 @@
 }
 
 .#{$ns}TransferDropDown {
+  &:hover {
+    border: px2rem(1px) solid ver(--menu-active-color);
+  }
   &-icon {
+    transform: rotate(90deg);
     transition: transform var(--animation-duration) ease-out;
-    margin: 5px 5px 5px auto;
+    margin: px2rem(5px) 0 px2rem(5px) auto;
     display: flex;
     color: var(--Form-select-caret-iconColor);
     &:hover {
@@ -252,7 +276,7 @@
   }
 
   &.is-active &-icon {
-    transform: rotate(180deg);
+    transform: rotate(-90deg);
   }
 }
 .#{$ns}TransferDropDown-content {
@@ -260,6 +284,7 @@
   min-width: px2rem(400px);
   display: flex;
   flex-direction: column;
+  padding: var(--gap-xs) 0;
 
   &.is-mobile {
     width: 100%;

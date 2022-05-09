@@ -30,16 +30,21 @@ export interface TabsTransferProps
     > {}
 
 interface BaseTransferState {
-  activeKey: number
+  activeKey: number;
 }
 
 @OptionsControl({
   type: 'tabs-transfer-picker'
 })
 export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTransferProps> {
-
   state: BaseTransferState = {
     activeKey: 0
+  };
+
+  @autobind
+  dispatchEvent(name: string) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(name, data);
   }
 
   @autobind
@@ -62,16 +67,15 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
     return BaseSelection.itemRender(option, states);
   }
 
-
   // 动作
   doAction(action: Action) {
     const {resetValue, onChange} = this.props;
     switch (action.actionType) {
       case 'clear':
-        onChange('');
+        onChange?.('');
         break;
       case 'reset':
-        onChange(resetValue);
+        onChange?.(resetValue ?? '');
         break;
     }
   }
@@ -117,6 +121,8 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
           leftOptions={leftOptions}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
+          onFocus={() => this.dispatchEvent('focus')}
+          onBlur={() => this.dispatchEvent('blur')}
         />
 
         <Spinner overlay key="info" show={loading} />

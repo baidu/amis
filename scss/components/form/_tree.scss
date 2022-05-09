@@ -222,7 +222,7 @@
     cursor: pointer;
     width: var(--Tree-itemArrowWidth);
     display: inline-flex;
-    margin-right: var(--Tree-icon-gap);
+    margin-right: var(--Tree-icon-margin-right);
 
     // &:before {
     //   font-style: normal;
@@ -235,11 +235,10 @@
       display: block;
       transition: transform var(--animation-duration);
       top: 0;
-      transform: rotate(90deg);
     }
 
     &.is-folded > svg {
-      transform: rotate(0deg);
+      transform: rotate(-90deg);
     }
   }
 

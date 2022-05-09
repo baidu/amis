@@ -129,8 +129,10 @@ export default class NestedSelectControl extends React.Component<
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
-      onChange(resetValue ?? '');
+    if (actionType === 'clear') {
+      onChange?.('');
+    } else if (actionType === 'reset') {
+      onChange?.(resetValue ?? '');
     }
   }
 
@@ -247,7 +249,7 @@ export default class NestedSelectControl extends React.Component<
                         );
                       })
                     : label}
-                  {!isEnd && ' > '}
+                  {!isEnd && '>'}
                 </span>
               );
             })
@@ -686,7 +688,7 @@ export default class NestedSelectControl extends React.Component<
 
                   {option.children && option.children.length ? (
                     <div className={cx('NestedSelect-optionArrowRight')}>
-                      <Icon icon="right-arrow" className="icon" />
+                      <Icon icon="right-arrow-bold" className="icon"/>
                     </div>
                   ) : null}
                 </div>

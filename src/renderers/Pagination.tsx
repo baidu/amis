@@ -3,7 +3,6 @@ import {Renderer, RendererProps} from '../factory';
 import {BaseSchema} from '../Schema';
 import {
   MODE_TYPE,
-  PaginationState as BasicPaginationState,
   Pagination as BasicPagination
 } from '../components/Pagination';
 
@@ -74,26 +73,16 @@ export interface PaginationSchema extends BaseSchema {
    */
   disabled?: boolean;
 
-
   hasNext?: boolean;
 }
 
 export interface PaginationProps
   extends RendererProps,
-    Omit<PaginationSchema, 'type' | 'className'> {
-}
+    Omit<PaginationSchema, 'type' | 'className'> {}
 
-export interface PaginationState extends BasicPaginationState{}
-
-export default class Pagination extends React.Component<
-  PaginationProps,
-  PaginationState
-> {
-
+export default class Pagination extends React.Component<PaginationProps> {
   render() {
-    return (
-      <BasicPagination {...this.props} />
-    );
+    return <BasicPagination {...this.props} />;
   }
 }
 
@@ -101,4 +90,4 @@ export default class Pagination extends React.Component<
   test: /(^|\/)(?:pagination|pager)$/,
   name: 'pagination'
 })
-export class PaginationRenderer extends Pagination { }
+export class PaginationRenderer extends Pagination {}

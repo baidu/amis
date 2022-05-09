@@ -60,18 +60,19 @@ interface BaseDatePickerProps {
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
   viewDate?: moment.Moment;
-  renderMonth?: (props: any, month: number, year: number, date: any) => void;
   renderDay?: (
     props: any,
     currentDate: moment.Moment,
     selectedDate: moment.Moment
   ) => JSX.Element;
+  renderMonth?: (props: any, month: number, year: number, date: any) => JSX.Element;
   renderQuarter?: (
     props: any,
     quartar: number,
     year?: number,
     date?: moment.Moment
   ) => JSX.Element;
+  renderYear?: (props: any, year: number) => JSX.Element;
   schedules?: Array<{
     startTime: Date;
     endTime: Date;
@@ -663,10 +664,10 @@ class BaseDatePicker extends React.Component<
     viewProps.timeRangeHeader = this.props.timeRangeHeader;
 
     return (
-      <div 
+      <div
         className={cx(
-          'rdt rdtStatic rdtOpen', 
-          this.props.className, 
+          'rdt rdtStatic rdtOpen',
+          this.props.className,
           (timeFormat && !dateFormat || typeof dateFormat !== 'string')
             ? 'rdtTimeWithoutD'
             : (timeFormat && timeFormat.toLowerCase().indexOf('s') > 0)
@@ -676,9 +677,9 @@ class BaseDatePicker extends React.Component<
             : ''
         )}
       >
-        <div key="dt" 
+        <div key="dt"
           className={cx(
-            'rdtPicker', 
+            'rdtPicker',
             (timeFormat && !dateFormat)
               ? 'rdtPickerTimeWithoutD'
               : (timeFormat && dateFormat)

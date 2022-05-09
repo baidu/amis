@@ -1,32 +1,18 @@
-import {Action} from '../types';
 import {buildApi} from '../utils/api';
-import {isEmpty, isObject, qsstringify} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
-import {filter} from '../utils/tpl';
 import omit from 'lodash/omit';
 import {
   RendererAction,
-  ListenerAction,
   ListenerContext,
-  registerAction
+  registerAction,
+  ListenerAction
 } from './Action';
 
 export interface ILinkAction extends ListenerAction {
+  actionType: 'link' | 'url' | 'jump';
   args: {
-    link: string;
-    url?: never;
-    blank?: boolean;
-    params?: {
-      [key: string]: string;
-    };
-    [propName: string]: any;
-  };
-}
-
-export interface IUrlAction extends ListenerAction {
-  args: {
-    url: string;
-    link?: never;
+    link?: string;
+    url?: string;
     blank?: boolean;
     params?: {
       [key: string]: string;
@@ -44,7 +30,7 @@ export interface IUrlAction extends ListenerAction {
  */
 export class LinkAction implements RendererAction {
   async run(
-    action: ListenerAction,
+    action: ILinkAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
@@ -71,6 +57,7 @@ export class LinkAction implements RendererAction {
       urlObj.url,
       {
         actionType: action.actionType,
+        type: 'button',
         ...action.args
       },
       action.args

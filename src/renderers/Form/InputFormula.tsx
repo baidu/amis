@@ -1,14 +1,15 @@
 import React from 'react';
-
-import ResultBox from '../../components/ResultBox';
-import Spinner from '../../components/Spinner';
-import {SchemaApi, SchemaTokenizeableString} from '../../Schema';
+import {parse, Evaluator} from 'amis-formula';
 import FormItem, {FormBaseControl, FormControlProps} from './Item';
 import FormulaPicker from '../../components/formula/Picker';
 import {autobind} from '../../utils/helper';
 
 import type {FuncGroup, VariableItem} from '../../components/formula/Editor';
 import type {SchemaIcon} from '../../Schema';
+import {
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 
 /**
  * InputFormula 公式编辑器
@@ -122,11 +123,37 @@ export interface InputFormulaProps
 export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
   static defaultProps: Pick<
     InputFormulaControlSchema,
-    'inputMode' | 'borderMode'
+    'inputMode' | 'borderMode' | 'evalMode'
   > = {
     inputMode: 'input-button',
-    borderMode: 'full'
+    borderMode: 'full',
+    evalMode: true
   };
+
+  ref: any;
+
+  @autobind
+  formulaRef(ref: any) {
+    if (ref) {
+      while (ref && ref.getWrappedInstance) {
+        ref = ref.getWrappedInstance();
+      }
+      this.ref = ref;
+    } else {
+      this.ref = undefined;
+    }
+  }
+
+  validate() {
+    const {translate: __, value} = this.props;
+
+    if (this.ref?.validate) {
+      const res = this.ref.validate(value);
+      if (res !== true) {
+        return __('FormulaEditor.invalidData', {err: res});
+      }
+    }
+  }
 
   render() {
     let {
@@ -134,9 +161,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       disabled,
       onChange,
       evalMode,
-      variables,
       variableMode,
-      functions,
       header,
       label,
       value,
@@ -155,10 +180,24 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       title,
       variableClassName,
       functionClassName,
-      data
+      data,
+      onPickerOpen
     } = this.props;
+    let {variables, functions} = this.props;
+
+    if (isPureVariable(variables)) {
+      // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
+      variables = resolveVariableAndFilter(variables, this.props.data, '| raw');
+    }
+
+    if (isPureVariable(functions)) {
+      // 如果 functions 是 ${xxx} 这种形式，将其处理成实际的值
+      functions = resolveVariableAndFilter(functions, this.props.data, '| raw');
+    }
+
     return (
       <FormulaPicker
+        ref={this.formulaRef}
         className={className}
         value={value}
         disabled={disabled}
@@ -181,6 +220,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         variableClassName={variableClassName}
         functionClassName={functionClassName}
         data={data}
+        onPickerOpen={onPickerOpen}
       />
     );
   }

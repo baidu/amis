@@ -123,7 +123,9 @@ export class Custom extends React.Component<CustomProps, object> {
   // 销毁所有子元素的dom节点
   unmountChildElem() {
     if (this.childElemArr && this.childElemArr.length > 0) {
-      this.childElemArr.forEach(childElemItem => ReactDOM.unmountComponentAtNode(childElemItem));
+      this.childElemArr.forEach(childElemItem =>
+        ReactDOM.unmountComponentAtNode(childElemItem)
+      );
     }
   }
 
@@ -131,7 +133,11 @@ export class Custom extends React.Component<CustomProps, object> {
    * 渲染子元素
    * 备注：现有custom组件通过props.render生成的子元素是react虚拟dom对象，需要使用ReactDOM.render渲染，不能直接插入到当前dom中。
    **/
-  renderChild(schemaPosition: string, childSchema: any, insertElemDom: HTMLElement | string) {
+  renderChild(
+    schemaPosition: string,
+    childSchema: any,
+    insertElemDom: HTMLElement | string
+  ) {
     const {render} = this.props;
     let childEleCont = null;
     let curInsertElemDom: any = null;
@@ -145,13 +151,9 @@ export class Custom extends React.Component<CustomProps, object> {
     }
     if (childSchema && curInsertElemDom) {
       const childHTMLElem = render(schemaPosition, childSchema);
-      childEleCont = ReactDOM.render(
-        childHTMLElem,
-        curInsertElemDom,
-        () => {
-          this.recordChildElem(curInsertElemDom);
-        }
-      );
+      childEleCont = ReactDOM.render(childHTMLElem, curInsertElemDom, () => {
+        this.recordChildElem(curInsertElemDom);
+      });
     }
     return childEleCont;
   }

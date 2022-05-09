@@ -85,8 +85,10 @@ export default class TagControl extends React.PureComponent<
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 
-    if (!!~['clear', 'reset'].indexOf(actionType)) {
-      onChange(resetValue ?? '');
+    if (actionType === 'clear') {
+      onChange?.('');
+    } else if (actionType === 'reset') {
+      onChange?.(resetValue ?? '');
     }
   }
 
@@ -106,13 +108,8 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   getValue(type: 'push' | 'pop' | 'normal' = 'normal', option: any = {}) {
-    const {
-      selectedOptions,
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField
-    } = this.props;
+    const {selectedOptions, joinValues, extractValue, delimiter, valueField} =
+      this.props;
 
     const newValue = selectedOptions.concat();
     if (type === 'push') {
@@ -122,9 +119,7 @@ export default class TagControl extends React.PureComponent<
     }
 
     const newValueRes = joinValues
-      ? newValue
-          .map(item => item[valueField || 'value'])
-          .join(delimiter || ',')
+      ? newValue.map(item => item[valueField || 'value']).join(delimiter || ',')
       : extractValue
       ? newValue.map(item => item[valueField || 'value'])
       : newValue;
@@ -132,10 +127,7 @@ export default class TagControl extends React.PureComponent<
   }
 
   async addItem(option: Option) {
-    const {
-      selectedOptions,
-      onChange
-    } = this.props;
+    const {selectedOptions, onChange} = this.props;
     const newValue = selectedOptions.concat();
 
     if (find(newValue, item => item.value == option.value)) {
@@ -255,11 +247,7 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   async handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
-    const {
-      selectedOptions,
-      onChange,
-      delimiter
-    } = this.props;
+    const {selectedOptions, onChange, delimiter} = this.props;
 
     const value = this.state.inputValue.trim();
 

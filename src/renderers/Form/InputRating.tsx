@@ -87,9 +87,13 @@ export default class RatingControl extends React.Component<RatingProps, any> {
   };
 
   doAction(action: Action, data: object, throwErrors: boolean) {
-    const {resetValue} = this.props;
-    if (action.actionType && ['clear', 'reset'].includes(action.actionType)) {
-      this.handleChange(resetValue ?? '');
+    const actionType = action?.actionType as string;
+    const {onChange, resetValue} = this.props;
+
+    if (actionType === 'clear') {
+      onChange?.('');
+    } else if (actionType === 'reset') {
+      onChange?.(resetValue ?? '');
     }
   }
 
@@ -97,15 +101,18 @@ export default class RatingControl extends React.Component<RatingProps, any> {
   async handleChange(value: any) {
     const {onChange, dispatchEvent, data} = this.props;
 
-    const rendererEvent = await dispatchEvent('change', createObject(data, {
-      value
-    }));
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return;
     }
-    
-    onChange && onChange(value);
+
+    onChange?.(value);
   }
 
   render() {

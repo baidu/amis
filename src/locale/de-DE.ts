@@ -120,6 +120,8 @@ register('de-DE', {
   'fetchFailed': 'Fehler beim Abrufen der API',
   'File.continueAdd': 'Hinuzufügen fortsetzen',
   'File.dragDrop': 'Dateien per Drag & Drop hier ablegen',
+  'File.clickUpload': 'Klicken Sie hier zum Hochladen',
+  'File.helpText': 'Hilfedokumentation',
   'File.errorRetry': 'Fehler beim Hochladen der Datei, bitte versuchen Sie es erneut.',
   'File.failed': 'Fehlerhafte Dateien',
   'File.invalidType': '{{files}} entspricht nicht Typ `{{accept}}`',
@@ -181,6 +183,7 @@ register('de-DE', {
   'Checkboxes.selectAll': 'Alle auswählen/abwählen',
   'Select.checkAll': 'Alle markieren',
   'Select.clear': 'Löschen',
+  'Select.upload': 'Wieder hochladen',
   'Select.clearAll': 'Alle löschen',
   'Select.createLabel': 'Neue Option',
   'Select.placeholder': 'Auswählen',
@@ -301,7 +304,7 @@ register('de-DE', {
   'FormulaEditor.title': 'Formel Editor',
   'FormulaEditor.variable': 'Variable',
   'FormulaEditor.function': 'Funktion',
-  'FormulaEditor.invalidData': 'Überprüfungsfehler, position in {{position}}',
+  'FormulaEditor.invalidData': 'Überprüfungsfehler, position or reason is {{err}}',
   'pullRefresh.pullingText': 'Zum Aktualisieren nach unten ziehen...',
   'pullRefresh.loosingText': 'Zum Aktualisieren freigeben...',
   'pullRefresh.loadingText': 'Laden...',
@@ -318,5 +321,6 @@ register('de-DE', {
   'JSONSchema.title': 'Title',
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
-  'JSONSchema.array_items': 'Items'
+  'JSONSchema.array_items': 'Items',
+  'TimeNow': 'Jetzt',
 });

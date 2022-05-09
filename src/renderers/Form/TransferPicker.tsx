@@ -45,7 +45,6 @@ export interface TabsTransferProps
   type: 'transfer-picker'
 })
 export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferProps> {
-
   @autobind
   dispatchEvent(name: string) {
     const {dispatchEvent, data} = this.props;
@@ -57,10 +56,10 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
     const {resetValue, onChange} = this.props;
     switch (action.actionType) {
       case 'clear':
-        onChange('');
+        onChange?.('');
         break;
       case 'reset':
-        onChange(resetValue);
+        onChange?.(resetValue ?? '');
         break;
     }
   }

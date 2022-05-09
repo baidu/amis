@@ -158,6 +158,7 @@
     border-bottom-right-radius: var(--Modal-content-borderRadius);
 
     .#{$ns}Button {
+      width: var(--Modal-footer-button-width);
       margin-left: var(--gap-sm);
     }
   }

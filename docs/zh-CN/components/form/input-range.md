@@ -255,44 +255,41 @@ order: 38
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名           | 类型                                                         | 默认值  | 说明                                                         |
-| ---------------- | ------------------------------------------------------------ | ------- | ------------------------------------------------------------ |
-| className        | `string`                                                     |         | css 类名                                                     |
-| value            | `number` or `string` or `{min: number, max: number}` or `[number, number]` |         |                                                              |
-| min              | `number`                                                     | `0`     | 最小值                                                       |
-| max              | `number`                                                     | `100`   | 最大值                                                       |
-| disabled         | `boolean`                                                    | `false` | 是否禁用                                                     |
-| step             | `number`                                                     | `1`     | 步长                                                         |
-| showSteps        | `boolean`                                                    | `false` | 是否显示步长                                                 |
-| parts            | `number` or `number[]`                                        | `1`     | 分割的块数<br/>主持数组传入分块的节点                        |
-| marks            | <code>{ [number &#124; string]: ReactNode }</code>  or <code>{ [number &#124; string]: { style: CSSProperties, label: ReactNode } }</code> |         | 刻度标记<br/>- 支持自定义样式<br/>- 设置百分比               |
-| tooltipVisible   | `boolean`                                                    | `false` | 是否显示滑块标签                                             |
-| tooltipPlacement | `auto` or `bottom` or `left` or `right`                      | `top`   | 滑块标签的位置，默认`auto`，方向自适应<br/>前置条件：tooltipVisible 不为 false 时有效 |
-| tipFormatter     | `function`                                                   |         | 控制滑块标签显隐函数<br/>前置条件：tooltipVisible 不为 false 时有效 |
-| multiple         | `boolean`                                                    | `false` | 支持选择范围                                                 |
-| joinValues       | `boolean`                                                    | `true`  | 默认为 `true`，选择的 `value` 会通过 `delimiter` 连接起来，否则直接将以`{min: 1, max: 100}`的形式提交<br/>前置条件：开启`multiple`时有效 |
-| delimiter        | `string`                                                     | `,`     | 分隔符                                                       |
-| unit             | `string`                                                     |         | 单位                                                         |
-| clearable        | `boolean`                                                    | `false` | 是否可清除<br/>前置条件：开启`showInput`时有效               |
-| showInput        | `boolean`                                                    | `false` | 是否显示输入框                                               |
-| onChange         | `function`                                                   |         | 当 组件 的值发生改变时，会触发 onChange 事件，并把改变后的值作为参数传入 |
-| onAfterChange    | `function`                                                   |         | 与 `onmouseup` 触发时机一致，把当前值作为参数传入            |
-
+| 属性名           | 类型                                                                                                                                      | 默认值  | 说明                                                                                                                                     |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| className        | `string`                                                                                                                                  |         | css 类名                                                                                                                                 |
+| value            | `number` or `string` or `{min: number, max: number}` or `[number, number]`                                                                |         |                                                                                                                                          |
+| min              | `number`                                                                                                                                  | `0`     | 最小值                                                                                                                                   |
+| max              | `number`                                                                                                                                  | `100`   | 最大值                                                                                                                                   |
+| disabled         | `boolean`                                                                                                                                 | `false` | 是否禁用                                                                                                                                 |
+| step             | `number`                                                                                                                                  | `1`     | 步长                                                                                                                                     |
+| showSteps        | `boolean`                                                                                                                                 | `false` | 是否显示步长                                                                                                                             |
+| parts            | `number` or `number[]`                                                                                                                    | `1`     | 分割的块数<br/>主持数组传入分块的节点                                                                                                    |
+| marks            | <code>{ [number &#124; string]: ReactNode }</code> or <code>{ [number &#124; string]: { style: CSSProperties, label: ReactNode } }</code> |         | 刻度标记<br/>- 支持自定义样式<br/>- 设置百分比                                                                                           |
+| tooltipVisible   | `boolean`                                                                                                                                 | `false` | 是否显示滑块标签                                                                                                                         |
+| tooltipPlacement | `auto` or `bottom` or `left` or `right`                                                                                                   | `top`   | 滑块标签的位置，默认`auto`，方向自适应<br/>前置条件：tooltipVisible 不为 false 时有效                                                    |
+| tipFormatter     | `function`                                                                                                                                |         | 控制滑块标签显隐函数<br/>前置条件：tooltipVisible 不为 false 时有效                                                                      |
+| multiple         | `boolean`                                                                                                                                 | `false` | 支持选择范围                                                                                                                             |
+| joinValues       | `boolean`                                                                                                                                 | `true`  | 默认为 `true`，选择的 `value` 会通过 `delimiter` 连接起来，否则直接将以`{min: 1, max: 100}`的形式提交<br/>前置条件：开启`multiple`时有效 |
+| delimiter        | `string`                                                                                                                                  | `,`     | 分隔符                                                                                                                                   |
+| unit             | `string`                                                                                                                                  |         | 单位                                                                                                                                     |
+| clearable        | `boolean`                                                                                                                                 | `false` | 是否可清除<br/>前置条件：开启`showInput`时有效                                                                                           |
+| showInput        | `boolean`                                                                                                                                 | `false` | 是否显示输入框                                                                                                                           |
+| onChange         | `function`                                                                                                                                |         | 当 组件 的值发生改变时，会触发 onChange 事件，并把改变后的值作为参数传入                                                                 |
+| onAfterChange    | `function`                                                                                                                                |         | 与 `onmouseup` 触发时机一致，把当前值作为参数传入                                                                                        |
 
 ## 事件表
 
-| 事件名称        | 事件参数                 | 说明                 |
-|--------------- |------------------------|----------------------|
-| change | value: `number` or `string` or`{min: number, max: number}` 滑块当前值 | 当值变化时触发的事件 |
-| blur | - | 输入框失去焦点<br/>前置条件：showInput为true |
-| focus | - | 输入框获取焦点<br/>前置条件：showInput为true |
-
+| 事件名称 | 事件参数                                                          | 说明                                           |
+| -------- | ----------------------------------------------------------------- | ---------------------------------------------- |
+| change   | `value: number \| string \|{min: number, max: number}` 滑块当前值 | 当值变化时触发的事件                           |
+| blur     | `value: number \| string \|{min: number, max: number}` 滑块当前值 | 输入框失去焦点<br/>前置条件：showInput 为 true |
+| focus    | `value: number \| string \|{min: number, max: number}` 滑块当前值 | 输入框获取焦点<br/>前置条件：showInput 为 true |
 
 ## 动作表
 
-| 动作名称        | 动作配置                 | 说明                 |
-|----------------|-------------------------|---------------------|
-| clear | - | 清除输入框<br />前置条件：showInput 和 clearable 都为 true |
-| reset | - | 重置到最小值 |
-
-
+| 动作名称 | 动作配置                                                         | 说明                                                       |
+| -------- | ---------------------------------------------------------------- | ---------------------------------------------------------- |
+| clear    | -                                                                | 清除输入框<br />前置条件：showInput 和 clearable 都为 true |
+| reset    | -                                                                | 将值重置为`resetValue`，若没有配置`resetValue`，则清空     |
+| setValue | `value: number \| string \| {min: number, max: number}` 更新的值 | 更新数据                                                   |

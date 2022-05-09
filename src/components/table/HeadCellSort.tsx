@@ -30,25 +30,12 @@ export class HeadCellSort extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      column,
-      onSort,
-      classnames: cx
-    } = this.props;
+    const {column, onSort, classnames: cx} = this.props;
 
     return (
       <span
         className={cx('TableCell-sortBtn')}
-        onClick={() => {
-          const callback = () => {
-            if (onSort) {
-              onSort({
-                orderBy: this.state.orderBy,
-                order: this.state.order
-              });
-            }
-          }
-
+        onClick={async () => {
           let sortPayload = {};
           if (column.key === this.state.orderBy) {
             if (this.state.order === 'descend') {
@@ -63,7 +50,17 @@ export class HeadCellSort extends React.Component<Props, State> {
             sortPayload = {orderBy: column.key, order: 'ascend'};
           }
 
-          this.setState(sortPayload, callback);
+          if (onSort) {
+            const prevented = onSort({
+              orderBy: this.state.orderBy,
+              order: this.state.order
+            });
+            if (prevented) {
+              return;
+            }
+          }
+
+          this.setState(sortPayload);
         }}
       >
         <i

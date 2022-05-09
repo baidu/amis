@@ -853,7 +853,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 | type            | `string`                                  |                    | `"dialog"` 指定为 Dialog 渲染器                                                                  |
 | title           | [SchemaNode](../../docs/types/schemanode) |                    | 弹出层标题                                                                                       |
 | body            | [SchemaNode](../../docs/types/schemanode) |                    | 往 Dialog 内容区加内容                                                                           |
-| size            | `string`                                  |                    | 指定 dialog 大小，支持: `xs`、`sm`、`md`、`lg`                                                   |
+| size            | `string`                                  |                    | 指定 dialog 大小，支持: `xs`、`sm`、`md`、`lg`、`xl`、`full`                                      |
 | bodyClassName   | `string`                                  | `modal-body`       | Dialog body 区域的样式类名                                                                       |
 | closeOnEsc      | `boolean`                                 | `false`            | 是否支持按 `Esc` 关闭 Dialog                                                                     |
 | showCloseButton | `boolean`                                 | `true`             | 是否显示右上角的关闭按钮                                                                         |
@@ -872,7 +872,8 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 
 ## 动作表
 
-| 动作名称 | 动作配置 | 说明         |
-| -------- | -------- | ------------ |
-| confirm  | -        | 确认（提交） |
-| cancel   | -        | 取消（关闭） |
+| 动作名称 | 动作配置                   | 说明         |
+| -------- | -------------------------- | ------------ |
+| confirm  | -                          | 确认（提交） |
+| cancel   | -                          | 取消（关闭） |
+| setValue | `value: object` 更新的数据 | 更新数据     |

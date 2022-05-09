@@ -159,7 +159,9 @@ order: 59
 
 ## 选中父节点是否自动选中子节点
 
-`autoCheckChildren`默认为true，选中父节点会自动选中子节点，可以设置`"autoCheckChildren": false`，不自动选中子节点
+> since 1.9.0
+
+`autoCheckChildren`默认为 true，选中父节点会自动选中子节点，可以设置`"autoCheckChildren": false`，不自动选中子节点
 
 ```schema: scope="body"
 {
@@ -244,8 +246,8 @@ order: 59
 ```
 
 ## 选中父节点自动选中子节点，数据是否包含父子节点的值
-`cascade`默认为false，子节点禁止反选，值不包含子节点值，配置`"cascade": true`，子节点可以反选，值包含父子节点值
 
+`cascade`默认为 false，子节点禁止反选，值不包含子节点值，配置`"cascade": true`，子节点可以反选，值包含父子节点值（1.9.0之前的版本cascade配置为true的效果为：选中父节点不默认选中子节点）
 
 ```schema: scope="body"
 {
@@ -329,7 +331,7 @@ order: 59
 }
 ```
 
-`withChildren`默认为false，子节点禁止反选，值包含父子节点值，配置`withChildren": true`，子节点禁止反选，值包含父子节点值
+`withChildren`默认为 false，子节点禁止反选，值包含父子节点值，配置`withChildren": true`，子节点禁止反选，值包含父子节点值
 
 ```schema: scope="body"
 {
@@ -545,9 +547,9 @@ order: 59
 }
 ```
 
-如果层级较多，也可以配置`unfoldedLevel`指定展开的层级数。
+如果层级较多，也可以配置`unfoldedLevel`指定展开的层级数，默认展开第 1 层
 
-下例中设置`"unfoldedLevel": 1`，默认展开第 1 层
+下例中设置`"unfoldedLevel": 2`，表示展开第 2 层
 
 ```schema: scope="body"
 {
@@ -560,7 +562,7 @@ order: 59
       "name": "tree1",
       "label": "默认不自动带上子节点的值",
       "initiallyOpen": false,
-      "unfoldedLevel": 1,
+      "unfoldedLevel": 2,
       "options": [
         {
           "label": "A",
@@ -882,63 +884,62 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名                 | 类型                                         | 默认值           | 说明                                                                                                                |
-| ---------------------- | -------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------- |
-| options                | `Array<object>`或`Array<string>`             |                  | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                                           |
-| source                 | `string`或 [API](../../../../docs/types/api) |                  | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                                        |
-| autoComplete           | [API](../../../../docs/types/api)            |                  | [自动提示补全](./options#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8-autocomplete)                                         |
-| multiple               | `boolean`                                    | `false`          | 是否多选                                                                                                            |
-| delimiter              | `string`                                     | `false`          | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                           |
-| labelField             | `string`                                     | `"label"`        | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield)                         |
-| valueField             | `string`                                     | `"value"`        | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)                                    |
-| iconField              | `string`                                     | `"icon"`         | 图标值字段                                                                                                          |
-| joinValues             | `boolean`                                    | `true`           | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                          |
-| extractValue           | `boolean`                                    | `false`          | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                      |
-| creatable              | `boolean`                                    | `false`          | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                |
-| addControls            | Array<[表单项](./formitem)>                  |                  | [自定义新增表单项](./options#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%B0%E5%A2%9E%E8%A1%A8%E5%8D%95%E9%A1%B9-addcontrols)  |
-| addApi                 | [API](../../../docs/types/api)               |                  | [配置新增选项接口](./options#%E9%85%8D%E7%BD%AE%E6%96%B0%E5%A2%9E%E6%8E%A5%E5%8F%A3-addapi)                         |
-| editable               | `boolean`                                    | `false`          | [编辑选项](./options#%E5%89%8D%E7%AB%AF%E7%BC%96%E8%BE%91-editable)                                                 |
-| editControls           | Array<[表单项](./formitem)>                  |                  | [自定义编辑表单项](./options#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%BE%91%E8%A1%A8%E5%8D%95%E9%A1%B9-editcontrols) |
-| editApi                | [API](../../../docs/types/api)               |                  | [配置编辑选项接口](./options#%E9%85%8D%E7%BD%AE%E7%BC%96%E8%BE%91%E6%8E%A5%E5%8F%A3-editapi)                        |
-| removable              | `boolean`                                    | `false`          | [删除选项](./options#%E5%88%A0%E9%99%A4%E9%80%89%E9%A1%B9)                                                          |
-| deleteApi              | [API](../../../docs/types/api)               |                  | [配置删除选项接口](./options#%E9%85%8D%E7%BD%AE%E5%88%A0%E9%99%A4%E6%8E%A5%E5%8F%A3-deleteapi)                      |
-| searchable             | `boolean`                                    | `false`          | 是否可检索，仅在 type 为 `tree-select` 的时候生效                                                                   |
-| hideRoot               | `boolean`                                    | `true`           | 如果想要显示个顶级节点，请设置为 `false`                                                                            |
-| rootLabel              | `boolean`                                    | `"顶级"`         | 当 `hideRoot` 不为 `false` 时有用，用来设置顶级节点的文字。                                                         |
-| showIcon               | `boolean`                                    | `true`           | 是否显示图标                                                                                                        |
-| showRadio              | `boolean`                                    | `false`          | 是否显示单选按钮，`multiple` 为 `false` 是有效。                                                                    |
-| showOutline            | `boolean`                                    | `false`          | 是否显示树层级展开线                                                                                                |
-| initiallyOpen          | `boolean`                                    | `true`           | 设置是否默认展开所有层级。                                                                                          |
-| unfoldedLevel          | `number`                                     | `0`              | 设置默认展开的级数，只有`initiallyOpen`不是`true`时生效。                                                           |
-| autoCheckChildren      | `boolean`                                    | `true`           | 当选中父节点时级联选择子节点。                                                                                    |
-| cascade                | `boolean`                                    | `false`          | autoCheckChildren为true时生效；默认行为：子节点禁用，值只包含父节点值；设置为true时，子节点可反选，值包含父子节点值。          |
-| withChildren           | `boolean`                                    | `false`          | cascade为false时生效，选中父节点时，值里面将包含父子节点的值，否则只会保留父节点的值。                                                
-| onlyChildren           | `boolean`                                    | `false`          | autoCheckChildren为true时生效，不受cascade影响；onlyChildren为true，ui行为级联选中子节点，子节点可反选，值只包含子节点的值。                                                                  |
-| rootCreatable          | `boolean`                                    | `false`          | 是否可以创建顶级节点                                                                                                |
-| rootCreateTip          | `string`                                     | `"添加一级节点"` | 创建顶级节点的悬浮提示                                                                                              |
-| minLength              | `number`                                     |                  | 最少选中的节点数                                                                                                    |
-| maxLength              | `number`                                     |                  | 最多选中的节点数                                                                                                    |
-| treeContainerClassName | `string`                                     |                  | tree 最外层容器类名                                                                                                 |
-| enableNodePath         | `boolean`                                    | `false`          | 是否开启节点路径模式                                                                                                |
-| pathSeparator          | `string`                                     | `/`              | 节点路径的分隔符，`enableNodePath`为`true`时生效                                                                    |
-
+| 属性名                 | 类型                                         | 默认值           | 说明                                                                                                                                 |
+| ---------------------- | -------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| options                | `Array<object>`或`Array<string>`             |                  | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                                                            |
+| source                 | `string`或 [API](../../../../docs/types/api) |                  | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                                                         |
+| autoComplete           | [API](../../../../docs/types/api)            |                  | [自动提示补全](./options#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8-autocomplete)                                                          |
+| multiple               | `boolean`                                    | `false`          | 是否多选                                                                                                                             |
+| delimiter              | `string`                                     | `false`          | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                                            |
+| labelField             | `string`                                     | `"label"`        | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield)                                          |
+| valueField             | `string`                                     | `"value"`        | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)                                                     |
+| iconField              | `string`                                     | `"icon"`         | 图标值字段                                                                                                                           |
+| joinValues             | `boolean`                                    | `true`           | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                                           |
+| extractValue           | `boolean`                                    | `false`          | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                       |
+| creatable              | `boolean`                                    | `false`          | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                                 |
+| addControls            | Array<[表单项](./formitem)>                  |                  | [自定义新增表单项](./options#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%B0%E5%A2%9E%E8%A1%A8%E5%8D%95%E9%A1%B9-addcontrols)                   |
+| addApi                 | [API](../../../docs/types/api)               |                  | [配置新增选项接口](./options#%E9%85%8D%E7%BD%AE%E6%96%B0%E5%A2%9E%E6%8E%A5%E5%8F%A3-addapi)                                          |
+| editable               | `boolean`                                    | `false`          | [编辑选项](./options#%E5%89%8D%E7%AB%AF%E7%BC%96%E8%BE%91-editable)                                                                  |
+| editControls           | Array<[表单项](./formitem)>                  |                  | [自定义编辑表单项](./options#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%BE%91%E8%A1%A8%E5%8D%95%E9%A1%B9-editcontrols)                  |
+| editApi                | [API](../../../docs/types/api)               |                  | [配置编辑选项接口](./options#%E9%85%8D%E7%BD%AE%E7%BC%96%E8%BE%91%E6%8E%A5%E5%8F%A3-editapi)                                         |
+| removable              | `boolean`                                    | `false`          | [删除选项](./options#%E5%88%A0%E9%99%A4%E9%80%89%E9%A1%B9)                                                                           |
+| deleteApi              | [API](../../../docs/types/api)               |                  | [配置删除选项接口](./options#%E9%85%8D%E7%BD%AE%E5%88%A0%E9%99%A4%E6%8E%A5%E5%8F%A3-deleteapi)                                       |
+| searchable             | `boolean`                                    | `false`          | 是否可检索，仅在 type 为 `tree-select` 的时候生效                                                                                    |
+| hideRoot               | `boolean`                                    | `true`           | 如果想要显示个顶级节点，请设置为 `false`                                                                                             |
+| rootLabel              | `boolean`                                    | `"顶级"`         | 当 `hideRoot` 不为 `false` 时有用，用来设置顶级节点的文字。                                                                          |
+| showIcon               | `boolean`                                    | `true`           | 是否显示图标                                                                                                                         |
+| showRadio              | `boolean`                                    | `false`          | 是否显示单选按钮，`multiple` 为 `false` 是有效。                                                                                     |
+| showOutline            | `boolean`                                    | `false`          | 是否显示树层级展开线                                                                                                                 |
+| initiallyOpen          | `boolean`                                    | `true`           | 设置是否默认展开所有层级。                                                                                                           |
+| unfoldedLevel          | `number`                                     | `1`              | 设置默认展开的级数，只有`initiallyOpen`不是`true`时生效。                                                                            |
+| autoCheckChildren      | `boolean`                                    | `true`           | 当选中父节点时级联选择子节点。                                                                                                       |
+| cascade                | `boolean`                                    | `false`          | autoCheckChildren 为 true 时生效；默认行为：子节点禁用，值只包含父节点值；设置为 true 时，子节点可反选，值包含父子节点值。           |
+| withChildren           | `boolean`                                    | `false`          | cascade 为 false 时生效，选中父节点时，值里面将包含父子节点的值，否则只会保留父节点的值。                                            |
+| onlyChildren           | `boolean`                                    | `false`          | autoCheckChildren 为 true 时生效，不受 cascade 影响；onlyChildren 为 true，ui 行为级联选中子节点，子节点可反选，值只包含子节点的值。 |
+| rootCreatable          | `boolean`                                    | `false`          | 是否可以创建顶级节点                                                                                                                 |
+| rootCreateTip          | `string`                                     | `"添加一级节点"` | 创建顶级节点的悬浮提示                                                                                                               |
+| minLength              | `number`                                     |                  | 最少选中的节点数                                                                                                                     |
+| maxLength              | `number`                                     |                  | 最多选中的节点数                                                                                                                     |
+| treeContainerClassName | `string`                                     |                  | tree 最外层容器类名                                                                                                                  |
+| enableNodePath         | `boolean`                                    | `false`          | 是否开启节点路径模式                                                                                                                 |
+| pathSeparator          | `string`                                     | `/`              | 节点路径的分隔符，`enableNodePath`为`true`时生效                                                                                     |
 
 ## 事件表
 
-| 事件名称        | 事件参数                        | 说明                 |
-|--------------- |------------------------        |----------------------|
-| change         | value: `string` 更新后的数据     | 选中值更改 |
-| add            | value: `string` 新增节点信息     | 新增选项 |
-| edit           | value: `string` 编辑节点信息     | 编辑选项 |
-| delete         | value: `string` 删除节点信息     | 删除选项 |
-| loadFinished   | value: `json` 懒加载返回的数据    | 懒加载完成触发 |
-
+| 事件名称     | 事件参数                       | 说明           |
+| ------------ | ------------------------------ | -------------- |
+| change       | value: `string` 更新后的数据   | 选中值更改     |
+| add          | value: `string` 新增节点信息   | 新增选项       |
+| edit         | value: `string` 编辑节点信息   | 编辑选项       |
+| delete       | value: `string` 删除节点信息   | 删除选项       |
+| loadFinished | value: `json` 懒加载返回的数据 | 懒加载完成触发 |
 
 ## 动作表
 
-| 动作名称        | 动作配置                                            | 说明                 |
-|----------------|-------------------------------------------------- |---------------------|
-| expand         | openLevel: `number`                               | 配置展开层级 |
-| collapse       | -                                                 |  关闭树|
-| clear          | -                                                 | 清除数据 |
-| reset          | -                                                 | 重置数据 |
+| 动作名称 | 动作配置                 | 说明                                                   |
+| -------- | ------------------------ | ------------------------------------------------------ |
+| expand   | openLevel: `number`      | 展开层级                                               |
+| collapse | -                        | 收起                                                   |
+| clear    | -                        | 清空                                                   |
+| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
+| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`，多值用`,`分隔                |
