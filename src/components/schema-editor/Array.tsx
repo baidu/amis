@@ -38,7 +38,8 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
       disabled,
       showInfo,
       types,
-      onTypeChange
+      onTypeChange,
+      enableAdvancedSetting
     } = this.props;
     const items = value?.items || {
       type: 'string'
@@ -67,6 +68,7 @@ export class SchemaEditorItemArray extends SchemaEditorItemCommon {
           classnames={cx}
           classPrefix={classPrefix}
           disabled={disabled || !!(items as any)?.$ref}
+          enableAdvancedSetting={enableAdvancedSetting}
         />
       </div>
     );

@@ -316,6 +316,7 @@ register('de-DE', {
   'SchemaType.null': 'Null',
   'SchemaType.any': 'Any',
   'JSONSchema.title': 'Title',
+  'JSONSchema.default': 'Default',
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
   'JSONSchema.array_items': 'Items'

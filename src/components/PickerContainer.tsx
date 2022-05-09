@@ -23,7 +23,7 @@ export interface PickerContainerProps extends ThemeProps, LocaleProps {
     onChange: (value: any) => void;
     setState: (state: any) => void;
     [propName: string]: any;
-  }) => JSX.Element | nul;
+  }) => JSX.Element | null;
   value?: any;
   beforeConfirm?: (bodyRef: any) => any;
   onConfirm?: (value?: any) => void;
@@ -100,15 +100,18 @@ export class PickerContainer extends React.Component<
     const {onConfirm, beforeConfirm} = this.props;
 
     const ret = await beforeConfirm?.(this.bodyRef.current);
+    let state: any = {
+      isOpened: false
+    };
 
-    // beforeConfirm 返回 false 则组织后续动作
+    // beforeConfirm 返回 false 则阻止后续动作
     if (ret === false) {
       return;
     } else if (isObject(ret)) {
-      this.handleChange(ret);
+      state.value = ret;
     }
 
-    this.close(undefined, () => onConfirm?.(this.state.value));
+    this.setState(state, () => onConfirm?.(this.state.value));
   }
 
   @autobind

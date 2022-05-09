@@ -1,3 +1,6 @@
+/**
+ * @file 用 amis 内置的验证来验证 react-hook-form 里面的表单数据
+ */
 import pick from 'lodash/pick';
 import React from 'react';
 import {validateObject, validations} from '../utils/validations';
@@ -33,6 +36,7 @@ export function useValidationResolver(__ = (str: string) => str) {
       const errors = validateObject(values, rules, undefined, __);
 
       return {
+        values,
         errors: formatErrors(errors)
       };
     },

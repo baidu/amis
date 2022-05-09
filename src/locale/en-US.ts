@@ -318,6 +318,7 @@ register('en-US', {
   'SchemaType.any': 'Any',
   'SchemaType.null': 'Null',
   'JSONSchema.title': 'Title',
+  'JSONSchema.default': 'Default',
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
   'JSONSchema.array_items': 'Items'

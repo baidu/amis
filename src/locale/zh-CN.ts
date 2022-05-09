@@ -325,6 +325,7 @@ register('zh-CN', {
   'SchemaType.null': 'Null',
   'SchemaType.any': '任意',
   'JSONSchema.title': '名称',
+  'JSONSchema.default': '默认值',
   'JSONSchema.key': '字段名',
   'JSONSchema.description': '描述',
   'JSONSchema.add_prop': '添加属性',

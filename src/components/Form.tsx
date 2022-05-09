@@ -30,16 +30,13 @@ export function Form(props: FormProps) {
 
   React.useEffect(() => {
     if (props.forwardRef) {
+      // 这个模式别的组件没见到过不知道后续会不会不允许
       props.forwardRef.current = {
         submit: () =>
           new Promise<any>((resolve, reject) => {
             methods.handleSubmit(
-              values => {
-                resolve(values);
-              },
-              () => {
-                resolve(false);
-              }
+              values => resolve(values),
+              () => resolve(false)
             )();
           })
       };
@@ -66,7 +63,7 @@ export function Form(props: FormProps) {
 }
 
 const ThemedForm = themeable(localeable(Form));
-type ThemedFormProps = Omit<FormProps, keyof ThemeProps & LocaleProps>;
+type ThemedFormProps = Omit<FormProps, keyof ThemeProps | keyof LocaleProps>;
 
 export default React.forwardRef((props: ThemedFormProps, ref: FormRef) => (
   <ThemedForm {...props} forwardRef={ref} />

@@ -79,39 +79,21 @@ export default class JSONSchemaEditorControl extends React.PureComponent<JSONSch
     enableAdvancedSetting: false
   };
 
-  // todo 完善这块配置
-  settings: any = {
-    common: [
-      {
-        type: 'input-text',
-        name: 'title',
-        label: this.props.translate('JSONSchema.title')
-      },
-
-      {
-        type: 'textarea',
-        name: 'description',
-        label: this.props.translate('JSONSchema.description')
-      }
-    ]
-  };
-
   @autobind
-  renderModalProps({value, onChange}: any) {
+  renderModalProps(value: any, onChange: (value: any) => void) {
     const {render, advancedSettings} = this.props;
+    const fields = advancedSettings?.[value?.type] || [];
     return render(
       `modal`,
       {
         type: 'form',
         wrapWithPanel: false,
-        body: [
-          ...(this.settings[value?.type] || this.settings.common),
-          ...(advancedSettings?.[value?.type] || [])
-        ]
+        body: fields,
+        submitOnChange: true
       },
       {
         data: value,
-        onChange: (value: any) => onChange(value)
+        onSubmit: (value: any) => onChange(value)
       }
     );
   }
@@ -122,9 +104,8 @@ export default class JSONSchemaEditorControl extends React.PureComponent<JSONSch
     return (
       <JSONSchemaEditor
         {...rest}
-        renderModalProps={
-          enableAdvancedSetting ? this.renderModalProps : undefined
-        }
+        enableAdvancedSetting={enableAdvancedSetting}
+        renderModalProps={this.renderModalProps}
       />
     );
   }

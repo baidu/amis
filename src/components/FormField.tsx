@@ -90,7 +90,7 @@ export default ThemedFormField;
 export interface ControllerProps
   extends ReactHookFormControllerProps,
     Omit<FormFieldProps, keyof ThemeProps> {
-  rules: Omit<
+  rules?: Omit<
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   > & {
