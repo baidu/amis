@@ -1096,6 +1096,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       multiple,
       valuesNoWrap,
       searchable,
+      inline,
       block,
       className,
       value,
@@ -1141,6 +1142,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 `Select`,
                 {
                   [`Select--multi`]: multiple,
+                  [`Select--inline`]: inline,
                   [`Select--block`]: block,
                   [`Select--searchable`]: searchable,
                   'is-opened': isOpen,
