@@ -110,14 +110,11 @@ export class Custom extends React.Component<CustomProps, object> {
     if (!isEqual(this.props.onUpdate, prevProps.onUpdate)) {
       this.initOnUpdate(this.props);
     }
-    if (!isEqual(this.props.data, prevProps.data)) {
+    if (!isEqual(this.props.onUpdate, prevProps.onUpdate) || !isEqual(this.props.data, prevProps.data)) {
       this.onUpdate(this.dom, this.props.data, prevProps.data, this.props);
     }
     if (!isEqual(this.props.onMount, prevProps.onMount)) {
-      const {value, onChange} = this.props;
       this.initOnMount(this.props);
-      // 当 onMount 变动时自动执行一下
-      this.onMount(this.dom.current, value, onChange, this.props);
     }
     if (!isEqual(this.props.onUnmount, prevProps.onUnmount)) {
       this.initOnUnmount(this.props);
