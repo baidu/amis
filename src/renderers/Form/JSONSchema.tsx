@@ -34,10 +34,10 @@ export interface JSONSchemaProps
 
 const EnhancedInputJSONSchema = withRemoteConfig({
   sourceField: 'schema',
-  injectedPropsFilter: props => {
+  injectedPropsFilter: (injectedProps, props) => {
     return {
-      schema: props.config,
-      loading: props.loading
+      schema: injectedProps.config,
+      loading: injectedProps.loading
     };
   }
 })(InputJSONSchema as any);

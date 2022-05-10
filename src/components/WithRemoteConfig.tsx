@@ -24,7 +24,12 @@ import {
   tokenize
 } from '../utils/tpl-builtin';
 import {reaction} from 'mobx';
-import {createObject, findIndex, findTreeIndex} from '../utils/helper';
+import {
+  createObject,
+  findIndex,
+  findTreeIndex,
+  isObject
+} from '../utils/helper';
 
 export const Store = types
   .model('RemoteConfigStore')
@@ -166,12 +171,15 @@ export interface WithRemoteConfigSettings {
     props: any
   ) => any;
 
-  injectedPropsFilter?: (props: {
-    config: any;
-    loading?: boolean;
-    deferLoad: (term: string) => any;
-    updateConfig: (config: any) => void;
-  }) => any;
+  injectedPropsFilter?: (
+    injectedProps: {
+      config: any;
+      loading?: boolean;
+      deferLoad: (term: string) => any;
+      updateConfig: (config: any) => void;
+    },
+    props: any
+  ) => any;
 }
 
 export function withRemoteConfig<P = any>(
@@ -219,6 +227,8 @@ export function withRemoteConfig<P = any>(
             props.store.setComponent(this);
             this.deferLoadConfig = this.deferLoadConfig.bind(this);
             props.remoteConfigRef?.(this);
+            props.store.setData(props.data);
+            this.syncConfig();
           }
 
           componentDidMount() {
@@ -226,10 +236,7 @@ export function withRemoteConfig<P = any>(
             const {store, data} = this.props;
             const source = (this.props as any)[config.sourceField || 'source'];
 
-            store.setData(data);
-
             if (isPureVariable(source)) {
-              this.syncConfig();
               this.toDispose.push(
                 reaction(
                   () =>
@@ -323,6 +330,8 @@ export function withRemoteConfig<P = any>(
                 config,
                 'syncConfig'
               );
+            } else if (isObject(source) && !isEffectiveApi(source, data)) {
+              store.setConfig(source, config, 'syncConfig');
             }
           }
 
@@ -389,7 +398,7 @@ export function withRemoteConfig<P = any>(
                   ? {loadOptions: this.loadOptions}
                   : {})}
                 {...(config.injectedPropsFilter
-                  ? config.injectedPropsFilter(injectedProps)
+                  ? config.injectedPropsFilter(injectedProps, this.props)
                   : injectedProps)}
               />
             );
