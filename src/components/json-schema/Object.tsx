@@ -23,7 +23,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     renderKey,
     collapsable
   } = props;
-  const buildDefaultMembers = React.useCallback((schema: any, value: any) => {
+  const buildMembers = React.useCallback((schema: any, value: any) => {
     const members: Array<JSONSchemaObjectMember> = [];
 
     Object.keys(schema.properties || {}).forEach(key => {
@@ -66,8 +66,11 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
   }, []);
 
   const [members, setMembers] = React.useState<Array<JSONSchemaObjectMember>>(
-    buildDefaultMembers(props.schema, props.value)
+    buildMembers(props.schema, props.value)
   );
+  const membersRef = React.useRef<Array<JSONSchemaObjectMember>>();
+  membersRef.current = members;
+
   const [collapsed, setCollapsed] = React.useState<boolean>(
     collapsable ? true : false
   );
@@ -120,8 +123,30 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
   };
 
   React.useEffect(() => {
-    setMembers(buildDefaultMembers(props.schema, props.value));
-  }, [props.schema, props.value]);
+    setMembers(buildMembers(props.schema, props.value));
+  }, [props.schema]);
+
+  React.useEffect(() => {
+    const value = props.value;
+    const m = membersRef.current!.concat();
+    const keys = Object.keys(value || {});
+    for (let key of keys) {
+      const exists = m.find(m => m.name === key);
+      if (!exists) {
+        m.push({
+          key: guid(),
+          name: key,
+          nameMutable: true,
+          schema: {
+            type: 'string'
+          }
+        });
+      }
+    }
+    if (m.length !== membersRef.current!.length) {
+      setMembers(m);
+    }
+  }, [props.value]);
 
   const handleAdd = React.useCallback(() => {
     const m = members.concat();

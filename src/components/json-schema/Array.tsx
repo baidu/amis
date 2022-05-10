@@ -21,7 +21,7 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
     renderKey,
     collapsable
   } = props;
-  const buildDefaultMembers = React.useCallback((schema: any, value) => {
+  const buildMembers = React.useCallback((schema: any, value) => {
     const members: Array<JSONSchemaArrayMember> = [];
 
     let len = Array.isArray(value) ? value.length : 1;
@@ -46,8 +46,12 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
   }, []);
 
   const [members, setMembers] = React.useState<Array<JSONSchemaArrayMember>>(
-    buildDefaultMembers(props.schema, value)
+    buildMembers(props.schema, value)
   );
+
+  const membersRef = React.useRef(members);
+  membersRef.current = members;
+
   const [collapsed, setCollapsed] = React.useState<boolean>(
     collapsable ? true : false
   );
@@ -76,8 +80,38 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
   };
 
   React.useEffect(() => {
-    setMembers(buildDefaultMembers(props.schema, props.value));
-  }, [props.schema, props.value]);
+    setMembers(buildMembers(props.schema, props.value));
+  }, [props.schema]);
+
+  React.useEffect(() => {
+    const value = props.value;
+    const schema = props.schema;
+    let len = Array.isArray(value) ? value.length : 1;
+
+    if (typeof schema.minContains === 'number') {
+      len = Math.max(len, schema.minContains);
+    }
+
+    if (typeof schema.maxContains === 'number') {
+      len = Math.min(schema.maxContains, len);
+    }
+    const m = membersRef.current!.concat();
+
+    if (m.length !== len) {
+      while (m.length !== len) {
+        if (m.length > len) {
+          m.pop();
+        } else {
+          m.push({
+            key: guid(),
+            index: m.length,
+            schema: schema.items
+          });
+        }
+      }
+      setMembers(m);
+    }
+  }, [props.value]);
 
   const handleAdd = React.useCallback(() => {
     const m = members.concat();
