@@ -62,6 +62,8 @@
       > .#{$ns}NestedSelect-optionLabel {
         flex: 1;
         height: px2rem(32px);
+        overflow: hidden;
+        text-overflow: ellipsis;
         &.is-disabled {
           cursor: not-allowed;
           color: var(--text--muted-color);
