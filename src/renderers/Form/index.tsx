@@ -1193,7 +1193,7 @@ export default class Form extends React.Component<FormProps, object> {
         })
         .catch(e => {
           onFailed && onFailed(e, store.errors);
-          if (throwErrors) {
+          if (throwErrors || action.countDown) {
             throw e;
           }
         });
