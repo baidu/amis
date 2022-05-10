@@ -102,12 +102,12 @@ export class ContextMenu extends React.Component<
     menus: Array<MenuItem>,
     onClose?: () => void
   ) {
-    if (this.state.isOpened && this.prevInfo) {
+    if (this.state.isOpened) {
       const {x, y} = this.state;
       // 避免 二次触发未进行智能定位 导致遮挡问题
       this.setState({
-        x: x + (info.x - this.prevInfo.x),
-        y: y + (info.y - this.prevInfo.y),
+        x: x + (info.x - (this.prevInfo && this.prevInfo.x ? this.prevInfo.x : 0)),
+        y: y + (info.y - (this.prevInfo && this.prevInfo.y ? this.prevInfo.y : 0)),
         menus: menus,
         onClose
       }, () => {
