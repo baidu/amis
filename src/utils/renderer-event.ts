@@ -138,7 +138,6 @@ export async function dispatchEvent(
 
     unbindEvent = bindEvent(renderer);
   }
-
   // 没有可处理的监听
   if (!rendererEventListeners.length) {
     return Promise.resolve();
@@ -152,7 +151,6 @@ export async function dispatchEvent(
       data,
       scoped
     });
-
   // 过滤&排序
   const listeners = rendererEventListeners
     .filter(

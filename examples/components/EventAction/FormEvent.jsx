@@ -179,43 +179,19 @@ export default {
         submitSucc: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: `提交成功`,
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '${val|json}'
-                  }
-                ]
+                msg: '提交成功：${event.data|json}'
               }
             }
           ]
         },
-        submitFail: {
+        submitSucc: {
           actions: [
             {
-              actionType: 'dialog',
+              actionType: 'toast',
               args: {
-                val: '${event.data}'
-              },
-              dialog: {
-                title: `提交失败`,
-                data: {
-                  val: '${val}'
-                },
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '${val|json}'
-                  }
-                ]
+                msg: '提交失败：${event.data|json}'
               }
             }
           ]
