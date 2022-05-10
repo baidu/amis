@@ -706,179 +706,282 @@ exports[`Renderer:transfer left tree 1`] = `
                             class="cxd-AssociatedSelection-left"
                           >
                             <div
-                              class="cxd-TreeSelection"
+                              class="cxd-Tree "
                             >
-                              <div
-                                class="cxd-TreeSelection-item is-expanded"
+                              <ul
+                                class="cxd-Tree-list"
                               >
-                                <div
-                                  class="cxd-TreeSelection-itemInner"
+                                <li
+                                  class="cxd-Tree-item "
                                 >
-                                  <a
-                                    class="cxd-Table-expandBtn is-active"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-right-arrow-bold"
-                                      icon="right-arrow-bold"
-                                    />
-                                  </a>
                                   <div
-                                    class="cxd-TreeSelection-itemLabel"
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <span>
+                                    <div
+                                      class="cxd-Tree-itemArrow"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-right-arrow-bold"
+                                        icon="right-arrow-bold"
+                                      />
+                                    </div>
+                                    <i
+                                      class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-folder"
+                                        icon="folder"
+                                      />
+                                    </i>
+                                    <span
+                                      class="cxd-Tree-itemText"
+                                    >
                                       法师
                                     </span>
-                                  </div>
-                                </div>
-                                <div
-                                  class="cxd-TreeSelection-sublist"
-                                >
-                                  <div
-                                    class="cxd-TreeSelection-item"
-                                  >
                                     <div
-                                      class="cxd-TreeSelection-itemInner"
+                                      class="cxd-Tree-item-icons"
+                                    />
+                                  </div>
+                                  <ul
+                                    class="cxd-Tree-sublist"
+                                  >
+                                    <li
+                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                     >
                                       <div
-                                        class="cxd-TreeSelection-itemLabel"
+                                        class="cxd-Tree-itemLabel"
                                       >
-                                        <span>
+                                        <span
+                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        />
+                                        <i
+                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                        >
+                                          <icon-mock
+                                            classname="icon icon-file"
+                                            icon="file"
+                                          />
+                                        </i>
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                        >
                                           诸葛亮
                                         </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-TreeSelection-item"
-                              >
-                                <div
-                                  class="cxd-TreeSelection-itemInner"
+                                    </li>
+                                  </ul>
+                                </li>
+                                <li
+                                  class="cxd-Tree-item "
                                 >
-                                  <a
-                                    class="cxd-Table-expandBtn"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-right-arrow-bold"
-                                      icon="right-arrow-bold"
-                                    />
-                                  </a>
                                   <div
-                                    class="cxd-TreeSelection-itemLabel"
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <span>
+                                    <div
+                                      class="cxd-Tree-itemArrow"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-right-arrow-bold"
+                                        icon="right-arrow-bold"
+                                      />
+                                    </div>
+                                    <i
+                                      class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-folder"
+                                        icon="folder"
+                                      />
+                                    </i>
+                                    <span
+                                      class="cxd-Tree-itemText"
+                                    >
                                       战士
                                     </span>
-                                  </div>
-                                </div>
-                                <div
-                                  class="cxd-TreeSelection-sublist"
-                                >
-                                  <div
-                                    class="cxd-TreeSelection-item"
-                                  >
                                     <div
-                                      class="cxd-TreeSelection-itemInner"
+                                      class="cxd-Tree-item-icons"
+                                    />
+                                  </div>
+                                  <ul
+                                    class="cxd-Tree-sublist"
+                                  >
+                                    <li
+                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                     >
                                       <div
-                                        class="cxd-TreeSelection-itemLabel"
+                                        class="cxd-Tree-itemLabel"
                                       >
-                                        <span>
+                                        <span
+                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        />
+                                        <i
+                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                        >
+                                          <icon-mock
+                                            classname="icon icon-file"
+                                            icon="file"
+                                          />
+                                        </i>
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                        >
                                           曹操
                                         </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="cxd-TreeSelection-item"
-                                  >
-                                    <div
-                                      class="cxd-TreeSelection-itemInner"
+                                    </li>
+                                    <li
+                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                     >
                                       <div
-                                        class="cxd-TreeSelection-itemLabel"
+                                        class="cxd-Tree-itemLabel"
                                       >
-                                        <span>
+                                        <span
+                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        />
+                                        <i
+                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                        >
+                                          <icon-mock
+                                            classname="icon icon-file"
+                                            icon="file"
+                                          />
+                                        </i>
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                        >
                                           钟无艳
                                         </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-TreeSelection-item"
-                              >
-                                <div
-                                  class="cxd-TreeSelection-itemInner"
+                                    </li>
+                                  </ul>
+                                </li>
+                                <li
+                                  class="cxd-Tree-item "
                                 >
-                                  <a
-                                    class="cxd-Table-expandBtn"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-right-arrow-bold"
-                                      icon="right-arrow-bold"
-                                    />
-                                  </a>
                                   <div
-                                    class="cxd-TreeSelection-itemLabel"
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <span>
+                                    <div
+                                      class="cxd-Tree-itemArrow"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-right-arrow-bold"
+                                        icon="right-arrow-bold"
+                                      />
+                                    </div>
+                                    <i
+                                      class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-folder"
+                                        icon="folder"
+                                      />
+                                    </i>
+                                    <span
+                                      class="cxd-Tree-itemText"
+                                    >
                                       打野
                                     </span>
-                                  </div>
-                                </div>
-                                <div
-                                  class="cxd-TreeSelection-sublist"
-                                >
-                                  <div
-                                    class="cxd-TreeSelection-item"
-                                  >
                                     <div
-                                      class="cxd-TreeSelection-itemInner"
+                                      class="cxd-Tree-item-icons"
+                                    />
+                                  </div>
+                                  <ul
+                                    class="cxd-Tree-sublist"
+                                  >
+                                    <li
+                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                     >
                                       <div
-                                        class="cxd-TreeSelection-itemLabel"
+                                        class="cxd-Tree-itemLabel"
                                       >
-                                        <span>
+                                        <span
+                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        />
+                                        <i
+                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                        >
+                                          <icon-mock
+                                            classname="icon icon-file"
+                                            icon="file"
+                                          />
+                                        </i>
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                        >
                                           李白
                                         </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="cxd-TreeSelection-item"
-                                  >
-                                    <div
-                                      class="cxd-TreeSelection-itemInner"
+                                    </li>
+                                    <li
+                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                     >
                                       <div
-                                        class="cxd-TreeSelection-itemLabel"
+                                        class="cxd-Tree-itemLabel"
                                       >
-                                        <span>
+                                        <span
+                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        />
+                                        <i
+                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                        >
+                                          <icon-mock
+                                            classname="icon icon-file"
+                                            icon="file"
+                                          />
+                                        </i>
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                        >
                                           韩信
                                         </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="cxd-TreeSelection-item"
-                                  >
-                                    <div
-                                      class="cxd-TreeSelection-itemInner"
+                                    </li>
+                                    <li
+                                      class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                     >
                                       <div
-                                        class="cxd-TreeSelection-itemLabel"
+                                        class="cxd-Tree-itemLabel"
                                       >
-                                        <span>
+                                        <span
+                                          class="cxd-Tree-itemArrowPlaceholder"
+                                        />
+                                        <i
+                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                        >
+                                          <icon-mock
+                                            classname="icon icon-file"
+                                            icon="file"
+                                          />
+                                        </i>
+                                        <span
+                                          class="cxd-Tree-itemText"
+                                        >
                                           云中君
                                         </span>
+                                        <div
+                                          class="cxd-Tree-item-icons"
+                                        />
                                       </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                                    </li>
+                                  </ul>
+                                </li>
+                              </ul>
                             </div>
                           </div>
                           <div
@@ -1569,7 +1672,9 @@ exports[`Renderer:transfer tree 1`] = `
                                 <span
                                   class="cxd-Tree-itemText"
                                 >
-                                  法师
+                                  <span>
+                                    法师
+                                  </span>
                                 </span>
                                 <div
                                   class="cxd-Tree-item-icons"
@@ -1601,7 +1706,9 @@ exports[`Renderer:transfer tree 1`] = `
                                     <span
                                       class="cxd-Tree-itemText"
                                     >
-                                      诸葛亮
+                                      <span>
+                                        诸葛亮
+                                      </span>
                                     </span>
                                     <div
                                       class="cxd-Tree-item-icons"
@@ -1638,7 +1745,9 @@ exports[`Renderer:transfer tree 1`] = `
                                 <span
                                   class="cxd-Tree-itemText"
                                 >
-                                  战士
+                                  <span>
+                                    战士
+                                  </span>
                                 </span>
                                 <div
                                   class="cxd-Tree-item-icons"
@@ -1670,7 +1779,9 @@ exports[`Renderer:transfer tree 1`] = `
                                     <span
                                       class="cxd-Tree-itemText"
                                     >
-                                      曹操
+                                      <span>
+                                        曹操
+                                      </span>
                                     </span>
                                     <div
                                       class="cxd-Tree-item-icons"
@@ -1700,7 +1811,9 @@ exports[`Renderer:transfer tree 1`] = `
                                     <span
                                       class="cxd-Tree-itemText"
                                     >
-                                      钟无艳
+                                      <span>
+                                        钟无艳
+                                      </span>
                                     </span>
                                     <div
                                       class="cxd-Tree-item-icons"
@@ -1737,7 +1850,9 @@ exports[`Renderer:transfer tree 1`] = `
                                 <span
                                   class="cxd-Tree-itemText"
                                 >
-                                  打野
+                                  <span>
+                                    打野
+                                  </span>
                                 </span>
                                 <div
                                   class="cxd-Tree-item-icons"
@@ -1769,7 +1884,9 @@ exports[`Renderer:transfer tree 1`] = `
                                     <span
                                       class="cxd-Tree-itemText"
                                     >
-                                      李白
+                                      <span>
+                                        李白
+                                      </span>
                                     </span>
                                     <div
                                       class="cxd-Tree-item-icons"
@@ -1799,7 +1916,9 @@ exports[`Renderer:transfer tree 1`] = `
                                     <span
                                       class="cxd-Tree-itemText"
                                     >
-                                      韩信
+                                      <span>
+                                        韩信
+                                      </span>
                                     </span>
                                     <div
                                       class="cxd-Tree-item-icons"
@@ -1829,7 +1948,9 @@ exports[`Renderer:transfer tree 1`] = `
                                     <span
                                       class="cxd-Tree-itemText"
                                     >
-                                      云中君
+                                      <span>
+                                        云中君
+                                      </span>
                                     </span>
                                     <div
                                       class="cxd-Tree-item-icons"
