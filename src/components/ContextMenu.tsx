@@ -70,6 +70,10 @@ export class ContextMenu extends React.Component<
 
   menuRef: React.RefObject<HTMLDivElement> = React.createRef();
   originInstance: this | null;
+  prevInfo: { // 记录当前右键位置: 方便下一次做对比
+    x: number;
+    y: number;
+  } | null;
 
   constructor(props: ContextMenuProps) {
     super(props);
@@ -98,13 +102,27 @@ export class ContextMenu extends React.Component<
     menus: Array<MenuItem>,
     onClose?: () => void
   ) {
-    this.setState({
-      isOpened: true,
-      x: info.x,
-      y: info.y,
-      menus: menus,
-      onClose
-    });
+    if (this.state.isOpened && this.prevInfo) {
+      const {x, y} = this.state;
+      // 避免 二次触发未进行智能定位 导致遮挡问题
+      this.setState({
+        x: x + (info.x - this.prevInfo.x),
+        y: y + (info.y - this.prevInfo.y),
+        menus: menus,
+        onClose
+      }, () => {
+        this.handleEnter(this.menuRef.current as HTMLElement);
+      });
+    } else {
+      this.setState({
+        isOpened: true,
+        x: info.x,
+        y: info.y,
+        menus: menus,
+        onClose
+      });
+    }
+    this.prevInfo = info;
   }
 
   @autobind
