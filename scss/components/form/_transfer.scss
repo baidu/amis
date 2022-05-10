@@ -74,6 +74,11 @@
     }
   }
 
+  &-resultTree {
+    height: 100%;
+    width: 100%;
+  }
+
   .#{$ns}AssociatedSelection {
     overflow: hidden;
 

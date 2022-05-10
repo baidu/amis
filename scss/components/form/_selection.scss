@@ -69,7 +69,7 @@
     flex-direction: row;
 
     > .#{$ns}Checkbox {
-      margin-right: px2rem(8px);
+      margin-right: px2rem(10px);
     }
     cursor: pointer;
     user-select: none;
@@ -182,17 +182,6 @@
     color: var(--text--muted-color);
   }
 
-  &-sublist &-item:before {
-    height: 1px;
-    content: '';
-    display: block;
-    position: absolute;
-    top: calc(var(--Form-input-height) / 2);
-    width: 19px;
-    left: -19px;
-    border-top: dashed 1px var(--icon-color);
-  }
-
   &-itemInner {
     display: flex;
     align-items: center;
@@ -294,7 +283,7 @@
     flex-grow: 1;
 
     span {
-      margin-left: var(--gap-xs);
+      margin-left: px2rem(10px);
       vertical-align: middle;
     }
   }

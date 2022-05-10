@@ -1,5 +1,5 @@
 import React from 'react';
-import {intersectionWith, differenceWith, includes, debounce} from 'lodash';
+import {intersectionWith, differenceWith, includes, debounce, result} from 'lodash';
 
 import {ThemeProps, themeable} from '../theme';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
@@ -7,7 +7,6 @@ import {Options, Option} from './Select';
 import {uncontrollable} from 'uncontrollable';
 import ResultList from './ResultList';
 import TableSelection from './TableSelection';
-import TreeSelection from './TreeSelection';
 import {autobind, flattenTree} from '../utils/helper';
 import InputBox from './InputBox';
 import Checkbox from './Checkbox';
@@ -20,7 +19,7 @@ import ChainedSelection from './ChainedSelection';
 import {ItemRenderStates as ResultItemRenderStates} from './ResultList';
 
 export type SelectMode =
-  | 'table'
+  'table'
   | 'group'
   | 'list'
   | 'tree'
@@ -84,7 +83,7 @@ export interface TransferProps
 
   resultTitle?: string;
   // 结果提示语
-  isFollowMode?: boolean;
+  resultListModeFollowSelect?: boolean;
   resultSearchPlaceholder?: string;
   optionItemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
   resultItemRender?: (
@@ -102,24 +101,27 @@ export interface TransferState {
   inputValue: string;
   searchResult: Options | null;
   isTreeDeferLoad: boolean;
+  resultSelectMode: 'list' | 'tree' | 'table'
 }
 
 export class Transfer<
   T extends TransferProps = TransferProps
 > extends React.Component<T, TransferState> {
+
   static defaultProps: Pick<
     TransferProps,
-    'multiple' | 'isFollowMode' | 'selectMode'
+    'multiple' | 'resultListModeFollowSelect' | 'selectMode'
   > = {
     multiple: true,
-    isFollowMode: false,
+    resultListModeFollowSelect: false,
     selectMode: 'list'
   };
 
-  state = {
+  state: TransferState = {
     inputValue: '',
     searchResult: null,
-    isTreeDeferLoad: false
+    isTreeDeferLoad: false,
+    resultSelectMode: 'list'
   };
 
   valueArray: Options;
@@ -133,6 +135,7 @@ export class Transfer<
   }
 
   static getDerivedStateFromProps(props: TransferProps) {
+    // 计算是否是懒加载模式
     let isTreeDeferLoad: boolean = false;
     props.selectMode === 'tree' &&
       props.options.forEach(item => {
@@ -140,8 +143,20 @@ export class Transfer<
           isTreeDeferLoad = true;
         }
       });
+
+    // 计算结果的selectMode
+    let resultSelectMode = 'list';
+    if (props.selectMode === 'tree' && props.resultListModeFollowSelect && !isTreeDeferLoad) {
+      resultSelectMode = 'tree';
+    }
+
+    if (props.selectMode === 'table' && props.resultListModeFollowSelect) {
+      resultSelectMode = 'table';
+    }
+    
     return {
-      isTreeDeferLoad
+      isTreeDeferLoad,
+      resultSelectMode
     };
   }
 
@@ -440,35 +455,22 @@ export class Transfer<
         multiple={multiple}
       />
     ) : mode === 'tree' ? (
-      !isTreeDeferLoad ? (
-        <Tree
-          onRef={this.domRef}
-          placeholder={noResultsText}
-          className={cx('Transfer-selection')}
-          options={options}
-          value={value}
-          disabled={disabled}
-          onChange={(value: Array<any>) =>
-            this.handleSearchTreeChange(value, options)
-          }
-          joinValues={false}
-          showIcon={false}
-          multiple={multiple}
-          onlyChildren
-        />
-      ) : (
-        <TreeSelection
-          placeholder={noResultsText}
-          className={cx('Transfer-selection')}
-          options={options}
-          value={value}
-          disabled={disabled}
-          onChange={onChange}
-          option2value={option2value}
-          itemRender={optionItemRender}
-          multiple={multiple}
-        />
-      )
+      <Tree
+        onRef={this.domRef}
+        placeholder={noResultsText}
+        className={cx('Transfer-selection')}
+        options={options}
+        value={value}
+        disabled={disabled}
+        onChange={(value: Array<any>) =>
+          this.handleSearchTreeChange(value, options)
+        }
+        joinValues={false}
+        showIcon={false}
+        multiple={true}
+        cascade={true}
+        onlyChildren={!isTreeDeferLoad}
+      />
     ) : mode === 'chained' ? (
       <ChainedSelection
         placeholder={noResultsText}
@@ -531,32 +533,20 @@ export class Transfer<
         multiple={multiple}
       />
     ) : selectMode === 'tree' ? (
-      !this.state.isTreeDeferLoad ? (
-        <Tree
-          onRef={this.domRef}
-          placeholder={noResultsText}
-          className={cx('Transfer-selection')}
-          options={options}
-          value={value}
-          onChange={onChange!}
-          joinValues={false}
-          onlyChildren
-          multiple={multiple}
-          showIcon={false}
-        />
-      ) : (
-        <TreeSelection
-          className={cx('Transfer-selection')}
-          options={options || []}
-          value={value}
-          disabled={disabled}
-          onChange={onChange}
-          option2value={option2value}
-          onDeferLoad={onDeferLoad}
-          itemRender={optionItemRender}
-          multiple={multiple}
-        />
-      )
+      <Tree
+        onRef={this.domRef}
+        placeholder={noResultsText}
+        className={cx('Transfer-selection')}
+        options={options}
+        value={value}
+        onChange={onChange!}
+        onlyChildren={!this.state.isTreeDeferLoad}
+        onDeferLoad={onDeferLoad}
+        joinValues={false}
+        showIcon={false}
+        multiple={true}
+        cascade={true}
+      />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
         className={cx('Transfer-selection')}
@@ -619,7 +609,7 @@ export class Transfer<
       multiple,
       cellRender,
       columns,
-      isFollowMode,
+      resultListModeFollowSelect,
       resultSearchable,
       onResultSearch,
       resultSearchPlaceholder,
@@ -635,7 +625,7 @@ export class Transfer<
         list.indexOf(option) === index
     );
 
-    const tableType = isFollowMode && selectMode === 'table';
+    const tableType = resultListModeFollowSelect && selectMode === 'table';
 
     return (
       <div
@@ -682,16 +672,15 @@ export class Transfer<
             onChange={onChange}
             placeholder={__('Transfer.selectFromLeft')}
             itemRender={resultItemRender}
-            isFollowMode={isFollowMode}
             columns={columns!}
             options={options || []}
             option2value={option2value}
             cellRender={cellRender}
             multiple={multiple}
-            resultSearchable={!this.state.isTreeDeferLoad && resultSearchable}
-            resultSearchPlaceholder={resultSearchPlaceholder}
-            onResultSearch={onResultSearch}
-            selectMode={selectMode}
+            searchable={!this.state.isTreeDeferLoad && resultSearchable}
+            searchPlaceholder={resultSearchPlaceholder}
+            onSearch={onResultSearch}
+            selectMode={this.state.resultSelectMode}
           />
         </div>
       </div>

@@ -26,9 +26,9 @@ export interface TableSelectionProps extends BaseSelectionProps {
     rowIndex: number
   ) => JSX.Element;
 
-  isCloseSide: boolean;
+  removeable: boolean;
 
-  onCloseItem?: (option: Option) => void;
+  onRemove?: (option: Option) => void;
 }
 
 export class TableSelection extends BaseSelection<TableSelectionProps> {
@@ -44,7 +44,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
       colIndex: number,
       rowIndex: number
     ) => <span>{resolveVariable(column.name, option)}</span>,
-    isCloseSide: false
+    removeable: false
   };
 
   getColumns() {
@@ -58,8 +58,8 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
 
   // 关闭表格最后一项
   handleCloseItem(option: Option) {
-    const {onCloseItem} = this.props;
-    onCloseItem && onCloseItem(option);
+    const {onRemove} = this.props;
+    onRemove && onRemove(option);
   }
 
   renderTHead() {
@@ -122,7 +122,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
       option2value,
       translate: __,
       itemClassName,
-      isCloseSide
+      removeable
     } = this.props;
     const columns = this.getColumns();
     let valueArray = BaseSelection.value2array(value, options, option2value);
@@ -133,7 +133,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
           options.map((option, rowIndex) => {
             const checked = valueArray.indexOf(option) !== -1;
 
-            if (isCloseSide && !checked) {
+            if (removeable && !checked) {
               return null;
             }
 
@@ -142,7 +142,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
                 key={rowIndex}
                 onClick={e => {
                   // 是关闭面板时，点击不触发关闭
-                  if (isCloseSide) {
+                  if (removeable) {
                     return;
                   }
                   e.defaultPrevented;
@@ -152,7 +152,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
                   itemClassName,
                   option.className,
                   disabled || option.disabled ? 'is-disabled' : '',
-                  !!~valueArray.indexOf(option) && !isCloseSide
+                  !!~valueArray.indexOf(option) && !removeable
                     ? 'is-active'
                     : ''
                 )}
@@ -165,10 +165,10 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
                 {columns.map((column, colIndex) => (
                   <td
                     key={colIndex}
-                    className={cx(isCloseSide ? 'Table-close' : '')}
+                    className={cx(removeable ? 'Table-close' : '')}
                   >
                     {cellRender(column, option, colIndex, rowIndex)}
-                    {isCloseSide && colIndex === columns.length - 1 ? (
+                    {removeable && colIndex === columns.length - 1 ? (
                       <span
                         className={cx('Table-close-btn')}
                         onClick={(e: React.SyntheticEvent<HTMLElement>) => {

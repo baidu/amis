@@ -536,8 +536,6 @@ icon:
 
 开启结果搜索后，目前默认通过value、label对输入内容进行模糊匹配。
 
-如需要自定义搜索方式，可以通过设置`resultSearchFilter`字段来实现。
-
 目前树的延时加载不支持结果搜索功能。
 
 ```schema: scope="body"
@@ -553,9 +551,8 @@ icon:
         "name": "transfer4",
         "selectMode": "tree",
         "searchable": true,
-        "isFollowMode": true,
+        "resultListModeFollowSelect": true,
         "resultSearchable": true,
-        "resultSearchFilter": "return item.value.indexOf(text) > -1",
         "options": [
           {
             "label": "法师",
@@ -642,7 +639,7 @@ icon:
 
 ### 结果面板跟随模式 	
 
-`isFollowMode` 开启结果面板跟随模式。
+`resultListModeFollowSelect` 开启结果面板跟随模式。
 
 #### 表格跟随模式
 ```schema: scope="body"
@@ -655,7 +652,7 @@ icon:
       "type": "transfer",
       "name": "transfer",
       "selectMode": "table",
-      "isFollowMode": true,
+      "resultListModeFollowSelect": true,
       "columns": [
         {
           "name": "label",
@@ -717,7 +714,7 @@ icon:
         "name": "transfer4",
         "selectMode": "tree",
         "searchable": true,
-        "isFollowMode": true,
+        "resultListModeFollowSelect": true,
         "options": [
           {
             "label": "法师",
@@ -826,7 +823,7 @@ icon:
 | joinValues       | `boolean`                                             | `true`       | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues) |
 | extractValue     | `boolean`                                             | `false`      | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue) |
 | searchApi        | [API](../../../docs/types/api)                        |              | 如果想通过接口检索，可以设置这个api。|
-| isFollowMode     | `boolean`                                 |    `false`   | 结果面板跟随模式，目前只支持`list`、`table`、`tree`（tree目前只支持非延时加载的`tree`） |
+| resultListModeFollowSelect     | `boolean`                                 |    `false`   | 结果面板跟随模式，目前只支持`list`、`table`、`tree`（tree目前只支持非延时加载的`tree`） |
 | statistics       | `boolean`                                             | `true`       | 是否显示统计数据|
 | selectTitle      | `string`                                              | `"请选择"`   | 左侧的标题文字  |
 | resultTitle      | `string`                                              | `"当前选择"` | 右侧结果的标题文字|
@@ -841,7 +838,6 @@ icon:
 | rightMode        | `string`                                              |              | 当展示形式为 `associated` 时用来配置右边的选择形式，可选：`list`、`table`、`tree`、`chained`。 |
 | resultSearchable       | `boolean`                                             | `false`      | 结果（右则）列表的检索功能，当设置为true时，可以通过输入检索模糊匹配检索内容（目前树的延时加载不支持结果搜索功能）  |
 | resultSearchPlaceholder     | `string`                                 |       | 右侧列表搜索框提示 |
-| resultSearchFilter       | `string`          | `false`      | 结果（右则）列表的检索功能的检索字符串，这个字符串是一个New Function内部执行的字符串，第一个参数是text（当前输入值），第二个参数是item（这是一个对象，对象对应option项的值），这个字符串需要返回boolean值。设置 "item.value.indexOf(text) > -1"意味着当前项值和输入值一致时，搜索结果显示该项  |
 | menuTpl          | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义选项展示 |
 | valueTpl         | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义值的展示  |
 

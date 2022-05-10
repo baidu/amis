@@ -54,7 +54,7 @@ export interface TransferControlSchema extends FormOptionsControl {
   /**
    * 结果面板是否追踪显示
    */
-  isFollowMode?: boolean;
+  resultListModeFollowSelect?: boolean;
 
   /**
    * 当 selectMode 为 associated 时用来定义左侧的选项
@@ -130,11 +130,6 @@ export interface TransferControlSchema extends FormOptionsControl {
    * 右侧列表搜索框提示
    */
   resultSearchPlaceholder?: string;
-
-  /**
-   * 结果搜索函数
-   */
-  resultSearchFilter?: string;
 }
 
 export interface BaseTransferProps
@@ -402,9 +397,8 @@ export class BaseTransferRenderer<
       selectTitle,
       resultTitle,
       menuTpl,
-      resultSearchFilter,
       searchPlaceholder,
-      isFollowMode = false,
+      resultListModeFollowSelect = false,
       resultSearchPlaceholder,
       resultSearchable = false
     } = this.props;
@@ -424,19 +418,6 @@ export class BaseTransferRenderer<
       leftOptions = options[0].leftOptions;
       leftDefaultValue = options[0].leftDefaultValue ?? leftDefaultValue;
       options = options[0].children;
-    }
-
-    let resultSearchFunc = this.handleResultSearch;
-
-    if (typeof resultSearchFilter === 'string') {
-      try {
-        resultSearchFunc = new Function('text', 'item', resultSearchFilter) as (
-          text: string,
-          item: Option
-        ) => boolean;
-      } catch (e) {
-        console.warn(resultSearchFilter, e);
-      }
     }
 
     return (
@@ -461,8 +442,8 @@ export class BaseTransferRenderer<
           cellRender={this.renderCell}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
-          isFollowMode={isFollowMode}
-          onResultSearch={resultSearchFunc}
+          resultListModeFollowSelect={resultListModeFollowSelect}
+          onResultSearch={this.handleResultSearch}
           searchPlaceholder={searchPlaceholder}
           resultSearchable={resultSearchable}
           resultSearchPlaceholder={resultSearchPlaceholder}

@@ -41,7 +41,7 @@ export interface IDropInfo {
 interface TreeSelectorProps extends ThemeProps, LocaleProps {
   highlightTxt?: string;
 
-  onRef: any;
+  onRef?: any;
 
   showIcon?: boolean;
   // 是否默认都展开
