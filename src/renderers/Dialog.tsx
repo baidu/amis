@@ -811,7 +811,7 @@ export class DialogRenderer extends Dialog {
             this.closeTarget(action.close);
           }
         })
-        .catch((e) => {
+        .catch(e => {
           if (throwErrors || action.countDown) {
             throw e;
           }

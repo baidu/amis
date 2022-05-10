@@ -1176,7 +1176,6 @@ export default class Form extends React.Component<FormProps, object> {
 
           action.reload && this.reloadTarget(action.reload, store.data);
           action.close && this.closeTarget(action.close);
-		  console.log("form success")
         })
         .catch(e => {
           onFailed && onFailed(e, store.errors);
