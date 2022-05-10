@@ -13,7 +13,7 @@ import Transition, {
 import React from 'react';
 import cx from 'classnames';
 import Html from './Html';
-import {uuid, autobind, noop, isMobile} from '../utils/helper';
+import {guid, autobind, noop, isMobile} from '../utils/helper';
 import {ClassNamesFn, themeable, classnames, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {LocaleProps, localeable, TranslateFn} from '../locale';
@@ -115,23 +115,25 @@ export class ToastComponent extends React.Component<
   }
 
   notifiy(level: string, content: any, config?: any) {
-    let items = this.state.items.concat();
     const useMobileUI = (config.useMobileUI || this.props.useMobileUI) && isMobile();
-    if (useMobileUI) {
-      // 移动端只能存在一个
-      items = [];
-    }
-    items.push({
-      body: content,
-      level,
-      ...config,
-      id: uuid(),
-      position: config.position || (useMobileUI ? 'center' : config.position),
-      timeout: config.timeout || (useMobileUI ? 3000 : undefined),
-    });
-    this.setState({
-      items,
-      useMobileUI
+    this.setState((state) => {
+      let items = state.items.concat();
+      if (useMobileUI) {
+        // 移动端只能存在一个
+        items = [];
+      }
+      items.push({
+        body: content,
+        level,
+        ...config,
+        id: guid(),
+        position: config.position || (useMobileUI ? 'center' : config.position),
+        timeout: config.timeout || (useMobileUI ? 3000 : undefined),
+      });
+      return {
+        items,
+        useMobileUI
+      }
     });
   }
 
@@ -184,7 +186,6 @@ export class ToastComponent extends React.Component<
     const items = this.state.items;
     const mobileUI = (useMobileUI || this.state.useMobileUI) && isMobile();
     const groupedItems = groupBy(items, item => item.position || position);
-
     return Object.keys(groupedItems).map(position => {
       const toasts = groupedItems[position];
       return (
