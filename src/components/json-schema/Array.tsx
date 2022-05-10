@@ -18,7 +18,6 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
     onChange,
     disabled,
     translate: __,
-    renderKey,
     collapsable
   } = props;
   const buildMembers = React.useCallback((schema: any, value) => {

@@ -60,6 +60,8 @@ export interface OptionProps {
   disabled?: boolean;
   creatable?: boolean;
   pathSeparator?: string;
+  hasError?: boolean;
+  block?: boolean;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
@@ -476,7 +478,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const {simpleValue} = this.props;
     const {selection} = this.state;
     const value = simpleValue ? selection.map(item => item.value) : selection;
-    
+
     this.props.disabled ||
       this.state.isOpen ||
       this.setState(
@@ -486,10 +488,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
         this.focus
       );
 
-    this.props.onFocus && this.props.onFocus({
-      ...e,
-      value
-    });
+    this.props.onFocus &&
+      this.props.onFocus({
+        ...e,
+        value
+      });
   }
 
   @autobind
@@ -502,10 +505,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
       isFocused: false
     });
 
-    this.props.onBlur && this.props.onBlur({
-      ...e,
-      value
-    });
+    this.props.onBlur &&
+      this.props.onBlur({
+        ...e,
+        value
+      });
   }
 
   @autobind
@@ -1092,7 +1096,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       multiple,
       valuesNoWrap,
       searchable,
-      inline,
+      block,
       className,
       value,
       loading,
@@ -1101,7 +1105,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       disabled,
       checkAll,
       borderMode,
-      useMobileUI
+      useMobileUI,
+      hasError
     } = this.props;
 
     const selection = this.state.selection;
@@ -1136,12 +1141,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 `Select`,
                 {
                   [`Select--multi`]: multiple,
-                  [`Select--inline`]: inline,
+                  [`Select--block`]: block,
                   [`Select--searchable`]: searchable,
                   'is-opened': isOpen,
                   'is-focused': this.state.isFocused,
                   'is-disabled': disabled,
                   'is-mobile': mobileUI,
+                  'is-error': hasError,
                   [`Select--border${ucFirst(borderMode)}`]: borderMode
                 },
                 className

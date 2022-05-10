@@ -3,6 +3,8 @@ import {guid} from '../../utils/helper';
 import Button from '../Button';
 import {Icon} from '../icons';
 import InputBox from '../InputBox';
+import InputBoxWithSuggestion from '../InputBoxWithSuggestion';
+import Select from '../Select';
 import type {InputJSONSchemaItemProps} from './index';
 import {InputJSONSchemaItem} from './Item';
 
@@ -12,6 +14,7 @@ type JSONSchemaObjectMember = {
   nameMutable?: boolean;
   schema?: any;
   invalid?: boolean;
+  required?: boolean;
 };
 export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
   const {
@@ -25,6 +28,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
   } = props;
   const buildMembers = React.useCallback((schema: any, value: any) => {
     const members: Array<JSONSchemaObjectMember> = [];
+    const required = Array.isArray(schema.required) ? schema.required : [];
 
     Object.keys(schema.properties || {}).forEach(key => {
       const child = schema.properties[key];
@@ -32,20 +36,10 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
         key: guid(),
         name: key,
         nameMutable: false,
+        required: required.includes(key),
         schema: child
       });
     });
-
-    if (!members.length) {
-      members.push({
-        key: guid(),
-        name: '',
-        nameMutable: true,
-        schema: {
-          type: 'string'
-        }
-      });
-    }
 
     const keys = Object.keys(value || {});
     for (let key of keys) {
@@ -60,6 +54,17 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
           }
         });
       }
+    }
+
+    if (!members.length) {
+      members.push({
+        key: guid(),
+        name: '',
+        nameMutable: true,
+        schema: {
+          type: 'string'
+        }
+      });
     }
 
     return members;
@@ -159,8 +164,20 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     setMembers(m);
   }, [members]);
 
+  const options: Array<any> = [];
+  const properties: any = props.schema?.properties || {};
+  Object.keys(properties).forEach(key => {
+    options.push({
+      label: properties[key]?.title || key,
+      value: key
+    });
+  });
   // todo additionalProperties 还有其他格式
-  const allowAdd = props.schema.additionalProperties !== false;
+  const allowAdd = !(
+    props.schema.additionalProperties === false &&
+    options.every(o => members.find(m => m.name === o.value))
+  );
+  const allowInput = props.schema.additionalProperties !== false;
 
   return (
     <>
@@ -192,6 +209,10 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
           />
         ) : (
           members.map(member => {
+            const filtedOptions = options.filter(
+              o => !members.find(m => m !== member && m.name === o.value)
+            );
+
             return (
               <div key={member.key} className={cx('JSONSchemaMember')}>
                 <div className={cx('JSONSchemaMember-key')}>
@@ -201,7 +222,30 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                         renderKey(
                           member.name,
                           onMemberKeyChange.bind(null, member),
-                          member.schema
+                          member.schema,
+                          props
+                        )
+                      ) : filtedOptions.length ? (
+                        allowInput ? (
+                          <InputBoxWithSuggestion
+                            value={member.name}
+                            hasError={member.invalid}
+                            onChange={onMemberKeyChange.bind(null, member)}
+                            clearable={false}
+                            placeholder={__('JSONSchema.key')}
+                            options={filtedOptions}
+                          />
+                        ) : (
+                          <Select
+                            simpleValue
+                            block
+                            value={member.name}
+                            hasError={member.invalid}
+                            onChange={onMemberKeyChange.bind(null, member)}
+                            clearable={false}
+                            placeholder={__('JSONSchema.key')}
+                            options={filtedOptions}
+                          />
                         )
                       ) : (
                         <InputBox
@@ -247,7 +291,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                     collapsable
                   />
                 </div>
-                {member.nameMutable ? (
+                {!member.required ? (
                   <Button
                     className={cx('SchemaEditor-btn')}
                     onClick={onMemberDelete.bind(null, member)}

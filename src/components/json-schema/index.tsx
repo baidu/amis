@@ -14,12 +14,14 @@ export interface InputJSONSchemaItemProps extends ThemeProps, LocaleProps {
   renderValue?: (
     value: any,
     onChange: (value: any) => void,
-    schema: any
+    schema: any,
+    props: any
   ) => JSX.Element;
   renderKey?: (
     value: any,
     onChange: (value: any) => void,
-    schema: any
+    schema: any,
+    props: any
   ) => JSX.Element;
   collapsable?: boolean;
   placeholder?: string;

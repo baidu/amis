@@ -51,4 +51,24 @@
   > a {
     cursor: pointer;
   }
+
+  &-caret {
+    transition: transform var(--animation-duration) ease-out;
+    margin: 5px;
+    display: flex;
+    color: var(--Form-select-caret-iconColor);
+    &:hover {
+      color: var(--Form-select-caret-onHover-iconColor);
+    }
+
+    > svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
+    }
+  }
+
+  &.is-active &-caret {
+    transform: rotate(180deg);
+  }
 }

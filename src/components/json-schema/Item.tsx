@@ -13,7 +13,7 @@ export function InputJSONSchemaItem(props: InputJSONSchemaItemProps) {
   } else if (schema.type === 'array') {
     return <InputJSONSchemaArray {...props} />;
   } else if (props.renderValue) {
-    return props.renderValue(props.value, props.onChange, schema);
+    return props.renderValue(props.value, props.onChange, schema, props);
   } else if (schema.type == 'number') {
     return (
       <NumberInput
