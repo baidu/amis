@@ -77,7 +77,7 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
 
   React.useEffect(() => {
     setMembers(buildDefaultMembers(props.schema, props.value));
-  }, [props.schema]);
+  }, [props.schema, props.value]);
 
   const handleAdd = React.useCallback(() => {
     const m = members.concat();

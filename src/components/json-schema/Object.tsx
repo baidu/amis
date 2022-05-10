@@ -23,7 +23,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     renderKey,
     collapsable
   } = props;
-  const buildDefaultMembers = React.useCallback((schema: any) => {
+  const buildDefaultMembers = React.useCallback((schema: any, value: any) => {
     const members: Array<JSONSchemaObjectMember> = [];
 
     Object.keys(schema.properties || {}).forEach(key => {
@@ -47,13 +47,26 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
       });
     }
 
-    // todo 外部 value 发生变化，也需要构建这个
+    const keys = Object.keys(value || {});
+    for (let key of keys) {
+      const exists = members.find(m => m.name === key);
+      if (!exists) {
+        members.push({
+          key: guid(),
+          name: key,
+          nameMutable: true,
+          schema: {
+            type: 'string'
+          }
+        });
+      }
+    }
 
     return members;
   }, []);
 
   const [members, setMembers] = React.useState<Array<JSONSchemaObjectMember>>(
-    buildDefaultMembers(props.schema)
+    buildDefaultMembers(props.schema, props.value)
   );
   const [collapsed, setCollapsed] = React.useState<boolean>(
     collapsable ? true : false
@@ -107,8 +120,8 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
   };
 
   React.useEffect(() => {
-    setMembers(buildDefaultMembers(props.schema));
-  }, [props.schema]);
+    setMembers(buildDefaultMembers(props.schema, props.value));
+  }, [props.schema, props.value]);
 
   const handleAdd = React.useCallback(() => {
     const m = members.concat();
