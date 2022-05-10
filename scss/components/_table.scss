@@ -604,6 +604,7 @@
   &Cell-searchBtn,
   &Cell-filterBtn {
     display: inline-block;
+    vertical-align: top;
     padding-left: var(--gap-sm);
     
     &:hover {
