@@ -83,7 +83,8 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
           [`Checkbox--${size}`]: size,
           'Checkbox--button': optionType === 'button',
           'Checkbox--button--checked': optionType === 'button' && checked,
-          'Checkbox--button--disabled--unchecked': disabled && !checked
+          'Checkbox--button--disabled--unchecked': optionType === 'button' && disabled && !checked,
+          'Checkbox--button--disabled--checked': optionType === 'button' && disabled && checked
         })}
       >
         <input

@@ -41,7 +41,8 @@ order: 8
         {
             "name": "checkbox",
             "type": "checkbox",
-            "label": "勾选框"
+            "label": "勾选框",
+            "option": "选项说明"
         }
     ]
 }
@@ -58,6 +59,7 @@ order: 8
             "name": "checkbox",
             "type": "checkbox",
             "label": "勾选框",
+            "option": "选项说明",
             "trueValue": 1,
             "falseValue": 0
         }
