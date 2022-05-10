@@ -657,7 +657,6 @@ export function wrapControl<
               defaultValue: control.value,
               formItemValue: value, // 为了兼容老版本的自定义组件
               onChange: this.handleChange,
-
               onBlur: this.handleBlur,
               setValue: this.setValue,
               getValue: this.getValue,
