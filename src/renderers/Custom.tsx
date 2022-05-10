@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom';
 import memoize from 'lodash/memoize';
 import isString from 'lodash/isString';
 import {Renderer, RendererProps} from '../factory';
-
-import {anyChanged} from '../utils/helper';
 import {BaseSchema} from '../Schema';
-import FormItem, {FormControlProps} from './Form/Item';
+import {FormControlProps} from './Form/Item';
+import isEqual from 'lodash/isEqual';
 
 /**
  * 自定义组件
@@ -57,6 +56,15 @@ export class Custom extends React.Component<CustomProps, object> {
   constructor(props: CustomProps) {
     super(props);
     this.dom = React.createRef();
+    this.initOnMount(props);
+    this.initOnUpdate(props);
+    this.initOnUnmount(props);
+    this.renderChild = this.renderChild.bind(this);
+    this.recordChildElem = this.recordChildElem.bind(this);
+    this.unmountChildElem = this.unmountChildElem.bind(this);
+  }
+
+  initOnMount(props: CustomProps) {
     if (props.onMount) {
       if (typeof props.onMount === 'string') {
         this.onMount = getFunction(
@@ -70,6 +78,9 @@ export class Custom extends React.Component<CustomProps, object> {
         this.onMount = props.onMount;
       }
     }
+  }
+
+  initOnUpdate(props: CustomProps) {
     if (props.onUpdate) {
       if (typeof props.onUpdate === 'string') {
         this.onUpdate = getFunction(
@@ -83,6 +94,9 @@ export class Custom extends React.Component<CustomProps, object> {
         this.onUpdate = props.onUpdate;
       }
     }
+  }
+
+  initOnUnmount(props: CustomProps) {
     if (props.onUnmount) {
       if (typeof props.onUnmount === 'string') {
         this.onUnmount = getFunction('props', props.onUnmount);
@@ -90,15 +104,23 @@ export class Custom extends React.Component<CustomProps, object> {
         this.onUnmount = props.onUnmount;
       }
     }
-    this.renderChild = this.renderChild.bind(this);
-    this.recordChildElem = this.recordChildElem.bind(this);
-    this.unmountChildElem = this.unmountChildElem.bind(this);
   }
 
   componentDidUpdate(prevProps: CustomProps) {
-    if (anyChanged(['data'], this.props, prevProps)) {
-      const {data} = this.props;
-      this.onUpdate(this.dom, data, prevProps.data, this.props);
+    if (!isEqual(this.props.onUpdate, prevProps.onUpdate)) {
+      this.initOnUpdate(this.props);
+    }
+    if (!isEqual(this.props.data, prevProps.data)) {
+      this.onUpdate(this.dom, this.props.data, prevProps.data, this.props);
+    }
+    if (!isEqual(this.props.onMount, prevProps.onMount)) {
+      const {value, onChange} = this.props;
+      this.initOnMount(this.props);
+      // 当 onMount 变动时自动执行一下
+      this.onMount(this.dom.current, value, onChange, this.props);
+    }
+    if (!isEqual(this.props.onUnmount, prevProps.onUnmount)) {
+      this.initOnUnmount(this.props);
     }
   }
 
@@ -180,7 +202,7 @@ export class Custom extends React.Component<CustomProps, object> {
   }
 }
 
-@FormItem({
+@Renderer({
   type: 'custom'
 })
 export class CustomRenderer extends Custom {}
