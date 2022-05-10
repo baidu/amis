@@ -34,6 +34,8 @@ import {envOverwrite} from './envOverwrite';
 import {OnEventProps} from './utils/renderer-event';
 import {enableDebug} from './utils/debug';
 
+import type {ToastLevel, ToastConf} from './components/Toast';
+
 export interface TestFunc {
   (
     path: string,
@@ -107,14 +109,7 @@ export interface RenderOptions {
     onError: (error: any) => void
   ) => void;
   isCancel?: (value: any) => boolean;
-  notify?: (
-    type: 'error' | 'success',
-    msg: string,
-    conf?: {
-      closeButton?: boolean;
-      timeout?: number;
-    }
-  ) => void;
+  notify?: (type: ToastLevel, msg: string, conf?: ToastConf) => void;
   jumpTo?: (to: string, action?: Action, ctx?: object) => void;
   alert?: (msg: string) => void;
   confirm?: (msg: string, title?: string) => boolean | Promise<boolean>;
