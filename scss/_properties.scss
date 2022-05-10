@@ -494,10 +494,12 @@
   --Checkbox-size: #{px2rem(16px)};
   --Checkbox-inner-size: calc(var(--Checkbox-size) / 2);
   --Checkbox-onHover-color: var(--info);
-  --Checkbox-onDisabled-bg: #e5e7eb;
-  --Checkbox-onDisabled-color: var(--text--muted-color);
+  --Checkbox-onDisabled-bg: #f7f7f9;
+  --Checkbox-onDisabled-color: #b8babf;
   --Checkbox-inner-onDisabled-bg: #d4d6d9;
-  --Checkbox-disabled-unchecked-bg: #f2f3f3;
+  --Checkbox-inner-onDisabled-color: #ffffff;
+  --Checkbox-disabled-unchecked-bg: #f7f7f9;
+  --Checkbox-inner-disabled-checked-bg: #e8e9eb;
   --Checkbox-border-width: var(--Form-input-borderWidth);
   --Checkbox-paddingX: #{px2rem(12px)};
   --Checkbox-button-height: #{px2rem(32px)};

@@ -74,7 +74,12 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
       labelClassName,
       optionType
     } = this.props;
-
+    const _checked = typeof checked !== 'undefined'
+      ? checked
+      : typeof value === 'undefined'
+      ? value
+      : value == trueValue;
+    
     return (
       <label
         className={cx(`Checkbox Checkbox--${type}`, className, {
@@ -82,8 +87,11 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
           // 'Checkbox--partial': partial
           [`Checkbox--${size}`]: size,
           'Checkbox--button': optionType === 'button',
-          'Checkbox--button--checked': optionType === 'button' && checked,
-          'Checkbox--button--disabled--unchecked': disabled && !checked
+          'Checkbox--button--checked': optionType === 'button' && _checked,
+          'Checkbox--button--disabled--unchecked':
+            optionType === 'button' && disabled && !_checked,
+          'Checkbox--button--disabled--checked':
+            optionType === 'button' && disabled && _checked
         })}
       >
         <input
