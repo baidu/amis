@@ -113,6 +113,23 @@ order: 61
 }
 ```
 
+## 远程获取 schema
+
+```schema: scope="body"
+{
+    "type": "form",
+    debug: true,
+    "body": [
+        {
+            "type": "json-schema",
+            "name": "value",
+            "label": "字段值",
+            "schema": "/api/mock2/json-schema"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名 | 类型                 | 默认值 | 说明             |

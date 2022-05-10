@@ -1,11 +1,13 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {autobind} from '../../utils/helper';
+import {autobind, isObjectShallowModified} from '../../utils/helper';
 import InputJSONSchema from '../../components/json-schema/index';
 import {
   isPureVariable,
   resolveVariableAndFilter
 } from '../../utils/tpl-builtin';
+import {isApiOutdated, isEffectiveApi} from '../../utils/api';
+import {withRemoteConfig} from '../../components/WithRemoteConfig';
 
 /**
  * JSON Schema
@@ -30,14 +32,20 @@ export interface JSONSchemaProps
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 
+const EnhancedInputJSONSchema = withRemoteConfig({
+  sourceField: 'schema',
+  injectedPropsFilter: props => {
+    return {
+      schema: props.config,
+      loading: props.loading
+    };
+  }
+})(InputJSONSchema as any);
 export default class JSONSchemaControl extends React.PureComponent<JSONSchemaProps> {
   render() {
-    const {schema, ...rest} = this.props;
-    const finalSchema = isPureVariable(schema)
-      ? resolveVariableAndFilter(schema, rest.data, '| raw')
-      : schema;
+    const {...rest} = this.props;
 
-    return <InputJSONSchema {...rest} schema={finalSchema} />;
+    return <EnhancedInputJSONSchema {...rest} />;
   }
 }
 
