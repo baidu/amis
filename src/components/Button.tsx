@@ -12,6 +12,7 @@ interface ButtonProps extends React.DOMAttributes<HTMLButtonElement> {
   id?: string;
   className?: string;
   href?: string;
+  title?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg';
   type: 'button' | 'reset' | 'submit';
   level: string; // 'link' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'light' | 'dark' | 'default';
@@ -57,6 +58,7 @@ export class Button extends React.Component<ButtonProps> {
       size,
       disabled,
       className,
+      title,
       componentClass: Comp,
       classnames: cx,
       children,
@@ -98,6 +100,7 @@ export class Button extends React.Component<ButtonProps> {
               },
           className
         )}
+        title={title}
         disabled={disabled}
       >
         {loading && !disabled ? (

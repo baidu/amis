@@ -1031,8 +1031,8 @@
   --ListMenu-item-height: #{px2rem(34px)};
 
   --Log-bg: #222;
-  --Log-padding: var(--gap-xs) 0;
-  --Log-line-padding: 0 var(--gap-xs);
+  --Log-padding: var(--gap-sm) 0;
+  --Log-line-padding: 0 var(--gap-sm);
   --Log-color: #f1f1f1;
   --Log-line--onHover-bg: #444;
 
@@ -1335,16 +1335,22 @@
       2
   );
   --TableCell-paddingY-default: calc(
-    (var(--TableCell-height-default) - var(--Table-fontSize) * var(--Table-lineHeight)) /
-      2
+    (
+        var(--TableCell-height-default) - var(--Table-fontSize) *
+          var(--Table-lineHeight)
+      ) / 2
   );
   --TableCell-paddingY-large: calc(
-    (var(--TableCell-height-large) - var(--Table-fontSize) * var(--Table-lineHeight)) /
-      2
+    (
+        var(--TableCell-height-large) - var(--Table-fontSize) *
+          var(--Table-lineHeight)
+      ) / 2
   );
   --TableCell-paddingY-small: calc(
-    (var(--TableCell-height-small) - var(--Table-fontSize) * var(--Table-lineHeight)) /
-      2
+    (
+        var(--TableCell-height-small) - var(--Table-fontSize) *
+          var(--Table-lineHeight)
+      ) / 2
   );
   --TableCell-searchBtn--onActive-color: var(--primary);
   --TableCell-searchBtn-width: #{px2rem(16px)};
