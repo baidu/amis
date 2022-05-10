@@ -391,12 +391,9 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       ref: this.refFn,
       render: this.renderChild,
       rootStore: rootStore,
+      disabled: disable ?? restSchema.disabled,
       dispatchEvent: this.dispatchEvent
     };
-
-    if (disable) {
-      (props as any).disabled = true;
-    }
 
     // 自动解析变量模式，主要是方便直接引入第三方组件库，无需为了支持变量封装一层
     if (renderer.autoVar) {

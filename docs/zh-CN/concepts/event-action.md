@@ -84,7 +84,7 @@ order: 9
 
 事件包含`渲染器事件`和`广播事件`。
 
-- 渲染器事件，由具体的渲染器组件提供，每个渲染器组件暴露的事件可以查看具体的[组件文档](./components/page)；
+- 渲染器事件，由具体的渲染器组件提供，每个渲染器组件暴露的事件可以查看具体的[组件文档的事件表](../../components/page#事件表)；
 - 广播事件，即自定义事件，可以自定义派发的事件名称`eventName`，其他渲染器可以监听该自定义事件并配置响应动作。
 
 动作包含`通用动作`、`组件动作`、`广播动作`、`自定义动作`，可以通过配置`actionType`来指定具体执行什么动作。
@@ -1089,9 +1089,7 @@ order: 9
 
 ### 刷新
 
-通过配置`actionType: 'reload'`实现对指定组件的刷新（重新加载）操作，仅支持`form`、`wizard`、`service`、`page`、`app`、`chart`、`crud`，以及支持动态数据的`输入类`组件，详见组件的`动作表`。
-
-#### 刷新 表单
+通过配置`actionType: 'reload'`实现对指定组件的刷新（重新加载）操作，仅支持`form`、`wizard`、`service`、`page`、`app`、`chart`、`crud`，以及支持动态数据的`输入类`组件，详见组件的`动作表`。更多示例请查看[刷新示例](../../../examples/action/reload/form)。
 
 ```schema
 {
@@ -1128,129 +1126,6 @@ order: 9
           label: '时间戳'
         }
       ]
-    }
-  ]
-}
-```
-
-#### 刷新 图表
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
-      type: 'button',
-      label: '刷新',
-      level: 'primary',
-      className: 'mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'reload',
-              componentId: 'chart_reload'
-            }
-          ]
-        }
-      }
-    },
-    {
-    "type": "chart",
-    id: 'chart_reload',
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chartData",
-    "config": {
-      "xAxis": {
-        "type": "category",
-        "data": [
-          "Mon",
-          "Tue",
-          "Wed",
-          "Thu",
-          "Fri",
-          "Sat"
-        ]
-      },
-      "yAxis": {
-        "type": "value"
-      },
-      "series": [
-        {
-          "data": "${line}",
-          "type": "line"
-        }
-      ]
-    }
-  }
-  ]
-}
-```
-
-#### 刷新 下拉框
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
-      type: 'button',
-      label: '刷新',
-      className: 'mb-2',
-      level: 'primary',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'reload',
-              componentId: 'select-reload'
-            }
-          ]
-        }
-      }
-    },
-    {
-      label: '下拉框',
-      type: 'select',
-      id: 'select-reload',
-      mode: 'horizontal',
-      className: 'mt-2',
-      name: 'select',
-      source:
-        'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1'
-    }
-  ]
-}
-```
-
-**刷新 输入框**
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
-      type: 'button',
-      label: '刷新',
-      className: 'mb-2',
-      level: 'primary',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'reload',
-              componentId: 'input-text-reload'
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "input-text-reload",
-      "id": "input-text-reload",
-      "type": "input-text",
-      "label": "text",
-      "creatable": false,
-      "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1"
     }
   ]
 }
@@ -1335,6 +1210,7 @@ order: 9
       label: '禁用',
       level: 'primary',
       className: 'mr-2 mb-2',
+      disabled: true,
       onEvent: {
         click: {
           actions: [
@@ -1424,15 +1300,12 @@ order: 9
 
 ### 更新数据
 
-更新数据即变量赋值，通过配置`actionType: 'setValue'`实现组件数据域变量的更新，支持`基础类型`、`对象类型`、`数组类型`，数据类型取决于目标组件所需数据值类型，仅支持`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据`输入类`组件。
-
-#### 更新 表单 数据
-
-直接更新指定的表单组件的数据。
+更新数据即变量赋值，通过配置`actionType: 'setValue'`实现组件`数据域变量更新`，通过它可以实现`组件间联动更新`、`数据回填`，支持`基础类型`、`对象类型`、`数组类型`，数据类型取决于目标组件所需数据值类型，仅支持`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据`输入类`组件。更多示例请查看[更新数据示例](../../../examples/action/setdata/form)。
 
 ```schema
 {
   type: 'page',
+  title: '更新表单数据',
   data: {
     globalData: {
       myrole: '法官',
@@ -1483,837 +1356,6 @@ order: 9
           name: 'age',
           disabled: false,
           mode: 'horizontal'
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### 更新 弹窗 数据
-
-这种场景一般用在弹窗内某个异步操作后，数据的回填。请求返回的数据可以指定存储在`outputVar`变量里，其他动作可以通过`event.data.{{outputVar}}`直接获取该数据。
-
-```schema
-{
-  type: 'page',
-  data: {
-    globalData: {
-      website: "http://www.baidu.com",
-      email: "amis!@baidu.com",
-      rememberMe: true
-    }
-  },
-  body: [
-    {
-      type: 'button',
-      label: '打开弹窗',
-      level: 'primary',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'dialog',
-              "dialog": {
-                "title": "在弹框中的表单",
-                "id": "dialog_003",
-                "data": {
-                  username: 'amis',
-                  rememberMe: '${globalData.rememberMe}'
-                },
-                "body": {
-                  "type": "form",
-                  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
-                  "body": [
-                    {
-                      "type": "input-text",
-                      "name": "username",
-                      "required": true,
-                      "placeholder": "请输入用户名",
-                      "label": "用户名"
-                    },
-                    {
-                      "type": "input-password",
-                      "name": "password",
-                      "label": "密码",
-                      "required": true,
-                      "placeholder": "请输入密码"
-                    },
-                    {
-                      "type": "checkbox",
-                      "name": "rememberMe",
-                      "label": "记住登录"
-                    }
-                  ]
-                },
-                "actions": [
-                  {
-                    type: 'button',
-                    label: '请求后更新',
-                    className: 'm',
-                    primary: true,
-                    onEvent: {
-                      click: {
-                        actions: [
-                          {
-                            actionType: 'ajax',
-                            args: {
-                              api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData'
-                            },
-                            outputVar: 'myResult'
-                          },
-                          {
-                            actionType: 'setValue',
-                            componentId: 'dialog_003',
-                            args: {
-                              value: {
-                                username: '${event.data.myResult.name}'
-                              }
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
-#### 更新 向导 数据
-
-直接更新指定的向导组件的数据。
-
-```schema
-{
-  type: 'page',
-  data: {
-    globalData: {
-      website: "http://www.baidu.com",
-      email: "amis!@baidu.com"
-    }
-  },
-  body: [
-    {
-      type: 'button',
-      label: '更新',
-      level: 'primary',
-      className: 'mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'wizard_data',
-              args: {
-                value: '${globalData}'
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "wizard",
-      "id": "wizard_data",
-      "mode": "vertical",
-      "data": {
-        "website": "test",
-        "email": "test"
-      },
-      "steps": [
-        {
-          "title": "第一步",
-          "body": [
-            {
-              "name": "website",
-              "label": "网址",
-              "type": "input-url"
-            }
-          ]
-        },
-        {
-          "title": "Step 2",
-          "body": [
-            {
-              "name": "email",
-              "label": "邮箱",
-              "type": "input-email",
-              "required": true
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### 更新 图表 数据
-
-直接更新图表的数据等于更新图表所依赖数据域中的变量，例如下面的例子，`setValue`等于更新绑定的变量`${line}`。
-
-```schema
-{
-  type: 'page',
-  data: {
-    lineData: {
-      line: [65, 63, 10, 73, 42, 21]
-    }
-  },
-  body: [
-    {
-      type: 'button',
-      label: '更新',
-      level: 'primary',
-      className: 'mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'chart_setvalue',
-              args: {
-                value: '${lineData}'
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-    "type": "chart",
-    id: 'chart_setvalue',
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chartData",
-    "config": {
-      "xAxis": {
-        "type": "category",
-        "data": [
-          "Mon",
-          "Tue",
-          "Wed",
-          "Thu",
-          "Fri",
-          "Sat"
-        ]
-      },
-      "yAxis": {
-        "type": "value"
-      },
-      "series": [
-        {
-          "data": "${line}",
-          "type": "line"
-        }
-      ]
-    }
-  }
-  ]
-}
-```
-
-#### 更新 输入类组件 数据
-
-直接更新指定输入框、下拉框、输入组合等输入类组件的数据。
-
-**更新 输入框 字段值**
-
-```schema
-{
-  type: 'page',
-  id: 'mypage',
-  data: {
-    globalData: {
-      myrole: '法官',
-      mymsg: '该吃饭了!',
-      title: 'beijing time'
-    }
-  },
-  body: [
-    {
-      type: 'button',
-      label: '更新输入框',
-      level: 'primary',
-      className: 'mr-2 mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'input_data_msg',
-              args: {
-                value: '我是amis!'
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: 'button',
-      label: '更新表单内输入框',
-      level: 'primary',
-      className: 'mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'input_data_role',
-              args: {
-                value: '预言家'
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: "input-text",
-      label: "消息",
-      id: "input_data_msg",
-      mode: 'horizontal',
-      name: "mymsg"
-    },
-    {
-      type: 'form',
-      title: '表单',
-      data: {
-        myrole: '杀手',
-        age: '18'
-      },
-      "initApi": "/api/mock2/form/initData",
-      body: [
-        {
-          type: 'input-text',
-          id: "input_data_role",
-          label: '角色',
-          name: 'myrole',
-          disabled: false,
-          mode: 'horizontal'
-        },
-        {
-          type: 'input-text',
-          label: '年龄',
-          name: 'age',
-          disabled: false,
-          mode: 'horizontal'
-        }
-      ]
-    }
-  ]
-}
-```
-
-**更新 下拉框 选中值**
-
-```schema
-{
-  type: 'page',
-  id: 'mypage',
-  data: {
-    singleData: 'a',
-    multipleData: 'caocao,libai'
-  },
-  body: [
-    {
-      type: 'button',
-      label: '更新单选数据',
-      level: 'primary',
-      className: 'mr-2 mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'single-select',
-              args: {
-                value: '${singleData}'
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: 'button',
-      label: '更新多选数据',
-      level: 'primary',
-      className: 'mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'multiple-select',
-              args: {
-                value: '${multipleData}'
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-        "label": "选项",
-        "type": "select",
-        "name": "single-select",
-        id: 'single-select',
-        "options": [
-          {
-            "label": "A",
-            "value": "a"
-          },
-          {
-            "label": "B",
-            "value": "b"
-          },
-          {
-            "label": "C",
-            "value": "c"
-          }
-        ]
-      },
-    {
-        "label": "分组",
-        "type": "select",
-        "name": "multiple-select",
-        id: 'multiple-select',
-        "multiple": true,
-        "selectMode": "group",
-        "options": [
-          {
-            "label": "法师",
-            "children": [
-              {
-                "label": "诸葛亮",
-                "value": "zhugeliang"
-              }
-            ]
-          },
-          {
-            "label": "战士",
-            "children": [
-              {
-                "label": "曹操",
-                "value": "caocao"
-              },
-              {
-                "label": "钟无艳",
-                "value": "zhongwuyan"
-              }
-            ]
-          },
-          {
-            "label": "打野",
-            "children": [
-              {
-                "label": "李白",
-                "value": "libai"
-              },
-              {
-                "label": "韩信",
-                "value": "hanxin"
-              },
-              {
-                "label": "云中君",
-                "value": "yunzhongjun"
-              }
-            ]
-          }
-        ]
-      }
-  ]
-}
-```
-
-**更新 点选按钮 选中值**
-
-```schema
-{
-  type: 'page',
-  id: 'mypage',
-  data: {
-    btnData: 'c'
-  },
-  body: [
-    {
-      type: 'button',
-      label: '更新',
-      level: 'primary',
-      className: 'mr-2 mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'button-group-select_setvalue',
-              args: {
-                value: '${btnData}'
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-        "type": "button-group-select",
-        id: 'button-group-select_setvalue',
-        "label": "选项",
-        "name": "type",
-        "options": [
-          {
-            "label": "Option A",
-            "value": "a"
-          },
-          {
-            "label": "Option B",
-            "value": "b"
-          },
-          {
-            "label": "Option C",
-            "value": "c"
-          }
-        ]
-      }
-  ]
-}
-```
-
-**更新 输入组合(Combo) 字段值**
-
-```schema
-{
-  type: 'page',
-  id: 'mypage',
-  data: {
-    objData: {
-      name: '路飞',
-      role: '海贼王'
-    },
-    arrayData: [
-      {
-        name: '苹果',
-        count: 10
-      },
-      {
-        name: '黄瓜',
-        count: 5
-      }
-    ]
-  },
-  body: [
-    {
-      type: 'button',
-      label: '更新对象类型数据',
-      level: 'primary',
-      className: 'mr-2 mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'userinfo',
-              args: {
-                value: '${objData}'
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: 'button',
-      label: '更新数组类型数据',
-      level: 'primary',
-      className: 'mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'shoppingcart',
-              args: {
-                value: '${arrayData}'
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-        "type": "combo",
-        "name": "userinfo",
-        "id": "userinfo",
-        "label": "用户信息",
-        "items": [
-          {
-            "name": "name",
-            "label": "姓名",
-            "type": "input-text"
-          },
-          {
-            "name": "role",
-            "label": "角色",
-            "type": "input-text"
-          }
-        ]
-      },
-    {
-        "type": "combo",
-        "name": "shoppingcart",
-        "id": "shoppingcart",
-        "label": "购物车",
-        "multiple": true,
-        "items": [
-          {
-            "name": "name",
-            "label": "商品名称",
-            "type": "input-text"
-          },
-          {
-            "name": "count",
-            "label": "购买数量",
-            "type": "input-text"
-          }
-        ]
-      }
-  ]
-}
-```
-
-#### 联动更新
-
-当某组件的值发生变化时，联动去更新另一个组件的数据，可以通过`${事件参数}`来获取事件产生的数据，例如输入框`change`事件的参数是`value: string | string[]`d，则可以通过`${event.data.value}`来获取输入的值。
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
-      type: 'input-text',
-      label: '输入角色',
-      mode: 'horizontal',
-      onEvent: {
-        change: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'form_data_2',
-              args: {
-                value: {
-                  myrole: '${event.data.value}'
-                }
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: 'input-text',
-      label: '输入年龄',
-      mode: 'horizontal',
-      onEvent: {
-        change: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'form_data_2',
-              args: {
-                value: {
-                  age: '${event.data.value}'
-                }
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: 'form',
-      id: 'form_data_2',
-      title: '表单',
-      "initApi": "/api/mock2/form/initData",
-      body: [
-        {
-          type: 'input-text',
-          label: '角色',
-          name: 'myrole',
-          disabled: false,
-          mode: 'horizontal'
-        },
-        {
-          type: 'input-text',
-          label: '年龄',
-          name: 'age',
-          disabled: false,
-          mode: 'horizontal'
-        }
-      ]
-    },
-    {
-      type: 'select',
-      label: '选择消息',
-      name: 'message',
-      mode: 'horizontal',
-      "options": [
-        {
-          "label": "Hi",
-          "value": "Hi!"
-        },
-        {
-          "label": "Hello",
-          "value": "Hello!"
-        },
-        {
-          "label": "Hey",
-          "value": "Hey!"
-        }
-      ],
-      onEvent: {
-        change: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'input_data_msg2',
-              args: {
-                value: '${event.data.value}'
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: "input-text",
-      label: "消息",
-      id: "input_data_msg2",
-      mode: 'horizontal',
-      name: "mymsg"
-    }
-  ]
-}
-```
-
-#### 数据回填
-
-远程请求后、表单提交后，将数据回填给另一个组件。请求返回的数据可以指定存储在`outputVar`变量里，其他动作可以通过`event.data.{{outputVar}}`直接获取该数据。
-
-```schema
-{
-  type: 'page',
-  data: {
-    globalData: {
-      website: "http://www.baidu.com",
-      email: "amis!@baidu.com"
-    }
-  },
-  body: [
-    {
-      type: 'form',
-      id: 'form_data_3',
-      title: '表单',
-      body: [
-        {
-          type: 'input-text',
-          label: '名称',
-          name: 'name',
-          disabled: false,
-          mode: 'horizontal'
-        },
-        {
-          type: 'input-text',
-          label: '作者',
-          name: 'author',
-          disabled: false,
-          mode: 'horizontal'
-        }
-      ],
-      actions: [
-        {
-          type: 'button',
-          label: '去获取表单数据',
-          primary: true,
-          wrapWithPanel: false,
-          onEvent: {
-            click: {
-              actions: [
-                {
-                  actionType: 'dialog',
-                  "dialog": {
-                    "title": "登录",
-                    "id": "dialog_004",
-                    "data": {
-                      username: 'amis'
-                    },
-                    "body": {
-                      "type": "form",
-                      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
-                      "body": [
-                        {
-                          "type": "input-text",
-                          "name": "username",
-                          "required": true,
-                          "placeholder": "请输入用户名",
-                          "label": "用户名"
-                        },
-                        {
-                          "type": "input-password",
-                          "name": "password",
-                          "label": "密码",
-                          "required": true,
-                          "placeholder": "请输入密码"
-                        },
-                        {
-                          "type": "checkbox",
-                          "name": "rememberMe",
-                          "label": "记住登录"
-                        }
-                      ]
-                    },
-                    "actions": [
-                      {
-                        type: 'button',
-                        label: '提交后回填表单',
-                        className: 'm',
-                        primary: true,
-                        onEvent: {
-                          click: {
-                            actions: [
-                              {
-                                actionType: 'ajax',
-                                args: {
-                                  api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData',
-                                },
-                                outputVar: 'myResult'
-                              },
-                              {
-                                actionType: 'setValue',
-                                componentId: 'form_data_3',
-                                args: {
-                                  value: '${event.data.myResult}'
-                                }
-                              },
-                              {
-                                actionType: 'closeDialog'
-                              }
-                            ]
-                          }
-                        }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
         }
       ]
     }
@@ -2372,7 +1414,7 @@ order: 9
 
 ## 触发其他组件的动作
 
-通过配置`componentId`来触发指定组件的动作，组件动作参考通过`args`传入`(>=v1.9.0)`，动作参数请查看对应的组件文档。
+通过配置`componentId`来触发指定组件的动作，组件动作参考通过`args`传入`(>=v1.9.0)`，动作参数请查看对应的组件的[动作表](../../components/form/index#动作表)，更多示例请查看[组件事件动作示例](../../../examples/event/form)。
 
 ```schema
 {
@@ -3207,33 +2249,53 @@ order: 9
 
 事件动作干预是指执行完当前动作后，干预所监听事件默认处理逻辑和后续其他动作的执行。通过`preventDefault`、`stopPropagation`分别阻止监听事件默认行为和停止下一个动作执行。
 
-**阻止事件默认行为**
+## 阻止事件默认行为
+
+有些组件内置了一些逻辑来帮助用户降低配置成本，但可能这些逻辑并不符合设计者的业务需求，这时可以通过`onEvent`来监听对应的事件，并通过`preventDefault`来阻止那些默认处理逻辑来达到想要的最终效果。更多示例请查看[阻止组件默认行为示例](../../../examples/action/prevent/form)。
 
 ```schema
 {
-  "type": "page",
-  "title": "事件/动作干预",
-  "regions": [
-    "body",
-    "toolbar",
-    "header"
-  ],
-  "body": [
+  type: 'page',
+  title: '弹窗确认后执行其他动作并阻止默认关闭',
+  body: [
     {
-      "type": "button",
-      "label": "阻止弹窗",
+      type: 'button',
+      className: 'ml-2',
+      label: '打开弹窗',
       level: 'primary',
-      "actionType": "dialog",
-      "onEvent": {
-        "click": {
-          "actions": [
+      onEvent: {
+        click: {
+          actions: [
             {
-              "actionType": "toast",
-              args: {
-                "msgType": 'info',
-                "msg": '动作1'
-              },
-              "preventDefault": true
+              actionType: 'dialog',
+              dialog: {
+                type: 'dialog',
+                title: '提示',
+                id: 'dialog_001',
+                data: {
+                   myage: '22'
+                },
+                body: [
+                  {
+                    type: 'alert',
+                    body: '一个弹窗',
+                    level: 'warning'
+                  }
+                ],
+                onEvent: {
+                  confirm: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        args: {
+                          msg: '不关闭'
+                        },
+                        preventDefault: true
+                      }
+                    ]
+                  }
+                }
+              }
             }
           ]
         }
@@ -3243,21 +2305,18 @@ order: 9
 }
 ```
 
-**停止后续动作执行**
+## 停止后续动作执行
+
+通过`onEvent`可以对监听的事件配置一组动作，这些动作是顺序执行的，有时间设计者希望执行某个/些动作后就停止继续执行后面的动作，这时候可以通过`stopPropagation`来停止执行后面配置的所有动作。
 
 ```schema
 {
   "type": "page",
-  "title": "事件/动作干预",
-  "regions": [
-    "body",
-    "toolbar",
-    "header"
-  ],
+  "title": "只执行3个动作中的前两个动作",
   "body": [
     {
       "type": "button",
-      "label": "停止执行动作3",
+      "label": "弹出2个提示",
       level: 'primary',
       "onEvent": {
         "click": {
@@ -3281,7 +2340,8 @@ order: 9
               "actionType": "toast",
               args: {
                 "msgType": 'info',
-                "msg": '动作3'
+                "msg": '动作3',
+                "position": 'top-right'
               }
             }
           ]
@@ -3291,10 +2351,6 @@ order: 9
   ]
 }
 ```
-
-# 典型场景
-
-补充中...
 
 # 属性表
 
