@@ -50,7 +50,6 @@ export interface UserSelectProps extends OptionsControlProps {
    * 搜索携带的额外参数
    */
   searchParam?: PlainObject;
-  data?: PlainObject;
 }
 
 export default class UserSelectControl extends React.Component<

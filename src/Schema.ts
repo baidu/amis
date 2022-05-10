@@ -335,6 +335,7 @@ export type SchemaType =
   | 'table-view'
   | 'portlet'
   | 'grid-nav'
+  | 'users-select'
   | 'tag'
 
   // 原生 input 类型
