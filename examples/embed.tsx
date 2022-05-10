@@ -21,6 +21,8 @@ import '../src/locale/en-US';
 import 'history';
 import attachmentAdpator from '../src/utils/attachmentAdpator';
 
+import type {ToastLevel, ToastConf} from '../src/components/Toast';
+
 export function embed(
   container: string | HTMLElement,
   schema: any,
@@ -94,8 +96,10 @@ export function embed(
   const amisEnv = {
     getModalContainer: () =>
       env?.getModalContainer?.() || document.querySelector('.amis-scope'),
-    notify: (type: 'success' | 'error' | 'warning' | 'info', msg: string) =>
-      toast[type] ? toast[type](msg) : console.warn('[Notify]', type, msg),
+    notify: (type: ToastLevel, msg: string, conf?: ToastConf) =>
+      toast[type]
+        ? toast[type](msg, conf)
+        : console.warn('[Notify]', type, msg),
     alert,
     confirm,
     updateLocation: (to: any, replace: boolean) => {

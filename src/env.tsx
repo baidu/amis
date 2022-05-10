@@ -9,26 +9,12 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import {IScopedContext} from './Scoped';
 import {RendererEvent} from './utils/renderer-event';
 
+import type {ToastLevel, ToastConf} from './components/Toast';
+
 export interface RendererEnv {
   fetcher: (api: Api, data?: any, options?: object) => Promise<Payload>;
   isCancel: (val: any) => boolean;
-  notify: (
-    type: 'error' | 'success' | 'warning',
-    msg: any,
-    conf?: {
-      title?: any;
-      position?:
-        | 'top-right'
-        | 'top-center'
-        | 'top-left'
-        | 'bottom-center'
-        | 'bottom-left'
-        | 'bottom-right'
-        | 'center';
-      closeButton?: boolean;
-      timeout?: number;
-    }
-  ) => void;
+  notify: (type: ToastLevel, msg: any, conf?: ToastConf) => void;
   jumpTo: (to: string, action?: Action, ctx?: object) => void;
   alert: (msg: string) => void;
   confirm: (msg: string, title?: string) => Promise<boolean>;
