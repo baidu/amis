@@ -81,6 +81,7 @@ order: 61
                   type: 'object',
                   title: '日期',
                   additionalProperties: false,
+                  required: ['year', 'month', 'day'],
                   properties: {
                     year: {
                       type: 'number',

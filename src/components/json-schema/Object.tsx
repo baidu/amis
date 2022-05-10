@@ -100,6 +100,9 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
       throw new Error('member object not found');
     }
 
+    const newValue = {
+      ...props.value
+    };
     const m = members.concat();
     m.splice(idx, 1, {
       ...member,
@@ -113,6 +116,10 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     });
 
     setMembers(m);
+
+    newValue[memberValue] = newValue[member.name];
+    delete newValue[member.name];
+    onChange?.(newValue);
   };
   const onMemberDelete = (member: JSONSchemaObjectMember) => {
     const idx = members.indexOf(member);
