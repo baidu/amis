@@ -128,6 +128,7 @@ import './renderers/Form/TabsTransfer';
 import './renderers/Form/TabsTransferPicker';
 import './renderers/Form/Group';
 import './renderers/Form/InputGroup';
+import './renderers/Form/UserSelect';
 import './renderers/Grid';
 import './renderers/Grid2D';
 import './renderers/HBox';
