@@ -37,6 +37,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
   @autobind
   clearValue(e: any) {
     e.preventDefault();
+    e.stopPropagation();
 
     const onClear = this.props.onClear;
     const onChange = this.props.onChange;
@@ -81,6 +82,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
       prefix: result,
       children,
       borderMode,
+      onClick,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -91,9 +93,10 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
           'is-focused': isFocused,
           'is-disabled': disabled,
           'is-error': hasError,
-          'is-clickable': rest.onClick,
+          'is-clickable': onClick,
           [`InputBox--border${ucFirst(borderMode)}`]: borderMode
         })}
+        onClick={onClick}
       >
         {result}
 

@@ -18,7 +18,8 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
     onChange,
     disabled,
     translate: __,
-    collapsable
+    collapsable,
+    renderValue
   } = props;
   const buildMembers = React.useCallback((schema: any, value) => {
     const members: Array<JSONSchemaArrayMember> = [];
@@ -156,15 +157,17 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
         })}
       >
         {collapsed ? (
-          <InputJSONSchemaItem
-            {...props}
-            value={value}
-            onChange={onChange}
-            schema={{
-              type: 'string'
-            }}
-            placeholder={props.schema?.description}
-          />
+          renderValue ? (
+            <InputJSONSchemaItem
+              {...props}
+              value={value}
+              onChange={onChange}
+              schema={{
+                type: 'string'
+              }}
+              placeholder={props.schema?.description}
+            />
+          ) : null
         ) : (
           members.map(member => {
             return (

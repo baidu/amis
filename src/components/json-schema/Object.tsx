@@ -24,7 +24,8 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     disabled,
     translate: __,
     renderKey,
-    collapsable
+    collapsable,
+    renderValue
   } = props;
   const buildMembers = React.useCallback((schema: any, value: any) => {
     const members: Array<JSONSchemaObjectMember> = [];
@@ -35,7 +36,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
       members.push({
         key: guid(),
         name: key,
-        nameMutable: false,
+        nameMutable: !required.includes(key),
         required: required.includes(key),
         schema: child
       });
@@ -102,6 +103,9 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     const m = members.concat();
     m.splice(idx, 1, {
       ...member,
+      schema: props.schema?.properties?.[memberValue] || {
+        type: 'string'
+      },
       name: memberValue,
       invalid:
         !memberValue ||
@@ -198,15 +202,17 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
         })}
       >
         {collapsed ? (
-          <InputJSONSchemaItem
-            {...props}
-            value={value}
-            onChange={onChange}
-            schema={{
-              type: 'string'
-            }}
-            placeholder={props.schema?.description}
-          />
+          renderValue ? (
+            <InputJSONSchemaItem
+              {...props}
+              value={value}
+              onChange={onChange}
+              schema={{
+                type: 'string'
+              }}
+              placeholder={props.schema?.description}
+            />
+          ) : null
         ) : (
           members.map(member => {
             const filtedOptions = options.filter(
@@ -259,7 +265,11 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                     </>
                   ) : (
                     <span>
+                      {member.required ? (
+                        <span className={cx(`Form-star`)}>*</span>
+                      ) : null}
                       {member.schema?.title || member.name}
+
                       {/* {member.schema?.description ? (
                         <TooltipWrapper
                           tooltipTheme="dark"
