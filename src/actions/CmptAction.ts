@@ -56,16 +56,16 @@ export class CmptAction implements RendererAction {
 
     // 数据更新
     if (action.actionType === 'setValue') {
-      if (component.setData) {
-        return component.setData(action.args?.value);
+      if (component?.setData) {
+        return component?.setData(action.args?.value);
       } else {
-        return component.props.onChange?.(action.args?.value);
+        return component?.props.onChange?.(action.args?.value);
       }
     }
 
     // 刷新
     if (action.actionType === 'reload') {
-      return component.reload?.(undefined, action.args);
+      return component?.reload?.(undefined, action.args);
     }
 
     // 执行组件动作
