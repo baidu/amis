@@ -87,6 +87,7 @@ import './renderers/Form/ChartRadios';
 import './renderers/Form/InputRating';
 import './renderers/Form/Switch';
 import './renderers/Form/Radios';
+import './renderers/Form/JSONSchema';
 import './renderers/Form/JSONSchemaEditor';
 import './renderers/Form/ListSelect';
 import './renderers/Form/LocationPicker';

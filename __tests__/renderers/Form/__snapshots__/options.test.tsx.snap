@@ -199,7 +199,7 @@ exports[`options:linkage 2`] = `
         class="cxd-RadiosControl cxd-Form-control is-inline"
       >
         <label
-          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full cxd-Checkbox--button--disabled--unchecked"
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
         >
           <input
             disabled=""

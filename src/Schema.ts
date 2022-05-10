@@ -171,6 +171,7 @@ export type SchemaType =
   | 'static-image' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'images'
   | 'static-images' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
+  | 'json-schema'
   | 'json-schema-editor'
   | 'json'
   | 'static-json' // 这个几个跟表单项同名，再form下面用必须带前缀 static-

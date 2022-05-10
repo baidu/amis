@@ -1,5 +1,5 @@
 import React from 'react';
-import {autobind} from '../utils/helper';
+import {autobind, isObject} from '../utils/helper';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
 import {findDOMNode} from 'react-dom';
@@ -23,8 +23,9 @@ export interface PickerContainerProps extends ThemeProps, LocaleProps {
     onChange: (value: any) => void;
     setState: (state: any) => void;
     [propName: string]: any;
-  }) => JSX.Element;
+  }) => JSX.Element | null;
   value?: any;
+  beforeConfirm?: (bodyRef: any) => any;
   onConfirm?: (value?: any) => void;
   onCancel?: () => void;
   popOverContainer?: any;
@@ -49,6 +50,7 @@ export class PickerContainer extends React.Component<
     isOpened: false,
     value: this.props.value
   };
+  bodyRef = React.createRef<any>();
 
   componentDidUpdate(prevProps: PickerContainerProps) {
     const props = this.props;
@@ -94,10 +96,22 @@ export class PickerContainer extends React.Component<
   }
 
   @autobind
-  confirm() {
-    const {onConfirm} = this.props;
+  async confirm() {
+    const {onConfirm, beforeConfirm} = this.props;
 
-    this.close(undefined, () => onConfirm?.(this.state.value));
+    const ret = await beforeConfirm?.(this.bodyRef.current);
+    let state: any = {
+      isOpened: false
+    };
+
+    // beforeConfirm 返回 false 则阻止后续动作
+    if (ret === false) {
+      return;
+    } else if (isObject(ret)) {
+      state.value = ret;
+    }
+
+    this.setState(state, () => onConfirm?.(this.state.value));
   }
 
   @autobind
@@ -141,6 +155,7 @@ export class PickerContainer extends React.Component<
           <Modal.Body>
             {popOverRender({
               ...(this.state as any),
+              ref: this.bodyRef,
               setState: this.updateState,
               onClose: this.close,
               onChange: this.handleChange

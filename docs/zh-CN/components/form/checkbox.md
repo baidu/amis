@@ -82,7 +82,7 @@ order: 8
             "falseValue": false,
             "optionType": "button",
             "option": "选项说明",
-            "checked": true
+            "value": true
         }
     ]
 }

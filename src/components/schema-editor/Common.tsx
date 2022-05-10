@@ -5,10 +5,13 @@ import type {JSONSchema} from '../../utils/DataScope';
 import {autobind} from '../../utils/helper';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
+import Form from '../Form';
+import FormField, {Controller} from '../FormField';
 import {Icon} from '../icons';
 import InputBox from '../InputBox';
 import PickerContainer from '../PickerContainer';
 import Select from '../Select';
+import Textarea from '../Textarea';
 
 export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   value?: JSONSchema;
@@ -38,6 +41,7 @@ export interface SchemaEditorItemCommonProps extends LocaleProps, ThemeProps {
   ) => JSX.Element;
   prefix?: JSX.Element;
   affix?: JSX.Element;
+  enableAdvancedSetting?: boolean;
 }
 
 export class SchemaEditorItemCommon<
@@ -65,6 +69,11 @@ export class SchemaEditorItemCommon<
     });
   }
 
+  @autobind
+  handleBeforeSubmit(form: any) {
+    return form.submit();
+  }
+
   renderCommon() {
     const {
       value,
@@ -76,6 +85,7 @@ export class SchemaEditorItemCommon<
       onRequiredChange,
       renderExtraProps,
       renderModalProps,
+      enableAdvancedSetting,
       prefix,
       affix,
       types
@@ -107,16 +117,63 @@ export class SchemaEditorItemCommon<
 
         {renderExtraProps?.(value!, this.handlePropsChange)}
 
-        {renderModalProps ? (
+        {enableAdvancedSetting ? (
           <PickerContainer
             value={value}
-            bodyRender={renderModalProps as any}
+            bodyRender={({isOpened, value, onChange, ref}) => {
+              return isOpened ? (
+                <Form defaultValues={value} onSubmit={onChange} ref={ref}>
+                  {({control, getValues, setValue}) => (
+                    <>
+                      <Controller
+                        label={__('JSONSchema.title')}
+                        name="title"
+                        control={control}
+                        rules={{maxLength: 20}}
+                        isRequired
+                        render={({field}) => (
+                          <InputBox {...field} disabled={disabled} />
+                        )}
+                      />
+
+                      <Controller
+                        label={__('JSONSchema.description')}
+                        name="description"
+                        control={control}
+                        render={({field}) => (
+                          <Textarea {...field} disabled={disabled} />
+                        )}
+                      />
+
+                      <Controller
+                        label={__('JSONSchema.default')}
+                        name="default"
+                        control={control}
+                        render={({field}) => (
+                          <InputBox {...field} disabled={disabled} />
+                        )}
+                      />
+
+                      {renderModalProps?.(getValues(), (values: any) => {
+                        Object.keys(values).forEach(key =>
+                          setValue(key, values[key])
+                        );
+                      })}
+                    </>
+                  )}
+                </Form>
+              ) : null;
+            }}
+            beforeConfirm={this.handleBeforeSubmit}
             onConfirm={this.handlePropsChange}
-            size="md"
             title={__('SubForm.editDetail')}
           >
             {({onClick}) => (
-              <Button className={cx('SchemaEditor-btn')} onClick={onClick}>
+              <Button
+                disabled={disabled || !!value?.$ref}
+                className={cx('SchemaEditor-btn')}
+                onClick={onClick}
+              >
                 <Icon icon="setting" className="icon" />
               </Button>
             )}
