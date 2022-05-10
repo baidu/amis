@@ -136,12 +136,12 @@ order: 9
 
 **动作属性**
 
-| 属性名                               | 类型                                | 默认值 | 说明                      |
-| ------------------------------------ | ----------------------------------- | ------ | ------------------------- |
-| actionType                           | `string`                            | `ajax` | ajax 请求                 |
-| api / args.api`(>=v1.9.0)`           | [API](../../../docs/types/api)      | -      | 接口配置                  |
-| options / args.options`(>=v1.9.0)`   | `object`                            | -      | 其他配置                  |
-| messages / args.messages`(>=v1.9.0)` | `{success: string, failed: string}` | -      | 请求成功/失败后的提示信息 |
+| 属性名        | 类型                                | 默认值 | 说明                                                        |
+| ------------- | ----------------------------------- | ------ | ----------------------------------------------------------- |
+| actionType    | `string`                            | `ajax` | ajax 请求                                                   |
+| args.api      | [API](../../../docs/types/api)      | -      | 接口配置，`< 1.8.0 及以下版本 为 api`                       |
+| args.options  | `object`                            | -      | 其他配置，`< 1.8.0 及以下版本 为 options`                   |
+| args.messages | `{success: string, failed: string}` | -      | 请求成功/失败后的提示信息，`< 1.8.0 及以下版本 为 messages` |
 
 ### 打开弹窗（模态）
 
@@ -507,10 +507,10 @@ order: 9
 
 **动作属性**
 
-| 属性名                      | 类型     | 默认值  | 说明           |
-| --------------------------- | -------- | ------- | -------------- |
-| actionType                  | `string` | `alert` | 打开提示对话框 |
-| msg / args.msg`(>=v1.9.0) ` | `string` | -       | 对话框提示内容 |
+| 属性名     | 类型     | 默认值  | 说明                                        |
+| ---------- | -------- | ------- | ------------------------------------------- |
+| actionType | `string` | `alert` | 打开提示对话框                              |
+| args.msg   | `string` | -       | 对话框提示内容，`< 1.8.0 及以下版本 为 msg` |
 
 #### 确认对话框
 
@@ -546,11 +546,11 @@ order: 9
 
 **动作属性**
 
-| 属性名                         | 类型     | 默认值          | 说明           |
-| ------------------------------ | -------- | --------------- | -------------- |
-| actionType                     | `string` | `confirmDialog` | 打开确认对话框 |
-| title / args.title`(>=v1.9.0)` | `string` | -               | 对话框标题     |
-| msg / args.msg `(>=v1.9.0)`    | `string` | -               | 对话框提示内容 |
+| 属性名     | 类型     | 默认值          | 说明                                        |
+| ---------- | -------- | --------------- | ------------------------------------------- |
+| actionType | `string` | `confirmDialog` | 打开确认对话框                              |
+| args.title | `string` | -               | 对话框标题，`< 1.8.0 及以下版本 为 title`   |
+| args.msg   | `string` | -               | 对话框提示内容，`< 1.8.0 及以下版本 为 msg` |
 
 ### 跳转链接
 
@@ -597,12 +597,12 @@ order: 9
 
 **动作属性**
 
-| 属性名                         | 类型      | 默认值  | 说明                                             |
-| ------------------------------ | --------- | ------- | ------------------------------------------------ |
-| actionType                     | `string`  | `url`   | 页面跳转                                         |
-| url / args.url`(>=v1.9.0)`     | `string`  | -       | 按钮点击后，会打开指定页面。可用 `${xxx}` 取值。 |
-| blank / args.blank`(>=v1.9.0)` | `boolean` | `false` | 如果为 `true` 将在新 tab 页面打开。              |
-| args.params`(>=v1.9.0)`        | `object`  | -       | 页面参数`{key:value}`，支持数据映射。            |
+| 属性名      | 类型      | 默认值  | 说明                                                                        |
+| ----------- | --------- | ------- | --------------------------------------------------------------------------- |
+| actionType  | `string`  | `url`   | 页面跳转                                                                    |
+| args.url    | `string`  | -       | 按钮点击后，会打开指定页面。可用 `${xxx}` 取值，`< 1.8.0 及以下版本 为 url` |
+| args.blank  | `boolean` | `false` | 如果为 `true` 将在新 tab 页面打开，`< 1.8.0 及以下版本 为 blank`            |
+| args.params | `object`  | -       | 页面参数`{key:value}`，支持数据映射，`> 1.10.0 及以上版本`                  |
 
 **打开单页链接**
 
@@ -636,10 +636,12 @@ order: 9
 | 属性名 | 类型 | 默认值 | 说明 |
 | ---------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------- |
 | actionType | `string` | `link` | 单页跳转 |
-| link / args.link`(>=v1.9.0)` | `string` | `link` | 用来指定跳转地址，跟 url 不同的是，这是单页跳转方式，不会渲染浏览器，请指定 amis 平台内的页面。可用 `${xxx}` 取值。 |
-| args.params`(>=v1.9.0)` | `object` | - | 页面参数`{key:value}`，支持数据映射。 |
+| args.link | `string` | `link` | 用来指定跳转地址，跟 url 不同的是，这是单页跳转方式，不会渲染浏览器，请指定 amis 平台内的页面。可用 `${xxx}` 取值，`< 1.8.0 及以下版本 为 link` |
+| args.params | `object` | - | 页面参数`{key:value}`，支持数据映射，`> 1.9.0 及以上版本` |
 
 ### 浏览器回退
+
+> 1.8.0 及以上版本
 
 通过配置`actionType: 'goBack'`实现页面回退。
 
@@ -674,6 +676,8 @@ order: 9
 
 ### 前进/后退到指定页面
 
+> 1.8.0 及以上版本
+
 通过配置`actionType: 'goPage'`实现浏览器页面的前进/后退。
 
 ```schema
@@ -702,12 +706,14 @@ order: 9
 
 **动作属性**
 
-| 属性名                         | 类型     | 默认值   | 说明            |
-| ------------------------------ | -------- | -------- | --------------- |
-| actionType                     | `string` | `goPage` | 前进/后退到页面 |
-| delta / args.delta`(>=v1.9.0)` | `string` | `0`      | 位置            |
+| 属性名     | 类型     | 默认值   | 说明                                |
+| ---------- | -------- | -------- | ----------------------------------- |
+| actionType | `string` | `goPage` | 前进/后退到页面                     |
+| args.delta | `string` | `0`      | 位置，`< 1.8.0 及以下版本 为 delta` |
 
 ### 浏览器刷新
+
+> 1.8.0 及以上版本
 
 通过配置`actionType: 'refresh'`实现浏览器刷新。
 
@@ -978,15 +984,15 @@ order: 9
 
 **动作属性**
 
-| 属性名                                     | 类型      | 默认值                                  | 说明                                                                                                              |
-| ------------------------------------------ | --------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| actionType                                 | `string`  | `"toast"`                               | 指定 toast 动作                                                                                                   |
-| msgType / args.msgType`(>=v1.9.0)`         | `string`  | `"info"`                                | 消息类型 `"info"、"success"、"error"、"warning"`                                                                  |
-| msg / args.msg`(>=v1.9.0)`                 | `string`  | -                                       | 消息内容                                                                                                          |
-| position / args.position`(>=v1.9.0)`       | `string`  | `top-center（移动端为center）`          | 提示显示位置，可用'top-right'、'top-center'、'top-left'、'bottom-center'、'bottom-left'、'bottom-right'、'center' |
-| closeButton / args.closeButton`(>=v1.9.0)` | `boolean` | `false`                                 | 是否展示关闭按钮                                                                                                  |
-| showIcon / args.showIcon`(>=v1.9.0)`       | `boolean` | `true`                                  | 是否展示图标                                                                                                      |
-| timeout / args.timeout`(>=v1.9.0)`         | `number`  | `5000（error类型为6000，移动端为3000）` | 持续时间                                                                                                          |
+| 属性名           | 类型      | 默认值                                  | 说明                                                                                                                               |
+| ---------------- | --------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| actionType       | `string`  | `"toast"`                               | 指定 toast 动作                                                                                                                    |
+| args.msgType     | `string`  | `"info"`                                | 消息类型 `info\|success\|error\|warning`，`< 1.8.0 及以下版本 为 msgType`                                                          |
+| args.msg         | `string`  | -                                       | 消息内容，`< 1.8.0 及以下版本 为 msg`                                                                                              |
+| args.position    | `string`  | `top-center（移动端为center）`          | 提示显示位置 `top-right\|top-center\|top-left\|bottom-center\|bottom-left\|bottom-right\|center`，`< 1.8.0 及以下版本 为 position` |
+| args.closeButton | `boolean` | `false`                                 | 是否展示关闭按钮，`< 1.8.0 及以下版本 为 closeButton`                                                                              |
+| args.showIcon    | `boolean` | `true`                                  | 是否展示图标，`< 1.8.0 及以下版本 为 showIcon`                                                                                     |
+| args.timeout     | `number`  | `5000（error类型为6000，移动端为3000）` | 持续时间，`< 1.8.0 及以下版本 为 timeout`                                                                                          |
 
 ### 复制
 
@@ -1038,11 +1044,11 @@ order: 9
 
 **动作属性**
 
-| 属性名                                   | 类型                                 | 默认值      | 说明                                 |
-| ---------------------------------------- | ------------------------------------ | ----------- | ------------------------------------ |
-| actionType                               | `string`                             | `copy`      | 复制一段内容到粘贴板                 |
-| copyFormat / args.copyFormat`(>=v1.9.0)` | `string`                             | `text/html` | 复制格式                             |
-| content / args.content`(>=v1.9.0)`       | [模板](../../docs/concepts/template) | -           | 指定复制的内容。可用 `${xxx}` 取值。 |
+| 属性名          | 类型                                 | 默认值      | 说明                                                                |
+| --------------- | ------------------------------------ | ----------- | ------------------------------------------------------------------- |
+| actionType      | `string`                             | `copy`      | 复制一段内容到粘贴板                                                |
+| args.copyFormat | `string`                             | `text/html` | 复制格式，`< 1.8.0 及以下版本 为 copyFormat`                        |
+| args.content    | [模板](../../docs/concepts/template) | -           | 指定复制的内容。可用 `${xxx}` 取值，`< 1.8.0 及以下版本 为 content` |
 
 ### 发送邮件
 
@@ -1078,14 +1084,14 @@ order: 9
 
 **动作属性**
 
-| 属性名                             | 类型     | 默认值  | 说明                             |
-| ---------------------------------- | -------- | ------- | -------------------------------- |
-| actionType                         | `string` | `email` | 点击后显示一个弹出框             |
-| to / args.to`(>=v1.9.0)`           | `string` | -       | 收件人邮箱，可用 ${xxx} 取值。   |
-| cc / args.cc`(>=v1.9.0)`           | `string` | -       | 抄送邮箱，可用 ${xxx} 取值。     |
-| bcc / args.bcc`(>=v1.9.0)`         | `string` | -       | 匿名抄送邮箱，可用 ${xxx} 取值。 |
-| subject / args.subject`(>=v1.9.0)` | `string` | -       | 邮件主题，可用 ${xxx} 取值。     |
-| body / args.body`(>=v1.9.0)`       | `string` | -       | 邮件正文，可用 ${xxx} 取值。     |
+| 属性名       | 类型     | 默认值  | 说明                                                        |
+| ------------ | -------- | ------- | ----------------------------------------------------------- |
+| actionType   | `string` | `email` | 点击后显示一个弹出框                                        |
+| args.to      | `string` | -       | 收件人邮箱，可用 ${xxx} 取值，`< 1.8.0 及以下版本 为 to`    |
+| args.cc      | `string` | -       | 抄送邮箱，可用 ${xxx} 取值，`< 1.8.0 及以下版本 为 cc`      |
+| args.bcc     | `string` | -       | 匿名抄送邮箱，可用 ${xxx} 取值，`< 1.8.0 及以下版本 为 bcc` |
+| args.subject | `string` | -       | 邮件主题，可用 ${xxx} 取值，`< 1.8.0 及以下版本 为 subject` |
+| args.body    | `string` | -       | 邮件正文，可用 ${xxx} 取值，`< 1.8.0 及以下版本 为 body`    |
 
 ### 刷新
 
@@ -1139,6 +1145,8 @@ order: 9
 | componentId | `string` | -        | 指定刷新的目标组件 id |
 
 ### 显示与隐藏
+
+> 1.8.0 及以上版本
 
 通过配置`actionType: 'show'`或`'hidden'`实现对指定组件的显示和隐藏，且显隐动作的控制高于组件显隐属性的设置。
 
@@ -1197,6 +1205,8 @@ order: 9
 | componentId | `string` | -                  | 指定显示或隐藏的目标组件 id |
 
 ### 控制状态
+
+> 1.8.0 及以上版本
 
 通过配置`actionType: 'enabled'`或`actionType: 'disabled'`实现对指定组件的启用和禁用，仅支持实现了状态控制功能的数据`输入类`组件。
 
@@ -1300,6 +1310,8 @@ order: 9
 
 ### 更新数据
 
+> 1.8.0 及以上版本
+
 更新数据即变量赋值，通过配置`actionType: 'setValue'`实现组件`数据域变量更新`，通过它可以实现`组件间联动更新`、`数据回填`，支持`基础类型`、`对象类型`、`数组类型`，数据类型取决于目标组件所需数据值类型，仅支持`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据`输入类`组件。更多示例请查看[更新数据示例](../../../examples/action/setdata/form)。
 
 ```schema
@@ -1365,11 +1377,11 @@ order: 9
 
 **动作属性**
 
-| 属性名                         | 类型     | 默认值     | 说明                         |
-| ------------------------------ | -------- | ---------- | ---------------------------- |
-| actionType                     | `string` | `setValue` | 变量赋值，即设置组件的数据值 |
-| componentId                    | `string` | -          | 指定赋值的目标组件 id        |
-| value / args.value`(>=v1.9.0)` | `any`    | -          | 值                           |
+| 属性名      | 类型     | 默认值     | 说明                              |
+| ----------- | -------- | ---------- | --------------------------------- |
+| actionType  | `string` | `setValue` | 变量赋值，即设置组件的数据值      |
+| componentId | `string` | -          | 指定赋值的目标组件 id             |
+| args.value  | `any`    | -          | 值，`< 1.8.0 及以下版本 为 value` |
 
 ### 自定义 JS
 
@@ -1414,7 +1426,7 @@ order: 9
 
 ## 触发其他组件的动作
 
-通过配置`componentId`来触发指定组件的动作，组件动作参考通过`args`传入`(>=v1.9.0)`，动作参数请查看对应的组件的[动作表](../../components/form/index#动作表)，更多示例请查看[组件事件动作示例](../../../examples/event/form)。
+通过配置`componentId`来触发指定组件的动作，组件动作配置通过`args`传入`(> 1.9.0 及以上版本)`，动作参数请查看对应的组件的[动作表](../../components/form/index#动作表)，更多示例请查看[组件事件动作示例](../../../examples/event/form)。
 
 ```schema
 {
@@ -1690,10 +1702,10 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型                             | 默认值 | 说明                         |
-| ---------- | -------------------------------- | ------ | ---------------------------- |
-| actionType | `string`                         | `for`  | 循环执行动作                 |
-| expression | [表达式](../concepts/expression) | -      | 执行条件，不设置表示默认执行 |
+| 属性名     | 类型                                        | 默认值 | 说明                         |
+| ---------- | ------------------------------------------- | ------ | ---------------------------- |
+| actionType | `string`                                    | `for`  | 循环执行动作                 |
+| expression | `boolean`\|[表达式](../concepts/expression) | -      | 执行条件，不设置表示默认执行 |
 
 ## 循环
 
@@ -1847,11 +1859,11 @@ order: 9
 
 **动作属性**
 
-| 属性名                               | 类型                                                 | 默认值 | 说明                                  |
-| ------------------------------------ | ---------------------------------------------------- | ------ | ------------------------------------- |
-| actionType                           | `string`                                             | `for`  | 循环执行动作                          |
-| loopName / args.loopName`(>=v1.9.0)` | `string`                                             | -      | 循环变量名称                          |
-| children                             | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作，可以通过`break动作`来跳出循环 |
+| 属性名        | 类型                                                 | 默认值 | 说明                                           |
+| ------------- | ---------------------------------------------------- | ------ | ---------------------------------------------- |
+| actionType    | `string`                                             | `for`  | 循环执行动作                                   |
+| args.loopName | `string`                                             | -      | 循环变量名称，`< 1.8.0 及以下版本 为 loopName` |
+| children      | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作，可以通过`break动作`来跳出循环          |
 
 ## Break 动作
 
@@ -2278,8 +2290,12 @@ order: 9
                 body: [
                   {
                     type: 'alert',
-                    body: '一个弹窗',
+                    body: '输入Do not close，确认后将不关闭弹窗',
                     level: 'warning'
+                  },
+                  {
+                    type: 'input-text',
+                    name: 'command'
                   }
                 ],
                 onEvent: {
@@ -2290,7 +2306,7 @@ order: 9
                         args: {
                           msg: '不关闭'
                         },
-                        preventDefault: true
+                        preventDefault: 'event.data.command === "Do not close"'
                       }
                     ]
                   }
@@ -2354,11 +2370,11 @@ order: 9
 
 # 属性表
 
-| 属性名          | 类型                             | 默认值 | 说明                                |
-| --------------- | -------------------------------- | ------ | ----------------------------------- |
-| actionType      | `string`                         | -      | 动作名称                            |
-| args            | `object`                         | -      | 动作参数`{key:value}`，支持数据映射 |
-| preventDefault  | `boolean`                        | false  | 阻止事件默认行为                    |
-| stopPropagation | `boolean`                        | false  | 停止后续动作执行                    |
-| expression      | [表达式](../concepts/expression) | -      | 执行条件，不设置表示默认执行        |
-| outputVar       | `string`                         | -      | 输出数据变量名                      |
+| 属性名          | 类型                                        | 默认值 | 说明                                              |
+| --------------- | ------------------------------------------- | ------ | ------------------------------------------------- |
+| actionType      | `string`                                    | -      | 动作名称                                          |
+| args            | `object`                                    | -      | 动作参数`{key:value}`，支持数据映射               |
+| preventDefault  | `boolean`\|[表达式](../concepts/expression) | false  | 阻止事件默认行为，`> 1.10.0 及以上版本支持表达式` |
+| stopPropagation | `boolean`\|[表达式](../concepts/expression) | false  | 停止后续动作执行，`> 1.10.0 及以上版本支持表达式` |
+| expression      | `boolean`\|[表达式](../concepts/expression) | -      | 执行条件，不设置表示默认执行                      |
+| outputVar       | `string`                                    | -      | 输出数据变量名                                    |
