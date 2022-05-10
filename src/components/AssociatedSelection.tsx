@@ -45,10 +45,6 @@ export class AssociatedSelection extends BaseSelection<
   AssociatedSelectionState
 > {
 
-  treeRef: any;
-
-  rightTreeRef: any;
-
   state: AssociatedSelectionState = {
     leftValue: this.props.leftDefaultValue
   };
@@ -109,15 +105,6 @@ export class AssociatedSelection extends BaseSelection<
     onDeferLoad?.(option);
   }
 
-  @autobind
-  domRef(ref: any) {
-    this.treeRef = ref;
-  }
-
-  rightDomRef(ref: any) {
-    this.rightTreeRef = ref;
-  }
-
   render() {
     const {
       classnames: cx,
@@ -148,7 +135,6 @@ export class AssociatedSelection extends BaseSelection<
         <div className={cx('AssociatedSelection-left')}>
           {leftMode === 'tree' ? (
             <Tree
-              onRef={this.domRef}
               multiple={false}
               disabled={disabled}
               value={this.state.leftValue}
@@ -206,7 +192,6 @@ export class AssociatedSelection extends BaseSelection<
                 />
               ) : rightMode === 'tree' ? (
                 <Tree
-                  onRef={this.rightDomRef}
                   value={value}
                   disabled={disabled}
                   options={selectdOption.children || []}

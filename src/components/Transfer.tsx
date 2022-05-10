@@ -470,6 +470,7 @@ export class Transfer<
         multiple={true}
         cascade={true}
         onlyChildren={!isTreeDeferLoad}
+        itemRender={optionItemRender}
       />
     ) : mode === 'chained' ? (
       <ChainedSelection
@@ -541,6 +542,7 @@ export class Transfer<
         value={value}
         onChange={onChange!}
         onlyChildren={!this.state.isTreeDeferLoad}
+        itemRender={optionItemRender}
         onDeferLoad={onDeferLoad}
         joinValues={false}
         showIcon={false}

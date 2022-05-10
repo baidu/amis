@@ -827,7 +827,7 @@ icon:
 | statistics       | `boolean`                                             | `true`       | 是否显示统计数据|
 | selectTitle      | `string`                                              | `"请选择"`   | 左侧的标题文字  |
 | resultTitle      | `string`                                              | `"当前选择"` | 右侧结果的标题文字|
-| sortable         | `boolean`                                             | `false`      | 结果可以进行拖拽排序|
+| sortable         | `boolean`                                             | `false`      | 结果可以进行拖拽排序（结果列表为树时，不支持排序）|
 | selectMode       | `string`                                              | `list`       | 可选：`list`、`table`、`tree`、`chained`、`associated`。分别为：列表形式、表格形式、树形选择形式、级联选择形式，关联选择形式（与级联选择的区别在于，级联是无限极，而关联只有一级，关联左边可以是个 tree）。 |
 | searchResultMode | `string`                                              |              | 如果不设置将采用 `selectMode` 的值，可以单独配置，参考 `selectMode`，决定搜索结果的展示形式。 |
 | searchable     | `boolean`                                 | `false`      | 左侧列表搜索功能，当设置为 true 时表示可以通过输入部分内容检索出选项项。 |

@@ -345,7 +345,6 @@ export class ResultList extends React.Component<
         {
           Array.isArray(value) && value.length ? (
             <TableSelection
-              className={cx('Transfer-selection')}
               columns={columns}
               options={options || []}
               value={value}
@@ -371,6 +370,7 @@ export class ResultList extends React.Component<
       value,
       placeholder,
       onChange,
+      itemRender,
       translate: __
     } = this.props;
     return (
@@ -381,6 +381,7 @@ export class ResultList extends React.Component<
         valueField={'value'}
         value={value || []}
         onChange={onChange!}
+        itemRender={itemRender}
         placeholder={placeholder}
       />
     );
@@ -421,7 +422,7 @@ export class ResultList extends React.Component<
               onKeyDown={this.handleSearchKeyDown}
               placeholder={searchPlaceholder}
             >
-              {searchResult !== null ? (
+              {!!inputValue ? (
                 <a onClick={this.handleSeachCancel}>
                   <Icon icon="close" className="icon" />
                 </a>

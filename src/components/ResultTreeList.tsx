@@ -96,7 +96,7 @@ function getResultOptions(value: Options = [], options: Options, valueField: str
   return deepCheckedTreeNode(newOptions);
 }
 
-// 在包换回调函数情况下，遍历树
+// 在包含回调函数情况下，遍历树
 function deepTree(nodes: Options, cb: (node: Option) => void) {
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
@@ -243,6 +243,7 @@ export class BaseResultTreeList extends React.Component<ResultTreeListProps, Res
       value,
       placeholder,
       valueField,
+      itemRender,
       translate: __
     } = this.props;
 
@@ -259,6 +260,7 @@ export class BaseResultTreeList extends React.Component<ResultTreeListProps, Res
             value={[]}
             onChange={noop}
             showIcon={false}
+            itemRender={itemRender}
             removable
             onDelete={(option: Option) => this.deleteTreeChecked(option)}
           />) :
