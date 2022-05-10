@@ -117,6 +117,7 @@ import {UUIDControlSchema} from './renderers/Form/UUID';
 import {FormControlSchema} from './renderers/Form/Control';
 import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
 import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
+import {UserSelectControlSchema} from './renderers/Form/UserSelect';
 import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
 import {TableSchemaV2} from './renderers/Table-v2';
 
@@ -334,6 +335,7 @@ export type SchemaType =
   | 'table-view'
   | 'portlet'
   | 'grid-nav'
+  | 'users-select'
   | 'tag'
 
   // 原生 input 类型
@@ -465,7 +467,8 @@ export type SchemaObject =
   | TransferPickerControlSchema
   | TabsTransferPickerControlSchema
   | TreeControlSchema
-  | TreeSelectControlSchema;
+  | TreeSelectControlSchema
+  | UserSelectControlSchema;
 
 export type SchemaCollection =
   | SchemaObject
