@@ -129,7 +129,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
 
   React.useEffect(() => {
     setMembers(buildMembers(props.schema, props.value));
-  }, [props.schema]);
+  }, [JSON.stringify(props.schema)]);
 
   React.useEffect(() => {
     const value = props.value;
@@ -151,7 +151,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     if (m.length !== membersRef.current!.length) {
       setMembers(m);
     }
-  }, [props.value]);
+  }, [JSON.stringify(props.value)]);
 
   const handleAdd = React.useCallback(() => {
     const m = members.concat();
