@@ -15,7 +15,10 @@ import {
   getTree,
   isEmpty,
   getTreeAncestors,
-  normalizeNodePath
+  normalizeNodePath,
+  mapTree,
+  getTreeDepth,
+  flattenTree
 } from '../../utils/helper';
 import {reaction} from 'mobx';
 import {
@@ -637,16 +640,19 @@ export function registerOptionsControl(config: OptionsConfig) {
       } = this.props;
       let newValue: string | Array<Option> | Option = '';
       if (multiple) {
-        newValue = valueArray;
+        /** 兼容tree数据结构 */
+        newValue =
+          getTreeDepth(valueArray) > 1 ? flattenTree(valueArray) : valueArray;
 
         if (joinValues) {
           newValue = (newValue as Array<any>)
             .map(item => item[valueField || 'value'])
+            .filter(item => item != null) /** tree的父节点可能没有value值 */
             .join(delimiter);
         } else if (extractValue) {
-          newValue = (newValue as Array<any>).map(
-            item => item[valueField || 'value']
-          );
+          newValue = (newValue as Array<any>)
+            .map(item => item[valueField || 'value'])
+            .filter(item => item != null);
         }
       } else {
         newValue = valueArray[0] || resetValue;
@@ -660,14 +666,18 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     @autobind
     async handleToggleAll() {
-      const {value, onChange, formItem} = this.props;
+      const {value, onChange, formItem, valueField} = this.props;
 
       if (!formItem) {
         return;
       }
       const selectedOptions = formItem.getSelectedOptions(value);
+      /** 打平并过滤掉valueField不存在的case，保证全选时对比length一致 */
+      const filteredOptions = flattenTree(
+        formItem.filteredOptions.concat()
+      ).filter(item => item != null && item[valueField || 'value'] != null);
       let valueArray =
-        selectedOptions.length === formItem.filteredOptions.length
+        selectedOptions.length === filteredOptions.length
           ? []
           : formItem.filteredOptions.concat();
       const newValue = this.formatValueArray(valueArray);

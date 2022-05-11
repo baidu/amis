@@ -205,10 +205,6 @@ test('Renderers:Action countDown', async () => {
 
   let button = container.querySelector('button');
   fireEvent.click(button as HTMLButtonElement);
-
-  button = container.querySelector('button');
-  expect(button).toBeNull();
-
   await waitFor(() => {
     expect(container.querySelector('button')).not.toBeInTheDocument();
   });

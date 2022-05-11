@@ -718,23 +718,41 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
       formStore
         .saveRemote(action.api || step.api || api!, store.data, {
-          onSuccess: () => {
-            this.dispatchEvent('submitSucc', store.data);
+          onSuccess: async (result: any) => {
+            const dispatcher = await this.dispatchEvent(
+              'submitSucc',
+              createObject(this.props.data, {result})
+            );
 
             if (
               !isEffectiveApi(finnalAsyncApi, store.data) ||
               store.data[finishedField || 'finished']
             ) {
-              return;
+              return {
+                cbResult: null,
+                dispatcher
+              };
             }
 
-            return until(
+            const cbResult = until(
               () => store.checkRemote(finnalAsyncApi as Api, store.data),
               (ret: any) => ret && ret[finishedField || 'finished'],
               cancel => (this.asyncCancel = cancel)
             );
+            return {
+              cbResult,
+              dispatcher
+            };
           },
-          onFailed: error => this.dispatchEvent('submitFail', {error})
+          onFailed: async (error: any) => {
+            const dispatcher = await this.dispatchEvent(
+              'submitFail',
+              createObject(this.props.data, {error})
+            );
+            return {
+              dispatcher
+            };
+          }
         })
         .then(async value => {
           const feedback = action.feedback;
@@ -778,11 +796,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
           return value;
         })
-        .catch(error => {
-          this.dispatchEvent('submitFail', {error});
-          store.markSaving(false);
-          console.error(error);
-        });
+        .catch(error => {});
     } else {
       onFinished && onFinished(store.data, action);
       this.setState({completeStep: steps.length});

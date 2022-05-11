@@ -82,6 +82,7 @@
     "react-color": "^2.19.3",
     "react-cropper": "^2.1.8",
     "react-dropzone": "^11.4.2",
+    "react-hook-form": "7.30.0",
     "react-input-range": "1.3.0",
     "react-json-view": "1.21.3",
     "react-overlays": "5.1.1",

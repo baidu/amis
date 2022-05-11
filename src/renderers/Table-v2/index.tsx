@@ -113,6 +113,21 @@ export interface ColumnSchema {
    * 当前列是否展示
    */
   toggled?: boolean;
+
+  /**
+   * 列样式
+   */
+  className?: string;
+  
+  /**
+   * 表头单元格样式
+   */
+  titleClassName?: string;
+
+  /**
+   * 单元格样式
+   */
+  classNameExpr?: string;
 }
 
 export interface RowSelectionOptionsSchema {
@@ -156,7 +171,7 @@ export interface RowSelectionSchema {
   /**
    * 已选择的key值表达式
    */
-  selectedRowKeysExpr: string;
+  selectedRowKeysExpr?: string;
 
   /**
    * 已选择的key值表达式
@@ -583,7 +598,12 @@ export default class TableRenderer extends React.Component<
           }
 
           return (
-            <div className={cx('Table-head-cell-wrapper')}>
+            <div
+              key={col}
+              className={cx('Table-head-cell-wrapper', {
+              [`${column.className}`]: !!column.className,
+              [`${column.titleClassName}`]: !!column.titleClassName
+            })}>
               {content}
               {remark}
               {children}
@@ -684,6 +704,14 @@ export default class TableRenderer extends React.Component<
               return obj;
             }
           });
+        }
+
+        // 设置了单元格样式
+        if (column.classNameExpr) {
+          clone.className = (record: any, rowIndex: number) => {
+            const className = filter(column.classNameExpr, {record, rowIndex});
+            return `${className}${column.className ? ` ${column.className}` : ''}`;
+          };
         }
 
         // 设置了列搜索
@@ -1129,6 +1157,7 @@ export default class TableRenderer extends React.Component<
       classnames: cx,
       placeholder,
       rowClassNameExpr,
+      itemActions,
       store,
       ...rest
     } = this.props;
@@ -1233,6 +1262,39 @@ export default class TableRenderer extends React.Component<
       };
     }
 
+    let itemActionsConfig = undefined;
+    if (itemActions) {
+      const finalActions = Array.isArray(itemActions)
+      ? itemActions.filter(action => !action.hiddenOnHover)
+      : [];
+
+      if (!finalActions.length) {
+        return null;
+      }
+
+      itemActionsConfig = (record: any, rowIndex: number) => {
+        return (
+          <div className={cx('Table-itemActions')}>
+            {finalActions.map((action, index) =>
+              render(
+                `itemAction/${index}`,
+                {
+                  ...(action as any),
+                  isMenuItem: true
+                },
+                {
+                  key: index,
+                  item: record,
+                  data: record,
+                  rowIndex
+                }
+              )
+            )}
+          </div>
+        );
+      };
+    }
+
     return (
       <Table
         {...rest}
@@ -1252,6 +1314,7 @@ export default class TableRenderer extends React.Component<
         onSort={this.handleSort}
         onFilter={this.handleFilter}
         onDrag={this.handleDragOver}
+        itemActions={itemActionsConfig}
       ></Table>
     );
   }

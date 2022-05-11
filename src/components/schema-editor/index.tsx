@@ -35,7 +35,7 @@ export interface SchemaEditorProps extends LocaleProps, ThemeProps {
       type:
         | 'string'
         | 'number'
-        | 'interger'
+        | 'integer'
         | 'object'
         | 'array'
         | 'boolean'
@@ -54,6 +54,11 @@ export interface SchemaEditorProps extends LocaleProps, ThemeProps {
    * 顶层类型信息是否隐藏
    */
   showRootInfo: boolean;
+
+  /**
+   * 是否开启高级配置
+   */
+  enableAdvancedSetting?: boolean;
 }
 
 export class SchemaEditor extends React.Component<SchemaEditorProps> {
@@ -85,8 +90,8 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
       },
 
       {
-        label: __('SchemaType.interger'),
-        value: 'interger'
+        label: __('SchemaType.integer'),
+        value: 'integer'
       },
 
       {
@@ -145,7 +150,8 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
       rootTypeMutable,
       showRootInfo,
       disabled,
-      definitions
+      definitions,
+      enableAdvancedSetting
     } = this.props;
     const value: JSONSchema = this.props.value || {
       type: defaultType || 'object'
@@ -167,7 +173,7 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
           [
             'string',
             'number',
-            'interger',
+            'integer',
             'object',
             'array',
             'boolean',
@@ -202,6 +208,7 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
           classPrefix={classPrefix}
           disabled={disabled}
           onTypeChange={this.handleTypeChange}
+          enableAdvancedSetting={enableAdvancedSetting}
         />
       </div>
     );

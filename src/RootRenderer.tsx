@@ -157,20 +157,28 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       store.setCurrentAction(action);
       store.openDrawer(ctx);
     } else if (action.actionType === 'toast') {
-      action.toast?.items?.forEach((item:any) => {
-        env.notify(item.level || 'info', item.body ? renderChild('body', item.body, {
-          ...this.props,
-          data: ctx
-        }) : '', {
-          ...action.toast,
-          ...item,
-          title: item.title ? renderChild('title', item.title, {
-            ...this.props,
-          data: ctx
-          }) : null,
-          useMobileUI: env.useMobileUI
-        })
-      })
+      action.toast?.items?.forEach((item: any) => {
+        env.notify(
+          item.level || 'info',
+          item.body
+            ? renderChild('body', item.body, {
+                ...this.props,
+                data: ctx
+              })
+            : '',
+          {
+            ...action.toast,
+            ...item,
+            title: item.title
+              ? renderChild('title', item.title, {
+                  ...this.props,
+                  data: ctx
+                })
+              : null,
+            useMobileUI: env.useMobileUI
+          }
+        );
+      });
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
       store
@@ -197,7 +205,11 @@ export class RootRenderer extends React.Component<RootRendererProps> {
               store.data
             );
         })
-        .catch(() => {});
+        .catch(e => {
+          if (throwErrors || action.countDown) {
+            throw e;
+          }
+        });
     } else if (
       action.actionType === 'copy' &&
       (action.content || action.copy)

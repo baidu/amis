@@ -142,6 +142,34 @@ order: 14
 
 ## 限制范围
 
+### 控制时间范围
+
+通过 `timeConstraints` 属性可以控制时间输入范围
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-datetime",
+            "name": "datetime",
+            "label": "日期时间",
+            "timeConstraints": {
+                "hours": {
+                    "min": 12,
+                    "max": 18
+                },
+                "minutes": {
+                    "step": 15
+                }
+            }
+        }
+    ]
+}
+```
+
 可以通过配置`maxDate`和`minDate`显示可选范围
 
 ### 固定时间值
@@ -320,8 +348,8 @@ order: 14
 | 事件名称 | 事件参数               | 说明                 |
 | -------- | ---------------------- | -------------------- |
 | change   | `value: string` 时间值 | 值变化               |
-| focus    | `value: string` 时间值  | 获得焦点(非内嵌模式) |
-| blur     | `value: string` 时间值  | 失去焦点(非内嵌模式) |
+| focus    | `value: string` 时间值 | 获得焦点(非内嵌模式) |
+| blur     | `value: string` 时间值 | 失去焦点(非内嵌模式) |
 
 ## 动作表
 

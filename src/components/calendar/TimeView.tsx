@@ -55,7 +55,7 @@ interface CustomTimeViewState {
   [propName: string]: any;
 }
 
-type TimeScale = 'hours' | 'minutes' | 'seconds' | 'milliseconds';
+export type TimeScale = 'hours' | 'minutes' | 'seconds' | 'milliseconds';
 
 export class CustomTimeView extends React.Component<
   CustomTimeViewProps & LocaleProps,
@@ -547,11 +547,15 @@ export class CustomTimeView extends React.Component<
   };
 
   scrollToTop = (type: TimeScale, value: number, i: number, label?: string) => {
-    let elf: any = document.getElementById(
+    const elf: any = document.getElementById(
       `${this.state.uniqueTag}-${i}-input`
     );
-    elf.parentNode.scrollTo({
-      top: value * 28,
+    const {min, step} = this.timeConstraints[type];
+    const offset = (value - min) / step;
+    const height = 28; /** 单个选项的高度 */
+
+    elf?.parentNode?.scrollTo({
+      top: offset * height,
       behavior: label === 'init' ? 'auto' : 'smooth'
     });
   };
@@ -675,8 +679,9 @@ export class CustomTimeView extends React.Component<
                         <div
                           key={option.value}
                           className={cx('CalendarInput-sugsItem', {
-                            'is-highlight':
-                              option.value === date.format(formatMap[type])
+                            'is-highlight': selectedDate
+                              ? option.value === date.format(formatMap[type])
+                              : option.value === options?.[0]?.value
                           })}
                           onClick={() => {
                             this.setTime(type, parseInt(option.value, 10));

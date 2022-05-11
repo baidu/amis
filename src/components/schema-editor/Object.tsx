@@ -195,7 +195,8 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
       disabled,
       showInfo,
       types,
-      onTypeChange
+      onTypeChange,
+      enableAdvancedSetting
     } = this.props;
     const members = this.state.members;
 
@@ -211,6 +212,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
               key={member.id}
               types={types}
               onTypeChange={onTypeChange}
+              enableAdvancedSetting={enableAdvancedSetting}
               prefix={
                 <>
                   <InputBox

@@ -127,6 +127,14 @@ export const runAction = async (
     return;
   }
 
+  // 支持表达式 >=1.10.0
+  const preventDefault =
+    actionConfig.preventDefault &&
+    evalExpression(String(actionConfig.preventDefault), mergeData);
+  const stopPropagation =
+    actionConfig.stopPropagation &&
+    evalExpression(String(actionConfig.stopPropagation), mergeData);
+
   // 修正参数，处理数据映射
   let args = event.data;
 
@@ -147,7 +155,7 @@ export const runAction = async (
   );
 
   // 阻止原有动作执行
-  actionConfig.preventDefault && event.preventDefault();
+  preventDefault && event.preventDefault();
   // 阻止后续动作执行
-  actionConfig.stopPropagation && event.stopPropagation();
+  stopPropagation && event.stopPropagation();
 };
