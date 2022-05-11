@@ -147,11 +147,11 @@
 
 .#{$ns}DateRangeControl {
   &.is-date > .#{$ns}DateRangePicker {
-    min-width: calc(var(--DateRangePicker-minWidth) + var(--fontSizeLg) * 5.5);
+    min-width: calc(var(--DateRangePicker-minWidth) + var(--fontSizeLg) * 10);
   }
 
   &.is-datetime > .#{$ns}DateRangePicker {
-    min-width: calc(var(--DateRangePicker-minWidth) + var(--fontSizeLg) * 11);
+    min-width: calc(var(--DateRangePicker-minWidth) + var(--fontSizeLg) * 10);
   }
 }
 
