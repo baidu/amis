@@ -650,7 +650,13 @@ export const TableStore = iRendererStore
       },
 
       get expandableRows() {
-        return self.rows.filter(item => item.expandable);
+        const expandableRows: IRow[] = [];
+        eachTree(self.rows, (row: IRow) => {
+          if (row.expandable) {
+            expandableRows.push(row);
+          }
+        });
+        return expandableRows;
       },
 
       get moved() {
@@ -1234,9 +1240,13 @@ export const TableStore = iRendererStore
       if (self.allExpanded) {
         self.expandedRows.clear();
       } else {
-        self.expandedRows.replace(
-          self.rows.filter(item => item.expandable).map(item => item.id)
-        );
+        const expandedIds: string[] = [];
+        eachTree(self.rows, item => {
+          if (item.expandable) {
+            expandedIds.push(item.id);
+          }
+        });
+        self.expandedRows.replace(expandedIds);
       }
     }
 

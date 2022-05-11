@@ -17,7 +17,7 @@ class Key {
 
 export const tableKeyGenerator = new Key();
 
-export const tableKey = Symbol('key'); // __id ?
+export const tableKey = '__id'; // __id ?
 
 export interface TreeNode {
   children?: TreeNode[];
