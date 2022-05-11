@@ -14,6 +14,8 @@
       width: calc(var(--Switch-height) - #{px2rem(4px)});
       top: px2rem(2px);
       bottom: px2rem(2px);
+      left: px2rem(2px);
+      transition: all 0.05s ease;
     }
   }
   &:active {
@@ -29,7 +31,10 @@
     background: var(--Switch-checked-bgColor);
 
     .slider::before {
-      right: px2rem(2px);
+      right: auto;
+      left: calc(
+        100% - (var(--Switch-height) - #{px2rem(4px)}) - #{px2rem(2px)}
+      );
     }
 
     .text {
@@ -40,6 +45,11 @@
     }
     &:active {
       background: var(--Switch-checked-onActive-bgColor);
+      .slider::before {
+        left: calc(
+          100% - (var(--Switch-height) + #{px2rem(2px)}) - #{px2rem(2px)}
+        );
+      }
     }
   }
 }
