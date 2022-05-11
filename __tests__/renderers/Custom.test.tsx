@@ -10,12 +10,13 @@ test('Renderer:custom', () => {
       {
         type: 'custom',
         name: 'myName',
+        className: 'amis-custom-demo',
+        html: '<div><h2>hello, world!</h2></div>',
         label: '自定义组件',
         onMount: (dom: HTMLElement, value: any, onChange: any, props: any) => {
           const button = document.createElement('button');
           button.innerText = '点击修改';
           button.onclick = event => {
-            onChange('new'); // 这个 onChange 方法只有放在表单项中才能调用
             event.preventDefault();
           };
           dom.appendChild(button);
