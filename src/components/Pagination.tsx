@@ -4,6 +4,7 @@
  * @Date: 2021-11-01 16:57:38
  */
 import React from 'react';
+import isInteger from 'lodash/isInteger';
 import {localeable, LocaleProps} from '../locale';
 import {themeable, ThemeProps} from '../theme';
 import {autobind} from '../utils/helper';
@@ -122,12 +123,20 @@ export class Pagination extends React.Component<
     this.handlePageNums = this.handlePageNums.bind(this);
   }
 
+  componentDidUpdate(prevProps: PaginationProps) {
+    if (prevProps.perPage !== this.props.perPage) {
+      const perPage = Number(this.props.perPage);
+      this.setState({perPage: isInteger(perPage) ? perPage : 10});
+    }
+  }
+
   handlePageNumChange(page: number, perPage?: number) {
-    const props = this.props;
-    if (props.disabled) {
+    const {disabled, onPageChange} = this.props;
+
+    if (disabled) {
       return;
     }
-    props.onPageChange && props.onPageChange(page, perPage);
+    onPageChange?.(page, perPage);
   }
 
   /**
