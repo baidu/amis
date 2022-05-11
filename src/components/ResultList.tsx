@@ -15,7 +15,7 @@ import {BaseSelection, BaseSelectionProps} from './Selection';
 import InputBox from './InputBox';
 import ResultTreeList, {BaseResultTreeList} from './ResultTreeList';
 
-import TableSelection from './TableSelection';
+import ResultTableList, {BaseResultTableSelection} from './ResultTableList';
 import {SelectMode} from './Transfer';
 
 export interface ResultListProps
@@ -90,6 +90,7 @@ export class ResultList extends React.Component<
   sortable?: Sortable;
   unmounted = false;
   resultTreeRef?: BaseResultTreeList;
+  resultTableRef?: BaseResultTableSelection;
 
   componentDidMount() {
     this.props.sortable && this.initSortable();
@@ -110,8 +111,13 @@ export class ResultList extends React.Component<
   }
 
   @autobind
-  domRef(ref: any) {
+  domTreeRef(ref: any) {
     this.resultTreeRef = ref;
+  }
+
+  @autobind
+  domTableRef(ref: any) {
+    this.resultTableRef = ref;
   }
 
   initSortable() {
@@ -206,7 +212,11 @@ export class ResultList extends React.Component<
       const {onSearch, value, selectMode} = this.props;
       if (selectMode === 'tree') {
         this.resultTreeRef?.search(inputValue, onSearch!);
-      } else {
+      }
+      else if (selectMode === 'table') {
+        this.resultTableRef?.search(inputValue, onSearch!);
+      }
+      else {
         const searchResult = (value || []).filter(
           item => onSearch && onSearch(inputValue, item)
         );
@@ -226,8 +236,12 @@ export class ResultList extends React.Component<
 
   @autobind
   handleSeachCancel() {
-    if (this.props.selectMode === 'tree') {
+    const {selectMode} = this.props;
+    if (selectMode === 'tree') {
       this.resultTreeRef?.clearSearch();
+    }
+    else if (selectMode === 'table') {
+      this.resultTableRef?.clearSearch();
     }
 
     this.setState({
@@ -327,7 +341,7 @@ export class ResultList extends React.Component<
     );
   }
 
-  renderTable(value?: Options) {
+  renderTable() {
     const {
       columns,
       options,
@@ -337,29 +351,24 @@ export class ResultList extends React.Component<
       cellRender,
       onChange,
       placeholder,
+      value,
       translate: __
     } = this.props;
 
     return (
-      <>
-        {
-          Array.isArray(value) && value.length ? (
-            <TableSelection
-              columns={columns}
-              options={options || []}
-              value={value}
-              disabled={disabled}
-              option2value={option2value}
-              cellRender={cellRender}
-              onChange={onChange}
-              onRemove={this.handleCloseItem}
-              multiple={false}
-              removeable={true}
-            />
-          )
-          : (<div className={cx('Selections-placeholder')}>{__(placeholder)}</div>)
-        }
-      </>
+      <ResultTableList
+        onRef={this.domTableRef}
+        classnames={cx}
+        columns={columns}
+        options={options || []}
+        value={value}
+        disabled={disabled}
+        option2value={option2value}
+        cellRender={cellRender}
+        onChange={onChange}
+        multiple={false}
+        placeholder={placeholder}
+      />
     );
   }
 
@@ -375,8 +384,8 @@ export class ResultList extends React.Component<
     } = this.props;
     return (
       <ResultTreeList
-        onRef={this.domRef}
-        className={cx('Transfer-resultTree')}
+        onRef={this.domTreeRef}
+        classnames={cx}
         options={options}
         valueField={'value'}
         value={value || []}
@@ -387,28 +396,20 @@ export class ResultList extends React.Component<
     );
   }
 
-  renderResult() {
-    const {selectMode, value} = this.props;
-    const {searchResult} = this.state;
-    const temp = searchResult !== null ? searchResult : value;
-    return selectMode === 'table'
-      ? this.renderTable(temp)
-      : selectMode === 'tree'
-        ? this.renderTree()
-        : this.renderNormalList(temp);
-  }
-
   render() {
     const {
       classnames: cx,
       className,
       title,
       searchable,
+      selectMode,
+      value,
       translate: __,
       searchPlaceholder = __('Transfer.searchKeyword')
     } = this.props;
 
     const {searchResult, inputValue} = this.state;
+    const temp = searchResult !== null ? searchResult : value;
 
     return (
       <div className={cx('Selections', className)}>
@@ -432,7 +433,13 @@ export class ResultList extends React.Component<
             </InputBox>
           </div>
         ) : null}
-        {this.renderResult()}
+        {
+        selectMode === 'table'
+          ? this.renderTable()
+          : selectMode === 'tree'
+            ? this.renderTree()
+            : this.renderNormalList(temp)
+        }
       </div>
     );
   }

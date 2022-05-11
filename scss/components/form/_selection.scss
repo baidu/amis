@@ -139,19 +139,9 @@
     padding-right: var(--gap-md);
   }
 
-  .#{$ns}Table-table > tbody > tr {
-    cursor: pointer;
-  }
-
   .#{$ns}Table-table > tbody > tr.is-active {
     color: var(--Form-select-menu-onActive-color);
     background: var(--Form-select-menu-onActive-bg);
-  }
-
-  .#{$ns}Table-close {
-    &-btn {
-      float: right;
-    }
   }
 }
 
@@ -336,5 +326,20 @@
       margin: 10px 0 20px;
       color: var(--text--muted-color);
     }
+  }
+}
+
+.#{$ns}ResultTreeList {
+  height: 100%;
+  width: 100%;
+}
+
+.#{$ns}ResultTableList {
+  height: 100%;
+  width: 100%;
+
+  &-close-btn {
+    float: right;
+    cursor: pointer;
   }
 }

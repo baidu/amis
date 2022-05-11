@@ -250,7 +250,7 @@ export class BaseResultTreeList extends React.Component<ResultTreeListProps, Res
     const {treeOptions, searching, searchTreeOptions} = this.state;
 
     return (
-      <div className={className}>
+      <div className={cx('ResultTreeList', className)}>
         {
           Array.isArray(value) && value.length ?
           (<Tree
