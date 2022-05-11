@@ -443,7 +443,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       let toRemove: any = dataMapping(action.payload, ctx);
       toRemove = Array.isArray(toRemove) ? toRemove : [toRemove];
       const toRemoveSet = new Set(
-        toRemove.map((removeItem: any) => removeItem[valueField as string])
+        toRemove.map((toRemoveItem: any) => toRemoveItem[valueField as string])
       );
       items = traverseTreeWith((item: any) => {
         if (toRemoveSet.has(item[valueField])) {
@@ -642,7 +642,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
   }
 
-  async removeItem(index: number) {
+  async removeItem(key: number) {
     const {
       value,
       onChange,
@@ -653,14 +653,22 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       translate: __
     } = this.props;
 
-    let newValue = Array.isArray(value) ? value.concat() : [];
-    const item = newValue[index];
+    const newValue = Array.isArray(value) ? value.concat() : [];
+    let removeItem;
 
-    if (!item) {
+    const newItems = traverseTreeWith(item => {
+      if (item[tableKey] === key) {
+        removeItem = item;
+        return undefined;
+      }
+      return item;
+    })(newValue);
+
+    if (!removeItem) {
       return;
     }
 
-    const ctx = createObject(data, item);
+    const ctx = createObject(data, removeItem);
     if (isEffectiveApi(deleteApi, ctx)) {
       const confirmed = await env.confirm(
         deleteConfirmText ? filter(deleteConfirmText, ctx) : __('deleteConfirm')
@@ -678,9 +686,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       }
     }
 
-    this.removeEntry(item);
-    newValue.splice(index, 1);
-    onChange(newValue);
+    onChange(newItems);
   }
 
   buildItemProps(item: any, index: number) {
@@ -894,7 +900,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
-              onClick={this.removeItem.bind(this, rowIndex + offset)}
+              onClick={this.removeItem.bind(this, row.data[tableKey])}
             >
               {props.deleteBtnLabel ? (
                 <span>{props.deleteBtnLabel}</span>
