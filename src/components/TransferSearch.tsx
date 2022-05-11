@@ -15,8 +15,8 @@ export interface TransferSearchProps
     LocaleProps {
   className?: string;
   placeholder: string;
-  onSearch?: Function;
-  onCancelSearch?: Function
+  onSearch: Function;
+  onCancelSearch: Function
 }
 
 export interface ItemRenderStates {

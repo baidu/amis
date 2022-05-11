@@ -10,12 +10,15 @@ import {autobind, noop} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import {BaseSelectionProps} from './Selection';
 import Tree from './Tree';
+import TransferSearch from './TransferSearch';
 
 export interface ResultTreeListProps extends ThemeProps, LocaleProps, BaseSelectionProps {
-  onRef?: any;
   className?: string;
+  title?: string;
+  searchable?: boolean;
   value: Array<Option>;
   valueField: string;
+  onSearch?: Function;
   onChange: (value: Array<Option>, optionModified?: boolean) => void;
   placeholder: string;
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
@@ -152,11 +155,6 @@ export class BaseResultTreeList extends React.Component<ResultTreeListProps, Res
     }
   }
 
-  componentDidMount() {
-    // onRef只有渲染器的情况才会使用
-    this.props.onRef?.(this);
-  }
-
   // 删除非选中节点
   @autobind
   deleteTreeChecked(option: Option) {
@@ -200,14 +198,15 @@ export class BaseResultTreeList extends React.Component<ResultTreeListProps, Res
     this.setState({searchTreeOptions: arr});
   }
 
-  search(inputValue: string, searchFunction: Function) {
+  @autobind
+  search(inputValue: string) {
     // 结果为空，直接清空
     if (!inputValue) {
       this.clearSearch();
       return;
     }
 
-    const {valueField} = this.props;
+    const {valueField, onSearch} = this.props;
     let temOptions: Array<Option> = this.state.treeOptions || [];
     const cb = (node: Option) => {
       node.isChecked = false;
@@ -215,8 +214,7 @@ export class BaseResultTreeList extends React.Component<ResultTreeListProps, Res
     };
     deepTree(temOptions, cb);
 
-    const callBack = (node: Option) =>
-      !!searchFunction && searchFunction(inputValue, node);
+    const callBack = (node: Option) => onSearch?.(inputValue, node);
 
     temOptions &&
       temOptions.forEach(op => {
@@ -229,6 +227,7 @@ export class BaseResultTreeList extends React.Component<ResultTreeListProps, Res
     });
   }
   
+  @autobind
   clearSearch() {
     this.setState({
       searching: false,
@@ -236,7 +235,7 @@ export class BaseResultTreeList extends React.Component<ResultTreeListProps, Res
     });
   }
 
-  render() {
+  renderTree() {
     const {
       className,
       classnames: cx,
@@ -266,6 +265,31 @@ export class BaseResultTreeList extends React.Component<ResultTreeListProps, Res
           />) :
           (<div className={cx('Selections-placeholder')}>{__(placeholder)}</div>)
         }
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      classnames: cx,
+      className,
+      title,
+      searchable,
+      translate: __,
+      placeholder = __('Transfer.searchKeyword')
+    } = this.props;
+
+    return (
+      <div className={cx('Selections', className)}>
+        {title ? <div className={cx('Selections-title')}>{title}</div> : null}
+        {searchable ? (
+          <TransferSearch
+            placeholder={placeholder}
+            onSearch={this.search}
+            onCancelSearch={this.clearSearch}
+          />
+        ) : null}
+        {this.renderTree()}
       </div>
     );
   }

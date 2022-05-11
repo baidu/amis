@@ -4,7 +4,6 @@
 import React from 'react';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
-import {debounce} from 'lodash';
 
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from '../theme';
@@ -12,12 +11,7 @@ import {Icon} from './icons';
 import {autobind, guid} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import {BaseSelection, BaseSelectionProps} from './Selection';
-import InputBox from './InputBox';
-import ResultTreeList, {BaseResultTreeList} from './ResultTreeList';
-
-import ResultTableList, {BaseResultTableSelection} from './ResultTableList';
 import TransferSearch from './TransferSearch';
-import {SelectMode} from './Transfer';
 
 export interface ResultListProps
   extends ThemeProps,
@@ -48,9 +42,7 @@ export interface ResultListProps
     rowIndex: number
   ) => JSX.Element;
   searchable?: boolean;
-  searchPlaceholder?: string;
   onSearch?: Function;
-  selectMode: SelectMode;
 }
 
 export interface ItemRenderStates {
@@ -60,7 +52,6 @@ export interface ItemRenderStates {
 }
 
 interface ResultListState {
-  inputValue: string;
   searchResult: Options | null;
 }
 
@@ -82,7 +73,6 @@ export class ResultList extends React.Component<
   };
 
   state: ResultListState = {
-    inputValue: '',
     searchResult: null
   };
 
@@ -90,8 +80,6 @@ export class ResultList extends React.Component<
   id = guid();
   sortable?: Sortable;
   unmounted = false;
-  resultTreeRef?: BaseResultTreeList;
-  resultTableRef?: BaseResultTableSelection;
 
   componentDidMount() {
     this.props.sortable && this.initSortable();
@@ -107,18 +95,7 @@ export class ResultList extends React.Component<
 
   componentWillUnmount() {
     this.desposeSortable();
-    this.lazySearch.cancel();
     this.unmounted = true;
-  }
-
-  @autobind
-  domTreeRef(ref: any) {
-    this.resultTreeRef = ref;
-  }
-
-  @autobind
-  domTableRef(ref: any) {
-    this.resultTableRef = ref;
   }
 
   initSortable() {
@@ -190,65 +167,17 @@ export class ResultList extends React.Component<
   }
 
   @autobind
-  handleSearch(inputValue: string) {
-    // text 有值的时候，走搜索否则直接走 handleSeachCancel ，等同于右侧的 clear 按钮
-    this.setState({inputValue}, () => {
-      if (inputValue) {
-        // 如果有取消搜索，先取消掉。
-        this.cancelSearch && this.cancelSearch();
-        this.lazySearch();
-      } else {
-        this.handleSeachCancel();
-      }
-    });
-  }
-
-  lazySearch = debounce(
-    () => {
-      const {inputValue} = this.state;
-      // 防止由于防抖导致空值问题
-      if (!inputValue) {
-        return;
-      }
-      const {onSearch, value, selectMode} = this.props;
-      if (selectMode === 'tree') {
-        this.resultTreeRef?.search(inputValue, onSearch!);
-      }
-      else if (selectMode === 'table') {
-        this.resultTableRef?.search(inputValue, onSearch!);
-      }
-      else {
-        const searchResult = (value || []).filter(
-          item => onSearch && onSearch(inputValue, item)
-        );
-        this.setState({searchResult});
-      }
-    },
-    250,
-    {trailing: true, leading: false}
-  );
-
-  @autobind
-  handleSearchKeyDown(e: React.KeyboardEvent<any>) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-    }
+  search(inputValue: string) {
+    const {onSearch, value} = this.props;
+    const searchResult = (value || []).filter(
+      item => onSearch && onSearch(inputValue, item)
+    );
+    this.setState({searchResult})
   }
 
   @autobind
-  handleSeachCancel() {
-    const {selectMode} = this.props;
-    if (selectMode === 'tree') {
-      this.resultTreeRef?.clearSearch();
-    }
-    else if (selectMode === 'table') {
-      this.resultTableRef?.clearSearch();
-    }
-
-    this.setState({
-      inputValue: '',
-      searchResult: null
-    });
+  clearSearch() {
+    this.setState({searchResult: null})
   }
 
   // 关闭表格最后一项
@@ -269,6 +198,18 @@ export class ResultList extends React.Component<
       ? valueArray.map(item => option2value(item))
       : valueArray;
     onChange && onChange(newValue);
+
+    const {searchResult} = this.state;
+    if (searchResult) {
+      const searchArray = BaseSelection.value2array(
+        searchResult,
+        options,
+        option2value
+      );
+      const searchIdx = searchArray.indexOf(option);
+      searchResult.splice(searchIdx, 1);
+      this.setState({searchResult});
+    }
   }
 
   renderNormalList(value?: Options) {
@@ -330,90 +271,30 @@ export class ResultList extends React.Component<
     );
   }
 
-  renderTable() {
-    const {
-      columns,
-      options,
-      disabled,
-      option2value,
-      classnames: cx,
-      cellRender,
-      onChange,
-      placeholder,
-      value,
-      translate: __
-    } = this.props;
-
-    return (
-      <ResultTableList
-        onRef={this.domTableRef}
-        classnames={cx}
-        columns={columns}
-        options={options || []}
-        value={value}
-        disabled={disabled}
-        option2value={option2value}
-        cellRender={cellRender}
-        onChange={onChange}
-        multiple={false}
-        placeholder={placeholder}
-      />
-    );
-  }
-
-  renderTree() {
-    const {
-      classnames: cx,
-      options,
-      value,
-      placeholder,
-      onChange,
-      itemRender,
-      translate: __
-    } = this.props;
-    return (
-      <ResultTreeList
-        onRef={this.domTreeRef}
-        classnames={cx}
-        options={options}
-        valueField={'value'}
-        value={value || []}
-        onChange={onChange!}
-        itemRender={itemRender}
-        placeholder={placeholder}
-      />
-    );
-  }
-
   render() {
     const {
       classnames: cx,
       className,
       title,
       searchable,
-      selectMode,
       value,
       translate: __,
-      searchPlaceholder = __('Transfer.searchKeyword')
+      placeholder = __('Transfer.searchKeyword')
     } = this.props;
 
-    const {searchResult, inputValue} = this.state;
-    const temp = searchResult !== null ? searchResult : value;
+    const {searchResult} = this.state;
 
     return (
       <div className={cx('Selections', className)}>
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
+            placeholder={placeholder}
+            onSearch={this.search}
+            onCancelSearch={this.clearSearch}
           />
         ) : null}
-        {
-        selectMode === 'table'
-          ? this.renderTable()
-          : selectMode === 'tree'
-            ? this.renderTree()
-            : this.renderNormalList(temp)
-        }
+        {this.renderNormalList(searchResult !== null ? searchResult : value)}
       </div>
     );
   }

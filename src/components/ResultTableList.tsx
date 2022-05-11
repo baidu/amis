@@ -10,12 +10,16 @@ import {Option, Options} from './Select';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {localeable} from '../locale';
 import {autobind} from '../utils/helper';
+import TransferSearch from './TransferSearch';
 
 import {CloseIcon} from './icons';
 import TableSelection from './TableSelection';
 
 export interface ResultTableSelectionProps extends BaseSelectionProps {
-  onRef?: any;
+  title?: string;
+  placeholder?: string;
+  searchable?: boolean;
+  onSearch?: Function;
   columns: Array<{
     name: string;
     label: string;
@@ -72,11 +76,6 @@ export class BaseResultTableSelection extends BaseSelection<ResultTableSelection
     }
   }
 
-  componentDidMount() {
-    // onRef只有渲染器的情况才会使用
-    this.props.onRef?.(this);
-  }
-
   @autobind
   handleCloseItem(option: Option) {
     const {value, onChange, option2value, options, disabled} = this.props;
@@ -109,16 +108,17 @@ export class BaseResultTableSelection extends BaseSelection<ResultTableSelection
     }
   }
 
-  search(inputValue: string, searchFunction: Function) {
+  @autobind
+  search(inputValue: string) {
     // 结果为空，直接清空
     if (!inputValue) {
       this.clearSearch();
       return;
     }
 
-    const {value} = this.props;
+    const {value, onSearch} = this.props;
     const searchOptions = ((value || []) as Options)
-      .filter(item => searchFunction(inputValue, item));
+      .filter(item => onSearch?.(inputValue, item));
 
     this.setState({
       searching: true,
@@ -126,6 +126,7 @@ export class BaseResultTableSelection extends BaseSelection<ResultTableSelection
     });
   }
   
+  @autobind
   clearSearch() {
     this.setState({
       searching: false,
@@ -133,7 +134,7 @@ export class BaseResultTableSelection extends BaseSelection<ResultTableSelection
     });
   }
 
-  render() {
+  renderTable() {
     const {
       classnames: cx,
       className,
@@ -196,6 +197,32 @@ export class BaseResultTableSelection extends BaseSelection<ResultTableSelection
           )
           : (<div className={cx('Selections-placeholder')}>{__(placeholder)}</div>)
         }
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      classnames: cx,
+      className,
+      title,
+      searchable,
+      translate: __,
+      placeholder = __('Transfer.searchKeyword')
+    } = this.props;
+
+
+    return (
+      <div className={cx('Selections', className)}>
+        {title ? <div className={cx('Selections-title')}>{title}</div> : null}
+        {searchable ? (
+          <TransferSearch
+            placeholder={placeholder}
+            onSearch={this.search}
+            onCancelSearch={this.clearSearch}
+          />
+        ) : null}
+        {this.renderTable()}
       </div>
     );
   }
