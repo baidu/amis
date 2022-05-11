@@ -16,6 +16,7 @@ import InputBox from './InputBox';
 import ResultTreeList, {BaseResultTreeList} from './ResultTreeList';
 
 import ResultTableList, {BaseResultTableSelection} from './ResultTableList';
+import TransferSearch from './TransferSearch';
 import {SelectMode} from './Transfer';
 
 export interface ResultListProps
@@ -268,18 +269,6 @@ export class ResultList extends React.Component<
       ? valueArray.map(item => option2value(item))
       : valueArray;
     onChange && onChange(newValue);
-
-    let {searchResult} = this.state;
-    if (searchResult) {
-      let searchArray = BaseSelection.value2array(
-        searchResult,
-        options,
-        option2value
-      );
-      let searchIdx = searchArray.indexOf(option);
-      searchResult.splice(searchIdx, 1);
-      this.setState({searchResult});
-    }
   }
 
   renderNormalList(value?: Options) {
@@ -415,23 +404,8 @@ export class ResultList extends React.Component<
       <div className={cx('Selections', className)}>
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
-          <div className={cx('Transfer-search')}>
-            <InputBox
-              value={inputValue}
-              onChange={this.handleSearch}
-              clearable={false}
-              onKeyDown={this.handleSearchKeyDown}
-              placeholder={searchPlaceholder}
-            >
-              {!!inputValue ? (
-                <a onClick={this.handleSeachCancel}>
-                  <Icon icon="close" className="icon" />
-                </a>
-              ) : (
-                <Icon icon="search" className="icon" />
-              )}
-            </InputBox>
-          </div>
+          <TransferSearch
+          />
         ) : null}
         {
         selectMode === 'table'

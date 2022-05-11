@@ -653,7 +653,6 @@ icon:
       "name": "transfer",
       "selectMode": "table",
       "resultListModeFollowSelect": true,
-      "resultSearchable": true,
       "columns": [
         {
           "name": "label",
