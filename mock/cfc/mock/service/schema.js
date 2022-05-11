@@ -263,9 +263,8 @@ const predefined = {
         label: '记住登录'
       },
       {
-        type: 'submit',
-        btnClassName: 'btn-default',
-        label: '登录'
+        type: 'static',
+        value: 'AMIS_HOST'
       }
     ]
   },
@@ -303,6 +302,10 @@ const predefined = {
         type: 'datetime',
         labelClassName: 'text-muted',
         name: 'date'
+      },
+      {
+        type: 'static',
+        value: 'AMIS_HOST'
       }
     ]
   }

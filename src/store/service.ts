@@ -4,6 +4,7 @@ import {Api, ApiObject, Payload, fetchOptions} from '../types';
 import {extendObject, isEmpty, isObject} from '../utils/helper';
 import {ServerError} from '../utils/errors';
 import {normalizeApiResponseData} from '../utils/api';
+import {replaceText} from '../utils/replaceText';
 
 export const ServiceStore = iRendererStore
   .named('ServiceStore')
@@ -402,6 +403,9 @@ export const ServiceStore = iRendererStore
           );
         } else {
           if (json.data) {
+            const env = getEnv(self);
+            replaceText(json.data, env.replaceText, env.replaceTextIgnoreKeys);
+
             self.schema = Array.isArray(json.data)
               ? json.data
               : {
