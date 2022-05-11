@@ -483,6 +483,7 @@ export class Transfer<
       statistics,
       showArrow,
       resultItemRender,
+      selectMode,
       translate: __
     } = this.props;
 
@@ -509,7 +510,9 @@ export class Transfer<
           ) : null}
         </div>
         <div className={cx('Transfer-result')}>
-          <div className={cx('Transfer-title')}>
+          <div className={cx(
+            'Transfer-title',
+            selectMode === 'table' ? 'Transfer-title--light' : '')}>
             <span>
               {__(resultTitle || 'Transfer.selectd')}
               {statistics !== false ? (
