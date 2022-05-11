@@ -1,5 +1,9 @@
 .#{$ns}Select {
   display: inline-flex;
+
+  &--block {
+    display: flex;
+  }
   vertical-align: middle;
   text-align: left;
   align-items: center;
@@ -419,6 +423,11 @@
     border-color: var(--Form-input-onError-borderColor);
     background: var(--Form-input-onError-bg);
   }
+}
+
+.#{$ns}Select.is-error {
+  border-color: var(--Form-input-onError-borderColor);
+  background: var(--Form-input-onError-bg);
 }
 
 // 需要能撑开

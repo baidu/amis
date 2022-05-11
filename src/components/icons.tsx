@@ -89,6 +89,11 @@ import FunctionIcon from '../icons/function.svg';
 import InputClearIcon from '../icons/input-clear.svg';
 import SliderHandleIcon from '../icons/slider-handle-icon.svg';
 import TrashIcon from '../icons/trash.svg';
+import MenuIcon from '../icons/menu.svg';
+import UserRemove from '../icons/user-remove.svg';
+import Role from '../icons/role.svg';
+import Department from '../icons/department.svg';
+import Post from '../icons/post.svg';
 import DotIcon from '../icons/dot.svg';
 import Invisible from '../icons/invisible.svg';
 import DateIcon from '../icons/date.svg';
@@ -203,6 +208,11 @@ registerIcon('cloud-upload', CloudUploadIcon);
 registerIcon('image', ImageIcon);
 registerIcon('refresh', RefreshIcon);
 registerIcon('trash', TrashIcon);
+registerIcon('menu', MenuIcon);
+registerIcon('user-remove', UserRemove);
+registerIcon('role', Role);
+registerIcon('department', Department);
+registerIcon('post', Post);
 registerIcon('dot', DotIcon);
 registerIcon('drag', DragIcon);
 registerIcon('edit', EditIcon);
@@ -241,11 +251,17 @@ export {
   MuteIcon,
   PlayIcon,
   PauseIcon,
+  ReloadIcon,
   LeftArrowIcon,
   RightArrowIcon,
   CheckIcon,
   PlusIcon,
   MinusIcon,
   PencilIcon,
-  FunctionIcon
+  FunctionIcon,
+  MenuIcon,
+  UserRemove,
+  Role,
+  Department,
+  Post
 };

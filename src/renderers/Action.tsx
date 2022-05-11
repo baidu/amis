@@ -398,7 +398,8 @@ const ActionProps = [
   'copy',
   'copyFormat',
   'payload',
-  'requireSelected'
+  'requireSelected',
+  'countDown'
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
@@ -659,8 +660,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       (action as AjaxActionSchema).api = api;
     }
 
-    onAction(e, action);
-
+    await onAction(e, action);
     if (countDown) {
       const countDownEnd = Date.now() + countDown * 1000;
       this.setState({
@@ -668,9 +668,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
         inCountDown: true,
         timeLeft: countDown
       });
-
       localStorage.setItem(this.localStorageKey, String(countDownEnd));
-
       setTimeout(() => {
         this.handleCountDown();
       }, 1000);
@@ -874,11 +872,14 @@ export class ActionRenderer extends React.Component<
     }
 
     if (!ignoreConfirm && action.confirmText && env.confirm) {
-      env
-        .confirm(filter(action.confirmText, data))
-        .then((confirmed: boolean) => confirmed && onAction(e, action, data));
+      let confirmed = await env.confirm(filter(action.confirmText, data));
+      if (confirmed) {
+        await onAction(e, action, data);
+      } else if (action.countDown) {
+        throw new Error('cancel');
+      }
     } else {
-      onAction(e, action, data);
+      await onAction(e, action, data);
     }
   }
 

@@ -62,6 +62,7 @@ import Table from './table';
 import SchemaVariableListPicker from './schema-editor/SchemaVariableListPicker';
 import SchemaVariableList from './schema-editor/SchemaVariableList';
 import FormulaPicker from './formula/Picker';
+import InputJSONSchema from './json-schema';
 
 export {
   NotFound,
@@ -127,5 +128,6 @@ export {
   Table,
   SchemaVariableListPicker,
   SchemaVariableList,
-  FormulaPicker
+  FormulaPicker,
+  InputJSONSchema
 };

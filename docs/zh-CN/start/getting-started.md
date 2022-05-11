@@ -98,15 +98,11 @@ amis.embed(
   {
     // 这里是初始 props
   },
+  // 注意是第四个参数
   {
     theme: 'antd'
   }
 );
-
-// 或者
-amisScoped.updateProps({
-  theme: 'antd'
-});
 ```
 
 > 如果想使用 amis 1.2.2 之前的默认主题，名字是 ang
@@ -156,8 +152,8 @@ let amisScoped = amis.embed(
     //
     // 全局 api 适配器。
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
-    // responseAdaptor(api, response, query, request) {
-    //   return response;
+    // responseAdaptor(api, payload, query, request, response) {
+    //   return payload;
     // }
     //
     // 用来接管页面跳转，比如用 location.href 或 window.open，或者自己实现 amis 配置更新

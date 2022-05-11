@@ -86,60 +86,22 @@ export default class TextAreaControl extends React.Component<
     clearable: false
   };
 
-  state = {
-    focused: false
-  };
-
-  input?: HTMLInputElement;
-  inputRef = (ref: any) => (this.input = findDOMNode(ref) as HTMLInputElement);
+  inputRef = React.createRef<any>();
 
   doAction(action: ListenerAction, args: any) {
     const actionType = action?.actionType as string;
+    const onChange = this.props.onChange;
 
     if (!!~['clear', 'reset'].indexOf(actionType)) {
-      this.handleClear();
+      onChange?.(this.props.resetValue);
+      this.focus();
     } else if (actionType === 'focus') {
       this.focus();
     }
   }
 
-  valueToString(value: any) {
-    return typeof value === 'undefined' || value === null
-      ? ''
-      : typeof value === 'string'
-      ? value
-      : JSON.stringify(value);
-  }
-
   focus() {
-    if (!this.input) {
-      return;
-    }
-
-    this.setState(
-      {
-        focused: true
-      },
-      () => {
-        if (!this.input) {
-          return;
-        }
-
-        this.input.focus();
-
-        // 光标放到最后
-        const len = this.input.value.length;
-        len && this.input.setSelectionRange(len, len);
-      }
-    );
-  }
-
-  @autobind
-  handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    const {onChange} = this.props;
-    let value = e.currentTarget.value;
-
-    onChange?.(value);
+    this.inputRef.current?.focus();
   }
 
   @autobind
@@ -176,83 +138,11 @@ export default class TextAreaControl extends React.Component<
     );
   }
 
-  @autobind
-  async handleClear() {
-    const {onChange, resetValue} = this.props;
-
-    onChange?.(resetValue);
-    this.focus();
-  }
-
   render() {
-    const {
-      className,
-      classPrefix: ns,
-      value,
-      type,
-      placeholder,
-      disabled,
-      minRows,
-      maxRows,
-      readOnly,
-      name,
-      borderMode,
-      classnames: cx,
-      maxLength,
-      showCounter,
-      clearable
-    } = this.props;
-    const counter = showCounter ? this.valueToString(value).length : 0;
+    const {...rest} = this.props;
 
     return (
-      <div
-        className={cx(
-          `TextareaControl`,
-          {
-            [`TextareaControl--border${ucFirst(borderMode)}`]: borderMode,
-            'is-focused': this.state.focused,
-            'is-disabled': disabled
-          },
-          className
-        )}
-      >
-        <Textarea
-          className={cx(`TextareaControl-input`)}
-          autoComplete="off"
-          ref={this.inputRef}
-          name={name}
-          disabled={disabled}
-          value={this.valueToString(value)}
-          placeholder={placeholder}
-          autoCorrect="off"
-          spellCheck="false"
-          readOnly={readOnly}
-          minRows={minRows || undefined}
-          maxRows={maxRows || undefined}
-          onChange={this.handleChange}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-        />
-
-        {clearable && !disabled && value ? (
-          <a onClick={this.handleClear} className={cx('TextareaControl-clear')}>
-            <Icon icon="input-clear" className="icon" />
-          </a>
-        ) : null}
-
-        {showCounter ? (
-          <span
-            className={cx('TextareaControl-counter', {
-              'is-empty': counter === 0,
-              'is-clearable': clearable && !disabled && value
-            })}
-          >
-            {`${counter}${
-              typeof maxLength === 'number' && maxLength ? `/${maxLength}` : ''
-            }`}
-          </span>
-        ) : null}
-      </div>
+      <Textarea {...rest} onFocus={this.handleFocus} onBlur={this.handleBlur} />
     );
   }
 }

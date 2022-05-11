@@ -23,12 +23,13 @@ import Spinner from '../Spinner';
 import HeadCellSort from './HeadCellSort';
 import HeadCellFilter from './HeadCellFilter';
 import HeadCellSelect from './HeadCellSelect';
+import ItemActionsWrapper from './ItemActionsWrapper';
 import Cell from './Cell';
 
 export interface ColumnProps {
   title: string | React.ReactNode | Function;
   key: string;
-  className?: string;
+  className?: Function;
   children?: Array<ColumnProps>;
   render: Function;
   fixed?: boolean | string;
@@ -144,6 +145,7 @@ export interface TableProps extends ThemeProps, LocaleProps {
   showHeader?: boolean; // 是否展示表头
   onSelect?: Function;
   onSelectAll?: Function;
+  itemActions?: Function;
 }
 
 export interface ScrollProps {
@@ -156,6 +158,11 @@ export interface TableState {
   dataSource: Array<any>;
   expandedRowKeys: Array<string | number>;
   colWidths: Array<number>;
+  hoverRow: {
+    rowIndex?: number,
+    record: any,
+    target: HTMLTableRowElement
+  } | null;
 }
 
 function getMaxLevelThRowSpan(columns: Array<ColumnProps>) {
@@ -336,7 +343,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           ? props.expandable.defaultExpandedRowKeys || []
           : [])
       ],
-      colWidths: []
+      colWidths: [],
+      hoverRow: null
     };
 
     this.onTableContentScroll = this.onTableContentScroll.bind(this);
@@ -1104,43 +1112,43 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                   );
                 }
 
-                const children = (
-                  <span>
-                    {sort}
-                    {filter}
-                    {resizable ? (
-                      <i
-                        className={cx('Table-thead-resizable')}
-                        onMouseDown={e => this.onResizeMouseDown(e, item.key)}
-                      ></i>
-                    ) : null}
-                  </span>
-                );
+            const children = (
+              <span>
+                {sort}
+                  {filter}
+                  {resizable ? (
+                    <i
+                      className={cx('Table-thead-resizable')}
+                      onMouseDown={e => this.onResizeMouseDown(e, item.key)}
+                    ></i>
+                  ) : null}
+              </span>
+            );
 
-                return (
-                  <Cell
-                    wrapperComponent="th"
-                    rowSpan={item.rowSpan}
-                    colSpan={item.colSpan}
-                    key={'cell' + (item.key || i)}
-                    fixed={item.fixed === true ? 'left' : item.fixed}
-                    className={cx({
-                      'Table-cell-last':
-                        i === maxCount - 1 && i === data.length - 1
-                    })}
-                    groupId={item.groupId}
-                    depth={item.depth}
-                  >
-                    {typeof item.title === 'function'
-                      ? item.title(children)
-                      : item.title}
-                  </Cell>
-                );
-              })}
-            </tr>
-          );
-        })}
-      </thead>
+            return (
+              <Cell
+                wrapperComponent="th"
+                rowSpan={item.rowSpan}
+                colSpan={item.colSpan}
+                key={`cell-${i}`}
+                fixed={item.fixed === true ? 'left' : item.fixed}
+                className={cx({
+                  'Table-cell-last':
+                    i === maxCount - 1 && i === data.length - 1
+                })}
+                groupId={item.groupId}
+                depth={item.depth}
+              >
+                  {typeof item.title === 'function'
+                    ? item.title(children)
+                    : item.title}
+              </Cell>
+            );
+          })}
+        </tr>
+        );
+      })}
+    </thead>
     );
   }
 
@@ -1182,8 +1190,17 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       }
     }
 
-    if (record && onRow) {
-      onRow.onRowMouseEnter && onRow.onRowMouseEnter(event, record, rowIndex);
+    if (record) {
+      let target = event.target;
+      if (target.tagName !== 'TR') {
+        target = target.closest('tr');
+      }
+
+      this.setState({hoverRow: {target, rowIndex, record}}, () => {
+        if (onRow) {
+          onRow.onRowMouseEnter && onRow.onRowMouseEnter(event, record, rowIndex);
+        }
+      });
     }
   }
 
@@ -1206,9 +1223,15 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       }
     }
 
-    if (record && onRow) {
-      onRow.onRowMouseLeave && onRow.onRowMouseLeave(event, record, rowIndex);
+    if (record) {
+      if (onRow) {
+        onRow.onRowMouseLeave && onRow.onRowMouseLeave(event, record, rowIndex);
+      }
     }
+  }
+
+  onMouseLeave(event: React.ChangeEvent<any>) {
+    this.setState({hoverRow: null});
   }
 
   onExpandRow(data: any) {
@@ -1396,7 +1419,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       levels.length > 0 ? (
         <span
           className={cx('Table-row-indent', `indent-level-${levels.length}`)}
-          style={{paddingLeft: indentSize * levels.length + 'px'}}
+          style={levels.length > 0
+            ? {paddingLeft: (indentSize * levels.length) + 'px'} : {}}
         ></span>
       ) : null;
 
@@ -1415,6 +1439,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           props.rowSpan === 1;
         }
       }
+
+      const className = typeof item.className === 'function'
+        ? item.className(data, rowIndex) : ''
       return props.rowSpan === 0 || props.colSpan === 0 ? null : (
         <Cell
           key={i}
@@ -1422,15 +1449,16 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           fixed={item.fixed === true ? 'left' : item.fixed}
           column={item}
           groupId={item.groupId}
+          className={cx({
+            [`${className}`]: !!className
+          })}
         >
-          <div
-            className={cx('Table-cell-wrapper', {
-              [cx('Table-cell-wrapper-prefix')]:
-                i === 0 &&
-                (!!indentDom || (levels.length === 0 && hasChildrenRow)),
-              [cx(`Table-cell-height-${lineHeight}`)]: !!lineHeight
-            })}
-          >
+          <div className={cx('Table-cell-wrapper', {
+            [cx('Table-cell-wrapper-prefix')]:
+              i === 0 &&
+                (!!indentDom || levels.length === 0 && hasChildrenRow),
+            [cx(`Table-cell-height-${lineHeight}`)]: !!lineHeight
+          })}>
             {i === 0 && levels.length > 0 ? indentDom : null}
             {i === 0 && hasChildrenRow
               ? this.getExpandedIcons(isExpanded, data)
@@ -1759,18 +1787,28 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       footSummary,
       loading,
       showHeader,
+      itemActions,
       classnames: cx
     } = this.props;
 
     // 设置了横向滚动轴 则table的table-layout为fixed
     const hasScrollX = scroll && scroll.x;
+    const hoverRow = this.state.hoverRow;
 
     return (
       <div
         ref={this.contentDom}
         className={cx('Table-content')}
         style={hasScrollX ? {overflow: 'auto hidden'} : {}}
+        onMouseLeave={this.onMouseLeave.bind(this)}
       >
+        {itemActions && hoverRow
+          ? <ItemActionsWrapper
+              dom={hoverRow.target}
+              classnames={cx}>
+                {typeof itemActions === 'function'
+                  ? itemActions(hoverRow.record, hoverRow.rowIndex) : null}
+              </ItemActionsWrapper> : null}
         <table
           style={
             hasScrollX
@@ -1831,7 +1869,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   renderScrollTableBody() {
-    const {scroll, classnames: cx} = this.props;
+    const {
+      scroll,
+      itemActions,
+      classnames: cx
+    } = this.props;
 
     const style = {};
     const tableStyle = {};
@@ -1847,12 +1889,27 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       });
     }
 
+    const hoverRow = this.state.hoverRow;
+
     return (
-      <div ref={this.bodyDom} className={cx('Table-body')} style={style}>
-        <table className={cx('Table-table')} style={tableStyle}>
-          {this.renderColGroup()}
-          {this.renderTBody()}
-        </table>
+      <div
+        ref={this.bodyDom}
+        className={cx('Table-body')}
+        style={style}
+        onMouseLeave={this.onMouseLeave.bind(this)}>
+        {itemActions && hoverRow
+          ? <ItemActionsWrapper
+              dom={hoverRow.target}
+              classnames={cx}>
+                {typeof itemActions === 'function'
+                  ? itemActions(hoverRow.record, hoverRow.rowIndex) : null}
+              </ItemActionsWrapper> : null}
+          <table
+            className={cx('Table-table')}
+            style={tableStyle}>
+            {this.renderColGroup()}
+            {this.renderTBody()}
+          </table>
       </div>
     );
   }

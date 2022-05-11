@@ -160,14 +160,15 @@ public class StreamingResponseBodyController {
 
 ## 属性表
 
-| 属性名       | 类型      | 默认值 | 说明                           |
-| ------------ | --------- | ------ | ------------------------------ |
-| height       | `number`  | 500    | 展示区域高度                   |
-| className    | `string`  |        | 外层 CSS 类名                  |
-| autoScroll   | `boolean` | true   | 是否自动滚动                   |
-| placeholder  | `string`  |        | 加载中的文字                   |
-| encoding     | `string`  | utf-8  | 返回内容的字符编码             |
-| source       | `string`  |        | 接口                           |
-| rowHeight    | `number`  |        | 设置每行高度，将会开启虚拟渲染 |
-| maxLength    | `number`  |        | 最大显示行数                   |
-| disableColor | `boolean` |        | 关闭 ANSI 颜色支持             |
+| 属性名       | 类型      | 默认值 | 说明                                            |
+| ------------ | --------- | ------ | ----------------------------------------------- |
+| height       | `number`  | 500    | 展示区域高度                                    |
+| className    | `string`  |        | 外层 CSS 类名                                   |
+| autoScroll   | `boolean` | true   | 是否自动滚动                                    |
+| placeholder  | `string`  |        | 加载中的文字                                    |
+| encoding     | `string`  | utf-8  | 返回内容的字符编码                              |
+| source       | `string`  |        | 接口                                            |
+| rowHeight    | `number`  |        | 设置每行高度，将会开启虚拟渲染                  |
+| maxLength    | `number`  |        | 最大显示行数                                    |
+| disableColor | `boolean` |        | 关闭 ANSI 颜色支持                              |
+| operation    | `Array`   |        | 可选日志操作：['stop','clear','showLineNumber'] |

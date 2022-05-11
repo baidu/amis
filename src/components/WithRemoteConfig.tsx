@@ -5,7 +5,7 @@
 import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import debounce from 'lodash/debounce';
-import {Api, Payload} from '../types';
+import {Api, ApiObject, Payload} from '../types';
 import {SchemaApi, SchemaTokenizeableString} from '../Schema';
 import {withStore} from './WithStore';
 
@@ -24,7 +24,12 @@ import {
   tokenize
 } from '../utils/tpl-builtin';
 import {reaction} from 'mobx';
-import {createObject, findIndex, findTreeIndex} from '../utils/helper';
+import {
+  createObject,
+  findIndex,
+  findTreeIndex,
+  isObject
+} from '../utils/helper';
 
 export const Store = types
   .model('RemoteConfigStore')
@@ -123,6 +128,8 @@ export interface RemoteOptionsProps<T = any> {
 }
 
 export interface WithRemoteConfigSettings {
+  sourceField?: string;
+
   /**
    * 从接口返回数据适配到配置
    */
@@ -161,6 +168,16 @@ export interface WithRemoteConfigSettings {
     indexes: Array<number>,
     reponse: Payload,
     config: any,
+    props: any
+  ) => any;
+
+  injectedPropsFilter?: (
+    injectedProps: {
+      config: any;
+      loading?: boolean;
+      deferLoad: (term: string) => any;
+      updateConfig: (config: any) => void;
+    },
     props: any
   ) => any;
 }
@@ -210,16 +227,16 @@ export function withRemoteConfig<P = any>(
             props.store.setComponent(this);
             this.deferLoadConfig = this.deferLoadConfig.bind(this);
             props.remoteConfigRef?.(this);
+            props.store.setData(props.data);
+            this.syncConfig();
           }
 
           componentDidMount() {
             const env: RendererEnv = this.props.env || this.context;
-            const {store, source, data} = this.props;
-
-            store.setData(data);
+            const {store, data} = this.props;
+            const source = (this.props as any)[config.sourceField || 'source'];
 
             if (isPureVariable(source)) {
-              this.syncConfig();
               this.toDispose.push(
                 reaction(
                   () =>
@@ -233,7 +250,7 @@ export function withRemoteConfig<P = any>(
               );
             } else if (env && isEffectiveApi(source, data)) {
               this.loadConfig();
-              source.autoRefresh !== false &&
+              (source as ApiObject).autoRefresh !== false &&
                 this.toDispose.push(
                   reaction(
                     () => {
@@ -268,7 +285,8 @@ export function withRemoteConfig<P = any>(
 
           async loadConfig(ctx = this.props.data) {
             const env: RendererEnv = this.props.env || this.context;
-            const {store, source} = this.props;
+            const {store} = this.props;
+            const source = (this.props as any)[config.sourceField || 'source'];
 
             if (env && isEffectiveApi(source, ctx)) {
               await store.load(env, source, ctx, config);
@@ -303,7 +321,8 @@ export function withRemoteConfig<P = any>(
           }
 
           syncConfig() {
-            const {store, source, data} = this.props;
+            const {store, data} = this.props;
+            const source = (this.props as any)[config.sourceField || 'source'];
 
             if (isPureVariable(source)) {
               store.setConfig(
@@ -311,11 +330,14 @@ export function withRemoteConfig<P = any>(
                 config,
                 'syncConfig'
               );
+            } else if (isObject(source) && !isEffectiveApi(source, data)) {
+              store.setConfig(source, config, 'syncConfig');
             }
           }
 
           async deferLoadConfig(item: any) {
-            const {store, source, data, deferApi} = this.props;
+            const {store, data, deferApi} = this.props;
+            const source = (this.props as any)[config.sourceField || 'source'];
             const env: RendererEnv = this.props.env || this.context;
             const indexes = findTreeIndex(store.config, a => a === item)!;
 
@@ -375,7 +397,9 @@ export function withRemoteConfig<P = any>(
                 {...(env && isEffectiveApi(autoComplete) && this.loadOptions
                   ? {loadOptions: this.loadOptions}
                   : {})}
-                {...injectedProps}
+                {...(config.injectedPropsFilter
+                  ? config.injectedPropsFilter(injectedProps, this.props)
+                  : injectedProps)}
               />
             );
           }

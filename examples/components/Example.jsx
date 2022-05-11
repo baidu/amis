@@ -66,22 +66,36 @@ import CRUDLinkPageSchema from './Linkage/CRUD';
 import OptionsPageSchema from './Linkage/Options';
 import OptionsLocalPageSchema from './Linkage/OptionsLocal';
 import FormSubmitSchema from './Linkage/FormSubmit';
-import InputEventSchema from './EventAction/InputEvent';
-import DateEventSchema from './EventAction/DateEvent';
-import SwitchEventSchema from './EventAction/SwitchEvent';
-import TabsEventSchema from './EventAction/TabsEvent';
-import UploadEventSchema from './EventAction/UploadEvent';
-import SelectEventActionSchema from './EventAction/SelectEvent';
-import ButtonEventActionSchema from './EventAction/ButtonEvent';
-import InputRatingEventSchema from './EventAction/InputRatingEvent';
-import ExcelEventSchema from './EventAction/ExcelEvent';
-import WizardEventSchema from './EventAction/WizardEvent';
-import InputTreeEventSchema from './EventAction/InputTreeEvent';
-import treeSelectEventSchema from './EventAction/treeSelectEvent';
-import FormEventActionSchema from './EventAction/FormEvent';
-import TransferEventSchema from './EventAction/TransferEvent';
-import ServiceEventSchema from './EventAction/ServiceEvent';
-import CarouselEventSchema from './EventAction/CarouselEvent';
+import InputEventSchema from './EventAction/cmpt-event-action/InputEvent';
+import DateEventSchema from './EventAction/cmpt-event-action/DateEvent';
+import SwitchEventSchema from './EventAction/cmpt-event-action/SwitchEvent';
+import TabsEventSchema from './EventAction/cmpt-event-action/TabsEvent';
+import UploadEventSchema from './EventAction/cmpt-event-action/UploadEvent';
+import SelectEventActionSchema from './EventAction/cmpt-event-action/SelectEvent';
+import ButtonEventActionSchema from './EventAction/cmpt-event-action/ButtonEvent';
+import InputRatingEventSchema from './EventAction/cmpt-event-action/InputRatingEvent';
+import ExcelEventSchema from './EventAction/cmpt-event-action/ExcelEvent';
+import WizardEventSchema from './EventAction/cmpt-event-action/WizardEvent';
+import InputTreeEventSchema from './EventAction/cmpt-event-action/InputTreeEvent';
+import treeSelectEventSchema from './EventAction/cmpt-event-action/treeSelectEvent';
+import FormEventActionSchema from './EventAction/cmpt-event-action/FormEvent';
+import TransferEventSchema from './EventAction/cmpt-event-action/TransferEvent';
+import ServiceEventSchema from './EventAction/cmpt-event-action/ServiceEvent';
+import CarouselEventSchema from './EventAction/cmpt-event-action/CarouselEvent';
+import ReloadFormActionSchema from './EventAction/reload-action/ReloadForm';
+import ReloadSelectActionSchema from './EventAction/reload-action/ReloadSelect';
+import ReloadChartActionSchema from './EventAction/reload-action/ReloadChart';
+import UpdateFormActionSchema from './EventAction/update-data/UpdateForm';
+import UpdateDialogActionSchema from './EventAction/update-data/UpdateDialog';
+import UpdateWizardActionSchema from './EventAction/update-data/UpdateWizard';
+import UpdateChartActionSchema from './EventAction/update-data/UpdateChart';
+import UpdateInputActionSchema from './EventAction/update-data/UpdateInput';
+import UpdateSelectActionSchema from './EventAction/update-data/UpdateSelect';
+import UpdateButtonGroupSelectActionSchema from './EventAction/update-data/UpdateButtonGroupSelect';
+import UpdateComboActionSchema from './EventAction/update-data/UpdateCombo';
+import SyncUpdateActionSchema from './EventAction/update-data/SyncUpdate';
+import DataAutoFillActionSchema from './EventAction/update-data/DataAutoFill';
+import PreventFormActionSchema from './EventAction/prevent-defalut/PreventForm';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -523,6 +537,83 @@ export const examples = [
         icon: 'fa fa-bullhorn',
         children: [
           {
+            label: '刷新',
+            children: [
+              {
+                label: '刷新表单',
+                path: '/examples/action/reload/form',
+                component: makeSchemaRenderer(ReloadFormActionSchema)
+              },
+              {
+                label: '刷新图表',
+                path: '/examples/action/reload/chart',
+                component: makeSchemaRenderer(ReloadChartActionSchema)
+              },
+              {
+                label: '刷新下拉框',
+                path: '/examples/action/reload/select',
+                component: makeSchemaRenderer(ReloadSelectActionSchema)
+              }
+            ]
+          },
+          {
+            label: '更新数据',
+            children: [
+              {
+                label: '更新表单数据',
+                path: '/examples/action/setdata/form',
+                component: makeSchemaRenderer(UpdateFormActionSchema)
+              },
+              {
+                label: '更新弹窗数据',
+                path: '/examples/action/setdata/dialog',
+                component: makeSchemaRenderer(UpdateDialogActionSchema)
+              },
+              {
+                label: '更新向导数据',
+                path: '/examples/action/setdata/wizard',
+                component: makeSchemaRenderer(UpdateWizardActionSchema)
+              },
+              {
+                label: '更新图表数据',
+                path: '/examples/action/setdata/chart',
+                component: makeSchemaRenderer(UpdateChartActionSchema)
+              },
+              {
+                label: '更新输入框的值',
+                path: '/examples/action/setdata/input',
+                component: makeSchemaRenderer(UpdateInputActionSchema)
+              },
+              {
+                label: '更新下拉框的值',
+                path: '/examples/action/setdata/select',
+                component: makeSchemaRenderer(UpdateSelectActionSchema)
+              },
+              {
+                label: '更新点选按钮的值',
+                path: '/examples/action/setdata/button-group-select',
+                component: makeSchemaRenderer(
+                  UpdateButtonGroupSelectActionSchema
+                )
+              },
+              {
+                label: '更新输入组合的值',
+                path: '/examples/action/setdata/combo',
+                component: makeSchemaRenderer(UpdateComboActionSchema)
+              },
+              {
+                label: '联动更新',
+                path: '/examples/action/setdata/sync',
+                component: makeSchemaRenderer(SyncUpdateActionSchema)
+              },
+              {
+                label: '数据回填',
+                path: '/examples/action/setdata/autofill',
+                component: makeSchemaRenderer(DataAutoFillActionSchema)
+              }
+            ]
+          },
+          {
             label: '执行其他组件动作',
             children: [
               {
@@ -604,6 +695,16 @@ export const examples = [
                 label: 'Service组件',
                 path: 'examples/event/service',
                 component: makeSchemaRenderer(ServiceEventSchema)
+              }
+            ]
+          },
+          {
+            label: '阻止组件默认行为',
+            children: [
+              {
+                label: '阻止表单默认行为',
+                path: '/examples/action/prevent/form',
+                component: makeSchemaRenderer(PreventFormActionSchema)
               }
             ]
           }

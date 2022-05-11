@@ -8,7 +8,9 @@ import {
 } from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import DatePicker, {DatePicker as BaseDatePicker} from '../../components/DatePicker';
+import DatePicker, {
+  DatePicker as BaseDatePicker
+} from '../../components/DatePicker';
 import {SchemaObject} from '../../Schema';
 import {createObject, anyChanged, isMobile, autobind} from '../../utils/helper';
 import {Action} from '../../types';
@@ -134,7 +136,7 @@ export interface DateTimeControlSchema extends InputDateBaseControlSchema {
   maxDate?: string;
 
   /**
-   * 不记得了
+   * 时间输入范围限制
    */
   timeConstraints?: any;
 }
@@ -169,7 +171,7 @@ export interface TimeControlSchema extends InputDateBaseControlSchema {
   timeFormat?: string;
 
   /**
-   * 不记得了
+   * 时间输入范围限制
    */
   timeConstraints?: any;
 }
@@ -445,7 +447,10 @@ export default class DateControl extends React.PureComponent<
   @autobind
   async handleChange(nextValue: any) {
     const {dispatchEvent, data} = this.props;
-    const dispatcher = dispatchEvent('change', createObject(data, {value: nextValue}));
+    const dispatcher = dispatchEvent(
+      'change',
+      createObject(data, {value: nextValue})
+    );
     if (dispatcher?.prevented) {
       return;
     }

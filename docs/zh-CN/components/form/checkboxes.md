@@ -270,23 +270,25 @@ order: 9
 {
   "type": "form",
   "mode": "horizontal",
+  "debug": true,
   "body": [
     {
       "type": "checkboxes",
       "name": "checkboxes",
       "label": "城市选择",
       "inline": false,
+      "checkAll": true,
       "options": [
         {
           "label": "A类型",
           "children": [
             {
-              "value": "选项 A-1",
-              "label": "a-1"
+              "label": "选项 A-1",
+              "value": "a-1"
             },
             {
-              "value": "选项 A-2",
-              "label": "a-2"
+              "label": "选项 A-2",
+              "value": "a-2"
             }
           ]
         },
@@ -294,20 +296,20 @@ order: 9
           "label": "B类型",
           "children": [
             {
-              "value": "选项 B-1",
-              "label": "b-1"
+              "label": "选项 B-1",
+              "value": "b-1"
             },
             {
-              "value": "选项 B-2",
-              "label": "b-2"
+              "label": "选项 B-2",
+              "value": "b-2"
             },
             {
-              "value": "选项 B-3",
-              "label": "b-3"
+              "label": "选项 B-3",
+              "value": "b-3"
             },
             {
-              "value": "选项 B-4",
-              "label": "b-4"
+              "label": "选项 B-4",
+              "value": "b-4"
             }
           ]
         }

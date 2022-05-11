@@ -45,6 +45,7 @@
     outline: none;
     padding: 0;
     background: 0;
+    flex: 1;
   }
 
   .#{$ns}DateRangePicker-input.isActive {
