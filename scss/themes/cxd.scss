@@ -154,15 +154,38 @@
 }
 
 .#{$ns}Transfer {
+
   &-title {
     height: var(--Form-input-height);
     padding-left: #{px2rem(16px)};
     padding-right: #{px2rem(16px)};
+    height: px2rem(32px);
+
+    &--light {
+      height: px2rem(40px);
+    }
   }
+
+  &-select, &-result {
+    border-radius: px2rem(6px);
+  }
+
   .#{$ns}ListCheckboxes {
     .#{$ns}ListCheckboxes-item {
       padding-left: #{px2rem(16px)};
       padding-right: #{px2rem(16px)};
+    }
+  }
+
+  &-mid {
+    min-width: px2rem(16px);
+  }
+
+  .#{$ns}TableSelection {
+
+    .#{$ns}Table-table >thead >tr,
+    .#{$ns}Table-table >tbody >tr {
+      height: px2rem(40px);
     }
   }
 }
