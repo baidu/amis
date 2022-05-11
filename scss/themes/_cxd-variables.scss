@@ -76,7 +76,6 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   0px 1px 10px 0px rgba(8, 14, 26, 0.05), 0px 2px 4px -1px rgba(8, 14, 26, 0.04);
 
 :root {
-  
   --fontSizeXs: #{$T1};
   --fontSizeSm: #{$T2};
   --fontSizeMd: #{$T3};
@@ -161,7 +160,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-clearBtn-color-onHover: #{$G4};
   --Form-input-clearBtn-color-onActive: #{$G3};
   --Form-input-password-icon-size: #{px2rem(16px)};
-  --Form-input-password-icon-color:  #{$G5};
+  --Form-input-password-icon-color: #{$G5};
 
   --Form-select-borderWidth: #{px2rem(1px)};
   --Form-select-borderRadius: #{$R3};
@@ -679,4 +678,10 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --SearchBox-enhonce-disabled-color: #{$G9};
   --SearchBox-enhonce-disabled-search-color: #{$G6};
   --SearchBox-enhonce-clearable-gap: #{$R4};
+}
+
+@media (max-width: 767px) {
+  :root {
+    --fontSizeBase: var(--fontSizeLg);
+  }
 }
