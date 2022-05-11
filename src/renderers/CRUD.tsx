@@ -665,7 +665,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             : this.search(undefined, undefined, true, true);
           action.close && this.closeTarget(action.close);
         })
-        .catch((e) => {
+        .catch(e => {
           if (throwErrors || action.countDown) {
             throw e;
           }
@@ -1693,6 +1693,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             lastPage: lastPage,
             hasNext: store.hasNext,
             mode: store.mode,
+            perPage: store.perPage,
             onPageChange: this.handleChangePage
           }
         )}
