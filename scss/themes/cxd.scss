@@ -161,6 +161,13 @@
     padding-right: var(--gap-base);
   }
 
+  &-result {
+
+    >.#{$ns}Selections {
+      height: 100%;
+    }    
+  }
+
   &-table-title {
     background-color: unset;
   }

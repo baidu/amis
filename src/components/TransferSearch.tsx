@@ -1,5 +1,5 @@
 /**
- * 结果搜索
+ * Tranasfer搜索
  */
 import React from 'react';
 import {debounce} from 'lodash';
