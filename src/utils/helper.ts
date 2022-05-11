@@ -2,7 +2,10 @@ import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
 import isNaN from 'lodash/isNaN';
 import uniq from 'lodash/uniq';
-import {isObject as isObjectByLodash, isString, isArray} from 'lodash';
+import isObjectByLodash from 'lodash/isObject';
+import isString from 'lodash/isString';
+import isArray from 'lodash/isArray';
+import isBoolean from 'lodash/isBoolean';
 import last from 'lodash/last';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
@@ -1473,12 +1476,21 @@ export function getPropValue<
  * 备注2: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现;
  * 备注3: 模板字符串 和 Javascript 模板引擎 不可以交叉使用。
  */
-let OpenFormulaExecEvalMode = true; // 是否开启表达式模式，非 ${ xxx } 格式也使用表达式运算器
-export function formulaExec(value: any, data: any, execMode?: string) {
+let OpenFormulaExecEvalModeStatus = true; // 是否开启表达式模式，非 ${ xxx } 格式也使用表达式运算器
+export function formulaExec(value: any, data: any, execMode?: string | boolean) {
   if (!value) {
     return '';
   }
-  if (isObject(value) || isArray(value)) {
+  let OpenFormulaExecEvalMode = OpenFormulaExecEvalModeStatus;
+  let curExecMode = '';
+  if (isBoolean(execMode)) {
+    // OpenFormulaExecEvalMode 设置为 true 后，非 ${ xxx } 格式也使用表达式运算器
+    OpenFormulaExecEvalMode = execMode;
+  } else if (isString(execMode)) {
+    // 指定 execMode 可以直接选用对应的运算器
+    curExecMode = execMode;
+  }
+  if (isObjectByLodash(value) || isArray(value)) {
     // Object、Array类型
     return JSON.stringify(value);
   } else if (!isString(value)) {
@@ -1490,8 +1502,8 @@ export function formulaExec(value: any, data: any, execMode?: string) {
   } else if (value.startsWith('\"') && value.endsWith('\"')) {
     // 字符串类型，直接返回，比如："hello" 返回 hello
     return value.substring(1, value.length - 1);
-  } else if (execMode && FormulaExec[execMode]) {
-    return FormulaExec[execMode];
+  } else if (curExecMode && FormulaExec[curExecMode]) {
+    return FormulaExec[curExecMode];
   }
 
   const curValue = value.trim(); // 剔除前后空格
@@ -1526,7 +1538,7 @@ export function formulaExec(value: any, data: any, execMode?: string) {
 }
 
 export function updateOpenFormulaExecEvalMode(evalMode: boolean) {
-  OpenFormulaExecEvalMode = evalMode;
+  OpenFormulaExecEvalModeStatus = evalMode;
 }
 
 // 缓存，用于提升性能
@@ -1547,13 +1559,13 @@ const FORMULA_EVAL_CACHE: {[key: string]: Function} = {};
     // 邮箱格式直接返回，后续需要在 amis-formula 中处理
     if (/^\$\{([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})\}$/.test(expression)) {
       return expression.substring(2, expression.length - 1); // 剔除前后特殊字符
-  }
+    }
     const curData = data || {};
     let result = undefined;
     try {
       result = resolveValueByName(curData, expression); // 执行 ${} 格式类表达式，且支持 filter 过滤器
     } catch (e) {
-      console.warn(e);
+      console.warn('[formula]表达式执行异常，当前表达式: ', expression, '，当前上下文数据: ', data);
       return expression;
     }
     // 备注: 此处不用 result ?? expression 是为了避免 没有对应结果时直接显示 expression: ${xxx}
@@ -1568,7 +1580,7 @@ const FORMULA_EVAL_CACHE: {[key: string]: Function} = {};
         allowFilter: true // 支持 filter 过滤器
       });
     } catch (e) {
-      console.warn(e);
+      console.warn('[evalFormula]表达式执行异常，当前表达式: ', expression, '，当前上下文数据: ', data);
       return expression;
     }
     return result ?? expression;
@@ -1599,7 +1611,7 @@ const FORMULA_EVAL_CACHE: {[key: string]: Function} = {};
     try {
       curResult = fn.call(data, data, getFilters());
     } catch (e) {
-      console.warn(e);
+      console.warn('[formula:js]表达式执行异常，当前表达式: ', expression, '，当前上下文数据: ', data);
       return expression;
     }
     return curResult;
@@ -1646,9 +1658,10 @@ export function isPureValue(value: any) {
     return true;
   } else if (/^(\d{4})\-(\d{2})\-(\d{2})[ T](\d{2})(?:\:\d{2}|:(\d{2}):(\d{2}))(\+(\d{2}):(\d{2}))?$/.test(value) ||
     /^(\d{4})\-(\d{2})\-(\d{2})$/.test(value) ||
-    /^(\d{2})(?:\:\d{2}|:(\d{2}):(\d{2}))$/.test(value)
+    /^(\d{2})(?:\:\d{2}|:(\d{2}):(\d{2}))$/.test(value) ||
+    /^\$\{([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})\}$/.test(value)
   ) {
-    // 日期类型
+    // 日期类型、邮箱类型
     return true;
   } else {
     return false;

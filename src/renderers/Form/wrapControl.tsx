@@ -163,7 +163,7 @@ export function wrapControl<
             this.model = model;
             // @issue 打算干掉这个
             formItem?.addSubFormItem(model);
-            const curValue = isPureValue(value) ? value : formulaExec(value, data); // 对组件默认值进行运算
+            const curValue = isPureValue(value) ? value : formulaExec(value, data, false); // 对组件默认值进行运算
             model.config({
               id,
               type,
@@ -197,7 +197,7 @@ export function wrapControl<
               combo.bindUniuqueItem(model);
             }
 
-            const curTmpValue = curValue ?? propValue ?? store?.getValueByName(model.name) ?? value;
+            const curTmpValue = value !== undefined &&  value !== null ? curValue : store?.getValueByName(model.name);
             // 同步 value
             model.changeTmpValue(curTmpValue);
 
@@ -289,7 +289,7 @@ export function wrapControl<
                 required: props.$schema.required,
                 id: props.$schema.id,
                 unique: props.$schema.unique,
-                value: isPureValue(props.$schema.value) ? props.$schema.value : formulaExec(props.$schema.value, props.data), // props.$schema.value,
+                value: isPureValue(props.$schema.value) ? props.$schema.value : formulaExec(props.$schema.value, props.data, false), // props.$schema.value,
                 rules: props.$schema.validations,
                 multiple: props.$schema.multiple,
                 delimiter: props.$schema.delimiter,
@@ -315,8 +315,8 @@ export function wrapControl<
                 props.value !== prevProps.value ||
                 !isEqual(props.data, prevProps.data)
               ) {
-                const curResult = formulaExec(props.value, props.data);
-                const prevResult = formulaExec(prevProps.defaultValue, prevProps.data);
+                const curResult = formulaExec(props.value, props.data, false);
+                const prevResult = formulaExec(prevProps.defaultValue, prevProps.data, false);
                 if (curResult !== prevResult) {
                   model.changeTmpValue(curResult);
                 }
@@ -327,8 +327,8 @@ export function wrapControl<
                 props.defaultValue !== prevProps.defaultValue ||
                 !isEqual(props.data, prevProps.data)
               ) {
-                const curResult = formulaExec(props.defaultValue, props.data);
-                const prevResult = formulaExec(prevProps.defaultValue, prevProps.data);
+                const curResult = formulaExec(props.defaultValue, props.data, false);
+                const prevResult = formulaExec(prevProps.defaultValue, prevProps.data, false);
                 if (curResult !== prevResult) {
                   // 识别上下文变动、自身数值变动、公式运算结果变动
                   model.changeTmpValue(curResult);
@@ -627,7 +627,7 @@ export function wrapControl<
 
           getValue() {
             const {formStore: data, $schema: control} = this.props;
-            let value: any = this.model ? this.model.tmpValue : control.value; // formulaExec(control.value, data)
+            let value: any = this.model ? this.model.tmpValue : control.value;
 
             if (control.pipeIn) {
               value = control.pipeIn(value, data);
