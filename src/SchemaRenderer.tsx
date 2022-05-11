@@ -248,6 +248,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     let {path: $path, schema} = this.resolveRenderer(this.props);
+
+    if (Object.keys(schema).length === 0) {
+      return null;
+    }
+
     const theme = this.props.env.theme;
 
     if (Array.isArray(schema)) {
@@ -321,8 +326,6 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             forwardedRef: isSFC ? this.refFn : undefined,
             render: this.renderChild
           });
-    } else if (Object.keys(schema).length === 0) {
-      return null;
     } else if (!this.renderer) {
       return rest.invisible ? null : (
         <LazyComponent

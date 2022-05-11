@@ -18,7 +18,14 @@ import {SimpleMap} from '../../utils/SimpleMap';
 import {Icon} from '../../components/icons';
 import {TableSchema} from '../Table';
 import {SchemaApi} from '../../Schema';
-import find from 'lodash/find';
+import {
+  copyItemFromOrigin,
+  generateTableItemsKey,
+  tableKey,
+  tableKeyGenerator,
+  traverseTreeWith,
+  TreeNode
+} from '../../utils/table';
 
 export interface TableControlSchema
   extends FormBaseControl,
@@ -171,6 +178,14 @@ export interface TableControlSchema
   perPage?: number;
 }
 
+interface BtnProps {
+  key: any;
+  rowIndex: number;
+  offset: number;
+  row: any;
+  data: any;
+}
+
 export interface TableProps
   extends FormControlProps,
     Omit<
@@ -179,7 +194,7 @@ export interface TableProps
     > {}
 
 export interface TableState {
-  items: Array<any>;
+  items: TreeNode[];
   raw?: any;
   columns: Array<any>;
   editIndex: number;
@@ -219,8 +234,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'formStore'
   ];
 
-  entries: SimpleMap<any, number>;
-  entityId: number = 1;
   subForms: any = {};
   rowPrinstine: Array<any> = [];
   editting: any = {};
@@ -230,10 +243,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.state = {
       columns: this.buildColumns(props),
       editIndex: -1,
-      items: Array.isArray(props.value) ? props.value.concat() : []
+      items: Array.isArray(props.value)
+        ? generateTableItemsKey(props.value.concat())
+        : []
     };
 
-    this.entries = new SimpleMap();
     this.buildItemProps = this.buildItemProps.bind(this);
     this.confirmEdit = this.confirmEdit.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
@@ -245,31 +259,28 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.emitValue = this.emitValue.bind(this);
   }
 
-  componentDidUpdate(nextProps: TableProps) {
+  componentDidUpdate(prevProps: TableProps) {
     const props = this.props;
     let toUpdate: any = null;
 
-    if (props.columns !== nextProps.columns) {
+    if (props.columns !== prevProps.columns) {
       toUpdate = {
         ...toUpdate,
         columns: this.buildColumns(props)
       };
     }
-
-    if (props.value !== nextProps.value) {
+    if (props.value !== prevProps.value) {
       toUpdate = {
         ...toUpdate,
-        items: Array.isArray(props.value) ? props.value.concat() : [],
+        items: Array.isArray(props.value)
+          ? generateTableItemsKey(props.value.concat())
+          : [],
         editIndex: -1,
         raw: undefined
       };
     }
 
     toUpdate && this.setState(toUpdate);
-  }
-
-  componentWillUnmount() {
-    this.entries.dispose();
   }
 
   subFormRef(form: any, x: number, y: number) {
@@ -336,7 +347,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   emitValue() {
-    const items = this.state.items.filter(item => !item.__isPlaceholder);
+    const items = traverseTreeWith(item =>
+      item.__isPlaceholder ? undefined : item
+    )(this.state.items);
     const {onChange} = this.props;
     onChange?.(items);
   }
@@ -377,16 +390,25 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
 
         toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
+        let lastKey: number;
+        let isTargetToAddInItems = false;
+        const toAddValidValueSet = new Set(
+          toAdd.map(addItem => addItem[valueField as string])
+        );
+        traverseTreeWith(item => {
+          if (toAddValidValueSet.has(item[valueField as string])) {
+            isTargetToAddInItems = true;
+          }
+        })(items);
         toAdd.forEach((toAdd: any) => {
-          if (
-            !valueField ||
-            !find(
-              items,
-              item => item[valueField as string] == toAdd[valueField as string]
-            )
-          ) {
+          if (!valueField || !isTargetToAddInItems) {
+            const newValue = {
+              [tableKey]: tableKeyGenerator.generate(),
+              ...toAdd
+            };
+            lastKey = newValue[tableKey];
             // 不要重复加入
-            items.push(toAdd);
+            items.push(newValue);
           }
         });
 
@@ -398,14 +420,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             this.emitValue();
 
             if (toAdd.length === 1 && needConfirm !== false) {
-              this.startEdit(items.length - 1, true);
+              this.startEdit(lastKey, true);
             }
           }
         );
 
         return;
       } else {
-        return this.addItem(items.length - 1);
+        return this.addItem();
       }
     } else if (
       action.actionType === 'remove' ||
@@ -417,19 +439,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         return env.alert(__('Table.playload'));
       }
 
-      const items = this.state.items.concat();
+      let items = this.state.items.concat();
       let toRemove: any = dataMapping(action.payload, ctx);
       toRemove = Array.isArray(toRemove) ? toRemove : [toRemove];
-
-      toRemove.forEach((toRemove: any) => {
-        const idx = findIndex(
-          items,
-          item => item[valueField as string] == toRemove[valueField as string]
-        );
-        if (~idx) {
-          items.splice(idx, 1);
+      const toRemoveSet = new Set(
+        toRemove.map((removeItem: any) => removeItem[valueField as string])
+      );
+      items = traverseTreeWith((item: any) => {
+        if (toRemoveSet.has(item[valueField])) {
+          return undefined;
         }
-      });
+        return item;
+      })(items);
 
       this.setState(
         {
@@ -445,31 +466,45 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     return onAction && onAction(action, ctx, ...rest);
   }
 
-  copyItem(index: number) {
+  copyItem(key: number) {
     const {needConfirm} = this.props;
     const items = this.state.items.concat();
+    let newValue: any = null;
 
-    items.splice(index + 1, 0, items[index]);
-    index = Math.min(index + 1, items.length - 1);
+    const newItems = traverseTreeWith(item => {
+      if (item[tableKey] === key) {
+        return [item, copyItemFromOrigin(item)];
+      }
+      return item;
+    })(items);
+
     this.setState(
       {
-        items
+        items: newItems
       },
       () => {
         if (needConfirm === false) {
           this.emitValue();
         } else {
-          this.startEdit(index, true);
+          this.startEdit(newValue[tableKey], true);
         }
       }
     );
   }
 
-  addItem(index: number) {
-    const {needConfirm, scaffold, columns} = this.props;
+  /**
+   *
+   * @param key item的key，
+   * - number 时，表示key
+   * - undefined 时，表示在尾部添加
+   */
+  addItem(key?: number) {
+    const {needConfirm, scaffold, columns, store} = this.props;
     const items = this.state.items.concat();
+
     let value: any = {
-      __isPlaceholder: true
+      __isPlaceholder: true,
+      [tableKey]: tableKeyGenerator.generate()
     };
 
     if (Array.isArray(columns)) {
@@ -482,7 +517,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
       });
     }
-
     value = {
       ...value,
       ...scaffold
@@ -492,28 +526,44 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       delete value.__isPlaceholder;
     }
 
-    items.splice(index + 1, 0, value);
-    index = Math.min(index + 1, items.length - 1);
+    const newItems =
+      typeof key !== 'undefined'
+        ? traverseTreeWith(item => {
+            if (item[tableKey] === key) {
+              return {
+                ...item,
+                children: item.children ? [...item.children, value] : [value]
+              };
+            }
+            return item;
+          })(items)
+        : [...items, value];
 
     this.setState(
       {
-        items
+        items: newItems
       },
       () => {
         if (needConfirm === false) {
           this.emitValue();
         } else {
-          this.startEdit(index, true);
+          this.startEdit(value[tableKey], true);
         }
       }
     );
   }
 
-  startEdit(index: number, isCreate: boolean = false) {
+  startEdit(key: number, isCreate: boolean = false) {
+    let raw = null;
+    traverseTreeWith(item => {
+      if (item[tableKey] === key) {
+        raw = item;
+      }
+    })(this.state.items);
     this.setState({
-      editIndex: index,
+      editIndex: key || -1,
       isCreateMode: isCreate,
-      raw: this.state.items[index],
+      raw: raw,
 
       columns: this.buildColumns(this.props, isCreate)
     });
@@ -530,9 +580,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     subForms.forEach(form => form.flush());
 
     const items = this.state.items.concat();
-    let item = {
-      ...items[this.state.editIndex]
-    };
+    let item: any;
+    const newItems = traverseTreeWith(node => {
+      if (node[tableKey] === this.state.editIndex) {
+        item = {...node};
+        return {...node, __isPlaceholder: undefined};
+      }
+      return node;
+    })(items);
+
     const isNew = item.__isPlaceholder;
 
     let remote: Payload | null = null;
@@ -554,13 +610,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       };
     }
 
-    delete item.__isPlaceholder;
-    items.splice(this.state.editIndex, 1, item);
-
     this.setState(
       {
         editIndex: -1,
-        items: items,
+        items: newItems,
         raw: undefined
       },
       this.emitValue
@@ -569,11 +622,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   cancelEdit() {
     let items = this.state.items.concat();
-
     if (this.state.isCreateMode) {
-      items = items.filter(item => !item.__isPlaceholder);
+      items = traverseTreeWith(item =>
+        item.__isPlaceholder ? undefined : item
+      )(items);
     } else if (this.state.raw) {
-      items.splice(this.state.editIndex, 1, this.state.raw);
+      items = traverseTreeWith(item =>
+        item[tableKey] === this.state.editIndex ? this.state.raw : item
+      )(items);
     }
 
     this.setState(
@@ -640,15 +696,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       return null;
     }
 
-    const perPage = this.props.perPage;
-    const page = this.state.page || 1;
-    let offset = 0;
-    if (typeof perPage === 'number' && perPage) {
-      offset = (page - 1) * perPage;
-    }
-
     return {
-      quickEditEnabled: this.state.editIndex === index + offset
+      quickEditEnabled: this.state.editIndex === item.data[tableKey]
     };
   }
 
@@ -665,16 +714,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     let btns = [];
     if (props.addable && props.showAddBtn !== false) {
       btns.push({
-        children: ({
-          key,
-          rowIndex,
-          offset
-        }: {
-          key: any;
-          rowIndex: number;
-          offset: number;
-        }) =>
-          ~this.state.editIndex && needConfirm !== false ? null : (
+        children: ({key, rowIndex, offset, row}: BtnProps) => {
+          return ~this.state.editIndex && needConfirm !== false ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -684,28 +725,23 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
-              onClick={this.addItem.bind(this, rowIndex + offset, undefined)}
+              onClick={() => {
+                this.addItem(row.data[tableKey]);
+              }}
             >
               {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
               {props.addBtnIcon ? (
                 <Icon icon={props.addBtnIcon} className="icon" />
               ) : null}
             </Button>
-          )
+          );
+        }
       });
     }
 
     if (props.copyable && props.showCopyBtn !== false) {
       btns.push({
-        children: ({
-          key,
-          rowIndex,
-          offset
-        }: {
-          key: any;
-          rowIndex: number;
-          offset: number;
-        }) =>
+        children: ({key, rowIndex, offset, row}: BtnProps) =>
           ~this.state.editIndex && needConfirm !== false ? null : (
             <Button
               classPrefix={ns}
@@ -716,7 +752,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
-              onClick={this.copyItem.bind(this, rowIndex + offset, undefined)}
+              onClick={this.copyItem.bind(this, row.data[tableKey], undefined)}
             >
               {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
               {props.copyBtnIcon ? (
@@ -765,17 +801,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
       props.editable &&
         btns.push({
-          children: ({
-            key,
-            rowIndex,
-            data,
-            offset
-          }: {
-            key: any;
-            rowIndex: number;
-            data: any;
-            offset: number;
-          }) =>
+          children: ({key, rowIndex, row, data, offset}: BtnProps) =>
             ~this.state.editIndex || (data && data.__isPlaceholder) ? null : (
               <Button
                 classPrefix={ns}
@@ -788,7 +814,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     ? env.getModalContainer
                     : undefined
                 }
-                onClick={() => this.startEdit(rowIndex + offset)}
+                onClick={() => this.startEdit(row.data[tableKey])}
               >
                 {props.updateBtnLabel || props.editBtnLabel ? (
                   <span>{props.updateBtnLabel || props.editBtnLabel}</span>
@@ -806,16 +832,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         });
 
       btns.push({
-        children: ({
-          key,
-          rowIndex,
-          offset
-        }: {
-          key: any;
-          rowIndex: number;
-          offset: number;
-        }) =>
-          this.state.editIndex === rowIndex + offset ? (
+        children: ({key, rowIndex, offset, row}: BtnProps) =>
+          this.state.editIndex === row.data[tableKey] ? (
             <Button
               classPrefix={ns}
               size="sm"
@@ -838,16 +856,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
 
       btns.push({
-        children: ({
-          key,
-          rowIndex,
-          offset
-        }: {
-          key: any;
-          rowIndex: number;
-          offset: number;
-        }) =>
-          this.state.editIndex === rowIndex + offset ? (
+        children: ({key, rowIndex, offset, row}: BtnProps) =>
+          this.state.editIndex === row.data[tableKey] ? (
             <Button
               classPrefix={ns}
               size="sm"
@@ -872,17 +882,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     if (props.removable) {
       btns.push({
-        children: ({
-          key,
-          rowIndex,
-          data,
-          offset
-        }: {
-          key: any;
-          rowIndex: number;
-          data: any;
-          offset: number;
-        }) =>
+        children: ({key, rowIndex, offset, data, row}: BtnProps) =>
           (~this.state.editIndex || (data && data.__isPlaceholder)) &&
           needConfirm !== false ? null : (
             <Button
@@ -971,19 +971,22 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const {perPage} = this.props;
 
     if (~this.state.editIndex) {
-      const items = this.state.items.concat();
-      const origin = items[this.state.editIndex];
+      let origin = null;
+      let items = this.state.items.concat();
+      const value: any = {
+        ...rows
+      };
+      items = traverseTreeWith(item => {
+        if (item[tableKey] === this.state.editIndex) {
+          origin = item;
+          return value;
+        }
+        return item;
+      })(items);
 
       if (!origin) {
         return;
       }
-
-      const value: any = {
-        ...rows
-      };
-      this.entries.set(value, this.entries.get(origin) || this.entityId++);
-      this.entries.delete(origin);
-      items.splice(this.state.editIndex, 1, value);
 
       this.setState({
         items
@@ -1026,8 +1029,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       };
 
       items = spliceTree(items, indexes, 1, data);
-      this.entries.set(data, this.entries.get(origin) || this.entityId++);
-      // this.entries.delete(origin); // 反正最后都会清理的，先不删了吧。
     }
 
     this.setState(
@@ -1048,18 +1049,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.setState({page});
   }
 
-  removeEntry(entry: any) {
-    if (this.entries.has(entry)) {
-      this.entries.delete(entry);
-    }
-  }
-
   getEntryId(entry: any) {
-    if (!this.entries.has(entry)) {
-      this.entries.set(entry, this.entityId++);
-    }
-
-    return String(this.entries.get(entry));
+    return entry[tableKey];
   }
 
   render() {
@@ -1091,7 +1082,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       return null;
     }
 
-    let items = this.state.items;
+    let items = this.state.items.concat();
 
     let showPager = false;
     const page = this.state.page || 1;
@@ -1104,47 +1095,48 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       offset = (page - 1) * perPage;
     }
 
+    const body = render(
+      'body',
+      {
+        type: 'table',
+        placeholder: __(placeholder),
+        columns: this.state.columns,
+        affixHeader: false,
+        prefixRow,
+        affixRow
+      },
+      {
+        value: undefined,
+        saveImmediately: true,
+        disabled,
+        draggable: draggable && ~this.state.editIndex,
+        items: items,
+        getEntryId: this.getEntryId,
+        onSave: this.handleTableSave,
+        onSaveOrder: this.handleSaveTableOrder,
+        buildItemProps: this.buildItemProps,
+        quickEditFormRef: this.subFormRef,
+        columnsTogglable: columnsTogglable,
+        combineNum: combineNum,
+        combineFromIndex: combineFromIndex,
+        expandConfig,
+        canAccessSuperData,
+        reUseRow: false,
+        offset,
+        rowClassName,
+        rowClassNameExpr
+      }
+    );
     return (
       <div className={cx('InputTable', className)}>
-        {render(
-          'body',
-          {
-            type: 'table',
-            placeholder: __(placeholder),
-            columns: this.state.columns,
-            affixHeader: false,
-            prefixRow,
-            affixRow
-          },
-          {
-            value: undefined,
-            saveImmediately: true,
-            disabled,
-            draggable: draggable && !~this.state.editIndex,
-            items: items,
-            getEntryId: this.getEntryId,
-            onSave: this.handleTableSave,
-            onSaveOrder: this.handleSaveTableOrder,
-            buildItemProps: this.buildItemProps,
-            quickEditFormRef: this.subFormRef,
-            columnsTogglable: columnsTogglable,
-            combineNum: combineNum,
-            combineFromIndex: combineFromIndex,
-            expandConfig,
-            canAccessSuperData,
-            reUseRow: false,
-            offset,
-            rowClassName,
-            rowClassNameExpr
-          }
-        )}
+        {body}
         {(addable && showAddBtn !== false) || showPager ? (
           <div className={cx('InputTable-toolbar')}>
             {addable && showAddBtn !== false ? (
               <Button
                 disabled={disabled}
                 size="sm"
-                onClick={() => this.addItem(this.state.items.length)}
+                onClick={() => this.addItem()}
               >
                 <Icon icon="plus" className="icon" />
                 <span>{__('add')}</span>
