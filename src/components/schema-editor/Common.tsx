@@ -95,15 +95,17 @@ export class SchemaEditorItemCommon<
       <>
         {prefix}
 
-        <Select
-          options={types}
-          className={cx('SchemaEditor-type')}
-          value={value?.$ref || value?.type || 'string'}
-          onChange={this.handleTypeChange}
-          clearable={false}
-          disabled={disabled || typeMutable === false}
-          simpleValue
-        />
+        {types.length > 1 ? (
+          <Select
+            options={types}
+            className={cx('SchemaEditor-type')}
+            value={value?.$ref || value?.type || 'string'}
+            onChange={this.handleTypeChange}
+            clearable={false}
+            disabled={disabled || typeMutable === false}
+            simpleValue
+          />
+        ) : null}
 
         {onRequiredChange ? (
           <Checkbox
