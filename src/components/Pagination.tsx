@@ -430,6 +430,9 @@ export class Pagination extends React.Component<
           onChange={this.handlePageChange}
           onFocus={(e: any) => e.currentTarget.select()}
           onKeyUp={(e: any) => {
+            if (e.currentTarget?.value?.match(/\D/g)) {
+              e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '');
+            }
             const v: number = parseInt(e.currentTarget.value, 10);
             if (!v || e.code != 'Enter') {
               return;
