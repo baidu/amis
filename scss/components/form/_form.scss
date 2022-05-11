@@ -119,6 +119,10 @@
     > .#{$ns}Form-label {
       text-align: var(--Form--horizontal-label-align);
       white-space: var(--Form--horizontal-label-whiteSpace);
+
+      &--left {
+        text-align: left;
+      }
     }
   }
 
