@@ -1104,38 +1104,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       offset = (page - 1) * perPage;
     }
 
-    const body = render(
-      'body',
-      {
-        type: 'table',
-        placeholder: __(placeholder),
-        columns: this.state.columns,
-        affixHeader: false,
-        prefixRow,
-        affixRow
-      },
-      {
-        value: undefined,
-        saveImmediately: true,
-        disabled,
-        draggable: draggable && ~this.state.editIndex,
-        items: items,
-        getEntryId: this.getEntryId,
-        onSave: this.handleTableSave,
-        onSaveOrder: this.handleSaveTableOrder,
-        buildItemProps: this.buildItemProps,
-        quickEditFormRef: this.subFormRef,
-        columnsTogglable: columnsTogglable,
-        combineNum: combineNum,
-        combineFromIndex: combineFromIndex,
-        expandConfig,
-        canAccessSuperData,
-        reUseRow: false,
-        offset,
-        rowClassName,
-        rowClassNameExpr
-      }
-    );
     return (
       <div className={cx('InputTable', className)}>
         {render(
