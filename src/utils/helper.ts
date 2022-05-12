@@ -1455,28 +1455,30 @@ export function getPropValue<
 /**
  * formulaExec 运算器：根据当前字符串类型执行对应运算，也可按指定执行模式执行运算
  * 
- * 使用说明：
- * 1. 以'raw:'开头则直接返回原始字符串（返回前会剔除'raw:'）；
- * 2. 以'='开头则按新版公式表达式执行，同 formula 运算模式；
- * 3. 用户也可以使用registerFormulaExec注册一个自定义运算器。
- * 
  * 运算模式（execMode）支持以下取值: 
  * 1. tpl: 按模板字符串执行（JavaScript 模板引擎），比如：Hello ${amisUser.email}、<h1>Hello</h1>, <span>${amisUser.email}</span>；
  *    备注: 在模板中可以自由访问变量，详细请见：https://www.lodashjs.com/docs/lodash.template；
  * 2. formula: 按新版公式表达式执行，用于执行 ${ xxx } 格式的表达式；
  *    支持从window、localStorage、sessionStorage获取数据，比如：${num1 + 2}、${ls:env}、${window:document}、${window:document.URL}、${amisUser.email}；
  *    详细请见：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/data-mapping#namespace
- * 3. evalFormula: 按新版公式表达式执行，用于执行 ${ xxx } 格式的表达式，功能同 formula 运算模式；
+ * 3. evalFormula: 按新版公式表达式执行，用于执行 非${ xxx } 格式的表达式（evalMode 为 true，不用 ${} 包裹也可以执行），功能同 formula 运算模式；
  * 4. js: 按Javascript执行，表达式中可以通过data.xxx来获取指定数据，并且支持简单运算；
- *    比如：data.num1 + 2、this.num1 + 2、num1 + 2；（备注：三个表达式是等价的，这里的this就是data。）
+ *    比如：data.num1 + 2、this.num1 + 2、num1 + 2；（备注：三个表达式是等价的，这里的 this 就是 data。）
  * 5. var: 以此字符串作为key值从当前数据域data中获取数值；性能最高（运行期间不会生成ast和表达式运算）；
  * 
- * 备注1: 如果字符串以特殊字符开头也可启动指定运算模式，这个优先级比指定execMode要低；
- *   比如当字符串以'tpl:'开头则使用FormulaExec['tpl']执行表达式。
- * 备注2: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现;
- * 备注3: 模板字符串 和 Javascript 模板引擎 不可以交叉使用。
+ * 备注1: 当execMode设置为true时，不用 ${} 包裹也可以执行表达式；
+ * 备注2: 当 execMode 为true时，或者不设置 execMode（execMode 为 undefined 或者 null），OpenFormulaExecEvalModeStatus 为 true 时，会识别以特殊字符开头的表达式，
+ *   其可识别的特殊前缀如下:
+ *    1. 以'raw:'开头则直接返回原始字符串（返回前会剔除'raw:'）；
+ *    2. 以'='开头则按新版公式表达式执行，同 formula 运算模式；
+ *    3. 以`${formulaKey}:`开头，会使用 formulaExec[formulaKey] 运算模式。
+ *    4. 以 " 开头，" 结尾，或者 以 ' 开头，' 结尾，则直接输出里面的字符串内容；
+ * 备注3: OpenFormulaExecEvalModeStatus 用于 控制 formulaExec execMode 的默认值，设置为 true 时，默认非 ${ xxx } 格式也启动表达式运算器；
+ * 备注4: 用户也可以使用 registerFormulaExec 注册一个自定义运算器；
+ * 备注5: 模板字符串 和 Javascript 模板引擎 不可以交叉使用；
+ * 备注6: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现。
  */
-let OpenFormulaExecEvalModeStatus = true; // 是否开启表达式模式，非 ${ xxx } 格式也使用表达式运算器
+let OpenFormulaExecEvalModeStatus = true; // 用于 控制 formulaExec execMode 的默认值，默认为 true 时，非 ${ xxx } 格式也启动表达式运算器
 export function formulaExec(value: any, data: any, execMode?: string | boolean) {
   if (!value) {
     return '';
