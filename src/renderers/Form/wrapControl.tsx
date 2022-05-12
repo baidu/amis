@@ -293,7 +293,7 @@ export function wrapControl<
                 required: props.$schema.required,
                 id: props.$schema.id,
                 unique: props.$schema.unique,
-                value: isPureValue(props.$schema.value) ? props.$schema.value : formulaExec(props.$schema.value, props.data, false), // props.$schema.value,
+                value: props.$schema.value, // isPureValue(props.$schema.value) ? props.$schema.value : formulaExec(props.$schema.value, props.data, false), 
                 rules: props.$schema.validations,
                 multiple: props.$schema.multiple,
                 delimiter: props.$schema.delimiter,
