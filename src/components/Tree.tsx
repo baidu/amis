@@ -23,6 +23,7 @@ import {Icon, getIcon} from './icons';
 import Checkbox from './Checkbox';
 import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
+import {ItemRenderStates} from './Selection';
 
 interface IDropIndicator {
   left: number;
@@ -41,7 +42,7 @@ export interface IDropInfo {
 interface TreeSelectorProps extends ThemeProps, LocaleProps {
   highlightTxt?: string;
 
-  onRef: any;
+  onRef?: any;
 
   showIcon?: boolean;
   // 是否默认都展开
@@ -124,6 +125,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   onExpandTree?: (nodePathArr: any[]) => void;
   draggable?: boolean;
   onMove?: (dropInfo: IDropInfo) => void;
+  itemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
 }
 
 interface TreeSelectorState {
@@ -806,6 +808,7 @@ export class TreeSelector extends React.Component<
       editTip,
       removeTip,
       translate: __,
+      itemRender,
       draggable
     } = this.props;
     const {
@@ -967,7 +970,15 @@ export class TreeSelector extends React.Component<
               >
                 {highlightTxt
                   ? highlight(`${item[labelField]}`, highlightTxt)
-                  : `${item[labelField]}`}
+                    : itemRender ? (
+                      itemRender(item, {
+                        index: key,
+                        multiple: multiple,
+                        checked: checked,
+                        onChange: () => this.handleCheck(item, !selfChecked),
+                        disabled: disabled || item.disabled
+                      }))
+                    : `${item[labelField]}`}
               </span>
 
               {!nodeDisabled &&

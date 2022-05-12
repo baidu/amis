@@ -69,7 +69,7 @@
     flex-direction: row;
 
     > .#{$ns}Checkbox {
-      margin-right: px2rem(8px);
+      margin-right: px2rem(10px);
     }
     cursor: pointer;
     user-select: none;
@@ -104,6 +104,10 @@
 
   &-placeholder {
     @include checkboxes-placeholder();
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -135,10 +139,6 @@
     padding-right: var(--gap-md);
   }
 
-  .#{$ns}Table-table > tbody > tr {
-    cursor: pointer;
-  }
-
   .#{$ns}Table-table > tbody > tr.is-active {
     color: var(--Form-select-menu-onActive-color);
     background: var(--Form-select-menu-onActive-bg);
@@ -148,24 +148,13 @@
 .#{$ns}TreeSelection {
   .#{$ns}Table-expandBtn {
     color: var(--icon-color);
-    margin-right: 5px;
+    margin-right: var(--gap-xs);
   }
 
   &-sublist {
     position: relative;
     margin: 0 0 0 px2rem(35px);
     display: none;
-
-    &:before {
-      width: 1px;
-      content: '';
-      display: block;
-      position: absolute;
-      top: calc(var(--gap-xs) * -1);
-      bottom: calc(var(--Form-input-height) / 2);
-      left: -19px;
-      border-left: dashed 1px var(--icon-color);
-    }
   }
 
   &-item {
@@ -183,35 +172,17 @@
     color: var(--text--muted-color);
   }
 
-  &-sublist &-item:before {
-    height: 1px;
-    content: '';
-    display: block;
-    position: absolute;
-    top: calc(var(--Form-input-height) / 2);
-    width: 19px;
-    left: -19px;
-    border-top: dashed 1px var(--icon-color);
-  }
-
   &-itemInner {
     display: flex;
     align-items: center;
-    // height: var(--Form-input-height);
-    line-height: var(--Form-input-lineHeight);
+    line-height: var(--Tree-itemHeight);
+    position: relative;
     font-size: var(--Form-input-fontSize);
-    padding: calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize)
-          ) / 2
-      )
-      var(--gap-sm);
+    padding: 0 var(--gap-sm);
     flex-direction: row;
 
     > .#{$ns}Checkbox {
-      margin-right: 0;
-      margin-left: var(--gap-sm);
+      margin-right: var(--gap-sm);
     }
     cursor: pointer;
     user-select: none;
@@ -234,7 +205,6 @@
     flex-grow: 1;
 
     span {
-      margin-left: var(--gap-xs);
       vertical-align: middle;
     }
   }
@@ -303,7 +273,7 @@
     flex-grow: 1;
 
     span {
-      margin-left: var(--gap-xs);
+      margin-left: px2rem(10px);
       vertical-align: middle;
     }
   }
@@ -356,5 +326,20 @@
       margin: 10px 0 20px;
       color: var(--text--muted-color);
     }
+  }
+}
+
+.#{$ns}ResultTreeList {
+  height: 100%;
+  width: 100%;
+}
+
+.#{$ns}ResultTableList {
+  height: 100%;
+  width: 100%;
+
+  &-close-btn {
+    float: right;
+    cursor: pointer;
   }
 }
