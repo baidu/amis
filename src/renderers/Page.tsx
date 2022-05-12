@@ -468,6 +468,10 @@ export default class Page extends React.Component<PageProps> {
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
 
+      if (!isEffectiveApi(action.api, ctx)) {
+        return;
+      }
+
       return store
         .saveRemote(action.api as string, ctx, {
           successMessage:
@@ -487,7 +491,7 @@ export default class Page extends React.Component<PageProps> {
           redirect && env.jumpTo(redirect, action);
           action.reload && this.reloadTarget(action.reload, store.data);
         })
-        .catch((e) => {
+        .catch(e => {
           if (throwErrors || action.countDown) {
             throw e;
           }
