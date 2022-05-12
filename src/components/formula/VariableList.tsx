@@ -5,7 +5,7 @@ import GroupedSelection from '../GroupedSelection';
 import Tabs, {Tab} from '../Tabs';
 import TreeSelection from '../TreeSelection';
 import SearchBox from '../SearchBox';
-import {filterTree, flattenTree} from '../../utils/helper';
+import {findTree} from '../../utils/helper';
 
 import type {VariableItem} from './Editor';
 import type {ItemRenderStates} from '../Selection';
@@ -53,10 +53,8 @@ function VariableList(props: VariableListProps) {
         };
 
   function onSearch(term: string) {
-    const flatten = flattenTree(list);
-    const filtered = flatten.filter(item => ~item.label.indexOf(term));
-
-    setFilterVars(!term ? list : filtered);
+    const tree = findTree(list, i => ~i.label.indexOf(term));
+    setFilterVars(!term ? list : tree ? [tree] : list);
   }
 
   function renderSearchBox() {
