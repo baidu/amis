@@ -3,30 +3,30 @@ import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
 import {makeEnv} from '../helper';
 
-test('EventAction:disabled', async () => {
+test('EventAction:hidden', async () => {
   const {getByText, container}: any = render(
     amisRender(
       {
         type: 'page',
         data: {
-          btnDisabled: true,
-          btnNotDisabled: false
+          btnHidden: true,
+          btnNotHidden: false
         },
         body: [
           {
             type: 'action',
             label: '按钮1',
-            disabledOn: '${btnDisabled}'
+            hiddenOn: '${btnHidden}'
           },
           {
             type: 'action',
             label: '按钮2',
-            disabledOn: '${btnNotDisabled}',
+            hiddenOn: '${btnNotHidden}',
             onEvent: {
               click: {
                 actions: [
                   {
-                    actionType: 'disabled',
+                    actionType: 'hidden',
                     componentId: 'ui:button_test_3'
                   }
                 ]
@@ -36,18 +36,18 @@ test('EventAction:disabled', async () => {
           {
             type: 'action',
             label: '按钮3',
-            disabledOn: '${btnNotDisabled}',
+            hiddenOn: '${btnNotHidden}',
             id: 'ui:button_test_3'
           },
           {
             type: 'action',
             label: '按钮4',
-            disabledOn: '${btnNotDisabled}',
+            hiddenOn: '${btnNotHidden}',
             onEvent: {
               click: {
                 actions: [
                   {
-                    actionType: 'enabled',
+                    actionType: 'show',
                     componentId: 'ui:button_test_5'
                   }
                 ]
@@ -57,34 +57,8 @@ test('EventAction:disabled', async () => {
           {
             type: 'action',
             label: '按钮5',
-            disabled: true,
+            hidden: true,
             id: 'ui:button_test_5'
-          },
-          {
-            type: 'action',
-            label: '按钮6',
-            onEvent: {
-              click: {
-                actions: [
-                  {
-                    actionType: 'disabled',
-                    componentId: 'ui:form_disable'
-                  }
-                ]
-              }
-            }
-          },
-          {
-            type: 'form',
-            id: 'ui:form_disable',
-            title: '表单',
-            body: [
-              {
-                type: 'button',
-                className: 'ml-2',
-                label: '我的状态变了'
-              }
-            ]
           }
         ]
       },
@@ -95,7 +69,6 @@ test('EventAction:disabled', async () => {
 
   fireEvent.click(getByText(/按钮2/));
   fireEvent.click(getByText(/按钮4/));
-  fireEvent.click(getByText(/按钮6/));
 
   expect(container).toMatchSnapshot();
 });
