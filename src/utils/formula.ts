@@ -37,7 +37,8 @@ import {getFilters} from './tpl-builtin';
  * 备注3: OpenFormulaExecEvalModeStatus 用于 控制 formulaExec execMode 的默认值，设置为 true 时，默认非 ${ xxx } 格式也启动表达式运算器；
  * 备注4: 用户也可以使用 registerFormulaExec 注册一个自定义运算器；
  * 备注5: 模板字符串 和 Javascript 模板引擎 不可以交叉使用；
- * 备注6: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现。
+ * 备注6: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现；
+ * 备注7: 后续可以考虑将 amis现有的运算器都放这里管理，充当统一的运算器入口。
  */
 
 // 缓存，用于提升性能
@@ -146,12 +147,6 @@ export function formulaExec(value: any, data: any, execMode?: string | boolean) 
   if (isObjectByLodash(value) || isArray(value) || !isString(value)) {
     // 非字符串类型，直接返回，比如：boolean、number类型、Object、Array类型
     return value;
-  } else if (value.startsWith('\'') && value.endsWith('\'')) {
-    // 字符串类型，直接返回，比如：'hello' 返回 hello
-    return value.substring(1, value.length - 1);
-  } else if (value.startsWith('\"') && value.endsWith('\"')) {
-    // 字符串类型，直接返回，比如："hello" 返回 hello
-    return value.substring(1, value.length - 1);
   } else if (curExecMode && FormulaExec[curExecMode]) {
     return FormulaExec[curExecMode];
   }
