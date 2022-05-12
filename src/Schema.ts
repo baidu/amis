@@ -120,6 +120,7 @@ import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPick
 import {UserSelectControlSchema} from './renderers/Form/UserSelect';
 import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
 import {TableSchemaV2} from './renderers/Table-v2';
+import {ListenerAction} from './actions/Action';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -779,6 +780,16 @@ export interface BaseSchema {
    * 组件唯一 id，主要用于日志采集
    */
   id?: string;
+
+  /**
+   * 事件动作配置
+   */
+  onEvent?: {
+    [propName: string]: {
+      weight?: number; // 权重
+      actions: ListenerAction[]; // 执行的动作集
+    };
+  };
 }
 
 export interface Option {
