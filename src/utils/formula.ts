@@ -143,11 +143,8 @@ export function formulaExec(value: any, data: any, execMode?: string | boolean) 
     // 指定 execMode 可以直接选用对应的运算器
     curExecMode = execMode;
   }
-  if (isObjectByLodash(value) || isArray(value)) {
-    // Object、Array类型
-    return JSON.stringify(value);
-  } else if (!isString(value)) {
-    // 非字符串类型，直接返回，比如：boolean、number类型
+  if (isObjectByLodash(value) || isArray(value) || !isString(value)) {
+    // 非字符串类型，直接返回，比如：boolean、number类型、Object、Array类型
     return value;
   } else if (value.startsWith('\'') && value.endsWith('\'')) {
     // 字符串类型，直接返回，比如：'hello' 返回 hello
