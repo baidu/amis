@@ -34,7 +34,6 @@ import {
 } from '../../Schema';
 import {HocStoreFactory} from '../../WithStore';
 import {wrapControl} from './wrapControl';
-import type {OnEventProps} from '../../utils/renderer-event';
 import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
 import {isEffectiveApi} from '../../utils/api';
@@ -44,9 +43,7 @@ export type LabelAlign = 'right' | 'left';
 
 export type FormControlSchemaAlias = SchemaObject;
 
-export interface FormBaseControl
-  extends Omit<BaseSchema, 'type'>,
-    OnEventProps {
+export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
   /**
    * 表单项类型
    */
