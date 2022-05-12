@@ -26,19 +26,18 @@ import {getFilters} from './tpl-builtin';
  * 4. js: 按Javascript执行，表达式中可以通过data.xxx来获取指定数据，并且支持简单运算；
  *    比如：data.num1 + 2、this.num1 + 2、num1 + 2；（备注：三个表达式是等价的，这里的 this 就是 data。）
  * 5. var: 以此字符串作为key值从当前数据域data中获取数值；性能最高（运行期间不会生成ast和表达式运算）；
+ * 6. true 或者 false: 当execMode设置为true时，不用 ${} 包裹也可以执行表达式；
  * 
- * 备注1: 当execMode设置为true时，不用 ${} 包裹也可以执行表达式；
- * 备注2: 当 execMode 为true时，或者不设置 execMode（execMode 为 undefined 或者 null），OpenFormulaExecEvalModeStatus 为 true 时，会识别以特殊字符开头的表达式，
+ * 备注1: 当 execMode 为true时，或者不设置 execMode（execMode 为 undefined 或者 null），OpenFormulaExecEvalModeStatus 为 true 时，会识别以特殊字符开头的表达式。
  *   其可识别的特殊前缀如下:
  *    1. 以'raw:'开头则直接返回原始字符串（返回前会剔除'raw:'）；
  *    2. 以'='开头则按新版公式表达式执行，同 formula 运算模式；
  *    3. 以`${formulaKey}:`开头，会使用 formulaExec[formulaKey] 运算模式。
- *    4. 以 " 开头，" 结尾，或者 以 ' 开头，' 结尾，则直接输出里面的字符串内容；
- * 备注3: OpenFormulaExecEvalModeStatus 用于 控制 formulaExec execMode 的默认值，设置为 true 时，默认非 ${ xxx } 格式也启动表达式运算器；
- * 备注4: 用户也可以使用 registerFormulaExec 注册一个自定义运算器；
- * 备注5: 模板字符串 和 Javascript 模板引擎 不可以交叉使用；
- * 备注6: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现；
- * 备注7: 后续可以考虑将 amis现有的运算器都放这里管理，充当统一的运算器入口。
+ * 备注2: OpenFormulaExecEvalModeStatus 用于 控制 formulaExec execMode 的默认值，设置为 true 时，默认非 ${ xxx } 格式也启动表达式运算器；
+ * 备注3: 用户也可以使用 registerFormulaExec 注册一个自定义运算器；
+ * 备注4: 模板字符串 和 Javascript 模板引擎 不可以交叉使用；
+ * 备注5: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现；
+ * 备注6: 后续可以考虑将 amis现有的运算器都放这里管理，充当统一的运算器入口。
  */
 
 // 缓存，用于提升性能
@@ -124,18 +123,23 @@ export const FormulaExec: {
   },
 };
 
-// 用于 控制 formulaExec execMode 的默认值，默认为 true 时，非 ${ xxx } 格式也启动表达式运算器
-let FormulaExecEvalModeDefaultStatus = true;
- 
+// 用于 控制 formulaExec execMode，当设置为 true 时，非 ${ xxx } 格式也启动表达式运算器，且识别特殊前缀。
+let FormulaExecEvalModeDefaultStatus = false;
+
 export function updateFormulaExecEvalModeDefaultStatus(evalMode: boolean) {
   FormulaExecEvalModeDefaultStatus = evalMode;
+}
+
+// 用于线上开启 OpenFormulaExecEvalMode，方便线上环境可以指定运算器类型进行debug。
+if (window && !(window as any).updateFormulaExecEvalModeDefaultStatus) {
+  (window as any).updateFormulaExecEvalModeDefaultStatus = updateFormulaExecEvalModeDefaultStatus;
 }
 
 export function formulaExec(value: any, data: any, execMode?: string | boolean) {
   if (!value) {
     return '';
   }
-  let OpenFormulaExecEvalMode = FormulaExecEvalModeDefaultStatus;
+  let OpenFormulaExecEvalMode = false;
   let curExecMode = '';
   if (isBoolean(execMode)) {
     // OpenFormulaExecEvalMode 设置为 true 后，非 ${ xxx } 格式也使用表达式运算器
@@ -143,6 +147,10 @@ export function formulaExec(value: any, data: any, execMode?: string | boolean) 
   } else if (isString(execMode)) {
     // 指定 execMode 可以直接选用对应的运算器
     curExecMode = execMode;
+  }
+  if (FormulaExecEvalModeDefaultStatus) {
+    // FormulaExecEvalModeDefaultStatus 为 true 时，非 ${ xxx } 格式也启动表达式运算器
+    OpenFormulaExecEvalMode = FormulaExecEvalModeDefaultStatus; // 优先级比 evalMode 高
   }
   if (isObjectByLodash(value) || isArray(value) || !isString(value)) {
     // 非字符串类型，直接返回，比如：boolean、number类型、Object、Array类型
