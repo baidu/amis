@@ -2,6 +2,7 @@ import React from 'react';
 import hotkeys from 'hotkeys-js';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
+import {isDisabled} from '../utils/helper';
 import Button from '../components/Button';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
@@ -780,7 +781,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
     }
 
     let label = this.props.label;
-    let disabled = this.props.disabled;
+    let disabled = !!isDisabled(this.props?.$schema, data);
     let isActive = !!active;
 
     if (actionType === 'link' && !isActive && link && isCurrentUrl) {
