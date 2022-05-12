@@ -1,3 +1,5 @@
+import {Option} from './Options';
+
 // 数据来源：https://lbs.amap.com/api/webservice/download
 const db: {
   [propName: string]: any;
@@ -4005,8 +4007,6 @@ const db: {
   810100: '香港岛',
   810200: '九龙',
   810300: '新界',
-  820100: '澳门半岛',
-  820200: '离岛',
   810000: '香港特别行政区',
   810001: '中西区',
   810002: '湾仔区',
@@ -4052,15 +4052,17 @@ const db: {
   820005: '风顺堂区',
   820006: '嘉模堂区',
   820007: '路凼填海区',
-  820008: '圣方济各堂区',
-  820102: '花地玛堂区',
-  820103: '花王堂区',
-  820104: '望德堂区',
-  820105: '大堂区',
-  820106: '风顺堂区',
-  820202: '嘉模堂区',
-  820203: '路氹填海区',
-  820204: '圣方济各堂区'
+  820008: '圣方济各堂区'
+  // 820100: '澳门半岛',
+  // 820200: '离岛',
+  // 820102: '花地玛堂区',
+  // 820103: '花王堂区',
+  // 820104: '望德堂区',
+  // 820105: '大堂区',
+  // 820106: '风顺堂区',
+  // 820202: '嘉模堂区',
+  // 820203: '路氹填海区',
+  // 820204: '圣方济各堂区'
 };
 
 export const province: Array<number> = [];
@@ -4075,16 +4077,67 @@ export const district: {
     | Array<number>;
 } = {};
 
+export const options: Option[] = [];
+const optionsCacheMap = new Map<number, Option>();
+
+function pushProvinceOptions(code: number) {
+  const provinceOption: Option = {
+    value: code,
+    label: db[code],
+    children: []
+  };
+  options.push(provinceOption);
+  optionsCacheMap.set(code, provinceOption);
+  return provinceOption;
+}
+
+function pushCityOptions(code: number, provinceCode: number) {
+  const provinceOption =
+    optionsCacheMap.get(provinceCode) ?? pushProvinceOptions(provinceCode);
+
+  const cityOption: Option = {
+    value: code,
+    label: db[code],
+    children: []
+  };
+
+  provinceOption.children!.push(cityOption);
+  optionsCacheMap.set(code, cityOption);
+  return cityOption;
+}
+
+function pushDistrictOptions(
+  code: number,
+  provinceCode: number,
+  cityCode: number
+) {
+  if (db[cityCode]) {
+    const cityOption =
+      optionsCacheMap.get(cityCode) ?? pushCityOptions(cityCode, provinceCode);
+
+    cityOption.children?.push({
+      value: code,
+      label: db[code]
+    });
+  } else {
+    pushCityOptions(code, provinceCode);
+  }
+}
+
 Object.keys(db).forEach(key => {
   const code = parseInt(key, 10);
   if (!(code % 10000)) {
     province.push(code);
     city[code] = [];
+
+    pushProvinceOptions(code);
   } else if (!(code % 100)) {
     const provinceCode = code - (code % 10000);
     city[provinceCode].push(code);
     district[provinceCode] = district[provinceCode] || {};
     district[provinceCode][code] = [];
+
+    pushCityOptions(code, provinceCode);
   } else {
     const provinceCode = code - (code % 10000);
     const cityCode = code - (code % 100);
@@ -4103,7 +4156,11 @@ Object.keys(db).forEach(key => {
     } else {
       city[provinceCode].push(code);
     }
+
+    pushDistrictOptions(code, provinceCode, cityCode);
   }
 });
+
+optionsCacheMap.clear();
 
 export default db;
