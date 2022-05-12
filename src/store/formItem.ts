@@ -832,6 +832,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             item,
             option,
             (source, target) =>
+              source?.[valueField] != null &&
+              target?.[valueField] != null &&
               source?.[labelField] === target?.[labelField] &&
               source?.[valueField] === target?.[valueField]
           )
