@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  RendererProps
+} from 'amis-core';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {Select} from 'amis-ui';
@@ -9,6 +14,7 @@ import {ActionObject} from 'amis-core';
 import {Option} from 'amis-core';
 import {localeable, LocaleProps} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
+import split from 'lodash/split';
 
 /**
  * City 城市选择框。
@@ -46,14 +52,15 @@ export interface InputCityControlSchema extends FormBaseControlSchema {
   allowDistrict?: boolean;
 
   /**
-   * 允许选择街道？
-   */
-  allowStreet?: boolean;
-
-  /**
    * 是否显示搜索框
    */
   searchable?: boolean;
+
+  /**
+   * 是否多选
+   * todo 在文档中增加
+   */
+  multiple?: boolean;
 }
 
 export interface CityPickerProps
@@ -67,11 +74,11 @@ export interface CityPickerProps
   delimiter: string;
   allowCity: boolean;
   allowDistrict: boolean;
-  allowStreet: boolean;
   useMobileUI?: boolean;
+  render: RendererProps['render'];
 }
 
-export interface CityPickerState {
+interface CityValue {
   code: number;
   province: string;
   provinceCode: number;
@@ -79,20 +86,13 @@ export interface CityPickerState {
   cityCode: number;
   district: string;
   districtCode: number;
-  street: string;
+}
+
+export interface CityPickerState {
+  value: CityValue | CityValue[];
 
   db?: {
-    province: Array<string>;
-    city: {
-      [propName: number]: Array<number>;
-    };
-    district: {
-      [propName: number]:
-        | {
-            [propName: number]: Array<number>;
-          }
-        | Array<number>;
-    };
+    options: Option[];
     [propName: string]: any;
   };
 }
@@ -106,19 +106,19 @@ export class CityPicker extends React.Component<
     extractValue: true,
     delimiter: ',',
     allowCity: true,
-    allowDistrict: true,
-    allowStreet: false
+    allowDistrict: true
   };
 
   state: CityPickerState = {
-    code: 0,
-    province: '',
-    provinceCode: 0,
-    city: '',
-    cityCode: 0,
-    district: '',
-    districtCode: 0,
-    street: ''
+    value: {
+      code: 0,
+      province: '',
+      provinceCode: 0,
+      city: '',
+      cityCode: 0,
+      district: '',
+      districtCode: 0
+    }
   };
 
   componentDidMount() {
@@ -131,6 +131,19 @@ export class CityPicker extends React.Component<
     if (props.value !== prevProps.value) {
       this.loadDb(() => this.syncIn(props));
     }
+    const {db} = this.state;
+    if (
+      db &&
+      (props.allowCity !== prevProps.allowCity ||
+        props.allowDistrict !== prevProps.allowDistrict)
+    ) {
+      this.setState({
+        db: {
+          ...db,
+          options: this.filterOptions(db.options)
+        }
+      });
+    }
   }
 
   loadDb(callback?: () => void) {
@@ -140,13 +153,12 @@ export class CityPicker extends React.Component<
     }
 
     import('amis-ui/lib/components/CityDB').then(db => {
+      const options = this.filterOptions(db.options);
       this.setState(
         {
           db: {
             ...db.default,
-            province: db.province as any,
-            city: db.city,
-            district: db.district
+            options
           }
         },
         callback
@@ -168,283 +180,182 @@ export class CityPicker extends React.Component<
     // );
   }
 
-  @autobind
-  handleProvinceChange(option: Option) {
-    this.setState(
-      option
-        ? {
-            province: option.label as string,
-            provinceCode: option.value as number,
-            city: '',
-            cityCode: 0,
-            district: '',
-            districtCode: 0,
-            street: '',
-            code: option ? option.value : 0
-          }
-        : {
-            code: 0,
-            province: '',
-            provinceCode: 0,
-            city: '',
-            cityCode: 0,
-            district: '',
-            districtCode: 0,
-            street: ''
-          },
-      this.syncOut
-    );
-  }
-
-  @autobind
-  handleCityChange(option: Option) {
-    if (option.value % 100) {
-      return this.handleDistrictChange(option, {
-        cityCode: option.value as number
-      });
+  filterOptions(options: Option[]) {
+    const {allowCity, allowDistrict} = this.props;
+    if (!allowCity) {
+      return options.map(opt => ({...opt, children: undefined}));
+    } else if (!allowDistrict) {
+      return options.map(opt => ({
+        ...opt,
+        children: opt.children?.map(item => ({
+          ...item,
+          children: undefined
+        }))
+      }));
     }
-
-    this.setState(
-      option
-        ? {
-            city: option.label as string,
-            cityCode: option.value as number,
-            district: '',
-            districtCode: 0,
-            street: '',
-            code: option.value
-          }
-        : {
-            city: '',
-            cityCode: 0,
-            district: '',
-            districtCode: 0,
-            street: '',
-            code: this.state.provinceCode
-          },
-      this.syncOut
-    );
-  }
-
-  @autobind
-  handleDistrictChange(
-    option: Option,
-    otherStates: Partial<CityPickerState> = {}
-  ) {
-    this.setState(
-      option
-        ? {
-            ...(otherStates as any),
-            district: option.label as string,
-            districtCode: option.value as number,
-            street: '',
-            code: option.value as number
-          }
-        : {
-            ...(otherStates as any),
-            district: '',
-            districtCode: 0,
-            street: '',
-            code: this.state.cityCode
-          },
-      this.syncOut
-    );
-  }
-
-  @autobind
-  handleStreetChange(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      street: e.currentTarget.value
-    });
-  }
-
-  @autobind
-  handleStreetEnd() {
-    this.syncOut();
+    return options;
   }
 
   @autobind
   syncIn(props = this.props) {
     const db = this.state.db!;
-    const {value, delimiter} = props;
+    const {value: inputValue, multiple, extractValue, delimiter} = props;
 
     if (!db) {
       return;
     }
 
-    const state = {
-      code: 0,
-      province: '',
-      provinceCode: 0,
-      city: '',
-      cityCode: 0,
-      district: '',
-      districtCode: 0,
-      street: ''
-    };
+    const inputValues: CityValue[] | string[] = extractValue
+      ? split(inputValue, delimiter)
+      : Array.isArray(inputValue)
+      ? inputValue
+      : [inputValue];
 
-    let code =
-      (value && value.code) ||
-      (typeof value === 'number' && value) ||
-      (typeof value === 'string' && /(\d{6})/.test(value) && RegExp.$1);
+    const values = inputValues.map(value => {
+      const state = {
+        code: 0,
+        province: '',
+        provinceCode: 0,
+        city: '',
+        cityCode: 0,
+        district: '',
+        districtCode: 0
+      };
 
-    if (code && db[code]) {
-      code = parseInt(code, 10);
-      state.code = code;
+      let code =
+        (value && (value as CityValue)?.code) ||
+        (typeof value === 'number' && value) ||
+        (typeof value === 'string' && /(\d{6})/.test(value) && RegExp.$1);
 
-      const provinceCode = code - (code % 10000);
-      if (db[provinceCode]) {
-        state.provinceCode = provinceCode;
-        state.province = db[provinceCode];
+      if (code && db[code]) {
+        code = parseInt(code as string, 10);
+        state.code = code;
+
+        const provinceCode = code - (code % 10000);
+        if (db[provinceCode]) {
+          state.provinceCode = provinceCode;
+          state.province = db[provinceCode];
+        }
+
+        const cityCode = code - (code % 100);
+        if (cityCode !== provinceCode && db[cityCode]) {
+          state.cityCode = cityCode;
+          state.city = db[cityCode];
+        }
+        // else if (~db.city[provinceCode]?.indexOf(code)) {
+        //   state.cityCode = code;
+        //   state.city = db[code];
+        // }
+
+        if (code % 100) {
+          state.district = db[code];
+          state.districtCode = code;
+        }
+      } else if (value) {
+        // todo 模糊查找
       }
-
-      const cityCode = code - (code % 100);
-      if (cityCode !== provinceCode && db[cityCode]) {
-        state.cityCode = cityCode;
-        state.city = db[cityCode];
-      } else if (~db.city[provinceCode]?.indexOf(code)) {
-        state.cityCode = code;
-        state.city = db[code];
-      }
-
-      if (code % 100) {
-        state.district = db[code];
-        state.districtCode = code;
-      }
-    } else if (value) {
-      // todo 模糊查找
-    }
-
-    if (value && value.street) {
-      state.street = value.street;
-    } else if (typeof value === 'string' && ~value.indexOf(delimiter)) {
-      state.street = value.slice(value.indexOf(delimiter) + delimiter.length);
-    }
-
-    this.setState(state);
+      return state;
+    });
+    const stateValues = multiple ? values : values[0];
+    this.setState({value: stateValues});
   }
 
   @autobind
   syncOut() {
-    const {onChange, allowStreet, joinValues, extractValue, delimiter} =
-      this.props;
+    const {onChange, joinValues, extractValue, delimiter} = this.props;
+    const {value} = this.state;
 
-    const {
-      code,
-      province,
-      city,
-      district,
-      street,
-      provinceCode,
-      cityCode,
-      districtCode
-    } = this.state;
-
-    if (typeof extractValue === 'undefined' ? joinValues : extractValue) {
-      code
-        ? onChange(
-            allowStreet && street
-              ? [code, street].join(delimiter)
-              : String(code)
-          )
-        : onChange('');
-    } else {
-      onChange({
-        code,
-        provinceCode,
-        province,
-        cityCode,
-        city,
-        districtCode,
-        district,
-        street
-      });
+    const values = Array.isArray(value) ? value : [value];
+    if (extractValue ?? joinValues) {
+      onChange(values.map(({code}) => String(code || '')).join(delimiter));
+      return;
     }
+    onChange(Array.isArray(value) ? value.filter(item => item.code) : value);
+  }
+
+  translateCodeToAreaDetails(code: number) {
+    const provinceCode = code - (code % 10000);
+    const cityCode = code - (code % 100);
+    const districtCode = code % 100 === 0 ? 0 : code;
+
+    return [
+      provinceCode,
+      cityCode === provinceCode ? 0 : cityCode,
+      districtCode
+    ];
+  }
+
+  @autobind
+  onSelectChange(inputValue: string | number = '') {
+    const {multiple, delimiter} = this.props;
+    const values = split(String(inputValue), delimiter);
+
+    const valueState = values.map(value => {
+      const code = parseInt(value, 10);
+      const db = this.state.db!;
+      const [provinceCode, cityCode, districtCode] =
+        this.translateCodeToAreaDetails(code);
+
+      return {
+        province: db[provinceCode] || '',
+        provinceCode: provinceCode || 0,
+        city: db[cityCode] || '',
+        cityCode: cityCode || 0,
+        district: db[districtCode] || '',
+        districtCode: districtCode || 0,
+        code: code || 0
+      };
+    });
+
+    this.setState(
+      {
+        value: multiple ? valueState : valueState[0]
+      },
+      this.syncOut
+    );
   }
 
   render() {
     const {
       classnames: cx,
       className,
+      delimiter,
       disabled,
-      allowCity,
-      allowDistrict,
-      allowStreet,
+      multiple,
+      render,
       searchable,
       translate: __
     } = this.props;
 
-    const {provinceCode, cityCode, districtCode, street, db} = this.state;
+    const {value, db} = this.state;
+
+    const values = Array.isArray(value) ? value : [value];
 
     return db ? (
-      <div className={cx('CityPicker', className)}>
-        <Select
-          searchable={searchable}
-          disabled={disabled}
-          options={db.province.map(item => ({
-            label: db[item],
-            value: item
-          }))}
-          value={provinceCode || ''}
-          onChange={this.handleProvinceChange}
-        />
-
-        {provinceCode &&
-        allowDistrict &&
-        Array.isArray(db.district[provinceCode]) ? (
-          <Select
-            searchable={searchable}
-            disabled={disabled}
-            options={(db.district[provinceCode] as Array<number>).map(item => ({
-              label: db[item],
-              value: item
-            }))}
-            value={districtCode || ''}
-            onChange={this.handleDistrictChange}
-          />
-        ) : allowCity &&
-          db.city[provinceCode] &&
-          db.city[provinceCode].length ? (
-          <Select
-            searchable={searchable}
-            disabled={disabled}
-            options={db.city[provinceCode].map(item => ({
-              label: db[item],
-              value: item
-            }))}
-            value={cityCode || ''}
-            onChange={this.handleCityChange}
-          />
-        ) : null}
-
-        {cityCode &&
-        allowDistrict &&
-        (db.district[provinceCode]?.[cityCode] as any)?.length ? (
-          <Select
-            searchable={searchable}
-            disabled={disabled}
-            options={(db.district[provinceCode][cityCode] as Array<number>).map(
-              item => ({
-                label: db[item],
-                value: item
-              })
-            )}
-            value={districtCode || ''}
-            onChange={this.handleDistrictChange}
-          />
-        ) : null}
-
-        {allowStreet && provinceCode ? (
-          <input
-            className={cx('CityPicker-input')}
-            value={street || ''}
-            onChange={this.handleStreetChange}
-            onBlur={this.handleStreetEnd}
-            placeholder={__('City.street')}
-            disabled={disabled}
-          />
-        ) : null}
-      </div>
+      <>
+        <div className={cx('CityPicker', className)}>
+          {render(
+            'input-city',
+            {
+              type: 'nested-select',
+              name: 'nestedSelect',
+              options: db.options
+            },
+            {
+              onChange: this.onSelectChange,
+              extractValue: false,
+              withChildren: false,
+              // code = 0 的不传
+              value: values.map(item => item.code || '').join(delimiter),
+              searchable: searchable,
+              multiple: multiple,
+              delimiter: delimiter,
+              disabled,
+              clearable: true
+            }
+          )}
+        </div>
+      </>
     ) : (
       <Spinner show size="sm" />
     );
@@ -459,7 +370,6 @@ export interface LocationControlProps extends FormControlProps {
   allowDistrict?: boolean;
   extractValue?: boolean;
   joinValues?: boolean;
-  allowStreet?: boolean;
 }
 export class LocationControl extends React.Component<LocationControlProps> {
   @autobind
@@ -499,11 +409,11 @@ export class LocationControl extends React.Component<LocationControlProps> {
       allowDistrict,
       extractValue,
       joinValues,
-      allowStreet,
       disabled,
       searchable,
       env,
-      useMobileUI
+      useMobileUI,
+      render
     } = this.props;
     const mobileUI = useMobileUI && isMobile();
     return mobileUI ? (
@@ -517,12 +427,13 @@ export class LocationControl extends React.Component<LocationControlProps> {
         allowDistrict={allowDistrict}
         extractValue={extractValue}
         joinValues={joinValues}
-        allowStreet={allowStreet}
         disabled={disabled}
         useMobileUI={useMobileUI}
       />
     ) : (
       <ThemedCity
+        {...this.props}
+        render={render}
         searchable={searchable}
         value={value}
         onChange={this.handleChange}
@@ -530,7 +441,6 @@ export class LocationControl extends React.Component<LocationControlProps> {
         allowDistrict={allowDistrict}
         extractValue={extractValue}
         joinValues={joinValues}
-        allowStreet={allowStreet}
         disabled={disabled}
       />
     );

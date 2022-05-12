@@ -71,6 +71,27 @@ order: 10
 }
 ```
 
+## 支持多选
+
+将配置项`multiple`设置成true，可以支持多选。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "name": "city",
+            "type": "input-city",
+            "label": "城市",
+            "extractValue": false,
+            "multiple": true
+        }
+    ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -81,6 +102,7 @@ order: 10
 | allowDistrict | `boolean` | `true`  | 允许选择区域                                                                                                          |
 | searchable    | `boolean` | `false` | 是否出搜索框                                                                                                          |
 | extractValue  | `boolean` | `true`  | 默认 `true` 是否抽取值，如果设置成 `false` 值格式会变成对象，包含 `code`、`province`、`city` 和 `district` 文字信息。 |
+| multiple      | `boolean` | `false` | 是否支持多选                                                                                                          |
 
 ## 事件表
 
@@ -99,3 +121,7 @@ order: 10
 | clear    | -                                  | 清空                                                   |
 | reset    | -                                  | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
 | setValue | `value: string \| number` 更新的值 | 更新数据                                               |
+
+## 数据更新
+
+中国的行政区划每年都会有变动，如果发现省市区数据未及时更新，欢迎提 Pull Request 帮助我们更新。
