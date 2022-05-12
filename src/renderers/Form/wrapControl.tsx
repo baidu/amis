@@ -13,10 +13,12 @@ import {
   isEmpty,
   autobind,
   getVariable,
-  createObject,
+  createObject
+} from '../../utils/helper';
+import {
   formulaExec,
   isPureValue
-} from '../../utils/helper';
+} from '../../utils/formula';
 import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
 import {reaction} from 'mobx';

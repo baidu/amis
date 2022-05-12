@@ -71,6 +71,7 @@ export function evalExpression(expression: string, data?: object): boolean {
       return evalFormula(expression, data);
     }
 
+    // 后续改用 FormulaExec['js']
     let debug = false;
     const idx = expression.indexOf('debugger');
     if (~idx) {
