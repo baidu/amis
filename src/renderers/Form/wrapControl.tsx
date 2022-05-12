@@ -329,6 +329,9 @@ export function wrapControl<
                 if (curResult !== prevResult) {
                   // 识别上下文变动、自身数值变动、公式运算结果变动
                   model.changeTmpValue(curResult);
+                  if (props.onChange) {
+                    props.onChange(curResult, model.name, false);
+                  }
                 }
               }
             } else if (
@@ -347,6 +350,9 @@ export function wrapControl<
                 value !== model.tmpValue
               ) {
                 model.changeTmpValue(value);
+                if (props.onChange) {
+                  props.onChange(value, model.name, false);
+                }
               }
             }
           }
