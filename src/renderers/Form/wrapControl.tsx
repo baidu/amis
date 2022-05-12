@@ -154,7 +154,7 @@ export function wrapControl<
               return;
             }
 
-            let propValue = this.props.value || this.props.defaultValue;
+            let propValue = this.props.value;
             const model = rootStore.addStore({
               id: guid(),
               path: this.props.$path,
@@ -165,13 +165,12 @@ export function wrapControl<
             this.model = model;
             // @issue 打算干掉这个
             formItem?.addSubFormItem(model);
-            const curValue = isPureValue(value) ? value : formulaExec(value, data, false); // 对组件默认值进行运算
             model.config({
               id,
               type,
               required,
               unique,
-              value, // value: curValue,
+              value,
               rules: validations,
               messages: validationErrors,
               multiple,
@@ -199,9 +198,12 @@ export function wrapControl<
               combo.bindUniuqueItem(model);
             }
 
+            // 备注: 此处的 value 是 schema 中的 value
+            const curValue = isPureValue(value) ? value : formulaExec(value, data, false); // 对组件默认值进行运算
+
             const curTmpValue = value !== undefined &&  value !== null ? curValue : store?.getValueByName(model.name);
-            // 同步 value
-            model.changeTmpValue(curTmpValue);
+            // 同步 value: 优先使用 props 中的 value
+            model.changeTmpValue(propValue ?? curTmpValue);
 
             if (onChange && value !== undefined && curTmpValue !== undefined) {
               // 组件默认值支持表达式需要: 避免初始化时上下文中丢失组件默认值
@@ -313,15 +315,8 @@ export function wrapControl<
             // 此处需要同时考虑 defaultValue 和 value
             if (model && typeof props.value !== 'undefined') {
               // 渲染器中的 value 优先
-              if (
-                props.value !== prevProps.value ||
-                !isEqual(props.data, prevProps.data)
-              ) {
-                const curResult = formulaExec(props.value, props.data, false);
-                const prevResult = formulaExec(prevProps.defaultValue, prevProps.data, false);
-                if (curResult !== prevResult) {
-                  model.changeTmpValue(curResult);
-                }
+              if (props.value !== prevProps.value) {
+                model.changeTmpValue(props.value);
               }
             } else if (model && typeof props.defaultValue !== 'undefined') {
               // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
