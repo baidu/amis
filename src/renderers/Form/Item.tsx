@@ -40,6 +40,8 @@ import debounce from 'lodash/debounce';
 import {isEffectiveApi} from '../../utils/api';
 import {dataMapping} from '../../utils/tpl-builtin';
 
+export type LabelAlign = 'right' | 'left';
+
 export type FormControlSchemaAlias = SchemaObject;
 
 export interface FormBaseControl
@@ -59,6 +61,11 @@ export interface FormBaseControl
    * 描述标题
    */
   label?: string | false;
+
+  /**
+   * 描述标题
+   */
+  labelAlign?: LabelAlign;
 
   /**
    * 配置 label className
@@ -324,8 +331,10 @@ export interface FormItemProps extends RendererProps {
   formInited: boolean;
   formMode: 'normal' | 'horizontal' | 'inline' | 'row' | 'default';
   formHorizontal: FormHorizontal;
+  formLabelAlign: LabelAlign;
   defaultSize?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+  labelAlign?: LabelAlign;
   disabled?: boolean;
   btnDisabled: boolean;
   defaultValue: any;
@@ -605,6 +614,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       const horizontal = props.horizontal || props.formHorizontal || {};
       const left = getWidthRate(horizontal.left);
       const right = getWidthRate(horizontal.right);
+      const labelAlign = props.labelAlign || props.formLabelAlign;
 
       return (
         <div
@@ -630,7 +640,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       ? horizontal.leftFixed
                       : 'normal'
                   }`]: horizontal.leftFixed,
-                  [`Form-itemColumn--${left}`]: !horizontal.leftFixed
+                  [`Form-itemColumn--${left}`]: !horizontal.leftFixed,
+                  'Form-label--left': labelAlign === 'left'
                 },
                 labelClassName
               )}

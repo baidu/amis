@@ -170,6 +170,8 @@ order: 24
 }
 ```
 
+#### 两端对齐
+
 有时表单内容需要两端对齐，可在 horizontal 中增加 justify 配置，注意只对内联控件生效
 
 ```schema: scope="body"
@@ -210,6 +212,34 @@ order: 24
           "offText": "非在职"
         }
       ]
+    }
+  ]
+}
+```
+
+#### label 对齐模式
+
+水平模式下 `labelAlign` 可以设置标签文本的对齐方式，支持`right`和`left`，默认为`right`。该属性的优先级：表单项 > 表单。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "label对齐模式",
+  "mode": "horizontal",
+  "labelAlign": "left",
+  "body": [
+    {
+      "type": "input-email",
+      "name": "email",
+      "label": "邮箱",
+      "labelAlign": "right",
+      "required": true
+    },
+    {
+      "type": "input-password",
+      "name": "password",
+      "label": "密码",
+      "required": true
     }
   ]
 }
@@ -1160,6 +1190,7 @@ Form 支持轮询初始化接口，步骤如下：
 | name                        | `string`                                                                  |                                                                        | 设置一个名字后，方便其他组件与其通信                                                                                                                                                                                                                                                                                                                         |
 | mode                        | `string`                                                                  | `normal`                                                               | 表单展示方式，可以是：`normal`、`horizontal` 或者 `inline`                                                                                                                                                                                                                                                                                                   |
 | horizontal                  | `Object`                                                                  | `{"left":"col-sm-2", "right":"col-sm-10", "offset":"col-sm-offset-2"}` | 当 mode 为 `horizontal` 时有用，用来控制 label                                                                                                                                                                                                                                                                                                               |
+| labelAlign                  | `"right" \| "left"`                                                       | `"right"`                                                              | 表单项标签对齐方式，默认右对齐，仅在 `mode`为`horizontal` 时生效                                                                                                                                                                                                                                                                                             |
 | title                       | `string`                                                                  | `"表单"`                                                               | Form 的标题                                                                                                                                                                                                                                                                                                                                                  |
 | submitText                  | `String`                                                                  | `"提交"`                                                               | 默认的提交按钮名称，如果设置成空，则可以把默认按钮去掉。                                                                                                                                                                                                                                                                                                     |
 | className                   | `string`                                                                  |                                                                        | 外层 Dom 的类名                                                                                                                                                                                                                                                                                                                                              |
@@ -1205,16 +1236,16 @@ Form 支持轮询初始化接口，步骤如下：
 
 ## 事件表
 
-| 事件名称              | 事件参数                      | 说明           |
-| --------------------- | ----------------------------- | -------------- |
-| inited                | 表单数据                      | 初始化完成     |
-| change                | 表单数据                      | 值变化         |
-| formItemValidateSucc  | 表单数据                      | 表单项校验成功 |
-| formItemValidateError | 表单数据                      | 表单项校验失败 |
-| validateSucc          | 表单数据                      | 表单校验成功   |
-| validateError         | 表单数据                      | 表单校验成功   |
-| submitSucc            | 配置api时： `result: object` 接口返回内容; 否则为表单数据 | 提交成功       |
-| submitFail            | `error: object` 接口返回内容  | 提交失败       |
+| 事件名称              | 事件参数                                                    | 说明           |
+| --------------------- | ----------------------------------------------------------- | -------------- |
+| inited                | 表单数据                                                    | 初始化完成     |
+| change                | 表单数据                                                    | 值变化         |
+| formItemValidateSucc  | 表单数据                                                    | 表单项校验成功 |
+| formItemValidateError | 表单数据                                                    | 表单项校验失败 |
+| validateSucc          | 表单数据                                                    | 表单校验成功   |
+| validateError         | 表单数据                                                    | 表单校验成功   |
+| submitSucc            | 配置 api 时： `result: object` 接口返回内容; 否则为表单数据 | 提交成功       |
+| submitFail            | `error: object` 接口返回内容                                | 提交失败       |
 
 ## 动作表
 
