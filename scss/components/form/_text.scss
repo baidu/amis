@@ -197,10 +197,6 @@
       color: var(--Form-select-menu-onHover-color);
       background: var(--Form-select-menu-onHover-bg);
     }
-
-    .is-matched {
-      color: var(--Form-select-menu-onActive-color);
-    }
   }
 
   &-value {
@@ -243,29 +239,25 @@
       var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
     );
     font-size: var(--Form-selectValue-fontSize);
-    background: var(--Form-select-multiple-bgColor);
+    color: var(--Form-selectValue-color);
+    background: var(--Form-selectValue-bg);
+    border: px2rem(1px) solid var(--Form-selectValue-borderColor);
     border-radius: px2rem(2px);
     margin: 2px 3px;
-
-    display: flex;
-    align-items: center;
-    padding: 0 var(--gap-sm);
   }
 
-  &-valueIcon.icon-close {
-    top: 0;
+  &-valueIcon {
     cursor: pointer;
-    margin-left: var(--gap-sm);
-    width: px2rem(10px);
-    color: var(--default-icon-color);
+    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
+    padding: 1px 5px;
+
+    &:hover {
+      background: var(--Form-selectValue-onHover-bg);
+    }
   }
 
   &-input--multiple &-valueLabel {
-    line-height: var(--gap-xl);
-    max-width: px2rem(60px);
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding: 0 var(--gap-xs);
   }
 
   &-counter {
@@ -282,22 +274,6 @@
       border-color: var(--Form-input-onHover-borderColor);
     }
   }
-
-  &-revealPassword {
-    font-size: 0;
-
-    .icon {
-      width: var(--Form-input-password-icon-size);
-      height: var(--Form-input-password-icon-size);
-      color: var(--Form-input-password-icon-color);
-      cursor: pointer;
-    }
-  }
-}
-
-// 特殊处理 input-password。否则 form 内联模式，icon 会换行
-input.#{$ns}TextControl-input-password {
-  flex-basis: 0;
 }
 
 .#{$ns}TextControl.is-disabled {

@@ -554,7 +554,7 @@ export const HocQuickEdit =
                 className={cx('Field-quickEditBtn')}
                 onClick={this.openQuickEdit}
               >
-                <Icon icon="edit" className="icon" />
+                <Icon icon="pencil" className="icon" />
               </span>
               {this.state.isOpened ? this.renderPopOver() : null}
             </Component>

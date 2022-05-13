@@ -1,9 +1,9 @@
 ---
-title: ChartRadios 图表单选框
+title: Chart 单选框
 description:
 type: 0
 group: ⚙ 组件
-menuName: ChartRadios 图表单选框
+menuName: Chart 单选框
 icon:
 order: 34
 ---

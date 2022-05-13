@@ -96,8 +96,8 @@ exports[`Renderer:condition-builder 1`] = `
                             class="cxd-Select-arrow"
                           >
                             <icon-mock
-                              classname="icon icon-right-arrow-bold"
-                              icon="right-arrow-bold"
+                              classname="icon icon-caret"
+                              icon="caret"
                             />
                           </span>
                         </div>

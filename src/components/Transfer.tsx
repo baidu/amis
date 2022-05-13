@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  intersectionWith,
-  differenceWith,
-  includes,
-  debounce,
-  result
-} from 'lodash';
+import {intersectionWith, differenceWith, includes, debounce, result} from 'lodash';
 
 import {ThemeProps, themeable} from '../theme';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
@@ -27,7 +21,7 @@ import ResultTableList from './ResultTableList';
 import ResultTreeList from './ResultTreeList';
 
 export type SelectMode =
-  | 'table'
+  'table'
   | 'group'
   | 'list'
   | 'tree'
@@ -109,12 +103,13 @@ export interface TransferState {
   inputValue: string;
   searchResult: Options | null;
   isTreeDeferLoad: boolean;
-  resultSelectMode: 'list' | 'tree' | 'table';
+  resultSelectMode: 'list' | 'tree' | 'table'
 }
 
 export class Transfer<
   T extends TransferProps = TransferProps
 > extends React.Component<T, TransferState> {
+
   static defaultProps: Pick<
     TransferProps,
     'multiple' | 'resultListModeFollowSelect' | 'selectMode'
@@ -153,17 +148,14 @@ export class Transfer<
 
     // 计算结果的selectMode
     let resultSelectMode = 'list';
-    if (
-      props.selectMode === 'tree' &&
-      props.resultListModeFollowSelect &&
-      !isTreeDeferLoad
-    ) {
+    if (props.selectMode === 'tree' && props.resultListModeFollowSelect && !isTreeDeferLoad) {
       resultSelectMode = 'tree';
     }
 
     if (props.selectMode === 'table' && props.resultListModeFollowSelect) {
       resultSelectMode = 'table';
     }
+    
     return {
       isTreeDeferLoad,
       resultSelectMode
@@ -624,10 +616,10 @@ export class Transfer<
     const {resultSelectMode, isTreeDeferLoad} = this.state;
     const searchable = !isTreeDeferLoad && resultSearchable;
 
-    const placeholder =
-      resultSearchPlaceholder || __('Transfer.selectFromLeft');
+    const placeholder = resultSearchPlaceholder || __('Transfer.selectFromLeft');
 
-    return resultSelectMode === 'table' ? (
+    return resultSelectMode === 'table'
+      ? (
       <ResultTableList
         classnames={cx}
         columns={columns!}
@@ -641,8 +633,9 @@ export class Transfer<
         searchable={searchable}
         placeholder={placeholder}
         onSearch={onResultSearch}
-      />
-    ) : resultSelectMode === 'tree' ? (
+      />)
+      : resultSelectMode === 'tree'
+      ? (
       <ResultTreeList
         classnames={cx}
         options={options}
@@ -654,7 +647,7 @@ export class Transfer<
         placeholder={placeholder}
         onSearch={onResultSearch}
       />
-    ) : (
+      ): (
       <ResultList
         className={cx('Transfer-value')}
         sortable={sortable}
@@ -669,8 +662,7 @@ export class Transfer<
         cellRender={cellRender}
         searchable={searchable}
         onSearch={onResultSearch}
-      />
-    );
+      />);
   }
 
   render() {
@@ -718,7 +710,6 @@ export class Transfer<
           <div
             className={cx(
               'Transfer-title',
-              selectMode === 'table' ? 'Transfer-title--light' : '',
               tableType ? 'Transfer-table-title' : ''
             )}
           >
@@ -738,7 +729,7 @@ export class Transfer<
               {__('clear')}
             </a>
           </div>
-          {this.renderResult()}
+          {this.renderResult()}          
         </div>
       </div>
     );

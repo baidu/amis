@@ -135,7 +135,6 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           'is-clickable': onResultClick,
           'is-clearable': clearable,
           'is-mobile': mobileUI,
-          'is-group': Array.isArray(result),
           [`ResultBox--border${ucFirst(borderMode)}`]: borderMode
         })}
         onClick={onResultClick}
@@ -150,9 +149,11 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               <span className={cx('ResultBox-valueLabel')}>
                 {itemRender(item)}
               </span>
-              <a data-index={index} onClick={this.removeItem}>
-                <Icon icon="close" className="icon" />
-              </a>
+              {!disabled ? (
+                <a data-index={index} onClick={this.removeItem}>
+                  <Icon icon="close" className="icon" />
+                </a>
+              ) : null}
             </div>
           ))
         ) : result && !Array.isArray(result) ? (
@@ -200,7 +201,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         ) : null}
         {hasDropDownArrow && !mobileUI && (
           <span className={cx('ResultBox-pc-arrow')}>
-            <Icon icon="right-arrow-bold" className="icon" />
+            <Icon icon="caret" className="icon" />
           </span>
         )}
         {!allowInput && mobileUI ? (

@@ -13,7 +13,6 @@
       width: px2rem(12px);
       height: px2rem(12px);
       fill: var(--Form-input-iconColor);
-      color: var(--default-icon-color);
     }
   }
 
@@ -39,8 +38,7 @@
 
   &-menu {
     width: px2rem(160px);
-    min-height: px2rem(32px);
-    max-height: px2rem(175px);
+    height: px2rem(175px); // 高度写死，否则有可能会上下闪动
     background: var(--Form-select-menu-bg);
     color: var(--Form-select-menu-color);
     border: var(--Form-select-outer-borderWidth) solid
@@ -64,8 +62,6 @@
       > .#{$ns}NestedSelect-optionLabel {
         flex: 1;
         height: px2rem(32px);
-        overflow: hidden;
-        text-overflow: ellipsis;
         &.is-disabled {
           cursor: not-allowed;
           color: var(--text--muted-color);

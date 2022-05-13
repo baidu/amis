@@ -6,7 +6,6 @@
   &-icon {
     margin-right: px2rem(2px);
     min-width: var(--gap-xs);
-    vertical-align: inherit !important;
   }
 
   &-item {
@@ -37,7 +36,7 @@
       cursor: pointer;
       display: inline-block;
       transition: transform var(--animation-duration) ease;
-
+  
       > svg {
         width: px2rem(10px);
         height: px2rem(10px);
@@ -50,7 +49,7 @@
       color: var(--Breadcrumb-item-hover-color);
     }
 
-    &.is-opened &-default {
+    &.is-opened &-default{
       color: var(--Breadcrumb-item-hover-color);
     }
   }
@@ -71,8 +70,7 @@
     background: var(--DropDown-menu-bg);
     list-style: none;
     padding: var(--DropDown-menu-paddingY) var(--DropDown-menu-paddingX);
-    border: var(--DropDown-menu-borderWidth) solid
-      var(--DropDown-menu-borderColor);
+    border: var(--DropDown-menu-borderWidth) solid var(--DropDown-menu-borderColor);
     border-radius: var(--DropDown-menu-borderRadius);
     box-shadow: var(--DropDown-menu-boxShadow);
     min-width: 100%;
@@ -81,8 +79,7 @@
   }
 
   &-dropdown > li {
-    padding: var(--BreadcrumbDropdown-item-paddingX)
-      var(--BreadcrumbDropdown-item-paddingY);
+    padding: var(--BreadcrumbDropdown-item-paddingX) var(--BreadcrumbDropdown-item-paddingY);
     white-space: nowrap;
     box-sizing: border-box;
     padding-left: px2rem(12px);
