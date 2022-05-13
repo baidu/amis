@@ -117,3 +117,7 @@ order: 10
 | clear    | -                                  | 清空                                                   |
 | reset    | -                                  | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
 | setValue | `value: string \| number` 更新的值 | 更新数据                                               |
+
+## 数据更新
+
+中国的行政区划每年都会有变动，如果发现省市区数据未及时更新，欢迎提 Pull Request 帮助我们更新。
