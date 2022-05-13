@@ -198,17 +198,23 @@ export function wrapControl<
               combo.bindUniuqueItem(model);
             }
 
-            // 备注: 此处的 value 是 schema 中的 value
-            const curValue = isPureValue(value) ? value : formulaExec(value, data, false); // 对组件默认值进行运算
+            if (propValue !== undefined &&  propValue !== null ) {
+              // 同步 value: 优先使用 props 中的 value
+              model.changeTmpValue(propValue);
+            } else {
+              // 备注: 此处的 value 是 schema 中的 value
+              const curValue = isPureValue(value) ? value : formulaExec(value, data, false); // 对组件默认值进行运算
+              const curTmpValue = value !== undefined &&  value !== null ? curValue : store?.getValueByName(model.name);
+              // 同步 value
+              model.changeTmpValue(curTmpValue);
 
-            const curTmpValue = value !== undefined &&  value !== null ? curValue : store?.getValueByName(model.name);
-            // 同步 value: 优先使用 props 中的 value
-            model.changeTmpValue(propValue ?? curTmpValue);
+              if (onChange && value !== undefined && curTmpValue !== undefined) {
+                // 组件默认值支持表达式需要: 避免初始化时上下文中丢失组件默认值
+                onChange(model.tmpValue, model.name, false, true);
+              }
+            }
 
-            if (onChange && value !== undefined && curTmpValue !== undefined) {
-              // 组件默认值支持表达式需要: 避免初始化时上下文中丢失组件默认值
-              onChange(model.tmpValue, model.name, false, true);
-            } else if (
+            if (
               onChange &&
               typeof propValue === 'undefined' &&
               typeof store?.getValueByName(model.name, false) === 'undefined' &&
@@ -293,7 +299,7 @@ export function wrapControl<
                 required: props.$schema.required,
                 id: props.$schema.id,
                 unique: props.$schema.unique,
-                value: props.$schema.value, // isPureValue(props.$schema.value) ? props.$schema.value : formulaExec(props.$schema.value, props.data, false), 
+                value: props.$schema.value,
                 rules: props.$schema.validations,
                 multiple: props.$schema.multiple,
                 delimiter: props.$schema.delimiter,
@@ -315,7 +321,8 @@ export function wrapControl<
             // 此处需要同时考虑 defaultValue 和 value
             if (model && typeof props.value !== 'undefined') {
               // 渲染器中的 value 优先
-              if (props.value !== prevProps.value) {
+              if (props.value !== prevProps.value ) {
+                // 外部直接传入的 value 无需执行运算器
                 model.changeTmpValue(props.value);
               }
             } else if (model && typeof props.defaultValue !== 'undefined') {
@@ -326,10 +333,10 @@ export function wrapControl<
               ) {
                 const curResult = formulaExec(props.defaultValue, props.data, false);
                 const prevResult = formulaExec(prevProps.defaultValue, prevProps.data, false);
-                if (curResult !== prevResult) {
+                if (curResult !== prevResult && curResult !== model.tmpValue) {
                   // 识别上下文变动、自身数值变动、公式运算结果变动
                   model.changeTmpValue(curResult);
-                  // if (props.onChange) {props.onChange(curResult, model.name, false);}
+                  this.lazyEmitChange(false); // 运算值发生变化时，需主动触发同步
                 }
               }
             } else if (
@@ -348,7 +355,6 @@ export function wrapControl<
                 value !== model.tmpValue
               ) {
                 model.changeTmpValue(value);
-                // if (props.onChange) {props.onChange(value, model.name, false);}
               }
             }
           }
