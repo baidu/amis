@@ -116,11 +116,11 @@
   }
 
   &-clear {
-    float: right;
     color: var(--FileControl-icon-color);
     display: none;
     cursor: pointer;
-
+    margin-left: auto;
+    margin-right: var(--gap-xs);
     &:hover {
       color: var(--FileControl-icon-onHover-color);
     }
@@ -202,6 +202,17 @@
     border-radius: var(--borderRadius);
     background: var(--white);
     cursor: pointer;
+
+    &-click {
+      color: var(--Spinner-color);
+    }
+
+    &-help {
+      a {
+        color: var(--FileControl-icon-color);
+        font-size: var(--fontSizeSm);
+      }
+    }
 
     &:hover {
       border-color: var(--info);
