@@ -12,11 +12,11 @@ import {themeable} from '../theme';
 import {uncontrollable} from 'uncontrollable';
 import GroupedSelection from './GroupedSelection';
 import TableSelection from './TableSelection';
-import TreeSelection from './TreeSelection';
 import GroupedSelecton from './GroupedSelection';
 import ChainedSelection from './ChainedSelection';
 import {Icon} from './icons';
 import {localeable} from '../locale';
+import Tree from './Tree';
 
 export interface AssociatedSelectionProps extends BaseSelectionProps {
   leftOptions: Options;
@@ -44,6 +44,7 @@ export class AssociatedSelection extends BaseSelection<
   AssociatedSelectionProps,
   AssociatedSelectionState
 > {
+
   state: AssociatedSelectionState = {
     leftValue: this.props.leftDefaultValue
   };
@@ -133,14 +134,12 @@ export class AssociatedSelection extends BaseSelection<
       <div className={cx('AssociatedSelection', className)}>
         <div className={cx('AssociatedSelection-left')}>
           {leftMode === 'tree' ? (
-            <TreeSelection
-              option2value={this.leftOption2Value}
-              options={leftOptions}
-              value={this.state.leftValue}
-              disabled={disabled}
-              onChange={this.handleLeftSelect}
+            <Tree
               multiple={false}
-              clearable={false}
+              disabled={disabled}
+              value={this.state.leftValue}
+              options={leftOptions}
+              onChange={this.handleLeftSelect}
               onDeferLoad={this.handleLeftDeferLoad}
             />
           ) : (
@@ -192,14 +191,12 @@ export class AssociatedSelection extends BaseSelection<
                   multiple={multiple}
                 />
               ) : rightMode === 'tree' ? (
-                <TreeSelection
+                <Tree
                   value={value}
                   disabled={disabled}
                   options={selectdOption.children || []}
-                  onChange={onChange}
-                  option2value={option2value}
+                  onChange={onChange!}
                   multiple={multiple}
-                  itemRender={itemRender}
                 />
               ) : rightMode === 'chained' ? (
                 <ChainedSelection

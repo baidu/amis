@@ -5,6 +5,10 @@
   min-height: px2rem(300px);
   position: relative;
 
+  &-searchbox {
+    width: 100%;
+  }
+
   &--inline {
     display: inline-flex;
     flex-wrap: nowrap;
@@ -70,6 +74,10 @@
     }
   }
 
+  .#{$ns}-ResultTreeList {
+    border-top: 1px solid var(--borderColor);
+  }
+
   .#{$ns}AssociatedSelection {
     overflow: hidden;
 
@@ -77,6 +85,10 @@
     &-right {
       min-height: unset;
     }
+  }
+
+  &-select {
+    overflow: hidden;
   }
 
   &-search + &-selection {
@@ -127,6 +139,14 @@
     &.is-disabled {
       pointer-events: none;
       color: var(--text--muted-color);
+    }
+  }
+
+  .#{$ns}Tree {
+    padding: px2rem(2px) px2rem(10px);
+
+    &-itemLabel:hover::after {
+      left: 0;
     }
   }
 }
@@ -230,6 +250,7 @@
 
 .#{$ns}TransferControl {
   position: relative;
+  overflow: hidden;
 
   &.is-inline {
     display: inline-block;
