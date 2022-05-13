@@ -34,54 +34,6 @@ order: 9
 
 ```schema
 {
-        type: 'page',
-        id: 'page_001',
-        data: {
-          name: 'lll'
-        },
-        body: [
-          {
-            type: 'button',
-            label: '发送请求',
-            level: 'primary',
-            onEvent: {
-              click: {
-                actions: [
-                  {
-                    actionType: 'ajax',
-                    args: {
-                      api: {
-                        url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
-                        method: 'get'
-                      },
-                      messages: {
-                        success: '成功了！欧耶',
-                        failed: '失败了呢。。'
-                      }
-                    },
-                    outputVar: 'result'
-                  },
-                  {
-                    actionType: 'setValue',
-                    componentId: 'page_001',
-                    args: {
-                      value: '${event.data.result}'
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          {
-            type: 'tpl',
-            tpl: '${id}岁的天空'
-          }
-        ]
-      }
-```
-
-```schema
-{
   type: 'page',
   body: [
     {
