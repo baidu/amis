@@ -48,11 +48,15 @@ import TreeDownIcon from '../icons/tree-down.svg';
 import CloudUploadIcon from '../icons/cloud-upload.svg';
 import ImageIcon from '../icons/image.svg';
 import RefreshIcon from '../icons/refresh.svg';
+import DragIcon from '../icons/drag.svg';
+import EditIcon from '../icons/edit.svg';
+import DeskEmptyIcon from '../icons/desk-empty.svg';
 
 import CopyIcon from '../icons/copy.svg';
 import FilterIcon from '../icons/filter.svg';
 import CaretIcon from '../icons/caret.svg';
 import RightArrowBoldIcon from '../icons/right-arrow-bold.svg';
+import DownArrowBoldIcon from '../icons/down-arrow-bold.svg';
 import ColumnFilterIcon from '../icons/column-filter.svg';
 import ZoomInIcon from '../icons/zoom-in.svg';
 import ZoomOutIcon from '../icons/zoom-out.svg';
@@ -70,6 +74,7 @@ import SortAscIcon from '../icons/sort-asc.svg';
 import SortDescIcon from '../icons/sort-desc.svg';
 import SettingIcon from '../icons/setting.svg';
 import PlusCicleIcon from '../icons/plus-cicle.svg';
+import PlusFineIcon from '../icons/plus-fine.svg';
 import EllipsisVIcon from '../icons/ellipsis-v.svg';
 import ExpandAltIcon from '../icons/expand-alt.svg';
 import CompressAltIcon from '../icons/compress-alt.svg';
@@ -90,6 +95,8 @@ import Role from '../icons/role.svg';
 import Department from '../icons/department.svg';
 import Post from '../icons/post.svg';
 import DotIcon from '../icons/dot.svg';
+import Invisible from '../icons/invisible.svg';
+import DateIcon from '../icons/date.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -169,6 +176,7 @@ registerIcon('filter', FilterIcon);
 registerIcon('column-filter', ColumnFilterIcon);
 registerIcon('caret', CaretIcon);
 registerIcon('right-arrow-bold', RightArrowBoldIcon);
+registerIcon('down-arrow-bold', DownArrowBoldIcon);
 registerIcon('zoom-in', ZoomInIcon);
 registerIcon('zoom-out', ZoomOutIcon);
 registerIcon('question', QuestionIcon);
@@ -206,6 +214,12 @@ registerIcon('role', Role);
 registerIcon('department', Department);
 registerIcon('post', Post);
 registerIcon('dot', DotIcon);
+registerIcon('drag', DragIcon);
+registerIcon('edit', EditIcon);
+registerIcon('desk-empty', DeskEmptyIcon);
+registerIcon('invisible', Invisible);
+registerIcon('plus-fine', PlusFineIcon);
+registerIcon('date', DateIcon);
 
 export function Icon({
   icon,

@@ -167,6 +167,7 @@ class Remark extends React.Component<RemarkProps> {
 
     const finalIcon = tooltip?.icon ?? icon;
     const finalLabel = tooltip?.label ?? label;
+    const finalShape = tooltip?.shape ?? shape;
     const parsedTip = filterContents(tooltip || content, data);
 
     // 移动端使用弹框提示
@@ -179,7 +180,7 @@ class Remark extends React.Component<RemarkProps> {
           )}
           onClick={this.showModalTip(parsedTip)}
         >
-          {this.renderLabel(finalIcon, finalLabel, cx, shape)}
+          {this.renderLabel(finalIcon, finalLabel, cx, finalShape)}
         </div>
       );
     }
@@ -204,7 +205,7 @@ class Remark extends React.Component<RemarkProps> {
             (tooltip && tooltip.className) || className || `Remark--warning`
           )}
         >
-          {this.renderLabel(finalIcon, finalLabel, cx, shape)}
+          {this.renderLabel(finalIcon, finalLabel, cx, finalShape)}
         </div>
       </TooltipWrapper>
     );

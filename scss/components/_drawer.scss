@@ -19,8 +19,6 @@
     background-clip: padding-box;
     outline: 0;
     z-index: 2;
-    border: var(--Drawer-content-borderWidth) solid
-      var(--Drawer-content-borderColor);
     border-radius: var(--Drawer-content-borderRadius);
     transition: transform ease-in-out var(--animation-duration);
   }
@@ -63,8 +61,9 @@
     text-decoration: none;
 
     svg {
-      width: 30px;
-      height: 30px;
+      margin-top: px2rem(2px);
+      width: var(--Drawer-close-size);
+      height: var(--Drawer-close-size);
       fill: var(--Drawer-close-color);
     }
 
@@ -118,13 +117,6 @@
 
   &.#{$ns}Drawer--noOverlay {
     pointer-events: none;
-
-    .#{$ns}Drawer-close svg {
-      margin-top: px2rem(2px);
-      width: var(--gap-md);
-      height: var(--gap-md);
-      fill: #99a6ad;
-    }
   }
 
   .#{$ns}Drawer-resizeCtrl {
@@ -181,20 +173,13 @@
 }
 
 .#{$ns}Drawer--top {
-  .#{$ns}Drawer-close {
-    top: 100%;
-    margin-top: var(--gap-sm);
-    left: var(--gap-sm);
-  }
 
-  &.#{$ns}Drawer--noOverlay {
-    .#{$ns}Drawer-close {
-      top: var(--gap-base);
-      right: var(--gap-base);
-      left: auto;
-      margin-top: 0;
-      z-index: 10;
-    }
+  .#{$ns}Drawer-close {
+    top: var(--gap-base);
+    right: var(--gap-base);
+    left: auto;
+    margin-top: 0;
+    z-index: 10;
   }
 
   .#{$ns}Drawer-content {
@@ -219,18 +204,10 @@
 
 .#{$ns}Drawer--right {
   .#{$ns}Drawer-close {
-    right: 100%;
-    margin-right: var(--gap-sm);
-    top: var(--gap-sm);
-  }
-
-  &.#{$ns}Drawer--noOverlay {
-    .#{$ns}Drawer-close {
-      top: var(--gap-base);
-      right: var(--gap-base);
-      margin-right: 0;
-      z-index: 10;
-    }
+    top: var(--gap-md);
+    right: var(--gap-md);
+    margin-right: 0;
+    z-index: 10;
   }
 
   .#{$ns}Drawer-content {
@@ -276,20 +253,13 @@
 }
 
 .#{$ns}Drawer--bottom {
-  .#{$ns}Drawer-close {
-    bottom: 100%;
-    margin-bottom: var(--gap-sm);
-    left: var(--gap-sm);
-  }
 
-  &.#{$ns}Drawer--noOverlay {
-    .#{$ns}Drawer-close {
-      top: var(--gap-base);
-      right: var(--gap-base);
-      left: auto;
-      margin-bottom: 0;
-      z-index: 10;
-    }
+  .#{$ns}Drawer-close {
+    top: var(--gap-base);
+    right: var(--gap-base);
+    left: auto;
+    margin-bottom: 0;
+    z-index: 10;
   }
 
   .#{$ns}Drawer-content {
@@ -313,19 +283,12 @@
 }
 
 .#{$ns}Drawer--left {
-  .#{$ns}Drawer-close {
-    left: 100%;
-    margin-left: var(--gap-sm);
-    top: var(--gap-sm);
-  }
 
-  &.#{$ns}Drawer--noOverlay {
-    .#{$ns}Drawer-close {
-      left: auto;
-      right: var(--gap-base);
-      top: var(--gap-base);
-      z-index: 10;
-    }
+  .#{$ns}Drawer-close {
+    left: auto;
+    right: var(--gap-base);
+    top: var(--gap-base);
+    z-index: 10;
   }
 
   .#{$ns}Drawer-content {
