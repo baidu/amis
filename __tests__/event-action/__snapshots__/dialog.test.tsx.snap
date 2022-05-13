@@ -1,0 +1,291 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventAction:dialog 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开弹窗
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Modal-overlay in"
+    />
+    <div
+      class="cxd-Modal-content in"
+    >
+      <div
+        class="cxd-Modal-header"
+      >
+        <a
+          class="cxd-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="cxd-Modal-title"
+        >
+          模态弹窗
+        </div>
+      </div>
+      <div
+        class="cxd-Modal-body"
+      >
+        <button
+          class="cxd-Button cxd-Button--default"
+          type="button"
+        >
+          <span>
+            打开子弹窗
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--default ml-2"
+          type="button"
+        >
+          <span>
+            关闭当前弹窗
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--default ml-2"
+          type="button"
+        >
+          <span>
+            触发确认
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--default ml-2"
+          type="button"
+        >
+          <span>
+            触发取消
+          </span>
+        </button>
+      </div>
+      <div
+        class="cxd-Modal-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:dialog 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开弹窗
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:dialog 3`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开弹窗
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:dialog 4`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开弹窗
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:dialog 5`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开弹窗
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:dialog 6`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开弹窗
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:dialog 7`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开弹窗
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
