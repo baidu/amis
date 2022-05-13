@@ -121,7 +121,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
 
       months.push(renderer(props, i, year, date && date.clone()));
 
-      if (months.length === 3) {
+      if (months.length === 4) {
         rows.push(React.createElement('tr', {key: i}, months));
         months = [];
       }
@@ -238,7 +238,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
     return (
       <div className="rdtMonths">
         {showYearHead && (
-          <table className="headerTable">
+          <table>
             <thead>
               <tr>
                 <th

@@ -445,10 +445,10 @@ export class DateRangePicker extends React.Component<
     utc = false
   ) {
     newValue = [
-      (utc ? moment.utc(newValue.startDate) : newValue.startDate)?.format(
+      (utc ? moment.utc(newValue.startDate) : newValue.startDate).format(
         format
       ),
-      (utc ? moment.utc(newValue.endDate) : newValue.endDate)?.format(format)
+      (utc ? moment.utc(newValue.endDate) : newValue.endDate).format(format)
     ];
 
     if (joinValues) {
@@ -672,9 +672,9 @@ export class DateRangePicker extends React.Component<
   }
 
   confirm() {
-    if (!this.state.startDate && !this.state.endDate) {
+    if (!this.state.startDate || !this.state.endDate) {
       return;
-    } else if (this.state.startDate?.isAfter(this.state.endDate)) {
+    } else if (this.state.startDate.isAfter(this.state.endDate)) {
       return;
     }
 
@@ -690,11 +690,7 @@ export class DateRangePicker extends React.Component<
         this.props.utc
       )
     );
-    if (this.state.startDate && !this.state.endDate) {
-      this.setState({editState: 'end'});
-    } else {
-      this.close();
-    }
+    this.close();
   }
 
   filterDate(
@@ -1147,7 +1143,7 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
-    return <td {...props}><span>{currentDate.date()}</span></td>;
+    return <td {...props}>{currentDate.date()}</td>;
   }
 
   renderMonth(props: any, month: number, year: number, date: any) {
@@ -1226,15 +1222,12 @@ export class DateRangePicker extends React.Component<
     } = this.props;
     const __ = this.props.translate;
 
-    const {startDate, endDate, editState} = this.state;
-    
-    // timeRange需要单独选择范围
-    const isTimeRange = type === 'input-datetime-range' || viewMode === 'time';
+    const {startDate, endDate} = this.state;
 
     return (
       <div className={`${ns}DateRangePicker-wrap`} ref={this.calendarRef}>
         {this.renderRanges(ranges)}
-        {(!isTimeRange || editState === 'start' && !embed) && <Calendar
+        <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
           // 区分的原因是 time-range 左侧就只能选起始时间，而其它都能在左侧同时同时选择起始和结束
@@ -1260,8 +1253,8 @@ export class DateRangePicker extends React.Component<
           renderYear={this.renderYear}
           locale={locale}
           timeRangeHeader="开始时间"
-        />}
-        {(!isTimeRange || editState === 'end' && !embed) && <Calendar
+        />
+        <Calendar
           className={`${ns}DateRangePicker-end`}
           value={endDate}
           onChange={
@@ -1287,7 +1280,7 @@ export class DateRangePicker extends React.Component<
           renderYear={this.renderYear}
           locale={locale}
           timeRangeHeader="结束时间"
-        />}
+        />
 
         {embed ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
@@ -1297,8 +1290,8 @@ export class DateRangePicker extends React.Component<
             <a
               className={cx('Button', 'Button--primary', 'm-l-sm', {
                 'is-disabled':
-                  (!this.state.startDate && isTimeRange && editState === 'start') ||
-                  (!this.state.endDate && isTimeRange && editState === 'end') ||
+                  !this.state.startDate ||
+                  !this.state.endDate ||
                   this.state.endDate?.isBefore(this.state.startDate)
               })}
               onClick={this.confirm}
@@ -1424,7 +1417,7 @@ export class DateRangePicker extends React.Component<
           value={this.state.startInputValue || ''}
           disabled={disabled}
         />
-        <span className={cx('DateRangePicker-input-separator')}>-</span>
+        <span className={cx('DateRangePicker-input-separator')}>~</span>
         <Input
           className={cx('DateRangePicker-input', {
             isActive: this.state.editState === 'end'
@@ -1445,7 +1438,7 @@ export class DateRangePicker extends React.Component<
         ) : null}
 
         <a className={`${ns}DateRangePicker-toggler`}>
-          <Icon icon={viewMode === 'time' ? 'clock' : 'date'} className="icon" />
+          <Icon icon="clock" className="icon" />
         </a>
 
         {isOpened ? (

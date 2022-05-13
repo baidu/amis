@@ -40,7 +40,7 @@ interface CustomTimeViewProps extends LocaleProps {
   ) => void;
   onClose?: () => void;
   onConfirm?: (value: number[], types: string[]) => void;
-  setDateTimeState: (state: any, callback?: () => void) => void;
+  setDateTimeState: (state: any) => void;
   useMobileUI: boolean;
   showToolbar?: boolean;
   onChange: (value: moment.Moment) => void;
@@ -560,15 +560,6 @@ export class CustomTimeView extends React.Component<
     });
   };
 
-  selectNowTime = () => {
-    this.props.setDateTimeState({
-      viewDate: moment().clone(),
-      selectedDate: moment().clone()
-    }, () => {
-      this.confirm();
-    });
-  };
-
   confirm = () => {
     let date = (this.props.selectedDate || this.props.viewDate).clone();
 
@@ -610,8 +601,6 @@ export class CustomTimeView extends React.Component<
       timeRangeHeader
     } = this.props;
 
-    const __ = this.props.translate;
-    
     const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
     const inputs: Array<React.ReactNode> = [];
     const timeConstraints = this.timeConstraints;
@@ -707,22 +696,12 @@ export class CustomTimeView extends React.Component<
       }
     });
     inputs.length && inputs.pop();
-
-    const quickLists = [
-      <a onClick={this.selectNowTime}>{__('TimeNow')}</a>
-    ];
     return (
       <>
         <div className={cx(timeRangeHeader ? 'TimeRangeHeaderWrapper' : null)}>
           {timeRangeHeader}
         </div>
-        <div className={cx('TimeContentWrapper')}>{inputs}</div>
-        {this.props.requiredConfirm && <div className={cx('TimeFooterWrapper')}>
-          <div className={cx('QuickWrapper')}>{quickLists}</div>
-          <a className={cx('Button', 'Button--primary', 'Button--sm')} onClick={this.confirm}>
-            {__('confirm')}
-          </a>
-        </div>}
+        <div>{inputs}</div>
       </>
     );
   }

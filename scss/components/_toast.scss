@@ -79,7 +79,6 @@
   opacity: var(--Toast-opacity);
   opacity: 0;
   transform: translateZ(0);
-  width: px2rem(400px);
 
   &.in,
   &.out {
@@ -240,7 +239,6 @@
     justify-content: center;
     padding: var(--gap-base) var(--gap-md);
     text-align: center;
-    width: auto;
 
     &-title {
       color: #fff;

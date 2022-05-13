@@ -120,8 +120,6 @@ register('de-DE', {
   'fetchFailed': 'Fehler beim Abrufen der API',
   'File.continueAdd': 'Hinuzufügen fortsetzen',
   'File.dragDrop': 'Dateien per Drag & Drop hier ablegen',
-  'File.clickUpload': 'Klicken Sie hier zum Hochladen',
-  'File.helpText': 'Hilfedokumentation',
   'File.errorRetry': 'Fehler beim Hochladen der Datei, bitte versuchen Sie es erneut.',
   'File.failed': 'Fehlerhafte Dateien',
   'File.invalidType': '{{files}} entspricht nicht Typ `{{accept}}`',
@@ -187,7 +185,6 @@ register('de-DE', {
   'Checkboxes.selectAll': 'Alle auswählen/abwählen',
   'Select.checkAll': 'Alle markieren',
   'Select.clear': 'Löschen',
-  'Select.upload': 'Wieder hochladen',
   'Select.clearAll': 'Alle löschen',
   'Select.createLabel': 'Neue Option',
   'Select.placeholder': 'Auswählen',
@@ -331,6 +328,5 @@ register('de-DE', {
   'JSONSchema.default': 'Default',
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
-  'JSONSchema.array_items': 'Items',
-  'TimeNow': 'Jetzt',
+  'JSONSchema.array_items': 'Items'
 });

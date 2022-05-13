@@ -670,14 +670,15 @@ export default class TextControl extends React.PureComponent<
                 {selectedOptions.map((item, index) =>
                   multiple ? (
                     <div className={cx('TextControl-value')} key={index}>
+                      <span
+                        className={cx('TextControl-valueIcon')}
+                        onClick={this.removeItem.bind(this, index)}
+                      >
+                        ×
+                      </span>
                       <span className={cx('TextControl-valueLabel')}>
                         {`${item[labelField || 'label']}`}
                       </span>
-                      <Icon
-                        icon="close"
-                        className={cx('TextControl-valueIcon', 'icon')}
-                        onClick={this.removeItem.bind(this, index)}
-                      />
                     </div>
                   ) : (inputValue && isOpen) || creatable !== false ? null : (
                     <div className={cx('TextControl-value')} key={index}>
@@ -832,7 +833,6 @@ export default class TextControl extends React.PureComponent<
           step={step}
           onChange={this.handleNormalInputChange}
           value={this.valueToString(value)}
-          className={cx(type === 'password' && revealPassword && 'TextControl-input-password')}
         />
         {clearable && !disabled && value ? (
           <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>
@@ -845,9 +845,9 @@ export default class TextControl extends React.PureComponent<
             className={`${ns}TextControl-revealPassword`}
           >
             {this.state.revealPassword ? (
-              <Icon icon="view" className="icon" />
+              <i className="fa fa-eye"></i>
             ) : (
-              <Icon icon="invisible" className="icon" />
+              <i className="fa fa-eye-slash"></i>
             )}
           </a>
         ) : null}

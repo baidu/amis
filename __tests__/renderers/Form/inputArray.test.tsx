@@ -49,7 +49,6 @@ test('Renderer:inputArray', async () => {
 
   const formDebug = JSON.parse(document.querySelector('pre code')!.innerHTML);
 
-  await wait(500);
   expect(formDebug).toEqual({
     array: ['amis']
   });

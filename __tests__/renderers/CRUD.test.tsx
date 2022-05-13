@@ -62,7 +62,6 @@ test('Renderer:crud', async () => {
     )
   );
 
-  await wait(300);
   await waitFor(() => {
     expect(getByText('Internet Explorer 4.0')).toBeInTheDocument();
     expect(

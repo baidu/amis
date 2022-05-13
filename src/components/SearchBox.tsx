@@ -10,8 +10,6 @@ export interface SearchBoxProps extends ThemeProps, LocaleProps {
   name?: string;
   disabled?: boolean;
   mini?: boolean;
-  enhance?: boolean;
-  clearable?: boolean;
   searchImediately?: boolean;
   onChange?: (text: string) => void;
   placeholder?: string;
@@ -24,21 +22,11 @@ export interface SearchBoxProps extends ThemeProps, LocaleProps {
   onCancel?: () => void;
 }
 
-export interface SearchBoxState {
-  isFocused: boolean;
-}
-
-export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
+export class SearchBox extends React.Component<SearchBoxProps> {
   inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   static defaultProps = {
     mini: true,
-    enhance: false,
-    clearable: false,
     searchImediately: true
-  };
-
-  state = {
-    isFocused: false
   };
 
   lazyEmitSearch = debounce(
@@ -93,13 +81,6 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
     }
   }
 
-  @autobind
-  handleClear() {
-    const {searchImediately, onChange} = this.props;
-    onChange?.('');
-    searchImediately && this.lazyEmitSearch();
-  }
-
   render() {
     const {
       classnames: cx,
@@ -109,23 +90,17 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
       disabled,
       placeholder,
       mini,
-      enhance,
-      clearable,
       value,
       translate: __
     } = this.props;
-
-    const isFocused = this.state.isFocused;
 
     return (
       <div
         className={cx(
           'SearchBox',
-          enhance && 'SearchBox--enhance',
           className,
           disabled ? 'is-disabled' : '',
-          isFocused ? 'is-focused' : '',
-          !mini || active ? 'is-active' : '',
+          !mini || active ? 'is-active' : ''
         )}
       >
         <input
@@ -136,18 +111,8 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
           placeholder={__(placeholder || 'placeholder.enter')}
           ref={this.inputRef}
           autoComplete="off"
-          onFocus={() => this.setState({ isFocused: true })}
-          onBlur={() => this.setState({ isFocused: false })}
           onKeyDown={this.handleKeyDown}
         />
-
-        {
-          !mini && clearable && value && !disabled ? (
-            <div className={cx('SearchBox-clearable')} onClick={this.handleClear}>
-              <Icon icon="input-clear" className="icon"/>
-            </div>
-          ) : null
-        }
 
         {!mini ? (
           <a className={cx('SearchBox-searchBtn')} onClick={this.handleSearch}>

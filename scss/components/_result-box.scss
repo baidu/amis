@@ -45,22 +45,10 @@
     background: var(--Form-input-onDisabled-bg);
     border-color: var(--Form-input-onDisabled-borderColor);
     pointer-events: none;
-    background: var(--TabsTransfer-title-bg);
-
-    div.#{$ns}ResultBox-value {
-      background: var(--TabsTransfer-border-color);
-
-      .#{$ns}ResultBox-valueLabel {
-        color: var(--Pagination-light-color);
-      }
-    }
-  }
-
-  &.#{$ns}NestedSelect {
-    padding-left: var(--gap-base);
   }
 
   &-singleValue {
+    padding: 0 calc(var(--Form-input-paddingX) - #{px2rem(3px)});
     display: inline-block;
     max-width: 100%;
     overflow: hidden;
@@ -75,17 +63,15 @@
     display: flex;
     align-items: center;
     transition: transform var(--animation-duration) ease;
-    transform: rotate(90deg);
     > svg {
       width: px2rem(10px);
       height: px2rem(10px);
       top: 0.125em;
-      color: var(--default-icon-color);
     }
   }
 
   &.is-opened &-pc-arrow {
-    transform: rotate(270deg);
+    transform: rotate(180deg);
   }
 
   &-clear {
@@ -130,13 +116,12 @@
     flex-wrap: nowrap;
     display: inline-flex;
     align-items: center;
-    margin-right: var(--gap-xs);
-    margin-bottom: px2rem(2px);
+    margin: 2px 3px;
     user-select: none;
 
     > a {
       cursor: pointer;
-      margin-left: px2rem(10px);
+      margin-left: var(--gap-xs);
       color: var(--ResultBox-icon-color);
       &:hover {
         color: var(--ResultBox-icon--onHover-color);
@@ -168,6 +153,7 @@
   &-placeholder {
     color: var(--Form-input-placeholderColor);
     user-select: none;
+    margin-left: 8px;
   }
 
   > input {
@@ -176,19 +162,7 @@
   }
 
   &.#{$ns}TransferDropDown {
-    padding: 0 var(--gap-base);
-
-    &.is-group {
-      padding: var(--gap-xs);
-
-      > .#{$ns}TransferDropDown-icon {
-        margin-right: var(--gap-sm);
-      }
-
-      > .#{$ns}ResultBox-placeholder {
-        padding-left: var(--gap-sm);
-      }
-    }
+    padding: 0;
 
     > .#{$ns}ResultBox-value {
       background: var(--Form-select-value-bgColor);

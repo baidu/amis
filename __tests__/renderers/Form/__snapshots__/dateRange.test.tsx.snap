@@ -59,19 +59,19 @@ exports[`Renderer:dateRange 1`] = `
               <input
                 autocomplete="off"
                 class="cxd-DateRangePicker-input isActive"
-                placeholder="开始时间"
+                placeholder="选择开始时间"
                 type="text"
                 value="2019-06-06"
               />
               <span
                 class="cxd-DateRangePicker-input-separator"
               >
-                -
+                ~
               </span>
               <input
                 autocomplete="off"
                 class="cxd-DateRangePicker-input"
-                placeholder="结束时间"
+                placeholder="选择结束时间"
                 type="text"
                 value="2019-06-26"
               />
@@ -87,8 +87,8 @@ exports[`Renderer:dateRange 1`] = `
                 class="cxd-DateRangePicker-toggler"
               >
                 <icon-mock
-                  classname="icon icon-date"
-                  icon="date"
+                  classname="icon icon-clock"
+                  icon="clock"
                 />
               </a>
             </div>

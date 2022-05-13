@@ -461,7 +461,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
             <td {...props}>
               <div className={cx('ScheduleCalendar-large-day-wrap')}>
                 <div className={cx('ScheduleCalendar-large-schedule-header')}>
-                  <span>{currentDate.date()}</span>
+                  {currentDate.date()}
                 </div>
                 {scheduleDiv}
                 {schedule.length > 3 && (
@@ -486,15 +486,13 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
         );
         return (
           <td {...props}>
-            <span>
-              {currentDate.date()}
-              {ScheduleIcon}
-            </span>
+            {currentDate.date()}
+            {ScheduleIcon}
           </td>
         );
       }
     }
-    return <td {...props}><span>{currentDate.date()}</span></td>;
+    return <td {...props}>{currentDate.date()}</td>;
   };
 
   /** 时间选择器数据源 */

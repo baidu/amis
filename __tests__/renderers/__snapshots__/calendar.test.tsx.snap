@@ -125,57 +125,43 @@ exports[`Renderer:calendar 1`] = `
                               class="rdtDay rdtOld"
                               data-value="29"
                             >
-                              <span>
-                                29
-                              </span>
+                              29
                             </td>
                             <td
                               class="rdtDay rdtOld"
                               data-value="30"
                             >
-                              <span>
-                                30
-                              </span>
+                              30
                             </td>
                             <td
                               class="rdtDay rdtActive"
                               data-value="1"
                             >
-                              <span>
-                                1
-                              </span>
+                              1
                             </td>
                             <td
                               class="rdtDay"
                               data-value="2"
                             >
-                              <span>
-                                2
-                              </span>
+                              2
                             </td>
                             <td
                               class="rdtDay"
                               data-value="3"
                             >
-                              <span>
-                                3
-                              </span>
+                              3
                             </td>
                             <td
                               class="rdtDay"
                               data-value="4"
                             >
-                              <span>
-                                4
-                              </span>
+                              4
                             </td>
                             <td
                               class="rdtDay"
                               data-value="5"
                             >
-                              <span>
-                                5
-                              </span>
+                              5
                             </td>
                           </tr>
                           <tr>
@@ -183,60 +169,46 @@ exports[`Renderer:calendar 1`] = `
                               class="rdtDay"
                               data-value="6"
                             >
-                              <span>
-                                6
-                              </span>
+                              6
                             </td>
                             <td
                               class="rdtDay"
                               data-value="7"
                             >
-                              <span>
-                                7
-                              </span>
+                              7
                             </td>
                             <td
                               class="rdtDay"
                               data-value="8"
                             >
-                              <span>
-                                8
-                              </span>
+                              8
                             </td>
                             <td
                               class="rdtDay"
                               data-value="9"
                             >
-                              <span>
-                                9
-                              </span>
+                              9
                             </td>
                             <td
                               class="rdtDay"
                               data-value="10"
                             >
-                              <span>
-                                10
-                              </span>
+                              10
                             </td>
                             <td
                               class="rdtDay"
                               data-value="11"
                             >
-                              <span>
-                                11
-                                <span
-                                  class="cxd-ScheduleCalendar-icon bg-warning"
-                                />
-                              </span>
+                              11
+                              <span
+                                class="cxd-ScheduleCalendar-icon bg-warning"
+                              />
                             </td>
                             <td
                               class="rdtDay"
                               data-value="12"
                             >
-                              <span>
-                                12
-                              </span>
+                              12
                             </td>
                           </tr>
                           <tr>
@@ -244,57 +216,43 @@ exports[`Renderer:calendar 1`] = `
                               class="rdtDay"
                               data-value="13"
                             >
-                              <span>
-                                13
-                              </span>
+                              13
                             </td>
                             <td
                               class="rdtDay"
                               data-value="14"
                             >
-                              <span>
-                                14
-                              </span>
+                              14
                             </td>
                             <td
                               class="rdtDay"
                               data-value="15"
                             >
-                              <span>
-                                15
-                              </span>
+                              15
                             </td>
                             <td
                               class="rdtDay"
                               data-value="16"
                             >
-                              <span>
-                                16
-                              </span>
+                              16
                             </td>
                             <td
                               class="rdtDay"
                               data-value="17"
                             >
-                              <span>
-                                17
-                              </span>
+                              17
                             </td>
                             <td
                               class="rdtDay"
                               data-value="18"
                             >
-                              <span>
-                                18
-                              </span>
+                              18
                             </td>
                             <td
                               class="rdtDay"
                               data-value="19"
                             >
-                              <span>
-                                19
-                              </span>
+                              19
                             </td>
                           </tr>
                           <tr>
@@ -302,63 +260,49 @@ exports[`Renderer:calendar 1`] = `
                               class="rdtDay"
                               data-value="20"
                             >
-                              <span>
-                                20
-                              </span>
+                              20
                             </td>
                             <td
                               class="rdtDay"
                               data-value="21"
                             >
-                              <span>
-                                21
-                                <span
-                                  class="cxd-ScheduleCalendar-icon bg-danger"
-                                />
-                              </span>
+                              21
+                              <span
+                                class="cxd-ScheduleCalendar-icon bg-danger"
+                              />
                             </td>
                             <td
                               class="rdtDay"
                               data-value="22"
                             >
-                              <span>
-                                22
-                                <span
-                                  class="cxd-ScheduleCalendar-icon bg-danger"
-                                />
-                              </span>
+                              22
+                              <span
+                                class="cxd-ScheduleCalendar-icon bg-danger"
+                              />
                             </td>
                             <td
                               class="rdtDay"
                               data-value="23"
                             >
-                              <span>
-                                23
-                              </span>
+                              23
                             </td>
                             <td
                               class="rdtDay"
                               data-value="24"
                             >
-                              <span>
-                                24
-                              </span>
+                              24
                             </td>
                             <td
                               class="rdtDay"
                               data-value="25"
                             >
-                              <span>
-                                25
-                              </span>
+                              25
                             </td>
                             <td
                               class="rdtDay"
                               data-value="26"
                             >
-                              <span>
-                                26
-                              </span>
+                              26
                             </td>
                           </tr>
                           <tr>
@@ -366,57 +310,43 @@ exports[`Renderer:calendar 1`] = `
                               class="rdtDay"
                               data-value="27"
                             >
-                              <span>
-                                27
-                              </span>
+                              27
                             </td>
                             <td
                               class="rdtDay"
                               data-value="28"
                             >
-                              <span>
-                                28
-                              </span>
+                              28
                             </td>
                             <td
                               class="rdtDay"
                               data-value="29"
                             >
-                              <span>
-                                29
-                              </span>
+                              29
                             </td>
                             <td
                               class="rdtDay"
                               data-value="30"
                             >
-                              <span>
-                                30
-                              </span>
+                              30
                             </td>
                             <td
                               class="rdtDay"
                               data-value="31"
                             >
-                              <span>
-                                31
-                              </span>
+                              31
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="1"
                             >
-                              <span>
-                                1
-                              </span>
+                              1
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="2"
                             >
-                              <span>
-                                2
-                              </span>
+                              2
                             </td>
                           </tr>
                           <tr>
@@ -424,57 +354,43 @@ exports[`Renderer:calendar 1`] = `
                               class="rdtDay rdtNew"
                               data-value="3"
                             >
-                              <span>
-                                3
-                              </span>
+                              3
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="4"
                             >
-                              <span>
-                                4
-                              </span>
+                              4
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="5"
                             >
-                              <span>
-                                5
-                              </span>
+                              5
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="6"
                             >
-                              <span>
-                                6
-                              </span>
+                              6
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="7"
                             >
-                              <span>
-                                7
-                              </span>
+                              7
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="8"
                             >
-                              <span>
-                                8
-                              </span>
+                              8
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="9"
                             >
-                              <span>
-                                9
-                              </span>
+                              9
                             </td>
                           </tr>
                         </tbody>
@@ -618,57 +534,43 @@ exports[`Renderer:calendar largeMode 1`] = `
                               class="rdtDay rdtOld"
                               data-value="29"
                             >
-                              <span>
-                                29
-                              </span>
+                              29
                             </td>
                             <td
                               class="rdtDay rdtOld"
                               data-value="30"
                             >
-                              <span>
-                                30
-                              </span>
+                              30
                             </td>
                             <td
                               class="rdtDay rdtActive"
                               data-value="1"
                             >
-                              <span>
-                                1
-                              </span>
+                              1
                             </td>
                             <td
                               class="rdtDay"
                               data-value="2"
                             >
-                              <span>
-                                2
-                              </span>
+                              2
                             </td>
                             <td
                               class="rdtDay"
                               data-value="3"
                             >
-                              <span>
-                                3
-                              </span>
+                              3
                             </td>
                             <td
                               class="rdtDay"
                               data-value="4"
                             >
-                              <span>
-                                4
-                              </span>
+                              4
                             </td>
                             <td
                               class="rdtDay"
                               data-value="5"
                             >
-                              <span>
-                                5
-                              </span>
+                              5
                             </td>
                           </tr>
                           <tr>
@@ -676,41 +578,31 @@ exports[`Renderer:calendar largeMode 1`] = `
                               class="rdtDay"
                               data-value="6"
                             >
-                              <span>
-                                6
-                              </span>
+                              6
                             </td>
                             <td
                               class="rdtDay"
                               data-value="7"
                             >
-                              <span>
-                                7
-                              </span>
+                              7
                             </td>
                             <td
                               class="rdtDay"
                               data-value="8"
                             >
-                              <span>
-                                8
-                              </span>
+                              8
                             </td>
                             <td
                               class="rdtDay"
                               data-value="9"
                             >
-                              <span>
-                                9
-                              </span>
+                              9
                             </td>
                             <td
                               class="rdtDay"
                               data-value="10"
                             >
-                              <span>
-                                10
-                              </span>
+                              10
                             </td>
                             <td
                               class="rdtDay"
@@ -722,9 +614,7 @@ exports[`Renderer:calendar largeMode 1`] = `
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-header"
                                 >
-                                  <span>
-                                    11
-                                  </span>
+                                  11
                                 </div>
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-content bg-warning"
@@ -748,9 +638,7 @@ exports[`Renderer:calendar largeMode 1`] = `
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-header"
                                 >
-                                  <span>
-                                    12
-                                  </span>
+                                  12
                                 </div>
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-content bg-danger"
@@ -776,9 +664,7 @@ exports[`Renderer:calendar largeMode 1`] = `
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-header"
                                 >
-                                  <span>
-                                    13
-                                  </span>
+                                  13
                                 </div>
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-content bg-danger"
@@ -796,49 +682,37 @@ exports[`Renderer:calendar largeMode 1`] = `
                               class="rdtDay"
                               data-value="14"
                             >
-                              <span>
-                                14
-                              </span>
+                              14
                             </td>
                             <td
                               class="rdtDay"
                               data-value="15"
                             >
-                              <span>
-                                15
-                              </span>
+                              15
                             </td>
                             <td
                               class="rdtDay"
                               data-value="16"
                             >
-                              <span>
-                                16
-                              </span>
+                              16
                             </td>
                             <td
                               class="rdtDay"
                               data-value="17"
                             >
-                              <span>
-                                17
-                              </span>
+                              17
                             </td>
                             <td
                               class="rdtDay"
                               data-value="18"
                             >
-                              <span>
-                                18
-                              </span>
+                              18
                             </td>
                             <td
                               class="rdtDay"
                               data-value="19"
                             >
-                              <span>
-                                19
-                              </span>
+                              19
                             </td>
                           </tr>
                           <tr>
@@ -852,9 +726,7 @@ exports[`Renderer:calendar largeMode 1`] = `
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-header"
                                 >
-                                  <span>
-                                    20
-                                  </span>
+                                  20
                                 </div>
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-content bg-success"
@@ -878,9 +750,7 @@ exports[`Renderer:calendar largeMode 1`] = `
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-header"
                                 >
-                                  <span>
-                                    21
-                                  </span>
+                                  21
                                 </div>
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-content bg-transparent"
@@ -912,9 +782,7 @@ exports[`Renderer:calendar largeMode 1`] = `
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-header"
                                 >
-                                  <span>
-                                    22
-                                  </span>
+                                  22
                                 </div>
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-content bg-secondary"
@@ -963,9 +831,7 @@ exports[`Renderer:calendar largeMode 1`] = `
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-header"
                                 >
-                                  <span>
-                                    23
-                                  </span>
+                                  23
                                 </div>
                                 <div
                                   class="cxd-ScheduleCalendar-large-schedule-content bg-transparent"
@@ -981,25 +847,19 @@ exports[`Renderer:calendar largeMode 1`] = `
                               class="rdtDay"
                               data-value="24"
                             >
-                              <span>
-                                24
-                              </span>
+                              24
                             </td>
                             <td
                               class="rdtDay"
                               data-value="25"
                             >
-                              <span>
-                                25
-                              </span>
+                              25
                             </td>
                             <td
                               class="rdtDay"
                               data-value="26"
                             >
-                              <span>
-                                26
-                              </span>
+                              26
                             </td>
                           </tr>
                           <tr>
@@ -1007,57 +867,43 @@ exports[`Renderer:calendar largeMode 1`] = `
                               class="rdtDay"
                               data-value="27"
                             >
-                              <span>
-                                27
-                              </span>
+                              27
                             </td>
                             <td
                               class="rdtDay"
                               data-value="28"
                             >
-                              <span>
-                                28
-                              </span>
+                              28
                             </td>
                             <td
                               class="rdtDay"
                               data-value="29"
                             >
-                              <span>
-                                29
-                              </span>
+                              29
                             </td>
                             <td
                               class="rdtDay"
                               data-value="30"
                             >
-                              <span>
-                                30
-                              </span>
+                              30
                             </td>
                             <td
                               class="rdtDay"
                               data-value="31"
                             >
-                              <span>
-                                31
-                              </span>
+                              31
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="1"
                             >
-                              <span>
-                                1
-                              </span>
+                              1
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="2"
                             >
-                              <span>
-                                2
-                              </span>
+                              2
                             </td>
                           </tr>
                           <tr>
@@ -1065,57 +911,43 @@ exports[`Renderer:calendar largeMode 1`] = `
                               class="rdtDay rdtNew"
                               data-value="3"
                             >
-                              <span>
-                                3
-                              </span>
+                              3
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="4"
                             >
-                              <span>
-                                4
-                              </span>
+                              4
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="5"
                             >
-                              <span>
-                                5
-                              </span>
+                              5
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="6"
                             >
-                              <span>
-                                6
-                              </span>
+                              6
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="7"
                             >
-                              <span>
-                                7
-                              </span>
+                              7
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="8"
                             >
-                              <span>
-                                8
-                              </span>
+                              8
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="9"
                             >
-                              <span>
-                                9
-                              </span>
+                              9
                             </td>
                           </tr>
                         </tbody>
@@ -1259,57 +1091,43 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                               class="rdtDay rdtOld"
                               data-value="29"
                             >
-                              <span>
-                                29
-                              </span>
+                              29
                             </td>
                             <td
                               class="rdtDay rdtOld"
                               data-value="30"
                             >
-                              <span>
-                                30
-                              </span>
+                              30
                             </td>
                             <td
                               class="rdtDay rdtActive"
                               data-value="1"
                             >
-                              <span>
-                                1
-                              </span>
+                              1
                             </td>
                             <td
                               class="rdtDay"
                               data-value="2"
                             >
-                              <span>
-                                2
-                              </span>
+                              2
                             </td>
                             <td
                               class="rdtDay"
                               data-value="3"
                             >
-                              <span>
-                                3
-                              </span>
+                              3
                             </td>
                             <td
                               class="rdtDay"
                               data-value="4"
                             >
-                              <span>
-                                4
-                              </span>
+                              4
                             </td>
                             <td
                               class="rdtDay"
                               data-value="5"
                             >
-                              <span>
-                                5
-                              </span>
+                              5
                             </td>
                           </tr>
                           <tr>
@@ -1317,60 +1135,46 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                               class="rdtDay"
                               data-value="6"
                             >
-                              <span>
-                                6
-                              </span>
+                              6
                             </td>
                             <td
                               class="rdtDay"
                               data-value="7"
                             >
-                              <span>
-                                7
-                              </span>
+                              7
                             </td>
                             <td
                               class="rdtDay"
                               data-value="8"
                             >
-                              <span>
-                                8
-                              </span>
+                              8
                             </td>
                             <td
                               class="rdtDay"
                               data-value="9"
                             >
-                              <span>
-                                9
-                              </span>
+                              9
                             </td>
                             <td
                               class="rdtDay"
                               data-value="10"
                             >
-                              <span>
-                                10
-                              </span>
+                              10
                             </td>
                             <td
                               class="rdtDay"
                               data-value="11"
                             >
-                              <span>
-                                11
-                                <span
-                                  class="cxd-ScheduleCalendar-icon bg-warning"
-                                />
-                              </span>
+                              11
+                              <span
+                                class="cxd-ScheduleCalendar-icon bg-warning"
+                              />
                             </td>
                             <td
                               class="rdtDay"
                               data-value="12"
                             >
-                              <span>
-                                12
-                              </span>
+                              12
                             </td>
                           </tr>
                           <tr>
@@ -1378,57 +1182,43 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                               class="rdtDay"
                               data-value="13"
                             >
-                              <span>
-                                13
-                              </span>
+                              13
                             </td>
                             <td
                               class="rdtDay"
                               data-value="14"
                             >
-                              <span>
-                                14
-                              </span>
+                              14
                             </td>
                             <td
                               class="rdtDay"
                               data-value="15"
                             >
-                              <span>
-                                15
-                              </span>
+                              15
                             </td>
                             <td
                               class="rdtDay"
                               data-value="16"
                             >
-                              <span>
-                                16
-                              </span>
+                              16
                             </td>
                             <td
                               class="rdtDay"
                               data-value="17"
                             >
-                              <span>
-                                17
-                              </span>
+                              17
                             </td>
                             <td
                               class="rdtDay"
                               data-value="18"
                             >
-                              <span>
-                                18
-                              </span>
+                              18
                             </td>
                             <td
                               class="rdtDay"
                               data-value="19"
                             >
-                              <span>
-                                19
-                              </span>
+                              19
                             </td>
                           </tr>
                           <tr>
@@ -1436,63 +1226,49 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                               class="rdtDay"
                               data-value="20"
                             >
-                              <span>
-                                20
-                              </span>
+                              20
                             </td>
                             <td
                               class="rdtDay"
                               data-value="21"
                             >
-                              <span>
-                                21
-                                <span
-                                  class="cxd-ScheduleCalendar-icon bg-danger"
-                                />
-                              </span>
+                              21
+                              <span
+                                class="cxd-ScheduleCalendar-icon bg-danger"
+                              />
                             </td>
                             <td
                               class="rdtDay"
                               data-value="22"
                             >
-                              <span>
-                                22
-                                <span
-                                  class="cxd-ScheduleCalendar-icon bg-danger"
-                                />
-                              </span>
+                              22
+                              <span
+                                class="cxd-ScheduleCalendar-icon bg-danger"
+                              />
                             </td>
                             <td
                               class="rdtDay"
                               data-value="23"
                             >
-                              <span>
-                                23
-                              </span>
+                              23
                             </td>
                             <td
                               class="rdtDay"
                               data-value="24"
                             >
-                              <span>
-                                24
-                              </span>
+                              24
                             </td>
                             <td
                               class="rdtDay"
                               data-value="25"
                             >
-                              <span>
-                                25
-                              </span>
+                              25
                             </td>
                             <td
                               class="rdtDay"
                               data-value="26"
                             >
-                              <span>
-                                26
-                              </span>
+                              26
                             </td>
                           </tr>
                           <tr>
@@ -1500,57 +1276,43 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                               class="rdtDay"
                               data-value="27"
                             >
-                              <span>
-                                27
-                              </span>
+                              27
                             </td>
                             <td
                               class="rdtDay"
                               data-value="28"
                             >
-                              <span>
-                                28
-                              </span>
+                              28
                             </td>
                             <td
                               class="rdtDay"
                               data-value="29"
                             >
-                              <span>
-                                29
-                              </span>
+                              29
                             </td>
                             <td
                               class="rdtDay"
                               data-value="30"
                             >
-                              <span>
-                                30
-                              </span>
+                              30
                             </td>
                             <td
                               class="rdtDay"
                               data-value="31"
                             >
-                              <span>
-                                31
-                              </span>
+                              31
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="1"
                             >
-                              <span>
-                                1
-                              </span>
+                              1
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="2"
                             >
-                              <span>
-                                2
-                              </span>
+                              2
                             </td>
                           </tr>
                           <tr>
@@ -1558,57 +1320,43 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                               class="rdtDay rdtNew"
                               data-value="3"
                             >
-                              <span>
-                                3
-                              </span>
+                              3
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="4"
                             >
-                              <span>
-                                4
-                              </span>
+                              4
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="5"
                             >
-                              <span>
-                                5
-                              </span>
+                              5
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="6"
                             >
-                              <span>
-                                6
-                              </span>
+                              6
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="7"
                             >
-                              <span>
-                                7
-                              </span>
+                              7
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="8"
                             >
-                              <span>
-                                8
-                              </span>
+                              8
                             </td>
                             <td
                               class="rdtDay rdtNew"
                               data-value="9"
                             >
-                              <span>
-                                9
-                              </span>
+                              9
                             </td>
                           </tr>
                         </tbody>
