@@ -75,6 +75,7 @@
     display: flex;
     align-items: center;
     transition: transform var(--animation-duration) ease;
+    transform: rotate(90deg);
     > svg {
       width: px2rem(10px);
       height: px2rem(10px);
@@ -84,7 +85,7 @@
   }
 
   &.is-opened &-pc-arrow {
-    transform: rotate(180deg);
+    transform: rotate(270deg);
   }
 
   &-clear {

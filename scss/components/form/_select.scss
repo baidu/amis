@@ -182,6 +182,7 @@
     align-items: center;
     justify-content: center;
     line-height: 1;
+    transform: rotate(90deg);
 
     > svg {
       transition: transform var(--animation-duration);
