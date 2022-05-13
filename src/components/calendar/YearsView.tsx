@@ -108,7 +108,7 @@ export class CustomYearsView extends React.Component<CustomYearsViewProps> {
 
       years.push(renderer(props, year, selectedDate && selectedDate.clone()));
 
-      if (years.length === 3) {
+      if (years.length === 4) {
         rows.push(React.createElement('tr', {key: i}, years));
         years = [];
       }
@@ -186,7 +186,7 @@ export class CustomYearsView extends React.Component<CustomYearsViewProps> {
     }
     return (
       <div className="rdtYears">
-        <table className="headerTable">
+        <table>
           <thead>
             <tr>
               <th

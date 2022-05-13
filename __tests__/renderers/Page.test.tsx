@@ -777,7 +777,6 @@ test('Renderer:Page handleAction actionType=dialog mergeData', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/确认/));
-  await wait(300);
   await waitFor(() => {
     expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
   });

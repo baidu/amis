@@ -26,7 +26,7 @@ test('Renderer:inputMonth click', async () => {
     )
   );
 
-  const inputDate = await findByPlaceholderText('开始时间');
+  const inputDate = await findByPlaceholderText('选择开始时间');
 
   fireEvent.click(inputDate);
 

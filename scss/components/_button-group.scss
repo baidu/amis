@@ -6,10 +6,6 @@
   > .#{$ns}Button {
     position: relative;
     flex: 0 1 auto;
-    max-width: px2rem(140px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   > .#{$ns}Button {

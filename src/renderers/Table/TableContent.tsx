@@ -7,9 +7,6 @@ import {LocaleProps} from '../../locale';
 import {observer} from 'mobx-react';
 import {ActionSchema} from '../Action';
 import ItemActionsWrapper from './ItemActionsWrapper';
-import {SchemaTpl, SchemaIcon} from '../../Schema';
-import {generateIcon} from '../../utils/icon';
-import {Icon} from '../../components/icons';
 
 export interface TableContentProps extends LocaleProps {
   className?: string;
@@ -24,8 +21,7 @@ export interface TableContentProps extends LocaleProps {
     has: Array<any>;
   }>;
   rows: Array<IRow>;
-  placeholder?: string | SchemaTpl;
-  emptyIcon?: SchemaIcon;
+  placeholder?: string;
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
   onMouseMove: (event: React.MouseEvent) => void;
   onScroll: (event: React.UIEvent) => void;
@@ -127,19 +123,11 @@ export class TableContent extends React.Component<TableContentProps> {
       translate,
       itemAction,
       affixRow,
-      store,
-      emptyIcon
+      store
     } = this.props;
 
     const tableClassName = cx('Table-table', this.props.tableClassName);
     const hideHeader = columns.every(column => !column.label);
-
-    let iconElement = null;
-    if (emptyIcon) {
-      iconElement = typeof emptyIcon === 'string'
-        ? generateIcon(cx, emptyIcon, 'Icon')
-        : render('icon', emptyIcon)
-    }
 
     return (
       <div
@@ -180,22 +168,6 @@ export class TableContent extends React.Component<TableContentProps> {
             <tbody>
               <tr className={cx('Table-placeholder')}>
                 <td colSpan={columns.length}>
-                  {
-                    iconElement ? (
-                      React.cloneElement(iconElement, {
-                        className: cx(
-                          iconElement?.props?.className ?? '',
-                          'Table-placeholder-empty-icon',
-                          'icon'
-                        )
-                      })
-                    ) : (
-                      <Icon
-                        icon="desk-empty"
-                        className={cx('Table-placeholder-empty-icon', 'icon')}
-                      />
-                    )
-                  }
                   {render(
                     'placeholder',
                     translate(placeholder || 'placeholder.noData')

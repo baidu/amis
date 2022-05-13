@@ -134,7 +134,6 @@ test('Renderer:combo multiple', async () => {
 
   const formDebug = JSON.parse(container.querySelector('pre code')!.innerHTML);
 
-  await wait(300);
   expect(formDebug).toEqual({
     combo: [
       {

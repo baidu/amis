@@ -2,20 +2,13 @@
   color: var(--QuickEdit-iconColor);
   margin-left: var(--gap-xs);
   display: inline-block;
-  vertical-align: text-bottom;
+  vertical-align: text-top;
   cursor: pointer;
   opacity: 0.6;
-  font-size: 0;
 
   &:hover {
     color: var(--QuickEdit-onHover-iconColor);
     opacity: 1;
-  }
-
-  > svg {
-    width: var(--QuickEdit-iconSize);
-    height: var(--QuickEdit-iconSize);
-    top: 0;
   }
 }
 
