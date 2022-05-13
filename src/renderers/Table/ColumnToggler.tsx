@@ -10,7 +10,7 @@ import Button from '../../components/Button';
 import Checkbox from '../../components/Checkbox';
 import TooltipWrapper from '../../components/TooltipWrapper';
 import type {TooltipObject} from '../../components/TooltipWrapper';
-import {noop, autobind, anyChanged} from '../../utils/helper';
+import {noop, autobind, anyChanged, createObject} from '../../utils/helper';
 import {filter} from '../../utils/tpl';
 import {Icon} from '../../components/icons';
 import {getIcon} from '../../components/icons';
@@ -215,18 +215,31 @@ export default class ColumnToggler extends React.Component<
     this.setState({tempColumns: columns});
   }
 
-  updateToggledColumn(
+  async updateToggledColumn(
     column: IColumn,
     index: number,
     value: any,
     shift?: boolean
   ) {
+    const {data, dispatchEvent} = this.props;
     const tempColumns = this.state.tempColumns.concat();
 
     tempColumns.splice(index, 1, {
       ...column,
       toggled: value
     });
+
+    const rendererEvent = await dispatchEvent(
+      'columnToggled',
+      createObject(data, {
+        columns: tempColumns
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     this.setState({tempColumns});
   }
 
@@ -274,9 +287,20 @@ export default class ColumnToggler extends React.Component<
   }
 
   @autobind
-  onConfirm() {
+  async onConfirm() {
     const {tempColumns} = this.state;
-    const {onColumnToggle} = this.props;
+    const {onColumnToggle, data, dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'columnToggled',
+      createObject(data, {
+        columns: tempColumns
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     onColumnToggle && onColumnToggle([...tempColumns]);
     this.setState({

@@ -1,13 +1,13 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import {ScopedContext, IScopedContext} from '../../Scoped';
 import {Renderer, RendererProps} from '../../factory';
 import {SchemaNode, Action, Schema} from '../../types';
 import forEach from 'lodash/forEach';
-import {filter} from '../../utils/tpl';
+import {evalExpression, filter} from '../../utils/tpl';
 import Checkbox from '../../components/Checkbox';
 import Button from '../../components/Button';
 import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
-import {saveAs} from 'file-saver';
 import {
   anyChanged,
   getScrollParent,
@@ -15,8 +15,6 @@ import {
   noop,
   autobind,
   isArrayChildrenModified,
-  getVariable,
-  removeHTMLTag,
   eachTree,
   isObject,
   createObject
@@ -32,7 +30,6 @@ import {resizeSensor} from '../../utils/resize-sensor';
 import find from 'lodash/find';
 import {Icon} from '../../components/icons';
 import {TableCell} from './TableCell';
-import {TableRow} from './TableRow';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import {TableContent} from './TableContent';
@@ -41,24 +38,18 @@ import {
   SchemaApi,
   SchemaClassName,
   SchemaObject,
-  SchemaTokenizeableString,
-  SchemaType
+  SchemaTokenizeableString
 } from '../../Schema';
 import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
 import {SchemaCopyable} from '../Copyable';
 import {SchemaRemark} from '../Remark';
-import {toDataURL, getImageDimensions} from '../../utils/image';
 import {TableBody} from './TableBody';
-import {TplSchema} from '../Tpl';
-import {MappingSchema} from '../Mapping';
-import {isAlive, getSnapshot} from 'mobx-state-tree';
+import {isAlive} from 'mobx-state-tree';
 import ColumnToggler from './ColumnToggler';
 import {BadgeSchema} from '../../components/Badge';
 import offset from '../../utils/offset';
 import {getStyleNumber} from '../../utils/dom';
-import {DateSchema} from '../Date';
-import moment from 'moment';
 import {exportExcel} from './exportExcel';
 
 /**
@@ -375,7 +366,20 @@ export type ExportExcelToolbar = SchemaNode & {
   filename?: string;
 };
 
+export type TableRendererEvent =
+  | 'selectedChange'
+  | 'columnSort'
+  | 'columnFilter'
+  | 'columnSearch'
+  | 'columnToggled'
+  | 'orderChange'
+  | 'rowClick';
+
+export type TableRendererAction = 'selectAll' | 'clearAll' | 'select'  | 'initDrag';
+
 export default class Table extends React.Component<TableProps, object> {
+  static contextType = ScopedContext;
+
   static propsList: Array<string> = [
     'header',
     'headerToolbarRender',
@@ -469,8 +473,11 @@ export default class Table extends React.Component<TableProps, object> {
   subForms: any = {};
   timer: ReturnType<typeof setTimeout>;
 
-  constructor(props: TableProps) {
+  constructor(props: TableProps, context: IScopedContext) {
     super(props);
+
+    const scoped = context;
+    scoped.registerComponent(this);
 
     this.handleOutterScroll = this.handleOutterScroll.bind(this);
     this.affixDetect = this.affixDetect.bind(this);
@@ -774,6 +781,9 @@ export default class Table extends React.Component<TableProps, object> {
 
     formItem && isAlive(formItem) && formItem.setSubStore(null);
     clearTimeout(this.timer);
+
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
   }
 
   subFormRef(form: any, x: number, y: number) {
@@ -791,8 +801,26 @@ export default class Table extends React.Component<TableProps, object> {
     onAction(e, action, ctx);
   }
 
-  handleCheck(item: IRow, value: boolean, shift?: boolean) {
-    const {store} = this.props;
+  async handleCheck(item: IRow, value: boolean, shift?: boolean) {
+    const {store, data, dispatchEvent} = this.props;
+
+    const selectedItems = value ? [...store.selectedRows.map(row => row.data), item.data]
+      : store.selectedRows.filter(row => row.id !== item.id);
+    const unSelectedItems = value ? store.unSelectedRows.filter(row => row.id !== item.id)
+      : [...store.unSelectedRows.map(row => row.data), item.data];
+
+    const rendererEvent = await dispatchEvent(
+      'selectedChange',
+      createObject(data, {
+        selectedItems,
+        unSelectedItems
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     if (shift) {
       store.toggleShift(item);
     } else {
@@ -802,8 +830,22 @@ export default class Table extends React.Component<TableProps, object> {
     this.syncSelected();
   }
 
-  handleCheckAll() {
-    const {store} = this.props;
+  async handleCheckAll() {
+    const {store, data, dispatchEvent} = this.props;
+
+    const items = store.getSelectedRows().map(item => item.data);
+
+    const rendererEvent = await dispatchEvent(
+      'selectedChange',
+      createObject(data, {
+        selectedItems: store.allChecked ? [] : items,
+        unSelectedItems: store.allChecked ? items : []
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     store.toggleAll();
     this.syncSelected();
@@ -1175,8 +1217,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   initDragging() {
-    const store = this.props.store;
-    const ns = this.props.classPrefix;
+    const {store, classPrefix: ns, data, dispatchEvent} = this.props;
     this.sortable = new Sortable(
       (this.table as HTMLElement).querySelector('tbody') as HTMLElement,
       {
@@ -1185,9 +1226,18 @@ export default class Table extends React.Component<TableProps, object> {
         handle: `.${ns}Table-dragCell`,
         filter: `.${ns}Table-dragCell.is-dragDisabled`,
         ghostClass: 'is-dragging',
-        onEnd: (e: any) => {
+        onEnd: async (e: any) => {
           // 没有移动
           if (e.newIndex === e.oldIndex) {
+            return;
+          }
+
+          const rendererEvent = await dispatchEvent(
+            'orderChange',
+            createObject(data, {oldIndex: e.oldIndex, newIndex: e.newIndex})
+          );
+
+          if (rendererEvent?.prevented) {
             return;
           }
 
@@ -1319,12 +1369,24 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   @autobind
-  handleDrop() {
-    const store = this.props.store;
+  async handleDrop() {
+    const {store, data, dispatchEvent} = this.props;
     const tr = this.draggingTr;
     const tbody = tr.parentElement!;
     const index = Array.prototype.indexOf.call(tbody.childNodes, tr);
     const item: IRow = store.getRowById(tr.getAttribute('data-id')!) as any;
+
+    const rendererEvent = await dispatchEvent(
+      'orderChange',
+      createObject(data, {
+        oldIndex: this.originIndex,
+        newIndex: index     
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     // destroy
     this.handleDragEnd();
@@ -1654,7 +1716,9 @@ export default class Table extends React.Component<TableProps, object> {
       classPrefix: ns,
       resizable,
       classnames: cx,
-      autoGenerateFilter
+      autoGenerateFilter,
+      dispatchEvent,
+      data
     } = this.props;
 
     if (column.type === '__checkme') {
@@ -1720,18 +1784,33 @@ export default class Table extends React.Component<TableProps, object> {
       affix = (
         <span
           className={cx('TableCell-sortBtn')}
-          onClick={() => {
+          onClick={async () => {
+            let orderBy = '';
+            let orderDir = '';
             if (column.name === store.orderBy) {
-              if (store.orderDir === 'desc') {
-                // 降序之后取消排序
-                store.setOrderByInfo('', 'asc');
-              } else {
+              if (store.orderDir !== 'desc') {
                 // 升序之后降序
-                store.setOrderByInfo(column.name, 'desc');
+                orderBy = column.name;
+                orderDir = 'desc';
               }
             } else {
-              store.setOrderByInfo(column.name as string, 'asc');
+              orderBy = column.name as string;
             }
+
+            const order = orderDir ? 'desc' : 'asc';
+            const rendererEvent = await dispatchEvent(
+              'columnSort',
+              createObject(data, {
+                orderBy,
+                orderDir: order
+              })
+            );
+
+            if (rendererEvent?.prevented) {
+              return;
+            }
+
+            store.setOrderByInfo(orderBy, order);
 
             onQuery &&
               onQuery({
@@ -2060,7 +2139,8 @@ export default class Table extends React.Component<TableProps, object> {
       buildItemProps,
       rowClassNameExpr,
       rowClassName,
-      itemAction
+      itemAction,
+      dispatchEvent
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
     const columnsGroup = store.columnGroup;
@@ -2146,7 +2226,9 @@ export default class Table extends React.Component<TableProps, object> {
                 column: IColumn,
                 item: IRow,
                 props: any
-              ) => this.renderCell(region, column, item, props, true)
+              ) => this.renderCell(region, column, item, props, true),
+              data,
+              dispatchEvent
             }}
           />
         )}
@@ -2212,7 +2294,22 @@ export default class Table extends React.Component<TableProps, object> {
           <li
             className={cx('ColumnToggler-menuItem')}
             key={'selectAll'}
-            onClick={store.toggleAllColumns}
+            onClick={async () => {
+              const {data, dispatchEvent} = this.props;
+
+              const rendererEvent = await dispatchEvent(
+                'columnToggled',
+                createObject(data, {
+                  toggled: !(store.activeToggaleColumns.length === store.toggableColumns.length)
+                })
+              );
+
+              if (rendererEvent?.prevented) {
+                return;
+              }
+
+              store.toggleAllColumns();
+            }}
           >
             <Checkbox
               size="sm"
@@ -2236,7 +2333,23 @@ export default class Table extends React.Component<TableProps, object> {
           <li
             className={cx('ColumnToggler-menuItem')}
             key={column.index}
-            onClick={column.toggleToggle}
+            onClick={async () => {
+              const {data, dispatchEvent} = this.props;
+
+              const rendererEvent = await dispatchEvent(
+                'columnToggled',
+                createObject(data, {
+                  column,
+                  toggled: !column.toggled
+                })
+              );
+
+              if (rendererEvent?.prevented) {
+                return;
+              }
+
+              column.toggleToggle();
+            }}
           >
             <Checkbox size="sm" classPrefix={ns} checked={column.toggled}>
               {column.label ? render('tpl', column.label) : null}
@@ -2510,7 +2623,8 @@ export default class Table extends React.Component<TableProps, object> {
       prefixRowClassNameExpr,
       prefixRowClassName,
       autoFillHeight,
-      itemActions
+      itemActions,
+      dispatchEvent
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2555,8 +2669,42 @@ export default class Table extends React.Component<TableProps, object> {
         affixRowClassName={affixRowClassName}
         locale={locale}
         translate={translate}
+        dispatchEvent={dispatchEvent}
       />
     );
+  }
+
+  doAction(action: Action, args: any, throwErrors: boolean): any {
+    const {store, valueField, data} = this.props;
+
+    const actionType = action?.actionType as string;
+
+    switch (actionType) {
+      case 'selectAll':
+        store.clear();
+        store.toggleAll();
+        break;
+      case 'clearAll':
+        store.clear();
+        break;
+      case 'select':
+        const dataSource = store.getData(data);
+        const selected: Array<any> = [];
+        dataSource.items.forEach((item: any, rowIndex: number) => {
+          const flag = evalExpression(args?.selected, {record: item, rowIndex});
+          if (flag) {
+            selected.push(item);
+          }
+        });
+        store.updateSelected(selected, valueField);
+        break;
+      case 'initDrag':
+        store.stopDragging();
+        store.toggleDragging();
+        break;
+      default:
+        break;
+    }
   }
 
   render() {

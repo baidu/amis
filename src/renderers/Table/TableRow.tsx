@@ -3,8 +3,7 @@ import React from 'react';
 import {IRow, IColumn} from '../../store/table';
 import {RendererProps} from '../../factory';
 import {Action} from '../Action';
-import {reaction} from 'mobx';
-import {isClickOnInput} from '../../utils/helper';
+import {isClickOnInput, createObject} from '../../utils/helper';
 
 interface TableRowProps extends Pick<RendererProps, 'render'> {
   onCheck: (item: IRow) => void;
@@ -38,11 +37,24 @@ export class TableRow extends React.Component<TableRowProps> {
   }
 
   // 定义点击一行的行为，通过 itemAction配置
-  handleItemClick(e: React.MouseEvent<HTMLTableRowElement>) {
+  async handleItemClick(e: React.MouseEvent<HTMLTableRowElement>) {
     if (isClickOnInput(e)) {
       return;
     }
-    const {itemAction, onAction, item} = this.props;
+
+    const {itemAction, onAction, item, data, dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'rowClick',
+      createObject(data, {
+        item
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     if (itemAction) {
       onAction && onAction(e, itemAction, item?.data);
       item.toggle();
