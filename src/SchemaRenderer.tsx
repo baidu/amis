@@ -391,6 +391,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       ref: this.refFn,
       render: this.renderChild,
       rootStore: rootStore,
+      disabled: disable ?? rest.disabled ?? restSchema.disabled,
       dispatchEvent: this.dispatchEvent
     };
 
