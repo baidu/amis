@@ -6,7 +6,7 @@ import Overlay from '../../components/Overlay';
 import {findDOMNode} from 'react-dom';
 import PopOver from '../../components/PopOver';
 import {ITableStore} from '../../store/table';
-import {setVariable} from '../../utils/helper';
+import {setVariable, createObject} from '../../utils/helper';
 
 export interface QuickSearchConfig {
   type?: string;
@@ -192,10 +192,8 @@ export class HeadCellSearchDropDown extends React.Component<
     onQuery(values);
   }
 
-  handleSubmit(values: any) {
-    const {onQuery, name} = this.props;
-
-    this.close();
+  async handleSubmit(values: any) {
+    const {onQuery, name, data, dispatchEvent} = this.props;
 
     if (values.orderDir) {
       values = {
@@ -203,6 +201,17 @@ export class HeadCellSearchDropDown extends React.Component<
         orderBy: name
       };
     }
+
+    const rendererEvent = await dispatchEvent(
+      'columnSearch',
+      createObject(data, values)
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    this.close();
 
     onQuery(values);
   }
