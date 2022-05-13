@@ -15,7 +15,7 @@
       top: px2rem(2px);
       bottom: px2rem(2px);
       left: px2rem(2px);
-      transition: all 0.05s ease;
+      transition: all 0.5s ease;
     }
   }
   &:active {
@@ -172,9 +172,7 @@
 }
 
 .#{$ns}Transfer {
-
   &-title {
-    height: var(--Form-input-height);
     padding-left: #{px2rem(16px)};
     padding-right: #{px2rem(16px)};
     height: px2rem(32px);
@@ -184,8 +182,19 @@
     }
   }
 
-  &-select, &-result {
+  &-select,
+  &-result {
     border-radius: px2rem(6px);
+  }
+
+  &-result {
+    > .#{$ns}Selections {
+      height: 100%;
+    }
+  }
+
+  &-table-title {
+    background-color: unset;
   }
 
   .#{$ns}ListCheckboxes {
@@ -200,11 +209,42 @@
   }
 
   .#{$ns}TableSelection {
+    .#{$ns}Table-table {
+      border: 0;
+    }
 
-    .#{$ns}Table-table >thead >tr,
-    .#{$ns}Table-table >tbody >tr {
+    .#{$ns}Table-table > thead > tr,
+    .#{$ns}Table-table > tbody > tr {
       height: px2rem(40px);
     }
+
+    tbody {
+      tr {
+        &.is-active {
+          color: unset;
+        }
+      }
+    }
+  }
+}
+
+.#{$ns}GroupedSelection {
+  &-item {
+    padding-left: var(--gap-base);
+    padding-right: var(--gap-base);
+
+    &.is-active {
+      color: unset;
+    }
+  }
+}
+
+.#{$ns}Selections {
+  height: auto;
+
+  &-item {
+    padding-left: var(--gap-base);
+    padding-right: var(--gap-base);
   }
 }
 

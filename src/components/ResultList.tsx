@@ -2,15 +2,21 @@
  * 用来显示选择结果，垂直显示。支持移出、排序等操作。
  */
 import React from 'react';
-import {Option} from './Select';
+import Sortable from 'sortablejs';
+import {findDOMNode} from 'react-dom';
+
+import {Option, Options} from './Select';
 import {ThemeProps, themeable} from '../theme';
 import {Icon} from './icons';
 import {autobind, guid} from '../utils/helper';
-import Sortable from 'sortablejs';
-import {findDOMNode} from 'react-dom';
 import {LocaleProps, localeable} from '../locale';
+import {BaseSelection, BaseSelectionProps} from './Selection';
+import TransferSearch from './TransferSearch';
 
-export interface ResultListProps extends ThemeProps, LocaleProps {
+export interface ResultListProps
+  extends ThemeProps,
+    LocaleProps,
+    BaseSelectionProps {
   className?: string;
   value?: Array<Option>;
   onChange?: (value: Array<Option>, optionModified?: boolean) => void;
@@ -20,6 +26,23 @@ export interface ResultListProps extends ThemeProps, LocaleProps {
   placeholder: string;
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   itemClassName?: string;
+  columns: Array<{
+    name: string;
+    label: string;
+    [propName: string]: any;
+  }>;
+  cellRender?: (
+    column: {
+      name: string;
+      label: string;
+      [propName: string]: any;
+    },
+    option: Option,
+    colIndex: number,
+    rowIndex: number
+  ) => JSX.Element;
+  searchable?: boolean;
+  onSearch?: Function;
 }
 
 export interface ItemRenderStates {
@@ -28,17 +51,35 @@ export interface ItemRenderStates {
   onChange: (value: any, name: string) => void;
 }
 
-export class ResultList extends React.Component<ResultListProps> {
+interface ResultListState {
+  searchResult: Options | null;
+}
+
+export class ResultList extends React.Component<
+  ResultListProps,
+  ResultListState
+> {
+
   static itemRender(option: any) {
     return <span>{`${option.scopeLabel || ''}${option.label}`}</span>;
   }
-  static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender'> = {
+
+  static defaultProps: Pick<
+    ResultListProps,
+    'placeholder' | 'itemRender'
+  > = {
     placeholder: 'placeholder.selectData',
     itemRender: ResultList.itemRender
   };
 
+  state: ResultListState = {
+    searchResult: null
+  };
+
+  cancelSearch?: () => void;
   id = guid();
   sortable?: Sortable;
+  unmounted = false;
 
   componentDidMount() {
     this.props.sortable && this.initSortable();
@@ -54,20 +95,7 @@ export class ResultList extends React.Component<ResultListProps> {
 
   componentWillUnmount() {
     this.desposeSortable();
-  }
-
-  @autobind
-  handleRemove(e: React.MouseEvent<HTMLElement>) {
-    const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
-    const {value, onChange} = this.props;
-
-    if (!Array.isArray(value)) {
-      return;
-    }
-
-    const newValue = value.concat();
-    newValue.splice(index, 1);
-    onChange?.(newValue);
+    this.unmounted = true;
   }
 
   initSortable() {
@@ -138,24 +166,65 @@ export class ResultList extends React.Component<ResultListProps> {
     onChange?.(result, true);
   }
 
-  render() {
+  @autobind
+  search(inputValue: string) {
+    const {onSearch, value} = this.props;
+    const searchResult = (value || []).filter(
+      item => onSearch && onSearch(inputValue, item)
+    );
+    this.setState({searchResult})
+  }
+
+  @autobind
+  clearSearch() {
+    this.setState({searchResult: null})
+  }
+
+  // 关闭表格最后一项
+  @autobind
+  handleCloseItem(option: Option) {
+    const {value, onChange, option2value, options, disabled} = this.props;
+
+    if (disabled || option.disabled) {
+      return;
+    }
+
+    // 删除普通值
+    let valueArray = BaseSelection.value2array(value, options, option2value);
+
+    let idx = valueArray.indexOf(option);
+    valueArray.splice(idx, 1);
+    let newValue: string | Array<Option> = option2value
+      ? valueArray.map(item => option2value(item))
+      : valueArray;
+    onChange && onChange(newValue);
+
+    const {searchResult} = this.state;
+    if (searchResult) {
+      const searchArray = BaseSelection.value2array(
+        searchResult,
+        options,
+        option2value
+      );
+      const searchIdx = searchArray.indexOf(option);
+      searchResult.splice(searchIdx, 1);
+      this.setState({searchResult});
+    }
+  }
+
+  renderNormalList(value?: Options) {
     const {
       classnames: cx,
-      className,
-      value,
       placeholder,
       itemRender,
       disabled,
-      title,
       itemClassName,
       sortable,
       translate: __
     } = this.props;
 
     return (
-      <div className={cx('Selections', className)}>
-        {title ? <div className={cx('Selections-title')}>{title}</div> : null}
-
+      <>
         {Array.isArray(value) && value.length ? (
           <div className={cx('Selections-items')}>
             {value.map((option, index) => (
@@ -186,7 +255,9 @@ export class ResultList extends React.Component<ResultListProps> {
                   <a
                     className={cx('Selections-delBtn')}
                     data-index={index}
-                    onClick={this.handleRemove}
+                    onClick={(e: React.MouseEvent<HTMLElement>) =>
+                      this.handleCloseItem(option)
+                    }
                   >
                     <Icon icon="close" className="icon" />
                   </a>
@@ -194,9 +265,36 @@ export class ResultList extends React.Component<ResultListProps> {
               </div>
             ))}
           </div>
-        ) : (
-          <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>
-        )}
+        ) :
+        (<div className={cx('Selections-placeholder')}>{__(placeholder)}</div>)}
+      </>
+    );
+  }
+
+  render() {
+    const {
+      classnames: cx,
+      className,
+      title,
+      searchable,
+      value,
+      translate: __,
+      placeholder = __('Transfer.searchKeyword')
+    } = this.props;
+
+    const {searchResult} = this.state;
+
+    return (
+      <div className={cx('Selections', className)}>
+        {title ? <div className={cx('Selections-title')}>{title}</div> : null}
+        {searchable ? (
+          <TransferSearch
+            placeholder={placeholder}
+            onSearch={this.search}
+            onCancelSearch={this.clearSearch}
+          />
+        ) : null}
+        {this.renderNormalList(searchResult !== null ? searchResult : value)}
       </div>
     );
   }

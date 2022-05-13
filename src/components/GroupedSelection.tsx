@@ -1,12 +1,13 @@
-import {BaseSelection} from './Selection';
-import {themeable} from '../theme';
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
+
+import {BaseSelection, BaseSelectionProps} from './Selection';
+import {themeable} from '../theme';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {localeable} from '../locale';
 
-export class GroupedSelection extends BaseSelection {
+export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
   valueArray: Array<Option>;
 
   renderOption(option: Option, index: number) {
@@ -18,6 +19,7 @@ export class GroupedSelection extends BaseSelection {
       itemRender,
       multiple
     } = this.props;
+
     const valueArray = this.valueArray;
 
     if (Array.isArray(option.children)) {

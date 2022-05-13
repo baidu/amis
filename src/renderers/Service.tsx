@@ -19,7 +19,8 @@ import {
   isEmpty,
   isObjectShallowModified,
   isVisible,
-  qsstringify
+  qsstringify,
+  createObject
 } from '../utils/helper';
 import {
   BaseSchema,
@@ -387,10 +388,11 @@ export default class Service extends React.Component<ServiceProps> {
     const {interval, silentPolling, stopAutoRefreshWhen, data} = this.props;
 
     clearTimeout(this.timer);
-
     interval &&
       this.mounted &&
-      (!stopAutoRefreshWhen || !evalExpression(stopAutoRefreshWhen, data)) &&
+      (!stopAutoRefreshWhen ||
+        /** 接口返回值需要同步到数据域中再判断，否则会多请求一轮 */
+        !evalExpression(stopAutoRefreshWhen, createObject(data, value))) &&
       (this.timer = setTimeout(
         silentPolling ? this.silentReload : this.reload,
         Math.max(interval, 1000)
@@ -523,7 +525,7 @@ export default class Service extends React.Component<ServiceProps> {
           redirect && env.jumpTo(redirect, action);
           action.reload && this.reloadTarget(action.reload, store.data);
         })
-        .catch((e) => {
+        .catch(e => {
           if (throwErrors || action.countDown) {
             throw e;
           }
