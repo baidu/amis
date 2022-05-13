@@ -5,6 +5,10 @@
   min-height: px2rem(300px);
   position: relative;
 
+  &-searchbox {
+    width: 100%;
+  }
+
   &--inline {
     display: inline-flex;
     flex-wrap: nowrap;
@@ -62,12 +66,16 @@
   &-select > .#{$ns}ChainedSelection {
     min-height: unset;
     overflow: hidden;
-    
+
     .#{$ns}ChainedSelection-col {
       height: 100%;
       overflow: auto;
       min-width: px2rem(130px);
     }
+  }
+
+  .#{$ns}-ResultTreeList {
+    border-top: 1px solid var(--borderColor);
   }
 
   .#{$ns}AssociatedSelection {
@@ -77,6 +85,10 @@
     &-right {
       min-height: unset;
     }
+  }
+
+  &-select {
+    overflow: hidden;
   }
 
   &-search + &-selection {
@@ -127,6 +139,14 @@
     &.is-disabled {
       pointer-events: none;
       color: var(--text--muted-color);
+    }
+  }
+
+  .#{$ns}Tree {
+    padding: px2rem(2px) px2rem(10px);
+
+    &-itemLabel:hover::after {
+      left: 0;
     }
   }
 }
@@ -230,6 +250,7 @@
 
 .#{$ns}TransferControl {
   position: relative;
+  overflow: hidden;
 
   &.is-inline {
     display: inline-block;
@@ -259,7 +280,6 @@
     border: px2rem(1px) solid ver(--menu-active-color);
   }
   &-icon {
-    transform: rotate(90deg);
     transition: transform var(--animation-duration) ease-out;
     margin: px2rem(5px) 0 px2rem(5px) auto;
     display: flex;

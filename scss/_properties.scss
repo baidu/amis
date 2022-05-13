@@ -402,9 +402,9 @@
   --Calendar-cell-bg: var(--white);
   --Calendar-cell-onActive-bg: var(--info);
   --Calendar-cell-onBetween-bg: #{rgba($info, 0.1)};
-  --Calendar-cell-onDisabled-bg: #F7F7F9;
-  --Calendar-cell-onHover-bg:  #F7F7F9;
-  --Calendar-color: #151b26;;
+  --Calendar-cell-onDisabled-bg: #f7f7f9;
+  --Calendar-cell-onHover-bg: #f7f7f9;
+  --Calendar-color: #151b26;
   --Calendar-fontSize: var(--fontSizeSm);
   --Calendar-input-borderColor: var(--borderColor);
   --Calendar-input-borderRadius: var(--borderRadius);
@@ -420,7 +420,7 @@
           var(--Calendar-input-fontSize)
       ) / 2
   );
-  --Calendar-shortcut-color: #151B26;
+  --Calendar-shortcut-color: #151b26;
   --Calendar-shortcut-decoration: none;
   --Calendar-shortcut-onHover-color: #{darken($info, 15%)};
   --Calendar-shortcut-onHover-decoration: none;
@@ -595,9 +595,9 @@
   --DatePicker-borderColor: var(--Form-input-borderColor);
   --DatePicker-borderRadius: var(--Form-input-borderRadius);
   --DatePicker-borderWidth: var(--Form-input-borderWidth);
-  --DatePicker-color: #151b26;;
+  --DatePicker-color: #151b26;
   --DatePicker-header-onHover-color: #{darken($info, 15%)};
-  --DatePicker-arrow-color: #84868C;
+  --DatePicker-arrow-color: #84868c;
   --DatePicker-fontSize: var(--fontSizeSm);
   --DatePicker-header-select-borderColor: #fff;
   --DatePicker-height: var(--Form-input-height);
@@ -1547,7 +1547,7 @@
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
   --Tree-item-onHover-bg: rgba(0, 126, 255, 0.08);
   --Tree-item-onHover-bg-pure: rgba(0, 126, 255, 0.08);
-  --Tree-itemArrowWidth: #{px2rem(16px)};
+  --Tree-itemArrowWidth: #{px2rem(10px)};
   --Tree-itemHeight: #{px2rem(30px)};
   --Tree-itemLabel--onChecked-color: var(--Form-selectValue-color);
   --TreeSelect-popover-bg: #fff;

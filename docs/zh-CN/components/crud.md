@@ -45,6 +45,63 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
         {
             "name": "grade",
             "label": "CSS grade"
+        },
+        {
+            "type": "operation",
+            "label": "操作",
+            "buttons": [
+                {
+                    "label": "详情",
+                    "type": "button",
+                    "level": "link",
+                    "actionType": "dialog",
+                    "dialog": {
+                        "title": "查看详情",
+                        "body": {
+                            "type": "form",
+                            "body": [
+                                {
+                                    "type": "input-text",
+                                    "name": "engine",
+                                    "label": "Engine"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "browser",
+                                    "label": "Browser"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "platform",
+                                    "label": "platform"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "version",
+                                    "label": "version"
+                                },
+                                {
+                                    "type": "control",
+                                    "label": "grade",
+                                    "body": {
+                                        "type": "tag",
+                                        "label": "${grade}",
+                                        "displayMode": "normal",
+                                        "color": "active"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "label": "删除",
+                    "type": "button",
+                    "level": "link",
+                    "className": "text-danger",
+                    "disabledOn": "this.grade === 'A'"
+                }
+            ]
         }
     ]
 }

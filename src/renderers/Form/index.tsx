@@ -54,16 +54,16 @@ import {
   SchemaReload
 } from '../../Schema';
 import {ActionSchema} from '../Action';
-import {ButtonGroupControlSchema} from './ButtonGroupSelect';
 import {DialogSchemaBase} from '../Dialog';
-import Alert from '../../components/Alert2';
+
+import type {LabelAlign} from './Item';
 
 export interface FormSchemaHorizontal {
   left?: number;
   right?: number;
   leftFixed?: boolean | number | 'xs' | 'sm' | 'md' | 'lg';
   justify?: boolean; // 两端对齐
-  labelAlign?: 'left' | 'right' // label对齐方式
+  labelAlign?: 'left' | 'right'; // label对齐方式
 }
 
 /**
@@ -303,6 +303,11 @@ export interface FormSchema extends BaseSchema {
    * 禁用回车提交
    */
   preventEnterSubmit?: boolean;
+
+  /**
+   * 表单label的对齐方式
+   */
+  labelAlign?: LabelAlign;
 }
 
 export type FormGroup = FormSchema & {
@@ -369,7 +374,8 @@ export default class Form extends React.Component<FormProps, object> {
     },
     wrapperComponent: '',
     finishedField: 'finished',
-    initFinishedField: 'finished'
+    initFinishedField: 'finished',
+    labelAlign: 'right'
   };
   static propsList: Array<string> = [
     'title',
@@ -876,7 +882,10 @@ export default class Form extends React.Component<FormProps, object> {
     if (!isAlive(store)) {
       return;
     }
-    const dispatcher = await dispatchEvent('change', createObject(data, store.data));
+    const dispatcher = await dispatchEvent(
+      'change',
+      createObject(data, store.data)
+    );
     if (!dispatcher?.prevented) {
       onChange &&
         onChange(
@@ -981,7 +990,10 @@ export default class Form extends React.Component<FormProps, object> {
     if (Array.isArray(action.required) && action.required.length) {
       return store.validateFields(action.required).then(async result => {
         if (!result) {
-          const dispatcher = await dispatchEvent('validateError', this.props.data);
+          const dispatcher = await dispatchEvent(
+            'validateError',
+            this.props.data
+          );
           if (!dispatcher?.prevented) {
             env.notify('error', __('Form.validateFailed'));
           }
@@ -1060,7 +1072,7 @@ export default class Form extends React.Component<FormProps, object> {
                   (ret: any) => ret && ret[finishedField || 'finished'],
                   cancel => (this.asyncCancel = cancel),
                   checkInterval
-                )
+                );
                 return {
                   cbResult,
                   dispatcher
@@ -1457,7 +1469,8 @@ export default class Form extends React.Component<FormProps, object> {
       resolveDefinitions,
       lazyChange,
       formLazyChange,
-      dispatchEvent
+      dispatchEvent,
+      labelAlign
     } = props;
 
     const subProps = {
@@ -1470,6 +1483,7 @@ export default class Form extends React.Component<FormProps, object> {
       formSubmited: form.submited,
       formMode: mode,
       formHorizontal: horizontal,
+      formLabelAlign: labelAlign !== 'left' ? 'right' : labelAlign,
       controlWidth,
       disabled: disabled || (control as Schema).disabled || form.loading,
       btnDisabled: disabled || form.loading || form.validating,

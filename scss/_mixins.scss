@@ -420,7 +420,7 @@
     @include input-clear();
   }
 
-  &-passwordReveal {
+  &-revealPassword {
     cursor: pointer;
     color: var(--text--muted-color);
   }

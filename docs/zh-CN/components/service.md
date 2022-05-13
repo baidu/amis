@@ -362,7 +362,40 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 
 ## 定时轮询刷新
 
-设置 `interval` 可以定时刷新 api 接口，单位是毫秒，最小间隔是 1 秒。
+设置 `interval` 可以定时刷新 `api` 和 `schemaApi` 接口，单位是毫秒，如`"interval": 2000` 则设置轮询间隔为 2s ，注意最小间隔时间是 1 秒。支持通过`stopAutoRefreshWhen`表达式定义轮询停止条件。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/number/random?waitSeconds=1",
+    "interval": 2000,
+    "stopAutoRefreshWhen": "this.random === 6",
+    "body": {
+        "type": "panel",
+        "title": "随机数字",
+        "body": "现在是：${random}"
+    }
+}
+```
+
+### 静默轮询
+
+设置`silentPolling: true`可以关闭等待接口加载时的 loading 动画，该配置仅在配置`interval`时生效。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/number/random?waitSeconds=1",
+    "interval": 2000,
+    "silentPolling": true,
+    "stopAutoRefreshWhen": "this.random === 6",
+    "body": {
+        "type": "panel",
+        "title": "随机数字",
+        "body": "现在是：${random}"
+    }
+}
+```
 
 ## 通过 WebSocket 实时获取数据
 
@@ -581,7 +614,7 @@ ws.on('connection', function connection(ws) {
 | messages              | `Object`                                  |                | 消息提示覆写，默认消息读取的是接口返回的 toast 提示文字，但是在此可以覆写它。 |
 | messages.fetchSuccess | `string`                                  |                | 接口请求成功时的 toast 提示文字                                               |
 | messages.fetchFailed  | `string`                                  | `"初始化失败"` | 接口请求失败时 toast 提示文字                                                 |
-| interval              | `number`                                  |                | 轮询时间间隔(最低 3000)                                                       |
+| interval              | `number`                                  |                | 轮询时间间隔，单位 ms(最低 1000)                                              |
 | silentPolling         | `boolean`                                 | `false`        | 配置轮询时是否显示加载动画                                                    |
 | stopAutoRefreshWhen   | [表达式](../../docs/concepts/expression)  |                | 配置停止轮询的条件                                                            |
 
