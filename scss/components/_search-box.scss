@@ -10,11 +10,12 @@
 
   height: 30px;
   width: 30px;
-  padding: 0 8px;
+  padding-left: 8px;
 
   transition: all var(--animation-duration) ease-in-out;
   border: var(--Form-input-borderWidth) solid transparent;
   border-radius: var(--Form-input-borderRadius);
+  overflow: hidden;
 
   &:hover {
     background: var(--Form-input-onHover-bg);
@@ -27,13 +28,38 @@
     > input {
       flex-grow: 1;
     }
+
+    &:hover {
+      border-color: var(--SearchBox-hover-color);
+    }
+
+    &.is-focused {
+      border-color: var(--SearchBox-focus-color);
+    }
+  }
+
+  &-searchBtn {
+    display: flex;
+    width: var(--SearchBox-height);
+    align-items: center;
+    justify-content: center;
+
+    .icon {
+      top: 0;
+    }
+  }
+
+
+  &-activeBtn,
+  &-cancelBtn {
+    margin-right: 8px;
   }
 
   &-activeBtn,
   &-searchBtn,
   &-cancelBtn {
     cursor: pointer;
-    color: var(--icon-color);
+    color: var(--SearchBox-search-icon-color);
 
     &:hover {
       color: var(--icon-onHover-color);
@@ -45,6 +71,19 @@
   &.is-disabled &-cancelBtn {
     color: var(--icon-onDisabled-color);
     pointer-events: none;
+  }
+
+  &.is-disabled {
+    background-color: var(--SearchBox-disabled-color);
+    cursor: not-allowed;
+
+    &:hover {
+      border-color: var(--Form-input-borderColor);
+    }
+
+    > input {
+      cursor: not-allowed;
+    }
   }
 
   > input {
@@ -62,5 +101,38 @@
     }
   }
 
+  &-clearable {
+    display: flex;
+    width: var(--SearchBox-clearable-icon-size);
+    height: var(--SearchBox-clearable-icon-size);
+    color: var(--SearchBox-clearable-icon-color);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    .icon {
+      top: 0;
+    }
+
+    &:hover {
+      color: var(--Form-input-clearBtn-color-onHover);
+    }
+  }
+
   height: 30px;
+
+  &--enhance.is-active &-searchBtn {
+    height: 100%;
+    color: var(--SearchBox-enhonce-icon-color);
+    background: var(--SearchBox-hover-color);
+  }
+
+  &--enhance &-clearable {
+    margin-right: var(--SearchBox-enhonce-clearable-gap);
+  }
+
+  &--enhance.is-active.is-disabled &-searchBtn {
+    background: var(--SearchBox-enhonce-disabled-color);
+    color: var(--SearchBox-enhonce-disabled-search-color);
+  }
 }

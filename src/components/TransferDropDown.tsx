@@ -115,7 +115,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
           >
             {!mobileUI ? (
               <span className={cx('TransferDropDown-icon')}>
-                <Icon icon="caret" className="icon" />
+                <Icon icon="right-arrow-bold" className="icon" />
               </span>
             ) : (
               <></>

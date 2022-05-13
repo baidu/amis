@@ -44,14 +44,11 @@
   max-height: px2rem(300px);
   overflow: auto;
   user-select: none;
-
-  &-group:not(:first-child) > &-itemLabel {
-    border-top: px2rem(1px) solid var(--ListMenu-divider-color);
-  }
+  padding: var(--gap-xs) 0;
 
   &-group > &-itemLabel {
     padding: var(--gap-xs) var(--gap-base);
-    color: var(--text--muted-color);
+    color: var(--FileControl-icon-color);
   }
 
   &-item {
@@ -75,12 +72,15 @@
     user-select: none;
 
     &.is-active {
-      color: var(--Form-select-menu-onActive-color);
       background: var(--Form-select-menu-onActive-bg);
     }
 
     &:hover {
       background: var(--Tree-item-onHover-bg);
+
+      i {
+        border: 1px solid var(--menu-active-color);
+      }
     }
 
     &.is-disabled {
@@ -198,6 +198,10 @@
     &.is-disabled {
       pointer-events: none;
       color: var(--text--muted-color);
+    }
+
+    .#{$ns}TreeSelection-itemLabel {
+      margin-left: var(--gap-xs);
     }
   }
 

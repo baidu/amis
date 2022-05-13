@@ -778,7 +778,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
               })}
               onClick={this.removeItem.bind(this, index)}
             >
-              ×
+              <Icon
+                icon="close"
+                className="icon"
+              />
             </span>
           </div>
         </TooltipWrapper>
@@ -884,7 +887,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           {removable ? (
             <a data-tooltip={__('Select.clear')} data-position="left">
               <Icon
-                icon="minus"
+                icon="close"
                 className="icon"
                 onClick={(e: any) => this.handleDeleteClick(e, item)}
               />
@@ -1181,7 +1184,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               ) : null}
 
               <span className={cx('Select-arrow')}>
-                <Icon icon="caret" className="icon" />
+                <Icon icon="right-arrow-bold" className="icon" />
               </span>
               {isOpen ? this.renderOuter(options) : null}
             </div>

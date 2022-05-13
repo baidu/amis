@@ -119,7 +119,9 @@ register('en-US', {
   'fetchFailed': 'Fetch api failed',
   'File.continueAdd': 'Continue add',
   'File.downloadTpl': 'Download template',
-  'File.dragDrop': `Drag 'n' drop some files here or click here to upload`,
+  'File.dragDrop': `Drag 'n' drop some files here or`,
+  'File.clickUpload': `click here to upload`,
+  'File.helpText': 'Help documentation',
   'File.errorRetry': 'File upload failed, please try again',
   'File.failed': 'Failed files.',
   'File.invalidType': '{{files}} does not match type `{{accept}}`',
@@ -187,6 +189,7 @@ register('en-US', {
   'Checkboxes.selectAll': 'Select/Deselect All',
   'Select.checkAll': 'Check all',
   'Select.clear': 'Clear',
+  'Select.upload': 'Re upload',
   'Select.clearAll': 'Clear all',
   'Select.createLabel': 'New option',
   'Select.placeholder': 'Select',
@@ -331,5 +334,6 @@ register('en-US', {
   'JSONSchema.default': 'Default',
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
-  'JSONSchema.array_items': 'Items'
+  'JSONSchema.array_items': 'Items',
+  'TimeNow': 'Now',
 });
