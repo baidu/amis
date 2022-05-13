@@ -83,6 +83,6 @@ export const copyItemFromOrigin = <T extends TreeNode>(originItem: T) => {
     [tableKey]: tableKeyGenerator.generate(),
     children: originItem.children
       ? generateTableItemsKey(originItem.children)
-      : undefined
+      : []
   };
 };

@@ -473,7 +473,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     const newItems = traverseTreeWith(item => {
       if (item[tableKey] === key) {
-        return [item, copyItemFromOrigin(item)];
+        newValue = copyItemFromOrigin(item);
+        return [item, newValue];
       }
       return item;
     })(items);
@@ -652,23 +653,22 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       data,
       translate: __
     } = this.props;
-
-    const newValue = Array.isArray(value) ? value.concat() : [];
-    let removeItem;
+    const {items} = this.state;
+    let removedItem;
 
     const newItems = traverseTreeWith(item => {
       if (item[tableKey] === key) {
-        removeItem = item;
+        removedItem = item;
         return undefined;
       }
       return item;
-    })(newValue);
+    })(items);
 
-    if (!removeItem) {
+    if (!removedItem) {
       return;
     }
 
-    const ctx = createObject(data, removeItem);
+    const ctx = createObject(data, removedItem);
     if (isEffectiveApi(deleteApi, ctx)) {
       const confirmed = await env.confirm(
         deleteConfirmText ? filter(deleteConfirmText, ctx) : __('deleteConfirm')
@@ -1142,6 +1142,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             rowClassNameExpr
           }
         )}
+
         {(addable && showAddBtn !== false) || showPager ? (
           <div className={cx('InputTable-toolbar')}>
             {addable && showAddBtn !== false ? (
