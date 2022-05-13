@@ -32,10 +32,8 @@ test('Renderer:city', async () => {
   });
 
   fireEvent.click(getByText('请选择'));
-  fireEvent.click(getByText('北京市'));
-  fireEvent.click(getByText('请选择'));
-  fireEvent.click(getByText('北京市市辖区'));
-  fireEvent.click(getByText('请选择'));
+  fireEvent.mouseEnter(getByText('北京市'));
+  fireEvent.mouseEnter(getByText('北京市市辖区'));
   fireEvent.click(getByText('东城区'));
 
   await wait(500);

@@ -50,109 +50,117 @@ exports[`Renderer:city 1`] = `
             </span>
           </label>
           <div
-            class="cxd-CityPicker"
+            class="cxd-CityPicker cxd-Form-control"
           >
             <div
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-labelledby="downshift-0-label"
-              class="cxd-Select"
-              role="combobox"
-              tabindex="0"
+              class="cxd-Form-item cxd-Form-item--normal"
+              data-role="form-item"
             >
               <div
-                class="cxd-Select-valueWrap"
+                class="cxd-NestedSelectControl cxd-Form-control"
               >
                 <div
-                  class="cxd-Select-value"
+                  class="cxd-ResultBox cxd-NestedSelect cxd-NestedSelect--single is-clickable is-clearable"
+                  tabindex="0"
                 >
-                  北京市
+                  <span
+                    class="cxd-ResultBox-singleValue"
+                  >
+                    <span
+                      class="cxd-Select-valueLabel"
+                    >
+                      <span>
+                        <span
+                          class=""
+                        >
+                          北
+                        </span>
+                        <span
+                          class=""
+                        >
+                          京
+                        </span>
+                        <span
+                          class=""
+                        >
+                          市
+                        </span>
+                         &gt; 
+                      </span>
+                      <span>
+                        <span
+                          class=""
+                        >
+                          北
+                        </span>
+                        <span
+                          class=""
+                        >
+                          京
+                        </span>
+                        <span
+                          class=""
+                        >
+                          市
+                        </span>
+                        <span
+                          class=""
+                        >
+                          市
+                        </span>
+                        <span
+                          class=""
+                        >
+                          辖
+                        </span>
+                        <span
+                          class=""
+                        >
+                          区
+                        </span>
+                         &gt; 
+                      </span>
+                      <span>
+                        <span
+                          class=""
+                        >
+                          东
+                        </span>
+                        <span
+                          class=""
+                        >
+                          城
+                        </span>
+                        <span
+                          class=""
+                        >
+                          区
+                        </span>
+                      </span>
+                    </span>
+                  </span>
+                  <a
+                    class="cxd-ResultBox-clear cxd-ResultBox-clear-with-arrow"
+                  >
+                    <div
+                      class="cxd-ResultBox-clear-wrap"
+                    >
+                      <icon-mock
+                        classname="icon icon-input-clear"
+                        icon="input-clear"
+                      />
+                    </div>
+                  </a>
+                  <span
+                    class="cxd-ResultBox-pc-arrow"
+                  >
+                    <icon-mock
+                      classname="icon icon-caret"
+                      icon="caret"
+                    />
+                  </span>
                 </div>
               </div>
-              <a
-                class="cxd-Select-clear"
-              >
-                <icon-mock
-                  classname="icon icon-close-small"
-                  icon="close-small"
-                />
-              </a>
-              <span
-                class="cxd-Select-arrow"
-              >
-                <icon-mock
-                  classname="icon icon-right-arrow-bold"
-                  icon="right-arrow-bold"
-                />
-              </span>
-            </div>
-            <div
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-labelledby="downshift-1-label"
-              class="cxd-Select"
-              role="combobox"
-              tabindex="0"
-            >
-              <div
-                class="cxd-Select-valueWrap"
-              >
-                <div
-                  class="cxd-Select-value"
-                >
-                  北京市市辖区
-                </div>
-              </div>
-              <a
-                class="cxd-Select-clear"
-              >
-                <icon-mock
-                  classname="icon icon-close-small"
-                  icon="close-small"
-                />
-              </a>
-              <span
-                class="cxd-Select-arrow"
-              >
-                <icon-mock
-                  classname="icon icon-right-arrow-bold"
-                  icon="right-arrow-bold"
-                />
-              </span>
-            </div>
-            <div
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-labelledby="downshift-2-label"
-              class="cxd-Select is-focused"
-              role="combobox"
-              tabindex="0"
-            >
-              <div
-                class="cxd-Select-valueWrap"
-              >
-                <div
-                  class="cxd-Select-value"
-                >
-                  东城区
-                </div>
-              </div>
-              <a
-                class="cxd-Select-clear"
-              >
-                <icon-mock
-                  classname="icon icon-close-small"
-                  icon="close-small"
-                />
-              </a>
-              <span
-                class="cxd-Select-arrow"
-              >
-                <icon-mock
-                  classname="icon icon-right-arrow-bold"
-                  icon="right-arrow-bold"
-                />
-              </span>
             </div>
           </div>
         </div>
