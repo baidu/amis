@@ -32,9 +32,9 @@ test('Renderer:city', async () => {
   });
 
   fireEvent.click(getByText('请选择'));
-  fireEvent.mouseEnter(getByText('北京市'));
-  fireEvent.mouseEnter(getByText('北京市市辖区'));
-  fireEvent.click(getByText('东城区'));
+  fireEvent.mouseEnter(getByText('河北省'));
+  fireEvent.mouseEnter(getByText('石家庄市'));
+  fireEvent.click(getByText('长安区'));
 
   await wait(500);
   expect(container).toMatchSnapshot();
