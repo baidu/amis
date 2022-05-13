@@ -145,13 +145,8 @@ exports[`Renderer:city 1`] = `
                     class="cxd-ResultBox-pc-arrow"
                   >
                     <icon-mock
-<<<<<<< HEAD
                       classname="icon icon-right-arrow-bold"
                       icon="right-arrow-bold"
-=======
-                      classname="icon icon-caret"
-                      icon="caret"
->>>>>>> 2d1991a8 (feat: 调整input-city测试用例)
                     />
                   </span>
                 </div>
