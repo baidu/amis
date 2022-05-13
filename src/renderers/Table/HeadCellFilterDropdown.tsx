@@ -9,7 +9,7 @@ import {findDOMNode} from 'react-dom';
 import Checkbox from '../../components/Checkbox';
 import xor from 'lodash/xor';
 import {normalizeOptions} from '../../components/Select';
-import {getVariable} from '../../utils/helper';
+import {getVariable, createObject} from '../../utils/helper';
 
 export interface QuickFilterConfig {
   options: Array<any>;
@@ -168,8 +168,19 @@ export class HeadCellFilterDropDown extends React.Component<
     });
   }
 
-  handleClick(value: string) {
-    const {onQuery, name} = this.props;
+  async handleClick(value: string) {
+    const {onQuery, name, data, dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'columnFilter',
+      createObject(data, {
+        [name]: value
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     onQuery({
       [name]: value
@@ -177,8 +188,8 @@ export class HeadCellFilterDropDown extends React.Component<
     this.close();
   }
 
-  handleCheck(value: string) {
-    const {data, name, onQuery} = this.props;
+  async handleCheck(value: string) {
+    const {data, name, onQuery, dispatchEvent} = this.props;
     let query: string;
 
     if (data[name] && data[name] === value) {
@@ -186,6 +197,17 @@ export class HeadCellFilterDropDown extends React.Component<
     } else {
       query =
         (data[name] && xor(data[name].split(','), [value]).join(',')) || value;
+    }
+
+    const rendererEvent = await dispatchEvent(
+      'columnFilter',
+      createObject(data, {
+        [name]: query
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
     }
 
     onQuery({
