@@ -85,7 +85,7 @@ exports[`Renderer:city 1`] = `
                         >
                           省
                         </span>
-                         &gt; 
+                        &gt;
                       </span>
                       <span>
                         <span
@@ -108,7 +108,7 @@ exports[`Renderer:city 1`] = `
                         >
                           市
                         </span>
-                         &gt; 
+                        &gt;
                       </span>
                       <span>
                         <span
@@ -145,8 +145,8 @@ exports[`Renderer:city 1`] = `
                     class="cxd-ResultBox-pc-arrow"
                   >
                     <icon-mock
-                      classname="icon icon-caret"
-                      icon="caret"
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
                     />
                   </span>
                 </div>
