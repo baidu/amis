@@ -250,7 +250,6 @@ export class CityPicker extends React.Component<
       }
       return state;
     });
-    console.log(values);
     const stateValues = multiple ? values : values[0];
     this.setState({value: stateValues});
   }
