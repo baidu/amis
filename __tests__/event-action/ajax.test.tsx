@@ -3,7 +3,7 @@ import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
 import {makeEnv, wait} from '../helper';
 
-test('EventAction:dialog', async () => {
+test('EventAction:ajax', async () => {
   const fetcher = jest.fn().mockImplementation(() =>
     Promise.resolve({
       data: {

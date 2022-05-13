@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EventAction:dialog 1`] = `
+exports[`EventAction:ajax 1`] = `
 <div>
   <div
     class="cxd-Page"
