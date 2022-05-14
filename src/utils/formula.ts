@@ -12,6 +12,7 @@ import {
 
 import {filter} from './tpl';
 import {getFilters} from './tpl-builtin';
+import {collectVariables} from './grammar';
 
 /**
  * formulaExec 运算器：根据当前字符串类型执行对应运算，也可按指定执行模式执行运算
@@ -27,6 +28,7 @@ import {getFilters} from './tpl-builtin';
  *    比如：data.num1 + 2、this.num1 + 2、num1 + 2；（备注：三个表达式是等价的，这里的 this 就是 data。）
  * 5. var: 以此字符串作为key值从当前数据域data中获取数值；性能最高（运行期间不会生成ast和表达式运算）；
  * 6. true 或者 false: 当execMode设置为true时，不用 ${} 包裹也可以执行表达式；
+ * 7. collect: 用于从表达式中获取所有变量；
  * 
  * 备注1: 当 execMode 为true时，或者不设置 execMode（execMode 为 undefined 或者 null），OpenFormulaExecEvalModeStatus 为 true 时，会识别以特殊字符开头的表达式。
  *   其可识别的特殊前缀如下:
@@ -37,7 +39,7 @@ import {getFilters} from './tpl-builtin';
  * 备注3: 用户也可以使用 registerFormulaExec 注册一个自定义运算器；
  * 备注4: 模板字符串 和 Javascript 模板引擎 不可以交叉使用；
  * 备注5: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现；
- * 备注6: 后续可以考虑将 amis现有的运算器都放这里管理，充当统一的运算器入口。
+ * 备注6: 后续可考虑将 amis现有的运算器都放这里管理，充当统一的运算器入口。
  */
 
 // 缓存，用于提升性能
@@ -121,6 +123,16 @@ export const FormulaExec: {
     const result = getVariable(curData, expression); // 不支持过滤器
     return result ?? expression;
   },
+  'collect': (expression: any) => {
+    let variables: Array<string> = [];
+    if (isObjectByLodash(expression) || isString(expression)) {
+      // 仅对 Object类型 和 String类型 进行变量提取
+      variables = collectVariables(expression);
+    } else {
+      variables = [];
+    }
+    return variables;
+  },
 };
 
 // 用于 控制 formulaExec execMode，当设置为 true 时，非 ${ xxx } 格式也启动表达式运算器，且识别特殊前缀。
@@ -135,6 +147,7 @@ if (window && !(window as any).updateFormulaExecEvalModeDefaultStatus) {
   (window as any).updateFormulaExecEvalModeDefaultStatus = updateFormulaExecEvalModeDefaultStatus;
 }
 
+// 根据表达式类型自动匹配指定运算器，也可以通过设置 execMode 直接指定运算器
 export function formulaExec(value: any, data: any, execMode?: string | boolean) {
   if (!value) {
     return '';
@@ -233,4 +246,16 @@ export function isPureValue(value: any) {
   } else {
     return false;
   }
+}
+
+// 用于判断是否需要执行表达式: 
+export function isNeedFormula(
+  expression: any, 
+  prevData: {[propName: string]: any},
+  curData: {[propName: string]: any},
+): boolean {
+  const variables = FormulaExec.collect(expression);
+  return variables.some(
+    (variable: string) => FormulaExec.var(variable, prevData) !== FormulaExec.var(variable, curData)
+  );
 }

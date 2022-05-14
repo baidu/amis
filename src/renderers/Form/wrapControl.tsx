@@ -17,6 +17,7 @@ import {
 } from '../../utils/helper';
 import {
   formulaExec,
+  isNeedFormula,
   isPureValue
 } from '../../utils/formula';
 import {IIRendererStore, IRendererStore} from '../../store';
@@ -329,14 +330,17 @@ export function wrapControl<
               // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
               if (
                 props.defaultValue !== prevProps.defaultValue ||
-                !isEqual(props.data, prevProps.data)
+                (!isEqual(props.data, prevProps.data) &&
+                isNeedFormula(props.defaultValue, props.data, prevProps.data))
               ) {
                 const curResult = formulaExec(props.defaultValue, props.data, false);
                 const prevResult = formulaExec(prevProps.defaultValue, prevProps.data, false);
                 if (curResult !== prevResult && curResult !== model.tmpValue) {
                   // 识别上下文变动、自身数值变动、公式运算结果变动
                   model.changeTmpValue(curResult);
-                  this.lazyEmitChange(false); // 运算值发生变化时，需主动触发同步
+                  if (props.onChange) {
+                    props.onChange(curResult, model.name, false);
+                  }
                 }
               }
             } else if (
