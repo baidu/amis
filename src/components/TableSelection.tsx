@@ -122,7 +122,6 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
             return (
               <tr
                 key={rowIndex}
-                onClick={e => e.defaultPrevented || this.toggleOption(option)}
                 className={cx(
                   itemClassName,
                   option.className,
@@ -131,8 +130,18 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
                 )}
               >
                 {multiple ? (
-                  <td className={cx('Table-checkCell')} key="checkbox">
-                    <Checkbox size="sm" checked={checked} disabled={disabled} />
+                  <td className={cx('Table-checkCell')}
+                    key="checkbox"
+                    onClick={e => {
+                      e.stopPropagation();
+                      this.toggleOption(option);
+                    }}
+                  >
+                    <Checkbox
+                      size="sm"
+                      checked={checked}
+                      disabled={disabled}
+                    />
                   </td>
                 ) : null}
                 {columns.map((column, colIndex) => (

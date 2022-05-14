@@ -1,9 +1,11 @@
+import React from 'react';
+import find from 'lodash/find';
+
 import {
   OptionsControlProps,
   OptionsControl,
   FormOptionsControl
 } from './Options';
-import React from 'react';
 import Transfer, {Transfer as BaseTransfer} from '../../components/Transfer';
 import type {Option} from './Options';
 import {
@@ -16,9 +18,7 @@ import {
   getTree,
   spliceTree
 } from '../../utils/helper';
-import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
-import find from 'lodash/find';
 import {optionValueCompare} from '../../components/Select';
 import {resolveVariable} from '../../utils/tpl-builtin';
 import {SchemaApi, SchemaObject} from '../../Schema';
@@ -50,6 +50,11 @@ export interface TransferControlSchema extends FormOptionsControl {
    * 勾选展示模式
    */
   selectMode?: 'table' | 'list' | 'tree' | 'chained' | 'associated';
+
+  /**
+   * 结果面板是否追踪显示
+   */
+  resultListModeFollowSelect?: boolean;
 
   /**
    * 当 selectMode 为 associated 时用来定义左侧的选项
@@ -87,6 +92,11 @@ export interface TransferControlSchema extends FormOptionsControl {
   searchable?: boolean;
 
   /**
+   * 结果（右则）列表的检索功能，当设置为true时，可以通过输入检索模糊匹配检索内容
+   */
+  resultSearchable?: boolean;
+
+  /**
    * 搜索 API
    */
   searchApi?: SchemaApi;
@@ -110,6 +120,16 @@ export interface TransferControlSchema extends FormOptionsControl {
    * 用来丰富值的展示
    */
   valueTpl?: SchemaObject;
+
+  /**
+   * 左侧列表搜索框提示
+   */
+  searchPlaceholder?: string;
+
+  /**
+   * 右侧列表搜索框提示
+   */
+  resultSearchPlaceholder?: string;
 }
 
 export interface BaseTransferProps
@@ -272,6 +292,13 @@ export class BaseTransferRenderer<
   }
 
   @autobind
+  handleResultSearch(term: string, item: Option) {
+    const {valueField} = this.props;
+    const regexp = string2regExp(term);
+    return regexp.test(item[(valueField as string) || 'value']);
+  }
+
+  @autobind
   optionItemRender(option: Option, states: ItemRenderStates) {
     const {menuTpl, render, data} = this.props;
 
@@ -351,7 +378,7 @@ export class BaseTransferRenderer<
   }
 
   render() {
-    const {
+    let {
       className,
       classnames: cx,
       selectedOptions,
@@ -370,7 +397,10 @@ export class BaseTransferRenderer<
       selectTitle,
       resultTitle,
       menuTpl,
-      resultItemRender
+      searchPlaceholder,
+      resultListModeFollowSelect = false,
+      resultSearchPlaceholder,
+      resultSearchable = false
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -412,6 +442,11 @@ export class BaseTransferRenderer<
           cellRender={this.renderCell}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
+          resultListModeFollowSelect={resultListModeFollowSelect}
+          onResultSearch={this.handleResultSearch}
+          searchPlaceholder={searchPlaceholder}
+          resultSearchable={resultSearchable}
+          resultSearchPlaceholder={resultSearchPlaceholder}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
           onSelectAll={this.onSelectAll}
