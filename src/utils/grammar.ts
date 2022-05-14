@@ -22,13 +22,13 @@ function traverseAst(ast: any, iterator: (ast: any) => void) {
     }
   });
 }
-
-export function collectVariables(strOrAst: string | Object): Array<string> {
+// 提取表达式中有哪些变量
+export function collectVariables(strOrAst: string | Object, execMode?: boolean): Array<string> {
   const variables: Array<string> = [];
   const ast =
     typeof strOrAst === 'string'
       ? parse(strOrAst, {
-          evalMode: false
+          evalMode: execMode ?? false
         })
       : strOrAst;
 
