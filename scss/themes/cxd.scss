@@ -173,12 +173,14 @@
 
 .#{$ns}Transfer {
   &-title {
-    padding-left: #{px2rem(16px)};
-    padding-right: #{px2rem(16px)};
+    padding-left: #{px2rem(12px)};
+    padding-right: #{px2rem(12px)};
     height: px2rem(32px);
+    flex: 0 0 px2rem(32px);
 
     &--light {
       height: px2rem(40px);
+      flex: 0 0 px2rem(40px);
     }
   }
 
