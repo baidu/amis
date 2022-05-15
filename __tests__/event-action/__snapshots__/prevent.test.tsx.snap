@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventAction:prevent 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary ml-2"
+            type="button"
+          >
+            <span>
+              打开弹窗
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Modal-overlay in"
+    />
+    <div
+      class="cxd-Modal-content in"
+    >
+      <div
+        class="cxd-Modal-header"
+      >
+        <a
+          class="cxd-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="cxd-Modal-title"
+        >
+          提示
+        </div>
+      </div>
+      <div
+        class="cxd-Modal-body"
+      >
+        <div
+          class="cxd-Alert cxd-Alert--warning"
+        >
+          <div
+            class="cxd-Alert-content"
+          >
+            <div
+              class="cxd-Alert-desc"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  确认后将不关闭弹窗
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="cxd-Modal-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

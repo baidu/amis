@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventAction:ajax 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              发送请求
+            </span>
+          </button>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              18岁的天空
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
