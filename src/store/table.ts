@@ -1113,32 +1113,36 @@ export const TableStore = iRendererStore
       updateCheckDisable();
     }
 
-    function toggleAll() {
+    function getSelectedRows() {
       const maxLength = self.maxKeepItemSelectionLength;
       const keep = self.keepItemSelectionOnPageChange;
 
+      const selectedItems = self.data?.selectedItems;
+
+      if (
+        keep &&
+        maxLength &&
+        selectedItems &&
+        maxLength >= selectedItems.length
+      ) {
+        const restCheckableRows = self.checkableRows.filter(
+          item => !item.checked
+        );
+        const checkableRows = restCheckableRows.filter(
+          (item, i) => i < maxLength - selectedItems.length
+        );
+
+        return [...self.selectedRows, ...checkableRows];
+      } else {
+        return self.checkableRows;
+      }
+    }
+
+    function toggleAll() {
       if (self.allChecked) {
         self.selectedRows.clear();
       } else {
-        const selectedItems = self.data?.selectedItems;
-
-        if (
-          keep &&
-          maxLength &&
-          selectedItems &&
-          maxLength >= selectedItems.length
-        ) {
-          const restCheckableRows = self.checkableRows.filter(
-            item => !item.checked
-          );
-          const checkableRows = restCheckableRows.filter(
-            (item, i) => i < maxLength - selectedItems.length
-          );
-
-          self.selectedRows.replace([...self.selectedRows, ...checkableRows]);
-        } else {
-          self.selectedRows.replace(self.checkableRows);
-        }
+        self.selectedRows.replace(getSelectedRows());
       }
     }
 
@@ -1379,6 +1383,7 @@ export const TableStore = iRendererStore
       initRows,
       updateSelected,
       toggleAll,
+      getSelectedRows,
       toggle,
       toggleShift,
       toggleExpandAll,

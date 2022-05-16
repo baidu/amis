@@ -59,6 +59,7 @@ export interface TableContentProps extends LocaleProps {
   itemAction?: ActionSchema;
   itemActions?: Array<Action>;
   store: ITableStore;
+  dispatchEvent?: Function;
 }
 
 @observer
@@ -128,7 +129,8 @@ export class TableContent extends React.Component<TableContentProps> {
       itemAction,
       affixRow,
       store,
-      emptyIcon
+      emptyIcon,
+      dispatchEvent
     } = this.props;
 
     const tableClassName = cx('Table-table', this.props.tableClassName);
@@ -136,9 +138,10 @@ export class TableContent extends React.Component<TableContentProps> {
 
     let iconElement = null;
     if (emptyIcon) {
-      iconElement = typeof emptyIcon === 'string'
-        ? generateIcon(cx, emptyIcon, 'Icon')
-        : render('icon', emptyIcon)
+      iconElement =
+        typeof emptyIcon === 'string'
+          ? generateIcon(cx, emptyIcon, 'Icon')
+          : render('icon', emptyIcon);
     }
 
     return (
@@ -180,22 +183,20 @@ export class TableContent extends React.Component<TableContentProps> {
             <tbody>
               <tr className={cx('Table-placeholder')}>
                 <td colSpan={columns.length}>
-                  {
-                    iconElement ? (
-                      React.cloneElement(iconElement, {
-                        className: cx(
-                          iconElement?.props?.className ?? '',
-                          'Table-placeholder-empty-icon',
-                          'icon'
-                        )
-                      })
-                    ) : (
-                      <Icon
-                        icon="desk-empty"
-                        className={cx('Table-placeholder-empty-icon', 'icon')}
-                      />
-                    )
-                  }
+                  {iconElement ? (
+                    React.cloneElement(iconElement, {
+                      className: cx(
+                        iconElement?.props?.className ?? '',
+                        'Table-placeholder-empty-icon',
+                        'icon'
+                      )
+                    })
+                  ) : (
+                    <Icon
+                      icon="desk-empty"
+                      className={cx('Table-placeholder-empty-icon', 'icon')}
+                    />
+                  )}
                   {render(
                     'placeholder',
                     translate(placeholder || 'placeholder.noData')
@@ -227,6 +228,10 @@ export class TableContent extends React.Component<TableContentProps> {
               prefixRow={prefixRow}
               affixRow={affixRow}
               data={data}
+              rowsProps={{
+                data,
+                dispatchEvent
+              }}
             ></TableBody>
           )}
         </table>
