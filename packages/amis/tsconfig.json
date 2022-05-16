@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "lib",
@@ -8,12 +7,4 @@
   },
   "include": ["src/**/*"],
   "references": [{"path": "../amis-core"}, {"path": "../../"}]
-=======
-  "extends": "../../tsconfig-base.json",
-  "compilerOptions": {
-    "outDir": "lib",
-    "typeRoots": ["./node_modules/@types", "../../types"]
-  },
-  "references": [{"path": "../amis-core"}]
->>>>>>> c85ffab0 (调整目录结构)
 }

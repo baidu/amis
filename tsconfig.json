@@ -1,7 +1,5 @@
 {
-  "extends": "./tsconfig-base.json",
   "compilerOptions": {
-<<<<<<< HEAD
     "outDir": "lib",
     "rootDir": "./",
     "module": "commonjs",
@@ -28,13 +26,4 @@
   },
   "types": ["typePatches"],
   "references": [{"path": "packages/amis"}]
-=======
-    "rootDir": "./src",
-    "outDir": "lib",
-    "typeRoots": ["./node_modules/@types", "../../types"],
-    "composite": true
-  },
-  "include": ["examples/**/*"],
-  "references": [{"path": "../amis-core"}]
->>>>>>> c85ffab0 (调整目录结构)
 }

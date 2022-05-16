@@ -1,32 +1,15 @@
 {
   "name": "amis",
-<<<<<<< HEAD
   "version": "2.0.0",
-=======
-  "version": "1.9.0",
->>>>>>> c85ffab0 (调整目录结构)
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",
-<<<<<<< HEAD
     "publish-to-internal": "sh build.sh && sh publish.sh",
     "build": "sh build.sh",
     "prettier": "prettier --write '{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}'",
     "build-schemas": "ts-node -O '{\"target\":\"es6\"}' ../../scripts/build-schemas.ts"
-=======
-    "serve": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",
-    "start": "concurrently --restart-tries -1 npm:serve npm:dev",
-    "update-snapshot": "jest --updateSnapshot",
-    "stop": "fis3 server stop",
-    "dev": "fis3 release -cwd ./public",
-    "publish-to-internal": "sh build.sh && sh publish.sh",
-    "build": "sh build.sh",
-    "prettier": "prettier --write '{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}'",
-    "deploy-gh-page": "sh ./deploy-gh-pages.sh",
-    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' scripts/build-schemas.ts"
->>>>>>> c85ffab0 (调整目录结构)
   },
   "repository": {
     "type": "git",
