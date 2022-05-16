@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "index.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/json-schema/index.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;AAAA,6DAA0B;AAC1B,uCAAqD;AACrD,qCAAkD;AAElD,+BAA2C;AA8B3C,SAAS,eAAe,CAAC,KAA2B;IAClD,IAAM,MAAM,GAAG,KAAK,CAAC,MAAM,IAAI;QAC7B,IAAI,EAAE,QAAQ;QACd,UAAU,EAAE,EAAE;KACf,CAAC;IAEF,OAAO,8BAAC,0BAAmB,4BAAK,KAAK,IAAE,MAAM,EAAE,MAAM,IAAI,CAAC;AAC5D,CAAC;AAED,kBAAe,IAAA,iBAAS,EAAC,IAAA,mBAAU,EAAC,eAAe,CAAC,CAAC,CAAC",
+    "sourcesContent": [
+        "import React from 'react';\nimport {localeable, LocaleProps} from '../../locale';\nimport {themeable, ThemeProps} from '../../theme';\nimport type {JSONSchema} from '../../utils/DataScope';\nimport {InputJSONSchemaItem} from './Item';\n\nexport interface InputJSONSchemaItemProps extends ThemeProps, LocaleProps {\n  schema: JSONSchema & {\n    [propName: string]: any;\n  };\n  value?: any;\n  onChange?: any;\n  disabled?: boolean;\n  renderValue?: (\n    value: any,\n    onChange: (value: any) => void,\n    schema: any,\n    props: any\n  ) => JSX.Element;\n  renderKey?: (\n    value: any,\n    onChange: (value: any) => void,\n    schema: any,\n    props: any\n  ) => JSX.Element;\n  collapsable?: boolean;\n  placeholder?: string;\n}\n\nexport interface InputJSONSchemaProps\n  extends Omit<InputJSONSchemaItemProps, 'schema'> {\n  schema?: any;\n}\n\nfunction InputJSONSchema(props: InputJSONSchemaProps) {\n  const schema = props.schema || {\n    type: 'object',\n    properties: {}\n  };\n\n  return <InputJSONSchemaItem {...props} schema={schema} />;\n}\n\nexport default themeable(localeable(InputJSONSchema));\n"
+    ]
+}

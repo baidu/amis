@@ -293,6 +293,9 @@
               "description": "点击其他内容时是否关闭弹框信息"
             },
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
             "shape": {
               "type": "string",
               "enum": [
@@ -301,8 +304,11 @@
               ],
               "description": "icon的形状"
             },
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
             "className": {
               "$ref": "#/definitions/SchemaClassName",
               "description": "容器 css 类名"
@@ -2599,6 +2605,7 @@
           "if": {
             "properties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
               "borderMode": {
                 "type": "string",
                 "enum": [
@@ -2613,6 +2620,16 @@
                 "const": "input-month-range",
                 "description": "指定为日期范围控件"
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+              "borderMode": {
+                "type": "string",
+                "enum": [
+                  "full",
+                  "half",
+                  "none"
+                ],
+                "description": "边框模式，全边框，还是半边框，或者没边框。"
+>>>>>>> ab84b361 (目录调整)
               },
               "mode": {
                 "type": "string",
@@ -2623,12 +2640,18 @@
                 ],
                 "description": "配置当前表单项展示模式"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
               },
               "type": {
                 "type": "string",
                 "const": "input-month-range"
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
               }
             }
           },
@@ -2725,6 +2748,9 @@
                 ],
                 "description": "边框模式，全边框，还是半边框，或者没边框。"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
               },
               "displayMode": {
                 "type": "string",
@@ -2733,8 +2759,11 @@
                   "enhance"
                 ],
                 "description": "输入框为基础输入框还是加强输入框"
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
               }
             }
           },
@@ -3467,6 +3496,9 @@
             "$ref": "#/definitions/TreeSelectControlSchema"
           }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         {
           "if": {
@@ -3490,8 +3522,11 @@
           "then": {
             "$ref": "#/definitions/UserSelectControlSchema"
           }
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       ]
     },
@@ -3781,6 +3816,9 @@
           "type": "boolean",
           "description": "点击其他内容时是否关闭弹框信息"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         "shape": {
           "type": "string",
@@ -3789,8 +3827,11 @@
             "square"
           ],
           "description": "icon的形状"
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       },
       "required": [
@@ -6061,9 +6102,13 @@
         "images",
         "static-images",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "json-schema",
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+        "json-schema",
+>>>>>>> ab84b361 (目录调整)
         "json-schema-editor",
         "json",
         "static-json",
@@ -6214,10 +6259,15 @@
         "portlet",
         "grid-nav",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "users-select",
         "tag",
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+        "users-select",
+        "tag",
+>>>>>>> ab84b361 (目录调整)
         "native-date",
         "native-time",
         "native-number",
@@ -8976,10 +9026,14 @@
             "arguments": {},
             "caller": {
 <<<<<<< HEAD
+<<<<<<< HEAD
               "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
 =======
               "$ref": "#/definitions/interface-2073358172-9821-11285-2073358172-0-212510"
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+              "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
+>>>>>>> ab84b361 (目录调整)
             }
           },
           "required": [
@@ -8993,10 +9047,14 @@
       ]
     },
 <<<<<<< HEAD
+<<<<<<< HEAD
     "interface-1922134811-9821-11285-1922134811-0-212510": {
 =======
     "interface-2073358172-9821-11285-2073358172-0-212510": {
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+    "interface-1922134811-9821-11285-1922134811-0-212510": {
+>>>>>>> ab84b361 (目录调整)
       "type": "object",
       "properties": {
         "prototype": {},
@@ -9006,10 +9064,14 @@
         "arguments": {},
         "caller": {
 <<<<<<< HEAD
+<<<<<<< HEAD
           "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
 =======
           "$ref": "#/definitions/interface-2073358172-9821-11285-2073358172-0-212510"
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+          "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
+>>>>>>> ab84b361 (目录调整)
         }
       },
       "required": [
@@ -32079,10 +32141,14 @@
                 "arguments": {},
                 "caller": {
 <<<<<<< HEAD
+<<<<<<< HEAD
                   "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
 =======
                   "$ref": "#/definitions/interface-2073358172-9821-11285-2073358172-0-212510"
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+                  "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
+>>>>>>> ab84b361 (目录调整)
                 }
               },
               "required": [
@@ -32672,11 +32738,14 @@
           "description": "表格可自定义列"
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         "columnsToggler": {
           "description": "表格可自定义列的一些配置"
         },
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         "columns": {
           "type": "array",
           "items": {
@@ -32769,10 +32838,13 @@
       "required": [
         "columns",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         "columnsTogglable",
         "columnsToggler",
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         "source",
         "type"
       ],
@@ -32853,6 +32925,9 @@
           "type": "boolean",
           "description": "当前列是否展示"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         "className": {
           "type": "string",
@@ -32865,8 +32940,11 @@
         "classNameExpr": {
           "type": "string",
           "description": "单元格样式"
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       },
       "required": [
@@ -32922,11 +33000,15 @@
       },
       "required": [
 <<<<<<< HEAD
+<<<<<<< HEAD
         "type"
 =======
         "type",
         "selectedRowKeysExpr"
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+        "type"
+>>>>>>> ab84b361 (目录调整)
       ],
       "additionalProperties": false
     },
@@ -35633,16 +35715,22 @@
           "type": "string"
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         "args": {
           "type": "object"
         },
         "outputVar": {
           "type": "string"
         },
+<<<<<<< HEAD
 =======
         "args": {},
         "outputVar": {},
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         "preventDefault": {
           "type": "boolean"
         },
@@ -35652,11 +35740,17 @@
         "expression": {
           "type": "string"
 <<<<<<< HEAD
+<<<<<<< HEAD
         },
         "execOn": {
           "type": "string"
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+        },
+        "execOn": {
+          "type": "string"
+>>>>>>> ab84b361 (目录调整)
         }
       },
       "required": [
@@ -41511,10 +41605,14 @@
         },
         "timeConstraints": {
 <<<<<<< HEAD
+<<<<<<< HEAD
           "description": "时间输入范围限制"
 =======
           "description": "不记得了"
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+          "description": "时间输入范围限制"
+>>>>>>> ab84b361 (目录调整)
         }
       },
       "required": [
@@ -41888,10 +41986,14 @@
         },
         "timeConstraints": {
 <<<<<<< HEAD
+<<<<<<< HEAD
           "description": "时间输入范围限制"
 =======
           "description": "不记得了"
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+          "description": "时间输入范围限制"
+>>>>>>> ab84b361 (目录调整)
         }
       },
       "required": [
@@ -43391,6 +43493,9 @@
           ],
           "description": "日期范围快捷键"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         "startPlaceholder": {
           "type": "string",
@@ -43399,8 +43504,11 @@
         "endPlaceholder": {
           "type": "string",
           "description": "日期范围结束时间-占位符"
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       },
       "required": [
@@ -43465,10 +43573,14 @@
             "arguments": {},
             "caller": {
 <<<<<<< HEAD
+<<<<<<< HEAD
               "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
 =======
               "$ref": "#/definitions/interface-2073358172-9821-11285-2073358172-0-212510"
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+              "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
+>>>>>>> ab84b361 (目录调整)
             }
           },
           "required": [
@@ -48356,10 +48468,14 @@
                   "string",
                   "number",
 <<<<<<< HEAD
+<<<<<<< HEAD
                   "integer",
 =======
                   "interger",
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+                  "integer",
+>>>>>>> ab84b361 (目录调整)
                   "object",
                   "array",
                   "boolean",
@@ -48389,6 +48505,9 @@
           },
           "description": "禁用类型，默认禁用了 null 类型"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         "enableAdvancedSetting": {
           "type": "boolean",
@@ -48397,6 +48516,7 @@
         "advancedSettings": {
           "type": "object",
           "description": "自定义详情配置面板如：\n\n{   boolean: [      {type: \"input-text\", name: \"aa\", label: \"AA\" }   ] }\n\n当配置布尔字段详情时，就会出现以上配置"
+<<<<<<< HEAD
         }
       },
       "required": [
@@ -48407,6 +48527,11 @@
         "rootTypeMutable",
         "showRootInfo",
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+        }
+      },
+      "required": [
+>>>>>>> ab84b361 (目录调整)
         "type"
       ],
       "additionalProperties": false,
@@ -49488,6 +49613,7 @@
       "type": "object",
       "properties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "delimiter": {
           "type": "string",
           "description": "分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。"
@@ -49578,48 +49704,83 @@
             ],
             "additionalProperties": false
           }
-        },
-        "className": {
-          "$ref": "#/definitions/SchemaClassName",
-          "description": "容器 css 类名"
-        },
-        "$ref": {
+=======
+        "delimiter": {
           "type": "string",
-          "description": "配合 definitions 一起使用，可以实现无限循环的渲染器。"
+          "description": "分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。"
+>>>>>>> ab84b361 (目录调整)
         },
-        "disabled": {
-          "type": "boolean",
-          "description": "是否禁用"
-        },
-        "disabledOn": {
-          "$ref": "#/definitions/SchemaExpression",
-          "description": "是否禁用表达式"
-        },
-        "hidden": {
-          "type": "boolean",
-          "description": "是否隐藏"
-        },
-        "hiddenOn": {
-          "$ref": "#/definitions/SchemaExpression",
-          "description": "是否隐藏表达式"
-        },
-        "visible": {
-          "type": "boolean",
-          "description": "是否显示"
-        },
-        "visibleOn": {
-          "$ref": "#/definitions/SchemaExpression",
-          "description": "是否显示表达式"
-        },
-        "id": {
+        "format": {
           "type": "string",
-          "description": "组件唯一 id，主要用于日志采集"
+          "description": "默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 moment."
         },
-        "type": {
+        "inputFormat": {
           "type": "string",
+          "description": "默认 `YYYY-MM-DD` 用来配置显示的时间格式。"
+        },
+        "joinValues": {
+          "type": "boolean",
+          "description": "开启后将选中的选项 value 的值用连接符拼接起来，作为当前表单项的值。如： `value1,value2` 否则为 `[value1, value2]`"
+        },
+        "maxDate": {
+          "type": "string",
+          "description": "最大日期限制，支持变量 $xxx 来取值，或者用相对值如：* `-2mins` 2分钟前\\n * `+2days` 2天后\\n* `-10week` 十周前\\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。"
+        },
+        "minDate": {
+          "type": "string",
+          "description": "最小日期限制，支持变量 $xxx 来取值，或者用相对值如：* `-2mins` 2分钟前\\n * `+2days` 2天后\\n* `-10week` 十周前\\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。"
+        },
+        "maxDuration": {
+          "type": "string",
+          "description": "最大跨度，比如 2days"
+        },
+        "minDuration": {
+          "type": "string",
+          "description": "最小跨度，比如 2days"
+        },
+        "value": {
+          "description": "这里面 value 需要特殊说明一下，因为支持相对值。* `-2mins` 2分钟前\\n * `+2days` 2天后\\n* `-10week` 十周前\\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。"
+        },
+        "borderMode": {
+          "type": "string",
+          "enum": [
+            "full",
+            "half",
+            "none"
+          ],
+          "description": "边框模式，全边框，还是半边框，或者没边框。"
+        },
+        "embed": {
+          "type": "boolean",
+          "description": "开启后变成非弹出模式，即内联模式。"
+        },
+        "ranges": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ShortCuts"
+              }
+            }
+          ],
+          "description": "日期范围快捷键"
+        },
+        "startPlaceholder": {
+          "type": "string",
+          "description": "日期范围开始时间-占位符"
+        },
+        "endPlaceholder": {
+          "type": "string",
+<<<<<<< HEAD
           "const": "input-month-range",
           "description": "指定为日期范围控件"
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+          "description": "日期范围结束时间-占位符"
+>>>>>>> ab84b361 (目录调整)
         },
         "size": {
           "type": "string",
@@ -49876,11 +50037,14 @@
           ]
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         "value": {
           "description": "这里面 value 需要特殊说明一下，因为支持相对值。* `-2mins` 2分钟前\\n * `+2days` 2天后\\n* `-10week` 十周前\\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。"
         },
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         "clearValueOnHidden": {
           "type": "boolean",
           "description": "表单项隐藏时，是否在当前 Form 中删除掉该表单项值。注意同名的未隐藏的表单项值也会删掉"
@@ -49889,6 +50053,7 @@
           "$ref": "#/definitions/SchemaApi",
           "description": "远端校验表单项接口"
         },
+<<<<<<< HEAD
 <<<<<<< HEAD
         "className": {
           "$ref": "#/definitions/SchemaClassName",
@@ -49954,39 +50119,75 @@
         "delimiter": {
           "type": "string",
           "description": "分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。"
+=======
+        "className": {
+          "$ref": "#/definitions/SchemaClassName",
+          "description": "容器 css 类名"
+>>>>>>> ab84b361 (目录调整)
         },
-        "format": {
+        "$ref": {
           "type": "string",
-          "description": "默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 moment."
+          "description": "配合 definitions 一起使用，可以实现无限循环的渲染器。"
         },
-        "inputFormat": {
-          "type": "string",
-          "description": "默认 `YYYY-MM` 用来配置显示的时间格式。"
-        },
-        "joinValues": {
+        "disabled": {
           "type": "boolean",
-          "description": "开启后将选中的选项 value 的值用连接符拼接起来，作为当前表单项的值。如： `value1,value2` 否则为 `[value1, value2]`"
+          "description": "是否禁用"
         },
-        "maxDate": {
+        "disabledOn": {
+          "$ref": "#/definitions/SchemaExpression",
+          "description": "是否禁用表达式"
+        },
+        "hidden": {
+          "type": "boolean",
+          "description": "是否隐藏"
+        },
+        "hiddenOn": {
+          "$ref": "#/definitions/SchemaExpression",
+          "description": "是否隐藏表达式"
+        },
+        "visible": {
+          "type": "boolean",
+          "description": "是否显示"
+        },
+        "visibleOn": {
+          "$ref": "#/definitions/SchemaExpression",
+          "description": "是否显示表达式"
+        },
+        "id": {
           "type": "string",
-          "description": "最大日期限制，支持变量 $xxx 来取值，或者用相对值如：* `-2mins` 2分钟前\\n * `+2days` 2天后\\n* `-10week` 十周前\\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。"
+          "description": "组件唯一 id，主要用于日志采集"
         },
-        "minDate": {
-          "type": "string",
-          "description": "最小日期限制，支持变量 $xxx 来取值，或者用相对值如：* `-2mins` 2分钟前\\n * `+2days` 2天后\\n* `-10week` 十周前\\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。"
-        },
-        "maxDuration": {
-          "type": "string",
-          "description": "最大跨度，比如 2days"
-        },
-        "minDuration": {
-          "type": "string",
-          "description": "最小跨度，比如 2days"
-        },
+<<<<<<< HEAD
         "embed": {
           "type": "boolean",
           "description": "开启后变成非弹出模式，即内联模式。"
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+        "onEvent": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "weight": {
+                "type": "number"
+              },
+              "actions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/ListenerAction"
+                }
+              }
+            },
+            "required": [
+              "actions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "type": {
+          "type": "string",
+          "const": "input-month-range"
+>>>>>>> ab84b361 (目录调整)
         }
       },
       "required": [
@@ -50061,6 +50262,9 @@
           "description": "日期范围快捷键"
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         "startPlaceholder": {
           "type": "string",
           "description": "日期范围开始时间-占位符"
@@ -50069,8 +50273,11 @@
           "type": "string",
           "description": "日期范围结束时间-占位符"
         },
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         "size": {
           "type": "string",
           "enum": [
@@ -51290,6 +51497,9 @@
           "type": "boolean",
           "description": "是否千分分隔"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         "keyboard": {
           "type": "boolean",
@@ -51302,8 +51512,11 @@
             "enhance"
           ],
           "description": "输入框为基础输入框还是加强输入框"
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       },
       "required": [
@@ -53463,6 +53676,7 @@
             "froala",
             "tinymce"
 <<<<<<< HEAD
+<<<<<<< HEAD
           ],
           "description": "编辑器类型"
         },
@@ -53475,13 +53689,23 @@
           "description": "视频保存 API"
 =======
           ]
+=======
+          ],
+          "description": "编辑器类型"
+>>>>>>> ab84b361 (目录调整)
         },
         "receiver": {
-          "type": "string"
+          "$ref": "#/definitions/SchemaApi",
+          "description": "图片保存 API"
         },
         "videoReceiver": {
+<<<<<<< HEAD
           "type": "string"
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+          "$ref": "#/definitions/SchemaApi",
+          "description": "视频保存 API"
+>>>>>>> ab84b361 (目录调整)
         },
         "fileField": {
           "type": "string",
@@ -53497,12 +53721,18 @@
           "description": "边框模式，全边框，还是半边框，或者没边框。"
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
         "options": {
           "description": "tinymce 或 froala 的配置"
         }
 =======
         "options": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+        "options": {
+          "description": "tinymce 或 froala 的配置"
+        }
+>>>>>>> ab84b361 (目录调整)
       },
       "required": [
         "type"
@@ -60267,6 +60497,9 @@
           "type": "string",
           "description": "后缀"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         "transform": {
           "type": "object",
@@ -60282,8 +60515,11 @@
           },
           "additionalProperties": false,
           "description": "自动转换值"
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       },
       "required": [
@@ -63816,8 +64052,473 @@
       "additionalProperties": false,
       "description": "UserSelect 移动端人员选择。"
     },
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+    "UserSelectControlSchema": {
+      "type": "object",
+      "properties": {
+        "onEvent": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "weight": {
+                "type": "number"
+              },
+              "actions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/ListenerAction"
+                }
+              }
+            },
+            "required": [
+              "actions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "className": {
+          "$ref": "#/definitions/SchemaClassName",
+          "description": "容器 css 类名"
+        },
+        "$ref": {
+          "type": "string",
+          "description": "配合 definitions 一起使用，可以实现无限循环的渲染器。"
+        },
+        "disabled": {
+          "type": "boolean",
+          "description": "是否禁用"
+        },
+        "disabledOn": {
+          "$ref": "#/definitions/SchemaExpression",
+          "description": "是否禁用表达式"
+        },
+        "hidden": {
+          "type": "boolean",
+          "description": "是否隐藏"
+        },
+        "hiddenOn": {
+          "$ref": "#/definitions/SchemaExpression",
+          "description": "是否隐藏表达式"
+        },
+        "visible": {
+          "type": "boolean",
+          "description": "是否显示"
+        },
+        "visibleOn": {
+          "$ref": "#/definitions/SchemaExpression",
+          "description": "是否显示表达式"
+        },
+        "id": {
+          "type": "string",
+          "description": "组件唯一 id，主要用于日志采集"
+        },
+        "type": {
+          "type": "string",
+          "const": "users-select",
+          "description": "表单项类型"
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "full"
+          ],
+          "description": "表单项大小"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean",
+              "const": false
+            }
+          ],
+          "description": "描述标题"
+        },
+        "labelClassName": {
+          "$ref": "#/definitions/SchemaClassName",
+          "description": "配置 label className"
+        },
+        "name": {
+          "type": "string",
+          "description": "字段名，表单提交时的 key，支持多层级，用.连接，如： a.b.c"
+        },
+        "remark": {
+          "$ref": "#/definitions/SchemaRemark",
+          "description": "显示一个小图标, 鼠标放上去的时候显示提示内容"
+        },
+        "labelRemark": {
+          "$ref": "#/definitions/SchemaRemark",
+          "description": "显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起"
+        },
+        "hint": {
+          "type": "string",
+          "description": "输入提示，聚焦的时候显示"
+        },
+        "submitOnChange": {
+          "type": "boolean",
+          "description": "当修改完的时候是否提交表单。"
+        },
+        "readOnly": {
+          "type": "boolean",
+          "description": "是否只读"
+        },
+        "readOnlyOn": {
+          "$ref": "#/definitions/SchemaExpression",
+          "description": "只读条件"
+        },
+        "validateOnChange": {
+          "type": "boolean",
+          "description": "不设置时，当表单提交过后表单项每次修改都会触发重新验证， 如果设置了，则由此配置项来决定要不要每次修改都触发验证。"
+        },
+        "description": {
+          "type": "string",
+          "description": "描述内容，支持 Html 片段。"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "descriptionClassName": {
+          "$ref": "#/definitions/SchemaClassName",
+          "description": "配置描述上的 className"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "normal",
+            "inline",
+            "horizontal"
+          ],
+          "description": "配置当前表单项展示模式"
+        },
+        "horizontal": {
+          "$ref": "#/definitions/FormSchemaHorizontal",
+          "description": "当配置为水平布局的时候，用来配置具体的左右分配。"
+        },
+        "inline": {
+          "type": "boolean",
+          "description": "表单 control 是否为 inline 模式。"
+        },
+        "inputClassName": {
+          "$ref": "#/definitions/SchemaClassName",
+          "description": "配置 input className"
+        },
+        "placeholder": {
+          "type": "string",
+          "description": "占位符"
+        },
+        "required": {
+          "type": "boolean",
+          "description": "是否为必填"
+        },
+        "validationErrors": {
+          "type": "object",
+          "properties": {
+            "isAlpha": {
+              "type": "string"
+            },
+            "isAlphanumeric": {
+              "type": "string"
+            },
+            "isEmail": {
+              "type": "string"
+            },
+            "isFloat": {
+              "type": "string"
+            },
+            "isInt": {
+              "type": "string"
+            },
+            "isJson": {
+              "type": "string"
+            },
+            "isLength": {
+              "type": "string"
+            },
+            "isNumeric": {
+              "type": "string"
+            },
+            "isRequired": {
+              "type": "string"
+            },
+            "isUrl": {
+              "type": "string"
+            },
+            "matchRegexp": {
+              "type": "string"
+            },
+            "matchRegexp2": {
+              "type": "string"
+            },
+            "matchRegexp3": {
+              "type": "string"
+            },
+            "matchRegexp4": {
+              "type": "string"
+            },
+            "matchRegexp5": {
+              "type": "string"
+            },
+            "maxLength": {
+              "type": "string"
+            },
+            "maximum": {
+              "type": "string"
+            },
+            "minLength": {
+              "type": "string"
+            },
+            "minimum": {
+              "type": "string"
+            }
+          },
+          "description": "验证失败的提示信息"
+        },
+        "validations": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "isAlpha": {
+                  "type": "boolean",
+                  "description": "是否是字母"
+                },
+                "isAlphanumeric": {
+                  "type": "boolean",
+                  "description": "是否为字母数字"
+                },
+                "isEmail": {
+                  "type": "boolean",
+                  "description": "是否为邮箱地址"
+                },
+                "isFloat": {
+                  "type": "boolean",
+                  "description": "是否为浮点型"
+                },
+                "isInt": {
+                  "type": "boolean",
+                  "description": "是否为整型"
+                },
+                "isJson": {
+                  "type": "boolean",
+                  "description": "是否为 json"
+                },
+                "isLength": {
+                  "type": "number",
+                  "description": "长度等于指定值"
+                },
+                "isNumeric": {
+                  "type": "boolean",
+                  "description": "是否为数字"
+                },
+                "isRequired": {
+                  "type": "boolean",
+                  "description": "是否为必填"
+                },
+                "isUrl": {
+                  "type": "boolean",
+                  "description": "是否为 URL 地址"
+                },
+                "matchRegexp": {
+                  "type": "string",
+                  "description": "内容命中指定正则"
+                },
+                "matchRegexp1": {
+                  "type": "string",
+                  "description": "内容命中指定正则"
+                },
+                "matchRegexp2": {
+                  "type": "string",
+                  "description": "内容命中指定正则"
+                },
+                "matchRegexp3": {
+                  "type": "string",
+                  "description": "内容命中指定正则"
+                },
+                "matchRegexp4": {
+                  "type": "string",
+                  "description": "内容命中指定正则"
+                },
+                "matchRegexp5": {
+                  "type": "string",
+                  "description": "内容命中指定正则"
+                },
+                "maxLength": {
+                  "type": "number",
+                  "description": "最大长度为指定值"
+                },
+                "maximum": {
+                  "type": "number",
+                  "description": "最大值为指定值"
+                },
+                "minLength": {
+                  "type": "number",
+                  "description": "最小长度为指定值"
+                },
+                "minimum": {
+                  "type": "number",
+                  "description": "最小值为指定值"
+                }
+              }
+            }
+          ]
+        },
+        "value": {
+          "description": "默认值，切记只能是静态值，不支持取变量，跟数据关联是通过设置 name 属性来实现的。"
+        },
+        "clearValueOnHidden": {
+          "type": "boolean",
+          "description": "表单项隐藏时，是否在当前 Form 中删除掉该表单项值。注意同名的未隐藏的表单项值也会删掉"
+        },
+        "validateApi": {
+          "$ref": "#/definitions/SchemaApi",
+          "description": "远端校验表单项接口"
+        },
+        "options": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Option"
+              }
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "$ref": "#/definitions/PlainObject"
+            }
+          ],
+          "description": "选项集合"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SchemaApi"
+            },
+            {
+              "$ref": "#/definitions/SchemaTokenizeableString"
+            }
+          ],
+          "description": "可用来通过 API 拉取 options。"
+        },
+        "selectFirst": {
+          "type": "boolean",
+          "description": "默认选择选项第一个值。"
+        },
+        "initFetchOn": {
+          "$ref": "#/definitions/SchemaExpression",
+          "description": "用表达式来配置 source 接口初始要不要拉取"
+        },
+        "initFetch": {
+          "type": "boolean",
+          "description": "配置 source 接口初始拉不拉取。"
+        },
+        "multiple": {
+          "type": "boolean",
+          "description": "是否为多选模式"
+        },
+        "joinValues": {
+          "type": "boolean",
+          "description": "单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。"
+        },
+        "delimiter": {
+          "type": "string",
+          "description": "分割符"
+        },
+        "extractValue": {
+          "type": "boolean",
+          "description": "开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。"
+        },
+        "clearable": {
+          "type": "boolean",
+          "description": "是否可清除。"
+        },
+        "resetValue": {
+          "type": "string",
+          "description": "点清除按钮时，将表单项设置成当前配置的值。",
+          "default": ""
+        },
+        "deferApi": {
+          "$ref": "#/definitions/SchemaApi",
+          "description": "延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩充。"
+        },
+        "addApi": {
+          "$ref": "#/definitions/SchemaApi",
+          "description": "添加时调用的接口"
+        },
+        "addControls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SchemaObject"
+          },
+          "description": "新增时的表单项。"
+        },
+        "creatable": {
+          "type": "boolean",
+          "description": "是否可以新增"
+        },
+        "createBtnLabel": {
+          "type": "string",
+          "description": "新增文字"
+        },
+        "editable": {
+          "type": "boolean",
+          "description": "是否可以编辑"
+        },
+        "editApi": {
+          "$ref": "#/definitions/SchemaApi",
+          "description": "编辑时调用的 API"
+        },
+        "editControls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SchemaObject"
+          },
+          "description": "选项修改的表单项"
+        },
+        "removable": {
+          "type": "boolean",
+          "description": "是否可删除"
+        },
+        "deleteApi": {
+          "$ref": "#/definitions/SchemaApi",
+          "description": "选项删除 API"
+        },
+        "deleteConfirmText": {
+          "type": "string",
+          "description": "选项删除提示文字。"
+        },
+        "autoFill": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/SchemaTokenizeableString"
+          },
+          "description": "自动填充，当选项被选择的时候，将选项中的其他值同步设置到表单内。"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false,
+      "description": "UserSelect 移动端人员选择。"
+    },
+>>>>>>> ab84b361 (目录调整)
     "SchemaObjectCardBodyField": {
       "anyOf": [
         {
@@ -63839,10 +64540,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|labelClassName|name|popOver|quickEdit|copyable)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|labelClassName|name|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|labelClassName|name|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -64171,10 +64876,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|labelClassName|name|popOver|quickEdit|copyable)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|labelClassName|name|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|labelClassName|name|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -64378,10 +65087,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|popOver|quickEdit|copyable)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -64466,10 +65179,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|popOver|quickEdit|copyable)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -64498,10 +65215,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -64509,10 +65230,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
 =======
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -64527,10 +65252,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|popOver|quickEdit|copyable)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -64629,10 +65358,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|popOver|quickEdit|copyable)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -64677,6 +65410,9 @@
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|popOver|quickEdit|copyable)$": {}
           }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -64684,8 +65420,11 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|popOver|quickEdit|copyable)$": {}
           }
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       ]
     },
@@ -64710,10 +65449,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|labelClassName|name|popOver|quickEdit|copyable)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|labelClassName|name|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|labelClassName|name|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -65042,10 +65785,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|labelClassName|name|popOver|quickEdit|copyable)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|labelClassName|name|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|labelClassName|name|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -65249,10 +65996,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|popOver|quickEdit|copyable)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -65337,10 +66088,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|popOver|quickEdit|copyable)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -65369,10 +66124,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -65380,10 +66139,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
 =======
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -65398,10 +66161,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|popOver|quickEdit|copyable)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -65500,10 +66267,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|popOver|quickEdit|copyable)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|popOver|quickEdit|copyable)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|popOver|quickEdit|copyable)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -65548,6 +66319,9 @@
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|popOver|quickEdit|copyable)$": {}
           }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -65555,8 +66329,11 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|popOver|quickEdit|copyable)$": {}
           }
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       ]
     },
@@ -65581,10 +66358,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|fixed|name|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|labelClassName|filterable|breakpoint|remark|value|unique)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|fixed|name|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|labelClassName|filterable|breakpoint|remark|value|unique)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|fixed|name|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|labelClassName|filterable|breakpoint|remark|value|unique)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -65913,10 +66694,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|fixed|name|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|labelClassName|filterable|breakpoint|remark|value|unique)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|fixed|name|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|labelClassName|filterable|breakpoint|remark|value|unique)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|fixed|name|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|labelClassName|filterable|breakpoint|remark|value|unique)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -66120,10 +66905,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -66208,10 +66997,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -66240,10 +67033,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -66251,10 +67048,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 =======
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -66269,10 +67070,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -66371,10 +67176,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -66419,6 +67228,9 @@
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
           }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -66426,8 +67238,11 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
           }
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       ]
     },
@@ -66452,10 +67267,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -66784,10 +67603,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -66991,10 +67814,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -67079,10 +67906,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -67111,10 +67942,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -67122,10 +67957,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 =======
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -67140,10 +67979,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -67242,10 +68085,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|x|y|w|h|width|height|align|valign|gridClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -67290,6 +68137,9 @@
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|x|y|w|h|width|height|align|valign|gridClassName)$": {}
           }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -67297,8 +68147,11 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|x|y|w|h|width|height|align|valign|gridClassName)$": {}
           }
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       ]
     },
@@ -67323,10 +68176,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|rowClassName|cellClassName)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|rowClassName|cellClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|rowClassName|cellClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -67655,10 +68512,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|rowClassName|cellClassName)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|rowClassName|cellClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|rowClassName|cellClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -67862,10 +68723,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|rowClassName|cellClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|rowClassName|cellClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|rowClassName|cellClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -67950,10 +68815,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|rowClassName|cellClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|rowClassName|cellClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|rowClassName|cellClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -67982,10 +68851,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|rowClassName|cellClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|rowClassName|cellClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|rowClassName|cellClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -67993,10 +68866,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|rowClassName|cellClassName)$": {}
 =======
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|rowClassName|cellClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|rowClassName|cellClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -68011,10 +68888,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|rowClassName|cellClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|rowClassName|cellClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|rowClassName|cellClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -68113,10 +68994,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|rowClassName|cellClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|rowClassName|cellClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|rowClassName|cellClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -68161,6 +69046,9 @@
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|rowClassName|cellClassName)$": {}
           }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -68168,8 +69056,11 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|rowClassName|cellClassName)$": {}
           }
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       ]
     },
@@ -68194,10 +69085,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|unique|columnClassName)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|unique|columnClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|unique|columnClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -68526,10 +69421,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|unique|columnClassName)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|unique|columnClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|unique|columnClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -68733,10 +69632,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|unique|columnClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|unique|columnClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|unique|columnClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -68821,10 +69724,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|unique|columnClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|unique|columnClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|unique|columnClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -68853,10 +69760,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|unique|columnClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|unique|columnClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|unique|columnClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -68864,10 +69775,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|unique|columnClassName)$": {}
 =======
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|unique|columnClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|unique|columnClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -68882,10 +69797,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|unique|columnClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|unique|columnClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|unique|columnClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -68984,10 +69903,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|unique|columnClassName)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|unique|columnClassName)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|unique|columnClassName)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -69032,6 +69955,9 @@
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|unique|columnClassName)$": {}
           }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -69039,8 +69965,11 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|unique|columnClassName)$": {}
           }
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       ]
     },
@@ -69065,10 +69994,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|columnClassName|columnRatio)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|columnClassName|columnRatio)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|columnClassName|columnRatio)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -69397,10 +70330,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|columnClassName|columnRatio)$": {}
 =======
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|columnClassName|columnRatio)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|columnClassName|columnRatio)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -69604,10 +70541,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|columnClassName|columnRatio)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|columnClassName|columnRatio)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|columnClassName|columnRatio)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -69692,10 +70633,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|columnClassName|columnRatio)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|columnClassName|columnRatio)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|columnClassName|columnRatio)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -69724,10 +70669,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|columnClassName|columnRatio)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|columnClassName|columnRatio)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|columnClassName|columnRatio)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -69735,10 +70684,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|columnClassName|columnRatio)$": {}
 =======
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|columnClassName|columnRatio)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|columnClassName|columnRatio)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -69753,10 +70706,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|columnClassName|columnRatio)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|columnClassName|columnRatio)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|columnClassName|columnRatio)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -69855,10 +70812,14 @@
           "additionalProperties": false,
           "patternProperties": {
 <<<<<<< HEAD
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|columnClassName|columnRatio)$": {}
 =======
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|columnClassName|columnRatio)$": {}
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|columnClassName|columnRatio)$": {}
+>>>>>>> ab84b361 (目录调整)
           }
         },
         {
@@ -69903,6 +70864,9 @@
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|columnClassName|columnRatio)$": {}
           }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ab84b361 (目录调整)
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -69910,8 +70874,11 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|columnClassName|columnRatio)$": {}
           }
+<<<<<<< HEAD
 =======
 >>>>>>> c85ffab0 (调整目录结构)
+=======
+>>>>>>> ab84b361 (目录调整)
         }
       ]
     },

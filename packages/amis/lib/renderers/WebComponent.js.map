@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "WebComponent.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/renderers/WebComponent.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,6DAA0B;AAC1B,sCAAmD;AAEnD,oDAA+E;AAC/E,4EAAyC;AA8BzC;IAA0C,6CAA8B;IAAxE;;IAmBA,CAAC;IAlBC,iCAAU,GAAV;QACQ,IAAA,KAAiB,IAAI,CAAC,KAAK,EAA1B,IAAI,UAAA,EAAE,MAAM,YAAc,CAAC;QAClC,OAAO,IAAI,CAAC,CAAC,CAAE,MAAM,CAAC,MAAM,EAAE,IAAI,CAAiB,CAAC,CAAC,CAAC,IAAI,CAAC;IAC7D,CAAC;IAED,6BAAM,GAAN;QACQ,IAAA,KAAqB,IAAI,CAAC,KAAK,EAA9B,GAAG,SAAA,EAAE,KAAK,WAAA,EAAE,IAAI,UAAc,CAAC;QAEtC,IAAM,WAAW,GAAG,IAAA,mBAAS,EAAC,KAAK,EAAE,UAAA,CAAC;YACpC,IAAI,OAAO,CAAC,KAAK,QAAQ,EAAE;gBACzB,OAAO,IAAA,sCAAwB,EAAC,CAAC,EAAE,IAAI,EAAE,OAAO,CAAC,IAAI,CAAC,CAAC;aACxD;iBAAM;gBACL,OAAO,CAAC,CAAC;aACV;QACH,CAAC,CAAC,CAAC;QACH,IAAM,SAAS,GAAI,GAAmC,IAAI,KAAK,CAAC;QAChE,OAAO,8BAAC,SAAS,4BAAK,WAAW,GAAG,IAAI,CAAC,UAAU,EAAE,CAAa,CAAC;IACrE,CAAC;IACH,mBAAC;AAAD,CAAC,AAnBD,CAA0C,eAAK,CAAC,SAAS,GAmBxD;;AAKD;IAA0C,qDAAY;IAAtD;;IAAwD,CAAC;IAA5C,oBAAoB;QAHhC,IAAA,kBAAQ,EAAC;YACR,IAAI,EAAE,eAAe;SACtB,CAAC;OACW,oBAAoB,CAAwB;IAAD,2BAAC;CAAA,AAAzD,CAA0C,YAAY,GAAG;AAA5C,oDAAoB",
+    "sourcesContent": [
+        "import React from 'react';\nimport {Renderer, RendererProps} from '../factory';\nimport {BaseSchema, SchemaCollection} from '../Schema';\nimport {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';\nimport mapValues from 'lodash/mapValues';\n\n/**\n * WebComponent 容器渲染器。\n * 文档：https://baidu.gitee.io/amis/docs/components/web-component\n */\nexport interface WebComponentSchema extends BaseSchema {\n  /**\n   * 指定为 web-component 类型\n   */\n  type: 'web-component';\n\n  /**\n   * 标签\n   */\n  tag: string;\n\n  /**\n   * 子节点\n   */\n  body: SchemaCollection;\n\n  /**\n   * 组件属性\n   */\n  props?: {\n    [propName: string]: any;\n  };\n}\n\nexport default class WebComponent extends React.Component<RendererProps> {\n  renderBody(): JSX.Element | null {\n    const {body, render} = this.props;\n    return body ? (render('body', body) as JSX.Element) : null;\n  }\n\n  render() {\n    const {tag, props, data} = this.props;\n\n    const propsValues = mapValues(props, s => {\n      if (typeof s === 'string') {\n        return resolveVariableAndFilter(s, data, '| raw') || s;\n      } else {\n        return s;\n      }\n    });\n    const Component = (tag as keyof JSX.IntrinsicElements) || 'div';\n    return <Component {...propsValues}>{this.renderBody()}</Component>;\n  }\n}\n\n@Renderer({\n  type: 'web-component'\n})\nexport class WebComponentRenderer extends WebComponent {}\n"
+    ]
+}

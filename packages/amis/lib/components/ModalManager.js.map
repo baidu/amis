@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "ModalManager.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/ModalManager.ts"
+    ],
+    "names": [],
+    "mappings": ";AAAA;;;;GAIG;;;;AAEH,iEAA8B;AAS9B,IAAI,MAAM,GAA0B,EAAE,CAAC;AAEvC,SAAgB,OAAO;IACrB,OAAO,MAAM,CAAC,MAAM,CAAC;AACvB,CAAC;AAFD,0BAEC;AAED,SAAgB,YAAY;IAC1B,OAAO,MAAM,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,CAAC,CAAC;AACnC,CAAC;AAFD,oCAEC;AAED,SAAgB,QAAQ,CAAC,KAAqB;IAC5C,MAAM,CAAC,IAAI,CAAC,KAAK,CAAC,CAAC;AACrB,CAAC;AAFD,4BAEC;AAED,SAAgB,WAAW,CAAC,KAAqB;IAC/C,MAAM,GAAG,MAAM,CAAC,MAAM,CAAC,UAAA,EAAE,IAAI,OAAA,EAAE,KAAK,KAAK,EAAZ,CAAY,CAAC,CAAC;AAC7C,CAAC;AAFD,kCAEC;AAED,MAAM,CAAC,gBAAgB,CAAC,SAAS,EAAE,mBAAmB,CAAC,CAAC;AAExD,SAAS,mBAAmB,CAAC,CAAQ;IACnC,IAAM,IAAI,GAAG,IAAA,iBAAO,EAAC,CAAC,CAAC,CAAC;IACxB,IAAI,IAAI,KAAK,KAAK,EAAE;QAClB,OAAO;KACR;IACD,IAAI,KAAK,GAAG,YAAY,EAAE,CAAC;IAC3B,IAAI,CAAC,KAAK,EAAE;QACV,OAAO;KACR;IACK,IAAA,KAAyB,KAAK,CAAC,KAAK,EAAnC,QAAQ,cAAA,EAAE,UAAU,gBAAe,CAAC;IAC3C,IAAI,UAAU,IAAI,CAAC,QAAQ,IAAI,CAAC,CAAC,CAAC,gBAAgB,EAAE;QAClD,KAAK,CAAC,KAAK,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC;KACvB;AACH,CAAC",
+    "sourcesContent": [
+        "/**\n * @file ModalManager\n * @description\n * @author fex\n */\n\nimport keycode from 'keycode';\n\ninterface ModalComponent\n  extends React.Component<{\n    onHide: (e: any) => void;\n    disabled?: boolean;\n    closeOnEsc?: boolean;\n  }> {}\n\nlet modals: Array<ModalComponent> = [];\n\nexport function current() {\n  return modals.length;\n}\n\nexport function currentModal(): ModalComponent | void {\n  return modals[modals.length - 1];\n}\n\nexport function addModal(modal: ModalComponent) {\n  modals.push(modal);\n}\n\nexport function removeModal(modal: ModalComponent) {\n  modals = modals.filter(el => el !== modal);\n}\n\nwindow.addEventListener('keydown', handleWindowKeyDown);\n\nfunction handleWindowKeyDown(e: Event) {\n  const code = keycode(e);\n  if (code !== 'esc') {\n    return;\n  }\n  let modal = currentModal();\n  if (!modal) {\n    return;\n  }\n  const {disabled, closeOnEsc} = modal.props;\n  if (closeOnEsc && !disabled && !e.defaultPrevented) {\n    modal.props.onHide(e);\n  }\n}\n"
+    ]
+}

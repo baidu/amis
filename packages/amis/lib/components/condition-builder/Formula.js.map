@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "Formula.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/condition-builder/Formula.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,6DAA0B;AAC1B,uCAAqD;AACrD,qCAAkD;AAClD,sEAAmC;AAQnC;IAA6B,wCAA6B;IAA1D;;IA0BA,CAAC;IAzBC,wBAAM,GAAN;QACQ,IAAA,KAMF,IAAI,CAAC,KAAK,EALA,EAAE,gBAAA,EACd,KAAK,WAAA,EACL,QAAQ,cAAA,EACR,QAAQ,cAAA,EACG,EAAE,eACD,CAAC;QAEf,OAAO,CACL,uCAAK,SAAS,EAAE,EAAE,CAAC,WAAW,CAAC;YAC7B,8BAAC,kBAAQ,IACP,QAAQ,EAAE,QAAQ,EAClB,KAAK,EAAE,KAAK,EACZ,QAAQ,EAAE,QAAQ,EAClB,WAAW,EAAE,EAAE,CAAC,+BAA+B,CAAC,EAChD,MAAM,EACJ,wCAAM,SAAS,EAAE,EAAE,CAAC,iBAAiB,CAAC,IACnC,EAAE,CAAC,sBAAsB,CAAC,CACtB,GAET,CACE,CACP,CAAC;IACJ,CAAC;IACH,cAAC;AAAD,CAAC,AA1BD,CAA6B,eAAK,CAAC,SAAS,GA0B3C;AA1BY,0BAAO;AA4BpB,kBAAe,IAAA,iBAAS,EAAC,IAAA,mBAAU,EAAC,OAAO,CAAC,CAAC,CAAC",
+    "sourcesContent": [
+        "import React from 'react';\nimport {localeable, LocaleProps} from '../../locale';\nimport {ThemeProps, themeable} from '../../theme';\nimport InputBox from '../InputBox';\n\nexport interface FormulaProps extends ThemeProps, LocaleProps {\n  value: any;\n  onChange: (value: any) => void;\n  disabled?: boolean;\n}\n\nexport class Formula extends React.Component<FormulaProps> {\n  render() {\n    const {\n      classnames: cx,\n      value,\n      onChange,\n      disabled,\n      translate: __\n    } = this.props;\n\n    return (\n      <div className={cx('CBFormula')}>\n        <InputBox\n          disabled={disabled}\n          value={value}\n          onChange={onChange}\n          placeholder={__('Condition.formula_placeholder')}\n          prefix={\n            <span className={cx('CBFormula-label')}>\n              {__('Condition.expression')}\n            </span>\n          }\n        />\n      </div>\n    );\n  }\n}\n\nexport default themeable(localeable(Formula));\n"
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "Html.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/Html.tsx"
+    ],
+    "names": [],
+    "mappings": ";AAAA;;;;GAIG;;;;AAEH,6DAA0B;AAC1B,kCAAiD;AAWjD;IAA0B,qCAA0B;IAOlD,cAAY,KAAgB;QAA5B,YACE,kBAAM,KAAK,CAAC,SAEb;QADC,KAAI,CAAC,OAAO,GAAG,KAAI,CAAC,OAAO,CAAC,IAAI,CAAC,KAAI,CAAC,CAAC;;IACzC,CAAC;IAED,iCAAkB,GAAlB,UAAmB,SAAoB;QACrC,IAAI,IAAI,CAAC,KAAK,CAAC,IAAI,KAAK,SAAS,CAAC,IAAI,EAAE;YACtC,IAAI,CAAC,OAAO,EAAE,CAAC;SAChB;IACH,CAAC;IAED,sBAAO,GAAP,UAAQ,GAAQ;QACd,IAAI,CAAC,GAAG,GAAG,GAAG,CAAC;QAEf,IAAI,CAAC,GAAG,EAAE;YACR,OAAO;SACR;QAED,IAAI,CAAC,OAAO,EAAE,CAAC;IACjB,CAAC;IAED,sBAAO,GAAP;QACS,IAAA,IAAI,GAAI,IAAI,CAAC,KAAK,KAAd,CAAe;QAE1B,IAAI,IAAI,EAAE;YACR,IAAI,CAAC,GAAG,CAAC,SAAS,GAAG,IAAI,CAAC;SAC3B;IACH,CAAC;IAED,qBAAM,GAAN;QACQ,IAAA,KAMF,IAAI,CAAC,KAAK,EALZ,SAAS,eAAA,EACT,gBAAgB,sBAAA,EAChB,MAAM,YAAA,EACO,EAAE,iBAAA,EACH,EAAE,gBACF,CAAC;QAEf,IAAM,SAAS,GAAG,gBAAgB,IAAI,CAAC,MAAM,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC;QAEhE,OAAO,CACL,8BAAC,SAAS,IACR,GAAG,EAAE,IAAI,CAAC,OAAO,EACjB,SAAS,EAAE,EAAE,CAAC,MAAM,EAAE,SAAS,CAAC,GACrB,CACd,CAAC;IACJ,CAAC;IApDM,iBAAY,GAAG;QACpB,MAAM,EAAE,IAAI;KACb,CAAC;IAmDJ,WAAC;CAAA,AAtDD,CAA0B,eAAK,CAAC,SAAS,GAsDxC;AAtDY,oBAAI;AAwDjB,kBAAe,IAAA,iBAAS,EAAC,IAAI,CAAC,CAAC",
+    "sourcesContent": [
+        "/**\n * @file Html\n * @description\n * @author fex\n */\n\nimport React from 'react';\nimport {ClassNamesFn, themeable} from '../theme';\n\nexport interface HtmlProps {\n  className?: string;\n  html?: string;\n  wrapperComponent?: any;\n  inline: boolean;\n  classPrefix: string;\n  classnames: ClassNamesFn;\n}\n\nexport class Html extends React.Component<HtmlProps> {\n  static defaultProps = {\n    inline: true\n  };\n\n  dom: any;\n\n  constructor(props: HtmlProps) {\n    super(props);\n    this.htmlRef = this.htmlRef.bind(this);\n  }\n\n  componentDidUpdate(prevProps: HtmlProps) {\n    if (this.props.html !== prevProps.html) {\n      this._render();\n    }\n  }\n\n  htmlRef(dom: any) {\n    this.dom = dom;\n\n    if (!dom) {\n      return;\n    }\n\n    this._render();\n  }\n\n  _render() {\n    const {html} = this.props;\n\n    if (html) {\n      this.dom.innerHTML = html;\n    }\n  }\n\n  render() {\n    const {\n      className,\n      wrapperComponent,\n      inline,\n      classPrefix: ns,\n      classnames: cx\n    } = this.props;\n\n    const Component = wrapperComponent || (inline ? 'span' : 'div');\n\n    return (\n      <Component\n        ref={this.htmlRef}\n        className={cx(`Html`, className)}\n      ></Component>\n    );\n  }\n}\n\nexport default themeable(Html);\n"
+    ]
+}

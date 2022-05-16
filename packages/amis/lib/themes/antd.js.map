@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "antd.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/themes/antd.ts"
+    ],
+    "names": [],
+    "mappings": ";;AAAA,kCAA+B;AAE/B,IAAA,aAAK,EAAC,MAAM,EAAE;IACZ,WAAW,EAAE,OAAO;IACpB,UAAU,EAAE;QACV,KAAK,EAAE;YACL,WAAW,EAAE,IAAI;SAClB;KACF;IAED,SAAS,EAAE;QACT,MAAM,EAAE;YACN,UAAU,EAAE;gBACV,SAAS,EAAE,IAAI;aAChB;SACF;QAED,YAAY,EAAE;YACZ,UAAU,EAAE,CAAC;YACb,aAAa,EAAE,KAAK;SACrB;QAED,UAAU,EAAE;YACV,WAAW,EAAE,KAAK;SACnB;QAED,QAAQ,EAAE;YACR,SAAS,EAAE,OAAO;SACnB;QAED,MAAM,EAAE;YACN,IAAI,EAAE,MAAM;SACb;QAED,cAAc,EAAE;YACd,IAAI,EAAE,MAAM;SACb;QAED,eAAe,EAAE;YACf,SAAS,EAAE,IAAI;YACf,SAAS,EAAE,IAAI;SAChB;KACF;CACF,CAAC,CAAC",
+    "sourcesContent": [
+        "import {theme} from '../theme';\n\ntheme('antd', {\n  classPrefix: 'antd-',\n  components: {\n    toast: {\n      closeButton: true\n    }\n  },\n\n  renderers: {\n    'form': {\n      horizontal: {\n        leftFixed: true\n      }\n    },\n\n    'pagination': {\n      maxButtons: 9,\n      showPageInput: false\n    },\n\n    'fieldset': {\n      collapsable: false\n    },\n\n    'remark': {\n      placement: 'right'\n    },\n\n    'tabs': {\n      mode: 'line'\n    },\n\n    'tabs-control': {\n      mode: 'line'\n    },\n\n    'range-control': {\n      showInput: true,\n      clearable: true\n    }\n  }\n});\n"
+    ]
+}
