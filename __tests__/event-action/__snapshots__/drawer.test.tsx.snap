@@ -1,0 +1,274 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventAction:drawer 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开抽屉
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="amis-dialog-widget cxd-Drawer cxd-Drawer--right cxd-Drawer--md cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Drawer-overlay in"
+    />
+    <div
+      class="cxd-Drawer-content in"
+    >
+      <a
+        class="cxd-Drawer-close"
+      >
+        <icon-mock
+          classname="icon icon-close"
+          icon="close"
+        />
+      </a>
+      <div
+        class="cxd-Drawer-header"
+      >
+        <div
+          class="cxd-Drawer-title"
+        >
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              模态抽屉
+            </span>
+          </span>
+        </div>
+      </div>
+      <div
+        class="cxd-Drawer-body"
+      >
+        <div
+          class="cxd-Spinner-overlay in"
+        />
+        <div
+          class="cxd-Spinner cxd-Spinner--overlay in"
+          data-testid="spinner"
+        >
+          <div
+            class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+        </div>
+      </div>
+      <div
+        class="cxd-Drawer-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:drawer 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开抽屉
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:drawer 3`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开抽屉
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:drawer 4`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开抽屉
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:drawer 5`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开抽屉
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:drawer 6`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开抽屉
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:drawer 7`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开抽屉
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
