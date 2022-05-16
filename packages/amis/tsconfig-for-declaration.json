@@ -19,7 +19,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "typeRoots": ["./node_modules/@types", "./types"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "composite": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "acceptance-tests", "webpack", "jest"],
