@@ -1,11 +1,10 @@
 {
-  "extends": "./tsconfig-base.json",
   "compilerOptions": {
-    "outDir": "lib",
     "rootDir": "./",
     "module": "commonjs",
     "target": "es5",
     "lib": ["ES6", "DOM", "ES2015", "ES2021"],
+    "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
     "importHelpers": true,
@@ -18,13 +17,17 @@
     "strictNullChecks": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "typeRoots": ["./node_modules/@types", "./types"],
     "skipLibCheck": true,
-    //
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true
+    "declaration": true
   },
-  "types": ["typePatches"],
-  "references": [{"path": "packages/amis"}]
+
+  "exclude": [
+    "node_modules",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "jest_cache"
+  ],
+  "types": ["node", "typePatches", "@testing-library/jest-dom"]
 }
