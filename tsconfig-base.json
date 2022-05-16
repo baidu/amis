@@ -1,12 +1,10 @@
 {
-  "extends": "./tsconfig-base.json",
   "compilerOptions": {
-<<<<<<< HEAD
-    "outDir": "lib",
     "rootDir": "./",
     "module": "commonjs",
     "target": "es5",
     "lib": ["ES6", "DOM", "ES2015", "ES2021"],
+    "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
     "importHelpers": true,
@@ -19,22 +17,17 @@
     "strictNullChecks": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "typeRoots": ["./node_modules/@types", "./types"],
     "skipLibCheck": true,
-    //
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true
+    "declaration": true
   },
-  "types": ["typePatches"],
-  "references": [{"path": "packages/amis"}]
-=======
-    "rootDir": "./src",
-    "outDir": "lib",
-    "typeRoots": ["./node_modules/@types", "../../types"],
-    "composite": true
-  },
-  "include": ["examples/**/*"],
-  "references": [{"path": "../amis-core"}]
->>>>>>> c85ffab0 (调整目录结构)
+
+  "exclude": [
+    "node_modules",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "jest_cache"
+  ],
+  "types": ["node", "typePatches", "@testing-library/jest-dom"]
 }

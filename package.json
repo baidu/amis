@@ -2,6 +2,7 @@
   "name": "aisuda",
   "workspaces": [
     "packages/*"
+<<<<<<< HEAD
   ],
   "scripts": {
     "serve": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",
@@ -88,4 +89,7 @@
     "ts-node": "^10.5.0",
     "typescript": "~4.5.5"
   }
+=======
+  ]
+>>>>>>> c85ffab0 (调整目录结构)
 }
