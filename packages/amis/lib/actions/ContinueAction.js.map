@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "ContinueAction.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/actions/ContinueAction.ts"
+    ],
+    "names": [],
+    "mappings": ";;;;AACA,mCAMkB;AAMlB;;;;;;GAMG;AACH;IAAA;IAQA,CAAC;IAPO,4BAAG,GAAT,UACE,MAAuB,EACvB,QAAyB,EACzB,KAAyB;;;gBAEzB,QAAQ,CAAC,UAAU,GAAG,mBAAU,CAAC,QAAQ,CAAC;;;;KAC3C;IACH,qBAAC;AAAD,CAAC,AARD,IAQC;AARY,wCAAc;AAU3B,IAAA,uBAAc,EAAC,UAAU,EAAE,IAAI,cAAc,EAAE,CAAC,CAAC",
+    "sourcesContent": [
+        "import { RendererEvent } from '../utils/renderer-event';\nimport {\n  RendererAction,\n  ListenerContext,\n  LoopStatus,\n  registerAction,\n  ILogicAction\n} from './Action';\n\nexport interface IContinueAction extends ILogicAction {\n  actionType: 'continue';\n}\n\n/**\n * continue\n *\n * @export\n * @class ContinueAction\n * @implements {Action}\n */\nexport class ContinueAction implements RendererAction {\n  async run(\n    action: IContinueAction,\n    renderer: ListenerContext,\n    event: RendererEvent<any>\n  ) {\n    renderer.loopStatus = LoopStatus.CONTINUE;\n  }\n}\n\nregisterAction('continue', new ContinueAction());\n"
+    ]
+}

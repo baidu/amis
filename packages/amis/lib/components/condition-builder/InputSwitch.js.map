@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "InputSwitch.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/condition-builder/InputSwitch.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,6DAA0B;AAC1B,sFAAmD;AACnD,kCAA8B;AAC9B,sFAAmD;AACnD,qCAAgE;AAUhE,IAAM,YAAY,GAAG,UAAC,IAAS,IAAK,OAAA,IAAI,CAAC,KAAK,EAAV,CAAU,CAAC;AAE/C,SAAgB,WAAW,CAAC,EAOT;QANjB,OAAO,aAAA,EACP,KAAK,WAAA,EACL,QAAQ,cAAA,EACI,EAAE,gBAAA,EACd,QAAQ,cAAA,EACR,gBAAgB,sBAAA;IAEhB,OAAO,CACL,8BAAC,0BAAgB,IACf,gBAAgB,EAAE,gBAAgB,EAClC,aAAa,EAAE,UAAC,EAAS;gBAAR,OAAO,aAAA;YAAM,OAAA,CAC5B,8BAAC,0BAAgB,IACf,OAAO,EAAE,OAAO,EAChB,YAAY,EAAE,YAAY,EAC1B,QAAQ,EAAE,QAAQ,EAClB,OAAO,EAAE,OAAO,EAChB,KAAK,EAAE,KAAK,EACZ,QAAQ,EAAE,KAAK,EACf,QAAQ,EAAE,QAAQ,GAClB,CACH;QAV6B,CAU7B,IAEA,UAAC,EAAwB;YAAvB,OAAO,aAAA,EAAE,QAAQ,cAAA,EAAE,GAAG,SAAA;QAAM,OAAA,CAC7B,uCAAK,SAAS,EAAE,EAAE,CAAC,eAAe,EAAE,QAAQ,CAAC,CAAC,CAAC,WAAW,CAAC,CAAC,CAAC,EAAE,CAAC;YAC9D,qCAAG,OAAO,EAAE,OAAO,EAAE,GAAG,EAAE,GAAG;gBAC3B,8BAAC,YAAI,IAAC,IAAI,EAAC,YAAY,GAAG,CACxB,CACA,CACP;IAN8B,CAM9B,CACgB,CACpB,CAAC;AACJ,CAAC;AAhCD,kCAgCC;AAED,kBAAe,IAAA,iBAAS,EAAC,WAAW,CAAC,CAAC",
+    "sourcesContent": [
+        "import React from 'react';\nimport PopOverContainer from '../PopOverContainer';\nimport {Icon} from '../icons';\nimport GroupedSelection from '../GroupedSelection';\nimport {ClassNamesFn, themeable, ThemeProps} from '../../theme';\n\nexport interface InputSwitchProps extends ThemeProps {\n  options: Array<any>;\n  disabled?: boolean;\n  popOverContainer?: any;\n  value: any;\n  onChange: (value: any) => void;\n}\n\nconst option2value = (item: any) => item.value;\n\nexport function InputSwitch({\n  options,\n  value,\n  onChange,\n  classnames: cx,\n  disabled,\n  popOverContainer\n}: InputSwitchProps) {\n  return (\n    <PopOverContainer\n      popOverContainer={popOverContainer}\n      popOverRender={({onClose}) => (\n        <GroupedSelection\n          onClick={onClose}\n          option2value={option2value}\n          onChange={onChange}\n          options={options}\n          value={value}\n          multiple={false}\n          disabled={disabled}\n        />\n      )}\n    >\n      {({onClick, isOpened, ref}) => (\n        <div className={cx('CBInputSwitch', isOpened ? 'is-active' : '')}>\n          <a onClick={onClick} ref={ref}>\n            <Icon icon=\"ellipsis-v\" />\n          </a>\n        </div>\n      )}\n    </PopOverContainer>\n  );\n}\n\nexport default themeable(InputSwitch);\n"
+    ]
+}

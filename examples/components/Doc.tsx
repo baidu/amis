@@ -1,7 +1,7 @@
 import React from 'react';
 import {Switch} from 'react-router-dom';
 
-import {flattenTree, filterTree, mapTree} from '../../src/utils/helper';
+import {flattenTree, filterTree, mapTree} from 'amis/lib/utils/helper';
 import {navigations2route} from './App';
 
 import DocNavCN from './DocNavCN';

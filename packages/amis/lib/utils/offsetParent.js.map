@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "offsetParent.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/utils/offsetParent.ts"
+    ],
+    "names": [],
+    "mappings": ";AAAA;;GAEG;;AAEH,IAAM,aAAa,GAAG,UAAC,CAAiB;IACtC,OAAA,CAAC,CAAC,CAAC,IAAI,cAAc,IAAI,CAAC;AAA1B,CAA0B,CAAC;AAE7B,SAAwB,YAAY,CAAC,IAAiB;IACpD,IAAM,GAAG,GAAG,IAAI,aAAJ,IAAI,uBAAJ,IAAI,CAAE,aAAa,CAAC;IAChC,IAAI,MAAM,GAAG,IAAI,IAAI,IAAI,CAAC,YAAY,CAAC;IAEvC,OACE,aAAa,CAAC,MAAM,CAAC;QACrB,MAAM,CAAC,QAAQ,KAAK,MAAM;QAC1B,gBAAgB,CAAC,MAAM,CAAC,CAAC,gBAAgB,CAAC,UAAU,CAAC,KAAK,QAAQ,EAClE;QACA,MAAM,GAAG,MAAM,CAAC,YAAY,CAAC;KAC9B;IAED,OAAO,CAAC,MAAM,IAAI,GAAG,CAAC,eAAe,CAAgB,CAAC;AACxD,CAAC;AAbD,+BAaC",
+    "sourcesContent": [
+        "/**\n * 删减自 https://github.com/react-bootstrap/dom-helpers/blob/master/src/offsetParent.ts\n */\n\nconst isHTMLElement = (e: Element | null): e is HTMLElement =>\n  !!e && 'offsetParent' in e;\n\nexport default function offsetParent(node: HTMLElement): HTMLElement {\n  const doc = node?.ownerDocument;\n  let parent = node && node.offsetParent;\n\n  while (\n    isHTMLElement(parent) &&\n    parent.nodeName !== 'HTML' &&\n    getComputedStyle(parent).getPropertyValue('position') === 'static'\n  ) {\n    parent = parent.offsetParent;\n  }\n\n  return (parent || doc.documentElement) as HTMLElement;\n}\n"
+    ]
+}

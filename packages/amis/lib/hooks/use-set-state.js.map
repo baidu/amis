@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "use-set-state.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/hooks/use-set-state.ts"
+    ],
+    "names": [],
+    "mappings": ";;;AAAA,+BAA4C;AAC5C,8EAA2C;AAE3C,IAAM,WAAW,GAAG,UAClB,YAAyB;IAAzB,6BAAA,EAAA,eAAkB,EAAO;IAEnB,IAAA,KAAoB,IAAA,gBAAQ,EAAI,YAAY,CAAC,EAA5C,KAAK,QAAA,EAAE,QAAQ,QAA6B,CAAC;IAEpD,IAAM,aAAa,GAAG,IAAA,mBAAW,EAAC,UAAA,KAAK;QACrC,QAAQ,CAAC,UAAA,SAAS,IAAI,OAAA,iDACjB,SAAS,GACT,CAAC,IAAA,oBAAU,EAAC,KAAK,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,EACjD,EAHoB,CAGpB,CAAC,CAAC;IACN,CAAC,EAAE,EAAE,CAAC,CAAC;IAEP,OAAO,CAAC,KAAK,EAAE,aAAa,CAAC,CAAC;AAChC,CAAC,CAAC;AAEF,kBAAe,WAAW,CAAC",
+    "sourcesContent": [
+        "import {useCallback, useState} from 'react';\nimport isFunction from 'lodash/isFunction';\n\nconst useSetState = <T extends object>(\n  initialState: T = {} as T\n): [T, (patch: Partial<T> | ((prevState: T) => Partial<T>)) => void] => {\n  const [state, setState] = useState<T>(initialState);\n\n  const setMergeState = useCallback(patch => {\n    setState(prevState => ({\n      ...prevState,\n      ...(isFunction(patch) ? patch(prevState) : patch)\n    }));\n  }, []);\n\n  return [state, setMergeState];\n};\n\nexport default useSetState;\n"
+    ]
+}

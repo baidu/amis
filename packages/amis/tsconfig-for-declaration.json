@@ -7,7 +7,7 @@
     "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "rootDir": "src",
+    "rootDir": "./",
     "importHelpers": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -19,8 +19,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "typeRoots": ["./node_modules/@types", "./types"],
-    "skipLibCheck": true,
-    "composite": true
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "acceptance-tests", "webpack", "jest"],

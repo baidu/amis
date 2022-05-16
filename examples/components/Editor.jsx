@@ -1,7 +1,7 @@
 import React from 'react';
-import Editor from '../../src/editor/Editor';
-import Switch from '../../src/components/Switch';
-import Button from '../../src/components/Button';
+import Editor from 'amis/editor/Editor';
+import Switch from 'amis/components/Switch';
+import Button from 'amis/components/Button';
 import schema from './Form/Test';
 import Portal from 'react-overlays/Portal';
 

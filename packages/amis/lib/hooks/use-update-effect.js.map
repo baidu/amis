@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "use-update-effect.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/hooks/use-update-effect.ts"
+    ],
+    "names": [],
+    "mappings": ";;AAAA,+BAAwC;AAExC,IAAM,eAAe,GAAqB,UAAC,MAAM,EAAE,IAAI;IACrD,IAAM,SAAS,GAAG,IAAA,cAAM,EAAC,KAAK,CAAC,CAAC;IAEhC,IAAA,iBAAS,EAAC;QACR,IAAI,CAAC,SAAS,CAAC,OAAO,EAAE;YACtB,SAAS,CAAC,OAAO,GAAG,IAAI,CAAC;SAC1B;aAAM;YACL,OAAO,MAAM,EAAE,CAAC;SACjB;QACD,OAAO,SAAS,CAAC;IACnB,CAAC,EAAE,IAAI,CAAC,CAAC;AACX,CAAC,CAAC;AAEF,kBAAe,eAAe,CAAC",
+    "sourcesContent": [
+        "import {useEffect, useRef} from 'react';\n\nconst useUpdateEffect: typeof useEffect = (effect, deps) => {\n  const isMounted = useRef(false);\n\n  useEffect(() => {\n    if (!isMounted.current) {\n      isMounted.current = true;\n    } else {\n      return effect();\n    }\n    return undefined;\n  }, deps);\n};\n\nexport default useUpdateEffect;\n"
+    ]
+}

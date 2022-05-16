@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "envOverwrite.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/envOverwrite.ts"
+    ],
+    "names": [],
+    "mappings": ";AAAA;;GAEG;;;;AAIH,yCAAkD;AAClD,IAAM,QAAQ,GAAG,CAAA,MAAA,MAAC,MAAc,EAAC,UAAU,mDAAG,oBAAoB,EAAE,OAAO;IACzE,CAAC,CAAC,IAAI;IACN,CAAC,CAAC,KAAK,CAAC;AAEV,0DAA0D;AACnD,IAAM,YAAY,GAAG,UAAC,MAAW,EAAE,MAAe;IACvD,IAAI,MAAM,CAAC,MAAM,IAAI,QAAQ,EAAE;QAC7B,MAAM,CAAC,MAAM,CAAC,MAAM,EAAE,MAAM,CAAC,MAAM,CAAC,CAAC;QACrC,OAAO,MAAM,CAAC,MAAM,CAAC;KACtB;IAED,IAAI,MAAM,EAAE;QACV,IAAI,WAAW,GAAG,IAAA,2BAAkB,EAAC,MAAM,EAAE,MAAM,CAAC,CAAC;QACrD,KAAuB,UAAW,EAAX,2BAAW,EAAX,yBAAW,EAAX,IAAW,EAAE;YAA/B,IAAI,UAAU,oBAAA;YACjB,MAAM,CAAC,MAAM,CAAC,UAAU,EAAE,UAAU,CAAC,MAAM,CAAC,CAAC,CAAC;YAC9C,OAAO,UAAU,CAAC,MAAM,CAAC,CAAC;SAC3B;KACF;IAED,IAAI,QAAQ,EAAE;QACZ,IAAI,WAAW,GAAG,IAAA,2BAAkB,EAAC,MAAM,EAAE,QAAQ,CAAC,CAAC;QACvD,KAAuB,UAAW,EAAX,2BAAW,EAAX,yBAAW,EAAX,IAAW,EAAE;YAA/B,IAAI,UAAU,oBAAA;YACjB,MAAM,CAAC,MAAM,CAAC,UAAU,EAAE,UAAU,CAAC,QAAQ,CAAC,CAAC,CAAC;YAChD,OAAO,UAAU,CAAC,QAAQ,CAAC,CAAC;SAC7B;KACF;AACH,CAAC,CAAC;AArBW,QAAA,YAAY,gBAqBvB",
+    "sourcesContent": [
+        "/**\n * @file 用于在移动端或不同语言环境下使用不同配置\n */\n\nimport {SchemaNode, Schema} from './types';\nimport {RendererProps, RendererConfig, addSchemaFilter} from './factory';\nimport {findObjectsWithKey} from './utils/helper';\nconst isMobile = (window as any).matchMedia?.('(max-width: 768px)').matches\n  ? true\n  : false;\n\n// 这里不能用 addSchemaFilter 是因为还需要更深层的替换，比如 select 里的 options\nexport const envOverwrite = (schema: any, locale?: string) => {\n  if (schema.mobile && isMobile) {\n    Object.assign(schema, schema.mobile);\n    delete schema.mobile;\n  }\n\n  if (locale) {\n    let schemaNodes = findObjectsWithKey(schema, locale);\n    for (let schemaNode of schemaNodes) {\n      Object.assign(schemaNode, schemaNode[locale]);\n      delete schemaNode[locale];\n    }\n  }\n\n  if (isMobile) {\n    let schemaNodes = findObjectsWithKey(schema, 'mobile');\n    for (let schemaNode of schemaNodes) {\n      Object.assign(schemaNode, schemaNode['mobile']);\n      delete schemaNode['mobile'];\n    }\n  }\n};\n"
+    ]
+}

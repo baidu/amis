@@ -1,20 +1,19 @@
 import React from 'react';
-import NotFound from '../../src/components/404';
-import Layout from '../../src/components/Layout';
-import AsideNav from '../../src/components/AsideNav';
 import {
+  NotFound,
+  Layout,
+  AsideNav,
   AlertComponent,
   Button,
   Drawer,
   Spinner,
-  ToastComponent
-} from '../../src/components/index';
-import {eachTree, mapTree} from '../../src/utils/helper';
-import {Icon} from '../../src/components/icons';
-import '../../src/locale/en-US';
+  ToastComponent,
+  Select,
+  InputBox
+} from 'amis';
+import {eachTree, mapTree} from 'amis/lib/utils/helper';
+import 'amis/lib/locale/en-US';
 import {withRouter} from 'react-router';
-import Select from '../../src/components/Select';
-import InputBox from '../../src/components/InputBox';
 import DocSearch from './DocSearch';
 import Doc from './Doc';
 import DocNavCN from './DocNavCN';

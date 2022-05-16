@@ -1,11 +1,9 @@
 {
-  "extends": "../../tsconfig-base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "lib",
-    "typeRoots": ["./node_modules/@types", "../../types"],
-    "composite": true
+    "typeRoots": ["./node_modules/@types", "../amis/types"]
   },
-  "include": ["examples/**/*"],
-  "references": [{"path": "../amis-core"}]
+  "references": []
 }

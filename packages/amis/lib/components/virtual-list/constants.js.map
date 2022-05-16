@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "constants.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/virtual-list/constants.ts"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,IAAY,SAKX;AALD,WAAY,SAAS;IACnB,0BAAa,CAAA;IACb,4BAAe,CAAA;IACf,8BAAiB,CAAA;IACjB,wBAAW,CAAA;AACb,CAAC,EALW,SAAS,GAAT,iBAAS,KAAT,iBAAS,QAKpB;AAED,IAAY,SAGX;AAHD,WAAY,SAAS;IACnB,sCAAyB,CAAA;IACzB,kCAAqB,CAAA;AACvB,CAAC,EAHW,SAAS,GAAT,iBAAS,KAAT,iBAAS,QAGpB;AAED,IAAY,oBAGX;AAHD,WAAY,oBAAoB;IAC9B,6CAAqB,CAAA;IACrB,+CAAuB,CAAA;AACzB,CAAC,EAHW,oBAAoB,GAApB,4BAAoB,KAApB,4BAAoB,QAG/B;AAEY,QAAA,UAAU;IACrB,GAAC,SAAS,CAAC,QAAQ,IAAG,WAAW;IACjC,GAAC,SAAS,CAAC,UAAU,IAAG,YAAY;QACpC;AAEW,QAAA,QAAQ;IACnB,GAAC,SAAS,CAAC,QAAQ,IAAG,QAAQ;IAC9B,GAAC,SAAS,CAAC,UAAU,IAAG,OAAO;QAC/B;AAEW,QAAA,YAAY;IACvB,GAAC,SAAS,CAAC,QAAQ,IAAG,KAAK;IAC3B,GAAC,SAAS,CAAC,UAAU,IAAG,MAAM;QAC9B;AAEW,QAAA,UAAU;IACrB,GAAC,SAAS,CAAC,QAAQ,IAAG,WAAW;IACjC,GAAC,SAAS,CAAC,UAAU,IAAG,YAAY;QACpC;AAEW,QAAA,kBAAkB;IAC7B,GAAC,SAAS,CAAC,QAAQ,IAAG,cAAc;IACpC,GAAC,SAAS,CAAC,UAAU,IAAG,aAAa;QACrC",
+    "sourcesContent": [
+        "export enum ALIGNMENT {\n  AUTO = 'auto',\n  START = 'start',\n  CENTER = 'center',\n  END = 'end'\n}\n\nexport enum DIRECTION {\n  HORIZONTAL = 'horizontal',\n  VERTICAL = 'vertical'\n}\n\nexport enum SCROLL_CHANGE_REASON {\n  OBSERVED = 'observed',\n  REQUESTED = 'requested'\n}\n\nexport const scrollProp = {\n  [DIRECTION.VERTICAL]: 'scrollTop',\n  [DIRECTION.HORIZONTAL]: 'scrollLeft'\n};\n\nexport const sizeProp = {\n  [DIRECTION.VERTICAL]: 'height',\n  [DIRECTION.HORIZONTAL]: 'width'\n};\n\nexport const positionProp = {\n  [DIRECTION.VERTICAL]: 'top',\n  [DIRECTION.HORIZONTAL]: 'left'\n};\n\nexport const marginProp = {\n  [DIRECTION.VERTICAL]: 'marginTop',\n  [DIRECTION.HORIZONTAL]: 'marginLeft'\n};\n\nexport const oppositeMarginProp = {\n  [DIRECTION.VERTICAL]: 'marginBottom',\n  [DIRECTION.HORIZONTAL]: 'marginRight'\n};\n"
+    ]
+}
