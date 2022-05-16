@@ -1943,6 +1943,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="website"
                   placeholder=""
                   size="10"
@@ -1982,6 +1983,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="name"
                   placeholder=""
                   size="10"

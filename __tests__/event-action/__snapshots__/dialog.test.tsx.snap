@@ -261,4 +261,31 @@ exports[`EventAction:dialog 6`] = `
 </div>
 `;
 
-exports[`EventAction:dialog 7`] = `<div />`;
+exports[`EventAction:dialog 7`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              打开弹窗
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

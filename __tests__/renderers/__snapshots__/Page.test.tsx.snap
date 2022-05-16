@@ -821,6 +821,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="a"
                     placeholder=""
                     size="10"
