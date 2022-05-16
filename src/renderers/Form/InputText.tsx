@@ -581,6 +581,7 @@ export default class TextControl extends React.PureComponent<
       placeholder,
       classnames: cx,
       disabled,
+      readOnly,
       name,
       loading,
       clearable,
@@ -600,7 +601,7 @@ export default class TextControl extends React.PureComponent<
 
     return (
       <Downshift
-        isOpen={this.state.isOpen && !disabled}
+        isOpen={this.state.isOpen && !disabled && !readOnly}
         inputValue={this.state.inputValue}
         onChange={this.handleChange}
         onStateChange={this.handleStateChange}
@@ -691,6 +692,7 @@ export default class TextControl extends React.PureComponent<
                     name,
                     ref: this.inputRef,
                     disabled,
+                    readOnly,
                     type,
                     onFocus: this.handleFocus,
                     onBlur: this.handleBlur,
@@ -702,7 +704,7 @@ export default class TextControl extends React.PureComponent<
                 />
               </>
 
-              {clearable && !disabled && value ? (
+              {clearable && !disabled && !readOnly && value ? (
                 <a
                   onClick={this.clearValue}
                   className={cx('TextControl-clear')}
@@ -834,7 +836,7 @@ export default class TextControl extends React.PureComponent<
           value={this.valueToString(value)}
           className={cx(type === 'password' && revealPassword && 'TextControl-input-password')}
         />
-        {clearable && !disabled && value ? (
+        {clearable && !disabled && !readOnly && value ? (
           <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>
             <Icon icon="input-clear" className="icon" />
           </a>
