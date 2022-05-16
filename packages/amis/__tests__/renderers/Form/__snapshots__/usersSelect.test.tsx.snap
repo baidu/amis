@@ -56,7 +56,6 @@ exports[`Renderer:usersselect 1`] = `
               class="cxd-UserSelect"
             >
               <div
-
                 class="cxd-ResultBox cxd-UserSelect-input is-clickable is-group"
                 tabindex="-1"
               >
