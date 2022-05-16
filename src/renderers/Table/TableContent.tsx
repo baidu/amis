@@ -55,6 +55,7 @@ export interface TableContentProps extends LocaleProps {
   itemAction?: ActionSchema;
   itemActions?: Array<Action>;
   store: ITableStore;
+  dispatchEvent?: Function;
 }
 
 @observer
@@ -123,7 +124,8 @@ export class TableContent extends React.Component<TableContentProps> {
       translate,
       itemAction,
       affixRow,
-      store
+      store,
+      dispatchEvent
     } = this.props;
 
     const tableClassName = cx('Table-table', this.props.tableClassName);
@@ -199,6 +201,10 @@ export class TableContent extends React.Component<TableContentProps> {
               prefixRow={prefixRow}
               affixRow={affixRow}
               data={data}
+              rowsProps={{
+                data,
+                dispatchEvent
+              }}
             ></TableBody>
           )}
         </table>
