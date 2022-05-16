@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "ItemActionsWrapper.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/renderers/Table/ItemActionsWrapper.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;AAAA,yCAAoC;AACpC,0DAA+C;AAU/C,SAAS,kBAAkB,CAAC,KAAuB;;IACjD,IAAM,EAAE,GAAG,KAAK,CAAC,UAAU,CAAC;IAC5B,IAAM,QAAQ,GAAG,KAAK,CAAC,QAAQ,CAAC;IAChC,IAAM,KAAK,GAAG,KAAK,CAAC,KAAK,CAAC;IAC1B,IAAM,MAAM,GAAG,IAAA,cAAM,EAAiB,IAAI,CAAC,CAAC;IAE5C,IAAA,iBAAS,EAAC;;QACR,IAAM,GAAG,GAAG,KAAK,CAAC,QAAS,CAAC;QAC5B,IAAI,CAAC,GAAG,EAAE;YACR,OAAO;SACR;QAED,IAAM,KAAK,GAAG,MAAA,MAAM,CAAC,OAAQ,CAAC,aAAa,0CAAE,aAAa,CACxD,OAAO,CACO,CAAC;QACjB,IAAM,GAAG,GAAG,KAAK,aAAL,KAAK,uBAAL,KAAK,CAAE,aAAa,CAAC,uBAAe,GAAG,CAAC,EAAE,QAAI,CAAgB,CAAC;QAC3E,IAAI,CAAC,GAAG,EAAE;YACR,OAAO;SACR;QACD,IAAM,IAAI,GAAG,GAAG,CAAC,qBAAqB,EAAE,CAAC;QACzC,IAAM,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;QAC3B,IAAM,GAAG,GAAG,IAAI,CAAC,GAAG,GAAG,KAAK,CAAC,qBAAqB,EAAE,CAAC,GAAG,CAAC;QACzD,MAAM,CAAC,OAAQ,CAAC,KAAK,CAAC,OAAO,IAAI,eAAQ,GAAG,wBAAc,MAAM,QAAK,CAAC;IACxE,CAAC,EAAE,CAAC,MAAA,KAAK,CAAC,QAAQ,0CAAE,EAAE,CAAC,CAAC,CAAC;IAEzB,OAAO,CACL,uCAAK,SAAS,EAAE,EAAE,CAAC,wBAAwB,CAAC,EAAE,GAAG,EAAE,MAAM,IACtD,QAAQ,CACL,CACP,CAAC;AACJ,CAAC;AAED,kBAAe,IAAA,qBAAQ,EAAC,kBAAkB,CAAC,CAAC",
+    "sourcesContent": [
+        "import {observer} from 'mobx-react';\nimport React, {useEffect, useRef} from 'react';\nimport {ITableStore} from '../../store/table';\nimport {ClassNamesFn} from '../../theme';\n\nexport interface ItemActionsProps {\n  classnames: ClassNamesFn;\n  children: JSX.Element;\n  store: ITableStore;\n}\n\nfunction ItemActionsWrapper(props: ItemActionsProps) {\n  const cx = props.classnames;\n  const children = props.children;\n  const store = props.store;\n  const divRef = useRef<HTMLDivElement>(null);\n\n  useEffect(() => {\n    const row = store.hoverRow!;\n    if (!row) {\n      return;\n    }\n\n    const frame = divRef.current!.parentElement?.querySelector(\n      'table'\n    ) as HTMLElement;\n    const dom = frame?.querySelector(`tr[data-id=\"${row.id}\"]`) as HTMLElement;\n    if (!dom) {\n      return;\n    }\n    const rect = dom.getBoundingClientRect();\n    const height = rect.height;\n    const top = rect.top - frame.getBoundingClientRect().top;\n    divRef.current!.style.cssText += `top: ${top}px;height: ${height}px;`;\n  }, [store.hoverRow?.id]);\n\n  return (\n    <div className={cx('Table-itemActions-wrap')} ref={divRef}>\n      {children}\n    </div>\n  );\n}\n\nexport default observer(ItemActionsWrapper);\n"
+    ]
+}

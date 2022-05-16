@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "BroadcastAction.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/actions/BroadcastAction.ts"
+    ],
+    "names": [],
+    "mappings": ";;;;AACA,0CAA6C;AAC7C,0DAAqE;AACrE,mCAKkB;AAOlB;;;;;;GAMG;AACH;IAAA;IAuBA,CAAC;IAtBO,6BAAG,GAAT,UACE,MAAwB,EACxB,QAAyB,EACzB,KAAyB;;;;;wBAEzB,IAAI,CAAC,MAAM,CAAC,SAAS,EAAE;4BACrB,OAAO,CAAC,KAAK,CAAC,uBAAuB,CAAC,CAAC;4BACvC,sBAAO;yBACR;wBAED,kCAAkC;wBAClC,KAAK,CAAC,OAAO,CAAC,IAAA,qBAAY,EAAC,KAAK,CAAC,IAAI,EAAE,MAAM,CAAC,IAAI,CAAC,CAAC,CAAC;wBAG9C,qBAAM,IAAA,8BAAa,EACxB,MAAM,CAAC,SAAS,EAChB,QAAQ,EACR,KAAK,CAAC,OAAO,CAAC,MAAM,EACpB,MAAM,CAAC,IAAI,EACX,KAAK,CACN,EAAA;;oBAPD,YAAY;oBACZ,sBAAO,SAMN,EAAC;;;;KACH;IACH,sBAAC;AAAD,CAAC,AAvBD,IAuBC;AAvBY,0CAAe;AAyB5B,IAAA,uBAAc,EAAC,WAAW,EAAE,IAAI,eAAe,EAAE,CAAC,CAAC",
+    "sourcesContent": [
+        "import {RendererProps} from '../factory';\nimport {createObject} from '../utils/helper';\nimport {RendererEvent, dispatchEvent} from '../utils/renderer-event';\nimport {\n  RendererAction,\n  ListenerAction,\n  ListenerContext,\n  registerAction\n} from './Action';\n\nexport interface IBroadcastAction extends ListenerAction {\n  actionType: 'broadcast';\n  eventName: string; // 事件名称，actionType: broadcast\n}\n\n/**\n * broadcast\n *\n * @export\n * @class BroadcastAction\n * @implements {Action}\n */\nexport class BroadcastAction implements RendererAction {\n  async run(\n    action: IBroadcastAction,\n    renderer: ListenerContext,\n    event: RendererEvent<any>\n  ) {\n    if (!action.eventName) {\n      console.error('eventName 未定义，请定义事件名称');\n      return;\n    }\n\n    // 作为一个新的事件，需要把广播动作的args参数追加到事件数据中\n    event.setData(createObject(event.data, action.args));\n\n    // 直接触发对应的动作\n    return await dispatchEvent(\n      action.eventName,\n      renderer,\n      event.context.scoped,\n      action.args,\n      event\n    );\n  }\n}\n\nregisterAction('broadcast', new BroadcastAction());\n"
+    ]
+}

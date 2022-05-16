@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "Item.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/schema-editor/Item.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,6DAA0B;AAQ1B,iCAA8C;AAC9C,mCAA6E;AAC7E,mCAAgD;AAOhD;IAAsC,iDAAsC;IAA5E;;IAkBA,CAAC;IAjBC,iCAAM,GAAN;QACS,IAAA,KAAK,GAAI,IAAI,CAAC,KAAK,MAAd,CAAe;QAE3B,0BAA0B;QAC1B,IAAI,QAAQ,GAAG,+BAAsB,CAAC;QACtC,QAAQ,KAAK,aAAL,KAAK,uBAAL,KAAK,CAAE,IAAI,EAAE;YACnB,KAAK,QAAQ;gBACX,QAAQ,GAAG,+BAA6B,CAAC;gBACzC,MAAM;YAER,KAAK,OAAO;gBACV,QAAQ,GAAG,6BAA4B,CAAC;gBACxC,MAAM;SACT;QAED,OAAO,8BAAC,QAAQ,4BAAK,IAAI,CAAC,KAAK,EAAI,CAAC;IACtC,CAAC;IACH,uBAAC;AAAD,CAAC,AAlBD,CAAsC,eAAK,CAAC,SAAS,GAkBpD;AAlBY,4CAAgB",
+    "sourcesContent": [
+        "import React from 'react';\nimport {LocaleProps} from '../../locale';\nimport {ThemeProps} from '../../theme';\nimport type {JSONSchema} from '../../utils/DataScope';\nimport {autobind} from '../../utils/helper';\nimport Checkbox from '../Checkbox';\nimport InputBox from '../InputBox';\nimport Select from '../Select';\nimport {SchemaEditorItemArray} from './Array';\nimport {SchemaEditorItemCommon, SchemaEditorItemCommonProps} from './Common';\nimport {SchemaEditorItemObject} from './Object';\n\nexport interface SchemaEditorItemProps\n  extends SchemaEditorItemCommonProps,\n    LocaleProps,\n    ThemeProps {}\n\nexport class SchemaEditorItem extends React.Component<SchemaEditorItemProps> {\n  render() {\n    const {value} = this.props;\n\n    // 动态Component要用大写开头的才会被识别\n    let Renderer = SchemaEditorItemCommon;\n    switch (value?.type) {\n      case 'object':\n        Renderer = SchemaEditorItemObject as any;\n        break;\n\n      case 'array':\n        Renderer = SchemaEditorItemArray as any;\n        break;\n    }\n\n    return <Renderer {...this.props} />;\n  }\n}\n"
+    ]
+}

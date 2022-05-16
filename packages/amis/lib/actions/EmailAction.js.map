@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "EmailAction.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/actions/EmailAction.ts"
+    ],
+    "names": [],
+    "mappings": ";;;;AACA,kEAA+B;AAC/B,uDAAoB;AACpB,mCAKkB;AAclB;;;;;;GAMG;AACH;IAAA;IAaA,CAAC;IAZO,yBAAG,GAAT,UACE,MAAoB,EACpB,QAAyB,EACzB,KAAyB;;;;;gBAEnB,MAAM,GAAG,MAAA,MAAM,CAAC,IAAI,0CAAE,EAAE,CAAC;gBACzB,QAAQ,GAAG,IAAA,cAAI,EAAC,MAAA,MAAM,CAAC,IAAI,mCAAI,EAAE,EAAE,IAAI,EAAE,KAAK,EAAE,SAAS,EAAE,MAAM,CAAC,CAAC;gBACnE,OAAO,GAAG,YAAE,CAAC,SAAS,CAAC,QAAQ,CAAC,CAAC;gBACjC,MAAM,GAAG,iBAAU,MAAM,cAAI,OAAO,CAAE,CAAC;gBAE7C,MAAM,CAAC,IAAI,CAAC,MAAM,CAAC,CAAC;;;;KACrB;IACH,kBAAC;AAAD,CAAC,AAbD,IAaC;AAbY,kCAAW;AAexB,IAAA,uBAAc,EAAC,OAAO,EAAE,IAAI,WAAW,EAAE,CAAC,CAAC",
+    "sourcesContent": [
+        "import {RendererEvent} from '../utils/renderer-event';\nimport pick from 'lodash/pick';\nimport qs from 'qs';\nimport {\n  RendererAction,\n  ListenerContext,\n  registerAction,\n  ListenerAction\n} from './Action';\n\nexport interface IEmailAction extends ListenerAction {\n  actionType: 'email';\n  args: {\n    to: string;\n    cc: string;\n    bcc: string;\n    subject: string;\n    body: string;\n    [propName: string]: any;\n  };\n}\n\n/**\n * 邮件动作\n *\n * @export\n * @class EmailAction\n * @implements {Action}\n */\nexport class EmailAction implements RendererAction {\n  async run(\n    action: IEmailAction,\n    renderer: ListenerContext,\n    event: RendererEvent<any>\n  ) {\n    const mailTo = action.args?.to;\n    const mailInfo = pick(action.args ?? {}, 'cc', 'bcc', 'subject', 'body');\n    const mailStr = qs.stringify(mailInfo);\n    const mailto = `mailto:${mailTo}?${mailStr}`;\n\n    window.open(mailto);\n  }\n}\n\nregisterAction('email', new EmailAction());\n"
+    ]
+}

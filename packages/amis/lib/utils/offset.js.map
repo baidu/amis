@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "offset.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/utils/offset.ts"
+    ],
+    "names": [],
+    "mappings": ";AAAA;;GAEG;;AAEH;;;;GAIG;AACH,SAAwB,MAAM,CAAC,IAAiB;IAC9C,IAAM,GAAG,GAAG,IAAI,aAAJ,IAAI,uBAAJ,IAAI,CAAE,aAAa,CAAC;IAEhC,IAAI,GAAG,GAAG,EAAC,GAAG,EAAE,CAAC,EAAE,IAAI,EAAE,CAAC,EAAE,MAAM,EAAE,CAAC,EAAE,KAAK,EAAE,CAAC,EAAC,CAAC;IACjD,IAAM,OAAO,GAAG,GAAG,IAAI,GAAG,CAAC,eAAe,CAAC;IAE3C,6CAA6C;IAC7C,IAAI,CAAC,OAAO,IAAI,CAAC,OAAO,CAAC,QAAQ,CAAC,IAAI,CAAC;QAAE,OAAO,GAAG,CAAC;IAEpD,IAAI,IAAI,CAAC,qBAAqB,KAAK,SAAS;QAC1C,GAAG,GAAG,IAAI,CAAC,qBAAqB,EAAE,CAAC;IAErC,GAAG,GAAG;QACJ,GAAG,EAAE,GAAG,CAAC,GAAG,GAAG,OAAO,CAAC,SAAS,GAAG,CAAC,OAAO,CAAC,SAAS,IAAI,CAAC,CAAC;QAC3D,IAAI,EAAE,GAAG,CAAC,IAAI,GAAG,OAAO,CAAC,UAAU,GAAG,CAAC,OAAO,CAAC,UAAU,IAAI,CAAC,CAAC;QAC/D,KAAK,EAAE,GAAG,CAAC,KAAK;QAChB,MAAM,EAAE,GAAG,CAAC,MAAM;KACnB,CAAC;IAEF,OAAO,GAAG,CAAC;AACb,CAAC;AApBD,yBAoBC",
+    "sourcesContent": [
+        "/**\n * 修改自 https://github.com/react-bootstrap/dom-helpers/blob/master/src/offset.ts\n */\n\n/**\n * Returns the offset of a given element, including top and left positions, width and height.\n *\n * @param node the element\n */\nexport default function offset(node: HTMLElement) {\n  const doc = node?.ownerDocument;\n\n  let box = {top: 0, left: 0, height: 0, width: 0};\n  const docElem = doc && doc.documentElement;\n\n  // Make sure it's not a disconnected DOM node\n  if (!docElem || !docElem.contains(node)) return box;\n\n  if (node.getBoundingClientRect !== undefined)\n    box = node.getBoundingClientRect();\n\n  box = {\n    top: box.top + docElem.scrollTop - (docElem.clientTop || 0),\n    left: box.left + docElem.scrollLeft - (docElem.clientLeft || 0),\n    width: box.width,\n    height: box.height\n  };\n\n  return box;\n}\n"
+    ]
+}

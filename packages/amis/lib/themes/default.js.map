@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "default.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/themes/default.ts"
+    ],
+    "names": [],
+    "mappings": ";AAAA;;GAEG;;;AAEH,qDAAsB",
+    "sourcesContent": [
+        "/**\n * @file 这个文件只作为兼容，后续没有 default 了，default 就是 cxd\n */\n\nexport * from './cxd';\n"
+    ]
+}

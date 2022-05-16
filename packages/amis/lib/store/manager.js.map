@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "manager.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/store/manager.ts"
+    ],
+    "names": [],
+    "mappings": ";;;AAAA,mDAAwC;AAIxC,IAAM,MAAM,GAER,EAAE,CAAC;AAEP,SAAgB,QAAQ,CAAC,KAAiB;IACxC,IAAI,MAAM,CAAC,KAAK,CAAC,EAAE,CAAC,EAAE;QACpB,OAAO,MAAM,CAAC,KAAK,CAAC,EAAE,CAAC,CAAC;KACzB;IAED,MAAM,CAAC,KAAK,CAAC,EAAE,CAAC,GAAG,KAAK,CAAC;IAEzB,4CAA4C;IAC5C,IAAI,KAAK,CAAC,QAAQ,IAAI,CAAC,oBAAoB,CAAC,IAAI,CAAC,KAAK,CAAC,IAAI,CAAC,EAAE;QAC5D,IAAM,MAAM,GAAG,MAAM,CAAC,KAAK,CAAC,QAAQ,CAAoB,CAAC;QACzD,MAAM,CAAC,UAAU,CAAC,KAAK,CAAC,EAAE,CAAC,CAAC;KAC7B;IAED,OAAO,EAAE,CAAC;IACV,OAAO,KAAK,CAAC;AACf,CAAC;AAfD,4BAeC;AAED,IAAM,QAAQ,GAAkB,EAAE,CAAC;AAEnC,SAAgB,WAAW,CAAC,KAAiB;IAC3C,IAAM,EAAE,GAAG,KAAK,CAAC,EAAE,CAAC;IACpB,QAAQ,CAAC,IAAI,CAAC,EAAE,CAAC,CAAC;IAClB,KAAK,CAAC,OAAO,CAAC,OAAO,CAAC,CAAC;AACzB,CAAC;AAJD,kCAIC;AAED,SAAS,OAAO;IACd,IAAI,KAAK,GAAG,QAAQ,CAAC,MAAM,GAAG,CAAC,CAAC;IAChC,OAAO,KAAK,IAAI,CAAC,EAAE;QACjB,IAAM,EAAE,GAAG,QAAQ,CAAC,KAAK,CAAC,CAAC;QAC3B,IAAM,KAAK,GAAG,MAAM,CAAC,EAAE,CAAC,CAAC;QAEzB,IAAI,KAAK,IAAI,CAAC,IAAA,yBAAO,EAAC,KAAK,CAAC,EAAE;YAC5B,OAAO,MAAM,CAAC,EAAE,CAAC,CAAC;YAClB,QAAQ,CAAC,MAAM,CAAC,KAAK,EAAE,CAAC,CAAC,CAAC;SAC3B;aAAM;YACL,KAAK,EAAE,CAAC;SACT;KACF;AACH,CAAC;AAED,SAAgB,YAAY,CAAC,EAAU;IACrC,OAAO,MAAM,CAAC,EAAE,CAAC,CAAC;AACpB,CAAC;AAFD,oCAEC;AAED,SAAgB,SAAS;IACvB,OAAO,MAAM,CAAC;AAChB,CAAC;AAFD,8BAEC",
+    "sourcesContent": [
+        "import {isAlive} from 'mobx-state-tree';\nimport {IIRendererStore} from './iRenderer';\nimport {IStoreNode} from './node';\n\nconst stores: {\n  [propName: string]: IStoreNode;\n} = {};\n\nexport function addStore(store: IStoreNode) {\n  if (stores[store.id]) {\n    return stores[store.id];\n  }\n\n  stores[store.id] = store;\n\n  // drawer dialog 不加进去，否则有些容器就不会自我销毁 store 了。\n  if (store.parentId && !/(?:dialog|drawer)$/.test(store.path)) {\n    const parent = stores[store.parentId] as IIRendererStore;\n    parent.addChildId(store.id);\n  }\n\n  cleanUp();\n  return store;\n}\n\nconst toDelete: Array<string> = [];\n\nexport function removeStore(store: IStoreNode) {\n  const id = store.id;\n  toDelete.push(id);\n  store.dispose(cleanUp);\n}\n\nfunction cleanUp() {\n  let index = toDelete.length - 1;\n  while (index >= 0) {\n    const id = toDelete[index];\n    const store = stores[id];\n\n    if (store && !isAlive(store)) {\n      delete stores[id];\n      toDelete.splice(index, 1);\n    } else {\n      index--;\n    }\n  }\n}\n\nexport function getStoreById(id: string) {\n  return stores[id];\n}\n\nexport function getStores() {\n  return stores;\n}\n"
+    ]
+}

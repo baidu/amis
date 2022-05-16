@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "CalendarContainer.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/calendar/CalendarContainer.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;AAAA,6DAA0B;AAE1B,qEAAwC;AACxC,uEAA0C;AAC1C,yEAA4C;AAC5C,qEAAwC;AACxC,6EAA0C;AAO1C;IAAqD,wDAA8B;IAAnF;QAAA,qEAgBC;QAfC,oBAAc,mDACR,KAAY,CAAC,cAAc,KAC/B,IAAI,EAAE,kBAAc,EACpB,KAAK,EAAE,mBAAe,EACtB,MAAM,EAAE,oBAAgB,EACxB,IAAI,EAAE,kBAAc,EACpB,QAAQ,EAAE,sBAAY,IACtB;;IAQJ,CAAC;IANC,wCAAM,GAAN;QACE,OAAO,eAAK,CAAC,aAAa,CACxB,IAAI,CAAC,cAAc,CAAC,IAAI,CAAC,KAAK,CAAC,IAAI,CAAC,EACpC,IAAI,CAAC,KAAK,CAAC,SAAS,CACrB,CAAC;IACJ,CAAC;IACH,8BAAC;AAAD,CAAC,AAhBD,CAAqD,eAAK,CAAC,SAAS,GAgBnE",
+    "sourcesContent": [
+        "import React from 'react';\n\nimport CustomDaysView from './DaysView';\nimport CustomYearsView from './YearsView';\nimport CustomMonthsView from './MonthsView';\nimport CustomTimeView from './TimeView';\nimport QuartersView from './QuartersView';\n\ninterface CalendarProps {\n  view: string;\n  viewProps: any;\n}\n\nexport default class CustomCalendarContainer extends React.Component<CalendarProps> {\n  viewComponents: any = {\n    ...(this as any).viewComponents,\n    days: CustomDaysView,\n    years: CustomYearsView,\n    months: CustomMonthsView,\n    time: CustomTimeView,\n    quarters: QuartersView\n  };\n\n  render() {\n    return React.createElement(\n      this.viewComponents[this.props.view],\n      this.props.viewProps\n    );\n  }\n}\n"
+    ]
+}
