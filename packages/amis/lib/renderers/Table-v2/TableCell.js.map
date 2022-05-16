@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "TableCell.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/renderers/Table-v2/TableCell.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,yCAAuC;AACvC,kCAAmC;AACnC,wEAAqC;AACrC,sEAAmC;AACnC,oEAAqC;AASrC;IAAuC,kDAAS;IAAhD;;IAKA,CAAC;IAJQ,8BAAY,mDACd,iBAAS,CAAC,YAAY,KACzB,gBAAgB,EAAE,KAAK,IACvB;IAJS,iBAAiB;QAP7B,IAAA,kBAAQ,EAAC;YACR,IAAI,EAAE,YAAY;YAClB,IAAI,EAAE,YAAY;SACnB,CAAC;QACD,IAAA,iBAAW,GAAE;QACb,IAAA,kBAAQ,GAAE;QACV,IAAA,mBAAS,GAAE;OACC,iBAAiB,CAK7B;IAAD,wBAAC;CAAA,AALD,CAAuC,iBAAS,GAK/C;AALY,8CAAiB",
+    "sourcesContent": [
+        "import {Renderer} from '../../factory';\nimport {TableCell} from '../Table';\nimport QuickEdit from '../QuickEdit';\nimport Copyable from '../Copyable';\nimport PopOverable from '../PopOver';\n\n@Renderer({\n  type: 'cell-field',\n  name: 'cell-field'\n})\n@PopOverable()\n@Copyable()\n@QuickEdit()\nexport class CellFieldRenderer extends TableCell {\n  static defaultProps = {\n    ...TableCell.defaultProps,\n    wrapperComponent: 'div'\n  };\n}\n"
+    ]
+}

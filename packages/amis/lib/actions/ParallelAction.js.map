@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "ParallelAction.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/actions/ParallelAction.ts"
+    ],
+    "names": [],
+    "mappings": ";;;;AACA,mCAOkB;AAMlB;IAAA;IAcA,CAAC;IAbO,4BAAG,GAAT,UACE,MAAuB,EACvB,QAAyB,EACzB,KAAyB;;;;;;6BAErB,CAAA,MAAM,CAAC,QAAQ,IAAI,MAAM,CAAC,QAAQ,CAAC,MAAM,CAAA,EAAzC,wBAAyC;wBACrC,YAAY,GAAG,MAAM,CAAC,QAAQ,CAAC,GAAG,CAAC,UAAC,KAAkB;4BAC1D,6BAA6B;4BAC7B,OAAO,IAAA,mBAAU,EAAC,KAAK,EAAE,QAAQ,EAAE,KAAK,CAAC,CAAC;wBAC5C,CAAC,CAAC,CAAC;wBACH,qBAAM,OAAO,CAAC,GAAG,CAAC,YAAY,CAAC,EAAA;;wBAA/B,SAA+B,CAAC;;;;;;KAEnC;IACH,qBAAC;AAAD,CAAC,AAdD,IAcC;AAdY,wCAAc;AAgB3B,IAAA,uBAAc,EAAC,UAAU,EAAE,IAAI,cAAc,EAAE,CAAC,CAAC",
+    "sourcesContent": [
+        "import { RendererEvent } from '../utils/renderer-event';\nimport {\n  RendererAction,\n  ListenerContext,\n  ILogicAction,\n  LogicAction,\n  registerAction,\n  runActions\n} from './Action';\n\nexport interface IParallelAction extends ILogicAction {\n  actionType: 'parallel';\n}\n\nexport class ParallelAction implements RendererAction {\n  async run(\n    action: IParallelAction,\n    renderer: ListenerContext,\n    event: RendererEvent<any>\n  ) {\n    if (action.children && action.children.length) {\n      const childActions = action.children.map((child: LogicAction) => {\n        // 并行动作互不干扰，但不管哪个存在干预都对后续动作生效\n        return runActions(child, renderer, event);\n      });\n      await Promise.all(childActions);\n    }\n  }\n}\n\nregisterAction('parallel', new ParallelAction());\n"
+    ]
+}

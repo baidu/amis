@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "BarCode.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/BarCode.tsx"
+    ],
+    "names": [],
+    "mappings": ";AAAA;;GAEG;;;;AAEH,6DAA0B;AAC1B,kCAAiD;AAEjD,qEAAkC;AAUlC;IAA6B,wCAA6B;IAGxD,iBAAY,KAAmB;QAA/B,YACE,kBAAM,KAAK,CAAC,SAEb;QADC,KAAI,CAAC,GAAG,GAAG,eAAK,CAAC,SAAS,EAAoB,CAAC;;IACjD,CAAC;IAED,oCAAkB,GAAlB,UAAmB,SAAuB;QACxC,IACE,IAAI,CAAC,KAAK,CAAC,KAAK,KAAK,SAAS,CAAC,KAAK;YACpC,IAAI,CAAC,SAAS,CAAC,IAAI,CAAC,KAAK,CAAC,OAAO,CAAC,KAAK,IAAI,CAAC,SAAS,CAAC,SAAS,CAAC,OAAO,CAAC,EACxE;YACA,IAAI,CAAC,aAAa,EAAE,CAAC;SACtB;IACH,CAAC;IAED,+BAAa,GAAb;QACE,IAAI,IAAI,CAAC,GAAG,CAAC,OAAO,EAAE;YACpB,IAAA,mBAAS,EAAC,IAAI,CAAC,GAAG,CAAC,OAAO,EAAE,IAAI,CAAC,KAAK,CAAC,KAAK,EAAE,IAAI,CAAC,KAAK,CAAC,OAAO,CAAC,CAAC;SACnE;IACH,CAAC;IAED,mCAAiB,GAAjB;QACE,IAAI,CAAC,aAAa,EAAE,CAAC;IACvB,CAAC;IAED,wBAAM,GAAN;QACE,OAAO,uCAAK,GAAG,EAAE,IAAI,CAAC,GAAG,GAAI,CAAC;IAChC,CAAC;IACH,cAAC;AAAD,CAAC,AA9BD,CAA6B,eAAK,CAAC,SAAS,GA8B3C;AA9BY,0BAAO;AAgCpB,kBAAe,IAAA,iBAAS,EAAC,OAAO,CAAC,CAAC",
+    "sourcesContent": [
+        "/**\n * @file 基于实现 bar code\n */\n\nimport React from 'react';\nimport {ClassNamesFn, themeable} from '../theme';\n\nimport JsBarcode from 'jsbarcode';\n\nexport interface BarCodeProps {\n  value: string;\n  className?: string;\n  classPrefix: string;\n  options?: JsBarcode.Options;\n  classnames: ClassNamesFn;\n}\n\nexport class BarCode extends React.Component<BarCodeProps> {\n  private dom;\n\n  constructor(props: BarCodeProps) {\n    super(props);\n    this.dom = React.createRef<HTMLImageElement>();\n  }\n\n  componentDidUpdate(prevProps: BarCodeProps) {\n    if (\n      this.props.value !== prevProps.value ||\n      JSON.stringify(this.props.options) !== JSON.stringify(prevProps.options)\n    ) {\n      this.renderBarCode();\n    }\n  }\n\n  renderBarCode() {\n    if (this.dom.current) {\n      JsBarcode(this.dom.current, this.props.value, this.props.options);\n    }\n  }\n\n  componentDidMount() {\n    this.renderBarCode();\n  }\n\n  render() {\n    return <img ref={this.dom} />;\n  }\n}\n\nexport default themeable(BarCode);\n"
+    ]
+}

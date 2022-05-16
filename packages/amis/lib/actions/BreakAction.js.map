@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "BreakAction.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/actions/BreakAction.ts"
+    ],
+    "names": [],
+    "mappings": ";;;;AACA,mCAMkB;AAMlB;;;;;;GAMG;AACH;IAAA;IAQA,CAAC;IAPO,yBAAG,GAAT,UACE,MAAoB,EACpB,QAAyB,EACzB,KAAyB;;;gBAEzB,QAAQ,CAAC,UAAU,GAAG,mBAAU,CAAC,KAAK,CAAC;;;;KACxC;IACH,kBAAC;AAAD,CAAC,AARD,IAQC;AARY,kCAAW;AAUxB,IAAA,uBAAc,EAAC,OAAO,EAAE,IAAI,WAAW,EAAE,CAAC,CAAC",
+    "sourcesContent": [
+        "import { RendererEvent } from '../utils/renderer-event';\nimport {\n  RendererAction,\n  ListenerContext,\n  LoopStatus,\n  registerAction,\n  ILogicAction\n} from './Action';\n\nexport interface IBreakAction extends ILogicAction {\n  actionType: 'break';\n}\n\n/**\n * breach\n *\n * @export\n * @class BreakAction\n * @implements {Action}\n */\nexport class BreakAction implements RendererAction {\n  async run(\n    action: IBreakAction,\n    renderer: ListenerContext,\n    event: RendererEvent<any>\n  ) {\n    renderer.loopStatus = LoopStatus.BREAK;\n  }\n}\n\nregisterAction('break', new BreakAction());\n"
+    ]
+}
