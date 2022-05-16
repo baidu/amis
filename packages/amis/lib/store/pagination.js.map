@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "pagination.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/store/pagination.ts"
+    ],
+    "names": [],
+    "mappings": ";;;AACA,0CAA6C;AAC7C,oDAAqD;AACrD,yCAA2C;AAE9B,QAAA,eAAe,GAAG,0BAAc;KAC1C,KAAK,CAAC,iBAAiB,CAAC;KACxB,KAAK,CAAC;IACL,IAAI,EAAE,CAAC;IACP,OAAO,EAAE,EAAE;IACX,SAAS,EAAE,EAAE;IACb,UAAU,EAAE,EAAE;IACd,IAAI,EAAE,QAAQ;CACf,CAAC;KACD,KAAK,CAAC,UAAA,IAAI,IAAI,OAAA,CAAC;IACd,IAAI,UAAU;QACZ,IAAM,KAAK,GAAG,IAAA,6BAAe,EAAC,IAAI,CAAC,SAAS,IAAI,OAAO,EAAE,IAAI,CAAC,IAAI,CAAC,CAAC;QAEpE,IAAI,CAAC,KAAK,CAAC,OAAO,CAAC,KAAK,CAAC,EAAE;YACzB,OAAO,EAAE,CAAC;SACX;QAED,OAAO,KAAK,CAAC;IACf,CAAC;IAED,IAAI,MAAM;;QACR,IAAM,IAAI,GAAG,CAAC,IAAI,CAAC,IAAI,GAAG,CAAC,CAAC,GAAG,IAAI,CAAC,OAAO,CAAC;QAE5C,OAAO,IAAA,qBAAY,EAAC,IAAI,CAAC,IAAI;gBAC3B,WAAW,EAAE,IAAI,CAAC,IAAI;gBACtB,QAAQ,EAAE,IAAI,CAAC,QAAQ;;YACvB,GAAC,IAAI,CAAC,UAAU,IAAI,OAAO,IAAG,IAAI,CAAC,UAAU,CAAC,KAAK,CACjD,IAAI,EACJ,IAAI,GAAG,IAAI,CAAC,OAAO,CACpB;gBACD,CAAC;IACL,CAAC;IACD,IAAI,QAAQ;QACV,OAAO,IAAI,CAAC,IAAI,CAAC,IAAI,CAAC,UAAU,CAAC,MAAM,GAAG,IAAI,CAAC,OAAO,CAAC,CAAC;IAC1D,CAAC;CACF,CAAC,EA1Ba,CA0Bb,CAAC;KACF,OAAO,CAAC,UAAA,IAAI,IAAI,OAAA,CAAC;IAChB,QAAQ,EAAR,UAAS,IAAY,EAAE,OAAgB;QACrC,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;QAEjB,IAAI,OAAO,OAAO,KAAK,QAAQ,EAAE;YAC/B,IAAI,CAAC,OAAO,GAAG,OAAO,CAAC;SACxB;IACH,CAAC;CACF,CAAC,EARe,CAQf,CAAC,CAAC",
+    "sourcesContent": [
+        "import {Instance, SnapshotIn, types} from 'mobx-state-tree';\nimport {createObject} from '../utils/helper';\nimport {resolveVariable} from '../utils/tpl-builtin';\nimport {iRendererStore} from './iRenderer';\n\nexport const PaginationStore = iRendererStore\n  .named('PaginationStore')\n  .props({\n    page: 1,\n    perPage: 10,\n    inputName: '',\n    outputName: '',\n    mode: 'normal'\n  })\n  .views(self => ({\n    get inputItems() {\n      const items = resolveVariable(self.inputName || 'items', self.data);\n\n      if (!Array.isArray(items)) {\n        return [];\n      }\n\n      return items;\n    },\n\n    get locals() {\n      const skip = (self.page - 1) * self.perPage;\n\n      return createObject(self.data, {\n        currentPage: self.page,\n        lastPage: this.lastPage,\n        [self.outputName || 'items']: this.inputItems.slice(\n          skip,\n          skip + self.perPage\n        )\n      });\n    },\n    get lastPage() {\n      return Math.ceil(this.inputItems.length / self.perPage);\n    }\n  }))\n  .actions(self => ({\n    switchTo(page: number, perPage?: number) {\n      self.page = page;\n\n      if (typeof perPage === 'number') {\n        self.perPage = perPage;\n      }\n    }\n  }));\n\nexport type IPaginationStore = Instance<typeof PaginationStore>;\nexport type SPaginationStore = SnapshotIn<typeof PaginationStore>;\n"
+    ]
+}

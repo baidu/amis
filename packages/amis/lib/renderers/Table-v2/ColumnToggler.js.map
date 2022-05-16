@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "ColumnToggler.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/renderers/Table-v2/ColumnToggler.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,yCAAuC;AACvC,sFAAmD;AAMnD;IAA2C,sDAAa;IAAxD;;IAA0D,CAAC;IAA9C,qBAAqB;QAJjC,IAAA,kBAAQ,EAAC;YACR,IAAI,EAAE,gBAAgB;YACtB,IAAI,EAAE,gBAAgB;SACvB,CAAC;OACW,qBAAqB,CAAyB;IAAD,4BAAC;CAAA,AAA3D,CAA2C,uBAAa,GAAG;AAA9C,sDAAqB",
+    "sourcesContent": [
+        "import {Renderer} from '../../factory';\nimport ColumnToggler from '../Table/ColumnToggler';\n\n@Renderer({\n  type: 'column-toggler',\n  name: 'column-toggler'\n})\nexport class ColumnTogglerRenderer extends ColumnToggler {}\n"
+    ]
+}

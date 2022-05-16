@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "LocationPicker.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/renderers/Form/LocationPicker.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,6DAA0B;AAE1B,6DAAmE;AACnE,gGAA6D;AAC7D,uCAAuC;AAiCvC;IAAqC,gDAAqC;IAA1E;;IAaA,CAAC;IAPC,gCAAM,GAAN;QACE,OAAO,CACL,uCAAK,SAAS,EAAE,IAAI,CAAC,KAAK,CAAC,UAAU,CAAC,iBAAiB,CAAC;YACtD,8BAAC,wBAAc,4BAAK,IAAI,CAAC,KAAK,IAAE,EAAE,EAAE,IAAA,YAAM,EAAC,IAAI,CAAC,KAAK,CAAC,EAAE,EAAE,IAAI,CAAC,KAAK,CAAC,IAAI,CAAC,IAAG,CACzE,CACP,CAAC;IACJ,CAAC;IAXM,4BAAY,GAAG;QACpB,MAAM,EAAE,OAAO;QACf,eAAe,EAAE,MAAM;KACxB,CAAC;IASJ,sBAAC;CAAA,AAbD,CAAqC,eAAK,CAAC,SAAS,GAanD;AAbY,0CAAe;AAkB5B;IAAsC,iDAAe;IAArD;;IAAuD,CAAC;IAA3C,gBAAgB;QAH5B,IAAA,cAAQ,EAAC;YACR,IAAI,EAAE,iBAAiB;SACxB,CAAC;OACW,gBAAgB,CAA2B;IAAD,uBAAC;CAAA,AAAxD,CAAsC,eAAe,GAAG;AAA3C,4CAAgB",
+    "sourcesContent": [
+        "import React from 'react';\nimport {themeable, ClassNamesFn, ThemeProps} from '../../theme';\nimport FormItem, {FormBaseControl, FormControlProps} from './Item';\nimport LocationPicker from '../../components/LocationPicker';\nimport {filter} from '../../utils/tpl';\n/**\n * Location 选点组件\n * 文档：https://baidu.gitee.io/amis/docs/components/form/location\n */\nexport interface LocationControlSchema extends FormBaseControl {\n  type: 'location-picker';\n\n  /**\n   * 选择地图类型\n   */\n  vendor?: 'baidu' | 'gaode' | 'tenxun';\n\n  /**\n   * 有的地图需要设置 ak 信息\n   */\n  ak?: string;\n}\n\nexport interface LocationControlProps\n  extends FormControlProps,\n    Omit<ThemeProps, 'className'>,\n    Omit<\n      LocationControlSchema,\n      'type' | 'className' | 'descriptionClassName' | 'inputClassName'\n    > {\n  value: any;\n  onChange: (value: any) => void;\n  vendor: 'baidu' | 'gaode' | 'tenxun';\n  ak: string;\n  coordinatesType: 'bd09' | 'gcj02';\n}\n\nexport class LocationControl extends React.Component<LocationControlProps> {\n  static defaultProps = {\n    vendor: 'baidu',\n    coordinatesType: 'bd09'\n  };\n\n  render() {\n    return (\n      <div className={this.props.classnames('LocationControl')}>\n        <LocationPicker {...this.props} ak={filter(this.props.ak, this.props.data)}/>\n      </div>\n    );\n  }\n}\n\n@FormItem({\n  type: 'location-picker'\n})\nexport class LocationRenderer extends LocationControl {}\n"
+    ]
+}

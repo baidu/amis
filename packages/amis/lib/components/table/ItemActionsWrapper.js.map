@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "ItemActionsWrapper.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/table/ItemActionsWrapper.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;AAAA,6DAA0B;AAU1B;IAAgD,mDAAqC;IAArF;;IAqBA,CAAC;IApBC,mCAAM,GAAN;;QACQ,IAAA,KAAkC,IAAI,CAAC,KAAK,EAA/B,EAAE,gBAAA,EAAE,QAAQ,cAAA,EAAE,GAAG,SAAc,CAAC;QACnD,IAAI,CAAC,GAAG,EAAE;YACR,OAAO;SACR;QAED,IAAM,KAAK,GAAG,MAAA,MAAA,GAAG,CAAC,OAAO,CAAC,OAAO,CAAC,0CAAE,aAAa,0CAAE,aAA4B,CAAC;QAEhF,IAAM,IAAI,GAAG,GAAG,CAAC,qBAAqB,EAAE,CAAC;QACzC,IAAM,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;QAC3B,IAAM,GAAG,GAAG,IAAI,CAAC,GAAG,GAAG,KAAK,CAAC,qBAAqB,EAAE,CAAC,GAAG,CAAC;QAEzD,OAAO,CACL,uCACE,SAAS,EAAE,EAAE,CAAC,wBAAwB,CAAC,EACvC,KAAK,EAAE,EAAC,GAAG,EAAE,GAAG,GAAG,IAAI,EAAE,MAAM,EAAE,MAAM,GAAG,IAAI,EAAC,IAC9C,QAAQ,CACL,CACP,CAAC;IACJ,CAAC;IACH,yBAAC;AAAD,CAAC,AArBD,CAAgD,eAAK,CAAC,SAAS,GAqB9D",
+    "sourcesContent": [
+        "import React from 'react';\n\nimport {ClassNamesFn} from '../../theme';\n\nexport interface ItemActionsProps {\n  classnames: ClassNamesFn;\n  children?: JSX.Element;\n  dom: HTMLTableRowElement;\n}\n\nexport default class ItemActionsWrapper extends React.Component<ItemActionsProps, {}> {\n  render() {\n    const {classnames: cx, children, dom} = this.props;\n    if (!dom) {\n      return;\n    }\n\n    const frame = dom.closest('table')?.parentElement?.parentElement as HTMLElement;\n\n    const rect = dom.getBoundingClientRect();\n    const height = rect.height;\n    const top = rect.top - frame.getBoundingClientRect().top;\n\n    return (\n      <div\n        className={cx('Table-itemActions-wrap')}\n        style={{top: top + 'px', height: height + 'px'}}>\n        {children}\n      </div>\n    );\n  }\n}\n"
+    ]
+}

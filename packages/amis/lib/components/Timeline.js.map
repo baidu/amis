@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "Timeline.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/Timeline.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,6DAA0B;AAC1B,kCAA+C;AAC/C,6EAA+D;AAS/D,SAAgB,QAAQ,CAAC,KAAoB;IAEzC,IAAA,KAAK,GAKH,KAAK,MALF,EACO,EAAE,GAIZ,KAAK,WAJO,EACd,KAGE,KAAK,UAHe,EAAtB,SAAS,mBAAG,UAAU,KAAA,EACtB,KAEE,KAAK,QAFQ,EAAf,OAAO,mBAAG,KAAK,KAAA,EACf,KACE,KAAK,KADO,EAAd,IAAI,mBAAG,OAAO,KAAA,CACN;IAEV,IAAM,kBAAkB,GAAG,KAAK,aAAL,KAAK,uBAAL,KAAK,CAAE,KAAK,EAAE,CAAC;IAE1C,OAAO,KAAI,kBAAkB,aAAlB,kBAAkB,uBAAlB,kBAAkB,CAAE,OAAO,EAAE,CAAA,CAAC;IAEzC,OAAO,CACL,uCACE,SAAS,EAAE,EAAE,CAAC,UAAU,EAAE,mBAAY,SAAS,CAAE,EAAE,mBAAY,IAAI,CAAE,CAAC,IAErE,kBAAkB,aAAlB,kBAAkB,uBAAlB,kBAAkB,CAAE,GAAG,CAAC,UAAC,IAAuB,EAAE,KAAa,IAAK,OAAA,CACnE,8BAAC,sBAAY,4BAAK,IAAI,IAAE,GAAG,EAAE,uBAAgB,KAAK,CAAE,IAAI,CACzD,EAFoE,CAEpE,CAAC,CACE,CACP,CAAC;AACJ,CAAC;AAtBD,4BAsBC;AAED,kBAAe,IAAA,iBAAS,EAAC,QAAQ,CAAC,CAAC",
+    "sourcesContent": [
+        "import React from 'react';\nimport {themeable, ThemeProps} from '../theme';\nimport TimelineItem, {TimelineItemProps} from './TimelineItem';\n\nexport interface TimelineProps extends ThemeProps {\n  items: Array<TimelineItemProps>;\n  direction?: 'vertical' | 'horizontal';\n  reverse?: boolean;\n  mode?: 'left' | 'right' | 'alternate';\n}\n\nexport function Timeline(props: TimelineProps) {\n  const {\n    items,\n    classnames: cx,\n    direction = 'vertical',\n    reverse = false,\n    mode = 'right'\n  } = props;\n\n  const timelineDatasource = items?.slice();\n\n  reverse && timelineDatasource?.reverse();\n\n  return (\n    <div\n      className={cx('Timeline', `Timeline-${direction}`, `Timeline-${mode}`)}\n    >\n      {timelineDatasource?.map((item: TimelineItemProps, index: number) => (\n        <TimelineItem {...item} key={`TimelineItem-${index}`} />\n      ))}\n    </div>\n  );\n}\n\nexport default themeable(Timeline);\n"
+    ]
+}
