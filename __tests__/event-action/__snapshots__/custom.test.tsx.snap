@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventAction:custom 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              自定义动作1
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              自定义动作2
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              自定义动作3
+            </span>
+          </button>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              18岁的天空
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:custom 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              自定义动作1
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              自定义动作2
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              自定义动作3
+            </span>
+          </button>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              18岁的天空
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:custom 3`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              自定义动作1
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              自定义动作2
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              自定义动作3
+            </span>
+          </button>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              17岁的天空
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

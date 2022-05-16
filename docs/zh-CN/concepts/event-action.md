@@ -95,7 +95,7 @@ order: 9
 
 ### 发送 http 请求
 
-通过配置`actionType: 'ajax'`和`api`实现 http 请求发送。如果是`post`请求，args 中的附加参数将作为请求参数。
+通过配置`actionType: 'ajax'`和`api`实现 http 请求发送，该动作需实现 env.fetcher(config: fetcherConfig) => Promise&lt;fetcherResult&gt;。
 
 ```schema
 {
@@ -473,7 +473,7 @@ order: 9
 
 ### 打开对话框
 
-通过配置`actionType: 'alert'`或`actionType: 'confirm'`打开不同对话框。
+通过配置`actionType: 'alert'`或`actionType: 'confirm'`打开不同对话框，该动作分别需实现 env.alert: (msg: string) => void 和 env.confirm: (msg: string, title?: string) => boolean | Promise&lt;boolean&gt;。
 
 #### 提示对话框
 
@@ -554,7 +554,7 @@ order: 9
 
 ### 跳转链接
 
-通过配置`actionType: 'url'`或`actionType: 'link'`实现链接跳转。
+通过配置`actionType: 'url'`或`actionType: 'link'`实现链接跳转，该动作需实现 env.jumpTo(to: string, action?: any) => void 方法。
 
 **打开页面链接**
 
@@ -748,7 +748,7 @@ order: 9
 
 ### toast 提示
 
-通过配置`actionType: 'toast'`和`msg`实现弹出 toast
+通过配置`actionType: 'toast'`和`msg`实现弹出 toast 提示，该动作需实现 env.notify(type: ToastLevel, msg: string, conf?: ToastConf) => void 方法。
 
 ```schema
 {
@@ -1030,7 +1030,7 @@ order: 9
             {
               actionType: 'copy',
               args: {
-                ormat: 'text/html',
+                copyFormat: 'text/html',
                 content: "<a href='http://www.baidu.com'>link</a> <b>bold</b>"
               }
             }
