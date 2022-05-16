@@ -4,7 +4,8 @@ import {
   RendererAction,
   ListenerAction,
   ListenerContext,
-  registerAction
+  registerAction,
+  runActions
 } from './Action';
 
 export interface ICustomAction extends ListenerAction {
@@ -49,8 +50,7 @@ export class CustomAction implements RendererAction {
     await (scriptFunc as any)?.call(
       null,
       renderer,
-      renderer.props.onAction?.bind(renderer, event.context.nativeEvent) ||
-        renderer.doAction?.bind(renderer),
+      (action: ListenerAction) => runActions(action, renderer, event),
       event,
       action
     );
