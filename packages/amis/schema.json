@@ -292,6 +292,7 @@
               "type": "boolean",
               "description": "点击其他内容时是否关闭弹框信息"
             },
+<<<<<<< HEAD
             "shape": {
               "type": "string",
               "enum": [
@@ -300,6 +301,8 @@
               ],
               "description": "icon的形状"
             },
+=======
+>>>>>>> c85ffab0 (调整目录结构)
             "className": {
               "$ref": "#/definitions/SchemaClassName",
               "description": "容器 css 类名"
@@ -2595,6 +2598,7 @@
         {
           "if": {
             "properties": {
+<<<<<<< HEAD
               "borderMode": {
                 "type": "string",
                 "enum": [
@@ -2603,6 +2607,12 @@
                   "none"
                 ],
                 "description": "边框模式，全边框，还是半边框，或者没边框。"
+=======
+              "type": {
+                "type": "string",
+                "const": "input-month-range",
+                "description": "指定为日期范围控件"
+>>>>>>> c85ffab0 (调整目录结构)
               },
               "mode": {
                 "type": "string",
@@ -2612,10 +2622,13 @@
                   "horizontal"
                 ],
                 "description": "配置当前表单项展示模式"
+<<<<<<< HEAD
               },
               "type": {
                 "type": "string",
                 "const": "input-month-range"
+=======
+>>>>>>> c85ffab0 (调整目录结构)
               }
             }
           },
@@ -2711,6 +2724,7 @@
                   "none"
                 ],
                 "description": "边框模式，全边框，还是半边框，或者没边框。"
+<<<<<<< HEAD
               },
               "displayMode": {
                 "type": "string",
@@ -2719,6 +2733,8 @@
                   "enhance"
                 ],
                 "description": "输入框为基础输入框还是加强输入框"
+=======
+>>>>>>> c85ffab0 (调整目录结构)
               }
             }
           },
@@ -3450,6 +3466,7 @@
           "then": {
             "$ref": "#/definitions/TreeSelectControlSchema"
           }
+<<<<<<< HEAD
         },
         {
           "if": {
@@ -3473,6 +3490,8 @@
           "then": {
             "$ref": "#/definitions/UserSelectControlSchema"
           }
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       ]
     },
@@ -3761,6 +3780,7 @@
         "rootClose": {
           "type": "boolean",
           "description": "点击其他内容时是否关闭弹框信息"
+<<<<<<< HEAD
         },
         "shape": {
           "type": "string",
@@ -3769,6 +3789,8 @@
             "square"
           ],
           "description": "icon的形状"
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       },
       "required": [
@@ -6038,7 +6060,10 @@
         "static-image",
         "images",
         "static-images",
+<<<<<<< HEAD
         "json-schema",
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         "json-schema-editor",
         "json",
         "static-json",
@@ -6188,8 +6213,11 @@
         "table-view",
         "portlet",
         "grid-nav",
+<<<<<<< HEAD
         "users-select",
         "tag",
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         "native-date",
         "native-time",
         "native-number",
@@ -8947,7 +8975,11 @@
             },
             "arguments": {},
             "caller": {
+<<<<<<< HEAD
               "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
+=======
+              "$ref": "#/definitions/interface-2073358172-9821-11285-2073358172-0-212510"
+>>>>>>> c85ffab0 (调整目录结构)
             }
           },
           "required": [
@@ -8960,7 +8992,11 @@
         }
       ]
     },
+<<<<<<< HEAD
     "interface-1922134811-9821-11285-1922134811-0-212510": {
+=======
+    "interface-2073358172-9821-11285-2073358172-0-212510": {
+>>>>>>> c85ffab0 (调整目录结构)
       "type": "object",
       "properties": {
         "prototype": {},
@@ -8969,7 +9005,11 @@
         },
         "arguments": {},
         "caller": {
+<<<<<<< HEAD
           "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
+=======
+          "$ref": "#/definitions/interface-2073358172-9821-11285-2073358172-0-212510"
+>>>>>>> c85ffab0 (调整目录结构)
         }
       },
       "required": [
@@ -32038,7 +32078,11 @@
                 },
                 "arguments": {},
                 "caller": {
+<<<<<<< HEAD
                   "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
+=======
+                  "$ref": "#/definitions/interface-2073358172-9821-11285-2073358172-0-212510"
+>>>>>>> c85ffab0 (调整目录结构)
                 }
               },
               "required": [
@@ -32627,6 +32671,12 @@
           "type": "boolean",
           "description": "表格可自定义列"
         },
+<<<<<<< HEAD
+=======
+        "columnsToggler": {
+          "description": "表格可自定义列的一些配置"
+        },
+>>>>>>> c85ffab0 (调整目录结构)
         "columns": {
           "type": "array",
           "items": {
@@ -32718,6 +32768,11 @@
       },
       "required": [
         "columns",
+<<<<<<< HEAD
+=======
+        "columnsTogglable",
+        "columnsToggler",
+>>>>>>> c85ffab0 (调整目录结构)
         "source",
         "type"
       ],
@@ -32797,6 +32852,7 @@
         "toggled": {
           "type": "boolean",
           "description": "当前列是否展示"
+<<<<<<< HEAD
         },
         "className": {
           "type": "string",
@@ -32809,6 +32865,8 @@
         "classNameExpr": {
           "type": "string",
           "description": "单元格样式"
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       },
       "required": [
@@ -32863,7 +32921,12 @@
         }
       },
       "required": [
+<<<<<<< HEAD
         "type"
+=======
+        "type",
+        "selectedRowKeysExpr"
+>>>>>>> c85ffab0 (调整目录结构)
       ],
       "additionalProperties": false
     },
@@ -35569,12 +35632,17 @@
         "componentId": {
           "type": "string"
         },
+<<<<<<< HEAD
         "args": {
           "type": "object"
         },
         "outputVar": {
           "type": "string"
         },
+=======
+        "args": {},
+        "outputVar": {},
+>>>>>>> c85ffab0 (调整目录结构)
         "preventDefault": {
           "type": "boolean"
         },
@@ -35583,9 +35651,12 @@
         },
         "expression": {
           "type": "string"
+<<<<<<< HEAD
         },
         "execOn": {
           "type": "string"
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       },
       "required": [
@@ -41439,7 +41510,11 @@
           "description": "限制最大日期"
         },
         "timeConstraints": {
+<<<<<<< HEAD
           "description": "时间输入范围限制"
+=======
+          "description": "不记得了"
+>>>>>>> c85ffab0 (调整目录结构)
         }
       },
       "required": [
@@ -41812,7 +41887,11 @@
           "description": "时间的格式。"
         },
         "timeConstraints": {
+<<<<<<< HEAD
           "description": "时间输入范围限制"
+=======
+          "description": "不记得了"
+>>>>>>> c85ffab0 (调整目录结构)
         }
       },
       "required": [
@@ -43311,6 +43390,7 @@
             }
           ],
           "description": "日期范围快捷键"
+<<<<<<< HEAD
         },
         "startPlaceholder": {
           "type": "string",
@@ -43319,6 +43399,8 @@
         "endPlaceholder": {
           "type": "string",
           "description": "日期范围结束时间-占位符"
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       },
       "required": [
@@ -43382,7 +43464,11 @@
             },
             "arguments": {},
             "caller": {
+<<<<<<< HEAD
               "$ref": "#/definitions/interface-1922134811-9821-11285-1922134811-0-212510"
+=======
+              "$ref": "#/definitions/interface-2073358172-9821-11285-2073358172-0-212510"
+>>>>>>> c85ffab0 (调整目录结构)
             }
           },
           "required": [
@@ -48269,7 +48355,11 @@
                 "enum": [
                   "string",
                   "number",
+<<<<<<< HEAD
                   "integer",
+=======
+                  "interger",
+>>>>>>> c85ffab0 (调整目录结构)
                   "object",
                   "array",
                   "boolean",
@@ -48298,6 +48388,7 @@
             "type": "string"
           },
           "description": "禁用类型，默认禁用了 null 类型"
+<<<<<<< HEAD
         },
         "enableAdvancedSetting": {
           "type": "boolean",
@@ -48309,6 +48400,13 @@
         }
       },
       "required": [
+=======
+        }
+      },
+      "required": [
+        "rootTypeMutable",
+        "showRootInfo",
+>>>>>>> c85ffab0 (调整目录结构)
         "type"
       ],
       "additionalProperties": false,
@@ -49389,6 +49487,7 @@
     "MonthRangeControlSchema": {
       "type": "object",
       "properties": {
+<<<<<<< HEAD
         "delimiter": {
           "type": "string",
           "description": "分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。"
@@ -49458,6 +49557,69 @@
         "endPlaceholder": {
           "type": "string",
           "description": "日期范围结束时间-占位符"
+=======
+        "onEvent": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "weight": {
+                "type": "number"
+              },
+              "actions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/ListenerAction"
+                }
+              }
+            },
+            "required": [
+              "actions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "className": {
+          "$ref": "#/definitions/SchemaClassName",
+          "description": "容器 css 类名"
+        },
+        "$ref": {
+          "type": "string",
+          "description": "配合 definitions 一起使用，可以实现无限循环的渲染器。"
+        },
+        "disabled": {
+          "type": "boolean",
+          "description": "是否禁用"
+        },
+        "disabledOn": {
+          "$ref": "#/definitions/SchemaExpression",
+          "description": "是否禁用表达式"
+        },
+        "hidden": {
+          "type": "boolean",
+          "description": "是否隐藏"
+        },
+        "hiddenOn": {
+          "$ref": "#/definitions/SchemaExpression",
+          "description": "是否隐藏表达式"
+        },
+        "visible": {
+          "type": "boolean",
+          "description": "是否显示"
+        },
+        "visibleOn": {
+          "$ref": "#/definitions/SchemaExpression",
+          "description": "是否显示表达式"
+        },
+        "id": {
+          "type": "string",
+          "description": "组件唯一 id，主要用于日志采集"
+        },
+        "type": {
+          "type": "string",
+          "const": "input-month-range",
+          "description": "指定为日期范围控件"
+>>>>>>> c85ffab0 (调整目录结构)
         },
         "size": {
           "type": "string",
@@ -49713,6 +49875,12 @@
             }
           ]
         },
+<<<<<<< HEAD
+=======
+        "value": {
+          "description": "这里面 value 需要特殊说明一下，因为支持相对值。* `-2mins` 2分钟前\\n * `+2days` 2天后\\n* `-10week` 十周前\\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。"
+        },
+>>>>>>> c85ffab0 (调整目录结构)
         "clearValueOnHidden": {
           "type": "boolean",
           "description": "表单项隐藏时，是否在当前 Form 中删除掉该表单项值。注意同名的未隐藏的表单项值也会删掉"
@@ -49721,6 +49889,7 @@
           "$ref": "#/definitions/SchemaApi",
           "description": "远端校验表单项接口"
         },
+<<<<<<< HEAD
         "className": {
           "$ref": "#/definitions/SchemaClassName",
           "description": "容器 css 类名"
@@ -49781,6 +49950,43 @@
         "type": {
           "type": "string",
           "const": "input-month-range"
+=======
+        "delimiter": {
+          "type": "string",
+          "description": "分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。"
+        },
+        "format": {
+          "type": "string",
+          "description": "默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 moment."
+        },
+        "inputFormat": {
+          "type": "string",
+          "description": "默认 `YYYY-MM` 用来配置显示的时间格式。"
+        },
+        "joinValues": {
+          "type": "boolean",
+          "description": "开启后将选中的选项 value 的值用连接符拼接起来，作为当前表单项的值。如： `value1,value2` 否则为 `[value1, value2]`"
+        },
+        "maxDate": {
+          "type": "string",
+          "description": "最大日期限制，支持变量 $xxx 来取值，或者用相对值如：* `-2mins` 2分钟前\\n * `+2days` 2天后\\n* `-10week` 十周前\\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。"
+        },
+        "minDate": {
+          "type": "string",
+          "description": "最小日期限制，支持变量 $xxx 来取值，或者用相对值如：* `-2mins` 2分钟前\\n * `+2days` 2天后\\n* `-10week` 十周前\\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。"
+        },
+        "maxDuration": {
+          "type": "string",
+          "description": "最大跨度，比如 2days"
+        },
+        "minDuration": {
+          "type": "string",
+          "description": "最小跨度，比如 2days"
+        },
+        "embed": {
+          "type": "boolean",
+          "description": "开启后变成非弹出模式，即内联模式。"
+>>>>>>> c85ffab0 (调整目录结构)
         }
       },
       "required": [
@@ -49854,6 +50060,7 @@
           ],
           "description": "日期范围快捷键"
         },
+<<<<<<< HEAD
         "startPlaceholder": {
           "type": "string",
           "description": "日期范围开始时间-占位符"
@@ -49862,6 +50069,8 @@
           "type": "string",
           "description": "日期范围结束时间-占位符"
         },
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         "size": {
           "type": "string",
           "enum": [
@@ -51080,6 +51289,7 @@
         "kilobitSeparator": {
           "type": "boolean",
           "description": "是否千分分隔"
+<<<<<<< HEAD
         },
         "keyboard": {
           "type": "boolean",
@@ -51092,6 +51302,8 @@
             "enhance"
           ],
           "description": "输入框为基础输入框还是加强输入框"
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       },
       "required": [
@@ -53250,6 +53462,7 @@
           "enum": [
             "froala",
             "tinymce"
+<<<<<<< HEAD
           ],
           "description": "编辑器类型"
         },
@@ -53260,6 +53473,15 @@
         "videoReceiver": {
           "$ref": "#/definitions/SchemaApi",
           "description": "视频保存 API"
+=======
+          ]
+        },
+        "receiver": {
+          "type": "string"
+        },
+        "videoReceiver": {
+          "type": "string"
+>>>>>>> c85ffab0 (调整目录结构)
         },
         "fileField": {
           "type": "string",
@@ -53274,9 +53496,13 @@
           ],
           "description": "边框模式，全边框，还是半边框，或者没边框。"
         },
+<<<<<<< HEAD
         "options": {
           "description": "tinymce 或 froala 的配置"
         }
+=======
+        "options": {}
+>>>>>>> c85ffab0 (调整目录结构)
       },
       "required": [
         "type"
@@ -60040,6 +60266,7 @@
         "suffix": {
           "type": "string",
           "description": "后缀"
+<<<<<<< HEAD
         },
         "transform": {
           "type": "object",
@@ -60055,6 +60282,8 @@
           },
           "additionalProperties": false,
           "description": "自动转换值"
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       },
       "required": [
@@ -63124,6 +63353,7 @@
       "additionalProperties": false,
       "description": "Tree 下拉选择框。 文档：https://baidu.gitee.io/amis/docs/components/form/tree"
     },
+<<<<<<< HEAD
     "UserSelectControlSchema": {
       "type": "object",
       "properties": {
@@ -63586,6 +63816,8 @@
       "additionalProperties": false,
       "description": "UserSelect 移动端人员选择。"
     },
+=======
+>>>>>>> c85ffab0 (调整目录结构)
     "SchemaObjectCardBodyField": {
       "anyOf": [
         {
@@ -63606,7 +63838,11 @@
           "$ref": "#/definitions/RemarkSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|labelClassName|name|popOver|quickEdit|copyable)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|labelClassName|name|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -63934,7 +64170,11 @@
           "$ref": "#/definitions/TableSchemaV2",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|labelClassName|name|popOver|quickEdit|copyable)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|labelClassName|name|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -64137,7 +64377,11 @@
           "$ref": "#/definitions/DateRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|popOver|quickEdit|copyable)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -64221,7 +64465,11 @@
           "$ref": "#/definitions/JSONSchemaEditorControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|popOver|quickEdit|copyable)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -64249,14 +64497,22 @@
           "$ref": "#/definitions/MonthRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
           "$ref": "#/definitions/QuarterRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -64270,7 +64526,11 @@
           "$ref": "#/definitions/NumberControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|popOver|quickEdit|copyable)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -64368,7 +64628,11 @@
           "$ref": "#/definitions/TextControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|popOver|quickEdit|copyable)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -64412,6 +64676,7 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|popOver|quickEdit|copyable)$": {}
           }
+<<<<<<< HEAD
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -64419,6 +64684,8 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|popOver|quickEdit|copyable)$": {}
           }
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       ]
     },
@@ -64442,7 +64709,11 @@
           "$ref": "#/definitions/RemarkSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|labelClassName|name|popOver|quickEdit|copyable)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|labelClassName|name|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -64770,7 +65041,11 @@
           "$ref": "#/definitions/TableSchemaV2",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|labelClassName|name|popOver|quickEdit|copyable)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|labelClassName|name|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -64973,7 +65248,11 @@
           "$ref": "#/definitions/DateRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|popOver|quickEdit|copyable)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -65057,7 +65336,11 @@
           "$ref": "#/definitions/JSONSchemaEditorControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|popOver|quickEdit|copyable)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -65085,14 +65368,22 @@
           "$ref": "#/definitions/MonthRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
           "$ref": "#/definitions/QuarterRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -65106,7 +65397,11 @@
           "$ref": "#/definitions/NumberControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|popOver|quickEdit|copyable)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -65204,7 +65499,11 @@
           "$ref": "#/definitions/TextControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|popOver|quickEdit|copyable)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|popOver|quickEdit|copyable)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -65248,6 +65547,7 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|popOver|quickEdit|copyable)$": {}
           }
+<<<<<<< HEAD
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -65255,6 +65555,8 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|popOver|quickEdit|copyable)$": {}
           }
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       ]
     },
@@ -65278,7 +65580,11 @@
           "$ref": "#/definitions/RemarkSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|fixed|name|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|labelClassName|filterable|breakpoint|remark|value|unique)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|fixed|name|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|labelClassName|filterable|breakpoint|remark|value|unique)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -65606,7 +65912,11 @@
           "$ref": "#/definitions/TableSchemaV2",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|fixed|name|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|labelClassName|filterable|breakpoint|remark|value|unique)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|label|fixed|name|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|labelClassName|filterable|breakpoint|remark|value|unique)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -65809,7 +66119,11 @@
           "$ref": "#/definitions/DateRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -65893,7 +66207,11 @@
           "$ref": "#/definitions/JSONSchemaEditorControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -65921,14 +66239,22 @@
           "$ref": "#/definitions/MonthRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
           "$ref": "#/definitions/QuarterRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -65942,7 +66268,11 @@
           "$ref": "#/definitions/NumberControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -66040,7 +66370,11 @@
           "$ref": "#/definitions/TextControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -66084,6 +66418,7 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
           }
+<<<<<<< HEAD
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -66091,6 +66426,8 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|fixed|popOver|quickEdit|quickEditOnUpdate|copyable|sortable|searchable|toggled|width|align|classNameExpr|filterable|breakpoint|unique)$": {}
           }
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       ]
     },
@@ -66114,7 +66451,11 @@
           "$ref": "#/definitions/RemarkSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -66442,7 +66783,11 @@
           "$ref": "#/definitions/TableSchemaV2",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -66645,7 +66990,11 @@
           "$ref": "#/definitions/DateRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -66729,7 +67078,11 @@
           "$ref": "#/definitions/JSONSchemaEditorControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -66757,14 +67110,22 @@
           "$ref": "#/definitions/MonthRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
           "$ref": "#/definitions/QuarterRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -66778,7 +67139,11 @@
           "$ref": "#/definitions/NumberControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -66876,7 +67241,11 @@
           "$ref": "#/definitions/TextControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|x|y|w|h|width|height|align|valign|gridClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -66920,6 +67289,7 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|x|y|w|h|width|height|align|valign|gridClassName)$": {}
           }
+<<<<<<< HEAD
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -66927,6 +67297,8 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|x|y|w|h|width|height|align|valign|gridClassName)$": {}
           }
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       ]
     },
@@ -66950,7 +67322,11 @@
           "$ref": "#/definitions/RemarkSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|rowClassName|cellClassName)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|rowClassName|cellClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -67278,7 +67654,11 @@
           "$ref": "#/definitions/TableSchemaV2",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|rowClassName|cellClassName)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|rowClassName|cellClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -67481,7 +67861,11 @@
           "$ref": "#/definitions/DateRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|rowClassName|cellClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|rowClassName|cellClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -67565,7 +67949,11 @@
           "$ref": "#/definitions/JSONSchemaEditorControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|rowClassName|cellClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|rowClassName|cellClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -67593,14 +67981,22 @@
           "$ref": "#/definitions/MonthRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|rowClassName|cellClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|rowClassName|cellClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
           "$ref": "#/definitions/QuarterRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|rowClassName|cellClassName)$": {}
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|rowClassName|cellClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -67614,7 +68010,11 @@
           "$ref": "#/definitions/NumberControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|rowClassName|cellClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|rowClassName|cellClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -67712,7 +68112,11 @@
           "$ref": "#/definitions/TextControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|rowClassName|cellClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|rowClassName|cellClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -67756,6 +68160,7 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|rowClassName|cellClassName)$": {}
           }
+<<<<<<< HEAD
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -67763,6 +68168,8 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|rowClassName|cellClassName)$": {}
           }
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       ]
     },
@@ -67786,7 +68193,11 @@
           "$ref": "#/definitions/RemarkSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|unique|columnClassName)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|unique|columnClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -68114,7 +68525,11 @@
           "$ref": "#/definitions/TableSchemaV2",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|unique|columnClassName)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|unique|columnClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -68317,7 +68732,11 @@
           "$ref": "#/definitions/DateRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|unique|columnClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|unique|columnClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -68401,7 +68820,11 @@
           "$ref": "#/definitions/JSONSchemaEditorControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|unique|columnClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|unique|columnClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -68429,14 +68852,22 @@
           "$ref": "#/definitions/MonthRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|unique|columnClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|unique|columnClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
           "$ref": "#/definitions/QuarterRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|unique|columnClassName)$": {}
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|unique|columnClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -68450,7 +68881,11 @@
           "$ref": "#/definitions/NumberControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|unique|columnClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|unique|columnClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -68548,7 +68983,11 @@
           "$ref": "#/definitions/TextControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|unique|columnClassName)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|unique|columnClassName)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -68592,6 +69031,7 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|unique|columnClassName)$": {}
           }
+<<<<<<< HEAD
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -68599,6 +69039,8 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|unique|columnClassName)$": {}
           }
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       ]
     },
@@ -68622,7 +69064,11 @@
           "$ref": "#/definitions/RemarkSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|shape|columnClassName|columnRatio)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|label|icon|tooltipClassName|trigger|title|content|placement|rootClose|columnClassName|columnRatio)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -68950,7 +69396,11 @@
           "$ref": "#/definitions/TableSchemaV2",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|columnClassName|columnRatio)$": {}
+=======
+            "^(type|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|title|source|columnsTogglable|columnsToggler|columns|rowSelection|expandable|expandableBody|sticky|loading|itemBadge|popOverContainer|keyField|childrenColumnName|rowClassNameExpr|lineHeight|bordered|showHeader|footer|columnClassName|columnRatio)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -69153,7 +69603,11 @@
           "$ref": "#/definitions/DateRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|startPlaceholder|endPlaceholder|columnClassName|columnRatio)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|borderMode|embed|ranges|columnClassName|columnRatio)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -69237,7 +69691,11 @@
           "$ref": "#/definitions/JSONSchemaEditorControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|enableAdvancedSetting|advancedSettings|columnClassName|columnRatio)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|definitions|rootTypeMutable|showRootInfo|disabledTypes|columnClassName|columnRatio)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -69265,14 +69723,22 @@
           "$ref": "#/definitions/MonthRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|columnClassName|columnRatio)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|embed|columnClassName|columnRatio)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
           "$ref": "#/definitions/QuarterRangeControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|startPlaceholder|endPlaceholder|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|columnClassName|columnRatio)$": {}
+=======
+            "^(delimiter|format|inputFormat|joinValues|maxDate|minDate|maxDuration|minDuration|value|borderMode|embed|ranges|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|clearValueOnHidden|validateApi|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|onEvent|type|columnClassName|columnRatio)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -69286,7 +69752,11 @@
           "$ref": "#/definitions/NumberControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|keyboard|displayMode|columnClassName|columnRatio)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|max|min|step|precision|showSteps|borderMode|prefix|suffix|unitOptions|kilobitSeparator|columnClassName|columnRatio)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -69384,7 +69854,11 @@
           "$ref": "#/definitions/TextControlSchema",
           "additionalProperties": false,
           "patternProperties": {
+<<<<<<< HEAD
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|transform|columnClassName|columnRatio)$": {}
+=======
+            "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|addOn|trimContents|autoComplete|borderMode|maxLength|showCounter|prefix|suffix|columnClassName|columnRatio)$": {}
+>>>>>>> c85ffab0 (调整目录结构)
           }
         },
         {
@@ -69428,6 +69902,7 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|hideRoot|rootLabel|rootValue|showIcon|cascade|withChildren|onlyChildren|onlyLeaf|rootCreatable|hideNodePathLabel|enableNodePath|pathSeparator|showOutline|columnClassName|columnRatio)$": {}
           }
+<<<<<<< HEAD
         },
         {
           "$ref": "#/definitions/UserSelectControlSchema",
@@ -69435,6 +69910,8 @@
           "patternProperties": {
             "^(onEvent|className|$ref|disabled|disabledOn|hidden|hiddenOn|visible|visibleOn|id|type|size|label|labelClassName|name|remark|labelRemark|hint|submitOnChange|readOnly|readOnlyOn|validateOnChange|description|desc|descriptionClassName|mode|horizontal|inline|inputClassName|placeholder|required|validationErrors|validations|value|clearValueOnHidden|validateApi|options|source|selectFirst|initFetchOn|initFetch|multiple|joinValues|delimiter|extractValue|clearable|resetValue|deferApi|addApi|addControls|creatable|createBtnLabel|editable|editApi|editControls|removable|deleteApi|deleteConfirmText|autoFill|columnClassName|columnRatio)$": {}
           }
+=======
+>>>>>>> c85ffab0 (调整目录结构)
         }
       ]
     },
