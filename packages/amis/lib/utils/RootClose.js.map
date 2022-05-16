@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "RootClose.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/utils/RootClose.ts"
+    ],
+    "names": [],
+    "mappings": ";AAAA;;GAEG;;;;AAEH,+BAAsC;AACtC,0FAAuD;AACvD,uCAAsC;AAE/B,IAAM,SAAS,GAAG,UAAC,EAAsC;IAArC,IAAA,QAAQ,cAAA,EAAE,WAAW,iBAAA,EAAK,KAAK,2BAAhC,2BAAiC,CAAD;IAClD,IAAA,KAA6B,IAAA,gBAAQ,EAAC,IAAI,CAAC,EAA1C,aAAa,QAAA,EAAE,SAAS,QAAkB,CAAC;IAClD,IAAM,WAAW,GAAG,IAAA,uBAAW,EAAC,aAAa,CAAY,CAAC;IAE1D,IAAA,sBAAY,EAAC,WAAW,EAAE,WAAW,EAAE,KAAK,CAAC,CAAC;IAE9C,OAAO,OAAO,QAAQ,KAAK,UAAU,CAAC,CAAC,CAAC,QAAQ,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC;AACzE,CAAC,CAAC;AAPW,QAAA,SAAS,aAOpB",
+    "sourcesContent": [
+        "/**\n * 兼容之前的 RootCloseWrapper 写法\n */\n\nimport React, {useState} from 'react';\nimport useRootClose from 'react-overlays/useRootClose';\nimport {findDOMNode} from 'react-dom';\n\nexport const RootClose = ({children, onRootClose, ...props}: any) => {\n  const [rootComponent, attachRef] = useState(null);\n  const rootElement = findDOMNode(rootComponent) as Element;\n\n  useRootClose(rootElement, onRootClose, props);\n\n  return typeof children === 'function' ? children(attachRef) : children;\n};\n"
+    ]
+}

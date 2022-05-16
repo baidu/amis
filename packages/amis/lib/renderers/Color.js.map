@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "Color.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/renderers/Color.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA;;GAEG;AACH,6DAA0B;AAC1B,sCAAmD;AAEnD,0CAA6C;AA4B7C;IAAgC,2CAAmC;IAAnE;;IAuBA,CAAC;IAhBC,2BAAM,GAAN;QACQ,IAAA,KAAuD,IAAI,CAAC,KAAK,EAAhE,SAAS,eAAA,EAAc,EAAE,gBAAA,EAAE,YAAY,kBAAA,EAAE,SAAS,eAAc,CAAC;QACxE,IAAM,KAAK,GAAG,IAAA,qBAAY,EAAC,IAAI,CAAC,KAAK,CAAC,CAAC;QAEvC,OAAO,CACL,uCAAK,SAAS,EAAE,EAAE,CAAC,YAAY,EAAE,SAAS,CAAC;YACzC,qCACE,SAAS,EAAE,EAAE,CAAC,wBAAwB,CAAC,EACvC,KAAK,EAAE,EAAC,eAAe,EAAE,KAAK,IAAI,YAAY,EAAC,GAC/C;YACD,SAAS,CAAC,CAAC,CAAC,CACX,wCAAM,SAAS,EAAE,EAAE,CAAC,kBAAkB,CAAC,IAAG,KAAK,CAAQ,CACxD,CAAC,CAAC,CAAC,IAAI,CACJ,CACP,CAAC;IACJ,CAAC;IArBM,uBAAY,GAAG;QACpB,SAAS,EAAE,EAAE;QACb,YAAY,EAAE,MAAM;QACpB,SAAS,EAAE,IAAI;KAChB,CAAC;IAkBJ,iBAAC;CAAA,AAvBD,CAAgC,eAAK,CAAC,SAAS,GAuB9C;AAvBY,gCAAU;AA4BvB;IAAwC,mDAAU;IAAlD;;IAAoD,CAAC;IAAxC,kBAAkB;QAH9B,IAAA,kBAAQ,EAAC;YACR,IAAI,EAAE,OAAO;SACd,CAAC;OACW,kBAAkB,CAAsB;IAAD,yBAAC;CAAA,AAArD,CAAwC,UAAU,GAAG;AAAxC,gDAAkB",
+    "sourcesContent": [
+        "/**\n * @file 用来展示颜色块。\n */\nimport React from 'react';\nimport {Renderer, RendererProps} from '../factory';\nimport {BaseSchema} from '../Schema';\nimport {getPropValue} from '../utils/helper';\nimport {resolveVariableAndFilter} from '../utils/tpl-builtin';\n\n/**\n * Color 显示渲染器，格式说明。\n * 文档：https://baidu.gitee.io/amis/docs/components/color\n */\nexport interface ColorSchema extends BaseSchema {\n  /**\n   *  指定为颜色显示控件\n   */\n  type: 'color';\n\n  /**\n   * 默认颜色\n   */\n  defaultColor?: string;\n\n  /**\n   * 是否用文字显示值。\n   */\n  showValue?: boolean;\n}\n\nexport interface ColorProps\n  extends RendererProps,\n    Omit<ColorSchema, 'type' | 'className'> {}\n\nexport class ColorField extends React.Component<ColorProps, object> {\n  static defaultProps = {\n    className: '',\n    defaultColor: '#ccc',\n    showValue: true\n  };\n\n  render() {\n    const {className, classnames: cx, defaultColor, showValue} = this.props;\n    const color = getPropValue(this.props);\n\n    return (\n      <div className={cx('ColorField', className)}>\n        <i\n          className={cx('ColorField-previewIcon')}\n          style={{backgroundColor: color || defaultColor}}\n        />\n        {showValue ? (\n          <span className={cx('ColorField-value')}>{color}</span>\n        ) : null}\n      </div>\n    );\n  }\n}\n\n@Renderer({\n  type: 'color'\n})\nexport class ColorFieldRenderer extends ColorField {}\n"
+    ]
+}

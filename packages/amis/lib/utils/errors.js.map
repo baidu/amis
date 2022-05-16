@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "errors.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/utils/errors.ts"
+    ],
+    "names": [],
+    "mappings": ";;;;AAEA;IAAiC,4CAAK;IAIpC,qBAAY,GAAW,EAAE,QAAiB;QAA1C,YACE,kBAAM,GAAG,CAAC,SAEX;QAND,UAAI,GAAG,aAAa,CAAC;QAKnB,KAAI,CAAC,QAAQ,GAAG,QAAQ,CAAC;;IAC3B,CAAC;IACH,kBAAC;AAAD,CAAC,AARD,CAAiC,KAAK,GAQrC;AARY,kCAAW",
+    "sourcesContent": [
+        "import {Payload} from '../types';\n\nexport class ServerError extends Error {\n  type = 'ServerError';\n  response: Payload;\n\n  constructor(msg: string, response: Payload) {\n    super(msg);\n    this.response = response;\n  }\n}\n"
+    ]
+}

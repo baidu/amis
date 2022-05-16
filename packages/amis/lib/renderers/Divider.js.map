@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "Divider.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/renderers/Divider.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,6DAA0B;AAC1B,sCAAmD;AAiBnD;IAAqC,wCAAqC;IAA1E;;IAkBA,CAAC;IAZC,wBAAM,GAAN;QACQ,IAAA,KAAyC,IAAI,CAAC,KAAK,EAAtC,EAAE,gBAAA,EAAE,SAAS,eAAA,EAAE,SAAS,eAAc,CAAC;QAC1D,OAAO,CACL,uCACE,SAAS,EAAE,EAAE,CACX,SAAS,EACT,SAAS,CAAC,CAAC,CAAC,mBAAY,SAAS,CAAE,CAAC,CAAC,CAAC,EAAE,EACxC,SAAS,CACV,GACD,CACH,CAAC;IACJ,CAAC;IAhBM,oBAAY,GAAkD;QACnE,SAAS,EAAE,EAAE;QACb,SAAS,EAAE,QAAQ;KACpB,CAAC;IAcJ,cAAC;CAAA,AAlBD,CAAqC,eAAK,CAAC,SAAS,GAkBnD;kBAlBoB,OAAO;AAuB5B;IAAqC,gDAAO;IAA5C;;IAA8C,CAAC;IAAlC,eAAe;QAH3B,IAAA,kBAAQ,EAAC;YACR,IAAI,EAAE,SAAS;SAChB,CAAC;OACW,eAAe,CAAmB;IAAD,sBAAC;CAAA,AAA/C,CAAqC,OAAO,GAAG;AAAlC,0CAAe",
+    "sourcesContent": [
+        "import React from 'react';\nimport {Renderer, RendererProps} from '../factory';\nimport {BaseSchema} from '../Schema';\n\n/**\n * Divider 分割线渲染器。\n * 文档：https://baidu.gitee.io/amis/docs/components/divider\n */\nexport interface DividerSchema extends BaseSchema {\n  type: 'divider';\n  lineStyle?: 'dashed' | 'solid';\n  [propName: string]: any;\n}\n\nexport interface DividerProps\n  extends RendererProps,\n    Omit<DividerSchema, 'type' | 'className'> {}\n\nexport default class Divider extends React.Component<DividerProps, object> {\n  static defaultProps: Pick<DividerProps, 'className' | 'lineStyle'> = {\n    className: '',\n    lineStyle: 'dashed'\n  };\n\n  render() {\n    const {classnames: cx, className, lineStyle} = this.props;\n    return (\n      <div\n        className={cx(\n          'Divider',\n          lineStyle ? `Divider--${lineStyle}` : '',\n          className\n        )}\n      />\n    );\n  }\n}\n\n@Renderer({\n  type: 'divider'\n})\nexport class DividerRenderer extends Divider {}\n"
+    ]
+}

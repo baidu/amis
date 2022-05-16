@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "modal.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/store/modal.ts"
+    ],
+    "names": [],
+    "mappings": ";;;AAAA,qCAAuC;AACvC,mDAAqE;AACrE,0CAA6C;AAEhC,QAAA,UAAU,GAAG,sBAAY,CAAC,KAAK,CAAC,YAAY,CAAC;KACvD,KAAK,CAAC;IACL,IAAI,EAAE,uBAAK,CAAC,MAAM,EAAE;IACpB,OAAO,EAAE,KAAK;IACd,WAAW,EAAE,CAAC;IACd,MAAM,EAAE,uBAAK,CAAC,MAAM,EAAE;CACvB,CAAC;KACD,KAAK,CAAC,UAAA,IAAI;IACT,OAAO;QACL,IAAI,QAAQ;YACV,OAAO,IAAA,qBAAY,EAAC,IAAI,CAAC,IAAI,EAAE,IAAI,CAAC,IAAI,CAAC,CAAC;QAC5C,CAAC;KACF,CAAC;AACJ,CAAC,CAAC;KACD,OAAO,CAAC,UAAA,IAAI;IACX,OAAO;QACL,UAAU,EAAV,UAAW,KAAc;YACvB,IAAI,CAAC,OAAO,GAAG,KAAK,CAAC;QACvB,CAAC;QACD,WAAW,EAAX,UAAY,GAAQ;YAClB,IAAI,CAAC,IAAI,GAAG,GAAG,CAAC;QAClB,CAAC;QACD,KAAK;YACH,IAAI,CAAC,IAAI,GAAG,EAAE,CAAC;YACf,IAAI,CAAC,UAAU,CAAC,EAAE,EAAE,IAAI,CAAC,CAAC;QAC5B,CAAC;QAED,cAAc,EAAd,UAAe,KAAa;YAC1B,IAAI,CAAC,WAAW,GAAG,KAAK,CAAC;QAC3B,CAAC;QAED,SAAS,EAAT,UAAU,MAAW;YACnB,IAAI,MAAM,IAAI,MAAM,CAAC,IAAI,EAAE;gBACzB,MAAM,CAAC,IAAI,CACT,UAAC,KAAU,IAAK,OAAA,IAAA,yBAAO,EAAC,IAAI,CAAC,IAAK,IAAY,CAAC,SAAS,CAAC,KAAK,CAAC,EAA/C,CAA+C,CAChE,CAAC;gBACF,OAAO;aACR;YAED,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;QACvB,CAAC;KACF,CAAC;AACJ,CAAC,CAAC,CAAC",
+    "sourcesContent": [
+        "import {ServiceStore} from './service';\nimport {types, SnapshotIn, Instance, isAlive} from 'mobx-state-tree';\nimport {createObject} from '../utils/helper';\n\nexport const ModalStore = ServiceStore.named('ModalStore')\n  .props({\n    form: types.frozen(),\n    entered: false,\n    resizeCoord: 0,\n    schema: types.frozen()\n  })\n  .views(self => {\n    return {\n      get formData() {\n        return createObject(self.data, self.form);\n      }\n    };\n  })\n  .actions(self => {\n    return {\n      setEntered(value: boolean) {\n        self.entered = value;\n      },\n      setFormData(obj: any) {\n        self.form = obj;\n      },\n      reset() {\n        self.form = {};\n        self.reInitData({}, true);\n      },\n\n      setResizeCoord(value: number) {\n        self.resizeCoord = value;\n      },\n\n      setSchema(schema: any) {\n        if (schema && schema.then) {\n          schema.then(\n            (value: any) => isAlive(self) && (self as any).setSchema(value)\n          );\n          return;\n        }\n\n        self.schema = schema;\n      }\n    };\n  });\n\nexport type IModalStore = Instance<typeof ModalStore>;\nexport type SModalStore = SnapshotIn<typeof ModalStore>;\n"
+    ]
+}
