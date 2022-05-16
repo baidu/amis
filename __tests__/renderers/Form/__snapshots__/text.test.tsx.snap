@@ -57,6 +57,7 @@ exports[`Renderer:text 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"
@@ -184,6 +185,7 @@ exports[`Renderer:text type is email: validate fail 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"
@@ -318,6 +320,7 @@ exports[`Renderer:text type is email: validate success 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"
@@ -445,6 +448,7 @@ exports[`Renderer:text type is password 1`] = `
             >
               <input
                 autocomplete="off"
+                class="cxd-TextControl-input-password"
                 name="text"
                 placeholder=""
                 size="10"
@@ -580,6 +584,7 @@ exports[`Renderer:text type is url: validate fail 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"
@@ -714,6 +719,7 @@ exports[`Renderer:text type is url: validate success 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"
@@ -841,6 +847,7 @@ exports[`Renderer:text with addOn 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"
@@ -980,6 +987,7 @@ exports[`Renderer:text with clearable 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"
@@ -1115,6 +1123,7 @@ exports[`Renderer:text with counter 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"
@@ -1247,6 +1256,7 @@ exports[`Renderer:text with counter 2`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"
@@ -1379,6 +1389,7 @@ exports[`Renderer:text with counter and maxLength 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"
@@ -1511,6 +1522,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"
@@ -2846,6 +2858,7 @@ exports[`Renderer:text with prefix and suffix 1`] = `
               </span>
               <input
                 autocomplete="off"
+                class=""
                 name="text"
                 placeholder=""
                 size="10"

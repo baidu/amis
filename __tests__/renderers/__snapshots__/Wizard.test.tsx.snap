@@ -201,6 +201,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="website"
                   placeholder=""
                   size="10"
@@ -235,6 +236,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="name"
                   placeholder=""
                   size="10"
@@ -399,6 +401,7 @@ exports[`Renderer:Wizard default 1`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="website"
                   placeholder=""
                   size="10"
@@ -438,6 +441,7 @@ exports[`Renderer:Wizard default 1`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="name"
                   placeholder=""
                   size="10"
@@ -599,6 +603,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                       >
                         <input
                           autocomplete="off"
+                          class=""
                           name="website"
                           placeholder=""
                           size="10"
@@ -633,6 +638,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                       >
                         <input
                           autocomplete="off"
+                          class=""
                           name="name"
                           placeholder=""
                           size="10"
@@ -791,6 +797,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="name"
                     placeholder=""
                     size="10"
@@ -913,6 +920,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                       >
                         <input
                           autocomplete="off"
+                          class=""
                           name="website"
                           placeholder=""
                           size="10"
@@ -947,6 +955,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                       >
                         <input
                           autocomplete="off"
+                          class=""
                           name="name"
                           placeholder=""
                           size="10"
@@ -1128,6 +1137,7 @@ exports[`Renderer:Wizard initApi default 1`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="website"
                   placeholder=""
                   size="10"
@@ -1167,6 +1177,7 @@ exports[`Renderer:Wizard initApi default 1`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="name"
                   placeholder=""
                   size="10"
@@ -1339,6 +1350,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                       >
                         <input
                           autocomplete="off"
+                          class=""
                           name="website"
                           placeholder=""
                           size="10"
@@ -1373,6 +1385,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                       >
                         <input
                           autocomplete="off"
+                          class=""
                           name="name"
                           placeholder=""
                           size="10"
@@ -2128,6 +2141,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="website"
                   placeholder=""
                   readonly=""
@@ -2163,6 +2177,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="name"
                   placeholder=""
                   size="10"
@@ -2455,6 +2470,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="email"
                   placeholder=""
                   size="10"
@@ -2787,6 +2803,7 @@ exports[`Renderer:Wizard target 1`] = `
                     >
                       <input
                         autocomplete="off"
+                        class=""
                         name="website"
                         placeholder=""
                         size="10"
@@ -2821,6 +2838,7 @@ exports[`Renderer:Wizard target 1`] = `
                     >
                       <input
                         autocomplete="off"
+                        class=""
                         name="name"
                         placeholder=""
                         size="10"
@@ -2983,6 +3001,7 @@ exports[`Renderer:Wizard validate 1`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="website"
                   placeholder=""
                   size="10"
@@ -3029,6 +3048,7 @@ exports[`Renderer:Wizard validate 1`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="name"
                   placeholder=""
                   size="10"

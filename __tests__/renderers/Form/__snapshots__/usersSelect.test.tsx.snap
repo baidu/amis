@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:hbox 1`] = `
+exports[`Renderer:usersselect 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -36,45 +36,35 @@ exports[`Renderer:hbox 1`] = `
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
-          <div
-            class="cxd-Hbox cxd-Hbox--xs"
+          <label
+            class="cxd-Form-label"
           >
-            <div
-              class="cxd-Hbox-col w-sm"
-            >
-              <div
-                class="cxd-Form-item cxd-Form-item--normal"
-                data-role="form-item"
-              >
-                <div
-                  class="cxd-Form-control cxd-TextControl"
-                >
-                  <div
-                    class="cxd-TextControl-input"
-                  >
-                    <input
-                      autocomplete="off"
-                      class=""
-                      name="text"
-                      placeholder="Text"
-                      size="10"
-                      type="text"
-                      value=""
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="cxd-Hbox-col"
-            >
+            <span>
               <span
                 class="cxd-TplField"
               >
                 <span>
-                  其他类型的渲染器
+                  人员选择
                 </span>
               </span>
+            </span>
+          </label>
+          <div
+            class="UserSelectControl cxd-Form-control"
+          >
+            <div
+              class="cxd-UserSelect"
+            >
+              <div
+                class="cxd-ResultBox cxd-UserSelect-input is-clickable is-group"
+                tabindex="-1"
+              >
+                <span
+                  class="cxd-ResultBox-placeholder"
+                >
+                  请选择
+                </span>
+              </div>
             </div>
           </div>
         </div>

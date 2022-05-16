@@ -532,6 +532,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="a"
                     placeholder=""
                     size="10"
@@ -1151,6 +1152,7 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="a"
                     placeholder=""
                     size="10"
@@ -1357,6 +1359,7 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="a"
                     placeholder=""
                     size="10"
@@ -1490,6 +1493,7 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
                     >
                       <input
                         autocomplete="off"
+                        class=""
                         name="a"
                         placeholder=""
                         size="10"
@@ -1631,6 +1635,7 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
                     >
                       <input
                         autocomplete="off"
+                        class=""
                         name="a"
                         placeholder=""
                         size="10"

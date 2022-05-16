@@ -83,6 +83,7 @@ exports[`Renderer:fieldSet 1`] = `
                         >
                           <input
                             autocomplete="off"
+                            class=""
                             name="text"
                             placeholder=""
                             size="10"

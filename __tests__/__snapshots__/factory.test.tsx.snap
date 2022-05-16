@@ -149,6 +149,7 @@ exports[`factory:definitions 1`] = `
                     >
                       <input
                         autocomplete="off"
+                        class=""
                         name="ref1"
                         placeholder=""
                         size="10"
@@ -235,6 +236,7 @@ exports[`factory:definitions 1`] = `
                                   >
                                     <input
                                       autocomplete="off"
+                                      class=""
                                       name="key"
                                       placeholder=""
                                       size="10"
@@ -269,6 +271,7 @@ exports[`factory:definitions 1`] = `
                                   >
                                     <input
                                       autocomplete="off"
+                                      class=""
                                       name="value"
                                       placeholder=""
                                       size="10"
@@ -498,6 +501,7 @@ exports[`factory:definitions override 1`] = `
                     >
                       <input
                         autocomplete="off"
+                        class=""
                         name="ref1"
                         placeholder=""
                         size="10"
