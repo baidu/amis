@@ -1,11 +1,29 @@
 {
-  "extends": "./tsconfig-base.json",
   "compilerOptions": {
-    "rootDir": "./src",
     "outDir": "lib",
-    "typeRoots": ["./node_modules/@types", "../../types"],
-    "composite": true
+    "rootDir": "./",
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["ES6", "DOM", "ES2015", "ES2021"],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceRoot": "",
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    //
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
   },
-  "include": ["examples/**/*"],
-  "references": [{"path": "../amis-core"}]
+  "types": ["typePatches"],
+  "references": [{"path": "packages/amis"}]
 }

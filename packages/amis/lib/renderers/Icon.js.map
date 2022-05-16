@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "Icon.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/renderers/Icon.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,6DAA0B;AAC1B,sCAAmD;AAEnD,6CAA2D;AA0B3D;IAA0B,qCAAkC;IAA5D;;IA0BA,CAAC;IApBC,qBAAM,GAAN;QACQ,IAAA,KAA4C,IAAI,CAAC,KAAK,EAArD,IAAI,UAAA,EAAE,MAAM,YAAA,EAAc,EAAE,gBAAA,EAAE,SAAS,eAAc,CAAC;QAE7D,IAAM,SAAS,GAAG,CAAA,IAAI,aAAJ,IAAI,uBAAJ,IAAI,CAAE,OAAO,CAAC,GAAG,CAAC,MAAK,CAAC,CAAC,CAAC;QAC5C,IAAI,UAAU,GAAG,EAAE,CAAC;QACpB,IAAI,MAAM,KAAK,UAAU,EAAE;YACzB,UAAU,GAAG,wBAAiB,IAAI,CAAE,CAAC;SACtC;aAAM,IAAI,MAAM,KAAK,IAAI,EAAE;YAC1B,0BAA0B;YAC1B,UAAU,GAAG,UAAG,MAAM,cAAI,MAAM,cAAI,IAAI,CAAE,CAAC;SAC5C;aAAM;YACL,8DAA8D;YAC9D,UAAU,GAAG,UAAG,IAAI,CAAE,CAAC;SACxB;QACD,OAAO,SAAS,CAAC,CAAC,CAAC,CACjB,uCAAK,SAAS,EAAE,EAAE,CAAC,MAAM,CAAC,EAAE,GAAG,EAAE,IAAI,GAAI,CAC1C,CAAC,CAAC,CAAC,CACF,qCAAG,SAAS,EAAE,EAAE,CAAC,UAAU,EAAE,SAAS,CAAC,GAAI,CAC5C,CAAC;IACJ,CAAC;IAxBM,iBAAY,GAAuB;QACxC,IAAI,EAAE,EAAE;QACR,MAAM,EAAE,IAAI;KACb,CAAC;IAsBJ,WAAC;CAAA,AA1BD,CAA0B,eAAK,CAAC,SAAS,GA0BxC;AA1BY,oBAAI;AAiCjB;IAAiC,4CAAI;IAArC;;IAAuC,CAAC;IAA3B,WAAW;QALvB,IAAA,kBAAQ,EAAC;YACR,IAAI,EAAE,MAAM;SACb,CAAC;QACF,mBAAmB;;QAClB,iBAAS;OACG,WAAW,CAAgB;IAAD,kBAAC;CAAA,AAAxC,CAAiC,IAAI,GAAG;AAA3B,kCAAW",
+    "sourcesContent": [
+        "import React from 'react';\nimport {Renderer, RendererProps} from '../factory';\nimport {BaseSchema} from '../Schema';\nimport {BadgeSchema, withBadge} from '../components/Badge';\n\n/**\n * Icon 图表渲染器\n * 文档：https://baidu.gitee.io/amis/docs/components/icon\n */\nexport interface IconSchema extends BaseSchema {\n  type: 'icon';\n\n  /**\n   * 按钮类型\n   */\n  icon: string;\n\n  vendor?: 'iconfont' | 'fa' | '';\n\n  /**\n   * 角标\n   */\n  badge?: BadgeSchema;\n}\n\nexport interface IconProps\n  extends RendererProps,\n    Omit<IconSchema, 'type' | 'className'> {}\n\nexport class Icon extends React.Component<IconProps, object> {\n  static defaultProps: Partial<IconProps> = {\n    icon: '',\n    vendor: 'fa'\n  };\n\n  render() {\n    const {icon, vendor, classnames: cx, className} = this.props;\n\n    const isURLIcon = icon?.indexOf('.') !== -1;\n    let iconPrefix = '';\n    if (vendor === 'iconfont') {\n      iconPrefix = `iconfont icon-${icon}`;\n    } else if (vendor === 'fa') {\n      //默认是fontawesome v4，兼容之前配置\n      iconPrefix = `${vendor} ${vendor}-${icon}`;\n    } else {\n      // 如果vendor为空，则不设置前缀,这样可以支持fontawesome v5、fontawesome v6或者其他框架\n      iconPrefix = `${icon}`;\n    }\n    return isURLIcon ? (\n      <img className={cx('Icon')} src={icon} />\n    ) : (\n      <i className={cx(iconPrefix, className)} />\n    );\n  }\n}\n\n@Renderer({\n  type: 'icon'\n})\n// @ts-ignore 类型没搞定\n@withBadge\nexport class TplRenderer extends Icon {}\n"
+    ]
+}

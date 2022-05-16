@@ -4,9 +4,9 @@
 const path = require('path');
 const fs = require('fs');
 const package = require('./package.json');
-const parserMarkdown = require('./scripts/md-parser');
-const convertSCSSIE11 = require('./scripts/scss-ie11');
-const parserCodeMarkdown = require('./scripts/code-md-parser');
+const parserMarkdown = require('../../scripts/md-parser');
+const convertSCSSIE11 = require('../../scripts/scss-ie11');
+const parserCodeMarkdown = require('../../scripts/code-md-parser');
 fis.get('project.ignore').push('public/**', 'npm/**', 'gh-pages/**');
 // 配置只编译哪些文件。
 
@@ -64,7 +64,6 @@ fis.set('project.files', [
   '/examples/static/photo/*.png',
   '/examples/static/audio/*.mp3',
   '/examples/static/video/*.mp4',
-  '/src/**.html',
   'mock/**'
 ]);
 
@@ -595,7 +594,7 @@ if (fis.project.currentMedia() === 'publish') {
         resourceType: 'mod'
       }),
 
-      require('./scripts/embed-packager')
+      require('../../scripts/embed-packager')
     ]
   });
 
@@ -621,13 +620,13 @@ if (fis.project.currentMedia() === 'publish') {
           /function\sfilterUrl\(url\)\s\{\s*return\s*url;/m,
           function () {
             return `var _path = '';
-    try {
-      throw new Error()
-    } catch (e) {
-      _path = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
-    }
-    function filterUrl(url) {
-      return _path + url.substring(1);`;
+     try {
+       throw new Error()
+     } catch (e) {
+       _path = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
+     }
+     function filterUrl(url) {
+       return _path + url.substring(1);`;
           }
         );
 

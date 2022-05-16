@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "Calendar.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/renderers/Calendar.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;;AACA,sCAAoC;AAEpC,8CAAqD;AAkCrD;IAAsC,iDAAmB;IAAzD;;IAKA,CAAC;IAJQ,6BAAY,mDACd,+BAAmB,CAAC,YAAY,KACnC,KAAK,EAAE,IAAI,IACZ;IAJU,gBAAgB;QAH5B,IAAA,kBAAQ,EAAC;YACR,IAAI,EAAE,UAAU;SACjB,CAAC;OACW,gBAAgB,CAK5B;IAAD,uBAAC;CAAA,AALD,CAAsC,+BAAmB,GAKxD;AALY,4CAAgB",
+    "sourcesContent": [
+        "import React from 'react';\nimport {Renderer} from '../factory';\nimport {SchemaObject, BaseSchema} from '../Schema';\nimport {DateControlRenderer} from './Form/InputDate';\n\ninterface scheduleItem {\n  startTime: string;\n  endTime: string;\n  content: any;\n  className?: string;\n}\n\nexport interface CalendarSchema extends BaseSchema {\n  /**\n   * 指定为日历选择控件\n   */\n  type: 'calendar';\n\n  /**\n   * 日程\n   */\n  schedules?: Array<scheduleItem> | string;\n\n  /**\n   * 日程显示颜色自定义\n   */\n  scheduleClassNames?: Array<string>;\n\n  /**\n   * 日程点击展示\n   */\n  scheduleAction?: SchemaObject;\n}\n\n@Renderer({\n  type: 'calendar'\n})\nexport class CalendarRenderer extends DateControlRenderer {\n  static defaultProps = {\n    ...DateControlRenderer.defaultProps,\n    embed: true\n  }\n}\n"
+    ]
+}

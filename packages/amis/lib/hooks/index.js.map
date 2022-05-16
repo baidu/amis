@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "index.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/hooks/index.ts"
+    ],
+    "names": [],
+    "mappings": ";;;;;;AAAA;;GAEG;AACH,iDAAuD;AAA/C,6HAAA,OAAO,OAAe;AAC9B,yDAA+D;AAAvD,qIAAA,OAAO,OAAmB",
+    "sourcesContent": [
+        "/**\n * @file 常用 hooks\n */\nexport {default as useSetState} from './use-set-state';\nexport {default as useUpdateEffect} from './use-update-effect';\n"
+    ]
+}
