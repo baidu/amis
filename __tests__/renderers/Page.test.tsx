@@ -1185,7 +1185,7 @@ test('Renderer:Page initApi reload by Dialog action', async () => {
                 {
                   type: 'text',
                   name: 'a',
-                  value: '3'
+                  // value: '3'
                 }
               ]
             }
@@ -1261,7 +1261,7 @@ test('Renderer:Page initApi reload by Drawer action', async () => {
                 {
                   type: 'text',
                   name: 'a',
-                  value: '3'
+                  // value: '3'
                 }
               ]
             }
@@ -1333,7 +1333,7 @@ test('Renderer:Page initApi reload by Form submit', async () => {
             {
               type: 'text',
               name: 'a',
-              value: '3'
+              // value: '3'
             }
           ],
           actions: [

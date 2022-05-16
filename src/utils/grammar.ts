@@ -3,7 +3,6 @@
  */
 
 import {parse} from 'amis-formula';
-import {eachTree} from './helper';
 
 function traverseAst(ast: any, iterator: (ast: any) => void) {
   if (!ast || !ast.type) {

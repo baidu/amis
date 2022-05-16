@@ -140,6 +140,40 @@ exports[`Form:initData:remote 1`] = `
             </div>
           </div>
         </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  Label
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                name="c"
+                placeholder=""
+                size="10"
+                type="text"
+                value="123"
+              />
+            </div>
+          </div>
+        </div>
       </form>
     </div>
     <div
@@ -211,9 +245,9 @@ Object {
   },
   "method": "get",
   "query": Object {
-    "a": "123",
+    "c": "123",
   },
-  "url": "/api/xxx?a=123",
+  "url": "/api/xxx?c=123",
 }
 `;
 
@@ -221,6 +255,7 @@ exports[`Form:initData:remote 3`] = `
 Object {
   "a": 1,
   "b": 2,
+  "c": "123",
 }
 `;
 
