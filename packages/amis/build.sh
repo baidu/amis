@@ -41,7 +41,7 @@ cp examples/static/iconfont.* sdk/
 mkdir sdk/locale
 
 echo "===sdk locale==="
-node scripts/generate-sdk-locale.js src/locale/de-DE.ts >sdk/locale/de-DE.js
+node ../../scripts/generate-sdk-locale.js src/locale/de-DE.ts >sdk/locale/de-DE.js
 
 # 生成 .d.ts 文件
 echo "===generate .d.ts==="

@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "Markdown.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/components/Markdown.tsx"
+    ],
+    "names": [],
+    "mappings": ";;;AAAA,6DAA0B;AAE1B,4EAA+C;AAO/C;IAAsC,yCAA8B;IAUlE,kBAAY,KAAoB;QAAhC,YACE,kBAAM,KAAK,CAAC,SAEb;QADC,KAAI,CAAC,OAAO,GAAG,KAAI,CAAC,OAAO,CAAC,IAAI,CAAC,KAAI,CAAC,CAAC;;IACzC,CAAC;IAED,0BAAO,GAAP,UAAQ,GAAQ;QACd,IAAI,CAAC,GAAG,GAAG,GAAG,CAAC;QACf,IAAI,CAAC,GAAG,EAAE;YACR,OAAO;SACR;QACD,IAAI,CAAC,OAAO,EAAE,CAAC;IACjB,CAAC;IAED,qCAAkB,GAAlB,UAAmB,SAAwB;QACzC,IAAI,IAAI,CAAC,KAAK,CAAC,OAAO,KAAK,SAAS,CAAC,OAAO,EAAE;YAC5C,IAAI,CAAC,OAAO,EAAE,CAAC;SAChB;IACH,CAAC;IAED,0BAAO,GAAP;QACQ,IAAA,KAAqB,IAAI,CAAC,KAAK,EAA9B,OAAO,aAAA,EAAE,OAAO,aAAc,CAAC;QACtC,IAAI,CAAC,GAAG,CAAC,SAAS,GAAG,IAAA,kBAAc,EAAC,OAAO,EAAE,OAAO,CAAC,CAAC;IACxD,CAAC;IAED,yBAAM,GAAN;QACE,OAAO,CACL,sDACc,eAAe,EAC3B,SAAS,EAAC,eAAe,EACzB,GAAG,EAAE,IAAI,CAAC,OAAO,GACZ,CACR,CAAC;IACJ,CAAC;IAvCM,qBAAY,GAAG;QACpB,OAAO,EAAE,EAAE;QACX,OAAO,EAAE;YACP,OAAO,EAAE,IAAI;SACd;KACF,CAAC;IAmCJ,eAAC;CAAA,AA3CD,CAAsC,eAAK,CAAC,SAAS,GA2CpD;kBA3CoB,QAAQ",
+    "sourcesContent": [
+        "import React from 'react';\n\nimport markdownRender from '../utils/markdown';\n\ninterface MarkdownProps {\n  content: string;\n  options: object;\n}\n\nexport default class Markdown extends React.Component<MarkdownProps> {\n  dom: any;\n\n  static defaultProps = {\n    content: '',\n    options: {\n      linkify: true\n    }\n  };\n\n  constructor(props: MarkdownProps) {\n    super(props);\n    this.htmlRef = this.htmlRef.bind(this);\n  }\n\n  htmlRef(dom: any) {\n    this.dom = dom;\n    if (!dom) {\n      return;\n    }\n    this._render();\n  }\n\n  componentDidUpdate(nextProps: MarkdownProps) {\n    if (this.props.content !== nextProps.content) {\n      this._render();\n    }\n  }\n\n  _render() {\n    const {content, options} = this.props;\n    this.dom.innerHTML = markdownRender(content, options);\n  }\n\n  render() {\n    return (\n      <div\n        data-testid=\"markdown-body\"\n        className=\"markdown-body\"\n        ref={this.htmlRef}\n      ></div>\n    );\n  }\n}\n"
+    ]
+}

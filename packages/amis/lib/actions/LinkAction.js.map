@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "file": "LinkAction.js",
+    "sourceRoot": "",
+    "sources": [
+        "/src/actions/LinkAction.ts"
+    ],
+    "names": [],
+    "mappings": ";;;;AAAA,oCAAsC;AAEtC,kEAA+B;AAC/B,mCAKkB;AAelB;;;;;;GAMG;AACH;IAAA;IAmCA,CAAC;IAlCO,wBAAG,GAAT,UACE,MAAmB,EACnB,QAAyB,EACzB,KAAyB;;;;;gBAEzB,IAAI,CAAC,CAAA,MAAA,QAAQ,CAAC,KAAK,CAAC,GAAG,0CAAE,MAAM,CAAA,EAAE;oBAC/B,MAAM,IAAI,KAAK,CAAC,yBAAyB,CAAC,CAAC;iBAC5C;gBAGG,MAAM,GAAG,IAAA,cAAQ,EACnB;oBACE,GAAG,EAAE,CAAC,CAAA,MAAA,MAAM,CAAC,IAAI,0CAAE,GAAG,MAAI,MAAA,MAAM,CAAC,IAAI,0CAAE,IAAI,CAAA,CAAW;oBACtD,MAAM,EAAE,KAAK;iBACd,kDAEI,CAAC,MAAA,MAAA,MAAM,CAAC,IAAI,0CAAE,MAAM,mCAAI,EAAE,CAAC,GAC3B,IAAA,cAAI,EAAC,MAAA,MAAM,CAAC,IAAI,mCAAI,EAAE,EAAE,CAAC,QAAQ,EAAE,OAAO,EAAE,KAAK,EAAE,MAAM,CAAC,CAAC,GAEhE;oBACE,UAAU,EAAE,IAAI;iBACjB,CACF,CAAC;gBAEF,QAAQ,CAAC,KAAK,CAAC,GAAG,CAAC,MAAM,CACvB,MAAM,CAAC,GAAG,0BAER,UAAU,EAAE,MAAM,CAAC,UAAU,EAC7B,IAAI,EAAE,QAAQ,IACX,MAAM,CAAC,IAAI,GAEhB,MAAM,CAAC,IAAI,CACZ,CAAC;;;;KACH;IACH,iBAAC;AAAD,CAAC,AAnCD,IAmCC;AAnCY,gCAAU;AAqCvB,IAAA,uBAAc,EAAC,UAAU,EAAE,IAAI,UAAU,EAAE,CAAC,CAAC",
+    "sourcesContent": [
+        "import {buildApi} from '../utils/api';\nimport {RendererEvent} from '../utils/renderer-event';\nimport omit from 'lodash/omit';\nimport {\n  RendererAction,\n  ListenerContext,\n  registerAction,\n  ListenerAction\n} from './Action';\n\nexport interface ILinkAction extends ListenerAction {\n  actionType: 'link' | 'url' | 'jump';\n  args: {\n    link?: string;\n    url?: string;\n    blank?: boolean;\n    params?: {\n      [key: string]: string;\n    };\n    [propName: string]: any;\n  };\n}\n\n/**\n * 打开页面动作\n *\n * @export\n * @class LinkAction\n * @implements {Action}\n */\nexport class LinkAction implements RendererAction {\n  async run(\n    action: ILinkAction,\n    renderer: ListenerContext,\n    event: RendererEvent<any>\n  ) {\n    if (!renderer.props.env?.jumpTo) {\n      throw new Error('env.jumpTo is required!');\n    }\n\n    // 通过buildApi兼容较复杂的url情况\n    let urlObj = buildApi(\n      {\n        url: (action.args?.url || action.args?.link) as string,\n        method: 'get'\n      },\n      {\n        ...(action.args?.params ?? {}),\n        ...omit(action.args ?? {}, ['params', 'blank', 'url', 'link'])\n      },\n      {\n        autoAppend: true\n      }\n    );\n\n    renderer.props.env.jumpTo(\n      urlObj.url,\n      {\n        actionType: action.actionType,\n        type: 'button',\n        ...action.args\n      },\n      action.args\n    );\n  }\n}\n\nregisterAction('openlink', new LinkAction());\n"
+    ]
+}
