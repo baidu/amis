@@ -5,6 +5,13 @@
 class Key {
   private _lastKey: number;
 
+  static key: Key;
+
+  constructor() {
+    Key.key = Key.key || this;
+    return Key.key;
+  }
+
   generate() {
     if (this._lastKey) {
       this._lastKey++;
