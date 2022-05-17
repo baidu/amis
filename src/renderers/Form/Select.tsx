@@ -85,6 +85,16 @@ export interface SelectControlSchema extends FormOptionsControl {
    * 搜索 API
    */
   searchApi?: SchemaApi;
+
+  /**
+   * 单个选项的高度，主要用于虚拟渲染
+   */
+  itemHeight?: number;
+
+  /**
+   * 在选项数量达到多少时开启虚拟渲染
+   */
+  virtualThreshold?: number;
 }
 
 export interface SelectProps extends OptionsControlProps {
@@ -412,9 +422,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             onFocus={(e: any) => this.dispatchEvent('focus', e)}
             onAdd={() => this.dispatchEvent('add')}
             onEdit={(item: any) => this.dispatchEvent('edit', item)}
-            onDelete={(item: any) =>
-              this.dispatchEvent('delete', item)
-            }
+            onDelete={(item: any) => this.dispatchEvent('delete', item)}
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}
