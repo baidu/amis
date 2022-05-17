@@ -12,7 +12,7 @@ rm -rf lib/node_modules
 
 # 生成 sdk
 echo "===fis sdk==="
-rm -rf sdk && ./node_modules/.bin/fis3 release publish-sdk -c
+rm -rf sdk && ./node_modules/.bin/fis3 release publish-sdk -c -f ../../fis-conf.js
 
 cp -r node_modules/monaco-editor/min/vs/base/browser sdk/thirds/monaco-editor/min/vs/base
 
@@ -36,7 +36,7 @@ cp sdk/sdk-ie11.css sdk/cxd-ie11.css
 
 cp ./lib/helper.css sdk/helper.css
 cp ./lib/helper.css.map sdk/helper.css.map
-cp examples/static/iconfont.* sdk/
+cp ../../examples/static/iconfont.* sdk/
 
 mkdir sdk/locale
 
