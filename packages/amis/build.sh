@@ -10,6 +10,10 @@ echo "===fis release==="
 ./node_modules/.bin/fis3 release publish -c
 rm -rf lib/node_modules
 
+# 生成 .d.ts 文件
+echo "===generate .d.ts==="
+./node_modules/.bin/tsc --declaration --emitDeclarationOnly --outDir ./lib --project ./tsconfig-for-declaration.json
+
 # 生成 sdk
 echo "===fis sdk==="
 rm -rf sdk && ./node_modules/.bin/fis3 release publish-sdk -c -f ../../fis-conf.js
@@ -42,10 +46,6 @@ mkdir sdk/locale
 
 echo "===sdk locale==="
 node ../../scripts/generate-sdk-locale.js src/locale/de-DE.ts >sdk/locale/de-DE.js
-
-# 生成 .d.ts 文件
-echo "===generate .d.ts==="
-./node_modules/.bin/tsc --declaration --emitDeclarationOnly --outDir ./lib --project ./tsconfig-for-declaration.json
 
 echo "===build-schemas==="
 npm run build-schemas
