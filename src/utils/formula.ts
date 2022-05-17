@@ -223,7 +223,8 @@ export function formulaExec(
     // 包含 ${ xxx } 则使用 tpl 运算器
     return FormulaExec['tpl'](curValue, data);
   } else if (OpenFormulaExecEvalMode) {
-    return FormulaExec['evalFormula'](curValue, data); // 不用 ${} 包裹也可以执行表达式
+    // 支持 ${} 和 非 ${} 表达式
+    return FormulaExec['evalFormula'](curValue, data);
   } else {
     return curValue;
   }
@@ -290,8 +291,8 @@ export function isPureValue(value: any) {
   }
 }
 
-// 用于判断是否是表达式:
-export function isExpression(expression: any): boolean {
+// 用于判断是否优先使用value。
+export function isPriorityByValue(expression: any): boolean {
   if (!isString(expression)) {
     // 非字符串类型，比如：Object、Array类型、boolean、number类型
     return false;

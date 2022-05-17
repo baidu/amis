@@ -19,7 +19,7 @@ import {
   formulaExec,
   isNeedFormula,
   isPureValue,
-  isExpression
+  isPriorityByValue
 } from '../../utils/formula';
 import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
@@ -209,7 +209,7 @@ export function wrapControl<
               const curValue = isPureValue(value)
                 ? value
                 : formulaExec(value, data, false); // 对组件默认值进行运算
-              const curTmpValue = isExpression(value)
+              const curTmpValue = isPriorityByValue(value)
                 ? curValue
                 : valueByName ?? curValue; // 优先使用公式表达式
               // 同步 value
@@ -332,14 +332,14 @@ export function wrapControl<
             // 此处需要同时考虑 defaultValue 和 value
             if (model && typeof props.value !== 'undefined') {
               // 渲染器中的 value 优先
-              if (props.value !== prevProps.value) {
+              if (props.value !== prevProps.value && props.value !== model.tmpValue) {
                 // 外部直接传入的 value 无需执行运算器
                 model.changeTmpValue(props.value);
               }
             } else if (
               model &&
               typeof props.defaultValue !== 'undefined' &&
-              isExpression(props.defaultValue)
+              isPriorityByValue(props.defaultValue)
             ) {
               // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
               if (
@@ -367,7 +367,6 @@ export function wrapControl<
               }
             } else if (model) {
               const valueByName = getVariable(props.data, model.name);
-              const prevValueByName = getVariable(props.data, model.name);
 
               if (
                 valueByName !== undefined &&
@@ -380,6 +379,7 @@ export function wrapControl<
                   (!model.emitedValue || model.emitedValue === model.tmpValue)
                 ) {
                   model.changeEmitedValue(undefined);
+                  const prevValueByName = getVariable(props.data, model.name);
                   if (
                     (valueByName !== prevValueByName ||
                       getVariable(props.data, model.name, false) !==
