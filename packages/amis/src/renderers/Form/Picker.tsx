@@ -242,7 +242,7 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
-  handleChange(items: Array<any>) {
+  async handleChange(items: Array<any>) {
     const {
       joinValues,
       valueField,
@@ -250,6 +250,8 @@ export default class PickerControl extends React.PureComponent<
       extractValue,
       multiple,
       options,
+      data,
+      dispatchEvent,
       setOptions,
       onChange
     } = this.props;
@@ -281,6 +283,14 @@ export default class PickerControl extends React.PureComponent<
     });
 
     additionalOptions.length && setOptions(options.concat(additionalOptions));
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {value, option: items[0]})
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     onChange(value);
   }
 

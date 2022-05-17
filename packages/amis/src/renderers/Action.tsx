@@ -1,6 +1,14 @@
 import React from 'react';
 import hotkeys from 'hotkeys-js';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  ActionObject,
+  extendObject,
+  IScopedContext,
+  isObject,
+  Renderer,
+  RendererProps,
+  ScopedContext
+} from 'amis-core';
 import {filter} from 'amis-core';
 import {Button} from 'amis-ui';
 import pick from 'lodash/pick';
@@ -431,6 +439,7 @@ import {generateIcon} from 'amis-core';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {normalizeApi, str2AsyncFunction} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
+import {ICmptAction} from 'amis-core/lib/actions/CmptAction';
 
 // 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
 // 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
@@ -850,28 +859,68 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
 export default themeable(Action);
 
+export type ActionRendererProps = RendererProps &
+  Omit<ActionProps, 'onAction' | 'isCurrentUrl' | 'tooltipContainer'> & {
+    onAction: (
+      e: React.MouseEvent<any> | string | void | null,
+      action: object,
+      data: any
+    ) => void;
+    btnDisabled?: boolean;
+  };
+
 @Renderer({
   type: 'action'
 })
 // @ts-ignore 类型没搞定
 @withBadge
-export class ActionRenderer extends React.Component<
-  RendererProps &
-    Omit<ActionProps, 'onAction' | 'isCurrentUrl' | 'tooltipContainer'> & {
-      onAction: (
-        e: React.MouseEvent<any> | void | null,
-        action: object,
-        data: any
-      ) => void;
-      btnDisabled?: boolean;
+export class ActionRenderer extends React.Component<ActionRendererProps> {
+  static contextType = ScopedContext;
+
+  constructor(props: ActionRendererProps, scoped: IScopedContext) {
+    super(props);
+
+    scoped.registerComponent(this);
+  }
+
+  componentWillUnmount() {
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
+  }
+
+  /**
+   * 动作处理
+   */
+  doAction(
+    action: ActionObject,
+    args: {
+      value?: string | {[key: string]: string};
     }
-> {
+  ) {
+    const actionType = action?.actionType as any;
+
+    if (actionType === 'click') {
+      this.handleAction(actionType, action);
+    }
+  }
+
   @autobind
-  async handleAction(e: React.MouseEvent<any> | void | null, action: any) {
+  async handleAction(
+    e: React.MouseEvent<any> | string | void | null,
+    action: any
+  ) {
     const {env, onAction, data, ignoreConfirm, dispatchEvent} = this.props;
+    let mergedData = data;
+
+    if (action?.actionType === 'click' && isObject(action?.args)) {
+      mergedData = extendObject(data, action.args);
+    }
 
     // 触发渲染器事件
-    const rendererEvent = await dispatchEvent(e as React.MouseEvent<any>, data);
+    const rendererEvent = await dispatchEvent(
+      e as React.MouseEvent<any> | string,
+      mergedData
+    );
 
     // 阻止原有动作执行
     if (rendererEvent?.prevented) {
@@ -879,14 +928,14 @@ export class ActionRenderer extends React.Component<
     }
 
     if (!ignoreConfirm && action.confirmText && env.confirm) {
-      let confirmed = await env.confirm(filter(action.confirmText, data));
+      let confirmed = await env.confirm(filter(action.confirmText, mergedData));
       if (confirmed) {
-        await onAction(e, action, data);
+        await onAction(e, action, mergedData);
       } else if (action.countDown) {
         throw new Error('cancel');
       }
     } else {
-      await onAction(e, action, data);
+      await onAction(e, action, mergedData);
     }
   }
 
