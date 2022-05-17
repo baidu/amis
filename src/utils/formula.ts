@@ -16,8 +16,8 @@ import {collectVariables} from './grammar';
 
 /**
  * formulaExec 运算器：根据当前字符串类型执行对应运算，也可按指定执行模式执行运算
- * 
- * 运算模式（execMode）支持以下取值: 
+ *
+ * 运算模式（execMode）支持以下取值:
  * 1. tpl: 按模板字符串执行（JavaScript 模板引擎），比如：Hello ${amisUser.email}、<h1>Hello</h1>, <span>${amisUser.email}</span>；
  *    备注: 在模板中可以自由访问变量，详细请见：https://www.lodashjs.com/docs/lodash.template；
  * 2. formula: 按新版公式表达式执行，用于执行 ${ xxx } 格式的表达式；
@@ -29,7 +29,7 @@ import {collectVariables} from './grammar';
  * 5. var: 以此字符串作为key值从当前数据域data中获取数值；性能最高（运行期间不会生成ast和表达式运算）；
  * 6. true 或者 false: 当execMode设置为true时，不用 ${} 包裹也可以执行表达式；
  * 7. collect: 用于从表达式中获取所有变量；
- * 
+ *
  * 备注1: 当 execMode 为true时，或者不设置 execMode（execMode 为 undefined 或者 null），OpenFormulaExecEvalModeStatus 为 true 时，会识别以特殊字符开头的表达式。
  *   其可识别的特殊前缀如下:
  *    1. 以'raw:'开头则直接返回原始字符串（返回前会剔除'raw:'）；
@@ -44,36 +44,47 @@ import {collectVariables} from './grammar';
 
 // 缓存，用于提升性能
 const FORMULA_EVAL_CACHE: {[key: string]: Function} = {};
- 
+
 /**
  * 用于存储当前可用运算器，默认支持 tpl、formula、js、var 四种类型运算器
  * 备注：在这里统一参数。
  */
 export const FormulaExec: {
-  [key: string]: Function
+  [key: string]: Function;
 } = {
-  'tpl': (expression: string, data?: object) => {
+  tpl: (expression: string, data?: object) => {
     const curData = data || {};
     return filter(expression, curData);
   },
-  'formula': (expression: string, data?: object) => {
+  formula: (expression: string, data?: object) => {
     // 邮箱格式直接返回，后续需要在 amis-formula 中处理
-    if (/^\$\{([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})\}$/.test(expression)) {
+    if (
+      /^\$\{([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})\}$/.test(
+        expression
+      )
+    ) {
       return expression.substring(2, expression.length - 1); // 剔除前后特殊字符
     }
     const curData = data || {};
     let result = undefined;
     try {
       // 执行 ${} 格式类表达式，且支持 filter 过滤器。（备注: isPureVariable 可用于判断是否有 过滤器。）
-      result = isPureVariable(expression) ? resolveVariableAndFilter(expression, data) : resolveVariable(expression, data);
+      result = isPureVariable(expression)
+        ? resolveVariableAndFilter(expression, data)
+        : resolveVariable(expression, data);
     } catch (e) {
-      console.warn('[formula]表达式执行异常，当前表达式: ', expression, '，当前上下文数据: ', data);
+      console.warn(
+        '[formula]表达式执行异常，当前表达式: ',
+        expression,
+        '，当前上下文数据: ',
+        data
+      );
       return expression;
     }
     // 备注: 此处不用 result ?? expression 是为了避免 没有对应结果时直接显示 expression: ${xxx}
     return result;
   },
-  'evalFormula': (expression: string, data?: object) => {
+  evalFormula: (expression: string, data?: object) => {
     const curData = data || {};
     let result = undefined;
     try {
@@ -82,12 +93,17 @@ export const FormulaExec: {
         allowFilter: true // 支持 filter 过滤器
       });
     } catch (e) {
-      console.warn('[evalFormula]表达式执行异常，当前表达式: ', expression, '，当前上下文数据: ', data);
+      console.warn(
+        '[evalFormula]表达式执行异常，当前表达式: ',
+        expression,
+        '，当前上下文数据: ',
+        data
+      );
       return expression;
     }
     return result ?? expression;
   },
-  'js': (expression: string, data?: object) => {
+  js: (expression: string, data?: object) => {
     let debug = false;
     const idx = expression.indexOf('debugger');
     if (~idx) {
@@ -113,17 +129,22 @@ export const FormulaExec: {
     try {
       curResult = fn.call(data, data, getFilters());
     } catch (e) {
-      console.warn('[formula:js]表达式执行异常，当前表达式: ', expression, '，当前上下文数据: ', data);
+      console.warn(
+        '[formula:js]表达式执行异常，当前表达式: ',
+        expression,
+        '，当前上下文数据: ',
+        data
+      );
       return expression;
     }
     return curResult;
   },
-  'var': (expression: string, data?: object) => {
+  var: (expression: string, data?: object) => {
     const curData = data || {};
     const result = getVariable(curData, expression); // 不支持过滤器
     return result ?? expression;
   },
-  'collect': (expression: any) => {
+  collect: (expression: any) => {
     let variables: Array<string> = [];
     if (isObjectByLodash(expression) || isString(expression)) {
       // 仅对 Object类型 和 String类型 进行变量提取
@@ -132,7 +153,7 @@ export const FormulaExec: {
       variables = [];
     }
     return variables;
-  },
+  }
 };
 
 // 用于 控制 formulaExec execMode，当设置为 true 时，非 ${ xxx } 格式也启动表达式运算器，且识别特殊前缀。
@@ -144,11 +165,16 @@ export function updateFormulaExecEvalModeDefaultStatus(evalMode: boolean) {
 
 // 用于线上开启 OpenFormulaExecEvalMode，方便线上环境可以指定运算器类型进行debug。
 if (window && !(window as any).updateFormulaExecEvalModeDefaultStatus) {
-  (window as any).updateFormulaExecEvalModeDefaultStatus = updateFormulaExecEvalModeDefaultStatus;
+  (window as any).updateFormulaExecEvalModeDefaultStatus =
+    updateFormulaExecEvalModeDefaultStatus;
 }
 
 // 根据表达式类型自动匹配指定运算器，也可以通过设置 execMode 直接指定运算器
-export function formulaExec(value: any, data: any, execMode?: string | boolean) {
+export function formulaExec(
+  value: any,
+  data: any,
+  execMode?: string | boolean
+) {
   if (!value) {
     return '';
   }
@@ -165,7 +191,7 @@ export function formulaExec(value: any, data: any, execMode?: string | boolean) 
     // FormulaExecEvalModeDefaultStatus 为 true 时，非 ${ xxx } 格式也启动表达式运算器
     OpenFormulaExecEvalMode = FormulaExecEvalModeDefaultStatus; // 优先级比 evalMode 高
   }
-  if (isObjectByLodash(value) || isArray(value) || !isString(value)) {
+  if (!isString(value)) {
     // 非字符串类型，直接返回，比如：boolean、number类型、Object、Array类型
     return value;
   } else if (curExecMode && FormulaExec[curExecMode]) {
@@ -206,7 +232,9 @@ export function formulaExec(value: any, data: any, execMode?: string | boolean) 
 // 用于注册自定义 formulaExec 运算器
 export function registerFormulaExec(execMode: string, formulaExec: Function) {
   if (FormulaExec[execMode]) {
-    console.error(`registerFormulaExec: 运算器注册失败，存在同名运算器（$(execMode)）。`);
+    console.error(
+      `registerFormulaExec: 运算器注册失败，存在同名运算器（$(execMode)）。`
+    );
   } else {
     FormulaExec[execMode] = formulaExec;
   }
@@ -214,7 +242,13 @@ export function registerFormulaExec(execMode: string, formulaExec: Function) {
 
 function catchFormulaExecSign(expression: string): string {
   if (expression && FormulaExec) {
-    for(let index = 0, curFormulaKeys = Object.keys(FormulaExec), size = curFormulaKeys.length; index < size; index++) {
+    for (
+      let index = 0,
+        curFormulaKeys = Object.keys(FormulaExec),
+        size = curFormulaKeys.length;
+      index < size;
+      index++
+    ) {
       const formulaKey = curFormulaKeys[index];
       if (expression.startsWith(`${formulaKey}:`)) {
         return formulaKey;
@@ -224,22 +258,30 @@ function catchFormulaExecSign(expression: string): string {
   return '';
 }
 
-function catchFormulaExecExpression(expression: string, formulaKey: string): string {
+function catchFormulaExecExpression(
+  expression: string,
+  formulaKey: string
+): string {
   if (expression && formulaKey) {
     return expression.substring(formulaKey.length + 1);
   }
   return '';
 }
 
-// 用于判断是否是普通数值: 
+// 用于判断是否是普通数值:
 export function isPureValue(value: any) {
   if (!isString(value)) {
     // 非字符串类型，比如：Object、Array类型、boolean、number类型
     return true;
-  } else if (/^(\d{4})\-(\d{2})\-(\d{2})[ T](\d{2})(?:\:\d{2}|:(\d{2}):(\d{2}))(\+(\d{2}):(\d{2}))?$/.test(value) ||
+  } else if (
+    /^(\d{4})\-(\d{2})\-(\d{2})[ T](\d{2})(?:\:\d{2}|:(\d{2}):(\d{2}))(\+(\d{2}):(\d{2}))?$/.test(
+      value
+    ) ||
     /^(\d{4})\-(\d{2})\-(\d{2})$/.test(value) ||
     /^(\d{2})(?:\:\d{2}|:(\d{2}):(\d{2}))$/.test(value) ||
-    /^\$\{([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})\}$/.test(value)
+    /^\$\{([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})\}$/.test(
+      value
+    )
   ) {
     // 日期类型、邮箱类型
     return true;
@@ -248,14 +290,39 @@ export function isPureValue(value: any) {
   }
 }
 
-// 用于判断是否需要执行表达式: 
+// 用于判断是否是表达式:
+export function isExpression(expression: any): boolean {
+  if (!isString(expression)) {
+    // 非字符串类型，比如：Object、Array类型、boolean、number类型
+    return false;
+  }
+
+  let OpenFormulaExecEvalMode = false;
+  if (FormulaExecEvalModeDefaultStatus) {
+    OpenFormulaExecEvalMode = FormulaExecEvalModeDefaultStatus;
+  }
+  const curValue = expression.trim();
+  const formulaKey = catchFormulaExecSign(curValue);
+  if (
+    OpenFormulaExecEvalMode &&
+    (curValue.startsWith('raw:') || curValue.startsWith('=') || formulaKey)
+  ) {
+    // 备注: 这里是为了和formulaExec保持一致
+    return true;
+  }
+
+  return /(\${).+(\})/.test(expression);
+}
+
+// 用于判断是否需要执行表达式:
 export function isNeedFormula(
-  expression: any, 
+  expression: any,
   prevData: {[propName: string]: any},
-  curData: {[propName: string]: any},
+  curData: {[propName: string]: any}
 ): boolean {
   const variables = FormulaExec.collect(expression);
   return variables.some(
-    (variable: string) => FormulaExec.var(variable, prevData) !== FormulaExec.var(variable, curData)
+    (variable: string) =>
+      FormulaExec.var(variable, prevData) !== FormulaExec.var(variable, curData)
   );
 }
