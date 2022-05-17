@@ -2,10 +2,25 @@
   "name": "amis-core",
   "version": "1.0.0",
   "description": "amis-core",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "main": "dist/index.js",
+  "author": "fex",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "rollup": "^2.73.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-license": "^2.7.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "typescript": "^4.6.4"
   },
-  "author": "",
-  "license": "Apache-2.0"
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "node test/test.js",
+    "pretest": "npm run build"
+  },
+  "files": [
+    "dist"
+  ]
 }
