@@ -1643,7 +1643,42 @@ order: 9
 
 ## 自定义动作
 
-补充中...
+除了以上内置动作，你还可以注册自己的动作。通过对`RendererAction`的`run`方法的实现可以定制自己的动作逻辑，最后通过`registerAction`注册到 amis 事件动作中。
+
+```javascript
+import {
+  ListenerAction,
+  ListenerContext,
+  registerAction,
+  RendererAction
+} from 'amis/lib/actions';
+import {RendererEvent} from 'amis/lib/utils/renderer-event';
+
+// 动作定义
+interface IMyAction extends ListenerAction {
+  actionType: 'my-action';
+  args: {
+    param1: string, // 动作参数1
+    param2: string // 动作参数2
+  };
+}
+
+/**
+ * 我的动作实现
+ */
+export class MyAction implements RendererAction {
+  run(action: IMyAction, renderer: ListenerContext, event: RendererEvent<any>) {
+    const props = renderer.props;
+    const {param1, param2} = action.args;
+
+    // 你的动作逻辑
+    // ...
+  }
+}
+
+// 注册自定义动作
+registerAction('my-action', new MyAction());
+```
 
 # 编排动作
 
@@ -2367,6 +2402,10 @@ order: 9
   ]
 }
 ```
+
+# 自定义组件接入事件动作
+
+需求场景主要是想要自定义组件的内部事件暴露出去，能够通过对事件的监听来执行所需动作，并希望自定义组件自身的动作能够被其他组件调用。接入方法是通过`props.dispatchEvent`派发自身的各种事件，使其具备更灵活的交互设计能力；通过实现`doAction`方法实现其他组件对其专属动作的调用，需要注意的是，此处依赖内部的 `Scoped Context`来实现自身的注册，可以参考 [组件间通信](../../docs/extend/custom-react#组件间通信)。
 
 # 属性表
 
