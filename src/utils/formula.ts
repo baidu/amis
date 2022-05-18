@@ -22,7 +22,7 @@ import {collectVariables} from './grammar';
  * 2. formula: 按新版公式表达式执行，用于执行 ${ xxx } 格式的表达式；
  *    支持从window、localStorage、sessionStorage获取数据，比如：${num1 + 2}、${ls:env}、${window:document}、${window:document.URL}、${amisUser.email}；
  *    详细请见：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/data-mapping#namespace
- * 3. evalFormula: 按新版公式表达式执行，用于执行 非${ xxx } 格式的表达式（evalMode 为 true，不用 ${} 包裹也可以执行），功能同 formula 运算模式；
+ * 3. evalFormula: 按新版公式表达式执行，用于执行 ${ xxx } 和 非${ xxx } 格式的表达式（evalMode 为 true，不用 ${} 包裹也可以执行），功能同 formula 运算模式；
  * 4. js: 按Javascript执行，表达式中可以通过data.xxx来获取指定数据，并且支持简单运算；
  *    比如：data.num1 + 2、this.num1 + 2、num1 + 2；（备注：三个表达式是等价的，这里的 this 就是 data。）
  * 5. var: 以此字符串作为key值从当前数据域data中获取数值；性能最高（运行期间不会生成ast和表达式运算）；
@@ -62,9 +62,7 @@ export const FormulaExec: {
     let result = undefined;
     try {
       // 执行 ${} 格式类表达式，且支持 filter 过滤器。（备注: isPureVariable 可用于判断是否有 过滤器。）
-      result = isPureVariable(expression)
-        ? resolveVariableAndFilter(expression, data)
-        : resolveVariable(expression, data);
+      result = resolveVariableAndFilter(expression, curData, '| raw');
     } catch (e) {
       console.warn(
         '[formula]表达式执行异常，当前表达式: ',
@@ -83,7 +81,7 @@ export const FormulaExec: {
     try {
       result = evaluate(expression, curData, {
         evalMode: true, // evalMode 为 true 时，不用 ${} 包裹也可以执行，
-        allowFilter: true // 支持 filter 过滤器
+        allowFilter: false
       });
     } catch (e) {
       console.warn(

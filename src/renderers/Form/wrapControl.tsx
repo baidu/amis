@@ -203,10 +203,9 @@ export function wrapControl<
               model.changeTmpValue(propValue);
             } else {
               // 备注: 此处的 value 是 schema 中的 value（和props.defaultValue相同）
-              const valueByName = store?.getValueByName(model.name);
               const curTmpValue = isPriorityByValue(value)
                 ? formulaExec(value, data, false) // 对组件默认值进行运算
-                : valueByName ?? value; // 优先使用公式表达式
+                : store?.getValueByName(model.name) ?? value; // 优先使用公式表达式
               // 同步 value
               model.changeTmpValue(curTmpValue);
 
