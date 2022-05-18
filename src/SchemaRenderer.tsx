@@ -294,7 +294,9 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             $path: $path,
             $schema: schema,
             render: this.renderChild,
-            forwardedRef: this.refFn
+            forwardedRef: this.refFn,
+            rootStore: rootStore,
+            dispatchEvent: this.dispatchEvent
           });
     } else if (typeof schema.component === 'function') {
       const isSFC = !(schema.component.prototype instanceof React.Component);
@@ -319,7 +321,9 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             $schema: schema,
             ref: isSFC ? undefined : this.refFn,
             forwardedRef: isSFC ? this.refFn : undefined,
-            render: this.renderChild
+            render: this.renderChild,
+            rootStore: rootStore,
+            dispatchEvent: this.dispatchEvent
           });
     } else if (Object.keys(schema).length === 0) {
       return null;
@@ -346,6 +350,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
           $path={$path}
           $schema={schema}
           retry={this.reRender}
+          rootStore={rootStore}
+          dispatchEvent={this.dispatchEvent}
         />
       );
     }
