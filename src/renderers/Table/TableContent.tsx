@@ -10,6 +10,7 @@ import ItemActionsWrapper from './ItemActionsWrapper';
 import {SchemaTpl, SchemaIcon} from '../../Schema';
 import {generateIcon} from '../../utils/icon';
 import {Icon} from '../../components/icons';
+import {OnEventProps} from '../../utils/renderer-event';
 
 export interface TableContentProps extends LocaleProps {
   className?: string;
@@ -60,6 +61,7 @@ export interface TableContentProps extends LocaleProps {
   itemActions?: Array<Action>;
   store: ITableStore;
   dispatchEvent?: Function;
+  onEvent?: OnEventProps
 }
 
 @observer
@@ -130,7 +132,8 @@ export class TableContent extends React.Component<TableContentProps> {
       affixRow,
       store,
       emptyIcon,
-      dispatchEvent
+      dispatchEvent,
+      onEvent
     } = this.props;
 
     const tableClassName = cx('Table-table', this.props.tableClassName);
@@ -230,7 +233,8 @@ export class TableContent extends React.Component<TableContentProps> {
               data={data}
               rowsProps={{
                 data,
-                dispatchEvent
+                dispatchEvent,
+                onEvent
               }}
             ></TableBody>
           )}
