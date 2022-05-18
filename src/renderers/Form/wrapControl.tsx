@@ -15,9 +15,9 @@ import {
   createObject
 } from '../../utils/helper';
 import {
-  formulaExec,
   isNeedFormula,
-  isPriorityByValue
+  isPriorityByValue,
+  FormulaExec
 } from '../../utils/formula';
 import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
@@ -204,7 +204,7 @@ export function wrapControl<
             } else {
               // 备注: 此处的 value 是 schema 中的 value（和props.defaultValue相同）
               const curTmpValue = isPriorityByValue(value)
-                ? formulaExec(value, data, false) // 对组件默认值进行运算
+                ? FormulaExec['formula'](value, data) // 对组件默认值进行运算
                 : store?.getValueByName(model.name) ?? value; // 优先使用公式表达式
               // 同步 value
               model.changeTmpValue(curTmpValue);
@@ -341,15 +341,13 @@ export function wrapControl<
                 (!isEqual(props.data, prevProps.data) &&
                   isNeedFormula(props.defaultValue, props.data, prevProps.data))
               ) {
-                const curResult = formulaExec(
+                const curResult = FormulaExec['formula'](
                   props.defaultValue,
-                  props.data,
-                  false
+                  props.data
                 );
-                const prevResult = formulaExec(
+                const prevResult = FormulaExec['formula'](
                   prevProps.defaultValue,
-                  prevProps.data,
-                  false
+                  prevProps.data
                 );
                 if (curResult !== prevResult && curResult !== model.tmpValue) {
                   // 识别上下文变动、自身数值变动、公式运算结果变动

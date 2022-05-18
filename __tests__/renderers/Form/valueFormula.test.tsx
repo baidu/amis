@@ -231,7 +231,7 @@ test('ValueFromula: case2', async () => {
     '<%= data.test.a %> 不应该支持即便是有 123 混用'
   );
   expect(onSubmit.mock.calls[0][0].test6).toMatchObject({a: 123});
-  expect(onSubmit.mock.calls[0][0].vara).toBe('123');
+  expect(onSubmit.mock.calls[0][0].vara).toBe('${test}');
   expect(onSubmit.mock.calls[0][0].varb).toBe('234');
 });
 
