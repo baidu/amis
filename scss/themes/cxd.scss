@@ -114,6 +114,18 @@
   }
 }
 
+.#{$ns}Modal-content {
+  .#{$ns}TreeSelect-popover {
+    box-shadow: var(--boxShadow);
+    .#{$ns}Tree {
+      border-radius: #{$R3};
+      border: none;
+    }
+  }
+}
+
+
+
 .#{$ns}Toast {
   .#{$ns}Toast-icon {
     margin-right: #{px2rem(8px)};
