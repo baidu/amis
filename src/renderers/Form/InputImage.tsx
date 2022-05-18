@@ -1622,7 +1622,7 @@ export default class ImageControl extends React.Component<
                         ) : (
                           <>
                             <Icon icon="plus" className="icon" />
-                            <span>{__('File.upload')}</span>
+                            <span>{__('Image.upload')}</span>
                           </>
                         )}
 
