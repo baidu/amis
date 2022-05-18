@@ -506,20 +506,27 @@ export const TableStore = iRendererStore
         groups[0].label = columns[1].groupName;
       }
 
+      // 用户是否启用了 groupName
+      const hasGroupName = columns.some(column => column.groupName);
+
       for (let i = 1; i < len; i++) {
         let prev = groups[groups.length - 1];
         const current = columns[i];
 
-        if (
+        const groupNameIsSame =
           current.groupName === prev.label ||
           resolveVariableAndFilter(current.groupName, self.data) ===
-            resolveVariableAndFilter(prev.label, self.data)
+            resolveVariableAndFilter(prev.label, self.data);
+
+        if (
+          groupNameIsSame &&
+          ((hasGroupName && current.groupName) || !hasGroupName)
         ) {
           prev.colSpan++;
           prev.has.push(current);
         } else {
           groups.push({
-            label: current.groupName || ' ', // 如果中间没有配置groupName，那么样式会错乱，这里加一个空白字符，当做一个占位表头
+            label: current.groupName || current.label || ' ', // 如果中间没有配置groupName，那么样式会错乱，这里设置列的label配置，lable也没有则设置一个空字符串
             colSpan: 1,
             rowSpan: 1,
             index: current.index,
