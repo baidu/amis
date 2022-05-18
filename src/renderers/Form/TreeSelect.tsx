@@ -629,9 +629,6 @@ export default class TreeSelectControl extends React.Component<
       translate: __,
       env
     } = this.props;
-    console.log(popOverContainer);
-    console.log(this.container.current);
-    console.log(this.target);
 
     const {isOpened} = this.state;
     const mobileUI = useMobileUI && isMobile();
