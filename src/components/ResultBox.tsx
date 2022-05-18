@@ -125,7 +125,6 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     } = this.props;
     const isFocused = this.state.isFocused;
     const mobileUI = useMobileUI && isMobile();
-
     return (
       <div
         className={cx('ResultBox', className, {
@@ -175,7 +174,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             placeholder={__(
               Array.isArray(result) && result.length
                 ? inputPlaceholder
-                : placeholder
+                : (result ? '' : placeholder)
             )}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}

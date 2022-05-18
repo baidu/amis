@@ -100,9 +100,9 @@ export class HeadCellFilterDropDown extends React.Component<
         }
       }
     }
-
-    if (
-      this.props.data[name] !== prevProps.data[name] &&
+    const value = this.props.data ? this.props.data[name] : undefined;
+    const prevValue =  prevProps.data ?  prevProps.data[name] : undefined;
+    if (value !== prevValue &&
       this.state.filterOptions.length &&
       prevState.filterOptions !== this.props.filterOptions
     ) {
@@ -174,7 +174,8 @@ export class HeadCellFilterDropDown extends React.Component<
     const rendererEvent = await dispatchEvent(
       'columnFilter',
       createObject(data, {
-        [name]: value
+        filterName: name,
+        filterValue: value
       })
     );
 
@@ -202,7 +203,8 @@ export class HeadCellFilterDropDown extends React.Component<
     const rendererEvent = await dispatchEvent(
       'columnFilter',
       createObject(data, {
-        [name]: query
+        filterName: name,
+        filterValue: query
       })
     );
 
@@ -239,7 +241,7 @@ export class HeadCellFilterDropDown extends React.Component<
       <span
         className={cx(
           `${ns}TableCell-filterBtn`,
-          typeof data[name] !== 'undefined' ? 'is-active' : ''
+          data && typeof data[name] !== 'undefined' ? 'is-active' : ''
         )}
       >
         <span onClick={this.open}>

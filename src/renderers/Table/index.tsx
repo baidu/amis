@@ -957,16 +957,28 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  handleSaveOrder() {
-    const {store, onSaveOrder} = this.props;
+  async handleSaveOrder() {
+    const {store, onSaveOrder, data, dispatchEvent} = this.props;
+
+    const movedItems = store.movedRows.map(item => item.data);
+    const items = store.rows.map(item => item.getDataWithModifiedChilden());
+
+    const rendererEvent = await dispatchEvent(
+      'orderChange',
+      createObject(data, {movedItems})
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     if (!onSaveOrder || !store.movedRows.length) {
       return;
     }
 
     onSaveOrder(
-      store.movedRows.map(item => item.data),
-      store.rows.map(item => item.getDataWithModifiedChilden())
+      movedItems,
+      items
     );
   }
 
@@ -1231,7 +1243,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   initDragging() {
-    const {store, classPrefix: ns, data, dispatchEvent} = this.props;
+    const {store, classPrefix: ns} = this.props;
     this.sortable = new Sortable(
       (this.table as HTMLElement).querySelector('tbody') as HTMLElement,
       {
@@ -1243,15 +1255,6 @@ export default class Table extends React.Component<TableProps, object> {
         onEnd: async (e: any) => {
           // 没有移动
           if (e.newIndex === e.oldIndex) {
-            return;
-          }
-
-          const rendererEvent = await dispatchEvent(
-            'orderChange',
-            createObject(data, {oldIndex: e.oldIndex, newIndex: e.newIndex})
-          );
-
-          if (rendererEvent?.prevented) {
             return;
           }
 
@@ -1384,23 +1387,11 @@ export default class Table extends React.Component<TableProps, object> {
 
   @autobind
   async handleDrop() {
-    const {store, data, dispatchEvent} = this.props;
+    const {store} = this.props;
     const tr = this.draggingTr;
     const tbody = tr.parentElement!;
     const index = Array.prototype.indexOf.call(tbody.childNodes, tr);
     const item: IRow = store.getRowById(tr.getAttribute('data-id')!) as any;
-
-    const rendererEvent = await dispatchEvent(
-      'orderChange',
-      createObject(data, {
-        oldIndex: this.originIndex,
-        newIndex: index
-      })
-    );
-
-    if (rendererEvent?.prevented) {
-      return;
-    }
 
     // destroy
     this.handleDragEnd();
@@ -2154,7 +2145,8 @@ export default class Table extends React.Component<TableProps, object> {
       rowClassNameExpr,
       rowClassName,
       itemAction,
-      dispatchEvent
+      dispatchEvent,
+      onEvent
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
     const columnsGroup = store.columnGroup;
@@ -2242,7 +2234,8 @@ export default class Table extends React.Component<TableProps, object> {
                 props: any
               ) => this.renderCell(region, column, item, props, true),
               data,
-              dispatchEvent
+              dispatchEvent,
+              onEvent
             }}
           />
         )}
@@ -2311,13 +2304,13 @@ export default class Table extends React.Component<TableProps, object> {
             onClick={async () => {
               const {data, dispatchEvent} = this.props;
 
+              const allToggled = !(store.activeToggaleColumns.length === store.toggableColumns.length);
               const rendererEvent = await dispatchEvent(
                 'columnToggled',
                 createObject(data, {
-                  toggled: !(
-                    store.activeToggaleColumns.length ===
-                    store.toggableColumns.length
-                  )
+                  columns: allToggled
+                    ? store.toggableColumns.map(column => column.pristine)
+                    : []
                 })
               );
 
@@ -2352,12 +2345,16 @@ export default class Table extends React.Component<TableProps, object> {
             key={column.index}
             onClick={async () => {
               const {data, dispatchEvent} = this.props;
-
+              let columns = store.activeToggaleColumns.map(item => item.pristine);
+              if (!column.toggled) {
+                columns.push(column.pristine)
+              } else {
+                columns = columns.filter(c => c.name !== column.pristine.name);
+              }
               const rendererEvent = await dispatchEvent(
                 'columnToggled',
                 createObject(data, {
-                  column,
-                  toggled: !column.toggled
+                  columns
                 })
               );
 
@@ -2642,7 +2639,8 @@ export default class Table extends React.Component<TableProps, object> {
       autoFillHeight,
       itemActions,
       emptyIcon,
-      dispatchEvent
+      dispatchEvent,
+      onEvent
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2689,6 +2687,7 @@ export default class Table extends React.Component<TableProps, object> {
         locale={locale}
         translate={translate}
         dispatchEvent={dispatchEvent}
+        onEvent={onEvent}
       />
     );
   }

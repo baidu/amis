@@ -204,7 +204,10 @@ export class HeadCellSearchDropDown extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'columnSearch',
-      createObject(data, values)
+      createObject(data, {
+        searchName: name,
+        searchValue: values
+      })
     );
 
     if (rendererEvent?.prevented) {
