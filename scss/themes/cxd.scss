@@ -14,6 +14,8 @@
       width: calc(var(--Switch-height) - #{px2rem(4px)});
       top: px2rem(2px);
       bottom: px2rem(2px);
+      left: px2rem(2px);
+      transition: all 0.5s ease;
     }
   }
   &:active {
@@ -29,7 +31,10 @@
     background: var(--Switch-checked-bgColor);
 
     .slider::before {
-      right: px2rem(2px);
+      right: auto;
+      left: calc(
+        100% - (var(--Switch-height) - #{px2rem(4px)}) - #{px2rem(2px)}
+      );
     }
 
     .text {
@@ -40,6 +45,11 @@
     }
     &:active {
       background: var(--Switch-checked-onActive-bgColor);
+      .slider::before {
+        left: calc(
+          100% - (var(--Switch-height) + #{px2rem(2px)}) - #{px2rem(2px)}
+        );
+      }
     }
   }
 }
@@ -60,6 +70,14 @@
         // height: var(--Form-input-height);
         line-height: 1.1;
         padding: px2rem(5px) px2rem(12px);
+
+        &.is-highlight:hover > span {
+          color: var(--menu-active-color);
+        }
+
+        svg {
+          color: var(--default-icon-color);
+        }
       }
     }
   }
@@ -162,10 +180,9 @@
   }
 
   &-result {
-
-    >.#{$ns}Selections {
+    > .#{$ns}Selections {
       height: 100%;
-    }    
+    }
   }
 
   &-table-title {
@@ -214,6 +231,16 @@
     padding-left: var(--gap-base);
     padding-right: var(--gap-base);
   }
+  &-mid {
+    min-width: px2rem(16px);
+  }
+
+  .#{$ns}TableSelection {
+    .#{$ns}Table-table > thead > tr,
+    .#{$ns}Table-table > tbody > tr {
+      height: px2rem(40px);
+    }
+  }
 }
 
 .#{$ns}Modal {
@@ -238,7 +265,7 @@
 
 .#{$ns}Drawer {
   &-content {
-    border-radius: #{$R4};
+    border-radius: 0;
   }
   &-header {
     border-radius: #{$R4} 0 0 0;

@@ -721,8 +721,8 @@ exports[`Renderer:transfer left tree 1`] = `
                                       class="cxd-Tree-itemArrow"
                                     >
                                       <icon-mock
-                                        classname="icon icon-right-arrow-bold"
-                                        icon="right-arrow-bold"
+                                        classname="icon icon-down-arrow-bold"
+                                        icon="down-arrow-bold"
                                       />
                                     </div>
                                     <i
@@ -784,8 +784,8 @@ exports[`Renderer:transfer left tree 1`] = `
                                       class="cxd-Tree-itemArrow"
                                     >
                                       <icon-mock
-                                        classname="icon icon-right-arrow-bold"
-                                        icon="right-arrow-bold"
+                                        classname="icon icon-down-arrow-bold"
+                                        icon="down-arrow-bold"
                                       />
                                     </div>
                                     <i
@@ -874,8 +874,8 @@ exports[`Renderer:transfer left tree 1`] = `
                                       class="cxd-Tree-itemArrow"
                                     >
                                       <icon-mock
-                                        classname="icon icon-right-arrow-bold"
-                                        icon="right-arrow-bold"
+                                        classname="icon icon-down-arrow-bold"
+                                        icon="down-arrow-bold"
                                       />
                                     </div>
                                     <i
@@ -1425,7 +1425,7 @@ exports[`Renderer:transfer table 1`] = `
                         class="cxd-Transfer-result"
                       >
                         <div
-                          class="cxd-Transfer-title"
+                          class="cxd-Transfer-title cxd-Transfer-title--light"
                         >
                           <span>
                             已选项
@@ -1630,8 +1630,8 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrow"
                                 >
                                   <icon-mock
-                                    classname="icon icon-right-arrow-bold"
-                                    icon="right-arrow-bold"
+                                    classname="icon icon-down-arrow-bold"
+                                    icon="down-arrow-bold"
                                   />
                                 </div>
                                 <label
@@ -1703,8 +1703,8 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrow"
                                 >
                                   <icon-mock
-                                    classname="icon icon-right-arrow-bold"
-                                    icon="right-arrow-bold"
+                                    classname="icon icon-down-arrow-bold"
+                                    icon="down-arrow-bold"
                                   />
                                 </div>
                                 <label
@@ -1808,8 +1808,8 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrow"
                                 >
                                   <icon-mock
-                                    classname="icon icon-right-arrow-bold"
-                                    icon="right-arrow-bold"
+                                    classname="icon icon-down-arrow-bold"
+                                    icon="down-arrow-bold"
                                   />
                                 </div>
                                 <label

@@ -22,6 +22,7 @@ exports[`Form:initData 1`] = `
         >
           <input
             autocomplete="off"
+            class=""
             name="a"
             placeholder=""
             size="10"
@@ -43,6 +44,7 @@ exports[`Form:initData 1`] = `
         >
           <input
             autocomplete="off"
+            class=""
             name="b"
             placeholder=""
             size="10"
@@ -128,6 +130,7 @@ exports[`Form:initData:remote 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="a"
                 placeholder=""
                 size="10"
@@ -255,6 +258,7 @@ exports[`Form:initData:super 1`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="a"
                     placeholder=""
                     size="10"
@@ -276,6 +280,7 @@ exports[`Form:initData:super 1`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="b"
                     placeholder=""
                     size="10"
@@ -335,6 +340,7 @@ exports[`Form:initData:without-super 1`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="a"
                     placeholder=""
                     size="10"
@@ -356,6 +362,7 @@ exports[`Form:initData:without-super 1`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="b"
                     placeholder=""
                     size="10"

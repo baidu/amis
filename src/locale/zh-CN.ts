@@ -13,8 +13,8 @@ register('zh-CN', {
   'Calendar.end': '结束',
   'Calendar.beginAndEnd': '始/终',
   'Calendar.toast': '超出日期范围',
-  'Calendar.startPick': '选择开始时间',
-  'Calendar.endPick': '选择结束时间',
+  'Calendar.startPick': '开始时间',
+  'Calendar.endPick': '结束时间',
   'Schedule': '日程',
   'Time': '时间',
   'Content': '内容',
@@ -124,7 +124,9 @@ register('zh-CN', {
   'fetchFailed': '初始化失败',
   'File.continueAdd': '继续添加',
   'File.downloadTpl': '下载模板',
-  'File.dragDrop': '将文件拖到此处，或点击上传',
+  'File.dragDrop': '将文件拖到此处，或',
+  'File.clickUpload': '点击上传',
+  'File.helpText': '帮助文档',
   'File.errorRetry': '文件上传失败请重试',
   'File.failed': '失败文件',
   'File.invalidType': '{{files}} 不符合类型的 {{accept}} 的设定，请仔细检查',
@@ -136,8 +138,12 @@ register('zh-CN', {
   'File.retry': '重试上传',
   'File.sizeLimit': '文件大小不超过 {{maxSize}} B',
   'File.start': '开始上传',
+<<<<<<< HEAD
   'File.upload': '文件上传',
   'Image.upload': '图片上传',
+=======
+  'File.upload': '上传文件',
+>>>>>>> master
   'File.uploadFailed': '接口返回错误，请仔细检查',
   'File.uploading': '上传中...',
   'FormItem.autoUpdateloadFaild': '接口返回错误，请仔细检查',
@@ -196,6 +202,7 @@ register('zh-CN', {
   'Checkboxes.selectAll': '全选/不选',
   'Select.checkAll': '全选',
   'Select.clear': '移除',
+  'Select.upload': '重新上传',
   'Select.clearAll': '移除所有',
   'Select.createLabel': '新增选项',
   'Select.placeholder': '请选择',
@@ -341,5 +348,6 @@ register('zh-CN', {
   'JSONSchema.description': '描述',
   'JSONSchema.add_prop': '添加属性',
   'JSONSchema.array_items': '成员类型',
-  'Required': '必填'
+  'Required': '必填',
+  'TimeNow': '此刻',
 });

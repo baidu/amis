@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:dateRange 1`] = `
+exports[`Renderer:usersselect 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -44,53 +44,27 @@ exports[`Renderer:dateRange 1`] = `
                 class="cxd-TplField"
               >
                 <span>
-                  date-range
+                  人员选择
                 </span>
               </span>
             </span>
           </label>
           <div
-            class="cxd-DateRangeControl is-date cxd-Form-control"
+            class="UserSelectControl cxd-Form-control"
           >
             <div
-              class="cxd-DateRangePicker"
-              tabindex="0"
+              class="cxd-UserSelect"
             >
-              <input
-                autocomplete="off"
-                class="cxd-DateRangePicker-input isActive"
-                placeholder="开始时间"
-                type="text"
-                value="2019-06-06"
-              />
-              <span
-                class="cxd-DateRangePicker-input-separator"
+              <div
+                class="cxd-ResultBox cxd-UserSelect-input is-clickable is-group"
+                tabindex="-1"
               >
-                -
-              </span>
-              <input
-                autocomplete="off"
-                class="cxd-DateRangePicker-input"
-                placeholder="结束时间"
-                type="text"
-                value="2019-06-26"
-              />
-              <a
-                class="cxd-DateRangePicker-clear"
-              >
-                <icon-mock
-                  classname="icon icon-input-clear"
-                  icon="input-clear"
-                />
-              </a>
-              <a
-                class="cxd-DateRangePicker-toggler"
-              >
-                <icon-mock
-                  classname="icon icon-date"
-                  icon="date"
-                />
-              </a>
+                <span
+                  class="cxd-ResultBox-placeholder"
+                >
+                  请选择
+                </span>
+              </div>
             </div>
           </div>
         </div>

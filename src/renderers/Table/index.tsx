@@ -38,7 +38,10 @@ import {
   SchemaApi,
   SchemaClassName,
   SchemaObject,
-  SchemaTokenizeableString
+  SchemaTokenizeableString,
+  SchemaType,
+  SchemaTpl,
+  SchemaIcon
 } from '../../Schema';
 import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
@@ -218,7 +221,12 @@ export interface TableSchema extends BaseSchema {
   /**
    * 占位符
    */
-  placeholder?: string;
+  placeholder?: string | SchemaTpl;
+
+  /**
+   * 无数据展示 icon
+   */
+  emptyIcon?: string | SchemaIcon;
 
   /**
    * 是否显示底部
@@ -375,7 +383,11 @@ export type TableRendererEvent =
   | 'orderChange'
   | 'rowClick';
 
-export type TableRendererAction = 'selectAll' | 'clearAll' | 'select'  | 'initDrag';
+export type TableRendererAction =
+  | 'selectAll'
+  | 'clearAll'
+  | 'select'
+  | 'initDrag';
 
 export default class Table extends React.Component<TableProps, object> {
   static contextType = ScopedContext;
@@ -804,9 +816,11 @@ export default class Table extends React.Component<TableProps, object> {
   async handleCheck(item: IRow, value: boolean, shift?: boolean) {
     const {store, data, dispatchEvent} = this.props;
 
-    const selectedItems = value ? [...store.selectedRows.map(row => row.data), item.data]
+    const selectedItems = value
+      ? [...store.selectedRows.map(row => row.data), item.data]
       : store.selectedRows.filter(row => row.id !== item.id);
-    const unSelectedItems = value ? store.unSelectedRows.filter(row => row.id !== item.id)
+    const unSelectedItems = value
+      ? store.unSelectedRows.filter(row => row.id !== item.id)
       : [...store.unSelectedRows.map(row => row.data), item.data];
 
     const rendererEvent = await dispatchEvent(
@@ -1380,7 +1394,7 @@ export default class Table extends React.Component<TableProps, object> {
       'orderChange',
       createObject(data, {
         oldIndex: this.originIndex,
-        newIndex: index     
+        newIndex: index
       })
     );
 
@@ -1963,7 +1977,7 @@ export default class Table extends React.Component<TableProps, object> {
             'is-dragDisabled': !item.draggable
           })}
         >
-          {item.draggable ? <Icon icon="drag-bar" className="icon" /> : null}
+          {item.draggable ? <Icon icon="drag" className="icon" /> : null}
         </td>
       );
     } else if (column.type === '__expandme') {
@@ -2007,7 +2021,7 @@ export default class Table extends React.Component<TableProps, object> {
           onDragStart={this.handleDragStart}
           className={cx('Table-dragBtn')}
         >
-          <Icon icon="drag-bar" className="icon" />
+          <Icon icon="drag" className="icon" />
         </a>
       );
     }
@@ -2300,7 +2314,10 @@ export default class Table extends React.Component<TableProps, object> {
               const rendererEvent = await dispatchEvent(
                 'columnToggled',
                 createObject(data, {
-                  toggled: !(store.activeToggaleColumns.length === store.toggableColumns.length)
+                  toggled: !(
+                    store.activeToggaleColumns.length ===
+                    store.toggableColumns.length
+                  )
                 })
               );
 
@@ -2624,6 +2641,7 @@ export default class Table extends React.Component<TableProps, object> {
       prefixRowClassName,
       autoFillHeight,
       itemActions,
+      emptyIcon,
       dispatchEvent
     } = this.props;
 
@@ -2647,6 +2665,7 @@ export default class Table extends React.Component<TableProps, object> {
         columnsGroup={store.columnGroup}
         rows={store.rows}
         placeholder={placeholder}
+        emptyIcon={emptyIcon}
         render={render}
         onMouseMove={this.handleMouseMove}
         onScroll={this.handleOutterScroll}

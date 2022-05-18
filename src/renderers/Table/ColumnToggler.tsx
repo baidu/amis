@@ -411,7 +411,7 @@ export default class ColumnToggler extends React.Component<
                       {enableSorting && draggable && tempColumns.length > 1 ? (
                         <>
                           <a className={cx('ColumnToggler-menuItem-dragBar')}>
-                            <Icon icon="drag-bar" className={cx('icon')} />
+                            <Icon icon="drag" className={cx('icon')} />
                           </a>
                           <span className={cx('ColumnToggler-menuItem-label')}>
                             <span>{column.label || '-'}</span>

@@ -97,6 +97,7 @@ exports[`Renderer:anchorNav 1`] = `
                           >
                             <input
                               autocomplete="off"
+                              class=""
                               name="name"
                               placeholder=""
                               size="10"
@@ -131,6 +132,7 @@ exports[`Renderer:anchorNav 1`] = `
                           >
                             <input
                               autocomplete="off"
+                              class=""
                               name="email"
                               placeholder=""
                               size="10"
@@ -257,6 +259,7 @@ exports[`Renderer:anchorNav 1`] = `
                           >
                             <input
                               autocomplete="off"
+                              class=""
                               name="cname"
                               placeholder=""
                               size="10"
@@ -291,6 +294,7 @@ exports[`Renderer:anchorNav 1`] = `
                           >
                             <input
                               autocomplete="off"
+                              class=""
                               name="caddress"
                               placeholder=""
                               size="10"
@@ -458,6 +462,7 @@ exports[`Renderer:anchorNav horizontal 1`] = `
                           >
                             <input
                               autocomplete="off"
+                              class=""
                               name="name"
                               placeholder=""
                               size="10"
@@ -492,6 +497,7 @@ exports[`Renderer:anchorNav horizontal 1`] = `
                           >
                             <input
                               autocomplete="off"
+                              class=""
                               name="email"
                               placeholder=""
                               size="10"
