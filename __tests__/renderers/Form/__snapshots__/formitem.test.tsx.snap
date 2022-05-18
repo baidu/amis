@@ -62,6 +62,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="a"
                 placeholder=""
                 size="10"
@@ -201,6 +202,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="a"
                 placeholder=""
                 size="10"
@@ -340,6 +342,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="a"
                 placeholder=""
                 size="10"

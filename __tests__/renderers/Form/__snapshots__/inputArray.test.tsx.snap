@@ -117,6 +117,7 @@ exports[`Renderer:inputArray 1`] = `
                                           >
                                             <input
                                               autocomplete="off"
+                                              class=""
                                               name="flat"
                                               placeholder=""
                                               size="10"

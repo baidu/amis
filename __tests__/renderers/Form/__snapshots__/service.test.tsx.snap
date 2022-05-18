@@ -78,8 +78,8 @@ exports[`Renderer:service 1`] = `
                 class="cxd-Select-arrow"
               >
                 <icon-mock
-                  classname="icon icon-caret"
-                  icon="caret"
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
                 />
               </span>
             </div>
@@ -118,6 +118,7 @@ exports[`Renderer:service 1`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="dy_1"
                   placeholder=""
                   size="10"
@@ -152,6 +153,7 @@ exports[`Renderer:service 1`] = `
               >
                 <input
                   autocomplete="off"
+                  class=""
                   name="dy_2"
                   placeholder=""
                   size="10"
@@ -232,6 +234,7 @@ exports[`form:service:remoteData 1`] = `
           >
             <input
               autocomplete="off"
+              class=""
               name="child-a"
               placeholder=""
               size="10"
@@ -284,6 +287,7 @@ exports[`form:service:remoteSchmea+data 1`] = `
           >
             <input
               autocomplete="off"
+              class=""
               name="child-a"
               placeholder=""
               size="10"
@@ -305,6 +309,7 @@ exports[`form:service:remoteSchmea+data 1`] = `
           >
             <input
               autocomplete="off"
+              class=""
               name="child-b"
               placeholder=""
               size="10"
@@ -357,6 +362,7 @@ exports[`form:service:super-remoteData 1`] = `
           >
             <input
               autocomplete="off"
+              class=""
               name="child-a"
               placeholder=""
               size="10"

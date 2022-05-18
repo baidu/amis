@@ -54,6 +54,7 @@ exports[`Renderer:hbox 1`] = `
                   >
                     <input
                       autocomplete="off"
+                      class=""
                       name="text"
                       placeholder="Text"
                       size="10"

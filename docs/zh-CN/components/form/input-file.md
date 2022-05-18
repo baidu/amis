@@ -313,7 +313,9 @@ order: 21
 | startChunkApi    | [API](../../../docs/types/api) |                                                                                                            | startChunkApi                                                                                                                        |
 | chunkApi         | [API](../../../docs/types/api) |                                                                                                            | chunkApi                                                                                                                             |
 | finishChunkApi   | [API](../../../docs/types/api) |                                                                                                            | finishChunkApi                                                                                                                       |
-| concurrency      | `number`                       |                                                                                                            | 分块上传时并行个数                                                                                                                   |
+| concurrency      | `number`                       |                                                                                                            | 分块上传时并行个数    
+| documentation      | `string`                       |                                                                                                            | 文档内容
+| documentLink        | `string`                       |                                                                                                            | 文档链接                                                                                                               |
 
 ## 事件表
 
