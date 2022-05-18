@@ -82,6 +82,7 @@ import FormEventActionSchema from './EventAction/cmpt-event-action/FormEvent';
 import TransferEventSchema from './EventAction/cmpt-event-action/TransferEvent';
 import ServiceEventSchema from './EventAction/cmpt-event-action/ServiceEvent';
 import CarouselEventSchema from './EventAction/cmpt-event-action/CarouselEvent';
+import TableEventSchema from './EventAction/cmpt-event-action/TableEvent';
 import ReloadFormActionSchema from './EventAction/reload-action/ReloadForm';
 import ReloadSelectActionSchema from './EventAction/reload-action/ReloadSelect';
 import ReloadChartActionSchema from './EventAction/reload-action/ReloadChart';
@@ -695,6 +696,11 @@ export const examples = [
                 label: 'Service组件',
                 path: 'examples/event/service',
                 component: makeSchemaRenderer(ServiceEventSchema)
+              },
+              {
+                label: '表格组件',
+                path: 'examples/event/table',
+                component: makeSchemaRenderer(TableEventSchema)
               }
             ]
           },

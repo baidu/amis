@@ -47,7 +47,7 @@ export class TableRow extends React.Component<TableRowProps> {
     const rendererEvent = await dispatchEvent(
       'rowClick',
       createObject(data, {
-        item
+        rowItem: item?.data
       })
     );
 
@@ -119,6 +119,7 @@ export class TableRow extends React.Component<TableRowProps> {
       classnames: cx,
       parent,
       itemAction,
+      onEvent,
       ...rest
     } = this.props;
 
@@ -132,7 +133,7 @@ export class TableRow extends React.Component<TableRowProps> {
           data-id={item.id}
           data-index={item.newIndex}
           onClick={
-            checkOnItemClick || itemAction ? this.handleItemClick : undefined
+            checkOnItemClick || itemAction || onEvent?.rowClick ? this.handleItemClick : undefined
           }
           className={cx(itemClassName, {
             'is-hovered': item.isHover,
@@ -196,7 +197,7 @@ export class TableRow extends React.Component<TableRowProps> {
     return (
       <tr
         onClick={
-          checkOnItemClick || itemAction ? this.handleItemClick : undefined
+          checkOnItemClick || itemAction || onEvent?.rowClick ? this.handleItemClick : undefined
         }
         data-index={item.depth === 1 ? item.newIndex : undefined}
         data-id={item.id}
