@@ -278,12 +278,6 @@ export default {
       wrapperComponent: 'h1'
     },
     {
-      type: 'tpl',
-      tpl: '设置表格选中项',
-      inline: false,
-      wrapperComponent: 'h2'
-    },
-    {
       type: 'button-toolbar',
       className: 'm-b',
       buttons: [
