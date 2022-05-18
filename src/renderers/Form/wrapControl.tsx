@@ -16,7 +16,7 @@ import {
 } from '../../utils/helper';
 import {
   isNeedFormula,
-  isPriorityByValue,
+  isExpression,
   FormulaExec
 } from '../../utils/formula';
 import {IIRendererStore, IRendererStore} from '../../store';
@@ -203,7 +203,7 @@ export function wrapControl<
               model.changeTmpValue(propValue);
             } else {
               // 备注: 此处的 value 是 schema 中的 value（和props.defaultValue相同）
-              const curTmpValue = isPriorityByValue(value)
+              const curTmpValue = isExpression(value)
                 ? FormulaExec['formula'](value, data) // 对组件默认值进行运算
                 : store?.getValueByName(model.name) ?? value; // 优先使用公式表达式
               // 同步 value
@@ -333,7 +333,7 @@ export function wrapControl<
             } else if (
               model &&
               typeof props.defaultValue !== 'undefined' &&
-              isPriorityByValue(props.defaultValue)
+              isExpression(props.defaultValue)
             ) {
               // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
               if (

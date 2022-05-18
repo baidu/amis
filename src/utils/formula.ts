@@ -181,7 +181,10 @@ export function formulaExec(
     // 备注: 其他特殊格式，比如邮箱、日期
     return curValueTemp ?? curValue;
   } else if (curValue.startsWith('${') && curValue.endsWith('}')) {
-    // ${ xxx } 格式 使用 formula 表达式运算器
+    // ${ xxx } 格式 使用 formula 运算器
+    return FormulaExec['formula'](curValue, data);
+  } else if (isExpression(test)) {
+    // 表达式格式使用 formula 运算器
     return FormulaExec['formula'](curValue, data);
   } else if (/(\${).+(\})/.test(curValue)) {
     // 包含 ${ xxx } 则使用 tpl 运算器
@@ -206,12 +209,13 @@ export function registerFormulaExec(execMode: string, formulaExec: Function) {
 }
 
 // 用于判断是否优先使用value。
-export function isPriorityByValue(expression: any): boolean {
+export function isExpression(expression: any): boolean {
   if (!isString(expression)) {
     // 非字符串类型，比如：Object、Array类型、boolean、number类型
     return false;
   }
-  return /(\${).+(\})/.test(expression);
+  // 备注: "\\${xxx}"不作为表达式，至少含一个${xxx}才算是表达式
+  return /(?<!\\)(\${).+(\})+/.test(expression);
 }
 
 // 用于判断是否需要执行表达式:
