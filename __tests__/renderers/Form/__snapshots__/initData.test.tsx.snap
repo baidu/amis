@@ -165,6 +165,7 @@ exports[`Form:initData:remote 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="c"
                 placeholder=""
                 size="10"

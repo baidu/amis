@@ -28,17 +28,11 @@ import {collectVariables} from './grammar';
  * 5. var: 以此字符串作为key值从当前数据域data中获取数值；性能最高（运行期间不会生成ast和表达式运算）；
  * 6. true 或者 false: 当execMode设置为true时，不用 ${} 包裹也可以执行表达式；
  * 7. collect: 用于从表达式中获取所有变量；
- *
- * 备注1: 当 execMode 为true时，或者不设置 execMode（execMode 为 undefined 或者 null），OpenFormulaExecEvalModeStatus 为 true 时，会识别以特殊字符开头的表达式。
- *   其可识别的特殊前缀如下:
- *    1. 以'raw:'开头则直接返回原始字符串（返回前会剔除'raw:'）；
- *    2. 以'='开头则按新版公式表达式执行，同 formula 运算模式；
- *    3. 以`${formulaKey}:`开头，会使用 formulaExec[formulaKey] 运算模式。
- * 备注2: OpenFormulaExecEvalModeStatus 用于 控制 formulaExec execMode 的默认值，设置为 true 时，默认非 ${ xxx } 格式也启动表达式运算器；
- * 备注3: 用户也可以使用 registerFormulaExec 注册一个自定义运算器；
- * 备注4: 模板字符串 和 Javascript 模板引擎 不可以交叉使用；
- * 备注5: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现；
- * 备注6: 后续可考虑将 amis现有的运算器都放这里管理，充当统一的运算器入口。
+ * 
+ * 备注1: 用户也可以使用 registerFormulaExec 注册一个自定义运算器；
+ * 备注2: 模板字符串 和 Javascript 模板引擎 不可以交叉使用；
+ * 备注3: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现；
+ * 备注4: 后续可考虑将 amis现有的运算器都放这里管理，充当统一的运算器入口。
  */
 
 // 缓存，用于提升性能

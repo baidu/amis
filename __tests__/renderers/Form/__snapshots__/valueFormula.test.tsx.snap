@@ -57,6 +57,7 @@ exports[`Renderer:inputDate 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="test1"
                 placeholder=""
                 size="10"
@@ -91,6 +92,7 @@ exports[`Renderer:inputDate 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="test"
                 placeholder=""
                 size="10"
@@ -125,6 +127,7 @@ exports[`Renderer:inputDate 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="test1"
                 placeholder=""
                 size="10"
@@ -159,6 +162,7 @@ exports[`Renderer:inputDate 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="test4"
                 placeholder=""
                 size="10"
@@ -193,6 +197,7 @@ exports[`Renderer:inputDate 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="test5"
                 placeholder=""
                 size="10"
@@ -256,6 +261,7 @@ exports[`Renderer:inputDate 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="test6"
                 placeholder=""
                 size="10"
@@ -290,6 +296,7 @@ exports[`Renderer:inputDate 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="test7"
                 placeholder=""
                 size="10"
@@ -324,6 +331,7 @@ exports[`Renderer:inputDate 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="test8"
                 placeholder=""
                 size="10"
