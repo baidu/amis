@@ -1,6 +1,5 @@
 import isObjectByLodash from 'lodash/isObject';
 import isString from 'lodash/isString';
-import isArray from 'lodash/isArray';
 import isBoolean from 'lodash/isBoolean';
 import {
   getVariable,
@@ -156,19 +155,6 @@ export const FormulaExec: {
   }
 };
 
-// 用于 控制 formulaExec execMode，当设置为 true 时，非 ${ xxx } 格式也启动表达式运算器，且识别特殊前缀。
-let FormulaExecEvalModeDefaultStatus = false;
-
-export function updateFormulaExecEvalModeDefaultStatus(evalMode: boolean) {
-  FormulaExecEvalModeDefaultStatus = evalMode;
-}
-
-// 用于线上开启 OpenFormulaExecEvalMode，方便线上环境可以指定运算器类型进行debug。
-if (window && !(window as any).updateFormulaExecEvalModeDefaultStatus) {
-  (window as any).updateFormulaExecEvalModeDefaultStatus =
-    updateFormulaExecEvalModeDefaultStatus;
-}
-
 // 根据表达式类型自动匹配指定运算器，也可以通过设置 execMode 直接指定运算器
 export function formulaExec(
   value: any,
@@ -187,10 +173,6 @@ export function formulaExec(
     // 指定 execMode 可以直接选用对应的运算器
     curExecMode = execMode;
   }
-  if (FormulaExecEvalModeDefaultStatus) {
-    // FormulaExecEvalModeDefaultStatus 为 true 时，非 ${ xxx } 格式也启动表达式运算器
-    OpenFormulaExecEvalMode = FormulaExecEvalModeDefaultStatus; // 优先级比 evalMode 高
-  }
   if (!isString(value)) {
     // 非字符串类型，直接返回，比如：boolean、number类型、Object、Array类型
     return value;
@@ -199,19 +181,9 @@ export function formulaExec(
   }
 
   const curValue = value.trim(); // 剔除前后空格
-  const formulaKey = catchFormulaExecSign(curValue);
 
   // OpenFormulaExecEvalMode 为 true 时，非 ${ xxx } 格式也会尝试使用表达式运算器
-  if (OpenFormulaExecEvalMode && curValue.startsWith('raw:')) {
-    return curValue.substring(4);
-  } else if (OpenFormulaExecEvalMode && curValue.startsWith('=')) {
-    // 以'='开头启动 evalFormula 运算器
-    const curValueTemp = curValue.substring(1);
-    return FormulaExec['evalFormula'](curValueTemp, data);
-  } else if (OpenFormulaExecEvalMode && formulaKey) {
-    const curExpression = catchFormulaExecExpression(curValue, formulaKey);
-    return FormulaExec[formulaKey](curExpression, data);
-  } else if (OpenFormulaExecEvalMode && /^[0-9a-zA-z_]+$/.test(curValue)) {
+  if (OpenFormulaExecEvalMode && /^[0-9a-zA-z_]+$/.test(curValue)) {
     // 普通字符串类型（非表达式），先试一下从上下文中获取数据
     const curValueTemp = FormulaExec['var'](curValue, data);
     // 备注: 其他特殊格式，比如邮箱、日期
@@ -241,77 +213,12 @@ export function registerFormulaExec(execMode: string, formulaExec: Function) {
   }
 }
 
-function catchFormulaExecSign(expression: string): string {
-  if (expression && FormulaExec) {
-    for (
-      let index = 0,
-        curFormulaKeys = Object.keys(FormulaExec),
-        size = curFormulaKeys.length;
-      index < size;
-      index++
-    ) {
-      const formulaKey = curFormulaKeys[index];
-      if (expression.startsWith(`${formulaKey}:`)) {
-        return formulaKey;
-      }
-    }
-  }
-  return '';
-}
-
-function catchFormulaExecExpression(
-  expression: string,
-  formulaKey: string
-): string {
-  if (expression && formulaKey) {
-    return expression.substring(formulaKey.length + 1);
-  }
-  return '';
-}
-
-// 用于判断是否是普通数值:
-export function isPureValue(value: any) {
-  if (!isString(value)) {
-    // 非字符串类型，比如：Object、Array类型、boolean、number类型
-    return true;
-  } else if (
-    /^(\d{4})\-(\d{2})\-(\d{2})[ T](\d{2})(?:\:\d{2}|:(\d{2}):(\d{2}))(\+(\d{2}):(\d{2}))?$/.test(
-      value
-    ) ||
-    /^(\d{4})\-(\d{2})\-(\d{2})$/.test(value) ||
-    /^(\d{2})(?:\:\d{2}|:(\d{2}):(\d{2}))$/.test(value) ||
-    /^\$\{([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})\}$/.test(
-      value
-    )
-  ) {
-    // 日期类型、邮箱类型
-    return true;
-  } else {
-    return false;
-  }
-}
-
 // 用于判断是否优先使用value。
 export function isPriorityByValue(expression: any): boolean {
   if (!isString(expression)) {
     // 非字符串类型，比如：Object、Array类型、boolean、number类型
     return false;
   }
-
-  let OpenFormulaExecEvalMode = false;
-  if (FormulaExecEvalModeDefaultStatus) {
-    OpenFormulaExecEvalMode = FormulaExecEvalModeDefaultStatus;
-  }
-  const curValue = expression.trim();
-  const formulaKey = catchFormulaExecSign(curValue);
-  if (
-    OpenFormulaExecEvalMode &&
-    (curValue.startsWith('raw:') || curValue.startsWith('=') || formulaKey)
-  ) {
-    // 备注: 这里是为了和formulaExec保持一致
-    return true;
-  }
-
   return /(\${).+(\})/.test(expression);
 }
 

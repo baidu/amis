@@ -8,7 +8,6 @@ import {ComboStore, IComboStore, IUniqueGroup} from '../../store/combo';
 import {
   anyChanged,
   promisify,
-  isObject,
   guid,
   isEmpty,
   autobind,
@@ -18,7 +17,6 @@ import {
 import {
   formulaExec,
   isNeedFormula,
-  isPureValue,
   isPriorityByValue
 } from '../../utils/formula';
 import {IIRendererStore, IRendererStore} from '../../store';
@@ -206,12 +204,9 @@ export function wrapControl<
             } else {
               // 备注: 此处的 value 是 schema 中的 value（和props.defaultValue相同）
               const valueByName = store?.getValueByName(model.name);
-              const curValue = isPureValue(value)
-                ? value
-                : formulaExec(value, data, false); // 对组件默认值进行运算
               const curTmpValue = isPriorityByValue(value)
-                ? curValue
-                : valueByName ?? curValue; // 优先使用公式表达式
+                ? formulaExec(value, data, false) // 对组件默认值进行运算
+                : valueByName ?? value; // 优先使用公式表达式
               // 同步 value
               model.changeTmpValue(curTmpValue);
 
