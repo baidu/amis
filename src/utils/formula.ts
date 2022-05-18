@@ -185,7 +185,7 @@ export function formulaExec(
     return FormulaExec['formula'](curValue, data);
   } else if (/(\${).+(\})/.test(curValue)) {
     // 包含 ${ xxx } 则使用 tpl 运算器
-    return FormulaExec['tpl'](curValue, data);
+    return FormulaExec['formula'](curValue, data); // tpl 改成 formula，避免识别 <% %> 语法
   } else if (OpenFormulaExecEvalMode) {
     // 支持 ${} 和 非 ${} 表达式
     return FormulaExec['evalFormula'](curValue, data);
