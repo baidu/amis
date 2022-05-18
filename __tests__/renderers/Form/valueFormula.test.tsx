@@ -225,7 +225,7 @@ test('ValueFromula: case2', async () => {
   expect(onSubmit.mock.calls[0][0].test2).toBe('${test.a} - 234');
   expect(onSubmit.mock.calls[0][0].test3).toBe('<%= data.test.a %>');
   expect(onSubmit.mock.calls[0][0].test4).toBe(
-    '<%= data.test.a %> 不应该支持即便是有 \\${test.a} 混用'
+    '<%= data.test.a %> 不应该支持即便是有 ${test.a} 混用'
   );
   expect(onSubmit.mock.calls[0][0].test5).toBe(
     '<%= data.test.a %> 不应该支持即便是有 123 混用'

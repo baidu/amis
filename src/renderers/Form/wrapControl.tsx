@@ -17,7 +17,8 @@ import {
 import {
   isNeedFormula,
   isExpression,
-  FormulaExec
+  FormulaExec,
+  replaceExpression
 } from '../../utils/formula';
 import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
@@ -205,7 +206,7 @@ export function wrapControl<
               // 备注: 此处的 value 是 schema 中的 value（和props.defaultValue相同）
               const curTmpValue = isExpression(value)
                 ? FormulaExec['formula'](value, data) // 对组件默认值进行运算
-                : store?.getValueByName(model.name) ?? value; // 优先使用公式表达式
+                : store?.getValueByName(model.name) ?? replaceExpression(value); // 优先使用公式表达式
               // 同步 value
               model.changeTmpValue(curTmpValue);
 
@@ -387,9 +388,10 @@ export function wrapControl<
                 props.defaultValue !== model.tmpValue
               ) {
                 // 组件默认值非公式
-                model.changeTmpValue(props.defaultValue);
+                const curValue = replaceExpression(props.defaultValue);
+                model.changeTmpValue(curValue);
                 if (props.onChange) {
-                  props.onChange(props.defaultValue, model.name, false);
+                  props.onChange(curValue, model.name, false);
                 }
               }
             }

@@ -21,9 +21,17 @@ function traverseAst(ast: any, iterator: (ast: any) => void) {
     }
   });
 }
+
+// 缓存，用于提升性能
+const COLLECT_EXPRESSION_CACHE: {[key: string]: Array<string>} = {};
+
 // 提取表达式中有哪些变量
 export function collectVariables(strOrAst: string | Object, execMode?: boolean): Array<string> {
   const variables: Array<string> = [];
+
+  if (typeof strOrAst === 'string' && COLLECT_EXPRESSION_CACHE[strOrAst]) {
+    return COLLECT_EXPRESSION_CACHE[strOrAst];
+  }
   const ast =
     typeof strOrAst === 'string'
       ? parse(strOrAst, {
@@ -36,6 +44,10 @@ export function collectVariables(strOrAst: string | Object, execMode?: boolean):
       variables.push(item.name);
     }
   });
+
+  if (typeof strOrAst === 'string') {
+    COLLECT_EXPRESSION_CACHE[strOrAst] = variables;
+  }
 
   return variables;
 }

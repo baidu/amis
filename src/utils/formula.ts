@@ -230,3 +230,15 @@ export function isNeedFormula(
       FormulaExec.var(variable, prevData) !== FormulaExec.var(variable, curData)
   );
 }
+
+// 将 \${xx} 替换成 ${xx}
+export function replaceExpression(expression: any): any {
+  if (!isString(expression)) {
+    // 非字符串类型，比如：Object、Array类型、boolean、number类型，以及 undefined
+    return expression;
+  }
+  if (expression && expression.replaceAll) {
+    return expression.replaceAll('\\${', '${');
+  }
+  return expression;
+}
