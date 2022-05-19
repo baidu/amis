@@ -592,7 +592,7 @@ test('Renderer:select associated', () => {
 });
 
 test('Renderer:select virtual', async () => {
-  const options = [...Array(300)].map((_, i) => {
+  const options = [...Array(200)].map((_, i) => {
     return 'option' + i;
   });
 
