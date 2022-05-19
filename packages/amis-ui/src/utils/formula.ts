@@ -28,7 +28,7 @@ import {collectVariables} from './grammar';
  * 5. var: 以此字符串作为key值从当前数据域data中获取数值；性能最高（运行期间不会生成ast和表达式运算）；
  * 6. true 或者 false: 当execMode设置为true时，不用 ${} 包裹也可以执行表达式；
  * 7. collect: 用于从表达式中获取所有变量；
- * 
+ *
  * 备注1: 用户也可以使用 registerFormulaExec 注册一个自定义运算器；
  * 备注2: 模板字符串 和 Javascript 模板引擎 不可以交叉使用；
  * 备注3: amis 现有的 evalFormula 方法，可执行 ${} 格式类表达式，但不支持 filter 过滤器，所以这里用 resolveValueByName 实现；
@@ -169,7 +169,7 @@ export function formulaExec(
     // 非字符串类型，直接返回，比如：boolean、number类型、Object、Array类型
     return value;
   } else if (curExecMode && FormulaExec[curExecMode]) {
-    return FormulaExec[curExecMode](value, data);;
+    return FormulaExec[curExecMode](value, data);
   }
 
   const curValue = value.trim(); // 剔除前后空格
@@ -215,8 +215,8 @@ export function isExpression(expression: any): boolean {
     return false;
   }
   // 备注1: "\\${xxx}"不作为表达式，至少含一个${xxx}才算是表达式
-  
-  // 备注2: safari 不支持 /(?<!\\)(\${).+(\})/.test(expression) 
+
+  // 备注2: safari 不支持 /(?<!\\)(\${).+(\})/.test(expression)
   return /(^|[^\\])\$\{.+\}/.test(expression);
 }
 
@@ -235,7 +235,11 @@ export function isNeedFormula(
 
 // 将 \${xx} 替换成 ${xx}
 export function replaceExpression(expression: any): any {
-  if (expression && isString(expression) && /(\\)(\${).+(\})/.test(expression)) {
+  if (
+    expression &&
+    isString(expression) &&
+    /(\\)(\${).+(\})/.test(expression)
+  ) {
     return expression.replace(/\\\$\{/g, '${');
   }
   return expression;
