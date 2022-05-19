@@ -1635,13 +1635,8 @@ export default class ImageControl extends React.Component<
                           />
                         ) : (
                           <>
-<<<<<<< HEAD
-                            <Icon icon="plus" className="icon" />
-                            <span>{__('Image.upload')}</span>
-=======
                             <Icon icon="plus-fine" className="icon" />
-                            <span className={cx('ImageControl-addBtn-text')}>{__('File.upload')}</span>
->>>>>>> master
+                            <span className={cx('ImageControl-addBtn-text')}>{__('Image.upload')}</span>
                           </>
                         )}
 
