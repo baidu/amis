@@ -1599,7 +1599,7 @@ exports[`Renderer:select virtual 1`] = `
                         class="cxd-Select-option"
                         id="downshift-1-item-0"
                         role="option"
-                        style="position: absolute; top: 0px; left: 0px; width: 100%; height: 35px;"
+                        style="position: absolute; top: 0px; left: 0px; width: auto; height: 35px;"
                       >
                         <span>
                           option0
@@ -1610,7 +1610,7 @@ exports[`Renderer:select virtual 1`] = `
                         class="cxd-Select-option"
                         id="downshift-1-item-1"
                         role="option"
-                        style="position: absolute; top: 35px; left: 0px; width: 100%; height: 35px;"
+                        style="position: absolute; top: 35px; left: 0px; width: auto; height: 35px;"
                       >
                         <span>
                           option1
@@ -1621,7 +1621,7 @@ exports[`Renderer:select virtual 1`] = `
                         class="cxd-Select-option"
                         id="downshift-1-item-2"
                         role="option"
-                        style="position: absolute; top: 70px; left: 0px; width: 100%; height: 35px;"
+                        style="position: absolute; top: 70px; left: 0px; width: auto; height: 35px;"
                       >
                         <span>
                           option2
@@ -1632,7 +1632,7 @@ exports[`Renderer:select virtual 1`] = `
                         class="cxd-Select-option"
                         id="downshift-1-item-3"
                         role="option"
-                        style="position: absolute; top: 105px; left: 0px; width: 100%; height: 35px;"
+                        style="position: absolute; top: 105px; left: 0px; width: auto; height: 35px;"
                       >
                         <span>
                           option3
@@ -1643,7 +1643,7 @@ exports[`Renderer:select virtual 1`] = `
                         class="cxd-Select-option"
                         id="downshift-1-item-4"
                         role="option"
-                        style="position: absolute; top: 140px; left: 0px; width: 100%; height: 35px;"
+                        style="position: absolute; top: 140px; left: 0px; width: auto; height: 35px;"
                       >
                         <span>
                           option4
@@ -1654,7 +1654,7 @@ exports[`Renderer:select virtual 1`] = `
                         class="cxd-Select-option"
                         id="downshift-1-item-5"
                         role="option"
-                        style="position: absolute; top: 175px; left: 0px; width: 100%; height: 35px;"
+                        style="position: absolute; top: 175px; left: 0px; width: auto; height: 35px;"
                       >
                         <span>
                           option5
@@ -1665,7 +1665,7 @@ exports[`Renderer:select virtual 1`] = `
                         class="cxd-Select-option"
                         id="downshift-1-item-6"
                         role="option"
-                        style="position: absolute; top: 210px; left: 0px; width: 100%; height: 35px;"
+                        style="position: absolute; top: 210px; left: 0px; width: auto; height: 35px;"
                       >
                         <span>
                           option6
@@ -1676,7 +1676,7 @@ exports[`Renderer:select virtual 1`] = `
                         class="cxd-Select-option"
                         id="downshift-1-item-7"
                         role="option"
-                        style="position: absolute; top: 245px; left: 0px; width: 100%; height: 35px;"
+                        style="position: absolute; top: 245px; left: 0px; width: auto; height: 35px;"
                       >
                         <span>
                           option7
@@ -1687,7 +1687,7 @@ exports[`Renderer:select virtual 1`] = `
                         class="cxd-Select-option"
                         id="downshift-1-item-8"
                         role="option"
-                        style="position: absolute; top: 280px; left: 0px; width: 100%; height: 35px;"
+                        style="position: absolute; top: 280px; left: 0px; width: auto; height: 35px;"
                       >
                         <span>
                           option8
@@ -1698,7 +1698,7 @@ exports[`Renderer:select virtual 1`] = `
                         class="cxd-Select-option"
                         id="downshift-1-item-9"
                         role="option"
-                        style="position: absolute; top: 315px; left: 0px; width: 100%; height: 35px;"
+                        style="position: absolute; top: 315px; left: 0px; width: auto; height: 35px;"
                       >
                         <span>
                           option9
@@ -1709,7 +1709,7 @@ exports[`Renderer:select virtual 1`] = `
                         class="cxd-Select-option"
                         id="downshift-1-item-10"
                         role="option"
-                        style="position: absolute; top: 350px; left: 0px; width: 100%; height: 35px;"
+                        style="position: absolute; top: 350px; left: 0px; width: auto; height: 35px;"
                       >
                         <span>
                           option10
