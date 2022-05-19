@@ -126,10 +126,12 @@ register('en-US', {
   'File.failed': 'Failed files.',
   'File.invalidType': '{{files}} does not match type `{{accept}}`',
   'File.maxLength': 'The maximum limit is {{maxLength}}',
-  'File.maxSize': '{{filename}} you selected exceeds the maximum limit of {{maxsize}} (in bytes)',
+  'File.maxSize':
+    '{{filename}} you selected exceeds the maximum limit of {{maxsize}} (in bytes)',
   'File.pause': 'Pause uplaod',
   'File.repick': 'Repick',
-  'File.result': 'Successfully uploaded {{uploaded}} files, failed to upload {{failed}} files',
+  'File.result':
+    'Successfully uploaded {{uploaded}} files, failed to upload {{failed}} files',
   'File.retry': 'Retry',
   'File.sizeLimit': 'The maximum file size is {{maxSize}} B',
   'File.start': 'Start upload',
@@ -154,7 +156,8 @@ register('en-US', {
   'Image.pasteTip': 'You can paste image from the clipboard',
   'Image.placeholder': 'Click to select image or drag into this area',
   'Image.size': 'size: ({{width}}px x {{height}}px)',
-  'Image.sizeNotEqual': 'The image you selected does not meet the size requirements {{info}}',
+  'Image.sizeNotEqual':
+    'The image you selected does not meet the size requirements {{info}}',
   'Image.width': 'width: {{width}}px',
   'Image.zoomIn': 'Zoom In',
   'Log.mustHaveSource': 'Must have source in config',
@@ -212,7 +215,8 @@ register('en-US', {
   'Table.dragTip': 'Drag the button on the left to sort',
   'Table.editing': 'You should finished editing',
   'Table.editRow': 'Edit current row',
-  'Table.modified': 'There are {{modified}} records have been modified, you can:',
+  'Table.modified':
+    'There are {{modified}} records have been modified, you can:',
   'Table.moved': 'There are {{moved}} records changed the order, you can:',
   'Table.operation': 'Operation',
   'Table.playload': 'Must have playload',
@@ -256,9 +260,11 @@ register('en-US', {
   'validate.isWords': 'Please enter word',
   'validate.isZipcode': 'invalid postal address',
   'validate.lt': 'Please enter a value less than $1',
-  'validate.matchRegexp': 'The format is not correct. Please enter the content with the rule `${1| raw}`.',
+  'validate.matchRegexp':
+    'The format is not correct. Please enter the content with the rule `${1| raw}`.',
   'validate.maximum': 'The input value exceeds the maximum value of $1',
-  'validate.maxLength': 'Please control the content length, do not enter more than $1 letters',
+  'validate.maxLength':
+    'Please control the content length, do not enter more than $1 letters',
   'validate.minimum': 'The input value is lower than the minimum value of $1',
   'validate.minLength': 'Please enter more, at least $1 characters.',
   'validate.notEmptyString': 'Please do not enter all blank characters',
