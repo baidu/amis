@@ -224,11 +224,6 @@ export interface TableSchema extends BaseSchema {
   placeholder?: string | SchemaTpl;
 
   /**
-   * 无数据展示 icon
-   */
-  emptyIcon?: string | SchemaIcon;
-
-  /**
    * 是否显示底部
    */
   showFooter?: boolean;
@@ -365,6 +360,7 @@ export interface TableProps extends RendererProps {
   canAccessSuperData?: boolean;
   reUseRow?: boolean;
   itemBadge?: BadgeSchema;
+  loading?: boolean;
 }
 
 export type ExportExcelToolbar = SchemaNode & {
@@ -2638,9 +2634,9 @@ export default class Table extends React.Component<TableProps, object> {
       prefixRowClassName,
       autoFillHeight,
       itemActions,
-      emptyIcon,
       dispatchEvent,
-      onEvent
+      onEvent,
+      loading
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2663,7 +2659,6 @@ export default class Table extends React.Component<TableProps, object> {
         columnsGroup={store.columnGroup}
         rows={store.rows}
         placeholder={placeholder}
-        emptyIcon={emptyIcon}
         render={render}
         onMouseMove={this.handleMouseMove}
         onScroll={this.handleOutterScroll}
@@ -2688,6 +2683,7 @@ export default class Table extends React.Component<TableProps, object> {
         translate={translate}
         dispatchEvent={dispatchEvent}
         onEvent={onEvent}
+        loading={loading}
       />
     );
   }
