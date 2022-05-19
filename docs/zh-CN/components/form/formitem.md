@@ -505,14 +505,14 @@ order: 1
       "type": "input-text",
       "label": "test1",
       "name": "test1",
-      "value": "\\${name}"
+      "value": "\\${name}",
       "description": "显示输出纯文本 ${xxx}"
     },
     {
       "type": "input-text",
       "label": "test2",
       "name": "test2",
-      "value": "my name is \\${name}"
+      "value": "my name is \\${name}",
       "description": "显示输出纯文本 ${xxx}"
     }
   ]
