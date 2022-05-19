@@ -134,6 +134,7 @@ register('en-US', {
   'File.sizeLimit': 'The maximum file size is {{maxSize}} B',
   'File.start': 'Start upload',
   'File.upload': 'Upload',
+  'Image.upload': 'Upload image',
   'File.uploadFailed': 'return data of udpload api is empty',
   'File.uploading': 'Uploading',
   'FormItem.autoUpdateloadFaild': 'return data of autoUpdate api is error',
@@ -335,5 +336,5 @@ register('en-US', {
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
   'JSONSchema.array_items': 'Items',
-  'TimeNow': 'Now',
+  'TimeNow': 'Now'
 });

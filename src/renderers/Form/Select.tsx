@@ -95,6 +95,21 @@ export interface SelectControlSchema extends FormOptionsControl {
    * 在选项数量达到多少时开启虚拟渲染
    */
   virtualThreshold?: number;
+
+  /**
+   * 可多选条件下，是否可全选
+   */
+  checkAll?: boolean;
+
+  /**
+   * 可多选条件下，是否默认全选中所有值
+   */
+  defaultCheckAll?: boolean;
+
+  /**
+   * 可多选条件下，全选项文案，默认 ”全选“
+   */
+  checkAllLabel?: string;
 }
 
 export interface SelectProps extends OptionsControlProps {

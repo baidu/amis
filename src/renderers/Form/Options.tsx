@@ -935,6 +935,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             type: 'text',
             name: labelField || 'label',
             label: false,
+            required: true,
             placeholder: __('Options.addPlaceholder')
           }
         ];

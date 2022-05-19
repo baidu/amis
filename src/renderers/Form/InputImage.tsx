@@ -1569,7 +1569,7 @@ export default class ImageControl extends React.Component<
                                           />
                                         </a>
                                       ) : null}
-        
+
                                       {!disabled ? (
                                         <a
                                           data-tooltip={__('Select.clear')}
@@ -1636,7 +1636,9 @@ export default class ImageControl extends React.Component<
                         ) : (
                           <>
                             <Icon icon="plus-fine" className="icon" />
-                            <span className={cx('ImageControl-addBtn-text')}>{__('File.upload')}</span>
+                            <span className={cx('ImageControl-addBtn-text')}>
+                              {__('Image.upload')}
+                            </span>
                           </>
                         )}
 
