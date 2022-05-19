@@ -2159,10 +2159,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           }
         )}
 
-        {
-          // table 组件中单独增加 loading 状态，否则单独使用 table 会缺失 loading
-          mode && mode !== 'table' ? <Spinner overlay size="lg" key="info" show={store.loading} /> : null
-        }
+        <Spinner overlay size="lg" key="info" show={store.loading} />
 
         {render(
           'dialog',

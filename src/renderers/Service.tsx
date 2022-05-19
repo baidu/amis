@@ -559,6 +559,7 @@ export default class Service extends React.Component<ServiceProps> {
 
     return render('body', store.schema || schema, {
       key: store.schemaKey || 'body',
+      loading: store.loading,
       onQuery: this.handleQuery,
       onAction: this.handleAction,
       onChange: this.handleChange

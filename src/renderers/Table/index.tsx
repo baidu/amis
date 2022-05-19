@@ -7,7 +7,6 @@ import forEach from 'lodash/forEach';
 import {evalExpression, filter} from '../../utils/tpl';
 import Checkbox from '../../components/Checkbox';
 import Button from '../../components/Button';
-import {Spinner} from '../../components';
 import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
 import {
   anyChanged,
@@ -2740,6 +2739,8 @@ export default class Table extends React.Component<TableProps, object> {
       loading
     } = this.props;
 
+    console.log('loading', loading);
+
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
     const heading = this.renderHeading();
     const header = this.renderHeader();
@@ -2794,7 +2795,6 @@ export default class Table extends React.Component<TableProps, object> {
         </div>
         {this.renderAffixHeader(tableClassName)}
         {footer}
-        <Spinner overlay size="lg" key="info" show={!!loading} />
       </div>
     );
   }
