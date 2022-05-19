@@ -12,6 +12,9 @@ import {filter} from './utils/tpl';
 import qs from 'qs';
 import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
+import {saveAs} from 'file-saver';
+import {normalizeApi} from './utils/api';
+import {AjaxActionSchema} from './renderers/Action';
 
 export interface RootRendererProps extends RootProps {
   location?: any;
@@ -218,6 +221,17 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         env.copy(filter(action.content || action.copy, ctx, '| raw'), {
           format: action.copyFormat
         });
+    } else if (action.actionType === 'saveAs') {
+      // 使用 saveAs 实现下载
+      // 不支持 env，除非以后将 saveAs 代码拷过来改
+      const api = normalizeApi((action as AjaxActionSchema).api);
+      if (typeof api.url === 'string') {
+        let fileName = action.fileName || 'data.txt';
+        if (api.url.indexOf('.') !== -1) {
+          fileName = api.url.split('/').pop();
+        }
+        saveAs(api.url, fileName);
+      }
     }
   }
 

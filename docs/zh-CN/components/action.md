@@ -354,6 +354,35 @@ Content-Disposition: attachment; filename="download.pdf"
 Access-Control-Expose-Headers:  Content-Disposition
 ```
 
+## 保存到本地
+
+> 1.10.0 及以上版本
+
+和前面的下载接口功能类似，但不需要返回 `Content-Disposition` header，只需要解决跨域问题，主要用于一些简单的场景，比如下载文本
+
+```schema: scope="body"
+{
+    "label": "保存",
+    "type": "action",
+    "actionType": "saveAs",
+    "api": "/api/download"
+}
+```
+
+> 这个功能目前还没用到 env 里的 fetcher 方法，不支持 POST
+
+默认会自动取 url 中的文件名，如果没有的话就需要指定，比如
+
+```schema: scope="body"
+{
+    "label": "保存",
+    "type": "action",
+    "actionType": "saveAs",
+    "fileName": "下载的文件名",
+    "api": "/api/download"
+}
+```
+
 ## 倒计时
 
 主要用于发验证码的场景，通过设置倒计时 `countDown`（单位是秒），让点击按钮后禁用一段时间：

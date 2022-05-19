@@ -184,6 +184,14 @@ export interface DownloadActionSchema
   actionType: 'download';
 }
 
+export interface SaveAsActionSchema
+  extends Omit<AjaxActionSchema, 'actionType'> {
+  /**
+   * 指定为保存到本地
+   */
+  actionType: 'saveAs';
+}
+
 export interface UrlActionSchema extends ButtonSchema {
   /**
    * 指定为打开链接
