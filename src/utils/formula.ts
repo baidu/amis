@@ -234,7 +234,7 @@ export function isNeedFormula(
 // 将 \${xx} 替换成 ${xx}
 export function replaceExpression(expression: any): any {
   if (expression && isString(expression) && /(\\)(\${).+(\})/.test(expression)) {
-    return expression.replaceAll('\\${', '${');
+    return expression.replace(/\\\$\{/g, '${');
   }
   return expression;
 }

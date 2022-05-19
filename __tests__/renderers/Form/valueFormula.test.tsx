@@ -136,7 +136,7 @@ test('Renderer:inputDate', async () => {
   expect(container).toMatchSnapshot();
 });
 
-test('ValueFromula: case2', async () => {
+test('ValueFormula: case2', async () => {
   const onSubmit = jest.fn();
 
   const {container, getByText} = render(
@@ -235,7 +235,7 @@ test('ValueFromula: case2', async () => {
   expect(onSubmit.mock.calls[0][0].varb).toBe('234');
 });
 
-test('ValueFromula: case3', async () => {
+test('ValueFormula: case3', async () => {
   const {container, getByText} = render(
     amisRender(
       {
