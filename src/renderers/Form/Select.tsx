@@ -85,6 +85,18 @@ export interface SelectControlSchema extends FormOptionsControl {
    * 搜索 API
    */
   searchApi?: SchemaApi;
+  /**
+   * 可多选条件下，是否可全选
+   */
+  checkAll?: boolean;
+  /**
+   * 可多选条件下，是否默认全选中所有值
+   */
+  defaultCheckAll?: boolean;
+  /**
+   * 可多选条件下，全选项文案，默认 ”全选“
+   */
+  checkAllLabel?: string;
 }
 
 export interface SelectProps extends OptionsControlProps {
@@ -412,9 +424,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             onFocus={(e: any) => this.dispatchEvent('focus', e)}
             onAdd={() => this.dispatchEvent('add')}
             onEdit={(item: any) => this.dispatchEvent('edit', item)}
-            onDelete={(item: any) =>
-              this.dispatchEvent('delete', item)
-            }
+            onDelete={(item: any) => this.dispatchEvent('delete', item)}
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}
