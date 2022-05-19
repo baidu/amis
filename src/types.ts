@@ -85,6 +85,7 @@ export interface Action extends Button {
     | 'copy'
     | 'reload'
     | 'ajax'
+    | 'saveAs'
     | 'dialog'
     | 'drawer'
     | 'jump'
