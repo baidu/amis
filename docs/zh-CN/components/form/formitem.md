@@ -370,26 +370,125 @@ order: 1
 }
 ```
 
-`value`不支持数据映射，也就是说不可以直接配置类似于这样的语法：`${xxx}`，如果想要映射当前数据域中的某个变量，那么设置该表单项`name`为该变量名就行，如下：
+`value`支持表达式，也就是说可以直接配置类似于这样的语法：`${xxx}`，如果想要获取当前数据域中的某个变量，可以设置该表单项`value`为`${name1}`，如下：
 
 ```schema: scope="body"
 {
   "type": "form",
   "data":{
-    "text": "hello world!"
+    "name1": "hello world!"
   },
   "body": [
     {
       "type": "input-text",
       "label": "text",
-      "name": "text",
-      "description": "拥有默认值的 text"
+      "name": "test1",
+      "value": "${name1}",
+      "description": "默认值支持表达式"
     }
   ]
 }
 ```
 
-上例中我们表单数据域中有变量`"text": "hello world!"`，然后我们设置表达项`"name": "text"`，这样就可以自动映射值了。
+`value`也支持表达式运算，可以配置类似于这样的语法：`${num1 + 2}`，如下：
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "input-number",
+      "label": "num1",
+      "name": "num1",
+      "value": "123"
+    },
+    {
+      "type": "input-text",
+      "label": "text",
+      "name": "test1",
+      "value": "${num1 + 2}",
+      "description": "默认值支持表达式运算"
+    }
+  ]
+}
+```
+
+`value`表达式支持[namespace](../../../docs/concepts/data-mapping#namespace)，可以配置类似于这样的语法：`${window:document.title}`，意思是从全局变量中取页面的标题。如下：
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "input-text",
+      "label": "text",
+      "name": "test1",
+      "value": "${window:document.title}",
+      "description": "默认值表达式支持namespace"
+    }
+  ]
+}
+```
+
+备注: value表达式（${xxx}）支持 模板字符串、链式取值、过滤器，详细用法参考[数据映射](../../../docs/concepts/data-mapping)。
+
+我们也可以不设置value表达式，通过 name 来映射当前数据域中某个字段。比如我们表单数据域中有变量`"text1": "hello world!"`，然后我们设置表达项`"name": "text1"`，这样就可以自动映射值了。如下：
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data":{
+    "text1": "hello world!"
+  },
+  "body": [
+    {
+      "type": "input-text",
+      "label": "text",
+      "name": "text1",
+      "description": "关联数据域中的text1"
+    }
+  ]
+}
+```
+
+关于优先级问题，当我们同时设置了value表达式（${xxx}）和name值映射，会优先使用value表达式（${xxx}）。只有当value为普通字符串（非${xxx}）时，才会使用name值映射。如下：
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data":{
+    "text1": "hello world!"
+  },
+  "body": [
+    {
+      "type": "input-text",
+      "label": "text0",
+      "name": "text0",
+      "value": "123",
+      "description": "普通value默认值"
+    },
+    {
+      "type": "input-text",
+      "label": "test1",
+      "name": "text1",
+      "description": "关联数据域中的text1"
+    },
+    {
+      "type": "input-text",
+      "label": "test2",
+      "name": "text1",
+      "value": "123",
+      "description": "非value表达式（${xxx}），则优先使用name映射"
+    },
+    {
+      "type": "input-text",
+      "label": "test3",
+      "name": "text1",
+      "value": "${text0}",
+      "description": "value表达式（${xxx}）优先级最高"
+    }
+  ]
+}
 
 ## 隐藏时删除表单项值
 
