@@ -432,7 +432,7 @@ order: 1
 }
 ```
 
-备注: value表达式（`${xxx}`）支持 模板字符串、链式取值、过滤器，详细用法参考[数据映射](../../../docs/concepts/data-mapping)。
+**tip：** value表达式（`${xxx}`）支持 模板字符串、链式取值、过滤器，详细用法参考[数据映射](../../../docs/concepts/data-mapping)。
 
 我们也可以不设置value表达式，通过 name 来映射当前数据域中某个字段。比如我们表单数据域中有变量`"text1": "hello world!"`，然后我们设置表达项`"name": "text1"`，这样就可以自动映射值了。如下：
 
@@ -453,13 +453,15 @@ order: 1
 }
 ```
 
-关于优先级问题，当我们同时设置了value表达式（`${xxx}`）和name值映射，会优先使用value表达式（`${xxx}`）。只有当value为普通字符串（`非${xxx}`）时，才会使用name值映射。如下：
+关于优先级问题，当我们同时设置了value表达式`${xxx}`和`name`值映射，会优先使用value表达式`${xxx}`。只有当value为普通字符串`非${xxx}`时，才会使用`name`值映射。如下：
 
 ```schema: scope="body"
 {
   "type": "form",
   "data":{
-    "item1": "hello world!"
+    "item1": "hello world!",
+    "item2": "hello amis!",
+    "item3": "hello amis-editor!"
   },
   "body": [
     {
@@ -478,16 +480,40 @@ order: 1
     {
       "type": "input-text",
       "label": "test3",
-      "name": "item1",
+      "name": "item2",
       "value": "345",
       "description": "非value表达式（\\${xxx}），则优先使用name映射"
     },
     {
       "type": "input-text",
       "label": "test4",
-      "name": "item1",
+      "name": "item3",
       "value": "${test1}",
       "description": "value表达式（\\${xxx}）优先级最高"
+    }
+  ]
+}
+```
+
+**tip：** 默认在解析表达式时，遇到`$`字符会尝试去解析该变量并替换成对应变量，如果你想输出纯文本`"${xxx}"`，那么需要在`$`前加转义字符`"\\"`，即`"\\${xxx}"`，如下所示：
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "input-text",
+      "label": "test1",
+      "name": "test1",
+      "value": "\\${name}"
+      "description": "显示输出纯文本 ${xxx}"
+    },
+    {
+      "type": "input-text",
+      "label": "test2",
+      "name": "test2",
+      "value": "my name is \\${name}"
+      "description": "显示输出纯文本 ${xxx}"
     }
   ]
 }
