@@ -2735,11 +2735,8 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       affixColumns,
       autoFillHeight,
-      autoGenerateFilter,
-      loading
+      autoGenerateFilter
     } = this.props;
-
-    console.log('loading', loading);
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
     const heading = this.renderHeading();
