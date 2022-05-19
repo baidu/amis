@@ -1124,10 +1124,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
         isOpen={this.state.isOpen}
         inputValue={inputValue}
         onChange={
-          /*展示 Checkbox 的时候，会出发多次 onChange 原因待查*/ multiple ||
-          checkAll
-            ? noop
-            : this.handleChange
+          /*展示 Checkbox 的时候，会出发多次 onChange 原因待查*/
+          multiple ? noop : this.handleChange
         }
         onStateChange={this.handleStateChange}
         itemToString={item => (item ? `${item[labelField]}` : '')}
