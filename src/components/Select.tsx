@@ -385,7 +385,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     checkAllLabel: 'Select.checkAll',
     defaultCheckAll: false,
     overlayPlacement: 'auto',
-    virtualThreshold: 200
+    virtualThreshold: 100
   };
 
   input: HTMLInputElement;
