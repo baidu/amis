@@ -224,11 +224,6 @@ export interface TableSchema extends BaseSchema {
   placeholder?: string | SchemaTpl;
 
   /**
-   * 无数据展示 icon
-   */
-  emptyIcon?: string | SchemaIcon;
-
-  /**
    * 是否显示底部
    */
   showFooter?: boolean;
@@ -2639,7 +2634,6 @@ export default class Table extends React.Component<TableProps, object> {
       prefixRowClassName,
       autoFillHeight,
       itemActions,
-      emptyIcon,
       dispatchEvent,
       onEvent,
       loading
@@ -2665,7 +2659,6 @@ export default class Table extends React.Component<TableProps, object> {
         columnsGroup={store.columnGroup}
         rows={store.rows}
         placeholder={placeholder}
-        emptyIcon={emptyIcon}
         render={render}
         onMouseMove={this.handleMouseMove}
         onScroll={this.handleOutterScroll}

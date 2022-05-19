@@ -7,8 +7,7 @@ import {LocaleProps} from '../../locale';
 import {observer} from 'mobx-react';
 import {ActionSchema} from '../Action';
 import ItemActionsWrapper from './ItemActionsWrapper';
-import {SchemaTpl, SchemaIcon} from '../../Schema';
-import {generateIcon} from '../../utils/icon';
+import {SchemaTpl} from '../../Schema';
 import {Icon} from '../../components/icons';
 import {OnEventProps} from '../../utils/renderer-event';
 
@@ -26,7 +25,6 @@ export interface TableContentProps extends LocaleProps {
   }>;
   rows: Array<IRow>;
   placeholder?: string | SchemaTpl;
-  emptyIcon?: SchemaIcon;
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
   onMouseMove: (event: React.MouseEvent) => void;
   onScroll: (event: React.UIEvent) => void;
@@ -132,7 +130,6 @@ export class TableContent extends React.Component<TableContentProps> {
       itemAction,
       affixRow,
       store,
-      emptyIcon,
       dispatchEvent,
       onEvent,
       loading
@@ -140,22 +137,6 @@ export class TableContent extends React.Component<TableContentProps> {
 
     const tableClassName = cx('Table-table', this.props.tableClassName);
     const hideHeader = columns.every(column => !column.label);
-
-    let iconElement = null;
-    if (emptyIcon) {
-      iconElement =
-        typeof emptyIcon === 'string'
-          ? generateIcon(cx, emptyIcon, 'Icon')
-          : render('icon', emptyIcon);
-    }
-    else {
-      iconElement = (
-        <Icon
-          icon="desk-empty"
-          className={cx('Table-placeholder-empty-icon', 'icon')}
-        />
-      );
-    }
 
     return (
       <div
@@ -198,11 +179,17 @@ export class TableContent extends React.Component<TableContentProps> {
                 {
                   !loading ? (
                     <td colSpan={columns.length}>
-                      {iconElement}
-                      {render(
-                        'placeholder',
-                        translate(placeholder || 'placeholder.noData')
-                      )}
+                      {
+                        typeof placeholder === 'string' ? (
+                          <>
+                            <Icon
+                              icon="desk-empty"
+                              className={cx('Table-placeholder-empty-icon', 'icon')}
+                            />
+                            {translate(placeholder || 'placeholder.noData')}
+                          </>
+                        ) : render('placeholder', translate(placeholder || 'placeholder.noData'))
+                      }
                     </td>
                   ) : null
                 }
