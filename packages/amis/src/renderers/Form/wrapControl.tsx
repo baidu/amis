@@ -327,7 +327,10 @@ export function wrapControl<
             // 此处需要同时考虑 defaultValue 和 value
             if (model && typeof props.value !== 'undefined') {
               // 渲染器中的 value 优先
-              if (!isEqual(props.value, prevProps.value) && !isEqual(props.value, model.tmpValue)) {
+              if (
+                !isEqual(props.value, prevProps.value) &&
+                !isEqual(props.value, model.tmpValue)
+              ) {
                 // 外部直接传入的 value 无需执行运算器
                 model.changeTmpValue(props.value);
               }
@@ -350,7 +353,10 @@ export function wrapControl<
                   prevProps.defaultValue,
                   prevProps.data
                 );
-                if (!isEqual(curResult, prevResult) && !isEqual(curResult, model.tmpValue)) {
+                if (
+                  !isEqual(curResult, prevResult) &&
+                  !isEqual(curResult, model.tmpValue)
+                ) {
                   // 识别上下文变动、自身数值变动、公式运算结果变动
                   model.changeTmpValue(curResult);
                   if (props.onChange) {
@@ -369,7 +375,8 @@ export function wrapControl<
                 if (
                   // 然后才是查看关联的 name 属性值是否变化
                   !isEqual(props.data, prevProps.data) &&
-                  (!model.emitedValue || isEqual(model.emitedValue, model.tmpValue))
+                  (!model.emitedValue ||
+                    isEqual(model.emitedValue, model.tmpValue))
                 ) {
                   model.changeEmitedValue(undefined);
                   const prevValueByName = getVariable(props.data, model.name);
@@ -377,7 +384,7 @@ export function wrapControl<
                     (!isEqual(valueByName, prevValueByName) ||
                       getVariable(props.data, model.name, false) !==
                         getVariable(prevProps.data, model.name, false)) &&
-                     !isEqual(valueByName, model.tmpValue)
+                    !isEqual(valueByName, model.tmpValue)
                   ) {
                     model.changeTmpValue(valueByName);
                   }

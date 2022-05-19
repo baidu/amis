@@ -20,7 +20,7 @@ import {
   keyToPath,
   isPureVariable,
   resolveVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
 } from 'amis-formula';
 import {isObservable, isObservableArray} from 'mobx';
 
