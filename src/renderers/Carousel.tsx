@@ -5,7 +5,7 @@ import Transition, {
   EXITING
 } from 'react-transition-group/Transition';
 import {Renderer, RendererProps} from '../factory';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {
   autobind,
   createObject,
@@ -15,7 +15,7 @@ import {
 } from '../utils/helper';
 import {Action} from '../types';
 import {Icon} from '../components/icons';
-import {BaseSchema, SchemaCollection, SchemaName, SchemaTpl} from '../Schema';
+import {BaseSchema, SchemaCollection, SchemaName} from '../Schema';
 import Html from '../components/Html';
 import Image from '../renderers/Image';
 import {ScopedContext, IScopedContext} from '../Scoped';
@@ -38,7 +38,7 @@ export interface CarouselSchema extends BaseSchema {
   /**
    * 轮播间隔时间
    */
-  interval?: number;
+  interval?: number | string;
 
   /**
    * 动画时长
@@ -211,7 +211,13 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
     this.clearAutoTimeout();
     if (this.props.auto) {
-      this.intervalTimeout = setTimeout(this.autoSlide, this.props.interval);
+      const interval = this.props.interval;
+      this.intervalTimeout = setTimeout(
+        this.autoSlide,
+        typeof interval === 'string'
+          ? resolveVariableAndFilter(interval, this.props.data) || 5000
+          : interval
+      );
     }
   }
 

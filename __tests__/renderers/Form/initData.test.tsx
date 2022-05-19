@@ -175,11 +175,16 @@ test('Form:initData:remote', async () => {
     amisRender(
       {
         type: 'form',
-        initApi: '/api/xxx?a=${a}',
+        initApi: '/api/xxx?c=${c}',
         controls: [
           {
             type: 'text',
             name: 'a',
+            label: 'Label',
+          },
+          {
+            type: 'text',
+            name: 'c',
             label: 'Label',
             value: '123'
           }
@@ -203,6 +208,9 @@ test('Form:initData:remote', async () => {
   await waitFor(() => {
     expect(
       container.querySelector('[name="a"][value="1"]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('[name="c"][value="123"]')
     ).toBeInTheDocument();
     expect(
       container.querySelector('[data-testid="spinner"]')
