@@ -430,7 +430,7 @@ order: 1
 }
 ```
 
-备注: value表达式（${xxx}）支持 模板字符串、链式取值、过滤器，详细用法参考[数据映射](../../../docs/concepts/data-mapping)。
+备注: value表达式（`${xxx}`）支持 模板字符串、链式取值、过滤器，详细用法参考[数据映射](../../../docs/concepts/data-mapping)。
 
 我们也可以不设置value表达式，通过 name 来映射当前数据域中某个字段。比如我们表单数据域中有变量`"text1": "hello world!"`，然后我们设置表达项`"name": "text1"`，这样就可以自动映射值了。如下：
 
@@ -451,41 +451,41 @@ order: 1
 }
 ```
 
-关于优先级问题，当我们同时设置了value表达式（${xxx}）和name值映射，会优先使用value表达式（${xxx}）。只有当value为普通字符串（非${xxx}）时，才会使用name值映射。如下：
+关于优先级问题，当我们同时设置了value表达式（`${xxx}`）和name值映射，会优先使用value表达式（`${xxx}`）。只有当value为普通字符串（`非${xxx}`）时，才会使用name值映射。如下：
 
 ```schema: scope="body"
 {
   "type": "form",
   "data":{
-    "text1": "hello world!"
+    "item1": "hello world!"
   },
   "body": [
     {
       "type": "input-text",
-      "label": "text0",
-      "name": "text0",
+      "label": "test1",
+      "name": "test1",
       "value": "123",
       "description": "普通value默认值"
     },
     {
       "type": "input-text",
-      "label": "test1",
-      "name": "text1",
-      "description": "关联数据域中的text1"
-    },
-    {
-      "type": "input-text",
       "label": "test2",
-      "name": "text1",
-      "value": "123",
-      "description": "非value表达式（${xxx}），则优先使用name映射"
+      "name": "item1",
+      "description": "关联数据域中的item1"
     },
     {
       "type": "input-text",
       "label": "test3",
-      "name": "text1",
-      "value": "${text0}",
-      "description": "value表达式（${xxx}）优先级最高"
+      "name": "item1",
+      "value": "345",
+      "description": "非value表达式（\\${xxx}），则优先使用name映射"
+    },
+    {
+      "type": "input-text",
+      "label": "test4",
+      "name": "item1",
+      "value": "${test1}",
+      "description": "value表达式（\\${xxx}）优先级最高"
     }
   ]
 }
