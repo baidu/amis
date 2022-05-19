@@ -482,11 +482,12 @@ export default class PlayGround extends React.Component {
     if (mini) {
       return (
         <div className="Playgroud Playgroud--mini">
-          <a onClick={this.toggleDrawer}>
+          <a onClick={this.toggleDrawer} className="Playgroud-edit-btn">
             编辑代码 <i className="fa fa-code p-l-xs"></i>
           </a>
           <Drawer
             showCloseButton
+            closeOnOutside
             resizable
             theme={theme}
             overlay={false}
