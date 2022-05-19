@@ -154,6 +154,7 @@ exports[`Renderer:tabs 1`] = `
                   >
                     <input
                       autocomplete="off"
+                      class=""
                       name="c"
                       placeholder=""
                       size="10"
@@ -188,6 +189,7 @@ exports[`Renderer:tabs 1`] = `
                   >
                     <input
                       autocomplete="off"
+                      class=""
                       name="d"
                       placeholder=""
                       size="10"

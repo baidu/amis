@@ -125,7 +125,6 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     } = this.props;
     const isFocused = this.state.isFocused;
     const mobileUI = useMobileUI && isMobile();
-
     return (
       <div
         className={cx('ResultBox', className, {
@@ -135,6 +134,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           'is-clickable': onResultClick,
           'is-clearable': clearable,
           'is-mobile': mobileUI,
+          'is-group': Array.isArray(result),
           [`ResultBox--border${ucFirst(borderMode)}`]: borderMode
         })}
         onClick={onResultClick}
@@ -149,11 +149,9 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               <span className={cx('ResultBox-valueLabel')}>
                 {itemRender(item)}
               </span>
-              {!disabled ? (
-                <a data-index={index} onClick={this.removeItem}>
-                  <Icon icon="close" className="icon" />
-                </a>
-              ) : null}
+              <a data-index={index} onClick={this.removeItem}>
+                <Icon icon="close" className="icon" />
+              </a>
             </div>
           ))
         ) : result && !Array.isArray(result) ? (
@@ -176,7 +174,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             placeholder={__(
               Array.isArray(result) && result.length
                 ? inputPlaceholder
-                : placeholder
+                : (result ? '' : placeholder)
             )}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
@@ -201,7 +199,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         ) : null}
         {hasDropDownArrow && !mobileUI && (
           <span className={cx('ResultBox-pc-arrow')}>
-            <Icon icon="caret" className="icon" />
+            <Icon icon="right-arrow-bold" className="icon" />
           </span>
         )}
         {!allowInput && mobileUI ? (

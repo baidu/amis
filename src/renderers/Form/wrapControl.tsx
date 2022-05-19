@@ -1,19 +1,25 @@
 import React from 'react';
 import {IFormStore, IFormItemStore} from '../../store/form';
 import debouce from 'lodash/debounce';
+import isEqual from 'lodash/isEqual';
 
 import {RendererProps, Renderer} from '../../factory';
 import {ComboStore, IComboStore, IUniqueGroup} from '../../store/combo';
 import {
   anyChanged,
   promisify,
-  isObject,
   guid,
   isEmpty,
   autobind,
   getVariable,
   createObject
 } from '../../utils/helper';
+import {
+  isNeedFormula,
+  isExpression,
+  FormulaExec,
+  replaceExpression
+} from '../../utils/formula';
 import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
 import {reaction} from 'mobx';
@@ -193,12 +199,27 @@ export function wrapControl<
               combo.bindUniuqueItem(model);
             }
 
-            // 同步 value
-            model.changeTmpValue(
-              propValue ?? store?.getValueByName(model.name) ?? value
-            );
+            if (propValue !== undefined && propValue !== null) {
+              // 同步 value: 优先使用 props 中的 value
+              model.changeTmpValue(propValue);
+            } else {
+              // 备注: 此处的 value 是 schema 中的 value（和props.defaultValue相同）
+              const curTmpValue = isExpression(value)
+                ? FormulaExec['formula'](value, data) // 对组件默认值进行运算
+                : store?.getValueByName(model.name) ?? replaceExpression(value); // 优先使用公式表达式
+              // 同步 value
+              model.changeTmpValue(curTmpValue);
 
-            // 如果没有初始值，通过 onChange 设置过去
+              if (
+                onChange &&
+                value !== undefined &&
+                curTmpValue !== undefined
+              ) {
+                // 组件默认值支持表达式需要: 避免初始化时上下文中丢失组件默认值
+                onChange(model.tmpValue, model.name, false, true);
+              }
+            }
+
             if (
               onChange &&
               typeof propValue === 'undefined' &&
@@ -208,6 +229,7 @@ export function wrapControl<
               // 对应 issue 为 https://github.com/baidu/amis/issues/2674
               store?.storeType !== TableStore.name
             ) {
+              // 如果没有初始值，通过 onChange 设置过去
               onChange(model.tmpValue, model.name, false, true);
             }
           }
@@ -258,6 +280,7 @@ export function wrapControl<
                   'validations',
                   'validationErrors',
                   'value',
+                  'defaultValue',
                   'required',
                   'unique',
                   'multiple',
@@ -301,30 +324,75 @@ export function wrapControl<
               });
             }
 
+            // 此处需要同时考虑 defaultValue 和 value
             if (model && typeof props.value !== 'undefined') {
-              // 自己控制的 value 优先
-              if (
-                props.value !== prevProps.value &&
-                props.value !== model.tmpValue
-              ) {
+              // 渲染器中的 value 优先
+              if (props.value !== prevProps.value && props.value !== model.tmpValue) {
+                // 外部直接传入的 value 无需执行运算器
                 model.changeTmpValue(props.value);
               }
             } else if (
-              // 然后才是查看关联的 name 属性值是否变化
               model &&
-              props.data !== prevProps.data &&
-              (!model.emitedValue || model.emitedValue === model.tmpValue)
+              typeof props.defaultValue !== 'undefined' &&
+              isExpression(props.defaultValue)
             ) {
-              model.changeEmitedValue(undefined);
-              const value = getVariable(props.data, model.name);
-              const prevValue = getVariable(prevProps.data, model.name);
+              // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
               if (
-                (value !== prevValue ||
-                  getVariable(props.data, model.name, false) !==
-                    getVariable(prevProps.data, model.name, false)) &&
-                value !== model.tmpValue
+                props.defaultValue !== prevProps.defaultValue ||
+                (!isEqual(props.data, prevProps.data) &&
+                  isNeedFormula(props.defaultValue, props.data, prevProps.data))
               ) {
-                model.changeTmpValue(value);
+                const curResult = FormulaExec['formula'](
+                  props.defaultValue,
+                  props.data
+                );
+                const prevResult = FormulaExec['formula'](
+                  prevProps.defaultValue,
+                  prevProps.data
+                );
+                if (curResult !== prevResult && curResult !== model.tmpValue) {
+                  // 识别上下文变动、自身数值变动、公式运算结果变动
+                  model.changeTmpValue(curResult);
+                  if (props.onChange) {
+                    props.onChange(curResult, model.name, false);
+                  }
+                }
+              }
+            } else if (model) {
+              const valueByName = getVariable(props.data, model.name);
+
+              if (
+                valueByName !== undefined &&
+                props.defaultValue === prevProps.defaultValue
+              ) {
+                // value 非公式表达式时，name 值优先，若 defaultValue 主动变动时，则使用 defaultValue
+                if (
+                  // 然后才是查看关联的 name 属性值是否变化
+                  props.data !== prevProps.data &&
+                  (!model.emitedValue || model.emitedValue === model.tmpValue)
+                ) {
+                  model.changeEmitedValue(undefined);
+                  const prevValueByName = getVariable(props.data, model.name);
+                  if (
+                    (valueByName !== prevValueByName ||
+                      getVariable(props.data, model.name, false) !==
+                        getVariable(prevProps.data, model.name, false)) &&
+                    valueByName !== model.tmpValue
+                  ) {
+                    model.changeTmpValue(valueByName);
+                  }
+                }
+              } else if (
+                typeof props.defaultValue !== 'undefined' &&
+                props.defaultValue !== prevProps.defaultValue &&
+                props.defaultValue !== model.tmpValue
+              ) {
+                // 组件默认值非公式
+                const curValue = replaceExpression(props.defaultValue);
+                model.changeTmpValue(curValue);
+                if (props.onChange) {
+                  props.onChange(curValue, model.name, false);
+                }
               }
             }
           }
@@ -648,7 +716,7 @@ export function wrapControl<
 
             const injectedProps: any = {
               defaultSize: controlWidth,
-              disabled: disabled || control.disabled,
+              disabled: disabled ?? control.disabled,
               formItem: this.model,
               formMode: control.mode || formMode,
               ref: this.controlRef,

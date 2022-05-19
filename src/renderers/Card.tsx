@@ -354,13 +354,18 @@ export class CardRenderer extends React.Component<CardProps> {
     } = this.props;
 
     const toolbars: Array<JSX.Element> = [];
-
     if (header) {
-      const {highlightClassName, highlight: highlightTpl} = header;
-      const highlight = !!evalExpression(highlightTpl!, data as object);
-      if (highlight) {
+      const {highlightClassName, highlight} = header;
+      if (
+        typeof highlight === 'string'
+          ? evalExpression(highlight, data)
+          : highlight
+      ) {
         toolbars.push(
-          <i className={cx('Card-highlight', highlightClassName)} />
+          <i
+            key="highlight"
+            className={cx('Card-highlight', highlightClassName)}
+          />
         );
       }
     }

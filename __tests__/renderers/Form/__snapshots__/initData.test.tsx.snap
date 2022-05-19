@@ -22,6 +22,7 @@ exports[`Form:initData 1`] = `
         >
           <input
             autocomplete="off"
+            class=""
             name="a"
             placeholder=""
             size="10"
@@ -43,6 +44,7 @@ exports[`Form:initData 1`] = `
         >
           <input
             autocomplete="off"
+            class=""
             name="b"
             placeholder=""
             size="10"
@@ -128,11 +130,47 @@ exports[`Form:initData:remote 1`] = `
             >
               <input
                 autocomplete="off"
+                class=""
                 name="a"
                 placeholder=""
                 size="10"
                 type="text"
                 value="1"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  Label
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class=""
+                name="c"
+                placeholder=""
+                size="10"
+                type="text"
+                value="123"
               />
             </div>
           </div>
@@ -208,9 +246,9 @@ Object {
   },
   "method": "get",
   "query": Object {
-    "a": "123",
+    "c": "123",
   },
-  "url": "/api/xxx?a=123",
+  "url": "/api/xxx?c=123",
 }
 `;
 
@@ -218,6 +256,7 @@ exports[`Form:initData:remote 3`] = `
 Object {
   "a": 1,
   "b": 2,
+  "c": "123",
 }
 `;
 
@@ -255,6 +294,7 @@ exports[`Form:initData:super 1`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="a"
                     placeholder=""
                     size="10"
@@ -276,6 +316,7 @@ exports[`Form:initData:super 1`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="b"
                     placeholder=""
                     size="10"
@@ -335,6 +376,7 @@ exports[`Form:initData:without-super 1`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="a"
                     placeholder=""
                     size="10"
@@ -356,6 +398,7 @@ exports[`Form:initData:without-super 1`] = `
                 >
                   <input
                     autocomplete="off"
+                    class=""
                     name="b"
                     placeholder=""
                     size="10"

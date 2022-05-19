@@ -388,6 +388,135 @@ exports[`Renderer:cards color 1`] = `
 </div>
 `;
 
+exports[`Renderer:cards hightlight 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Card"
+          >
+            <div
+              class="cxd-Card-multiMedia--left"
+            >
+              <img
+                class="cxd-Card-multiMedia-img w-36 h-24"
+                src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+              />
+              <div
+                class="cxd-Card-multiMedia-flex"
+              >
+                <div
+                  class="cxd-Card-heading"
+                >
+                  <div
+                    class="cxd-Card-meta"
+                  >
+                    <div
+                      class="cxd-Card-title"
+                    >
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          标题
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Card-toolbar"
+                  >
+                    <i
+                      class="cxd-Card-highlight test-highlight-class"
+                    />
+                    <span
+                      class="cxd-TplField label label-warning"
+                    >
+                      <span>
+                        标签
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Card-body"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这里是内容
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="cxd-Card-footer-wrapper"
+                >
+                  <div
+                    class="cxd-Card-secondary"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        次要说明
+                      </span>
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-Card-actions-wrapper"
+                  >
+                    <div
+                      class="cxd-Card-actions"
+                    >
+                      <a
+                        class="cxd-Card-action mr-4"
+                      >
+                        <span>
+                          操作
+                        </span>
+                      </a>
+                      <a
+                        class="cxd-Card-action mr-2.5"
+                      >
+                        <span>
+                          操作
+                        </span>
+                      </a>
+                      <div
+                        class="cxd-DropDown  cxd-Card-action pr-1 flex"
+                      >
+                        <button
+                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                        >
+                          <i
+                            class="m-r-xs fa fa-ellipsis-h"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:cards media 1`] = `
 <div>
   <div

@@ -20,7 +20,7 @@ import {
   keyToPath,
   isPureVariable,
   resolveVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
 } from 'amis-formula';
 import {isObservable} from 'mobx';
 
@@ -1424,6 +1424,7 @@ export function getScrollbarWidth() {
   return scrollbarWidth;
 }
 
+// 后续改用 FormulaExec['formula']
 function resolveValueByName(data: any, name?: string) {
   return isPureVariable(name)
     ? resolveVariableAndFilter(name, data)

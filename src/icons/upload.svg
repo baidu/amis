@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="上传" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M3,10 L3,12.995 L13,12.995 L13,10 L14,10 L14,14 L13,14 L13,13.995 L3,13.995 L3,14 L2,14 L2,10 L3,10 Z M8.0259,1.9998 L11.8401458,5.8148 L11.1331458,6.5218 L8.5169,3.9048 L8.51614575,10.9998 L7.51614575,10.9998 L7.5169,3.9228 L4.89114575,6.5478 L4.18414575,5.8418 L8.0259,1.9998 Z" id="图标-填色" fill="currentColor"></path>
+    <title>上传</title>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="图标-填色" fill="#151B26">
+            <path d="M3,10 L3,12.995 L13,12.995 L13,10 L14,10 L14,14 L13,14 L13,13.995 L3,13.995 L3,14 L2,14 L2,10 L3,10 Z M8.0259,1.9998 L11.8401458,5.8148 L11.1331458,6.5218 L8.5169,3.9048 L8.51614575,10.9998 L7.51614575,10.9998 L7.5169,3.9228 L4.89114575,6.5478 L4.18414575,5.8418 L8.0259,1.9998 Z" fill="currentColor" fill-rule="nonzero"></path>
+        </g>
     </g>
 </svg>

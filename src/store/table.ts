@@ -666,7 +666,7 @@ export const TableStore = iRendererStore
       },
 
       get disabledHeadCheckbox() {
-        const selectedLength = self.data?.selectedItems.length;
+        const selectedLength = self.data?.selectedItems?.length;
         const maxLength = self.maxKeepItemSelectionLength;
 
         if (!self.data || !self.keepItemSelectionOnPageChange || !maxLength) {

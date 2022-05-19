@@ -44,6 +44,16 @@ export interface SearchBoxSchema extends BaseSchema {
   mini?: boolean;
 
   /**
+   * 是否为加强样式
+   */
+  enhance?: boolean;
+
+  /**
+   * 是否可清除
+   */
+  clearable?: boolean;
+
+  /**
    * 是否立马搜索。
    */
   searchImediately?: boolean;
@@ -70,6 +80,8 @@ export class SearchBoxRenderer extends React.Component<
   static defaultProps = {
     name: 'keywords',
     mini: false,
+    enhance: false,
+    clearable: false,
     searchImediately: false
   };
 
@@ -113,6 +125,8 @@ export class SearchBoxRenderer extends React.Component<
       name,
       onQuery: onQuery,
       mini,
+      enhance,
+      clearable,
       searchImediately,
       placeholder,
       onChange,
@@ -130,6 +144,8 @@ export class SearchBoxRenderer extends React.Component<
         defaultValue={onChange ? undefined : value}
         value={value}
         mini={mini}
+        enhance={enhance}
+        clearable={clearable}
         searchImediately={searchImediately}
         onSearch={this.handleSearch}
         onCancel={this.handleCancel}

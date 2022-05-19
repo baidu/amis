@@ -29,6 +29,48 @@ icon:
 }
 ```
 
+## 加强样式
+
+```schema
+{
+    "type": "page",
+    "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+    "body": [
+      {
+        "type": "search-box",
+        "name": "keywords",
+        "enhance": true
+      },
+
+      {
+        "type": "tpl",
+        "tpl": "<p>关键字：${keywords}</p><p>返回结果：${&|json}</p>"
+      }
+    ]
+}
+```
+
+## 可清除
+
+```schema
+{
+    "type": "page",
+    "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+    "body": [
+      {
+        "type": "search-box",
+        "name": "keywords",
+        "clearable": true
+      },
+
+      {
+        "type": "tpl",
+        "tpl": "<p>关键字：${keywords}</p><p>返回结果：${&|json}</p>"
+      }
+    ]
+}
+```
+
 ## mini 版本
 
 ```schema

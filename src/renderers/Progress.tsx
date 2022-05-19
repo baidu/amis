@@ -16,12 +16,17 @@ export interface ProgressSchema extends BaseSchema {
   type: 'progress';
 
   /**
-   * 关联字段名。
+   * 关联字段名
    */
   name?: string;
 
   /**
-   * 进度条类型。
+   * 进度值
+   */
+  value: number;
+
+  /**
+   * 进度条类型
    */
   mode: 'line' | 'circle' | 'dashboard';
 

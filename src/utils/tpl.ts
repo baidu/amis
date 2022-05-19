@@ -71,6 +71,7 @@ export function evalExpression(expression: string, data?: object): boolean {
       return evalFormula(expression, data);
     }
 
+    // 后续改用 FormulaExec['js']
     let debug = false;
     const idx = expression.indexOf('debugger');
     if (~idx) {
@@ -149,6 +150,7 @@ export function evalJS(js: string, data: object): any {
 }
 
 [registerBulitin, registerLodash].forEach(fn => {
+  if (!fn) return;
   const info = fn();
 
   registerTplEnginer(info.name, {

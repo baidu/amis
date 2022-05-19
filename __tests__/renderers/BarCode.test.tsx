@@ -19,9 +19,7 @@ test('Renderer:bar-code', async () => {
       makeEnv({})
     )
   );
-  await waitFor(() =>
-    expect(container.querySelector('.cxd-BarCode')).toBeInTheDocument()
-  );
+  await waitFor(() => expect(container.querySelector('.cxd-BarCode')).toBeInTheDocument());
 
   expect(container).toMatchSnapshot();
 });
