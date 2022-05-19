@@ -56,19 +56,7 @@ exports[`Renderer:usersselect 1`] = `
               class="cxd-UserSelect"
             >
               <div
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                 class="cxd-ResultBox cxd-UserSelect-input is-clickable is-group"
-=======
-                class="cxd-ResultBox cxd-UserSelect-input is-clickable"
->>>>>>> 1751d869 (目录调整)
-=======
-                class="cxd-ResultBox cxd-UserSelect-input is-clickable"
->>>>>>> ab84b361 (目录调整)
-=======
-                class="cxd-ResultBox cxd-UserSelect-input is-clickable"
->>>>>>> f0cf4403838df765b85264577c141deec4b3f5b8
                 tabindex="-1"
               >
                 <span
