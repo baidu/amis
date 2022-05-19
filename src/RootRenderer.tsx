@@ -12,6 +12,7 @@ import {filter} from './utils/tpl';
 import qs from 'qs';
 import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
+import {saveAs} from 'file-saver';
 import {normalizeApi} from './utils/api';
 import {AjaxActionSchema} from './renderers/Action';
 
