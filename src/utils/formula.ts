@@ -215,7 +215,7 @@ export function isExpression(expression: any): boolean {
     return false;
   }
   // 备注: "\\${xxx}"不作为表达式，至少含一个${xxx}才算是表达式
-  return /(?<!\\)(\${).+(\})+/.test(expression);
+  return /(?<!\\)(\${).+(\})/.test(expression);
 }
 
 // 用于判断是否需要执行表达式:
@@ -233,11 +233,7 @@ export function isNeedFormula(
 
 // 将 \${xx} 替换成 ${xx}
 export function replaceExpression(expression: any): any {
-  if (!isString(expression)) {
-    // 非字符串类型，比如：Object、Array类型、boolean、number类型，以及 undefined
-    return expression;
-  }
-  if (expression && expression.replaceAll) {
+  if (expression && isString(expression) && /(\\)(\${).+(\})/.test(expression)) {
     return expression.replaceAll('\\${', '${');
   }
   return expression;
