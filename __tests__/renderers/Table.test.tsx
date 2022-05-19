@@ -563,6 +563,77 @@ test('Renderer:table groupName-middleNoGroupName', () => {
   expect(container).toMatchSnapshot();
 });
 
+// 超级表头，但是 开头列未配置表头
+test('Renderer:table groupName-startNoGroupName', () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          groups: [
+            {
+              group: '分组1'
+            },
+            {
+              group: '分组1'
+            }
+          ]
+        },
+        body: {
+          type: 'service',
+          data: {
+            rows
+          },
+          body: [
+            {
+              type: 'table',
+              source: '$rows',
+              className: 'm-b-none',
+              columns: [
+                {
+                  name: 'engine',
+                  label: 'Engine'
+                  // groupName: '分组1' // 这里没配置groupName
+                },
+                {
+                  name: 'grade',
+                  label: 'Grade'
+                  // groupName: '分组1' // 这里没配置groupName
+                },
+                {
+                  name: 'version',
+                  label: 'Version'
+                  // groupName: '分组2' // 这里没配置groupName
+                },
+                {
+                  name: 'browser',
+                  label: 'Browser',
+                  groupName: '分组2'
+                },
+                {
+                  name: 'id',
+                  label: 'ID',
+                  toggled: false,
+                  groupName: '分组2'
+                },
+                {
+                  name: 'platform',
+                  label: 'Platform',
+                  groupName: '分组2'
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  expect(container).toMatchSnapshot();
+});
+
 test('Renderer:table column head style', () => {
   const {container} = render(
     amisRender(
