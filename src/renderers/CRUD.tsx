@@ -2154,11 +2154,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             onSearchableFromInit: this.handleFilterInit,
             headerToolbarRender: this.renderHeaderToolbar,
             footerToolbarRender: this.renderFooterToolbar,
-            data: store.mergedData
+            data: store.mergedData,
+            loading: store.loading
           }
         )}
 
-        <Spinner overlay size="lg" key="info" show={store.loading} />
+        {
+          // table 组件中单独增加 loading 状态，否则单独使用 table 会缺失 loading
+          mode && mode !== 'table' ? <Spinner overlay size="lg" key="info" show={store.loading} /> : null
+        }
 
         {render(
           'dialog',

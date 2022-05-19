@@ -61,7 +61,8 @@ export interface TableContentProps extends LocaleProps {
   itemActions?: Array<Action>;
   store: ITableStore;
   dispatchEvent?: Function;
-  onEvent?: OnEventProps
+  onEvent?: OnEventProps;
+  loading?: boolean;
 }
 
 @observer
@@ -133,7 +134,8 @@ export class TableContent extends React.Component<TableContentProps> {
       store,
       emptyIcon,
       dispatchEvent,
-      onEvent
+      onEvent,
+      loading
     } = this.props;
 
     const tableClassName = cx('Table-table', this.props.tableClassName);
@@ -145,6 +147,14 @@ export class TableContent extends React.Component<TableContentProps> {
         typeof emptyIcon === 'string'
           ? generateIcon(cx, emptyIcon, 'Icon')
           : render('icon', emptyIcon);
+    }
+    else {
+      iconElement = (
+        <Icon
+          icon="desk-empty"
+          className={cx('Table-placeholder-empty-icon', 'icon')}
+        />
+      );
     }
 
     return (
@@ -185,26 +195,17 @@ export class TableContent extends React.Component<TableContentProps> {
           {!rows.length ? (
             <tbody>
               <tr className={cx('Table-placeholder')}>
-                <td colSpan={columns.length}>
-                  {iconElement ? (
-                    React.cloneElement(iconElement, {
-                      className: cx(
-                        iconElement?.props?.className ?? '',
-                        'Table-placeholder-empty-icon',
-                        'icon'
-                      )
-                    })
-                  ) : (
-                    <Icon
-                      icon="desk-empty"
-                      className={cx('Table-placeholder-empty-icon', 'icon')}
-                    />
-                  )}
-                  {render(
-                    'placeholder',
-                    translate(placeholder || 'placeholder.noData')
-                  )}
-                </td>
+                {
+                  !loading ? (
+                    <td colSpan={columns.length}>
+                      {iconElement}
+                      {render(
+                        'placeholder',
+                        translate(placeholder || 'placeholder.noData')
+                      )}
+                    </td>
+                  ) : null
+                }
               </tr>
             </tbody>
           ) : (

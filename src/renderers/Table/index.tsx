@@ -7,6 +7,7 @@ import forEach from 'lodash/forEach';
 import {evalExpression, filter} from '../../utils/tpl';
 import Checkbox from '../../components/Checkbox';
 import Button from '../../components/Button';
+import {Spinner} from '../../components';
 import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
 import {
   anyChanged,
@@ -365,6 +366,7 @@ export interface TableProps extends RendererProps {
   canAccessSuperData?: boolean;
   reUseRow?: boolean;
   itemBadge?: BadgeSchema;
+  loading?: boolean;
 }
 
 export type ExportExcelToolbar = SchemaNode & {
@@ -2640,7 +2642,8 @@ export default class Table extends React.Component<TableProps, object> {
       itemActions,
       emptyIcon,
       dispatchEvent,
-      onEvent
+      onEvent,
+      loading
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2688,6 +2691,7 @@ export default class Table extends React.Component<TableProps, object> {
         translate={translate}
         dispatchEvent={dispatchEvent}
         onEvent={onEvent}
+        loading={loading}
       />
     );
   }
@@ -2732,7 +2736,8 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       affixColumns,
       autoFillHeight,
-      autoGenerateFilter
+      autoGenerateFilter,
+      loading
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -2789,6 +2794,7 @@ export default class Table extends React.Component<TableProps, object> {
         </div>
         {this.renderAffixHeader(tableClassName)}
         {footer}
+        <Spinner overlay size="lg" key="info" show={!!loading} />
       </div>
     );
   }
