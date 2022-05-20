@@ -913,7 +913,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     let mergedData = data;
 
     if (action?.actionType === 'click' && isObject(action?.args)) {
-      mergedData = extendObject(data, action.args);
+      mergedData = createObject(data, action.args);
     }
 
     // 触发渲染器事件
