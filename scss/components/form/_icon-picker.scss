@@ -4,19 +4,20 @@
   &-placeholder {
     color: var(--Form-input-placeholderColor);
     user-select: none;
-    position: absolute;
-    left: var(--Form-input-paddingX);
-    top: var(--Form-input-paddingY);
-    margin-top: calc(2 * var(--Form-input-borderWidth));
     line-height: var(--Form-input-lineHeight);
+    position: absolute;
+    left: 2px;
+    overflow: hidden;
+    width: 100%;
   }
 
   &-valueWrap {
-    display: flex;
     justify-content: space-between;
     flex-grow: 1;
     line-height: 1;
     white-space: nowrap;
+    width: 100%;
+    position: relative;
 
     > input {
       display: inline-block;
@@ -28,6 +29,7 @@
   &-input--withAC {
     position: relative;
     flex-wrap: wrap;
+    width: 100%;
 
     > input {
       width: auto;
@@ -98,7 +100,9 @@
     );
     vertical-align: middle;
     display: inline-block;
-
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
     > i {
       display: inline-block;
       margin-right: var(--IconPicker-selectedIcon-marginRight);
