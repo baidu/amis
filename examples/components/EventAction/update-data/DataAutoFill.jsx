@@ -21,7 +21,7 @@ export default {
     },
     {
       type: 'form',
-      id: 'form_data_3',
+      id: 'form_data_001',
       title: '用户信息',
       body: [
         {
@@ -57,7 +57,7 @@ export default {
                 },
                 {
                   actionType: 'setValue',
-                  componentId: 'form_data_3',
+                  componentId: 'form_data_001',
                   args: {
                     value: '${event.data.myResult}'
                   }
@@ -76,7 +76,7 @@ export default {
     },
     {
       type: 'form',
-      id: 'form_data_3',
+      id: 'form_data_002',
       title: '用户信息',
       body: [
         {
@@ -154,7 +154,7 @@ export default {
                               },
                               {
                                 actionType: 'setValue',
-                                componentId: 'form_data_3',
+                                componentId: 'form_data_002',
                                 args: {
                                   value: '${event.data.myResult}'
                                 }
