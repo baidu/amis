@@ -370,13 +370,14 @@ order: 1
 }
 ```
 
-> 1.10.0 及之后版本
+> 1.10.0 及之后版本（备注：可通过 1.9.1-beta.12 及之后版本提前试用）
 
 `value`支持表达式，也就是说可以直接配置类似于这样的语法：`${xxx}`，如果想要获取当前数据域中的某个变量，可以设置该表单项`value`为`${name1}`，如下：
 
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "data":{
     "name1": "hello world!"
   },
@@ -386,7 +387,7 @@ order: 1
       "label": "text",
       "name": "test1",
       "value": "${name1}",
-      "description": "默认值支持表达式"
+      "description": "默认值支持表达式: ${name1}"
     }
   ]
 }
@@ -409,7 +410,7 @@ order: 1
       "label": "text",
       "name": "test1",
       "value": "${num1 + 2}",
-      "description": "默认值支持表达式运算"
+      "description": "默认值支持表达式运算: ${num1 + 2}"
     }
   ]
 }
@@ -426,7 +427,7 @@ order: 1
       "label": "text",
       "name": "test1",
       "value": "${window:document.title}",
-      "description": "默认值表达式支持namespace"
+      "description": "默认值表达式支持namespace: ${window:document.title}"
     }
   ]
 }
@@ -439,6 +440,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "data":{
     "text1": "hello world!"
   },
@@ -458,6 +460,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "data":{
     "item1": "hello world!",
     "item2": "hello amis!",
@@ -506,14 +509,14 @@ order: 1
       "label": "test1",
       "name": "test1",
       "value": "\\${name}",
-      "description": "显示输出纯文本 ${xxx}"
+      "description": "显示输出纯文本"
     },
     {
       "type": "input-text",
       "label": "test2",
       "name": "test2",
       "value": "my name is \\${name}",
-      "description": "显示输出纯文本 ${xxx}"
+      "description": "显示输出纯文本"
     }
   ]
 }
