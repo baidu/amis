@@ -6,7 +6,7 @@ import {
   RemoteOptionsProps,
   withRemoteConfig
 } from '../components/WithRemoteConfig';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
 import {getPropValue} from '../utils/helper';
 
@@ -74,12 +74,12 @@ export interface StepsSchema extends BaseSchema {
   /**
    * 标签放置位置
    */
-   labelPlacement?: 'horizontal' | 'vertical';
+  labelPlacement?: 'horizontal' | 'vertical';
 
-   /**
+  /**
    * 点状步骤条
    */
-    progressDot?: boolean;
+  progressDot?: boolean;
 }
 
 export interface StepsProps
@@ -102,7 +102,7 @@ export function StepsCmpt(props: StepsProps) {
   } = props;
 
   const stepsRow =
-    (resolveVariable(source, data) as Array<StepSchema>) ||
+    (resolveVariableAndFilter(source, data, '| raw') as Array<StepSchema>) ||
     config ||
     steps ||
     [];
