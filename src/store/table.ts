@@ -285,7 +285,7 @@ export const TableStore = iRendererStore
     primaryField: 'id',
     orderBy: '',
     orderDir: types.optional(
-      types.union(types.literal('asc'), types.literal('desc')),
+      types.union(types.literal('asc'), types.literal('desc'),types.literal('')),
       'asc'
     ),
     draggable: false,
@@ -1274,9 +1274,9 @@ export const TableStore = iRendererStore
       self.expandedRows.replace(rows.map(item => item.id));
     }
 
-    function setOrderByInfo(key: string, direction: 'asc' | 'desc') {
+    function setOrderByInfo(key: string, direction: 'asc' | 'desc' | '') {
       self.orderBy = key;
-      self.orderDir = direction;
+      self.orderDir = key ? direction  : '' ;
     }
 
     function reset() {
