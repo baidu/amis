@@ -2154,7 +2154,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             onSearchableFromInit: this.handleFilterInit,
             headerToolbarRender: this.renderHeaderToolbar,
             footerToolbarRender: this.renderFooterToolbar,
-            data: store.mergedData
+            data: store.mergedData,
+            loading: store.loading
           }
         )}
 

@@ -510,3 +510,9 @@ order: 35
 | modalMode    | `string`                                                                                     | `"dialog"`                                      | 设置 `dialog` 或者 `drawer`，用来配置弹出方式。                                             |
 | pickerSchema | `string`                                                                                     | `{mode: 'list', listItem: {title: '${label}'}}` | 即用 List 类型的渲染，来展示列表信息。更多配置参考 [CRUD](../crud)                          |
 | embed        | `boolean`                                                                                    | `false`                                         | 是否使用内嵌模式                                                                            |
+
+## 事件表
+
+| 事件名称 | 事件参数                          | 说明   |
+| -------- | --------------------------------- | ------ |
+| change   | `{value: string; option: Option}` | 值变化 |

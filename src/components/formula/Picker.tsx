@@ -237,12 +237,10 @@ export class FormulaPicker extends React.Component<
     const {translate: __} = this.props;
 
     try {
-      const ast = parse(value, {
+      parse(value, {
         evalMode: this.props.evalMode,
         allowFilter: false
       });
-
-      new Evaluator({}).evalute(ast);
 
       return true;
     } catch (e) {

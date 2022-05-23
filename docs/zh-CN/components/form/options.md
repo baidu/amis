@@ -421,7 +421,45 @@ order: 2
 }
 ```
 
+还可以通过 `checkAll` 开启全选。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "label": "多选",
+            "type": "select",
+            "name": "select2",
+            "checkAll": true,
+            "multiple": true,
+            "source": "/api/mock2/form/getOptions"
+        }
+    ]
+}
+```
+
 默认多选的值格式为逗号拼接 value 值，例如：`1,2,3`，如果需要改变值格式，请阅读下面 [拼接符 delimiter](#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)、[拼接值 joinValues](#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues) 和 [提取多选值 extractValue](#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)配置项。
+
+如果值太多折行可以通过 `valuesNoWrap` 来避免折行。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "label": "多选",
+            "type": "select",
+            "name": "select2",
+            "checkAll": true,
+            "valuesNoWrap": true,
+            "multiple": true,
+            "source": "/api/mock2/form/getOptions"
+        }
+    ]
+}
+```
 
 ## 拼接符 delimiter
 
@@ -1384,3 +1422,4 @@ order: 2
 | extractValue     | `boolean`                                                                         | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效 |
 | itemHeight       | `number`                                                                          |           | 每个选项的高度，用于虚拟渲染                                           |
 | virtualThreshold | `number`                                                                          |           | 在选项数量超过多少时开启虚拟渲染                                       |
+| valuesNoWrap | `boolean`                                                                         | `false`   | 默认情况下多选所有选项都会显示，通过这个可以最多显示一行，超出的部分变成 ... |

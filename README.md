@@ -21,7 +21,7 @@
 
 <div align="center">
 
-![build](https://api.travis-ci.org/baidu/amis.svg?branch=master)
+![build](https://img.shields.io/github/workflow/status/baidu/amis/gh-pages/master)
 ![license](https://img.shields.io/github/license/baidu/amis.svg)
 ![version](https://img.shields.io/npm/v/amis)
 ![language](https://img.shields.io/github/languages/top/baidu/amis)

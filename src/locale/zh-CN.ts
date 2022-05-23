@@ -313,6 +313,8 @@ register('zh-CN', {
   'Condition.formula_placeholder': '请输入公式',
   'Condition.fun_error': '方法未定义',
   'InputTable.uniqueError': '列`{{label}}`没有通过唯一验证',
+  'Timeline.collapseText': '展开',
+  'Timeline.expandText': '折叠',
   'collapse': '展开',
   'expand': '折叠',
   'FormulaEditor.btnLabel': '公式编辑',

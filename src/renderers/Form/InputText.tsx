@@ -727,6 +727,7 @@ export default class TextControl extends React.PureComponent<
                 <Spinner
                   show
                   icon="reload"
+                  size="sm"
                   spinnerClassName={cx('TextControl-spinner')}
                 />
               ) : null}
