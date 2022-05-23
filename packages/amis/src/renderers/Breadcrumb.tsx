@@ -123,7 +123,7 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
         item.label = filter(item.label, data);
       }
       if (item.href) {
-        item.href = filter(item.href, data);
+        item.href = resolveVariableAndFilter(item.href, data, '| raw');
       }
       if (item.dropdown) {
         item.dropdown = item.dropdown.map(dropdownItem => {
@@ -131,7 +131,11 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
             dropdownItem.label = filter(dropdownItem.label, data);
           }
           if (dropdownItem.href) {
-            dropdownItem.href = filter(dropdownItem.href, data);
+            dropdownItem.href = resolveVariableAndFilter(
+              dropdownItem.href,
+              data,
+              '| raw'
+            );
           }
           return dropdownItem;
         });
