@@ -10,6 +10,7 @@
   margin: 0;
   vertical-align: middle;
   text-align: left;
+  transition: all 0.5s ease;
 
   &.is-disabled {
     cursor: not-allowed;
