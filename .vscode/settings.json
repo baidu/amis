@@ -7,5 +7,8 @@
   "search.exclude": {
     "examples/docs.json": true,
     "examples/components/EChartsEditor/option-parts/**/*": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   }
 }
