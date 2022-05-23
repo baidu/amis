@@ -285,6 +285,8 @@
 
   &-revealPassword {
     font-size: 0;
+    display: inline-flex;
+    align-items: center;
 
     .icon {
       width: var(--Form-input-password-icon-size);
