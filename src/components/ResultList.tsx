@@ -4,19 +4,17 @@
 import React from 'react';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
+import {cloneDeep, findIndex} from 'lodash';
 
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from '../theme';
 import {Icon} from './icons';
 import {autobind, guid} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
-import {BaseSelection, BaseSelectionProps} from './Selection';
 import TransferSearch from './TransferSearch';
 
 export interface ResultListProps
-  extends ThemeProps,
-    LocaleProps,
-    BaseSelectionProps {
+  extends ThemeProps, LocaleProps {
   className?: string;
   value?: Array<Option>;
   onChange?: (value: Array<Option>, optionModified?: boolean) => void;
@@ -26,23 +24,9 @@ export interface ResultListProps
   placeholder: string;
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   itemClassName?: string;
-  columns: Array<{
-    name: string;
-    label: string;
-    [propName: string]: any;
-  }>;
-  cellRender?: (
-    column: {
-      name: string;
-      label: string;
-      [propName: string]: any;
-    },
-    option: Option,
-    colIndex: number,
-    rowIndex: number
-  ) => JSX.Element;
   searchable?: boolean;
   onSearch?: Function;
+  valueField?: string;
 }
 
 export interface ItemRenderStates {
@@ -180,35 +164,44 @@ export class ResultList extends React.Component<
     this.setState({searchResult: null})
   }
 
-  // 关闭表格最后一项
+  // 删除项
   @autobind
-  handleCloseItem(option: Option) {
-    const {value, onChange, option2value, options, disabled} = this.props;
+  handleCloseItem(e: React.MouseEvent<HTMLElement>, option: Option) {
+    const {value, onChange, disabled, searchable, valueField = 'value'} = this.props;
 
     if (disabled || option.disabled) {
       return;
     }
 
-    // 删除普通值
-    let valueArray = BaseSelection.value2array(value, options, option2value);
-
-    let idx = valueArray.indexOf(option);
-    valueArray.splice(idx, 1);
-    let newValue: string | Array<Option> = option2value
-      ? valueArray.map(item => option2value(item))
-      : valueArray;
-    onChange && onChange(newValue);
-
     const {searchResult} = this.state;
-    if (searchResult) {
-      const searchArray = BaseSelection.value2array(
-        searchResult,
-        options,
-        option2value
-      );
-      const searchIdx = searchArray.indexOf(option);
-      searchResult.splice(searchIdx, 1);
-      this.setState({searchResult});
+    // 结果搜索
+    if (searchable && searchResult) {
+      // 删除普通值
+      const valueArray = cloneDeep(value) || [];
+      const idx = valueArray.findIndex((item: Option) => item[valueField] === option[valueField]);
+      if (idx > -1) {
+        valueArray.splice(idx, 1);
+        onChange && onChange(valueArray);
+      }
+      // 删除搜索结果
+      const searchIdx = searchResult.findIndex((item: Option) => item[valueField] === option[valueField]);;
+      if (searchIdx > -1) {
+        searchResult.splice(searchIdx, 1);
+        this.setState({searchResult});
+      }
+    }
+    // 没有搜索，走旧的删除方式
+    else {
+      const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
+      const {value, onChange} = this.props;
+  
+      if (!Array.isArray(value)) {
+        return;
+      }
+  
+      const newValue = value.concat();
+      newValue.splice(index, 1);
+      onChange?.(newValue);
     }
   }
 
@@ -256,7 +249,7 @@ export class ResultList extends React.Component<
                     className={cx('Selections-delBtn')}
                     data-index={index}
                     onClick={(e: React.MouseEvent<HTMLElement>) =>
-                      this.handleCloseItem(option)
+                      this.handleCloseItem(e, option)
                     }
                   >
                     <Icon icon="close" className="icon" />
