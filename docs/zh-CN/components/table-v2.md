@@ -191,7 +191,7 @@ order: 67
             "rowSelection": {
                 "type": "checkbox",
                 "keyField": "id",
-                "selectedRowKeysExpr": "<%= data.record.id === 1 %>"
+                "selectedRowKeysExpr": "data.record.id === 1"
             },
             "columns": [
                 {
@@ -498,7 +498,7 @@ order: 67
                 "expandableOn": "this.record.id === 1 || this.record.id === 3",
                 "keyField": "id",
                 "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
-                "expandedRowKeysExpr": "<%= data.record.id == '3' %>"
+                "expandedRowKeysExpr": "data.record.id == '3'"
             },
             "expandableBody": [
                 {
@@ -809,10 +809,11 @@ order: 67
             "type": "table-v2",
             "source": "$rows",
             "draggable": true,
+            "keyField": "id",
             "columns": [
                 {
-                    "title": "Engine",
-                    "key": "engine",
+                    "title": "ID",
+                    "key": "id"
                 },
                 {
                     "title": "Grade",
@@ -827,8 +828,8 @@ order: 67
                     "key": "badgeText",
                     "children": [
                         {
-                            "title": "ID",
-                            "key": "id"
+                            "title": "Engine",
+                            "key": "engine",
                         }
                     ]
                 },

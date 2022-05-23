@@ -23,7 +23,8 @@ import {
   isObject,
   immutableExtends,
   isEmpty,
-  extendObject
+  extendObject,
+  findTree
 } from '../utils/helper';
 import {normalizeApiResponseData} from '../utils/api';
 import {Api, Payload, fetchOptions, ApiObject} from '../types';
@@ -71,6 +72,7 @@ export const Row = types
   .model('Row', {
     storeType: 'Row',
     id: types.identifier,
+    parentId: '',
     key: types.string,
     pristine: types.frozen({} as any), // 原始数据
     data: types.frozen({} as any),
@@ -100,6 +102,10 @@ export const Row = types
       );
     },
 
+    get moved() {
+      return self.index !== self.newIndex;
+    },
+
     get locals(): any {
       let children: Array<any> | null = null;
       if (self.children.length) {
@@ -120,6 +126,20 @@ export const Row = types
             }
           : self.data
       );
+    },
+
+    getDataWithModifiedChilden() {
+      let data = {
+        ...self.data
+      };
+
+      if (data.children && self.children) {
+        data.children = self.children.map(item =>
+          item.getDataWithModifiedChilden()
+        );
+      }
+
+      return data;
     }
   }))
   .actions(self => ({
@@ -161,6 +181,10 @@ export const Row = types
     change(values: object, savePristine?: boolean) {
       self.data = immutableExtends(self.data, values);
       savePristine && (self.pristine = self.data);
+    },
+    reset() {
+      self.newIndex = self.index;
+      self.data = self.pristine;
     }
   }));
 
@@ -252,8 +276,24 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
       });
     }
 
+    function getRowByIndex(rowIndex: number, levels?: Array<string>): IRowV2 {
+      if (levels && levels.length > 0) {
+        const index = +(levels.shift() || 0);
+        return getRowByIndex(index, levels);
+      }
+      return self.rows[rowIndex];
+    }
+
     function isSelected(row: IRowV2): boolean {
       return !!~self.selectedRows.indexOf(row);
+    }
+
+    function getMovedRows() {
+      return flattenTree(self.rows).filter((item: IRowV2) => item.moved);
+    }
+
+    function getMoved() {
+      return getMovedRows().length;
     }
 
     return {
@@ -289,6 +329,10 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
         return self.expandedRowKeys.map(item => item);
       },
 
+      get unSelectedRows() {
+        return getUnSelectedRows();
+      },
+
       // 是否隐藏了某列
       hasColumnHidden() {
         return hasColumnHidden();
@@ -296,7 +340,21 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
 
       getData,
 
-      isSelected
+      getRowById(id: string) {
+        return findTree(self.rows, item => item.id === id);
+      },
+
+      isSelected,
+
+      getRowByIndex,
+
+      get moved() {
+        return getMoved();
+      },
+
+      get movedRows() {
+        return getMovedRows();
+      }
     };
   })
   .actions(self => {
@@ -333,6 +391,31 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
       if (config.columns && Array.isArray(config.columns)) {
         self.columns.replace(updateColumns(config.columns) as any);
       }
+    }
+
+    function exchange(fromIndex: number, toIndex: number, item?: IRow) {
+      item = item || self.rows[fromIndex];
+
+      if (item.parentId) {
+        const parent: IRow = self.getRowById(item.parentId) as any;
+        const offset = parent.children.indexOf(item) - fromIndex;
+        toIndex += offset;
+        fromIndex += offset;
+
+        const newRows = parent.children.concat();
+        newRows.splice(fromIndex, 1);
+        newRows.splice(toIndex, 0, item);
+        newRows.forEach((item, index) => (item.newIndex = index));
+        parent.children.replace(newRows);
+        return;
+      }
+
+      const newRows = self.rows.concat();
+      newRows.splice(fromIndex, 1);
+      newRows.splice(toIndex, 0, item);
+
+      newRows.forEach((item, index) => (item.newIndex = index));
+      self.rows.replace(newRows);
     }
 
     function persistSaveToggledColumns() {
@@ -602,6 +685,22 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
       }
     });
 
+    function reset() {
+      self.rows.forEach(item => item.reset());
+      let rows = self.rows.concat();
+      eachTree(rows, item => {
+        if (item.children) {
+          let rows = item.children.concat().sort((a, b) => a.index - b.index);
+          rows.forEach(item => item.reset());
+          item.children.replace(rows);
+        }
+      });
+      rows.forEach(item => item.reset());
+      rows = rows.sort((a, b) => a.index - b.index);
+      self.rows.replace(rows);
+      self.dragging = false;
+    }
+
     return {
       update,
       persistSaveToggledColumns,
@@ -611,6 +710,8 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
       updateSelected,
       updateSelectedAll,
       updateExpanded,
+      exchange,
+      reset,
 
       // events
       afterCreate() {
@@ -633,11 +734,7 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
           }
         }, 200);
       },
-      saveRemote,
-
-      getRowByIndex(rowIndex: number) {
-        return self.rows[rowIndex];
-      }
+      saveRemote
     };
   });
 

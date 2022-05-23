@@ -51,7 +51,7 @@ export class HeadCellSort extends React.Component<Props, State> {
           }
 
           if (onSort) {
-            const prevented = onSort({
+            const prevented = await onSort({
               orderBy: this.state.orderBy,
               order: this.state.order
             });

@@ -144,8 +144,13 @@ export class HeadCellSearchDropDown extends React.Component<
     return schema || 'error';
   }
 
-  handleAction(e: any, action: ActionObject, ctx: object, confirm: Function) {
-    const {onAction} = this.props;
+  async handleAction(
+    e: any,
+    action: ActionObject,
+    ctx: object,
+    confirm: Function
+  ) {
+    const {onAction, data, dispatchEvent, name} = this.props;
 
     if (action.actionType === 'cancel' || action.actionType === 'close') {
       confirm();
@@ -158,23 +163,27 @@ export class HeadCellSearchDropDown extends React.Component<
       return;
     }
 
-    onAction && onAction(e, action, ctx);
-  }
-
-  async handleReset() {
-    const {onSearch, data, name, store, dispatchEvent} = this.props;
     const values = {...data};
+    this.formItems.forEach(key => setVariable(values, key, undefined));
 
     const rendererEvent = await dispatchEvent(
       'columnSearch',
       createObject(data, {
-        ...values
+        searchName: name,
+        searchValue: values
       })
     );
 
     if (rendererEvent?.prevented) {
       return;
     }
+
+    onAction && onAction(e, action, ctx);
+  }
+
+  async handleReset() {
+    const {onSearch, data, name, store} = this.props;
+    const values = {...data};
 
     this.formItems.forEach(key => setVariable(values, key, undefined));
 
@@ -201,7 +210,8 @@ export class HeadCellSearchDropDown extends React.Component<
     const rendererEvent = await dispatchEvent(
       'columnSearch',
       createObject(data, {
-        ...values
+        searchName: name,
+        searchValue: values
       })
     );
 
