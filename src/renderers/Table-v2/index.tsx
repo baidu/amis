@@ -25,6 +25,7 @@ import {evalExpression, filter} from '../../utils/tpl';
 import {isEffectiveApi} from '../../utils/api';
 import Checkbox from '../../components/Checkbox';
 import {BadgeSchema} from '../../components/Badge';
+import {Icon} from '../../components/icons';
 import {TableStoreV2, ITableStore, IColumn, IRow} from '../../store/table-v2';
 
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
@@ -383,10 +384,8 @@ export default class TableRenderer extends React.Component<
 
     onSelect &&
       onSelect(
-        null,
-        false,
-        store.selectedRowKeys.map(item => item),
-        store.selectedRows.map(item => item.data)
+        store.selectedRows.map(item => item.data),
+        store.unSelectedRows.map(item => item.data)
       );
   }
 
@@ -431,11 +430,11 @@ export default class TableRenderer extends React.Component<
     // selectedRowKeysExpr比selectedRowKeys优先级高
     if (props.rowSelection && props.rowSelection.selectedRowKeysExpr) {
       rows.forEach((row: any, index: number) => {
-        const flag = filter(props.rowSelection.selectedRowKeysExpr, {
+        const flag = evalExpression(props.rowSelection.selectedRowKeysExpr, {
           record: row,
           rowIndex: index
         });
-        if (flag === 'true') {
+        if (flag) {
           selectedRowKeys.push(row[props?.rowSelection?.keyField || 'key']);
         }
       });
@@ -450,11 +449,11 @@ export default class TableRenderer extends React.Component<
     let expandedRowKeys: Array<string | number> = [];
     if (props.expandable && props.expandable.expandedRowKeysExpr) {
       rows.forEach((row: any, index: number) => {
-        const flag = filter(props.expandable.expandedRowKeysExpr, {
+        const flag = evalExpression(props.expandable.expandedRowKeysExpr, {
           record: row,
           rowIndex: index
         });
-        if (flag === 'true') {
+        if (flag) {
           expandedRowKeys.push(row[props?.expandable?.keyField || 'key']);
         }
       });
@@ -1019,19 +1018,16 @@ export default class TableRenderer extends React.Component<
 
   @autobind
   async handleSelected(
-    record: any,
-    value: boolean,
     selectedRows: Array<any>,
-    selectedRowKeys: Array<string | number>
+    selectedRowKeys: Array<string | number>,
+    unSelectedRows: Array<string | number>
   ) {
     const {dispatchEvent, data, rowSelection, onSelect, store} = this.props;
     const rendererEvent = await dispatchEvent(
-      'selected',
+      'selectedChange',
       createObject(data, {
-        record,
-        value,
-        selectedRows,
-        selectedRowKeys
+        selectedItems: selectedRows,
+        unSelectedItems: unSelectedRows
       })
     );
 
@@ -1040,34 +1036,7 @@ export default class TableRenderer extends React.Component<
     }
 
     store.updateSelected(selectedRowKeys, rowSelection.keyField);
-    onSelect && onSelect(record, value, selectedRows, selectedRowKeys);
-  }
-
-  @autobind
-  async handleSelectedAll(
-    value: boolean,
-    selectedRowKeys: Array<string | number>,
-    selectedRows: Array<any>,
-    changeRows: Array<any>
-  ) {
-    const {dispatchEvent, data, rowSelection, onSelectAll, store} = this.props;
-    const rendererEvent = await dispatchEvent(
-      'selectedAll',
-      createObject(data, {
-        value,
-        selectedRowKeys,
-        selectedRows,
-        changeRows
-      })
-    );
-
-    if (rendererEvent?.prevented) {
-      return rendererEvent?.prevented;
-    }
-
-    store.updateSelected(selectedRowKeys, rowSelection.keyField);
-    onSelectAll &&
-      onSelectAll(value, selectedRowKeys, selectedRows, selectedRowKeys);
+    onSelect && onSelect(selectedRows, unSelectedRows);
   }
 
   @autobind
@@ -1076,7 +1045,8 @@ export default class TableRenderer extends React.Component<
     const rendererEvent = await dispatchEvent(
       'columnSort',
       createObject(data, {
-        ...payload
+        orderBy: payload.orderBy,
+        orderDir: payload.order
       })
     );
 
@@ -1088,13 +1058,14 @@ export default class TableRenderer extends React.Component<
   }
 
   @autobind
-  async handleFilter(payload: any) {
+  async handleFilter(payload: {
+    filterName: string,
+    filterValue: string
+  }) {
     const {dispatchEvent, data, onFilter} = this.props;
     const rendererEvent = await dispatchEvent(
       'columnFilter',
-      createObject(data, {
-        payload
-      })
+      createObject(data, payload)
     );
 
     if (rendererEvent?.prevented) {
@@ -1105,24 +1076,66 @@ export default class TableRenderer extends React.Component<
   }
 
   @autobind
-  async handleDragOver(dataSource: Array<any>) {
-    const {dispatchEvent, data, onDrag} = this.props;
+  async handleRowClick(event: React.ChangeEvent<any>, rowItem: any, rowIndex?: number) {
+    const {dispatchEvent, data, onRow} = this.props;
+
     const rendererEvent = await dispatchEvent(
-      'dragOver',
-      createObject(data, {
-        dataSource
-      })
+      'rowClick',
+      createObject(data, {rowItem})
     );
 
     if (rendererEvent?.prevented) {
       return rendererEvent?.prevented;
     }
 
-    onDrag && onDrag(dataSource);
+    if (rowItem && onRow) {
+      onRow.onRowClick && onRow.onRowClick(event, rowItem, rowIndex);
+    }
+  }
+
+  @autobind
+  async handleOrderChange(oldIndex: number, newIndex: number, levels: Array<string>) {
+    const {store} = this.props;
+    const rowItem = store.getRowByIndex(oldIndex, levels);
+
+    store.exchange(oldIndex, newIndex, rowItem);
+  }
+
+  @autobind
+  async handleSaveOrder() {
+    const {store, onSaveOrder, data, dispatchEvent} = this.props;
+
+    const movedItems = store.movedRows.map(item => item.data);
+    const items = store.rows.map(item => item.getDataWithModifiedChilden());
+
+    const rendererEvent = await dispatchEvent(
+      'orderChange',
+      createObject(data, {movedItems})
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    if (!onSaveOrder || !store.movedRows.length) {
+      return;
+    }
+
+    onSaveOrder(
+      movedItems,
+      items
+    );
+  }
+
+  @autobind
+  reset() {
+    const {store} = this.props;
+
+    store.reset();
   }
 
   doAction(action: Action, args: any, throwErrors: boolean): any {
-    const {store, rowSelection} = this.props;
+    const {store, rowSelection, data} = this.props;
 
     const actionType = action?.actionType as string;
     const keyField = rowSelection?.keyField;
@@ -1135,7 +1148,15 @@ export default class TableRenderer extends React.Component<
         store.updateSelected([], keyField);
         break;
       case 'select':
-        store.updateSelected(args?.selectedRowKeys, keyField);
+        const dataSource = store.getData(data);
+        const selected: Array<any> = [];
+        dataSource.items.forEach((item: any, rowIndex: number) => {
+          const flag = evalExpression(args?.selectedRowKeysExpr, {record: item, rowIndex});
+          if (flag) {
+            selected.push(item[keyField]);
+          }
+        });
+        store.updateSelected(selected, keyField);
         break;
       default:
         break;
@@ -1158,6 +1179,7 @@ export default class TableRenderer extends React.Component<
       placeholder,
       rowClassNameExpr,
       itemActions,
+      onRow,
       store,
       ...rest
     } = this.props;
@@ -1310,23 +1332,73 @@ export default class TableRenderer extends React.Component<
         loading={this.renderSchema('loading', loading)}
         placeholder={this.renderSchema('placeholder', placeholder)}
         onSelect={this.handleSelected}
-        onSelectAll={this.handleSelectedAll}
+        onSelectAll={this.handleSelected}
         onSort={this.handleSort}
         onFilter={this.handleFilter}
-        onDrag={this.handleDragOver}
+        onDrag={this.handleOrderChange}
         itemActions={itemActionsConfig}
+        onRow={{
+          ...onRow,
+          onRowClick: this.handleRowClick
+        }}
       ></Table>
     );
+  }
+
+  renderHeading() {
+    let {
+      store,
+      classnames: cx,
+      headingClassName,
+      translate: __
+    } = this.props;
+
+    if (store.moved) {
+      return (
+        <div className={cx('Table-heading', headingClassName)} key="heading">
+          {
+            store.moved ? (
+              <span>
+                {__('Table.moved', {
+                  moved: store.moved
+                })}
+                <button
+                  type="button"
+                  className={cx('Button Button--xs Button--success m-l-sm')}
+                  onClick={this.handleSaveOrder}
+                >
+                  <Icon icon="check" className="icon m-r-xs" />
+                  {__('Form.submit')}
+                </button>
+                <button
+                  type="button"
+                  className={cx('Button Button--xs Button--danger m-l-sm')}
+                  onClick={this.reset}
+                >
+                  <Icon icon="close" className="icon m-r-xs" />
+                  {__('Table.discard')}
+                </button>
+              </span>
+            ) : null
+          }
+        </div>
+      );
+    }
+
+    return null;
   }
 
   render() {
     const {classnames: cx} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
+    
+    const heading = this.renderHeading();
 
     return (
       <div className={cx('Table-render-wrapper')}>
         {this.renderActions('header')}
+        {heading}
         {this.renderTable()}
       </div>
     );

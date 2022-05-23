@@ -10,7 +10,6 @@ import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
 import intersection from 'lodash/intersection';
-import cloneDeep from 'lodash/cloneDeep';
 import Sortable from 'sortablejs';
 
 import {themeable, ClassNamesFn, ThemeProps} from '../../theme';
@@ -325,12 +324,15 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   constructor(props: TableProps) {
     super(props);
 
-    this.selectedRows = props.rowSelection
-      ? this.getSelectedRows(
-          props.dataSource,
-          props.rowSelection?.selectedRowKeys
-        )
-      : [];
+    if (props.rowSelection) {
+      const selectedResult = this.getSelectedRows(
+        props.dataSource,
+        props.rowSelection?.selectedRowKeys
+      );
+
+      this.selectedRows = selectedResult.selectedRows;
+      this.unSelectedRows = selectedResult.unSelectedRows;
+    }
 
     this.state = {
       selectedRowKeys: props.rowSelection
@@ -361,6 +363,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   tdColumns: Array<TdProps>;
   // 表格当前选中行
   selectedRows: Array<any>;
+  // 表格当前未选中行
+  unSelectedRows: Array<any>;
   // 拖拽排序
   sortable: Sortable;
   // 记录点击起始横坐标
@@ -393,6 +397,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     selectedRowKeys: Array<string | number>
   ) {
     const selectedRows: Array<any> = [];
+    const unSelectedRows: Array<any> = [];
     dataSource.forEach(data => {
       if (
         find(
@@ -401,10 +406,12 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         )
       ) {
         selectedRows.push(data);
+      } else {
+        unSelectedRows.push(data);
       }
     });
 
-    return selectedRows;
+    return {selectedRows, unSelectedRows};
   }
 
   updateTableBodyFixed() {
@@ -498,10 +505,12 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     // 选择项发生了变化触发
     if (!isEqual(prevState.selectedRowKeys, this.state.selectedRowKeys)) {
       // 更新保存的已选择行数据
-      this.selectedRows = this.getSelectedRows(
+      const selectedResult = this.getSelectedRows(
         this.state.dataSource,
         this.state.selectedRowKeys
       );
+      this.selectedRows = selectedResult.selectedRows;
+      this.unSelectedRows = selectedResult.unSelectedRows;
 
       const {rowSelection} = this.props;
       rowSelection &&
@@ -526,10 +535,12 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         this.setState({
           selectedRowKeys: this.props.rowSelection.selectedRowKeys
         });
-        this.selectedRows = this.getSelectedRows(
+        const selectedResult = this.getSelectedRows(
           this.state.dataSource,
           this.state.selectedRowKeys
         );
+        this.selectedRows = selectedResult.selectedRows;
+        this.unSelectedRows = selectedResult.unSelectedRows;
       }
     }
 
@@ -599,37 +610,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     this.destroyDragging();
   }
 
-  exchange(fromIndex: number, toIndex: number, item: any) {
-    const {scroll, headSummary} = this.props;
-    // 如果有头部总结行 fromIndex就会+1
-    if ((!scroll || (scroll && !scroll.y)) && headSummary) {
-      fromIndex = fromIndex - 1;
-    }
-
-    const index = toIndex - fromIndex;
-
-    const levels = item.getAttribute('row-levels');
-    const rowIndex = +item.getAttribute('row-index');
-
-    const dataSource = cloneDeep(this.state.dataSource);
-    const levelsArray = levels ? levels.split(',') : [];
-    const childrenColumnName = this.getChildrenColumnName();
-    let data: Array<any> = dataSource;
-    let i = 0;
-    while (i < levelsArray.length) {
-      data = data[levelsArray[i]][childrenColumnName];
-      i++;
-    }
-
-    if (data && data.length > 0) {
-      const row = cloneDeep(data[rowIndex]);
-      data.splice(rowIndex, 1);
-      data.splice(rowIndex + index, 0, row);
-    }
-
-    return data;
-  }
-
   initDragging() {
     const {classnames: cx, onDrag} = this.props;
 
@@ -666,14 +646,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           return;
         }
 
-        const {onDrag} = this.props;
-        if (onDrag) {
-          const data = this.exchange(e.oldIndex, e.newIndex, e.item);
-          const prevented = await onDrag(data);
-          if (prevented) {
-            return;
-          }
-        }
+        const rowLevels = e.item.getAttribute('row-levels');
+
+        onDrag && onDrag(e.oldIndex, e.newIndex, rowLevels ? rowLevels.split(',') : []);
       }
     });
   }
@@ -1037,9 +1012,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                             const selectedRowKeys = value ? allRowKeys : [];
                             if (onSelectAll) {
                               const prevented = await onSelectAll(
-                                value,
-                                selectedRowKeys,
                                 selectedRows,
+                                value ? [] : selectedRows,
                                 changeRows
                               );
                               if (prevented) {
@@ -1152,8 +1126,15 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     );
   }
 
-  onRowClick(event: React.ChangeEvent<any>, record?: any, rowIndex?: number) {
+  async onRowClick(event: React.ChangeEvent<any>, record?: any, rowIndex?: number) {
     const {rowSelection, onRow} = this.props;
+
+    if (onRow && onRow.onRowClick) {
+      const prevented = await onRow.onRowClick(event, record, rowIndex);
+      if (prevented) {
+        return;
+      }
+    }
 
     if (rowSelection && rowSelection.type && rowSelection.rowClick) {
       const defaultKey = this.getRowSelectionKeyField();
@@ -1164,10 +1145,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       );
 
       this.selectedSingleRow(!isSelected, record);
-    }
-
-    if (record && onRow) {
-      onRow.onRowClick && onRow.onRowClick(event, record, rowIndex);
     }
   }
 
@@ -1350,42 +1327,41 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const defaultKey = this.getRowSelectionKeyField();
     const isRadio = rowSelection && rowSelection.type === 'radio';
 
+    let selectedRowKeys = [];
+    if (value) {
+      if (isRadio) {
+        selectedRowKeys = [data[defaultKey]];
+      } else {
+        selectedRowKeys = [
+          ...this.state.selectedRowKeys,
+          data[defaultKey],
+          ...this.getDataChildrenKeys(data)
+        ].filter((key, i, a) => a.indexOf(key) === i)
+      }
+    } else {
+      if (!isRadio) {
+        selectedRowKeys = this.state.selectedRowKeys.filter(
+          key =>
+            ![data[defaultKey], ...this.getDataChildrenKeys(data)].includes(
+              key
+            )
+        )
+      }
+    }
+
     if (onSelect) {
+      const selectedResult = this.getSelectedRows(this.state.dataSource, selectedRowKeys);
       const prevented = await onSelect(
-        data,
-        value,
-        this.selectedRows,
-        this.state.selectedRowKeys
+        selectedResult.selectedRows,
+        selectedRowKeys,
+        selectedResult.unSelectedRows
       );
       if (prevented) {
         return;
       }
     }
 
-    if (value) {
-      if (isRadio) {
-        this.setState({selectedRowKeys: [data[defaultKey]]});
-      } else {
-        this.setState(prevState => ({
-          selectedRowKeys: [
-            ...prevState.selectedRowKeys,
-            data[defaultKey],
-            ...this.getDataChildrenKeys(data)
-          ].filter((key, i, a) => a.indexOf(key) === i)
-        }));
-      }
-    } else {
-      if (!isRadio) {
-        this.setState({
-          selectedRowKeys: this.state.selectedRowKeys.filter(
-            key =>
-              ![data[defaultKey], ...this.getDataChildrenKeys(data)].includes(
-                key
-              )
-          )
-        });
-      }
-    }
+    this.setState({selectedRowKeys});
   }
 
   renderRow(data: any, rowIndex: number, levels: Array<number>) {
@@ -1396,6 +1372,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       draggable,
       indentSize,
       rowClassName,
+      keyField,
       lineHeight // 是否设置了固定行高
     } = this.props;
 
@@ -1515,10 +1492,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       key => key === data[defaultKey]
     );
     const hasChildrenChecked = this.hasCheckedChildrenRows(data);
+    const isRadio = rowSelection && rowSelection.type === 'radio';
 
     return [
       <tr
-        key={rowIndex}
+        key={`${data[keyField || 'key'] || rowIndex}`} // 可能会拖拽排序，就不能用rowIndex作为key了，否则显示会有问题
         row-index={rowIndex}
         row-levels={levels.join(',')}
         className={cx(
@@ -1546,8 +1524,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             <CheckBox
               name={'Table-checkbox'}
               type={rowSelection.type || 'checkbox'}
-              partial={hasChildrenChecked && !isChecked}
-              checked={hasChildrenChecked || isChecked}
+              partial={!isRadio && hasChildrenChecked && !isChecked}
+              checked={isRadio ? isChecked : (hasChildrenChecked || isChecked)}
               onChange={(value, shift) => {
                 if (!(rowSelection && rowSelection.rowClick)) {
                   this.selectedSingleRow(value, data);
@@ -1603,9 +1581,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             </Cell>
           </tr>
         ) : (
-          this.state.dataSource.map((data, index) => {
-            return this.renderRow(data, index, []);
-          })
+          this.state.dataSource.map((data, index) => this.renderRow(data, index, []))
         )}
       </tbody>
     );
