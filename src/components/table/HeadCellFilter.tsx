@@ -180,7 +180,10 @@ export class HeadCellFilter extends React.Component<Props, State> {
     const payload = {[column.key]: selectedKeys};
 
     if (onFilter) {
-      const prevented = await onFilter(payload);
+      const prevented = await onFilter({
+        filterName: column.key,
+        filterValue: selectedKeys?.join(',')
+      });
       if (prevented) {
         return;
       }

@@ -653,7 +653,6 @@ export class ServiceRenderer extends Service {
   }
 
   componentWillUnmount() {
-    super.componentWillUnmount();
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this as ScopedComponentType);
   }
