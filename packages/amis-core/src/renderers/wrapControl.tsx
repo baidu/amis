@@ -328,8 +328,8 @@ export function wrapControl<
             if (model && typeof props.value !== 'undefined') {
               // 渲染器中的 value 优先
               if (
-                props.value !== prevProps.value &&
-                props.value !== model.tmpValue
+                !isEqual(props.value, prevProps.value) &&
+                !isEqual(props.value, model.tmpValue)
               ) {
                 // 外部直接传入的 value 无需执行运算器
                 model.changeTmpValue(props.value);
@@ -341,7 +341,7 @@ export function wrapControl<
             ) {
               // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
               if (
-                props.defaultValue !== prevProps.defaultValue ||
+                !isEqual(props.defaultValue, prevProps.defaultValue) ||
                 (!isEqual(props.data, prevProps.data) &&
                   isNeedFormula(props.defaultValue, props.data, prevProps.data))
               ) {
@@ -353,7 +353,10 @@ export function wrapControl<
                   prevProps.defaultValue,
                   prevProps.data
                 );
-                if (curResult !== prevResult && curResult !== model.tmpValue) {
+                if (
+                  !isEqual(curResult, prevResult) &&
+                  !isEqual(curResult, model.tmpValue)
+                ) {
                   // 识别上下文变动、自身数值变动、公式运算结果变动
                   model.changeTmpValue(curResult);
                   if (props.onChange) {
@@ -366,29 +369,30 @@ export function wrapControl<
 
               if (
                 valueByName !== undefined &&
-                props.defaultValue === prevProps.defaultValue
+                isEqual(props.defaultValue, prevProps.defaultValue)
               ) {
                 // value 非公式表达式时，name 值优先，若 defaultValue 主动变动时，则使用 defaultValue
                 if (
                   // 然后才是查看关联的 name 属性值是否变化
-                  props.data !== prevProps.data &&
-                  (!model.emitedValue || model.emitedValue === model.tmpValue)
+                  !isEqual(props.data, prevProps.data) &&
+                  (!model.emitedValue ||
+                    isEqual(model.emitedValue, model.tmpValue))
                 ) {
                   model.changeEmitedValue(undefined);
                   const prevValueByName = getVariable(props.data, model.name);
                   if (
-                    (valueByName !== prevValueByName ||
+                    (!isEqual(valueByName, prevValueByName) ||
                       getVariable(props.data, model.name, false) !==
                         getVariable(prevProps.data, model.name, false)) &&
-                    valueByName !== model.tmpValue
+                    !isEqual(valueByName, model.tmpValue)
                   ) {
                     model.changeTmpValue(valueByName);
                   }
                 }
               } else if (
                 typeof props.defaultValue !== 'undefined' &&
-                props.defaultValue !== prevProps.defaultValue &&
-                props.defaultValue !== model.tmpValue
+                !isEqual(props.defaultValue, prevProps.defaultValue) &&
+                !isEqual(props.defaultValue, model.tmpValue)
               ) {
                 // 组件默认值非公式
                 const curValue = replaceExpression(props.defaultValue);
