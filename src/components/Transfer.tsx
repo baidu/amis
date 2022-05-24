@@ -664,10 +664,6 @@ export class Transfer<
         onChange={onChange}
         placeholder={placeholder}
         itemRender={resultItemRender}
-        columns={columns!}
-        options={options || []}
-        option2value={option2value}
-        cellRender={cellRender}
         searchable={searchable}
         onSearch={onResultSearch}
       />
