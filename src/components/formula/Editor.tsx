@@ -56,6 +56,11 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   variableMode?: 'tabs' | 'tree';
 
   /**
+   * 只展示变量，不需要其他面板
+   */
+  onlyVariable?: boolean;
+
+  /**
    * 函数集合，默认不需要传，即  amis-formula 里面那个函数
    * 如果有扩充，则需要传。
    */
@@ -221,6 +226,19 @@ export class FormulaEditor extends React.Component<
 
   @autobind
   handleVariableSelect(item: VariableItem) {
+    const {onlyVariable, evalMode} = this.props;
+
+    // 只展示变量时，选择即提交
+    if (onlyVariable) {
+      const onChange = this.props.onChange;
+      const value = item.value
+        ? evalMode
+          ? item.value
+          : '${' + item.value + '}'
+        : '';
+      return onChange?.(value);
+    }
+
     this.editorPlugin?.insertContent(
       {
         key: item.value,
@@ -248,6 +266,7 @@ export class FormulaEditor extends React.Component<
       value,
       functions,
       variableMode,
+      onlyVariable,
       translate: __,
       classnames: cx,
       variableClassName,
@@ -267,23 +286,30 @@ export class FormulaEditor extends React.Component<
           'is-focused': focused
         })}
       >
-        <section className={cx(`FormulaEditor-content`)}>
-          <header className={cx(`FormulaEditor-header`)}>
-            {__(header || 'FormulaEditor.title')}
-          </header>
+        {onlyVariable ? null : (
+          <section className={cx(`FormulaEditor-content`)}>
+            <header className={cx(`FormulaEditor-header`)}>
+              {__(header || 'FormulaEditor.title')}
+            </header>
 
-          <CodeMirrorEditor
-            className={cx('FormulaEditor-editor')}
-            value={value}
-            onChange={this.handleOnChange}
-            editorFactory={this.editorFactory}
-            editorDidMount={this.handleEditorMounted}
-            onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
-          />
-        </section>
+            <CodeMirrorEditor
+              className={cx('FormulaEditor-editor')}
+              value={value}
+              onChange={this.handleOnChange}
+              editorFactory={this.editorFactory}
+              editorDidMount={this.handleEditorMounted}
+              onFocus={this.handleFocus}
+              onBlur={this.handleBlur}
+            />
+          </section>
+        )}
 
-        <section className={cx('FormulaEditor-settings')}>
+        <section
+          className={cx(
+            'FormulaEditor-settings',
+            onlyVariable ? 'only-variable' : ''
+          )}
+        >
           <div className={cx('FormulaEditor-panel')}>
             {variableMode !== 'tabs' ? (
               <div className={cx('FormulaEditor-panel-header')}>
@@ -310,12 +336,14 @@ export class FormulaEditor extends React.Component<
             </div>
           </div>
 
-          <FuncList
-            className={functionClassName}
-            title={__('FormulaEditor.function')}
-            data={functionList}
-            onSelect={this.handleFunctionSelect}
-          />
+          {onlyVariable ? null : (
+            <FuncList
+              className={functionClassName}
+              title={__('FormulaEditor.function')}
+              data={functionList}
+              onSelect={this.handleFunctionSelect}
+            />
+          )}
         </section>
       </div>
     );

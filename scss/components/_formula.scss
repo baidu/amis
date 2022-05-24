@@ -65,13 +65,17 @@
     margin-top: #{px2rem(10px)};
   }
 
+  &-settings.only-variable {
+    height: #{px2rem(350px)};
+  }
+
   &-panel {
     display: flex;
     flex: 1;
     flex-flow: column nowrap;
     justify-content: space-between;
     align-items: stretch;
-    height: #{px2rem(250px)};
+    height: 100%;
     border-radius: var(--borderRadius);
     border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
 
@@ -91,10 +95,11 @@
       flex: 1;
       display: flex;
       flex-flow: column nowrap;
-      max-height: #{px2rem(220px)};
+      max-height: calc(100% - 30px);
+      overflow: hidden;
 
       &--tabs {
-        max-height: #{px2rem(250px)};
+        max-height: 100%;
       }
     }
   }
@@ -215,10 +220,16 @@
         vertical-align: middle;
         text-align: center;
         padding: 0 #{px2rem(8px)};
-        line-height: 17px;
         border-radius: var(--borderRadius);
         background: #f5f5f5;
         color: var(--black);
+      }
+    }
+    .#{$ns}GroupedSelection {
+      &-item {
+        &-tag {
+          line-height: 17px;
+        }
       }
     }
   }
@@ -402,6 +413,36 @@
       font-weight: bold;
       line-height: 14px;
       padding: 0 2px;
+    }
+  }
+}
+
+.#{$ns}FormulaPicker.is-input-group {
+  border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+  padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  border-radius: var(--borderRadius);
+  .#{$ns}FormulaPicker-input {
+    display: inline-block;
+    width: 100%;
+    background: none;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    &:focus {
+      border: none;
+      outline: none;
+      box-sizing: none;
+    }
+  }
+  .#{$ns}FormulaPicker-toggler {
+    .icon-function {
+      transform: scale(1.6);
+    }
+    .icon-ellipsis-v {
+      transform: rotate(90deg);
+    }
+    &:hover {
+      cursor: pointer;
     }
   }
 }
