@@ -497,6 +497,36 @@ order: 68
 }
 ```
 
+### 动态设置选项卡
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "key": "tab2"
+    },
+    "body": [
+        {
+            "type": "tabs",
+            "activeKey": "${key}",
+            "tabs": [
+                {
+                    "title": "Tab 1",
+                    "hash": "tab1",
+                    "tab": "Content 1"
+                },
+
+                {
+                    "title": "Tab 2",
+                    "hash": "tab2",
+                    "tab": "Content 2"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 图标
 
 通过 icon 可以设置 tab 的图标，可以是 fontawesome 或 URL 地址。
