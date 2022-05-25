@@ -361,7 +361,7 @@ order: 13
 | ------------- | --------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
 | value         | `string`  |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
 | format        | `string`  | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 |
-| inputFormat   | `string`  | `YYYY-DD-MM`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) |
+| inputFormat   | `string`  | `YYYY-MM-DD`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) |
 | closeOnSelect | `boolean` | `false`        | 点选日期后，是否马上关闭选择框                                                                              |
 | placeholder   | `string`  | `"请选择日期"` | 占位文本                                                                                                    |
 | shortcuts     | `string`  |                | 日期快捷键                                                                                                  |
