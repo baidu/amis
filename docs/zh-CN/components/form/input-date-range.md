@@ -100,7 +100,7 @@ order: 15
 | 属性名      | 类型                      | 默认值                                                          | 说明                                                                         |
 | ----------- | ------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | format      | `string`                  | `X`                                                             | [日期选择器值格式](./date#%E5%80%BC%E6%A0%BC%E5%BC%8F)                       |
-| inputFormat | `string`                  | `YYYY-DD-MM`                                                    | [日期选择器显示格式](./date#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F)            |
+| inputFormat | `string`                  | `YYYY-MM-DD`                                                    | [日期选择器显示格式](./date#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F)            |
 | placeholder | `string`                  | `"请选择日期范围"`                                              | 占位文本                                                                     |
 | ranges      | `Array<string> 或 string` | `"yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter"` | 日期范围快捷键                                                               |
 | minDate     | `string`                  |                                                                 | 限制最小日期，用法同 [限制范围](./date#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
