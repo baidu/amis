@@ -307,10 +307,10 @@
         border-width: px2rem(7px);
         border-color: var(--Checkbox-inner-disabled-checked-bg) transparent
           transparent var(--Checkbox-inner-disabled-checked-bg);
-          &:before {
-            background: transparent;
-            border-color: var(--Checkbox-inner-onDisabled-color) !important;
-          }
+        &:before {
+          background: transparent;
+          border-color: var(--Checkbox-inner-onDisabled-color) !important;
+        }
       }
     }
     > i {
