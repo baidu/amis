@@ -2,10 +2,10 @@
  * @file Tag
  */
 import React from 'react';
-import { Renderer, RendererProps } from '../factory';
-import { BaseSchema, SchemaClassName, SchemaIcon } from '../Schema';
-import { getPropValue, autobind, createObject } from '../utils/helper';
-import { isPureVariable, resolveVariableAndFilter } from '../utils/tpl-builtin';
+import {Renderer, RendererProps} from '../factory';
+import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
+import {getPropValue, autobind, createObject} from '../utils/helper';
+import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 import Tag from '../components/Tag';
 
@@ -74,21 +74,20 @@ export interface TagSchema extends BaseSchema {
 
 export interface TagProps
   extends RendererProps,
-  Omit<TagSchema, 'type' | 'className'> { }
+    Omit<TagSchema, 'type' | 'className'> {}
 
 export class TagField extends React.Component<TagProps, object> {
   static defaultProps: Partial<TagProps> = {
     displayMode: 'normal'
   };
 
-
   @autobind
   async dispatchCloseEvent(eventData: any = {}) {
-    const { dispatchEvent, data, onClose } = this.props;
+    const {dispatchEvent, data, onClose} = this.props;
     const rendererEvent = await dispatchEvent(
       'close',
       createObject(data, {
-        value: eventData,
+        value: eventData
       })
     );
 
@@ -98,7 +97,6 @@ export class TagField extends React.Component<TagProps, object> {
 
     onClose && onClose(eventData);
   }
-
 
   render() {
     let {
@@ -138,7 +136,9 @@ export class TagField extends React.Component<TagProps, object> {
         style={style}
         closable={closable}
         closeIcon={closeIcon}
-        onClose={() => { this.dispatchCloseEvent() }}
+        onClose={() => {
+          this.dispatchCloseEvent();
+        }}
       >
         {label}
       </Tag>
@@ -149,4 +149,4 @@ export class TagField extends React.Component<TagProps, object> {
 @Renderer({
   type: 'tag'
 })
-export class TagFieldRenderer extends TagField { }
+export class TagFieldRenderer extends TagField {}
