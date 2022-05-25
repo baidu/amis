@@ -93,7 +93,7 @@
 }
 
 // .#{$ns}DateControl {
-//   // width: auto !important; // 因为这里要撑开父容器 //
+//   width: auto !important; // 因为这里要撑开父容器
 //   &.is-date > .#{$ns}DatePicker {
 //     min-width: calc(var(--DatePicker-minWidth) + var(--fontSizeLg) * 2);
 //   }
