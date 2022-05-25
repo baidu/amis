@@ -17,6 +17,7 @@ import {themeable} from '../../theme';
 import {localeable} from '../../locale';
 import type {SchemaIcon} from '../../Schema';
 import {parse, Evaluator} from 'amis-formula';
+import Input from '../Input';
 
 export interface FormulaPickerProps extends FormulaEditorProps {
   // 新的属性？
@@ -35,12 +36,17 @@ export interface FormulaPickerProps extends FormulaEditorProps {
   /**
    * 控件模式
    */
-  mode?: 'button' | 'input-button';
+  mode?: 'button' | 'input-button' | 'input-group';
 
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
+
+  /**
+   * 只展示变量，不需要其他面板
+   */
+  onlyVariable?: boolean;
 
   /**
    * 按钮Label，inputMode为button时生效
@@ -132,7 +138,8 @@ export class FormulaPicker extends React.Component<
   }
 
   static defaultProps = {
-    evalMode: true
+    evalMode: true,
+    onlyVariable: false
   };
 
   state: FormulaPickerState = {
@@ -174,7 +181,18 @@ export class FormulaPicker extends React.Component<
   }
 
   @autobind
+  handleInputGroupChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const onChange = this.props.onChange;
+    onChange && onChange(e.currentTarget.value);
+  }
+
+  @autobind
   handleEditorChange(value: string) {
+    const {onlyVariable} = this.props;
+    if (onlyVariable) {
+      return this.confirm(value);
+    }
+
     this.setState({
       editorValue: value,
       isError: false
@@ -185,6 +203,10 @@ export class FormulaPicker extends React.Component<
   handleEditorConfirm() {
     const {translate: __} = this.props;
     const value = this.state.editorValue;
+    this.confirm(value);
+  }
+
+  confirm(value: string) {
     const validate = this.validate(value);
 
     if (validate === true) {
@@ -274,6 +296,7 @@ export class FormulaPicker extends React.Component<
       functions,
       children,
       variableMode,
+      onlyVariable,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
@@ -289,8 +312,14 @@ export class FormulaPicker extends React.Component<
             setState: this.updateState
           })
         ) : (
-          <div className={cx('FormulaPicker', className)}>
-            {mode === 'button' ? (
+          <div
+            className={cx(
+              'FormulaPicker',
+              className,
+              mode === 'input-group' ? 'is-input-group' : ''
+            )}
+          >
+            {mode === 'button' && (
               <Button
                 className={cx('FormulaPicker-action', 'w-full')}
                 level={level}
@@ -319,7 +348,8 @@ export class FormulaPicker extends React.Component<
                   {__(btnLabel || 'FormulaEditor.btnLabel')}
                 </span>
               </Button>
-            ) : (
+            )}
+            {mode === 'input-button' && (
               <>
                 <ResultBox
                   className={cx(
@@ -360,6 +390,29 @@ export class FormulaPicker extends React.Component<
                 </Button>
               </>
             )}
+            {mode === 'input-group' && (
+              <>
+                <Input
+                  className={cx('FormulaPicker-input')}
+                  onChange={this.handleInputGroupChange}
+                  placeholder={allowInput ? placeholder : ''}
+                  autoComplete="off"
+                  value={value}
+                  disabled={disabled}
+                  readOnly={!allowInput}
+                />
+
+                <a
+                  className={cx(`FormulaPicker-toggler`)}
+                  onClick={this.handleClick}
+                >
+                  <Icon
+                    icon={onlyVariable ? 'ellipsis-v' : 'function'}
+                    className="icon"
+                  />
+                </a>
+              </>
+            )}
           </div>
         )}
         <Modal
@@ -377,6 +430,7 @@ export class FormulaPicker extends React.Component<
               variables={this.state.variables ?? variables}
               functions={this.state.functions ?? functions}
               variableMode={this.state.variableMode ?? variableMode}
+              onlyVariable={onlyVariable}
               value={editorValue}
               onChange={this.handleEditorChange}
             />
@@ -389,10 +443,14 @@ export class FormulaPicker extends React.Component<
                 </span>
               </div>
             ) : null}
-            <Button onClick={this.close}>{__('cancel')}</Button>
-            <Button onClick={this.handleEditorConfirm} level="primary">
-              {__('confirm')}
-            </Button>
+            {onlyVariable ? null : (
+              <>
+                <Button onClick={this.close}>{__('cancel')}</Button>
+                <Button onClick={this.handleEditorConfirm} level="primary">
+                  {__('confirm')}
+                </Button>
+              </>
+            )}
           </Modal.Footer>
         </Modal>
       </>
