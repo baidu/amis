@@ -40,13 +40,19 @@
     &--warning {
       background: var(--Tag-warning-color);
     }
+    &:not(&--processing):not(&--active) {
+      .icon-dot {
+        #dotWave {
+          display: none;
+        }
+      }
+    }
   }
 
   &--rounded {
     background-color: var(--white);
     border-radius: calc((var(--Tag-height) + 2px) / 2);
     border: 1px solid var(--Tag-default-color);
-    color: var(--Tag-default-color);
     &--inactive {
       border-color: var(--Tag-inactive-color);
       color: var(--Tag-inactive-color);
@@ -70,6 +76,13 @@
     &--warning {
       border-color: var(--Tag-warning-color);
       color: var(--Tag-warning-color);
+    }
+    &:not(&--processing):not(&--active) {
+      .icon-dot {
+        #dotWave {
+          display: none;
+        }
+      }
     }
   }
 
@@ -104,7 +117,9 @@
   }
 
   &--prev {
-    color: var(--Tag-default-color);
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
     margin-right: var(--gap-sm);
     i {
       font-size: #{px2rem(8px)};
