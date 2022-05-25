@@ -261,6 +261,7 @@
     }
 
     > input {
+      width: 100%;
       outline: none;
       border: none;
       flex-grow: 1;
@@ -272,7 +273,7 @@
 
   &-option {
     cursor: pointer;
-    min-width: px2rem(120px);
+    // min-width: px2rem(120px);
     padding: calc(
         (
             var(--Form-select-menu-height) - var(--Form-input-lineHeight) *
@@ -401,7 +402,7 @@
   box-shadow: var(--Form-select-outer-boxShadow);
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  min-width: px2rem(100px);
+  // min-width: px2rem(100px);
 
   // PopOver 上已经配置了，这个要是配置就会覆盖，所以先干掉好了
   // z-index: 10;

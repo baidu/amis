@@ -778,10 +778,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               })}
               onClick={this.removeItem.bind(this, index)}
             >
-              <Icon
-                icon="close"
-                className="icon"
-              />
+              <Icon icon="close" className="icon" />
             </span>
           </div>
         </TooltipWrapper>
@@ -1026,7 +1023,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           </div>
         ) : null}
 
-        <div ref={this.menuItemRef} className={cx('Select-option invisible')}>
+        <div ref={this.menuItemRef} className={cx('Select-option hidden')}>
           {multiple ? (
             <Checkbox size="sm">Placeholder</Checkbox>
           ) : (
@@ -1083,7 +1080,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           overlay
           className={cx('Select-popover')}
           style={{
-            minWidth: this.target ? this.target.offsetWidth : 'auto'
+            width: this.target ? this.target.offsetWidth : 'auto'
           }}
           onHide={this.close}
         >
