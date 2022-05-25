@@ -972,10 +972,7 @@ export default class Table extends React.Component<TableProps, object> {
       return;
     }
 
-    onSaveOrder(
-      movedItems,
-      items
-    );
+    onSaveOrder(movedItems, items);
   }
 
   syncSelected() {
@@ -2300,7 +2297,10 @@ export default class Table extends React.Component<TableProps, object> {
             onClick={async () => {
               const {data, dispatchEvent} = this.props;
 
-              const allToggled = !(store.activeToggaleColumns.length === store.toggableColumns.length);
+              const allToggled = !(
+                store.activeToggaleColumns.length ===
+                store.toggableColumns.length
+              );
               const rendererEvent = await dispatchEvent(
                 'columnToggled',
                 createObject(data, {
@@ -2341,9 +2341,11 @@ export default class Table extends React.Component<TableProps, object> {
             key={column.index}
             onClick={async () => {
               const {data, dispatchEvent} = this.props;
-              let columns = store.activeToggaleColumns.map(item => item.pristine);
+              let columns = store.activeToggaleColumns.map(
+                item => item.pristine
+              );
               if (!column.toggled) {
-                columns.push(column.pristine)
+                columns.push(column.pristine);
               } else {
                 columns = columns.filter(c => c.name !== column.pristine.name);
               }
