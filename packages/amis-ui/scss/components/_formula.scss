@@ -421,11 +421,9 @@
   border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
   padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
   border-radius: var(--borderRadius);
-  background-color: #fff;
-  height: var(--Form-input-height);
   .#{$ns}FormulaPicker-input {
-    display: flex;
-    align-items: center;
+    display: inline-block;
+    width: 100%;
     background: none;
     padding: 0;
     border: 0;
@@ -438,7 +436,7 @@
   }
   .#{$ns}FormulaPicker-toggler {
     .icon-function {
-      transform: scale(1.8);
+      transform: scale(1.6);
     }
     .icon-ellipsis-v {
       transform: rotate(90deg);

@@ -20,6 +20,7 @@ import ResultBox from '../ResultBox';
 import Button from '../Button';
 import {Icon} from '../icons';
 import Modal from '../Modal';
+import Input from '../Input';
 
 export interface FormulaPickerProps extends FormulaEditorProps {
   // 新的属性？
@@ -44,6 +45,11 @@ export interface FormulaPickerProps extends FormulaEditorProps {
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
+
+  /**
+   * 只展示变量，不需要其他面板
+   */
+  onlyVariable?: boolean;
 
   /**
    * 按钮Label，inputMode为button时生效
@@ -135,7 +141,8 @@ export class FormulaPicker extends React.Component<
   }
 
   static defaultProps = {
-    evalMode: true
+    evalMode: true,
+    onlyVariable: false
   };
 
   state: FormulaPickerState = {
@@ -177,7 +184,18 @@ export class FormulaPicker extends React.Component<
   }
 
   @autobind
+  handleInputGroupChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const onChange = this.props.onChange;
+    onChange && onChange(e.currentTarget.value);
+  }
+
+  @autobind
   handleEditorChange(value: string) {
+    const {onlyVariable} = this.props;
+    if (onlyVariable) {
+      return this.confirm(value);
+    }
+
     this.setState({
       editorValue: value,
       isError: false
@@ -282,6 +300,7 @@ export class FormulaPicker extends React.Component<
       functions,
       children,
       variableMode,
+      onlyVariable,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
@@ -428,6 +447,7 @@ export class FormulaPicker extends React.Component<
               variables={this.state.variables ?? variables}
               functions={this.state.functions ?? functions}
               variableMode={this.state.variableMode ?? variableMode}
+              onlyVariable={onlyVariable}
               value={editorValue}
               onChange={this.handleEditorChange}
               selfVariableName={this.props.selfVariableName}
@@ -441,10 +461,14 @@ export class FormulaPicker extends React.Component<
                 </span>
               </div>
             ) : null}
-            <Button onClick={this.close}>{__('cancel')}</Button>
-            <Button onClick={this.handleEditorConfirm} level="primary">
-              {__('confirm')}
-            </Button>
+            {onlyVariable ? null : (
+              <>
+                <Button onClick={this.close}>{__('cancel')}</Button>
+                <Button onClick={this.handleEditorConfirm} level="primary">
+                  {__('confirm')}
+                </Button>
+              </>
+            )}
           </Modal.Footer>
         </Modal>
       </>
