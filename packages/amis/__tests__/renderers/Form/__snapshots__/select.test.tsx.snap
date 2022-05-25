@@ -1572,7 +1572,7 @@ exports[`Renderer:select virtual 1`] = `
               </span>
               <div
                 class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
-                style="display: block; min-width: 0; left: 0px; top: 0px; position: relative;"
+                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >
                 <div
@@ -1582,7 +1582,7 @@ exports[`Renderer:select virtual 1`] = `
                   class="cxd-Select-menu cxd-Select--longlist"
                 >
                   <div
-                    class="cxd-Select-option invisible"
+                    class="cxd-Select-option hidden"
                   >
                     <span>
                       Placeholder
