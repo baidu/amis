@@ -63,6 +63,11 @@ export interface TreeControlSchema extends FormOptionsControl {
   onlyChildren?: boolean;
 
   /**
+   * 单选时，只运行选择叶子节点
+   */
+  onlyLeaf?: boolean;
+
+  /**
    * 顶级节点是否可以创建子节点
    */
   rootCreatable?: boolean;
@@ -174,6 +179,7 @@ export default class TreeControl extends React.Component<TreeProps> {
       unfoldedLevel,
       withChildren,
       onlyChildren,
+      onlyLeaf,
       loading,
       hideRoot,
       rootLabel,
@@ -228,6 +234,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             unfoldedLevel={unfoldedLevel}
             withChildren={withChildren}
             onlyChildren={onlyChildren}
+            onlyLeaf={onlyLeaf}
             hideRoot={hideRoot}
             rootLabel={__(rootLabel)}
             rootValue={rootValue}

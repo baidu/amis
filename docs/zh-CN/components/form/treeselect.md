@@ -307,7 +307,7 @@ order: 60
 | 属性名            | 类型      | 默认值  | 说明                                        |
 | ----------------- | --------- | ------- | ------------------------------------------- |
 | hideNodePathLabel | `boolean` | `false` | 是否隐藏选择框中已选择节点的路径 label 信息 |
-| onlyLeaf          | `boolean` | `false` | 只运行选择叶子节点                          |
+| onlyLeaf          | `boolean` | `false` | 只允许选择叶子节点                          |
 
 ## 事件表
 
@@ -318,8 +318,8 @@ order: 60
 | edit         | `options: Option[]`,`value: Option` 编辑节点信息 | 编辑选项       |
 | delete       | `options: Option[]`,`value: Option` 删除节点信息 | 删除选项       |
 | loadFinished | value: `json` 懒加载返回的数据                   | 懒加载完成触发 |
-| blur         | `value: string` 选中值                         | 输入框失去焦点 |
-| focus        | `value: string` 选中值                         | 输入框获取焦点 |
+| blur         | `value: string` 选中值                           | 输入框失去焦点 |
+| focus        | `value: string` 选中值                           | 输入框获取焦点 |
 
 ## 动作表
 
