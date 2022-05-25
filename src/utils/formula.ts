@@ -214,18 +214,10 @@ export function isExpression(expression: any): boolean {
     // 非字符串类型，比如：Object、Array类型、boolean、number类型
     return false;
   }
-  // 备注: "\\${xxx}"不作为表达式，至少含一个${xxx}才算是表达式
-  const regularValueArr1 = expression.match(/(\$\{[^\$\{\}]+\})+/g); // 提取所有 ${xxx}
-  if (!regularValueArr1) {
-    return false;
-  }
-  const regularValueArr2 = expression.match(/(\\\$\{[^\$\{\}]+\})+/g); // 提取所有 \${xxx}
-  if (regularValueArr1.length > 0 && (!regularValueArr2 || regularValueArr1.length > regularValueArr2.length)) {
-    // 至少包含一个 ${xxx}
-    return true;
-  }
+  // 备注1: "\\${xxx}"不作为表达式，至少含一个${xxx}才算是表达式
+  
   // 备注2: safari 不支持 /(?<!\\)(\${).+(\})/.test(expression) 
-  return false;
+  return /(^|[^\\])\$\{.+\}/.test(expression);
 }
 
 // 用于判断是否需要执行表达式:
