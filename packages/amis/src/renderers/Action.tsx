@@ -415,7 +415,8 @@ const ActionProps = [
   'copyFormat',
   'payload',
   'requireSelected',
-  'countDown'
+  'countDown',
+  'fileName'
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
