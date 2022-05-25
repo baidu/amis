@@ -2172,21 +2172,35 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
-它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整，比如
+它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整。`reload`支持两种触发方式：
+
+- `"type": "reload"`，CRUD 内置的方法
+- `{"actionType": "reload", "target": "targetName"}`，动作触发
 
 ```schema: scope="body"
 {
     "type": "crud",
+    "name": "crud",
     "syncLocation": false,
     "api": "/api/mock2/sample",
     "headerToolbar": [
         {
+            "type": "action",
+            "align": "right",
+            "icon": "iconfont icon-refresh",
+            "label": "刷新(actionType)",
+            "tooltip": "",
+            "level": "primary",
+            "actionType": 'reload',
+            "target": 'crud'
+        },
+        {
             "type": "reload",
             "align": "right",
             "icon": "iconfont icon-refresh",
-            "label": "刷新",
+            "label": "刷新(type)",
             "tooltip": "",
-            "level": "success"
+            "level": "primary"
         }
     ],
     "columns": [
