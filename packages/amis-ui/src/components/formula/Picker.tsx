@@ -47,11 +47,6 @@ export interface FormulaPickerProps extends FormulaEditorProps {
   borderMode?: 'full' | 'half' | 'none';
 
   /**
-   * 只展示变量，不需要其他面板
-   */
-  onlyVariable?: boolean;
-
-  /**
    * 按钮Label，inputMode为button时生效
    */
   btnLabel?: string;
@@ -141,8 +136,7 @@ export class FormulaPicker extends React.Component<
   }
 
   static defaultProps = {
-    evalMode: true,
-    onlyVariable: false
+    evalMode: true
   };
 
   state: FormulaPickerState = {
@@ -191,11 +185,6 @@ export class FormulaPicker extends React.Component<
 
   @autobind
   handleEditorChange(value: string) {
-    const {onlyVariable} = this.props;
-    if (onlyVariable) {
-      return this.confirm(value);
-    }
-
     this.setState({
       editorValue: value,
       isError: false
@@ -300,7 +289,6 @@ export class FormulaPicker extends React.Component<
       functions,
       children,
       variableMode,
-      onlyVariable,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
@@ -447,7 +435,6 @@ export class FormulaPicker extends React.Component<
               variables={this.state.variables ?? variables}
               functions={this.state.functions ?? functions}
               variableMode={this.state.variableMode ?? variableMode}
-              onlyVariable={onlyVariable}
               value={editorValue}
               onChange={this.handleEditorChange}
               selfVariableName={this.props.selfVariableName}
@@ -461,14 +448,10 @@ export class FormulaPicker extends React.Component<
                 </span>
               </div>
             ) : null}
-            {onlyVariable ? null : (
-              <>
-                <Button onClick={this.close}>{__('cancel')}</Button>
-                <Button onClick={this.handleEditorConfirm} level="primary">
-                  {__('confirm')}
-                </Button>
-              </>
-            )}
+            <Button onClick={this.close}>{__('cancel')}</Button>
+            <Button onClick={this.handleEditorConfirm} level="primary">
+              {__('confirm')}
+            </Button>
           </Modal.Footer>
         </Modal>
       </>

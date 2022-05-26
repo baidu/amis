@@ -94,11 +94,6 @@ export interface InputFormulaControlSchema extends FormBaseControl {
   borderMode?: 'full' | 'half' | 'none';
 
   /**
-   * 只展示变量，不需要其他面板
-   */
-  onlyVariable?: boolean;
-
-  /**
    * 输入框占位符
    */
   placeholder?: string;
@@ -132,12 +127,11 @@ export interface InputFormulaProps
 export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
   static defaultProps: Pick<
     InputFormulaControlSchema,
-    'inputMode' | 'borderMode' | 'evalMode' | 'onlyVariable'
+    'inputMode' | 'borderMode' | 'evalMode'
   > = {
     inputMode: 'input-button',
     borderMode: 'full',
-    evalMode: true,
-    onlyVariable: false
+    evalMode: true
   };
 
   ref: any;
@@ -172,7 +166,6 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       onChange,
       evalMode,
       variableMode,
-      onlyVariable,
       header,
       label,
       value,
@@ -218,7 +211,6 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         evalMode={evalMode}
         variables={variables}
         variableMode={variableMode}
-        onlyVariable={onlyVariable}
         functions={functions}
         header={header || label || ''}
         borderMode={borderMode}
