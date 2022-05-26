@@ -33,6 +33,7 @@ export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   disabled?: boolean;
   onClick?: (e: React.MouseEvent) => void;
+  placeholderRender?: (props: any) => JSX.Element | null;
 }
 
 export interface ItemRenderStates {
