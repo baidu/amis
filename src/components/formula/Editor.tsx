@@ -269,7 +269,6 @@ export class FormulaEditor extends React.Component<
           'is-focused': focused
         })}
       >
-        (
         <section className={cx(`FormulaEditor-content`)}>
           <header className={cx(`FormulaEditor-header`)}>
             {__(header || 'FormulaEditor.title')}
@@ -285,7 +284,7 @@ export class FormulaEditor extends React.Component<
             onBlur={this.handleBlur}
           />
         </section>
-        )
+
         <section className={cx('FormulaEditor-settings')}>
           <div className={cx('FormulaEditor-panel')}>
             {variableMode !== 'tabs' ? (
