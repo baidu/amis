@@ -18,7 +18,7 @@ export interface VariableItem {
   label: string;
   value?: string;
   children?: Array<VariableItem>;
-  type: '';
+  type?: string;
   tag?: string;
   selectMode?: 'tree' | 'tabs';
 }
