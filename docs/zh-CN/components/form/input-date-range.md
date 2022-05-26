@@ -117,7 +117,7 @@ order: 15
 | -------- | ---------------------- | -------------------- |
 | change   | `value: string` 时间值 | 值变化               |
 | focus    | `value: string` 时间值 | 获得焦点(非内嵌模式) |
-| blur     | `value: string` 时间值  | 失去焦点(非内嵌模式) |
+| blur     | `value: string` 时间值 | 失去焦点(非内嵌模式) |
 
 ## 动作表
 
