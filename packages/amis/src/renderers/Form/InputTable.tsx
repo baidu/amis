@@ -5,7 +5,13 @@ import {
   getTree,
   getVariable,
   setVariable,
-  spliceTree
+  spliceTree,
+  copyItemFromOrigin,
+  generateTableItemsKey,
+  tableKey,
+  tableKeyGenerator,
+  traverseTreeWith,
+  TreeNode
 } from 'amis-core';
 import {Button} from 'amis-ui';
 import {RendererData, ActionObject, Api, Payload, ApiObject} from 'amis-core';
@@ -18,14 +24,8 @@ import {SimpleMap} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {TableSchema} from '../Table';
 import {SchemaApi} from '../../Schema';
-import {
-  copyItemFromOrigin,
-  generateTableItemsKey,
-  tableKey,
-  tableKeyGenerator,
-  traverseTreeWith,
-  TreeNode
-} from '../../utils/table';
+import {TableSchema} from '../Table';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 
 export interface TableControlSchema
   extends FormBaseControl,

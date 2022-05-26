@@ -17,7 +17,8 @@ import {
   isArrayChildrenModified,
   eachTree,
   isObject,
-  createObject
+  createObject,
+  findTree
 } from 'amis-core';
 import {
   isPureVariable,
@@ -29,6 +30,7 @@ import Sortable from 'sortablejs';
 import {resizeSensor} from 'amis-core';
 import find from 'lodash/find';
 import {Icon} from 'amis-ui';
+import {tableKey} from '../../utils/table';
 import {TableCell} from './TableCell';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
@@ -575,7 +577,7 @@ export default class Table extends React.Component<TableProps, object> {
   ) {
     const source = props.source;
     const value = props.value || props.items;
-    let rows: Array<object> = [];
+    let rows: Array<any> = [];
     let updateRows = false;
 
     if (
@@ -597,8 +599,22 @@ export default class Table extends React.Component<TableProps, object> {
         rows = resolved;
       }
     }
+    if (updateRows) {
+      store.initRows(rows, props.getEntryId, props.reUseRow);
+      // 兼容 inputTable 新建子行
+      // 新建行 的 父节点
+      const createdParentRow = findTree(rows, row =>
+        row.children?.some((item: any) => item.__isPlaceholder)
+      );
+      if (createdParentRow) {
+        const storeRow = store.getRowById(String(createdParentRow[tableKey]));
+        if (storeRow && !store.isExpanded(storeRow)) {
+          // 展开父节点
+          store.toggleExpanded(storeRow!);
+        }
+      }
+    }
 
-    updateRows && store.initRows(rows, props.getEntryId, props.reUseRow);
     typeof props.selected !== 'undefined' &&
       store.updateSelected(props.selected, props.valueField);
     return updateRows;

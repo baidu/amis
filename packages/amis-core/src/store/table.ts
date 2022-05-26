@@ -26,6 +26,7 @@ import {
   hasVisibleExpression
 } from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
+import {tableKey} from '../utils/table';
 import {IFormStore} from './form';
 import {getStoreById} from './manager';
 
@@ -694,7 +695,7 @@ export const TableStore = iRendererStore
       },
 
       getRowById(id: string) {
-        return findTree(self.rows, item => item.id === id);
+        return findTree(self.rows, item => item.id === id) as IRow | null;
       },
 
       getItemsByName(name: string): any {
@@ -968,7 +969,7 @@ export const TableStore = iRendererStore
           : {
               item
             };
-        const id = item.__id ?? guid();
+        const id = item[tableKey] ?? guid();
 
         return {
           // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
@@ -1016,7 +1017,7 @@ export const TableStore = iRendererStore
         }
 
         let id = String(
-          getEntryId ? getEntryId(item, index) : item.__id ?? guid()
+          getEntryId ? getEntryId(item, index) : item[tableKey] ?? guid()
         );
         return {
           // id: getEntryId ? getEntryId(item, key) : String(item && (item as any)[self.primaryField] || `${key}-1-${key}`),
@@ -1311,7 +1312,7 @@ export const TableStore = iRendererStore
       item = item || self.rows[fromIndex];
 
       if (item.parentId) {
-        const parent: IRow = self.getRowById(item.parentId) as any;
+        const parent: IRow = self.getRowById(item.parentId)!;
         const offset = parent.children.indexOf(item) - fromIndex;
         toIndex += offset;
         fromIndex += offset;
