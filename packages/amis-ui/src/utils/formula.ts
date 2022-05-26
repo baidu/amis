@@ -183,7 +183,7 @@ export function formulaExec(
   } else if (curValue.startsWith('${') && curValue.endsWith('}')) {
     // ${ xxx } 格式 使用 formula 运算器
     return FormulaExec['formula'](curValue, data);
-  } else if (isExpression(test)) {
+  } else if (isExpression(curValue)) {
     // 表达式格式使用 formula 运算器
     return FormulaExec['formula'](curValue, data);
   } else if (/(\${).+(\})/.test(curValue)) {
