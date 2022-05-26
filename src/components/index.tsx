@@ -61,7 +61,9 @@ import PullRefresh from './PullRefresh';
 import Table from './table';
 import SchemaVariableListPicker from './schema-editor/SchemaVariableListPicker';
 import SchemaVariableList from './schema-editor/SchemaVariableList';
+import VariableList from './formula/VariableList';
 import FormulaPicker from './formula/Picker';
+import PickerContainer from './PickerContainer';
 import InputJSONSchema from './json-schema';
 
 export {
@@ -128,6 +130,8 @@ export {
   Table,
   SchemaVariableListPicker,
   SchemaVariableList,
+  VariableList,
+  PickerContainer,
   FormulaPicker,
   InputJSONSchema
 };
