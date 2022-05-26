@@ -169,7 +169,7 @@ export function formulaExec(
     // 非字符串类型，直接返回，比如：boolean、number类型、Object、Array类型
     return value;
   } else if (curExecMode && FormulaExec[curExecMode]) {
-    return FormulaExec[curExecMode];
+    return FormulaExec[curExecMode](value, data);;
   }
 
   const curValue = value.trim(); // 剔除前后空格
