@@ -19,6 +19,7 @@ export interface VariableListProps extends ThemeProps {
   selectMode?: 'list' | 'tree' | 'tabs';
   tabsMode?: TabsMode;
   itemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
+  placeholderRender?: (props: any) => JSX.Element | null;
   onSelect?: (item: VariableItem) => void;
 }
 
@@ -31,7 +32,8 @@ function VariableList(props: VariableListProps) {
     classPrefix: themePrefix,
     itemClassName,
     selectMode,
-    onSelect
+    onSelect,
+    placeholderRender
   } = props;
   const [filterVars, setFilterVars] = React.useState(list);
   const classPrefix = `${themePrefix}FormulaEditor-VariableList`;
@@ -89,6 +91,7 @@ function VariableList(props: VariableListProps) {
                 classPrefix={`${classPrefix}-sub-`}
                 className={cx(`${classPrefix}-sub`)}
                 itemRender={itemRender}
+                placeholderRender={placeholderRender}
                 selectMode={item.selectMode}
                 data={item.children!}
                 onSelect={onSelect}
@@ -101,6 +104,7 @@ function VariableList(props: VariableListProps) {
           {renderSearchBox()}
           <TreeSelection
             itemRender={itemRender}
+            placeholderRender={placeholderRender}
             className={cx(`${classPrefix}-base`, 'is-scrollable')}
             multiple={false}
             options={filterVars}
@@ -112,6 +116,7 @@ function VariableList(props: VariableListProps) {
           {renderSearchBox()}
           <GroupedSelection
             itemRender={itemRender}
+            placeholderRender={placeholderRender}
             className={cx(`${classPrefix}-base`, 'is-scrollable')}
             multiple={false}
             options={filterVars}

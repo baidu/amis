@@ -17,6 +17,7 @@ export interface SchemaVariableListProps extends LocaleProps, ThemeProps {
   value?: string;
   onSelect?: (value: string, schema: JSONSchema) => void;
   selectMode?: 'list' | 'tree' | 'tabs';
+  placeholderRender?: (props: any) => JSX.Element | null;
   beforeBuildVariables?: (dataSchema: DataSchema) => void;
 }
 
@@ -81,15 +82,16 @@ export class SchemaVariableList extends React.Component<
   }
 
   render() {
-    const {selectMode} = this.props;
+    const {selectMode, value, placeholderRender} = this.props;
 
     return (
       <VariableList
         data={this.state.variables}
-        value={this.props.value}
+        value={value}
         onSelect={this.handleSelect}
         selectMode={selectMode || 'tree'}
         itemRender={this.itemRender}
+        placeholderRender={placeholderRender}
       />
     );
   }

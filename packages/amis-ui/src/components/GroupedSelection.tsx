@@ -89,7 +89,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
       placeholder,
       classnames: cx,
       option2value,
-      onClick
+      onClick,
+      placeholderRender
     } = this.props;
     const __ = this.props.translate;
 
@@ -106,7 +107,7 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
           body
         ) : (
           <div className={cx('GroupedSelection-placeholder')}>
-            {__(placeholder)}
+            {placeholderRender?.(this.props) ?? __(placeholder)}
           </div>
         )}
       </div>

@@ -16,6 +16,7 @@ export interface SchemaVariableListPickerProps extends SchemaVariableListProps {
   onConfirm?: (value?: any) => void;
   onCancel?: () => void;
   onPickerOpen?: (props: any) => any;
+  placeholderRender?: (props: any) => JSX.Element | null;
 }
 
 export class SchemaVariableListPicker extends React.Component<SchemaVariableListPickerProps> {
@@ -30,7 +31,8 @@ export class SchemaVariableListPicker extends React.Component<SchemaVariableList
       title,
       selectMode,
       beforeBuildVariables,
-      onPickerOpen
+      onPickerOpen,
+      placeholderRender
     } = this.props;
 
     return (
@@ -50,6 +52,7 @@ export class SchemaVariableListPicker extends React.Component<SchemaVariableList
               schemas={stateSchemas ?? schemas}
               selectMode={selectMode}
               beforeBuildVariables={beforeBuildVariables}
+              placeholderRender={placeholderRender}
             />
           ) : (
             <></>
