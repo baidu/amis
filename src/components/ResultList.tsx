@@ -4,7 +4,7 @@
 import React from 'react';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
-import {cloneDeep, findIndex} from 'lodash';
+import {cloneDeep} from 'lodash';
 
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from '../theme';
@@ -13,8 +13,7 @@ import {autobind, guid} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import TransferSearch from './TransferSearch';
 
-export interface ResultListProps
-  extends ThemeProps, LocaleProps {
+export interface ResultListProps extends ThemeProps, LocaleProps {
   className?: string;
   value?: Array<Option>;
   onChange?: (value: Array<Option>, optionModified?: boolean) => void;
@@ -43,15 +42,11 @@ export class ResultList extends React.Component<
   ResultListProps,
   ResultListState
 > {
-
   static itemRender(option: any) {
     return <span>{`${option.scopeLabel || ''}${option.label}`}</span>;
   }
 
-  static defaultProps: Pick<
-    ResultListProps,
-    'placeholder' | 'itemRender'
-  > = {
+  static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender'> = {
     placeholder: 'placeholder.selectData',
     itemRender: ResultList.itemRender
   };
@@ -156,18 +151,24 @@ export class ResultList extends React.Component<
     const searchResult = (value || []).filter(
       item => onSearch && onSearch(inputValue, item)
     );
-    this.setState({searchResult})
+    this.setState({searchResult});
   }
 
   @autobind
   clearSearch() {
-    this.setState({searchResult: null})
+    this.setState({searchResult: null});
   }
 
   // 删除项
   @autobind
   handleCloseItem(e: React.MouseEvent<HTMLElement>, option: Option) {
-    const {value, onChange, disabled, searchable, valueField = 'value'} = this.props;
+    const {
+      value,
+      onChange,
+      disabled,
+      searchable,
+      valueField = 'value'
+    } = this.props;
 
     if (disabled || option.disabled) {
       return;
@@ -178,13 +179,15 @@ export class ResultList extends React.Component<
     if (searchable && searchResult) {
       // 删除普通值
       const valueArray = cloneDeep(value) || [];
-      const idx = valueArray.findIndex((item: Option) => item[valueField] === option[valueField]);
+      const idx = valueArray.findIndex(
+        (item: Option) => item[valueField] === option[valueField]
+      );
       if (idx > -1) {
         valueArray.splice(idx, 1);
         onChange && onChange(valueArray);
       }
       // 删除搜索结果
-      const searchIdx = searchResult.findIndex((item: Option) => item[valueField] === option[valueField]);;
+      const searchIdx = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
       if (searchIdx > -1) {
         searchResult.splice(searchIdx, 1);
         this.setState({searchResult});
@@ -194,11 +197,11 @@ export class ResultList extends React.Component<
     else {
       const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
       const {value, onChange} = this.props;
-  
+
       if (!Array.isArray(value)) {
         return;
       }
-  
+
       const newValue = value.concat();
       newValue.splice(index, 1);
       onChange?.(newValue);
@@ -258,8 +261,9 @@ export class ResultList extends React.Component<
               </div>
             ))}
           </div>
-        ) :
-        (<div className={cx('Selections-placeholder')}>{__(placeholder)}</div>)}
+        ) : (
+          <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>
+        )}
       </>
     );
   }
