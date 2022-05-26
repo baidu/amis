@@ -60,6 +60,8 @@ export interface OptionProps {
   disabled?: boolean;
   creatable?: boolean;
   pathSeparator?: string;
+  itemHeight?: number; // 每个选项的高度，主要用于虚拟渲染
+  virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染
   hasError?: boolean;
   block?: boolean;
   onAdd?: (
@@ -382,7 +384,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
     checkAll: false,
     checkAllLabel: 'Select.checkAll',
     defaultCheckAll: false,
-    overlayPlacement: 'auto'
+    overlayPlacement: 'auto',
+    virtualThreshold: 100
   };
 
   input: HTMLInputElement;
@@ -822,6 +825,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       hideSelected,
       renderMenu,
       mobileClassName,
+      virtualThreshold = 200,
       useMobileUI = false
     } = this.props;
     const {selection} = this.state;
@@ -850,7 +854,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       );
     }
 
-    const itemHeight = this.state.itemHeight;
+    // 用于虚拟渲染的每项高度
+    const virtualItemHeight = this.props.itemHeight || this.state.itemHeight;
 
     // 渲染单个选项
     const renderItem = ({index, style}: {index: number; style?: object}) => {
@@ -977,7 +982,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         ref={this.menu}
         className={cx('Select-menu', {
           'Select--longlist':
-            filtedOptions.length && filtedOptions.length > 100,
+            filtedOptions.length && filtedOptions.length > virtualThreshold,
           'is-mobile': mobileUI
         })}
       >
@@ -1039,15 +1044,15 @@ export class Select extends React.Component<SelectProps, SelectState> {
         ) : null}
 
         {filtedOptions.length ? (
-          filtedOptions.length > 100 ? ( // 超过 100 行数据才启用 virtuallist 避免滚动条问题
+          filtedOptions.length > virtualThreshold ? ( // 较多数据时才启用 virtuallist，避免滚动条问题
             <VirtualList
               height={
                 filtedOptions.length > 8
                   ? 266
-                  : filtedOptions.length * itemHeight
+                  : filtedOptions.length * virtualItemHeight
               }
               itemCount={filtedOptions.length}
-              itemSize={itemHeight}
+              itemSize={virtualItemHeight}
               renderItem={renderItem}
             />
           ) : (
