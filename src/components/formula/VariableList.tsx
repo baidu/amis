@@ -6,6 +6,7 @@ import Tabs, {Tab} from '../Tabs';
 import TreeSelection from '../TreeSelection';
 import SearchBox from '../SearchBox';
 import {findTree} from '../../utils/helper';
+import {Badge} from '../Badge';
 
 import type {VariableItem} from './Editor';
 import type {ItemRenderStates} from '../Selection';
@@ -22,6 +23,7 @@ export interface VariableListProps extends ThemeProps {
   itemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
   placeholderRender?: (props: any) => JSX.Element | null;
   onSelect?: (item: VariableItem) => void;
+  selfVariableName?: string;
 }
 
 function VariableList(props: VariableListProps) {
@@ -34,7 +36,8 @@ function VariableList(props: VariableListProps) {
     itemClassName,
     selectMode,
     onSelect,
-    placeholderRender
+    placeholderRender,
+    selfVariableName
   } = props;
   const [filterVars, setFilterVars] = React.useState(list);
   const classPrefix = `${themePrefix}FormulaEditor-VariableList`;
@@ -44,7 +47,32 @@ function VariableList(props: VariableListProps) {
       : (option: Option, states: ItemRenderStates): JSX.Element => {
           return (
             <span className={cx(`${classPrefix}-item`, itemClassName)}>
-              <label>{option.label}</label>
+              {
+                  option.label && option.label === selfVariableName && (
+                    <Badge
+                      classnames={cx}
+                      badge={{
+                        mode: "text",
+                        text: "self",
+                        offset: [
+                          15,
+                          2
+                        ]
+                      }}
+                    >
+                      <label>
+                        {option.label}
+                      </label>
+                    </Badge>
+                  )
+                }
+                {
+                  option.label && option.label !== selfVariableName && (
+                    <label>
+                        {option.label}
+                      </label>
+                  )
+                }
               {option?.tag ? (
                 <span className={cx(`${classPrefix}-item-tag`)}>
                   {option.tag}
@@ -96,6 +124,7 @@ function VariableList(props: VariableListProps) {
                 selectMode={item.selectMode}
                 data={item.children!}
                 onSelect={onSelect}
+                selfVariableName={selfVariableName}
               />
             </Tab>
           ))}

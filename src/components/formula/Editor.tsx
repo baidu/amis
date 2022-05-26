@@ -13,12 +13,13 @@ import CodeMirrorEditor from '../CodeMirror';
 import {autobind, eachTree} from '../../utils/helper';
 import {themeable, ThemeProps} from '../../theme';
 import {localeable, LocaleProps} from '../../locale';
+import {toast} from '../Toast';
 
 export interface VariableItem {
   label: string;
   value?: string;
   children?: Array<VariableItem>;
-  type: '';
+  type?: string;
   tag?: string;
   selectMode?: 'tree' | 'tabs';
 }
@@ -69,6 +70,11 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   variableClassName?: string;
 
   functionClassName?: string;
+
+  /**
+   * 当前输入项字段 name: 用于避免循环绑定自身导致无限渲染
+   */
+  selfVariableName?: string;
 }
 
 export interface FunctionsProps {
@@ -221,7 +227,12 @@ export class FormulaEditor extends React.Component<
 
   @autobind
   handleVariableSelect(item: VariableItem) {
-    const {evalMode} = this.props;
+    const {evalMode, selfVariableName} = this.props;
+
+    if (item && item.label && selfVariableName === item.label) {
+      toast.warning('不能使用当前变量[self]，避免循环引用。');
+      return;
+    }
 
     this.editorPlugin?.insertContent(
       {
@@ -254,7 +265,8 @@ export class FormulaEditor extends React.Component<
       classnames: cx,
       variableClassName,
       functionClassName,
-      classPrefix
+      classPrefix,
+      selfVariableName
     } = this.props;
     const {focused} = this.state;
     const customFunctions = Array.isArray(functions) ? functions : [];
@@ -308,6 +320,7 @@ export class FormulaEditor extends React.Component<
                 selectMode={variableMode}
                 data={variables!}
                 onSelect={this.handleVariableSelect}
+                selfVariableName={selfVariableName}
               />
             </div>
           </div>

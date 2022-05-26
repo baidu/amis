@@ -71,7 +71,7 @@ export interface BadgeSchema extends Omit<BaseSchema, 'type'> {
 export interface BadgeProps {
   badge?: BadgeSchema;
   classnames: ClassNamesFn;
-  data: any;
+  data?: any;
 }
 
 export class Badge extends React.Component<BadgeProps, object> {
