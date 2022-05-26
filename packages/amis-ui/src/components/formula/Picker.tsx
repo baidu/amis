@@ -420,6 +420,7 @@ export class FormulaPicker extends React.Component<
               variableMode={this.state.variableMode ?? variableMode}
               value={editorValue}
               onChange={this.handleEditorChange}
+              selfVariableName={this.props.selfVariableName}
             />
           </Modal.Body>
           <Modal.Footer>

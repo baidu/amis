@@ -107,6 +107,11 @@ export interface InputFormulaControlSchema extends FormBaseControl {
    * 函数面板CSS样式类名
    */
   functionClassName?: string;
+
+  /**
+   * 当前输入项字段 name: 用于避免循环绑定自身导致无限渲染
+   */
+  selfVariableName?: string;
 }
 
 export interface InputFormulaProps
@@ -180,7 +185,8 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       variableClassName,
       functionClassName,
       data,
-      onPickerOpen
+      onPickerOpen,
+      selfVariableName
     } = this.props;
     let {variables, functions} = this.props;
 
@@ -220,6 +226,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         functionClassName={functionClassName}
         data={data}
         onPickerOpen={onPickerOpen}
+        selfVariableName={selfVariableName}
       />
     );
   }

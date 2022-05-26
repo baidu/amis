@@ -72,7 +72,7 @@ export interface BadgeObject {
 export interface BadgeProps {
   badge?: BadgeObject;
   classnames: ClassNamesFn;
-  data: any;
+  data?: any;
 }
 
 export class Badge extends React.Component<BadgeProps, object> {
