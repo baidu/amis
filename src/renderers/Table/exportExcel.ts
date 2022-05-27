@@ -91,6 +91,10 @@ export async function exportExcel(
   // 自定义导出列配置
   if (toolbar.exportColumns && Array.isArray(toolbar.exportColumns)) {
     columns = toolbar.exportColumns;
+    // 因为后面列 props 都是从 pristine 里获取，所以这里归一一下
+    for (const column of columns) {
+      column.pristine = column;
+    }
   }
 
   const filteredColumns = exportColumnNames
@@ -123,14 +127,15 @@ export async function exportExcel(
   // 数据从第二行开始
   let rowIndex = 1;
   for (const row of rows) {
+    const rowData = createObject(data, row.data);
     rowIndex += 1;
     const sheetRow = worksheet.getRow(rowIndex);
     let columIndex = 0;
     for (const column of filteredColumns) {
       columIndex += 1;
       const name = column.name!;
-      const value = getVariable(row.data, name);
-      if (typeof value === 'undefined' && !(column as TplSchema).tpl) {
+      const value = getVariable(rowData, name);
+      if (typeof value === 'undefined' && !column.pristine.tpl) {
         continue;
       }
       // 处理合并单元格
@@ -199,21 +204,33 @@ export async function exportExcel(
           console.warn(e.stack);
         }
       } else if (type == 'link') {
-        const linkURL = getAbsoluteUrl(value);
+        const href = column.pristine.href;
+        const linkURL =
+          (typeof href === 'string' && href
+            ? filter(href, rowData, '| raw')
+            : undefined) || value;
+        const body = column.pristine.body;
+        // 没法支持嵌套了
+        const text =
+          typeof body === 'string' && body
+            ? filter(body, rowData, '| raw')
+            : undefined;
+
+        const absoluteURL = getAbsoluteUrl(linkURL);
         sheetRow.getCell(columIndex).value = {
-          text: value,
-          hyperlink: linkURL
+          text: text || absoluteURL,
+          hyperlink: absoluteURL
         };
       } else if (type === 'mapping') {
         // 拷贝自 Mapping.tsx
-        let map = (column as MappingSchema).map;
-        const source = (column as MappingSchema).source;
+        let map = column.pristine.map;
+        const source = column.pristine.source;
         if (source) {
           let sourceValue = source;
           if (isPureVariable(source)) {
             sourceValue = resolveVariableAndFilter(
               source as string,
-              data,
+              rowData,
               '| raw'
             );
           }
@@ -222,7 +239,7 @@ export async function exportExcel(
           if (mapKey in remoteMappingCache) {
             map = remoteMappingCache[mapKey];
           } else {
-            const res = await env.fetcher(sourceValue, data);
+            const res = await env.fetcher(sourceValue, rowData);
             if (res.data) {
               remoteMappingCache[mapKey] = res.data;
               map = res.data;
@@ -248,7 +265,7 @@ export async function exportExcel(
           fromNow,
           format = 'YYYY-MM-DD',
           valueFormat = 'X'
-        } = column as DateSchema;
+        } = column.pristine;
         if (value) {
           let ISODate = moment(value, moment.ISO_8601);
           let NormalDate = moment(value, valueFormat);
@@ -267,9 +284,9 @@ export async function exportExcel(
           sheetRow.getCell(columIndex).value = viewValue;
         }
       } else {
-        if ((column as TplSchema).tpl) {
+        if (column.pristine.tpl) {
           sheetRow.getCell(columIndex).value = removeHTMLTag(
-            filter((column as TplSchema).tpl, createObject(data, row.data))
+            filter(column.pristine.tpl, rowData)
           );
         } else {
           sheetRow.getCell(columIndex).value = value;
