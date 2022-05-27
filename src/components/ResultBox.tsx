@@ -1,11 +1,14 @@
 import {ThemeProps, themeable} from '../theme';
 import React from 'react';
+import omit from 'lodash/omit';
+import isInteger from 'lodash/isInteger';
 import {InputBoxProps} from './InputBox';
 import {uncontrollable} from 'uncontrollable';
 import {Icon} from './icons';
 import Input from './Input';
 import {autobind, isMobile, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
+import TooltipWrapper, {TooltipObject} from './TooltipWrapper';
 import isPlainObject = require('lodash/isPlainObject');
 
 export interface ResultBoxProps
@@ -22,6 +25,8 @@ export interface ResultBoxProps
   inputPlaceholder: string;
   useMobileUI?: boolean;
   hasDropDownArrow?: boolean;
+  maxTagCount?: number;
+  overflowTagPopover?: TooltipObject;
 }
 
 export class ResultBox extends React.Component<ResultBoxProps> {
@@ -94,6 +99,91 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     onChange?.(e.currentTarget.value);
   }
 
+  renderMultipeTags(tags: any[]) {
+    const {
+      maxTagCount,
+      overflowTagPopover,
+      itemRender,
+      classnames: cx
+    } = this.props;
+
+    if (
+      maxTagCount != null &&
+      isInteger(Math.floor(maxTagCount)) &&
+      Math.floor(maxTagCount) >= 0 &&
+      Math.floor(maxTagCount) < tags.length
+    ) {
+      const maxVisibleCount = Math.floor(maxTagCount);
+      const tooltipProps: TooltipObject = {
+        placement: 'top',
+        trigger: 'hover',
+        showArrow: false,
+        offset: [0, -10],
+        tooltipClassName: cx(
+          'ResultBox-overflow',
+          overflowTagPopover?.tooltipClassName
+        ),
+        ...omit(overflowTagPopover, ['children', 'content', 'tooltipClassName'])
+      };
+
+      return [
+        ...tags.slice(0, maxVisibleCount),
+        {label: `+ ${tags.length - maxVisibleCount} ...`}
+      ].map((item, index) => {
+        return index === maxVisibleCount ? (
+          <TooltipWrapper
+            key={tags.length}
+            tooltip={{
+              ...tooltipProps,
+              children: () => (
+                <div className={cx('ResultBox-overflow-wrapper')}>
+                  {tags
+                    .slice(maxVisibleCount, tags.length)
+                    .map((item, index) => {
+                      const itemIndex = index + maxVisibleCount;
+
+                      return (
+                        <div className={cx('ResultBox-value')} key={itemIndex}>
+                          <span className={cx('ResultBox-valueLabel')}>
+                            {itemRender(item)}
+                          </span>
+                          <a data-index={itemIndex} onClick={this.removeItem}>
+                            <Icon icon="close" className="icon" />
+                          </a>
+                        </div>
+                      );
+                    })}
+                </div>
+              )
+            }}
+          >
+            <div className={cx('ResultBox-value')} key={index}>
+              <span className={cx('ResultBox-valueLabel')}>{item.label}</span>
+            </div>
+          </TooltipWrapper>
+        ) : (
+          <div className={cx('ResultBox-value')} key={index}>
+            <span className={cx('ResultBox-valueLabel')}>
+              {itemRender(item)}
+            </span>
+            <a data-index={index} onClick={this.removeItem}>
+              <Icon icon="close" className="icon" />
+            </a>
+          </div>
+        );
+      });
+    }
+
+    return tags.map((item, index) => (
+      <div className={cx('ResultBox-value')} key={index}>
+        <span className={cx('ResultBox-valueLabel')}>{itemRender(item)}</span>
+        <a data-index={index} onClick={this.removeItem}>
+          <Icon icon="close" className="icon" />
+        </a>
+      </div>
+    ));
+  }
+
   render() {
     const {
       className,
@@ -125,6 +215,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     } = this.props;
     const isFocused = this.state.isFocused;
     const mobileUI = useMobileUI && isMobile();
+
     return (
       <div
         className={cx('ResultBox', className, {
@@ -144,16 +235,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         onBlur={allowInput ? undefined : onBlur}
       >
         {Array.isArray(result) && result.length ? (
-          result.map((item, index) => (
-            <div className={cx('ResultBox-value')} key={index}>
-              <span className={cx('ResultBox-valueLabel')}>
-                {itemRender(item)}
-              </span>
-              <a data-index={index} onClick={this.removeItem}>
-                <Icon icon="close" className="icon" />
-              </a>
-            </div>
-          ))
+          this.renderMultipeTags(result)
         ) : result && !Array.isArray(result) ? (
           <span className={cx('ResultBox-singleValue')}>
             {isPlainObject(result) ? itemRender(result) : result}
@@ -174,7 +256,9 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             placeholder={__(
               Array.isArray(result) && result.length
                 ? inputPlaceholder
-                : (result ? '' : placeholder)
+                : result
+                ? ''
+                : placeholder
             )}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}

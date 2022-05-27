@@ -32,6 +32,16 @@ export interface TagControlSchema extends FormOptionsControl {
    * 是否为下拉模式
    */
   dropdown?: boolean;
+
+  /**
+   * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+   */
+  maxTagCount?: number;
+
+  /**
+   * 收纳标签的Popover配置
+   */
+  overflowTagPopover: object;
 }
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
@@ -316,6 +326,8 @@ export default class TagControl extends React.PureComponent<
       dropdown,
       options,
       optionsTip,
+      maxTagCount,
+      overflowTagPopover,
       translate: __
     } = this.props;
 
@@ -359,6 +371,8 @@ export default class TagControl extends React.PureComponent<
                 onResultChange={this.handleChange}
                 itemRender={this.renderItem}
                 clearable={clearable}
+                maxTagCount={maxTagCount}
+                overflowTagPopover={overflowTagPopover}
                 allowInput
               >
                 {loading ? <Spinner size="sm" /> : undefined}
