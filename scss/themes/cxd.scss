@@ -185,10 +185,15 @@
 
 .#{$ns}Transfer {
   &-title {
-    flex: 0 0 #{px2rem(38px)};
-    height: #{px2rem(38px)};
-    padding-left: var(--gap-base);
-    padding-right: var(--gap-base);
+    height: px2rem(32px);
+    flex: 0 0 px2rem(32px);
+    padding-left: #{px2rem(12px)};
+    padding-right: #{px2rem(12px)};
+
+    &--light {
+      height: px2rem(40px);
+      flex: 0 0 px2rem(40px);
+    }
   }
 
   &-result {
