@@ -148,6 +148,12 @@ export class BaseTransferRenderer<
 > extends React.Component<T> {
   tranferRef?: any;
 
+  reload() {
+    const {reloadOptions} = this.props;
+
+    reloadOptions?.();
+  }
+
   @autobind
   async handleChange(value: Array<Option> | Option, optionModified?: boolean) {
     const {
