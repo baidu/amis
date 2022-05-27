@@ -46,7 +46,6 @@
   user-select: none;
   padding: var(--gap-xs) 0;
 
-
   &-group > &-itemLabel {
     padding: var(--gap-xs) var(--gap-base);
     color: var(--FileControl-icon-color);
@@ -78,10 +77,10 @@
 
     &:hover {
       background: var(--Tree-item-onHover-bg);
-      
-        i {
-          border: 1px solid var(--menu-active-color);
-        }
+
+      i {
+        border: 1px solid var(--menu-active-color);
+      }
     }
 
     &.is-disabled {
@@ -115,6 +114,10 @@
 .#{$ns}TableSelection {
   .#{$ns}Table-content {
     border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+  }
+
+  .#{$ns}Table-table > tbody > tr {
+    cursor: pointer;
   }
 
   .#{$ns}Table-table > thead > tr > th,

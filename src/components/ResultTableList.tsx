@@ -43,7 +43,10 @@ export interface ResultTableSelectionState {
   searchTableOptions: Options;
 }
 
-export class BaseResultTableSelection extends BaseSelection<ResultTableSelectionProps, ResultTableSelectionState> {
+export class BaseResultTableSelection extends BaseSelection<
+  ResultTableSelectionProps,
+  ResultTableSelectionState
+> {
   static defaultProps = {
     ...BaseSelection.defaultProps,
     cellRender: (
@@ -55,25 +58,21 @@ export class BaseResultTableSelection extends BaseSelection<ResultTableSelection
       option: Option,
       colIndex: number,
       rowIndex: number
-    ) => <span>{resolveVariable(column.name, option)}</span>,
+    ) => <span>{resolveVariable(column.name, option)}</span>
   };
 
   state: ResultTableSelectionState = {
     tableOptions: [],
     searching: false,
     searchTableOptions: []
-  }
+  };
 
   static getDerivedStateFromProps(props: ResultTableSelectionProps) {
-    const {
-      options,
-      value,
-      option2value,
-    } = props;
+    const {options, value, option2value} = props;
     const valueArray = BaseSelection.value2array(value, options, option2value);
     return {
       tableOptions: valueArray
-    }
+    };
   }
 
   @autobind
@@ -117,15 +116,16 @@ export class BaseResultTableSelection extends BaseSelection<ResultTableSelection
     }
 
     const {value, onSearch} = this.props;
-    const searchOptions = ((value || []) as Options)
-      .filter(item => onSearch?.(inputValue, item));
+    const searchOptions = ((value || []) as Options).filter(item =>
+      onSearch?.(inputValue, item)
+    );
 
     this.setState({
       searching: true,
       searchTableOptions: searchOptions
     });
   }
-  
+
   @autobind
   clearSearch() {
     this.setState({
@@ -152,9 +152,7 @@ export class BaseResultTableSelection extends BaseSelection<ResultTableSelection
 
     return (
       <div className={cx('ResultTableList', className)}>
-        {
-          Array.isArray(value) && value.length ?
-          (
+        {Array.isArray(value) && value.length ? (
           <TableSelection
             columns={columns}
             options={!searching ? tableOptions : searchTableOptions}
@@ -163,6 +161,7 @@ export class BaseResultTableSelection extends BaseSelection<ResultTableSelection
             option2value={option2value}
             onChange={onChange}
             multiple={false}
+            resultMode={true}
             cellRender={(
               column: {
                 name: string;
@@ -176,27 +175,28 @@ export class BaseResultTableSelection extends BaseSelection<ResultTableSelection
               const raw = cellRender(column, option, colIndex, rowIndex);
               if (colIndex === columns.length - 1) {
                 return (
-                <>
-                  {raw}
-                  {
-                    <span
-                      className={cx('ResultTableList-close-btn')}
-                      onClick={(e: React.SyntheticEvent<HTMLElement>) => {
-                        e.stopPropagation();
-                        this.handleCloseItem(option);
-                      }}
-                    >
-                      <CloseIcon />
-                    </span>
-                  }
-                </>)
+                  <>
+                    {raw}
+                    {
+                      <span
+                        className={cx('ResultTableList-close-btn')}
+                        onClick={(e: React.SyntheticEvent<HTMLElement>) => {
+                          e.stopPropagation();
+                          this.handleCloseItem(option);
+                        }}
+                      >
+                        <CloseIcon />
+                      </span>
+                    }
+                  </>
+                );
               }
               return raw;
             }}
           />
-          )
-          : (<div className={cx('Selections-placeholder')}>{__(placeholder)}</div>)
-        }
+        ) : (
+          <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>
+        )}
       </div>
     );
   }
@@ -210,7 +210,6 @@ export class BaseResultTableSelection extends BaseSelection<ResultTableSelection
       translate: __,
       placeholder = __('Transfer.searchKeyword')
     } = this.props;
-
 
     return (
       <div className={cx('Selections', className)}>
