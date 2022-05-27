@@ -70,7 +70,8 @@
     .#{$ns}ChainedSelection-col {
       height: 100%;
       overflow: auto;
-      min-width: px2rem(130px);
+      min-width: unset;
+      flex: 1 1 0;
     }
   }
 
