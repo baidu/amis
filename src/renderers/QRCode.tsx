@@ -1,11 +1,22 @@
 import React from 'react';
 import cx from 'classnames';
+import mapValues from 'lodash/mapValues';
 import {Renderer, RendererProps} from '../factory';
 import {FormItem, FormControlProps} from './Form/Item';
 import {filter} from '../utils/tpl';
 import {QRCodeSVG} from 'qrcode.react';
 import {BaseSchema, SchemaClassName} from '../Schema';
-import {getPropValue} from '../utils/helper';
+import {getPropValue, isObject, isNumeric} from '../utils/helper';
+import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+
+export interface QRCodeImageSettings {
+  src: string;
+  height: number;
+  width: number;
+  excavate: boolean;
+  x?: number;
+  y?: number;
+}
 
 /**
  * 二维码展示控件。
@@ -49,6 +60,11 @@ export interface QRCodeSchema extends BaseSchema {
    * 占位符
    */
   placeholder?: string;
+
+  /**
+   * 图片配置
+   */
+  imageSettings?: QRCodeImageSettings;
 }
 
 export interface QRCodeProps
@@ -64,6 +80,38 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
     level: 'L',
     placeholder: '-'
   };
+
+  /**
+   * 获取图片配置
+   */
+  getImageSettings(): QRCodeImageSettings | undefined {
+    const {imageSettings, data} = this.props;
+
+    if (
+      !imageSettings ||
+      !isObject(imageSettings) ||
+      !imageSettings.src ||
+      typeof imageSettings.src !== 'string'
+    ) {
+      return undefined;
+    }
+
+    if (isPureVariable(imageSettings.src)) {
+      imageSettings.src = resolveVariableAndFilter(
+        imageSettings.src,
+        data,
+        '| raw'
+      );
+    }
+
+    return mapValues(imageSettings, (value: any, key: string) => {
+      if (!!~['width', 'height', 'x', 'y'].indexOf(key)) {
+        /** 处理非数字格式的输入，QRCodeSVG内部会对空值进行默认赋值 */
+        return isNumeric(value) ? Number(value) : null;
+      }
+      return value;
+    });
+  }
 
   render() {
     const {
@@ -102,6 +150,7 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
             bgColor={backgroundColor}
             fgColor={foregroundColor}
             level={level || 'L'}
+            imageSettings={this.getImageSettings()}
           />
         )}
       </div>

@@ -959,11 +959,40 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
               style="position: relative;"
               tabindex="-1"
             >
-              <span
-                class="cxd-ResultBox-placeholder"
+              <div
+                class="cxd-ResultBox-value"
               >
-                请选择
-              </span>
+                <span
+                  class="cxd-ResultBox-valueLabel"
+                >
+                  诸葛亮
+                </span>
+                <a
+                  data-index="0"
+                >
+                  <icon-mock
+                    classname="icon icon-close"
+                    icon="close"
+                  />
+                </a>
+              </div>
+              <div
+                class="cxd-ResultBox-value"
+              >
+                <span
+                  class="cxd-ResultBox-valueLabel"
+                >
+                  李白
+                </span>
+                <a
+                  data-index="1"
+                >
+                  <icon-mock
+                    classname="icon icon-close"
+                    icon="close"
+                  />
+                </a>
+              </div>
               <span
                 class="cxd-TransferDropDown-icon"
               >
@@ -1038,7 +1067,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                             class="cxd-Table-checkCell"
                           >
                             <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
                             >
                               <input
                                 type="checkbox"
@@ -1059,7 +1088,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                       </thead>
                       <tbody>
                         <tr
-                          class=""
+                          class="is-active"
                         >
                           <td
                             class="cxd-Table-checkCell"
@@ -1146,7 +1175,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                           </td>
                         </tr>
                         <tr
-                          class=""
+                          class="is-active"
                         >
                           <td
                             class="cxd-Table-checkCell"
@@ -1340,7 +1369,11 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
 </div>
 `;
 
-exports[`Renderer:select table with labelField & valueField 2`] = `Object {}`;
+exports[`Renderer:select table with labelField & valueField 2`] = `
+Object {
+  "a": "zhugeliang,libai",
+}
+`;
 
 exports[`Renderer:select tree 1`] = `
 <div>

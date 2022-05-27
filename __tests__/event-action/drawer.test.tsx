@@ -214,4 +214,4 @@ test('EventAction:drawer', async () => {
     expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
   });
   expect(container).toMatchSnapshot();
-}, 30000);
+}, 7000);

@@ -6,6 +6,7 @@ import Tabs, {Tab} from '../Tabs';
 import TreeSelection from '../TreeSelection';
 import SearchBox from '../SearchBox';
 import {findTree} from '../../utils/helper';
+import {Badge} from '../Badge';
 
 import type {VariableItem} from './Editor';
 import type {ItemRenderStates} from '../Selection';
@@ -20,7 +21,9 @@ export interface VariableListProps extends ThemeProps {
   selectMode?: 'list' | 'tree' | 'tabs';
   tabsMode?: TabsMode;
   itemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
+  placeholderRender?: (props: any) => JSX.Element | null;
   onSelect?: (item: VariableItem) => void;
+  selfVariableName?: string;
 }
 
 function VariableList(props: VariableListProps) {
@@ -32,7 +35,9 @@ function VariableList(props: VariableListProps) {
     classPrefix: themePrefix,
     itemClassName,
     selectMode,
-    onSelect
+    onSelect,
+    placeholderRender,
+    selfVariableName
   } = props;
   const [filterVars, setFilterVars] = React.useState(list);
   const classPrefix = `${themePrefix}FormulaEditor-VariableList`;
@@ -42,7 +47,32 @@ function VariableList(props: VariableListProps) {
       : (option: Option, states: ItemRenderStates): JSX.Element => {
           return (
             <span className={cx(`${classPrefix}-item`, itemClassName)}>
-              <label>{option.label}</label>
+              {
+                  option.label && option.label === selfVariableName && (
+                    <Badge
+                      classnames={cx}
+                      badge={{
+                        mode: "text",
+                        text: "self",
+                        offset: [
+                          15,
+                          2
+                        ]
+                      }}
+                    >
+                      <label>
+                        {option.label}
+                      </label>
+                    </Badge>
+                  )
+                }
+                {
+                  option.label && option.label !== selfVariableName && (
+                    <label>
+                        {option.label}
+                      </label>
+                  )
+                }
               {option?.tag ? (
                 <span className={cx(`${classPrefix}-item-tag`)}>
                   {option.tag}
@@ -90,9 +120,11 @@ function VariableList(props: VariableListProps) {
                 classPrefix={`${classPrefix}-sub-`}
                 className={cx(`${classPrefix}-sub`)}
                 itemRender={itemRender}
+                placeholderRender={placeholderRender}
                 selectMode={item.selectMode}
                 data={item.children!}
                 onSelect={onSelect}
+                selfVariableName={selfVariableName}
               />
             </Tab>
           ))}
@@ -102,6 +134,7 @@ function VariableList(props: VariableListProps) {
           {renderSearchBox()}
           <TreeSelection
             itemRender={itemRender}
+            placeholderRender={placeholderRender}
             className={cx(`${classPrefix}-base`, 'is-scrollable')}
             multiple={false}
             options={filterVars}
@@ -113,6 +146,7 @@ function VariableList(props: VariableListProps) {
           {renderSearchBox()}
           <GroupedSelection
             itemRender={itemRender}
+            placeholderRender={placeholderRender}
             className={cx(`${classPrefix}-base`, 'is-scrollable')}
             multiple={false}
             options={filterVars}

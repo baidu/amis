@@ -45,8 +45,8 @@ export interface TabsTransferProps
     colIndex: number,
     rowIndex: number
   ) => JSX.Element;
-  onTabChange: (key: number) => void;
-  activeKey: number
+  onTabChange?: (key: number) => void;
+  activeKey?: number
 }
 
 export interface TabsTransferState {

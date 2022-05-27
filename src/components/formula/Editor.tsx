@@ -13,12 +13,13 @@ import CodeMirrorEditor from '../CodeMirror';
 import {autobind, eachTree} from '../../utils/helper';
 import {themeable, ThemeProps} from '../../theme';
 import {localeable, LocaleProps} from '../../locale';
+import {toast} from '../Toast';
 
 export interface VariableItem {
   label: string;
   value?: string;
   children?: Array<VariableItem>;
-  type: '';
+  type?: string;
   tag?: string;
   selectMode?: 'tree' | 'tabs';
 }
@@ -56,11 +57,6 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   variableMode?: 'tabs' | 'tree';
 
   /**
-   * 只展示变量，不需要其他面板
-   */
-  onlyVariable?: boolean;
-
-  /**
    * 函数集合，默认不需要传，即  amis-formula 里面那个函数
    * 如果有扩充，则需要传。
    */
@@ -74,6 +70,11 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   variableClassName?: string;
 
   functionClassName?: string;
+
+  /**
+   * 当前输入项字段 name: 用于避免循环绑定自身导致无限渲染
+   */
+  selfVariableName?: string;
 }
 
 export interface FunctionsProps {
@@ -226,17 +227,11 @@ export class FormulaEditor extends React.Component<
 
   @autobind
   handleVariableSelect(item: VariableItem) {
-    const {onlyVariable, evalMode} = this.props;
+    const {evalMode, selfVariableName} = this.props;
 
-    // 只展示变量时，选择即提交
-    if (onlyVariable) {
-      const onChange = this.props.onChange;
-      const value = item.value
-        ? evalMode
-          ? item.value
-          : '${' + item.value + '}'
-        : '';
-      return onChange?.(value);
+    if (item && item.label && selfVariableName === item.label) {
+      toast.warning('不能使用当前变量[self]，避免循环引用。');
+      return;
     }
 
     this.editorPlugin?.insertContent(
@@ -266,12 +261,12 @@ export class FormulaEditor extends React.Component<
       value,
       functions,
       variableMode,
-      onlyVariable,
       translate: __,
       classnames: cx,
       variableClassName,
       functionClassName,
-      classPrefix
+      classPrefix,
+      selfVariableName
     } = this.props;
     const {focused} = this.state;
     const customFunctions = Array.isArray(functions) ? functions : [];
@@ -286,30 +281,23 @@ export class FormulaEditor extends React.Component<
           'is-focused': focused
         })}
       >
-        {onlyVariable ? null : (
-          <section className={cx(`FormulaEditor-content`)}>
-            <header className={cx(`FormulaEditor-header`)}>
-              {__(header || 'FormulaEditor.title')}
-            </header>
+        <section className={cx(`FormulaEditor-content`)}>
+          <header className={cx(`FormulaEditor-header`)}>
+            {__(header || 'FormulaEditor.title')}
+          </header>
 
-            <CodeMirrorEditor
-              className={cx('FormulaEditor-editor')}
-              value={value}
-              onChange={this.handleOnChange}
-              editorFactory={this.editorFactory}
-              editorDidMount={this.handleEditorMounted}
-              onFocus={this.handleFocus}
-              onBlur={this.handleBlur}
-            />
-          </section>
-        )}
+          <CodeMirrorEditor
+            className={cx('FormulaEditor-editor')}
+            value={value}
+            onChange={this.handleOnChange}
+            editorFactory={this.editorFactory}
+            editorDidMount={this.handleEditorMounted}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+          />
+        </section>
 
-        <section
-          className={cx(
-            'FormulaEditor-settings',
-            onlyVariable ? 'only-variable' : ''
-          )}
-        >
+        <section className={cx('FormulaEditor-settings')}>
           <div className={cx('FormulaEditor-panel')}>
             {variableMode !== 'tabs' ? (
               <div className={cx('FormulaEditor-panel-header')}>
@@ -332,18 +320,17 @@ export class FormulaEditor extends React.Component<
                 selectMode={variableMode}
                 data={variables!}
                 onSelect={this.handleVariableSelect}
+                selfVariableName={selfVariableName}
               />
             </div>
           </div>
 
-          {onlyVariable ? null : (
-            <FuncList
-              className={functionClassName}
-              title={__('FormulaEditor.function')}
-              data={functionList}
-              onSelect={this.handleFunctionSelect}
-            />
-          )}
+          <FuncList
+            className={functionClassName}
+            title={__('FormulaEditor.function')}
+            data={functionList}
+            onSelect={this.handleFunctionSelect}
+          />
         </section>
       </div>
     );
