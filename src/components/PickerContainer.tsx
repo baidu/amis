@@ -11,6 +11,7 @@ import Button from './Button';
 export interface PickerContainerProps extends ThemeProps, LocaleProps {
   title?: string;
   showTitle?: boolean;
+  showFooter?: boolean;
   headerClassName?: string;
   children: (props: {
     onClick: (e: React.MouseEvent) => void;
@@ -131,7 +132,8 @@ export class PickerContainer extends React.Component<
       showTitle,
       headerClassName,
       translate: __,
-      size
+      size,
+      showFooter
     } = this.props;
     return (
       <>
@@ -158,15 +160,18 @@ export class PickerContainer extends React.Component<
               ref: this.bodyRef,
               setState: this.updateState,
               onClose: this.close,
-              onChange: this.handleChange
+              onChange: this.handleChange,
+              onConfirm: this.confirm
             })}
           </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={this.close}>{__('cancel')}</Button>
-            <Button onClick={this.confirm} level="primary">
-              {__('confirm')}
-            </Button>
-          </Modal.Footer>
+          {showFooter ?? true ? (
+            <Modal.Footer>
+              <Button onClick={this.close}>{__('cancel')}</Button>
+              <Button onClick={this.confirm} level="primary">
+                {__('confirm')}
+              </Button>
+            </Modal.Footer>
+          ) : null}
         </Modal>
       </>
     );
