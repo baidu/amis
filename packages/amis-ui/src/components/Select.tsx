@@ -7,6 +7,8 @@
 
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
+import isInteger from 'lodash/isInteger';
+import omit from 'lodash/omit';
 import VirtualList from './virtual-list';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
@@ -38,6 +40,8 @@ import type {Option, Options} from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
 import PopUp from './PopUp';
+
+import type {TooltipObject} from '../components/TooltipWrapper';
 
 export {Option, Options};
 
@@ -351,6 +355,16 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
    * 移动端样式类名
    */
   mobileClassName?: string;
+
+  /**
+   * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+   */
+  maxTagCount?: number;
+
+  /**
+   * 收纳标签的Popover配置
+   */
+  overflowTagPopover?: TooltipObject;
 }
 
 interface SelectState {
@@ -725,11 +739,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
       placeholder,
       labelField,
       disabled,
+      maxTagCount,
+      overflowTagPopover,
       translate: __
     } = this.props;
-
     const selection = this.state.selection;
-    // console.log('selection', selection);
 
     if (!selection.length) {
       return (
@@ -737,6 +751,114 @@ export class Select extends React.Component<SelectProps, SelectState> {
           {__(placeholder)}
         </div>
       );
+    }
+
+    if (
+      multiple &&
+      maxTagCount != null &&
+      isInteger(Math.floor(maxTagCount)) &&
+      Math.floor(maxTagCount) >= 0 &&
+      Math.floor(maxTagCount) < selection.length
+    ) {
+      const maxVisibleCount = Math.floor(maxTagCount);
+      const tooltipProps: TooltipObject = {
+        placement: 'top',
+        trigger: 'hover',
+        showArrow: false,
+        offset: [0, -10],
+        tooltipClassName: cx(
+          'Select-overflow',
+          overflowTagPopover?.tooltipClassName
+        ),
+        ...omit(overflowTagPopover, ['children', 'content', 'tooltipClassName'])
+      };
+      return [
+        ...selection.slice(0, maxVisibleCount),
+        {label: `+ ${selection.length - maxVisibleCount} ...`}
+      ].map((item, index) => {
+        if (index === maxVisibleCount) {
+          return (
+            <TooltipWrapper
+              key={selection.length}
+              tooltip={{
+                ...tooltipProps,
+                children: () => (
+                  <div className={cx('Select-overflow-wrapper')}>
+                    {selection
+                      .slice(maxVisibleCount, selection.length)
+                      .map((item, index) => {
+                        const itemIndex = index + maxVisibleCount;
+                        return (
+                          <div
+                            key={itemIndex}
+                            className={cx('Select-value', {
+                              'is-disabled': disabled,
+                              'is-invalid': item.__unmatched
+                            })}
+                          >
+                            <span className={cx('Select-valueLabel')}>
+                              {item[labelField || 'label']}
+                            </span>
+                            <span
+                              className={cx('Select-valueIcon', {
+                                'is-disabled': disabled || item.disabled
+                              })}
+                              onClick={this.removeItem.bind(this, itemIndex)}
+                            >
+                              <Icon icon="close" className="icon" />
+                            </span>
+                          </div>
+                        );
+                      })}
+                  </div>
+                )
+              }}
+            >
+              <div
+                className={cx('Select-value', {
+                  'is-disabled': disabled,
+                  'is-invalid': item.__unmatched
+                })}
+                onClick={(e: React.MouseEvent) =>
+                  e.stopPropagation()
+                } /** 避免点击查看浮窗时呼出下拉菜单 */
+              >
+                <span className={cx('Select-valueLabel')}>
+                  {item[labelField || 'label']}
+                </span>
+              </div>
+            </TooltipWrapper>
+          );
+        }
+
+        return (
+          <TooltipWrapper
+            placement={'top'}
+            tooltip={item[labelField || 'label']}
+            trigger={'hover'}
+            key={index}
+          >
+            <div
+              className={cx('Select-value', {
+                'is-disabled': disabled,
+                'is-invalid': item.__unmatched
+              })}
+            >
+              <span className={cx('Select-valueLabel')}>
+                {item[labelField || 'label']}
+              </span>
+              <span
+                className={cx('Select-valueIcon', {
+                  'is-disabled': disabled || item.disabled
+                })}
+                onClick={this.removeItem.bind(this, index)}
+              >
+                <Icon icon="close" className="icon" />
+              </span>
+            </div>
+          </TooltipWrapper>
+        );
+      });
     }
 
     return selection.map((item, index) => {

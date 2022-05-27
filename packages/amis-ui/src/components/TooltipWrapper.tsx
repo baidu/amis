@@ -63,7 +63,7 @@ export interface TooltipObject {
   /**
    * 浮层内容可通过JSX渲染
    */
-  children?: () => JSX.Element | JSX.Element;
+  children?: () => JSX.Element;
   /**
    * 挂载容器元素
    */
