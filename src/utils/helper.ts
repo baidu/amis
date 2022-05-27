@@ -1621,3 +1621,10 @@ export function repeatCount(count: number, iterator: (index: number) => any) {
 
   return result;
 }
+
+export function isNumeric(value: any): boolean {
+  if (typeof value === 'number') {
+    return true;
+  }
+  return /^[-+]?(?:\d*[.])?\d+$/.test(value);
+}
