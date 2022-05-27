@@ -18,6 +18,8 @@ import Spinner from '../../components/Spinner';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import TransferDropDown from '../../components/TransferDropDown';
 
+import type {TooltipObject} from '../../components/TooltipWrapper';
+
 /**
  * Select 下拉选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/select
@@ -110,6 +112,16 @@ export interface SelectControlSchema extends FormOptionsControl {
    * 可多选条件下，全选项文案，默认 ”全选“
    */
   checkAllLabel?: string;
+
+  /**
+   * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+   */
+  maxTagCount?: number;
+
+  /**
+   * 收纳标签的Popover配置
+   */
+  overflowTagPopover: object;
 }
 
 export interface SelectProps extends OptionsControlProps {
@@ -117,6 +129,8 @@ export interface SelectProps extends OptionsControlProps {
   searchable?: boolean;
   defaultOpen?: boolean;
   useMobileUI?: boolean;
+  maxTagCount?: number;
+  overflowTagPopover?: TooltipObject;
 }
 
 export type SelectRendererEvent =
@@ -489,7 +503,9 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       leftMode,
       borderMode,
       useMobileUI,
-      popOverContainer
+      popOverContainer,
+      maxTagCount,
+      overflowTagPopover
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -533,6 +549,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           borderMode={borderMode}
           useMobileUI={useMobileUI}
           popOverContainer={popOverContainer}
+          maxTagCount={maxTagCount}
+          overflowTagPopover={overflowTagPopover}
         />
 
         <Spinner overlay key="info" show={loading} />
