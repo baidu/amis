@@ -161,6 +161,7 @@ export class BaseResultTableSelection extends BaseSelection<
             option2value={option2value}
             onChange={onChange}
             multiple={false}
+            resultMode={true}
             cellRender={(
               column: {
                 name: string;

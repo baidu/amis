@@ -1,5 +1,5 @@
 import {BaseSelection, BaseSelectionProps} from './Selection';
-import {themeable} from 'amis-core';
+import {noop, themeable} from 'amis-core';
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
 import Checkbox from './Checkbox';
@@ -8,6 +8,8 @@ import {resolveVariable} from 'amis-core';
 import {localeable} from 'amis-core';
 
 export interface TableSelectionProps extends BaseSelectionProps {
+  /** 是否为结果渲染列表 */
+  resultMode?: boolean;
   columns: Array<{
     name: string;
     label: string;
@@ -108,7 +110,8 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
       multiple,
       option2value,
       translate: __,
-      itemClassName
+      itemClassName,
+      resultMode
     } = this.props;
     const columns = this.getColumns();
     let valueArray = BaseSelection.value2array(value, options, option2value);
@@ -122,6 +125,12 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
             return (
               <tr
                 key={rowIndex}
+                /** 被ResultTableList引用，如果设置click事件，会导致错误删除结果列表的内容，先加一个开关判断 */
+                onClick={
+                  resultMode
+                    ? noop
+                    : e => e.defaultPrevented || this.toggleOption(option)
+                }
                 className={cx(
                   itemClassName,
                   option.className,
