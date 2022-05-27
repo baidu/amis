@@ -931,6 +931,9 @@ export function everyTree<T extends TreeItem>(
   paths: Array<T> = [],
   indexes: Array<number> = []
 ): boolean {
+  if (!Array.isArray(tree)) {
+    return false;
+  }
   return tree.every((item, index) => {
     const value: any = iterator(item, index, level, paths, indexes);
 
