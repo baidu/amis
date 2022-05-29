@@ -240,3 +240,12 @@ export function replaceExpression(expression: any): any {
   }
   return expression;
 }
+
+// 根据 name 值 判断当前表达式是否 存在循环引用问题
+export function isLoopExpression(expression: any, selfName: string): boolean {
+  if (!expression || !selfName || !isString(expression)) {
+    return false;
+  }
+  const variables = FormulaExec.collect(expression);
+  return variables.some((variable: string) => variable === selfName);
+}
