@@ -48,7 +48,7 @@ function VariableList(props: VariableListProps) {
           return (
             <span className={cx(`${classPrefix}-item`, itemClassName)}>
               {
-                  option.label && option.label === selfVariableName && (
+                  option.label && option.value === selfVariableName && (
                     <Badge
                       classnames={cx}
                       badge={{
@@ -67,7 +67,7 @@ function VariableList(props: VariableListProps) {
                   )
                 }
                 {
-                  option.label && option.label !== selfVariableName && (
+                  option.label && option.value !== selfVariableName && (
                     <label>
                         {option.label}
                       </label>
