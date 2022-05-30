@@ -135,7 +135,7 @@ export default {
                               type: 'combo',
                               multiple: true,
                               name: 'config.theme._otherVars',
-                              body: [
+                              items: [
                                 {
                                   type: 'input-text',
                                   placeholder: '变量名',
