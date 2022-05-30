@@ -367,6 +367,8 @@
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
+  background-color: #fff;
+  height: var(--Form-input-height);
 
   &-input {
     flex: 1;
@@ -424,6 +426,7 @@
   .#{$ns}FormulaPicker-input {
     display: inline-block;
     width: 100%;
+    height: 100%;
     background: none;
     padding: 0;
     border: 0;
@@ -436,7 +439,7 @@
   }
   .#{$ns}FormulaPicker-toggler {
     .icon-function {
-      transform: scale(1.6);
+      transform: scale(1.8);
     }
     .icon-ellipsis-v {
       transform: rotate(90deg);

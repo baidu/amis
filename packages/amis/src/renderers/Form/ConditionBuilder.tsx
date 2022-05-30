@@ -1,5 +1,12 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl, Schema} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  Schema,
+  isPureVariable,
+  resolveVariableAndFilter
+} from 'amis-core';
 import {SchemaApi, SchemaTokenizeableString} from '../../Schema';
 
 import {autobind} from 'amis-core';
@@ -72,11 +79,23 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
   render() {
     const {className, classnames: cx, ...rest} = this.props;
 
+    // 处理一下formula类型值的变量列表
+    let formula = this.props.formula ? {...this.props.formula} : undefined;
+    if (formula && formula.variables && isPureVariable(formula.variables)) {
+      // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
+      formula.variables = resolveVariableAndFilter(
+        formula.variables,
+        this.props.data,
+        '| raw'
+      );
+    }
+
     return (
       <div className={cx(`ConditionBuilderControl`, className)}>
         <ConditionBuilderWithRemoteOptions
           renderEtrValue={this.renderEtrValue}
           {...rest}
+          formula={formula}
         />
       </div>
     );
