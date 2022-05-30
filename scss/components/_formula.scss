@@ -367,8 +367,6 @@
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
-  height: var(--Form-input-height);
 
   &-input {
     flex: 1;
@@ -423,6 +421,8 @@
   border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
   padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
   border-radius: var(--borderRadius);
+  background-color: #fff;
+  height: var(--Form-input-height);
   .#{$ns}FormulaPicker-input {
     display: inline-block;
     width: 100%;
