@@ -1078,7 +1078,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
               {item.tip}
             </Checkbox>
           ) : (
-            <span>
+            <span
+              className={cx('Select-option-content')}
+              title={
+                typeof item[labelField] === 'string' ? item[labelField] : ''
+              }
+            >
               {item.disabled
                 ? item[labelField]
                 : highlight(

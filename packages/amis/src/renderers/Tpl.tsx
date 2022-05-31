@@ -117,17 +117,22 @@ export class Tpl extends React.Component<TplProps, object> {
       inline,
       classnames: cx,
       style,
+      showNativeTitle,
       data
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
+    const content = this.getContent();
 
     return (
       <Component
         ref={this.htmlRef}
         className={cx('TplField', className)}
         style={buildStyle(style, data)}
+        {...(showNativeTitle
+          ? {title: typeof content === 'string' ? content : ''}
+          : {})}
       >
-        <span>{this.getContent()}</span>
+        <span>{content}</span>
       </Component>
     );
   }
