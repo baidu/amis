@@ -91,7 +91,7 @@ export interface TreeControlSchema extends FormOptionsControl {
 }
 
 export interface TreeProps
-  extends OptionsControlProps,
+  extends Omit<OptionsControlProps, 'deferApi'>,
     Omit<
       TreeControlSchema,
       | 'type'

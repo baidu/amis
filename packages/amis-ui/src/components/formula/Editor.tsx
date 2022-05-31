@@ -173,7 +173,10 @@ export class FormulaEditor extends React.Component<
       let idx = -1;
       while (~(idx = content.indexOf(v, from))) {
         const curNameEg = new RegExp(`\\b${v}\\b`, 'g'); // 避免变量识别冲突，比如：name、me 被识别成 na「me」
-        html = html.replace(curNameEg, `<span class="c-field">${varMap[v]}</span>`);
+        html = html.replace(
+          curNameEg,
+          `<span class="c-field">${varMap[v]}</span>`
+        );
         from = idx + v.length;
       }
     });
