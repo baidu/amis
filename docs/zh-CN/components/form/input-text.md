@@ -351,15 +351,19 @@ order: 56
 
 ## 事件表
 
-| 事件名称 | 事件参数        | 说明     |
-| -------- | --------------- | -------- |
-| click    | `value: string` | 点击     |
-| focus    | `value: string` | 获取焦点 |
-| blur     | `value: string` | 失去焦点 |
-| enter    | `value: string` | 回车     |
-| change   | `value: string` | 值变化   |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                          | 说明                 |
+| -------- | --------------------------------- | -------------------- |
+| click    | `event.data.value: string` 输入值 | 点击输入框时触发     |
+| focus    | `event.data.value: string` 输入值 | 输入框获取焦点时触发 |
+| blur     | `event.data.value: string` 输入值 | 输入框失去焦点时触发 |
+| enter    | `event.data.value: string` 输入值 | 回车时触发           |
+| change   | `event.data.value: string` 输入值 | 值变化时触发         |
 
 ## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
 | 动作名称 | 动作配置                 | 说明                                               |
 | -------- | ------------------------ | -------------------------------------------------- |
