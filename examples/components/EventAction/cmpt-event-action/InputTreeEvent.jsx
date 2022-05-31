@@ -135,7 +135,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '派发change事件'
+                    msg: '派发change事件${event.data.value}'
                   }
                 }
               ]
@@ -144,8 +144,10 @@ export default {
               actions: [
                 {
                   actionType: 'toast',
-                  msgType: 'info',
-                  msg: '派发add事件'
+                  args: {
+                    msgType: 'info',
+                    msg: '派发add事件${event.data|json}'
+                  }
                 }
               ]
             },
@@ -155,7 +157,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '派发edit事件'
+                    msg: '派发edit事件${event.data|json}'
                   }
                 }
               ]
@@ -166,7 +168,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '派发delete事件'
+                    msg: '派发delete事件${event.data|json}'
                   }
                 }
               ]
@@ -177,7 +179,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '派发loadFinished事件'
+                    msg: '派发loadFinished事件${event.data.value|json}'
                   }
                 }
               ]

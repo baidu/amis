@@ -1236,18 +1236,22 @@ Form 支持轮询初始化接口，步骤如下：
 
 ## 事件表
 
-| 事件名称              | 事件参数                                                    | 说明           |
-| --------------------- | ----------------------------------------------------------- | -------------- |
-| inited                | 表单数据                                                    | 初始化完成     |
-| change                | 表单数据                                                    | 值变化         |
-| formItemValidateSucc  | 表单数据                                                    | 表单项校验成功 |
-| formItemValidateError | 表单数据                                                    | 表单项校验失败 |
-| validateSucc          | 表单数据                                                    | 表单校验成功   |
-| validateError         | 表单数据                                                    | 表单校验成功   |
-| submitSucc            | 配置 api 时： `result: object` 接口返回内容; 否则为表单数据 | 提交成功       |
-| submitFail            | `error: object` 接口返回内容                                | 提交失败       |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称              | 事件参数                                                     | 说明                         |
+| --------------------- | ------------------------------------------------------------ | ---------------------------- |
+| inited                | `event.data: object` initApi 远程请求返回的初始化数据        | 远程初始化接口请求成功时触发 |
+| change                | `event.data: object` 当前表单数据                            | 表单值变化时触发             |
+| formItemValidateSucc  | `event.data: object` 当前表单数据                            | 表单项校验成功时触发         |
+| formItemValidateError | `event.data: object` 当前表单数据                            | 表单项校验失败时触发         |
+| validateSucc          | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
+| validateError         | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
+| submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据 | 提交成功时触发               |
+| submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息  | 提交失败时触发               |
 
 ## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
 | 动作名称 | 动作配置                       | 说明                       |
 | -------- | ------------------------------ | -------------------------- |

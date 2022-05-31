@@ -41,7 +41,7 @@ const onEvent = {
         actionType: 'toast',
         args: {
           msgType: 'info',
-          msg: '派发blur事件'
+          msg: '派发blur事件${event.data.value|json}'
         }
       }
     ]
@@ -52,7 +52,7 @@ const onEvent = {
         actionType: 'toast',
         args: {
           msgType: 'info',
-          msg: '派发focus事件'
+          msg: '派发focus事件${event.data.value|json}'
         }
       }
     ]
@@ -63,7 +63,7 @@ const onEvent = {
         actionType: 'toast',
         args: {
           msgType: 'info',
-          msg: '派发change事件'
+          msg: '派发change事件${event.data.value|json}'
         }
       }
     ]
@@ -72,8 +72,10 @@ const onEvent = {
     actions: [
       {
         actionType: 'toast',
-        msgType: 'info',
-        msg: '派发add事件'
+        args: {
+          msgType: 'info',
+          msg: '派发add事件${event.data|json}'
+        }
       }
     ]
   },
@@ -83,7 +85,7 @@ const onEvent = {
         actionType: 'toast',
         args: {
           msgType: 'info',
-          msg: '派发edit事件'
+          msg: '派发edit事件${event.data|json}'
         }
       }
     ]
@@ -94,7 +96,7 @@ const onEvent = {
         actionType: 'toast',
         args: {
           msgType: 'info',
-          msg: '派发delete事件'
+          msg: '派发delete事件${event.data|json}'
         }
       }
     ]
@@ -105,7 +107,7 @@ const onEvent = {
         actionType: 'toast',
         args: {
           msgType: 'info',
-          msg: '派发loadFinished事件'
+          msg: '派发loadFinished事件${event.data.value|json}'
         }
       }
     ]
