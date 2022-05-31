@@ -1,17 +1,12 @@
 import isObjectByLodash from 'lodash/isObject';
 import isString from 'lodash/isString';
 import isBoolean from 'lodash/isBoolean';
-import {
-  getVariable,
-  isPureVariable,
-  resolveVariable,
-  resolveVariableAndFilter,
-  evaluate
-} from 'amis-formula';
+import {evaluate} from 'amis-formula';
 
 import {filter} from './tpl';
-import {getFilters} from './tpl-builtin';
+import {getFilters, resolveVariableAndFilter} from './tpl-builtin';
 import {collectVariables} from './grammar';
+import {getVariable} from './getVariable';
 
 /**
  * formulaExec 运算器：根据当前字符串类型执行对应运算，也可按指定执行模式执行运算
