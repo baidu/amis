@@ -1,15 +1,16 @@
 import React from 'react';
-import {ClassNamesFn} from '../../theme';
-import {IColumn, IRow, ITableStore} from '../../store/table';
-import {SchemaNode, Action} from '../../types';
+import {ClassNamesFn} from 'amis-core';
+import {ITableStore} from 'amis-core';
+import {SchemaNode, Action} from 'amis-core';
 import {TableBody} from './TableBody';
-import {LocaleProps} from '../../locale';
+import {LocaleProps} from 'amis-core';
 import {observer} from 'mobx-react';
 import {ActionSchema} from '../Action';
 import ItemActionsWrapper from './ItemActionsWrapper';
 import {SchemaTpl} from '../../Schema';
-import {Icon} from '../../components/icons';
-import {OnEventProps} from '../../utils/renderer-event';
+import {Icon} from 'amis-ui';
+import {OnEventProps} from 'amis-core';
+import type {IColumn, IRow} from 'amis-core/lib/store/table';
 
 export interface TableContentProps extends LocaleProps {
   className?: string;
@@ -176,23 +177,24 @@ export class TableContent extends React.Component<TableContentProps> {
           {!rows.length ? (
             <tbody>
               <tr className={cx('Table-placeholder')}>
-                {
-                  !loading ? (
-                    <td colSpan={columns.length}>
-                      {
-                        typeof placeholder === 'string' ? (
-                          <>
-                            <Icon
-                              icon="desk-empty"
-                              className={cx('Table-placeholder-empty-icon', 'icon')}
-                            />
-                            {translate(placeholder || 'placeholder.noData')}
-                          </>
-                        ) : render('placeholder', translate(placeholder || 'placeholder.noData'))
-                      }
-                    </td>
-                  ) : null
-                }
+                {!loading ? (
+                  <td colSpan={columns.length}>
+                    {typeof placeholder === 'string' ? (
+                      <>
+                        <Icon
+                          icon="desk-empty"
+                          className={cx('Table-placeholder-empty-icon', 'icon')}
+                        />
+                        {translate(placeholder || 'placeholder.noData')}
+                      </>
+                    ) : (
+                      render(
+                        'placeholder',
+                        translate(placeholder || 'placeholder.noData')
+                      )
+                    )}
+                  </td>
+                ) : null}
               </tr>
             </tbody>
           ) : (

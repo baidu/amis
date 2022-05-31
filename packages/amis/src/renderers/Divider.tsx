@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 
 /**

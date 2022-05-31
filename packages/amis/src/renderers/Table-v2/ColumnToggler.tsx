@@ -1,4 +1,4 @@
-import {Renderer} from '../../factory';
+import {Renderer} from 'amis-core';
 import ColumnToggler from '../Table/ColumnToggler';
 
 @Renderer({

@@ -5,13 +5,13 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {RendererProps} from '../factory';
+import {RendererProps} from 'amis-core';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import {Action} from '../types';
+import {Action} from 'amis-core';
 import keycode from 'keycode';
-import Overlay from '../components/Overlay';
-import PopOver from '../components/PopOver';
-import {Icon} from '../components/icons';
+import {Overlay} from 'amis-ui';
+import {PopOver} from 'amis-ui';
+import {Icon} from 'amis-ui';
 import {SchemaCollection, SchemaObject} from '../Schema';
 
 export type SchemaQuickEditObject =

@@ -3,11 +3,11 @@ import cx from 'classnames';
 import {matchSorter} from 'match-sorter';
 import keycode from 'keycode';
 import Downshift, {StateChangeOptions} from 'downshift';
-import {autobind} from '../../utils/helper';
+import {autobind} from 'amis-core';
 import {ICONS} from './IconPickerIcons';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {Option} from '../../components/Select';
-import {Icon} from '../../components/icons';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {Option} from 'amis-core';
+import {Icon} from 'amis-ui';
 
 /**
  * 图标选择器

@@ -1,22 +1,21 @@
 import React from 'react';
-import {ScopedContext, IScopedContext} from '../Scoped';
-import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Schema, Action} from '../types';
-import {default as DrawerContainer} from '../components/Drawer';
-import findLast from 'lodash/findLast';
+import {ScopedContext, IScopedContext} from 'amis-core';
+import {Renderer, RendererProps} from 'amis-core';
+import {SchemaNode, Schema, Action} from 'amis-core';
+import {Drawer as DrawerContainer} from 'amis-ui';
 import {
   guid,
   isVisible,
   autobind,
   createObject,
   isObjectShallowModified
-} from '../utils/helper';
+} from 'amis-core';
 import {reaction} from 'mobx';
 import {findDOMNode} from 'react-dom';
-import {IModalStore, ModalStore} from '../store/modal';
-import {filter} from '../utils/tpl';
-import {Spinner} from '../components';
-import {IServiceStore} from '../store/service';
+import {IModalStore, ModalStore} from 'amis-core';
+import {filter} from 'amis-core';
+import {Spinner} from 'amis-ui';
+import {IServiceStore} from 'amis-core';
 import {
   BaseSchema,
   SchemaClassName,
@@ -821,7 +820,7 @@ export class DrawerRenderer extends Drawer {
             this.closeTarget(action.close);
           }
         })
-        .catch((e) => {
+        .catch(e => {
           if (throwErrors || action.countDown) {
             throw e;
           }

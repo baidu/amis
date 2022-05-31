@@ -5,13 +5,12 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl
-} from './Options';
-import Select from '../../components/Select';
-import {Api} from '../../types';
-import {isEffectiveApi} from '../../utils/api';
-import {SchemaApi} from '../../Schema';
-import {isMobile, createObject} from '../../utils/helper';
-import {Action} from '../../types';
+} from 'amis-core';
+import {Select} from 'amis-ui';
+import {Api} from 'amis-core';
+import {isEffectiveApi} from 'amis-core';
+import {isMobile, createObject} from 'amis-core';
+import {Action} from 'amis-core';
 
 /**
  * 级联选择框

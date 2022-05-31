@@ -1,12 +1,11 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import cx from 'classnames';
-import {filter} from '../../utils/tpl';
-import NumberInput from '../../components/NumberInput';
-import {FormOptionsControl} from './Options';
-import {autobind, createObject} from '../../utils/helper';
-import Select, {normalizeOptions, Option} from '../../components/Select';
-import {PlainObject, Action} from '../../types';
+import {filter} from 'amis-core';
+import {NumberInput} from 'amis-ui';
+import {autobind, createObject} from 'amis-core';
+import Select, {normalizeOptions, Option} from 'amis-core';
+import {PlainObject, Action} from 'amis-core';
 /**
  * 数字输入框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/number

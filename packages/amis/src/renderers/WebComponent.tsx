@@ -1,7 +1,7 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
-import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
 import mapValues from 'lodash/mapValues';
 
 /**

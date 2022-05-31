@@ -1,11 +1,11 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {TableCell} from '../Table';
 import PopOver, {SchemaPopOver} from '../PopOver';
 import QuickEdit, {SchemaQuickEdit} from '../QuickEdit';
-import {Renderer} from '../../factory';
+
 import Copyable, {SchemaCopyable} from '../Copyable';
-import {extendObject, ucFirst} from '../../utils/helper';
+import {extendObject, ucFirst} from 'amis-core';
 import omit = require('lodash/omit');
 import {SchemaObject, SchemaTpl, SchemaType} from '../../Schema';
 

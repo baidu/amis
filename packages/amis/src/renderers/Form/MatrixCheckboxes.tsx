@@ -4,11 +4,11 @@
  */
 
 import React from 'react';
-import {FormBaseControl, FormControlProps, FormItem} from './Item';
-import {buildApi, isValidApi, isEffectiveApi} from '../../utils/api';
-import {Checkbox, Spinner} from '../../components';
-import {autobind, setVariable, createObject} from '../../utils/helper';
-import {ApiObject, Action} from '../../types';
+import {FormBaseControl, FormControlProps, FormItem} from 'amis-core';
+import {buildApi, isValidApi, isEffectiveApi} from 'amis-core';
+import {Checkbox, Spinner} from 'amis-ui';
+import {autobind, setVariable, createObject} from 'amis-core';
+import {ApiObject, Action} from 'amis-core';
 import {SchemaApi} from '../../Schema';
 
 /**

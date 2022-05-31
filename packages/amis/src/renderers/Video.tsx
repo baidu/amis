@@ -13,10 +13,10 @@ import {
   PlaybackRateMenuButton
   // @ts-ignore
 } from 'video-react';
-import {getPropValue, padArr} from '../utils/helper';
-import {Renderer, RendererProps} from '../factory';
-import {resolveVariable} from '../utils/tpl-builtin';
-import {filter} from '../utils/tpl';
+import {getPropValue, padArr} from 'amis-core';
+import {Renderer, RendererProps} from 'amis-core';
+import {resolveVariable} from 'amis-core';
+import {filter} from 'amis-core';
 // import css
 // import 'video-react/dist/video-react.css';
 import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';

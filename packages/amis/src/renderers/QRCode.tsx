@@ -1,13 +1,19 @@
 import React from 'react';
 import cx from 'classnames';
-import mapValues from 'lodash/mapValues';
-import {Renderer, RendererProps} from '../factory';
-import {FormItem, FormControlProps} from './Form/Item';
-import {filter} from '../utils/tpl';
+import {
+  isNumeric,
+  isObject,
+  isPureVariable,
+  Renderer,
+  RendererProps,
+  resolveVariableAndFilter
+} from 'amis-core';
+import {FormItem, FormControlProps} from 'amis-core';
+import {filter} from 'amis-core';
 import {QRCodeSVG} from 'qrcode.react';
 import {BaseSchema, SchemaClassName} from '../Schema';
-import {getPropValue, isObject, isNumeric} from '../utils/helper';
-import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {getPropValue} from 'amis-core';
+import mapValues from 'lodash/mapValues';
 
 export interface QRCodeImageSettings {
   src: string;

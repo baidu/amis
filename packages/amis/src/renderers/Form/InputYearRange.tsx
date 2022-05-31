@@ -1,9 +1,9 @@
 import React from 'react';
-import {FormItem} from './Item';
+import {FormItem} from 'amis-core';
 import cx from 'classnames';
-import {filterDate, parseDuration} from '../../utils/tpl-builtin';
+import {filterDate, parseDuration} from 'amis-core';
 import InputDateRange, {DateRangeControlSchema} from './InputDateRange';
-import DateRangePicker from '../../components/DateRangePicker';
+import {DateRangePicker} from 'amis-ui';
 
 /**
  * YearRange 年份范围控件

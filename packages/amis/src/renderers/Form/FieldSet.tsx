@@ -1,9 +1,9 @@
 import React from 'react';
-import {FormSchemaHorizontal} from './index';
-import {Renderer, RendererProps} from '../../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {SchemaCollection, SchemaTpl} from '../../Schema';
 import Collapse, {CollapseSchema} from '../Collapse';
-import {FormBaseControl} from './Item';
+import {FormBaseControl} from 'amis-core';
+import type {FormHorizontal} from 'amis-core';
 
 /**
  * FieldSet 表单项集合
@@ -64,7 +64,7 @@ export interface FieldSetControlSchema
   /**
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
-  subFormHorizontal?: FormSchemaHorizontal;
+  subFormHorizontal?: FormHorizontal;
 }
 
 export interface FieldSetProps

@@ -2,12 +2,12 @@
  * @file 用于显示日志的组件，比如显示命令行的输出结果
  */
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import Ansi from 'ansi-to-react';
-import {buildApi, isApiOutdated} from '../utils/api';
-import VirtualList from '../components/virtual-list';
-import Button from '../components/Button';
+import {buildApi, isApiOutdated} from 'amis-core';
+import {VirtualList} from 'amis-ui';
+import {Button} from 'amis-ui';
 import {
   InputClearIcon,
   LeftArrowIcon,
@@ -16,7 +16,7 @@ import {
   PlusIcon,
   ReloadIcon,
   RightArrowIcon
-} from '../components/icons';
+} from 'amis-ui';
 
 export type LogOperation = 'stop' | 'restart' | 'showLineNumber' | 'clear';
 

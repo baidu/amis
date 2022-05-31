@@ -1,17 +1,13 @@
 import React from 'react';
-import {Renderer} from '../../factory';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import LazyComponent from '../../components/LazyComponent';
-import {
-  isPureVariable,
-  resolveVariableAndFilter
-} from '../../utils/tpl-builtin';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {LazyComponent} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {SchemaTokenizeableString} from '../../Schema';
-import {autobind} from '../../utils/helper';
-import {bindRendererEvent} from '../../actions/Decorators';
+import {autobind} from 'amis-core';
+import {bindRendererEvent} from 'amis-core';
 
 import type {Position} from 'monaco-editor';
-import type {ListenerAction} from '../../actions/Action';
+import type {ListenerAction} from 'amis-core';
 
 /**
  * Diff 编辑器
@@ -42,7 +38,7 @@ export interface DiffControlSchema extends FormBaseControl {
 export type DiffEditorRendererEvent = 'blur' | 'focus';
 
 function loadComponent(): Promise<any> {
-  return import('../../components/Editor').then(item => item.default);
+  return import('amis-ui/lib/components/Editor').then(item => item.default);
 }
 
 export interface DiffEditorProps

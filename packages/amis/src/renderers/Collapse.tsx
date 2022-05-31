@@ -1,6 +1,6 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {Collapse as BasicCollapse} from '../components/Collapse';
+import {Renderer, RendererProps} from 'amis-core';
+import {Collapse as BasicCollapse} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
 
 /**

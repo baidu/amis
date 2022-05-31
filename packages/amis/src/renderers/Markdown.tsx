@@ -2,12 +2,12 @@
  * @file 用来渲染 Markdown
  */
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
-import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
-import LazyComponent from '../components/LazyComponent';
-import {getPropValue} from '../utils/helper';
-import {isApiOutdated, isEffectiveApi} from '../utils/api';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import {LazyComponent} from 'amis-core';
+import {getPropValue} from 'amis-core';
+import {isApiOutdated, isEffectiveApi} from 'amis-core';
 
 /**
  * Markdown 渲染
@@ -36,7 +36,7 @@ export interface MarkdownSchema extends BaseSchema {
 }
 
 function loadComponent(): Promise<any> {
-  return import('../components/Markdown').then(item => item.default);
+  return import('amis-ui/lib/components/Markdown').then(item => item.default);
 }
 
 export interface MarkdownProps

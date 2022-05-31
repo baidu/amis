@@ -1,12 +1,12 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {filter} from '../utils/tpl';
+import {Renderer, RendererProps} from 'amis-core';
+import {filter} from 'amis-core';
 import cx from 'classnames';
-import {anyChanged, getPropValue} from '../utils/helper';
-import {escapeHtml} from '../utils/tpl-builtin';
+import {anyChanged, getPropValue} from 'amis-core';
+import {escapeHtml} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
-import {BadgeSchema, withBadge} from '../components/Badge';
-import {buildStyle} from '../utils/style';
+import {BadgeObject, withBadge} from 'amis-ui';
+import {buildStyle} from 'amis-core';
 
 /**
  * tpl 渲染器
@@ -39,12 +39,7 @@ export interface TplSchema extends BaseSchema {
   /**
    * 角标
    */
-  badge?: BadgeSchema;
-
-  /**
-   * 是否设置外层DOM节点的title属性为文本内容
-   */
-  showNativeTitle?: boolean;
+  badge?: BadgeObject;
 }
 
 export interface TplProps extends RendererProps, TplSchema {

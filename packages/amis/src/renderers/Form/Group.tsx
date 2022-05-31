@@ -1,16 +1,10 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../../factory';
-import {Schema} from '../../types';
-import {
-  isVisible,
-  getWidthRate,
-  makeHorizontalDeeper
-} from '../../utils/helper';
-import cx from 'classnames';
-import {FormBaseControl, FormItemWrap} from './Item';
-import getExprProperties from '../../utils/filter-schema';
+import {Renderer, RendererProps} from 'amis-core';
+import {isVisible, getWidthRate, makeHorizontalDeeper} from 'amis-core';
+import {FormBaseControl, FormItemWrap} from 'amis-core';
+
 import {SchemaClassName, SchemaObject} from '../../Schema';
-import Form, {FormSchemaHorizontal} from './index';
+import Form, {FormHorizontal} from 'amis-core';
 
 export type GroupSubControl = SchemaObject & {
   /**
@@ -53,7 +47,7 @@ export interface GroupControlSchema extends FormBaseControl {
   /**
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
-  subFormHorizontal?: FormSchemaHorizontal;
+  subFormHorizontal?: FormHorizontal;
 }
 
 export interface InputGroupProps

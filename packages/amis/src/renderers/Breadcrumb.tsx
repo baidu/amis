@@ -2,11 +2,11 @@
  * @file 用来展示面包屑导航
  */
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaIcon, SchemaUrlPath} from '../Schema';
-import {filter} from '../utils/tpl';
-import {resolveVariableAndFilter} from '../utils/tpl-builtin';
-import Breadcrumb from '../components/Breadcrumb';
+import {filter} from 'amis-core';
+import {resolveVariableAndFilter} from 'amis-core';
+import {Breadcrumb} from 'amis-ui';
 
 export type BreadcrumbBaseItemSchema = {
   /**

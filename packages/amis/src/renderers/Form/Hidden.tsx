@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 
 /**
  * Hidden 隐藏域。功能性组件

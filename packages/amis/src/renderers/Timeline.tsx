@@ -1,10 +1,15 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {BaseSchema, SchemaApi, SchemaCollection, SchemaTokenizeableString} from '../Schema';
-import {resolveVariable} from '../utils/tpl-builtin';
-import Timeline from '../components/Timeline';
-import {filter} from '../utils/tpl';
-import { RemoteOptionsProps, withRemoteConfig } from '../components/WithRemoteConfig';
+import {Renderer, RendererProps} from 'amis-core';
+import {
+  BaseSchema,
+  SchemaApi,
+  SchemaCollection,
+  SchemaTokenizeableString
+} from '../Schema';
+import {resolveVariable} from 'amis-core';
+import {Timeline} from 'amis-ui';
+import {filter} from 'amis-core';
+import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 
 export interface TimelineItemSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -18,8 +23,8 @@ export interface TimelineItemSchema extends Omit<BaseSchema, 'type'> {
   title?: SchemaCollection;
 
   /**
-    * 详细内容
-    */
+   * 详细内容
+   */
   detail?: string;
 
   /**
@@ -57,7 +62,7 @@ export interface TimelineSchema extends BaseSchema {
   /**
    * API 或 数据映射
    */
-  source?: SchemaApi  | SchemaTokenizeableString;
+  source?: SchemaApi | SchemaTokenizeableString;
 
   /**
    * 文字相对于时间轴展示方向
@@ -67,12 +72,12 @@ export interface TimelineSchema extends BaseSchema {
   /**
    * 展示方向
    */
-  direction?: 'horizontal' | 'vertical'
+  direction?: 'horizontal' | 'vertical';
 
   /**
    * 节点倒序
    */
-  reverse?: boolean,
+  reverse?: boolean;
 }
 
 export interface TimelineProps
@@ -80,42 +85,34 @@ export interface TimelineProps
     Omit<TimelineSchema, 'className'> {}
 
 export function TimelineCmpt(props: TimelineProps) {
-  const {
-    items,
-    mode,
-    direction,
-    reverse,
-    data,
-    config,
-    source,
-    render
-  } = props;
+  const {items, mode, direction, reverse, data, config, source, render} = props;
 
   // 获取源数据
   const timelineItemsRow: Array<TimelineItemSchema> = config || items || [];
 
   // 渲染内容
-  const resolveRender = (region: string, val?: SchemaCollection) => typeof val === 'string'
-                    ? filter(val, data)
-                    : (val && render(region, val));
+  const resolveRender = (region: string, val?: SchemaCollection) =>
+    typeof val === 'string' ? filter(val, data) : val && render(region, val);
 
   // 处理源数据
-  const resolveTimelineItems =
-     timelineItemsRow?.map((timelineItem: TimelineItemSchema) => {
+  const resolveTimelineItems = timelineItemsRow?.map(
+    (timelineItem: TimelineItemSchema) => {
       return {
         ...timelineItem,
         icon: resolveRender('icon', timelineItem.icon),
-        title: resolveRender('title', timelineItem.title),
-      }
-    });
+        title: resolveRender('title', timelineItem.title)
+      };
+    }
+  );
 
-
-  return (<Timeline
-            items = {resolveTimelineItems}
-            direction = {direction}
-            reverse = {reverse}
-            mode = {mode}
-          />)
+  return (
+    <Timeline
+      items={resolveTimelineItems}
+      direction={direction}
+      reverse={reverse}
+      mode={mode}
+    />
+  );
 }
 
 const TimelineWithRemoteConfig = withRemoteConfig({
@@ -136,6 +133,6 @@ const TimelineWithRemoteConfig = withRemoteConfig({
 })
 export class TimelineRenderer extends React.Component<TimelineProps> {
   render() {
-    return  <TimelineWithRemoteConfig {...this.props} />;
+    return <TimelineWithRemoteConfig {...this.props} />;
   }
 }

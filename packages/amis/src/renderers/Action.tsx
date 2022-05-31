@@ -1,15 +1,10 @@
 import React from 'react';
 import hotkeys from 'hotkeys-js';
-import omit from 'lodash/omit';
+import {Renderer, RendererProps} from 'amis-core';
+import {filter} from 'amis-core';
+import {BadgeObject, Button} from 'amis-ui';
 import pick from 'lodash/pick';
-import {Renderer, RendererProps} from '../factory';
-import {filter} from '../utils/tpl';
-import Button from '../components/Button';
-import {ScopedContext} from '../Scoped';
-import {isObject} from '../utils/helper';
-
-import type {IScopedContext} from '../Scoped';
-import type {Action as ICmptAction} from '../types';
+import omit from 'lodash/omit';
 
 export interface ButtonSchema extends BaseSchema {
   /**
@@ -141,7 +136,7 @@ export interface ButtonSchema extends BaseSchema {
   /**
    * 角标
    */
-  badge?: BadgeSchema;
+  badge?: BadgeObject;
 
   /**
    * 键盘快捷键
@@ -416,8 +411,8 @@ const ActionProps = [
   'fileName'
 ];
 import {filterContents} from './Remark';
-import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {autobind, createObject} from '../utils/helper';
+import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
+import {autobind, createObject} from 'amis-core';
 import {
   BaseSchema,
   FeedbackDialog,
@@ -433,10 +428,10 @@ import {
 import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {ToastSchemaBase} from '../Schema';
-import {generateIcon} from '../utils/icon';
-import {BadgeSchema, withBadge} from '../components/Badge';
-import {normalizeApi, str2AsyncFunction} from '../utils/api';
-import {TooltipWrapper} from '../components/TooltipWrapper';
+import {generateIcon} from 'amis-core';
+import {withBadge} from 'amis-ui';
+import {normalizeApi, str2AsyncFunction} from 'amis-core';
+import {TooltipWrapper} from 'amis-ui';
 
 // 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
 // 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent

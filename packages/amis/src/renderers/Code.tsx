@@ -4,9 +4,9 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual';
 import {BaseSchema} from '../Schema';
-import {Renderer, RendererProps} from '../factory';
-import {detectPropValueChanged, getPropValue} from '../utils/helper';
-import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {Renderer, RendererProps} from 'amis-core';
+import {detectPropValueChanged, getPropValue} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 // 自定义语言的 token
 export interface Token {

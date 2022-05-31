@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Schema, Action, PlainObject} from '../types';
-import {CRUDStore, ICRUDStore} from '../store/crud';
+import {Renderer, RendererProps} from 'amis-core';
+import {SchemaNode, Schema, Action, PlainObject} from 'amis-core';
+import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
   createObject,
   extendObject,
@@ -14,21 +14,21 @@ import {
   qsstringify,
   qsparse,
   isArrayChildrenModified
-} from '../utils/helper';
-import {ScopedContext, IScopedContext} from '../Scoped';
-import Button from '../components/Button';
-import Select from '../components/Select';
-import getExprProperties from '../utils/filter-schema';
+} from 'amis-core';
+import {ScopedContext, IScopedContext} from 'amis-core';
+import {Button} from 'amis-ui';
+import {Select} from 'amis-ui';
+import {getExprProperties} from 'amis-core';
 import pick from 'lodash/pick';
 import {findDOMNode} from 'react-dom';
-import {evalExpression, filter} from '../utils/tpl';
-import {isEffectiveApi, isApiOutdated, str2function} from '../utils/api';
+import {evalExpression, filter} from 'amis-core';
+import {isEffectiveApi, isApiOutdated, str2function} from 'amis-core';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
-import Html from '../components/Html';
-import {Spinner} from '../components';
-import {Icon} from '../components/icons';
+import {Html} from 'amis-ui';
+import {Spinner} from 'amis-ui';
+import {Icon} from 'amis-ui';
 import {
   BaseSchema,
   SchemaApi,
@@ -44,7 +44,7 @@ import {ActionSchema} from './Action';
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema} from './Table';
-import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 import type {PaginationProps} from './Pagination';
 

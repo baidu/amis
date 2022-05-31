@@ -1,19 +1,20 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import Overlay from '../components/Overlay';
-import PopOver from '../components/PopOver';
-import TooltipWrapper from '../components/TooltipWrapper';
-import type {TooltipObject, Trigger} from '../components/TooltipWrapper';
-import {isDisabled, isVisible, noop} from '../utils/helper';
-import {filter} from '../utils/tpl';
-import {Icon} from '../components/icons';
+import {Renderer, RendererProps} from 'amis-core';
+import {Overlay} from 'amis-ui';
+import {PopOver} from 'amis-ui';
+import {TooltipWrapper} from 'amis-ui';
+import {isDisabled, isVisible, noop} from 'amis-core';
+import {filter} from 'amis-core';
+import {Icon} from 'amis-ui';
 import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
-import {RootClose} from '../utils/RootClose';
-import {generateIcon} from '../utils/icon';
-
-import type {Option} from '../components/Select';
+import {RootClose} from 'amis-core';
+import {generateIcon} from 'amis-core';
+import type {
+  TooltipObject,
+  Trigger
+} from 'amis-ui/lib/components/TooltipWrapper';
 
 export type DropdownButton =
   | (ActionSchema & {children?: Array<DropdownButton>})

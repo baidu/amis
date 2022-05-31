@@ -1,14 +1,12 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
-import Steps, {StepStatus} from '../components/Steps';
-import {
-  RemoteOptionsProps,
-  withRemoteConfig
-} from '../components/WithRemoteConfig';
-import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
-import {filter} from '../utils/tpl';
-import {getPropValue} from '../utils/helper';
+import {Steps} from 'amis-ui';
+import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
+import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
+import {filter} from 'amis-core';
+import {getPropValue} from 'amis-core';
+import type {StepStatus} from 'amis-ui/lib/components/Steps';
 
 export type StepSchema = {
   /**

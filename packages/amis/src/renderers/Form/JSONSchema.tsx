@@ -1,13 +1,7 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {autobind, isObjectShallowModified} from '../../utils/helper';
-import InputJSONSchema from '../../components/json-schema/index';
-import {
-  isPureVariable,
-  resolveVariableAndFilter
-} from '../../utils/tpl-builtin';
-import {isApiOutdated, isEffectiveApi} from '../../utils/api';
-import {withRemoteConfig} from '../../components/WithRemoteConfig';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {InputJSONSchema} from 'amis-ui';
+import {withRemoteConfig} from 'amis-ui';
 
 /**
  * JSON Schema

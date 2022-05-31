@@ -1,10 +1,10 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Schema, Action, PlainObject} from '../types';
-import {filter, evalExpression} from '../utils/tpl';
-import Checkbox from '../components/Checkbox';
-import {padArr, isVisible, isDisabled, noop, hashCode} from '../utils/helper';
-import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {Renderer, RendererProps} from 'amis-core';
+import {SchemaNode, Schema, Action, PlainObject} from 'amis-core';
+import {filter, evalExpression} from 'amis-core';
+import {Checkbox} from 'amis-ui';
+import {padArr, isVisible, isDisabled, noop, hashCode} from 'amis-core';
+import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
@@ -19,10 +19,10 @@ import {
   SchemaUrlPath
 } from '../Schema';
 import {ActionSchema} from './Action';
-import {Card} from '../components/Card';
+import {Card} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
-import {IItem} from '../store/list';
-import {Icon} from '../components/icons';
+import {Icon} from 'amis-ui';
+import type {IItem} from 'amis-core/lib/store/list';
 
 export type CardBodyField = SchemaObject & {
   /**

@@ -1,12 +1,12 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Schema, Action} from '../types';
-import {filter} from '../utils/tpl';
+import {Renderer, RendererProps} from 'amis-core';
+import {SchemaNode, Schema, Action} from 'amis-core';
+import {filter} from 'amis-core';
 import cx from 'classnames';
-import Button from '../components/Button';
-import Checkbox from '../components/Checkbox';
-import {ListStore, IListStore, IItem} from '../store/list';
+import {Button} from 'amis-ui';
+import {Checkbox} from 'amis-ui';
+import {ListStore, IListStore} from 'amis-core';
 import {observer} from 'mobx-react';
 import omit = require('lodash/omit');
 import {
@@ -17,18 +17,18 @@ import {
   isDisabled,
   noop,
   isClickOnInput
-} from '../utils/helper';
+} from 'amis-core';
 import {
   isPureVariable,
   resolveVariable,
   resolveVariableAndFilter
-} from '../utils/tpl-builtin';
+} from 'amis-core';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import Sortable from 'sortablejs';
 import {TableCell} from './Table';
 import Copyable, {SchemaCopyable} from './Copyable';
-import {Icon} from '../components/icons';
+import {Icon} from 'amis-ui';
 import {
   BaseSchema,
   SchemaClassName,
@@ -41,6 +41,7 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
+import type {IItem} from 'amis-core/lib/store/list';
 
 /**
  * 不指定类型默认就是文本

@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import memoize from 'lodash/memoize';
 import isString from 'lodash/isString';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
-import {FormControlProps} from './Form/Item';
+import {FormControlProps} from 'amis-core';
 import isEqual from 'lodash/isEqual';
 
 /**
@@ -110,7 +110,10 @@ export class Custom extends React.Component<CustomProps, object> {
     if (!isEqual(this.props.onUpdate, prevProps.onUpdate)) {
       this.initOnUpdate(this.props);
     }
-    if (!isEqual(this.props.onUpdate, prevProps.onUpdate) || !isEqual(this.props.data, prevProps.data)) {
+    if (
+      !isEqual(this.props.onUpdate, prevProps.onUpdate) ||
+      !isEqual(this.props.data, prevProps.data)
+    ) {
       this.onUpdate(this.dom, this.props.data, prevProps.data, this.props);
     }
     if (!isEqual(this.props.onMount, prevProps.onMount)) {

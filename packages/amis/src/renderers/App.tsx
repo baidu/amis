@@ -1,20 +1,19 @@
 import React from 'react';
-import {AsideNav, Html, NotFound, Spinner} from '../components';
-import Button from '../components/Button';
-import Layout from '../components/Layout';
-import {Renderer, RendererProps} from '../factory';
+import {AsideNav, Html, NotFound, Spinner} from 'amis-ui';
+import {Layout} from 'amis-ui';
+import {Renderer, RendererProps} from 'amis-core';
 import {
   BaseSchema,
   SchemaApi,
   SchemaClassName,
   SchemaCollection
 } from '../Schema';
-import {IScopedContext, ScopedContext} from '../Scoped';
-import {AppStore, IAppStore} from '../store/app';
-import {Api, SchemaNode} from '../types';
-import {isApiOutdated, isEffectiveApi} from '../utils/api';
-import {autobind} from '../utils/helper';
-import {generateIcon} from '../utils/icon';
+import {IScopedContext, ScopedContext} from 'amis-core';
+import {AppStore, IAppStore} from 'amis-core';
+import {Api, SchemaNode} from 'amis-core';
+import {isApiOutdated, isEffectiveApi} from 'amis-core';
+import {autobind} from 'amis-core';
+import {generateIcon} from 'amis-core';
 
 export interface AppPage {
   /**

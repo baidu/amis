@@ -1,9 +1,9 @@
 import React, {Fragment} from 'react';
 import {findDOMNode} from 'react-dom';
-import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Schema, Action} from '../types';
-import Button from '../components/Button';
-import {ListStore, IListStore, IItem} from '../store/list';
+import {Renderer, RendererProps} from 'amis-core';
+import {SchemaNode, Schema, Action} from 'amis-core';
+import {Button} from 'amis-ui';
+import {ListStore, IListStore} from 'amis-core';
 import {observer} from 'mobx-react';
 import {
   anyChanged,
@@ -11,11 +11,11 @@ import {
   difference,
   ucFirst,
   noop
-} from '../utils/helper';
-import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import Sortable from 'sortablejs';
-import {filter} from '../utils/tpl';
-import {Icon} from '../components/icons';
+import {filter} from 'amis-core';
+import {Icon} from 'amis-ui';
 import {
   BaseSchema,
   SchemaClassName,
@@ -26,6 +26,7 @@ import {
 } from '../Schema';
 import {CardProps, CardSchema} from './Card';
 import {Card2Props, Card2Schema} from './Card2';
+import type {IItem} from 'amis-core/lib/store/list';
 
 /**
  * Cards 卡片集合渲染器。

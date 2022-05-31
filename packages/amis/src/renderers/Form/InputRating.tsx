@@ -1,8 +1,9 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {autobind, createObject} from '../../utils/helper';
-import {Action} from '../../types';
-import Rating, {textPositionType} from '../../components/Rating';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {autobind, createObject} from 'amis-core';
+import {Action} from 'amis-core';
+import {Rating} from 'amis-ui';
+import type {textPositionType} from 'amis-ui/lib/components/Rating';
 
 /**
  * Rating

@@ -1,7 +1,7 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
-import {BadgeSchema, withBadge} from '../components/Badge';
+import {BadgeObject, withBadge} from 'amis-ui';
 
 /**
  * Icon 图表渲染器
@@ -20,7 +20,7 @@ export interface IconSchema extends BaseSchema {
   /**
    * 角标
    */
-  badge?: BadgeSchema;
+  badge?: BadgeObject;
 }
 
 export interface IconProps

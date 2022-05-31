@@ -1,16 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
-import cx from 'classnames';
-import Radios from '../../components/Radios';
 import {
   OptionsControl,
   OptionsControlProps,
-  Option,
   FormOptionsControl
-} from './Options';
-import {autobind, isEmpty} from '../../utils/helper';
-import {dataMapping} from '../../utils/tpl-builtin';
-import {Chart} from '../Chart';
+} from 'amis-core';
+import {autobind} from 'amis-core';
 
 /**
  * 图表 Radio 单选框。

@@ -1,34 +1,28 @@
 import React, {Suspense} from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
 import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
 import 'blueimp-canvastoblob';
 import find from 'lodash/find';
-import {Payload, Action} from '../../types';
-import {buildApi} from '../../utils/api';
-import {
-  createObject,
-  qsstringify,
-  guid,
-  isEmpty,
-  qsparse
-} from '../../utils/helper';
-import {Icon} from '../../components/icons';
-import Button from '../../components/Button';
+import {Payload, Action} from 'amis-core';
+import {buildApi} from 'amis-core';
+import {createObject, qsstringify, guid, isEmpty, qsparse} from 'amis-core';
+import {Icon} from 'amis-ui';
+import {Button} from 'amis-ui';
 import accepts from 'attr-accept';
 import {getNameFromUrl} from './InputFile';
 import ImageComponent, {ImageThumbProps} from '../Image';
-import {TranslateFn} from '../../locale';
-import {dataMapping} from '../../utils/tpl-builtin';
+import {TranslateFn} from 'amis-core';
+import {dataMapping} from 'amis-core';
 import {
   SchemaApi,
   SchemaClassName,
   SchemaTokenizeableString,
   SchemaUrlPath
 } from '../../Schema';
-import {filter} from '../../utils/tpl';
+import {filter} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';

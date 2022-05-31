@@ -4,10 +4,10 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl
-} from './Options';
+} from 'amis-core';
 import cx from 'classnames';
-import Button from '../../components/Button';
-import {SchemaNode, Schema, Action, PlainObject} from '../../types';
+
+import {SchemaNode, Schema, Action, PlainObject} from 'amis-core';
 import find from 'lodash/find';
 import {
   anyChanged,
@@ -16,20 +16,15 @@ import {
   noop,
   createObject,
   isObjectShallowModified
-} from '../../utils/helper';
+} from 'amis-core';
 import findIndex from 'lodash/findIndex';
-import Html from '../../components/Html';
-import {filter} from '../../utils/tpl';
-import {Icon} from '../../components/icons';
-import {isEmpty} from '../../utils/helper';
-import {
-  dataMapping,
-  isPureVariable,
-  resolveVariableAndFilter
-} from '../../utils/tpl-builtin';
+import {Html} from 'amis-ui';
+import {filter} from 'amis-core';
+import {Icon} from 'amis-ui';
+import {dataMapping, isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {SchemaCollection, SchemaTpl} from '../../Schema';
 import {CRUDSchema} from '../CRUD';
-import {isApiOutdated, isEffectiveApi} from '../../utils/api';
+import {isApiOutdated, isEffectiveApi} from 'amis-core';
 
 /**
  * Picker

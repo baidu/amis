@@ -1,12 +1,13 @@
 import React, {Suspense} from 'react';
 import cx from 'classnames';
 
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import type {PresetColor} from '../../components/ColorPicker';
-import {isMobile} from '../../utils/helper';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import type {PresetColor} from 'amis-ui';
+import {isMobile} from 'amis-core';
 
+// todo amis-ui 里面组件直接改成按需加载
 export const ColorPicker = React.lazy(
-  () => import('../../components/ColorPicker')
+  () => import('amis-ui/lib/components/ColorPicker')
 );
 
 /**

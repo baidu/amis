@@ -1,32 +1,27 @@
 import React from 'react';
-import Overlay from '../../components/Overlay';
-import PopOver from '../../components/PopOver';
-import PopUp from '../../components/PopUp';
+import {Overlay} from 'amis-ui';
+import {PopOver} from 'amis-ui';
+import {PopUp} from 'amis-ui';
 
 import {
   OptionsControl,
   OptionsControlProps,
   Option,
   FormOptionsControl
-} from './Options';
-import {Icon} from '../../components/icons';
-import TreeSelector from '../../components/Tree';
+} from 'amis-core';
+
+import {Tree as TreeSelector} from 'amis-ui';
 import {matchSorter} from 'match-sorter';
 import debouce from 'lodash/debounce';
 import find from 'lodash/find';
-import {Api} from '../../types';
-import {isEffectiveApi} from '../../utils/api';
-import Spinner from '../../components/Spinner';
-import ResultBox from '../../components/ResultBox';
-import {
-  autobind,
-  getTreeAncestors,
-  isMobile,
-  createObject
-} from '../../utils/helper';
+import {Api} from 'amis-core';
+import {isEffectiveApi} from 'amis-core';
+import {Spinner} from 'amis-ui';
+import {ResultBox} from 'amis-ui';
+import {autobind, getTreeAncestors, isMobile, createObject} from 'amis-core';
 import {findDOMNode} from 'react-dom';
-import {normalizeOptions} from '../../components/Select';
-import {Action} from '../../types';
+import {normalizeOptions} from 'amis-core';
+import {Action} from 'amis-core';
 
 /**
  * Tree 下拉选择框。
@@ -209,9 +204,12 @@ export default class TreeSelectControl extends React.Component<
     this.setState({
       isFocused: true
     });
-    dispatchEvent('focus', createObject(data, {
-      value
-    }));
+    dispatchEvent(
+      'focus',
+      createObject(data, {
+        value
+      })
+    );
   }
 
   handleBlur(e: any) {
@@ -219,9 +217,12 @@ export default class TreeSelectControl extends React.Component<
     this.setState({
       isFocused: false
     });
-    dispatchEvent('blur', createObject(data, {
-      value
-    }));
+    dispatchEvent(
+      'blur',
+      createObject(data, {
+        value
+      })
+    );
   }
 
   handleKeyPress(e: React.KeyboardEvent) {

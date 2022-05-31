@@ -1,9 +1,7 @@
 import React, {Suspense} from 'react';
 import Dropzone from 'react-dropzone';
-import {FileRejection} from 'react-dropzone';
-import {Icon} from '../../components/icons';
-import {autobind, createObject} from '../../utils/helper';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {autobind, createObject} from 'amis-core';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 
 /**
  * Excel 解析

@@ -1,24 +1,16 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 import ImageControl from './InputImage';
-import {Payload, ApiObject, ApiString, Action} from '../../types';
-import {filter} from '../../utils/tpl';
-import Alert from '../../components/Alert2';
-import {qsstringify, createObject, guid, isEmpty} from '../../utils/helper';
-import {
-  buildApi,
-  isEffectiveApi,
-  normalizeApi,
-  isApiOutdated
-} from '../../utils/api';
-import Button from '../../components/Button';
-import {Icon} from '../../components/icons';
-import TooltipWrapper from '../../components/TooltipWrapper';
+import {Payload, ApiObject, ApiString, Action} from 'amis-core';
+import {qsstringify, createObject, guid, isEmpty} from 'amis-core';
+import {buildApi, isEffectiveApi, normalizeApi, isApiOutdated} from 'amis-core';
+import {Icon} from 'amis-ui';
+import {TooltipWrapper} from 'amis-ui';
 import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
-import {dataMapping} from '../../utils/tpl-builtin';
+import {dataMapping} from 'amis-core';
 import {
   SchemaApi,
   SchemaClassName,
@@ -222,12 +214,12 @@ export interface FileControlSchema extends FormBaseControl {
   /**
    * 说明文档内容配置
    */
-   documentation?: string;
+  documentation?: string;
 
-   /**
+  /**
    * 说明文档链接配置
    */
-    documentLink?: string;
+  documentLink?: string;
 
   /**
    * 是否为拖拽上传
@@ -1283,7 +1275,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       templateUrl,
       drag,
       documentation,
-      documentLink,
+      documentLink
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
@@ -1348,17 +1340,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   <Icon icon="cloud-upload" className="icon" />
                   <span>
                     {__('File.dragDrop')}
-                    <span 
-                      className={cx('FileControl-acceptTip-click')}
-                    >{__('File.clickUpload')}</span>
+                    <span className={cx('FileControl-acceptTip-click')}>
+                      {__('File.clickUpload')}
+                    </span>
                   </span>
-                  <div
-                    className={cx('FileControl-acceptTip-help', 'TplField')}>
-                    {documentLink ?
-                      <a
-                        href={documentLink}
-                        onClick={e => e.stopPropagation()}
-                      >{documentation ? documentation : __('File.helpText')}</a> : null}
+                  <div className={cx('FileControl-acceptTip-help', 'TplField')}>
+                    {documentLink ? (
+                      <a href={documentLink} onClick={e => e.stopPropagation()}>
+                        {documentation ? documentation : __('File.helpText')}
+                      </a>
+                    ) : null}
                   </div>
                   {maxSize ? (
                     <div className={cx('FileControl-sizeTip')}>

@@ -3,9 +3,9 @@
  */
 
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {Api, SchemaNode, Schema, Action} from '../types';
-import {isVisible} from '../utils/helper';
+import {Renderer, RendererProps} from 'amis-core';
+import {Api, SchemaNode, Schema, Action} from 'amis-core';
+import {isVisible} from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 
 // 为了方便编辑器，目前考虑不区分 th 和 td，但因为可以控制展现，所以能实现一样的效果，同时后续这个组件还承担复杂布局的功能，不适合用 th

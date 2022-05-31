@@ -1,21 +1,21 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import Button from '../../components/Button';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {
   createObject,
   getTree,
   getVariable,
   setVariable,
   spliceTree
-} from '../../utils/helper';
-import {RendererData, Action, Api, Payload, ApiObject} from '../../types';
-import {isEffectiveApi} from '../../utils/api';
-import {filter} from '../../utils/tpl';
+} from 'amis-core';
+import {Button} from 'amis-ui';
+import {RendererData, Action, Api, Payload, ApiObject} from 'amis-core';
+import {isEffectiveApi} from 'amis-core';
+import {filter} from 'amis-core';
 import omit from 'lodash/omit';
-import {dataMapping} from '../../utils/tpl-builtin';
+import {dataMapping} from 'amis-core';
 import findIndex from 'lodash/findIndex';
-import {SimpleMap} from '../../utils/SimpleMap';
-import {Icon} from '../../components/icons';
+import {SimpleMap} from 'amis-core';
+import {Icon} from 'amis-ui';
 import {TableSchema} from '../Table';
 import {SchemaApi} from '../../Schema';
 import find from 'lodash/find';

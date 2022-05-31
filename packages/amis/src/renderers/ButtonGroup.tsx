@@ -1,6 +1,6 @@
 import React from 'react';
 import ButtonGroup from './Form/ButtonGroupSelect';
-import {Renderer} from '../factory';
+import {Renderer} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaExpression} from '../Schema';
 import {ActionSchema} from './Action';
 

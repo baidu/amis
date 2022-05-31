@@ -1,17 +1,14 @@
 import React from 'react';
-import {RendererProps, Renderer} from '../../factory';
+import {RendererProps, Renderer} from 'amis-core';
 import QuickEdit from '../QuickEdit';
 import Copyable from '../Copyable';
 import PopOverable from '../PopOver';
 import {observer} from 'mobx-react';
 import omit = require('lodash/omit');
-import {filter} from '../../utils/tpl';
-import {Badge} from '../../components/Badge';
-import ColorScale from '../../utils/ColorScale';
-import {
-  isPureVariable,
-  resolveVariableAndFilter
-} from '../../utils/tpl-builtin';
+import {filter} from 'amis-core';
+import {Badge} from 'amis-ui';
+import {ColorScale} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 export interface TableCellProps extends RendererProps {
   wrapperComponent?: React.ReactType;

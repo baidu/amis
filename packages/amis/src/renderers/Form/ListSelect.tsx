@@ -4,10 +4,9 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl
-} from './Options';
-import {Action, Schema} from '../../types';
-import {createObject, isEmpty} from '../../utils/helper';
-import {dataMapping} from '../../utils/tpl-builtin';
+} from 'amis-core';
+import {Action, Schema} from 'amis-core';
+import {createObject, isEmpty} from 'amis-core';
 import {SchemaClassName, SchemaCollection} from '../../Schema';
 
 /**

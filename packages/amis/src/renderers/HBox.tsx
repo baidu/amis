@@ -1,15 +1,15 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {Api, SchemaNode, Schema, Action} from '../types';
+import {Renderer, RendererProps} from 'amis-core';
+import {Api, SchemaNode, Schema, Action} from 'amis-core';
 import cx from 'classnames';
-import {isVisible, ucFirst} from '../utils/helper';
+import {isVisible, ucFirst} from 'amis-core';
 import {
   BaseSchema,
   SchemaCollection,
   SchemaExpression,
   SchemaObject
 } from '../Schema';
-import {FormSchemaHorizontal} from './Form/index';
+import {FormHorizontal} from 'amis-core';
 
 export type HBoxColumnObject = {
   /**
@@ -46,7 +46,7 @@ export type HBoxColumnObject = {
   /**
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
-  horizontal?: FormSchemaHorizontal;
+  horizontal?: FormHorizontal;
 
   /**
    * 内容区
@@ -85,7 +85,7 @@ export interface HBoxSchema extends BaseSchema {
   /**
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
-  subFormHorizontal?: FormSchemaHorizontal;
+  subFormHorizontal?: FormHorizontal;
 
   /**
    * 水平间距

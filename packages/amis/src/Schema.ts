@@ -8,7 +8,6 @@ import {ButtonGroupSchema} from './renderers/ButtonGroup';
 import {ButtonToolbarSchema} from './renderers/Form/ButtonToolbar';
 import {CardSchema} from './renderers/Card';
 import {CardsSchema} from './renderers/Cards';
-import {FormSchema} from './renderers/Form';
 import {CalendarSchema} from './renderers/Calendar';
 import {CarouselSchema} from './renderers/Carousel';
 import {ChartSchema} from './renderers/Chart';
@@ -120,7 +119,8 @@ import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPick
 import {UserSelectControlSchema} from './renderers/Form/UserSelect';
 import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
 import {TableSchemaV2} from './renderers/Table-v2';
-import {ListenerAction} from './actions/Action';
+import {ListenerAction} from 'amis-core';
+import type {FormSchemaBase} from 'amis-core/lib/renderers/Form';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -928,4 +928,26 @@ export interface ToastSchemaBase extends BaseSchema {
    * 持续时间
    */
   timeout: number;
+}
+
+/**
+ * Form 表单渲染器。
+ *
+ * 说明：https://baidu.gitee.io/amis/docs/components/form/index
+ */
+export interface FormSchema extends FormSchemaBase, BaseSchema {
+  /**
+   * 指定为表单渲染器。
+   */
+  type: 'form';
+
+  /**
+   * 按钮集合，会固定在底部显示。
+   */
+  actions?: Array<ActionSchema>;
+
+  /**
+   * 表单项集合
+   */
+  body?: SchemaCollection;
 }

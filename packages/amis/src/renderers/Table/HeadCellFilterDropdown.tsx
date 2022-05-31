@@ -1,15 +1,15 @@
 import React from 'react';
-import {Api} from '../../types';
-import {RendererProps} from '../../factory';
-import {isApiOutdated, isEffectiveApi, normalizeApi} from '../../utils/api';
-import {Icon} from '../../components/icons';
-import Overlay from '../../components/Overlay';
-import PopOver from '../../components/PopOver';
+import {Api} from 'amis-core';
+import {RendererProps} from 'amis-core';
+import {isApiOutdated, isEffectiveApi, normalizeApi} from 'amis-core';
+import {Icon} from 'amis-ui';
+import {Overlay} from 'amis-ui';
+import {PopOver} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
-import Checkbox from '../../components/Checkbox';
+import {Checkbox} from 'amis-ui';
 import xor from 'lodash/xor';
-import {normalizeOptions} from '../../components/Select';
-import {getVariable, createObject} from '../../utils/helper';
+import {normalizeOptions} from 'amis-core';
+import {getVariable, createObject} from 'amis-core';
 
 export interface QuickFilterConfig {
   options: Array<any>;
@@ -101,8 +101,9 @@ export class HeadCellFilterDropDown extends React.Component<
       }
     }
     const value = this.props.data ? this.props.data[name] : undefined;
-    const prevValue =  prevProps.data ?  prevProps.data[name] : undefined;
-    if (value !== prevValue &&
+    const prevValue = prevProps.data ? prevProps.data[name] : undefined;
+    if (
+      value !== prevValue &&
       this.state.filterOptions.length &&
       prevState.filterOptions !== this.props.filterOptions
     ) {

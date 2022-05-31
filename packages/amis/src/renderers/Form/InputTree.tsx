@@ -1,15 +1,15 @@
 import React from 'react';
 import cx from 'classnames';
-import TreeSelector from '../../components/Tree';
+import {Tree as TreeSelector} from 'amis-ui';
 import {
   FormOptionsControl,
   OptionsControl,
   OptionsControlProps
-} from './Options';
-import {Spinner} from '../../components';
+} from 'amis-core';
+import {Spinner} from 'amis-ui';
 import {SchemaApi} from '../../Schema';
-import {autobind, createObject} from '../../utils/helper';
-import {Action} from '../../types';
+import {autobind, createObject} from 'amis-core';
+import {Action} from 'amis-core';
 
 /**
  * Tree 下拉选择框。
@@ -91,7 +91,7 @@ export interface TreeControlSchema extends FormOptionsControl {
 }
 
 export interface TreeProps
-  extends OptionsControlProps,
+  extends Omit<OptionsControlProps, 'deferApi'>,
     Omit<
       TreeControlSchema,
       | 'type'

@@ -1,13 +1,13 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {ClassNamesFn, themeable, ThemeProps} from '../../theme';
-import Spinner from '../../components/Spinner';
-import Select from '../../components/Select';
-import CityArea from '../../components/CityArea';
-import {autobind, isMobile, createObject} from '../../utils/helper';
-import {Action} from '../../types';
-import {Option} from './Options';
-import {localeable, LocaleProps} from '../../locale';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
+import {Spinner} from 'amis-ui';
+import {Select} from 'amis-ui';
+import {CityArea} from 'amis-ui';
+import {autobind, isMobile, createObject} from 'amis-core';
+import {Action} from 'amis-core';
+import {Option} from 'amis-core';
+import {localeable, LocaleProps} from 'amis-core';
 
 /**
  * City 城市选择框。

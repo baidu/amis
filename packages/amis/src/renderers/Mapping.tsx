@@ -1,8 +1,8 @@
 import React from 'react';
-import {Renderer, RendererEnv, RendererProps} from '../factory';
-import {ServiceStore, IServiceStore} from '../store/service';
-import {Api, SchemaNode, PlainObject, Payload} from '../types';
-import {filter} from '../utils/tpl';
+import {Renderer, RendererEnv, RendererProps} from 'amis-core';
+import {ServiceStore, IServiceStore} from 'amis-core';
+import {Api, SchemaNode, PlainObject, Payload} from 'amis-core';
+import {filter} from 'amis-core';
 import cx from 'classnames';
 import {
   BaseSchema,
@@ -10,19 +10,19 @@ import {
   SchemaTokenizeableString,
   SchemaTpl
 } from '../Schema';
-import {withStore} from '../components/WithStore';
+import {withStore} from 'amis-ui';
 import {flow, Instance, types} from 'mobx-state-tree';
-import {getPropValue, getVariable, guid, isObject} from '../utils/helper';
-import {StoreNode} from '../store/node';
+import {getPropValue, getVariable, guid, isObject} from 'amis-core';
+import {StoreNode} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
-import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {
   buildApi,
   isApiOutdated,
   isEffectiveApi,
   normalizeApi,
   normalizeApiResponseData
-} from '../utils/api';
+} from 'amis-core';
 
 /**
  * Mapping 映射展示控件。

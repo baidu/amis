@@ -1,12 +1,12 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import cx from 'classnames';
 import {BaseSchema, SchemaClassName} from '../Schema';
-import {autobind, getPropValue, createObject} from '../utils/helper';
-import {filter} from '../utils/tpl';
+import {autobind, getPropValue, createObject} from 'amis-core';
+import {filter} from 'amis-core';
 
-import Progress from '../components/Progress';
-import {ColorMapType} from '../components/Progress';
+import {Progress} from 'amis-ui';
+import type {ColorMapType} from 'amis-ui/lib/components/Progress';
 
 /**
  * 进度展示控件。

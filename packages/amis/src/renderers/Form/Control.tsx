@@ -1,10 +1,9 @@
 import React from 'react';
-
-import {RendererProps, Renderer} from '../../factory';
+import {RendererProps, Renderer} from 'amis-core';
 import {SchemaCollection} from '../../Schema';
-import {autobind} from '../../utils/helper';
-import {resolveVariable} from '../../utils/tpl-builtin';
-import {FormBaseControl, FormItemWrap} from './Item';
+import {autobind} from 'amis-core';
+import {resolveVariable} from 'amis-core';
+import {FormBaseControl, FormItemWrap} from 'amis-core';
 
 /**
  * Group 表单集合渲染器，能让多个表单在一行显示

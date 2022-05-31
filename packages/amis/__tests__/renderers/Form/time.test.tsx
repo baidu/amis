@@ -1,5 +1,5 @@
 import React = require('react');
-import PageRenderer from '../../../src/renderers/Form';
+import PageRenderer from '../../../../amis-core/src/renderers/Form';
 import * as renderer from 'react-test-renderer';
 import {render, fireEvent, cleanup, getByText} from '@testing-library/react';
 import '../../../src/themes/default';

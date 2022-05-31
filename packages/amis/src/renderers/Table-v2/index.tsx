@@ -4,10 +4,10 @@ import {isAlive} from 'mobx-state-tree';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 
-import {ScopedContext, IScopedContext} from '../../Scoped';
-import {Renderer, RendererProps} from '../../factory';
-import {Action} from '../../types';
-import Table, {SortProps} from '../../components/table';
+import {ScopedContext, IScopedContext} from 'amis-core';
+import {Renderer, RendererProps} from 'amis-core';
+import {Action} from 'amis-core';
+import {Table} from 'amis-ui';
 import {BaseSchema, SchemaObject, SchemaTokenizeableString} from '../../Schema';
 import {
   isObject,
@@ -15,22 +15,22 @@ import {
   difference,
   createObject,
   autobind
-} from '../../utils/helper';
+} from 'amis-core';
 import {
   resolveVariableAndFilter,
   isPureVariable,
   resolveVariable
-} from '../../utils/tpl-builtin';
-import {evalExpression, filter} from '../../utils/tpl';
-import {isEffectiveApi} from '../../utils/api';
-import Checkbox from '../../components/Checkbox';
-import {BadgeSchema} from '../../components/Badge';
-import {Icon} from '../../components/icons';
-import {TableStoreV2, ITableStore, IColumn, IRow} from '../../store/table-v2';
+} from 'amis-core';
+import {evalExpression, filter} from 'amis-core';
+import {isEffectiveApi} from 'amis-core';
+import {Checkbox} from 'amis-ui';
+import {BadgeObject} from 'amis-ui';
+import {TableStoreV2, ITableStoreV2, IColumnV2, IRowV2} from 'amis-core';
 
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import './TableCell';
 import './ColumnToggler';
+import type {SortProps} from 'amis-ui/lib/components/table';
 
 /**
  * Table 表格v2渲染器。
@@ -119,7 +119,7 @@ export interface ColumnSchema {
    * 列样式
    */
   className?: string;
-  
+
   /**
    * 表头单元格样式
    */
@@ -266,7 +266,7 @@ export interface TableSchemaV2 extends BaseSchema {
   /**
    * 行角标
    */
-  itemBadge?: BadgeSchema;
+  itemBadge?: BadgeObject;
 
   /**
    * 指定挂载dom
@@ -327,7 +327,7 @@ export type TableV2RendererAction = 'selectAll' | 'clearAll' | 'select';
 export interface TableV2Props extends RendererProps {
   title?: string;
   source?: string;
-  store: ITableStore;
+  store: ITableStoreV2;
   togglable: boolean;
 }
 
@@ -390,7 +390,7 @@ export default class TableRenderer extends React.Component<
   }
 
   static syncRows(
-    store: ITableStore,
+    store: ITableStoreV2,
     props: TableV2Props,
     prevProps?: TableV2Props
   ) {
@@ -600,9 +600,10 @@ export default class TableRenderer extends React.Component<
             <div
               key={col}
               className={cx('Table-head-cell-wrapper', {
-              [`${column.className}`]: !!column.className,
-              [`${column.titleClassName}`]: !!column.titleClassName
-            })}>
+                [`${column.className}`]: !!column.className,
+                [`${column.titleClassName}`]: !!column.titleClassName
+              })}
+            >
               {content}
               {remark}
               {children}
@@ -709,7 +710,9 @@ export default class TableRenderer extends React.Component<
         if (column.classNameExpr) {
           clone.className = (record: any, rowIndex: number) => {
             const className = filter(column.classNameExpr, {record, rowIndex});
-            return `${className}${column.className ? ` ${column.className}` : ''}`;
+            return `${className}${
+              column.className ? ` ${column.className}` : ''
+            }`;
           };
         }
 
@@ -854,7 +857,7 @@ export default class TableRenderer extends React.Component<
   }
 
   handleQuickChange(
-    item: IRow,
+    item: IRowV2,
     values: object,
     saveImmediately?: boolean | any,
     savePristine?: boolean,
@@ -908,7 +911,7 @@ export default class TableRenderer extends React.Component<
         );
   }
 
-  async handleColumnToggle(columns: Array<IColumn>) {
+  async handleColumnToggle(columns: Array<IColumnV2>) {
     const {dispatchEvent, data, store} = this.props;
 
     const rendererEvent = await dispatchEvent(
@@ -1058,10 +1061,7 @@ export default class TableRenderer extends React.Component<
   }
 
   @autobind
-  async handleFilter(payload: {
-    filterName: string,
-    filterValue: string
-  }) {
+  async handleFilter(payload: {filterName: string; filterValue: string}) {
     const {dispatchEvent, data, onFilter} = this.props;
     const rendererEvent = await dispatchEvent(
       'columnFilter',
@@ -1076,7 +1076,11 @@ export default class TableRenderer extends React.Component<
   }
 
   @autobind
-  async handleRowClick(event: React.ChangeEvent<any>, rowItem: any, rowIndex?: number) {
+  async handleRowClick(
+    event: React.ChangeEvent<any>,
+    rowItem: any,
+    rowIndex?: number
+  ) {
     const {dispatchEvent, data, onRow} = this.props;
 
     const rendererEvent = await dispatchEvent(
@@ -1094,7 +1098,11 @@ export default class TableRenderer extends React.Component<
   }
 
   @autobind
-  async handleOrderChange(oldIndex: number, newIndex: number, levels: Array<string>) {
+  async handleOrderChange(
+    oldIndex: number,
+    newIndex: number,
+    levels: Array<string>
+  ) {
     const {store} = this.props;
     const rowItem = store.getRowByIndex(oldIndex, levels);
 
@@ -1121,10 +1129,7 @@ export default class TableRenderer extends React.Component<
       return;
     }
 
-    onSaveOrder(
-      movedItems,
-      items
-    );
+    onSaveOrder(movedItems, items);
   }
 
   @autobind
@@ -1151,7 +1156,10 @@ export default class TableRenderer extends React.Component<
         const dataSource = store.getData(data);
         const selected: Array<any> = [];
         dataSource.items.forEach((item: any, rowIndex: number) => {
-          const flag = evalExpression(args?.selectedRowKeysExpr, {record: item, rowIndex});
+          const flag = evalExpression(args?.selectedRowKeysExpr, {
+            record: item,
+            rowIndex
+          });
           if (flag) {
             selected.push(item[keyField]);
           }
@@ -1287,8 +1295,8 @@ export default class TableRenderer extends React.Component<
     let itemActionsConfig = undefined;
     if (itemActions) {
       const finalActions = Array.isArray(itemActions)
-      ? itemActions.filter(action => !action.hiddenOnHover)
-      : [];
+        ? itemActions.filter(action => !action.hiddenOnHover)
+        : [];
 
       if (!finalActions.length) {
         return null;
@@ -1346,41 +1354,34 @@ export default class TableRenderer extends React.Component<
   }
 
   renderHeading() {
-    let {
-      store,
-      classnames: cx,
-      headingClassName,
-      translate: __
-    } = this.props;
+    let {store, classnames: cx, headingClassName, translate: __} = this.props;
 
     if (store.moved) {
       return (
         <div className={cx('Table-heading', headingClassName)} key="heading">
-          {
-            store.moved ? (
-              <span>
-                {__('Table.moved', {
-                  moved: store.moved
-                })}
-                <button
-                  type="button"
-                  className={cx('Button Button--xs Button--success m-l-sm')}
-                  onClick={this.handleSaveOrder}
-                >
-                  <Icon icon="check" className="icon m-r-xs" />
-                  {__('Form.submit')}
-                </button>
-                <button
-                  type="button"
-                  className={cx('Button Button--xs Button--danger m-l-sm')}
-                  onClick={this.reset}
-                >
-                  <Icon icon="close" className="icon m-r-xs" />
-                  {__('Table.discard')}
-                </button>
-              </span>
-            ) : null
-          }
+          {store.moved ? (
+            <span>
+              {__('Table.moved', {
+                moved: store.moved
+              })}
+              <button
+                type="button"
+                className={cx('Button Button--xs Button--success m-l-sm')}
+                onClick={this.handleSaveOrder}
+              >
+                <Icon icon="check" className="icon m-r-xs" />
+                {__('Form.submit')}
+              </button>
+              <button
+                type="button"
+                className={cx('Button Button--xs Button--danger m-l-sm')}
+                onClick={this.reset}
+              >
+                <Icon icon="close" className="icon m-r-xs" />
+                {__('Table.discard')}
+              </button>
+            </span>
+          ) : null}
         </div>
       );
     }
@@ -1392,7 +1393,7 @@ export default class TableRenderer extends React.Component<
     const {classnames: cx} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
-    
+
     const heading = this.renderHeading();
 
     return (

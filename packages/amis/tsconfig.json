@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "lib",
     "rootDir": "./",
-    "typeRoots": ["./types", "./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types", "../../types"]
   },
-  "include": ["src/**/*"],
-  "references": [{"path": "../amis-core"}, {"path": "../../"}]
+  "include": ["src/**/*"]
+  // "references": [{"path": "../amis-core"}, {"path": "../../"}]
 }

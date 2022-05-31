@@ -3,14 +3,14 @@ import cx from 'classnames';
 import {
   OptionsControl,
   OptionsControlProps,
-  Option,
   FormOptionsControl
-} from './Options';
-import {Action, Button} from '../../types';
-import {getLevelFromClassName, autobind, isEmpty} from '../../utils/helper';
-import {dataMapping} from '../../utils/tpl-builtin';
+} from 'amis-core';
+import type {Option} from 'amis-core';
+import {Action, Button} from 'amis-core';
+import {getLevelFromClassName, autobind, isEmpty} from 'amis-core';
+import {dataMapping} from 'amis-core';
 import {ButtonGroupSchema} from '../ButtonGroup';
-import {FormBaseControl} from './Item';
+import {FormBaseControl} from 'amis-core';
 
 /**
  * 按钮组控件。

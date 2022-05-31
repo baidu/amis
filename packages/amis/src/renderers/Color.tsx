@@ -2,10 +2,9 @@
  * @file 用来展示颜色块。
  */
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
-import {getPropValue} from '../utils/helper';
-import {resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {getPropValue} from 'amis-core';
 
 /**
  * Color 显示渲染器，格式说明。

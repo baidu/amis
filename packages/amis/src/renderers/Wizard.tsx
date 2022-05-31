@@ -1,9 +1,9 @@
 import React from 'react';
-import {ScopedContext, IScopedContext} from '../Scoped';
-import {Renderer, RendererProps} from '../factory';
-import {ServiceStore, IServiceStore} from '../store/service';
-import {Api, Action} from '../types';
-import {filter, evalExpression} from '../utils/tpl';
+import {ScopedContext, IScopedContext} from 'amis-core';
+import {Renderer, RendererProps} from 'amis-core';
+import {ServiceStore, IServiceStore} from 'amis-core';
+import {Api, Action} from 'amis-core';
+import {filter, evalExpression} from 'amis-core';
 import {
   createObject,
   until,
@@ -11,25 +11,26 @@ import {
   getScrollParent,
   autobind,
   SkipOperation
-} from '../utils/helper';
-import {isApiOutdated, isEffectiveApi} from '../utils/api';
-import {IFormStore} from '../store/form';
-import {Spinner} from '../components';
-import {Icon} from '../components/icons';
+} from 'amis-core';
+import {isApiOutdated, isEffectiveApi} from 'amis-core';
+import {IFormStore} from 'amis-core';
+import {Spinner} from 'amis-ui';
+import {Icon} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
-import {resizeSensor} from '../utils/resize-sensor';
+import {resizeSensor} from 'amis-core';
 import {
   BaseSchema,
+  FormSchema,
   SchemaApi,
   SchemaClassName,
   SchemaExpression,
   SchemaName,
   SchemaReload
 } from '../Schema';
-import {FormSchema} from './Form';
+
 import {ActionSchema} from './Action';
 
-import {tokenize} from '../utils/tpl-builtin';
+import {tokenize} from 'amis-core';
 
 export type WizardStepSchema = Omit<FormSchema, 'type'> & {
   /**

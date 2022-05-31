@@ -1,13 +1,14 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {Api, SchemaNode, Schema, Action} from '../types';
+import {Renderer, RendererProps} from 'amis-core';
+import {Api, SchemaNode, Schema, Action} from 'amis-core';
 import cx from 'classnames';
-import TooltipWrapper, {TooltipObject} from '../components/TooltipWrapper';
-import {filter} from '../utils/tpl';
-import {ClassNamesFn, themeable} from '../theme';
-import {hasIcon, Icon} from '../components/icons';
+import {TooltipWrapper} from 'amis-ui';
+import {filter} from 'amis-core';
+import {ClassNamesFn, themeable} from 'amis-core';
+import {hasIcon, Icon} from 'amis-ui';
 import {BaseSchema, SchemaClassName, SchemaIcon, SchemaTpl} from '../Schema';
-import {autobind, isMobile} from '../utils/helper';
+import {autobind, isMobile} from 'amis-core';
+import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
 
 /**
  * 提示渲染器，默认会显示个小图标，鼠标放上来的时候显示配置的内容。
@@ -52,7 +53,7 @@ export interface RemarkSchema extends BaseSchema {
   /**
    * icon的形状
    */
-  shape?: 'circle' | 'square'; 
+  shape?: 'circle' | 'square';
 }
 
 export type SchemaRemark = string | Omit<RemarkSchema, 'type'>;
@@ -121,8 +122,12 @@ class Remark extends React.Component<RemarkProps> {
     };
   }
 
-  renderLabel(finalIcon: any, finalLabel: string, cx: ClassNamesFn, shape?: 'circle'|'square') {
-
+  renderLabel(
+    finalIcon: any,
+    finalLabel: string,
+    cx: ClassNamesFn,
+    shape?: 'circle' | 'square'
+  ) {
     const shapeClass = shape ? `Remark-icon--${shape}` : undefined;
 
     return (

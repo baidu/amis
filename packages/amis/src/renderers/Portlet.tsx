@@ -1,19 +1,19 @@
 import React from 'react';
 import mapValues from 'lodash/mapValues';
 
-import {Tabs as CTabs, Tab} from '../components/Tabs';
-import {Renderer, RendererProps} from '../factory';
-import {resolveVariable} from '../utils/tpl-builtin';
-import {str2AsyncFunction} from '../utils/api';
+import {Tabs as CTabs, Tab} from 'amis-ui';
+import {Renderer, RendererProps} from 'amis-core';
+import {resolveVariable} from 'amis-core';
+import {str2AsyncFunction} from 'amis-core';
 import {
   isVisible,
   autobind,
   isDisabled,
   isObject,
   createObject
-} from '../utils/helper';
+} from 'amis-core';
 
-import {filter} from '../utils/tpl';
+import {filter} from 'amis-core';
 import {
   SchemaTpl,
   SchemaClassName,

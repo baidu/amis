@@ -1,12 +1,12 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 
-import {RendererProps} from '../../factory';
-import {Action} from '../../types';
-import {Icon} from '../../components/icons';
-import {setVariable, createObject} from '../../utils/helper';
-import {ITableStore} from '../../store/table-v2';
-import HeadCellDropDown from '../../components/table/HeadCellDropDown';
+import {RendererProps} from 'amis-core';
+import {Action} from 'amis-core';
+import {Icon} from 'amis-ui';
+import {setVariable, createObject} from 'amis-core';
+import {ITableStoreV2} from 'amis-core';
+import {HeadCellDropDown} from 'amis-ui';
 
 export interface QuickSearchConfig {
   type?: string;
@@ -22,7 +22,7 @@ export interface HeadCellSearchProps extends RendererProps {
   classPrefix: string;
   onSearch?: (values: object) => void;
   onAction?: Function;
-  store: ITableStore;
+  store: ITableStoreV2;
 }
 
 export class HeadCellSearchDropDown extends React.Component<
@@ -267,7 +267,9 @@ export class HeadCellSearchDropDown extends React.Component<
               ...data,
               orderBy,
               order:
-                orderBy && orderBy === name ? (store as ITableStore).order : ''
+                orderBy && orderBy === name
+                  ? (store as ITableStoreV2).order
+                  : ''
             },
             onSubmit: (values: object) => this.handleSubmit(values, confirm),
             onAction: (e: any, action: Action, ctx: object) => {

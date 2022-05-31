@@ -1,13 +1,12 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import cx from 'classnames';
-import Textarea from '../../components/Textarea';
-import {Icon} from '../../components/icons';
-import {findDOMNode} from 'react-dom';
-import {autobind, ucFirst} from '../../utils/helper';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 
-import {bindRendererEvent} from '../../actions/Decorators';
-import type {ListenerAction} from '../../actions/Action';
+import {Textarea} from 'amis-ui';
+
+import {autobind, ucFirst} from 'amis-core';
+
+import {bindRendererEvent} from 'amis-core';
+import type {ListenerAction} from 'amis-core';
 
 /**
  * TextArea 多行文本输入框。

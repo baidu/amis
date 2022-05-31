@@ -4,29 +4,25 @@ import {
   OptionsControlProps,
   highlight,
   FormOptionsControl
-} from './Options';
-import {Action} from '../../types';
+} from 'amis-core';
+import {Action} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
 import {matchSorter} from 'match-sorter';
 import debouce from 'lodash/debounce';
-import {filter} from '../../utils/tpl';
+import {filter} from 'amis-core';
 import find from 'lodash/find';
-import {Icon} from '../../components/icons';
-import Input from '../../components/Input';
-import {autobind, createObject, setVariable, ucFirst} from '../../utils/helper';
-import {isEffectiveApi} from '../../utils/api';
-import Spinner from '../../components/Spinner';
-import {FormBaseControl} from './Item';
+import {Icon} from 'amis-ui';
+import {Input} from 'amis-ui';
+import {autobind, createObject, setVariable, ucFirst} from 'amis-core';
+import {isEffectiveApi} from 'amis-core';
+import {Spinner} from 'amis-ui';
 import {ActionSchema} from '../Action';
 import {SchemaApi} from '../../Schema';
-import {generateIcon} from '../../utils/icon';
-import {
-  rendererEventDispatcher,
-  bindRendererEvent
-} from '../../actions/Decorators';
+import {generateIcon} from 'amis-core';
+import {rendererEventDispatcher, bindRendererEvent} from 'amis-core';
 
-import type {Option} from '../../components/Select';
-import type {ListenerAction} from '../../actions/Action';
+import type {Option} from 'amis-core';
+import type {ListenerAction} from 'amis-core';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
 
@@ -835,7 +831,11 @@ export default class TextControl extends React.PureComponent<
           step={step}
           onChange={this.handleNormalInputChange}
           value={this.valueToString(value)}
-          className={cx(type === 'password' && revealPassword && 'TextControl-input-password')}
+          className={cx(
+            type === 'password' &&
+              revealPassword &&
+              'TextControl-input-password'
+          )}
         />
         {clearable && !disabled && !readOnly && value ? (
           <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>

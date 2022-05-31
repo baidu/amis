@@ -1,9 +1,9 @@
 import React from 'react';
-import Overlay from '../../components/Overlay';
-import Checkbox from '../../components/Checkbox';
-import PopOver from '../../components/PopOver';
-import PopUp from '../../components/PopUp';
-import {Icon} from '../../components/icons';
+import {Overlay} from 'amis-ui';
+import {Checkbox} from 'amis-ui';
+import {PopOver} from 'amis-ui';
+import {PopUp} from 'amis-ui';
+import {Icon} from 'amis-ui';
 import {
   autobind,
   flattenTree,
@@ -14,21 +14,21 @@ import {
   ucFirst,
   isMobile,
   createObject
-} from '../../utils/helper';
+} from 'amis-core';
 import {
   FormOptionsControl,
   OptionsControl,
   OptionsControlProps
-} from '../Form/Options';
-import {Option, Options} from '../../components/Select';
+} from 'amis-core';
+import {Option, Options} from 'amis-core';
 import {findDOMNode} from 'react-dom';
-import {ResultBox, Spinner} from '../../components';
+import {ResultBox, Spinner} from 'amis-ui';
 import xor from 'lodash/xor';
 import union from 'lodash/union';
 import compact from 'lodash/compact';
-import {RootClose} from '../../utils/RootClose';
-import Cascader from '../../components/Cascader';
-import {Action} from '../../types';
+import {RootClose} from 'amis-core';
+import {Cascader} from 'amis-ui';
+import {Action} from 'amis-core';
 
 /**
  * Nested Select
@@ -688,7 +688,7 @@ export default class NestedSelectControl extends React.Component<
 
                   {option.children && option.children.length ? (
                     <div className={cx('NestedSelect-optionArrowRight')}>
-                      <Icon icon="right-arrow-bold" className="icon"/>
+                      <Icon icon="right-arrow-bold" className="icon" />
                     </div>
                   ) : null}
                 </div>

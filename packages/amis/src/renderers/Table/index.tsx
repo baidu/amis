@@ -1,13 +1,13 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {ScopedContext, IScopedContext} from '../../Scoped';
-import {Renderer, RendererProps} from '../../factory';
-import {SchemaNode, Action, Schema} from '../../types';
+import {ScopedContext, IScopedContext} from 'amis-core';
+import {Renderer, RendererProps} from 'amis-core';
+import {SchemaNode, Action, Schema} from 'amis-core';
 import forEach from 'lodash/forEach';
-import {evalExpression, filter} from '../../utils/tpl';
-import Checkbox from '../../components/Checkbox';
-import Button from '../../components/Button';
-import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
+import {evalExpression, filter} from 'amis-core';
+import {BadgeObject, Checkbox} from 'amis-ui';
+import {Button} from 'amis-ui';
+import {TableStore, ITableStore} from 'amis-core';
 import {
   anyChanged,
   getScrollParent,
@@ -18,17 +18,17 @@ import {
   eachTree,
   isObject,
   createObject
-} from '../../utils/helper';
+} from 'amis-core';
 import {
   isPureVariable,
   resolveVariable,
   resolveVariableAndFilter
-} from '../../utils/tpl-builtin';
+} from 'amis-core';
 import debounce from 'lodash/debounce';
 import Sortable from 'sortablejs';
-import {resizeSensor} from '../../utils/resize-sensor';
+import {resizeSensor} from 'amis-core';
 import find from 'lodash/find';
-import {Icon} from '../../components/icons';
+import {Icon} from 'amis-ui';
 import {TableCell} from './TableCell';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
@@ -50,10 +50,11 @@ import {SchemaRemark} from '../Remark';
 import {TableBody} from './TableBody';
 import {isAlive} from 'mobx-state-tree';
 import ColumnToggler from './ColumnToggler';
-import {BadgeSchema} from '../../components/Badge';
-import offset from '../../utils/offset';
-import {getStyleNumber} from '../../utils/dom';
+
+import {offset} from 'amis-core';
+import {getStyleNumber} from 'amis-core';
 import {exportExcel} from './exportExcel';
+import type {IColumn, IRow} from 'amis-core/lib/store/table';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -286,7 +287,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 行角标
    */
-  itemBadge?: BadgeSchema;
+  itemBadge?: BadgeObject;
 
   /**
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
@@ -359,7 +360,7 @@ export interface TableProps extends RendererProps {
   popOverContainer?: any;
   canAccessSuperData?: boolean;
   reUseRow?: boolean;
-  itemBadge?: BadgeSchema;
+  itemBadge?: BadgeObject;
   loading?: boolean;
 }
 

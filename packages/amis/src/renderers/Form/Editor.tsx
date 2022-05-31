@@ -1,17 +1,13 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import LazyComponent from '../../components/LazyComponent';
-import debouce from 'lodash/debounce';
-import Editor from '../../components/Editor';
-import {autobind} from '../../utils/helper';
-import {
-  isPureVariable,
-  resolveVariableAndFilter
-} from '../../utils/tpl-builtin';
-import {bindRendererEvent} from '../../actions/Decorators';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {LazyComponent} from 'amis-core';
+import {Editor} from 'amis-ui';
+import {autobind} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import {bindRendererEvent} from 'amis-core';
 
 import type {Position} from 'monaco-editor';
-import type {ListenerAction} from '../../actions/Action';
+import type {ListenerAction} from 'amis-core';
 
 /**
  * Editor 代码编辑器
