@@ -215,6 +215,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     } = this.props;
     const isFocused = this.state.isFocused;
     const mobileUI = useMobileUI && isMobile();
+    /** 不需要透传给Input的属性 */
+    const omitPropsList = ['maxTagCount', 'overflowTagPopover'];
 
     return (
       <div
@@ -248,7 +250,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
 
         {allowInput && !disabled ? (
           <Input
-            {...rest}
+            {...omit(rest, omitPropsList)}
             onKeyPress={onKeyPress}
             ref={this.inputRef}
             value={value || ''}
