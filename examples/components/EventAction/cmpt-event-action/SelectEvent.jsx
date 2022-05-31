@@ -4,7 +4,43 @@ const change = {
       actionType: 'toast',
       args: {
         msgType: 'info',
-        msg: '派发change事件'
+        msg: '派发change事件${event.data.value|json}'
+      }
+    }
+  ]
+};
+
+const add = {
+  actions: [
+    {
+      actionType: 'toast',
+      args: {
+        msgType: 'info',
+        msg: '${event.data|json}'
+      }
+    }
+  ]
+};
+
+const edit = {
+  actions: [
+    {
+      actionType: 'toast',
+      args: {
+        msgType: 'info',
+        msg: '${event.data|json}'
+      }
+    }
+  ]
+};
+
+const del = {
+  actions: [
+    {
+      actionType: 'toast',
+      args: {
+        msgType: 'info',
+        msg: '${event.data|json}'
       }
     }
   ]
@@ -94,11 +130,17 @@ export default {
               value: 'A,B,C',
               multiple: true,
               checkAll: true,
+              creatable: true,
+              editable: true,
+              removable: true,
               options,
               onEvent: {
                 change,
                 blur,
-                focus
+                focus,
+                add,
+                edit,
+                delete: del
               }
             }
           ]
@@ -369,7 +411,8 @@ export default {
               label: 'clear动作测试',
               mode: 'row',
               type: 'chained-select',
-              source: '/api/mock2/options/chainedOptions?waitSeconds=1&parentId=$parentId&level=$level&maxLevel=4',
+              source:
+                '/api/mock2/options/chainedOptions?waitSeconds=1&parentId=$parentId&level=$level&maxLevel=4',
               value: 'a,b',
               onEvent: {
                 change,

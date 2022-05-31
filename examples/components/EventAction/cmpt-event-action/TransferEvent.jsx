@@ -86,7 +86,20 @@ export default {
           name: 'transfer',
           debugger: true,
           resetValue: 'c',
-          source: '/api/mock2/form/getTreeOptions'
+          source: '/api/mock2/form/getTreeOptions',
+          onEvent: {
+            change: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '${event.data.value|json}'
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     },
@@ -262,7 +275,20 @@ export default {
                 }
               ]
             }
-          ]
+          ],
+          onEvent: {
+            change: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '${event.data.value|json}'
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     },
@@ -365,7 +391,20 @@ export default {
                 }
               ]
             }
-          ]
+          ],
+          onEvent: {
+            change: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '${event.data.value|json}'
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     },
@@ -546,7 +585,20 @@ export default {
                 }
               ]
             }
-          ]
+          ],
+          onEvent: {
+            change: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '${event.data.value|json}'
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     }

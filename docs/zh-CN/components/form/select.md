@@ -1037,20 +1037,24 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 ## 事件表
 
-| 事件名称 | 事件参数                                       | 说明                 |
-| -------- | ---------------------------------------------- | -------------------- |
-| change   | `value: string` 选中值                         | 选中值发生变化时触发 |
-| blur     | `value: string` 选中值                         | 失去焦点时触发       |
-| focus    | `value: string` 选中值                         | 获得焦点时触发       |
-| add      | -                                              | 新增选项的时候触发   |
-| edit     | `options: Option[]`,`value: Option` 修改的选项 | 编辑选项时触发       |
-| delete   | `options: Option[]`,`value: Option` 删除的选项 | 删除选项时触发       |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                                                                          | 说明                 |
+| -------- | --------------------------------------------------------------------------------- | -------------------- |
+| change   | `event.data.value: string` 选中值                                                 | 选中值变化时触发     |
+| blur     | `event.data.value: string` 选中值                                                 | 输入框失去焦点时触发 |
+| focus    | `event.data.value: string` 选中值                                                 | 输入框获取焦点时触发 |
+| add      | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 新增的选项 | 新增选项提交时触发   |
+| edit     | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 编辑的选项 | 编辑选项提交时触发   |
+| delete   | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 删除的选项 | 删除选项提交时触发   |
 
 ## 动作表
 
-| 动作名称 | 动作配置                 | 说明                                                   |
-| -------- | ------------------------ | ------------------------------------------------------ |
-| clear    | -                        | 清空                                                   |
-| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
-| reload   | -                        | 刷新（重新加载），只针对配置了`source`的点选按钮有效   |
-| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`，多值用`,`分隔                |
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                 | 说明                                                    |
+| -------- | ------------------------ | ------------------------------------------------------- |
+| clear    | -                        | 清空                                                    |
+| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空  |
+| reload   | -                        | 重新加载，调用 `source`，刷新数据域数据刷新（重新加载） |
+| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`，多值用`,`分隔                 |
