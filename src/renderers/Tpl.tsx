@@ -40,6 +40,11 @@ export interface TplSchema extends BaseSchema {
    * 角标
    */
   badge?: BadgeSchema;
+
+  /**
+   * 是否设置外层DOM节点的title属性为文本内容
+   */
+  showNativeTitle?: boolean;
 }
 
 export interface TplProps extends RendererProps, TplSchema {
@@ -117,17 +122,22 @@ export class Tpl extends React.Component<TplProps, object> {
       inline,
       classnames: cx,
       style,
+      showNativeTitle,
       data
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
+    const content = this.getContent();
 
     return (
       <Component
         ref={this.htmlRef}
         className={cx('TplField', className)}
         style={buildStyle(style, data)}
+        {...(showNativeTitle
+          ? {title: typeof content === 'string' ? content : ''}
+          : {})}
       >
-        <span>{this.getContent()}</span>
+        <span>{content}</span>
       </Component>
     );
   }

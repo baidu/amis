@@ -19,6 +19,7 @@ import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import TransferDropDown from '../../components/TransferDropDown';
 
 import type {TooltipObject} from '../../components/TooltipWrapper';
+import type {SchemaClassName} from '../../Schema';
 
 /**
  * Select 下拉选择框。
@@ -122,6 +123,11 @@ export interface SelectControlSchema extends FormOptionsControl {
    * 收纳标签的Popover配置
    */
   overflowTagPopover?: object;
+
+  /**
+   * 选项的自定义CSS类名
+   */
+  optionClassName?: SchemaClassName;
 }
 
 export interface SelectProps extends OptionsControlProps {
@@ -349,9 +355,11 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
   @autobind
   renderMenu(option: Option, state: any) {
-    const {menuTpl, render, data} = this.props;
+    const {menuTpl, render, data, optionClassName} = this.props;
 
     return render(`menu/${state.index}`, menuTpl, {
+      showNativeTitle: true,
+      className: cx('Select-option-content', optionClassName),
       data: createObject(createObject(data, state), option)
     });
   }

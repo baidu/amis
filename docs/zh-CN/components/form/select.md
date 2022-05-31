@@ -1034,6 +1034,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | rightMode          | `string`                                                                          |                                                                                    | 当展示形式为 `associated` 时用来配置右边的选择形式，可选：`list`、`table`、`tree`、`chained`。                                                                                                               |
 | maxTagCount        | `number`                                                                          |                                                                                    | 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效                                                                                                                                   |
 | overflowTagPopover | `TooltipObject`                                                                   | `{"placement": "top", "trigger": "hover", "showArrow": false, "offset": [0, -10]}` | 收纳浮层的配置属性，详细配置参考[Tooltip](../tooltip#属性表)                                                                                                                                                 |
+| optionClassName    | `string`                                                                          |                                                                                    | 选项 CSS 类名                                                                                                                                                                                                |
 
 ## 事件表
 
