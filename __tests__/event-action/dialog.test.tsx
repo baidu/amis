@@ -214,7 +214,7 @@ test('EventAction:dialog', async () => {
     expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
   });
   expect(container).toMatchSnapshot();
-});
+}, 7000);
 
 // test('EventAction:alert', async () => {
 //   const alert = jest.fn();

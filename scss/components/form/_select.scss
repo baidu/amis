@@ -315,6 +315,16 @@
     &.is-highlight > a {
       display: block;
     }
+
+    .#{$ns}Select-option-content,
+    .#{$ns}Select-option-content > span > div {
+      flex: auto;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: inline-block;
+      max-width: 100%;
+    }
   }
 
   &-noResult {
