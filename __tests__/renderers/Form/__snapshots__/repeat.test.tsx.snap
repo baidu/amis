@@ -232,7 +232,10 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-0"
                         role="option"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="不重复"
+                        >
                           不重复
                         </span>
                       </div>
@@ -242,7 +245,10 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-1"
                         role="option"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="秒"
+                        >
                           秒
                         </span>
                       </div>
@@ -252,7 +258,10 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-2"
                         role="option"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="分"
+                        >
                           分
                         </span>
                       </div>
@@ -262,7 +271,10 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-3"
                         role="option"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="时"
+                        >
                           时
                         </span>
                       </div>
@@ -272,7 +284,10 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-4"
                         role="option"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="天"
+                        >
                           天
                         </span>
                       </div>
@@ -282,7 +297,10 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-5"
                         role="option"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="周中"
+                        >
                           周中
                         </span>
                       </div>
@@ -292,7 +310,10 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-6"
                         role="option"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="周"
+                        >
                           周
                         </span>
                       </div>
@@ -302,7 +323,10 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-7"
                         role="option"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="月"
+                        >
                           月
                         </span>
                       </div>
@@ -312,7 +336,10 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-8"
                         role="option"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="年"
+                        >
                           年
                         </span>
                       </div>

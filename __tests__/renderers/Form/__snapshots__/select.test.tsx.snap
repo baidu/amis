@@ -1634,7 +1634,10 @@ exports[`Renderer:select virtual 1`] = `
                         role="option"
                         style="position: absolute; top: 0px; left: 0px; width: auto; height: 35px;"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="option0"
+                        >
                           option0
                         </span>
                       </div>
@@ -1645,7 +1648,10 @@ exports[`Renderer:select virtual 1`] = `
                         role="option"
                         style="position: absolute; top: 35px; left: 0px; width: auto; height: 35px;"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="option1"
+                        >
                           option1
                         </span>
                       </div>
@@ -1656,7 +1662,10 @@ exports[`Renderer:select virtual 1`] = `
                         role="option"
                         style="position: absolute; top: 70px; left: 0px; width: auto; height: 35px;"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="option2"
+                        >
                           option2
                         </span>
                       </div>
@@ -1667,7 +1676,10 @@ exports[`Renderer:select virtual 1`] = `
                         role="option"
                         style="position: absolute; top: 105px; left: 0px; width: auto; height: 35px;"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="option3"
+                        >
                           option3
                         </span>
                       </div>
@@ -1678,7 +1690,10 @@ exports[`Renderer:select virtual 1`] = `
                         role="option"
                         style="position: absolute; top: 140px; left: 0px; width: auto; height: 35px;"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="option4"
+                        >
                           option4
                         </span>
                       </div>
@@ -1689,7 +1704,10 @@ exports[`Renderer:select virtual 1`] = `
                         role="option"
                         style="position: absolute; top: 175px; left: 0px; width: auto; height: 35px;"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="option5"
+                        >
                           option5
                         </span>
                       </div>
@@ -1700,7 +1718,10 @@ exports[`Renderer:select virtual 1`] = `
                         role="option"
                         style="position: absolute; top: 210px; left: 0px; width: auto; height: 35px;"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="option6"
+                        >
                           option6
                         </span>
                       </div>
@@ -1711,7 +1732,10 @@ exports[`Renderer:select virtual 1`] = `
                         role="option"
                         style="position: absolute; top: 245px; left: 0px; width: auto; height: 35px;"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="option7"
+                        >
                           option7
                         </span>
                       </div>
@@ -1722,7 +1746,10 @@ exports[`Renderer:select virtual 1`] = `
                         role="option"
                         style="position: absolute; top: 280px; left: 0px; width: auto; height: 35px;"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="option8"
+                        >
                           option8
                         </span>
                       </div>
@@ -1733,7 +1760,10 @@ exports[`Renderer:select virtual 1`] = `
                         role="option"
                         style="position: absolute; top: 315px; left: 0px; width: auto; height: 35px;"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="option9"
+                        >
                           option9
                         </span>
                       </div>
@@ -1744,7 +1774,10 @@ exports[`Renderer:select virtual 1`] = `
                         role="option"
                         style="position: absolute; top: 350px; left: 0px; width: auto; height: 35px;"
                       >
-                        <span>
+                        <span
+                          class="cxd-Select-option-content"
+                          title="option10"
+                        >
                           option10
                         </span>
                       </div>
