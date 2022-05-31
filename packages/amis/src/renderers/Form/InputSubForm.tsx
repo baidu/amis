@@ -1,12 +1,11 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import cx from 'classnames';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import {createObject, guid} from '../../utils/helper';
-import {Icon} from '../../components/icons';
-import {SchemaClassName} from '../../Schema';
-import {FormSchema} from '.';
+import {createObject, guid} from 'amis-core';
+import {Icon} from 'amis-ui';
+import {FormSchema, SchemaClassName} from '../../Schema';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
 

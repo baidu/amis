@@ -1,7 +1,7 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
-import CollapseGroup from '../components/CollapseGroup';
+import {CollapseGroup} from 'amis-ui';
 
 /**
  * CollapseGroup 折叠渲染器，格式说明。

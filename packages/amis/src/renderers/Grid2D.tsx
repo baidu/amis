@@ -1,7 +1,7 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {Api, SchemaNode, Schema, Action} from '../types';
-import {isVisible} from '../utils/helper';
+import {Renderer, RendererProps} from 'amis-core';
+import {Api, SchemaNode, Schema, Action} from 'amis-core';
+import {isVisible} from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 
 export type GridObject = {

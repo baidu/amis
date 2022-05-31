@@ -1,11 +1,7 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {evalJS, filter} from '../../utils/tpl';
-import {
-  autobind,
-  isObjectShallowModified,
-  setVariable
-} from '../../utils/helper';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {evalJS, filter} from 'amis-core';
+import {autobind, isObjectShallowModified, setVariable} from 'amis-core';
 
 /**
  * 公式功能控件。

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer} from '../factory';
+import {Renderer} from 'amis-core';
 import {SchemaObject, BaseSchema} from '../Schema';
 import {DateControlRenderer} from './Form/InputDate';
 
@@ -39,5 +39,5 @@ export class CalendarRenderer extends DateControlRenderer {
   static defaultProps = {
     ...DateControlRenderer.defaultProps,
     embed: true
-  }
+  };
 }

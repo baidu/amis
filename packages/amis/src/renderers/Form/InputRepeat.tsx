@@ -7,7 +7,7 @@
 
 import React from 'react';
 import cx from 'classnames';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 
 /**
  * Repeat
@@ -31,9 +31,9 @@ const LANG: {
   monthly: '月',
   yearly: '年'
 };
-import Select from '../../components/Select';
-import InputRange from '../../components/Range';
-import {Option} from './Options';
+import {Select} from 'amis-ui';
+import {Range as InputRange} from 'amis-ui';
+import {Option} from 'amis-core';
 
 export interface RepeatProps extends FormControlProps {
   options?: string;

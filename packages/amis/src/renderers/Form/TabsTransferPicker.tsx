@@ -1,13 +1,13 @@
-import {OptionsControlProps, OptionsControl} from './Options';
+import {OptionsControlProps, OptionsControl} from 'amis-core';
 import React from 'react';
-import Spinner from '../../components/Spinner';
+import {Spinner} from 'amis-ui';
 import {BaseTabsTransferRenderer} from './TabsTransfer';
-import TabsTransferPicker from '../../components/TabsTransferPicker';
+import {TabsTransferPicker} from 'amis-ui';
 import {TabsTransferControlSchema} from './TabsTransfer';
-import {autobind, createObject} from '../../utils/helper';
-import {Option, optionValueCompare} from '../../components/Select';
-import {BaseSelection, ItemRenderStates} from '../../components/Selection';
-import {Action} from '../../types';
+import {autobind, createObject} from 'amis-core';
+import {Selection as BaseSelection} from 'amis-ui';
+import {Action} from 'amis-core';
+import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
 /**
  * TabsTransferPicker 穿梭器的弹框形态

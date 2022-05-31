@@ -1,7 +1,7 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {autobind, getPropValue} from '../utils/helper';
-import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {Renderer, RendererProps} from 'amis-core';
+import {autobind, getPropValue} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {
   BaseSchema,
   SchemaTokenizeableString,
@@ -9,10 +9,10 @@ import {
   SchemaUrlPath
 } from '../Schema';
 import {ActionSchema} from './Action';
-import GridNav, {GridNavDirection, GridNavItem} from '../components/GridNav';
-import {BadgeSchema} from '../components/Badge';
-import handleAction from '../utils/handleAction';
-import {validations} from '../utils/validations';
+import {GridNav, GridNavDirection, GridNavItem} from 'amis-ui';
+import {BadgeObject} from 'amis-ui';
+import {handleAction} from 'amis-core';
+import {validations} from 'amis-core';
 
 export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -48,7 +48,7 @@ export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 角标
    */
-  badge?: BadgeSchema;
+  badge?: BadgeObject;
 }
 
 /**

@@ -5,13 +5,13 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl
-} from './Options';
-import UserSelect from '../../components/UserSelect';
-import UserTabSelect from '../../components/UserTabSelect';
-import {isEffectiveApi} from '../../utils/api';
+} from 'amis-core';
+import {UserSelect} from 'amis-ui';
+import {UserTabSelect} from 'amis-ui';
+import {isEffectiveApi} from 'amis-core';
 import find from 'lodash/find';
-import {createObject, autobind} from '../../utils/helper';
-import {PlainObject} from '../../types';
+import {createObject, autobind} from 'amis-core';
+import {PlainObject} from 'amis-core';
 
 /**
  * UserSelect 移动端人员选择。

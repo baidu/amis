@@ -4,21 +4,21 @@ import Transition, {
   ENTERING,
   EXITING
 } from 'react-transition-group/Transition';
-import {Renderer, RendererProps} from '../factory';
-import {resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {Renderer, RendererProps} from 'amis-core';
+import {resolveVariableAndFilter} from 'amis-core';
 import {
   autobind,
   createObject,
   isObject,
   isArrayChildrenModified,
   getPropValue
-} from '../utils/helper';
-import {Action} from '../types';
-import {Icon} from '../components/icons';
+} from 'amis-core';
+import {Action} from 'amis-core';
+import {Icon} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaName} from '../Schema';
-import Html from '../components/Html';
+import {Html} from 'amis-ui';
 import Image from '../renderers/Image';
-import {ScopedContext, IScopedContext} from '../Scoped';
+import {ScopedContext, IScopedContext} from 'amis-core';
 
 /**
  * Carousel 轮播图渲染器。

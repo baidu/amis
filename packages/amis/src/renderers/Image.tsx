@@ -1,13 +1,13 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {filter} from '../utils/tpl';
-import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {autobind, getPropValue} from '../utils/helper';
-import {Icon} from '../components/icons';
-import {LocaleProps, localeable} from '../locale';
+import {Renderer, RendererProps} from 'amis-core';
+import {filter} from 'amis-core';
+import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
+import {autobind, getPropValue} from 'amis-core';
+import {Icon} from 'amis-ui';
+import {LocaleProps, localeable} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
-import {resolveVariable} from '../utils/tpl-builtin';
-import handleAction from '../utils/handleAction';
+import {resolveVariable} from 'amis-core';
+import {handleAction} from 'amis-core';
 
 /**
  * 图片展示控件。

@@ -1,10 +1,10 @@
-import {OptionsControlProps, OptionsControl} from './Options';
+import {OptionsControlProps, OptionsControl} from 'amis-core';
 import React from 'react';
 import find from 'lodash/find';
-import Spinner from '../../components/Spinner';
+import {Spinner} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
-import TabsTransfer from '../../components/TabsTransfer';
-import {Option, optionValueCompare} from '../../components/Select';
+import TabsTransfer from 'amis-ui';
+import {Option, optionValueCompare} from 'amis-core';
 import {
   autobind,
   string2regExp,
@@ -13,9 +13,10 @@ import {
   findTreeIndex,
   getTree,
   spliceTree
-} from '../../utils/helper';
-import {BaseSelection, ItemRenderStates} from '../../components/Selection';
-import {Action} from '../../types';
+} from 'amis-core';
+import {Selection as BaseSelection} from 'amis-ui';
+import {Action} from 'amis-core';
+import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
 /**
  * TabsTransfer

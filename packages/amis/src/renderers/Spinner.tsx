@@ -1,5 +1,5 @@
-import Spinner from '../components/Spinner';
-import {Renderer, RendererProps} from '../factory';
+import {Spinner} from 'amis-ui';
+import {Renderer, RendererProps} from 'amis-core';
 import React from 'react';
 import {BaseSchema, SchemaCollection} from '../Schema';
 

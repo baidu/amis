@@ -2,11 +2,11 @@
  * @file 用来展示面包屑导航
  */
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaIcon, SchemaUrlPath} from '../Schema';
-import {filter} from '../utils/tpl';
-import {resolveVariableAndFilter} from '../utils/tpl-builtin';
-import Breadcrumb from '../components/Breadcrumb';
+import {filter} from 'amis-core';
+import {resolveVariableAndFilter} from 'amis-core';
+import {Breadcrumb} from 'amis-ui';
 
 export type BreadcrumbBaseItemSchema = {
   /**
@@ -56,7 +56,7 @@ export type ItemPlace = 'start' | 'middle' | 'end';
  * 文档：https://baidu.gitee.io/amis/docs/components/breadcrumb
  */
 
- export interface BreadcrumbSchema extends BaseSchema {
+export interface BreadcrumbSchema extends BaseSchema {
   /**
    *  指定为面包屑显示控件
    */
@@ -103,18 +103,13 @@ export type ItemPlace = 'start' | 'middle' | 'end';
   tooltipPosition?: TooltipPositionType;
 }
 
-export interface BreadcrumbProps extends RendererProps,
-  Omit<BreadcrumbSchema, 'type' | 'className'> {}
+export interface BreadcrumbProps
+  extends RendererProps,
+    Omit<BreadcrumbSchema, 'type' | 'className'> {}
 
 export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
   render() {
-    const {
-      items,
-      source,
-      data,
-      env,
-      ...restProps
-    } = this.props;
+    const {items, source, data, env, ...restProps} = this.props;
 
     let crumbItems = items
       ? items

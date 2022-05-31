@@ -2,15 +2,15 @@
  * @file 兼容配置，对于一些老的 api 设计的得不合理的地方做一些适配。
  * @author fex
  */
-import {SchemaNode, Schema} from './types';
-import {RendererProps, RendererConfig, addSchemaFilter} from './factory';
+import {SchemaNode, Schema} from 'amis-core/lib/types';
+import {RendererProps, addSchemaFilter} from 'amis-core';
 import {CheckboxControlRenderer} from './renderers/Form/Checkbox';
-import {FormRenderer} from './renderers/Form/index';
+import {FormRenderer} from 'amis-core';
 import {FieldSetRenderer} from './renderers/Form/FieldSet';
 import {CardRenderer} from './renderers/Card';
 import {ListItemRenderer} from './renderers/List';
 import {ButtonGroupControlRenderer} from './renderers/Form/ButtonGroupSelect';
-import {getLevelFromClassName} from './utils/helper';
+import {getLevelFromClassName} from 'amis-core';
 import {FileControlRenderer} from './renderers/Form/InputFile';
 import {ImageControlRenderer} from './renderers/Form/InputImage';
 import {RichTextControlRenderer} from './renderers/Form/InputRichText';

@@ -1,19 +1,13 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import cx from 'classnames';
-import {
-  filterDate,
-  isPureVariable,
-  resolveVariableAndFilter
-} from '../../utils/tpl-builtin';
+import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import DatePicker, {
-  DatePicker as BaseDatePicker
-} from '../../components/DatePicker';
+import {DatePicker} from 'amis-ui';
 import {SchemaObject} from '../../Schema';
-import {createObject, anyChanged, isMobile, autobind} from '../../utils/helper';
-import {Action} from '../../types';
+import {createObject, anyChanged, isMobile, autobind} from 'amis-core';
+import {Action} from 'amis-core';
 
 export interface InputDateBaseControlSchema extends FormBaseControl {
   /**
@@ -300,7 +294,7 @@ export default class DateControl extends React.PureComponent<
     clearable: true
   };
 
-  dateRef?: BaseDatePicker;
+  dateRef?: any;
 
   constructor(props: DateProps) {
     super(props);
@@ -418,7 +412,10 @@ export default class DateControl extends React.PureComponent<
   }
 
   @autobind
-  getRef(ref: BaseDatePicker) {
+  getRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
     this.dateRef = ref;
   }
 

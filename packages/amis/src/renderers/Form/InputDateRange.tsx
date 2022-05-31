@@ -1,16 +1,12 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import cx from 'classnames';
-import {filterDate, parseDuration} from '../../utils/tpl-builtin';
+import {filterDate, parseDuration} from 'amis-core';
 import 'moment/locale/zh-cn';
-import includes from 'lodash/includes';
-import DateRangePicker, {
-  DateRangePicker as BaseDateRangePicker
-} from '../../components/DateRangePicker';
-import {isMobile, createObject, autobind} from '../../utils/helper';
-import {Action} from '../../types';
-
-import type {ShortCuts} from '../../components/DatePicker';
+import {DateRangePicker} from 'amis-ui';
+import {isMobile, createObject, autobind} from 'amis-core';
+import {Action} from 'amis-core';
+import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
 
 /**
  * DateRange 日期范围控件
@@ -110,7 +106,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     delimiter: ','
   };
 
-  dateRef?: BaseDateRangePicker;
+  dateRef?: any;
 
   constructor(props: DateRangeProps) {
     super(props);
@@ -132,7 +128,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
           ? defaultValue.split(delimiter)
           : defaultValue;
       setPrinstineValue(
-        BaseDateRangePicker.formatValue(
+        DateRangePicker.formatValue(
           {
             startDate: filterDate(arr[0], data, format),
             endDate: filterDate(arr[1], data, format)
@@ -165,7 +161,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
 
       setPrinstineValue(
         arr
-          ? BaseDateRangePicker.formatValue(
+          ? DateRangePicker.formatValue(
               {
                 startDate: filterDate(arr[0], data, format),
                 endDate: filterDate(arr[1], data, format)
@@ -181,7 +177,10 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   }
 
   @autobind
-  getRef(ref: BaseDateRangePicker) {
+  getRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
     this.dateRef = ref;
   }
 
@@ -216,7 +215,10 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   @autobind
   async handleChange(nextValue: any) {
     const {dispatchEvent, data} = this.props;
-    const dispatcher = dispatchEvent('change', createObject(data, {value: nextValue}));
+    const dispatcher = dispatchEvent(
+      'change',
+      createObject(data, {value: nextValue})
+    );
     if (dispatcher?.prevented) {
       return;
     }

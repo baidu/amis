@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Renderer, RendererProps} from '../factory';
-import {ServiceStore, IServiceStore} from '../store/service';
-import {Api, SchemaNode, ApiObject, RendererData, Action} from '../types';
-import {filter, evalExpression} from '../utils/tpl';
+import {Renderer, RendererProps} from 'amis-core';
+import {ServiceStore, IServiceStore} from 'amis-core';
+import {Api, SchemaNode, ApiObject, RendererData, Action} from 'amis-core';
+import {filter, evalExpression} from 'amis-core';
 import cx from 'classnames';
-import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
+import Scoped, {ScopedContext, IScopedContext} from 'amis-core';
 import {observer} from 'mobx-react';
 import {
   buildApi,
   isApiOutdated,
   isEffectiveApi,
   str2AsyncFunction
-} from '../utils/api';
-import {Spinner} from '../components';
+} from 'amis-core';
+import {Spinner} from 'amis-ui';
 import {
   autobind,
   isEmpty,
@@ -21,7 +21,7 @@ import {
   isVisible,
   qsstringify,
   createObject
-} from '../utils/helper';
+} from 'amis-core';
 import {
   BaseSchema,
   SchemaApi,
@@ -30,10 +30,10 @@ import {
   SchemaMessage,
   SchemaName
 } from '../Schema';
-import {IIRendererStore} from '../store';
+import {IIRendererStore} from 'amis-core';
 
-import type {ScopedComponentType} from '../Scoped';
-import type {ListenerAction} from '../actions/Action';
+import type {ListenerAction} from 'amis-core';
+import type {ScopedComponentType} from 'amis-core/lib/Scoped';
 
 /**
  * Service 服务类控件。

@@ -4,17 +4,17 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl
-} from './Options';
+} from 'amis-core';
 import Downshift from 'downshift';
 import find from 'lodash/find';
 import {findDOMNode} from 'react-dom';
-import ResultBox from '../../components/ResultBox';
-import {autobind, filterTree, createObject} from '../../utils/helper';
-import Spinner from '../../components/Spinner';
-import Overlay from '../../components/Overlay';
-import PopOver from '../../components/PopOver';
-import ListMenu from '../../components/ListMenu';
-import {Action} from '../../types';
+import {ResultBox} from 'amis-ui';
+import {autobind, filterTree, createObject} from 'amis-core';
+import {Spinner} from 'amis-ui';
+import {Overlay} from 'amis-ui';
+import {PopOver} from 'amis-ui';
+import {ListMenu} from 'amis-ui';
+import {Action} from 'amis-core';
 
 /**
  * Tag 输入框
@@ -380,7 +380,13 @@ export default class TagControl extends React.PureComponent<
                       options={finnalOptions}
                       itemRender={this.renderItem}
                       highlightIndex={highlightedIndex}
-                      getItemProps={({item, index}) => ({
+                      getItemProps={({
+                        item,
+                        index
+                      }: {
+                        item: Option;
+                        index: number;
+                      }) => ({
                         ...getItemProps({
                           index,
                           item,

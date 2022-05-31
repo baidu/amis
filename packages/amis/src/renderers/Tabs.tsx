@@ -1,6 +1,6 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {Action, Schema, SchemaNode} from '../types';
+import {Renderer, RendererProps} from 'amis-core';
+import {Action, Schema, SchemaNode} from 'amis-core';
 import find from 'lodash/find';
 import {
   isVisible,
@@ -10,10 +10,10 @@ import {
   createObject,
   getVariable,
   isObjectShallowModified
-} from '../utils/helper';
+} from 'amis-core';
 import findIndex from 'lodash/findIndex';
-import {Tabs as CTabs, Tab, TabsMode} from '../components/Tabs';
-import {ClassNamesFn} from '../theme';
+import {Tabs as CTabs, Tab} from 'amis-ui';
+import {ClassNamesFn} from 'amis-core';
 import {
   BaseSchema,
   SchemaClassName,
@@ -21,15 +21,12 @@ import {
   SchemaIcon
 } from '../Schema';
 import {ActionSchema} from './Action';
-import {filter} from '../utils/tpl';
-import {
-  resolveVariable,
-  tokenize,
-  resolveVariableAndFilter
-} from '../utils/tpl-builtin';
-import {FormSchemaHorizontal} from './Form/index';
-import {str2AsyncFunction} from '../utils/api';
-import {ScopedContext, IScopedContext} from '../Scoped';
+import {filter} from 'amis-core';
+import {resolveVariable, tokenize, resolveVariableAndFilter} from 'amis-core';
+import {FormHorizontal} from 'amis-core';
+import {str2AsyncFunction} from 'amis-core';
+import {ScopedContext, IScopedContext} from 'amis-core';
+import type {TabsMode} from 'amis-ui/lib/components/Tabs';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -87,7 +84,7 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
-  horizontal?: FormSchemaHorizontal;
+  horizontal?: FormHorizontal;
   /**
    * 是否可关闭，优先级高于 tabs 的 closable
    */
@@ -157,7 +154,7 @@ export interface TabsSchema extends BaseSchema {
   /**
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
-  subFormHorizontal?: FormSchemaHorizontal;
+  subFormHorizontal?: FormHorizontal;
   /**
    * 是否支持新增
    */
@@ -578,7 +575,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       }
     });
     // 获取激活元素项
-    const tab = localTabs?.find((item, index) => key === (item.hash ? item.hash : index));
+    const tab = localTabs?.find(
+      (item, index) => key === (item.hash ? item.hash : index)
+    );
 
     const rendererEvent = await dispatchEvent(
       'change',

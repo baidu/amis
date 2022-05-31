@@ -2,12 +2,12 @@
  * @file Tag
  */
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
-import {getPropValue} from '../utils/helper';
-import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {getPropValue} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
-import Tag from '../components/Tag';
+import {Tag} from 'amis-ui';
 
 /**
  * Tag

@@ -5,18 +5,18 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl
-} from './Options';
-import Select, {normalizeOptions} from '../../components/Select';
+} from 'amis-core';
+import {normalizeOptions} from 'amis-core';
 import find from 'lodash/find';
 import debouce from 'lodash/debounce';
-import {Api, Action} from '../../types';
-import {isEffectiveApi, isApiOutdated} from '../../utils/api';
-import {isEmpty, createObject, autobind, isMobile} from '../../utils/helper';
-import {dataMapping} from '../../utils/tpl-builtin';
+import {Api, Action} from 'amis-core';
+import {isEffectiveApi, isApiOutdated} from 'amis-core';
+import {isEmpty, createObject, autobind, isMobile} from 'amis-core';
+
 import {SchemaApi} from '../../Schema';
-import Spinner from '../../components/Spinner';
+import {Spinner, Select} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
-import TransferDropDown from '../../components/TransferDropDown';
+import {TransferDropDown} from 'amis-ui';
 
 /**
  * Select 下拉选择框。

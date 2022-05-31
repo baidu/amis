@@ -2,10 +2,10 @@
  * @file 用来条形码
  */
 import React, {Suspense} from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
-import {getPropValue} from '../utils/helper';
-const BarCode = React.lazy(() => import('../components/BarCode'));
+import {getPropValue} from 'amis-core';
+const BarCode = React.lazy(() => import('amis-ui/lib/components/BarCode'));
 
 /**
  * BarCode 显示渲染器，格式说明。

@@ -1,10 +1,8 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {Schema} from '../../types';
-import {ComboStore, IComboStore} from '../../store/combo';
-import {observer} from 'mobx-react';
+import {FormItem, FormControlProps} from 'amis-core';
+import {ComboStore, IComboStore} from 'amis-core';
 import Combo, {ComboControlSchema} from './Combo';
-import {SchemaApi, SchemaCollection, SchemaObject} from '../../Schema';
+import {SchemaCollection} from '../../Schema';
 
 /**
  * InputArray 数组输入框。 combo 的别名。

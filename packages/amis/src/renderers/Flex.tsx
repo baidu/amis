@@ -3,8 +3,8 @@
  */
 
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {Schema} from '../types';
+import {Renderer, RendererProps} from 'amis-core';
+import {Schema} from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
 
 /**

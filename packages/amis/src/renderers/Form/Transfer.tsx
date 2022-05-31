@@ -5,9 +5,9 @@ import {
   OptionsControlProps,
   OptionsControl,
   FormOptionsControl
-} from './Options';
-import Transfer, {Transfer as BaseTransfer} from '../../components/Transfer';
-import type {Option} from './Options';
+} from 'amis-core';
+import {Transfer} from 'amis-ui';
+import type {Option} from 'amis-core';
 import {
   autobind,
   filterTree,
@@ -17,17 +17,15 @@ import {
   findTreeIndex,
   getTree,
   spliceTree
-} from '../../utils/helper';
-import Spinner from '../../components/Spinner';
-import {optionValueCompare} from '../../components/Select';
-import {resolveVariable} from '../../utils/tpl-builtin';
+} from 'amis-core';
+import {Spinner} from 'amis-ui';
+import {optionValueCompare} from 'amis-core';
+import {resolveVariable} from 'amis-core';
 import {SchemaApi, SchemaObject} from '../../Schema';
-import {BaseSelection, ItemRenderStates} from '../../components/Selection';
-import {
-  ItemRenderStates as ResultItemRenderStates,
-  ResultList
-} from '../../components/ResultList';
-import {Action} from '../../types';
+import {Selection as BaseSelection} from 'amis-ui';
+import {ResultList} from 'amis-ui';
+import {Action} from 'amis-core';
+import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
 /**
  * Transfer
@@ -148,7 +146,7 @@ export interface BaseTransferProps
 export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
 > extends React.Component<T> {
-  tranferRef?: BaseTransfer;
+  tranferRef?: any;
 
   @autobind
   async handleChange(value: Array<Option> | Option, optionModified?: boolean) {
@@ -312,7 +310,7 @@ export class BaseTransferRenderer<
   }
 
   @autobind
-  resultItemRender(option: Option, states: ResultItemRenderStates) {
+  resultItemRender(option: Option, states: ItemRenderStates) {
     const {valueTpl, render, data} = this.props;
 
     if (valueTpl) {
@@ -351,7 +349,10 @@ export class BaseTransferRenderer<
   }
 
   @autobind
-  getRef(ref: BaseTransfer) {
+  getRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
     this.tranferRef = ref;
   }
 

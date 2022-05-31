@@ -1,9 +1,9 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Overflow from 'rc-overflow';
-import {Renderer, RendererEnv, RendererProps} from '../factory';
-import getExprProperties from '../utils/filter-schema';
-import {filter, evalExpression} from '../utils/tpl';
+import {Renderer, RendererEnv, RendererProps} from 'amis-core';
+import {getExprProperties} from 'amis-core';
+import {filter, evalExpression} from 'amis-core';
 import {
   guid,
   autobind,
@@ -14,21 +14,18 @@ import {
   spliceTree,
   findTreeIndex,
   isObject
-} from '../utils/helper';
-import {generateIcon} from '../utils/icon';
-import {isEffectiveApi} from '../utils/api';
-import {themeable, ThemeProps} from '../theme';
-import {Icon, getIcon} from '../components/icons';
-import {Badge, BadgeSchema} from '../components/Badge';
-import {
-  RemoteOptionsProps,
-  withRemoteConfig
-} from '../components/WithRemoteConfig';
-import Spinner from '../components/Spinner';
-import PopOverContainer from '../components/PopOverContainer';
-import {ScopedContext, IScopedContext} from '../Scoped';
+} from 'amis-core';
+import {generateIcon} from 'amis-core';
+import {isEffectiveApi} from 'amis-core';
+import {themeable, ThemeProps} from 'amis-core';
+import {Icon, getIcon} from 'amis-ui';
+import {Badge, BadgeObject} from 'amis-ui';
+import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
+import {Spinner} from 'amis-ui';
+import {PopOverContainer} from 'amis-ui';
+import {ScopedContext, IScopedContext} from 'amis-core';
 
-import type {Payload} from '../types';
+import type {Payload} from 'amis-core';
 import type {
   BaseSchema,
   SchemaObject,
@@ -181,7 +178,7 @@ export interface NavSchema extends BaseSchema {
   /**
    * 角标
    */
-  itemBadge?: BadgeSchema;
+  itemBadge?: BadgeObject;
 
   /**
    * 仅允许同层级拖拽
@@ -208,7 +205,7 @@ export interface Link {
   loading?: boolean;
   loaded?: boolean;
   [propName: string]: any;
-  itemBadge?: BadgeSchema;
+  itemBadge?: BadgeObject;
 }
 export interface Links extends Array<Link> {}
 

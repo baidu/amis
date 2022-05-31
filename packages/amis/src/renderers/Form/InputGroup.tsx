@@ -1,17 +1,13 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../../factory';
-import {Schema} from '../../types';
-import Collapse from '../Collapse';
 import {
   makeColumnClassBuild,
   makeHorizontalDeeper,
   isVisible,
   isDisabled
-} from '../../utils/helper';
-import cx from 'classnames';
-import getExprProperties from '../../utils/filter-schema';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {IFormItemStore, IFormStore} from '../../store/form';
+} from 'amis-core';
+import {getExprProperties} from 'amis-core';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {IFormItemStore, IFormStore} from 'amis-core';
 import {SchemaClassName, SchemaCollection, SchemaObject} from '../../Schema';
 
 /**

@@ -1,7 +1,7 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import JSONSchemaEditor from '../../components/schema-editor/index';
-import {autobind} from '../../utils/helper';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {JSONSchemaEditor} from 'amis-ui';
+import {autobind} from 'amis-core';
 
 /**
  * JSON Schema Editor

@@ -1,11 +1,11 @@
 import React from 'react';
 import cx from 'classnames';
-import {Renderer, RendererProps} from '../factory';
-import {FormItem, FormControlProps} from './Form/Item';
-import {filter} from '../utils/tpl';
+import {Renderer, RendererProps} from 'amis-core';
+import {FormItem, FormControlProps} from 'amis-core';
+import {filter} from 'amis-core';
 import {QRCodeSVG} from 'qrcode.react';
 import {BaseSchema, SchemaClassName} from '../Schema';
-import {getPropValue} from '../utils/helper';
+import {getPropValue} from 'amis-core';
 
 /**
  * 二维码展示控件。

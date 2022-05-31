@@ -2,17 +2,14 @@
  * 导出 Excel 功能
  */
 
-import {filter} from '../../utils/tpl';
+import {filter} from 'amis-core';
 import './ColumnToggler';
-import {TableStore} from '../../store/table';
+import {TableStore} from 'amis-core';
 import {saveAs} from 'file-saver';
-import {getVariable, removeHTMLTag, createObject} from '../../utils/helper';
-import {
-  isPureVariable,
-  resolveVariableAndFilter
-} from '../../utils/tpl-builtin';
+import {getVariable, removeHTMLTag, createObject} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {BaseSchema} from '../../Schema';
-import {toDataURL, getImageDimensions} from '../../utils/image';
+import {toDataURL, getImageDimensions} from 'amis-core';
 import {TplSchema} from '../Tpl';
 import {MappingSchema} from '../Mapping';
 import {getSnapshot} from 'mobx-state-tree';

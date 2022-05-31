@@ -1,10 +1,10 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 
 import JsonView, {InteractionProps} from 'react-json-view';
-import {autobind, getPropValue, noop} from '../utils/helper';
+import {autobind, getPropValue, noop} from 'amis-core';
 import {BaseSchema} from '../Schema';
-import {resolveVariableAndFilter, isPureVariable} from '../utils/tpl-builtin';
+import {resolveVariableAndFilter, isPureVariable} from 'amis-core';
 /**
  * JSON 数据展示控件。
  * 文档：https://baidu.gitee.io/amis/docs/components/json
@@ -35,7 +35,7 @@ export interface JsonSchema extends BaseSchema {
    */
   displayDataTypes?: boolean;
 
-   /**
+  /**
    * 是否可复制
    */
   enableClipboard?: boolean;
@@ -43,17 +43,17 @@ export interface JsonSchema extends BaseSchema {
   /**
    * 图标风格
    */
-  iconStyle?: "square" | "circle" | "triangle"
+  iconStyle?: 'square' | 'circle' | 'triangle';
 
   /**
    * 是否显示键的引号
    */
-  quotesOnKeys?: boolean
+  quotesOnKeys?: boolean;
 
   /**
    * 是否为键排序
    */
-  sortKeys?: boolean
+  sortKeys?: boolean;
 }
 
 export interface JSONProps extends RendererProps, JsonSchema {
@@ -72,9 +72,9 @@ export class JSONField extends React.Component<JSONProps, object> {
     source: '',
     displayDataTypes: false,
     enableClipboard: false,
-    iconStyle:"square",
+    iconStyle: 'square',
     quotesOnKeys: true,
-    sortKeys:false,
+    sortKeys: false
   };
 
   @autobind

@@ -1,9 +1,9 @@
 /**
  * 扩展 Schema，目前用于实现 input-kv
  */
-import {Schema} from './types';
-import {addSchemaFilter} from './factory';
-import {isObject} from './utils/helper';
+import {Schema} from 'amis-core/dist/types';
+import {addSchemaFilter} from 'amis-core';
+import {isObject} from 'amis-core';
 
 // input-kv 实际上是 combo 的一种扩展
 addSchemaFilter(function (schema: Schema, renderer, props?: any) {

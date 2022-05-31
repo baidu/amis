@@ -4,14 +4,12 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl
-} from './Options';
-import cx from 'classnames';
-import Checkbox from '../../components/Checkbox';
-
-import {Icon} from '../../components/icons';
-import {Action, Api} from '../../types';
-import {autobind, hasAbility} from '../../utils/helper';
-import {columnsSplit} from '../../utils/columnsSplit';
+} from 'amis-core';
+import {Checkbox} from 'amis-ui';
+import {Icon} from 'amis-ui';
+import {Action, Api} from 'amis-core';
+import {autobind, hasAbility} from 'amis-core';
+import {columnsSplit} from 'amis-core';
 
 /**
  * 复选框

@@ -1,10 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import cx from 'classnames';
-import LazyComponent from '../../components/LazyComponent';
-import {tokenize} from '../../utils/tpl-builtin';
-import {normalizeApi} from '../../utils/api';
-import {ucFirst} from '../../utils/helper';
+import {LazyComponent} from 'amis-core';
+import {tokenize} from 'amis-core';
+import {normalizeApi} from 'amis-core';
+import {ucFirst} from 'amis-core';
 import type {SchemaApi} from '../../Schema';
 
 /**
@@ -59,8 +59,8 @@ function loadRichText(
 ): () => Promise<any> {
   return () =>
     type === 'tinymce'
-      ? import('../../components/Tinymce').then(item => item.default)
-      : import('../../components/RichText').then(item => item.default);
+      ? import('amis-ui/lib/components/Tinymce').then(item => item.default)
+      : import('amis-ui/lib/components/RichText').then(item => item.default);
 }
 
 export default class RichTextControl extends React.Component<

@@ -4,15 +4,15 @@ import isObject from 'lodash/isObject';
 import isEqual from 'lodash/isEqual';
 import forEach from 'lodash/forEach';
 
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import InputRange from '../../components/Range';
-import NumberInput from '../../components/NumberInput';
-import {Icon} from '../../components/icons';
-import {stripNumber} from '../../utils/tpl-builtin';
-import {autobind, createObject} from '../../utils/helper';
-import {filter} from '../../utils/tpl';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {Range as InputRange} from 'amis-ui';
+import {NumberInput} from 'amis-ui';
+import {Icon} from 'amis-ui';
+import {stripNumber} from 'amis-core';
+import {autobind, createObject} from 'amis-core';
+import {filter} from 'amis-core';
 import {SchemaObject} from '../../Schema';
-import {Action} from '../../types';
+import {Action} from 'amis-core';
 
 /**
  * Range

@@ -4,10 +4,10 @@ import {isAlive} from 'mobx-state-tree';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 
-import {ScopedContext, IScopedContext} from '../../Scoped';
-import {Renderer, RendererProps} from '../../factory';
-import {Action} from '../../types';
-import Table, {SortProps} from '../../components/table';
+import {ScopedContext, IScopedContext} from 'amis-core';
+import {Renderer, RendererProps} from 'amis-core';
+import {Action} from 'amis-core';
+import {Table} from 'amis-ui';
 import {BaseSchema, SchemaObject, SchemaTokenizeableString} from '../../Schema';
 import {
   isObject,
@@ -15,21 +15,22 @@ import {
   difference,
   createObject,
   autobind
-} from '../../utils/helper';
+} from 'amis-core';
 import {
   resolveVariableAndFilter,
   isPureVariable,
   resolveVariable
-} from '../../utils/tpl-builtin';
-import {evalExpression, filter} from '../../utils/tpl';
-import {isEffectiveApi} from '../../utils/api';
-import Checkbox from '../../components/Checkbox';
-import {BadgeSchema} from '../../components/Badge';
-import {TableStoreV2, ITableStore, IColumn, IRow} from '../../store/table-v2';
+} from 'amis-core';
+import {evalExpression, filter} from 'amis-core';
+import {isEffectiveApi} from 'amis-core';
+import {Checkbox} from 'amis-ui';
+import {BadgeObject} from 'amis-ui';
+import {TableStoreV2, ITableStoreV2, IColumnV2, IRowV2} from 'amis-core';
 
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import './TableCell';
 import './ColumnToggler';
+import type {SortProps} from 'amis-ui/lib/components/table';
 
 /**
  * Table 表格v2渲染器。
@@ -118,7 +119,7 @@ export interface ColumnSchema {
    * 列样式
    */
   className?: string;
-  
+
   /**
    * 表头单元格样式
    */
@@ -265,7 +266,7 @@ export interface TableSchemaV2 extends BaseSchema {
   /**
    * 行角标
    */
-  itemBadge?: BadgeSchema;
+  itemBadge?: BadgeObject;
 
   /**
    * 指定挂载dom
@@ -326,7 +327,7 @@ export type TableV2RendererAction = 'selectAll' | 'clearAll' | 'select';
 export interface TableV2Props extends RendererProps {
   title?: string;
   source?: string;
-  store: ITableStore;
+  store: ITableStoreV2;
   togglable: boolean;
 }
 
@@ -391,7 +392,7 @@ export default class TableRenderer extends React.Component<
   }
 
   static syncRows(
-    store: ITableStore,
+    store: ITableStoreV2,
     props: TableV2Props,
     prevProps?: TableV2Props
   ) {
@@ -601,9 +602,10 @@ export default class TableRenderer extends React.Component<
             <div
               key={col}
               className={cx('Table-head-cell-wrapper', {
-              [`${column.className}`]: !!column.className,
-              [`${column.titleClassName}`]: !!column.titleClassName
-            })}>
+                [`${column.className}`]: !!column.className,
+                [`${column.titleClassName}`]: !!column.titleClassName
+              })}
+            >
               {content}
               {remark}
               {children}
@@ -710,7 +712,9 @@ export default class TableRenderer extends React.Component<
         if (column.classNameExpr) {
           clone.className = (record: any, rowIndex: number) => {
             const className = filter(column.classNameExpr, {record, rowIndex});
-            return `${className}${column.className ? ` ${column.className}` : ''}`;
+            return `${className}${
+              column.className ? ` ${column.className}` : ''
+            }`;
           };
         }
 
@@ -855,7 +859,7 @@ export default class TableRenderer extends React.Component<
   }
 
   handleQuickChange(
-    item: IRow,
+    item: IRowV2,
     values: object,
     saveImmediately?: boolean | any,
     savePristine?: boolean,
@@ -909,7 +913,7 @@ export default class TableRenderer extends React.Component<
         );
   }
 
-  async handleColumnToggle(columns: Array<IColumn>) {
+  async handleColumnToggle(columns: Array<IColumnV2>) {
     const {dispatchEvent, data, store} = this.props;
 
     const rendererEvent = await dispatchEvent(
@@ -1265,8 +1269,8 @@ export default class TableRenderer extends React.Component<
     let itemActionsConfig = undefined;
     if (itemActions) {
       const finalActions = Array.isArray(itemActions)
-      ? itemActions.filter(action => !action.hiddenOnHover)
-      : [];
+        ? itemActions.filter(action => !action.hiddenOnHover)
+        : [];
 
       if (!finalActions.length) {
         return null;

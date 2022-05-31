@@ -1,6 +1,6 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {Schema} from '../types';
+import {FormHorizontal, Renderer, RendererProps} from 'amis-core';
+import {Schema} from 'amis-core';
 import pick from 'lodash/pick';
 import {
   BaseSchema,
@@ -8,8 +8,8 @@ import {
   SchemaCollection,
   SchemaObject
 } from '../Schema';
-import {FormSchemaHorizontal} from './Form/index';
-import {ucFirst} from '../utils/helper';
+
+import {ucFirst} from 'amis-core';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
@@ -47,7 +47,7 @@ export type GridColumnObject = {
   /**
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
-  horizontal?: FormSchemaHorizontal;
+  horizontal?: FormHorizontal;
 
   body?: SchemaCollection;
 

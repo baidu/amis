@@ -1,12 +1,12 @@
 import React from 'react';
-import {RendererProps} from '../../factory';
-import {Action} from '../../types';
-import {Icon} from '../../components/icons';
-import Overlay from '../../components/Overlay';
+import {RendererProps} from 'amis-core';
+import {Action} from 'amis-core';
+import {Icon} from 'amis-ui';
+import {Overlay} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
-import PopOver from '../../components/PopOver';
-import {ITableStore} from '../../store/table';
-import {setVariable, createObject} from '../../utils/helper';
+import {PopOver} from 'amis-ui';
+import {ITableStore} from 'amis-core';
+import {setVariable, createObject} from 'amis-core';
 
 export interface QuickSearchConfig {
   type?: string;

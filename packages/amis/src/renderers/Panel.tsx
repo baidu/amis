@@ -1,9 +1,9 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Action} from '../types';
-import {getScrollParent, autobind} from '../utils/helper';
+import {Renderer, RendererProps} from 'amis-core';
+import {SchemaNode, Action} from 'amis-core';
+import {getScrollParent, autobind} from 'amis-core';
 import {findDOMNode} from 'react-dom';
-import {resizeSensor} from '../utils/resize-sensor';
+import {resizeSensor} from 'amis-core';
 import {
   BaseSchema,
   SchemaClassName,
@@ -11,7 +11,7 @@ import {
   SchemaTpl
 } from '../Schema';
 import {ActionSchema} from './Action';
-import {FormSchemaHorizontal} from './Form/index';
+import {FormHorizontal} from 'amis-core';
 
 /**
  * Panel渲染器。
@@ -85,7 +85,7 @@ export interface PanelSchema extends BaseSchema {
   /**
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
-  subFormHorizontal?: FormSchemaHorizontal;
+  subFormHorizontal?: FormHorizontal;
 }
 
 export interface PanelProps

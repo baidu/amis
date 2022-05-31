@@ -1,8 +1,8 @@
 import React from 'react';
-import {themeable, ClassNamesFn, ThemeProps} from '../../theme';
-import FormItem, {FormBaseControl, FormControlProps} from './Item';
-import LocationPicker from '../../components/LocationPicker';
-import {filter} from '../../utils/tpl';
+import {themeable, ClassNamesFn, ThemeProps} from 'amis-core';
+import FormItem, {FormBaseControl, FormControlProps} from 'amis-core';
+import {LocationPicker} from 'amis-ui';
+import {filter} from 'amis-core';
 /**
  * Location 选点组件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/location
@@ -44,7 +44,10 @@ export class LocationControl extends React.Component<LocationControlProps> {
   render() {
     return (
       <div className={this.props.classnames('LocationControl')}>
-        <LocationPicker {...this.props} ak={filter(this.props.ak, this.props.data)}/>
+        <LocationPicker
+          {...this.props}
+          ak={filter(this.props.ak, this.props.data)}
+        />
       </div>
     );
   }

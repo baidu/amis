@@ -2,11 +2,11 @@
  * @file 用来展示用户头像
  */
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import Avatar from '../components/Avatar';
-import {BadgeSchema, withBadge} from '../components/Badge';
+import {Renderer, RendererProps} from 'amis-core';
+import {Avatar} from 'amis-ui';
+import {BadgeObject, withBadge} from 'amis-ui';
 import {BaseSchema, SchemaClassName} from '../Schema';
-import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 export interface AvatarSchema extends BaseSchema {
   // 指定类型
@@ -27,7 +27,7 @@ export interface AvatarSchema extends BaseSchema {
   /**
    * 角标
    */
-  badge?: BadgeSchema;
+  badge?: BadgeObject;
 
   /**
    * 图片地址
@@ -82,13 +82,14 @@ export interface AvatarSchema extends BaseSchema {
   /**
    * 图片加载失败的是否默认处理，字符串函数
    */
-  onError?: string
+  onError?: string;
 }
 
-export interface AvatarProps extends RendererProps, Omit<AvatarSchema, 'type' | 'className'> {}
+export interface AvatarProps
+  extends RendererProps,
+    Omit<AvatarSchema, 'type' | 'className'> {}
 
 export class AvatarField extends React.Component<AvatarProps> {
-
   render() {
     let {
       style = {},

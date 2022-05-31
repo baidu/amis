@@ -1,23 +1,22 @@
 import React from 'react';
-import {ScopedContext, IScopedContext} from '../Scoped';
-import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Schema, Action} from '../types';
-import {filter} from '../utils/tpl';
-import Modal from '../components/Modal';
-import findLast from 'lodash/findLast';
+import {ScopedContext, IScopedContext} from 'amis-core';
+import {Renderer, RendererProps} from 'amis-core';
+import {SchemaNode, Schema, Action} from 'amis-core';
+import {filter} from 'amis-core';
+import {Modal} from 'amis-ui';
 import {
   guid,
   isVisible,
   autobind,
   createObject,
   isObjectShallowModified
-} from '../utils/helper';
+} from 'amis-core';
 import {reaction} from 'mobx';
-import {Icon} from '../components/icons';
-import {ModalStore, IModalStore} from '../store/modal';
+import {Icon} from 'amis-ui';
+import {ModalStore, IModalStore} from 'amis-core';
 import {findDOMNode} from 'react-dom';
-import {Spinner} from '../components';
-import {IServiceStore} from '../store/service';
+import {Spinner} from 'amis-ui';
+import {IServiceStore} from 'amis-core';
 import {
   BaseSchema,
   SchemaClassName,

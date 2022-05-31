@@ -1,8 +1,7 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
-import {SchemaNode} from '../types';
-import {buildStyle} from '../utils/style';
+import {buildStyle} from 'amis-core';
 
 /**
  * Container 容器渲染器。

@@ -1,10 +1,8 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
-import {
-  MODE_TYPE,
-  Pagination as BasicPagination
-} from '../components/Pagination';
+import {Pagination as BasicPagination} from 'amis-ui';
+import type {MODE_TYPE} from 'amis-ui/lib/components/Pagination';
 
 export interface PaginationSchema extends BaseSchema {
   type: 'pagination';

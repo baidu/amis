@@ -1,10 +1,10 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
-import {autobind, createObject, getPropValue} from '../utils/helper';
-import {filter} from '../utils/tpl';
-import {BadgeSchema, withBadge} from '../components/Badge';
-import Link from '../components/Link';
+import {autobind, createObject, getPropValue} from 'amis-core';
+import {filter} from 'amis-core';
+import {BadgeObject, withBadge} from 'amis-ui';
+import {Link} from 'amis-ui';
 
 /**
  * Link 链接展示控件。
@@ -34,7 +34,7 @@ export interface LinkSchema extends BaseSchema {
   /**
    * 角标
    */
-  badge?: BadgeSchema;
+  badge?: BadgeObject;
 
   /**
    * a标签原生target属性

@@ -5,14 +5,14 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {RendererProps} from '../factory';
+import {RendererProps} from 'amis-core';
 import cx from 'classnames';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import PopOver, {Offset} from '../components/PopOver';
-import Overlay from '../components/Overlay';
-import {Icon} from '../components/icons';
+import {PopOver} from 'amis-ui';
+import {Overlay} from 'amis-ui';
+import {Icon} from 'amis-ui';
 import {SchemaCollection, SchemaExpression} from '../Schema';
-import {RootClose} from '../utils/RootClose';
+import {RootClose} from 'amis-core';
 
 export interface SchemaPopOverObject {
   /**

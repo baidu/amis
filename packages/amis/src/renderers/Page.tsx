@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {observer} from 'mobx-react';
-import {ServiceStore, IServiceStore} from '../store/service';
+import {ServiceStore, IServiceStore} from 'amis-core';
 import {
   Api,
   SchemaNode,
@@ -10,19 +10,19 @@ import {
   Location,
   ApiObject,
   FunctionPropertyNames
-} from '../types';
-import {filter, evalExpression} from '../utils/tpl';
+} from 'amis-core';
+import {filter, evalExpression} from 'amis-core';
 import {
   isVisible,
   autobind,
   bulkBindFunctions,
   isObjectShallowModified,
   createObject
-} from '../utils/helper';
-import {ScopedContext, IScopedContext} from '../Scoped';
-import Alert from '../components/Alert2';
-import {isApiOutdated, isEffectiveApi} from '../utils/api';
-import {Spinner} from '../components';
+} from 'amis-core';
+import {ScopedContext, IScopedContext} from 'amis-core';
+import {Alert2 as Alert} from 'amis-ui';
+import {isApiOutdated, isEffectiveApi} from 'amis-core';
+import {Spinner} from 'amis-ui';
 import {
   BaseSchema,
   SchemaCollection,
@@ -36,11 +36,11 @@ import {
 import {SchemaRemark} from './Remark';
 import {onAction} from 'mobx-state-tree';
 import mapValues from 'lodash/mapValues';
-import {resolveVariable} from '../utils/tpl-builtin';
-import {buildStyle} from '../utils/style';
-import PullRefresh from '../components/PullRefresh';
-import position from '../utils/position';
-import {scrollPosition} from '../utils/scrollPosition';
+import {resolveVariable} from 'amis-core';
+import {buildStyle} from 'amis-core';
+import {PullRefresh} from 'amis-ui';
+import position from 'amis-core';
+import {scrollPosition} from 'amis-core';
 
 /**
  * 样式属性名及值

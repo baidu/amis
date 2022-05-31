@@ -1,14 +1,8 @@
-import Spinner from '../components/Spinner';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import React from 'react';
 import {BaseSchema, SchemaClassName} from '../Schema';
-import SearchBox from '../components/SearchBox';
-import {
-  autobind,
-  getPropValue,
-  getVariable,
-  setVariable
-} from '../utils/helper';
+import {SearchBox} from 'amis-ui';
+import {autobind, getPropValue, getVariable, setVariable} from 'amis-core';
 
 /**
  * 搜索框渲染器

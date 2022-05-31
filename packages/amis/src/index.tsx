@@ -1,51 +1,7 @@
-/** @license amis v@version
- *
- * Copyright Baidu
- *
- * This source code is licensed under the Apache license found in the
- * LICENSE file in the root directory of this source tree.
- */
-import {
-  render,
-  Renderer,
-  getRendererByName,
-  getRenderers,
-  registerRenderer,
-  unRegisterRenderer,
-  resolveRenderer,
-  filterSchema,
-  addSchemaFilter,
-  clearStoresCache,
-  updateEnv
-} from './factory';
-import {wrapFetcher, buildApi} from './utils/api';
-import {
-  filter,
-  registerTplEnginer,
-  evalExpression,
-  evalJS,
-  setCustomEvalJs,
-  setCustomEvalExpression
-} from './utils/tpl';
-import * as utils from './utils/helper';
-import {resizeSensor} from './utils/resize-sensor';
-import {setIconVendor} from './renderers/Form/IconPickerIcons';
-import {Icon, registerIcon} from './components/icons';
-import {RegisterStore} from './store';
-import {
-  setDefaultLocale,
-  getDefaultLocale,
-  makeTranslator,
-  register as registerLocale
-} from './locale';
-
-import './locale/zh-CN';
-
-import './utils/debug';
-
-import animation from './utils/Animation';
-
-export * from './Schema';
+export * from 'amis-core';
+export * from 'amis-ui';
+import './compat';
+import './schemaExtend';
 
 // 注册渲染器
 import './renderers/Action';
@@ -72,7 +28,6 @@ import './renderers/Dialog';
 import './renderers/Divider';
 import './renderers/Each';
 import './renderers/Flex';
-import './renderers/Form/index';
 import './renderers/Form/wrapControl';
 import './renderers/Form/Control';
 import './renderers/Form/Hidden';
@@ -182,108 +137,3 @@ import './renderers/GridNav';
 import './renderers/TooltipWrapper';
 import './renderers/Tag';
 import './renderers/Table-v2/index';
-
-import Scoped, {ScopedContext} from './Scoped';
-
-import {FormItem, FormItemWrap, registerFormItem} from './renderers/Form/Item';
-
-// 兼容旧版本用法
-import './compat';
-
-import './envOverwrite';
-
-import './schemaExtend';
-
-import './themes/ang';
-import './themes/cxd';
-import './themes/dark';
-import './themes/antd';
-import {
-  registerFilter,
-  filterDate,
-  relativeValueRe,
-  resolveVariable,
-  resolveVariableAndFilter
-} from './utils/tpl-builtin';
-import {
-  addRule,
-  str2rules,
-  validate,
-  validateObject
-} from './utils/validations';
-import {normalizeOptions} from './components/Select';
-import {OptionsControl, registerOptionsControl} from './renderers/Form/Options';
-
-import {
-  classnames,
-  getClassPrefix,
-  setDefaultTheme,
-  theme,
-  getTheme
-} from './theme';
-const classPrefix = getClassPrefix();
-
-import './actions';
-import {DataScope} from './utils/DataScope';
-import {DataSchema} from './utils/DataSchema';
-
-export * from './components/index';
-
-export {
-  render,
-  clearStoresCache,
-  updateEnv,
-  Renderer as Renderer,
-  RegisterStore,
-  FormItem,
-  FormItemWrap,
-  OptionsControl,
-  wrapFetcher,
-  buildApi,
-  filter,
-  // 其他功能类方法
-  utils,
-  resizeSensor,
-  registerFilter,
-  registerTplEnginer,
-  evalExpression,
-  evalJS,
-  setCustomEvalJs,
-  setCustomEvalExpression,
-  addRule,
-  str2rules,
-  normalizeOptions,
-  getRendererByName,
-  registerRenderer,
-  unRegisterRenderer,
-  getRenderers,
-  registerFormItem,
-  registerOptionsControl,
-  resolveRenderer,
-  filterSchema,
-  filterDate,
-  relativeValueRe,
-  resolveVariable,
-  resolveVariableAndFilter,
-  setIconVendor,
-  Icon,
-  registerIcon,
-  Scoped,
-  ScopedContext,
-  validate,
-  validateObject,
-  setDefaultTheme,
-  theme,
-  getTheme,
-  classPrefix,
-  getClassPrefix,
-  classnames,
-  // 多语言相关
-  getDefaultLocale,
-  setDefaultLocale,
-  registerLocale,
-  makeTranslator,
-  animation,
-  DataSchema,
-  DataScope
-};

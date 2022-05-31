@@ -1,6 +1,6 @@
 import React from 'react';
-import {uuidv4} from '../../utils/helper';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {uuidv4} from 'amis-core';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 
 /**
  * UUID 功能性组件

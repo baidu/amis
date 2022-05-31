@@ -1,9 +1,9 @@
 import {observer} from 'mobx-react';
 import React from 'react';
-import {IRow, IColumn} from '../../store/table';
-import {RendererProps} from '../../factory';
+import type {IColumn, IRow} from 'amis-core/lib/store/table';
+import {RendererProps} from 'amis-core';
 import {Action} from '../Action';
-import {isClickOnInput, createObject} from '../../utils/helper';
+import {isClickOnInput, createObject} from 'amis-core';
 
 interface TableRowProps extends Pick<RendererProps, 'render'> {
   onCheck: (item: IRow) => void;
@@ -133,7 +133,9 @@ export class TableRow extends React.Component<TableRowProps> {
           data-id={item.id}
           data-index={item.newIndex}
           onClick={
-            checkOnItemClick || itemAction || onEvent?.rowClick ? this.handleItemClick : undefined
+            checkOnItemClick || itemAction || onEvent?.rowClick
+              ? this.handleItemClick
+              : undefined
           }
           className={cx(itemClassName, {
             'is-hovered': item.isHover,
@@ -197,7 +199,9 @@ export class TableRow extends React.Component<TableRowProps> {
     return (
       <tr
         onClick={
-          checkOnItemClick || itemAction || onEvent?.rowClick ? this.handleItemClick : undefined
+          checkOnItemClick || itemAction || onEvent?.rowClick
+            ? this.handleItemClick
+            : undefined
         }
         data-index={item.depth === 1 ? item.newIndex : undefined}
         data-id={item.id}

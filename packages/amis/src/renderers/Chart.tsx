@@ -1,25 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Renderer, RendererProps} from '../factory';
-import {ServiceStore, IServiceStore} from '../store/service';
-import {Api, ApiObject, Action} from '../types';
-import {filter, evalExpression} from '../utils/tpl';
+import {Renderer, RendererProps} from 'amis-core';
+import {ServiceStore, IServiceStore} from 'amis-core';
+
+import {filter, evalExpression} from 'amis-core';
 import cx from 'classnames';
-import LazyComponent from '../components/LazyComponent';
-import {resizeSensor} from '../utils/resize-sensor';
-import {
-  resolveVariableAndFilter,
-  isPureVariable,
-  dataMapping
-} from '../utils/tpl-builtin';
+import {LazyComponent} from 'amis-core';
+import {resizeSensor} from 'amis-core';
+import {resolveVariableAndFilter, isPureVariable, dataMapping} from 'amis-core';
 import {
   isApiOutdated,
   isEffectiveApi,
   normalizeApiResponseData
-} from '../utils/api';
-import {ScopedContext, IScopedContext} from '../Scoped';
-import {createObject, findObjectsWithKey} from '../utils/helper';
-import Spinner from '../components/Spinner';
+} from 'amis-core';
+import {ScopedContext, IScopedContext} from 'amis-core';
+import {createObject, findObjectsWithKey} from 'amis-core';
 import {
   BaseSchema,
   SchemaApi,

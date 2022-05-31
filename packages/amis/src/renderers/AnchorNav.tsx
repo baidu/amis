@@ -1,11 +1,8 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {
-  AnchorNav as CAnchorNav,
-  AnchorNavSection
-} from '../components/AnchorNav';
-import {isVisible, autobind} from '../utils/helper';
-import {filter} from '../utils/tpl';
+import {Renderer, RendererProps} from 'amis-core';
+import {AnchorNav as CAnchorNav, AnchorNavSection} from 'amis-ui';
+import {isVisible, autobind} from 'amis-core';
+import {filter} from 'amis-core';
 import find from 'lodash/find';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 

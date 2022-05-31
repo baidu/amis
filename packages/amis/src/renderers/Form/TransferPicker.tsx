@@ -1,16 +1,10 @@
-import {
-  OptionsControlProps,
-  OptionsControl,
-  FormOptionsControl
-} from './Options';
+import {OptionsControlProps, OptionsControl} from 'amis-core';
 import React from 'react';
-import {Api} from '../../types';
-import Spinner from '../../components/Spinner';
+import {Spinner} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
-import {SchemaApi, SchemaObject} from '../../Schema';
-import TransferPicker from '../../components/TransferPicker';
-import {autobind} from '../../utils/helper';
-import {Action} from '../../types';
+import {TransferPicker} from 'amis-ui';
+import {autobind} from 'amis-core';
+import {Action} from 'amis-core';
 
 /**
  * TransferPicker 穿梭器的弹框形态

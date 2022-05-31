@@ -2,21 +2,22 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
 import cloneDeep from 'lodash/cloneDeep';
-import {RendererProps} from '../../factory';
-import Overlay from '../../components/Overlay';
-import PopOver from '../../components/PopOver';
-import Modal from '../../components/Modal';
-import Button from '../../components/Button';
-import Checkbox from '../../components/Checkbox';
-import TooltipWrapper from '../../components/TooltipWrapper';
-import type {TooltipObject} from '../../components/TooltipWrapper';
-import {noop, autobind, anyChanged, createObject} from '../../utils/helper';
-import {filter} from '../../utils/tpl';
-import {Icon} from '../../components/icons';
-import {getIcon} from '../../components/icons';
-import {generateIcon} from '../../utils/icon';
-import {RootClose} from '../../utils/RootClose';
-import {IColumn} from '../../store/table';
+import {RendererProps} from 'amis-core';
+import {Overlay} from 'amis-ui';
+import {PopOver} from 'amis-ui';
+import {Modal} from 'amis-ui';
+import {Button} from 'amis-ui';
+import {Checkbox} from 'amis-ui';
+import {TooltipWrapper} from 'amis-ui';
+
+import {noop, autobind, anyChanged, createObject} from 'amis-core';
+import {filter} from 'amis-core';
+import {Icon} from 'amis-ui';
+import {getIcon} from 'amis-ui';
+import {generateIcon} from 'amis-core';
+import {RootClose} from 'amis-core';
+import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
+import type {IColumn} from 'amis-core/lib/store/table';
 
 export interface ColumnTogglerProps extends RendererProps {
   /**

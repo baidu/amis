@@ -1,12 +1,10 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {Action, Api} from '../../types';
-import {ComboStore, IComboStore} from '../../store/combo';
-import {default as CTabs, Tab} from '../../components/Tabs';
-import Button from '../../components/Button';
-import {ButtonSchema} from '../Action';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {Action, Api} from 'amis-core';
+import {ComboStore, IComboStore} from 'amis-core';
+import {Tabs as CTabs, Tab, Button} from 'amis-ui';
 
 import {
   guid,
@@ -16,16 +14,16 @@ import {
   extendObject,
   autobind,
   isObjectShallowModified
-} from '../../utils/helper';
+} from 'amis-core';
 import Sortable from 'sortablejs';
-import {evalExpression, filter} from '../../utils/tpl';
+import {evalExpression, filter} from 'amis-core';
 import find from 'lodash/find';
-import Select from '../../components/Select';
-import {dataMapping, resolveVariable} from '../../utils/tpl-builtin';
-import {isEffectiveApi, str2AsyncFunction} from '../../utils/api';
-import {Alert2} from '../../components';
+import {Select} from 'amis-ui';
+import {dataMapping, resolveVariable} from 'amis-core';
+import {isEffectiveApi, str2AsyncFunction} from 'amis-core';
+import {Alert2} from 'amis-ui';
 import memoize from 'lodash/memoize';
-import {Icon} from '../../components/icons';
+import {Icon} from 'amis-ui';
 import {isAlive} from 'mobx-state-tree';
 import {
   SchemaApi,
@@ -33,7 +31,7 @@ import {
   SchemaObject,
   SchemaTpl
 } from '../../Schema';
-import {ListenerAction} from '../../actions/Action';
+import {ListenerAction} from 'amis-core';
 
 export type ComboCondition = {
   test: string;

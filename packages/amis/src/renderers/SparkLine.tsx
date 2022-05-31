@@ -1,10 +1,10 @@
-import SparkLine, {SparkLineProps} from '../components/SparkLine';
-import {Renderer, RendererProps} from '../factory';
+import {SparkLine} from 'amis-ui';
+import {Renderer, RendererProps} from 'amis-core';
 import React from 'react';
-import {resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {resolveVariableAndFilter} from 'amis-core';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {ActionSchema} from './Action';
-import {autobind, createObject, getPropValue} from '../utils/helper';
+import {autobind, createObject, getPropValue} from 'amis-core';
 
 export interface SparkLineSchema extends BaseSchema {
   type: 'sparkline';

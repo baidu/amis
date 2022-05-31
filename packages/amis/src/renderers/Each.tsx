@@ -1,8 +1,8 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {Schema} from '../types';
-import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
-import {createObject, getPropValue, isObject} from '../utils/helper';
+import {Renderer, RendererProps} from 'amis-core';
+import {Schema} from 'amis-core';
+import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
+import {createObject, getPropValue, isObject} from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
 
 /**

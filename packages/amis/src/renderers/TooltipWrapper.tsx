@@ -1,12 +1,14 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
-import {filter} from '../utils/tpl';
-import {escapeHtml} from '../utils/tpl-builtin';
-import {buildStyle} from '../utils/style';
-import {TooltipWrapper as TooltipWrapperComp} from '../components';
-
-import type {Trigger, TooltipObject} from '../components/TooltipWrapper';
+import {filter} from 'amis-core';
+import {escapeHtml} from 'amis-core';
+import {buildStyle} from 'amis-core';
+import {TooltipWrapper as TooltipWrapperComp} from 'amis-ui';
+import type {
+  TooltipObject,
+  Trigger
+} from 'amis-ui/lib/components/TooltipWrapper';
 
 export interface TooltipWrapperSchema extends BaseSchema {
   /**

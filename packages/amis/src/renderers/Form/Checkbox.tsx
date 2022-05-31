@@ -1,10 +1,14 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import cx from 'classnames';
-import Checkbox from '../../components/Checkbox';
-import {withBadge, BadgeSchema} from '../../components/Badge';
-import {autobind, createObject} from '../../utils/helper';
-import {Action} from '../../types';
+import {Checkbox} from 'amis-ui';
+import {withBadge, BadgeObject} from 'amis-ui';
+import {autobind, createObject} from 'amis-core';
+import {Action} from 'amis-core';
+
+export interface SchemaMap {
+  checkbox: CheckboxControlSchema;
+}
 
 /**
  * Checkbox 勾选框。
@@ -34,7 +38,7 @@ export interface CheckboxControlSchema extends FormBaseControl {
   /**
    * 角标
    */
-  badge?: BadgeSchema;
+  badge?: BadgeObject;
   partial?: boolean;
   optionType?: 'default' | 'button';
   checked?: boolean;

@@ -1,12 +1,12 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {filter} from '../utils/tpl';
-import {autobind, createObject} from '../utils/helper';
-import {ScopedContext, IScopedContext} from '../Scoped';
-import {buildApi, isApiOutdated} from '../utils/api';
+import {Renderer, RendererProps} from 'amis-core';
+import {filter} from 'amis-core';
+import {autobind, createObject} from 'amis-core';
+import {ScopedContext, IScopedContext} from 'amis-core';
+import {buildApi, isApiOutdated} from 'amis-core';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 import {ActionSchema} from './Action';
-import {dataMapping, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {dataMapping, resolveVariableAndFilter} from 'amis-core';
 
 /**
  * IFrame 渲染器

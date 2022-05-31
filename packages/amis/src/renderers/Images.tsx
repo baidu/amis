@@ -1,13 +1,13 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {filter} from '../utils/tpl';
+import {Renderer, RendererProps} from 'amis-core';
+import {filter} from 'amis-core';
 import {
   resolveVariable,
   isPureVariable,
   resolveVariableAndFilter
-} from '../utils/tpl-builtin';
+} from 'amis-core';
 import Image, {ImageThumbProps, imagePlaceholder} from './Image';
-import {autobind, getPropValue} from '../utils/helper';
+import {autobind, getPropValue} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
 
 /**

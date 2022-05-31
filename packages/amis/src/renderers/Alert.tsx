@@ -1,13 +1,14 @@
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import React from 'react';
-import Alert, {AlertProps} from '../components/Alert2';
+import {Alert2 as Alert} from 'amis-ui';
 import {
   BaseSchema,
   SchemaObject,
   SchemaCollection,
   SchemaIcon
 } from '../Schema';
-import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import type {AlertProps} from 'amis-ui/lib/components/Alert2';
 
 /**
  * Alert 提示渲染器。

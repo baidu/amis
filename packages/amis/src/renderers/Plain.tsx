@@ -1,9 +1,9 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {filter} from '../utils/tpl';
+import {Renderer, RendererProps} from 'amis-core';
+import {filter} from 'amis-core';
 import cx from 'classnames';
 import {BaseSchema, SchemaTpl} from '../Schema';
-import {getPropValue} from '../utils/helper';
+import {getPropValue} from 'amis-core';
 
 /**
  * Plain 纯文本渲染器

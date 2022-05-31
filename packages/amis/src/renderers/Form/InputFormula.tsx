@@ -1,15 +1,14 @@
 import React from 'react';
-import {parse, Evaluator} from 'amis-formula';
-import FormItem, {FormBaseControl, FormControlProps} from './Item';
-import FormulaPicker from '../../components/formula/Picker';
-import {autobind} from '../../utils/helper';
+import {FormItem, FormBaseControl, FormControlProps} from 'amis-core';
+import {FormulaPicker} from 'amis-ui';
+import {autobind} from 'amis-core';
 
-import type {FuncGroup, VariableItem} from '../../components/formula/Editor';
 import type {SchemaIcon} from '../../Schema';
-import {
-  isPureVariable,
-  resolveVariableAndFilter
-} from '../../utils/tpl-builtin';
+import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import type {
+  FuncGroup,
+  VariableItem
+} from 'amis-ui/lib/components/formula/Editor';
 
 /**
  * InputFormula 公式编辑器

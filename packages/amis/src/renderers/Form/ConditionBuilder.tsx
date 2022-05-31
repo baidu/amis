@@ -1,16 +1,16 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {Funcs, Fields} from '../../components/condition-builder/types';
-import {Config} from '../../components/condition-builder/config';
-import ConditionBuilder from '../../components/condition-builder/index';
+import {FormItem, FormControlProps, FormBaseControl, Schema} from 'amis-core';
 import {SchemaApi, SchemaTokenizeableString} from '../../Schema';
-import FormulaPicker from '../../components/formula/Picker';
+
+import {autobind} from 'amis-core';
 import {
+  ConditionBuilderFields,
+  ConditionBuilderFuncs,
+  ConditionBuilderConfig,
+  withRemoteConfig,
   RemoteOptionsProps,
-  withRemoteConfig
-} from '../../components/WithRemoteConfig';
-import {Schema} from '../../types';
-import {autobind} from '../../utils/helper';
+  ConditionBuilder
+} from 'amis-ui';
 
 /**
  * 条件组合控件
@@ -25,17 +25,17 @@ export interface ConditionBuilderControlSchema extends FormBaseControl {
   /**
    * 函数集合
    */
-  funcs?: Funcs;
+  funcs?: ConditionBuilderFuncs;
 
   /**
    * 字段集合
    */
-  fields: Fields;
+  fields: ConditionBuilderFields;
 
   /**
    * 其他配置
    */
-  config?: Config;
+  config?: ConditionBuilderConfig;
 
   /**
    * 通过远程拉取配置项

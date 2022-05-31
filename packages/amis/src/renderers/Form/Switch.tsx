@@ -1,15 +1,14 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import Switch from '../../components/Switch';
-import {createObject, autobind, isObject} from '../../utils/helper';
-import {generateIcon} from "../../utils/icon";
-import {IconSchema} from "../Icon";
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {Switch} from 'amis-ui';
+import {createObject, autobind, isObject} from 'amis-core';
+import {generateIcon} from 'amis-core';
+import {IconSchema} from '../Icon';
 
 /**
  * Switch
  * 文档：https://baidu.gitee.io/amis/docs/components/form/switch
  */
-
 
 export interface SwitchControlSchema extends FormBaseControl {
   /**
@@ -61,9 +60,12 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
   @autobind
   async handleChange(checked: string | number | boolean) {
     const {dispatchEvent, data, onChange} = this.props;
-    const rendererEvent = await dispatchEvent('change', createObject(data, {
-      value: checked,
-    }));
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value: checked
+      })
+    );
     if (rendererEvent?.prevented) {
       return;
     }
@@ -87,8 +89,12 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
       optionAtLeft
     } = this.props;
 
-    const on = isObject(onText) ? generateIcon(cx, onText.icon, 'Switch-icon') : onText;
-    const off = isObject(offText) ? generateIcon(cx, offText.icon, 'Switch-icon') :offText;
+    const on = isObject(onText)
+      ? generateIcon(cx, onText.icon, 'Switch-icon')
+      : onText;
+    const off = isObject(offText)
+      ? generateIcon(cx, offText.icon, 'Switch-icon')
+      : offText;
 
     return (
       <div className={cx(`SwitchControl`, className)}>

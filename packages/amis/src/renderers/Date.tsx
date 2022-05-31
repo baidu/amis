@@ -1,8 +1,8 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import moment from 'moment';
 import {BaseSchema} from '../Schema';
-import {getPropValue} from '../utils/helper';
+import {getPropValue} from 'amis-core';
 
 /**
  * Date 展示渲染器。
