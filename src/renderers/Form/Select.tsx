@@ -121,7 +121,7 @@ export interface SelectControlSchema extends FormOptionsControl {
   /**
    * 收纳标签的Popover配置
    */
-  overflowTagPopover: object;
+  overflowTagPopover?: object;
 }
 
 export interface SelectProps extends OptionsControlProps {

@@ -41,7 +41,7 @@ export interface TagControlSchema extends FormOptionsControl {
   /**
    * 收纳标签的Popover配置
    */
-  overflowTagPopover: object;
+  overflowTagPopover?: object;
 }
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
