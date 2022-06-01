@@ -36,7 +36,9 @@ const themes: {
   [propName: string]: ThemeConfig;
 } = {
   default: {},
-  cxd: {}
+  cxd: {
+    classPrefix: 'cxd-'
+  }
 };
 
 export function theme(name: string, config: Partial<ThemeConfig>) {

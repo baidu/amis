@@ -5,7 +5,7 @@
  * @returns
  */
 
-export default function attachmentAdpator(response: any, __: Function) {
+export function attachmentAdpator(response: any, __: Function) {
   if (response && response.headers && response.headers['content-disposition']) {
     const disposition = response.headers['content-disposition'];
     let filename = '';
@@ -88,3 +88,5 @@ export default function attachmentAdpator(response: any, __: Function) {
 
   return response;
 }
+
+export default attachmentAdpator;

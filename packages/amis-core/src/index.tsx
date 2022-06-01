@@ -71,10 +71,6 @@ import {
 import {Schema} from './types';
 import ScopedRootRenderer, {RootRenderProps} from './Root';
 import {envOverwrite} from './envOverwrite';
-import {wrapFetcher} from './utils/api';
-import {autobind, promisify} from './utils/helper';
-import {enableDebug} from './utils/debug';
-import {replaceText} from './utils/replaceText';
 import {EnvContext, RendererEnv} from './env';
 import React from 'react';
 import {
@@ -90,6 +86,7 @@ import {
 } from 'amis-formula';
 import LazyComponent from './components/LazyComponent';
 import {FormHorizontal, FormRenderer} from './renderers/Form';
+import {enableDebug, promisify, replaceText, wrapFetcher} from './utils/index';
 
 export {
   clearStoresCache,
@@ -135,7 +132,6 @@ export {
   localeable,
   LocaleProps,
   TranslateFn,
-  autobind,
   ClassNamesFn,
   // amis-formula 相关
   parse,

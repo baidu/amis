@@ -146,6 +146,7 @@ export function renderChild(
 
   return (
     <SchemaRenderer
+      render={renderChild as any}
       {...props}
       schema={schema}
       propKey={schema.key}

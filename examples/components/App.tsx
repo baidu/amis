@@ -11,8 +11,8 @@ import {
   Select,
   InputBox
 } from 'amis';
-import {eachTree, mapTree} from 'amis/lib/utils/helper';
-import 'amis/lib/locale/en-US';
+import {eachTree, mapTree} from 'amis-core';
+import 'amis-ui/lib/locale/en-US';
 import {withRouter} from 'react-router';
 import DocSearch from './DocSearch';
 import Doc from './Doc';

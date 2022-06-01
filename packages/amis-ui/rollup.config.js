@@ -5,6 +5,11 @@ import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import license from 'rollup-plugin-license';
 import autoExternal from 'rollup-plugin-auto-external';
+import sass from 'sass';
+import postcss from 'rollup-plugin-postcss';
+import postcssImport from 'postcss-import';
+import autoprefixer from 'autoprefixer';
+
 import {
   name,
   version,
@@ -41,7 +46,14 @@ const input = [
 
 export default [
   {
-    input,
+    input: input.concat([
+      './scss/themes/antd.scss',
+      './scss/themes/ang.scss',
+      './scss/themes/cxd.scss',
+      './scss/themes/dark.scss',
+      './scss/themes/default.scss',
+      './scss/helper.scss'
+    ]),
 
     output: [
       {
@@ -55,24 +67,42 @@ export default [
     ],
     external,
     plugins: getPlugins('cjs')
-  },
-
-  {
-    input,
-
-    output: [
-      {
-        ...settings,
-        dir: path.dirname(module),
-        format: 'esm',
-        exports: 'named',
-        preserveModulesRoot: './src',
-        preserveModules: true // Keep directory structure and files
-      }
-    ],
-    external,
-    plugins: getPlugins('esm')
+      .concat(
+        ['antd', 'ang', 'cxd', 'dark', 'default'].map(theme =>
+          postcss({
+            include: `**/${theme}.scss`,
+            // process: processSass,
+            extract: path.resolve(`lib/themes/${theme}.css`),
+            plugins: [postcssImport(), autoprefixer()]
+          })
+        )
+      )
+      .concat(
+        postcss({
+          include: `**/helper.scss`,
+          // process: processSass,
+          extract: path.resolve(`lib/helper.css`),
+          plugins: [postcssImport(), autoprefixer()]
+        })
+      )
   }
+
+  // {
+  //   input,
+
+  //   output: [
+  //     {
+  //       ...settings,
+  //       dir: path.dirname(module),
+  //       format: 'esm',
+  //       exports: 'named',
+  //       preserveModulesRoot: './src',
+  //       preserveModules: true // Keep directory structure and files
+  //     }
+  //   ],
+  //   external,
+  //   plugins: getPlugins('esm')
+  // }
 ];
 
 function transpileDynamicImportForCJS(options) {
@@ -134,4 +164,21 @@ function getPlugins(format = 'esm') {
       `
     })
   ];
+}
+
+function processSass(context, payload) {
+  return new Promise((resolve, reject) => {
+    sass.render(
+      {
+        file: context
+      },
+      function (err, result) {
+        if (!err) {
+          resolve(result);
+        } else {
+          reject(err);
+        }
+      }
+    );
+  });
 }

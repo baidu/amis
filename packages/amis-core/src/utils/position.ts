@@ -14,10 +14,7 @@ const nodeName = (node: Element) =>
  * @param node the element
  * @param offsetParent the offset parent
  */
-export default function position(
-  node: HTMLElement,
-  offsetParent?: HTMLElement
-) {
+export function position(node: HTMLElement, offsetParent?: HTMLElement) {
   let parentOffset = {top: 0, left: 0};
   let offset;
   // Fixed elements are offset from window (parentOffset = {top:0, left: 0},
@@ -53,3 +50,5 @@ export default function position(
     left: offset.left - parentOffset.left - (parseInt(marginLeft, 10) || 0)
   };
 }
+
+export default position;

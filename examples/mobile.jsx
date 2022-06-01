@@ -9,7 +9,7 @@ import {createRoot} from 'react-dom/client';
 import axios from 'axios';
 import copy from 'copy-to-clipboard';
 import {toast} from 'amis';
-import 'amis/lib/locale/en-US';
+import 'amis-ui/lib/locale/en-US';
 
 import {render as renderAmis} from 'amis';
 

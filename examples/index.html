@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-    <meta charset="UTF-8" />
-    <title>amis - 低代码前端框架</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link type="image/x-icon" rel="shortcut icon" href="./static/favicon.png" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="./static/iconfont.css" />
-    <link rel="stylesheet" href="@fortawesome/fontawesome-free/css/all.css" />
-    <link
-      rel="stylesheet"
-      href="@fortawesome/fontawesome-free/css/v4-shims.css"
-    />
-    <link rel="stylesheet" href="prismjs/themes/prism.css" />
-    <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
-    <link rel="stylesheet" href="./doc.css" />
 
-    <link rel="stylesheet" href="./style.scss" />
-    <!--STYLE_PLACEHOLDER-->
-    <style>
-      .app-wrapper,
-      .schema-wrapper {
-        position: relative;
-        width: 100%;
-        height: 100%;
-      }
-    </style>
-    <script type="text/x-jsx">
+<head>
+  <meta charset="UTF-8" />
+  <title>amis - 低代码前端框架</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link type="image/x-icon" rel="shortcut icon" href="./static/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <link rel="stylesheet" href="./static/iconfont.css" />
+  <link rel="stylesheet" href="@fortawesome/fontawesome-free/css/all.css" />
+  <link rel="stylesheet" href="@fortawesome/fontawesome-free/css/v4-shims.css" />
+  <link rel="stylesheet" href="prismjs/themes/prism.css" />
+  <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
+  <link rel="stylesheet" href="./doc.css" />
+
+  <link rel="stylesheet" href="./style.scss" />
+  <!--STYLE_PLACEHOLDER-->
+  <style>
+    .app-wrapper,
+    .schema-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <script type="text/x-jsx">
       // gitee 最近特别慢
       if (location.hostname === 'baidu.gitee.io') {
         location.hostname = 'aisuda.bce.baidu.com';
@@ -46,75 +41,76 @@
         document.write(
           `<link rel="stylesheet" title="ang" ${
             theme !== 'ang' ? 'disabled' : ''
-          }  href="${__uri('amis/scss/themes/ang.scss')}" />`
+          }  href="${__uri('amis-ui/lib/themes/ang.css')}" />`
         );
         document.write(
           `<link rel="stylesheet" title="cxd" ${
             theme !== 'cxd' ? 'disabled' : ''
-          } href="${__uri('amis/scss/themes/cxd.scss')}" />`
+          } href="${__uri('amis-ui/lib/themes/cxd.css')}" />`
         );
         document.write(
           `<link rel="stylesheet" title="dark" ${
             theme !== 'dark' ? 'disabled' : ''
-          } href="${__uri('amis/scss/themes/dark.scss')}" />`
+          } href="${__uri('amis-ui/lib/themes/dark.css')}" />`
         );
         document.write(
           `<link rel="stylesheet" title="antd" ${
             theme !== 'antd' ? 'disabled' : ''
-          } href="${__uri('amis/scss/themes/antd.scss')}" />`
+          } href="${__uri('amis-ui/lib/themes/antd.css')}" />`
         );
       } else {
         document.write(
           `<link rel="stylesheet" title="ang" ${
             theme !== 'ang' ? 'disabled' : ''
-          }  href="${__uri('amis/scss/themes/ang-ie11.scss')}" />`
+          }  href="${__uri('amis-ui/lib/themes/ang-ie11.css')}" />`
         );
         document.write(
           `<link rel="stylesheet" title="cxd" ${
             theme !== 'cxd' ? 'disabled' : ''
-          } href="${__uri('amis/scss/themes/cxd-ie11.scss')}" />`
+          } href="${__uri('amis-ui/lib/themes/cxd-ie11.css')}" />`
         );
         document.write(
           `<link rel="stylesheet" title="dark" ${
             theme !== 'dark' ? 'disabled' : ''
-          } href="${__uri('amis/scss/themes/dark-ie11.scss')}" />`
+          } href="${__uri('amis-ui/lib/themes/dark-ie11.css')}" />`
         );
         document.write(
           `<link rel="stylesheet" title="antd" ${
             theme !== 'antd' ? 'disabled' : ''
-          } href="${__uri('amis/scss/themes/antd-ie11.scss')}" />`
+          } href="${__uri('amis-ui/lib/themes/antd-ie11.css')}" />`
         );
       }
     </script>
-    <!--ignore-->
-    <link rel="stylesheet" href="amis/scss/helper.scss" />
-    <!--ignore-->
-  </head>
+  <!--ignore-->
+  <link rel="stylesheet" href="amis-ui/lib/helper.css" />
+  <!--ignore-->
+</head>
 
-  <body>
-    <div id="root" class="app-wrapper"></div>
-    <script src="./mod.js"></script>
-    <script type="text/javascript">
-      if (location.hostname !== 'localhost') {
-        var _hmt = _hmt || [];
+<body>
+  <div id="root" class="app-wrapper"></div>
+  <script src="./mod.js"></script>
+  <script type="text/javascript">
+    if (location.hostname !== 'localhost') {
+      var _hmt = _hmt || [];
 
-        // 百度统计
-        (function () {
-          var hm = document.createElement('script');
-          hm.src =
-            'https://hm.baidu.com/hm.js?286766a21abb57abefedbd5257a26dc8';
-          var s = document.getElementsByTagName('script')[0];
-          s.parentNode.insertBefore(hm, s);
-        })();
-      }
+      // 百度统计
+      (function () {
+        var hm = document.createElement('script');
+        hm.src =
+          'https://hm.baidu.com/hm.js?286766a21abb57abefedbd5257a26dc8';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    }
 
-      window.enableAMISDebug = true;
+    window.enableAMISDebug = true;
 
-      /* @require ./index.jsx 标记为同步依赖，提前加载 */
-      amis.require(['./index.jsx'], function (app) {
-        var initialState = {};
-        app.bootstrap(document.getElementById('root'), initialState);
-      });
-    </script>
-  </body>
+    /* @require ./index.jsx 标记为同步依赖，提前加载 */
+    amis.require(['./index.jsx'], function (app) {
+      var initialState = {};
+      app.bootstrap(document.getElementById('root'), initialState);
+    });
+  </script>
+</body>
+
 </html>

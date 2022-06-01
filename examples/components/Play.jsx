@@ -1,15 +1,15 @@
 import React from 'react';
 import {toast, render, makeTranslator} from 'amis';
-import {normalizeLink} from 'amis/lib/utils/normalizeLink';
-import {isMobile} from 'amis/lib/utils/helper';
-import attachmentAdpator from 'amis/lib/utils/attachmentAdpator';
-import {alert, confirm} from 'amis/lib/components/Alert';
+import {normalizeLink} from 'amis-core';
+import {isMobile} from 'amis-core';
+import {attachmentAdpator} from 'amis-core';
+import {alert, confirm} from 'amis-ui';
 import axios from 'axios';
 import JSON5 from 'json5';
-import CodeEditor from 'amis/lib/components/Editor';
+import {Editor as CodeEditor} from 'amis-ui';
 import copy from 'copy-to-clipboard';
 import {matchPath} from 'react-router-dom';
-import Drawer from 'amis/lib/components/Drawer';
+import {Drawer} from 'amis-ui';
 
 const DEFAULT_CONTENT = `{
     "$schema": "/schemas/page.json#",

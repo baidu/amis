@@ -3,16 +3,14 @@ import {render, toast, Button, LazyComponent, Drawer} from 'amis';
 import axios from 'axios';
 import Portal from 'react-overlays/Portal';
 import {toast} from 'amis';
-import {normalizeLink} from 'amis/lib/utils/normalizeLink';
+import {normalizeLink} from 'amis-core';
 import {withRouter} from 'react-router';
-import {matchPath} from 'react-router-dom';
 import copy from 'copy-to-clipboard';
-import {qsparse} from 'amis/lib/utils/helper';
+import {qsparse} from 'amis-core';
 
 function loadEditor() {
   return new Promise(resolve =>
-    require(['amis/lib/components/Editor'], component =>
-      resolve(component.default))
+    require(['amis-ui'], component => resolve(component.Editor))
   );
 }
 

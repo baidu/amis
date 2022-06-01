@@ -6,13 +6,15 @@ import markdownIt from 'markdown-it';
 // @ts-ignore
 import {html5Media} from 'markdown-it-html5-media';
 
-const markdown = markdownIt();
+const doMarkdown = markdownIt();
 
-markdown.use(html5Media);
+doMarkdown.use(html5Media);
 
-export default function (content: string, options?: markdownIt.Options) {
+export function markdown(content: string, options?: markdownIt.Options) {
   if (options) {
-    markdown.set(options);
+    doMarkdown.set(options);
   }
-  return markdown.render(content);
+  return doMarkdown.render(content);
 }
+
+export default markdown;

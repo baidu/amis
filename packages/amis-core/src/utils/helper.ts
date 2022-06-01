@@ -162,7 +162,7 @@ export function findIndex(
   return -1;
 }
 
-export function hasOwnProperty(
+export function hasOwnPropertyInPath(
   data: {[propName: string]: any},
   key: string
 ): boolean {

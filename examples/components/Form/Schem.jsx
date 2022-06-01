@@ -1,5 +1,5 @@
 import React from 'react';
-import TitleBar from 'amis/components/TitleBar';
+import {TitleBar} from 'amis-ui';
 import {render} from 'amis';
 
 const Schema = {
