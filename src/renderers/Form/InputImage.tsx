@@ -703,7 +703,7 @@ export default class ImageControl extends React.Component<
           locked: false
         },
         () => {
-          this.onChange(!!this.resolve);
+          this.onChange(!!this.resolve, false);
 
           if (this.resolve) {
             this.resolve(
@@ -773,7 +773,7 @@ export default class ImageControl extends React.Component<
     });
   }
 
-  async onChange(changeImmediately?: boolean) {
+  async onChange(changeImmediately?: boolean, changeEvent: boolean = true) {
     const {
       multiple,
       onChange,
@@ -807,9 +807,11 @@ export default class ImageControl extends React.Component<
         : newValue;
     }
 
-    const dispatcher = await this.dispatchEvent('change');
-    if (dispatcher?.prevented) {
-      return;
+    if (changeEvent) {
+      const dispatcher = await this.dispatchEvent('change');
+      if (dispatcher?.prevented) {
+        return;
+      }
     }
 
     onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
