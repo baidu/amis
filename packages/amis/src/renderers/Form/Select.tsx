@@ -18,8 +18,8 @@ import {Spinner, Select} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TransferDropDown} from 'amis-ui';
 
-import type {TooltipObject} from '../../components/TooltipWrapper';
 import type {SchemaClassName} from '../../Schema';
+import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
 
 /**
  * Select 下拉选择框。
