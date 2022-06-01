@@ -152,7 +152,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
   validate() {
     const {translate: __, value} = this.props;
 
-    if (this.ref?.validate) {
+    if (this.ref?.validate && value) {
       const res = this.ref.validate(value);
       if (res !== true) {
         return __('FormulaEditor.invalidData', {err: res});

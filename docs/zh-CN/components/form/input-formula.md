@@ -162,8 +162,8 @@ order: 21
       "name": "formula",
       "label": "公式",
       "variableMode": "tree",
-      "evalMode": false,
-      "value": "${SUM(1 + 2)}",
+      "evalMode": true,
+      "value": "SUM(1 + 2)",
       "inputMode": "input-group",
       "variables": [
         {
