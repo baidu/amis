@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "amis-core": "^1.0.0-beta.8",
-    "amis-formula": "^2.0.0-beta.0",
+    "amis-formula": "^2.0.0-beta.2",
     "classnames": "2.3.1",
     "codemirror": "^5.63.0",
     "downshift": "6.1.7",

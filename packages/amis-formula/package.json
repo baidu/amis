@@ -1,6 +1,6 @@
 {
   "name": "amis-formula",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "description": "负责 amis 里面的表达式实现，内置公式，编辑器等",
   "main": "dist/index.js",
   "scripts": {
@@ -21,6 +21,9 @@
     "tpl",
     "parser",
     "formula"
+  ],
+  "files": [
+    "dist"
   ],
   "author": "fex",
   "license": "MIT",

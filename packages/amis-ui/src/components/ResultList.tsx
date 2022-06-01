@@ -26,7 +26,7 @@ export interface ResultListProps
   placeholder: string;
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   itemClassName?: string;
-  columns: Array<{
+  columns?: Array<{
     name: string;
     label: string;
     [propName: string]: any;

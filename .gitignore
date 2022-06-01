@@ -26,3 +26,6 @@ package-lock.json
 /npm
 /mock/cfc/cfc.zip
 .rollup.cache
+
+dist
+tsconfig.tsbuildinfo

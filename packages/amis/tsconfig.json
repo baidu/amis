@@ -5,6 +5,7 @@
     "rootDir": "./",
     "typeRoots": ["./node_modules/@types", "../../types"]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": []
   // "references": [{"path": "../amis-core"}, {"path": "../../"}]
 }

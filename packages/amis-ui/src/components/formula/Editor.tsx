@@ -19,6 +19,7 @@ import {FormulaPlugin, editorFactory} from './plugin';
 import FuncList from './FuncList';
 import VariableList from './VariableList';
 import CodeMirrorEditor from '../CodeMirror';
+import {toast} from '../Toast';
 
 export interface VariableItem {
   label: string;
