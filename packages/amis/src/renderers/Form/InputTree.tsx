@@ -9,7 +9,7 @@ import {
 import {Spinner} from 'amis-ui';
 import {SchemaApi} from '../../Schema';
 import {autobind, createObject} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 
 /**
  * Tree 下拉选择框。
@@ -91,7 +91,7 @@ export interface TreeControlSchema extends FormOptionsControl {
 }
 
 export interface TreeProps
-  extends Omit<OptionsControlProps, 'deferApi'>,
+  extends OptionsControlProps,
     Omit<
       TreeControlSchema,
       | 'type'
@@ -121,7 +121,7 @@ export default class TreeControl extends React.Component<TreeProps> {
     reload && reload();
   }
 
-  doAction(action: Action, data: any, throwErrors: boolean) {
+  doAction(action: ActionObject, data: any, throwErrors: boolean) {
     const actionType = action?.actionType as string;
     const {resetValue, onChange} = this.props;
 

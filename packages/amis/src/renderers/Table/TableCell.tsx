@@ -4,7 +4,7 @@ import QuickEdit from '../QuickEdit';
 import Copyable from '../Copyable';
 import PopOverable from '../PopOver';
 import {observer} from 'mobx-react';
-import omit = require('lodash/omit');
+import omit from 'lodash/omit';
 import {filter} from 'amis-core';
 import {Badge} from 'amis-ui';
 import {ColorScale} from 'amis-core';

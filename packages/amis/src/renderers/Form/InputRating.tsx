@@ -1,7 +1,7 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {autobind, createObject} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import {Rating} from 'amis-ui';
 import type {textPositionType} from 'amis-ui/lib/components/Rating';
 
@@ -87,7 +87,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
     readOnly: false
   };
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const actionType = action?.actionType as string;
     const {onChange, resetValue} = this.props;
 

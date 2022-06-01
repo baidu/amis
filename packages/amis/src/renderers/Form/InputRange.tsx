@@ -12,7 +12,7 @@ import {stripNumber} from 'amis-core';
 import {autobind, createObject} from 'amis-core';
 import {filter} from 'amis-core';
 import {SchemaObject} from '../../Schema';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 
 /**
  * Range
@@ -500,7 +500,7 @@ export default class RangeControl extends React.PureComponent<
     }
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const actionType = action?.actionType as string;
     const {multiple, min, max} = this.props;
 

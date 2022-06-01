@@ -9,7 +9,7 @@ import {
 import {normalizeOptions} from 'amis-core';
 import find from 'lodash/find';
 import debouce from 'lodash/debounce';
-import {Api, Action} from 'amis-core';
+import {Api, ActionObject} from 'amis-core';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import {isEmpty, createObject, autobind, isMobile} from 'amis-core';
 
@@ -379,7 +379,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     );
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean): any {
+  doAction(action: ActionObject, data: object, throwErrors: boolean): any {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 

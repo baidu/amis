@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
-import {Action, Api} from 'amis-core';
+import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
 import {Tabs as CTabs, Tab, Button} from 'amis-ui';
 
@@ -714,7 +714,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
   }
 
-  handleAction(action: Action): any {
+  handleAction(action: ActionObject): any {
     const {onAction} = this.props;
 
     if (action.actionType === 'delete') {

@@ -2,10 +2,11 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import cx from 'classnames';
 import {filter} from 'amis-core';
-import {NumberInput} from 'amis-ui';
+import {NumberInput, Select} from 'amis-ui';
 import {autobind, createObject} from 'amis-core';
-import Select, {normalizeOptions, Option} from 'amis-core';
-import {PlainObject, Action} from 'amis-core';
+import {normalizeOptions, Option} from 'amis-core';
+import {PlainObject, ActionObject} from 'amis-core';
+import {BaseSchema} from '../../Schema';
 /**
  * 数字输入框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/number
@@ -140,7 +141,7 @@ export default class NumberControl extends React.Component<
   /**
    * 动作处理
    */
-  doAction(action: Action, args: any) {
+  doAction(action: ActionObject, args: any) {
     const actionType = action?.actionType as string;
     const {resetValue, onChange} = this.props;
 

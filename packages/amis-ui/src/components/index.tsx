@@ -98,7 +98,7 @@ import {withStore} from './WithStore';
 import PopOverContainer from './PopOverContainer';
 import Pagination, {MODE_TYPE} from './Pagination';
 import Progress from './Progress';
-import Steps from './Steps';
+import Steps, {StepStatus} from './Steps';
 import Tag from './Tag';
 import Timeline from './Timeline';
 
@@ -208,6 +208,7 @@ export {
   Pagination,
   Progress,
   Steps,
+  StepStatus,
   Tag,
   Timeline
 };

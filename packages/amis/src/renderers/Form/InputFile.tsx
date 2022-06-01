@@ -3,11 +3,11 @@ import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 import ImageControl from './InputImage';
-import {Payload, ApiObject, ApiString, Action} from 'amis-core';
+import {Payload, ApiObject, ApiString, ActionObject} from 'amis-core';
 import {qsstringify, createObject, guid, isEmpty} from 'amis-core';
 import {buildApi, isEffectiveApi, normalizeApi, isApiOutdated} from 'amis-core';
 import {Icon} from 'amis-ui';
-import {TooltipWrapper} from 'amis-ui';
+import {TooltipWrapper, Button} from 'amis-ui';
 import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
 import {dataMapping} from 'amis-core';
@@ -1244,7 +1244,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   // 动作
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {onChange} = this.props;
     if (action.actionType === 'clear') {
       this.setState({files: []}, () => {

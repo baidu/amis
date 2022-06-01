@@ -5,7 +5,7 @@ import {Spinner} from 'amis-ui';
 import {Select} from 'amis-ui';
 import {CityArea} from 'amis-ui';
 import {autobind, isMobile, createObject} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import {Option} from 'amis-core';
 import {localeable, LocaleProps} from 'amis-core';
 
@@ -138,7 +138,7 @@ export class CityPicker extends React.Component<
       return;
     }
 
-    import('./CityDB').then(db => {
+    import('amis-ui/lib/components/CityDB').then(db => {
       this.setState(
         {
           db: {
@@ -462,7 +462,7 @@ export interface LocationControlProps extends FormControlProps {
 }
 export class LocationControl extends React.Component<LocationControlProps> {
   @autobind
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 

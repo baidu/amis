@@ -1,7 +1,7 @@
 /**
  * 扩展 Schema，目前用于实现 input-kv
  */
-import {Schema} from 'amis-core/dist/types';
+import {Schema} from 'amis-core';
 import {addSchemaFilter} from 'amis-core';
 import {isObject} from 'amis-core';
 

@@ -1,6 +1,6 @@
 import {Instance, SnapshotIn, types} from 'mobx-state-tree';
 import {RendererEnv} from '../factory';
-import {Navigation} from '../types';
+import {NavigationObject} from '../types';
 import {
   createObject,
   filterTree,
@@ -18,7 +18,7 @@ export const AppStore = ServiceStore.named('AppStore')
     offScreen: false
   })
   .views(self => ({
-    get navigations(): Array<Navigation> {
+    get navigations(): Array<NavigationObject> {
       if (Array.isArray(self.pages)) {
         return mapTree(self.pages, item => {
           let visible = item.visible;

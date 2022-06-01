@@ -4,7 +4,8 @@ import cx from 'classnames';
 import {Checkbox} from 'amis-ui';
 import {withBadge, BadgeObject} from 'amis-ui';
 import {autobind, createObject} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
+import {BaseSchema} from '../../Schema';
 
 export interface SchemaMap {
   checkbox: CheckboxControlSchema;
@@ -60,7 +61,7 @@ export default class CheckboxControl extends React.Component<
     falseValue: false
   };
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 

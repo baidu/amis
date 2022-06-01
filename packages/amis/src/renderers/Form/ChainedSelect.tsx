@@ -10,7 +10,7 @@ import {Select} from 'amis-ui';
 import {Api} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {isMobile, createObject} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 
 /**
  * 级联选择框
@@ -81,7 +81,7 @@ export default class ChainedSelectControl extends React.Component<
     }
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 

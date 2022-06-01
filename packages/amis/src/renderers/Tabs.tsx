@@ -1,6 +1,6 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {Action, Schema, SchemaNode} from 'amis-core';
+import {ActionObject, Schema, SchemaNode} from 'amis-core';
 import find from 'lodash/find';
 import {
   isVisible,
@@ -640,7 +640,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   /**
    * 动作处理
    */
-  doAction(action: Action, args: any) {
+  doAction(action: ActionObject, args: any) {
     const actionType = action?.actionType as string;
     let activeKey = args?.activeKey as number;
     // 处理非用户自定义key

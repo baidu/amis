@@ -3,6 +3,7 @@
   "version": "2.0.0-beta.0",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
+  "module": "esm/index.js",
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",

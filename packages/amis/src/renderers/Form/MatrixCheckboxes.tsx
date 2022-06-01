@@ -8,7 +8,7 @@ import {FormBaseControl, FormControlProps, FormItem} from 'amis-core';
 import {buildApi, isValidApi, isEffectiveApi} from 'amis-core';
 import {Checkbox, Spinner} from 'amis-ui';
 import {autobind, setVariable, createObject} from 'amis-core';
-import {ApiObject, Action} from 'amis-core';
+import {ApiObject, ActionObject} from 'amis-core';
 import {SchemaApi} from '../../Schema';
 
 /**
@@ -147,7 +147,7 @@ export default class MatrixCheckbox extends React.Component<
     removeHook?.(this.initOptions, 'init');
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 

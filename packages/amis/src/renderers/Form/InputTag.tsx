@@ -14,7 +14,7 @@ import {Spinner} from 'amis-ui';
 import {Overlay} from 'amis-ui';
 import {PopOver} from 'amis-ui';
 import {ListMenu} from 'amis-ui';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 
 /**
  * Tag 输入框
@@ -91,7 +91,7 @@ export default class TagControl extends React.PureComponent<
     }
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 

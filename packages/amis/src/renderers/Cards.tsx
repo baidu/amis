@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, Schema, Action} from 'amis-core';
+import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {Button} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
 import {observer} from 'mobx-react';
@@ -405,7 +405,7 @@ export default class Cards extends React.Component<GridProps, object> {
     // store.markHeaderAffix(clip.top < offsetY && (clip.top + clip.height - 40) > offsetY);
   }
 
-  handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
+  handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
     const {onAction} = this.props;
 
     // 需要支持特殊事件吗？
@@ -997,5 +997,5 @@ export class CardsRenderer extends Cards {
   avatar?: string;
   avatarClassName?: string;
   body?: SchemaNode;
-  actions?: Array<Action>;
+  actions?: Array<ActionObject>;
 }

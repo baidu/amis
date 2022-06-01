@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, Action, Schema} from 'amis-core';
+import {SchemaNode, ActionObject, Schema} from 'amis-core';
 import forEach from 'lodash/forEach';
 import {evalExpression, filter} from 'amis-core';
 import {BadgeObject, Checkbox} from 'amis-ui';
@@ -299,7 +299,7 @@ export interface TableProps extends RendererProps {
   title?: string; // 标题
   header?: SchemaNode;
   footer?: SchemaNode;
-  actions?: Action[];
+  actions?: ActionObject[];
   className?: string;
   headerClassName?: string;
   footerClassName?: string;
@@ -335,7 +335,7 @@ export interface TableProps extends RendererProps {
   };
   itemCheckableOn?: string;
   itemDraggableOn?: string;
-  itemActions?: Array<Action>;
+  itemActions?: Array<ActionObject>;
   onSelect: (
     selectedItems: Array<object>,
     unSelectedItems: Array<object>
@@ -803,7 +803,7 @@ export default class Table extends React.Component<TableProps, object> {
     form && this.props.store.addForm(form.props.store, y);
   }
 
-  handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
+  handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
     const {onAction} = this.props;
 
     // todo
@@ -2691,7 +2691,7 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  doAction(action: Action, args: any, throwErrors: boolean): any {
+  doAction(action: ActionObject, args: any, throwErrors: boolean): any {
     const {store, valueField, data} = this.props;
 
     const actionType = action?.actionType as string;

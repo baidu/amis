@@ -1,6 +1,6 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, Schema, Action, PlainObject} from 'amis-core';
+import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
 import {Checkbox} from 'amis-ui';
 import {padArr, isVisible, isDisabled, noop, hashCode} from 'amis-core';
@@ -9,7 +9,7 @@ import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
 import Copyable, {SchemaCopyable} from './Copyable';
-import omit = require('lodash/omit');
+import omit from 'lodash/omit';
 import {
   BaseSchema,
   SchemaClassName,
@@ -311,7 +311,7 @@ export class CardRenderer extends React.Component<CardProps> {
     selectable && onCheck?.(item);
   }
 
-  handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
+  handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
     const {onAction, item} = this.props;
 
     onAction && onAction(e, action, ctx || item.data);

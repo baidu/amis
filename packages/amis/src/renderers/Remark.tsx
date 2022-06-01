@@ -1,6 +1,6 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {Api, SchemaNode, Schema, Action} from 'amis-core';
+import {Api, SchemaNode, Schema, ActionObject} from 'amis-core';
 import cx from 'classnames';
 import {TooltipWrapper} from 'amis-ui';
 import {filter} from 'amis-core';

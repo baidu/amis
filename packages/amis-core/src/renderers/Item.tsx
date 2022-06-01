@@ -20,7 +20,13 @@ import {
 } from '../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchemaBase} from './Form';
-import {Api, ApiObject, ClassName, Schema} from '../types';
+import {
+  Api,
+  ApiObject,
+  BaseSchemaWithoutType,
+  ClassName,
+  Schema
+} from '../types';
 import {filter} from '../utils/tpl';
 import {HocStoreFactory} from '../WithStore';
 import {wrapControl} from './wrapControl';
@@ -29,7 +35,7 @@ import {isEffectiveApi} from '../utils/api';
 
 export type LabelAlign = 'right' | 'left';
 
-export interface FormBaseControl {
+export interface FormBaseControl extends BaseSchemaWithoutType {
   /**
    * 表单项大小
    */

@@ -5,7 +5,7 @@ import {filterDate, parseDuration} from 'amis-core';
 import 'moment/locale/zh-cn';
 import {DateRangePicker} from 'amis-ui';
 import {isMobile, createObject, autobind} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
 
 /**
@@ -198,7 +198,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   }
 
   // 动作
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue} = this.props;
 
     if (action.actionType === 'clear') {

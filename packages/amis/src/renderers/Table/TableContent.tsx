@@ -1,7 +1,7 @@
 import React from 'react';
 import {ClassNamesFn} from 'amis-core';
 import {ITableStore} from 'amis-core';
-import {SchemaNode, Action} from 'amis-core';
+import {SchemaNode, ActionObject} from 'amis-core';
 import {TableBody} from './TableBody';
 import {LocaleProps} from 'amis-core';
 import {observer} from 'mobx-react';
@@ -48,7 +48,7 @@ export interface TableContentProps extends LocaleProps {
   footableColumns: Array<IColumn>;
   checkOnItemClick?: boolean;
   buildItemProps?: (item: IRow, index: number) => any;
-  onAction?: (e: React.UIEvent<any>, action: Action, ctx: object) => void;
+  onAction?: (e: React.UIEvent<any>, action: ActionObject, ctx: object) => void;
   rowClassNameExpr?: string;
   affixRowClassName?: string;
   prefixRowClassName?: string;
@@ -57,7 +57,7 @@ export interface TableContentProps extends LocaleProps {
   prefixRow?: Array<any>;
   affixRow?: Array<any>;
   itemAction?: ActionSchema;
-  itemActions?: Array<Action>;
+  itemActions?: Array<ActionObject>;
   store: ITableStore;
   dispatchEvent?: Function;
   onEvent?: OnEventProps;

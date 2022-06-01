@@ -17,12 +17,12 @@ import {
   findTree,
   TreeItem
 } from './utils/helper';
-import {RendererData, Action} from './types';
+import {RendererData, ActionObject} from './types';
 
 export interface ScopedComponentType extends React.Component<RendererProps> {
   focus?: () => void;
   doAction?: (
-    action: Action,
+    action: ActionObject,
     data: RendererData,
     throwErrors?: boolean
   ) => void;

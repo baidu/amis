@@ -21,7 +21,7 @@ import {ResultBox} from 'amis-ui';
 import {autobind, getTreeAncestors, isMobile, createObject} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {normalizeOptions} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 
 /**
  * Tree 下拉选择框。
@@ -453,7 +453,7 @@ export default class TreeSelectControl extends React.Component<
     this.resultChangeEvent(newValue);
   }
 
-  doAction(action: Action, data: any, throwErrors: boolean) {
+  doAction(action: ActionObject, data: any, throwErrors: boolean) {
     if (action.actionType && ['clear', 'reset'].includes(action.actionType)) {
       this.clearValue();
     }

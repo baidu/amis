@@ -7,7 +7,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {RendererProps} from 'amis-core';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import keycode from 'keycode';
 import {Overlay} from 'amis-ui';
 import {PopOver} from 'amis-ui';
@@ -281,7 +281,7 @@ export const HocQuickEdit =
         this.overlay = ref;
       }
 
-      handleAction(e: any, action: Action, ctx: object) {
+      handleAction(e: any, action: ActionObject, ctx: object) {
         const {onAction} = this.props;
 
         if (action.actionType === 'cancel' || action.actionType === 'close') {

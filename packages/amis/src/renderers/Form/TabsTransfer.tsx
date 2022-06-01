@@ -3,7 +3,7 @@ import React from 'react';
 import find from 'lodash/find';
 import {Spinner} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
-import TabsTransfer from 'amis-ui';
+import {TabsTransfer} from 'amis-ui';
 import {Option, optionValueCompare} from 'amis-core';
 import {
   autobind,
@@ -15,7 +15,7 @@ import {
   spliceTree
 } from 'amis-core';
 import {Selection as BaseSelection} from 'amis-ui';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
 /**
@@ -250,7 +250,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
   }
 
   // 动作
-  doAction(action: Action, args: any) {
+  doAction(action: ActionObject, args: any) {
     const {resetValue, onChange} = this.props;
     const activeKey = args?.activeKey as number;
     switch (action.actionType) {

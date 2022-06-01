@@ -2,7 +2,13 @@
  * @file 所有列表选择类控件的父级，比如 Select、Radios、Checkboxes、
  * List、ButtonGroup 等等
  */
-import {Api, PlainObject, Action, OptionProps} from '../types';
+import {
+  Api,
+  PlainObject,
+  ActionObject,
+  OptionProps,
+  BaseApiObject
+} from '../types';
 import {isEffectiveApi, isApiOutdated} from '../utils/api';
 import {isAlive} from 'mobx-state-tree';
 import {
@@ -59,7 +65,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 可用来通过 API 拉取 options。
    */
-  source?: Api;
+  source?: BaseApiObject | string;
 
   /**
    * 默认选择选项第一个值。
@@ -116,12 +122,12 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩充。
    */
-  deferApi?: Api;
+  deferApi?: BaseApiObject | string;
 
   /**
    * 添加时调用的接口
    */
-  addApi?: Api;
+  addApi?: BaseApiObject | string;
 
   /**
    * 新增时的表单项。
@@ -146,7 +152,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 编辑时调用的 API
    */
-  editApi?: Api;
+  editApi?: BaseApiObject | string;
 
   /**
    * 选项修改的表单项
@@ -161,7 +167,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 选项删除 API
    */
-  deleteApi?: Api;
+  deleteApi?: BaseApiObject | string;
 
   /**
    * 选项删除提示文字。
@@ -464,7 +470,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       return !!rendererEvent?.prevented;
     }
 
-    doAction(action: Action, data: object, throwErrors: boolean) {
+    doAction(action: ActionObject, data: object, throwErrors: boolean) {
       const {resetValue, onChange} = this.props;
       const actionType = action?.actionType as string;
 

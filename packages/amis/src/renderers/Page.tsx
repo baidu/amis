@@ -6,7 +6,7 @@ import {ServiceStore, IServiceStore} from 'amis-core';
 import {
   Api,
   SchemaNode,
-  Action,
+  ActionObject,
   Location,
   ApiObject,
   FunctionPropertyNames
@@ -452,7 +452,7 @@ export default class Page extends React.Component<PageProps> {
 
   handleAction(
     e: React.UIEvent<any> | void,
-    action: Action,
+    action: ActionObject,
     ctx: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
@@ -505,7 +505,11 @@ export default class Page extends React.Component<PageProps> {
     this.receive(query);
   }
 
-  handleDialogConfirm(values: object[], action: Action, ...args: Array<any>) {
+  handleDialogConfirm(
+    values: object[],
+    action: ActionObject,
+    ...args: Array<any>
+  ) {
     const {store} = this.props;
 
     if (action.mergeData && values.length === 1 && values[0]) {
@@ -529,7 +533,11 @@ export default class Page extends React.Component<PageProps> {
     store.closeDialog(confirmed);
   }
 
-  handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {
+  handleDrawerConfirm(
+    values: object[],
+    action: ActionObject,
+    ...args: Array<any>
+  ) {
     const {store} = this.props;
 
     if (action.mergeData && values.length === 1 && values[0]) {
@@ -864,8 +872,8 @@ export default class Page extends React.Component<PageProps> {
         {render(
           'dialog',
           {
-            ...((store.action as Action) &&
-              ((store.action as Action).dialog as object)),
+            ...((store.action as ActionObject) &&
+              ((store.action as ActionObject).dialog as object)),
             type: 'dialog'
           },
           {
@@ -882,8 +890,8 @@ export default class Page extends React.Component<PageProps> {
         {render(
           'drawer',
           {
-            ...((store.action as Action) &&
-              ((store.action as Action).drawer as object)),
+            ...((store.action as ActionObject) &&
+              ((store.action as ActionObject).drawer as object)),
             type: 'drawer'
           },
           {
@@ -929,7 +937,7 @@ export class PageRenderer extends Page {
 
   handleAction(
     e: React.UIEvent<any>,
-    action: Action,
+    action: ActionObject,
     ctx: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
@@ -963,11 +971,15 @@ export class PageRenderer extends Page {
     }
   }
 
-  handleDialogConfirm(values: object[], action: Action, ...rest: Array<any>) {
+  handleDialogConfirm(
+    values: object[],
+    action: ActionObject,
+    ...rest: Array<any>
+  ) {
     super.handleDialogConfirm(values, action, ...rest);
     const scoped = this.context;
     const store = this.props.store;
-    const dialogAction = store.action as Action;
+    const dialogAction = store.action as ActionObject;
     const reload = action.reload ?? dialogAction.reload;
 
     if (reload) {
@@ -981,11 +993,15 @@ export class PageRenderer extends Page {
     }
   }
 
-  handleDrawerConfirm(values: object[], action: Action, ...rest: Array<any>) {
+  handleDrawerConfirm(
+    values: object[],
+    action: ActionObject,
+    ...rest: Array<any>
+  ) {
     super.handleDrawerConfirm(values, action);
     const scoped = this.context as IScopedContext;
     const store = this.props.store;
-    const drawerAction = store.action as Action;
+    const drawerAction = store.action as ActionObject;
     const reload = action.reload ?? drawerAction.reload;
 
     // 稍等会，等动画结束。

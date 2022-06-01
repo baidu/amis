@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
-import {Api, SchemaNode, ApiObject, RendererData, Action} from 'amis-core';
+import {
+  Api,
+  SchemaNode,
+  ApiObject,
+  RendererData,
+  ActionObject
+} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
 import cx from 'classnames';
 import Scoped, {ScopedContext, IScopedContext} from 'amis-core';
@@ -468,7 +474,7 @@ export default class Service extends React.Component<ServiceProps> {
   @autobind
   handleDialogConfirm(
     values: object[],
-    action: Action,
+    action: ActionObject,
     ctx: any,
     targets: Array<any>
   ) {
@@ -499,7 +505,7 @@ export default class Service extends React.Component<ServiceProps> {
 
   handleAction(
     e: React.UIEvent<any> | void,
-    action: Action,
+    action: ActionObject,
     data: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
@@ -598,8 +604,8 @@ export default class Service extends React.Component<ServiceProps> {
           // 单独给 feedback 服务的，handleAction 里面先不要处理弹窗
           'modal',
           {
-            ...((store.action as Action) &&
-              ((store.action as Action).dialog as object)),
+            ...((store.action as ActionObject) &&
+              ((store.action as ActionObject).dialog as object)),
             type: 'dialog'
           },
           {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {themeable, ClassNamesFn, ThemeProps} from 'amis-core';
-import FormItem, {FormBaseControl, FormControlProps} from 'amis-core';
+import {FormItem, FormBaseControl, FormControlProps} from 'amis-core';
 import {LocationPicker} from 'amis-ui';
 import {filter} from 'amis-core';
 /**

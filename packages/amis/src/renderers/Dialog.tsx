@@ -1,7 +1,7 @@
 import React from 'react';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, Schema, Action} from 'amis-core';
+import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {filter} from 'amis-core';
 import {Modal} from 'amis-ui';
 import {
@@ -105,7 +105,7 @@ export interface DialogProps
   onClose: (confirmed?: boolean) => void;
   onConfirm: (
     values: Array<object>,
-    action: Action,
+    action: ActionObject,
     ctx: object,
     targets: Array<any>
   ) => void;
@@ -227,7 +227,7 @@ export default class Dialog extends React.Component<DialogProps> {
     onClose(confirmed);
   }
 
-  handleAction(e: React.UIEvent<any>, action: Action, data: object) {
+  handleAction(e: React.UIEvent<any>, action: ActionObject, data: object) {
     const {store, onAction} = this.props;
 
     if (action.type === 'reset') {
@@ -239,7 +239,11 @@ export default class Dialog extends React.Component<DialogProps> {
     }
   }
 
-  handleDialogConfirm(values: object[], action: Action, ...args: Array<any>) {
+  handleDialogConfirm(
+    values: object[],
+    action: ActionObject,
+    ...args: Array<any>
+  ) {
     const {store} = this.props;
 
     if (action.mergeData && values.length === 1 && values[0]) {
@@ -262,7 +266,7 @@ export default class Dialog extends React.Component<DialogProps> {
   handleDialogClose(...args: Array<any>) {
     const {store} = this.props;
 
-    const action = store.action as Action;
+    const action = store.action as ActionObject;
     const dialog = action.dialog as any;
 
     if (dialog.onClose && dialog.onClose(...args) === false) {
@@ -272,7 +276,11 @@ export default class Dialog extends React.Component<DialogProps> {
     store.closeDialog(args[1]);
   }
 
-  handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {
+  handleDrawerConfirm(
+    values: object[],
+    action: ActionObject,
+    ...args: Array<any>
+  ) {
     const {store} = this.props;
 
     if (action.mergeData && values.length === 1 && values[0]) {
@@ -295,7 +303,7 @@ export default class Dialog extends React.Component<DialogProps> {
   handleDrawerClose(...args: Array<any>) {
     const {store} = this.props;
 
-    const action = store.action as Action;
+    const action = store.action as ActionObject;
     const drawer = action.drawer as any;
 
     if (drawer.onClose && drawer.onClose(...args) === false) {
@@ -359,7 +367,7 @@ export default class Dialog extends React.Component<DialogProps> {
     });
   }
 
-  handleChildFinished(value: any, action: Action) {
+  handleChildFinished(value: any, action: ActionObject) {
     // 下面会覆盖
   }
 
@@ -575,8 +583,8 @@ export default class Dialog extends React.Component<DialogProps> {
               'drawer',
               {
                 // 支持嵌套
-                ...((store.action as Action) &&
-                  ((store.action as Action).drawer as object)),
+                ...((store.action as ActionObject) &&
+                  ((store.action as ActionObject).drawer as object)),
                 type: 'drawer'
               },
               {
@@ -595,8 +603,8 @@ export default class Dialog extends React.Component<DialogProps> {
               'dialog',
               {
                 // 支持嵌套
-                ...((store.action as Action) &&
-                  ((store.action as Action).dialog as object)),
+                ...((store.action as ActionObject) &&
+                  ((store.action as ActionObject).dialog as object)),
                 type: 'dialog'
               },
               {
@@ -642,7 +650,11 @@ export class DialogRenderer extends Dialog {
     super.componentWillUnmount();
   }
 
-  tryChildrenToHandle(action: Action, ctx: object, rawAction?: Action) {
+  tryChildrenToHandle(
+    action: ActionObject,
+    ctx: object,
+    rawAction?: ActionObject
+  ) {
     const scoped = this.context as IScopedContext;
 
     const targets: Array<any> = [];
@@ -723,13 +735,13 @@ export class DialogRenderer extends Dialog {
     return false;
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean): any {
+  doAction(action: ActionObject, data: object, throwErrors: boolean): any {
     this.handleAction(undefined, action, data);
   }
 
   async handleAction(
     e: React.UIEvent<any> | void,
-    action: Action,
+    action: ActionObject,
     data: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
@@ -851,7 +863,7 @@ export class DialogRenderer extends Dialog {
     }
   }
 
-  handleChildFinished(value: any, action: Action) {
+  handleChildFinished(value: any, action: ActionObject) {
     if ((action && action.from === this.$$id) || action.close === false) {
       return;
     }
@@ -876,11 +888,15 @@ export class DialogRenderer extends Dialog {
     }
   }
 
-  handleDialogConfirm(values: object[], action: Action, ...rest: Array<any>) {
+  handleDialogConfirm(
+    values: object[],
+    action: ActionObject,
+    ...rest: Array<any>
+  ) {
     super.handleDialogConfirm(values, action, ...rest);
     const scoped = this.context as IScopedContext;
     const store = this.props.store;
-    const dialogAction = store.action as Action;
+    const dialogAction = store.action as ActionObject;
     const reload = action.reload ?? dialogAction.reload;
 
     if (reload) {
@@ -894,11 +910,15 @@ export class DialogRenderer extends Dialog {
     }
   }
 
-  handleDrawerConfirm(values: object[], action: Action, ...rest: Array<any>) {
+  handleDrawerConfirm(
+    values: object[],
+    action: ActionObject,
+    ...rest: Array<any>
+  ) {
     super.handleDrawerConfirm(values, action);
     const scoped = this.context as IScopedContext;
     const store = this.props.store;
-    const drawerAction = store.action as Action;
+    const drawerAction = store.action as ActionObject;
 
     // 稍等会，等动画结束。
     setTimeout(() => {

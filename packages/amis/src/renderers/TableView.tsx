@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {Api, SchemaNode, Schema, Action} from 'amis-core';
+import {Api, SchemaNode, Schema, ActionObject} from 'amis-core';
 import {isVisible} from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 

@@ -7,7 +7,7 @@ import {
 } from 'amis-core';
 import cx from 'classnames';
 
-import {SchemaNode, Schema, Action, PlainObject} from 'amis-core';
+import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import find from 'lodash/find';
 import {
   anyChanged,
@@ -229,7 +229,7 @@ export default class PickerControl extends React.PureComponent<
   @autobind
   handleModalConfirm(
     values: Array<any>,
-    action: Action,
+    action: ActionObject,
     ctx: any,
     components: Array<any>
   ) {

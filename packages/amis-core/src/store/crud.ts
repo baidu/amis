@@ -11,7 +11,7 @@ import {
   qsstringify,
   getVariable
 } from '../utils/helper';
-import {Api, Payload, fetchOptions, Action, ApiObject} from '../types';
+import {Api, Payload, fetchOptions, ActionObject, ApiObject} from '../types';
 import pick from 'lodash/pick';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {normalizeApiResponseData} from '../utils/api';
@@ -391,7 +391,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       perPage && (self.perPage = parseInt(perPage as string, 10));
     }
 
-    function selectAction(action: Action) {
+    function selectAction(action: ActionObject) {
       self.selectedAction = action;
     }
 

@@ -2,11 +2,12 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 
 import {RendererProps} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {setVariable, createObject} from 'amis-core';
 import {ITableStoreV2} from 'amis-core';
 import {HeadCellDropDown} from 'amis-ui';
+import type {FilterDropdownProps} from 'amis-ui/lib/components/table/HeadCellDropDown';
 
 export interface QuickSearchConfig {
   type?: string;
@@ -143,7 +144,12 @@ export class HeadCellSearchDropDown extends React.Component<
     return schema || 'error';
   }
 
-  async handleAction(e: any, action: Action, ctx: object, confirm: Function) {
+  async handleAction(
+    e: any,
+    action: ActionObject,
+    ctx: object,
+    confirm: Function
+  ) {
     const {onAction, data, dispatchEvent, name} = this.props;
 
     if (action.actionType === 'cancel' || action.actionType === 'close') {
@@ -261,7 +267,7 @@ export class HeadCellSearchDropDown extends React.Component<
           selectedKeys,
           confirm,
           clearFilters
-        }) => {
+        }: FilterDropdownProps) => {
           return render('quick-search-form', formSchema, {
             data: {
               ...data,
@@ -272,7 +278,7 @@ export class HeadCellSearchDropDown extends React.Component<
                   : ''
             },
             onSubmit: (values: object) => this.handleSubmit(values, confirm),
-            onAction: (e: any, action: Action, ctx: object) => {
+            onAction: (e: any, action: ActionObject, ctx: object) => {
               this.handleAction(e, action, ctx, confirm);
             }
           }) as JSX.Element;
