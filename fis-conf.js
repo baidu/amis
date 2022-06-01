@@ -3,7 +3,7 @@
  */
 const path = require('path');
 const fs = require('fs');
-const package = require('./package.json');
+const package = require('./packages/amis/package.json');
 const parserMarkdown = require('./scripts/md-parser');
 const convertSCSSIE11 = require('./scripts/scss-ie11');
 const parserCodeMarkdown = require('./scripts/code-md-parser');
@@ -64,7 +64,6 @@ fis.set('project.files', [
   '/examples/static/photo/*.png',
   '/examples/static/audio/*.mp3',
   '/examples/static/video/*.mp4',
-  '/src/**.html',
   'mock/**'
 ]);
 
@@ -287,123 +286,11 @@ fis.media('dev').match('/node_modules/**.js', {
   packTo: '/pkg/npm.js'
 });
 
-fis.match('monaco-editor/**', {
+fis.match('{monaco-editor,amis,amis-core}/**', {
   packTo: null
 });
 
-if (fis.project.currentMedia() === 'publish') {
-  const publishEnv = fis.media('publish');
-  publishEnv.get('project.ignore').push('lib/**');
-  publishEnv.set('project.files', ['/scss/**', '/src/**']);
-
-  fis.on('compile:end', function (file) {
-    if (
-      file.subpath === '/src/index.tsx' ||
-      file.subpath === '/examples/mod.js'
-    ) {
-      file.setContent(file.getContent().replace('@version', package.version));
-    }
-  });
-
-  publishEnv.match('/scss/(**)', {
-    release: '/$1',
-    relative: true
-  });
-
-  publishEnv.match('/src/(**)', {
-    release: '/$1',
-    relative: true
-  });
-
-  publishEnv.match('/src/**.{jsx,tsx,js,ts}', {
-    parser: [
-      // docsGennerator,
-      fis.plugin('typescript', {
-        importHelpers: true,
-        sourceMap: true,
-        experimentalDecorators: true,
-        esModuleInterop: true,
-        allowUmdGlobalAccess: true
-      }),
-      function (contents) {
-        return contents
-          .replace(
-            /(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g,
-            function (_, quote, value) {
-              let str = quote + value + quote;
-              return (
-                '(function(){try {return __uri(' +
-                str +
-                ')} catch(e) {return ' +
-                str +
-                '}})()'
-              );
-            }
-          )
-          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
-          .replace(
-            /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
-            function (_, tslib, quto, value) {
-              return `return new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})});`;
-            }
-          );
-      }
-    ],
-    preprocessor: null
-  });
-
-  publishEnv.match('*', {
-    deploy: fis.plugin('local-deliver', {
-      to: fis.get('options.d') || fis.get('options.desc') || './lib'
-    })
-  });
-  publishEnv.match('/src/**.{jsx,tsx,js,ts,svg}', {
-    isMod: false,
-    standard: false
-  });
-
-  publishEnv.match('/src/**.{jsx,tsx,js,ts}', {
-    postprocessor: function (content, file) {
-      return content
-        .replace(/^''/gm, '')
-        .replace(/\/\/# sourceMappingURL=\//g, '//# sourceMappingURL=./');
-    }
-  });
-  publishEnv.match('*.scss', {
-    postprocessor: function (content, file) {
-      return content.replace(
-        /\/\*# sourceMappingURL=\//g,
-        '/*# sourceMappingURL=./'
-      );
-    }
-  });
-  publishEnv.match('::package', {
-    postpackager: function (ret) {
-      Object.keys(ret.src).forEach(function (subpath) {
-        var file = ret.src[subpath];
-        if (!file.isText()) {
-          return;
-        }
-        var content = file.getContent();
-        if (subpath === '/src/components/icons.tsx') {
-          content = content.replace(/\.svg/g, '.js');
-        } else {
-          content = content.replace(
-            /@require\s+(?:\.\.\/)?node_modules\//g,
-            '@require '
-          );
-        }
-        file.setContent(content);
-      });
-    }
-  });
-  // publishEnv.unhook('node_modules');
-  publishEnv.hook('relative');
-
-  publishEnv.match('_*.scss', {
-    release: false
-  });
-} else if (fis.project.currentMedia() === 'publish-sdk') {
+if (fis.project.currentMedia() === 'publish-sdk') {
   const env = fis.media('publish-sdk');
 
   fis.on('compile:end', function (file) {

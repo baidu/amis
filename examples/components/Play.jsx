@@ -1,16 +1,15 @@
 import React from 'react';
-import {toast} from '../../src/components/Toast';
-import {render, makeTranslator} from '../../src/index';
-import {normalizeLink} from '../../src/utils/normalizeLink';
-import {isMobile} from '../../src/utils/helper';
-import attachmentAdpator from '../../src/utils/attachmentAdpator';
-import {alert, confirm} from '../../src/components/Alert';
+import {toast, render, makeTranslator} from 'amis';
+import {normalizeLink} from 'amis/lib/utils/normalizeLink';
+import {isMobile} from 'amis/lib/utils/helper';
+import attachmentAdpator from 'amis/lib/utils/attachmentAdpator';
+import {alert, confirm} from 'amis/lib/components/Alert';
 import axios from 'axios';
 import JSON5 from 'json5';
-import CodeEditor from '../../src/components/Editor';
+import CodeEditor from 'amis/lib/components/Editor';
 import copy from 'copy-to-clipboard';
 import {matchPath} from 'react-router-dom';
-import Drawer from '../../src/components/Drawer';
+import Drawer from 'amis/lib/components/Drawer';
 
 const DEFAULT_CONTENT = `{
     "$schema": "/schemas/page.json#",

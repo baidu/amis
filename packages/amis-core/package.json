@@ -1,0 +1,122 @@
+{
+  "name": "amis-core",
+  "version": "1.0.0-beta.8",
+  "description": "amis-core",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "author": "fex",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.3.2",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@types/file-saver": "^2.0.1",
+    "@types/hoist-non-react-statics": "^3.3.1",
+    "@types/jest": "^27.0.2",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "jest": "^27.2.1",
+    "moment-timezone": "^0.5.34",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.73.0",
+    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-license": "^2.7.0",
+    "typescript": "^4.6.4"
+  },
+  "scripts": {
+    "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
+    "dev": "rollup -c -w",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "clean-dist": "rimraf lib/* esm/*"
+  },
+  "files": [
+    "lib",
+    "esm"
+  ],
+  "dependencies": {
+    "amis-formula": "^2.0.0-beta.0",
+    "classnames": "2.3.1",
+    "file-saver": "^2.0.2",
+    "hoist-non-react-statics": "^3.3.2",
+    "lodash": "^4.17.15",
+    "match-sorter": "^6.3.1",
+    "mobx": "^4.5.0",
+    "mobx-react": "^6.3.1",
+    "mobx-state-tree": "^3.17.3",
+    "moment": "^2.19.3",
+    "papaparse": "^5.3.0",
+    "qs": "6.9.7",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-json-view": "1.21.3",
+    "react-visibility-sensor": "5.1.1",
+    "tslib": "^2.3.1"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "collectCoverageFrom": [
+      "src/**/*"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "setupFiles": [
+      "jest-canvas-mock"
+    ],
+    "testRegex": "/.*\\.test\\.(ts|tsx|js)$",
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "<rootDir>/../__mocks__/styleMock.js",
+      "\\.(svg)$": "<rootDir>/../__mocks__/svgMock.js"
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/__tests__/jest.setup.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/.rollup.cache/"
+    ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": false,
+        "tsconfig": {
+          "module": "commonjs",
+          "target": "es5",
+          "lib": [
+            "es6",
+            "dom",
+            "ES2015"
+          ],
+          "sourceMap": true,
+          "jsx": "react",
+          "moduleResolution": "node",
+          "rootDir": ".",
+          "importHelpers": true,
+          "esModuleInterop": true,
+          "allowSyntheticDefaultImports": true,
+          "sourceRoot": ".",
+          "noImplicitReturns": true,
+          "noImplicitThis": true,
+          "noImplicitAny": true,
+          "strictNullChecks": true,
+          "experimentalDecorators": true,
+          "emitDecoratorMetadata": false,
+          "typeRoots": [
+            "./node_modules/@types",
+            "./types"
+          ],
+          "skipLibCheck": true
+        }
+      }
+    }
+  }
+}

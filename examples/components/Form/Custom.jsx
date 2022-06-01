@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormItem, Renderer} from '../../../src/index';
+import {FormItem, Renderer} from 'amis';
 
 @FormItem({
   type: 'my-custom'
