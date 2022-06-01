@@ -658,7 +658,6 @@ export class Transfer<
     ) : (
       <ResultList
         className={cx('Transfer-value')}
-        options={options}
         sortable={sortable}
         disabled={disabled}
         value={value}

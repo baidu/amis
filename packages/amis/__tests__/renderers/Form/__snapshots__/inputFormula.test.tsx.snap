@@ -381,17 +381,12 @@ exports[`Renderer:input-formula input-group 1`] = `
                   <div
                     class="cxd-FormulaPicker cxd-Form-control is-input-group"
                   >
-                    <div
-                      class="cxd-ResultBox cxd-FormulaPicker-input cxd-ResultBox--borderFull"
-                      tabindex="-1"
-                    >
-                      <input
-                        placeholder="暂无数据"
-                        theme="cxd"
-                        type="text"
-                        value="SUM(1 + 2)"
-                      />
-                    </div>
+                    <input
+                      autocomplete="off"
+                      class="cxd-FormulaPicker-input"
+                      type="text"
+                      value="SUM(1 + 2)"
+                    />
                     <a
                       class="cxd-FormulaPicker-toggler"
                     >
