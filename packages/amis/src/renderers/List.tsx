@@ -1,14 +1,14 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, Schema, Action} from 'amis-core';
+import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {filter} from 'amis-core';
 import cx from 'classnames';
 import {Button} from 'amis-ui';
 import {Checkbox} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
 import {observer} from 'mobx-react';
-import omit = require('lodash/omit');
+import omit from 'lodash/omit';
 import {
   anyChanged,
   getScrollParent,
@@ -458,7 +458,7 @@ export default class List extends React.Component<ListProps, object> {
     return findDOMNode(this);
   }
 
-  handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
+  handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
     const {onAction} = this.props;
 
     // todo
@@ -1015,7 +1015,7 @@ export class ListRenderer extends List {
   avatar?: string;
   avatarClassName?: string;
   body?: SchemaNode;
-  actions?: Array<Action>;
+  actions?: Array<ActionObject>;
   onCheck: (item: IItem) => void;
 }
 
@@ -1068,7 +1068,7 @@ export class ListItem extends React.Component<ListItemProps> {
     this.props.onCheck && this.props.onCheck(item);
   }
 
-  handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
+  handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
     const {onAction, item} = this.props;
     onAction && onAction(e, action, ctx || item.data);
   }

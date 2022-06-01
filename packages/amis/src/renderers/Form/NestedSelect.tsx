@@ -28,7 +28,7 @@ import union from 'lodash/union';
 import compact from 'lodash/compact';
 import {RootClose} from 'amis-core';
 import {Cascader} from 'amis-ui';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 
 /**
  * Nested Select
@@ -125,7 +125,7 @@ export default class NestedSelectControl extends React.Component<
     }
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 

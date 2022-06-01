@@ -1,6 +1,6 @@
 import React from 'react';
 import {RendererProps} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {Overlay} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
@@ -163,7 +163,7 @@ export class HeadCellSearchDropDown extends React.Component<
     });
   }
 
-  handleAction(e: any, action: Action, ctx: object) {
+  handleAction(e: any, action: ActionObject, ctx: object) {
     const {onAction} = this.props;
 
     if (action.actionType === 'cancel' || action.actionType === 'close') {

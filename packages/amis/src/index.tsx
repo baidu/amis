@@ -28,7 +28,6 @@ import './renderers/Dialog';
 import './renderers/Divider';
 import './renderers/Each';
 import './renderers/Flex';
-import './renderers/Form/wrapControl';
 import './renderers/Form/Control';
 import './renderers/Form/Hidden';
 import './renderers/Form/InputText';

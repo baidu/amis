@@ -8,7 +8,7 @@ import {
   spliceTree
 } from 'amis-core';
 import {Button} from 'amis-ui';
-import {RendererData, Action, Api, Payload, ApiObject} from 'amis-core';
+import {RendererData, ActionObject, Api, Payload, ApiObject} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {filter} from 'amis-core';
 import omit from 'lodash/omit';
@@ -341,7 +341,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     onChange?.(items);
   }
 
-  async doAction(action: Action, ctx: RendererData, ...rest: Array<any>) {
+  async doAction(action: ActionObject, ctx: RendererData, ...rest: Array<any>) {
     const {
       onAction,
       valueField,

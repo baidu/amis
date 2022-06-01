@@ -5,7 +5,7 @@ import {
   Option,
   FormOptionsControl
 } from 'amis-core';
-import {Action, Schema} from 'amis-core';
+import {ActionObject, Schema} from 'amis-core';
 import {createObject, isEmpty} from 'amis-core';
 import {SchemaClassName, SchemaCollection} from '../../Schema';
 
@@ -57,7 +57,7 @@ export default class ListControl extends React.Component<ListProps, any> {
     submitOnDBClick: false
   };
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 

@@ -1,4 +1,4 @@
-import {Action} from '../types';
+import {ActionObject} from '../types';
 import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
@@ -14,7 +14,7 @@ export interface ICustomAction extends ListenerAction {
     | string
     | ((
         renderer: any,
-        doAction: (action: Action, data: Record<string, any>) => void,
+        doAction: (action: ActionObject, data: Record<string, any>) => void,
         event: RendererEvent<any>,
         action: ListenerAction
       ) => void); // 自定义JS，actionType: custom
@@ -25,7 +25,7 @@ export interface ICustomAction extends ListenerAction {
  *
  * @export
  * @class CustomAction
- * @implements {Action}
+ * @implements {ActionObject}
  */
 export class CustomAction implements RendererAction {
   async run(

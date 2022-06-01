@@ -8,7 +8,7 @@ import {
   FormOptionsControl
 } from 'amis-core';
 import {autobind, isEmpty, createObject} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 
 /**
  * Radio 单选框。
@@ -35,7 +35,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
     columnsCount: 1
   };
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 

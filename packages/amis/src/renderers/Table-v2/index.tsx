@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual';
 
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import {Table} from 'amis-ui';
 import {BaseSchema, SchemaObject, SchemaTokenizeableString} from '../../Schema';
 import {
@@ -977,7 +977,7 @@ export default class TableRenderer extends React.Component<
     );
   }
 
-  handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
+  handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
     const {onAction} = this.props;
 
     // todo
@@ -1125,7 +1125,7 @@ export default class TableRenderer extends React.Component<
     onDrag && onDrag(dataSource);
   }
 
-  doAction(action: Action, args: any, throwErrors: boolean): any {
+  doAction(action: ActionObject, args: any, throwErrors: boolean): any {
     const {store, rowSelection} = this.props;
 
     const actionType = action?.actionType as string;

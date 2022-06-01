@@ -24,7 +24,7 @@ import {resolveVariable} from 'amis-core';
 import {SchemaApi, SchemaObject} from '../../Schema';
 import {Selection as BaseSelection} from 'amis-ui';
 import {ResultList} from 'amis-ui';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
 /**
@@ -363,7 +363,7 @@ export class BaseTransferRenderer<
   }
 
   // 动作
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     switch (action.actionType) {
       case 'clear':

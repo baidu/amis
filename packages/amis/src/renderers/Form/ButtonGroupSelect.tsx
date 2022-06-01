@@ -6,7 +6,7 @@ import {
   FormOptionsControl
 } from 'amis-core';
 import type {Option} from 'amis-core';
-import {Action, Button} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import {getLevelFromClassName, autobind, isEmpty} from 'amis-core';
 import {dataMapping} from 'amis-core';
 import {ButtonGroupSchema} from '../ButtonGroup';
@@ -48,7 +48,7 @@ export default class ButtonGroupControl extends React.Component<
     vertical: false
   };
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 

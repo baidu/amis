@@ -7,7 +7,7 @@ import 'moment/locale/zh-cn';
 import {DatePicker} from 'amis-ui';
 import {SchemaObject} from '../../Schema';
 import {createObject, anyChanged, isMobile, autobind} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 
 export interface InputDateBaseControlSchema extends FormBaseControl {
   /**
@@ -427,7 +427,7 @@ export default class DateControl extends React.PureComponent<
   }
 
   // 动作
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue} = this.props;
 
     if (action.actionType === 'clear') {

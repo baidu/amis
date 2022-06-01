@@ -6,7 +6,7 @@ import QuickEdit, {SchemaQuickEdit} from '../QuickEdit';
 
 import Copyable, {SchemaCopyable} from '../Copyable';
 import {extendObject, ucFirst} from 'amis-core';
-import omit = require('lodash/omit');
+import omit from 'lodash/omit';
 import {SchemaObject, SchemaTpl, SchemaType} from '../../Schema';
 
 /**

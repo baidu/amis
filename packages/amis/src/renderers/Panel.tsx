@@ -1,6 +1,6 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, Action} from 'amis-core';
+import {SchemaNode, ActionObject} from 'amis-core';
 import {getScrollParent, autobind} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {resizeSensor} from 'amis-core';

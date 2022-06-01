@@ -4,7 +4,7 @@ import React from 'react';
 import type {RootProps} from './Root';
 import {IScopedContext, ScopedContext} from './Scoped';
 import {IRootStore, RootStore} from './store/root';
-import {Action} from './types';
+import {ActionObject} from './types';
 import {bulkBindFunctions, guid, isVisible} from './utils/helper';
 import {filter} from './utils/tpl';
 import qs from 'qs';
@@ -92,7 +92,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
 
   handleAction(
     e: React.UIEvent<any> | void,
-    action: Action,
+    action: ActionObject,
     ctx: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
@@ -233,7 +233,11 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     }
   }
 
-  handleDialogConfirm(values: object[], action: Action, ...args: Array<any>) {
+  handleDialogConfirm(
+    values: object[],
+    action: ActionObject,
+    ...args: Array<any>
+  ) {
     const store = this.store;
 
     if (action.mergeData && values.length === 1 && values[0]) {
@@ -257,7 +261,11 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     store.closeDialog(confirmed);
   }
 
-  handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {
+  handleDrawerConfirm(
+    values: object[],
+    action: ActionObject,
+    ...args: Array<any>
+  ) {
     const store = this.store;
 
     if (action.mergeData && values.length === 1 && values[0]) {
@@ -363,8 +371,8 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         {render(
           'dialog',
           {
-            ...((store.action as Action) &&
-              ((store.action as Action).dialog as object)),
+            ...((store.action as ActionObject) &&
+              ((store.action as ActionObject).dialog as object)),
             type: 'dialog'
           },
           {
@@ -381,8 +389,8 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         {render(
           'drawer',
           {
-            ...((store.action as Action) &&
-              ((store.action as Action).drawer as object)),
+            ...((store.action as ActionObject) &&
+              ((store.action as ActionObject).drawer as object)),
             type: 'drawer'
           },
           {

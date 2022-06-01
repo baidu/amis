@@ -1,5 +1,6 @@
 // https://json-schema.org/draft-07/json-schema-release-notes.html
 import type {JSONSchema7} from 'json-schema';
+import {ListenerAction} from './actions/Action';
 
 export interface Option {
   /**
@@ -54,7 +55,7 @@ export interface Option {
   /**
    * 如果设置了，优先级更高，不设置走 source 接口加载。
    */
-  deferApi?: Api;
+  deferApi?: BaseApiObject | string;
 
   /**
    * 标记正在加载。只有 defer 为 true 时有意义。内部字段不可以外部设置
@@ -256,12 +257,16 @@ export interface Schema {
   detectField?: string;
   visibleOn?: string;
   hiddenOn?: string;
+  disabledOn?: string;
+  visible?: boolean;
+  hidden?: boolean;
+  disabled?: boolean;
   children?: JSX.Element | ((props: any, schema?: any) => JSX.Element) | null;
   definitions?: Definitions;
   [propName: string]: any;
 }
 
-export interface Button {
+export interface ButtonObject {
   type: 'submit' | 'button' | 'reset';
   label?: string;
   icon?: string;
@@ -275,7 +280,7 @@ export interface SchemaArray extends Array<SchemaNode> {}
 export interface Definitions {
   [propName: string]: SchemaNode;
 }
-export interface Action extends Button {
+export interface ActionObject extends ButtonObject {
   actionType?:
     | 'submit'
     | 'copy'
@@ -310,8 +315,8 @@ export interface Action extends Button {
     | 'step-submit'
     | 'selectAll'
     | 'changeTabKey';
-  api?: Api;
-  asyncApi?: Api;
+  api?: BaseApiObject | string;
+  asyncApi?: BaseApiObject | string;
   payload?: any;
   dialog?: SchemaNode;
   to?: string;
@@ -489,11 +494,93 @@ interface LinkItemProps {
   component?: React.ReactType;
 }
 
-export interface Navigation {
+export interface NavigationObject {
   label: string;
   children?: Array<LinkItem>;
   prefix?: JSX.Element;
   affix?: JSX.Element;
   className?: string;
   [propName: string]: any;
+}
+
+/**
+ * 表达式，语法 `data.xxx > 5`。
+ */
+export type SchemaExpression = string;
+
+/**
+ * css类名，配置字符串，或者对象。
+ *
+ *     className: "red"
+ *
+ * 用对象配置时意味着你能跟表达式一起搭配使用，如：
+ *
+ *     className: {
+ *         "red": "data.progress > 80",
+ *         "blue": "data.progress > 60"
+ *     }
+ */
+export type SchemaClassName =
+  | string
+  | {
+      [propName: string]: boolean | undefined | null | SchemaExpression;
+    };
+export interface BaseSchemaWithoutType {
+  /**
+   * 容器 css 类名
+   */
+  className?: SchemaClassName;
+
+  /**
+   * 配合 definitions 一起使用，可以实现无限循环的渲染器。
+   */
+  $ref?: string;
+
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean;
+
+  /**
+   * 是否禁用表达式
+   */
+  disabledOn?: SchemaExpression;
+
+  /**
+   * 是否隐藏
+   * @deprecated 推荐用 visible
+   */
+  hidden?: boolean;
+
+  /**
+   * 是否隐藏表达式
+   * @deprecated 推荐用 visibleOn
+   */
+  hiddenOn?: SchemaExpression;
+
+  /**
+   * 是否显示
+   */
+
+  visible?: boolean;
+
+  /**
+   * 是否显示表达式
+   */
+  visibleOn?: SchemaExpression;
+
+  /**
+   * 组件唯一 id，主要用于日志采集
+   */
+  id?: string;
+
+  /**
+   * 事件动作配置
+   */
+  onEvent?: {
+    [propName: string]: {
+      weight?: number; // 权重
+      actions: ListenerAction[]; // 执行的动作集
+    };
+  };
 }

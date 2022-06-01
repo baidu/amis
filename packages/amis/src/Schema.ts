@@ -119,7 +119,7 @@ import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPick
 import {UserSelectControlSchema} from './renderers/Form/UserSelect';
 import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
 import {TableSchemaV2} from './renderers/Table-v2';
-import {ListenerAction} from 'amis-core';
+import {BaseSchemaWithoutType} from 'amis-core';
 import type {FormSchemaBase} from 'amis-core/lib/renderers/Form';
 
 // 每加个类型，这补充一下。
@@ -730,66 +730,8 @@ export type SchemaMessage = {
 
 export type SchemaFunction = string | Function;
 
-export interface BaseSchema {
+export interface BaseSchema extends BaseSchemaWithoutType {
   type: SchemaType;
-
-  /**
-   * 容器 css 类名
-   */
-  className?: SchemaClassName;
-
-  /**
-   * 配合 definitions 一起使用，可以实现无限循环的渲染器。
-   */
-  $ref?: string;
-
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-
-  /**
-   * 是否禁用表达式
-   */
-  disabledOn?: SchemaExpression;
-
-  /**
-   * 是否隐藏
-   * @deprecated 推荐用 visible
-   */
-  hidden?: boolean;
-
-  /**
-   * 是否隐藏表达式
-   * @deprecated 推荐用 visibleOn
-   */
-  hiddenOn?: SchemaExpression;
-
-  /**
-   * 是否显示
-   */
-
-  visible?: boolean;
-
-  /**
-   * 是否显示表达式
-   */
-  visibleOn?: SchemaExpression;
-
-  /**
-   * 组件唯一 id，主要用于日志采集
-   */
-  id?: string;
-
-  /**
-   * 事件动作配置
-   */
-  onEvent?: {
-    [propName: string]: {
-      weight?: number; // 权重
-      actions: ListenerAction[]; // 执行的动作集
-    };
-  };
 }
 
 export interface Option {

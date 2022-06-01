@@ -5,7 +5,7 @@ import {
   highlight,
   FormOptionsControl
 } from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
 import {matchSorter} from 'match-sorter';
 import debouce from 'lodash/debounce';
@@ -103,7 +103,7 @@ export type InputTextRendererEvent =
 
 export interface TextProps extends OptionsControlProps {
   placeholder?: string;
-  addOn?: Action & {
+  addOn?: ActionObject & {
     position?: 'left' | 'right';
     label?: string;
     icon?: string;

@@ -2,7 +2,7 @@ import React from 'react';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
-import {Api, Action} from 'amis-core';
+import {Api, ActionObject} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
 import {
   createObject,
@@ -538,7 +538,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   @autobind
   handleAction(
     e: React.UIEvent<any> | void,
-    action: Action,
+    action: ActionObject,
     data: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
@@ -679,7 +679,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     store.updateData(reseted);
   }
 
-  async finalSubmit(values: object = {}, action: Action = {type: 'submit'}) {
+  async finalSubmit(
+    values: object = {},
+    action: ActionObject = {type: 'submit'}
+  ) {
     const {
       store,
       steps,
@@ -806,7 +809,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
   // 接管里面 form 的提交，不能直接让 form 提交，因为 wizard 自己需要知道进度。
   @autobind
-  async handleSubmit(values: object, action: Action) {
+  async handleSubmit(values: object, action: ActionObject) {
     const {store, steps, finishedField} = this.props;
 
     if (this.state.currentStep < steps.length) {
@@ -883,7 +886,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   }
 
   @autobind
-  handleDialogConfirm(values: object[], action: Action, targets: Array<any>) {
+  handleDialogConfirm(
+    values: object[],
+    action: ActionObject,
+    targets: Array<any>
+  ) {
     const {store} = this.props;
 
     if (
@@ -1141,8 +1148,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         {render(
           'dialog',
           {
-            ...((store.action as Action) &&
-              ((store.action as Action).dialog as object)),
+            ...((store.action as ActionObject) &&
+              ((store.action as ActionObject).dialog as object)),
             type: 'dialog'
           },
           {
@@ -1203,7 +1210,7 @@ export class WizardRenderer extends Wizard {
     super.componentWillUnmount();
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean = false) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
     return this.handleAction(undefined, action, data);
   }
 
@@ -1218,7 +1225,11 @@ export class WizardRenderer extends Wizard {
   }
 
   @autobind
-  handleDialogConfirm(values: object[], action: Action, targets: Array<any>) {
+  handleDialogConfirm(
+    values: object[],
+    action: ActionObject,
+    targets: Array<any>
+  ) {
     super.handleDialogConfirm(values, action, targets);
 
     const store = this.props.store;

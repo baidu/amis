@@ -35,7 +35,8 @@ const input = [
   './src/components/BarCode.tsx',
   './src/components/Markdown.tsx',
   './src/components/Tinymce.tsx',
-  './src/components/RichText.tsx'
+  './src/components/RichText.tsx',
+  './src/components/CityDB.ts'
 ];
 
 export default [

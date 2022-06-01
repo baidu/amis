@@ -6,7 +6,7 @@ import {TabsTransferPicker} from 'amis-ui';
 import {TabsTransferControlSchema} from './TabsTransfer';
 import {autobind, createObject} from 'amis-core';
 import {Selection as BaseSelection} from 'amis-ui';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 
 /**
@@ -68,7 +68,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
   }
 
   // 动作
-  doAction(action: Action) {
+  doAction(action: ActionObject) {
     const {resetValue, onChange} = this.props;
     switch (action.actionType) {
       case 'clear':

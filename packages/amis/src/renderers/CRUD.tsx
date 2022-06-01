@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, Schema, Action, PlainObject} from 'amis-core';
+import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
   createObject,
@@ -604,7 +604,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   handleAction(
     e: React.UIEvent<any> | undefined,
-    action: Action,
+    action: ActionObject,
     ctx: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
@@ -694,7 +694,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     selectedItems: Array<any>,
     unSelectedItems: Array<any>,
     e: React.UIEvent<any>,
-    action: Action
+    action: ActionObject
   ) {
     const {
       store,
@@ -781,7 +781,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
   }
 
-  handleItemAction(action: Action, ctx: any) {
+  handleItemAction(action: ActionObject, ctx: any) {
     this.doAction(action, ctx);
   }
 
@@ -899,7 +899,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   handleDialogConfirm(
     values: object[],
-    action: Action,
+    action: ActionObject,
     ctx: any,
     components: Array<any>
   ) {
@@ -913,7 +913,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     } = this.props;
 
     store.closeDialog(true);
-    const dialogAction = store.action as Action;
+    const dialogAction = store.action as ActionObject;
 
     if (stopAutoRefreshWhenModalIsOpen && interval) {
       this.timer = setTimeout(
@@ -1500,7 +1500,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     // implement this.
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean = false) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
     return this.handleAction(undefined, action, data, throwErrors);
   }
 
@@ -2164,8 +2164,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         {render(
           'dialog',
           {
-            ...((store.action as Action) &&
-              ((store.action as Action).dialog as object)),
+            ...((store.action as ActionObject) &&
+              ((store.action as ActionObject).dialog as object)),
             type: 'dialog'
           },
           {

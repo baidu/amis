@@ -6,7 +6,7 @@ import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
 import {filter} from 'amis-core';
 import {getPropValue} from 'amis-core';
-import type {StepStatus} from 'amis-ui/lib/components/Steps';
+import {StepStatus} from 'amis-ui';
 
 export type StepSchema = {
   /**

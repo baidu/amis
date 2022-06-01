@@ -5,7 +5,7 @@ import React from 'react';
 import {RendererConfig} from './factory';
 import {ThemeInstance} from './theme';
 import {
-  Action,
+  ActionObject,
   Api,
   EventTrack,
   Payload,
@@ -33,7 +33,7 @@ export interface RendererEnv {
     onError: (error: any) => void
   ) => void;
   notify: (type: ToastLevel, msg: any, conf?: ToastConf) => void;
-  jumpTo: (to: string, action?: Action, ctx?: object) => void;
+  jumpTo: (to: string, action?: ActionObject, ctx?: object) => void;
   alert: (msg: string) => void;
   confirm: (msg: string, title?: string) => Promise<boolean>;
   updateLocation: (location: any, replace?: boolean) => void;

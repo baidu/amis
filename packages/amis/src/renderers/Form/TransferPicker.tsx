@@ -4,7 +4,7 @@ import {Spinner} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TransferPicker} from 'amis-ui';
 import {autobind} from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 
 /**
  * TransferPicker 穿梭器的弹框形态
@@ -46,7 +46,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
   }
 
   // 动作
-  doAction(action: Action) {
+  doAction(action: ActionObject) {
     const {resetValue, onChange} = this.props;
     switch (action.actionType) {
       case 'clear':

@@ -7,7 +7,7 @@ import {
 } from 'amis-core';
 import {Checkbox} from 'amis-ui';
 import {Icon} from 'amis-ui';
-import {Action, Api} from 'amis-core';
+import {ActionObject, Api} from 'amis-core';
 import {autobind, hasAbility} from 'amis-core';
 import {columnsSplit} from 'amis-core';
 
@@ -71,7 +71,7 @@ export default class CheckboxesControl extends React.Component<
     optionType: 'default'
   };
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     const actionType = action?.actionType as string;
 

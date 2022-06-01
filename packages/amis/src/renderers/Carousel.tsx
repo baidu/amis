@@ -13,7 +13,7 @@ import {
   isArrayChildrenModified,
   getPropValue
 } from 'amis-core';
-import {Action} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaName} from '../Schema';
 import {Html} from 'amis-ui';
@@ -193,7 +193,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     this.clearAutoTimeout();
   }
 
-  doAction(action: Action, args: object, throwErrors: boolean): any {
+  doAction(action: ActionObject, args: object, throwErrors: boolean): any {
     const actionType = action?.actionType as string;
 
     if (!!~['next', 'prev'].indexOf(actionType)) {

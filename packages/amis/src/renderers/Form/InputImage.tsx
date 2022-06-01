@@ -6,7 +6,7 @@ import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
 import 'blueimp-canvastoblob';
 import find from 'lodash/find';
-import {Payload, Action} from 'amis-core';
+import {Payload, ActionObject} from 'amis-core';
 import {buildApi} from 'amis-core';
 import {createObject, qsstringify, guid, isEmpty, qsparse} from 'amis-core';
 import {Icon} from 'amis-ui';
@@ -1261,7 +1261,7 @@ export default class ImageControl extends React.Component<
   }
 
   // 动作
-  doAction(action: Action, data: object, throwErrors: boolean) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {onChange} = this.props;
     if (action.actionType === 'clear') {
       this.files = [];

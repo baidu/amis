@@ -609,7 +609,7 @@ export class Navigation extends React.Component<
                       ) : (
                         generateIcon(cx, overflowIndicator, 'Nav-itemIcon')
                       )}
-                      {overflowLabel && isObject
+                      {overflowLabel && isObject(overflowLabel)
                         ? render('nav-overflow-label', overflowLabel)
                         : overflowLabel}
                     </a>

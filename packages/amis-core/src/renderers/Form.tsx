@@ -1,7 +1,14 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {FormStore, IFormStore} from '../store/form';
-import {Api, SchemaNode, Schema, Action, Payload, ClassName} from '../types';
+import {
+  Api,
+  SchemaNode,
+  Schema,
+  ActionObject,
+  Payload,
+  ClassName
+} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import getExprProperties from '../utils/filter-schema';
 import {
@@ -909,7 +916,7 @@ export default class Form extends React.Component<FormProps, object> {
 
   handleAction(
     e: React.UIEvent<any> | void,
-    action: Action,
+    action: ActionObject,
     data: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
@@ -1198,7 +1205,7 @@ export default class Form extends React.Component<FormProps, object> {
 
   handleDialogConfirm(
     values: object[],
-    action: Action,
+    action: ActionObject,
     ctx: any,
     targets: Array<any>
   ) {
@@ -1223,7 +1230,7 @@ export default class Form extends React.Component<FormProps, object> {
 
   handleDrawerConfirm(
     values: object[],
-    action: Action,
+    action: ActionObject,
     ctx: any,
     targets: Array<any>
   ) {
@@ -1558,8 +1565,8 @@ export default class Form extends React.Component<FormProps, object> {
         {render(
           'modal',
           {
-            ...((store.action as Action) &&
-              ((store.action as Action).dialog as object)),
+            ...((store.action as ActionObject) &&
+              ((store.action as ActionObject).dialog as object)),
             type: 'dialog'
           },
           {
@@ -1574,8 +1581,8 @@ export default class Form extends React.Component<FormProps, object> {
         {render(
           'modal',
           {
-            ...((store.action as Action) &&
-              ((store.action as Action).drawer as object)),
+            ...((store.action as ActionObject) &&
+              ((store.action as ActionObject).drawer as object)),
             type: 'drawer'
           },
           {
@@ -1704,7 +1711,7 @@ export class FormRenderer extends Form {
   }
 
   doAction(
-    action: Action,
+    action: ActionObject,
     data: object = this.props.store.data,
     throwErrors: boolean = false
   ) {
@@ -1713,7 +1720,7 @@ export class FormRenderer extends Form {
 
   handleAction(
     e: React.UIEvent<any> | undefined,
-    action: Action,
+    action: ActionObject,
     ctx: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
@@ -1749,7 +1756,7 @@ export class FormRenderer extends Form {
 
   handleDialogConfirm(
     values: object[],
-    action: Action,
+    action: ActionObject,
     ctx: any,
     targets: Array<any>
   ) {
