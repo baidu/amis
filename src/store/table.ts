@@ -9,8 +9,8 @@ import {
   isAlive,
   Instance
 } from 'mobx-state-tree';
-import { iRendererStore } from './iRenderer';
-import { resolveVariable, resolveVariableAndFilter } from '../utils/tpl-builtin';
+import {iRendererStore} from './iRenderer';
+import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
 import sortBy from 'lodash/sortBy';
@@ -29,11 +29,11 @@ import {
   hasVisibleExpression,
   filterTree
 } from '../utils/helper';
-import { evalExpression } from '../utils/tpl';
-import { IFormStore } from './form';
-import { getStoreById } from './manager';
+import {evalExpression} from '../utils/tpl';
+import {IFormStore} from './form';
+import {getStoreById} from './manager';
 
-import type { SchemaObject } from '../Schema';
+import type {SchemaObject} from '../Schema';
 
 /**
  * 内部列的数量 '__checkme' | '__dragme' | '__expandme'
@@ -185,9 +185,9 @@ export const Row = types
         }),
         children
           ? {
-            ...self.data,
-            children
-          }
+              ...self.data,
+              children
+            }
           : self.data
       );
     },
@@ -285,7 +285,11 @@ export const TableStore = iRendererStore
     primaryField: 'id',
     orderBy: '',
     orderDir: types.optional(
-      types.union(types.literal('asc'), types.literal('desc'), types.literal('')),
+      types.union(
+        types.literal('asc'),
+        types.literal('desc'),
+        types.literal('')
+      ),
       'asc'
     ),
     draggable: false,
@@ -330,14 +334,14 @@ export const TableStore = iRendererStore
           ) &&
           (item.type === '__checkme'
             ? self.selectable &&
-            !self.dragging &&
-            !self.hideCheckToggler &&
-            self.rows.length
+              !self.dragging &&
+              !self.hideCheckToggler &&
+              self.rows.length
             : item.type === '__dragme'
-              ? self.dragging
-              : item.type === '__expandme'
-                ? (getFootableColumns().length || self.isNested) && !self.dragging
-                : item.toggled || !item.toggable)
+            ? self.dragging
+            : item.type === '__expandme'
+            ? (getFootableColumns().length || self.isNested) && !self.dragging
+            : item.toggled || !item.toggable)
         );
       });
     }
@@ -352,30 +356,30 @@ export const TableStore = iRendererStore
           ) &&
           (item.type === '__checkme'
             ? self.selectable &&
-            !self.dragging &&
-            !self.hideCheckToggler &&
-            self.rows.length
+              !self.dragging &&
+              !self.hideCheckToggler &&
+              self.rows.length
             : item.type === '__dragme'
-              ? self.dragging
-              : item.type === '__expandme'
-                ? (getFootableColumns().length || self.isNested) && !self.dragging
-                : (item.toggled || !item.toggable) &&
-                (!self.footable ||
-                  !item.breakpoint ||
-                  !isBreakpoint(item.breakpoint)))
+            ? self.dragging
+            : item.type === '__expandme'
+            ? (getFootableColumns().length || self.isNested) && !self.dragging
+            : (item.toggled || !item.toggable) &&
+              (!self.footable ||
+                !item.breakpoint ||
+                !isBreakpoint(item.breakpoint)))
       );
     }
 
     function getFootableColumns() {
       return self.columns.filter(item =>
         item.type === '__checkme' ||
-          item.type === '__dragme' ||
-          item.type === '__expandme'
+        item.type === '__dragme' ||
+        item.type === '__expandme'
           ? false
           : (item.toggled || !item.toggable) &&
-          self.footable &&
-          item.breakpoint &&
-          isBreakpoint(item.breakpoint)
+            self.footable &&
+            item.breakpoint &&
+            isBreakpoint(item.breakpoint)
       );
     }
 
@@ -492,14 +496,14 @@ export const TableStore = iRendererStore
         rowSpan: number;
         has: Array<any>;
       }> = [
-          {
-            label: columns[0].groupName,
-            colSpan: 1,
-            rowSpan: 1,
-            index: columns[0].index,
-            has: [columns[0]]
-          }
-        ];
+        {
+          label: columns[0].groupName,
+          colSpan: 1,
+          rowSpan: 1,
+          index: columns[0].index,
+          has: [columns[0]]
+        }
+      ];
 
       //  如果是勾选栏，让它和下一列合并。
       if (columns[0].type === '__checkme' && columns[1]) {
@@ -516,7 +520,7 @@ export const TableStore = iRendererStore
         const groupNameIsSame =
           current.groupName === prev.label ||
           resolveVariableAndFilter(current.groupName, self.data) ===
-          resolveVariableAndFilter(prev.label, self.data);
+            resolveVariableAndFilter(prev.label, self.data);
 
         if (
           groupNameIsSame &&
@@ -542,7 +546,7 @@ export const TableStore = iRendererStore
       return groups.map(item => {
         const rowSpan =
           !item.label ||
-            (item.has.length === 1 && item.label === item.has[0].label)
+          (item.has.length === 1 && item.label === item.has[0].label)
             ? 2
             : 1;
         return {
@@ -618,7 +622,7 @@ export const TableStore = iRendererStore
       get allChecked(): boolean {
         return !!(
           self.selectedRows.length ===
-          (self as ITableStore).checkableRows.length &&
+            (self as ITableStore).checkableRows.length &&
           (self as ITableStore).checkableRows.length
         );
       },
@@ -779,7 +783,7 @@ export const TableStore = iRendererStore
         if (data) {
           try {
             tableMetaData = JSON.parse(data);
-          } catch (error) { }
+          } catch (error) {}
 
           const order = tableMetaData?.columnOrder;
 
@@ -966,8 +970,8 @@ export const TableStore = iRendererStore
         item = isObject(item)
           ? item
           : {
-            item
-          };
+              item
+            };
         const id = item.__id ?? guid();
 
         return {
@@ -985,12 +989,12 @@ export const TableStore = iRendererStore
           children:
             item && Array.isArray(item.children)
               ? initChildren(
-                item.children,
-                depth,
-                index,
-                id,
-                `${path}${index}.`
-              )
+                  item.children,
+                  depth,
+                  index,
+                  id,
+                  `${path}${index}.`
+                )
               : [],
           expandable: !!(
             (item && Array.isArray(item.children) && item.children.length) ||
