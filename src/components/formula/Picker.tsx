@@ -175,12 +175,6 @@ export class FormulaPicker extends React.Component<
   }
 
   @autobind
-  handleInputGroupChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const onChange = this.props.onChange;
-    onChange && onChange(e.currentTarget.value);
-  }
-
-  @autobind
   handleEditorChange(value: string) {
     this.setState({
       editorValue: value,
@@ -248,10 +242,11 @@ export class FormulaPicker extends React.Component<
     const {translate: __} = this.props;
 
     try {
-      parse(value, {
-        evalMode: this.props.evalMode,
-        allowFilter: false
-      });
+      value &&
+        parse(value, {
+          evalMode: this.props.evalMode,
+          allowFilter: false
+        });
 
       return true;
     } catch (e) {
@@ -380,14 +375,30 @@ export class FormulaPicker extends React.Component<
             )}
             {mode === 'input-group' && (
               <>
-                <Input
-                  className={cx('FormulaPicker-input')}
-                  onChange={this.handleInputGroupChange}
-                  placeholder={allowInput ? placeholder : ''}
-                  autoComplete="off"
+                <ResultBox
+                  className={cx(
+                    'FormulaPicker-input',
+                    isOpened ? 'is-active' : '',
+                    !!isError ? 'is-error' : ''
+                  )}
+                  allowInput={allowInput}
+                  clearable={clearable}
                   value={value}
+                  result={
+                    allowInput
+                      ? void 0
+                      : FormulaEditor.highlightValue(
+                          value,
+                          variables!,
+                          this.props.evalMode
+                        )
+                  }
+                  itemRender={this.renderFormulaValue}
+                  onResultChange={noop}
+                  onChange={this.handleInputChange}
                   disabled={disabled}
-                  readOnly={!allowInput}
+                  borderMode={borderMode}
+                  placeholder={placeholder}
                 />
 
                 <a
