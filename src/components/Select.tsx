@@ -411,7 +411,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       inputValue: '',
       highlightedIndex: -1,
       selection: value2array(props.value, props),
-      itemHeight: 35,
+      itemHeight: 32 /** Select选项高度保持一致 */,
       pickerSelectItem: ''
     };
   }
@@ -726,7 +726,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   @autobind
   menuItemRef(ref: any) {
-    ref && this.setState({itemHeight: ref.offsetHeight});
+    if (ref && typeof ref.offsetHeight === 'number' && ref > 0) {
+      this.setState({itemHeight: ref.offsetHeight});
+    }
   }
 
   renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
