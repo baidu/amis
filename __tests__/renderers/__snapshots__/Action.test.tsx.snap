@@ -291,6 +291,38 @@ exports[`Renderers:Action custom activeClass 2`] = `
 </button>
 `;
 
+exports[`Renderers:Action display size[xs, sm, md, lg] 1`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--xs"
+  onClick={[Function]}
+  type="button"
+/>
+`;
+
+exports[`Renderers:Action display size[xs, sm, md, lg] 2`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--sm"
+  onClick={[Function]}
+  type="button"
+/>
+`;
+
+exports[`Renderers:Action display size[xs, sm, md, lg] 3`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--md"
+  onClick={[Function]}
+  type="button"
+/>
+`;
+
+exports[`Renderers:Action display size[xs, sm, md, lg] 4`] = `
+<button
+  className="cxd-Button cxd-Button--default cxd-Button--lg"
+  onClick={[Function]}
+  type="button"
+/>
+`;
+
 exports[`Renderers:Action download shortcut 1`] = `
 <button
   className="cxd-Button cxd-Button--default"

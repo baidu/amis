@@ -11,6 +11,10 @@ import {
 } from '../../components/WithRemoteConfig';
 import {Schema} from '../../types';
 import {autobind} from '../../utils/helper';
+import {
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 
 /**
  * 条件组合控件
@@ -72,11 +76,23 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
   render() {
     const {className, classnames: cx, ...rest} = this.props;
 
+    // 处理一下formula类型值的变量列表
+    let formula = this.props.formula ? {...this.props.formula} : undefined;
+    if (formula && formula.variables && isPureVariable(formula.variables)) {
+      // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
+      formula.variables = resolveVariableAndFilter(
+        formula.variables,
+        this.props.data,
+        '| raw'
+      );
+    }
+
     return (
       <div className={cx(`ConditionBuilderControl`, className)}>
         <ConditionBuilderWithRemoteOptions
           renderEtrValue={this.renderEtrValue}
           {...rest}
+          formula={formula}
         />
       </div>
     );

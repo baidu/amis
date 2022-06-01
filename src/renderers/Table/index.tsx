@@ -972,10 +972,7 @@ export default class Table extends React.Component<TableProps, object> {
       return;
     }
 
-    onSaveOrder(
-      movedItems,
-      items
-    );
+    onSaveOrder(movedItems, items);
   }
 
   syncSelected() {
@@ -2300,7 +2297,10 @@ export default class Table extends React.Component<TableProps, object> {
             onClick={async () => {
               const {data, dispatchEvent} = this.props;
 
-              const allToggled = !(store.activeToggaleColumns.length === store.toggableColumns.length);
+              const allToggled = !(
+                store.activeToggaleColumns.length ===
+                store.toggableColumns.length
+              );
               const rendererEvent = await dispatchEvent(
                 'columnToggled',
                 createObject(data, {
@@ -2341,9 +2341,11 @@ export default class Table extends React.Component<TableProps, object> {
             key={column.index}
             onClick={async () => {
               const {data, dispatchEvent} = this.props;
-              let columns = store.activeToggaleColumns.map(item => item.pristine);
+              let columns = store.activeToggaleColumns.map(
+                item => item.pristine
+              );
               if (!column.toggled) {
-                columns.push(column.pristine)
+                columns.push(column.pristine);
               } else {
                 columns = columns.filter(c => c.name !== column.pristine.name);
               }
@@ -2795,6 +2797,26 @@ export default class Table extends React.Component<TableProps, object> {
   storeType: TableStore.name,
   name: 'table'
 })
-export class TableRenderer extends Table {}
+export class TableRenderer extends Table {
+  receive(values: any, subPath?: string) {
+    const scoped = this.context as IScopedContext;
+    const parents = scoped?.parent?.getComponents();
+
+    /**
+     * 因为Table在scope上注册，导致getComponentByName查询组件时会优先找到Table，和CRUD联动的动作都会失效
+     * 这里先做兼容处理，把动作交给上层的CRUD处理
+     */
+    if (Array.isArray(parents) && parents.length) {
+      // CRUD的name会透传给Table，这样可以保证找到CRUD
+      const crud = parents.find(cmpt => cmpt?.props?.name === this.props?.name);
+
+      return crud?.receive?.(values, subPath);
+    }
+
+    if (subPath) {
+      return scoped.send(subPath, values);
+    }
+  }
+}
 
 export {TableCell};

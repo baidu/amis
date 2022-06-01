@@ -126,13 +126,14 @@
     color: var(--ResultBox-value-color);
     font-size: var(--Form-input-fontSize);
     padding: 0 var(--gap-xs);
-    min-height: px2rem(24px);
+    min-height: var(--ResultBox-tag-height);
     flex-wrap: nowrap;
     display: inline-flex;
     align-items: center;
     margin-right: var(--gap-xs);
-    margin-bottom: px2rem(2px);
+    margin-bottom: var(--ResultBox-tag-marginBottom);
     user-select: none;
+    border-radius: #{px2rem(2px)};
 
     > a {
       cursor: pointer;
@@ -195,6 +196,37 @@
 
       &:hover {
         background: var(--Form-selectValue-onHover-bgColor);
+      }
+    }
+  }
+
+  &-overflow {
+    &-wrapper {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+      align-items: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: calc(
+        (var(--ResultBox-tag-height) + var(--ResultBox-tag-marginBottom)) * 5
+      );
+    }
+
+    &.#{$ns}Tooltip--dark {
+      .#{$ns}ResultBox-overflow-wrapper {
+        .#{$ns}ResultBox-value {
+          color: var(--white);
+          background-color: var(--Form-select-value-bgColor--dark);
+
+          &:hover {
+            background-color: var(--ResultBox-value--onHover-bg--dark);
+          }
+
+          & > a {
+            color: var(--Form-select-valueIcon-color--dark);
+          }
+        }
       }
     }
   }

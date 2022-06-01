@@ -620,15 +620,19 @@ ws.on('connection', function connection(ws) {
 
 ## 事件表
 
-| 事件名称          | 事件参数             | 说明                 |
-| ----------------- | -------------------- | -------------------- |
-| fetchInited       | api 初始化数据       | api 初始化完成       |
-| fetchSchemaInited | schemaApi 初始化数据 | schemaApi 初始化完成 |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称          | 事件参数                                      | 说明                               |
+| ----------------- | --------------------------------------------- | ---------------------------------- |
+| fetchInited       | `event.data` api 远程请求返回的初始化数据     | 远程初始化接口请求成功时触发       |
+| fetchSchemaInited | `event.data` schemaApi 远程请求返回的 UI 内容 | 远程 schemaApi UI 内容接口请求成功 |
 
 ## 动作表
 
-| 动作名称 | 动作配置 | 说明                                            |
-| -------- | -------- | ----------------------------------------------- |
-| reload   | -        | 重新加载，调用 api，刷新数据域数据              |
-| rebuild  | -        | 重新构建，调用 schemaApi，重新构建容器内 Schema |
-| setValue | -        | 更新数据域数据                                  |
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置 | 说明                                              |
+| -------- | -------- | ------------------------------------------------- |
+| reload   | -        | 重新加载，调用 `api`，刷新数据域数据              |
+| rebuild  | -        | 重新构建，调用 `schemaApi`，重新构建容器内 Schema |
+| setValue | -        | 更新数据域数据                                    |

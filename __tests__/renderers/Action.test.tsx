@@ -59,6 +59,28 @@ test('Renderers:Action all levels', () => {
   expect(container).toMatchSnapshot();
 });
 
+test('Renderers:Action display size[xs, sm, md, lg]', () => {
+  const component = renderer.create(<Action size="xs" />);
+  let tree = component.toJSON();
+
+  expect(tree).toMatchSnapshot();
+
+  component.update(<Action size="sm" />);
+
+  tree = component.toJSON();
+  expect(tree).toMatchSnapshot();
+
+  component.update(<Action size="md" />);
+
+  tree = component.toJSON();
+  expect(tree).toMatchSnapshot();
+
+  component.update(<Action size="lg" />);
+
+  tree = component.toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
 test('Renderers:Action MenuItem changes class when actived & disabled', () => {
   const component = renderer.create(
     <Action isMenuItem className="a" label="123" />
@@ -253,3 +275,31 @@ test('Renderers:Action tooltip', async () => {
 
   expect(container).toMatchSnapshot();
 });
+
+// test('Renderers:Action click feedback', async () => {
+//   const {getByText, container}: any = render(
+//     amisRender(
+//       {
+//         type: 'page',
+//         body: {
+//           type: 'action',
+//           label: 'Feedback',
+//           actionType: 'ajax',
+//           api: '/amis/api/mock2/form/initData?waitSeconds=0',
+//           feedback: {
+//             title: '操作成功',
+//             body: 'xxx 已操作成功'
+//           }
+//         }
+//       },
+//       {},
+//       makeEnv({
+//         getModalContainer: () => container
+//       })
+//     )
+//   );
+//   fireEvent.click(getByText('Feedback'));
+//   wait(300);
+//   screen.debug();
+//   expect(screen.getByRole('dialog')).toHaveTextContent('hello');
+// });

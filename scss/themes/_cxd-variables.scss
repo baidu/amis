@@ -81,7 +81,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --fontSizeMd: #{$T3};
   --fontSizeLg: #{$T4};
   --fontSizeXl: #{$T5};
-  --fontSizeBase: var(--fontSizeSm);
+  --fontSizeBase: var(--fontSizeMd);
 
   --borderColor: #{$G8};
   --borderRadius: #{$R3};
@@ -185,7 +185,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-selectValue-color: var(--primary);
   --Form-select-value-borderColor: #{$G9};
   --Form-select-valueIcon-color: #{$G4};
+  --Form-select-valueIcon-color--dark: #{$G8};
   --Form-select-multiple-bgColor: #{$G10};
+  --Form-select-value-bgColor--dark: #{$G4};
 
   --InputGroup-select-borderWidth: #{px2rem(1px)};
   --InputGroup-select-onFocused-bg: #eaf6fe;
@@ -215,8 +217,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Number-handler--up-transform: rotate(180deg);
   --Number-handler--down-content: '\e6dd';
 
-  --Checkbox-onDisabled-color: #ebebeb;
-  --Checkbox-onDisabled-bg: #cccccc;
+  --Checkbox-onDisabled-bg: #F7F7F9;
+  --Checkbox-onDisabled-color: #B8BABF;
 
   --Checkbox-inner-size: #{px2rem(8px)};
   --Checkbox--full-inner-size: #{px2rem(8px)};

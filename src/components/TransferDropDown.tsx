@@ -9,6 +9,8 @@ import InputBox from './InputBox';
 import PopOverContainer from './PopOverContainer';
 import {isMobile} from '../utils/helper';
 
+import type {TooltipObject} from './TooltipWrapper';
+
 export interface TransferDropDownProps extends TransferProps {
   // 新的属性？
   multiple?: boolean;
@@ -16,6 +18,8 @@ export interface TransferDropDownProps extends TransferProps {
   useMobileUI?: boolean;
   popOverContainer?: any;
   itemRender: (value: any) => JSX.Element | string;
+  maxTagCount?: number;
+  overflowTagPopover?: TooltipObject;
 }
 
 export class TransferDropDown extends Transfer<TransferDropDownProps> {
@@ -33,7 +37,9 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       multiple,
       borderMode,
       useMobileUI,
-      popOverContainer
+      popOverContainer,
+      maxTagCount,
+      overflowTagPopover
     } = this.props;
     const {inputValue, searchResult} = this.state;
 
@@ -109,6 +115,8 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             placeholder={__('Select.placeholder')}
             disabled={disabled}
             clearable={clearable}
+            maxTagCount={maxTagCount}
+            overflowTagPopover={overflowTagPopover}
             ref={ref}
             itemRender={itemRender}
             useMobileUI={useMobileUI}

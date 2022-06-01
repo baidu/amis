@@ -202,7 +202,7 @@ register('zh-CN', {
   'Select.clearAll': '移除所有',
   'Select.createLabel': '新增选项',
   'Select.placeholder': '请选择',
-  'Select.searchPromptText': '输入内容进行检索',
+  'Select.searchPromptText': '搜索',
   'sort': '排序',
   'SubForm.button': '设置',
   'SubForm.editDetail': '编辑详情',

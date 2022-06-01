@@ -18,7 +18,8 @@ import {
   BaseSchema,
   SchemaClassName,
   SchemaCollection,
-  SchemaIcon
+  SchemaIcon,
+  SchemaExpression
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {filter} from '../utils/tpl';
@@ -194,11 +195,16 @@ export interface TabsSchema extends BaseSchema {
    * 自定义增加按钮文案
    */
   addBtnText?: string;
+
+  /**
+   * 默认激活的选项卡，hash值或索引值，支持使用表达式
+   */
+  activeKey?: SchemaExpression;
 }
 
 export interface TabsProps
   extends RendererProps,
-    Omit<TabsSchema, 'className' | 'contentClassName'> {
+    Omit<TabsSchema, 'className' | 'contentClassName' | 'activeKey'> {
   activeKey?: string | number;
   location?: any;
   tabRender?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;
@@ -327,6 +333,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   componentDidUpdate(preProps: TabsProps, prevState: any) {
     const props = this.props;
     let localTabs = this.state.localTabs;
+    const prevActiveKey = tokenize(preProps.defaultActiveKey, preProps.data);
+    const activeKey = tokenize(props.defaultActiveKey, props.data);
 
     // 响应外部修改 tabs
     const isTabsModified = isObjectShallowModified(
@@ -409,6 +417,26 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         prevKey: undefined,
         activeKey: (this.activeKey = activeKey)
       });
+    } else if (prevActiveKey !== activeKey) {
+      if (activeKey == null) {
+        return;
+      }
+
+      let newActivedKey = null;
+      const tab = find(localTabs, item => item.hash === activeKey);
+
+      if (tab) {
+        newActivedKey = tab.hash;
+      } else if (typeof activeKey === 'number' && localTabs[activeKey]) {
+        newActivedKey = activeKey;
+      }
+
+      if (newActivedKey) {
+        this.setState({
+          prevKey: prevActiveKey,
+          activeKey: (this.activeKey = newActivedKey)
+        });
+      }
     }
 
     this.autoJumpToNeighbour(this.activeKey);
@@ -578,7 +606,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       }
     });
     // 获取激活元素项
-    const tab = localTabs?.find((item, index) => key === (item.hash ? item.hash : index));
+    const tab = localTabs?.find(
+      (item, index) => key === (item.hash ? item.hash : index)
+    );
 
     const rendererEvent = await dispatchEvent(
       'change',

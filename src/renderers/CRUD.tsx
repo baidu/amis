@@ -670,6 +670,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             throw e;
           }
         });
+    } else if (action.actionType === 'reload') {
+      this.reload();
     } else if (
       pickerMode &&
       (action.actionType === 'confirm' || action.actionType === 'submit')

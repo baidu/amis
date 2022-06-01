@@ -164,24 +164,20 @@
       }
 
       &[disabled] + i {
-        border-color: var(--Checkbox-onDisabled-color);
-        background: var(--FileControl-onDisabled-bg);
+        border-color: var(--Checkbox-color);
+        background: var(--Checkbox-onDisabled-bg);
       }
 
       &[disabled]:checked + i {
         &:before {
           border-color: var(--Checkbox-onDisabled-color);
+          background: var(--Checkbox-onDisabled-bg);
         }
       }
 
       &:checked[disabled] + i {
-        border-color: var(--Checkbox-onDisabled-color);
-        background: var(--FileControl-onDisabled-bg);
-
-        &:before {
-          background: var(--FileControl-onDisabled-bg);
-          border-color: var(--Checkbox-inner-onDisabled-bg);
-        }
+        border-color: var(--Checkbox-color);
+        background: var(--Checkbox-onDisabled-bg);
       }
     }
 
@@ -230,14 +226,12 @@
         }
       }
 
-      &:checked[disabled] + i{
+      &:checked[disabled] + i {
         width: var(--Checkbox-inner-size);
         height: var(--Checkbox-inner-size);
         background: var(--Checkbox-onDisabled-bg);
       }
-
     }
-
   }
   &--button.#{$ns}Checkbox--checkbox {
     text-align: center;
@@ -256,67 +250,77 @@
     border-radius: calc(var(--Checkbox-borderRadius) * 2);
     min-width: var(--Checkbox-button-min-width);
 
-    &:hover:not(:disabled){
+    &:hover:not(:disabled) {
       color: var(--Checkbox-onHover-color);
+      border-color: var(--Checkbox-onHover-color);
     }
 
     &:hover {
       input:checked + i {
         background: transparent;
-            border-color: var(--Button--primary-onHover-bg) transparent transparent var(--Button--primary-onHover-bg);
+        border-color: var(--Button--primary-onHover-bg) transparent transparent
+          var(--Button--primary-onHover-bg);
       }
     }
 
     &:active {
       input:checked + i {
         background: transparent;
-        border-color: var(--Switch-checked-onHover-bgColor) transparent transparent var(--Switch-checked-onHover-bgColor);
+        border-color: var(--Switch-checked-onHover-bgColor) transparent
+          transparent var(--Switch-checked-onHover-bgColor);
       }
     }
 
     input {
-        &:checked + i {
-          background: transparent;
+      &:checked + i {
+        background: transparent;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-width: px2rem(8px);
+        border-color: var(--Checkbox-onHover-color) transparent transparent
+          var(--Checkbox-onHover-color);
+        border-radius: 0;
+
+        &:before {
+          position: absolute;
           top: 0;
           left: 0;
-          width: 0;
-          height: 0;
-          border-width: px2rem(8px);
-          border-color: var(--Checkbox-onHover-color) transparent transparent var(--Checkbox-onHover-color);
-          border-radius: 0;
+          width: var(--Checkbox--full-inner-size);
+          height: calc(var(--Checkbox--full-inner-size) / 2);
+          transform: translate(-80%, -160%) rotate(-50deg) scale(0.8);
+          background: transparent;
+        }
+      }
 
+      &[disabled] + i {
+        border-color: var(--Checkbox-onDisabled-color);
+        background: transparent;
+        &:before {
+          background: transparent;
+        }
+      }
+
+      &:checked[disabled] + i {
+        background: transparent;
+        border-width: px2rem(7px);
+        border-color: var(--Checkbox-inner-disabled-checked-bg) transparent
+          transparent var(--Checkbox-inner-disabled-checked-bg);
           &:before {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: var(--Checkbox--full-inner-size);
-            height: calc(var(--Checkbox--full-inner-size) / 2);
-            transform: translate(-80%, -160%) rotate(-50deg);
             background: transparent;
+            border-color: var(--Checkbox-inner-onDisabled-color) !important;
           }
-        }
-
-        &[disabled] + i {
-          border-color: var(--Checkbox-onDisabled-color);
-          background: transparent;
-            &:before {
-              background: transparent;
-          }
-        }
-
-        &:checked[disabled] + i {
-          background: transparent;
-          border-width: px2rem(8px);
-          border-color: var(--Checkbox-onHover-color) transparent transparent var(--Checkbox-onHover-color);
-        }
+      }
     }
     > i {
       position: absolute;
       top: 0;
-      left:0;
+      left: 0;
       margin-left: 0;
       border: 0;
       border-style: solid;
+      background: transparent;
 
       + span {
         max-width: px2rem(100px);
@@ -330,18 +334,27 @@
     border-color: var(--Checkbox-onHover-color);
     color: var(--Checkbox-onHover-color);
 
-      &:hover {
-        border-color: var(--menu-active-color);
-        color: var(--menu-active-color);
-      }
-      &:active {
-        border-color: var(--Switch-checked-onHover-bgColor);
-        color: var(--Switch-checked-onHover-bgColor);
-      }
+    &:hover {
+      border-color: var(--menu-active-color);
+      color: var(--menu-active-color);
+    }
+    &:active {
+      border-color: var(--Switch-checked-onHover-bgColor);
+      color: var(--Switch-checked-onHover-bgColor);
+    }
   }
-  &--button--disabled--unchecked.#{$ns}Checkbox--checkbox.#{$ns}Checkbox--full {
-    i {
-      background: var(--FileControl-onDisabled-bg);
+  &--button--disabled--unchecked.#{$ns}Checkbox--checkbox {
+    background: var(--Checkbox-disabled-unchecked-bg);
+    border-color: var(--Checkbox-color);
+    &:hover {
+      border-color: var(--Checkbox-color) !important;
+    }
+  }
+  &--button--disabled--checked.#{$ns}Checkbox--checkbox {
+    background: var(--Checkbox-onDisabled-bg);
+    border-color: var(--Checkbox-color) !important;
+    &:hover {
+      border-color: var(--Checkbox-color) !important;
     }
   }
   &--radio {
@@ -391,7 +404,7 @@
       border-radius: 50%;
     }
 
-    &.#{$ns}Checkbox--button--disabled--unchecked.#{$ns}Checkbox--full{
+    &.#{$ns}Checkbox--button--disabled--unchecked.#{$ns}Checkbox--full {
       background: none;
 
       i {
@@ -464,7 +477,7 @@
     display: block;
     margin-bottom: var(--Form-label-paddingTop);
   }
-  
+
   .#{$ns}Checkbox--button {
     margin-bottom: 0;
 

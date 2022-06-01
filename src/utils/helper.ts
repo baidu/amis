@@ -20,9 +20,9 @@ import {
   keyToPath,
   isPureVariable,
   resolveVariable,
-  resolveVariableAndFilter,
+  resolveVariableAndFilter
 } from 'amis-formula';
-import {isObservable} from 'mobx';
+import {isObservable, isObservableArray} from 'mobx';
 
 export {
   createObject,
@@ -937,6 +937,9 @@ export function everyTree<T extends TreeItem>(
   paths: Array<T> = [],
   indexes: Array<number> = []
 ): boolean {
+  if (!Array.isArray(tree) && !isObservableArray(tree)) {
+    return false;
+  }
   return tree.every((item, index) => {
     const value: any = iterator(item, index, level, paths, indexes);
 
@@ -1617,4 +1620,11 @@ export function repeatCount(count: number, iterator: (index: number) => any) {
   }
 
   return result;
+}
+
+export function isNumeric(value: any): boolean {
+  if (typeof value === 'number') {
+    return true;
+  }
+  return /^[-+]?(?:\d*[.])?\d+$/.test(value);
 }

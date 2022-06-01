@@ -282,6 +282,7 @@ export class TreeSelection extends BaseSelection<
       placeholder,
       classnames: cx,
       option2value,
+      placeholderRender,
       translate: __
     } = this.props;
 
@@ -298,7 +299,7 @@ export class TreeSelection extends BaseSelection<
           body
         ) : (
           <div className={cx('TreeSelection-placeholder')}>
-            {__(placeholder)}
+            {placeholderRender?.(this.props) ?? __(placeholder)}
           </div>
         )}
       </div>

@@ -54,7 +54,7 @@ export interface InputFormulaControlSchema extends FormBaseControl {
   /**
    * 控件模式
    */
-  inputMode?: 'button' | 'input-button';
+  inputMode?: 'button' | 'input-button' | 'input-group';
 
   /**
    * 外层input是否允许输入，否需要点击fx在弹窗中输入
@@ -108,6 +108,11 @@ export interface InputFormulaControlSchema extends FormBaseControl {
    * 函数面板CSS样式类名
    */
   functionClassName?: string;
+
+  /**
+   * 当前输入项字段 name: 用于避免循环绑定自身导致无限渲染
+   */
+  selfVariableName?: string;
 }
 
 export interface InputFormulaProps
@@ -147,7 +152,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
   validate() {
     const {translate: __, value} = this.props;
 
-    if (this.ref?.validate) {
+    if (this.ref?.validate && value) {
       const res = this.ref.validate(value);
       if (res !== true) {
         return __('FormulaEditor.invalidData', {err: res});
@@ -181,7 +186,8 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       variableClassName,
       functionClassName,
       data,
-      onPickerOpen
+      onPickerOpen,
+      selfVariableName
     } = this.props;
     let {variables, functions} = this.props;
 
@@ -221,6 +227,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         functionClassName={functionClassName}
         data={data}
         onPickerOpen={onPickerOpen}
+        selfVariableName={selfVariableName}
       />
     );
   }

@@ -56,7 +56,7 @@ export type ItemPlace = 'start' | 'middle' | 'end';
  * 文档：https://baidu.gitee.io/amis/docs/components/breadcrumb
  */
 
- export interface BreadcrumbSchema extends BaseSchema {
+export interface BreadcrumbSchema extends BaseSchema {
   /**
    *  指定为面包屑显示控件
    */
@@ -103,18 +103,13 @@ export type ItemPlace = 'start' | 'middle' | 'end';
   tooltipPosition?: TooltipPositionType;
 }
 
-export interface BreadcrumbProps extends RendererProps,
-  Omit<BreadcrumbSchema, 'type' | 'className'> {}
+export interface BreadcrumbProps
+  extends RendererProps,
+    Omit<BreadcrumbSchema, 'type' | 'className'> {}
 
 export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
   render() {
-    const {
-      items,
-      source,
-      data,
-      env,
-      ...restProps
-    } = this.props;
+    const {items, source, data, env, ...restProps} = this.props;
 
     let crumbItems = items
       ? items
@@ -128,7 +123,7 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
         item.label = filter(item.label, data);
       }
       if (item.href) {
-        item.href = filter(item.href, data);
+        item.href = resolveVariableAndFilter(item.href, data, '| raw');
       }
       if (item.dropdown) {
         item.dropdown = item.dropdown.map(dropdownItem => {
@@ -136,7 +131,11 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
             dropdownItem.label = filter(dropdownItem.label, data);
           }
           if (dropdownItem.href) {
-            dropdownItem.href = filter(dropdownItem.href, data);
+            dropdownItem.href = resolveVariableAndFilter(
+              dropdownItem.href,
+              data,
+              '| raw'
+            );
           }
           return dropdownItem;
         });

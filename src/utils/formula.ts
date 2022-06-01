@@ -169,7 +169,7 @@ export function formulaExec(
     // 非字符串类型，直接返回，比如：boolean、number类型、Object、Array类型
     return value;
   } else if (curExecMode && FormulaExec[curExecMode]) {
-    return FormulaExec[curExecMode];
+    return FormulaExec[curExecMode](value, data);;
   }
 
   const curValue = value.trim(); // 剔除前后空格
@@ -183,7 +183,7 @@ export function formulaExec(
   } else if (curValue.startsWith('${') && curValue.endsWith('}')) {
     // ${ xxx } 格式 使用 formula 运算器
     return FormulaExec['formula'](curValue, data);
-  } else if (isExpression(test)) {
+  } else if (isExpression(curValue)) {
     // 表达式格式使用 formula 运算器
     return FormulaExec['formula'](curValue, data);
   } else if (/(\${).+(\})/.test(curValue)) {
@@ -210,12 +210,14 @@ export function registerFormulaExec(execMode: string, formulaExec: Function) {
 
 // 用于判断是否优先使用value。
 export function isExpression(expression: any): boolean {
-  if (!isString(expression)) {
+  if (!expression || !isString(expression)) {
     // 非字符串类型，比如：Object、Array类型、boolean、number类型
     return false;
   }
-  // 备注: "\\${xxx}"不作为表达式，至少含一个${xxx}才算是表达式
-  return /(?<!\\)(\${).+(\})/.test(expression);
+  // 备注1: "\\${xxx}"不作为表达式，至少含一个${xxx}才算是表达式
+  
+  // 备注2: safari 不支持 /(?<!\\)(\${).+(\})/.test(expression) 
+  return /(^|[^\\])\$\{.+\}/.test(expression);
 }
 
 // 用于判断是否需要执行表达式:

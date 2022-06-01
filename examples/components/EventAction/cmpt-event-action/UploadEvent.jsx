@@ -5,7 +5,7 @@ const getEventDesc = eventName => {
         actionType: 'toast',
         args: {
           msgType: 'info',
-          msg: `派发${eventName}事件`
+          msg: `派发${eventName}事件` + '${event.data|json}'
         }
       }
     ]
@@ -15,21 +15,10 @@ const getEventDesc = eventName => {
 const change = {
   actions: [
     {
-      actionType: 'dialog',
+      actionType: 'toast',
       args: {
-        val: '${event.data.file}'
-      },
-      dialog: {
-        title: `派发change事件`,
-        data: {
-          val: '${val}'
-        },
-        body: [
-          {
-            type: 'tpl',
-            tpl: '${val|json}'
-          }
-        ]
+        msgType: 'info',
+        msg: '派发change事件${event.data.file|json}'
       }
     }
   ]
@@ -77,6 +66,7 @@ export default {
               id: 'clear-input-file',
               name: 'file',
               multiple: true,
+              receiver: 'ddd',
               onEvent: {
                 change,
                 remove: getEventDesc('remove'),

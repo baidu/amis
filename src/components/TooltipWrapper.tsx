@@ -63,7 +63,7 @@ export interface TooltipObject {
   /**
    * 浮层内容可通过JSX渲染
    */
-  children?: () => JSX.Element | JSX.Element;
+  children?: () => JSX.Element;
   /**
    * 挂载容器元素
    */
@@ -98,7 +98,7 @@ export interface TooltipWrapperProps {
   /**
    * 显示&隐藏时触发
    */
-   onVisibleChange?: (visible: boolean) => void;
+  onVisibleChange?: (visible: boolean) => void;
 }
 
 interface TooltipWrapperState {
@@ -153,25 +153,31 @@ export class TooltipWrapper extends React.Component<
   }
 
   show() {
-    this.setState({
-      show: true
-    }, () => {
-      if (this.props.onVisibleChange) {
-        this.props.onVisibleChange(true);
+    this.setState(
+      {
+        show: true
+      },
+      () => {
+        if (this.props.onVisibleChange) {
+          this.props.onVisibleChange(true);
+        }
       }
-    });
+    );
   }
 
   hide() {
     waitToHide = null;
     this.moutned &&
-      this.setState({
-        show: false
-      }, () => {
-        if (this.props.onVisibleChange) {
-          this.props.onVisibleChange(false);
+      this.setState(
+        {
+          show: false
+        },
+        () => {
+          if (this.props.onVisibleChange) {
+            this.props.onVisibleChange(false);
+          }
         }
-      });
+      );
   }
 
   getChildProps() {

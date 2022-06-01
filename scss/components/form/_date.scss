@@ -92,22 +92,22 @@
   display: flex;
 }
 
-.#{$ns}DateControl {
-  width: auto !important; // 因为这里要撑开父容器
-  &.is-date > .#{$ns}DatePicker {
-    min-width: calc(var(--DatePicker-minWidth) + var(--fontSizeLg) * 2);
-  }
+// .#{$ns}DateControl {
+//   width: auto !important; // 因为这里要撑开父容器
+//   &.is-date > .#{$ns}DatePicker {
+//     min-width: calc(var(--DatePicker-minWidth) + var(--fontSizeLg) * 2);
+//   }
 
-  &.is-datetime > .#{$ns}DatePicker {
-    min-width: calc(var(--DatePicker-minWidth) + var(--fontSizeLg) * 6);
-  }
-}
+//   &.is-datetime > .#{$ns}DatePicker {
+//     min-width: calc(var(--DatePicker-minWidth) + var(--fontSizeLg) * 6);
+//   }
+// }
 
 .#{$ns}DatePicker-shortcuts {
   margin: 0;
   padding-left: px2rem(10px);
   list-style: none;
-  background: #F7F7F9;
+  background: #f7f7f9;
   line-height: px2rem(32px);
 }
 
@@ -274,8 +274,8 @@
     .rdtDisabled.rdtToday,
     .rdtOld.rdtToday,
     .rdtNew.rdtToday {
-      >span {
-        border-color: #E8E9EB;
+      > span {
+        border-color: #e8e9eb;
       }
     }
 
@@ -290,7 +290,7 @@
       color: #151b26;
       > span {
         background: transparent;
-        border-color: #144BCC;
+        border-color: #144bcc;
       }
     }
 
@@ -584,7 +584,6 @@
 td.rdtMonth,
 td.rdtYear,
 td.rdtQuarter {
-
   > span {
     display: inline-block;
   }
@@ -607,21 +606,31 @@ td.rdtQuarter {
   &.rdtDisabled,
   &.rdtDisabled:hover {
     background: var(--Calendar-cell-onDisabled-bg);
-    color: #B8BABF;
+    color: #b8babf;
   }
-  
 }
 
 .#{$ns}DateRangePicker-start {
   .rdtPicker .rdtActive.rdtBetween {
-    background: linear-gradient(to right, transparent 0%, transparent 50%, var(--Calendar-cell-onBetween-bg) 51%, var(--Calendar-cell-onBetween-bg) 100%);
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      transparent 50%,
+      var(--Calendar-cell-onBetween-bg) 51%,
+      var(--Calendar-cell-onBetween-bg) 100%
+    );
   }
 }
 
-
 .#{$ns}DateRangePicker-end {
   .rdtPicker .rdtActive.rdtBetween {
-    background: linear-gradient(to right, var(--Calendar-cell-onBetween-bg) 0%, var(--Calendar-cell-onBetween-bg) 50%, transparent 51%, transparent 100%);
+    background: linear-gradient(
+      to right,
+      var(--Calendar-cell-onBetween-bg) 0%,
+      var(--Calendar-cell-onBetween-bg) 50%,
+      transparent 51%,
+      transparent 100%
+    );
   }
 }
 

@@ -17,6 +17,7 @@ import {themeable} from '../../theme';
 import {localeable} from '../../locale';
 import type {SchemaIcon} from '../../Schema';
 import {parse, Evaluator} from 'amis-formula';
+import Input from '../Input';
 
 export interface FormulaPickerProps extends FormulaEditorProps {
   // 新的属性？
@@ -35,7 +36,7 @@ export interface FormulaPickerProps extends FormulaEditorProps {
   /**
    * 控件模式
    */
-  mode?: 'button' | 'input-button';
+  mode?: 'button' | 'input-button' | 'input-group';
 
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
@@ -185,6 +186,10 @@ export class FormulaPicker extends React.Component<
   handleEditorConfirm() {
     const {translate: __} = this.props;
     const value = this.state.editorValue;
+    this.confirm(value);
+  }
+
+  confirm(value: string) {
     const validate = this.validate(value);
 
     if (validate === true) {
@@ -237,10 +242,11 @@ export class FormulaPicker extends React.Component<
     const {translate: __} = this.props;
 
     try {
-      parse(value, {
-        evalMode: this.props.evalMode,
-        allowFilter: false
-      });
+      value &&
+        parse(value, {
+          evalMode: this.props.evalMode,
+          allowFilter: false
+        });
 
       return true;
     } catch (e) {
@@ -257,13 +263,13 @@ export class FormulaPicker extends React.Component<
       classnames: cx,
       translate: __,
       disabled,
-      allowInput,
+      allowInput = true,
       className,
       onChange,
       size,
       borderMode,
       placeholder,
-      mode,
+      mode = 'input-button',
       btnLabel,
       level,
       btnSize,
@@ -289,8 +295,14 @@ export class FormulaPicker extends React.Component<
             setState: this.updateState
           })
         ) : (
-          <div className={cx('FormulaPicker', className)}>
-            {mode === 'button' ? (
+          <div
+            className={cx(
+              'FormulaPicker',
+              className,
+              mode === 'input-group' ? 'is-input-group' : ''
+            )}
+          >
+            {mode === 'button' && (
               <Button
                 className={cx('FormulaPicker-action', 'w-full')}
                 level={level}
@@ -319,7 +331,8 @@ export class FormulaPicker extends React.Component<
                   {__(btnLabel || 'FormulaEditor.btnLabel')}
                 </span>
               </Button>
-            ) : (
+            )}
+            {mode === 'input-button' && (
               <>
                 <ResultBox
                   className={cx(
@@ -360,6 +373,42 @@ export class FormulaPicker extends React.Component<
                 </Button>
               </>
             )}
+            {mode === 'input-group' && (
+              <>
+                <ResultBox
+                  className={cx(
+                    'FormulaPicker-input',
+                    isOpened ? 'is-active' : '',
+                    !!isError ? 'is-error' : ''
+                  )}
+                  allowInput={allowInput}
+                  clearable={clearable}
+                  value={value}
+                  result={
+                    allowInput
+                      ? void 0
+                      : FormulaEditor.highlightValue(
+                          value,
+                          variables!,
+                          this.props.evalMode
+                        )
+                  }
+                  itemRender={this.renderFormulaValue}
+                  onResultChange={noop}
+                  onChange={this.handleInputChange}
+                  disabled={disabled}
+                  borderMode={borderMode}
+                  placeholder={placeholder}
+                />
+
+                <a
+                  className={cx(`FormulaPicker-toggler`)}
+                  onClick={this.handleClick}
+                >
+                  <Icon icon="function" className="icon" />
+                </a>
+              </>
+            )}
           </div>
         )}
         <Modal
@@ -379,6 +428,7 @@ export class FormulaPicker extends React.Component<
               variableMode={this.state.variableMode ?? variableMode}
               value={editorValue}
               onChange={this.handleEditorChange}
+              selfVariableName={this.props.selfVariableName}
             />
           </Modal.Body>
           <Modal.Footer>
