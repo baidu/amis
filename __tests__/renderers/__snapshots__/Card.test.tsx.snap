@@ -1,5 +1,145 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Renderer: dragging selectable checkable selected hideCheckToggler multiple 1`] = `
+<div
+  className="cxd-Page"
+  onClick={[Function]}
+>
+  <div
+    className="cxd-Page-content"
+  >
+    <div
+      className="cxd-Page-main"
+    >
+      <div
+        className="cxd-Page-body"
+      >
+        <div
+          className="cxd-Card"
+          onClick={[Function]}
+        >
+          <div
+            className="cxd-Card-heading"
+          >
+            <div
+              className="cxd-Card-meta"
+            />
+            <div
+              className="cxd-Card-toolbar"
+            >
+              <label
+                className="cxd-Checkbox cxd-Checkbox--radio cxd-Card-checkbox cxd-Checkbox--full"
+              >
+                <input
+                  checked={false}
+                  disabled={false}
+                  onChange={[Function]}
+                  onClick={[Function]}
+                  type="radio"
+                />
+                <i />
+                <span
+                  className=""
+                />
+              </label>
+              <div
+                className="cxd-Card-dragBtn"
+              >
+                <icon-mock
+                  className="icon icon-drag-bar"
+                  icon="drag-bar"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:actionCount:1 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Card className"
+          >
+            <div
+              class="cxd-Card-heading"
+            >
+              <div
+                class="cxd-Card-meta"
+              >
+                <div
+                  class="cxd-Card-title"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      标题
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Card-body bodyClassName"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  这里是内容
+                </span>
+              </span>
+            </div>
+            <div
+              class="cxd-Card-footer-wrapper"
+            >
+              <div
+                class="cxd-Card-actions-wrapper"
+              >
+                <div
+                  class="cxd-Card-actions"
+                >
+                  <a
+                    class="cxd-Card-action cxd-Card-action--sm"
+                  >
+                    <span>
+                      编辑
+                    </span>
+                  </a>
+                  <a
+                    class="cxd-Card-action cxd-Card-action--sm"
+                  >
+                    <span>
+                      删除
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:card 1`] = `
 <div>
   <div
@@ -15,19 +155,11 @@ exports[`Renderer:card 1`] = `
           class="cxd-Page-body"
         >
           <div
-            class="cxd-Card"
+            class="cxd-Card className cxd-Card--link"
           >
             <div
               class="cxd-Card-heading"
             >
-              <span
-                class="cxd-Card-avtar pull-left thumb-md avatar b-3x m-r"
-              >
-                <img
-                  class="cxd-Card-img"
-                  src="data:image/svg+xml,%3C%3Fxml version='1.0' standalone='no'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg t='1631083237695' class='icon' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='2420' xmlns:xlink='http://www.w3.org/1999/xlink' width='1024' height='1024'%3E%3Cdefs%3E%3Cstyle type='text/css'%3E%3C/style%3E%3C/defs%3E%3Cpath d='M959.872 128c0.032 0.032 0.096 0.064 0.128 0.128v767.776c-0.032 0.032-0.064 0.096-0.128 0.128H64.096c-0.032-0.032-0.096-0.064-0.128-0.128V128.128c0.032-0.032 0.064-0.096 0.128-0.128h895.776zM960 64H64C28.8 64 0 92.8 0 128v768c0 35.2 28.8 64 64 64h896c35.2 0 64-28.8 64-64V128c0-35.2-28.8-64-64-64z' p-id='2421' fill='%23bfbfbf'%3E%3C/path%3E%3Cpath d='M832 288c0 53.024-42.976 96-96 96s-96-42.976-96-96 42.976-96 96-96 96 42.976 96 96zM896 832H128V704l224-384 256 320h64l224-192z' p-id='2422' fill='%23bfbfbf'%3E%3C/path%3E%3C/svg%3E"
-                />
-              </span>
               <div
                 class="cxd-Card-meta"
               >
@@ -42,32 +174,10 @@ exports[`Renderer:card 1`] = `
                     </span>
                   </span>
                 </div>
-                <div
-                  class="cxd-Card-subTitle"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      副标题
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Card-desc"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      这是一段描述
-                    </span>
-                  </span>
-                </div>
               </div>
             </div>
             <div
-              class="cxd-Card-body"
+              class="cxd-Card-body bodyClassName"
             >
               <span
                 class="cxd-TplField"
@@ -634,6 +744,91 @@ exports[`Renderer:cards media 1`] = `
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:header 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Card"
+          >
+            <div
+              class="cxd-Card-heading className"
+            >
+              <span
+                class="cxd-Card-avtar pull-left thumb-md avatar b-3x m-r"
+              >
+                <img
+                  class="cxd-Card-img imageClassName"
+                  src="data:image/svg+xml,%3C%3Fxml version='1.0' standalone='no'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg t='1631083237695' class='icon' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='2420' xmlns:xlink='http://www.w3.org/1999/xlink' width='1024' height='1024'%3E%3Cdefs%3E%3Cstyle type='text/css'%3E%3C/style%3E%3C/defs%3E%3Cpath d='M959.872 128c0.032 0.032 0.096 0.064 0.128 0.128v767.776c-0.032 0.032-0.064 0.096-0.128 0.128H64.096c-0.032-0.032-0.096-0.064-0.128-0.128V128.128c0.032-0.032 0.064-0.096 0.128-0.128h895.776zM960 64H64C28.8 64 0 92.8 0 128v768c0 35.2 28.8 64 64 64h896c35.2 0 64-28.8 64-64V128c0-35.2-28.8-64-64-64z' p-id='2421' fill='%23bfbfbf'%3E%3C/path%3E%3Cpath d='M832 288c0 53.024-42.976 96-96 96s-96-42.976-96-96 42.976-96 96-96 96 42.976 96 96zM896 832H128V704l224-384 256 320h64l224-192z' p-id='2422' fill='%23bfbfbf'%3E%3C/path%3E%3C/svg%3E"
+                />
+              </span>
+              <div
+                class="cxd-Card-meta"
+              >
+                <div
+                  class="cxd-Card-title titleClassName"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      标题
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="cxd-Card-subTitle subTitleClassName"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      副标题
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="cxd-Card-desc descriptionClassName"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这是一段描述
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Card-body"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  这里是内容
+                </span>
+              </span>
             </div>
           </div>
         </div>

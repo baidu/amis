@@ -62,6 +62,103 @@ exports[`Renderer:breadcrumb 1`] = `
 </div>
 `;
 
+exports[`Renderer:breadcrumb className 1`] = `
+<div>
+  <div
+    class="cxd-Breadcrumb className"
+  >
+    <span
+      class="cxd-Breadcrumb-item"
+    >
+      <a
+        class="cxd-Breadcrumb-item-default itemClassName"
+        href="https://baidu.gitee.com/"
+      >
+        <i
+          class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+        />
+        <span
+          class="cxd-TplField"
+        >
+          首页
+        </span>
+      </a>
+    </span>
+    <span
+      class="cxd-Breadcrumb-separator"
+    >
+      &gt;
+    </span>
+    <span
+      class="cxd-Breadcrumb-item is-opened"
+    >
+      <span
+        class="cxd-Breadcrumb-item-default itemClassName"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          上级页面
+        </span>
+      </span>
+      <span
+        class="cxd-Breadcrumb-item-caret"
+      >
+        <icon-mock
+          classname="icon icon-caret"
+          icon="caret"
+        />
+      </span>
+      <ul
+        class="cxd-Breadcrumb-dropdown dropdownClassName"
+      >
+        <li>
+          <a
+            class="cxd-Breadcrumb-item-dropdown dropdownItemClassName"
+            href="https://baidu.gitee.com/"
+          >
+            <span
+              class="cxd-TplField"
+            >
+              选项一
+            </span>
+          </a>
+        </li>
+        <li>
+          <span
+            class="cxd-Breadcrumb-item-dropdown dropdownItemClassName"
+          >
+            <span
+              class="cxd-TplField"
+            >
+              选项二
+            </span>
+          </span>
+        </li>
+      </ul>
+    </span>
+    <span
+      class="cxd-Breadcrumb-separator"
+    >
+      &gt;
+    </span>
+    <span
+      class="cxd-Breadcrumb-item cxd-Breadcrumb-item-last"
+    >
+      <span
+        class="cxd-Breadcrumb-item-default itemClassName"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          当前页面
+        </span>
+      </span>
+    </span>
+  </div>
+</div>
+`;
+
 exports[`Renderer:breadcrumb dropdown 1`] = `
 <div>
   <div
@@ -219,6 +316,322 @@ exports[`Renderer:breadcrumb separator 1`] = `
               </span>
             </span>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
+<div
+  className="cxd-Page"
+  onClick={[Function]}
+>
+  <div
+    className="cxd-Page-content"
+  >
+    <div
+      className="cxd-Page-main"
+    >
+      <div
+        className="cxd-Page-body"
+      >
+        <div
+          className="cxd-Breadcrumb"
+        >
+          <span
+            className="cxd-Breadcrumb-item"
+          >
+            <a
+              className="cxd-Breadcrumb-item-default"
+              href="https://baidu.gitee.com/"
+            >
+              <i
+                className="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+              />
+              <span
+                className="cxd-TplField"
+              />
+            </a>
+          </span>
+          <span
+            className="cxd-Breadcrumb-separator text-black"
+          >
+            &gt;
+          </span>
+          <span
+            className="cxd-Breadcrumb-item"
+          >
+            <a
+              className="cxd-Breadcrumb-item-default"
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+            >
+              <span
+                className="cxd-TplField"
+              >
+                上级页面上级页面上级页面上级页面...
+              </span>
+            </a>
+          </span>
+          <span
+            className="cxd-Breadcrumb-separator text-black"
+          >
+            &gt;
+          </span>
+          <span
+            className="cxd-Breadcrumb-item cxd-Breadcrumb-item-last"
+          >
+            <span
+              className="cxd-Breadcrumb-item-default"
+            >
+              <span
+                className="cxd-TplField"
+              >
+                当前页面
+              </span>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
+<div
+  className="cxd-Page"
+  onClick={[Function]}
+>
+  <div
+    className="cxd-Page-content"
+  >
+    <div
+      className="cxd-Page-main"
+    >
+      <div
+        className="cxd-Page-body"
+      >
+        <div
+          className="cxd-Breadcrumb"
+        >
+          <span
+            className="cxd-Breadcrumb-item"
+          >
+            <a
+              className="cxd-Breadcrumb-item-default"
+              href="https://baidu.gitee.com/"
+            >
+              <i
+                className="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+              />
+              <span
+                className="cxd-TplField"
+              />
+            </a>
+          </span>
+          <span
+            className="cxd-Breadcrumb-separator text-black"
+          >
+            &gt;
+          </span>
+          <span
+            className="cxd-Breadcrumb-item"
+          >
+            <a
+              className="cxd-Breadcrumb-item-default"
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+            >
+              <span
+                className="cxd-TplField"
+              >
+                上级页面上级页面上级页面上级页面...
+              </span>
+            </a>
+          </span>
+          <span
+            className="cxd-Breadcrumb-separator text-black"
+          >
+            &gt;
+          </span>
+          <span
+            className="cxd-Breadcrumb-item cxd-Breadcrumb-item-last"
+          >
+            <span
+              className="cxd-Breadcrumb-item-default"
+            >
+              <span
+                className="cxd-TplField"
+              >
+                当前页面
+              </span>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
+<div
+  className="cxd-Page"
+  onClick={[Function]}
+>
+  <div
+    className="cxd-Page-content"
+  >
+    <div
+      className="cxd-Page-main"
+    >
+      <div
+        className="cxd-Page-body"
+      >
+        <div
+          className="cxd-Breadcrumb"
+        >
+          <span
+            className="cxd-Breadcrumb-item"
+          >
+            <a
+              className="cxd-Breadcrumb-item-default"
+              href="https://baidu.gitee.com/"
+            >
+              <i
+                className="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+              />
+              <span
+                className="cxd-TplField"
+              />
+            </a>
+          </span>
+          <span
+            className="cxd-Breadcrumb-separator text-black"
+          >
+            &gt;
+          </span>
+          <span
+            className="cxd-Breadcrumb-item"
+          >
+            <a
+              className="cxd-Breadcrumb-item-default"
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+            >
+              <span
+                className="cxd-TplField"
+              >
+                上级页面上级页面上级页面上级页面...
+              </span>
+            </a>
+          </span>
+          <span
+            className="cxd-Breadcrumb-separator text-black"
+          >
+            &gt;
+          </span>
+          <span
+            className="cxd-Breadcrumb-item cxd-Breadcrumb-item-last"
+          >
+            <span
+              className="cxd-Breadcrumb-item-default"
+            >
+              <span
+                className="cxd-TplField"
+              >
+                当前页面
+              </span>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
+<div
+  className="cxd-Page"
+  onClick={[Function]}
+>
+  <div
+    className="cxd-Page-content"
+  >
+    <div
+      className="cxd-Page-main"
+    >
+      <div
+        className="cxd-Page-body"
+      >
+        <div
+          className="cxd-Breadcrumb"
+        >
+          <span
+            className="cxd-Breadcrumb-item"
+          >
+            <a
+              className="cxd-Breadcrumb-item-default"
+              href="https://baidu.gitee.com/"
+            >
+              <i
+                className="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+              />
+              <span
+                className="cxd-TplField"
+              />
+            </a>
+          </span>
+          <span
+            className="cxd-Breadcrumb-separator text-black"
+          >
+            &gt;
+          </span>
+          <span
+            className="cxd-Breadcrumb-item"
+          >
+            <a
+              className="cxd-Breadcrumb-item-default"
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+            >
+              <span
+                className="cxd-TplField"
+              >
+                上级页面上级页面上级页面上级页面...
+              </span>
+            </a>
+          </span>
+          <span
+            className="cxd-Breadcrumb-separator text-black"
+          >
+            &gt;
+          </span>
+          <span
+            className="cxd-Breadcrumb-item cxd-Breadcrumb-item-last"
+          >
+            <span
+              className="cxd-Breadcrumb-item-default"
+            >
+              <span
+                className="cxd-TplField"
+              >
+                当前页面
+              </span>
+            </span>
+          </span>
         </div>
       </div>
     </div>
