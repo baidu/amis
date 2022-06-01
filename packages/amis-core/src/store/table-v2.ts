@@ -393,11 +393,11 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
       }
     }
 
-    function exchange(fromIndex: number, toIndex: number, item?: IRow) {
+    function exchange(fromIndex: number, toIndex: number, item?: IRowV2) {
       item = item || self.rows[fromIndex];
 
       if (item.parentId) {
-        const parent: IRow = self.getRowById(item.parentId) as any;
+        const parent: IRowV2 = self.getRowById(item.parentId) as any;
         const offset = parent.children.indexOf(item) - fromIndex;
         toIndex += offset;
         fromIndex += offset;
