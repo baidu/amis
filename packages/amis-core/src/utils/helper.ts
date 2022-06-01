@@ -786,7 +786,7 @@ export function eachTree<T extends TreeItem>(
   tree.map((item, index) => {
     iterator(item, index, level);
 
-    if (item.children && item.children.splice) {
+    if (item.children?.splice) {
       eachTree(item.children, iterator, level + 1);
     }
   });
@@ -897,7 +897,7 @@ export function filterTree<T extends TreeItem>(
   return tree
     .filter((item, index) => iterator(item, index, level))
     .map(item => {
-      if (item.children && item.children.splice) {
+      if (item.children?.splice) {
         let children = filterTree(
           item.children,
           iterator,
@@ -937,7 +937,7 @@ export function everyTree<T extends TreeItem>(
   return tree.every((item, index) => {
     const value: any = iterator(item, index, level, paths, indexes);
 
-    if (value && item.children && item.children.splice) {
+    if (value && item.children?.splice) {
       return everyTree(
         item.children,
         iterator,

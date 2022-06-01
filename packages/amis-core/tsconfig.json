@@ -3,8 +3,16 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./dist",
-    "typeRoots": ["./node_modules/@types", "../../types"]
+    "typeRoots": [
+      "../../types",
+      "./node_modules/@types",
+      "../../node_modules/@types"
+    ]
   },
   "include": ["src/**/*"],
-  "references": []
+  "references": [
+    {
+      "path": "../amis-formula"
+    }
+  ]
 }
