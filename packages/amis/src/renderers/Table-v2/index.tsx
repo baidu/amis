@@ -7,7 +7,7 @@ import isEqual from 'lodash/isEqual';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {ActionObject} from 'amis-core';
-import {Table} from 'amis-ui';
+import {Icon, Table} from 'amis-ui';
 import {BaseSchema, SchemaObject, SchemaTokenizeableString} from '../../Schema';
 import {
   isObject,

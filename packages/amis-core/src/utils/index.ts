@@ -23,6 +23,8 @@ export * from './ColorScale';
 export * from './renderer-event';
 export * from './handleAction';
 export * from './scrollPosition';
+export * from './formula';
+export * from './grammar';
 
 import './debug';
 
