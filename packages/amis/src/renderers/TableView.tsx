@@ -173,7 +173,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
   }
 
   renderTd(td: TdObject, colIndex: number, rowIndex: number) {
-    const {border, borderColor, render, style} = this.props;
+    const {border, borderColor, render, style, padding} = this.props;
     const key = `td-${colIndex}`;
     let styleBorder;
     if (border) {
@@ -186,7 +186,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
           color: td.color,
           fontWeight: td.bold ? 'bold' : 'normal',
           background: td.background,
-          padding: td.padding || defaultPadding,
+          padding: td.padding || padding,
           width: td.width || 'auto',
           textAlign: td.align || 'left',
           verticalAlign: td.valign || 'center',
