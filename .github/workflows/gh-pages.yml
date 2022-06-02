@@ -40,10 +40,10 @@ jobs:
           SINGLE_COMMIT: true
       - name: Generate coverage report
         run: |
-          npm run coverage
+          npm run coverage --workspace amis
       - uses: codecov/codecov-action@v2
         with:
-          files: ./coverage/clover.xml
+          files: ./packages/amis/coverage/clover.xml
           name: codecov-umbrella # optional
           fail_ci_if_error: false
           verbose: true # optional (default = false)
