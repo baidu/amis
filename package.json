@@ -12,7 +12,8 @@
     "stop": "fis3 server stop",
     "dev": "fis3 release -cwd ./public",
     "deploy-gh-page": "sh ./deploy-gh-pages.sh",
-    "test": "npm test --workspaces"
+    "test": "npm test --workspaces",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "fis-optimizer-terser": "^1.0.1",
@@ -28,7 +29,8 @@
     "fis3-postpackager-loader": "^2.1.12",
     "fis3-prepackager-stand-alone-pack": "^1.0.0",
     "fis3-preprocessor-js-require-css": "^0.1.3",
-    "fis3-preprocessor-js-require-file": "^0.1.3"
+    "fis3-preprocessor-js-require-file": "^0.1.3",
+    "husky": "^8.0.0"
   },
   "jest": {
     "testEnvironment": "jsdom",
