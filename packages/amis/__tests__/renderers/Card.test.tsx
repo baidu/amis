@@ -1,8 +1,8 @@
 import React = require('react');
 import {render} from '@testing-library/react';
 import * as renderer from 'react-test-renderer';
-import '../../src/themes/default';
-import {render as amisRender} from '../../src/index';
+import '../../src';
+import {render as amisRender} from '../../src';
 import {makeEnv} from '../helper';
 
 test('Renderer:card', () => {

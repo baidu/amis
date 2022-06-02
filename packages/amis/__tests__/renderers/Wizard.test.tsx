@@ -7,10 +7,10 @@ import {
   waitFor,
   waitForElementToBeRemoved
 } from '@testing-library/react';
-import '../../src/themes/default';
-import {render as amisRender} from '../../src/index';
+import '../../src';
+import {render as amisRender} from '../../src';
 import {wait, makeEnv} from '../helper';
-import {clearStoresCache} from '../../src/factory';
+import {clearStoresCache} from 'amis';
 
 afterEach(() => {
   cleanup();

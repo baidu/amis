@@ -1,8 +1,5 @@
-import '../../src/utils/tpl.ts';
-import {
-  resolveVariableAndFilter,
-  dataMapping
-} from '../../src/utils/tpl-builtin';
+import '../../src';
+import {resolveVariableAndFilter, dataMapping} from '../../src';
 import moment from 'moment';
 
 const filters = [

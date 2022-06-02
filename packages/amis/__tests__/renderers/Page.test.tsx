@@ -2,10 +2,10 @@ import React = require('react');
 import PageRenderer from '../../src/renderers/Page';
 import * as renderer from 'react-test-renderer';
 import {render, fireEvent, cleanup, waitFor} from '@testing-library/react';
-import '../../src/themes/default';
-import {render as amisRender} from '../../src/index';
+import '../../src';
+import {render as amisRender} from '../../src';
 import {wait, makeEnv} from '../helper';
-import {clearStoresCache} from '../../src/factory';
+import {clearStoresCache} from 'amis';
 import {createMemoryHistory} from 'history';
 
 afterEach(() => {

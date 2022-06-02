@@ -1,7 +1,7 @@
-import {render as amisRender} from '../../src/index';
+import {render as amisRender} from '../../src';
 import {wait, makeEnv} from '../helper';
 import {render, fireEvent, cleanup} from '@testing-library/react';
-import {buildApi, isApiOutdated} from '../../src/utils/api';
+import {buildApi, isApiOutdated} from 'amis-core';
 
 test('api:buildApi', () => {
   expect(buildApi('/api/xxx')).toMatchObject({

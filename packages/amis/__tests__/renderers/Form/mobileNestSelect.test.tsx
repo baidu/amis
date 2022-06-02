@@ -1,8 +1,8 @@
 import React = require('react');
 import {render, fireEvent, screen} from '@testing-library/react';
-import '../../../src/themes/default';
+import '../../../src';
 
-import {render as amisRender} from '../../../src/index';
+import {render as amisRender} from '../../../src';
 import {createMockMediaMatcher, makeEnv} from '../../helper';
 
 let originalMatchMedia: any;

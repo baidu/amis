@@ -1,9 +1,9 @@
 import React = require('react');
 import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
-import '../../../src/themes/default';
-import {render as amisRender} from '../../../src/index';
+import '../../../src';
+import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
-import {clearStoresCache} from '../../../src/factory';
+import {clearStoresCache} from 'amis';
 
 afterEach(() => {
   cleanup();
@@ -180,7 +180,7 @@ test('Form:initData:remote', async () => {
           {
             type: 'text',
             name: 'a',
-            label: 'Label',
+            label: 'Label'
           },
           {
             type: 'text',

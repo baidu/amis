@@ -89,35 +89,7 @@
     ],
     "globals": {
       "ts-jest": {
-        "diagnostics": false,
-        "tsconfig": {
-          "module": "commonjs",
-          "target": "es5",
-          "lib": [
-            "es6",
-            "dom",
-            "ES2015"
-          ],
-          "sourceMap": true,
-          "jsx": "react",
-          "moduleResolution": "node",
-          "rootDir": ".",
-          "importHelpers": true,
-          "esModuleInterop": true,
-          "allowSyntheticDefaultImports": true,
-          "sourceRoot": ".",
-          "noImplicitReturns": true,
-          "noImplicitThis": true,
-          "noImplicitAny": true,
-          "strictNullChecks": true,
-          "experimentalDecorators": true,
-          "emitDecoratorMetadata": false,
-          "typeRoots": [
-            "./node_modules/@types",
-            "./types"
-          ],
-          "skipLibCheck": true
-        }
+        "diagnostics": false
       }
     }
   }

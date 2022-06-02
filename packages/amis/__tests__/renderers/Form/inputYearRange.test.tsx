@@ -2,8 +2,8 @@ import React = require('react');
 import PageRenderer from '../../../../amis-core/src/renderers/Form';
 import * as renderer from 'react-test-renderer';
 import {render, fireEvent, screen, within} from '@testing-library/react';
-import '../../../src/themes/default';
-import {render as amisRender} from '../../../src/index';
+import '../../../src';
+import {render as amisRender} from '../../../src';
 import {makeEnv} from '../../helper';
 import moment from 'moment';
 

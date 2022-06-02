@@ -169,44 +169,20 @@
     ],
     "testRegex": "/.*\\.test\\.(ts|tsx|js)$",
     "moduleNameMapper": {
-      "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
-      "\\.(svg)$": "<rootDir>/__mocks__/svgMock.js"
+      "\\.(css|less|sass|scss)$": "<rootDir>/../../__mocks__/styleMock.js",
+      "\\.(svg)$": "<rootDir>/../../__mocks__/svgMock.js",
+      "\\.svg\\.js$": "<rootDir>/../../__mocks__/svgJsMock.js"
     },
     "setupFilesAfterEnv": [
-      "<rootDir>/__tests__/jest.setup.js"
+      "<rootDir>/../amis-core/__tests__/jest.setup.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/.rollup.cache/"
     ],
     "globals": {
       "ts-jest": {
-        "diagnostics": false,
-        "tsconfig": {
-          "module": "commonjs",
-          "target": "es5",
-          "lib": [
-            "es6",
-            "dom",
-            "ES2015",
-            "ES2021"
-          ],
-          "sourceMap": true,
-          "jsx": "react",
-          "moduleResolution": "node",
-          "rootDir": ".",
-          "importHelpers": true,
-          "esModuleInterop": true,
-          "allowSyntheticDefaultImports": true,
-          "sourceRoot": ".",
-          "noImplicitReturns": true,
-          "noImplicitThis": true,
-          "noImplicitAny": true,
-          "strictNullChecks": true,
-          "experimentalDecorators": true,
-          "emitDecoratorMetadata": false,
-          "typeRoots": [
-            "./node_modules/@types",
-            "./types"
-          ],
-          "skipLibCheck": true
-        }
+        "diagnostics": false
       }
     }
   },

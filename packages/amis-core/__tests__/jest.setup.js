@@ -5,6 +5,13 @@ const moment = require('moment');
 moment.tz.setDefault('Asia/Shanghai');
 const cleanup = require('@testing-library/react').cleanup;
 
+// https://github.com/nrwl/nx/issues/1178
+// 解决jest 运行的时候报：
+// ReferenceError: DragEvent is not defined
+Object.defineProperty(window, 'DragEvent', {
+  value: class DragEvent {}
+});
+
 global.beforeAll(() => {
   console.warn = msg => {
     // warning 先关了，实在太吵。

@@ -1,7 +1,7 @@
 import {getSnapshot, getEnv, onSnapshot} from 'mobx-state-tree';
-import {StoreNode} from '../../src/store/node';
-import {ServiceStore} from '../../src/store/service';
-import {RendererStore} from '../../src/store';
+import {StoreNode} from '../../src';
+import {ServiceStore} from '../../src';
+import {RendererStore} from '../../src';
 import omit = require('lodash/omit');
 
 test('store:ServiceStore', () => {

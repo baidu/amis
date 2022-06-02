@@ -8,9 +8,9 @@ import {
   screen,
   waitFor
 } from '@testing-library/react';
-import {render as amisRender} from '../../src/index';
+import {render as amisRender} from '../../src';
 import {makeEnv, wait} from '../helper';
-import '../../src/themes/default';
+import '../../src';
 
 afterEach(cleanup);
 

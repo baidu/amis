@@ -1,7 +1,7 @@
 import React = require('react');
 import {fireEvent, render} from '@testing-library/react';
-import '../../../src/themes/default';
-import {render as amisRender, setIconVendor} from '../../../src/index';
+import '../../../src';
+import {render as amisRender, setIconVendor} from '../../../src';
 import {makeEnv, wait} from '../../helper';
 
 test('Renderer:icon-picker', async () => {

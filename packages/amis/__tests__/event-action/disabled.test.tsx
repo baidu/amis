@@ -1,6 +1,6 @@
 import {fireEvent, render} from '@testing-library/react';
-import '../../src/themes/default';
-import {render as amisRender} from '../../src/index';
+import '../../src';
+import {render as amisRender} from '../../src';
 import {makeEnv} from '../helper';
 
 test('EventAction:disabled', async () => {

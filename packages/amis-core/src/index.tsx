@@ -93,6 +93,7 @@ export {
   updateEnv,
   Renderer,
   RendererProps,
+  RenderOptions,
   RendererEnv,
   EnvContext,
   RegisterStore,

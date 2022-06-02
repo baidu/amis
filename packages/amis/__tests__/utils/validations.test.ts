@@ -1,4 +1,4 @@
-import {validate, str2rules} from '../../src/utils/validations';
+import {validate, str2rules} from '../../src';
 
 test('validation:isRequired valid', () => {
   expect(

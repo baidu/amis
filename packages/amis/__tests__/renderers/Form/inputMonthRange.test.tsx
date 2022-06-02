@@ -1,7 +1,7 @@
 import React = require('react');
 import {render, fireEvent, within, cleanup} from '@testing-library/react';
-import '../../../src/themes/default';
-import {render as amisRender} from '../../../src/index';
+import '../../../src';
+import {render as amisRender} from '../../../src';
 import {makeEnv} from '../../helper';
 import moment from 'moment';
 
