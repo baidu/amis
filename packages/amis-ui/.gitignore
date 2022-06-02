@@ -3,3 +3,4 @@
 /esm
 /.rollup.cache
 /tsconfig.tsbuildinfo
+/coverage
