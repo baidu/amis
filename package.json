@@ -1,7 +1,10 @@
 {
   "name": "aisuda",
   "workspaces": [
-    "packages/*"
+    "packages/amis-formula",
+    "packages/amis-core",
+    "packages/amis-ui",
+    "packages/amis"
   ],
   "scripts": {
     "serve": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",

@@ -8,7 +8,7 @@ import React from 'react';
 import type {ClassName, Schema} from 'amis-core';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {themeable, ThemeProps} from 'amis-core';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import {generateIcon} from 'amis-core';
 import {autobind, guid} from 'amis-core';
 import {Icon} from './icons';

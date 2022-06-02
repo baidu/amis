@@ -104,17 +104,10 @@ exports[`Renderer:breadcrumb className 1`] = `
       <span
         class="cxd-Breadcrumb-item-caret"
       >
-        <svg
-          class="icon icon-caret"
+        <icon-mock
+          classname="icon icon-caret"
           icon="caret"
-          viewBox="0 0 12 8"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10.473 0 6 4.8 1.527 0 0 1.6 6 8l6-6.4z"
-            fill="currentColor"
-          />
-        </svg>
+        />
       </span>
       <ul
         class="cxd-Breadcrumb-dropdown dropdownClassName"

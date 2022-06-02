@@ -97,8 +97,10 @@ export function getTheme(theme: string): ThemeInstance {
   const config = themes[theme || 'cxd'];
 
   if (!config.getRendererConfig) {
-    config.getRendererConfig = (name?: string) =>
-      config.renderers && name ? config.renderers[name] : null;
+    config.getRendererConfig = (name?: string) => {
+      const config = themes[theme || 'cxd'];
+      return config.renderers && name ? config.renderers[name] : null;
+    };
   }
 
   if (!config.classnames) {

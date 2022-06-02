@@ -28,6 +28,7 @@ jobs:
       - name: build gh-pages
         run: |
           npm i --legacy-peer-deps
+          npm run build --workspaces
           sh deploy-gh-pages.sh
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1

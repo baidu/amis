@@ -8,7 +8,7 @@ import ResultBox from './ResultBox';
 import {useSetState, useUpdateEffect} from '../hooks';
 import {localeable, LocaleProps} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import PopUp from './PopUp';
 import {PickerObjectOption} from './PickerColumn';
 

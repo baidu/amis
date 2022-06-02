@@ -12,7 +12,7 @@ import React, {
 } from 'react';
 import isObject from 'lodash/isObject';
 import cloneDeep from 'lodash/cloneDeep';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 
 import {useSetState, useUpdateEffect} from '../hooks';
 import {range} from 'amis-core';

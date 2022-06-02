@@ -6,7 +6,7 @@
 
 import React from 'react';
 import Html from './Html';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import Tooltip from './Tooltip';
 import {ClassNamesFn, themeable} from 'amis-core';

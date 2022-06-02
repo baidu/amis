@@ -57,7 +57,8 @@
     "react-visibility-sensor": "5.1.1",
     "tslib": "^2.3.1",
     "markdown-it": "^12.0.6",
-    "markdown-it-html5-media": "^0.7.1"
+    "markdown-it-html5-media": "^0.7.1",
+    "uncontrollable": "7.2.1"
   },
   "jest": {
     "testEnvironment": "jsdom",

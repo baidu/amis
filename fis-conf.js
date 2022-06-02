@@ -7,7 +7,13 @@ const package = require('./packages/amis/package.json');
 const parserMarkdown = require('./scripts/md-parser');
 const convertSCSSIE11 = require('./scripts/scss-ie11');
 const parserCodeMarkdown = require('./scripts/code-md-parser');
-fis.get('project.ignore').push('public/**', 'npm/**', 'gh-pages/**');
+fis.set('project.ignore', [
+  'public/**',
+  'scripts/**',
+  'npm/**',
+  'gh-pages/**',
+  '.*/**'
+]);
 // 配置只编译哪些文件。
 
 const Resource = fis.require('postpackager-loader/lib/resource.js');

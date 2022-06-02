@@ -9,7 +9,7 @@ import {findDOMNode} from 'react-dom';
 import {SketchPicker, GithubPicker, ColorResult} from 'react-color';
 import {Icon} from './icons';
 import Overlay from './Overlay';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import PopOver from './PopOver';
 import PopUp from './PopUp';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';

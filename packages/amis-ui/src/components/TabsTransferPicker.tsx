@@ -1,6 +1,6 @@
 import {localeable} from 'amis-core';
 import {themeable} from 'amis-core';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import React from 'react';
 import ResultBox from './ResultBox';
 import {Icon} from './icons';

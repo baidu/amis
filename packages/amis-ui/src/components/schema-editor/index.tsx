@@ -11,7 +11,7 @@ import {
   autobind,
   JSONSchema
 } from 'amis-core';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import {SchemaEditorItem} from './Item';
 import type {JSONSchema7TypeName} from 'json-schema';
 

@@ -156,6 +156,10 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
     throw new Error(
       `The renderer with name "${config.name}" has already exists, please try another name!`
     );
+  } else if (renderersMap.hasOwnProperty(config.name)) {
+    // 后面补充的
+    const idx = findIndex(renderers, item => item.name === config.name);
+    ~idx && renderers.splice(idx, 0, config);
   }
 
   if (config.storeType && config.component) {
@@ -175,7 +179,7 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
     item => (config.weight as number) < item.weight
   );
   ~idx ? renderers.splice(idx, 0, config) : renderers.push(config);
-  renderersMap[config.name] = config.Renderer !== Placeholder;
+  renderersMap[config.name] = config.component !== Placeholder;
   return config;
 }
 
@@ -419,6 +423,7 @@ export function resolveRenderer(
   // 因为自定义 test 函数的有可能依赖 schema 的结果
   if (
     renderer !== null &&
+    (renderer as RendererConfig).component !== Placeholder &&
     ((renderer as RendererConfig).type ||
       (renderer as RendererConfig).test instanceof RegExp ||
       (typeof (renderer as RendererConfig).test === 'function' &&

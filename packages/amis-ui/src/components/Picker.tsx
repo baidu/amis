@@ -3,7 +3,7 @@
  * @description 移动端列滚动选择器
  */
 import React, {memo, ReactNode, useState, useEffect} from 'react';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 
 import {themeable, ThemeProps} from 'amis-core';
 import {localeable, LocaleProps} from 'amis-core';

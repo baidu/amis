@@ -15,6 +15,8 @@ import {
 } from './package.json';
 import path from 'path';
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 const settings = {
   globals: {}
 };
@@ -55,23 +57,25 @@ export default [
     plugins: getPlugins('cjs')
   },
 
-  {
-    input,
+  isDev
+    ? null
+    : {
+        input,
 
-    output: [
-      {
-        ...settings,
-        dir: path.dirname(module),
-        format: 'esm',
-        exports: 'named',
-        preserveModulesRoot: './src',
-        preserveModules: true // Keep directory structure and files
+        output: [
+          {
+            ...settings,
+            dir: path.dirname(module),
+            format: 'esm',
+            exports: 'named',
+            preserveModulesRoot: './src',
+            preserveModules: true // Keep directory structure and files
+          }
+        ],
+        external,
+        plugins: getPlugins('esm')
       }
-    ],
-    external,
-    plugins: getPlugins('esm')
-  }
-];
+].filter(item => item);
 
 function transpileDynamicImportForCJS(options) {
   return {

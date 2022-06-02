@@ -1,7 +1,7 @@
 import {BaseSelection, BaseSelectionProps} from './Selection';
 import {themeable} from 'amis-core';
 import React from 'react';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {autobind, eachTree, everyTree} from 'amis-core';

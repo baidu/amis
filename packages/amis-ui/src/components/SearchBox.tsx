@@ -1,7 +1,7 @@
 import React from 'react';
 import {ThemeProps, themeable} from 'amis-core';
 import {Icon} from './icons';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import {autobind} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import debounce from 'lodash/debounce';

@@ -2,7 +2,7 @@
  * @file 公式编辑器
  */
 import React from 'react';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import {
   parse,
   autobind,

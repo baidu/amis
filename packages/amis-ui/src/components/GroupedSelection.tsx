@@ -1,5 +1,5 @@
 import React from 'react';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 
 import {BaseSelection, BaseSelectionProps} from './Selection';
 import {themeable} from 'amis-core';

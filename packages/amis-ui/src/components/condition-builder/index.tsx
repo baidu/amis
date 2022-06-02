@@ -13,7 +13,7 @@ import {
   mapTree,
   guid
 } from 'amis-core';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import {
   ConditionBuilderFields,
   ConditionGroupValue,

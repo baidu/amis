@@ -10,7 +10,7 @@ import {
 import {ThemeProps, themeable} from 'amis-core';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
 import {Options, Option} from './Select';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import ResultList from './ResultList';
 import TableSelection from './TableSelection';
 import {autobind, flattenTree} from 'amis-core';

@@ -3,7 +3,7 @@ import {render, cleanup} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
 import {makeEnv} from '../helper';
-import {clearStoresCache} from 'amis';
+import {clearStoresCache} from '../../src';
 
 afterEach(() => {
   cleanup();

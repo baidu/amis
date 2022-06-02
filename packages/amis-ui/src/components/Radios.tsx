@@ -15,7 +15,7 @@
  */
 
 import React from 'react';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import Checkbox from './Checkbox';
 import Button from './Button';
 import {value2array, OptionProps, Option} from './Select';

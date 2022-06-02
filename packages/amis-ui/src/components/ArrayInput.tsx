@@ -5,7 +5,7 @@ import InputBox from './InputBox';
 import {Icon} from './icons';
 import Button from './Button';
 import {autobind, guid} from 'amis-core';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
 

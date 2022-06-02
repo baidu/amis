@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import Checkbox from './Checkbox';
 import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';

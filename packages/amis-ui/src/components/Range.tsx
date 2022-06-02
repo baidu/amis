@@ -9,7 +9,7 @@ import keys from 'lodash/keys';
 import isString from 'lodash/isString';
 import difference from 'lodash/difference';
 import React from 'react';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 
 import Overlay from './Overlay';
 import type {ThemeProps} from 'amis-core';

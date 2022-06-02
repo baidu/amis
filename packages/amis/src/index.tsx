@@ -1,7 +1,5 @@
 export * from 'amis-core';
 export * from 'amis-ui';
-import './compat';
-import './schemaExtend';
 
 // 注册渲染器
 import './renderers/Action';
@@ -136,3 +134,7 @@ import './renderers/GridNav';
 import './renderers/TooltipWrapper';
 import './renderers/Tag';
 import './renderers/Table-v2/index';
+
+import './compat';
+import './schemaExtend';
+export * from './renderers/Form/IconPickerIcons';

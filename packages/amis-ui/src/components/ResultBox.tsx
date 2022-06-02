@@ -3,7 +3,7 @@ import React from 'react';
 import omit from 'lodash/omit';
 import isInteger from 'lodash/isInteger';
 import {InputBoxProps} from './InputBox';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import {Icon} from './icons';
 import Input from './Input';
 import {autobind, isMobile, ucFirst} from 'amis-core';

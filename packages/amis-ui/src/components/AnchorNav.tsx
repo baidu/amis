@@ -8,7 +8,7 @@ import React from 'react';
 import {ThemeProps, themeable} from 'amis-core';
 
 import {autobind} from 'amis-core';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import find from 'lodash/find';
 import type {PlainObject, Schema} from 'amis-core';
 

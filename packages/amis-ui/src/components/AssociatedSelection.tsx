@@ -9,7 +9,7 @@ import {BaseSelectionProps, BaseSelection} from './Selection';
 import {Options, Option} from './Select';
 import {autobind} from 'amis-core';
 import {themeable} from 'amis-core';
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import GroupedSelection from './GroupedSelection';
 import TableSelection from './TableSelection';
 import GroupedSelecton from './GroupedSelection';

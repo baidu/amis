@@ -1,4 +1,4 @@
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import React from 'react';
 import {
   FormulaEditor,

@@ -5,7 +5,7 @@
  * @date 2017-11-07
  */
 
-import {uncontrollable} from 'uncontrollable';
+import {uncontrollable} from 'amis-core';
 import React from 'react';
 import isInteger from 'lodash/isInteger';
 import omit from 'lodash/omit';

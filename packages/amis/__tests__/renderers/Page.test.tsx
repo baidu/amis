@@ -5,7 +5,7 @@ import {render, fireEvent, cleanup, waitFor} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
 import {wait, makeEnv} from '../helper';
-import {clearStoresCache} from 'amis';
+import {clearStoresCache} from '../../src';
 import {createMemoryHistory} from 'history';
 
 afterEach(() => {
