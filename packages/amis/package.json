@@ -124,7 +124,6 @@
     "react-router": "5.2.1",
     "react-router-dom": "5.3.0",
     "react-test-renderer": "^18.0.0",
-    "ts-jest": "^27.1.4",
     "ts-json-schema-generator": "0.96.0",
     "ts-node": "^10.5.0",
     "@rollup/plugin-commonjs": "^22.0.0",
@@ -133,10 +132,12 @@
     "@rollup/plugin-typescript": "^8.3.2",
     "@svgr/rollup": "^6.2.1",
     "@testing-library/jest-dom": "^5.16.4",
-    "@types/jest": "^27.0.2",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
-    "jest": "^27.2.1",
+    "@types/jest": "^28.1.0",
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
+    "ts-jest": "^28.0.3",
     "moment-timezone": "^0.5.34",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -171,7 +172,8 @@
     "moduleNameMapper": {
       "\\.(css|less|sass|scss)$": "<rootDir>/../../__mocks__/styleMock.js",
       "\\.(svg)$": "<rootDir>/../../__mocks__/svgMock.js",
-      "\\.svg\\.js$": "<rootDir>/../../__mocks__/svgJsMock.js"
+      "\\.svg\\.js$": "<rootDir>/../../__mocks__/svgJsMock.js",
+      "^amis\\-ui$": "<rootDir>/../amis-ui/src/index.tsx"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/../amis-core/__tests__/jest.setup.js"
