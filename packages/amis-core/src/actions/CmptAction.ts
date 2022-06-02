@@ -16,6 +16,7 @@ export interface ICmptAction extends ListenerAction {
     | 'reload';
   args: {
     value?: string | {[key: string]: string};
+    index?: number; // setValue支持更新指定索引的数据，一般用于数组类型
   };
 }
 
@@ -57,7 +58,7 @@ export class CmptAction implements RendererAction {
     // 数据更新
     if (action.actionType === 'setValue') {
       if (component?.setData) {
-        return component?.setData(action.args?.value);
+        return component?.setData(action.args?.value, action.args?.index);
       } else {
         return component?.props.onChange?.(action.args?.value);
       }

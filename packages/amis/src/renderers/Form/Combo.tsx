@@ -1590,7 +1590,23 @@ export default class ComboControl extends React.Component<ComboProps> {
   storeType: ComboStore.name,
   extendsData: false
 })
-export class ComboControlRenderer extends ComboControl {}
+export class ComboControlRenderer extends ComboControl {
+  // 支持更新指定索引的值
+  setData(value: any, index?: number) {
+    const {multiple, onChange, submitOnChange} = this.props;
+    if (multiple) {
+      if (index !== undefined && ~index) {
+        let newValue = [...this.getValueAsArray()];
+        newValue.splice(index, 1, {...newValue[index], ...value});
+        onChange?.(newValue, submitOnChange, true);
+      } else {
+        onChange?.(value, submitOnChange, true);
+      }
+    } else {
+      onChange?.(value, submitOnChange, true);
+    }
+  }
+}
 
 @FormItem({
   type: 'input-kv',
