@@ -119,7 +119,11 @@ import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPick
 import {UserSelectControlSchema} from './renderers/Form/UserSelect';
 import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
 import {TableSchemaV2} from './renderers/Table-v2';
-import {BaseSchemaWithoutType} from 'amis-core';
+import {
+  BaseSchemaWithoutType,
+  SchemaClassName,
+  SchemaExpression
+} from 'amis-core';
 import type {FormSchemaBase} from 'amis-core/lib/renderers/Form';
 
 // 每加个类型，这补充一下。
@@ -476,43 +480,6 @@ export type SchemaCollection =
   | SchemaObject
   | SchemaTpl
   | Array<SchemaObject | SchemaTpl>;
-
-/**
- * 表达式，语法 `data.xxx > 5`。
- */
-export type SchemaExpression = string;
-
-/**
- * css类名，配置字符串，或者对象。
- *
- *     className: "red"
- *
- * 用对象配置时意味着你能跟表达式一起搭配使用，如：
- *
- *     className: {
- *         "red": "data.progress > 80",
- *         "blue": "data.progress > 60"
- *     }
- */
-export type SchemaClassName =
-  | string
-  | {
-      [propName: string]: boolean | undefined | null | SchemaExpression;
-    };
-
-// /**
-//  * css类名，配置字符串，或者对象。
-//  *
-//  *   className: "red"
-//  *
-//  * 用对象配置时意味着你能跟表达式一起搭配使用，如：
-//  *
-//  *     className: {
-//  *         "red": "data.progress > 80",
-//  *         "blue": "data.progress > 60"
-//  *     }
-//  */
-// export type SchemaClassName = string;
 
 export interface SchemaApiObject {
   /**
@@ -893,3 +860,5 @@ export interface FormSchema extends FormSchemaBase, BaseSchema {
    */
   body?: SchemaCollection;
 }
+
+export {SchemaClassName, SchemaExpression};

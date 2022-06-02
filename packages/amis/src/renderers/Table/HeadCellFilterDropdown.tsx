@@ -13,7 +13,7 @@ import {getVariable, createObject} from 'amis-core';
 
 export interface QuickFilterConfig {
   options: Array<any>;
-  source: Api;
+  // source: Api;
   multiple: boolean;
   [propName: string]: any;
 }

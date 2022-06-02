@@ -7,7 +7,8 @@ import {
   Schema,
   ActionObject,
   Payload,
-  ClassName
+  ClassName,
+  BaseApiObject
 } from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import getExprProperties from '../utils/filter-schema';
@@ -85,12 +86,12 @@ export interface FormSchemaBase {
   /**
    * 用来初始化表单数据
    */
-  initApi?: Api;
+  initApi?: string | BaseApiObject;
 
   /**
    * Form 用来获取初始数据的 api,与initApi不同的是，会一直轮询请求该接口，直到返回 finished 属性为 true 才 结束。
    */
-  initAsyncApi?: Api;
+  initAsyncApi?: string | BaseApiObject;
 
   /**
    * 设置了initAsyncApi后，默认会从返回数据的data.finished来判断是否完成，也可以设置成其他的xxx，就会从data.xxx中获取
@@ -142,7 +143,7 @@ export interface FormSchemaBase {
    *
    * 详情：https://baidu.gitee.io/amis/docs/components/form/index#%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4
    */
-  api?: Api;
+  api?: string | BaseApiObject;
 
   /**
    * Form 也可以配置 feedback。
@@ -152,7 +153,7 @@ export interface FormSchemaBase {
   /**
    * 设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 finished 属性为 true 才 结束。
    */
-  asyncApi?: Api;
+  asyncApi?: string | BaseApiObject;
 
   /**
    * 轮询请求的时间间隔，默认为 3秒。设置 asyncApi 才有效

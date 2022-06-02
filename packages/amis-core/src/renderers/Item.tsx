@@ -23,6 +23,7 @@ import {FormHorizontal, FormSchemaBase} from './Form';
 import {
   Api,
   ApiObject,
+  BaseApiObject,
   BaseSchemaWithoutType,
   ClassName,
   Schema
@@ -283,7 +284,7 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
   /**
    * 远端校验表单项接口
    */
-  validateApi?: Api;
+  validateApi?: string | BaseApiObject;
 }
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {

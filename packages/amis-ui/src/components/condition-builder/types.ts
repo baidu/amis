@@ -1,4 +1,4 @@
-import {Api} from 'amis-core';
+import {Api, BaseApiObject} from 'amis-core';
 
 export type FieldTypes =
   | 'text'
@@ -153,14 +153,14 @@ interface SelectField extends BaseField {
   name: string;
   multiple?: boolean;
   options?: Array<any>;
-  source?: Api;
+  source?: string | BaseApiObject;
   searchable?: boolean;
 
   /**
    * 自动完成 API，当输入部分文字的时候，会将这些文字通过 ${term} 可以取到，发送给接口。
    * 接口可以返回匹配到的选项，帮助用户输入。
    */
-  autoComplete?: Api;
+  autoComplete?: string | BaseApiObject;
 }
 
 interface BooleanField extends BaseField {

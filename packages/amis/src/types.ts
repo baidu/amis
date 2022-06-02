@@ -1,5 +1,5 @@
 import type {ActionSchema} from './renderers/Action';
-import {SchemaApiObject} from './Schema';
+import {SchemaApi, SchemaApiObject} from './Schema';
 
 export interface ApiObject extends SchemaApiObject {
   config?: {
@@ -115,8 +115,8 @@ export interface Action extends Button {
     | 'selectAll'
     | 'changeTabKey'
     | 'click';
-  api?: Api;
-  asyncApi?: Api;
+  api?: SchemaApi;
+  asyncApi?: SchemaApi;
   payload?: any;
   dialog?: SchemaNode;
   to?: string;
