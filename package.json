@@ -12,7 +12,8 @@
     "stop": "fis3 server stop",
     "dev": "fis3 release -cwd ./public",
     "deploy-gh-page": "sh ./deploy-gh-pages.sh",
-    "test": "jest",
+    "test": "npm test --workspaces",
+    "prepare": "husky install"
     "coverage": "jest --coverage",
     "release": "lerna publish",
     "release:beta": "lerna publish --canary --pre-dist-tag=beta --preid beta --yes"
@@ -33,6 +34,7 @@
     "fis3-prepackager-stand-alone-pack": "^1.0.0",
     "fis3-preprocessor-js-require-css": "^0.1.3",
     "fis3-preprocessor-js-require-file": "^0.1.3",
+    "husky": "^8.0.0"
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
     "lerna": "^5.0.0",

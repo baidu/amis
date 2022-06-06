@@ -388,14 +388,18 @@ export class ToastMessage extends React.Component<
                   })
                 ) : null}
 
-                {typeof body === 'string' ? (
-                  <div className={cx('Toast-body')}>
-                    {allowHtml ? <Html html={body} /> : body}
-                  </div>
-                ) : React.isValidElement(body) ? (
+                {React.isValidElement(body) ? (
                   React.cloneElement(body, {
                     className: cx(`Toast-body`, body?.props?.className ?? '')
                   })
+                ) : typeof body === 'string' || typeof body === 'object' ? (
+                  <div className={cx('Toast-body')}>
+                    {allowHtml ? (
+                      <Html html={body?.toString()} />
+                    ) : (
+                      body?.toString()
+                    )}
+                  </div>
                 ) : null}
               </div>
 
