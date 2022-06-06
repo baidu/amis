@@ -38,29 +38,12 @@ jobs:
           FOLDER: gh-pages # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
           SINGLE_COMMIT: true
-      - name: Run All Tests AND Generate coverage report
+      - name: Generate coverage report
         run: |
-          npm run coverage --workspaces
+          npm run coverage
+      - uses: codecov/codecov-action@v2
         with:
-          verbose: true # optional (default = false)
+          files: ./coverage/clover.xml
+          name: codecov-umbrella # optional
           fail_ci_if_error: false
-      - name: Upload amis-formula coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: ./packages/amis-formula/coverage/clover.xml
-          flags: amis-formula
-      - name: Upload amis-core coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: ./packages/amis-core/coverage/clover.xml
-          flags: amis-core
-      - name: Upload amis-ui coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: ./packages/amis-ui/coverage/clover.xml
-          flags: amis-ui
-      - name: Upload amis coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: ./packages/amis/coverage/clover.xml
-          flags: amis
+          verbose: true # optional (default = false)

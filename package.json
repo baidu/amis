@@ -14,8 +14,12 @@
     "deploy-gh-page": "sh ./deploy-gh-pages.sh",
     "test": "npm test --workspaces",
     "prepare": "husky install"
+    "coverage": "jest --coverage",
+    "release": "lerna publish",
+    "release:beta": "lerna publish --canary --pre-dist-tag=beta --preid beta --yes"
   },
   "devDependencies": {
+    "@types/jest": "^28.1.0",
     "fis-optimizer-terser": "^1.0.1",
     "fis-parser-sass": "^1.1.1",
     "fis-parser-svgr": "^1.0.0",
@@ -31,20 +35,23 @@
     "fis3-preprocessor-js-require-css": "^0.1.3",
     "fis3-preprocessor-js-require-file": "^0.1.3",
     "husky": "^8.0.0"
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
+    "lerna": "^5.0.0",
+    "ts-jest": "^28.0.3"
   },
   "jest": {
+    "verbose": true,
     "testEnvironment": "jsdom",
     "collectCoverageFrom": [
-      "src/**/*"
+      "packages/*/src/**/*"
     ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
       "js"
     ],
-    "transform": {
-      "\\.(ts|tsx)$": "ts-jest"
-    },
+    "preset": "ts-jest",
     "setupFiles": [
       "jest-canvas-mock"
     ],
@@ -52,7 +59,11 @@
     "moduleNameMapper": {
       "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
       "\\.(svg)$": "<rootDir>/__mocks__/svgMock.js",
-      "\\.svg\\.js$": "<rootDir>/__mocks__/svgJsMock.js"
+      "\\.svg\\.js$": "<rootDir>/__mocks__/svgJsMock.js",
+      "^amis\\-ui$": "<rootDir>/packages/amis-ui/src/index.tsx",
+      "^amis\\-core$": "<rootDir>/packages/amis-core/src/index.tsx",
+      "^amis\\-formula$": "<rootDir>/packages/amis-formula/src/index.ts",
+      "^amis$": "<rootDir>/packages/amis/src/index.tsx"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/packages/amis-core/__tests__/jest.setup.js"

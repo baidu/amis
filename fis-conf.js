@@ -57,6 +57,7 @@ Resource.extend({
 
 fis.set('project.files', [
   'schema.json',
+  '/examples/map.json',
   '/scss/helper.scss',
   '/scss/themes/*.scss',
   '/examples/*.html',
@@ -704,12 +705,16 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!uc.micro/**',
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
-        '!punycode/**'
+        '!punycode/**',
+        '!amis-formula/**',
+        '!amis-core/**',
+        '!amis-ui/**',
+        '!amis/**',
       ],
 
-      'pkg/rich-text.js': ['src/components/RichText.js', 'froala-editor/**'],
+      'pkg/rich-text.js': ['amis-ui/lib/components/RichText.js', 'froala-editor/**'],
 
-      'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
+      'pkg/tinymce.js': ['amis-ui/lib/components/Tinymce.tsx', 'tinymce/**'],
 
       'pkg/codemirror.js': ['codemirror/**'],
 
@@ -717,11 +722,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'pkg/exceljs.js': ['exceljs/**'],
 
-      'pkg/barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
+      'pkg/barcode.js': ['amis-ui/lib/components/BarCode.tsx', 'jsbarcode/**'],
 
       'pkg/markdown.js': [
-        'src/components/Markdown.tsx',
-        'src/utils/markdown.ts',
+        'amis-ui/lib/components/Markdown.tsx',
+        'amis-core/lib/utils/markdown.ts',
         'highlight.js/**',
         'entities/**',
         'linkify-it/**',
@@ -733,7 +738,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       ],
 
       'pkg/color-picker.js': [
-        'src/components/ColorPicker.tsx',
+        'amis-ui/lib/components/ColorPicker.tsx',
         'react-color/**',
         'material-colors/**',
         'reactcss/**',
@@ -764,12 +769,12 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!hls.js/**',
         '!froala-editor/**',
 
-        '!src/components/RichText.tsx',
+        '!amis-ui/lib/components/RichText.tsx',
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',
         '!exceljs/**',
-        '!src/utils/markdown.ts',
+        '!amis-core/lib/utils/markdown.ts',
         '!highlight.js/**',
         '!argparse/**',
         '!entities/**',
@@ -925,82 +930,3 @@ if (fis.project.currentMedia() === 'publish-sdk') {
   });
 }
 
-// function docsGennerator(contents, file) {
-//   if (file.subpath !== '/examples/components/Doc.tsx') {
-//     return contents;
-//   }
-
-//   return contents.replace('// {{renderer-docs}}', function () {
-//     const dir = path.join(__dirname, 'docs/renderers');
-//     const files = [];
-
-//     let fn = (dir, colleciton, prefix = '') => {
-//       const entries = fs.readdirSync(dir);
-
-//       entries.forEach(entry => {
-//         const subdir = path.join(dir, entry);
-
-//         if (fs.lstatSync(subdir).isDirectory()) {
-//           let files = [];
-//           fn(subdir, files, path.join(prefix, entry));
-//           colleciton.push({
-//             name: entry,
-//             children: files,
-//             path: path.join(prefix, entry)
-//           });
-//         } else if (/\.md$/.test(entry)) {
-//           colleciton.push({
-//             name: path.basename(entry, '.md'),
-//             path: path.join(prefix, entry)
-//           });
-//         }
-//       });
-//     };
-
-//     let fn2 = item => {
-//       if (item.children) {
-//         const child = item.children.find(
-//           child => child.name === `${item.name}.md`
-//         );
-//         return `{
-//                   label: '${item.name}',
-//                   ${
-//                     child
-//                       ? `path: '/docs/renderers/${child.path.replace(
-//                           /\.md$/,
-//                           ''
-//                         )}',`
-//                       : ''
-//                   }
-//                   children: [
-//                       ${item.children.map(fn2).join(',\n')}
-//                   ]
-//               }`;
-//       }
-
-//       return `{
-//               label: '${item.name}',
-//               path: '/docs/renderers/${item.path.replace(/\.md$/, '')}',
-//                 getComponent: (location, cb) =>
-//                 require(['../../docs/renderers/${item.path}'], doc => {
-//                   cb(null, makeMarkdownRenderer(doc));
-//                 })
-//           }`;
-//     };
-
-//     fn(dir, files);
-
-//     return `{
-//           label: '渲染器手册',
-//           icon: 'fa fa-diamond',
-//           path: '/docs/renderers',
-//           getComponent: (location, cb) =>
-//           require(['../../docs/renderers.md'], doc => {
-//             cb(null, makeMarkdownRenderer(doc));
-//           }),
-//           children: [
-//               ${files.map(fn2).join(',\n')}
-//           ]
-//       },`;
-//   });
-// }

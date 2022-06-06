@@ -1,23 +1,28 @@
 // rollup.config.js
-import commonjs from 'rollup-plugin-commonjs';
-import json from 'rollup-plugin-json';
-import resolve from 'rollup-plugin-node-resolve';
-import typescript from 'rollup-plugin-typescript';
+import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
+import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
 import {terser} from 'rollup-plugin-terser';
 import license from 'rollup-plugin-license';
-import {name, version, main, module, browser, author} from './package.json';
+import {name, version, main, author, dependencies} from './package.json';
+import path from 'path';
 
-const isProduction = process.env.NODE_ENV === 'production';
 const isForLib = process.env.NODE_ENV === 'lib';
 
-
 const settings = {
-  globals: {
-    lodash: 'lodash',
-    moment: 'moment',
-    tslib: 'tslib'
-  }
+  globals: {}
 };
+
+const external = id =>
+  new RegExp(
+    `^(?:${Object.keys(dependencies)
+      .concat([])
+      .map(value =>
+        value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
+      )
+      .join('|')})`
+  ).test(id);
 
 export default {
   input: isForLib ? './scripts/lib.ts' : './src/index.ts',
@@ -27,42 +32,16 @@ export default {
       name: isForLib ? 'formula' : main,
       ...settings,
       format: isForLib ? 'iife' : 'cjs',
-      plugins: [
-        isForLib && terser()
-      ],
+      plugins: [isForLib && terser()],
       strict: !isForLib,
-      footer: isForLib ? `var evaluate = formula.evaluate;
+      footer: isForLib
+        ? `var evaluate = formula.evaluate;
       var momentFormat = formula.momentFormat;
-      var parse = formula.parse;` : '',
+      var parse = formula.parse;`
+        : ''
     }
-    // {
-    //   file: module,
-    //   ...settings,
-    //   name: name,
-    //   format: 'es'
-    // },
-    // {
-    //   file: browser,
-    //   ...settings,
-    //   name: name,
-    //   format: 'umd'
-    // }
   ],
-  external: isForLib ? [] : [
-    'lodash',
-    'lodash/transform',
-    'lodash/groupBy',
-    'lodash/uniqBy',
-    'lodash/uniq',
-    'lodash/isPlainObject',
-    'lodash/padStart',
-    'lodash/upperFirst',
-    'lodash/capitalize',
-    'lodash/escape',
-    'lodash/truncate',
-    'moment',
-    'tslib'
-  ],
+  external: isForLib ? [] : external,
 
   plugins: [
     json(),
@@ -72,7 +51,9 @@ export default {
       browser: true
     }),
     typescript({
-      typescript: require('typescript')
+      typescript: require('typescript'),
+      sourceMap: false,
+      outputToFilesystem: true
     }),
     commonjs({
       include: 'node_modules/**',

@@ -1,6 +1,6 @@
 {
   "name": "amis-core",
-  "version": "1.0.0-beta.8",
+  "version": "2.0.0-beta.0",
   "description": "amis-core",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -14,10 +14,11 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@types/file-saver": "^2.0.1",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/jest": "^27.0.2",
+    "@types/jest": "^28.1.0",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
-    "jest": "^27.2.1",
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
     "moment-timezone": "^0.5.34",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -25,6 +26,7 @@
     "rollup": "^2.73.0",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-license": "^2.7.0",
+    "ts-jest": "^28.0.3",
     "typescript": "^4.6.4"
   },
   "scripts": {
@@ -32,7 +34,8 @@
     "dev": "rollup -c -w",
     "test": "jest",
     "coverage": "jest --coverage",
-    "clean-dist": "rimraf lib/* esm/*"
+    "clean-dist": "rimraf lib/* esm/*",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "lib",
@@ -44,6 +47,8 @@
     "file-saver": "^2.0.2",
     "hoist-non-react-statics": "^3.3.2",
     "lodash": "^4.17.15",
+    "markdown-it": "^12.0.6",
+    "markdown-it-html5-media": "^0.7.1",
     "match-sorter": "^6.3.1",
     "mobx": "^4.5.0",
     "mobx-react": "^6.3.1",
@@ -56,8 +61,6 @@
     "react-json-view": "1.21.3",
     "react-visibility-sensor": "5.1.1",
     "tslib": "^2.3.1",
-    "markdown-it": "^12.0.6",
-    "markdown-it-html5-media": "^0.7.1",
     "uncontrollable": "7.2.1"
   },
   "jest": {
