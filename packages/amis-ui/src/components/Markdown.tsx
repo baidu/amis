@@ -1,6 +1,22 @@
 import React from 'react';
 
-import {markdownRender} from 'amis-core';
+/**
+ * @file markdown 解析
+ */
+
+import markdownIt from 'markdown-it';
+// @ts-ignore
+import {html5Media} from 'markdown-it-html5-media';
+
+const doMarkdown = markdownIt();
+doMarkdown.use(html5Media);
+
+export function markdown(content: string, options?: markdownIt.Options) {
+  if (options) {
+    doMarkdown.set(options);
+  }
+  return doMarkdown.render(content);
+}
 
 interface MarkdownProps {
   content: string;
@@ -38,7 +54,7 @@ export default class Markdown extends React.Component<MarkdownProps> {
 
   async _render() {
     const {content, options} = this.props;
-    this.dom.innerHTML = await markdownRender(content, options);
+    this.dom.innerHTML = markdown(content, options);
   }
 
   render() {
