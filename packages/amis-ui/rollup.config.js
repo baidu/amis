@@ -114,12 +114,18 @@ function transpileDynamicImportForCJS(options) {
       }
 
       return {
-        left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require.ensure([',
+        left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
         right:
-          '], function(r) {fullfill(_interopDefaultLegacy(r("' +
-          targetModuleId +
-          '")))})})})'
+          '], function(mod) {fullfill(tslib.__importStar(mod))})})})'
       };
+
+      // return {
+      //   left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require.ensure([',
+      //   right:
+      //     '], function(r) {fullfill(_interopDefaultLegacy(r("' +
+      //     targetModuleId +
+      //     '")))})})})'
+      // };
     }
   };
 }

@@ -36,9 +36,9 @@ export default class Markdown extends React.Component<MarkdownProps> {
     }
   }
 
-  _render() {
+  async _render() {
     const {content, options} = this.props;
-    this.dom.innerHTML = markdownRender(content, options);
+    this.dom.innerHTML = await markdownRender(content, options);
   }
 
   render() {

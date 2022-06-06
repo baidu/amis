@@ -2,15 +2,20 @@
  * @file markdown 解析
  */
 
-import markdownIt from 'markdown-it';
-// @ts-ignore
-import {html5Media} from 'markdown-it-html5-media';
+import type markdownIt from 'markdown-it';
 
-const doMarkdown = markdownIt();
 
-doMarkdown.use(html5Media);
+let doMarkdown:any;
+export async function markdown(content: string, options?: markdownIt.Options) {
+  if (!doMarkdown) {
+    const {default: markdownIt} =  await import('markdown-it');
+    // @ts-ignore
+    const {default: {html5Media}} = await import('markdown-it-html5-media');
 
-export function markdown(content: string, options?: markdownIt.Options) {
+    doMarkdown = markdownIt();
+    doMarkdown.use(html5Media);
+  }
+
   if (options) {
     doMarkdown.set(options);
   }
