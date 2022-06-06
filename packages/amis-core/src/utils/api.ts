@@ -16,7 +16,7 @@ import {
   JSONTraverse
 } from './helper';
 import isPlainObject from 'lodash/isPlainObject';
-import {debug} from './debug';
+import {debug, warning} from './debug';
 import {evaluate, parse} from 'amis-formula';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp):/i;
@@ -406,6 +406,11 @@ export function wrapFetcher(
       api.data = JSON.stringify(api.data) as any;
       api.headers = api.headers || (api.headers = {});
       api.headers['Content-Type'] = 'application/json';
+    }
+
+    if (!isValidApi(api.url)) {
+      warning('api', 'invalid api url', api);
+      return Promise.resolve();
     }
 
     debug('api', 'request api', api);
