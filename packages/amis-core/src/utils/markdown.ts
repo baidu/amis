@@ -10,7 +10,7 @@ export async function markdown(content: string, options?: markdownIt.Options) {
   if (!doMarkdown) {
     const {default: markdownIt} =  await import('markdown-it');
     // @ts-ignore
-    const {default: {html5Media}} = await import('markdown-it-html5-media');
+    const {html5Media} = await import('markdown-it-html5-media');
 
     doMarkdown = markdownIt();
     doMarkdown.use(html5Media);
