@@ -3,11 +3,17 @@
  */
 const path = require('path');
 const fs = require('fs');
-const package = require('./package.json');
+const package = require('./packages/amis/package.json');
 const parserMarkdown = require('./scripts/md-parser');
 const convertSCSSIE11 = require('./scripts/scss-ie11');
 const parserCodeMarkdown = require('./scripts/code-md-parser');
-fis.get('project.ignore').push('public/**', 'npm/**', 'gh-pages/**');
+fis.set('project.ignore', [
+  'public/**',
+  'scripts/**',
+  'npm/**',
+  'gh-pages/**',
+  '.*/**'
+]);
 // 配置只编译哪些文件。
 
 const Resource = fis.require('postpackager-loader/lib/resource.js');
@@ -51,6 +57,7 @@ Resource.extend({
 
 fis.set('project.files', [
   'schema.json',
+  '/examples/map.json',
   '/scss/helper.scss',
   '/scss/themes/*.scss',
   '/examples/*.html',
@@ -64,7 +71,6 @@ fis.set('project.files', [
   '/examples/static/photo/*.png',
   '/examples/static/audio/*.mp3',
   '/examples/static/video/*.mp4',
-  '/src/**.html',
   'mock/**'
 ]);
 
@@ -287,123 +293,11 @@ fis.media('dev').match('/node_modules/**.js', {
   packTo: '/pkg/npm.js'
 });
 
-fis.match('monaco-editor/**', {
+fis.match('{monaco-editor,amis,amis-core}/**', {
   packTo: null
 });
 
-if (fis.project.currentMedia() === 'publish') {
-  const publishEnv = fis.media('publish');
-  publishEnv.get('project.ignore').push('lib/**');
-  publishEnv.set('project.files', ['/scss/**', '/src/**']);
-
-  fis.on('compile:end', function (file) {
-    if (
-      file.subpath === '/src/index.tsx' ||
-      file.subpath === '/examples/mod.js'
-    ) {
-      file.setContent(file.getContent().replace('@version', package.version));
-    }
-  });
-
-  publishEnv.match('/scss/(**)', {
-    release: '/$1',
-    relative: true
-  });
-
-  publishEnv.match('/src/(**)', {
-    release: '/$1',
-    relative: true
-  });
-
-  publishEnv.match('/src/**.{jsx,tsx,js,ts}', {
-    parser: [
-      // docsGennerator,
-      fis.plugin('typescript', {
-        importHelpers: true,
-        sourceMap: true,
-        experimentalDecorators: true,
-        esModuleInterop: true,
-        allowUmdGlobalAccess: true
-      }),
-      function (contents) {
-        return contents
-          .replace(
-            /(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g,
-            function (_, quote, value) {
-              let str = quote + value + quote;
-              return (
-                '(function(){try {return __uri(' +
-                str +
-                ')} catch(e) {return ' +
-                str +
-                '}})()'
-              );
-            }
-          )
-          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
-          .replace(
-            /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
-            function (_, tslib, quto, value) {
-              return `return new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})});`;
-            }
-          );
-      }
-    ],
-    preprocessor: null
-  });
-
-  publishEnv.match('*', {
-    deploy: fis.plugin('local-deliver', {
-      to: fis.get('options.d') || fis.get('options.desc') || './lib'
-    })
-  });
-  publishEnv.match('/src/**.{jsx,tsx,js,ts,svg}', {
-    isMod: false,
-    standard: false
-  });
-
-  publishEnv.match('/src/**.{jsx,tsx,js,ts}', {
-    postprocessor: function (content, file) {
-      return content
-        .replace(/^''/gm, '')
-        .replace(/\/\/# sourceMappingURL=\//g, '//# sourceMappingURL=./');
-    }
-  });
-  publishEnv.match('*.scss', {
-    postprocessor: function (content, file) {
-      return content.replace(
-        /\/\*# sourceMappingURL=\//g,
-        '/*# sourceMappingURL=./'
-      );
-    }
-  });
-  publishEnv.match('::package', {
-    postpackager: function (ret) {
-      Object.keys(ret.src).forEach(function (subpath) {
-        var file = ret.src[subpath];
-        if (!file.isText()) {
-          return;
-        }
-        var content = file.getContent();
-        if (subpath === '/src/components/icons.tsx') {
-          content = content.replace(/\.svg/g, '.js');
-        } else {
-          content = content.replace(
-            /@require\s+(?:\.\.\/)?node_modules\//g,
-            '@require '
-          );
-        }
-        file.setContent(content);
-      });
-    }
-  });
-  // publishEnv.unhook('node_modules');
-  publishEnv.hook('relative');
-
-  publishEnv.match('_*.scss', {
-    release: false
-  });
-} else if (fis.project.currentMedia() === 'publish-sdk') {
+if (fis.project.currentMedia() === 'publish-sdk') {
   const env = fis.media('publish-sdk');
 
   fis.on('compile:end', function (file) {
@@ -811,12 +705,16 @@ if (fis.project.currentMedia() === 'publish') {
         '!uc.micro/**',
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
-        '!punycode/**'
+        '!punycode/**',
+        '!amis-formula/**',
+        '!amis-core/**',
+        '!amis-ui/**',
+        '!amis/**',
       ],
 
-      'pkg/rich-text.js': ['src/components/RichText.js', 'froala-editor/**'],
+      'pkg/rich-text.js': ['amis-ui/lib/components/RichText.js', 'froala-editor/**'],
 
-      'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
+      'pkg/tinymce.js': ['amis-ui/lib/components/Tinymce.tsx', 'tinymce/**'],
 
       'pkg/codemirror.js': ['codemirror/**'],
 
@@ -824,11 +722,11 @@ if (fis.project.currentMedia() === 'publish') {
 
       'pkg/exceljs.js': ['exceljs/**'],
 
-      'pkg/barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
+      'pkg/barcode.js': ['amis-ui/lib/components/BarCode.tsx', 'jsbarcode/**'],
 
       'pkg/markdown.js': [
-        'src/components/Markdown.tsx',
-        'src/utils/markdown.ts',
+        'amis-ui/lib/components/Markdown.tsx',
+        'amis-core/lib/utils/markdown.ts',
         'highlight.js/**',
         'entities/**',
         'linkify-it/**',
@@ -840,7 +738,7 @@ if (fis.project.currentMedia() === 'publish') {
       ],
 
       'pkg/color-picker.js': [
-        'src/components/ColorPicker.tsx',
+        'amis-ui/lib/components/ColorPicker.tsx',
         'react-color/**',
         'material-colors/**',
         'reactcss/**',
@@ -871,12 +769,12 @@ if (fis.project.currentMedia() === 'publish') {
         '!hls.js/**',
         '!froala-editor/**',
 
-        '!src/components/RichText.tsx',
+        '!amis-ui/lib/components/RichText.tsx',
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',
         '!exceljs/**',
-        '!src/utils/markdown.ts',
+        '!amis-core/lib/utils/markdown.ts',
         '!highlight.js/**',
         '!argparse/**',
         '!entities/**',
@@ -1032,82 +930,3 @@ if (fis.project.currentMedia() === 'publish') {
   });
 }
 
-// function docsGennerator(contents, file) {
-//   if (file.subpath !== '/examples/components/Doc.tsx') {
-//     return contents;
-//   }
-
-//   return contents.replace('// {{renderer-docs}}', function () {
-//     const dir = path.join(__dirname, 'docs/renderers');
-//     const files = [];
-
-//     let fn = (dir, colleciton, prefix = '') => {
-//       const entries = fs.readdirSync(dir);
-
-//       entries.forEach(entry => {
-//         const subdir = path.join(dir, entry);
-
-//         if (fs.lstatSync(subdir).isDirectory()) {
-//           let files = [];
-//           fn(subdir, files, path.join(prefix, entry));
-//           colleciton.push({
-//             name: entry,
-//             children: files,
-//             path: path.join(prefix, entry)
-//           });
-//         } else if (/\.md$/.test(entry)) {
-//           colleciton.push({
-//             name: path.basename(entry, '.md'),
-//             path: path.join(prefix, entry)
-//           });
-//         }
-//       });
-//     };
-
-//     let fn2 = item => {
-//       if (item.children) {
-//         const child = item.children.find(
-//           child => child.name === `${item.name}.md`
-//         );
-//         return `{
-//                   label: '${item.name}',
-//                   ${
-//                     child
-//                       ? `path: '/docs/renderers/${child.path.replace(
-//                           /\.md$/,
-//                           ''
-//                         )}',`
-//                       : ''
-//                   }
-//                   children: [
-//                       ${item.children.map(fn2).join(',\n')}
-//                   ]
-//               }`;
-//       }
-
-//       return `{
-//               label: '${item.name}',
-//               path: '/docs/renderers/${item.path.replace(/\.md$/, '')}',
-//                 getComponent: (location, cb) =>
-//                 require(['../../docs/renderers/${item.path}'], doc => {
-//                   cb(null, makeMarkdownRenderer(doc));
-//                 })
-//           }`;
-//     };
-
-//     fn(dir, files);
-
-//     return `{
-//           label: '渲染器手册',
-//           icon: 'fa fa-diamond',
-//           path: '/docs/renderers',
-//           getComponent: (location, cb) =>
-//           require(['../../docs/renderers.md'], doc => {
-//             cb(null, makeMarkdownRenderer(doc));
-//           }),
-//           children: [
-//               ${files.map(fn2).join(',\n')}
-//           ]
-//       },`;
-//   });
-// }

@@ -4,7 +4,7 @@ import {createRoot} from 'react-dom/client';
 import axios from 'axios';
 import {match} from 'path-to-regexp';
 import copy from 'copy-to-clipboard';
-import {normalizeLink} from '../src/utils/normalizeLink';
+import {normalizeLink} from 'amis-core';
 
 import qs from 'qs';
 import {
@@ -15,13 +15,13 @@ import {
   AlertComponent,
   render as renderAmis,
   makeTranslator
-} from '../src/index';
+} from 'amis';
 
-import '../src/locale/en-US';
+import 'amis-ui/lib/locale/en-US';
 import 'history';
-import attachmentAdpator from '../src/utils/attachmentAdpator';
+import {attachmentAdpator} from 'amis-core';
 
-import type {ToastLevel, ToastConf} from '../src/components/Toast';
+import type {ToastLevel, ToastConf} from 'amis-ui/lib/components/Toast';
 
 export function embed(
   container: string | HTMLElement,

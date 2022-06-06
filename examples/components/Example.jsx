@@ -117,9 +117,6 @@ import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 
-import TestComponent from './Test';
-
-import {normalizeLink} from '../../src/utils/normalizeLink';
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
 

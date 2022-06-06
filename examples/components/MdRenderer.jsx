@@ -2,13 +2,10 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {createRoot} from 'react-dom/client';
-import {getTheme, render} from '../../src/index';
-import axios from 'axios';
-import TitleBar from '../../src/components/TitleBar';
-import LazyComponent from '../../src/components/LazyComponent';
-import Overlay from '../../src/components/Overlay';
-import PopOver from '../../src/components/PopOver';
-import NestedLinks from '../../src/components/AsideNav';
+import {getTheme, render} from 'amis';
+import {LazyComponent} from 'amis-core';
+import {Overlay} from 'amis-ui';
+import {PopOver} from 'amis-ui';
 import classnames from 'classnames';
 import {Link} from 'react-router-dom';
 import Play from './Play';

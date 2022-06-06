@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "outDir": "output/",
+    "outDir": "lib",
+    "rootDir": "./",
     "module": "commonjs",
     "target": "es5",
     "lib": ["ES6", "DOM", "ES2015", "ES2021"],
-    "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "rootDir": "",
     "importHelpers": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -18,16 +17,10 @@
     "strictNullChecks": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "typeRoots": ["./node_modules/@types", "./types"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    //
+    "composite": true
   },
-  "include": ["src/**/*", "examples/**/*"],
-  "exclude": [
-    "node_modules",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "jest_cache"
-  ],
-  "types": ["node", "typePatches", "@testing-library/jest-dom"]
+  "types": ["typePatches"],
+  "references": [{"path": "packages/amis"}]
 }

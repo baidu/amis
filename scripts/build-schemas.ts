@@ -25,14 +25,18 @@ import {IntersectionNodeParser as MyIntersectionNodeParser} from './NodeParser/I
  * 程序主入口
  */
 async function main() {
-  const dir = path.join(__dirname, '../src');
-  const outDir = path.join(__dirname, '../');
-  const tsConfig = path.join(__dirname, '../tsconfig.json');
+  const dir = path.join(__dirname, '../packages/amis/src');
+  const outDir = path.join(__dirname, '../packages/amis/');
+  const tsConfig = path.join(
+    __dirname,
+    '../packages/amis/tsconfig-for-declaration.json'
+  );
 
   const config = {
     path: path.join(dir, 'Schema.ts'),
     tsconfig: tsConfig,
-    type: 'RootSchema'
+    type: 'RootSchema',
+    skipTypeCheck: true
   };
 
   const generator = tsj.createGenerator(config);

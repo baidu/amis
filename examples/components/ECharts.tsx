@@ -7,7 +7,7 @@ import example from './EChartsEditor/Example';
 
 import {lazyData} from './LazyData';
 import React from 'react';
-import Spinner from '../../src/components/Spinner';
+import {Spinner} from 'amis-ui';
 
 const LazyComponent = lazyData(
   async () =>
