@@ -2,12 +2,13 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {JSONSchemaEditor} from 'amis-ui';
 import {autobind} from 'amis-core';
+import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * JSON Schema Editor
  * 文档：https://baidu.gitee.io/amis/docs/components/form/json-schema-editor
  */
-export interface JSONSchemaEditorControlSchema extends FormBaseControl {
+export interface JSONSchemaEditorControlSchema extends FormBaseControlSchema {
   /**
    * 指定为 JSON Schema Editor
    */

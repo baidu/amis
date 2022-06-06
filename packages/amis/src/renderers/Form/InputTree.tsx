@@ -7,7 +7,7 @@ import {
   OptionsControlProps
 } from 'amis-core';
 import {Spinner} from 'amis-ui';
-import {SchemaApi} from '../../Schema';
+import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 
@@ -15,7 +15,7 @@ import {ActionObject} from 'amis-core';
  * Tree 下拉选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tree
  */
-export interface TreeControlSchema extends FormOptionsControl {
+export interface TreeControlSchema extends FormOptionsSchema {
   type: 'input-tree';
 
   /**

@@ -17,6 +17,7 @@ import ImageComponent, {ImageThumbProps} from '../Image';
 import {TranslateFn} from 'amis-core';
 import {dataMapping} from 'amis-core';
 import {
+  FormBaseControlSchema,
   SchemaApi,
   SchemaClassName,
   SchemaTokenizeableString,
@@ -31,7 +32,7 @@ import omit from 'lodash/omit';
  * Image 图片上传控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/image
  */
-export interface ImageControlSchema extends FormBaseControl {
+export interface ImageControlSchema extends FormBaseControlSchema {
   /**
    * 指定为图片上传控件
    */

@@ -11,12 +11,13 @@ import {Api} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {isMobile, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
+import {FormOptionsSchema} from '../../Schema';
 
 /**
  * 级联选择框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/chained-select
  */
-export interface ChainedSelectControlSchema extends FormOptionsControl {
+export interface ChainedSelectControlSchema extends FormOptionsSchema {
   type: 'chained-select';
 }
 

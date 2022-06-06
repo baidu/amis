@@ -4,13 +4,14 @@ import {Switch} from 'amis-ui';
 import {createObject, autobind, isObject} from 'amis-core';
 import {generateIcon} from 'amis-core';
 import {IconSchema} from '../Icon';
+import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * Switch
  * 文档：https://baidu.gitee.io/amis/docs/components/form/switch
  */
 
-export interface SwitchControlSchema extends FormBaseControl {
+export interface SwitchControlSchema extends FormBaseControlSchema {
   /**
    * 指定为多行文本输入框
    */

@@ -9,13 +9,13 @@ import {buildApi, isValidApi, isEffectiveApi} from 'amis-core';
 import {Checkbox, Spinner} from 'amis-ui';
 import {autobind, setVariable, createObject} from 'amis-core';
 import {ApiObject, ActionObject} from 'amis-core';
-import {SchemaApi} from '../../Schema';
+import {FormBaseControlSchema, SchemaApi} from '../../Schema';
 
 /**
  * Matrix 选择控件。适合做权限勾选。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/matrix
  */
-export interface MatrixControlSchema extends FormBaseControl {
+export interface MatrixControlSchema extends FormBaseControlSchema {
   type: 'matrix-checkboxes';
 
   /**

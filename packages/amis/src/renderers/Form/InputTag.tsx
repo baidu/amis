@@ -15,12 +15,13 @@ import {Overlay} from 'amis-ui';
 import {PopOver} from 'amis-ui';
 import {ListMenu} from 'amis-ui';
 import {ActionObject} from 'amis-core';
+import {FormOptionsSchema} from '../../Schema';
 
 /**
  * Tag 输入框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tag
  */
-export interface TagControlSchema extends FormOptionsControl {
+export interface TagControlSchema extends FormOptionsSchema {
   type: 'input-tag';
 
   /**

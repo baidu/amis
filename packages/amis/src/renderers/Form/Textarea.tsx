@@ -7,12 +7,13 @@ import {autobind, ucFirst} from 'amis-core';
 
 import {bindRendererEvent} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
+import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * TextArea 多行文本输入框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/textarea
  */
-export interface TextareaControlSchema extends FormBaseControl {
+export interface TextareaControlSchema extends FormBaseControlSchema {
   /**
    * 指定为多行文本输入框
    */

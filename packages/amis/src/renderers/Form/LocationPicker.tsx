@@ -3,11 +3,12 @@ import {themeable, ClassNamesFn, ThemeProps} from 'amis-core';
 import {FormItem, FormBaseControl, FormControlProps} from 'amis-core';
 import {LocationPicker} from 'amis-ui';
 import {filter} from 'amis-core';
+import {FormBaseControlSchema} from '../../Schema';
 /**
  * Location 选点组件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/location
  */
-export interface LocationControlSchema extends FormBaseControl {
+export interface LocationControlSchema extends FormBaseControlSchema {
   type: 'location-picker';
 
   /**

@@ -22,7 +22,7 @@ import {Html} from 'amis-ui';
 import {filter} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {dataMapping, isPureVariable, resolveVariableAndFilter} from 'amis-core';
-import {SchemaCollection, SchemaTpl} from '../../Schema';
+import {FormOptionsSchema, SchemaCollection, SchemaTpl} from '../../Schema';
 import {CRUDSchema} from '../CRUD';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 
@@ -30,7 +30,7 @@ import {isApiOutdated, isEffectiveApi} from 'amis-core';
  * Picker
  * 文档：https://baidu.gitee.io/amis/docs/components/form/picker
  */
-export interface PickerControlSchema extends FormOptionsControl {
+export interface PickerControlSchema extends FormOptionsSchema {
   type: 'picker';
 
   /**

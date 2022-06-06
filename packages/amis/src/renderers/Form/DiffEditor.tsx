@@ -2,7 +2,7 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {LazyComponent} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
-import {SchemaTokenizeableString} from '../../Schema';
+import {FormBaseControlSchema, SchemaTokenizeableString} from '../../Schema';
 import {autobind} from 'amis-core';
 import {bindRendererEvent} from 'amis-core';
 
@@ -13,7 +13,7 @@ import type {ListenerAction} from 'amis-core';
  * Diff 编辑器
  * 文档：https://baidu.gitee.io/amis/docs/components/form/diff
  */
-export interface DiffControlSchema extends FormBaseControl {
+export interface DiffControlSchema extends FormBaseControlSchema {
   /**
    * 指定为 Diff 编辑器
    */

@@ -2,12 +2,13 @@ import React, {Suspense} from 'react';
 import Dropzone from 'react-dropzone';
 import {autobind, createObject} from 'amis-core';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * Excel 解析
  * 文档：https://baidu.gitee.io/amis/docs/components/form/input-excel
  */
-export interface InputExcelControlSchema extends FormBaseControl {
+export interface InputExcelControlSchema extends FormBaseControlSchema {
   /**
    * 指定为 Excel 解析
    */

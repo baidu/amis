@@ -127,7 +127,7 @@ fis.match('tinymce/plugins/*/index.js', {
   ignoreDependencies: false
 });
 
-fis.match(/(?:mpegts\.js)/, {
+fis.match(/(?:mpegts\.js|object\-inspect\/util\.inspect\.js)/, {
   ignoreDependencies: true
 });
 
@@ -709,10 +709,13 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!amis-formula/**',
         '!amis-core/**',
         '!amis-ui/**',
-        '!amis/**',
+        '!amis/**'
       ],
 
-      'pkg/rich-text.js': ['amis-ui/lib/components/RichText.js', 'froala-editor/**'],
+      'pkg/rich-text.js': [
+        'amis-ui/lib/components/RichText.js',
+        'froala-editor/**'
+      ],
 
       'pkg/tinymce.js': ['amis-ui/lib/components/Tinymce.tsx', 'tinymce/**'],
 
@@ -929,4 +932,3 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     domain: null
   });
 }
-

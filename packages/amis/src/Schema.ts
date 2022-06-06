@@ -1,6 +1,6 @@
 import {PageSchema} from './renderers/Page';
 import {TplSchema} from './renderers/Tpl';
-import {RemarkSchema} from './renderers/Remark';
+import {RemarkSchema, SchemaRemark} from './renderers/Remark';
 import {ActionSchema} from './renderers/Action';
 import {AlertSchema} from './renderers/Alert';
 import {AudioSchema} from './renderers/Audio';
@@ -121,6 +121,8 @@ import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
 import {TableSchemaV2} from './renderers/Table-v2';
 import {
   BaseSchemaWithoutType,
+  FormBaseControl,
+  FormOptionsControl,
   SchemaClassName,
   SchemaExpression
 } from 'amis-core';
@@ -860,5 +862,26 @@ export interface FormSchema extends FormSchemaBase, BaseSchema {
    */
   body?: SchemaCollection;
 }
+
+export interface FormBaseControlSchema extends FormBaseControl {
+  /**
+   * 表单项类型
+   */
+  type: SchemaType;
+
+  /**
+   * 显示一个小图标, 鼠标放上去的时候显示提示内容
+   */
+  remark?: SchemaRemark;
+
+  /**
+   * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
+   */
+  labelRemark?: SchemaRemark;
+}
+
+export interface FormOptionsSchema
+  extends FormBaseControlSchema,
+    Omit<FormOptionsControl, 'remark' | 'labelRemark'> {}
 
 export {SchemaClassName, SchemaExpression};

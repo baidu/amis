@@ -6,12 +6,12 @@ import {NumberInput, Select} from 'amis-ui';
 import {autobind, createObject} from 'amis-core';
 import {normalizeOptions, Option} from 'amis-core';
 import {PlainObject, ActionObject} from 'amis-core';
-import {BaseSchema} from '../../Schema';
+import {BaseSchema, FormBaseControlSchema} from '../../Schema';
 /**
  * 数字输入框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/number
  */
-export interface NumberControlSchema extends FormBaseControl {
+export interface NumberControlSchema extends FormBaseControlSchema {
   type: 'input-number';
 
   /**

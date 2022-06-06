@@ -3,7 +3,7 @@ import React from 'react';
 import {RendererEnv} from './env';
 import {RendererProps} from './factory';
 import {LocaleContext, TranslateFn} from './locale';
-import {RootRenderer} from './RootRenderer';
+import {RootRenderer, RootRendererProps} from './RootRenderer';
 import {SchemaRenderer} from './SchemaRenderer';
 import Scoped from './Scoped';
 import {IRendererStore} from './store';
@@ -27,6 +27,23 @@ export interface RootProps {
   locale?: string;
   translate?: TranslateFn;
   [propName: string]: any;
+}
+
+export interface RootWrapperProps {
+  env: RendererEnv;
+  children: React.ReactNode;
+  schema: SchemaNode;
+  rootStore: IRendererStore;
+  theme: string;
+  [propName: string]: any;
+}
+
+const rootWrappers: Array<(props: RootWrapperProps) => React.ReactNode> = [];
+
+export function addRootWrapper(
+  fn: (props: RootWrapperProps) => React.ReactNode
+) {
+  rootWrappers.push(fn);
 }
 
 export class Root extends React.Component<RootProps> {
@@ -62,28 +79,60 @@ export class Root extends React.Component<RootProps> {
       <RootStoreContext.Provider value={rootStore}>
         <ThemeContext.Provider value={themeName}>
           <LocaleContext.Provider value={this.props.locale!}>
-            <RootRenderer
-              pathPrefix={pathPrefix || ''}
-              schema={
-                isPlainObject(schema)
-                  ? {
-                      type: 'page',
-                      ...(schema as any)
-                    }
-                  : schema
-              }
-              {...rest}
-              render={renderChild}
-              rootStore={rootStore}
-              resolveDefinitions={this.resolveDefinitions}
-              location={location}
-              data={data}
-              env={env}
-              classnames={theme.classnames}
-              classPrefix={theme.classPrefix}
-              locale={locale}
-              translate={translate}
-            />
+            {
+              rootWrappers.reduce(
+                (props: RootWrapperProps, wrapper) => {
+                  return {
+                    ...props,
+                    children: wrapper(props)
+                  };
+                },
+                {
+                  pathPrefix: pathPrefix || '',
+                  schema: isPlainObject(schema)
+                    ? {
+                        type: 'page',
+                        ...(schema as any)
+                      }
+                    : schema,
+                  ...rest,
+                  render: renderChild,
+                  rootStore: rootStore,
+                  resolveDefinitions: this.resolveDefinitions,
+                  location: location,
+                  data: data,
+                  env: env,
+                  classnames: theme.classnames,
+                  classPrefix: theme.classPrefix,
+                  locale: locale,
+                  translate: translate,
+                  children: (
+                    <RootRenderer
+                      pathPrefix={pathPrefix || ''}
+                      schema={
+                        isPlainObject(schema)
+                          ? {
+                              type: 'page',
+                              ...(schema as any)
+                            }
+                          : schema
+                      }
+                      {...rest}
+                      render={renderChild}
+                      rootStore={rootStore}
+                      resolveDefinitions={this.resolveDefinitions}
+                      location={location}
+                      data={data}
+                      env={env}
+                      classnames={theme.classnames}
+                      classPrefix={theme.classPrefix}
+                      locale={locale}
+                      translate={translate}
+                    />
+                  )
+                } as RootWrapperProps
+              ).children
+            }
           </LocaleContext.Provider>
         </ThemeContext.Provider>
       </RootStoreContext.Provider>

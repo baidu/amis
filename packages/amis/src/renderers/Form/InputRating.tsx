@@ -4,12 +4,13 @@ import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {Rating} from 'amis-ui';
 import type {textPositionType} from 'amis-ui/lib/components/Rating';
+import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * Rating
  * 文档：https://baidu.gitee.io/amis/docs/components/form/rating
  */
-export interface RatingControlSchema extends FormBaseControl {
+export interface RatingControlSchema extends FormBaseControlSchema {
   type: 'input-rating';
 
   /**

@@ -7,13 +7,17 @@ import {
 } from 'amis-core';
 import {ActionObject, Schema} from 'amis-core';
 import {createObject, isEmpty} from 'amis-core';
-import {SchemaClassName, SchemaCollection} from '../../Schema';
+import {
+  FormOptionsSchema,
+  SchemaClassName,
+  SchemaCollection
+} from '../../Schema';
 
 /**
  * List 复选框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/list
  */
-export interface ListControlSchema extends FormOptionsControl {
+export interface ListControlSchema extends FormOptionsSchema {
   type: 'list-select';
 
   /**

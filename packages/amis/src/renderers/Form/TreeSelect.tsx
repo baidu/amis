@@ -22,12 +22,13 @@ import {autobind, getTreeAncestors, isMobile, createObject} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {normalizeOptions} from 'amis-core';
 import {ActionObject} from 'amis-core';
+import {FormOptionsSchema} from '../../Schema';
 
 /**
  * Tree 下拉选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tree
  */
-export interface TreeSelectControlSchema extends FormOptionsControl {
+export interface TreeSelectControlSchema extends FormOptionsSchema {
   type: 'tree-select';
 
   /**

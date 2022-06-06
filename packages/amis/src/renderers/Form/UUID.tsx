@@ -1,12 +1,13 @@
 import React from 'react';
 import {uuidv4} from 'amis-core';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * UUID 功能性组件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/uuid
  */
-export interface UUIDControlSchema extends FormBaseControl {
+export interface UUIDControlSchema extends FormBaseControlSchema {
   type: 'uuid';
   /**
    * 长度，默认 uuid 的长度是 36，如果不需要那么长，可以设置这个来缩短

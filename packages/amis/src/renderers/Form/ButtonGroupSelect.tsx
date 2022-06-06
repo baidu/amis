@@ -1,5 +1,4 @@
 import React from 'react';
-import cx from 'classnames';
 import {
   OptionsControl,
   OptionsControlProps,
@@ -8,9 +7,7 @@ import {
 import type {Option} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {getLevelFromClassName, autobind, isEmpty} from 'amis-core';
-import {dataMapping} from 'amis-core';
 import {ButtonGroupSchema} from '../ButtonGroup';
-import {FormBaseControl} from 'amis-core';
 
 /**
  * 按钮组控件。

@@ -5,7 +5,7 @@ import {Checkbox} from 'amis-ui';
 import {withBadge, BadgeObject} from 'amis-ui';
 import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
-import {BaseSchema} from '../../Schema';
+import {BaseSchema, FormBaseControlSchema} from '../../Schema';
 
 export interface SchemaMap {
   checkbox: CheckboxControlSchema;
@@ -15,7 +15,7 @@ export interface SchemaMap {
  * Checkbox 勾选框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/checkbox
  */
-export interface CheckboxControlSchema extends FormBaseControl {
+export interface CheckboxControlSchema extends FormBaseControlSchema {
   /**
    * 指定为多行文本输入框
    */

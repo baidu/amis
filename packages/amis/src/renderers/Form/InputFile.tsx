@@ -12,6 +12,7 @@ import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
 import {dataMapping} from 'amis-core';
 import {
+  FormBaseControlSchema,
   SchemaApi,
   SchemaClassName,
   SchemaTokenizeableString,
@@ -24,7 +25,7 @@ import omit from 'lodash/omit';
  * File 文件上传控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/file
  */
-export interface FileControlSchema extends FormBaseControl {
+export interface FileControlSchema extends FormBaseControlSchema {
   /**
    * 指定为文件上传
    */

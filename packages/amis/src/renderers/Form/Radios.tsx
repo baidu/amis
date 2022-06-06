@@ -9,12 +9,13 @@ import {
 } from 'amis-core';
 import {autobind, isEmpty, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
+import {FormOptionsSchema} from '../../Schema';
 
 /**
  * Radio 单选框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/radios
  */
-export interface RadiosControlSchema extends FormOptionsControl {
+export interface RadiosControlSchema extends FormOptionsSchema {
   type: 'radios';
 
   /**

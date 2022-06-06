@@ -26,6 +26,7 @@ import memoize from 'lodash/memoize';
 import {Icon} from 'amis-ui';
 import {isAlive} from 'mobx-state-tree';
 import {
+  FormBaseControlSchema,
   SchemaApi,
   SchemaClassName,
   SchemaObject,
@@ -57,7 +58,7 @@ export type ComboSubControl = SchemaObject & {
  * Combo 组合输入框类型
  * 文档：https://baidu.gitee.io/amis/docs/components/form/combo
  */
-export interface ComboControlSchema extends FormBaseControl {
+export interface ComboControlSchema extends FormBaseControlSchema {
   /**
    * 指定为组合输入框类型
    */

@@ -70,7 +70,7 @@ import {
   registerOptionsControl
 } from './renderers/Options';
 import {Schema} from './types';
-import ScopedRootRenderer, {RootRenderProps} from './Root';
+import ScopedRootRenderer, {addRootWrapper, RootRenderProps} from './Root';
 import {envOverwrite} from './envOverwrite';
 import {EnvContext, RendererEnv} from './env';
 import React from 'react';
@@ -152,7 +152,8 @@ export {
   FormOptionsControl,
   FormControlProps,
   FormBaseControl,
-  extendDefaultEnv
+  extendDefaultEnv,
+  addRootWrapper
 };
 
 export function render(

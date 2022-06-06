@@ -5,12 +5,13 @@ import {
   FormOptionsControl
 } from 'amis-core';
 import {autobind} from 'amis-core';
+import {FormOptionsSchema} from '../../Schema';
 
 /**
  * 图表 Radio 单选框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/chart-radios
  */
-export interface ChartRadiosControlSchema extends FormOptionsControl {
+export interface ChartRadiosControlSchema extends FormOptionsSchema {
   type: 'chart-radios';
   config: any;
   showTooltipOnHighlight?: boolean;

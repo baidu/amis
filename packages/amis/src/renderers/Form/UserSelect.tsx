@@ -12,11 +12,12 @@ import {isEffectiveApi} from 'amis-core';
 import find from 'lodash/find';
 import {createObject, autobind} from 'amis-core';
 import {PlainObject} from 'amis-core';
+import {FormOptionsSchema} from '../../Schema';
 
 /**
  * UserSelect 移动端人员选择。
  */
-export interface UserSelectControlSchema extends FormOptionsControl {
+export interface UserSelectControlSchema extends FormOptionsSchema {
   type: 'users-select';
 }
 

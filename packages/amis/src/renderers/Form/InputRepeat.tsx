@@ -13,7 +13,7 @@ import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
  * Repeat
  * 文档：https://baidu.gitee.io/amis/docs/components/form/repeat
  */
-export interface RepeatControlSchema extends FormBaseControl {
+export interface RepeatControlSchema extends FormBaseControlSchema {
   type: 'input-repeat';
 
   options?: string;
@@ -34,6 +34,7 @@ const LANG: {
 import {Select} from 'amis-ui';
 import {Range as InputRange} from 'amis-ui';
 import {Option} from 'amis-core';
+import {FormBaseControlSchema} from '../../Schema';
 
 export interface RepeatProps extends FormControlProps {
   options?: string;

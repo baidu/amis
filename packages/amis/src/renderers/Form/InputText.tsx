@@ -17,7 +17,7 @@ import {autobind, createObject, setVariable, ucFirst} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {ActionSchema} from '../Action';
-import {SchemaApi} from '../../Schema';
+import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {generateIcon} from 'amis-core';
 import {rendererEventDispatcher, bindRendererEvent} from 'amis-core';
 
@@ -30,7 +30,7 @@ import type {ListenerAction} from 'amis-core';
  * Text 文本输入框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/text
  */
-export interface TextControlSchema extends FormOptionsControl {
+export interface TextControlSchema extends FormOptionsSchema {
   type:
     | 'input-text'
     | 'input-email'

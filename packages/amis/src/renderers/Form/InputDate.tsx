@@ -5,11 +5,11 @@ import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import {DatePicker} from 'amis-ui';
-import {SchemaObject} from '../../Schema';
+import {FormBaseControlSchema, SchemaObject} from '../../Schema';
 import {createObject, anyChanged, isMobile, autobind} from 'amis-core';
 import {ActionObject} from 'amis-core';
 
-export interface InputDateBaseControlSchema extends FormBaseControl {
+export interface InputDateBaseControlSchema extends FormBaseControlSchema {
   /**
    * 指定为日期选择控件
    */
