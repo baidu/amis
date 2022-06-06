@@ -57,6 +57,7 @@ Resource.extend({
 
 fis.set('project.files', [
   'schema.json',
+  '/examples/map.json',
   '/scss/helper.scss',
   '/scss/themes/*.scss',
   '/examples/*.html',
@@ -704,12 +705,16 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!uc.micro/**',
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
-        '!punycode/**'
+        '!punycode/**',
+        '!amis-formula/**',
+        '!amis-core/**',
+        '!amis-ui/**',
+        '!amis/**',
       ],
 
-      'pkg/rich-text.js': ['src/components/RichText.js', 'froala-editor/**'],
+      'pkg/rich-text.js': ['amis-ui/lib/components/RichText.js', 'froala-editor/**'],
 
-      'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
+      'pkg/tinymce.js': ['amis-ui/lib/components/Tinymce.tsx', 'tinymce/**'],
 
       'pkg/codemirror.js': ['codemirror/**'],
 
@@ -717,11 +722,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'pkg/exceljs.js': ['exceljs/**'],
 
-      'pkg/barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
+      'pkg/barcode.js': ['amis-ui/lib/components/BarCode.tsx', 'jsbarcode/**'],
 
       'pkg/markdown.js': [
-        'src/components/Markdown.tsx',
-        'src/utils/markdown.ts',
+        'amis-ui/lib/components/Markdown.tsx',
+        'amis-core/lib/utils/markdown.ts',
         'highlight.js/**',
         'entities/**',
         'linkify-it/**',
@@ -733,7 +738,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       ],
 
       'pkg/color-picker.js': [
-        'src/components/ColorPicker.tsx',
+        'amis-ui/lib/components/ColorPicker.tsx',
         'react-color/**',
         'material-colors/**',
         'reactcss/**',
@@ -764,12 +769,12 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!hls.js/**',
         '!froala-editor/**',
 
-        '!src/components/RichText.tsx',
+        '!amis-ui/lib/components/RichText.tsx',
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',
         '!exceljs/**',
-        '!src/utils/markdown.ts',
+        '!amis-core/lib/utils/markdown.ts',
         '!highlight.js/**',
         '!argparse/**',
         '!entities/**',
