@@ -16,7 +16,8 @@
     "prepare": "husky install",
     "coverage": "jest --coverage",
     "release": "lerna publish",
-    "release:beta": "lerna publish --canary --pre-dist-tag=beta --preid beta --yes"
+    "release:beta": "lerna publish --canary --pre-dist-tag=beta --preid beta --yes",
+    "publish-to-internal": "sh ./publish-to-internal.sh"
   },
   "devDependencies": {
     "@types/jest": "^28.1.0",
