@@ -8,6 +8,8 @@
 export * from 'amis-core';
 export * from 'amis-ui';
 
+import './preset';
+
 // 注册渲染器
 import './renderers/Action';
 import './renderers/Alert';

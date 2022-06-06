@@ -19,7 +19,8 @@ import {
   stores,
   defaultOptions,
   addSchemaFilter,
-  RendererProps
+  RendererProps,
+  extendDefaultEnv
 } from './factory';
 import './renderers/builtin';
 export * from './utils/index';
@@ -150,7 +151,8 @@ export {
   OptionsControlProps,
   FormOptionsControl,
   FormControlProps,
-  FormBaseControl
+  FormBaseControl,
+  extendDefaultEnv
 };
 
 export function render(

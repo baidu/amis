@@ -328,6 +328,7 @@ export const defaultOptions: RenderOptions = {
    */
   filterHtml: (input: string) => input
 };
+
 export const stores: {
   [propName: string]: IRendererStore;
 } = {};
@@ -375,6 +376,11 @@ export function updateEnv(options: Partial<RenderOptions>, session = 'global') {
     const env = getEnv(store);
     Object.assign(env, options);
   }
+}
+
+// 扩充默认的 env ，这样使用方不需要指定都会有。
+export function extendDefaultEnv(env: Partial<RenderOptions>) {
+  Object.assign(defaultOptions, env);
 }
 
 let cache: {[propName: string]: RendererConfig} = {};
