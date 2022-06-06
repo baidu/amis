@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "2.0.0-beta.0",
+  "version": "0.0.0",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -10,7 +10,8 @@
     "publish-to-internal": "sh build.sh && sh publish.sh",
     "build": "sh build.sh",
     "prettier": "prettier --write '{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}'",
-    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' ../../scripts/build-schemas.ts"
+    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' ../../scripts/build-schemas.ts",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
