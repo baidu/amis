@@ -149,7 +149,8 @@
   "files": [
     "lib",
     "esm",
-    "sdk"
+    "sdk",
+    "schema.json"
   ],
   "jest": {
     "testEnvironment": "jsdom",
