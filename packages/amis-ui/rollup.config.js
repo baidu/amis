@@ -33,7 +33,8 @@ const external = id =>
         'markdown-it',
         'markdown-it-html5-media',
         'mdurl',
-        'uc.micro'
+        'uc.micro',
+        'entities'
       ])
       .map(value =>
         value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
