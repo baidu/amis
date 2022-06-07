@@ -20,7 +20,8 @@ import {
   defaultOptions,
   addSchemaFilter,
   RendererProps,
-  extendDefaultEnv
+  extendDefaultEnv,
+  RendererConfig
 } from './factory';
 import './renderers/builtin';
 export * from './utils/index';
@@ -153,7 +154,8 @@ export {
   FormControlProps,
   FormBaseControl,
   extendDefaultEnv,
-  addRootWrapper
+  addRootWrapper,
+  RendererConfig
 };
 
 export function render(
