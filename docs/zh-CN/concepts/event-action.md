@@ -109,6 +109,7 @@ order: 9
       id: 'b_001',
       label: '发送 Ajax 请求',
       level: 'primary',
+      "confirmText": "确认要发出这个请求？",
       onEvent: {
         click: {
           actions: [
@@ -2122,7 +2123,7 @@ registerAction('my-action', new MyAction());
     body: [
       {
         type: 'button',
-        label: '同时执行动作1、2',
+        label: '同时发送两个ajax请求，并显示请求返回',
         level: 'primary',
         onEvent: {
           click: {
@@ -2131,20 +2132,40 @@ registerAction('my-action', new MyAction());
                 actionType: 'parallel',
                 children: [
                   {
-                    actionType: "alert",
+                    actionType: 'ajax',
                     args: {
-                      msg: '动作1'
-                    }
+                      api: {
+                        url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?name=${name}',
+                        method: 'get'
+                      },
+                      messages: {
+                        success: '请求1成功了！欧耶',
+                        failed: '失败了呢。。'
+                      }
+                    },
+                    outputVar: 'var1'
                   },
                   {
-                    actionType: "toast",
+                    actionType: 'ajax',
                     args: {
-                      msgType: 'success',
-                      msg: '动作2',
-                      position: 'top-right'
-                    }
+                      api: {
+                        url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?name=${name}',
+                        method: 'get'
+                      },
+                      messages: {
+                        success: '请求2成功了！欧耶',
+                        failed: '失败了呢。。'
+                      }
+                    },
+                    outputVar: 'var2'
                   }
                 ]
+              },
+              {
+                actionType: 'toast',
+                args: {
+                  msg: 'var1:${event.data.var1|json}, var2:${event.data.var2|json}'
+                }
               }
             ]
           }
@@ -2157,10 +2178,10 @@ registerAction('my-action', new MyAction());
 
 **动作属性**
 
-| 属性名     | 类型                                                 | 默认值     | 说明                                       |
-| ---------- | ---------------------------------------------------- | ---------- | ------------------------------------------ |
-| actionType | `string`                                             | `parallel` | 点击后显示一个弹出框                       |
-| children   | Array<[动作](../../docs/concepts/event-action#动作)> | -          | 指定弹框内容，格式可参考[Dialog](./dialog) |
+| 属性名     | 类型                                                 | 默认值     | 说明             |
+| ---------- | ---------------------------------------------------- | ---------- | ---------------- |
+| actionType | `string`                                             | `parallel` | 并行执行多个动作 |
+| children   | Array<[动作](../../docs/concepts/event-action#动作)> | -          | 子动作           |
 
 # 动作间数据传递
 
