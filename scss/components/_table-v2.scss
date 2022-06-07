@@ -645,7 +645,7 @@
 
         .#{$ns}Table-thead-resizable {
           position: absolute;
-          width: 1px;
+          width: 3px;
           right: 0;
           top: 0;
           bottom: 0;
@@ -712,8 +712,6 @@
 
   .#{$ns}TableCell-searchBtn {
     cursor: pointer;
-    position: static;
-    transform: translateY(-50%);
     color: var(--text--muted-color);
     margin-left: var(--TableCell-icon-gap);
 

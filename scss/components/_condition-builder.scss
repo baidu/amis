@@ -278,3 +278,14 @@
   display: inline-block;
   user-select: none;
 }
+
+.#{$ns}CBPicker-trigger {
+  cursor: pointer;
+  transition: transform var(--animation-duration) ease-out;
+  display: flex;
+  color: var(--Form-select-caret-iconColor);
+
+  &:hover {
+    color: var(--primary);
+  }
+}

@@ -1,13 +1,9 @@
-.#{$ns}Crud {
+.#{$ns}Crud2 {
   position: relative;
 
-  &.is-loading > &-body {
-    // 弹框中，blur 效果变成白班，先去掉。
-    // -webkit-filter: blur(5px);
-    // filter: blur(5px);
-  }
-
-  &-selection {
+  &-selection,
+  &-toolbar,
+  &-body {
     margin-bottom: var(--gap-base);
   }
 
@@ -101,10 +97,6 @@
   }
 
   &-pageSwitch {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-
     .#{$ns}Select {
       margin-left: var(--Crud-toolbar-gap);
     }

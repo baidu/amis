@@ -27,6 +27,7 @@ export interface ResultBoxProps
   hasDropDownArrow?: boolean;
   maxTagCount?: number;
   overflowTagPopover?: TooltipObject;
+  actions?: JSX.Element | JSX.Element[];
 }
 
 export class ResultBox extends React.Component<ResultBoxProps> {
@@ -59,6 +60,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
   @autobind
   clearValue(e: React.MouseEvent<any>) {
     e.preventDefault();
+    e.stopPropagation();
     this.props.onClear && this.props.onClear(e);
     this.props.onResultChange && this.props.onResultChange([]);
   }
@@ -210,6 +212,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       borderMode,
       useMobileUI,
       hasDropDownArrow,
+      actions,
       onClear,
       ...rest
     } = this.props;
@@ -236,63 +239,71 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         onFocus={allowInput ? undefined : onFocus}
         onBlur={allowInput ? undefined : onBlur}
       >
-        {Array.isArray(result) && result.length ? (
-          this.renderMultipeTags(result)
-        ) : result && !Array.isArray(result) ? (
-          <span className={cx('ResultBox-singleValue')}>
-            {isPlainObject(result) ? itemRender(result) : result}
-          </span>
-        ) : allowInput && !disabled ? null : (
-          <span className={cx('ResultBox-placeholder')}>
-            {__(placeholder || 'placeholder.noData')}
-          </span>
-        )}
+        <div className={cx('ResultBox-value-wrap')}>
+          {Array.isArray(result) && result.length ? (
+            this.renderMultipeTags(result)
+          ) : result && !Array.isArray(result) ? (
+            <span className={cx('ResultBox-singleValue')}>
+              {isPlainObject(result) ? itemRender(result) : result}
+            </span>
+          ) : allowInput && !disabled ? null : (
+            <span className={cx('ResultBox-placeholder')}>
+              {__(placeholder || 'placeholder.noData')}
+            </span>
+          )}
 
-        {allowInput && !disabled ? (
-          <Input
-            {...omit(rest, omitPropsList)}
-            onKeyPress={onKeyPress}
-            ref={this.inputRef}
-            value={value || ''}
-            onChange={this.handleChange}
-            placeholder={__(
-              Array.isArray(result) && result.length
-                ? inputPlaceholder
-                : result
-                ? ''
-                : placeholder
-            )}
-            onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
-          />
-        ) : null}
+          {allowInput && !disabled ? (
+            <Input
+              {...omit(rest, omitPropsList)}
+              className={cx('ResultBox-value-input')}
+              onKeyPress={onKeyPress}
+              ref={this.inputRef}
+              value={value || ''}
+              onChange={this.handleChange}
+              placeholder={__(
+                Array.isArray(result) && result.length
+                  ? inputPlaceholder
+                  : result
+                  ? ''
+                  : placeholder
+              )}
+              onFocus={this.handleFocus}
+              onBlur={this.handleBlur}
+            />
+          ) : null}
 
-        {children}
+          {children}
+        </div>
 
-        {clearable &&
-        !disabled &&
-        (Array.isArray(result) ? result.length : result) ? (
-          <a
-            onClick={this.clearValue}
-            className={cx('ResultBox-clear', {
-              'ResultBox-clear-with-arrow': hasDropDownArrow
-            })}
-          >
-            <div className={cx('ResultBox-clear-wrap')}>
-              <Icon icon="input-clear" className="icon" />
-            </div>
-          </a>
-        ) : null}
-        {hasDropDownArrow && !mobileUI && (
-          <span className={cx('ResultBox-pc-arrow')}>
-            <Icon icon="right-arrow-bold" className="icon" />
-          </span>
-        )}
-        {!allowInput && mobileUI ? (
-          <span className={cx('ResultBox-arrow')}>
-            <Icon icon="caret" className="icon" />
-          </span>
-        ) : null}
+        <div className={cx('ResultBox-actions')}>
+          {clearable &&
+          !disabled &&
+          (Array.isArray(result) ? result.length : result) ? (
+            <a
+              onClick={this.clearValue}
+              className={cx('ResultBox-clear', {
+                'ResultBox-clear-with-arrow': hasDropDownArrow
+              })}
+            >
+              <div className={cx('ResultBox-clear-wrap')}>
+                <Icon icon="input-clear" className="icon" />
+              </div>
+            </a>
+          ) : null}
+
+          {actions}
+
+          {hasDropDownArrow && !mobileUI && (
+            <span className={cx('ResultBox-pc-arrow')}>
+              <Icon icon="right-arrow-bold" className="icon" />
+            </span>
+          )}
+          {!allowInput && mobileUI ? (
+            <span className={cx('ResultBox-arrow')}>
+              <Icon icon="caret" className="icon" />
+            </span>
+          ) : null}
+        </div>
       </div>
     );
   }

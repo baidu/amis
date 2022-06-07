@@ -4,7 +4,6 @@ import {Funcs, Fields} from '../../components/condition-builder/types';
 import {Config} from '../../components/condition-builder/config';
 import ConditionBuilder from '../../components/condition-builder/index';
 import {SchemaApi, SchemaTokenizeableString} from '../../Schema';
-import FormulaPicker from '../../components/formula/Picker';
 import {
   RemoteOptionsProps,
   withRemoteConfig
@@ -15,6 +14,7 @@ import {
   isPureVariable,
   resolveVariableAndFilter
 } from '../../utils/tpl-builtin';
+import {IconSchema} from '../Icon';
 
 /**
  * 条件组合控件
@@ -25,6 +25,16 @@ export interface ConditionBuilderControlSchema extends FormBaseControl {
    * 指定为
    */
   type: 'condition-builder';
+
+  /**
+   * 内嵌模式，默认为 true
+   */
+  embed?: boolean;
+
+  /**
+   * 非内嵌模式时 弹窗触发icon
+   */
+  pickerIcon?: IconSchema;
 
   /**
    * 函数集合
@@ -73,8 +83,14 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
       data
     );
   }
+
+  renderPickerIcon() {
+    const {render, pickerIcon} = this.props;
+    return pickerIcon ? render('picker-icon', pickerIcon) : undefined;
+  }
+
   render() {
-    const {className, classnames: cx, ...rest} = this.props;
+    const {className, classnames: cx, pickerIcon, ...rest} = this.props;
 
     // 处理一下formula类型值的变量列表
     let formula = this.props.formula ? {...this.props.formula} : undefined;
@@ -91,6 +107,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
       <div className={cx(`ConditionBuilderControl`, className)}>
         <ConditionBuilderWithRemoteOptions
           renderEtrValue={this.renderEtrValue}
+          pickerIcon={this.renderPickerIcon()}
           {...rest}
           formula={formula}
         />

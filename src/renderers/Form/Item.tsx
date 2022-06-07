@@ -308,6 +308,10 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
   storeType?: string;
   validations?: string;
   strictMode?: boolean;
+  /**
+   * schema变化使视图更新的属性白名单
+   */
+  detectProps?: Array<string>;
   shouldComponentUpdate?: (props: any, prevProps: any) => boolean;
   descriptionClassName?: string;
   storeExtendsData?: boolean;
@@ -1268,7 +1272,13 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
             }
 
             // 把可能会影响视图的白名单弄出来，减少重新渲染次数。
-            if (anyChanged(detectProps, this.props, nextProps)) {
+            if (
+              anyChanged(
+                detectProps.concat(config.detectProps || []),
+                this.props,
+                nextProps
+              )
+            ) {
               return true;
             }
 
