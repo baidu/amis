@@ -26,7 +26,7 @@
     "codemirror": "^5.63.0",
     "downshift": "6.1.7",
     "echarts": "5.3.1",
-    "froala-editor": "3.1.1",
+    "froala-editor": "4.0.7",
     "hoist-non-react-statics": "^3.3.2",
     "jsbarcode": "^3.11.5",
     "keycode": "^2.2.1",
