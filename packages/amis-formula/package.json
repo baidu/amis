@@ -10,8 +10,7 @@
     "declaration": "tsc --allowJs --declaration --emitDeclarationOnly --declarationDir ./dist --rootDir ./src",
     "test": "jest",
     "coverage": "jest --coverage",
-    "genDoc": "ts-node ./scripts/genDoc.ts",
-    "prepublishOnly": "npm run build"
+    "genDoc": "ts-node ./scripts/genDoc.ts"
   },
   "repository": {
     "type": "git",
@@ -94,5 +93,6 @@
         "diagnostics": false
       }
     }
-  }
+  },
+  "gitHead": "d186931f88d2ff5b6caacfc6baedbd2d530c4e89"
 }

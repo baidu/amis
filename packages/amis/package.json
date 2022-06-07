@@ -9,8 +9,7 @@
     "publish-to-internal": "sh build.sh && sh publish.sh",
     "build": "sh build.sh",
     "prettier": "prettier --write '{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}'",
-    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' ../../scripts/build-schemas.ts",
-    "prepublishOnly": "npm run build"
+    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' ../../scripts/build-schemas.ts"
   },
   "repository": {
     "type": "git",
@@ -191,5 +190,6 @@
   "peerDependencies": {
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
-  }
+  },
+  "gitHead": "d186931f88d2ff5b6caacfc6baedbd2d530c4e89"
 }

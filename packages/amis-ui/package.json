@@ -9,8 +9,7 @@
     "dev": "rollup -c -w",
     "test": "jest",
     "coverage": "jest --coverage",
-    "clean-dist": "rimraf lib/* esm/*",
-    "prepublishOnly": "npm run build"
+    "clean-dist": "rimraf lib/* esm/*"
   },
   "author": "fex",
   "license": "Apache-2.0",
@@ -116,5 +115,6 @@
         "diagnostics": false
       }
     }
-  }
+  },
+  "gitHead": "d186931f88d2ff5b6caacfc6baedbd2d530c4e89"
 }
