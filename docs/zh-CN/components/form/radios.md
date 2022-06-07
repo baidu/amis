@@ -201,7 +201,7 @@ order: 36
         "label": "选项",
         "type": "radios",
         "name": "radios",
-        "source": "/api/mock2/form/getOptions?waitSeconds=1"
+        "source": "/api/mock2/form/getOptions?waitSeconds=1&size=200"
       }
     ]
   }

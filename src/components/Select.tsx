@@ -7,6 +7,7 @@
 
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
+import merge from 'lodash/merge';
 import isInteger from 'lodash/isInteger';
 import omit from 'lodash/omit';
 import VirtualList from './virtual-list';
@@ -946,7 +947,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       hideSelected,
       renderMenu,
       mobileClassName,
-      virtualThreshold = 200,
+      virtualThreshold = 100,
       useMobileUI = false
     } = this.props;
     const {selection} = this.state;
@@ -960,7 +961,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
           })
         : options.concat()
     ).filter((option: Option) => !option.hidden && option.visible !== false);
-
+    const enableVirtualRender =
+      filtedOptions.length && filtedOptions.length > virtualThreshold;
     const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
       const optionsValues = (checkAllBySearch ? filtedOptions : options).map(
@@ -1000,7 +1002,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             item,
             disabled: item.disabled
           })}
-          style={style}
+          style={merge(style, enableVirtualRender ? {width: '100%'} : {})}
           className={cx(`Select-option`, {
             'is-disabled': item.disabled,
             'is-highlight': highlightedIndex === index,
@@ -1107,8 +1109,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       <div
         ref={this.menu}
         className={cx('Select-menu', {
-          'Select--longlist':
-            filtedOptions.length && filtedOptions.length > virtualThreshold,
+          'Select--longlist': enableVirtualRender,
           'is-mobile': mobileUI
         })}
       >
