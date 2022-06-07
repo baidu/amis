@@ -15,7 +15,7 @@
     "test": "npm test --workspaces",
     "prepare": "husky install",
     "coverage": "jest --coverage",
-    "version": "lerna version --no-ignore-changes",
+    "version": "lerna version",
     "release": "npm run build --workspaces && lerna publish from-package --registry=https://registry.npmjs.org",
     "publish-to-internal": "sh ./publish-to-internal.sh"
   },
