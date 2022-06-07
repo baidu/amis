@@ -28,7 +28,13 @@ const settings = {
 const external = id =>
   new RegExp(
     `^(?:${Object.keys(dependencies)
-      .concat([])
+      .concat([
+        'linkify-it',
+        'markdown-it',
+        'markdown-it-html5-media',
+        'mdurl',
+        'uc.micro'
+      ])
       .map(value =>
         value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
       )
