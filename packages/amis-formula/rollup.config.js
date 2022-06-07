@@ -28,7 +28,7 @@ export default {
   input: isForLib ? './scripts/lib.ts' : './src/index.ts',
   output: [
     {
-      file: isForLib ? 'dist/formula.js' : main,
+      file: isForLib ? 'lib/formula.js' : main,
       name: isForLib ? 'formula' : main,
       ...settings,
       format: isForLib ? 'iife' : 'cjs',

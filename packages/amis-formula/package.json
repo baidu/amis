@@ -2,12 +2,12 @@
   "name": "amis-formula",
   "version": "2.0.0-rc.2",
   "description": "负责 amis 里面的表达式实现，内置公式，编辑器等",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "npm run clean-dist && NODE_ENV=production rollup -c && npm run declaration && npm run genDoc",
     "lib": "npm run clean-dist && NODE_ENV=lib rollup -c",
-    "clean-dist": "rimraf dist/*",
-    "declaration": "tsc --allowJs --declaration --emitDeclarationOnly --declarationDir ./dist --rootDir ./src",
+    "clean-dist": "rimraf lib/*",
+    "declaration": "tsc --allowJs --declaration --emitDeclarationOnly --declarationDir ./lib --rootDir ./src",
     "test": "jest",
     "coverage": "jest --coverage",
     "genDoc": "ts-node ./scripts/genDoc.ts"
@@ -23,7 +23,7 @@
     "formula"
   ],
   "files": [
-    "dist"
+    "lib"
   ],
   "author": "fex",
   "license": "MIT",
