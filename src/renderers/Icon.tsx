@@ -2,6 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema} from '../Schema';
 import {BadgeSchema, withBadge} from '../components/Badge';
+import {getIcon} from '../components/icons';
 
 /**
  * Icon 图表渲染器
@@ -36,6 +37,11 @@ export class Icon extends React.Component<IconProps, object> {
   render() {
     const {icon, vendor, classnames: cx, className} = this.props;
 
+    let CustomIcon = getIcon(icon);
+    if (CustomIcon) {
+      return <CustomIcon className={cx(className, `icon-${icon}`)} />;
+    }
+
     const isURLIcon = icon?.indexOf('.') !== -1;
     let iconPrefix = '';
     if (vendor === 'iconfont') {
@@ -47,6 +53,7 @@ export class Icon extends React.Component<IconProps, object> {
       // 如果vendor为空，则不设置前缀,这样可以支持fontawesome v5、fontawesome v6或者其他框架
       iconPrefix = `${icon}`;
     }
+
     return isURLIcon ? (
       <img className={cx('Icon')} src={icon} />
     ) : (
@@ -60,4 +67,4 @@ export class Icon extends React.Component<IconProps, object> {
 })
 // @ts-ignore 类型没搞定
 @withBadge
-export class TplRenderer extends Icon {}
+export class IconRenderer extends Icon {}

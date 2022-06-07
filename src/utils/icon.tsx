@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import {getIcon, Icon} from '../components/icons';
 import {ClassNamesFn} from '../theme';
 
 /**
@@ -17,8 +18,16 @@ export const generateIcon = (
   className?: string,
   classNameProp?: string
 ) => {
+  if (!icon) {
+    return null;
+  }
+
   if (React.isValidElement(icon)) {
     return icon;
+  }
+
+  if (getIcon(icon)) {
+    return <Icon icon={icon} className={cx(className, icon, classNameProp)} />;
   }
 
   const isURLIcon = icon?.indexOf('.') !== -1;

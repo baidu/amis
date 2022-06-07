@@ -119,7 +119,7 @@ export interface ColumnSchema {
    * 列样式
    */
   className?: string;
-  
+
   /**
    * 表头单元格样式
    */
@@ -187,6 +187,10 @@ export interface RowSelectionSchema {
 
 export interface ExpandableSchema {
   /**
+   * 对应渲染器类型
+   */
+  type: string;
+  /**
    * 对应数据源的key值
    */
   keyField: string;
@@ -247,11 +251,6 @@ export interface TableSchemaV2 extends BaseSchema {
    * 表格行可展开配置
    */
   expandable?: ExpandableSchema;
-
-  /**
-   * 表格行可展开内容配置
-   */
-  expandableBody?: Array<SchemaObject>;
 
   /**
    * 粘性头部
@@ -331,16 +330,7 @@ export interface TableV2Props extends RendererProps {
   togglable: boolean;
 }
 
-@Renderer({
-  type: 'table-v2',
-  storeType: TableStoreV2.name,
-  name: 'table-v2',
-  isolateScope: true
-})
-export default class TableRenderer extends React.Component<
-  TableV2Props,
-  object
-> {
+export default class TableV2 extends React.Component<TableV2Props, object> {
   static contextType = ScopedContext;
 
   renderedToolbars: Array<string> = [];
@@ -362,7 +352,7 @@ export default class TableRenderer extends React.Component<
     const {store, columnsTogglable, columns} = props;
 
     store.update({columnsTogglable, columns});
-    TableRenderer.syncRows(store, props, undefined) && this.syncSelected();
+    TableV2.syncRows(store, props, undefined) && this.syncSelected();
   }
 
   componentWillUnmount() {
@@ -485,7 +475,7 @@ export default class TableRenderer extends React.Component<
         (props.data !== prevProps.data ||
           (typeof props.source === 'string' && isPureVariable(props.source))))
     ) {
-      TableRenderer.syncRows(store, props, prevProps) && this.syncSelected();
+      TableV2.syncRows(store, props, prevProps) && this.syncSelected();
     }
 
     if (!isEqual(prevProps.columns, props.columns)) {
@@ -600,9 +590,10 @@ export default class TableRenderer extends React.Component<
             <div
               key={col}
               className={cx('Table-head-cell-wrapper', {
-              [`${column.className}`]: !!column.className,
-              [`${column.titleClassName}`]: !!column.titleClassName
-            })}>
+                [`${column.className}`]: !!column.className,
+                [`${column.titleClassName}`]: !!column.titleClassName
+              })}
+            >
               {content}
               {remark}
               {children}
@@ -624,7 +615,7 @@ export default class TableRenderer extends React.Component<
               colIndex: number
             ) => {
               const props: RenderProps = {};
-              const item = store.getRowByIndex(rowIndex);
+              const item = store.getRowByIndex(rowIndex) || {};
               const obj = {
                 children: this.renderCellSchema(column, {
                   data: item.locals,
@@ -709,7 +700,9 @@ export default class TableRenderer extends React.Component<
         if (column.classNameExpr) {
           clone.className = (record: any, rowIndex: number) => {
             const className = filter(column.classNameExpr, {record, rowIndex});
-            return `${className}${column.className ? ` ${column.className}` : ''}`;
+            return `${className}${
+              column.className ? ` ${column.className}` : ''
+            }`;
           };
         }
 
@@ -967,7 +960,9 @@ export default class TableRenderer extends React.Component<
         isActived: store.hasColumnHidden(),
         columns: store.columnsData,
         onColumnToggle: this.handleColumnToggle,
-        children
+        children,
+        tooltipContainer:
+          env && env.getModalContainer ? env.getModalContainer : undefined
       }
     );
   }
@@ -1058,10 +1053,7 @@ export default class TableRenderer extends React.Component<
   }
 
   @autobind
-  async handleFilter(payload: {
-    filterName: string,
-    filterValue: string
-  }) {
+  async handleFilter(payload: {filterName: string; filterValue: string}) {
     const {dispatchEvent, data, onFilter} = this.props;
     const rendererEvent = await dispatchEvent(
       'columnFilter',
@@ -1076,7 +1068,11 @@ export default class TableRenderer extends React.Component<
   }
 
   @autobind
-  async handleRowClick(event: React.ChangeEvent<any>, rowItem: any, rowIndex?: number) {
+  async handleRowClick(
+    event: React.ChangeEvent<any>,
+    rowItem: any,
+    rowIndex?: number
+  ) {
     const {dispatchEvent, data, onRow} = this.props;
 
     const rendererEvent = await dispatchEvent(
@@ -1094,7 +1090,11 @@ export default class TableRenderer extends React.Component<
   }
 
   @autobind
-  async handleOrderChange(oldIndex: number, newIndex: number, levels: Array<string>) {
+  async handleOrderChange(
+    oldIndex: number,
+    newIndex: number,
+    levels: Array<string>
+  ) {
     const {store} = this.props;
     const rowItem = store.getRowByIndex(oldIndex, levels);
 
@@ -1121,10 +1121,7 @@ export default class TableRenderer extends React.Component<
       return;
     }
 
-    onSaveOrder(
-      movedItems,
-      items
-    );
+    onSaveOrder(movedItems, items);
   }
 
   @autobind
@@ -1151,7 +1148,10 @@ export default class TableRenderer extends React.Component<
         const dataSource = store.getData(data);
         const selected: Array<any> = [];
         dataSource.items.forEach((item: any, rowIndex: number) => {
-          const flag = evalExpression(args?.selectedRowKeysExpr, {record: item, rowIndex});
+          const flag = evalExpression(args?.selectedRowKeysExpr, {
+            record: item,
+            rowIndex
+          });
           if (flag) {
             selected.push(item[keyField]);
           }
@@ -1171,7 +1171,6 @@ export default class TableRenderer extends React.Component<
       rowSelection,
       columns,
       expandable,
-      expandableBody,
       footSummary,
       headSummary,
       loading,
@@ -1199,9 +1198,9 @@ export default class TableRenderer extends React.Component<
         delete expandableConfig.expandableOn;
       }
 
-      if (expandableBody && expandableBody.length > 0) {
+      if (expandable && expandable.type) {
         expandableConfig.expandedRowRender = (record: any, rowIndex: number) =>
-          this.renderSchema('expandableBody', expandableBody, {data: record});
+          this.renderSchema('expandableBody', {...expandable}, {data: record});
       }
 
       if (expandable.expandedRowClassNameExpr) {
@@ -1287,8 +1286,8 @@ export default class TableRenderer extends React.Component<
     let itemActionsConfig = undefined;
     if (itemActions) {
       const finalActions = Array.isArray(itemActions)
-      ? itemActions.filter(action => !action.hiddenOnHover)
-      : [];
+        ? itemActions.filter(action => !action.hiddenOnHover)
+        : [];
 
       if (!finalActions.length) {
         return null;
@@ -1346,41 +1345,34 @@ export default class TableRenderer extends React.Component<
   }
 
   renderHeading() {
-    let {
-      store,
-      classnames: cx,
-      headingClassName,
-      translate: __
-    } = this.props;
+    let {store, classnames: cx, headingClassName, translate: __} = this.props;
 
     if (store.moved) {
       return (
         <div className={cx('Table-heading', headingClassName)} key="heading">
-          {
-            store.moved ? (
-              <span>
-                {__('Table.moved', {
-                  moved: store.moved
-                })}
-                <button
-                  type="button"
-                  className={cx('Button Button--xs Button--success m-l-sm')}
-                  onClick={this.handleSaveOrder}
-                >
-                  <Icon icon="check" className="icon m-r-xs" />
-                  {__('Form.submit')}
-                </button>
-                <button
-                  type="button"
-                  className={cx('Button Button--xs Button--danger m-l-sm')}
-                  onClick={this.reset}
-                >
-                  <Icon icon="close" className="icon m-r-xs" />
-                  {__('Table.discard')}
-                </button>
-              </span>
-            ) : null
-          }
+          {store.moved ? (
+            <span>
+              {__('Table.moved', {
+                moved: store.moved
+              })}
+              <button
+                type="button"
+                className={cx('Button Button--xs Button--success m-l-sm')}
+                onClick={this.handleSaveOrder}
+              >
+                <Icon icon="check" className="icon m-r-xs" />
+                {__('Form.submit')}
+              </button>
+              <button
+                type="button"
+                className={cx('Button Button--xs Button--danger m-l-sm')}
+                onClick={this.reset}
+              >
+                <Icon icon="close" className="icon m-r-xs" />
+                {__('Table.discard')}
+              </button>
+            </span>
+          ) : null}
         </div>
       );
     }
@@ -1392,7 +1384,7 @@ export default class TableRenderer extends React.Component<
     const {classnames: cx} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
-    
+
     const heading = this.renderHeading();
 
     return (
@@ -1402,5 +1394,33 @@ export default class TableRenderer extends React.Component<
         {this.renderTable()}
       </div>
     );
+  }
+}
+
+@Renderer({
+  type: 'table-v2',
+  storeType: TableStoreV2.name,
+  name: 'table-v2',
+  isolateScope: true
+})
+export class TableRenderer extends TableV2 {
+  receive(values: any, subPath?: string) {
+    const scoped = this.context as IScopedContext;
+    const parents = scoped?.parent?.getComponents();
+
+    /**
+     * 因为Table在scope上注册，导致getComponentByName查询组件时会优先找到Table，和CRUD联动的动作都会失效
+     * 这里先做兼容处理，把动作交给上层的CRUD处理
+     */
+    if (Array.isArray(parents) && parents.length) {
+      // CRUD的name会透传给Table，这样可以保证找到CRUD
+      const crud = parents.find(cmpt => cmpt?.props?.name === this.props?.name);
+
+      return crud?.receive?.(values, subPath);
+    }
+
+    if (subPath) {
+      return scoped.send(subPath, values);
+    }
   }
 }

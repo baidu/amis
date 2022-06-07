@@ -93,15 +93,14 @@
       overflow: hidden !important;
       &-container {
         &Icon:after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: px2rem(32px);
-            height: 9999px;
-            left: px2rem(11px);
-            width: 1px;
-            background-color: var(--Steps-line-bg);
-        
+          content: '';
+          position: absolute;
+          right: 0;
+          top: px2rem(32px);
+          height: 9999px;
+          left: px2rem(11px);
+          width: 1px;
+          background-color: var(--Steps-line-bg);
         }
         &Wrapper > .#{$ns}StepsItem-body > .#{$ns}StepsItem-title {
           &:after {
@@ -146,9 +145,8 @@
               }
             }
           }
-          &-title>span {
+          &-title > span {
             display: inline-block !important;
-            
           }
           &-vertical-ProgressDot {
             right: px2rem(10px);
@@ -159,8 +157,8 @@
         }
         &:last-child {
           .#{$ns}StepsItem {
-            &-containerProgressDot:after{
-                display: none;
+            &-containerProgressDot:after {
+              display: none;
             }
           }
         }
@@ -181,8 +179,8 @@
     padding: 0;
     .#{$ns}StepsItem {
       flex: 1;
-      padding: 0; 
-      overflow: visible ;
+      padding: 0;
+      overflow: visible;
       &-container {
         display: flex;
         flex-direction: column;
@@ -197,7 +195,7 @@
           width: calc(100% - 55px);
           background-color: var(--Steps-line-bg);
         }
-        &Icon{
+        &Icon {
           margin-left: px2rem(90px);
         }
         &Wrapper {
@@ -207,7 +205,7 @@
             .#{$ns}StepsItem-title {
               padding: 0 px2rem(10px);
               width: 100%;
-              >span {
+              > span {
                 display: block;
                 position: relative;
                 left: px2rem(10px);
@@ -219,7 +217,7 @@
                 left: px2rem(10px);
               }
             }
-            .#{$ns}StepsItem-title:after  {
+            .#{$ns}StepsItem-title:after {
               display: none;
             }
             .#{$ns}StepsItem-description {
@@ -242,10 +240,10 @@
           }
         }
       }
-    } 
+    }
     .is-finish {
       .#{$ns}StepsItem {
-        &-containerTail:after{
+        &-containerTail:after {
           background: var(--Steps-status-success);
         }
       }
@@ -266,7 +264,7 @@
           height: px2rem(8px);
           margin-left: px2rem(96px);
           border: 1px solid var(--Steps-line-success-bg);
-          border-radius: 100% ;
+          border-radius: 100%;
         }
       }
     }
@@ -302,7 +300,6 @@
       }
     }
   }
-  
 
   .#{$ns}StepsItem.is-wait {
     .#{$ns}StepsItem-icon {
@@ -333,10 +330,8 @@
   }
 }
 
-
 .#{$ns}Steps-mobile.#{$ns}Steps--horizontal {
   .#{$ns}StepsItem {
-
     &-container {
       &Wrapper {
         .#{$ns}StepsItem-body {
@@ -347,7 +342,7 @@
           }
         }
 
-        .#{$ns}StepsItem-body{
+        .#{$ns}StepsItem-body {
           .#{$ns}StepsItem-title {
             .#{$ns}StepsItem-subTitle {
               padding-left: px2rem(5px);

@@ -54,7 +54,7 @@ export interface Card2Props
   /**
    * 选择事件
    */
-  onCheck: (checked: boolean, data: any) => void;
+  onCheck: () => void;
 
   /**
    * 数据
@@ -97,8 +97,7 @@ export default class Card2<T> extends React.Component<Card2Props & T, object> {
 
   @autobind
   handleCheck() {
-    const {item, selected} = this.props;
-    this.props.onCheck && this.props.onCheck(!selected, item);
+    this.props.onCheck && this.props.onCheck();
   }
 
   renderCheckbox(): JSX.Element | null {
