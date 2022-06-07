@@ -16,7 +16,8 @@
   "license": "Apache-2.0",
   "files": [
     "lib",
-    "esm"
+    "esm",
+    "scss"
   ],
   "dependencies": {
     "amis-core": "*",
