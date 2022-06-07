@@ -21,7 +21,6 @@ node_modules
 /toolkit/amis-renderer
 /toolkit/output
 /coverage
-package-lock.json
 /schema.json
 /npm
 /mock/cfc/cfc.zip
@@ -29,3 +28,4 @@ package-lock.json
 
 dist
 tsconfig.tsbuildinfo
+lerna-debug.log
