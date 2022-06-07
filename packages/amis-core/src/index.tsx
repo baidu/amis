@@ -62,6 +62,7 @@ import FormItem, {
   FormBaseControl,
   FormControlProps,
   FormItemWrap,
+  FormItemProps,
   registerFormItem
 } from './renderers/Item';
 import {
@@ -101,6 +102,7 @@ export {
   RegisterStore,
   FormItem,
   FormItemWrap,
+  FormItemProps,
   OptionsControl,
   FormRenderer,
   FormHorizontal,
