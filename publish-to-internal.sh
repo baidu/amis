@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# npm run build --workspaces
+npm run build --workspaces
 
 rm -rf npm
 mkdir npm
@@ -26,7 +26,7 @@ for f in $(find ./packages/*/lib -type f -name "*.ts"); do
   sed -i '' -e "s/\'amis/\'@fex\/amis/g" $f
 done
 
-# npm publish --workspaces --registry=http://registry.npm.baidu-int.com --ignore-scripts
+npm publish --workspaces --registry=http://registry.npm.baidu-int.com --ignore-scripts
 
 cd ..
-# rm -rf npm
+rm -rf npm
