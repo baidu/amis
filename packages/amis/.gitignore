@@ -1,6 +1,6 @@
 /dist
-/lib
-/sdk
+lib
+sdk
 /public
 /gh-pages
 /output
