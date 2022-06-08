@@ -93,7 +93,7 @@ fis.match('*.scss', {
   rExt: '.css'
 });
 
-fis.match('/src/icons/**.svg', {
+fis.match('icons/**.svg', {
   rExt: '.js',
   isJsXLike: true,
   isJsLike: true,
@@ -233,6 +233,61 @@ fis.match(
     })
   }
 );
+
+if (fis.project.currentMedia() === 'dev') {
+  fis.match('/packages/**/*.{ts,tsx,js}', {
+    isMod: true
+  });
+
+  // 将子工程的查找，跳转到 src 目录去
+  // 可能 windows 下跑不了
+  const projects = [];
+  fs.readdirSync(path.join(__dirname, 'packages')).forEach(file => {
+    if (fs.lstatSync(path.join(__dirname, 'packages', file)).isDirectory()) {
+      projects.push(file);
+    }
+  });
+  projects.sort(function (a, b) {
+    return a.length < b.length ? 1 : a.length === b.length ? 0 : -1;
+  });
+  projects.length &&
+    fis.on('lookup:file', function (info, file) {
+      const uri = info.rest;
+      let newName = '';
+      let pkg = '';
+
+      if (/^amis\/lib\/themes\/(.*)\.css$/.test(uri)) {
+        newName = `amis-ui/scss/themes/${RegExp.$1}.scss`;
+      } else if (/^amis\/lib\/(.*)\.css$/.test(uri)) {
+        newName = `amis-ui/scss/${RegExp.$1}.scss`;
+      } else if (
+        uri === 'amis-formula/lib/doc' ||
+        uri === 'amis-formula/lib/doc.md'
+      ) {
+        // 啥也不干
+      } else if ((pkg = projects.find(pkg => uri.indexOf(pkg) === 0))) {
+        const parts = uri.split('/');
+        if (parts[1] === 'lib') {
+          parts.splice(1, 1, 'src');
+        } else if (parts.length === 1) {
+          parts.push('src', 'index');
+        }
+
+        newName = `/packages/${parts.join('/')}`;
+      }
+
+      if (newName) {
+        delete info.file;
+        var result = fis.project.lookup(newName, file);
+        if (result.file) {
+          info.file = result.file;
+          info.id = result.file.getId();
+        } else {
+          console.log(`\`${newName}\` 找不到`);
+        }
+      }
+    });
+}
 
 fis.hook('node_modules', {
   shimProcess: false,
