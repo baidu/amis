@@ -44,8 +44,6 @@
 # 安装项目 npm 依赖，在 node 12 下会有报错但不影响正常使用。
 npm i --legacy-peer-deps
 
-# 先让里面所有的子项目都编译一次，产出 npm 包文件
-npm run build --workspaces
 
 # 启动项目，等编译结束后通过 http://127.0.0.1:8888/examples/pages/simple 访问。
 npm start
