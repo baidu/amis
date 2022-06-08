@@ -326,70 +326,83 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     }
 
     let validateCancel: Function | null = null;
-    const validate: (data: Object, hook?: any) => Promise<boolean> = flow(
-      function* validate(data: Object, hook?: any) {
-        if (self.validating && !isEffectiveApi(self.validateApi, data)) {
-          return self.valid;
-        }
-
-        self.validating = true;
-        clearError();
-        if (hook) {
-          yield hook();
-        }
-
-        addError(
-          doValidate(self.tmpValue, data, self.rules, self.messages, self.__)
-        );
-
-        if (!self.errors.length && isEffectiveApi(self.validateApi, data)) {
-          if (validateCancel) {
-            validateCancel();
-            validateCancel = null;
-          }
-
-          const json: Payload = yield getEnv(self).fetcher(
-            self.validateApi,
-            /** 如果配置validateApi，需要将用户最新输入同步到数据域内 */
-            createObject(data, {[self.name]: self.tmpValue}),
-            {
-              cancelExecutor: (executor: Function) =>
-                (validateCancel = executor)
-            }
-          );
-          validateCancel = null;
-
-          if (!json.ok && json.status === 422 && json.errors) {
-            addError(
-              String(
-                json.errors || json.msg || `表单项「${self.name}」校验失败`
-              )
-            );
-          }
-        }
-
-        self.validated = true;
-
-        if (self.unique && self.form?.parentStore?.storeType === 'ComboStore') {
-          const combo = self.form.parentStore as IComboStore;
-          const group = combo.uniques.get(self.name) as IUniqueGroup;
-
-          if (
-            group.items.some(
-              item =>
-                item !== self &&
-                self.tmpValue !== undefined &&
-                item.value === self.tmpValue
-            )
-          ) {
-            addError(self.__('Form.unique'));
-          }
-        }
-
-        self.validating = false;
+    const validate: (
+      data: Object,
+      hook?: any,
+      /**
+       * customRules主要是为了支持action.require的验证方式
+       * 这样可以基于不同的action实现不同的校验规则
+       */
+      customRules?: {[propName: string]: any}
+    ) => Promise<boolean> = flow(function* validate(
+      data: Object,
+      hook?: any,
+      customRules?: {[propName: string]: any}
+    ) {
+      if (self.validating && !isEffectiveApi(self.validateApi, data)) {
         return self.valid;
       }
-    );
+
+      self.validating = true;
+      clearError();
+      if (hook) {
+        yield hook();
+      }
+
+      addError(
+        doValidate(
+          self.tmpValue,
+          data,
+          customRules ? str2rules(customRules) : self.rules,
+          self.messages,
+          self.__
+        )
+      );
+
+      if (!self.errors.length && isEffectiveApi(self.validateApi, data)) {
+        if (validateCancel) {
+          validateCancel();
+          validateCancel = null;
+        }
+
+        const json: Payload = yield getEnv(self).fetcher(
+          self.validateApi,
+          /** 如果配置validateApi，需要将用户最新输入同步到数据域内 */
+          createObject(data, {[self.name]: self.tmpValue}),
+          {
+            cancelExecutor: (executor: Function) => (validateCancel = executor)
+          }
+        );
+        validateCancel = null;
+
+        if (!json.ok && json.status === 422 && json.errors) {
+          addError(
+            String(json.errors || json.msg || `表单项「${self.name}」校验失败`)
+          );
+        }
+      }
+
+      self.validated = true;
+
+      if (self.unique && self.form?.parentStore?.storeType === 'ComboStore') {
+        const combo = self.form.parentStore as IComboStore;
+        const group = combo.uniques.get(self.name) as IUniqueGroup;
+
+        if (
+          group.items.some(
+            item =>
+              item !== self &&
+              self.tmpValue !== undefined &&
+              item.value === self.tmpValue
+          )
+        ) {
+          addError(self.__('Form.unique'));
+        }
+      }
+
+      self.validating = false;
+      return self.valid;
+    });
 
     function setError(msg: string | Array<string>, tag: string = 'builtin') {
       clearError();
