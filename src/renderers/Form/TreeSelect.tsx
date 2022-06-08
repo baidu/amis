@@ -112,7 +112,6 @@ export interface TreeSelectProps extends OptionsControlProps {
 
 export interface TreeSelectState {
   isOpened: boolean;
-  isFocused: boolean;
   inputValue: string;
 }
 
@@ -157,8 +156,7 @@ export default class TreeSelectControl extends React.Component<
 
     this.state = {
       inputValue: '',
-      isOpened: false,
-      isFocused: false
+      isOpened: false
     };
 
     this.open = this.open.bind(this);
@@ -206,22 +204,23 @@ export default class TreeSelectControl extends React.Component<
 
   handleFocus(e: any) {
     const {dispatchEvent, value, data} = this.props;
-    this.setState({
-      isFocused: true
-    });
-    dispatchEvent('focus', createObject(data, {
-      value
-    }));
+
+    dispatchEvent(
+      'focus',
+      createObject(data, {
+        value
+      })
+    );
   }
 
   handleBlur(e: any) {
     const {dispatchEvent, value, data} = this.props;
-    this.setState({
-      isFocused: false
-    });
-    dispatchEvent('blur', createObject(data, {
-      value
-    }));
+    dispatchEvent(
+      'blur',
+      createObject(data, {
+        value
+      })
+    );
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
@@ -645,7 +644,6 @@ export default class TreeSelectControl extends React.Component<
             'TreeSelect--searchable':
               searchable || isEffectiveApi(autoComplete),
             'is-opened': this.state.isOpened,
-            'is-focused': this.state.isFocused,
             'is-disabled': disabled
           })}
           result={
