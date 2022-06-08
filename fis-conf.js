@@ -257,9 +257,9 @@ if (fis.project.currentMedia() === 'dev') {
       let pkg = '';
 
       if (/^amis\/lib\/themes\/(.*)\.css$/.test(uri)) {
-        newName = `amis-ui/scss/themes/${RegExp.$1}.scss`;
+        newName = `/packages/amis-ui/scss/themes/${RegExp.$1}.scss`;
       } else if (/^amis\/lib\/(.*)\.css$/.test(uri)) {
-        newName = `amis-ui/scss/${RegExp.$1}.scss`;
+        newName = `/packages/amis-ui/scss/${RegExp.$1}.scss`;
       } else if (
         uri === 'amis-formula/lib/doc' ||
         uri === 'amis-formula/lib/doc.md'
