@@ -1,7 +1,7 @@
 import React from 'react';
 import {AsideNav, Html, NotFound, Spinner} from 'amis-ui';
 import {Layout} from 'amis-ui';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, replaceText} from 'amis-core';
 import {
   BaseSchema,
   SchemaApi,
@@ -197,6 +197,10 @@ export default class App extends React.Component<AppProps, object> {
 
     if (isEffectiveApi(api, store.data)) {
       const json = await store.fetchInitData(api, store.data, {});
+      if (env.replaceText) {
+        replaceText(json.data, env.replaceText, env.replaceTextIgnoreKeys);
+      }
+
       if (json?.data.pages) {
         store.setPages(json.data.pages);
         store.updateActivePage(env);

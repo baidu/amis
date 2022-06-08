@@ -6,8 +6,8 @@ import {isObject, JSONTraverse} from './helper';
 
 export function replaceText(
   schema: any,
-  replaceText: {[propName: string]: string},
-  replaceTextIgnoreKeys: String[]
+  replaceText?: {[propName: string]: string},
+  replaceTextIgnoreKeys?: String[]
 ) {
   // 进行文本替换
   if (replaceText && isObject(replaceText)) {
