@@ -1081,11 +1081,11 @@ export default class Table extends React.Component<TableProps, object> {
     } = (this.heights = {});
 
     heights.header = table
-      .querySelector('thead>tr:last-child')!
+      .querySelector('thead')!
       .getBoundingClientRect().height;
-    heights.header2 = table
-      .querySelector('thead>tr:first-child')!
-      .getBoundingClientRect().height;
+    // heights.header2 = table
+    //   .querySelector('thead>tr:first-child')!
+    //   .getBoundingClientRect().height;
 
     forEach(
       table.querySelectorAll('thead>tr:last-child>th'),
@@ -1132,7 +1132,7 @@ export default class Table extends React.Component<TableProps, object> {
           table.querySelectorAll('thead>tr:first-child>th'),
           (item: HTMLElement) => {
             const width = widths2[item.getAttribute('data-index') as string];
-            item.style.cssText += `width: ${width}px; height: ${heights.header2}px`;
+            item.style.cssText += `width: ${width}px; height: ${heights.header}px`;
             totalWidth2 += width;
           }
         );
