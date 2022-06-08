@@ -63,7 +63,7 @@ export interface FormSchemaHorizontal {
   right?: number;
   leftFixed?: boolean | number | 'xs' | 'sm' | 'md' | 'lg';
   justify?: boolean; // 两端对齐
-  labelAlign?: 'left' | 'right' // label对齐方式
+  labelAlign?: 'left' | 'right'; // label对齐方式
 }
 
 /**
@@ -988,7 +988,12 @@ export default class Form extends React.Component<FormProps, object> {
       data = store.data;
     }
     if (Array.isArray(action.required) && action.required.length) {
-      return store.validateFields(action.required).then(async result => {
+      const fields = action.required.map(item => ({
+        name: item,
+        rules: {isRequired: true}
+      }));
+
+      return store.validateFields(fields).then(async result => {
         if (!result) {
           const dispatcher = await dispatchEvent(
             'validateError',
