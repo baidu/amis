@@ -300,6 +300,7 @@
     text-decoration: var(--link-decoration);
     border: none;
     height: auto;
+    padding: 0;
 
     @include hover-focus {
       color: var(--Button--link-onHover-color);
