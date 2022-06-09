@@ -44,6 +44,8 @@
 # 安装项目 npm 依赖，在 node 12 下会有报错但不影响正常使用。
 npm i --legacy-peer-deps
 
+# 因为需要 require 一个 formula/lib/doc.md 文件，所以需要先生成一下
+npm run build --workspace amis-formula
 
 # 启动项目，等编译结束后通过 http://127.0.0.1:8888/examples/pages/simple 访问。
 npm start
@@ -65,6 +67,19 @@ npm run coverage
 npm run update-snapshot
 ```
 
+### 发布版本
+
+```bash
+# 先通过一下命令设置版本号
+npm run version
+
+# 发布内部 registry
+npm run publish-to-internal 
+
+# 发布外网环境
+npm run release
+```
+
 ### 如何贡献
 
 请使用分支开发，首先创建分支
@@ -77,17 +92,10 @@ npm run update-snapshot
 
 请采用 typescript 编写，所有合理的改动、新的公用渲染器、用例或者文档的提交都会被接收。
 
-## 维护者
+## 贡献者
 
-- [2betop](https://github.com/2betop)
-- [RickCole21](https://github.com/RickCole21)
-- [catchonme](https://github.com/catchonme)
-- [nwind](https://github.com/nwind)
-- [zhangtao07](https://github.com/zhangtao07)
-- [hsm-lv](https://github.com/hsm-lv)
-- [RUNZE LU](https://github.com/lurunze1226)
-- [ucasliyuan](https://github.com/ucasliyuan)
-- [yangwei9012](https://github.com/yangwei9012)
+<a href="https://github.com/baidu/amis/graphs/contributors"><img src="https://opencollective.com/amis/contributors.svg?width=890" /></a>
+
 
 ## 低代码平台
 
