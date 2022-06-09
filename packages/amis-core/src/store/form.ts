@@ -17,6 +17,7 @@ import {
 } from '../utils/helper';
 import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
+import find from 'lodash/find';
 import {filter} from '../utils/tpl';
 import {normalizeApiResponseData} from '../utils/api';
 
@@ -537,20 +538,27 @@ export const FormStore = ServiceStore.named('FormStore')
       return self.valid;
     });
 
-    const validateFields: (fields: Array<string>) => Promise<boolean> = flow(
-      function* validateFields(fields: Array<string>) {
-        const items = self.items.concat();
-        let result: Array<boolean> = [];
-        for (let i = 0, len = items.length; i < len; i++) {
-          let item = items[i] as IFormItemStore;
+    const validateFields: (
+      fields: Array<string | {name: string; rules: {[propName: string]: any}}>
+    ) => Promise<boolean> = flow(function* validateFields(
+      fields: Array<string | {name: string; rules: {[propName: string]: any}}>
+    ) {
+      const items = self.items.concat();
+      const normalizedfields = fields.map(field =>
+        typeof field === 'string' ? {name: field, rules: {}} : field
+      );
+      let result: Array<boolean> = [];
 
-          if (~fields.indexOf(item.name)) {
-            result.push(yield item.validate(self.data));
-          }
+      for (let i = 0, len = items.length; i < len; i++) {
+        let item = items[i] as IFormItemStore;
+        const field = find(normalizedfields, field => field.name === item.name);
+
+        if (field) {
+          result.push(yield item.validate(self.data, undefined, field.rules));
         }
-        return result.every(item => item);
       }
-    );
+      return result.every(item => item);
+    });
 
     function clearErrors() {
       const items = self.items.concat();
