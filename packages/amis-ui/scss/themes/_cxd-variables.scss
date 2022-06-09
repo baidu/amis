@@ -217,8 +217,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Number-handler--up-transform: rotate(180deg);
   --Number-handler--down-content: '\e6dd';
 
-  --Checkbox-onDisabled-bg: #F7F7F9;
-  --Checkbox-onDisabled-color: #B8BABF;
+  --Checkbox-onDisabled-bg: #f7f7f9;
+  --Checkbox-onDisabled-color: #b8babf;
 
   --Checkbox-inner-size: #{px2rem(8px)};
   --Checkbox--full-inner-size: #{px2rem(8px)};
@@ -303,6 +303,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Button-borderRadius: #{$R3};
 
   --Button-paddingX: #{px2rem(12px)};
+  --Button-icon-rightMargin: #{px2rem(4px)};
 
   --Button--lg-height: #{px2rem(40px)};
   --Button--lg-fontSize: #{px2rem(14px)};
