@@ -230,7 +230,7 @@ export class FormulaEditor extends React.Component<
   handleVariableSelect(item: VariableItem) {
     const {evalMode, selfVariableName} = this.props;
 
-    if (item && item.value && selfVariableName === item.value) {
+    if (item && item.value && (selfVariableName && selfVariableName === item.value)) {
       toast.warning('不能使用当前变量[self]，避免循环引用。');
       return;
     }
