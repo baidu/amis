@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {IFormItemStore, IFormStore} from '../../store/form';
 import {IMapEntries, reaction} from 'mobx';
@@ -20,7 +20,7 @@ import {
 } from '../../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchema, FormSchemaHorizontal} from '.';
-import {Api, Schema} from '../../types';
+import {Action, Api, Schema} from '../../types';
 import {filter} from '../../utils/tpl';
 import {SchemaRemark} from '../Remark';
 import {
@@ -38,6 +38,9 @@ import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
 import {isEffectiveApi} from '../../utils/api';
 import {dataMapping} from '../../utils/tpl-builtin';
+import {Overlay, PopOver} from '../../components';
+import {findDOMNode} from 'react-dom';
+import {omit} from 'lodash';
 
 export type LabelAlign = 'right' | 'left';
 
@@ -415,9 +418,14 @@ export interface FormItemConfig extends FormItemBasicConfig {
 export class FormItemWrap extends React.Component<FormItemProps> {
   reaction: Array<() => void> = [];
   lastSearchTerm: any;
+  target: HTMLElement;
 
   constructor(props: FormItemProps) {
     super(props);
+
+    this.state = {
+      isOpened: false
+    };
 
     const {formItem: model} = props;
 
@@ -436,6 +444,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       );
     }
   }
+  componentDidMount() {
+    this.target = findDOMNode(this) as HTMLElement;
+  }
 
   componentWillUnmount() {
     this.reaction.forEach(fn => fn());
@@ -445,9 +456,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
   @autobind
   handleFocus(e: any) {
-    const {formItem: model} = this.props;
+    const {formItem: model, autoFillApi, data, onBulkChange} = this.props;
     model && model.focus();
     this.props.onFocus && this.props.onFocus(e);
+
+    if (!autoFillApi) {
+      return;
+    }
+    this.handleSuggestion('focus');
   }
 
   @autobind
@@ -455,6 +471,66 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     const {formItem: model} = this.props;
     model && model.blur();
     this.props.onBlur && this.props.onBlur(e);
+  }
+
+  handleSuggestion(type: string) {
+    const {autoFillApi, onBulkChange, formItem, data} = this.props;
+    const {trigger, showSuggestion, mode, fillMapping, multiple} = autoFillApi;
+    if (trigger === type && showSuggestion && mode === 'popOver') {
+      // 参照录入 popOver形式
+      this.setState({
+        isOpened: true
+      });
+    } else if (
+      // 参照录入 dialog | drawer
+      trigger === type &&
+      showSuggestion &&
+      (mode === 'dialog' || mode === 'drawer')
+    ) {
+      formItem?.openDialog(this.buildSchema(), data, result => {
+        if (!result?.selectedItems) {
+          return;
+        }
+
+        this.updateSuggestionData(
+          result.selectedItems,
+          multiple,
+          fillMapping,
+          onBulkChange
+        );
+      });
+    }
+  }
+
+  updateSuggestionData(
+    context: any,
+    multiple: boolean,
+    fillMapping: Schema,
+    onBulkChange?: (
+      values: {[propName: string]: any},
+      submitOnChange?: boolean
+    ) => void
+  ) {
+    // 参照录入单条
+    if (!multiple) {
+      const singleData = dataMapping(fillMapping, context?.[0]);
+      onBulkChange?.(singleData);
+    } else {
+      // 多条数据明细表情况,fillMapping为待填充字段的key
+      if (!fillMapping?.__target) {
+        throw new Error(
+          '参照录入多条时，需通过 fillMapping.__target 指定目标映射字段'
+        );
+      }
+
+      const mappingArr: Array<any> = [];
+      context?.forEach((item: any) => {
+        console.log('item', item);
+        mappingArr.push(dataMapping(omit(fillMapping, ['__target']), item));
+      });
+
+      onBulkChange?.({[fillMapping.__target]: mappingArr});
+    }
   }
 
   syncAutoFill = debounce(
@@ -465,24 +541,30 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           return;
         }
 
-        const itemName = formItem?.name;
-        const ctx = createObject(data, {
-          [itemName || '']: term
-        });
-        if (
-          onBulkChange &&
-          isEffectiveApi(autoFillApi, ctx) &&
-          this.lastSearchTerm !== term
-        ) {
-          const result = await formItem?.loadAutoUpdateData(
-            autoFillApi,
-            ctx,
-            !!(autoFillApi as SchemaApiObject)?.silent
-          );
-          if (!result) return;
+        // 参照录入
+        if (autoFillApi?.showSuggestion) {
+          this.handleSuggestion('change');
+        } else {
+          // 自动填充
+          const itemName = formItem?.name;
+          const ctx = createObject(data, {
+            [itemName || '']: term
+          });
+          if (
+            onBulkChange &&
+            isEffectiveApi(autoFillApi, ctx) &&
+            this.lastSearchTerm !== term
+          ) {
+            const result = await formItem?.loadAutoUpdateData(
+              autoFillApi,
+              ctx,
+              !!(autoFillApi as SchemaApiObject)?.silent
+            );
+            if (!result) return;
 
-          this.lastSearchTerm = getVariable(result, itemName) ?? term;
-          onBulkChange(result);
+            this.lastSearchTerm = getVariable(result, itemName) ?? term;
+            onBulkChange(result);
+          }
         }
       })(term).catch(e => console.error(e));
     },
@@ -570,6 +652,128 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     }
 
     return null;
+  }
+
+  buildSchema() {
+    const {render, autoFillApi, classPrefix: ns, classnames: cx} = this.props;
+    if (!autoFillApi) {
+      return;
+    }
+    const {
+      url,
+      mode,
+      size,
+      offset,
+      position,
+      multiple,
+      filter,
+      columns,
+      popOverContainer,
+      popOverClassName
+    } = autoFillApi;
+    const form = {
+      type: 'form',
+      title: '',
+      className: 'suggestion-form',
+      actions: [],
+      body: {
+        type: 'crud',
+        isSuggestion: true,
+        alwaysShowPagination: true,
+        headerToolbar: [],
+        footerToolbar: [
+          {
+            type: 'pagination',
+            align: 'left'
+          },
+          {
+            type: 'bulkActions',
+            align: 'right',
+            className: 'ml-2'
+          },
+          {
+            type: 'button',
+            actionType: 'cancel',
+            label: '取消',
+            align: 'right'
+          }
+        ],
+        multiple,
+        bulkActions: [
+          {
+            type: 'submit',
+            actionType: 'submit',
+            label: '确认'
+          }
+        ],
+        filter,
+        api: url,
+        columns: columns || []
+      }
+    };
+    const schema = {
+      type: mode,
+      actions: [],
+      className: 'suggestion-dialog',
+      title: '参照录入数据',
+      size,
+      body: form
+    };
+
+    if (mode === 'popOver') {
+      return (
+        <Overlay
+          container={popOverContainer || this.target}
+          target={() => this.target}
+          placement={position || 'left-bottom-left-top'}
+          show
+        >
+          <PopOver
+            classPrefix={ns}
+            className={cx(`${ns}Suggestion-popOver`, popOverClassName)}
+            style={{
+              minWidth: this.target ? this.target.offsetWidth : undefined
+            }}
+            offset={offset}
+            onHide={this.hanldeClose}
+            overlay
+          >
+            {render('popOver-suggestion-form', form, {
+              onSubmit: this.hanldeSubmit
+            })}
+          </PopOver>
+        </Overlay>
+      );
+    } else {
+      return schema;
+    }
+  }
+
+  // 参照录入popOver提交
+  @autobind
+  hanldeSubmit(values: any) {
+    const {onBulkChange, autoFillApi} = this.props;
+    if (!autoFillApi) {
+      return;
+    }
+
+    const {fillMapping, multiple} = autoFillApi;
+
+    this.updateSuggestionData(
+      values.selectedItems,
+      multiple,
+      fillMapping,
+      onBulkChange
+    );
+
+    this.hanldeClose();
+  }
+
+  @autobind
+  hanldeClose() {
+    this.setState({
+      isOpened: false
+    });
   }
 
   /**
@@ -1305,39 +1509,43 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
               useMobileUI,
               ...rest
             } = this.props;
-
             const controlSize = size || defaultSize;
             const mobileUI = useMobileUI && isMobile();
+            //@ts-ignore
+            const isOpened = this.state.isOpened;
             return (
-              <Control
-                {...rest}
-                useMobileUI={useMobileUI}
-                onOpenDialog={this.handleOpenDialog}
-                size={config.sizeMutable !== false ? undefined : size}
-                onFocus={this.handleFocus}
-                onBlur={this.handleBlur}
-                type={type}
-                classnames={cx}
-                ref={isSFC ? undefined : this.refFn}
-                forwardedRef={isSFC ? this.refFn : undefined}
-                formItem={model}
-                className={cx(
-                  `Form-control`,
-                  {
-                    'is-inline': !!rest.inline && !mobileUI,
-                    'is-error': model && !model.valid,
-                    [`Form-control--withSize Form-control--size${ucFirst(
-                      controlSize
-                    )}`]:
-                      config.sizeMutable !== false &&
-                      typeof controlSize === 'string' &&
-                      !!controlSize &&
-                      controlSize !== 'full'
-                  },
-                  model?.errClassNames,
-                  inputClassName
-                )}
-              />
+              <Fragment>
+                <Control
+                  {...rest}
+                  useMobileUI={useMobileUI}
+                  onOpenDialog={this.handleOpenDialog}
+                  size={config.sizeMutable !== false ? undefined : size}
+                  onFocus={this.handleFocus}
+                  onBlur={this.handleBlur}
+                  type={type}
+                  classnames={cx}
+                  ref={isSFC ? undefined : this.refFn}
+                  forwardedRef={isSFC ? this.refFn : undefined}
+                  formItem={model}
+                  className={cx(
+                    `Form-control`,
+                    {
+                      'is-inline': !!rest.inline && !mobileUI,
+                      'is-error': model && !model.valid,
+                      [`Form-control--withSize Form-control--size${ucFirst(
+                        controlSize
+                      )}`]:
+                        config.sizeMutable !== false &&
+                        typeof controlSize === 'string' &&
+                        !!controlSize &&
+                        controlSize !== 'full'
+                    },
+                    model?.errClassNames,
+                    inputClassName
+                  )}
+                ></Control>
+                {isOpened ? this.buildSchema() : null}
+              </Fragment>
             );
           }
         },

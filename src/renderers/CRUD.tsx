@@ -705,6 +705,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       messages,
       pageField,
       stopAutoRefreshWhenModalIsOpen,
+      isSuggestion,
+      onBulkChange,
       env
     } = this.props;
 
@@ -770,6 +772,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             })
             .catch(() => null);
       } else if (onAction) {
+        if (action.actionType === 'submit' && isSuggestion) {
+          onBulkChange({selectedItems});
+        }
         onAction(e, action, ctx, false, this.context);
       }
     };

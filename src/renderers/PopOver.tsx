@@ -339,7 +339,6 @@ export const HocPopOver =
           classnames: cx,
           showIcon
         } = this.props;
-
         if (
           !popOver ||
           popOverEnabled === false ||
