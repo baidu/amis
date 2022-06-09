@@ -19,6 +19,9 @@
     "release": "npm run build --workspaces && lerna publish from-package --registry=https://registry.npmjs.org",
     "publish-to-internal": "sh ./publish-to-internal.sh"
   },
+  "dependencies": {
+    "qs": "6.9.7"
+  },
   "devDependencies": {
     "@types/jest": "^28.1.0",
     "fis-optimizer-terser": "^1.0.1",
