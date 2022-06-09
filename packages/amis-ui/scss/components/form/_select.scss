@@ -81,6 +81,8 @@
 
   .#{$ns}PopOver.#{$ns}Select-popover {
     .#{$ns}Select-menu {
+      overflow-x: hidden;
+
       .#{$ns}Select-option {
         height: px2rem(32px);
         line-height: px2rem(22px);
