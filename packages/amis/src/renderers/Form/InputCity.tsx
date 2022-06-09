@@ -8,12 +8,13 @@ import {autobind, isMobile, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {Option} from 'amis-core';
 import {localeable, LocaleProps} from 'amis-core';
+import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * City 城市选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/city
  */
-export interface InputCityControlSchema extends FormBaseControl {
+export interface InputCityControlSchema extends FormBaseControlSchema {
   /**
    * 指定为城市选择框。
    */

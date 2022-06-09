@@ -22,12 +22,13 @@ import {autobind, getTreeAncestors, isMobile, createObject} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {normalizeOptions} from 'amis-core';
 import {ActionObject} from 'amis-core';
+import {FormOptionsSchema} from '../../Schema';
 
 /**
  * Tree 下拉选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tree
  */
-export interface TreeSelectControlSchema extends FormOptionsControl {
+export interface TreeSelectControlSchema extends FormOptionsSchema {
   type: 'tree-select';
 
   /**
@@ -107,7 +108,6 @@ export interface TreeSelectProps extends OptionsControlProps {
 
 export interface TreeSelectState {
   isOpened: boolean;
-  isFocused: boolean;
   inputValue: string;
 }
 
@@ -152,8 +152,7 @@ export default class TreeSelectControl extends React.Component<
 
     this.state = {
       inputValue: '',
-      isOpened: false,
-      isFocused: false
+      isOpened: false
     };
 
     this.open = this.open.bind(this);
@@ -201,9 +200,6 @@ export default class TreeSelectControl extends React.Component<
 
   handleFocus(e: any) {
     const {dispatchEvent, value, data} = this.props;
-    this.setState({
-      isFocused: true
-    });
     dispatchEvent(
       'focus',
       createObject(data, {
@@ -214,9 +210,6 @@ export default class TreeSelectControl extends React.Component<
 
   handleBlur(e: any) {
     const {dispatchEvent, value, data} = this.props;
-    this.setState({
-      isFocused: false
-    });
     dispatchEvent(
       'blur',
       createObject(data, {
@@ -646,7 +639,6 @@ export default class TreeSelectControl extends React.Component<
             'TreeSelect--searchable':
               searchable || isEffectiveApi(autoComplete),
             'is-opened': this.state.isOpened,
-            'is-focused': this.state.isFocused,
             'is-disabled': disabled
           })}
           result={

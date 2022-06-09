@@ -1,6 +1,5 @@
-/lib
+lib/
 /node_modules
 /esm
-/.rollup.cache
 /tsconfig.tsbuildinfo
 /coverage

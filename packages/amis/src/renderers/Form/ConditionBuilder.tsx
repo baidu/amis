@@ -7,7 +7,11 @@ import {
   isPureVariable,
   resolveVariableAndFilter
 } from 'amis-core';
-import {SchemaApi, SchemaTokenizeableString} from '../../Schema';
+import {
+  FormBaseControlSchema,
+  SchemaApi,
+  SchemaTokenizeableString
+} from '../../Schema';
 
 import {autobind} from 'amis-core';
 import {
@@ -23,7 +27,7 @@ import {
  * 条件组合控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/condition-builder
  */
-export interface ConditionBuilderControlSchema extends FormBaseControl {
+export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
   /**
    * 指定为
    */

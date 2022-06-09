@@ -195,7 +195,12 @@ export interface OptionsControlProps
   extends FormControlProps,
     Omit<
       FormOptionsControl,
-      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+      | 'type'
+      | 'className'
+      | 'descriptionClassName'
+      | 'inputClassName'
+      | 'remark'
+      | 'labelRemark'
     > {
   options: Array<Option>;
   onToggle: (

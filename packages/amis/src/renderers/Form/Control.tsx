@@ -1,6 +1,6 @@
 import React from 'react';
 import {RendererProps, Renderer} from 'amis-core';
-import {SchemaCollection} from '../../Schema';
+import {FormBaseControlSchema, SchemaCollection} from '../../Schema';
 import {autobind} from 'amis-core';
 import {resolveVariable} from 'amis-core';
 import {FormBaseControl, FormItemWrap} from 'amis-core';
@@ -9,7 +9,7 @@ import {FormBaseControl, FormItemWrap} from 'amis-core';
  * Group 表单集合渲染器，能让多个表单在一行显示
  * 文档：https://baidu.gitee.io/amis/docs/components/form/group
  */
-export interface FormControlSchema extends FormBaseControl {
+export interface FormControlSchema extends FormBaseControlSchema {
   type: 'control';
 
   /**

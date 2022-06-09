@@ -5,7 +5,7 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import {createObject, guid} from 'amis-core';
 import {Icon} from 'amis-ui';
-import {FormSchema, SchemaClassName} from '../../Schema';
+import {FormBaseControlSchema, FormSchema, SchemaClassName} from '../../Schema';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
 
@@ -13,7 +13,7 @@ import {findDOMNode} from 'react-dom';
  * SubForm 子表单
  * 文档：https://baidu.gitee.io/amis/docs/components/form/subform
  */
-export interface SubFormControlSchema extends FormBaseControl {
+export interface SubFormControlSchema extends FormBaseControlSchema {
   /**
    * 指定为 SubForm 子表单
    */

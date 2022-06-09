@@ -917,25 +917,36 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
       mergedData = createObject(data, action.args);
     }
 
-    // 触发渲染器事件
-    const rendererEvent = await dispatchEvent(
-      e as React.MouseEvent<any> | string,
-      mergedData
-    );
-
-    // 阻止原有动作执行
-    if (rendererEvent?.prevented) {
-      return;
-    }
-
     if (!ignoreConfirm && action.confirmText && env.confirm) {
       let confirmed = await env.confirm(filter(action.confirmText, mergedData));
       if (confirmed) {
+        // 触发渲染器事件
+        const rendererEvent = await dispatchEvent(
+          e as React.MouseEvent<any> | string,
+          mergedData
+        );
+
+        // 阻止原有动作执行
+        if (rendererEvent?.prevented) {
+          return;
+        }
+
         await onAction(e, action, mergedData);
       } else if (action.countDown) {
         throw new Error('cancel');
       }
     } else {
+      // 触发渲染器事件
+      const rendererEvent = await dispatchEvent(
+        e as React.MouseEvent<any> | string,
+        mergedData
+      );
+
+      // 阻止原有动作执行
+      if (rendererEvent?.prevented) {
+        return;
+      }
+
       await onAction(e, action, mergedData);
     }
   }

@@ -1,6 +1,6 @@
 {
   "name": "amis-core",
-  "version": "1.0.0-beta.8",
+  "version": "2.0.0-rc.10",
   "description": "amis-core",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -14,12 +14,11 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@types/file-saver": "^2.0.1",
     "@types/hoist-non-react-statics": "^3.3.1",
+    "@types/jest": "^28.1.0",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
-    "@types/jest": "^28.1.0",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
-    "ts-jest": "^28.0.3",
     "moment-timezone": "^0.5.34",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -27,6 +26,7 @@
     "rollup": "^2.73.0",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-license": "^2.7.0",
+    "ts-jest": "^28.0.3",
     "typescript": "^4.6.4"
   },
   "scripts": {
@@ -41,7 +41,7 @@
     "esm"
   ],
   "dependencies": {
-    "amis-formula": "^2.0.0-beta.0",
+    "amis-formula": "*",
     "classnames": "2.3.1",
     "file-saver": "^2.0.2",
     "hoist-non-react-statics": "^3.3.2",
@@ -53,14 +53,14 @@
     "moment": "^2.19.3",
     "papaparse": "^5.3.0",
     "qs": "6.9.7",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
     "react-json-view": "1.21.3",
     "react-visibility-sensor": "5.1.1",
     "tslib": "^2.3.1",
-    "markdown-it": "^12.0.6",
-    "markdown-it-html5-media": "^0.7.1",
     "uncontrollable": "7.2.1"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.6",
+    "react-dom": ">=16.8.6"
   },
   "jest": {
     "testEnvironment": "jsdom",
@@ -95,5 +95,6 @@
         "diagnostics": false
       }
     }
-  }
+  },
+  "gitHead": "6affe8e364da3f1fe062c338237a8d1f0f304866"
 }

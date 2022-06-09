@@ -29,12 +29,13 @@ import compact from 'lodash/compact';
 import {RootClose} from 'amis-core';
 import {Cascader} from 'amis-ui';
 import {ActionObject} from 'amis-core';
+import {FormOptionsSchema} from '../../Schema';
 
 /**
  * Nested Select
  * 文档：https://baidu.gitee.io/amis/docs/components/form/nested-select
  */
-export interface NestedSelectControlSchema extends FormOptionsControl {
+export interface NestedSelectControlSchema extends FormOptionsSchema {
   type: 'nested-select';
   /**
    * 边框模式，全边框，还是半边框，或者没边框。

@@ -28,7 +28,14 @@ const settings = {
 const external = id =>
   new RegExp(
     `^(?:${Object.keys(dependencies)
-      .concat([])
+      .concat([
+        'linkify-it',
+        'markdown-it',
+        'markdown-it-html5-media',
+        'mdurl',
+        'uc.micro',
+        'entities'
+      ])
       .map(value =>
         value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
       )
@@ -85,24 +92,24 @@ export default [
           plugins: [postcssImport(), autoprefixer()]
         })
       )
+  },
+
+  {
+    input,
+
+    output: [
+      {
+        ...settings,
+        dir: path.dirname(module),
+        format: 'esm',
+        exports: 'named',
+        preserveModulesRoot: './src',
+        preserveModules: true // Keep directory structure and files
+      }
+    ],
+    external,
+    plugins: getPlugins('esm')
   }
-
-  // {
-  //   input,
-
-  //   output: [
-  //     {
-  //       ...settings,
-  //       dir: path.dirname(module),
-  //       format: 'esm',
-  //       exports: 'named',
-  //       preserveModulesRoot: './src',
-  //       preserveModules: true // Keep directory structure and files
-  //     }
-  //   ],
-  //   external,
-  //   plugins: getPlugins('esm')
-  // }
 ];
 
 function transpileDynamicImportForCJS(options) {
@@ -115,8 +122,7 @@ function transpileDynamicImportForCJS(options) {
 
       return {
         left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
-        right:
-          '], function(mod) {fullfill(tslib.__importStar(mod))})})})'
+        right: '], function(mod) {fullfill(tslib.__importStar(mod))})})})'
       };
 
       // return {

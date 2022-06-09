@@ -21,7 +21,7 @@ import {
 import {Spinner} from 'amis-ui';
 import {optionValueCompare} from 'amis-core';
 import {resolveVariable} from 'amis-core';
-import {SchemaApi, SchemaObject} from '../../Schema';
+import {FormOptionsSchema, SchemaApi, SchemaObject} from '../../Schema';
 import {Selection as BaseSelection} from 'amis-ui';
 import {ResultList} from 'amis-ui';
 import {ActionObject} from 'amis-core';
@@ -31,7 +31,7 @@ import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
  * Transfer
  * 文档：https://baidu.gitee.io/amis/docs/components/form/transfer
  */
-export interface TransferControlSchema extends FormOptionsControl {
+export interface TransferControlSchema extends FormOptionsSchema {
   type: 'transfer';
 
   /**

@@ -11,7 +11,7 @@ import {Icon} from 'amis-ui';
 import {stripNumber} from 'amis-core';
 import {autobind, createObject} from 'amis-core';
 import {filter} from 'amis-core';
-import {SchemaObject} from '../../Schema';
+import {FormBaseControlSchema, SchemaObject} from '../../Schema';
 import {ActionObject} from 'amis-core';
 
 /**
@@ -24,7 +24,7 @@ export type FormatValue = MultipleValue | number;
 export type TooltipPosType = 'auto' | 'top' | 'right' | 'bottom' | 'left';
 export type InputRangeRendererEvent = 'change' | 'blur' | 'focus';
 export type InputRangeRendererAction = 'clear';
-export interface RangeControlSchema extends FormBaseControl {
+export interface RangeControlSchema extends FormBaseControlSchema {
   type: 'input-range';
 
   /**

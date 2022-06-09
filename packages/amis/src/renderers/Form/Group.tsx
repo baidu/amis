@@ -3,7 +3,11 @@ import {Renderer, RendererProps} from 'amis-core';
 import {isVisible, getWidthRate, makeHorizontalDeeper} from 'amis-core';
 import {FormBaseControl, FormItemWrap} from 'amis-core';
 
-import {SchemaClassName, SchemaObject} from '../../Schema';
+import {
+  FormBaseControlSchema,
+  SchemaClassName,
+  SchemaObject
+} from '../../Schema';
 import Form, {FormHorizontal} from 'amis-core';
 
 export type GroupSubControl = SchemaObject & {
@@ -22,7 +26,7 @@ export type GroupSubControl = SchemaObject & {
  * Group 表单集合渲染器，能让多个表单在一行显示
  * 文档：https://baidu.gitee.io/amis/docs/components/form/group
  */
-export interface GroupControlSchema extends FormBaseControl {
+export interface GroupControlSchema extends FormBaseControlSchema {
   type: 'group';
 
   /**

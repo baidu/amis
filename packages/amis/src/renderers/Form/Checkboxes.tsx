@@ -10,12 +10,13 @@ import {Icon} from 'amis-ui';
 import {ActionObject, Api} from 'amis-core';
 import {autobind, hasAbility} from 'amis-core';
 import {columnsSplit} from 'amis-core';
+import {FormOptionsSchema} from '../../Schema';
 
 /**
  * 复选框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/checkboxes
  */
-export interface CheckboxesControlSchema extends FormOptionsControl {
+export interface CheckboxesControlSchema extends FormOptionsSchema {
   type: 'checkboxes';
 
   /**

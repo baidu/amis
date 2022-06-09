@@ -93,7 +93,7 @@ fis.match('*.scss', {
   rExt: '.css'
 });
 
-fis.match('/src/icons/**.svg', {
+fis.match('icons/**.svg', {
   rExt: '.js',
   isJsXLike: true,
   isJsLike: true,
@@ -127,7 +127,7 @@ fis.match('tinymce/plugins/*/index.js', {
   ignoreDependencies: false
 });
 
-fis.match(/(?:mpegts\.js)/, {
+fis.match(/(?:mpegts\.js|object\-inspect\/util\.inspect\.js)/, {
   ignoreDependencies: true
 });
 
@@ -234,6 +234,61 @@ fis.match(
   }
 );
 
+if (fis.project.currentMedia() === 'dev') {
+  fis.match('/packages/**/*.{ts,tsx,js}', {
+    isMod: true
+  });
+
+  // 将子工程的查找，跳转到 src 目录去
+  // 可能 windows 下跑不了
+  const projects = [];
+  fs.readdirSync(path.join(__dirname, 'packages')).forEach(file => {
+    if (fs.lstatSync(path.join(__dirname, 'packages', file)).isDirectory()) {
+      projects.push(file);
+    }
+  });
+  projects.sort(function (a, b) {
+    return a.length < b.length ? 1 : a.length === b.length ? 0 : -1;
+  });
+  projects.length &&
+    fis.on('lookup:file', function (info, file) {
+      const uri = info.rest;
+      let newName = '';
+      let pkg = '';
+
+      if (/^amis\/lib\/themes\/(.*)\.css$/.test(uri)) {
+        newName = `/packages/amis-ui/scss/themes/${RegExp.$1}.scss`;
+      } else if (/^amis\/lib\/(.*)\.css$/.test(uri)) {
+        newName = `/packages/amis-ui/scss/${RegExp.$1}.scss`;
+      } else if (
+        uri === 'amis-formula/lib/doc' ||
+        uri === 'amis-formula/lib/doc.md'
+      ) {
+        // 啥也不干
+      } else if ((pkg = projects.find(pkg => uri.indexOf(pkg) === 0))) {
+        const parts = uri.split('/');
+        if (parts[1] === 'lib') {
+          parts.splice(1, 1, 'src');
+        } else if (parts.length === 1) {
+          parts.push('src', 'index');
+        }
+
+        newName = `/packages/${parts.join('/')}`;
+      }
+
+      if (newName) {
+        delete info.file;
+        var result = fis.project.lookup(newName, file);
+        if (result.file) {
+          info.file = result.file;
+          info.id = result.file.getId();
+        } else {
+          console.log(`\`${newName}\` 找不到`);
+        }
+      }
+    });
+}
+
 fis.hook('node_modules', {
   shimProcess: false,
   shimGlobal: false,
@@ -302,7 +357,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
   fis.on('compile:end', function (file) {
     if (
-      file.subpath === '/src/index.tsx' ||
+      file.subpath === '/packages/amis/src/index.tsx' ||
       file.subpath === '/examples/mod.js' ||
       file.subpath === '/examples/loader.ts'
     ) {
@@ -373,13 +428,6 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     }
   });
 
-  env.match('/src/icons/**.svg', {
-    optimizer: fis.plugin('uglify-js'),
-    moduleId: function (m, path) {
-      return fis.util.md5(package.version + 'amis-sdk' + path);
-    }
-  });
-
   env.match('::package', {
     packager: fis.plugin('deps-pack', {
       'sdk.js': [
@@ -399,9 +447,9 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!exceljs/**',
         '!docsearch.js/**',
         '!monaco-editor/**.css',
-        '!src/components/RichText.tsx',
-        '!src/components/Tinymce.tsx',
-        '!src/components/ColorPicker.tsx',
+        '!amis-ui/lib/components/RichText.js',
+        '!amis-ui/lib/components/Tinymce.js',
+        '!amis-ui/lib/components/ColorPicker.js',
         '!react-color/**',
         '!material-colors/**',
         '!reactcss/**',
@@ -409,10 +457,10 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!cropperjs/**',
         '!react-cropper/**',
         '!jsbarcode/**',
-        '!src/components/BarCode.tsx',
-        '!src/lib/renderers/Form/CityDB.js',
-        '!src/components/Markdown.tsx',
-        '!src/utils/markdown.ts',
+        '!amis-ui/lib/components/BarCode.js',
+        '!amis-ui/lib/renderers/Form/CityDB.js',
+        '!amis-ui/lib/components/Markdown.js',
+        '!amis-core/lib/utils/markdown.js',
         '!highlight.js/**',
         '!entities/**',
         '!linkify-it/**',
@@ -423,9 +471,12 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!punycode/**'
       ],
 
-      'rich-text.js': ['src/components/RichText.tsx', 'froala-editor/**'],
+      'rich-text.js': [
+        'amis-ui/lib/components/RichText.js',
+        'froala-editor/**'
+      ],
 
-      'tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
+      'tinymce.js': ['amis-ui/lib/components/Tinymce.js', 'tinymce/**'],
 
       'codemirror.js': ['codemirror/**'],
       'papaparse.js': ['papaparse/**'],
@@ -433,8 +484,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       'exceljs.js': ['exceljs/**'],
 
       'markdown.js': [
-        'src/components/Markdown.tsx',
-        'src/utils/markdown.ts',
+        'amis-ui/lib/components/Markdown.js',
         'highlight.js/**',
         'entities/**',
         'linkify-it/**',
@@ -446,7 +496,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       ],
 
       'color-picker.js': [
-        'src/components/ColorPicker.tsx',
+        'amis-ui/lib/components/ColorPicker.js',
         'react-color/**',
         'material-colors/**',
         'reactcss/**',
@@ -467,12 +517,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!hls.js/**',
         '!froala-editor/**',
 
-        '!src/components/RichText.tsx',
+        '!amis-ui/lib/components/RichText.js',
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',
         '!exceljs/**',
-        '!src/utils/markdown.ts',
         '!highlight.js/**',
         '!argparse/**',
         '!entities/**',
@@ -508,7 +557,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       // 替换 worker 地址的路径，让 sdk 加载同目录下的文件。
       // 如果 sdk 和 worker 不是部署在一个地方，请通过指定 MonacoEnvironment.getWorkerUrl
       if (
-        file.subpath === '/src/components/Editor.tsx' ||
+        file.subpath === '/node_modules/amis-ui/lib/components/Editor.js' ||
         file.subpath === '/examples/loadMonacoEditor.ts'
       ) {
         contents = contents.replace(
@@ -709,10 +758,13 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!amis-formula/**',
         '!amis-core/**',
         '!amis-ui/**',
-        '!amis/**',
+        '!amis/**'
       ],
 
-      'pkg/rich-text.js': ['amis-ui/lib/components/RichText.js', 'froala-editor/**'],
+      'pkg/rich-text.js': [
+        'amis-ui/lib/components/RichText.js',
+        'froala-editor/**'
+      ],
 
       'pkg/tinymce.js': ['amis-ui/lib/components/Tinymce.tsx', 'tinymce/**'],
 
@@ -791,11 +843,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       'pkg/style.css': [
         '*.scss',
         '*.css',
-        '!/scss/themes/*.scss',
+        '!scss/themes/*.scss',
         // 要切换主题，不能打在一起。'/scss/*.scss',
         '!/examples/style.scss',
         '!monaco-editor/**',
-        '!/scss/helper.scss',
+        '!scss/helper.scss',
         '/examples/style.scss' // 让它在最下面
       ]
     }),
@@ -929,4 +981,3 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     domain: null
   });
 }
-

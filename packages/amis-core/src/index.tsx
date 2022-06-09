@@ -19,7 +19,9 @@ import {
   stores,
   defaultOptions,
   addSchemaFilter,
-  RendererProps
+  RendererProps,
+  extendDefaultEnv,
+  RendererConfig
 } from './factory';
 import './renderers/builtin';
 export * from './utils/index';
@@ -60,6 +62,7 @@ import FormItem, {
   FormBaseControl,
   FormControlProps,
   FormItemWrap,
+  FormItemProps,
   registerFormItem
 } from './renderers/Item';
 import {
@@ -69,7 +72,7 @@ import {
   registerOptionsControl
 } from './renderers/Options';
 import {Schema} from './types';
-import ScopedRootRenderer, {RootRenderProps} from './Root';
+import ScopedRootRenderer, {addRootWrapper, RootRenderProps} from './Root';
 import {envOverwrite} from './envOverwrite';
 import {EnvContext, RendererEnv} from './env';
 import React from 'react';
@@ -99,6 +102,7 @@ export {
   RegisterStore,
   FormItem,
   FormItemWrap,
+  FormItemProps,
   OptionsControl,
   FormRenderer,
   FormHorizontal,
@@ -150,7 +154,10 @@ export {
   OptionsControlProps,
   FormOptionsControl,
   FormControlProps,
-  FormBaseControl
+  FormBaseControl,
+  extendDefaultEnv,
+  addRootWrapper,
+  RendererConfig
 };
 
 export function render(

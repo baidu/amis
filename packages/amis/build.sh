@@ -15,6 +15,7 @@ cp ../../node_modules/amis-ui/lib/themes/ang.css lib/themes/ang.css
 cp ../../node_modules/amis-ui/lib/themes/dark.css lib/themes/dark.css
 cp ../../node_modules/amis-ui/lib/themes/antd.css lib/themes/antd.css
 cp ../../node_modules/amis-ui/lib/themes/cxd.css lib/themes/cxd.css
+cp ../../node_modules/amis-ui/lib/themes/default.css lib/themes/default.css
 cp ../../node_modules/amis-ui/lib/helper.css lib/helper.css
 
 # 生成 sdk

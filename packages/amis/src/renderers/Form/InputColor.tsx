@@ -4,6 +4,7 @@ import cx from 'classnames';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import type {PresetColor} from 'amis-ui';
 import {isMobile} from 'amis-core';
+import {FormBaseControlSchema} from '../../Schema';
 
 // todo amis-ui 里面组件直接改成按需加载
 export const ColorPicker = React.lazy(
@@ -14,7 +15,7 @@ export const ColorPicker = React.lazy(
  * Color 颜色选择框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/color
  */
-export interface InputColorControlSchema extends FormBaseControl {
+export interface InputColorControlSchema extends FormBaseControlSchema {
   /**
    * 指定为颜色选择框
    */

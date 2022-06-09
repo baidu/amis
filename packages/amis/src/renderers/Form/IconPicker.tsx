@@ -8,12 +8,13 @@ import {ICONS} from './IconPickerIcons';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {Option} from 'amis-core';
 import {Icon} from 'amis-ui';
+import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * 图标选择器
  * 文档：https://baidu.gitee.io/amis/docs/components/form/icon-picker
  */
-export interface IconPickerControlSchema extends FormBaseControl {
+export interface IconPickerControlSchema extends FormBaseControlSchema {
   type: 'icon-picker';
 
   // 这就不应该成为一个 amis 控件。。。

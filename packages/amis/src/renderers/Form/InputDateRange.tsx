@@ -7,12 +7,13 @@ import {DateRangePicker} from 'amis-ui';
 import {isMobile, createObject, autobind} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
+import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * DateRange 日期范围控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/date-range
  */
-export interface DateRangeControlSchema extends FormBaseControl {
+export interface DateRangeControlSchema extends FormBaseControlSchema {
   /**
    * 指定为日期范围控件
    */

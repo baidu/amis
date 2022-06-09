@@ -5,13 +5,13 @@ import {LazyComponent} from 'amis-core';
 import {tokenize} from 'amis-core';
 import {normalizeApi} from 'amis-core';
 import {ucFirst} from 'amis-core';
-import type {SchemaApi} from '../../Schema';
+import type {FormBaseControlSchema, SchemaApi} from '../../Schema';
 
 /**
  * RichText
  * 文档：https://baidu.gitee.io/amis/docs/components/form/input-rich-text
  */
-export interface RichTextControlSchema extends FormBaseControl {
+export interface RichTextControlSchema extends FormBaseControlSchema {
   type: 'input-rich-text';
 
   /**

@@ -7,13 +7,18 @@ import QuickEdit, {SchemaQuickEdit} from '../QuickEdit';
 import Copyable, {SchemaCopyable} from '../Copyable';
 import {extendObject, ucFirst} from 'amis-core';
 import omit from 'lodash/omit';
-import {SchemaObject, SchemaTpl, SchemaType} from '../../Schema';
+import {
+  FormBaseControlSchema,
+  SchemaObject,
+  SchemaTpl,
+  SchemaType
+} from '../../Schema';
 
 /**
  * Static
  * 文档：https://baidu.gitee.io/amis/docs/components/form/static
  */
-export interface StaticExactControlSchema extends FormBaseControl {
+export interface StaticExactControlSchema extends FormBaseControlSchema {
   type: 'static';
 
   /**

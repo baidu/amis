@@ -8,13 +8,18 @@ import {
 import {getExprProperties} from 'amis-core';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {IFormItemStore, IFormStore} from 'amis-core';
-import {SchemaClassName, SchemaCollection, SchemaObject} from '../../Schema';
+import {
+  FormBaseControlSchema,
+  SchemaClassName,
+  SchemaCollection,
+  SchemaObject
+} from '../../Schema';
 
 /**
  * InputGroup
  * 文档：https://baidu.gitee.io/amis/docs/components/form/input-group
  */
-export interface InputGroupControlSchema extends FormBaseControl {
+export interface InputGroupControlSchema extends FormBaseControlSchema {
   type: 'input-group';
 
   /**

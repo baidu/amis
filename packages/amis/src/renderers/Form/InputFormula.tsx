@@ -3,7 +3,7 @@ import {FormItem, FormBaseControl, FormControlProps} from 'amis-core';
 import {FormulaPicker} from 'amis-ui';
 import {autobind} from 'amis-core';
 
-import type {SchemaIcon} from '../../Schema';
+import type {FormBaseControlSchema, SchemaIcon} from '../../Schema';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import type {
   FuncGroup,
@@ -14,7 +14,7 @@ import type {
  * InputFormula 公式编辑器
  * 文档：https://baidu.gitee.io/amis/zh-CN/components/form/input-formula
  */
-export interface InputFormulaControlSchema extends FormBaseControl {
+export interface InputFormulaControlSchema extends FormBaseControlSchema {
   type: 'input-formula';
 
   /**

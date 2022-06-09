@@ -5,7 +5,13 @@
  */
 
 import NotFound from './404';
-import {default as Alert, alert, confirm, prompt} from './Alert';
+import {
+  default as Alert,
+  alert,
+  confirm,
+  prompt,
+  setRenderSchemaFn
+} from './Alert';
 import {default as ContextMenu, openContextMenus} from './ContextMenu';
 import AsideNav from './AsideNav';
 import Avatar from './Avatar';
@@ -67,7 +73,7 @@ import FormulaPicker from './formula/Picker';
 import PickerContainer from './PickerContainer';
 import InputJSONSchema from './json-schema';
 import {Badge, BadgeObject, withBadge} from './Badge';
-import {getIcon, Icon} from './icons';
+import {getIcon, Icon, registerIcon} from './icons';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import ConditionBuilder from './condition-builder';
 import {
@@ -101,6 +107,7 @@ import Progress from './Progress';
 import Steps, {StepStatus} from './Steps';
 import Tag from './Tag';
 import Timeline from './Timeline';
+import ImageGallery from './ImageGallery';
 
 export {
   NotFound,
@@ -109,6 +116,7 @@ export {
   Avatar,
   confirm,
   prompt,
+  setRenderSchemaFn,
   ContextMenu,
   openContextMenus,
   Alert2,
@@ -193,6 +201,7 @@ export {
   UserSelect,
   UserTabSelect,
   getIcon,
+  registerIcon,
   Badge,
   HeadCellDropDown,
   AnchorNav,
@@ -210,5 +219,6 @@ export {
   Steps,
   StepStatus,
   Tag,
-  Timeline
+  Timeline,
+  ImageGallery
 };

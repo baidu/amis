@@ -2,7 +2,7 @@
   "name": "amis-ui",
   "main": "lib/index.js",
   "module": "esm/index.js",
-  "version": "1.0.0-beta.1",
+  "version": "2.0.0-rc.10",
   "description": "",
   "scripts": {
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
@@ -15,11 +15,12 @@
   "license": "Apache-2.0",
   "files": [
     "lib",
-    "esm"
+    "esm",
+    "scss"
   ],
   "dependencies": {
-    "amis-core": "^1.0.0-beta.8",
-    "amis-formula": "^2.0.0-beta.2",
+    "amis-core": "*",
+    "amis-formula": "*",
     "classnames": "2.3.1",
     "codemirror": "^5.63.0",
     "downshift": "6.1.7",
@@ -29,6 +30,8 @@
     "jsbarcode": "^3.11.5",
     "keycode": "^2.2.1",
     "lodash": "^4.17.15",
+    "markdown-it": "^12.0.6",
+    "markdown-it-html5-media": "^0.7.1",
     "match-sorter": "^6.3.1",
     "mobx": "^4.5.0",
     "mobx-react": "^6.3.1",
@@ -38,9 +41,7 @@
     "prop-types": "^15.6.1",
     "rc-input-number": "^7.3.4",
     "rc-progress": "^3.1.4",
-    "react": "^18.0.0",
     "react-color": "^2.19.3",
-    "react-dom": "^18.0.0",
     "react-hook-form": "7.30.0",
     "react-json-view": "1.21.3",
     "react-overlays": "5.1.1",
@@ -60,13 +61,12 @@
     "@svgr/rollup": "^6.2.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@types/babel__core": "^7.1.19",
+    "@types/jest": "^28.1.0",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "autoprefixer": "^10.4.7",
-    "@types/jest": "^28.1.0",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
-    "ts-jest": "^28.0.3",
     "moment-timezone": "^0.5.34",
     "postcss-import": "^14.1.0",
     "react": "^18.0.0",
@@ -78,7 +78,12 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-scss": "^3.0.0",
     "sass": "^1.52.1",
+    "ts-jest": "^28.0.3",
     "typescript": "^4.6.4"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.6",
+    "react-dom": ">=16.8.6"
   },
   "jest": {
     "testEnvironment": "jsdom",
@@ -114,5 +119,6 @@
         "diagnostics": false
       }
     }
-  }
+  },
+  "gitHead": "6affe8e364da3f1fe062c338237a8d1f0f304866"
 }

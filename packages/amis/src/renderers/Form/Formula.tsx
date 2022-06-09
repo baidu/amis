@@ -2,12 +2,13 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {evalJS, filter} from 'amis-core';
 import {autobind, isObjectShallowModified, setVariable} from 'amis-core';
+import {FormBaseControlSchema} from '../../Schema';
 
 /**
  * 公式功能控件。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/formula
  */
-export interface FormulaControlSchema extends FormBaseControl {
+export interface FormulaControlSchema extends FormBaseControlSchema {
   /**
    * 指定为公式功能控件。
    */

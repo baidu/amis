@@ -13,7 +13,7 @@ import {Api, ActionObject} from 'amis-core';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import {isEmpty, createObject, autobind, isMobile} from 'amis-core';
 
-import {SchemaApi} from '../../Schema';
+import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {Spinner, Select} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TransferDropDown} from 'amis-ui';
@@ -25,7 +25,7 @@ import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
  * Select 下拉选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/select
  */
-export interface SelectControlSchema extends FormOptionsControl {
+export interface SelectControlSchema extends FormOptionsSchema {
   type: 'select' | 'multi-select';
 
   /**

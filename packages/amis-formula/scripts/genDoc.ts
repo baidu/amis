@@ -4,8 +4,8 @@ import doctrine = require('doctrine');
 
 const workDir = path.resolve(path.dirname(__dirname));
 const jsFile = path.join(workDir, 'src/evalutor.ts');
-const outputFile = path.join(workDir, 'dist/doc.js');
-const outputMD = path.join(workDir, 'dist/doc.md');
+const outputFile = path.join(workDir, 'lib/doc.js');
+const outputMD = path.join(workDir, 'lib/doc.md');
 
 function getFormulaComments(contents: string) {
   const comments: Array<{
