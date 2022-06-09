@@ -122,11 +122,27 @@ const EVAL_CACHE: {[key: string]: Function} = {};
 /**
  * ECharts 中有些配置项可以写函数，但 JSON 中无法支持，为了实现这个功能，需要将看起来像函数的字符串转成函数类型
  * 目前 ECharts 中可能有函数的配置项有如下：interval、formatter、color、min、max、labelFormatter、pageFormatter、optionToContent、contentToOption、animationDelay、animationDurationUpdate、animationDelayUpdate、animationDuration、position、sort
- * 其中用得最多的是 formatter、sort，所以目前先只支持它们
  * @param config ECharts 配置
  */
 function recoverFunctionType(config: object) {
-  ['formatter', 'sort', 'renderItem'].forEach((key: string) => {
+  [
+    'interval',
+    'formatter',
+    'color',
+    'min',
+    'max',
+    'labelFormatter',
+    'pageFormatter',
+    'optionToContent',
+    'contentToOption',
+    'animationDelay',
+    'animationDurationUpdate',
+    'animationDelayUpdate',
+    'animationDuration',
+    'position',
+    'sort',
+    'renderItem'
+  ].forEach((key: string) => {
     const objects = findObjectsWithKey(config, key);
     for (const object of objects) {
       const code = object[key];
