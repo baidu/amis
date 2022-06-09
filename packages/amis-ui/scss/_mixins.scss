@@ -209,7 +209,8 @@
   $line-height,
   $border-radius,
   $height: auto,
-  $iconWdith: px2rem(20px)
+  $iconWdith: px2rem(20px),
+  $icon-rightMargin: var(--Button-icon-rightMargin)
 ) {
   padding: $padding-y $padding-x;
   font-size: $font-size;
@@ -220,7 +221,7 @@
   .#{$ns}Button-icon:first-child:not(:last-child):not(.pull-right),
   > svg.icon:not(:last-child):not(.pull-right),
   > .pull-left {
-    margin-right: $padding-x;
+    margin-right: $icon-rightMargin;
   }
 
   .#{$ns}Button-icon:last-child:not(:first-child):not(.pull-left),
@@ -231,7 +232,7 @@
   .#{$ns}Button--loading:first-child:not(:last-child):not(.pull-right),
   > svg.icon:not(:last-child):not(.pull-right),
   > .pull-left {
-    margin-right: $padding-x;
+    margin-right: $icon-rightMargin;
   }
 
   .#{$ns}Button--loading:last-child:not(:first-child):not(.pull-left),
