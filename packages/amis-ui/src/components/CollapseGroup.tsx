@@ -64,7 +64,7 @@ class CollapseGroup extends React.Component<
         activeKey = [];
       } else {
         for (let i = 0; i < activeKey.length; i++) {
-          if (activeKey[i] === item.id) {
+          if (activeKey[i] === item.collapseId) {
             activeKey.splice(i, 1);
             break;
           }
@@ -72,9 +72,9 @@ class CollapseGroup extends React.Component<
       }
     } else {
       if (this.props.accordion) {
-        activeKey = [item.id as string];
+        activeKey = [item.collapseId as string];
       } else {
-        activeKey.push(item.id as string);
+        activeKey.push(item.collapseId as string);
       }
     }
     this.setState({
@@ -90,13 +90,13 @@ class CollapseGroup extends React.Component<
     return children.map((child: React.ReactElement, index: number) => {
       let props = child.props;
 
-      const id = props.propKey || String(index);
-      const collapsed = this.state.activeKey.indexOf(id) === -1;
+      const collapseId = props.propKey || String(index);
+      const collapsed = this.state.activeKey.indexOf(collapseId) === -1;
 
       return React.cloneElement(child as any, {
         ...props,
-        key: id,
-        id,
+        key: collapseId,
+        collapseId,
         collapsed,
         expandIcon: this.props.expandIcon,
         propsUpdate: true,

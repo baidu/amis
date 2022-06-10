@@ -25,7 +25,7 @@ const collapseStyles: {
 
 export interface CollapseProps {
   key?: string;
-  id?: string;
+  collapseId?: string;
   propKey?: string;
   mountOnEnter?: boolean;
   unmountOnExit?: boolean;
