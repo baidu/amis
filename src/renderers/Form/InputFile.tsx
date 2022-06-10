@@ -222,12 +222,12 @@ export interface FileControlSchema extends FormBaseControl {
   /**
    * 说明文档内容配置
    */
-   documentation?: string;
+  documentation?: string;
 
-   /**
+  /**
    * 说明文档链接配置
    */
-    documentLink?: string;
+  documentLink?: string;
 
   /**
    * 是否为拖拽上传
@@ -931,6 +931,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
   syncAutoFill() {
     const {autoFill, multiple, onBulkChange, data, name} = this.props;
+
+    // 参照录入｜自动填充
+    if (autoFill?.hasOwnProperty('api')) {
+      return;
+    }
+
     // 排除自身的字段，否则会无限更新state
     const excludeSelfAutoFill = omit(autoFill, name || '');
 
@@ -1283,7 +1289,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       templateUrl,
       drag,
       documentation,
-      documentLink,
+      documentLink
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
@@ -1348,17 +1354,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   <Icon icon="cloud-upload" className="icon" />
                   <span>
                     {__('File.dragDrop')}
-                    <span 
-                      className={cx('FileControl-acceptTip-click')}
-                    >{__('File.clickUpload')}</span>
+                    <span className={cx('FileControl-acceptTip-click')}>
+                      {__('File.clickUpload')}
+                    </span>
                   </span>
-                  <div
-                    className={cx('FileControl-acceptTip-help', 'TplField')}>
-                    {documentLink ?
-                      <a
-                        href={documentLink}
-                        onClick={e => e.stopPropagation()}
-                      >{documentation ? documentation : __('File.helpText')}</a> : null}
+                  <div className={cx('FileControl-acceptTip-help', 'TplField')}>
+                    {documentLink ? (
+                      <a href={documentLink} onClick={e => e.stopPropagation()}>
+                        {documentation ? documentation : __('File.helpText')}
+                      </a>
+                    ) : null}
                   </div>
                   {maxSize ? (
                     <div className={cx('FileControl-sizeTip')}>

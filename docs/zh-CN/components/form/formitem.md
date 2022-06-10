@@ -433,9 +433,9 @@ order: 1
 }
 ```
 
-**tip：** value表达式（`${xxx}`）支持 模板字符串、链式取值、过滤器，详细用法参考[数据映射](../../../docs/concepts/data-mapping)。
+**tip：** value 表达式（`${xxx}`）支持 模板字符串、链式取值、过滤器，详细用法参考[数据映射](../../../docs/concepts/data-mapping)。
 
-我们也可以不设置value表达式，通过 name 来映射当前数据域中某个字段。比如我们表单数据域中有变量`"text1": "hello world!"`，然后我们设置表达项`"name": "text1"`，这样就可以自动映射值了。如下：
+我们也可以不设置 value 表达式，通过 name 来映射当前数据域中某个字段。比如我们表单数据域中有变量`"text1": "hello world!"`，然后我们设置表达项`"name": "text1"`，这样就可以自动映射值了。如下：
 
 ```schema: scope="body"
 {
@@ -455,7 +455,7 @@ order: 1
 }
 ```
 
-关于优先级问题，当我们同时设置了value表达式`${xxx}`和`name`值映射，会优先使用value表达式`${xxx}`。只有当value为普通字符串`非${xxx}`时，才会使用`name`值映射。如下：
+关于优先级问题，当我们同时设置了 value 表达式`${xxx}`和`name`值映射，会优先使用 value 表达式`${xxx}`。只有当 value 为普通字符串`非${xxx}`时，才会使用`name`值映射。如下：
 
 ```schema: scope="body"
 {
@@ -1134,7 +1134,7 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 
 ### 配置自动填充
 
-通过配置 "autoFillApi" 为自动填充数据源接口地址；amis 可以将返回数据自动填充到表单中，例如如下配置；
+通过配置 "autoFill.api" 为自动填充数据源接口地址；amis 可以将返回数据自动填充到表单中，例如如下配置；
 
 ```schema:scope="body"
 {
@@ -1144,14 +1144,17 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
       "type": "input-text",
       "label": "浏览器",
       "name": "browser",
-      "autoFillApi": {
-        api: "/api/mock2/form/autoUpdate?browser=$browser",
-        replaceData: {
-          browser: "${browser}",
-          version: "${version}",
-          platform1: "${platform}",
-        },
-        silent: false
+      "autoFill": {
+        showSuggestion: false,
+        api: {
+          url: "/api/mock2/form/autoUpdate?browser=$browser",
+          responseData: {
+            browser: "${browser}",
+            version: "${version}",
+            platform1: "${platform}",
+          },
+          silent: false
+        }
       }
     },
     {
@@ -1197,32 +1200,115 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 }
 ```
 
+### 配置参照录入
+
+设置 autoFill.showSuggestion 为 true；同时在 autoFill 中配置如下示例参数，可以进行数据的参照录入「当前表单项聚焦或者值变化时弹出 dialog/drawer/popOver 供用户操作」例如如下配置
+
+```schema:scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "input-text",
+      "label": "浏览器",
+      "name": "browser",
+      "autoFill": {
+        "showSuggestion": true,
+        "api": "/api/mock2/form/autoFillApi",
+        "multiple": true,
+        "uniq": true,
+        "replaceData": true,
+        "fillMapping": {
+          "combo": {
+            "name": "${name}",
+            "version": "${version}"
+          }
+        },
+        "labelField": "name",
+        "position": "left-bottom-left-top",
+        "trigger": "focus",
+        "mode": "popOver",
+        "size": "md",
+        "filter": {
+          "body": [
+            { "type": "input-text", "name": "name", "label": "名称" },
+            { "type": "input-text", "name": "version", "label": "版本" },
+            { "type": "button-toolbar", "buttons": [{ "type": "submit", "label": "搜索", "level": "primary" }] }
+          ],
+          "wrapWithPanel": false,
+          "mode": "horizontal"
+        },
+        "columns": [
+          { "name": "name", "label": "名称", "sortable": true },
+          { "name": "version", "label": "版本", "sortable": true }
+        ]
+      }
+    },
+    {
+        type: 'input-text',
+        name: 'version',
+        label: '版本'
+    },
+    {
+        type: 'combo',
+        name: 'combo',
+        addable: true,
+        multiple: true,
+        label: '版本明细',
+        items: [
+          {
+            name: 'name',
+            label: '平台',
+            type: 'input-text'
+          },
+          {
+            name: 'version',
+            label: '版本',
+            type: 'input-text'
+          }
+        ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
-| 属性名               | 类型                                               | 默认值    | 说明                                                             |
-| -------------------- | -------------------------------------------------- | --------- | ---------------------------------------------------------------- |
-| type                 | `string`                                           |           | 指定表单项类型                                                   |
-| className            | `string`                                           |           | 表单最外层类名                                                   |
-| inputClassName       | `string`                                           |           | 表单控制器类名                                                   |
-| labelClassName       | `string`                                           |           | label 的类名                                                     |
-| name                 | `string`                                           |           | 字段名，指定该表单项提交时的 key                                 |
-| value                | `string`                                           |           | 表单默认值                                                       |
-| label                | [模板](../../../docs/concepts/template) 或 `false` |           | 表单项标签                                                       |
-| labelAlign           | `"right" \| "left"`                                | `"right"` | 表单项标签对齐方式，默认右对齐，仅在 `mode`为`horizontal` 时生效 |
-| labelRemark          | [Remark](../remark)                                |           | 表单项标签描述                                                   |
-| description          | [模板](../../../docs/concepts/template)            |           | 表单项描述                                                       |
-| placeholder          | `string`                                           |           | 表单项描述                                                       |
-| inline               | `boolean`                                          |           | 是否为 内联 模式                                                 |
-| submitOnChange       | `boolean`                                          |           | 是否该表单项值发生变化时就提交当前表单。                         |
-| disabled             | `boolean`                                          |           | 当前表单项是否是禁用状态                                         |
-| disabledOn           | [表达式](../../../docs/concepts/expression)        |           | 当前表单项是否禁用的条件                                         |
-| visible              | [表达式](../../../docs/concepts/expression)        |           | 当前表单项是否禁用的条件                                         |
-| visibleOn            | [表达式](../../../docs/concepts/expression)        |           | 当前表单项是否禁用的条件                                         |
-| required             | `boolean`                                          |           | 是否为必填。                                                     |
-| requiredOn           | [表达式](../../../docs/concepts/expression)        |           | 过[表达式](../Types.md#表达式)来配置当前表单项是否为必填。       |
-| validations          | [表达式](../../../docs/concepts/expression)        |           | 表单项值格式验证，支持设置多个，多个规则用英文逗号隔开。         |
-| validateApi          | [表达式](../../../docs/types/api)                  |           | 表单校验接口                                                     |
-| autoUpdate           | Object                                             |           | 自动填充配置                                                     |
-| autoUpdate.api       | [api](../../types/api)                             |           | 自动填充数据接口地址                                             |
-| autoUpdate.mapping   | Object                                             |           | 自动填充字段映射关系                                             |
-| autoUpdate.showToast | `boolean`                                          |           | 是否展示数据格式错误提示，默认为 false                           |
+| 属性名                  | 类型                                               | 默认值    | 说明                                                                                                |
+| ----------------------- | -------------------------------------------------- | --------- | --------------------------------------------------------------------------------------------------- |
+| type                    | `string`                                           |           | 指定表单项类型                                                                                      |
+| className               | `string`                                           |           | 表单最外层类名                                                                                      |
+| inputClassName          | `string`                                           |           | 表单控制器类名                                                                                      |
+| labelClassName          | `string`                                           |           | label 的类名                                                                                        |
+| name                    | `string`                                           |           | 字段名，指定该表单项提交时的 key                                                                    |
+| value                   | `string`                                           |           | 表单默认值                                                                                          |
+| label                   | [模板](../../../docs/concepts/template) 或 `false` |           | 表单项标签                                                                                          |
+| labelAlign              | `"right" \| "left"`                                | `"right"` | 表单项标签对齐方式，默认右对齐，仅在 `mode`为`horizontal` 时生效                                    |
+| labelRemark             | [Remark](../remark)                                |           | 表单项标签描述                                                                                      |
+| description             | [模板](../../../docs/concepts/template)            |           | 表单项描述                                                                                          |
+| placeholder             | `string`                                           |           | 表单项描述                                                                                          |
+| inline                  | `boolean`                                          |           | 是否为 内联 模式                                                                                    |
+| submitOnChange          | `boolean`                                          |           | 是否该表单项值发生变化时就提交当前表单。                                                            |
+| disabled                | `boolean`                                          |           | 当前表单项是否是禁用状态                                                                            |
+| disabledOn              | [表达式](../../../docs/concepts/expression)        |           | 当前表单项是否禁用的条件                                                                            |
+| visible                 | [表达式](../../../docs/concepts/expression)        |           | 当前表单项是否禁用的条件                                                                            |
+| visibleOn               | [表达式](../../../docs/concepts/expression)        |           | 当前表单项是否禁用的条件                                                                            |
+| required                | `boolean`                                          |           | 是否为必填。                                                                                        |
+| requiredOn              | [表达式](../../../docs/concepts/expression)        |           | 通过[表达式](../Types.md#表达式)来配置当前表单项是否为必填。                                        |
+| validations             | [表达式](../../../docs/concepts/expression)        |           | 表单项值格式验证，支持设置多个，多个规则用英文逗号隔开。                                            |
+| validateApi             | [表达式](../../../docs/types/api)                  |           | 表单校验接口                                                                                        |
+| autoFill                | [SchemaNode](../../docs/types/schemanode)          |           | 数据录入配置，自动填充或者参照录入                                                                  |
+| autoFill.showSuggestion | `boolean`                                          |           | true 为参照录入，false 自动填充                                                                     |
+| autoFill.api            | [表达式](../../../docs/types/api)                  |           | 自动填充接口/参照录入筛选 CRUD 请求配置                                                             |
+| autoFill.silent         | `boolean`                                          |           | 是否展示数据格式错误提示，默认为 true                                                               |
+| autoFill.fillMappinng   | [SchemaNode](../../docs/types/schemanode)          |           | showSuggestion 为 true 时，参照录入数据映射配置                                                     |
+| autoFill.trigger        | `string`                                           |           | showSuggestion 为 true 时，参照录入支持的触发方式，目前支持 change「值变化」｜ focus 「表单项聚焦」 |
+| autoFill.mode           | `string`                                           |           | showSuggestion 为 true 时，参照弹出方式 dialog, drawer, popOver                                     |
+| autoFill.labelField     | `string`                                           |           | showSuggestion 为 true 时，设置弹出 dialog,drawer,popOver 中 picker 的 labelField                   |
+| autoFill.position       | `string`                                           |           | showSuggestion 为 true 时，参照录入 mode 为 popOver 时，可配置弹出位置                              |
+| autoFill.size           | `string`                                           |           | showSuggestion 为 true 时，参照录入 mode 为 dialog 时，可设置大小                                   |
+| autoFill.multiple       | `boolean`                                          | false     | showSuggestion 为 true 时，参照录入回填单条 ｜ 多条                                                 |
+| autoFill.uniq           | `boolean`                                          | false     | showSuggestion 为 true 时，参照录入数据目标为 combo 模式时是否去重，默认不去重                      |
+| autoFill.replaceData    | `boolean`                                          | false     | showSuggestion 为 true 时，参照录入数据替换 ｜ 追加，默认追加                                       |
+| autoFill.columns        | `Array<Column>`                                    |           | showSuggestion 为 true 时，数据展示列配置                                                           |
+| autoFill.filter         | [SchemaNode](../../docs/types/schemanode)          |           | showSuggestion 为 true 时，数据查询过滤条件                                                         |

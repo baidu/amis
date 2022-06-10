@@ -820,6 +820,12 @@ export default class ImageControl extends React.Component<
 
   syncAutoFill() {
     const {autoFill, multiple, onBulkChange, data, name} = this.props;
+
+    // 参照录入｜自动填充
+    if (autoFill?.hasOwnProperty('api')) {
+      return;
+    }
+
     // 排除自身的字段，否则会无限更新state
     const excludeSelfAutoFill = omit(autoFill, name || '');
 

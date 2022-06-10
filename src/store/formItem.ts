@@ -676,7 +676,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         return json.data;
       }
 
-      !silent && toast.info(self.__('FormItem.autoUpdateloadFaild'));
+      !silent && toast.info(self.__('FormItem.autoFillLoadFailed'));
 
       return;
     });
