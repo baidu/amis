@@ -2067,6 +2067,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       autoGenerateFilter,
       onSelect,
       autoFillHeight,
+      onEvent,
       ...rest
     } = this.props;
 
