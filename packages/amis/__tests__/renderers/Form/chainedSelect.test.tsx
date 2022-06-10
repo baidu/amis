@@ -1,11 +1,15 @@
 import React = require('react');
-import {render, waitForElementToBeRemoved} from '@testing-library/react';
+import {
+  render,
+  waitFor,
+  waitForElementToBeRemoved
+} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
 
 test('Renderer:chained-select', async () => {
-  const {container, findByText} = render(
+  const {container, findByText, getByText, getByTestId} = render(
     amisRender(
       {
         type: 'form',
@@ -24,26 +28,60 @@ test('Renderer:chained-select', async () => {
       },
       {},
       makeEnv({
-        fetcher: async (config: any) => {
-          return {
-            status: 200,
-            headers: {},
-            data: {
-              status: 0,
-              msg: '',
-              data: [
-                {label: 'A 0', value: 'a'},
-                {label: 'B 0', value: 'b'},
-                {label: 'C 0', value: 'c'},
-                {label: 'D 0', value: 'd'}
-              ]
-            }
-          };
+        async fetcher(config: any): Promise<any> {
+          const level = parseInt(config.query.level, 10) || 0;
+          const maxLevel = parseInt(config.query.maxLevel, 10) || 0;
+          if (level >= maxLevel) {
+            return {
+              status: 200,
+              headers: {},
+              data: {
+                status: 0,
+                data: null
+              }
+            };
+          } else {
+            return {
+              status: 200,
+              headers: {},
+              data: {
+                status: 0,
+                msg: '',
+                data: [
+                  {
+                    label: `A ${level}`,
+                    value: 'a'
+                  },
+
+                  {
+                    label: `B ${level}`,
+                    value: 'b'
+                  },
+
+                  {
+                    label: `C ${level}`,
+                    value: 'c'
+                  },
+
+                  {
+                    label: `D ${level}`,
+                    value: 'd'
+                  }
+                ]
+              }
+            };
+          }
         }
       })
     )
   );
 
-  await wait(500);
+  await waitFor(() => {
+    expect(getByText('B 1')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+  });
+
   expect(container).toMatchSnapshot();
 });
