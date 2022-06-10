@@ -1,7 +1,7 @@
 .#{$ns}ResultBox {
   @include input-input();
   @include input-border();
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   padding: 0 px2rem(5px);
   min-height: var(--Form-input-height);
   align-items: center;
@@ -60,6 +60,7 @@
     flex-grow: 1;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   &-actions {
