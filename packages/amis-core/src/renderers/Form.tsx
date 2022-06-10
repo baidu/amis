@@ -974,6 +974,9 @@ export default class Form extends React.Component<FormProps, object> {
           if (!dispatcher?.prevented) {
             env.notify('error', __('Form.validateFailed'));
           }
+
+          /** 抛异常是为了在dialog中catch这个错误，避免弹窗直接关闭 */
+          return Promise.reject(__('Form.validateFailed'));
         } else {
           dispatchEvent('validateSucc', this.props.data);
           this.handleAction(
