@@ -99,11 +99,17 @@ export function StepsCmpt(props: StepsProps) {
     useMobileUI
   } = props;
 
-  const stepsRow =
-    (resolveVariableAndFilter(source, data, '| raw') as Array<StepSchema>) ||
-    config ||
-    steps ||
-    [];
+  let sourceResult: Array<StepSchema> | undefined = resolveVariableAndFilter(
+    source,
+    data,
+    '| raw'
+  ) as Array<StepSchema>;
+  if (!Array.isArray(sourceResult)) {
+    sourceResult = undefined;
+  }
+
+  let stepsRow: Array<StepSchema> = sourceResult || config || steps || [];
+
   const resolveRender = (val?: string | SchemaCollection) =>
     typeof val === 'string' ? filter(val, data) : val && render('inner', val);
   const value = getPropValue(props) ?? 0;
