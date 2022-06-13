@@ -78,24 +78,25 @@ class CollapseGroup extends React.Component<
     }
   }
 
-  collapseChange(item: CollapseItem, collapsed: boolean) {
-    let activeKey = this.state.activeKey;
-    if (collapsed) {
+  collapseChange(collapseId: string, collapsed: boolean) {
+    let activeKey = this.state.activeKey.concat();
+    if (!collapsed) {
+      // 开启状态
       if (this.props.accordion) {
         activeKey = [];
       } else {
         for (let i = 0; i < activeKey.length; i++) {
-          if (activeKey[i] === item.collapseId) {
-            activeKey.splice(i, 1);
+          if (activeKey[i] === collapseId) {
+            activeKey.splice(i, 1); // 剔除开启状态
             break;
           }
         }
       }
     } else {
       if (this.props.accordion) {
-        activeKey = [item.collapseId as string];
+        activeKey = [collapseId as string];
       } else {
-        activeKey.push(item.collapseId as string);
+        activeKey.push(collapseId as string);
       }
     }
     this.setState({
@@ -112,6 +113,7 @@ class CollapseGroup extends React.Component<
       let props = child.props;
 
       const collapseId = props.propKey || String(index);
+      // 判断是否折叠
       const collapsed = this.state.activeKey.indexOf(collapseId) === -1;
 
       return React.cloneElement(child as any, {
@@ -121,8 +123,7 @@ class CollapseGroup extends React.Component<
         collapsed,
         expandIcon: this.props.expandIcon,
         propsUpdate: true,
-        onCollapse: (item: CollapseItem, collapsed: boolean) =>
-          this.collapseChange(item, collapsed)
+        onCollapse: () => this.collapseChange(collapseId, collapsed)
       });
     });
   };
