@@ -2,6 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {BadgeObject, withBadge} from 'amis-ui';
+import {getIcon} from 'amis-ui/lib/components/icons';
 
 /**
  * Icon 图表渲染器
@@ -36,6 +37,11 @@ export class Icon extends React.Component<IconProps, object> {
   render() {
     const {icon, vendor, classnames: cx, className} = this.props;
 
+    let CustomIcon = getIcon(icon);
+    if (CustomIcon) {
+      return <CustomIcon className={cx(className, `icon-${icon}`)} />;
+    }
+
     const isURLIcon = icon?.indexOf('.') !== -1;
     let iconPrefix = '';
     if (vendor === 'iconfont') {
@@ -60,4 +66,4 @@ export class Icon extends React.Component<IconProps, object> {
 })
 // @ts-ignore 类型没搞定
 @withBadge
-export class TplRenderer extends Icon {}
+export class IconRenderer extends Icon {}

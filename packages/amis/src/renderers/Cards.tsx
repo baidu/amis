@@ -4,13 +4,14 @@ import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {Button} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
-import {observer} from 'mobx-react';
 import {
   anyChanged,
   getScrollParent,
   difference,
   ucFirst,
-  noop
+  noop,
+  autobind,
+  createObject
 } from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import Sortable from 'sortablejs';
@@ -405,6 +406,26 @@ export default class Cards extends React.Component<GridProps, object> {
     // store.markHeaderAffix(clip.top < offsetY && (clip.top + clip.height - 40) > offsetY);
   }
 
+  @autobind
+  doAction(action: Action, data: object, throwErrors: boolean = false) {
+    if (action.actionType) {
+      switch (action.actionType as string) {
+        case 'toggleSelectAll':
+          this.handleCheckAll();
+          break;
+        case 'selectAll':
+          this.handleSelectAll();
+          break;
+        case 'clearAll':
+          this.handleClearAll();
+          break;
+        // case 'dragStart':
+        //   this.initDragging();
+        // case 'dragStop':
+      }
+    }
+  }
+
   handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
     const {onAction} = this.props;
 
@@ -424,14 +445,34 @@ export default class Cards extends React.Component<GridProps, object> {
     this.syncSelected();
   }
 
-  syncSelected() {
-    const {store, onSelect} = this.props;
+  handleSelectAll() {
+    const {store} = this.props;
 
-    onSelect &&
-      onSelect(
-        store.selectedItems.map(item => item.data),
-        store.unSelectedItems.map(item => item.data)
-      );
+    store.selectAll();
+    this.syncSelected();
+  }
+
+  handleClearAll() {
+    const {store} = this.props;
+
+    store.clearAll();
+    this.syncSelected();
+  }
+
+  syncSelected() {
+    const {store, onSelect, dispatchEvent} = this.props;
+    const selectItems = store.selectedItems.map(item => item.data);
+    const unSelectItems = store.unSelectedItems.map(item => item.data);
+
+    dispatchEvent(
+      'selected',
+      createObject(store.data, {
+        selectItems,
+        unSelectItems
+      })
+    );
+
+    onSelect && onSelect(selectItems, unSelectItems);
   }
 
   handleQuickChange(
@@ -542,6 +583,8 @@ export default class Cards extends React.Component<GridProps, object> {
   }
 
   initDragging() {
+    if (this.sortable) return;
+
     const store = this.props.store;
     const dom = findDOMNode(this) as HTMLElement;
     const ns = this.props.classPrefix;
@@ -869,7 +912,7 @@ export default class Cards extends React.Component<GridProps, object> {
       checkable: item.checkable,
       draggable: item.draggable,
       selected: item.checked,
-      onSelect: item.toggle,
+      onSelect: this.handleCheck,
       dragging: store.dragging,
       data: item.locals,
       onAction: this.handleAction,
@@ -882,7 +925,9 @@ export default class Cards extends React.Component<GridProps, object> {
       cardProps = {
         ...cardProps,
         item: item.locals,
-        onCheck: item.toggle
+        onCheck: () => {
+          this.handleCheck(item);
+        }
       };
     }
 

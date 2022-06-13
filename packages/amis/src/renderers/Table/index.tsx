@@ -2818,6 +2818,22 @@ export class TableRenderer extends Table {
       return scoped.send(subPath, values);
     }
   }
+
+  reload(subPath?: string, query?: any, ctx?: any) {
+    const scoped = this.context as IScopedContext;
+    const parents = scoped?.parent?.getComponents();
+
+    if (Array.isArray(parents) && parents.length) {
+      // CRUD的name会透传给Table，这样可以保证找到CRUD
+      const crud = parents.find(cmpt => cmpt?.props?.name === this.props?.name);
+
+      return crud?.reload?.(subPath, query, ctx);
+    }
+
+    if (subPath) {
+      return scoped.reload(subPath, ctx);
+    }
+  }
 }
 
 export {TableCell};

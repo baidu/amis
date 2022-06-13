@@ -4,14 +4,14 @@ import {
   themeable,
   LocaleProps,
   localeable,
-  utils,
   autobind,
   animation,
   findTreeIndex,
   getTree,
   spliceTree,
   mapTree,
-  guid
+  guid,
+  noop
 } from 'amis-core';
 import {uncontrollable} from 'amis-core';
 import {
@@ -22,16 +22,22 @@ import {
 import ConditionGroup from './Group';
 import defaultConfig, {ConditionBuilderConfig} from './config';
 import {FormulaPickerProps} from '../formula/Picker';
+import PickerContainer from '../PickerContainer';
+import ResultBox from '../ResultBox';
 
 export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   builderMode?: 'simple' | 'full'; // 简单模式｜完整模式
+  embed?: boolean;
+  pickerIcon?: JSX.Element;
+  placeholder?: string;
+  title?: string;
   fields: ConditionBuilderFields;
   funcs?: ConditionBuilderFuncs;
   showNot?: boolean;
   showANDOR?: boolean;
   value?: ConditionGroupValue;
   data?: any;
-  onChange: (value: ConditionGroupValue) => void;
+  onChange: (value?: ConditionGroupValue) => void;
   config?: ConditionBuilderConfig;
   disabled?: boolean;
   searchable?: boolean;
@@ -41,7 +47,14 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   renderEtrValue?: any;
 }
 
-export class ConditionBuilder extends React.Component<ConditionBuilderProps> {
+export interface ConditionBuilderState {
+  tmpValue: ConditionGroupValue;
+}
+
+export class QueryBuilder extends React.Component<
+  ConditionBuilderProps,
+  ConditionBuilderState
+> {
   config = {...defaultConfig, ...this.props.config};
 
   dragTarget?: HTMLElement;
@@ -204,14 +217,33 @@ export class ConditionBuilder extends React.Component<ConditionBuilderProps> {
     delete this.ghost;
   }
 
-  render() {
+  @autobind
+  handleClear() {
+    this.props.onChange();
+  }
+
+  @autobind
+  highlightValue(value: ConditionGroupValue) {
+    const {classnames: cx} = this.props;
+    const html = {
+      __html: `<span class="label label-info">已配置</span>`
+    };
+
+    return (
+      <div className={cx('CPGroup-result')} dangerouslySetInnerHTML={html} />
+    );
+  }
+
+  renderBody(
+    onChange: (value: ConditionGroupValue) => void,
+    value?: ConditionGroupValue,
+    popOverContainer?: any
+  ) {
     const {
       classnames: cx,
       fieldClassName,
       fields,
       funcs,
-      onChange,
-      value,
       showNot,
       showANDOR,
       data,
@@ -219,7 +251,6 @@ export class ConditionBuilder extends React.Component<ConditionBuilderProps> {
       searchable,
       builderMode,
       formula,
-      popOverContainer,
       renderEtrValue
     } = this.props;
 
@@ -257,16 +288,82 @@ export class ConditionBuilder extends React.Component<ConditionBuilderProps> {
         disabled={disabled}
         searchable={searchable}
         formula={formula}
-        popOverContainer={popOverContainer}
         renderEtrValue={renderEtrValue}
+        popOverContainer={popOverContainer}
       />
+    );
+  }
+
+  render() {
+    const {
+      classnames: cx,
+      placeholder,
+      embed = true,
+      pickerIcon,
+      locale,
+      translate,
+      classPrefix,
+      onChange: onFinalChange,
+      value,
+      title,
+      disabled,
+      popOverContainer
+    } = this.props;
+
+    if (embed) {
+      return this.renderBody(onFinalChange, value, popOverContainer);
+    }
+
+    return (
+      <PickerContainer
+        classnames={cx}
+        classPrefix={classPrefix}
+        translate={translate}
+        locale={locale}
+        onConfirm={onFinalChange}
+        value={value}
+        size={'md'}
+        popOverContainer={popOverContainer}
+        bodyRender={(params: {
+          value: ConditionGroupValue;
+          onChange: (value: ConditionGroupValue) => void;
+        }) => this.renderBody(params.onChange, params.value)}
+        title={title}
+      >
+        {({onClick, isOpened}) => (
+          <ResultBox
+            classnames={cx}
+            classPrefix={classPrefix}
+            translate={translate}
+            locale={locale}
+            className={cx('CBGroup-result', {'is-active': isOpened})}
+            allowInput={false}
+            clearable={true}
+            result={value}
+            itemRender={this.highlightValue}
+            onResultChange={noop}
+            onClear={this.handleClear}
+            disabled={disabled}
+            borderMode={'full'}
+            placeholder={placeholder}
+            actions={
+              pickerIcon && (
+                <span className={cx('CBPicker-trigger')} onClick={onClick}>
+                  {pickerIcon}
+                </span>
+              )
+            }
+            onResultClick={pickerIcon ? undefined : onClick}
+          ></ResultBox>
+        )}
+      </PickerContainer>
     );
   }
 }
 
 export default themeable(
   localeable(
-    uncontrollable(ConditionBuilder, {
+    uncontrollable(QueryBuilder, {
       value: 'onChange'
     })
   )

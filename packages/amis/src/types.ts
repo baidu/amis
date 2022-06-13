@@ -114,7 +114,8 @@ export interface Action extends Button {
     | 'step-submit'
     | 'selectAll'
     | 'changeTabKey'
-    | 'click';
+    | 'click'
+    | 'stopAutoRefresh';
   api?: SchemaApi;
   asyncApi?: SchemaApi;
   payload?: any;

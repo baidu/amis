@@ -74,7 +74,7 @@ npm run update-snapshot
 npm run version
 
 # 发布内部 registry
-npm run publish-to-internal 
+npm run publish-to-internal
 
 # 发布外网环境
 npm run release
@@ -95,7 +95,6 @@ npm run release
 ## 贡献者
 
 <a href="https://github.com/baidu/amis/graphs/contributors"><img src="https://opencollective.com/amis/contributors.svg?width=890" /></a>
-
 
 ## 低代码平台
 
