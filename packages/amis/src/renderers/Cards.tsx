@@ -4,6 +4,7 @@ import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {Button} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
+import {Action} from '../types';
 import {
   anyChanged,
   getScrollParent,
