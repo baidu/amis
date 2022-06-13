@@ -151,10 +151,12 @@ export function renderChildren(
   props: renderChildProps
 ): ReactElement {
   if (Array.isArray(node)) {
+    var elemKey = props.key || props.propKey || props.id || '';
+
     return node.map((node, index) =>
       renderChild(`${prefix}/${index}`, node, {
         ...props,
-        key: `${props.key ? `${props.key}-` : ''}${index}`
+        key: `${elemKey ? `${elemKey}-` : ''}${index}`
       })
     );
   }
