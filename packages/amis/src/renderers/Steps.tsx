@@ -105,7 +105,7 @@ export function StepsCmpt(props: StepsProps) {
     '| raw'
   ) as Array<StepSchema>;
 
-  let stepsRow: Array<StepSchema> =
+  const stepsRow: Array<StepSchema> =
     (Array.isArray(sourceResult) ? sourceResult : undefined) ||
     config ||
     steps ||
