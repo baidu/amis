@@ -66,8 +66,10 @@ class Preview extends React.Component {
   }
 
   componentWillUnmount() {
-    // TODO: 会报错，可能得后续 amis 内部的 render 也改才行
-    // this.roots.forEach(root => root.unmount());
+    // 立即 unmout 会报错
+    window.requestAnimationFrame(() => {
+      this.roots.forEach(root => root.unmount());
+    });
   }
 
   divRef(ref) {

@@ -433,23 +433,50 @@ window.echarts = amisRequire('echarts');
 
 然后通过 script 标签引入这两个文件。
 
+## 动态处理 echart 配置
+
+echarts 的 config 一般是静态配置的，支持简单的数据映射。如果你觉得还不够灵活可以通过自己手写逻辑代码来完成配置。
+
+通过配置 dataFiler 来处理。
+
+```schema: scope="body"
+{
+    "type": "chart",
+    "data": {
+        "line": [65, 63, 10, 73, 42, 21],
+        "line2": [22, 33, 90, 20, 11, 33]
+    },
+    "config": {
+        "xAxis": {
+            "type": "category",
+            "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        },
+        "yAxis": {
+            "type": "value"
+        }
+    },
+    "dataFilter": "config.series = [];Object.keys(data).forEach(function(key) {config.series.push({data: data[key], type: 'line'})})"
+}
+```
+
 ## 属性表
 
-| 属性名             | 类型                                         | 默认值    | 说明                                                               |
-| ------------------ | -------------------------------------------- | --------- | ------------------------------------------------------------------ |
-| type               | `string`                                     | `"chart"` | 指定为 chart 渲染器                                                |
-| className          | `string`                                     |           | 外层 Dom 的类名                                                    |
-| body               | [SchemaNode](../../docs/types/schemanode)    |           | 内容容器                                                           |
-| api                | [api](../../docs/types/api)                  |           | 配置项接口地址                                                     |
-| source             | [数据映射](../../docs/concepts/data-mapping) |           | 通过数据映射获取数据链中变量值作为配置                             |
-| initFetch          | `boolean`                                    |           | 组件初始化时，是否请求接口                                         |
-| interval           | `number`                                     |           | 刷新时间(最小 1000)                                                |
-| config             | `object` 或 `string`                         |           | 设置 eschars 的配置项,当为`string`的时候可以设置 function 等配置项 |
-| style              | `object`                                     |           | 设置根元素的 style                                                 |
-| width              | `string`                                     |           | 设置根元素的宽度                                                   |
-| height             | `string`                                     |           | 设置根元素的高度                                                   |
-| replaceChartOption | `boolean`                                    | `false`   | 每次更新是完全覆盖配置项还是追加？                                 |
-| `trackExpression`  | `string`                                     |           | 当这个表达式的值有变化时更新图表                                   |
+| 属性名             | 类型                                         | 默认值    | 说明                                                                                                                                                                                     |
+| ------------------ | -------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type               | `string`                                     | `"chart"` | 指定为 chart 渲染器                                                                                                                                                                      |
+| className          | `string`                                     |           | 外层 Dom 的类名                                                                                                                                                                          |
+| body               | [SchemaNode](../../docs/types/schemanode)    |           | 内容容器                                                                                                                                                                                 |
+| api                | [api](../../docs/types/api)                  |           | 配置项接口地址                                                                                                                                                                           |
+| source             | [数据映射](../../docs/concepts/data-mapping) |           | 通过数据映射获取数据链中变量值作为配置                                                                                                                                                   |
+| initFetch          | `boolean`                                    |           | 组件初始化时，是否请求接口                                                                                                                                                               |
+| interval           | `number`                                     |           | 刷新时间(最小 1000)                                                                                                                                                                      |
+| config             | `object` 或 `string`                         |           | 设置 eschars 的配置项,当为`string`的时候可以设置 function 等配置项                                                                                                                       |
+| style              | `object`                                     |           | 设置根元素的 style                                                                                                                                                                       |
+| width              | `string`                                     |           | 设置根元素的宽度                                                                                                                                                                         |
+| height             | `string`                                     |           | 设置根元素的高度                                                                                                                                                                         |
+| replaceChartOption | `boolean`                                    | `false`   | 每次更新是完全覆盖配置项还是追加？                                                                                                                                                       |
+| trackExpression    | `string`                                     |           | 当这个表达式的值有变化时更新图表                                                                                                                                                         |
+| dataFilter         | `string`                                     |           | 自定义 echart config 转换，函数签名：function(config, echarts, data) {return config;} 配置时直接写函数体。其中 config 是当前 echart 配置，echarts 就是 echarts 对象，data 为上下文数据。 |
 
 ## 动作表
 

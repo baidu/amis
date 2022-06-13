@@ -99,7 +99,7 @@ exports[`Renderer:chained-select 1`] = `
                 <div
                   class="cxd-Select-value"
                 >
-                  B 0
+                  B 1
                 </div>
               </div>
               <span

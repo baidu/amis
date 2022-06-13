@@ -46,7 +46,7 @@ function VariableList(props: VariableListProps) {
       : (option: Option, states: ItemRenderStates): JSX.Element => {
           return (
             <span className={cx(`${classPrefix}-item`, itemClassName)}>
-              {option.label && option.value === selfVariableName && (
+              {option.label && (selfVariableName && option.value === selfVariableName) && (
                 <Badge
                   classnames={cx}
                   badge={{
@@ -58,7 +58,7 @@ function VariableList(props: VariableListProps) {
                   <label>{option.label}</label>
                 </Badge>
               )}
-              {option.label && option.value !== selfVariableName && (
+              {option.label && (!selfVariableName || option.value !== selfVariableName) && (
                 <label>{option.label}</label>
               )}
               {option?.tag ? (
