@@ -196,7 +196,7 @@ order: 13
 
 ### 支持相对值
 
-范围限制也支持设置 [相对值](./date#%E7%9B%B8%E5%AF%B9%E5%80%BC)。
+范围限制也支持设置 [相对值](./input-date#%E7%9B%B8%E5%AF%B9%E5%80%BC)。
 
 ```schema: scope="body"
 {
