@@ -79,7 +79,7 @@ class CollapseGroup extends React.Component<
   }
 
   collapseChange(collapseId: string, collapsed: boolean) {
-    let activeKey = this.state.activeKey;
+    let activeKey = this.state.activeKey.concat();
     if (!collapsed) {
       // 开启状态
       if (this.props.accordion) {
