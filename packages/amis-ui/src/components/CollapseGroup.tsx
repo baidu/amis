@@ -11,8 +11,9 @@ export interface CollapseItem {
   [propName: string]: any;
 }
 
-import {ClassNamesFn, themeable} from 'amis-core';
+import {ClassNamesFn, themeable, autobind} from 'amis-core';
 import type {SchemaNode} from 'amis-core';
+import isEqual from 'lodash/isEqual';
 
 export interface CollapseGroupProps {
   defaultActiveKey?: Array<string | number | never> | string | number;
@@ -41,20 +42,39 @@ class CollapseGroup extends React.Component<
 
   constructor(props: CollapseGroupProps) {
     super(props);
-
     // 传入的activeKey会被自动转换为defaultActiveKey
-    let activeKey = props.defaultActiveKey;
-    if (!Array.isArray(activeKey)) {
-      activeKey = activeKey ? [activeKey] : [];
+    this.updateActiveKey(props.defaultActiveKey, true);
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps: CollapseGroupProps) {
+    const props = this.props;
+
+    if (!isEqual(props.defaultActiveKey, nextProps.defaultActiveKey)) {
+      this.updateActiveKey(nextProps.defaultActiveKey);
+    }
+  }
+
+  @autobind
+  updateActiveKey(propsActiveKey: any, isInit?: boolean) {
+    const props = this.props;
+    let curActiveKey = [];
+    if (!Array.isArray(propsActiveKey)) {
+      curActiveKey = propsActiveKey ? [propsActiveKey] : [];
     }
     if (props.accordion) {
       // 手风琴模式下只展开第一个元素
-      activeKey = activeKey.length ? [activeKey[0]] : [];
+      curActiveKey = propsActiveKey.length ? [propsActiveKey[0]] : [];
     }
 
-    this.state = {
-      activeKey: activeKey.map((key: number | string) => String(key))
-    };
+    if (isInit) {
+      this.state = {
+        activeKey: propsActiveKey.map((key: number | string) => String(key))
+      };
+    } else {
+      this.setState({
+        activeKey: propsActiveKey.map((key: number | string) => String(key))
+      });
+    }
   }
 
   collapseChange(item: CollapseItem, collapsed: boolean) {
