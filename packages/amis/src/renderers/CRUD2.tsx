@@ -174,29 +174,29 @@ export interface CRUD2CommonSchema extends BaseSchema {
   autoFillHeight?: boolean;
 }
 
-export type CRUDCardsSchema = CRUD2CommonSchema & {
+export type CRUD2CardsSchema = CRUD2CommonSchema & {
   mode: 'cards';
 } & Omit<CardsSchema, 'type'>;
 
-export type CRUDListSchema = CRUD2CommonSchema & {
+export type CRUD2ListSchema = CRUD2CommonSchema & {
   mode: 'list';
 } & Omit<ListSchema, 'type'>;
 
-export type CRUDTableSchema = CRUD2CommonSchema & {
+export type CRUD2TableSchema = CRUD2CommonSchema & {
   mode?: 'table';
 } & Omit<TableSchema, 'type'>;
 
-export type CRUD2Schema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchema;
+export type CRUD2Schema = CRUD2CardsSchema | CRUD2ListSchema | CRUD2TableSchema;
 
-export interface CRUDProps
+export interface CRUD2Props
   extends RendererProps,
     Omit<CRUD2CommonSchema, 'type' | 'className'> {
   store: ICRUDStore;
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
 
-export default class CRUD2 extends React.Component<CRUDProps, any> {
-  static propsList: Array<keyof CRUDProps> = [
+export default class CRUD2 extends React.Component<CRUD2Props, any> {
+  static propsList: Array<keyof CRUD2Props> = [
     'mode',
     'syncLocation',
     'value',
@@ -245,7 +245,7 @@ export default class CRUD2 extends React.Component<CRUDProps, any> {
 
   stopingAutoRefresh: boolean = false;
 
-  constructor(props: CRUDProps) {
+  constructor(props: CRUD2Props) {
     super(props);
 
     const {location, store, syncLocation, pageField, perPageField} = props;
@@ -298,7 +298,7 @@ export default class CRUD2 extends React.Component<CRUDProps, any> {
     }
   }
 
-  componentDidUpdate(prevProps: CRUDProps) {
+  componentDidUpdate(prevProps: CRUD2Props) {
     const props = this.props;
     const store = prevProps.store;
 
@@ -1154,7 +1154,7 @@ export default class CRUD2 extends React.Component<CRUDProps, any> {
 export class CRUD2Renderer extends CRUD2 {
   static contextType = ScopedContext;
 
-  constructor(props: CRUDProps, context: IScopedContext) {
+  constructor(props: CRUD2Props, context: IScopedContext) {
     super(props);
 
     const scoped = context;
