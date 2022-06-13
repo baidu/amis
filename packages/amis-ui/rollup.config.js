@@ -157,7 +157,13 @@ function getPlugins(format = 'esm') {
   };
 
   return [
-    svgr(),
+    svgr({
+      svgProps: {
+        className: 'icon'
+      },
+      prettier: false,
+      dimensions: false
+    }),
     transpileDynamicImportForCJS(),
     autoExternal(),
     json(),

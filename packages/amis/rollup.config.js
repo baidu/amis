@@ -77,8 +77,7 @@ function transpileDynamicImportForCJS(options) {
 
       return {
         left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
-        right:
-          '], function(mod) {fullfill(tslib.__importStar(mod))})})})'
+        right: '], function(mod) {fullfill(tslib.__importStar(mod))})})})'
       };
 
       // return {
@@ -113,7 +112,14 @@ function getPlugins(format = 'esm') {
   };
 
   return [
-    svgr(),
+    svgr({
+      svgProps: {
+        className: 'icon'
+      },
+      prettier: false,
+      dimensions: false
+    }),
+    ,
     transpileDynamicImportForCJS(),
     autoExternal(),
     json(),
