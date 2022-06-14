@@ -1,6 +1,6 @@
 {
   "name": "amis-core",
-  "version": "2.0.0-rc.13",
+  "version": "2.0.0-rc.14",
   "description": "amis-core",
   "main": "lib/index.js",
   "module": "esm/index.js",
