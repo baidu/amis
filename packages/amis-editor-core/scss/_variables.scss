@@ -1,0 +1,41 @@
+// $Editor-btn-bg: #4285f4;
+// $Editor-btn-border: darken($Editor-btn-bg, 5%);
+// $Editor-btn-color: $white;
+
+$body-bg: #f7f7f9;
+
+// 编辑器内容区主题色
+$Editor-theme: #205dd9; // #2468F2; // #4285f4;
+
+$Editor-hlbox-bg: rgba($Editor-theme, 0.75);
+$Editor-hlbox--onActive-bg: $Editor-theme; // #4285f4;
+$Editor-hlbox--onActiveConfig-bg: #f39000;
+$Editor-rgion-bg: $Editor-theme; // #23b7e5;
+
+$Editor-theme-color: #2468f2;
+$Editor-text-color: #141a25;
+
+// 右侧面板
+$Editor-right-panel-color: #151b26;
+$Editor-right-panel-border-color: #e8e9eb;
+$Editor-right-panel-font-size: 12px;
+$Editor-right-panel-line-height: 1.6; // 32px
+
+$Editor-aside-width: 260px;
+$Editor-borderRadius: 5px;
+
+// 页面设计器 3.0 UI 基础色调
+$editor-default-color: #151b26; // 默认的字体色
+$editor-active-color: #2468f2;
+$editor-hover-color: #5086f5;
+$editor-danger-color: #ff6966;
+$editor-border-color: #e8e9eb; // 默认的边框色
+$default-icon-color: #84868c; // 默认的icon颜色
+
+$active-bg-color: #e6f0ff; // 激活态的背景色
+$hover-bg-color: #f7f7f9; // 激活态的背景色
+
+$disabled-color: #b8babf; // 禁用文字颜色
+$disabled-bg-color: #f7f7f9; // 禁用背景颜色
+
+$default-bg-color: #f7f7f9; // 默认背景颜色

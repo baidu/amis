@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="23px" viewBox="0 0 24 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="页面-1" stroke="none" stroke-width="1" fill-rule="evenodd">
+        <g id="批量操作说明" transform="translate(-84.000000, -216.000000)">
+            <g id="编组-14备份-3" transform="translate(40.000000, 204.000000)">
+                <g id="删除-默认" transform="translate(44.000000, 12.000000)">
+                    <rect id="矩形备份-8" opacity="0.66" transform="translate(9.500000, 14.000000) rotate(90.000000) translate(-9.500000, -14.000000) " x="5" y="12.5" width="9" height="3"></rect>
+                    <rect id="矩形备份-9" opacity="0.66" transform="translate(14.500000, 14.000000) rotate(90.000000) translate(-14.500000, -14.000000) " x="10" y="12.5" width="9" height="3"></rect>
+                    <path d="M16,0 C17.1045695,-2.02906125e-16 18,0.8954305 18,2 L18,5 L22.5,5 C23.3284271,5 24,5.67157288 24,6.5 C24,7.32842712 23.3284271,8 22.5,8 L21,8 L21,21 C21,22.1045695 20.1045695,23 19,23 L5,23 C3.8954305,23 3,22.1045695 3,21 L3,8 L1.5,8 C0.671572875,8 1.01453063e-16,7.32842712 0,6.5 C-1.01453063e-16,5.67157288 0.671572875,5 1.5,5 L6,5 L6,2 C6,0.8954305 6.8954305,2.02906125e-16 8,0 L16,0 Z M18,8 L6,8 L6,20 L18,20 L18,8 Z M15,3 L9,3 L9,5 L15,5 L15,3 Z" id="形状结合" fill-rule="nonzero" opacity="0.6"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,109 @@
+.context-menu-setting {
+  position: relative;
+  width: 260px;
+  background: #fff;
+  box-shadow: -2px 0 20px 0 rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  // 搞点动画？
+  transition: width ease-in-out 0.2s;
+  transform: translateZ(0);
+  display: flex;
+  flex-direction: column;
+
+  .setting-header {
+    flex: 0 0 48px;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #141a25;
+    line-height: 48px;
+    letter-spacing: 0;
+    font-weight: 400;
+    border-bottom: 1px solid #e6e6e8;
+    text-align: center;
+  }
+
+  .setting-body {
+    flex: 1 1 auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 12px 6px;
+    display: flex;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+
+    .setting-item {
+      margin: 0 2px 12px 6px; // 兼容右侧可能出现滚动条情况
+      padding-top: 12px;
+      flex: 0 0 112px;
+      height: 62px;
+      cursor: pointer;
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+
+      .icon-box {
+        width: 24px;
+        height: 24px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        > svg {
+          width: 24px;
+          height: 24px;
+          fill: #bcbcbc;
+        }
+      }
+
+      .setting-info {
+        margin-top: 4px;
+        flex: 1 1 auto;
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: #141a25;
+        font-weight: 400;
+        user-select: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      &:hover {
+        background: #e9effd;
+        border: 1px solid $Editor-theme-color;
+        border-radius: 4px;
+
+        .icon-box > svg {
+          fill: $Editor-theme-color;
+        }
+
+        .setting-info {
+          color: $Editor-theme-color;
+        }
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+        // pointer-events: none;
+        background: rgba(#bdbdbd, 0.15);
+        border: 1px solid #ddd;
+        border-radius: 4px;
+
+        .icon-box > svg {
+          fill: #bdbdbd;
+        }
+
+        .setting-info {
+          color: #bdbdbd;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+.ae-ClassNamePicker-popover {
+  padding: 10px;
+  width: 610px;
+  max-height: 400px;
+  overflow: auto;
+
+  &.ae-PopOver--leftBottomLeftTop {
+    margin-top: 1px;
+  }
+
+  &.ae-PopOver--leftTopLeftBottom {
+    margin-top: -1px;
+  }
+}
+
+.ae-ClassNameControl-group {
+  margin: 10px;
+  display: inline-block;
+  width: 265px;
+
+  &.w2x {
+    width: 550px;
+  }
+
+  .ae-ClassNameControl-group {
+    padding-left: 65px;
+    margin: 0;
+    display: block;
+    width: auto;
+
+    &:not(:last-child) {
+      margin: 0 0 10px 0;
+    }
+
+    .ae-ClassNameControl-groupLabel {
+      float: left;
+      border: none;
+      padding-top: 5px;
+      padding-bottom: 0;
+      text-align: right;
+      margin: 0 0 0 -60px;
+      font-size: 12px;
+    }
+  }
+
+  .ae-ButtonGroup + .ae-ButtonGroup {
+    margin-left: 5px;
+  }
+}
+
+.ae-ClassNameControl-groupLabel {
+  border-bottom: px2rem(1px) solid lighten($color: $borderColor, $amount: 5%);
+  display: block;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}

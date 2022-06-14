@@ -1,0 +1,39 @@
+.aeDataChain {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  min-height: 300px;
+
+  &-aside {
+    width: 60px;
+    flex-shrink: 0;
+    border-right: 1px solid #ccc;
+    margin-right: 10px;
+    padding-right: 10px;
+
+    > ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      > li {
+        display: block;
+        cursor: pointer;
+        text-align: center;
+        color: #999;
+        padding: 2px 5px;
+        font-size: 12px;
+
+        &.is-active {
+          color: #333;
+          background: darken(#f6f7fb, 2.5%);
+        }
+      }
+    }
+  }
+
+  &-main {
+    flex-grow: 1;
+    flex-basis: auto;
+  }
+}

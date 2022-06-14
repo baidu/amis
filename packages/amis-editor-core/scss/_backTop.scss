@@ -1,0 +1,55 @@
+.editor-backTop {
+  position: fixed;
+  right: 30px;
+  bottom: 32px;
+  z-index: 10000;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: 'tnum';
+  cursor: pointer;
+  visibility: visible;
+  transition: all 0.3s;
+
+  &.hidden {
+    visibility: hidden;
+  }
+}
+.editor-backTop:empty {
+  display: none;
+}
+.backTop-content {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  background-color: rgba($Editor-theme, 0.85);
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+.backTop-content:hover {
+  background-color: $Editor-theme;
+  transition: all 0.3s;
+}
+.backTop-icon {
+  font-size: 20px;
+  line-height: 40px;
+}
+@media screen and (max-width: 768px) {
+  .editor-backTop {
+    right: 60px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .editor-backTop {
+    right: 20px;
+  }
+}

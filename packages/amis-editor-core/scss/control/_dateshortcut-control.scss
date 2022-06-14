@@ -1,0 +1,108 @@
+.ae-DateShortCutControl {
+  &-header {
+    @include flexBox();
+    width: 100%;
+    height: #{px2rem(24px)};
+    margin-bottom: #{px2rem(5px)};
+
+    label {
+      margin-right: #{px2rem(16px)};
+      font-size: #{px2rem(12px)};
+      color: #5e626a;
+    }
+
+    &-icon {
+      flex: 1;
+      text-align: right;
+    }
+  }
+
+  &-footer {
+    > div {
+      display: block;
+      > button {
+        color: var(--Button--default-onHover-color);
+        background: var(--Button--default-onHover-bg);
+        border-color: var(--Button--default-onHover-border);
+        margin-top: 10px;
+        width: 100%;
+      }
+      > ul {
+        width: 100%;
+      }
+    }
+  }
+
+  &-content {
+    @include flexBox(column, flex-start);
+    @include minScrollBar();
+    margin: 0;
+    padding: #{px2rem(3px)} 0;
+    border-radius: $Editor-borderRadius;
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 10px;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 9px solid #f7f7f9;
+    }
+
+    .ae-DateShortCutControlItem {
+      @include flexBox();
+      width: 100%;
+      background: #f7f7f9;
+      padding: #{px2rem(5px)} #{px2rem(10px)};
+
+      &:hover {
+        background: #e9effd;
+      }
+
+      &-dragging {
+        height: 0 !important;
+        padding: 0;
+        border-top: 2px solid var(--primary);
+        overflow: hidden;
+        background: #e9effd;
+      }
+
+      &-dragBar {
+        display: inline-flex;
+        margin-left: 0;
+        margin-right: var(--gap-sm);
+        cursor: move;
+        color: #8c8c8c;
+      }
+
+      &-input {
+        flex: 1;
+        margin: 0;
+        margin-right: #{px2rem(15px)};
+      }
+
+      &-action {
+        margin-left: #{px2rem(5px)};
+        padding-left: 0;
+        padding-right: 0;
+        display: inline-flex;
+        padding: 6px 7px;
+        border: var(--Form-input-borderWidth) solid var(--Form-input-borderColo);
+        background: #fff;
+        font-size: 16px;
+        &:hover {
+          & > svg,
+          & > svg path {
+            fill: var(--primary);
+          }
+        }
+
+        & > svg,
+        & > svg path {
+          fill: var(--text--muted-color);
+        }
+      }
+    }
+  }
+}

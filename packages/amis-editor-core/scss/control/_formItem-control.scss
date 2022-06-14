@@ -1,0 +1,121 @@
+/* 表单项配置面板 */
+.ae-formItemControl {
+  & > div:last-child {
+    .ae-formItemControl-header {
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    &.is-active {
+      .ae-formItemControl-header {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &-label-tip {
+    display: inline-block;
+  }
+
+  div[data-role='form-item'] {
+    > label {
+      line-height: 32px;
+      margin: 0;
+      padding-top: 0;
+    }
+  }
+
+  .ae-formItemControl-header {
+    width: 100%;
+    padding: #{px2rem(6px)} #{px2rem(12px)};
+    justify-content: space-between;
+    border-top: 1px solid #e5e5e5;
+    background: #f2f2f4;
+    @include collapse-header-text();
+
+    i {
+      transform-origin: px2rem(7px) px2rem(5px);
+      margin-top: px2rem(5px);
+      transition: transform 0.1s linear;
+    }
+  }
+
+  &-body {
+    padding: var(--gap-base);
+    border-top: 1px solid #d4d6d9;
+    --Form-item-gap: 12px
+  }
+
+  .inputGroup-addOn-no-border {
+    .cxd-InputGroup-addOn {
+      border: none;
+    }
+  }
+}
+
+/* 状态配置控件 */
+.ae-StatusControl {
+  position: relative;
+  &-switch {
+    position: absolute;
+    top: px2rem(-24px);
+    right: 0;
+  }
+
+  &-content {
+    padding-top: px2rem(12px);
+    > * {
+      @include extend-more();
+    }
+  }
+}
+
+/* 代码块 */
+.ae-Code {
+  background: #ebf5ff;
+  color: #008dcd;
+  padding: #{px2rem(3px)} #{$Editor-borderRadius};
+  border-radius: #{px2rem(3px)};
+}
+
+.ae-ExtendMore {
+  @include extend-more();
+}
+
+/* 加强状态按钮，后续添加在AMIS中 */
+.ae-Button--enhance {
+  color: #{$Editor-theme-color};
+  border: 1px solid #{$Editor-theme-color};
+
+  &:hover,
+  &:focus {
+    color: #4f86f4 !important;
+    border-color: #4f86f4 !important;
+  }
+}
+
+/* combo 组件样式调整, 后续amis中combo支持新增button自定义就可免去样式覆盖了*/
+.ae-Combo-items {
+  @include extend-more();
+  margin-top: px2rem(8px);
+  > div {
+    background: inherit;
+
+    + div {
+      margin-top: px2rem(12px) !important;
+    }
+  }
+}
+.ae-Combo-items + div {
+  padding-left: 0px !important;
+  margin-bottom: px2rem(12px);
+  > button,
+  > button:hover {
+    color: var(--Button--enhance-color) !important;
+    background: var(--Button--enhance-bg) !important;
+    border-color: var(--Button--enhance-border) !important;
+    box-shadow: var(--Button-boxShadow);
+    text-shadow: var(--Button-textShadow);
+    width: 100%;
+    height: px2rem(32px);
+  }
+}

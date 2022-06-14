@@ -1,0 +1,100 @@
+.ae-BoxModel {
+  overflow: hidden;
+  background-color: #e0efff;
+  padding: 18px;
+  position: relative;
+
+  &-inner {
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    padding: 2px;
+    min-height: 20px;
+  }
+
+  &-input {
+    position: absolute;
+    text-align: center;
+    padding: 0;
+    font-size: 12px;
+    border: none;
+    background: none;
+    transform: scale(0.8);
+    color: rgba(0, 0, 0, 0.85);
+    -webkit-appearance: none;
+
+    &:focus {
+      outline: none;
+    }
+
+    &.left {
+      left: -6px;
+      top: 0;
+      height: 100%;
+      width: 28px;
+    }
+
+    &.right {
+      right: -6px;
+      top: 0;
+      height: 100%;
+      width: 28px;
+    }
+
+    &.top {
+      top: 2px;
+      left: 0;
+      right: 0;
+      height: 14px;
+      width: 100%;
+    }
+
+    &.bottom {
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 14px;
+      width: 100%;
+    }
+  }
+
+  &-title {
+    opacity: 0.6;
+    font-size: 8px;
+    color: #919eab;
+    transform: scale(0.7);
+    position: absolute;
+    left: 8px;
+  }
+
+  &-line {
+    width: 2px;
+    height: 50px;
+    background-color: #fff;
+    position: absolute;
+
+    &.lt {
+      transform: rotate(-45deg);
+      top: -24px;
+      left: 0;
+    }
+
+    &.lb {
+      transform: rotate(45deg);
+      bottom: -24px;
+      left: 0;
+    }
+
+    &.rt {
+      transform: rotate(45deg);
+      top: -24px;
+      right: 0;
+    }
+
+    &.rb {
+      transform: rotate(-45deg);
+      bottom: -24px;
+      right: 0;
+    }
+  }
+}

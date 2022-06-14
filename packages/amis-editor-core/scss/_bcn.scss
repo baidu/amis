@@ -1,0 +1,157 @@
+.ae-Breadcrumb {
+  flex: 0 0 42px;
+  position: relative;
+  padding: 0;
+  background: #fff;
+  box-sizing: border-box;
+  border-bottom: 1px solid $editor-border-color;
+  z-index: 1000;
+
+  .ae-Breadcrumb-content {
+    position: relative;
+    left: 0;
+    height: 100%;
+    width: max-content;
+    padding: 0 16px;
+
+    white-space: nowrap;
+    height: 42px;
+    line-height: 42px;
+    background: #fff;
+    letter-spacing: 0;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #5c5f66;
+    font-weight: 400;
+    user-select: none;
+
+    box-sizing: border-box;
+    z-index: 10000;
+    transition: left ease-out 0.15s;
+
+    > ul {
+      list-style: none;
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      > li {
+        display: inline-block;
+        margin: 0 0 0 8px;
+        padding: 0;
+        position: relative;
+
+        &:first-child {
+          margin: 0;
+        }
+
+        > span {
+          display: inline-block;
+          padding-right: 8px;
+          line-height: 42px !important; // 避免被覆盖
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: none;
+          }
+        }
+        // 同级元素选择弹层
+        > ul {
+          position: absolute;
+          top: 46px;
+          left: 0;
+          min-width: 100px;
+          max-height: 320px;
+          line-height: 20px; // 32 - 12
+          padding: 0;
+          font-family: PingFangSC-Regular;
+          font-size: 12px;
+          color: #151b26;
+          font-weight: 400;
+          box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
+          border-radius: 4px;
+          background: #fff;
+          list-style: none;
+          z-index: 100000; // 设置一个最大的层级
+          visibility: hidden;
+          transition: all ease-out 0.15s;
+          @include minScrollBar();
+          > li > span {
+            display: block;
+            padding: 6px 12px;
+            cursor: pointer;
+            &:hover {
+              background: $active-bg-color;
+              text-decoration: none;
+            }
+            &.is-active {
+              color: $Editor-theme;
+            }
+          }
+        }
+        &:hover > ul,
+        & > ul:hover {
+          visibility: visible;
+        }
+      }
+      > li:not(:last-child):after {
+        color: #5e626a;
+        content: '\003E';
+      }
+
+      > li:last-child > span {
+        font-family: PingFangSC-Medium;
+        font-size: 12px;
+        color: #151b26;
+        line-height: 20px;
+        font-weight: 500;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .ae-Breadcrumb-scrollLeft-btn,
+  .ae-Breadcrumb-scrollRight-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 41px;
+    background-color: #fff;
+    box-sizing: border-box;
+    box-shadow: 2px 0 20px 0 rgb(0 0 0 / 10%);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    z-index: 100000;
+
+    svg {
+      color: #151b26;
+      width: 16px;
+      height: 16px;
+      transform: rotate(180deg);
+
+      &:hover {
+        color: $editor-active-color;
+      }
+    }
+  }
+
+  .ae-Breadcrumb-scrollRight-btn {
+    left: auto;
+    right: 0;
+    box-shadow: -2px 0 20px 0 rgb(0 0 0 / 10%);
+
+    svg.icon-editor-double-arrow {
+      transform: rotate(0deg);
+    }
+  }
+
+  &:hover {
+    .ae-Breadcrumb-scrollLeft-btn,
+    .ae-Breadcrumb-scrollRight-btn {
+      visibility: visible;
+    }
+  }
+}

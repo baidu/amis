@@ -1,0 +1,536 @@
+.ae-RendererList-tabs {
+  position: relative;
+  height: 100%;
+  padding: 0;
+  width: $Editor-aside-width;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .ae-RendererList-tabs-header {
+    padding: 0 12px;
+  }
+
+  .ae-RendererList-tabs-content {
+    position: relative;
+    margin-top: 12px;
+    flex: 1 1 auto;
+    padding: 0 5px;
+    // overflow: auto;
+    height: 100%;
+    // max-height: calc(100% - 50px); // 确保不撑开
+    box-sizing: border-box;
+    // @include minScrollBar();
+
+    .ae-RendererList-tabs-panel {
+      position: relative;
+      padding: 0;
+      height: 100%;
+    }
+  }
+}
+
+.ae-RendererList {
+  height: 100%;
+  padding: 0 0 12px 0;
+  // width: $Editor-aside-width;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .ae-RendererList-tabs-header {
+    padding: 0 12px;
+  }
+
+  .ae-RendererList-tabs-content {
+    position: relative;
+    margin-top: 12px;
+    flex: 1 1 auto;
+    padding: 0 5px;
+    // overflow: auto;
+    height: 100%;
+    // max-height: calc(100% - 50px); // 确保不撑开
+    box-sizing: border-box;
+    // @include minScrollBar();
+
+    .ae-RendererList-tabs-panel {
+      position: relative;
+      padding: 0;
+      height: 100%;
+    }
+  }
+}
+
+.ae-RendererList {
+  height: 100%;
+  padding: 0 0 12px 0;
+  // width: $Editor-aside-width;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .ae-RendererList-tabs-header {
+    padding: 0 12px;
+  }
+
+  .ae-RendererList-tabs-content {
+    position: relative;
+    margin-top: 12px;
+    flex: 1 1 auto;
+    padding: 0 5px;
+    // overflow: auto;
+    height: 100%;
+    // max-height: calc(100% - 50px); // 确保不撑开
+    box-sizing: border-box;
+    // @include minScrollBar();
+
+    .ae-RendererList-tabs-panel {
+      position: relative;
+      padding: 0;
+      height: 100%;
+    }
+  }
+}
+
+.ae-RendererList {
+  height: 100%;
+  padding: 0 0 12px 0;
+  // width: $Editor-aside-width;
+  display: flex;
+  flex-direction: column;
+
+  &.only-base-component {
+    width: $Editor-aside-width;
+
+    .ae-RendererList-groupWrap {
+      margin: 0;
+      padding: 0 0 12px 0;
+    }
+  }
+
+  &.only-base-component {
+    width: $Editor-aside-width;
+
+    .ae-RendererList-groupWrap {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &.only-base-component {
+    width: $Editor-aside-width;
+
+    .ae-RendererList-groupWrap {
+      margin: 0;
+      padding: 0 0 12px 0;
+    }
+  }
+
+  &.only-base-component {
+    width: $Editor-aside-width;
+
+    .ae-RendererList-groupWrap {
+      margin: 0;
+      padding: 0 0 12px 0;
+    }
+  }
+
+  .ae-RendererList-tip {
+    padding: 0 12px;
+    color: $success;
+  }
+
+  // 用于提示类文本的样式
+  .ae-RendererList-group > span,
+  .ae-RendererList-groupWrap > span,
+  .ae-RendererList-placeholder {
+    display: inline-block;
+    margin: 12px;
+  }
+
+  &-groupWrap {
+    flex: 1 1 auto;
+    margin: 0 -5px; // 让右侧滚动条靠最右侧
+    padding: 0 0 12px 0;
+    background: #fff;
+
+    .collapse-header {
+      padding: 0 12px;
+      font-family: PingFangSC-Regular;
+      font-size: 12px;
+      color: #141a25;
+      letter-spacing: 0;
+      line-height: 20px;
+      font-weight: 400;
+      letter-spacing: 0;
+      height: 35px;
+      line-height: 35px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      // 折叠icon
+      .expander-icon {
+        > svg {
+          width: 10px;
+          height: 10px;
+          color: #333;
+          transform: rotate(90deg);
+          transition: transform ease-out 0.3s;
+        }
+
+        &.is-folded > svg {
+          transform: rotate(270deg);
+        }
+      }
+    }
+  }
+
+  &-group.collapse-content {
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 6px 0 4px 2px;
+    box-sizing: border-box;
+    // border-bottom: 1px solid $editor-border-color;
+    transition: height 0.3s;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.is-folded {
+      height: 0;
+      padding: 0;
+      overflow: hidden;
+
+      &:last-child {
+        height: 0;
+      }
+    }
+
+    .ae-RendererList-item {
+      margin: 0 2px 12px 10px; // 兼容右侧可能出现滚动条情况
+      padding: 0 8px;
+      flex: 0 0 112px;
+      cursor: pointer;
+
+      width: 112px;
+      height: 32px;
+      border: 1px solid #e8e9eb;
+      border-radius: 4px;
+
+      box-sizing: border-box;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      .icon-box {
+        width: 16px;
+        height: 16px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        > i {
+          font-size: 16px;
+          color: #b8babf;
+        }
+      }
+
+      .ae-RendererInfo {
+        flex: 1 1 auto;
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: #151b26;
+        letter-spacing: 0;
+        line-height: 20px;
+        font-weight: 400;
+
+        max-width: 80px;
+        padding: 0 8px;
+        user-select: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .ae-RendererIcon {
+        flex: 0 0 16px;
+        color: $default-icon-color;
+        justify-content: center;
+        align-items: center;
+        display: none; // hover 时使用flex
+
+        > svg {
+          width: 16px;
+          height: 16px;
+        }
+
+        &:hover {
+          color: $editor-active-color;
+        }
+      }
+
+      &:hover {
+        border-color: $editor-active-color;
+
+        .ae-RendererInfo {
+          max-width: 64px;
+        }
+        .ae-RendererIcon {
+          display: flex !important;
+        }
+      }
+    }
+  }
+}
+
+// 左侧组件面板/info提示弹窗
+.ae-RendererThumb {
+  max-width: 328px;
+  min-height: 120px;
+  padding: 5px;
+  font-size: 12px;
+  color: #151b26;
+  line-height: 20px;
+  background: #fff;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.06), 0 1px 10px 0 rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.04);
+
+  .ae-Renderer-title {
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+  }
+
+  .ae-Renderer-info {
+    margin: 4px 0;
+    font-family: PingFangSC-Regular;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  .ae-Renderer-preview {
+    position: relative;
+    max-height: 200px;
+    overflow: hidden;
+  }
+}
+
+// 左侧插入和替换组件面板
+.ae-InsertPanel-drawer {
+  // 右上角的关闭icon
+  svg.icon-close {
+    width: 22px;
+    height: 22px;
+  }
+
+  .ae-InsertPanel-footer {
+    > .action-btn {
+      padding: 4px 16px;
+      border-radius: 4px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    > .action-btn.action-btn-primary {
+      color: #fff;
+      background-color: #2468f2;
+
+      &:hover {
+        background-color: #5086f5;
+      }
+    }
+
+    > .action-btn.is-disabled {
+      color: #b4b6ba;
+      background-color: #e6e6e8;
+      border-color: #e6e6e8;
+    }
+  }
+}
+
+// 新版插入组件面板（抽屉弹出式）
+.ae-InsertRendererPanel-drawer {
+  // 右上角的关闭icon
+  > svg.icon-close {
+    width: 22px;
+    height: 22px;
+  }
+  .ae-drawer-renderers {
+    width: 417px; // 确保能一行展示5个组件
+    border-radius: 0 !important;
+
+    .ae-drawer-title {
+      padding: 0 12px;
+      font-family: PingFangSC-Medium;
+      font-size: 18px;
+      color: #141a25;
+      letter-spacing: 0;
+      font-weight: 500;
+      height: 35px;
+      line-height: 35px;
+      cursor: pointer;
+    }
+
+    .ae-RendererList {
+      width: 100% !important;
+    }
+  }
+
+  .ae-RendererList-tabs {
+    width: 417px; // 确保能一行展示5个组件
+  }
+}
+
+.ae-RenderersPicker-list {
+  flex-grow: 1;
+  height: 0;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  > ul {
+    min-width: 40px;
+    margin: 0;
+    padding: 0;
+    margin-right: 20px;
+    user-select: none;
+
+    > li {
+      list-style: none;
+      display: block;
+      text-align: center;
+      white-space: nowrap;
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
+      > a {
+        color: #666;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 2px 10px;
+        border-radius: 5px;
+      }
+
+      &.is-active > a,
+      > a:hover {
+        text-decoration: none;
+        color: #333;
+        background: rgba(66, 133, 244, 0.1);
+      }
+    }
+  }
+}
+
+.ae-RenderersPicker-content {
+  flex-grow: 1;
+  width: 0;
+  overflow: auto;
+  @include minScrollBar();
+
+  > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    > li {
+      border-radius: 4px;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-items: center;
+      border: 1px solid #e6e7e8;
+      color: #666;
+      font-size: 12px;
+      cursor: pointer;
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
+      &:hover,
+      &.is-active {
+        background: rgba($Editor-hlbox--onActive-bg, 0.05);
+      }
+
+      &.is-active {
+        border: 1px solid $Editor-theme;
+      }
+    }
+  }
+}
+.ae-RenderersPicker-info {
+  flex-grow: 1;
+  width: 0;
+  padding: 10px;
+  align-self: flex-start;
+  user-select: none;
+
+  > h4 {
+    font-size: 14px;
+    color: #333;
+    padding: 0;
+    margin: 0 0 10px;
+  }
+}
+
+.ae-RendereresPicker-form {
+  height: 100%;
+}
+
+.ae-RenderersPicker {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ae-RegionFilter {
+  margin: 10px 15px;
+  font-size: 12px;
+  color: #666;
+
+  > div {
+    display: inline-block;
+    cursor: pointer;
+    padding: 2px 10px;
+    border-radius: 5px;
+
+    &:hover,
+    &.is-active {
+      color: #333;
+      background: rgba(66, 133, 244, 0.1);
+    }
+  }
+}
+
+.ae-InsertPanel {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  width: 100%;
+  height: 100%;
+
+  &-title {
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  &-footer {
+    text-align: right;
+
+    > button + button,
+    > div + button {
+      margin-left: 5px;
+    }
+  }
+}

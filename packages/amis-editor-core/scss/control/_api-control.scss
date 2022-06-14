@@ -1,0 +1,61 @@
+.ae-ApiControl {
+  position: relative;
+
+  &.border {
+    padding: #{px2rem(10px)};
+    border-radius: $Editor-borderRadius;
+    border: 1px solid #e6e6e8;
+  }
+
+  &-header {
+    @include flexBox();
+    height: #{px2rem(24px)};
+    position: absolute;
+    right: 0;
+    top: px2rem(-26px);
+  }
+
+  &-content {
+    @include flexBox();
+
+    .ae-ApiControl-input {
+      flex: 1;
+      margin-right: #{px2rem(10px)};
+    }
+  }
+
+  &-dialog {
+    &-body {
+      padding: 0 !important;
+      margin: #{px2rem(16px)} 0 #{px2rem(24px)};
+
+      .ae-ApiControl-form {
+        .ae-ApiControl-tabContent {
+          max-height: 560px;
+          overflow-x: hidden;
+          overflow-y: auto;
+          border-bottom: 1px solid var(--borderColor);
+        }
+
+        .ae-ApiControl-title {
+          border-left: none;
+          font-weight: bold;
+          color: #333;
+          line-height: #{px2rem(20px)};
+          padding-left: 0;
+        }
+      }
+    }
+  }
+
+  &-picker {
+    &-dialog {
+      &-content {
+        height: 500px;
+        max-height: 500px;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+    }
+  }
+}

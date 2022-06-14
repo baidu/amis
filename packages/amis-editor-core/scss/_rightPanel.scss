@@ -1,0 +1,421 @@
+$right-panel-width: px2rem(280px);
+$right-panel-sidetab-width: px2rem(62px);
+$category-1-height: px2rem(44px);
+$category-2-height: px2rem(32px);
+
+.editor-right-panel {
+  position: relative;
+  flex: 0 0 auto;
+  width: $right-panel-width;
+  min-width: $right-panel-width;
+  max-width: 600px; // 避免过度拖拽
+  // width: 280px;
+  background: #fff;
+  box-shadow: -2px 0 20px 0 rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  // 搞点动画？
+  transition: width ease-in-out 0.2s;
+  transform: translateZ(0);
+
+  @include panel-sm-content();
+
+  .ae-Settings-content {
+    padding: var(--gap-base);
+  }
+
+  // FIXME: icon-picker临时修复超出内容显示滚动条问题，后amis中修复后可删除 fix-icon-picker-overflow 类
+  .fix-icon-picker-overflow {
+    .cxd-IconPickerControl-valueWrap {
+      > div {
+        display: block;
+      }
+      > a {
+        display: inline-block;
+      }
+    }
+  }
+
+  // 宽度可拖拽时不增加过渡，避免卡顿
+  &.width-draggable {
+    transition: none;
+  }
+
+  // 外层有多个tab面板
+  &.mul-tabs-panel {
+    width: calc(#{$right-panel-sidetab-width} + #{$right-panel-width});
+    min-width: calc(#{$right-panel-sidetab-width} + #{$right-panel-width});
+    // width: 328px;
+    // min-width: 328px; // 48px + 280px
+  }
+
+  // 悬浮icon
+  .editor-panel-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+
+    .panel-btn {
+      width: 16px;
+      height: 16px;
+      fill: $default-icon-color;
+      color: $default-icon-color;
+      cursor: pointer;
+      transform: rotate(-45deg);
+
+      &:hover {
+        fill: $Editor-theme;
+        color: $Editor-theme;
+      }
+    }
+  }
+
+  // 折叠状态
+  &.hidden-status {
+    width: 0 !important;
+    min-width: 0;
+
+    .editor-panel-btn {
+      display: none;
+    }
+
+    .width-draggable-icon.hasArrowIcon {
+      visibility: hidden;
+    }
+
+    .editorPanel-inner {
+      display: none;
+    }
+  }
+
+  &.fixed-status {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100%;
+
+    &.mul-tabs-panel {
+      width: calc(#{$right-panel-sidetab-width} + #{$right-panel-width});
+      // width: 328px; // 48px + 280px
+    }
+  }
+
+  &.has-popover {
+    z-index: 1300;
+  }
+
+  .editorPanel-inner {
+    position: relative;
+    height: 100%;
+
+    &.has-popover {
+      z-index: 1300;
+    }
+  }
+
+  // 外层tabs
+  .editorPanel-tabs {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 100%;
+
+    > [class$='Tabs-linksWrapper'] {
+      position: relative;
+      flex: 0 0 48px;
+      border: none;
+    }
+
+    .editorPanel-tabs-header {
+      padding-top: 20px;
+      // tab面板title
+      &:empty {
+        min-width: unset;
+      }
+
+      > li {
+        margin: 0 0 12px 0 !important;
+        padding: 0;
+        overflow: visible; // 避免 tooltip被遮挡
+        width: 48px;
+        height: 48px;
+        box-sizing: border-box;
+        padding: 0 3px;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+        > a {
+          position: relative;
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+          margin: 0 !important;
+          padding: 0 !important;
+          border: none !important;
+          overflow: visible; // 避免 tooltip被遮挡
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          // 用于设置自定义tab面板中的icon样式
+          .editor-tab-icon {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            i.fa {
+              font-size: 16px !important;
+              width: 16px;
+              height: auto;
+              margin-bottom: 0 !important;
+              color: #151b26;
+            }
+
+            > svg {
+              width: 45px;
+              height: 45px;
+              color: #151b26;
+            }
+          }
+        }
+
+        &.is-active,
+        &:hover {
+          background: #eef3fe;
+
+          > a {
+            background: #eef3fe;
+          }
+
+          i.fa,
+          .editor-tab-icon > svg {
+            color: $editor-active-color !important;
+          }
+        }
+
+        // 选中态左侧边框高亮
+        &.is-active {
+          padding: 0 0 0 3px;
+          border-right: 3px solid $editor-active-color;
+        }
+      }
+    }
+
+    > .editorPanel-tabs-content {
+      position: relative;
+      flex: 1 1 auto;
+      height: 100%;
+      max-width: calc(100% - 48px); // 避免被内容元素撑开
+      border-left: none;
+      transform: scale(1); // 内部元素fixed定位需要
+
+      .editorPanel-tabs-pane {
+        position: relative;
+        height: 100%;
+        padding: 0;
+        box-sizing: border-box;
+        max-width: 100%;
+      }
+    }
+  }
+
+  // 属性配置表单面板
+  .config-form-content {
+    position: relative;
+    height: 100%;
+    // 添加事件按钮display:fixed，继承该元素宽度
+    transform: translateX(0);
+    padding: 16px 12px;
+
+    // 带底部操作按钮的属性配置面板
+    &.with-actions {
+      position: relative;
+
+      .editor-prop-config-tabs {
+        padding-bottom: 45px;
+      }
+
+      .ae-Settings-actions,
+      > input {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        margin-bottom: 0;
+        width: 100%;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  // 内层tabs
+  .editor-prop-config-tabs {
+    display: flex;
+    position: relative;
+    height: 100%;
+    padding: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+    margin: calc(0rem - (var(--gap-base)));
+
+    // tab导航
+    ul[role='tablist'],
+    &-links {
+      margin: 0 0 -1px 0;
+      flex: 0;
+      border-bottom: 1px solid #d4d6d9;
+      display: flex;
+      justify-content: space-between;
+      z-index: 1; // 防止被panel body中的部分组件覆盖border
+
+      > li {
+        flex: 1;
+        display: flex;
+        height: $category-1-height;
+        justify-content: center;
+        border: 0 !important;
+        padding: 0 !important;
+        max-width: none;
+        align-items: stretch;
+        padding: 0 !important;
+
+        > a {
+          display: inline-block;
+          height: 100%;
+          width: 100%;
+          text-align: center;
+          padding: 0 !important;
+          color: #84868c;
+          width: 100%;
+          font-size: 14px;
+          letter-spacing: 0;
+          font-weight: 400;
+          text-decoration: none;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+        }
+
+        &.is-active > a {
+          color: $Editor-theme-color !important;
+
+          font-family: PingFangSC-Regular;
+          font-size: 14px;
+          color: #84868c;
+          letter-spacing: 0;
+          font-weight: 400;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        &:not(:last-child):after {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          content: '';
+          width: 1px;
+          height: 12px;
+          background-color: #d8d8d8;
+        }
+
+        &:not(:last-child):after {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          content: '';
+          width: 1px;
+          height: 12px;
+          background-color: #d8d8d8;
+        }
+      }
+    }
+
+    // tab内容
+    &-cont {
+      flex: 1 1 auto;
+      padding: 0;
+      overflow-y: overlay;
+      @include minScrollBar();
+    }
+  }
+
+  // 右侧面板收起箭头
+  .right-panel-arrow {
+    position: absolute;
+    width: 16px;
+    height: 50px;
+    top: 50%;
+    left: -15px;
+    transform: translateY(-50%);
+    background-color: transparent;
+    box-sizing: border-box;
+    z-index: 10;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      position: absolute;
+      border-radius: 10px 0 0 10px;
+      box-sizing: border-box;
+      // border: 1px solid rgba(0, 0, 0, 0.1);
+      border-right: 0;
+      // box-shadow: -2px 2px 2px #f0f1f2;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: #fff;
+      z-index: -1;
+      transform: perspective(50px) rotateY(-30deg);
+      transition: all 0.15s;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 8px;
+      left: 55%;
+      top: 50%;
+      -webkit-mask-image: url(../static/side_hide_left.svg);
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      background-color: #a1a6b3;
+      transform: translate(-50%, -50%) rotate(180deg);
+      transition: all 0.15s;
+    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &.hidden-status {
+      &::after {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+    }
+  }
+}
+
+.right-panel-pop {
+  @include panel-sm-content();
+}

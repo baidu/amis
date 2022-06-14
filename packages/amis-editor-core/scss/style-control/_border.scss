@@ -1,0 +1,105 @@
+.ae-border {
+  &-items {
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+    margin-right: 10px;
+    position: relative;
+  }
+
+  &-radius {
+    .ap-border-items {
+      height: 60px;
+    }
+  }
+
+  &-item {
+    position: absolute;
+    padding: 5px;
+    border-radius: 2px;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 1;
+
+    &.active {
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+    }
+
+    &.left {
+      left: 0;
+      top: 50%;
+      transform: translateY(-11px);
+    }
+
+    &.top-left {
+      left: 0;
+      top: 0;
+    }
+
+    &.right {
+      right: 0;
+      top: 50%;
+      transform: translateY(-11px);
+    }
+
+    &.top-right {
+      right: 0;
+      top: 0;
+    }
+
+    &.top {
+      left: 50%;
+      top: 0;
+      transform: translateX(-11px);
+    }
+
+    &.bottom {
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-11px);
+    }
+
+    &.bottom-left {
+      left: 0;
+      bottom: 0;
+    }
+
+    &.bottom-right {
+      bottom: 0;
+      right: 0;
+    }
+
+    &.all {
+      left: 50%;
+      top: 50%;
+      transform: translateX(-11px) translateY(-11px);
+    }
+  }
+
+  &-settings {
+    label {
+      flex-shrink: 0;
+      margin-right: 8px;
+      color: var(--Form-item-fontColor);
+    }
+
+    .flex {
+      margin-bottom: 6px;
+    }
+
+    .ae-border-input {
+      min-height: 28px;
+      width: 100%;
+    }
+  }
+
+  &-colorpicker > div {
+    padding-right: 3px;
+    font-size: 12px;
+    > span {
+      margin-left: -4px;
+      margin-right: 5px;
+    }
+  }
+}

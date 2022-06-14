@@ -1,0 +1,237 @@
+.editor-left-panel {
+  position: relative;
+  flex: 0 0 308px; // 48px + 260px
+  // min-width: 308px;
+  background: #fff;
+  overflow: visible;
+  box-shadow: 2px 0 20px 0 rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  // 搞点动画？
+  transition: width ease-in-out 0.2s;
+  transform: translateZ(0);
+
+  // 宽度可拖拽时不增加过渡，避免卡顿
+  &.width-draggable {
+    transition: none;
+  }
+
+  &.fixed-status {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 100%;
+  }
+
+  // 悬浮icon
+  .editor-panel-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    height: 16px;
+    width: 16px;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .panel-btn {
+      width: 16px;
+      height: 16px;
+      fill: $default-icon-color;
+      color: $default-icon-color;
+      cursor: pointer;
+
+      &:hover {
+        fill: $Editor-theme;
+        color: $Editor-theme;
+      }
+    }
+  }
+
+  // 折叠状态
+  &.hidden-status {
+    flex: 0 0 48px;
+    min-width: 48px;
+    width: 48px;
+
+    > .editor-panel-btn {
+      display: none;
+    }
+  }
+
+  // 折叠收缩 icon
+  .left-panel-arrow {
+    position: absolute;
+    width: 16px;
+    height: 50px;
+    top: 50%;
+    right: -15px;
+    transform: translateY(-50%);
+    background-color: transparent;
+    box-sizing: border-box;
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+      content: '';
+      position: absolute;
+      border-radius: 0 10px 10px 0;
+      box-sizing: border-box;
+      // border: 1px solid rgba(0, 0, 0, 0.1);
+      border-left: 0;
+      // box-shadow: -2px 2px 2px #f0f1f2;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: #fff;
+      z-index: -1;
+      transform: perspective(50px) rotateY(30deg);
+      transition: all 0.15s;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 8px;
+      // right: 50%;
+      top: 50%;
+      -webkit-mask-image: url(../static/side_hide_left.svg);
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      background-color: #a1a6b3;
+      transform: translate(-50%, -50%) rotate(0deg);
+      transition: all 0.15s;
+    }
+
+    &.hidden-status {
+      &::after {
+        transform: translate(-50%, -50%) rotate(180deg);
+      }
+    }
+  }
+
+  .editorPanel-tabs {
+    position: relative;
+    height: 100%;
+    display: flex;
+
+    > [class$='Tabs-linksWrapper'] {
+      position: relative;
+      flex: 0 0 48px;
+      border: none;
+      border-right: 1px solid #e6e6e8;
+      height: 100%;
+      box-sizing: border-box;
+    }
+
+    .editorPanel-tabs-header {
+      padding-top: 20px;
+
+      > li {
+        margin: 0 0 12px 0 !important;
+        padding: 0;
+        overflow: visible; // 避免 tooltip被遮挡
+        width: 48px;
+        height: 48px;
+        box-sizing: border-box;
+        padding: 0 3px;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+        > a {
+          position: relative;
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+          margin: 0 !important;
+          padding: 0 !important;
+          border: none !important;
+          overflow: visible; // 避免 tooltip被遮挡
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          // 用于设置自定义tab面板中的icon样式
+          .editor-tab-icon {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            > svg {
+              width: 48px;
+              height: 48px;
+              color: #151b26;
+            }
+          }
+        }
+
+        &.is-active,
+        &:hover {
+          background: #eef3fe;
+
+          > a {
+            background: #eef3fe;
+          }
+
+          .editor-tab-icon > svg {
+            color: $editor-active-color !important;
+          }
+        }
+
+        // 选中态左侧边框高亮
+        &.is-active {
+          padding: 0 3px 0 0;
+          border-left: 3px solid $editor-active-color;
+        }
+      }
+    }
+
+    > .editorPanel-tabs-content {
+      position: relative;
+      flex: 1 1 auto;
+      height: 100%;
+      border: none;
+
+      .editorPanel-tabs-pane {
+        position: relative;
+        height: 100%;
+        padding: 0;
+        width: $Editor-aside-width;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  // 代码编辑面板
+  .ae-Editor-codePane {
+    position: relative;
+    height: 100%;
+    // transition: width ease-out 0.3s;
+    max-width: 800px;
+
+    // monaco-editor 里面的，会把内容撑开。
+    .overflowingContentWidgets {
+      margin-top: -99999px;
+    }
+  }
+}
+
+// 左侧面板悬浮模式时的占位，避免折叠状态遮挡内容区
+.editor-left-panel-fixed-placeholder {
+  position: relative;
+  flex: 0 0 48px;
+  background: #fff;
+}

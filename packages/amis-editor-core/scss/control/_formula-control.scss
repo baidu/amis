@@ -1,0 +1,108 @@
+.ae-editor-FormulaControl {
+  position: relative;
+  @include flexBox();
+
+  &-input {
+    flex: 1;
+    margin-right: 3px;
+    max-width: calc(100% - 39px); // 避免表达式内容太长撑开面板
+
+    &.is-clearable {
+      padding-right: 30px; // 避免间隙过大
+    }
+  }
+
+  // 当有提示时底部增加点外边距
+  &.is-has-tooltip {
+    margin-bottom: 5px;
+  }
+
+  // 底部提示
+  .desc-msg {
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform-origin: left top;
+    transform: translateY(90%) scale(0.8);
+    font-size: 10px;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    &.info-msg {
+      color: $editor-active-color; // $default-icon-color;
+    }
+
+    &.error-msg {
+      visibility: visible; // 错误类提示 固定展示
+      color: #f33e3e;
+      transform: translateY(90%) scale(0.9);
+    }
+  }
+
+  &:hover .desc-msg {
+    visibility: visible; // 普通提示类信息，hover时展示
+  }
+
+  &-custom-renderer {
+    flex: 1;
+    margin-right: 3px;
+    border: none;
+    padding: 0;
+
+    &.border-wrapper {
+      padding: 2px 4px;
+      border: 1px dashed #e8e9eb;
+    }
+  }
+
+  &-ResultBox {
+    flex: 1;
+    flex-wrap: nowrap !important; // 不换行，避免被其他样式覆盖
+    margin-right: 3px;
+    max-width: calc(100% - 39px); // 避免表达式内容太长撑开面板
+    white-space: nowrap;
+
+    &.is-clearable {
+      > div:first-child {
+        max-width: calc(100% - 20px); // 避免表达式内容太长撑开面板
+
+        > div,span {
+          padding-right: 0; // 覆盖 amis 默认样式
+        }
+      }
+    }
+
+    span.c-field {
+      background: #007bff;
+      padding: 3px 5px;
+      margin: 0 1px;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+    
+    span.c-func {
+      color: #ae4597;
+      font-weight: bold;
+      line-height: 14px;
+      padding: 0 2px;
+    }
+  }
+
+  &-icon {
+    top: 0 !important;
+    font-size: #{px2rem(18px)};
+
+    &:not(:last-child) {
+      margin-right: var(--fontSizeSm);
+    }
+
+    &.is-filled {
+      fill: var(--primary);
+      color: var(--primary);
+    }
+  }
+}

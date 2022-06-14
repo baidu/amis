@@ -1,0 +1,95 @@
+@mixin minScrollBar {
+  &::-webkit-scrollbar {
+    // display: none;
+    background-color: transparent;
+    width: 6px;
+    overflow: visible;
+    height: 10px !important;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 6px;
+    background-color: rgb(92, 95, 102, 0.5); // #babac0;
+    border-radius: 6px;
+    border: 4px solid transparent;
+
+    &:hover {
+      background-color: #d4d6d9;
+    }
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+}
+
+@mixin flexBox(
+  $direction: row,
+  $justify-content: space-between,
+  $align-items: center,
+  $wrap: nowrap
+) {
+  display: flex;
+  flex-flow: $direction $wrap;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin panel-icon {
+  fill: var(--primary);
+
+  path {
+    fill: var(--primary);
+  }
+}
+
+@mixin panel-group-bg {
+  background: #fafafa;
+  padding: #{px2rem(10px)};
+  border-radius: #{$Editor-borderRadius};
+}
+
+@mixin collapse-header-text {
+  color: #070c14;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+@mixin extend-more {
+  position: relative;
+  background-color: #f7f7f9;
+  border-radius: px2rem(2px);
+  padding: px2rem(12px) px2rem(8px);
+
+  &::after {
+    display: block;
+    content: '';
+    height: 12px;
+    width: 12px;
+    position: absolute;
+    top: -6px;
+    left: 12px;
+    transform: rotate(45deg);
+    background-color: #f7f7f9;
+  }
+
+  &.right::after {
+    right: 12px;
+    left: auto;
+  }
+}
+
+@mixin panel-sm-content {
+  --fontSizeBase: #{$Editor-right-panel-font-size};
+  --Form-item-fontSize: #{$Editor-right-panel-font-size};
+  --Button--md-fontSize: #{$Editor-right-panel-font-size};
+  --Form-input-fontSize: #{$Editor-right-panel-font-size};
+  --Button-fontSize: #{$Editor-right-panel-font-size};
+  --Form-input-lineHeight: #{$Editor-right-panel-line-height};
+  --InputGroup-select-borderColor: #{$Editor-right-panel-border-color};
+  --Form-input-borderColor: #{$Editor-right-panel-border-color};
+}

@@ -1,0 +1,244 @@
+.editor-InputSearch-panel {
+  position: relative;
+
+  .editor-InputSearch-content {
+    position: absolute;
+    top: 36px;
+    left: 12px;
+    width: calc(100% - 24px);
+    min-height: 50px;
+    padding: 4px 12px;
+    background: #fff;
+    box-shadow: 0 4px 5px 0 rgba(62, 72, 99, 0.06),
+      0 1px 10px 0 rgba(62, 72, 99, 0.05), 0 2px 4px -1px rgba(62, 72, 99, 0.04);
+    border-radius: 4px;
+    z-index: 100;
+    visibility: visible;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    &.hidden-status {
+      visibility: hidden;
+    }
+
+    .search-history {
+      flex: 0 0 auto;
+      margin-bottom: 12px;
+      padding-bottom: 4px;
+      font-family: PingFangSC-Regular;
+      font-size: 12px;
+      color: #080e1a;
+      line-height: 20px;
+      font-weight: 400;
+
+      &.has-border-bottom {
+        border-bottom: 1px solid #e6e6e8;
+      }
+
+      .header {
+        opacity: 0.5;
+        height: 32px;
+        line-height: 32px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .header-clear-icon {
+          cursor: pointer;
+        }
+      }
+
+      .history-cont {
+        position: relative;
+        margin: 0 -12px;
+        padding: 0 12px;
+        overflow: hidden;
+        // overflow-y: hidden;
+        display: flex;
+        flex-direction: column;
+
+        &.hasScrollBtn {
+          max-height: 192px;
+
+          &:hover {
+            overflow-y: auto;
+            padding: 0 2px 0 12px;
+          }
+        }
+
+        @include minScrollBar();
+
+        .history-item {
+          flex: 0 0 auto;
+          margin: 0 -12px;
+          padding: 0 12px;
+          opacity: 0.95;
+          height: 32px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          &:hover {
+            opacity: 0.8;
+            background: #f0f0f0;
+          }
+
+          .history-keyword {
+            flex: 1 1 auto;
+            max-width: calc(100% - 16px);
+            color: #151a26;
+            user-select: none;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+          }
+
+          .delete-icon {
+            flex: 0 0 20px;
+            color: #080e1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            svg {
+              width: 12px;
+              height: 12px;
+              opacity: 0.5;
+              cursor: pointer;
+
+              &:hover {
+                fill: $Editor-theme-color;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .search-result-list {
+      position: relative;
+      flex: 0 0 auto;
+      font-family: PingFangSC-Regular;
+      font-size: 12px;
+      color: #080e1a;
+      line-height: 20px;
+      font-weight: 400;
+      margin: 0 -12px;
+      padding: 0 12px;
+      max-height: 192px;
+      overflow: hidden;
+
+      &.hasScrollBtn {
+        max-height: 192px;
+
+        &:hover {
+          overflow-y: auto;
+          padding: 0 2px 0 12px;
+        }
+      }
+
+      @include minScrollBar();
+
+      .subRenderers-header {
+        // padding-right: 12px;
+        height: 32px;
+        line-height: 32px;
+        cursor: pointer;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        svg {
+          width: 10px;
+          height: 10px;
+          opacity: 0.5;
+          transform: rotate(90deg);
+          transition: all 0.15s;
+        }
+
+        &.is-folded svg {
+          transform: rotate(270deg);
+        }
+      }
+
+      .multiple-subRenderers-list {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .subRenderers-list {
+        display: flex;
+        flex-direction: column;
+
+        &.is-folded {
+          height: 0;
+          overflow: hidden;
+        }
+
+        .subRenderers-item {
+          flex: 0 0 32px;
+          padding-left: 12px;
+          line-height: 32px;
+          user-select: none;
+          cursor: pointer;
+          text-align: left;
+          opacity: 0.95;
+
+          &:hover {
+            background: #f0f0f0;
+          }
+
+          .is-keyword {
+            color: $Editor-theme-color;
+          }
+        }
+
+        // 仅有一个分类
+        &.only-one-tag .subRenderers-item {
+          margin: 0 -12px;
+          padding: 0 12px;
+        }
+      }
+    }
+
+    .tag-list {
+      flex: 0 0 auto;
+      font-family: PingFangSC-Regular;
+      font-size: 12px;
+      color: #080e1a;
+      line-height: 20px;
+      font-weight: 400;
+
+      .header {
+        opacity: 0.5;
+      }
+
+      .tag-list-cont {
+        margin: 4px -4px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-items: flex-start;
+
+        .tag-item {
+          margin: 4px;
+          flex: 0 0 auto;
+          padding: 2px 8px;
+          opacity: 0.95;
+          border: 1px solid #f2f3f3;
+          background-color: #f2f3f3;
+          border-radius: 2px;
+          cursor: pointer;
+
+          &:hover {
+            color: $Editor-theme-color;
+          }
+        }
+      }
+    }
+  }
+}

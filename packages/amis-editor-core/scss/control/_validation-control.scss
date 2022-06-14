@@ -1,0 +1,101 @@
+.ae-ValidationControl {
+  position: relative;
+  min-height: 1px; // form-item空内容时有个margin，会导致collapse上的增加按钮偏移
+
+  &-dropdown {
+    @include flexBox(row, space-between);
+    position: absolute;
+    top: #{px2rem(-45px)};
+    right: #{px2rem(20px)};
+    height: $category-2-height;
+
+    &-btn {
+      color: #141a25;
+      background: transparent !important;
+      border: none!important;
+    }
+  }
+
+  header {
+    @include flexBox();
+    width: 100%;
+    height: #{px2rem(24px)};
+    margin-bottom: #{px2rem(10px)};
+  }
+
+  &-item {
+    @include flexBox(column, flex-start, flex-start);
+    width: 100%;
+    padding: 0;
+
+    &:not(:last-child) {
+      margin-bottom: #{px2rem(10px)};
+    }
+
+    section {
+      width: 100%;
+    }
+
+    .ae-ValidationControl-item-control {
+      @include flexBox(row, space-between);
+      margin-bottom: #{px2rem(10px)};
+
+      &.is-active {
+        margin-bottom: #{px2rem(5px)};
+      }
+
+      & > div {
+        @include flexBox(row, flex-end);
+
+        hr {
+          border: 0;
+          margin: 0;
+          border-left: 1px solid #e6e6e8;
+          height: #{px2rem(16px)};
+          vertical-align: middle;
+          margin: 0 #{px2rem(8px)};
+        }
+      }
+
+      .ae-ValidationControl-item-actions {
+        @include flexBox(row, flex-end);
+
+        .ae-ValidationControl-item-action {
+          position: relative;
+          top: #{px2rem(2px)};
+
+          i {
+            color: #83868c;
+            font-size: #{px2rem(16px)};
+
+            &:hover {
+              color: var(--primary);
+            }
+          }
+
+          &:not(:last-child) {
+            margin-right: #{px2rem(10px)};
+          }
+
+          &:hover {
+            & > svg,
+            & > svg path {
+              fill: var(--primary);
+            }
+          }
+
+          & > svg,
+          & > svg path {
+            fill: #83868c;
+          }
+        }
+      }
+    }
+
+    .ae-ValidationControl-item-input {
+      @include flexBox(column, flex-start, flex-start);
+      @include panel-group-bg();
+      margin-top: px2rem(12px);
+    }
+  }
+}

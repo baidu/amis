@@ -1,0 +1,30 @@
+.ae-TargetName {
+  padding: 12px;
+  width: 15em;
+  &-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    user-select: none;
+    cursor: pointer;
+  }
+  &-node {
+    > span {
+      line-height: normal;
+    }
+    > a {
+      color: $text-color;
+      text-decoration: none;
+    }
+    &.is-active {
+      > a {
+        color: $primary;
+      }
+    }
+    &.is-hover {
+      > a {
+        color: $primary;
+      }
+    }
+  }
+}

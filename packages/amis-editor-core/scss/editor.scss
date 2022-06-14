@@ -1,0 +1,1563 @@
+@import 'amis-ui/scss/functions';
+@import 'amis-ui/scss/variables';
+@import 'amis-ui/scss/mixins';
+@import './_mixin';
+@import './_variables';
+@import './_backTop';
+@import './_context-menu-setting';
+@import './_outline';
+@import './_leftPanel';
+@import './_rightPanel';
+@import './_bcn';
+@import './_classname-picker';
+@import './_renderers';
+@import './_searchRendererPanel';
+@import './_tableview';
+@import './_targetname';
+@import './_selection';
+@import './_data-chain';
+@import './_tooltip';
+@import './control/option-control';
+@import './control/api-control';
+@import './control/switch-more-control';
+@import './control/validation-control';
+@import './control/formItem-control';
+@import './control/formula-control';
+@import './control/dateshortcut-control';
+@import './control/badge-control';
+
+/* 样式控件 */
+@import './style-control/box-model';
+@import './style-control/font';
+@import './style-control/border';
+@import './style-control/box-shadow';
+@import './style-control/background';
+@import './style-control/size';
+@import './style-control/style-common';
+
+@keyframes growing {
+  0% {
+    box-shadow: 0 0 10px rgba(#23b7e5, 0) inset;
+    border: 1px solid rgba($Editor-hlbox-bg, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 10px rgba(#23b7e5, 0.6) inset;
+    border: 1px solid $Editor-hlbox-bg;
+  }
+
+  100% {
+    box-shadow: 0 0 10px rgba(#23b7e5, 0.2) inset;
+    border: 1px solid rgba($Editor-hlbox-bg, 0.1);
+  }
+}
+
+.ae-Editor {
+  display: block;
+  min-height: 450px;
+  min-width: 980px;
+  overflow: hidden;
+
+  // 覆盖amis默认top值，避免导致未垂直居中
+  .ae-Editor-toolbar svg.icon {
+    top: 0 !important;
+  }
+
+  &.is-fixed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .ae-Editor-inner {
+    transform: scale(1); // 此后内部元素的fixed会相对此dom定位
+    transform-origin: center top;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: row;
+  }
+}
+
+// 公共组件专有样式
+.ae-Editor-common-config {
+  outline: 2px solid rgba($Editor-hlbox--onActiveConfig-bg, 0.2);
+}
+
+// 弹窗编辑器面板
+.subEditor-dialog {
+  overflow: hidden;
+  border: 1px solid #e6e6e8;
+  margin: 5px;
+  padding: 0;
+}
+
+.ae-Main {
+  flex: 1 1 auto;
+  min-width: 0; // 防止撑开
+  transform: scale(1); // 此后内部元素的fixed会相对此dom定位
+  transform-origin: center top;
+  background-color: $default-bg-color;
+  display: flex;
+  flex-direction: column;
+
+  .ant-back-top {
+    bottom: 96px;
+    right: 39px;
+    width: 45px;
+    height: 45px;
+    z-index: 20000;
+
+    svg.ant-fade-leave {
+      visibility: hidden;
+    }
+
+    svg.ant-fade-enter {
+      visibility: visible;
+    }
+  }
+}
+
+.ae-Preview {
+  position: relative;
+  flex-grow: 1;
+  background-color: $default-bg-color;
+  overflow: hidden;
+
+  .ae-Preview-body {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    padding: 24px 16px 16px;
+    min-width: 300px;
+    background-color: $default-bg-color;
+    overflow: auto;
+
+    @include minScrollBar();
+
+    &::-webkit-scrollbar {
+      background-color: $default-bg-color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border: 2px solid $default-bg-color;
+      background-color: #dadbdd; // #babac0;
+
+      &:hover {
+        background-color: #cecfd1;
+        width: 10px !important;
+        height: 10px !important;
+      }
+    }
+
+    .ae-Preview-inner {
+      position: relative;
+      display: flex;
+      min-height: 100%;
+      background: #fff;
+      box-shadow: 0 2px 6px 0 rgba(211, 211, 211, 0.5);
+      border-radius: 4px;
+
+      > *:first-child {
+        min-width: 100%;
+        position: relative;
+        min-height: 100%;
+        height: auto;
+        background: white;
+        box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &.is-edting {
+      input,
+      textarea,
+      select,
+      iframe {
+        pointer-events: none;
+      }
+    }
+
+    &.is-mobile {
+      position: relative;
+      border-width: 64px 22px;
+      border-color: #ddd;
+      border-style: solid;
+      border-radius: 40px;
+      width: 419px;
+      height: 798px;
+      flex-grow: unset;
+      min-height: unset;
+      margin: 40px auto;
+      min-width: unset;
+      padding: 0;
+      overflow: visible;
+
+      > .ae-Preview-inner {
+        min-height: 100%;
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 0;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+
+      // 移动端预览设备装饰
+      .mobile-sound,
+      .mobile-receiver,
+      .mobile-left-btn,
+      .mobile-right-btn,
+      .mobile-open-btn {
+        position: absolute;
+        background: #cdcdcd;
+        border-radius: 3px;
+        z-index: 100;
+      }
+      // 音响
+      .mobile-sound {
+        top: -35px; // 29px - 64px;
+        left: 142px; // 164px - 22px;
+        width: 58px;
+        height: 6px;
+      }
+      // 听筒
+      .mobile-receiver {
+        top: -37px; // 27px - 64px;
+        left: 224px; // 246px - 22px;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+      }
+      // 左侧按钮
+      .mobile-left-btn {
+        top: 162px; // 226px - 64px;
+        left: -27px; // -5px - 22px;
+        width: 6px;
+        height: 50px;
+      }
+      // 右侧按钮（长条）
+      .mobile-right-btn {
+        top: 61px; // 125px - 64px;
+        right: -27px;
+        width: 6px;
+        height: 100px;
+      }
+      // 开机键
+      .mobile-open-btn {
+        top: 211px; // 275px - 64px;
+        right: -27px;
+        width: 6px;
+        height: 50px;
+      }
+    }
+  }
+
+  // 移动端需要上下滚动，避免设备背景被遮挡
+  &.is-mobile-body {
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+      background-color: $default-bg-color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border: 2px solid $default-bg-color;
+      background-color: #dadbdd; // #babac0;
+
+      &:hover {
+        background-color: #cecfd1;
+        width: 10px !important;
+        height: 10px !important;
+      }
+    }
+  }
+}
+
+.ae-PreviewFrame {
+  pointer-events: all !important;
+  border: 0;
+  width: 100%;
+}
+
+.ae-IframeMask {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.ae-IFramePreview {
+  > *:first-child {
+    min-width: 100%;
+    position: relative;
+    min-height: 100%;
+    background: white;
+  }
+
+  &.is-edting {
+    input,
+    textarea,
+    select,
+    iframe {
+      pointer-events: none;
+    }
+  }
+}
+// 头部工具栏
+.ae-Editor-toolbarPopover {
+  position: absolute;
+  top: -24px;
+  left: -2px;
+  z-index: 20;
+  border: 0;
+  padding-right: 8px;
+  white-space: nowrap;
+  background: $Editor-hlbox--onActive-bg;
+  // border-radius: 3px 3px 0px 0px;
+  // box-shadow: 0 -2px 5px rgba(255, 255, 255, 0.5);
+  height: 24px;
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  font-weight: 400;
+  color: #fff;
+  line-height: 24px;
+  color: #fff;
+  line-height: 24px;
+
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  &.is-right-elem {
+    left: auto;
+    right: -2px;
+  }
+
+  .ae-Editor-toolbar {
+    z-index: 10;
+  }
+}
+
+.ae-Editor-nav {
+  pointer-events: all;
+  display: inline-block;
+
+  .ae-Editor-tip {
+    opacity: 0;
+    display: block;
+    background: rgba($Editor-hlbox-bg, 0.8);
+
+    &.current {
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    .ae-Editor-tip {
+      // transform-origin: 20px 9px;
+      opacity: 1;
+      // transform: skewY(-15deg);
+
+      &.parent {
+        // transform: skewY(-15deg) translate(-15px, -20px);
+        transform: translate(0, -25px);
+      }
+
+      &.child {
+        // transform: skewY(-15deg) translate(15px, 20px);
+        transform: translate(0, 25px);
+      }
+
+      &:hover,
+      &.current {
+        background: rgba($Editor-hlbox-bg, 1);
+      }
+    }
+  }
+}
+
+.ae-Editor-toolbar {
+  position: relative;
+  padding-left: 8px;
+  display: inline-flex !important;
+  pointer-events: all;
+  align-items: center;
+  justify-content: flex-start;
+
+  &::before {
+    position: absolute;
+    top: -4px;
+    left: 0;
+    content: '|';
+    opacity: 0.4;
+    color: #fff;
+    height: 10px;
+    width: 1px;
+  }
+
+  &.sencondary {
+    padding-left: 0 !important;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  button {
+    margin: 0 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    padding: 0;
+    text-align: center;
+    color: #fff;
+    opacity: 0.8;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 12px;
+
+    svg {
+      fill: currentColor;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+    fa &[draggable] {
+      cursor: move;
+    }
+  }
+}
+
+.ae-WResizer,
+.ae-HResizer,
+.ae-Resizer {
+  width: 10px;
+  height: 10px;
+  border: 2px solid $Editor-theme;
+  background-color: #fff;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  pointer-events: all;
+  display: none;
+}
+
+.ae-WResizer {
+  left: 100%;
+  top: 50%;
+  cursor: ew-resize;
+
+  &[data-value]:after {
+    position: absolute;
+    content: attr(data-value);
+    background-color: $Editor-theme;
+    right: 15px;
+    top: 50%;
+    transform: translate(0, -50%);
+    padding: 2px 8px;
+    color: #fff;
+  }
+}
+
+.ae-HResizer {
+  left: 50%;
+  top: 100%;
+  cursor: ns-resize;
+
+  &[data-value]:after {
+    position: absolute;
+    content: attr(data-value);
+    background-color: $Editor-theme;
+    bottom: 15px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    padding: 2px 8px;
+    color: #fff;
+  }
+}
+
+.ae-Resizer {
+  left: 100%;
+  top: 100%;
+  cursor: nwse-resize;
+
+  &[data-value]:after {
+    position: absolute;
+    content: attr(data-value);
+    background-color: $Editor-theme;
+    bottom: 15px;
+    right: 15px;
+    padding: 2px 8px;
+    color: #fff;
+    text-align: center;
+  }
+}
+
+.ae-Editor-hlbox {
+  position: absolute;
+  z-index: 1;
+  border: 1px dashed $Editor-hlbox-bg;
+  box-sizing: border-box;
+  pointer-events: none;
+  transition: all ease-out 0.15s;
+
+  &:hover {
+    z-index: 3;
+  }
+
+  &.selected {
+    background: rgba($Editor-hlbox--onActive-bg, 0.05);
+    border: 2px solid $Editor-hlbox--onActive-bg;
+
+    .ae-Editor-toolbar {
+      background: $Editor-hlbox--onActive-bg;
+
+      button.ae-InsertBefore,
+      button.ae-InsertAfter {
+        background: $Editor-hlbox--onActive-bg;
+      }
+    }
+
+    .ae-WResizer,
+    .ae-HResizer,
+    .ae-Resizer {
+      display: block;
+    }
+  }
+
+  &.regionOn {
+    background: transparent;
+    z-index: 5;
+  }
+
+  .ae-Editor-toolbar {
+    display: none;
+    background: $Editor-hlbox-bg;
+
+    &.sencondary {
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      border-radius: 0 0 3px 3px;
+      height: 20px;
+      line-height: 20px;
+
+      > button {
+        font-size: 12px;
+        width: 16px;
+      }
+    }
+
+    // 选中元素前后插入功能icon
+    &.special {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: transparent !important;
+      height: auto;
+      width: auto;
+      pointer-events: none;
+    }
+
+    button {
+      &.ae-InsertBefore,
+      &.ae-InsertAfter {
+        pointer-events: all;
+        position: absolute;
+        background: $Editor-hlbox-bg;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 500px;
+        top: 20%;
+
+        > span > svg {
+          width: 12px;
+          height: 12px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          transition: transform ease-out 0.3s;
+        }
+
+        &.is-vertical {
+          left: 50%;
+          transform: translate(-50%, 0);
+        }
+
+        &:hover {
+          > span > svg {
+            transform: translate(-50%, -50%) rotate(90deg);
+          }
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12),
+            0 2px 4px 0 rgba(0, 0, 0, 0.08);
+        }
+      }
+
+      &.ae-InsertBefore {
+        left: -25px;
+
+        &.is-vertical {
+          top: -25px;
+        }
+      }
+
+      &.ae-InsertAfter {
+        right: -25px;
+
+        &.is-vertical {
+          top: auto;
+          bottom: -25px;
+        }
+      }
+    }
+  }
+
+  &.selected .ae-Editor-toolbar {
+    display: block;
+    background: $Editor-hlbox--onActive-bg;
+  }
+}
+
+.ae-Editor-renderer-error {
+  padding: 5px;
+  font-family: PingFangSC-Medium;
+  font-size: 14px;
+  color: #cf1322;
+  border: 1px dashed #cf1322;
+}
+
+.ae-Editor-tip {
+  user-select: none;
+  max-width: 100px;
+  padding: 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #fff;
+  font-size: 12px;
+  line-height: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  position: relative;
+  transition: all ease-out 0.3s;
+  cursor: pointer;
+  z-index: 2;
+
+  &.parent,
+  &.child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: $Editor-hlbox--onActive-bg;
+    z-index: 1;
+  }
+
+  &.child {
+    z-index: 3;
+  }
+}
+
+.ae-Preview-widgets {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.ae-Editor-rendererCol {
+  width: 140px;
+  padding: 0 20px 0 0;
+  vertical-align: middle !important;
+  text-align: center;
+}
+
+.ae-Editor-rendererThumbOuter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 210px;
+  min-height: 90px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.ae-Settings-content {
+  height: 100%;
+}
+
+.width-draggable-icon {
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  top: 0;
+  right: -2px;
+  background-color: transparent;
+  cursor: col-resize;
+  z-index: 99;
+}
+
+.width-draggable-icon.leftBtn {
+  left: -2px;
+  right: auto;
+}
+
+.ae-DialogToolbar {
+  height: 100%;
+  flex: 1 auto;
+
+  > button {
+    background: 0 0;
+    color: #222;
+    outline: 0;
+    border: 0;
+    line-height: 1;
+    cursor: pointer;
+    margin: 0 2px;
+    transition: background-color 0.2s ease 0s;
+    border-radius: 0;
+    background-clip: padding-box;
+    z-index: 2;
+    position: relative;
+    box-sizing: border-box;
+    text-decoration: none;
+
+    float: left;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    text-align: left;
+
+    > i {
+      display: block;
+      font-size: 14px;
+      width: 14px;
+      margin: 8px;
+      text-align: center;
+      float: none;
+    }
+
+    &:hover {
+      background-color: #f2f2f2;
+    }
+
+    &.acitve {
+      background: #d6d6d6 !important;
+      color: #222 !important;
+    }
+
+    &[disabled] {
+      color: #bdbdbd;
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+}
+
+.ae-disable-mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1100;
+}
+
+.ae-RenderersPicker-thumb {
+  width: 100%;
+  padding: 10px;
+  user-select: none;
+
+  &.is-scaled {
+    width: 140px;
+  }
+
+  .ae-Editor-rendererThumbWrap {
+    position: relative;
+    width: 100%;
+    min-height: 60px;
+    max-height: 150px;
+    padding: 10px;
+    text-align: left;
+    z-index: 100;
+    background: $body-bg;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ae-Editor-rendererThumbIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 110;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 30px;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+
+    &:hover {
+      opacity: 1 !important;
+    }
+
+    > svg {
+      position: relative;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .ae-Editor-rendererThumbWrap:hover > .ae-Editor-rendererThumbIcon {
+    opacity: 0.4;
+  }
+
+  .ae-Editor-rendererThumbIcon i {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #dcdcdc;
+  }
+
+  .ae-Editor-rendererThumb {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .ae-Editor-rendererThumbInner {
+    margin: 0;
+    width: 100%;
+    transform-origin: 0% 0%;
+    transform: scale(1);
+    pointer-events: none;
+    text-align: center;
+
+    > * {
+      text-align: left;
+      margin-bottom: 0;
+    }
+  }
+
+  &.is-scaled .ae-Editor-rendererThumbInner {
+    margin: 0;
+    width: 200%;
+    transform-origin: 0% 0%;
+    transform: scale(0.5);
+    pointer-events: none;
+    text-align: center;
+  }
+}
+
+.ae-Editor-rendererPlaceholder {
+  position: relative;
+  text-align: center;
+}
+// 左侧 组件面板 和 Code 面板
+.ae-RendererPanel,
+.ae-CodePanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .ae-RendererPanel-content,
+  .ae-CodePanel-content {
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+}
+/* 左侧大纲和组件面板的公用样式 */
+.ae-RendererPanel,
+.ae-Outline-panel,
+.ae-InsertPanel,
+.ae-CodePanel {
+  // 左侧面板Header
+  .panel-header {
+    margin: 12px 0;
+    flex: 0 0 22px;
+    padding: 0 12px;
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: #141a25;
+    letter-spacing: 0;
+    line-height: 22px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // 搜索框样式
+  .editor-InputSearch {
+    margin: 0 12px;
+    background: #fff !important;
+    border: 1px solid $editor-border-color !important;
+    border-radius: 4px !important;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    &:hover {
+      border-color: $editor-active-color !important;
+    }
+
+    &.is-focused {
+      border-color: #144bcc !important;
+    }
+
+    svg.icon-search,
+    svg.icon-editor-search,
+    svg.delete-btn-icon {
+      top: 0 !important;
+      width: 16px;
+      height: 16px;
+      color: #d4d6d9;
+      fill: #d4d6d9;
+      cursor: pointer;
+
+      &:hover {
+        color: $editor-active-color;
+        fill: $editor-active-color;
+      }
+
+      &.margin-right {
+        right: 4px !important;
+      }
+    }
+
+    // clear 和 search 同时显示
+    svg.delete-btn-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  // 间隔线样式
+  hr.margin-top {
+    margin: 12px 6px 3px 6px;
+    height: 1px;
+    border: none;
+    border-top: 1px solid $editor-border-color !important;
+  }
+}
+
+// 组件插入和替换面板的搜索框
+.ae-InsertPanel .editor-InputSearch {
+  margin: 0;
+}
+
+.ae-Widget-iframe {
+  position: relative;
+
+  &:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1210;
+    content: '';
+  }
+}
+
+.ae-Drawer-preview {
+  display: flex;
+  flex-direction: column;
+}
+
+.ae-Drawer-preview .panel-footer {
+  .btn + .btn {
+    margin-left: 5px;
+  }
+}
+
+.ae-Drawer-preview {
+  .resize-ctrl {
+    display: none;
+  }
+}
+
+.dropdown-menu.preview {
+  display: block;
+  position: static;
+}
+
+[data-editor-id][draggable] {
+  cursor: move;
+}
+
+[data-editor-id].ae-is-draging,
+.ae-is-draging {
+  display: none !important;
+}
+
+[data-editor-id][data-visible='false'] {
+  opacity: 0.6;
+  position: relative;
+
+  &:before {
+    pointer-events: none;
+    font-size: 12px;
+    content: '<隐藏状态>';
+    z-index: 10;
+    color: rgb(108, 113, 124);
+    border: 1px dashed rgb(206, 208, 211);
+    background: rgba(10, 19, 37, 0.05);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.ae-Region-placeholder {
+  display: none;
+
+  // &:first-child {
+  //   position: relative;
+  //   display: flex;
+  //   flex: 1;
+  //   flex-direction: column;
+  //   justify-content: center;
+  //   min-width: 60px;
+  //   padding: 0 5px;
+  //   -webkit-user-select: none;
+  //   user-select: none;
+  //   text-align: center;
+  //   text-transform: uppercase;
+  //   color: var(--text--muted-color);
+  //   // border: 1px dashed rgb(206, 208, 211);
+  //   background: rgba(10, 19, 37, 0.05);
+  // }
+}
+
+[data-region] {
+  position: relative;
+  min-height: 34px;
+
+  &:empty {
+    min-width: 20px;
+
+    &:before {
+      height: 100%;
+      content: attr(data-region-placeholder);
+      position: relative;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 0 5px;
+      -webkit-user-select: none;
+      user-select: none;
+      text-align: center;
+      text-transform: uppercase;
+      color: rgb(108, 113, 124);
+      border: 1px dashed rgb(206, 208, 211);
+      background: rgba(10, 19, 37, 0.05);
+    }
+  }
+  // &.is-region-active {
+  //   min-height: 34px;
+  // }
+
+  &.is-dragenter {
+    background-color: #fff;
+  }
+
+  &.is-dragenter .ae-AddBtn {
+    display: none;
+  }
+
+  &.is-dragenter > [data-editor-id],
+  &.is-dragenter > *:not([data-editor-id]) > [data-editor-id] {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      content: '';
+      pointer-events: none;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      z-index: 10;
+      background: rgba($Editor-rgion-bg, 0.05);
+      border: 1px solid rgba($Editor-rgion-bg, 0.2);
+    }
+  }
+
+  &.is-dragenter > span[data-editor-id] {
+    display: inline-block;
+  }
+
+  &.is-entering:not(.is-dragenter) {
+    position: relative;
+
+    &::before {
+      z-index: 10;
+      content: '';
+      position: absolute;
+      pointer-events: none;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      animation: growing 1s infinite linear;
+      // transform: translate3d(0, 0, 0);
+    }
+
+    &::after {
+      z-index: 20;
+      content: '保持3s不动切换';
+      pointer-events: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 10%;
+      background: $Editor-theme;
+      border-radius: 5px;
+      font-size: 12px;
+      color: #fff;
+      padding: 2px 5px;
+    }
+  }
+}
+
+.ae-Editor-rhlbox {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  display: block;
+  box-sizing: content-box;
+  border-style: solid;
+  border-color: transparent;
+  // background: rgba($Editor-rgion-bg, 0.05);
+  pointer-events: none;
+  z-index: 2;
+  transition: all ease-out 0.15s;
+
+  &:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    content: '';
+    border: 1px dotted lighten($Editor-rgion-bg, 15%);
+    visibility: hidden;
+  }
+
+  > .region-tip {
+    position: absolute;
+    right: 50%;
+    top: -19px;
+    transform: translateX(50%);
+    background: $Editor-rgion-bg; // $Editor-rgion-bg;
+    color: #fff;
+    padding: 3px 8px;
+    font-size: 11px;
+    line-height: 12px;
+    white-space: nowrap;
+    border-radius: 3px 3px 0 0;
+    // box-shadow: 0 2px 5px rgba(255, 255, 255, 0.5);
+    pointer-events: all;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+
+    // 只有一个region时不显示头部标签
+    &.is-only-child-region {
+      visibility: hidden !important;
+    }
+
+    button {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 11px;
+      line-height: 12px;
+    }
+
+    button.clear-icon-btn {
+      padding: 0 !important;
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
+      fill: #fff;
+      opacity: 0.8;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    // 头部工具栏/分割线样式
+    .margin-space {
+      opacity: 0.8;
+      margin: 0 6px;
+    }
+  }
+
+  // 兼容方案，避免便签被遮挡
+  &.region-label-within > .region-tip {
+    top: 1px;
+    border-radius: 0 0 3px 3px;
+  }
+
+  // 高亮区域hover态
+  &.region-hover {
+    &:before,
+    > .region-tip {
+      visibility: visible;
+    }
+  }
+
+  // 高亮区域选中态
+  &.is-highlight {
+    border-color: rgba($Editor-hlbox--onActive-bg, 0.05);
+    background: transparent;
+
+    &:before {
+      visibility: visible;
+      // box-shadow: 0 1px 7px rgba(0, 0, 0, 0.2);
+      border: 1px solid lighten($Editor-rgion-bg, 5%);
+    }
+
+    > .region-tip {
+      visibility: visible;
+    }
+  }
+
+  &.is-dragenter {
+    &[data-renderer='form'][data-region='controls'] {
+      margin: -12px;
+      padding: 12px;
+    }
+
+    &[data-renderer='form'][data-region='body'] {
+      margin: -12px;
+      padding: 12px;
+    }
+  }
+}
+
+.ae-Editor-hlbox.selected > .ae-Editor-rhlbox {
+  left: -2px;
+  top: -2px;
+}
+
+[data-region='columns'] > .ae-AddBtn,
+[data-renderer='card'][data-region='actions'] > .ae-AddBtn {
+  position: absolute;
+  left: -30px;
+  top: 5px;
+}
+
+div.ae-DragImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(66, 133, 244, 0.1);
+  border: 1px solid $Editor-hlbox-bg;
+  white-space: nowrap;
+  width: 50px;
+  height: 30px;
+  z-index: 100000;
+
+  > span {
+    position: absolute;
+    left: -1px;
+    top: -16px;
+    background: $Editor-hlbox-bg;
+    color: #fff;
+    padding: 2px 5px;
+    font-size: 11px;
+    border-radius: 3px 3px 0 0;
+    line-height: 12px;
+    z-index: 1204;
+    display: block;
+    white-space: nowrap;
+    box-shadow: 0 -2px 5px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.ae-DragGhost {
+  margin-bottom: 12px;
+
+  > * {
+    // opacity: 0.6;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 10;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      min-width: 100%;
+      min-height: 100%;
+      background: rgba($Editor-rgion-bg, 0.2);
+      border: 1px solid $Editor-rgion-bg;
+    }
+  }
+
+  &.use-position {
+    display: inline-block;
+    position: absolute;
+    background: $Editor-rgion-bg;
+    height: 5px;
+    width: 100%;
+    z-index: 5;
+
+    &::before {
+      content: ' ';
+    }
+
+    &.is-horizontal {
+      width: 5px;
+      height: 100%;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .ae-BulkActions-control {
+    .col-edit {
+      width: 30px;
+      flex-grow: 0;
+
+      > button {
+        border: 0;
+        background-color: transparent;
+        outline: none;
+      }
+    }
+  }
+}
+
+.ae-Editor-rendererItem {
+  display: block;
+  max-width: unset;
+  margin-bottom: 10px;
+
+  &:hover {
+    background: rgba(66, 133, 244, 0.1);
+    color: #58666e;
+  }
+
+  &.is-active,
+  &:hover:active {
+    background: rgba(66, 133, 244, 0.1);
+    border: 1px solid $Editor-theme;
+    color: #58666e;
+
+    &:after {
+      border-color: $Editor-theme;
+    }
+  }
+}
+
+// Pagination配置面板里的layout字段样式
+.ae-pagination-layout-item {
+  input+div {
+    >div:nth-child(1) {
+      flex-basis: px2rem(32px);
+      flex-grow: 0;
+      padding-right: 0;
+    }
+  }
+}
+
+.ae-dialog {
+  padding: 0 !important;
+  position: relative;
+
+  > div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: auto;
+
+    > div {
+      height: 100%;
+      margin-bottom: 0;
+
+      > .ae-Editor {
+        position: relative;
+        height: 100%;
+      }
+    }
+  }
+}
+
+.ae-Dialog-footerRegion {
+  text-align: right;
+}
+
+.ae-InlineModel {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  width: 100%;
+  border: 1px solid $borderColor;
+}
+
+.ae-EditableRenderers {
+  padding: 5px 10px;
+  background: rgba(#27c24c, 0.2);
+  border: 1px solid darken(rgba(#27c24c, 0.2), 20%);
+  margin-bottom: 10px;
+
+  &-tip {
+    display: block;
+    color: #27c24c;
+  }
+}
+
+.ae-EditableRender {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &-title {
+    font-size: 12px;
+    color: #333;
+    padding-right: 10px;
+  }
+
+  &-body {
+    flex-grow: 1;
+    width: 0;
+
+    margin: -3px;
+    > * {
+      margin: 3px;
+    }
+  }
+
+  margin-top: 10px;
+}
+
+.ae-ErrorRenderer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a94442;
+  background: #f2dede;
+  border: 1px solid darken(adjust-hue(#f2dede, -10), 5%);
+  min-height: 30px;
+  padding: 0 10px;
+}
+
+.ae-ApiSample {
+  min-width: 200px;
+
+  > pre {
+    overflow: auto;
+    border: 1px solid #999;
+    page-break-inside: avoid;
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    > code {
+      white-space: pre;
+    }
+  }
+
+  &-tooltip {
+    max-width: 360px;
+  }
+}
+
+.ae-JsonEditor {
+  height: 400px;
+  border: 1px solid $borderColor;
+}
+
+.ae-Editor-popOverForm {
+  min-width: 300px;
+  max-width: 600px;
+  padding: 10px 20px;
+}
+
+// hover时才显示滚动条
+.hoverShowScrollBar {
+  overflow: auto !important;
+
+  @include minScrollBar();
+
+  &::-webkit-scrollbar-thumb {
+    visibility: hidden !important;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      visibility: visible !important;
+    }
+  }
+}
+
+.ae-collapse-checkbox{
+  label{
+    margin-right: 0;
+  }
+}

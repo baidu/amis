@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="页面编辑器" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="搜索状态" transform="translate(-349.000000, -295.000000)">
+            <g id="3.数据输入/2.搜索/1.基础/1.默认备份-4" transform="translate(155.000000, 285.000000)">
+                <g id="编组" transform="translate(192.000000, 8.000000)">
+                    <path d="M8,14 C4.68629808,14 2,11.3137019 2,8 C2,4.68629808 4.68629808,2 8,2 C11.3137019,2 14,4.68629808 14,8 C14,11.3137019 11.3137019,14 8,14 Z" id="背景层" fill="currentColor"></path>
+                    <polygon id="X" fill="#FFFFFF" points="10.4748737 6.23223305 8.70710678 8 10.4748737 9.76776695 9.76776695 10.4748737 8 8.70710678 6.23223305 10.4748737 5.52512627 9.76776695 7.29289322 8 5.52512627 6.23223305 6.23223305 5.52512627 8 7.29289322 9.76776695 5.52512627"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

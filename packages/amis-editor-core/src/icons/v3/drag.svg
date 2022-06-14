@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="18px" viewBox="0 0 20 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <rect id="path-1" x="0" y="0" width="20" height="18"></rect>
+        <path d="M11,1 L9,1 L9,8 L5,8 L5,10 L9,10 L9,17 L11,17 L11,10 L15,10 L15,8 L11,8 L11,1 Z M1,9 L5,6 L5,12 L1,9 Z M19,9 L15,12 L15,6 L19,9 Z" id="path-3"></path>
+    </defs>
+    <g id="页面编辑器" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="补充icon" transform="translate(-189.000000, -170.000000)">
+            <g id="拖拽icon" transform="translate(189.000000, 170.000000)">
+                <path d="M11,1 L9,1 L9,8 L5,8 L5,10 L9,10 L9,17 L11,17 L11,10 L15,10 L15,8 L11,8 L11,1 Z M1,9 L5,6 L5,12 L1,9 Z M19,9 L15,12 L15,6 L19,9 Z" id="形状" fill="#363B3E"></path>
+                <g id="Clipped">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="矩形"></g>
+                    <path d="M11,1 L12,1 L12,0 L11,0 L11,1 Z M9,1 L9,0 L8,0 L8,1 L9,1 Z M9,8 L9,9 L10,9 L10,8 L9,8 Z M5,8 L5,7 L4,7 L4,8 L5,8 Z M5,10 L4,10 L4,11 L5,11 L5,10 Z M9,10 L10,10 L10,9 L9,9 L9,10 Z M9,17 L8,17 L8,18 L9,18 L9,17 Z M11,17 L11,18 L12,18 L12,17 L11,17 Z M11,10 L11,9 L10,9 L10,10 L11,10 Z M15,10 L15,11 L16,11 L16,10 L15,10 Z M15,8 L16,8 L16,7 L15,7 L15,8 Z M11,8 L10,8 L10,9 L11,9 L11,8 Z M5,6 L6,6 L6,4 L4.4,5.2 L5,6 Z M5,12 L4.4,12.8 L6,14 L6,12 L5,12 Z M15,12 L14,12 L14,14 L15.6,12.8 L15,12 Z M15,6 L15.6,5.2 L14,4 L14,6 L15,6 Z M11,0 L9,0 L9,2 L11,2 L11,0 Z M8,1 L8,8 L10,8 L10,1 L8,1 Z M9,7 L5,7 L5,9 L9,9 L9,7 Z M4,8 L4,10 L6,10 L6,8 L4,8 Z M5,11 L9,11 L9,9 L5,9 L5,11 Z M8,10 L8,17 L10,17 L10,10 L8,10 Z M9,18 L11,18 L11,16 L9,16 L9,18 Z M12,17 L12,10 L10,10 L10,17 L12,17 Z M11,11 L15,11 L15,9 L11,9 L11,11 Z M16,10 L16,8 L14,8 L14,10 L16,10 Z M15,7 L11,7 L11,9 L15,9 L15,7 Z M12,8 L12,1 L10,1 L10,8 L12,8 Z M1.6,9.8 L5.6,6.8 L4.4,5.2 L0.4,8.2 L1.6,9.8 Z M4,6 L4,12 L6,12 L6,6 L4,6 Z M5.6,11.2 L1.6,8.2 L0.4,9.8 L4.4,12.8 L5.6,11.2 Z M18.4,8.2 L14.4,11.2 L15.6,12.8 L19.6,9.8 L18.4,8.2 Z M16,12 L16,6 L14,6 L14,12 L16,12 Z M14.4,6.8 L18.4,9.8 L19.6,8.2 L15.6,5.2 L14.4,6.8 Z" id="形状" fill-opacity="0.8" fill="#FFFFFF" fill-rule="nonzero" mask="url(#mask-2)"></path>
+                    <mask id="mask-4" fill="white">
+                        <use xlink:href="#path-3"></use>
+                    </mask>
+                    <use id="形状" fill="#151B26" xlink:href="#path-3"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

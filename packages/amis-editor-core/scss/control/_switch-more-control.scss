@@ -1,0 +1,121 @@
+.ae-SwitchMore {
+  flex-grow: 1;
+
+  &-switch {
+    @include flexBox();
+    justify-content: flex-end;
+    height: px2rem(30px);
+  
+    div {
+      @include flexBox(row, flex-end);
+  
+      hr {
+        display: inline-block;
+        border: 0;
+        margin: 0;
+        border-left: 1px solid #e6e6e8;
+        height: #{px2rem(16px)};
+        vertical-align: middle;
+        margin: 0 #{px2rem(12px)};
+      }
+  
+      svg.icon {
+        margin-bottom: #{px2rem(-2px)};
+      }
+  
+      .ae-SwitchMore-icon {
+        fill: var(--primary);
+  
+        path {
+          fill: var(--primary);
+        }
+      }
+    }
+  }
+
+  .action-btn {
+    padding: 0;
+  }
+
+  .open-btn {
+    transition: transform var(--animation-duration);
+    color: #b8babf;
+
+    &.opening {
+      transform: rotate(180deg);
+    }
+  }
+
+
+  &-popover {
+    padding: #{px2rem(12px)};
+    border: none;
+    min-width: px2rem(300px);
+    max-width: px2rem(640px);
+  
+    header {
+      @include flexBox(row, flex-end);
+      width: 100%;
+      height: #{px2rem(24px)};
+      margin-bottom: #{px2rem(10px)};
+    }
+  
+    .ae-SwitchMore-title {
+      opacity: 0.95;
+      font-size: var(--fontSizeMd);
+      color: #080e1a;
+      line-height: #{px2rem(24px)};
+      font-weight: bold;
+      width: 100%;
+      margin: 0;
+    }
+  
+    .ae-SwitchMore-close {
+      float: right;
+      color: var(--text--muted-color);
+      line-height: inherit;
+      text-decoration: none;
+      vertical-align: middle;
+  
+      svg {
+        width: #{px2rem(12px)};
+        height: #{px2rem(12px)};
+        fill: var(--text--muted-color);
+      }
+  
+      &:not(.is-disabled) {
+        cursor: pointer;
+  
+        &:hover {
+          text-decoration: none;
+          color: var(--text-color);
+  
+          svg {
+            fill: var(--text-color);
+          }
+        }
+      }
+    }
+  }
+
+  &-extend {
+    position: relative;
+
+    .ae-SwitchMore {
+      &-switch {
+        position: absolute;
+        top: px2rem(-32px);
+        right: 0;
+      }
+
+      &-content {
+        padding-top: px2rem(12px);
+        & > div {
+          @include extend-more()
+        }
+      }
+    }
+
+
+  }
+}

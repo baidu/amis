@@ -1,0 +1,170 @@
+.ae-OptionControl {
+  &-header {
+    @include flexBox();
+    width: 100%;
+    height: #{px2rem(24px)};
+    margin-bottom: #{px2rem(12px)};
+  }
+
+  &-content {
+    @include flexBox(column, flex-start);
+    margin: 0;
+    padding: 0;
+
+    .ae-OptionControlItem {
+      display: block;
+      width: 100%;
+
+      &-Main {
+        @include flexBox();
+        width: 100%;
+        background: #fff;
+        padding-bottom: px2rem(12px);
+      }
+
+
+      &--dragging {
+        height: 0 !important;
+        padding: 0;
+        border-top: 2px solid var(--primary);
+        overflow: hidden;
+        background: #e9effd;
+      }
+
+      &-dragBar {
+        display: inline-flex;
+        margin-left: 0;
+        margin-right: var(--gap-sm);
+        cursor: move;
+        color: #8c8c8c;
+      }
+
+      &-checkbox {
+        display: inline-flex;
+        align-items: center;
+        line-height: #{px2rem(24px)};
+
+        span {
+          color: #080e1a;
+          margin-left: #{px2rem(12px)};
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 145px;
+        }
+      }
+
+      &-input {
+        flex: 1;
+        margin: 0;
+        margin-right: #{px2rem(12px)};
+      }
+
+      &-dropdown i {
+        margin-right: 0px;
+      }
+
+      &-EditLabel {
+        width: px2rem(36px);
+        padding-right: 0;
+      }
+
+      &-EditValue {
+        padding-left: 0;
+      }
+
+      &-closeBtn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 18px;
+        color: #{$Editor-right-panel-color};
+        padding-right: px2rem(10px);
+
+        &:hover {
+          color: #{$Editor-theme};
+        }
+      }
+
+      .ae-ExtendMore {
+        padding-right: px2rem(30px);
+      }
+    }
+  }
+
+  &-placeholder {
+    display: none;
+    color: #999;
+    line-height: #{px2rem(24px)};
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    padding: #{px2rem(10px)};
+  }
+
+  &-footer > * {
+    // @include flexBox(row, flex-end);
+    // // background: #f2f7f3;
+    // padding: #{px2rem(5px)};
+    // border-bottom-right-radius: $Editor-borderRadius;
+    // border-bottom-left-radius: $Editor-borderRadius;
+    // border-top: 1px solid #f2f7f3;
+    // box-shadow: 0 0 5px rgb(8 14 26 / 6%);
+    // clip-path: inset(-5px 0px 0px 0px);
+
+    width: calc(50% - #{px2rem(6px)});
+
+    &:first-child {
+      margin-right: px2rem(12px);
+    }
+  }
+}
+
+.ae-OptionControl-PopoverEdit {
+  @include flexBox(column, space-between, flex-start);
+  padding: #{px2rem(15px)} #{px2rem(20px)};
+  border: none;
+  width: 300px;
+
+  header {
+    @include flexBox();
+    width: 100%;
+    height: #{px2rem(24px)};
+    margin-bottom: #{px2rem(10px)};
+
+    .ae-OptionControl-PopoverEdit-title {
+      opacity: 0.95;
+      font-size: var(--fontSizeMd);
+      color: #080e1a;
+      line-height: #{px2rem(24px)};
+      font-weight: bold;
+    }
+
+    .ae-OptionControl-PopoverEdit-close {
+      float: right;
+      color: var(--text--muted-color);
+      line-height: inherit;
+      text-decoration: none;
+      vertical-align: middle;
+
+      svg {
+        width: #{px2rem(12px)};
+        height: #{px2rem(12px)};
+        fill: var(--text--muted-color);
+      }
+
+      &:not(.is-disabled) {
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: none;
+          color: var(--text-color);
+
+          svg {
+            fill: var(--text-color);
+          }
+        }
+      }
+    }
+  }
+}
