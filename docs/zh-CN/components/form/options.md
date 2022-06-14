@@ -1405,21 +1405,39 @@ order: 2
 
 > 1.10.0 及以上版本
 
-下拉框在数据量较大时（超过 200，可以通过 `virtualThreshold` 控制）会自动切换到虚拟渲染模式，如果选项的内容较长会导致内容重叠，这时需要设置 `itemHeight` 来避免。
+下拉框在数据量较大时（超过 100，可以通过 `virtualThreshold` 控制）会自动切换到虚拟渲染模式，如果选项的内容较长会导致内容重叠，这时需要设置 `itemHeight` 来避免。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "select",
+            "label": "虚拟列表选择",
+            "name": "virtual-select",
+            "clearable": true,
+            "searchable": true,
+            "source": "/api/mock2/form/getOptions?waitSeconds=1&size=200"
+        }
+    ]
+}
+```
 
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名           | 类型                                                                              | 默认值    | 说明                                                                   |
-| ---------------- | --------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------- |
-| options          | `Array<object>`或`Array<string>`                                                  |           | 选项组，供用户选择                                                     |
-| source           | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |           | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象          |
-| multiple         | `boolean`                                                                         | `false`   | 是否支持多选                                                           |
-| labelField       | `boolean`                                                                         | `"label"` | 标识选项中哪个字段是`label`值                                          |
-| valueField       | `boolean`                                                                         | `"value"` | 标识选项中哪个字段是`value`值                                          |
-| joinValues       | `boolean`                                                                         | `true`    | 是否拼接`value`值                                                      |
-| extractValue     | `boolean`                                                                         | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效 |
-| itemHeight       | `number`                                                                          |           | 每个选项的高度，用于虚拟渲染                                           |
-| virtualThreshold | `number`                                                                          |           | 在选项数量超过多少时开启虚拟渲染                                       |
-| valuesNoWrap | `boolean`                                                                         | `false`   | 默认情况下多选所有选项都会显示，通过这个可以最多显示一行，超出的部分变成 ... |
+| 属性名           | 类型                                                                              | 默认值    | 说明                                                                         |
+| ---------------- | --------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------------- |
+| options          | `Array<object>`或`Array<string>`                                                  |           | 选项组，供用户选择                                                           |
+| source           | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |           | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象                |
+| multiple         | `boolean`                                                                         | `false`   | 是否支持多选                                                                 |
+| labelField       | `boolean`                                                                         | `"label"` | 标识选项中哪个字段是`label`值                                                |
+| valueField       | `boolean`                                                                         | `"value"` | 标识选项中哪个字段是`value`值                                                |
+| joinValues       | `boolean`                                                                         | `true`    | 是否拼接`value`值                                                            |
+| extractValue     | `boolean`                                                                         | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效       |
+| itemHeight       | `number`                                                                          | `32`      | 每个选项的高度，用于虚拟渲染                                                 |
+| virtualThreshold | `number`                                                                          | `100`     | 在选项数量超过多少时开启虚拟渲染                                             |
+| valuesNoWrap     | `boolean`                                                                         | `false`   | 默认情况下多选所有选项都会显示，通过这个可以最多显示一行，超出的部分变成 ... |

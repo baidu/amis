@@ -1,5 +1,5 @@
 import React = require('react');
-import {NotFound} from 'amis-ui';
+import NotFound from '../src/components/404';
 import * as renderer from 'react-test-renderer';
 import {render, fireEvent, cleanup} from '@testing-library/react';
 
