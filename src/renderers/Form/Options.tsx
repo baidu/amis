@@ -320,10 +320,14 @@ export function registerOptionsControl(config: OptionsConfig) {
 
         this.toDispose.push(
           reaction(
-            () => JSON.stringify(formItem.options),
-            () => this.mounted && this.syncAutoFill(formItem.tmpValue)
+            () =>
+              JSON.stringify(formItem.getSelectedOptions(formItem.tmpValue)),
+            () =>
+              this.mounted &&
+              this.syncAutoFill(formItem.getSelectedOptions(formItem.tmpValue))
           )
         );
+
         // 默认全选。这里会和默认值\回填值逻辑冲突，所以如果有配置source则不执行默认全选
         if (
           multiple &&
@@ -361,10 +365,6 @@ export function registerOptionsControl(config: OptionsConfig) {
     componentDidMount() {
       this.mounted = true;
       this.normalizeValue();
-
-      if (this.props.value) {
-        this.syncAutoFill(this.props.value);
-      }
     }
 
     shouldComponentUpdate(nextProps: OptionsProps) {
@@ -448,7 +448,6 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       if (prevProps.value !== props.value || formItem?.expressionsInOptions) {
         formItem.syncOptions(undefined, props.data);
-        this.syncAutoFill(props.value);
       }
     }
 
@@ -482,7 +481,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
     }
 
-    syncAutoFill(value: any) {
+    syncAutoFill(selectedOptions: Array<any>) {
       const {autoFill, multiple, onBulkChange, data} = this.props;
       const formItem = this.props.formItem as IFormItemStore;
 
@@ -492,7 +491,6 @@ export function registerOptionsControl(config: OptionsConfig) {
         !isEmpty(autoFill) &&
         formItem.filteredOptions.length
       ) {
-        const selectedOptions = formItem.getSelectedOptions(value);
         const toSync = dataMapping(
           autoFill,
           multiple
