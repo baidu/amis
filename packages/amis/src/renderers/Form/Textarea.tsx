@@ -105,7 +105,11 @@ export default class TextAreaControl extends React.Component<
   }
 
   @autobind
-  @bindRendererEvent<TextAreaProps, TextAreaRendererEvent>('change')
+  @bindRendererEvent<TextAreaProps, TextAreaRendererEvent>(
+    'change',
+    undefined,
+    false
+  )
   handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const {onChange} = this.props;
     onChange && onChange(e);

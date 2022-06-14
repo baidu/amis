@@ -32,7 +32,8 @@ export async function rendererEventDispatcher<
  */
 export function bindRendererEvent<T extends FormControlProps, E = any>(
   event: E,
-  ctx: Record<string, any> = {}
+  ctx: Record<string, any> = {},
+  preventable = true
 ) {
   return function (
     target: any,
@@ -65,16 +66,22 @@ export function bindRendererEvent<T extends FormControlProps, E = any>(
           value = triggerProps?.resetValue;
         }
 
-        const dispatcher = await rendererEventDispatcher<T>(
-          triggerProps,
-          event,
-          {
+        if (preventable === false) {
+          rendererEventDispatcher<T>(triggerProps, event, {
             value
-          }
-        );
+          });
+        } else {
+          const dispatcher = await rendererEventDispatcher<T>(
+            triggerProps,
+            event,
+            {
+              value
+            }
+          );
 
-        if (dispatcher?.prevented) {
-          return;
+          if (dispatcher?.prevented) {
+            return;
+          }
         }
 
         return fn.apply(this, [...params]);
