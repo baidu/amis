@@ -14,7 +14,7 @@ import Sortable from 'sortablejs';
 
 import {themeable, ClassNamesFn, ThemeProps} from 'amis-core';
 import {localeable, LocaleProps} from 'amis-core';
-import {isObject, isBreakpoint, guid} from 'amis-core';
+import {isObject, isBreakpoint, guid, autobind} from 'amis-core';
 import {Icon} from '../icons';
 import CheckBox from '../Checkbox';
 import Spinner from '../Spinner';
@@ -349,7 +349,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       hoverRow: null
     };
 
-    this.onTableContentScroll = this.onTableContentScroll.bind(this);
     this.getPopOverContainer = this.getPopOverContainer.bind(this);
   }
 
@@ -366,10 +365,14 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   // 表格当前未选中行
   unSelectedRows: Array<any>;
   // 拖拽排序
-  sortable: Sortable;
+  sortable: Sortable | null;
   // 记录点击起始横坐标
   resizeStart: number;
   resizeKey: string;
+  resizeTarget: HTMLElement | null;
+  resizeWidth: number;
+  // 可以拖拽的最长距离
+  resizeMaxDistance: number;
 
   tableDom: React.RefObject<HTMLDivElement> = React.createRef();
   theadDom: React.RefObject<HTMLTableSectionElement> = React.createRef();
@@ -417,6 +420,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   updateTableBodyFixed() {
     const tbodyDom = this.tbodyDom && (this.tbodyDom.current as HTMLElement);
     const tdColumns = [...this.tdColumns];
+    if (!tbodyDom) {
+      return;
+    }
     this.updateTbodyFixedRow(tbodyDom, tdColumns);
     this.updateHeadSummaryFixedRow(tbodyDom);
   }
@@ -433,11 +439,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     });
   }
 
-  componentDidMount() {
-    if (this.props.loading) {
-      return;
-    }
-
+  updateTableFixedRows() {
     if (hasFixedColumn(this.props.columns)) {
       const headerDom =
         this.headerDom && (this.headerDom.current as HTMLElement);
@@ -451,14 +453,17 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       const tfootDom = this.tfootDom && (this.tfootDom.current as HTMLElement);
       tfootDom && this.updateFootSummaryFixedRow(tfootDom);
     }
+  }
 
-    let current = null;
-    if (this.contentDom && this.contentDom.current) {
-      current = this.contentDom.current;
-      current.addEventListener('scroll', this.onTableContentScroll.bind(this));
-    } else {
-      current = this.headerDom?.current;
+  componentDidMount() {
+    if (this.props.loading) {
+      return;
+    }
 
+    this.updateTableFixedRows();
+
+    let current = this.contentDom?.current;
+    if (this.headerDom?.current) {
       // overflow设置为hidden的情况
       const hiddenDomRefs = [this.headerDom, this.footDom];
       hiddenDomRefs.forEach(
@@ -467,26 +472,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           ref.current &&
           ref.current.addEventListener('wheel', this.onWheel.bind(this))
       );
-      // 横向同步滚动
-      const scrollDomRefs = [this.bodyDom];
-      scrollDomRefs.forEach(
-        ref =>
-          ref &&
-          ref.current &&
-          ref.current.addEventListener('scroll', this.onTableScroll.bind(this))
-      );
     }
     current && this.updateTableDom(current);
 
     if (this.props.draggable) {
       this.initDragging();
-    }
-
-    if (this.props.resizable) {
-      this.theadDom.current?.addEventListener(
-        'mouseup',
-        this.onResizeMouseUp.bind(this)
-      );
     }
 
     this.updateStickyHeader();
@@ -497,9 +487,19 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   componentDidUpdate(prevProps: TableProps, prevState: TableState) {
     // 数据源发生了变化
     if (!isEqual(prevProps.dataSource, this.props.dataSource)) {
-      this.setState({dataSource: [...this.props.dataSource]}, () =>
-        this.updateColWidths()
-      ); // 异步加载数据需求再更新一次
+      this.setState({dataSource: [...this.props.dataSource]}, () => {
+        if (this.props.draggable) {
+          if (this.sortable) {
+            this.destroyDragging();
+          }
+
+          this.initDragging();
+        }
+
+        this.updateTableFixedRows();
+
+        this.updateColWidths();
+      }); // 异步加载数据需求再更新一次
     }
 
     // 选择项发生了变化触发
@@ -584,27 +584,12 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   componentWillUnmount() {
-    this.contentDom &&
-      this.contentDom.current &&
-      this.contentDom.current.removeEventListener(
-        'scroll',
-        this.onTableContentScroll.bind(this)
-      );
-
     const hiddenDomRefs = [this.headerDom, this.footDom];
     hiddenDomRefs.forEach(
       ref =>
         ref &&
         ref.current &&
         ref.current.removeEventListener('wheel', this.onWheel.bind(this))
-    );
-
-    const scrollDomRefs = [this.bodyDom];
-    scrollDomRefs.forEach(
-      ref =>
-        ref &&
-        ref.current &&
-        ref.current.removeEventListener('scroll', this.onTableScroll.bind(this))
     );
 
     this.destroyDragging();
@@ -648,13 +633,15 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
         const rowLevels = e.item.getAttribute('row-levels');
 
-        onDrag && onDrag(e.oldIndex, e.newIndex, rowLevels ? rowLevels.split(',') : []);
+        onDrag &&
+          onDrag(e.oldIndex, e.newIndex, rowLevels ? rowLevels.split(',') : []);
       }
     });
   }
 
   destroyDragging() {
     this.sortable && this.sortable.destroy();
+    this.sortable = null;
   }
 
   updateStickyHeader() {
@@ -840,73 +827,61 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     );
   }
 
-  onResizeMouseDown(event: React.MouseEvent<any>, key: string) {
+  onResizeMouseDown(event: any, key: string) {
     // 点击记录起始坐标
     this.resizeStart = event.clientX;
-    // 记录点击的列名
     this.resizeKey = key;
+
+    let index =
+      this.tdColumns.findIndex(c => c.key === key) + this.getExtraColumnCount();
+
+    const colGroup = this.tableDom.current?.getElementsByTagName('colgroup')[0];
+    let currentWidth = 0;
+    let child = null;
+    if (colGroup && colGroup.children[index]) {
+      child = colGroup.children[index] as HTMLElement;
+      currentWidth = child.offsetWidth;
+    }
+    this.resizeWidth = currentWidth;
+    this.resizeTarget = child;
+
+    if (colGroup) {
+      let maxDistance = 0;
+      for (let i = 0; i < colGroup.children.length; i++) {
+        const child = colGroup.children[i] as HTMLElement;
+        // 自适应列 保证有一个最小宽度
+        // 如果都设置了固定宽度 那一个都拖不动
+        if (!this.tdColumns[i].width) {
+          maxDistance += child.offsetWidth - DefaultCellWidth;
+        }
+      }
+      this.resizeMaxDistance = maxDistance;
+    }
+
+    document.addEventListener('mousemove', this.onResizeMouseMove);
+    document.addEventListener('mouseup', this.onResizeMouseUp);
+
     event && event.stopPropagation();
   }
 
-  onResizeMouseUp(event: React.MouseEvent<any>) {
+  @autobind
+  onResizeMouseMove(event: any) {
     // 点击了调整列宽
-    if (this.resizeStart && this.resizeKey) {
+    if (this.resizeStart && this.resizeTarget) {
       // 计算横向移动距离
       const distance = event.clientX - this.resizeStart;
       const tdColumns = [...this.tdColumns];
-      let index =
-        tdColumns.findIndex(c => c.key === this.resizeKey) +
-        this.getExtraColumnCount();
-
-      const colGroup =
-        this.tableDom.current?.getElementsByTagName('colgroup')[0];
-      let currentWidth = 0;
-      if (colGroup && colGroup.children[index]) {
-        const child = colGroup.children[index] as HTMLElement;
-        currentWidth = child.offsetWidth;
-      }
 
       let newWidth = 0;
-      if (colGroup) {
-        let maxDistance = 0; // 最多可以移动的距离
-        // 调宽列
-        if (distance > 0) {
-          for (let i = 0; i < colGroup.children.length; i++) {
-            const child = colGroup.children[i] as HTMLElement;
-            // 自适应列 保证有一个最小宽度
-            // 如果都设置了固定宽度 那一个都拖不动
-            if (!this.tdColumns[i].width) {
-              maxDistance += child.offsetWidth - DefaultCellWidth;
-            }
-          }
-          if (colGroup.children[index]) {
-            const child = colGroup.children[index] as HTMLElement;
-            newWidth = currentWidth + Math.min(distance, maxDistance);
-            child.style.width = newWidth + 'px';
-          }
-        } else {
-          // 缩短列
-          const autoColumns = [];
-          for (let i = 0; i < colGroup.children.length; i++) {
-            const child = colGroup.children[i] as HTMLElement;
-            // 自适应列 保证有一个最小宽度
-            // 如果都设置了固定宽度 那一个都拖不动
-            if (!this.tdColumns[i].width) {
-              autoColumns.push(child);
-            }
-          }
-          maxDistance = DefaultCellWidth - currentWidth;
-          if (colGroup.children[index]) {
-            const child = colGroup.children[index] as HTMLElement;
-            newWidth = currentWidth + Math.max(distance, maxDistance);
-            child.style.width = newWidth + 'px';
-          }
-          const gap =
-            Math.abs(Math.max(distance, maxDistance)) / autoColumns.length;
-          autoColumns.forEach(c => {
-            c.style.width = c.offsetWidth + gap + 'px';
-          });
-        }
+      // 调宽列
+      if (distance > 0) {
+        newWidth =
+          this.resizeWidth + Math.min(distance, this.resizeMaxDistance);
+        this.resizeTarget.style.width = newWidth + 'px';
+      } else {
+        // 缩短列
+        newWidth = Math.max(this.resizeWidth + distance, DefaultCellWidth);
+        this.resizeTarget.style.width = newWidth + 'px';
       }
 
       const column = find(tdColumns, c => c.key === this.resizeKey);
@@ -918,11 +893,20 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       }
 
       this.tdColumns = tdColumns;
-
-      this.resizeStart = 0;
-      this.resizeKey = '';
     }
     event && event.stopPropagation();
+  }
+
+  @autobind
+  onResizeMouseUp(event: MouseEvent) {
+    document.removeEventListener('mousemove', this.onResizeMouseMove);
+    document.removeEventListener('mouseup', this.onResizeMouseUp);
+
+    this.resizeStart = 0;
+    this.resizeKey = '';
+    this.resizeWidth = 0;
+    this.resizeTarget = null;
+    this.resizeMaxDistance = 0;
   }
 
   renderTHead() {
@@ -1126,7 +1110,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     );
   }
 
-  async onRowClick(event: React.ChangeEvent<any>, record?: any, rowIndex?: number) {
+  async onRowClick(
+    event: React.ChangeEvent<any>,
+    record?: any,
+    rowIndex?: number
+  ) {
     const {rowSelection, onRow} = this.props;
 
     if (onRow && onRow.onRowClick) {
@@ -1337,21 +1325,22 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           ...this.state.selectedRowKeys,
           data[defaultKey],
           ...this.getDataChildrenKeys(data)
-        ].filter((key, i, a) => a.indexOf(key) === i)
+        ].filter((key, i, a) => a.indexOf(key) === i);
       }
     } else {
       if (!isRadio) {
         selectedRowKeys = this.state.selectedRowKeys.filter(
           key =>
-            ![data[defaultKey], ...this.getDataChildrenKeys(data)].includes(
-              key
-            )
-        )
+            ![data[defaultKey], ...this.getDataChildrenKeys(data)].includes(key)
+        );
       }
     }
 
     if (onSelect) {
-      const selectedResult = this.getSelectedRows(this.state.dataSource, selectedRowKeys);
+      const selectedResult = this.getSelectedRows(
+        this.state.dataSource,
+        selectedRowKeys
+      );
       const prevented = await onSelect(
         selectedResult.selectedRows,
         selectedRowKeys,
@@ -1533,7 +1522,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
               name={'Table-checkbox'}
               type={rowSelection.type || 'checkbox'}
               partial={!isRadio && hasChildrenChecked && !isChecked}
-              checked={isRadio ? isChecked : (hasChildrenChecked || isChecked)}
+              checked={isRadio ? isChecked : hasChildrenChecked || isChecked}
               onChange={(value, shift) => {
                 if (!(rowSelection && rowSelection.rowClick)) {
                   this.selectedSingleRow(value, data);
@@ -1589,7 +1578,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             </Cell>
           </tr>
         ) : (
-          this.state.dataSource.map((data, index) => this.renderRow(data, index, []))
+          this.state.dataSource.map((data, index) =>
+            this.renderRow(data, index, [])
+          )
         )}
       </tbody>
     );
@@ -1731,6 +1722,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   onWheel(event: WheelEvent) {
     const {currentTarget, deltaX} =
       event as unknown as React.WheelEvent<HTMLDivElement>;
+
     if (deltaX) {
       this.onTableScroll({
         target: currentTarget,
@@ -1741,7 +1733,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
   }
 
-  onTableScroll(event: {target: HTMLDivElement; scrollLeft?: number}) {
+  onTableScroll(event: any) {
     const scrollDomRefs = [this.headerDom, this.bodyDom, this.footDom];
 
     const {target, scrollLeft} = event;
@@ -1785,6 +1777,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         className={cx('Table-content')}
         style={hasScrollX ? {overflow: 'auto hidden'} : {}}
         onMouseLeave={this.onMouseLeave.bind(this)}
+        onScroll={this.onTableContentScroll.bind(this)}
       >
         {itemActions && hoverRow ? (
           <ItemActionsWrapper dom={hoverRow.target} classnames={cx}>
@@ -1877,6 +1870,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         className={cx('Table-body')}
         style={style}
         onMouseLeave={this.onMouseLeave.bind(this)}
+        onScroll={this.onTableScroll.bind(this)}
       >
         {itemActions && hoverRow ? (
           <ItemActionsWrapper dom={hoverRow.target} classnames={cx}>

@@ -59,11 +59,18 @@ exports[`Renderer:usersselect 1`] = `
                 class="cxd-ResultBox cxd-UserSelect-input is-clickable is-group"
                 tabindex="-1"
               >
-                <span
-                  class="cxd-ResultBox-placeholder"
+                <div
+                  class="cxd-ResultBox-value-wrap"
                 >
-                  请选择
-                </span>
+                  <span
+                    class="cxd-ResultBox-placeholder"
+                  >
+                    请选择
+                  </span>
+                </div>
+                <div
+                  class="cxd-ResultBox-actions"
+                />
               </div>
             </div>
           </div>

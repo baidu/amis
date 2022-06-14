@@ -35,6 +35,8 @@ export type StepObject = {
   description?: string | JSX.Element;
 
   status?: StepStatus;
+
+  iconClassName?: string;
 };
 
 export interface StepsObject {
@@ -175,7 +177,7 @@ export function Steps(props: StepsProps) {
                     i < current && 'is-success'
                   )}
                 >
-                  <span className={cx('StepsItem-icon')}>
+                  <span className={cx('StepsItem-icon', step.iconClassName)}>
                     {icon ? <Icon icon={icon} className="icon" /> : i + 1}
                   </span>
                 </div>
@@ -195,12 +197,17 @@ export function Steps(props: StepsProps) {
                     >
                       {step.title}
                     </span>
-                    <span
-                      className={cx('StepsItem-subTitle', 'StepsItem-ellText')}
-                      title={String(step.subTitle)}
-                    >
-                      {step.subTitle}
-                    </span>
+                    {step.subTitle && (
+                      <span
+                        className={cx(
+                          'StepsItem-subTitle',
+                          'StepsItem-ellText'
+                        )}
+                        title={String(step.subTitle)}
+                      >
+                        {step.subTitle}
+                      </span>
+                    )}
                   </div>
                   <div
                     className={cx('StepsItem-description', 'StepsItem-ellText')}

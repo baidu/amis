@@ -16,6 +16,7 @@ import {CollapseGroupSchema} from './renderers/CollapseGroup';
 import {ColorSchema} from './renderers/Color';
 import {ContainerSchema} from './renderers/Container';
 import {CRUDSchema} from './renderers/CRUD';
+import {CRUD2Schema} from './renderers/CRUD2';
 import {DateSchema} from './renderers/Date';
 import {DividerSchema} from './renderers/Divider';
 import {DropdownButtonSchema} from './renderers/DropDownButton';
@@ -152,6 +153,7 @@ export type SchemaType =
   | 'color'
   | 'container'
   | 'crud'
+  | 'crud2'
   | 'custom'
   | 'date'
   | 'static-date' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
@@ -373,6 +375,7 @@ export type SchemaObject =
   | ColorSchema
   | ContainerSchema
   | CRUDSchema
+  | CRUD2Schema
   | DateSchema
   | DialogSchema
   | DividerSchema

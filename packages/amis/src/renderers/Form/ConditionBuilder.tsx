@@ -23,6 +23,8 @@ import {
   ConditionBuilder
 } from 'amis-ui';
 
+import {IconSchema} from '../Icon';
+
 /**
  * 条件组合控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/condition-builder
@@ -32,6 +34,16 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
    * 指定为
    */
   type: 'condition-builder';
+
+  /**
+   * 内嵌模式，默认为 true
+   */
+  embed?: boolean;
+
+  /**
+   * 非内嵌模式时 弹窗触发icon
+   */
+  pickerIcon?: IconSchema;
 
   /**
    * 函数集合
@@ -80,8 +92,14 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
       data
     );
   }
+
+  renderPickerIcon() {
+    const {render, pickerIcon} = this.props;
+    return pickerIcon ? render('picker-icon', pickerIcon) : undefined;
+  }
+
   render() {
-    const {className, classnames: cx, ...rest} = this.props;
+    const {className, classnames: cx, pickerIcon, ...rest} = this.props;
 
     // 处理一下formula类型值的变量列表
     let formula = this.props.formula ? {...this.props.formula} : undefined;
@@ -98,6 +116,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
       <div className={cx(`ConditionBuilderControl`, className)}>
         <ConditionBuilderWithRemoteOptions
           renderEtrValue={this.renderEtrValue}
+          pickerIcon={this.renderPickerIcon()}
           {...rest}
           formula={formula}
         />

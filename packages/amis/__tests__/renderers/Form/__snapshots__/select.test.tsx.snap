@@ -68,19 +68,26 @@ exports[`Renderer: chained select 1`] = `
                       class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable is-group"
                       tabindex="-1"
                     >
-                      <span
-                        class="cxd-ResultBox-placeholder"
+                      <div
+                        class="cxd-ResultBox-value-wrap"
                       >
-                        请选择
-                      </span>
-                      <span
-                        class="cxd-TransferDropDown-icon"
-                      >
-                        <icon-mock
-                          classname="icon icon-right-arrow-bold"
-                          icon="right-arrow-bold"
-                        />
-                      </span>
+                        <span
+                          class="cxd-ResultBox-placeholder"
+                        >
+                          请选择
+                        </span>
+                        <span
+                          class="cxd-TransferDropDown-icon"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      />
                     </div>
                   </div>
                 </div>
@@ -217,19 +224,26 @@ exports[`Renderer:select associated 1`] = `
                       class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
                       tabindex="-1"
                     >
-                      <span
-                        class="cxd-ResultBox-placeholder"
+                      <div
+                        class="cxd-ResultBox-value-wrap"
                       >
-                        请选择
-                      </span>
-                      <span
-                        class="cxd-TransferDropDown-icon"
-                      >
-                        <icon-mock
-                          classname="icon icon-right-arrow-bold"
-                          icon="right-arrow-bold"
-                        />
-                      </span>
+                        <span
+                          class="cxd-ResultBox-placeholder"
+                        >
+                          请选择
+                        </span>
+                        <span
+                          class="cxd-TransferDropDown-icon"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      />
                     </div>
                   </div>
                 </div>
@@ -366,19 +380,26 @@ exports[`Renderer:select chained 1`] = `
                       class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
                       tabindex="-1"
                     >
-                      <span
-                        class="cxd-ResultBox-placeholder"
+                      <div
+                        class="cxd-ResultBox-value-wrap"
                       >
-                        请选择
-                      </span>
-                      <span
-                        class="cxd-TransferDropDown-icon"
-                      >
-                        <icon-mock
-                          classname="icon icon-right-arrow-bold"
-                          icon="right-arrow-bold"
-                        />
-                      </span>
+                        <span
+                          class="cxd-ResultBox-placeholder"
+                        >
+                          请选择
+                        </span>
+                        <span
+                          class="cxd-TransferDropDown-icon"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      />
                     </div>
                   </div>
                 </div>
@@ -515,19 +536,26 @@ exports[`Renderer:select group 1`] = `
                       class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
                       tabindex="-1"
                     >
-                      <span
-                        class="cxd-ResultBox-placeholder"
+                      <div
+                        class="cxd-ResultBox-value-wrap"
                       >
-                        请选择
-                      </span>
-                      <span
-                        class="cxd-TransferDropDown-icon"
-                      >
-                        <icon-mock
-                          classname="icon icon-right-arrow-bold"
-                          icon="right-arrow-bold"
-                        />
-                      </span>
+                        <span
+                          class="cxd-ResultBox-placeholder"
+                        >
+                          请选择
+                        </span>
+                        <span
+                          class="cxd-TransferDropDown-icon"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      />
                     </div>
                   </div>
                 </div>
@@ -821,19 +849,26 @@ exports[`Renderer:select table 1`] = `
                       class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
                       tabindex="-1"
                     >
-                      <span
-                        class="cxd-ResultBox-placeholder"
+                      <div
+                        class="cxd-ResultBox-value-wrap"
                       >
-                        请选择
-                      </span>
-                      <span
-                        class="cxd-TransferDropDown-icon"
-                      >
-                        <icon-mock
-                          classname="icon icon-right-arrow-bold"
-                          icon="right-arrow-bold"
-                        />
-                      </span>
+                        <span
+                          class="cxd-ResultBox-placeholder"
+                        >
+                          请选择
+                        </span>
+                        <span
+                          class="cxd-TransferDropDown-icon"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      />
                     </div>
                   </div>
                 </div>
@@ -960,47 +995,54 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
               tabindex="-1"
             >
               <div
-                class="cxd-ResultBox-value"
+                class="cxd-ResultBox-value-wrap"
               >
-                <span
-                  class="cxd-ResultBox-valueLabel"
+                <div
+                  class="cxd-ResultBox-value"
                 >
-                  诸葛亮
-                </span>
-                <a
-                  data-index="0"
+                  <span
+                    class="cxd-ResultBox-valueLabel"
+                  >
+                    诸葛亮
+                  </span>
+                  <a
+                    data-index="0"
+                  >
+                    <icon-mock
+                      classname="icon icon-close"
+                      icon="close"
+                    />
+                  </a>
+                </div>
+                <div
+                  class="cxd-ResultBox-value"
+                >
+                  <span
+                    class="cxd-ResultBox-valueLabel"
+                  >
+                    李白
+                  </span>
+                  <a
+                    data-index="1"
+                  >
+                    <icon-mock
+                      classname="icon icon-close"
+                      icon="close"
+                    />
+                  </a>
+                </div>
+                <span
+                  class="cxd-TransferDropDown-icon"
                 >
                   <icon-mock
-                    classname="icon icon-close"
-                    icon="close"
+                    classname="icon icon-right-arrow-bold"
+                    icon="right-arrow-bold"
                   />
-                </a>
+                </span>
               </div>
               <div
-                class="cxd-ResultBox-value"
-              >
-                <span
-                  class="cxd-ResultBox-valueLabel"
-                >
-                  李白
-                </span>
-                <a
-                  data-index="1"
-                >
-                  <icon-mock
-                    classname="icon icon-close"
-                    icon="close"
-                  />
-                </a>
-              </div>
-              <span
-                class="cxd-TransferDropDown-icon"
-              >
-                <icon-mock
-                  classname="icon icon-right-arrow-bold"
-                  icon="right-arrow-bold"
-                />
-              </span>
+                class="cxd-ResultBox-actions"
+              />
               <div
                 class="resize-sensor"
                 style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
@@ -1443,19 +1485,26 @@ exports[`Renderer:select tree 1`] = `
                       class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
                       tabindex="-1"
                     >
-                      <span
-                        class="cxd-ResultBox-placeholder"
+                      <div
+                        class="cxd-ResultBox-value-wrap"
                       >
-                        请选择
-                      </span>
-                      <span
-                        class="cxd-TransferDropDown-icon"
-                      >
-                        <icon-mock
-                          classname="icon icon-right-arrow-bold"
-                          icon="right-arrow-bold"
-                        />
-                      </span>
+                        <span
+                          class="cxd-ResultBox-placeholder"
+                        >
+                          请选择
+                        </span>
+                        <span
+                          class="cxd-TransferDropDown-icon"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      />
                     </div>
                   </div>
                 </div>

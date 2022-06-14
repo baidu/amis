@@ -187,6 +187,11 @@ export interface RowSelectionSchema {
 
 export interface ExpandableSchema {
   /**
+   * 对应渲染器类型
+   */
+  type: string;
+
+  /**
    * 对应数据源的key值
    */
   keyField: string;
@@ -247,11 +252,6 @@ export interface TableSchemaV2 extends BaseSchema {
    * 表格行可展开配置
    */
   expandable?: ExpandableSchema;
-
-  /**
-   * 表格行可展开内容配置
-   */
-  expandableBody?: Array<SchemaObject>;
 
   /**
    * 粘性头部
@@ -331,16 +331,7 @@ export interface TableV2Props extends RendererProps {
   togglable: boolean;
 }
 
-@Renderer({
-  type: 'table-v2',
-  storeType: TableStoreV2.name,
-  name: 'table-v2',
-  isolateScope: true
-})
-export default class TableRenderer extends React.Component<
-  TableV2Props,
-  object
-> {
+export default class TableV2 extends React.Component<TableV2Props, object> {
   static contextType = ScopedContext;
 
   renderedToolbars: Array<string> = [];
@@ -362,7 +353,7 @@ export default class TableRenderer extends React.Component<
     const {store, columnsTogglable, columns} = props;
 
     store.update({columnsTogglable, columns});
-    TableRenderer.syncRows(store, props, undefined) && this.syncSelected();
+    TableV2.syncRows(store, props, undefined) && this.syncSelected();
   }
 
   componentWillUnmount() {
@@ -485,7 +476,7 @@ export default class TableRenderer extends React.Component<
         (props.data !== prevProps.data ||
           (typeof props.source === 'string' && isPureVariable(props.source))))
     ) {
-      TableRenderer.syncRows(store, props, prevProps) && this.syncSelected();
+      TableV2.syncRows(store, props, prevProps) && this.syncSelected();
     }
 
     if (!isEqual(prevProps.columns, props.columns)) {
@@ -625,7 +616,7 @@ export default class TableRenderer extends React.Component<
               colIndex: number
             ) => {
               const props: RenderProps = {};
-              const item = store.getRowByIndex(rowIndex);
+              const item = store.getRowByIndex(rowIndex) || {};
               const obj = {
                 children: this.renderCellSchema(column, {
                   data: item.locals,
@@ -970,7 +961,9 @@ export default class TableRenderer extends React.Component<
         isActived: store.hasColumnHidden(),
         columns: store.columnsData,
         onColumnToggle: this.handleColumnToggle,
-        children
+        children,
+        tooltipContainer:
+          env && env.getModalContainer ? env.getModalContainer : undefined
       }
     );
   }
@@ -1207,9 +1200,9 @@ export default class TableRenderer extends React.Component<
         delete expandableConfig.expandableOn;
       }
 
-      if (expandableBody && expandableBody.length > 0) {
+      if (expandable && expandable.type) {
         expandableConfig.expandedRowRender = (record: any, rowIndex: number) =>
-          this.renderSchema('expandableBody', expandableBody, {data: record});
+          this.renderSchema('expandableBody', {...expandable}, {data: record});
       }
 
       if (expandable.expandedRowClassNameExpr) {
@@ -1403,5 +1396,33 @@ export default class TableRenderer extends React.Component<
         {this.renderTable()}
       </div>
     );
+  }
+}
+
+@Renderer({
+  type: 'table-v2',
+  storeType: TableStoreV2.name,
+  name: 'table-v2',
+  isolateScope: true
+})
+export class TableRenderer extends TableV2 {
+  receive(values: any, subPath?: string) {
+    const scoped = this.context as IScopedContext;
+    const parents = scoped?.parent?.getComponents();
+
+    /**
+     * 因为Table在scope上注册，导致getComponentByName查询组件时会优先找到Table，和CRUD联动的动作都会失效
+     * 这里先做兼容处理，把动作交给上层的CRUD处理
+     */
+    if (Array.isArray(parents) && parents.length) {
+      // CRUD的name会透传给Table，这样可以保证找到CRUD
+      const crud = parents.find(cmpt => cmpt?.props?.name === this.props?.name);
+
+      return crud?.receive?.(values, subPath);
+    }
+
+    if (subPath) {
+      return scoped.send(subPath, values);
+    }
   }
 }

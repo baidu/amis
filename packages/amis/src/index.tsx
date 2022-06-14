@@ -25,6 +25,7 @@ import './renderers/Collapse';
 import './renderers/CollapseGroup';
 import './renderers/Color';
 import './renderers/CRUD';
+import './renderers/CRUD2';
 import './renderers/Pagination';
 import './renderers/Cards';
 import './renderers/Card';

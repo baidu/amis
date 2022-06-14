@@ -105,10 +105,6 @@ exports[`Renderer:steps 1`] = `
                       >
                         Second
                       </span>
-                      <span
-                        class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
-                        title="undefined"
-                      />
                     </div>
                     <div
                       class="cxd-StepsItem-description cxd-StepsItem-ellText"
@@ -153,10 +149,6 @@ exports[`Renderer:steps 1`] = `
                       >
                         Last
                       </span>
-                      <span
-                        class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
-                        title="undefined"
-                      />
                     </div>
                     <div
                       class="cxd-StepsItem-description cxd-StepsItem-ellText"

@@ -22,7 +22,7 @@ export interface ButtonGroupSchema extends BaseSchema {
   /**
    * @deprecated 给选中态 Button 配置 className。建议用btnActiveLevel
    */
-  btnActiveClassName: string;
+  btnActiveClassName?: string;
 
   /**
    * 按钮集合
@@ -32,7 +32,7 @@ export interface ButtonGroupSchema extends BaseSchema {
   /**
    * 按钮样式级别
    */
-  btnLevel: string;
+  btnLevel?: string;
 
   /**
    * 按钮选中的样式级别

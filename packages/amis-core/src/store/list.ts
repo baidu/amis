@@ -233,6 +233,14 @@ export const ListStore = iRendererStore
       }
     }
 
+    function clearAll() {
+      self.selectedItems.clear();
+    }
+
+    function selectAll() {
+      self.selectedItems.replace(self.checkableItems);
+    }
+
     function toggle(item: IItem) {
       if (!item.checkable) {
         return;
@@ -289,6 +297,8 @@ export const ListStore = iRendererStore
       initItems,
       updateSelected,
       toggleAll,
+      clearAll,
+      selectAll,
       toggle,
       clear,
       setOrderByInfo,

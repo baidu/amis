@@ -5,7 +5,8 @@
   margin-bottom: var(--gap-md);
 
   &.#{$ns}Table-bordered {
-    border-width: var(--Table-borderWidth) var(--Table-borderWidth) 0 var(--Table-borderWidth);
+    border-width: var(--Table-borderWidth) var(--Table-borderWidth) 0
+      var(--Table-borderWidth);
     border-style: solid;
     border-color: var(--Table-borderColor);
     border-collapse: inherit;
@@ -25,7 +26,7 @@
     .#{$ns}Table-footer {
       border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
     }
-  
+
     .#{$ns}Table-title {
       border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
     }
@@ -35,20 +36,23 @@
     .#{$ns}Table-table {
       > thead > tr {
         > th {
-          padding: var(--TableCell-paddingY-large) var(--TableCell-paddingX-large);
+          padding: var(--TableCell-paddingY-large)
+            var(--TableCell-paddingX-large);
         }
       }
 
       > tbody > tr {
         > td,
         > th {
-          padding: var(--TableCell-paddingY-large) var(--TableCell-paddingX-large);
+          padding: var(--TableCell-paddingY-large)
+            var(--TableCell-paddingX-large);
         }
       }
 
       > tfoot > tr {
         > td {
-          padding: var(--TableCell-paddingY-large) var(--TableCell-paddingX-large);
+          padding: var(--TableCell-paddingY-large)
+            var(--TableCell-paddingX-large);
         }
       }
     }
@@ -64,20 +68,23 @@
     .#{$ns}Table-table {
       > thead > tr {
         > th {
-          padding: var(--TableCell-paddingY-small) var(--TableCell-paddingX-small);
+          padding: var(--TableCell-paddingY-small)
+            var(--TableCell-paddingX-small);
         }
       }
 
       > tbody > tr {
         > td,
         > th {
-          padding: var(--TableCell-paddingY-small) var(--TableCell-paddingX-small);
+          padding: var(--TableCell-paddingY-small)
+            var(--TableCell-paddingX-small);
         }
       }
 
       > tfoot > tr {
         > td {
-          padding: var(--TableCell-paddingY-small) var(--TableCell-paddingX-small);
+          padding: var(--TableCell-paddingY-small)
+            var(--TableCell-paddingX-small);
         }
       }
     }
@@ -463,7 +470,6 @@
     }
 
     > tbody > tr.is-expanded > td.#{$ns}Table-expandCell {
-
       &::before {
         content: '';
         position: absolute;
@@ -502,7 +508,9 @@
       color: var(--TableRow-onDisabled-color);
     }
 
-    > tbody > tr:not(.#{$ns}Table-row-disabled) > td.#{$ns}Table-cell-row-hover {
+    > tbody
+      > tr:not(.#{$ns}Table-row-disabled)
+      > td.#{$ns}Table-cell-row-hover {
       background: var(--Table-onHover-bg);
       border-color: var(--Table-onHover-borderColor);
       color: var(--Table-onHover-color);
@@ -518,8 +526,8 @@
         bottom: -1px;
         width: 30px;
         transform: translate(100%);
-        transition: box-shadow .3s;
-        content: "";
+        transition: box-shadow 0.3s;
+        content: '';
         pointer-events: none;
       }
     }
@@ -534,8 +542,8 @@
         left: 0;
         width: 30px;
         transform: translate(-100%);
-        transition: box-shadow .3s;
-        content: "";
+        transition: box-shadow 0.3s;
+        content: '';
         pointer-events: none;
       }
     }
@@ -584,7 +592,7 @@
         }
 
         > td.#{$ns}Table-cell-fix-left:not(.#{$ns}Table-cell-row-hover) {
-          background: #FFF;
+          background: #fff;
         }
       }
 
@@ -618,7 +626,7 @@
         }
 
         > td.#{$ns}Table-cell-fix-right:not(.#{$ns}Table-cell-row-hover) {
-          background: #FFF;
+          background: #fff;
         }
       }
     }
@@ -645,7 +653,7 @@
 
         .#{$ns}Table-thead-resizable {
           position: absolute;
-          width: 1px;
+          width: 3px;
           right: 0;
           top: 0;
           bottom: 0;
@@ -712,8 +720,6 @@
 
   .#{$ns}TableCell-searchBtn {
     cursor: pointer;
-    position: static;
-    transform: translateY(-50%);
     color: var(--text--muted-color);
     margin-left: var(--TableCell-icon-gap);
 

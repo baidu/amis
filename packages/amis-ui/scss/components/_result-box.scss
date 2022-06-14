@@ -1,16 +1,12 @@
 .#{$ns}ResultBox {
   @include input-input();
   @include input-border();
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   padding: 0 px2rem(5px);
   min-height: var(--Form-input-height);
   align-items: center;
   border-radius: 3px;
   position: relative;
-
-  &.is-clearable {
-    padding-right: px2rem(55px);
-  }
 
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
@@ -60,7 +56,32 @@
     padding-left: var(--gap-base);
   }
 
+  &-value-wrap {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    > * {
+      &:first-child {
+        margin-left: px2rem(5px);
+      }
+
+      &:not(:last-child) {
+        margin-right: px2rem(5px);
+      }
+    }
+  }
+
   &-singleValue {
+    padding: 0 calc(var(--Form-input-paddingX) - #{px2rem(3px)});
+    flex-grow: 1;
     display: inline-block;
     max-width: 100%;
     overflow: hidden;
@@ -91,10 +112,7 @@
   &-clear {
     @include input-clear();
     height: 100%;
-    padding: px2rem(4px);
     margin: auto 0;
-    position: absolute;
-    right: 10px;
     background-color: unset;
 
     &-wrap {
@@ -168,6 +186,7 @@
 
   &-placeholder {
     color: var(--Form-input-placeholderColor);
+    flex-grow: 1;
     user-select: none;
   }
 
