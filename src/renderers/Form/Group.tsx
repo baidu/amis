@@ -89,7 +89,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
     const subSchema: any = control;
 
     return render(`${index}`, subSchema, {
-      disabled,
+      disabled: control.disabled || disabled,
       formMode: subFormMode || mode || formMode,
       formHorizontal: subFormHorizontal || horizontal || formHorizontal,
       ...otherProps
