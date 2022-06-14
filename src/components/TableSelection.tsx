@@ -5,9 +5,12 @@ import {uncontrollable} from 'uncontrollable';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {resolveVariable} from '../utils/tpl-builtin';
+import {noop} from '../utils/helper';
 import {localeable} from '../locale';
 
 export interface TableSelectionProps extends BaseSelectionProps {
+  /** 是否为结果渲染列表 */
+  resultMode?: boolean;
   columns: Array<{
     name: string;
     label: string;
@@ -108,7 +111,8 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
       multiple,
       option2value,
       translate: __,
-      itemClassName
+      itemClassName,
+      resultMode
     } = this.props;
     const columns = this.getColumns();
     let valueArray = BaseSelection.value2array(value, options, option2value);
@@ -122,6 +126,12 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
             return (
               <tr
                 key={rowIndex}
+                /** 被ResultTableList引用，如果设置click事件，会导致错误删除结果列表的内容，先加一个开关判断 */
+                onClick={
+                  resultMode
+                    ? noop
+                    : e => e.defaultPrevented || this.toggleOption(option)
+                }
                 className={cx(
                   itemClassName,
                   option.className,
@@ -130,18 +140,15 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
                 )}
               >
                 {multiple ? (
-                  <td className={cx('Table-checkCell')}
+                  <td
+                    className={cx('Table-checkCell')}
                     key="checkbox"
                     onClick={e => {
                       e.stopPropagation();
                       this.toggleOption(option);
                     }}
                   >
-                    <Checkbox
-                      size="sm"
-                      checked={checked}
-                      disabled={disabled}
-                    />
+                    <Checkbox size="sm" checked={checked} disabled={disabled} />
                   </td>
                 ) : null}
                 {columns.map((column, colIndex) => (
