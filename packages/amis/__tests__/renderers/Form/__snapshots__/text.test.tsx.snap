@@ -527,8 +527,6 @@ exports[`Renderer:text type is password 1`] = `
 </div>
 `;
 
-exports[`Renderer:text type is password: validate fail 1`] = `<div />`;
-
 exports[`Renderer:text type is url: validate fail 1`] = `
 <div>
   <div
@@ -1067,8 +1065,6 @@ exports[`Renderer:text with clearable 1`] = `
   </div>
 </div>
 `;
-
-exports[`Renderer:text with clearable: validate success 1`] = `<div />`;
 
 exports[`Renderer:text with counter 1`] = `
 <div>
@@ -1739,8 +1735,6 @@ exports[`Renderer:text with options 1`] = `
   </div>
 </div>
 `;
-
-exports[`Renderer:text with options 2`] = `<div />`;
 
 exports[`Renderer:text with options and multiple: first option selected 1`] = `
 <div>
@@ -2495,8 +2489,6 @@ exports[`Renderer:text with options and multiple: second option selected 1`] = `
   </div>
 </div>
 `;
-
-exports[`Renderer:text with options and multiple: select first option 1`] = `<div />`;
 
 exports[`Renderer:text with options: options is open 1`] = `
 <div>

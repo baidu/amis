@@ -22,5 +22,6 @@
     "composite": true
   },
   "types": ["typePatches"],
-  "references": [{"path": "packages/amis"}]
+  "references": [{"path": "packages/amis"}],
+  "include": ["**.ts", "**.tsx", "packages/amis-ui/src/custom.d.ts"]
 }

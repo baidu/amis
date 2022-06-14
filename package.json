@@ -12,6 +12,7 @@
     "stop": "fis3 server stop",
     "dev": "fis3 release -cwd ./public",
     "deploy-gh-page": "sh ./deploy-gh-pages.sh",
+    "build": "npm run build --workspaces",
     "test": "npm test --workspaces",
     "prepare": "husky install",
     "coverage": "jest --coverage",
