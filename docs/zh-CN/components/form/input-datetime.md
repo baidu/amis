@@ -134,7 +134,7 @@ order: 14
 
 上例中配置了`"value": "+1hours"`，默认就会选中一小时后的时间。
 
-支持的相对值关键字除了 [Date](./date#%E7%9B%B8%E5%AF%B9%E5%80%BC) 中的以外，还支持：
+支持的相对值关键字除了 [Date](./input-date#%E7%9B%B8%E5%AF%B9%E5%80%BC) 中的以外，还支持：
 
 - `now`: 当前时间
 - `minute`或`minutes`或`min`或`mins`: 分钟
@@ -200,7 +200,7 @@ order: 14
 
 ### 支持相对值
 
-范围限制也支持设置 [相对值](./date#%E7%9B%B8%E5%AF%B9%E5%80%BC)。
+范围限制也支持设置 [相对值](./input-date#%E7%9B%B8%E5%AF%B9%E5%80%BC)。
 
 ```schema: scope="body"
 {
