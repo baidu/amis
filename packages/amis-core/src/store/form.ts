@@ -61,6 +61,27 @@ export const FormStore = ServiceStore.named('FormStore')
         return getItems();
       },
 
+      /**
+       * 相对于 items(), 只收集直接子formItem
+       * 避免 子form 表单项的重复验证
+       */
+      get directItems() {
+        const formItems: Array<IFormItemStore> = [];
+
+        // 查找孩子节点中是 formItem 的表单项
+        const pool = self.children.concat();
+        while (pool.length) {
+          const current = pool.shift()!;
+          if (current.storeType === 'FormItemStore') {
+            formItems.push(current);
+          } else if (current.storeType !== 'ComboStore') {
+            pool.push(...current.children);
+          }
+        }
+
+        return formItems;
+      },
+
       get errors() {
         let errors: {
           [propName: string]: Array<string>;
@@ -511,7 +532,7 @@ export const FormStore = ServiceStore.named('FormStore')
       forceValidate?: boolean
     ) {
       self.validated = true;
-      const items = self.items.concat();
+      const items = self.directItems.concat();
       for (let i = 0, len = items.length; i < len; i++) {
         let item = items[i] as IFormItemStore;
 
