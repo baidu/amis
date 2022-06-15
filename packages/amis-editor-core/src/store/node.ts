@@ -16,7 +16,7 @@ import {guid, JSONPipeIn} from '../util';
 import {filterSchema} from 'amis';
 import React from 'react';
 import {EditorStoreType} from './editor';
-import findIndex = require('lodash/findIndex');
+import findIndex from 'lodash/findIndex';
 import type {RendererConfig} from 'amis-core/lib/factory';
 
 export const EditorNode = types

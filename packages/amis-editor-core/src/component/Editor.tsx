@@ -16,7 +16,10 @@ import {PopOverForm} from './PopOverForm';
 import {ContextMenuPanel} from './Panel/ContextMenuPanel';
 import {LeftPanels} from './Panel/LeftPanels';
 import {RightPanels} from './Panel/RightPanels';
-import {ActionConfigItemsMap, ActionTypeNode} from 'amis-editor-comp/dist/renderers/event-action';
+import type {
+  ActionConfigItemsMap,
+  ActionTypeNode
+} from 'amis-editor-comp/dist/renderers/event-action';
 
 export interface EditorProps extends PluginEventListener {
   value: SchemaObject;
@@ -33,7 +36,11 @@ export interface EditorProps extends PluginEventListener {
   amisDocHost?: string;
 
   withSuperDataSchema?: boolean;
-  dataBindingChange?: (value: string, data: any, manager?: EditorManager) => void;
+  dataBindingChange?: (
+    value: string,
+    data: any,
+    manager?: EditorManager
+  ) => void;
 
   /**
    * Preview 预览前可以修改配置。
@@ -78,7 +85,7 @@ export interface EditorProps extends PluginEventListener {
      * 自定义动作配置
      */
     customActionGetter?: (manager: EditorManager) => ActionConfigItemsMap;
-  }
+  };
 
   onUndo?: () => void; // 用于触发外部 undo 事件
   onRedo?: () => void; // 用于触发外部 redo 事件

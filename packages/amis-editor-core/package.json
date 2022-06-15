@@ -17,7 +17,8 @@
   "license": "ISC",
   "files": [
     "lib",
-    "static"
+    "static",
+    "scss"
   ],
   "lint-staged": {
     "{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}": [
@@ -25,19 +26,14 @@
     ]
   },
   "dependencies": {
-    "@webcomponents/webcomponentsjs": "^2.6.0",
-    "amis-editor-comp": "^0.1.0-beta.7",
-    "codemirror": "^5.63.0",
+    "amis-editor-comp": "*",
     "deep-diff": "1.0.2",
     "json-ast-comments": "^1.1.0",
     "mobx": "^4.5.0",
     "mobx-react": "^6.1.4",
     "mobx-state-tree": "^3.17.3",
-    "react-hook-form": "^7.31.1",
-    "react-json-view": "^1.21.3",
-    "react-overlays": "^5.1.1",
     "sortablejs": "^1.14.0",
-    "tinycolor2": "^1.4.2"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",

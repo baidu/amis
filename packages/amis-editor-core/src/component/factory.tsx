@@ -193,7 +193,7 @@ export function makeWrapper(
     }
   }
 
-  return Wrapper;
+  return Wrapper as any;
 }
 
 function SchemaFrom({

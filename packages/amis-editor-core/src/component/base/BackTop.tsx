@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import omit = require('lodash/omit');
+import omit from 'lodash/omit';
 import {autobind} from '../../util';
 
 export interface BackTopProps {
