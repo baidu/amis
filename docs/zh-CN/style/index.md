@@ -2,6 +2,8 @@
 title: 快速开始
 ---
 
+示例有个[主题编辑器](../../examples/theme)，可以在线实时预览效果。
+
 > 这是 1.1.0 版本中新增的功能
 
 在 amis 中自定义样式有四种方式：
@@ -53,9 +55,9 @@ title: 快速开始
 使用方法：
 
 - JS SDK
-  - 引入 sdk 中的文件 `<link rel="stylesheet" href="sdk/ helper.css" />`
+  - 引入 sdk 中的文件 `<link rel="stylesheet" href="sdk/helper.css" />`
 - React
-  - `import 'amis/lib/ helper.css'`;
+  - `import 'amis/lib/helper.css'`;
 
 目前这个文件没有和主题文件合并在一起，用户可以选择性加载。
 

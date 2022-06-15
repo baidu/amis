@@ -51,10 +51,158 @@ icon 还可以使用 URL 地址，可以从 [iconfont](https://www.iconfont.cn/)
 }
 ```
 
+## 使用 v5/v6 版本的 fontawesome
+
+`icon`默认支持[fontawesome v4](https://fontawesome.com/v4/icons/)，如果想要支持 v5 以及 v6 版本的 fontawesome 请设置`vendor`为空字符串。
+
+### fontawesome v5 版本
+
+v5 用 far/fas 等表示前缀，可参考官网[示例](https://fontawesome.com/v5/search?m=free)
+
+```schema
+{
+    "type":"page",
+    "body":[
+        {
+            "type":"icon",
+            "icon":"far fa-address-book",
+            "vendor":""
+        },
+        {
+            "type":"icon",
+            "icon":"fas fa-address-book",
+            "vendor":""
+        },
+        {
+            "type":"icon",
+            "icon":"far fa-address-book",
+            "vendor":"",
+            "className": "text-info text-xl"
+        },
+        {
+            "type":"icon",
+            "icon":"fas fa-address-book",
+            "vendor":"",
+            "className": "text-info text-xl"
+        },
+        {
+          type: "divider",
+        },
+        {
+            "type":"icon",
+            "icon":"far fa-bell",
+            "vendor":""
+        },
+        {
+            "type":"icon",
+            "icon":"fas fa-bell",
+            "vendor":""
+        },
+        {
+            "type":"icon",
+            "icon":"far fa-bell",
+            "vendor":"",
+            "className": "text-info text-xl"
+        },
+        {
+            "type":"icon",
+            "icon":"fas fa-bell",
+            "vendor":"",
+            "className": "text-info text-xl"
+        },
+        {
+          type: "divider",
+        },
+        {
+            "type":"icon",
+            "icon":"far fa-plus",
+            "vendor":""
+        },
+        {
+            "type":"icon",
+            "icon":"fas fa-plus",
+            "vendor":""
+        },
+        {
+            "type":"icon",
+            "icon":"far fa-plus",
+            "vendor":"",
+            "className": "text-info text-xl"
+        },
+        {
+            "type":"icon",
+            "icon":"fas fa-plus",
+            "vendor":"",
+            "className": "text-info text-xl"
+        },
+        {
+          type: "divider",
+        },
+        {
+            "type":"icon",
+            "icon":"far fa-question-circle",
+            "vendor":""
+        },
+        {
+            "type":"icon",
+            "icon":"fas fa-question-circle",
+            "vendor":""
+        },
+        {
+            "type":"icon",
+            "icon":"far fa-question-circle",
+            "vendor":"",
+            "className": "text-info text-xl"
+        },
+        {
+            "type":"icon",
+            "icon":"fas fa-question-circle",
+            "vendor":"",
+            "className": "text-info text-xl"
+        }
+    ]
+}
+```
+
+### fontawesome v6 版本
+
+v6 用 fa-regular / fa-solid 等表示前缀，可参考官网[示例](https://fontawesome.com/search?m=free)
+
+```schema
+{
+    "type":"page",
+    "body":[
+        {
+            "type":"icon",
+            "icon":"fa-regular fa-address-book",
+            "vendor":""
+        },
+        {
+            "type":"icon",
+            "icon":"fa-solid fa-address-book",
+            "vendor":""
+        },
+        {
+            "type":"icon",
+            "icon":"fa-regular fa-address-book",
+            "vendor":"",
+            "className": "text-info text-xl"
+        },
+        {
+            "type":"icon",
+            "icon":"fa-solid fa-address-book",
+            "vendor":"",
+            "className": "text-info text-xl"
+        }
+    ]
+}
+```
+
 ## 属性表
 
-| 属性名    | 类型     | 默认值 | 说明                                    |
-| --------- | -------- | ------ | --------------------------------------- |
-| type      | `string` | `icon` | 指定组件类型                            |
-| className | `string` |        | 外层 CSS 类名                           |
-| icon      | `string` |        | icon 名，支持 fontawesome v4 或使用 url |
+| 属性名    | 类型     | 默认值 | 说明                                                                                                                      |
+| --------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------------- |
+| type      | `string` | `icon` | 指定组件类型                                                                                                              |
+| className | `string` |        | 外层 CSS 类名                                                                                                             |
+| icon      | `string` |        | icon 名称，支持 [fontawesome v4](https://fontawesome.com/v4/icons/) 或 通过 registerIcon 注册的 icon、或使用 url          |
+| vendor    | `string` |        | icon 类型，默认为`fa`, 表示 fontawesome v4。也支持 iconfont, 如果是 fontawesome v5 以上版本或者其他框架可以设置为空字符串 |

@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "./lib",
+    "typeRoots": [
+      "../../types",
+      "./node_modules/@types",
+      "../../node_modules/@types"
+    ]
+  },
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../amis-formula"
+    }
+  ]
+}

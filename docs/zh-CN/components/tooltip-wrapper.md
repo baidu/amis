@@ -395,6 +395,7 @@ order: 59
 | tooltipTheme     | `"light" \| "dark"`                                                     | `"light"`           | 主题样式， 默认为 light                        |
 | offset           | `[number, number]`                                                      | `[0, 0]`            | 文字提示浮层位置相对偏移量，单位 px            |
 | showArrow        | `boolean`                                                               | `true`              | 是否展示浮层指向箭头                           |
+| enterable        | `boolean`                                                               | `true`              | 是否鼠标可以移入到浮层中                       |
 | disabled         | `boolean`                                                               | `false`             | 是否禁用浮层提示                               |
 | trigger          | `"hover" \| "click" \| "focus" \| Array<"hover" \| "click" \| "focus">` | `"hover"`           | 浮层触发方式，支持数组写法`["hover", "click"]` |
 | mouseEnterDelay  | `number`                                                                | `0`                 | 浮层延迟展示时间，单位 ms                      |

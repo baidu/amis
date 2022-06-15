@@ -1,0 +1,214 @@
+/*!markdown
+
+---
+title: 背景色
+---
+
+| Class       | Properties               |   Demo   |
+| ----------- | ------------------------ | -------- |
+| bg-none | background: none !important | <span  style="background: none !important;" class="w-24 h-6"></div> |
+| bg-transparent | background: transparent | <div style="background: transparent;" class="w-24 h-6"></div> |
+| bg-current | background: currentColor | <div style="background: currentColor;" class="w-24 h-6"></div> |
+| bg-black | background: #000 | <div style="background: #000;" class="w-24 h-6"></div> |
+| bg-white | background: #fff | <div style="background: #fff;" class="w-24 h-6"></div> |
+| bg-primary | background: #007bff | <div style="background: #007bff;" class="w-24 h-6"></div> |
+| bg-secondary | background: #6c757d | <div style="background: #6c757d;" class="w-24 h-6"></div> |
+| bg-success | background: #28a745 | <div style="background: #28a745;" class="w-24 h-6"></div> |
+| bg-info | background: #007bff | <div style="background: #007bff" class="w-24 h-6"></div> |
+| bg-warning | background: #28a745 | <div style="background: #28a745;" class="w-24 h-6"></div> |
+| bg-danger | background: #dc3545 | <div style="background: #dc3545;" class="w-24 h-6"></div> |
+| bg-light | background: #f8f9fa | <div style="background: #f8f9fa;" class="w-24 h-6"></div> |
+| bg-dark | background: #343a40 | <div style="background: #343a40;" class="w-24 h-6"></div> |
+| bg-gray-transparent | background: transparent | <div style="background: transparent;" class="w-24 h-6"></div> |
+| bg-gray-current | background: currentColor | <div style="background: currentColor;" class="w-24 h-6"></div> |
+| bg-gray-50 | background: #f9fafb | <div style="background: #f9fafb;" class="w-24 h-6"></div> |
+| bg-gray-100 | background: #f3f4f6 | <div style="background: #f3f4f6;" class="w-24 h-6"></div> |
+| bg-gray-200 | background: #e5e7eb | <div style="background: #e5e7eb;" class="w-24 h-6"></div> |
+| bg-gray-300 | background: #d1d5db | <div style="background: #d1d5db;" class="w-24 h-6"></div> |
+| bg-gray-400 | background: #9ca3af | <div style="background: #9ca3af;" class="w-24 h-6"></div> |
+| bg-gray-500 | background: #6b7280 | <div style="background: #6b7280;" class="w-24 h-6"></div> |
+| bg-gray-600 | background: #4b5563 | <div style="background: #4b5563;" class="w-24 h-6"></div> |
+| bg-gray-700 | background: #374151 | <div style="background: #374151;" class="w-24 h-6"></div> |
+| bg-gray-800 | background: #1f2937 | <div style="background: #1f2937;" class="w-24 h-6"></div> |
+| bg-gray-900 | background: #111827 | <div style="background: #111827;" class="w-24 h-6"></div> |
+| bg-red-transparent | background: transparent | <div style="background: transparent;" class="w-24 h-6"></div> |
+| bg-red-current | background: currentColor | <div style="background: currentColor;" class="w-24 h-6"></div> |
+| bg-red-50 | background: #fef2f2 | <div style="background: #fef2f2;" class="w-24 h-6"></div> |
+| bg-red-100 | background: #fee2e2 | <div style="background: #fee2e2;" class="w-24 h-6"></div> |
+| bg-red-200 | background: #fecaca | <div style="background: #fecaca;" class="w-24 h-6"></div> |
+| bg-red-300 | background: #fca5a5 | <div style="background: #fca5a5;" class="w-24 h-6"></div> |
+| bg-red-400 | background: #f87171 | <div style="background: #f87171;" class="w-24 h-6"></div> |
+| bg-red-500 | background: #ef4444 | <div style="background: #ef4444;" class="w-24 h-6"></div> |
+| bg-red-600 | background: #dc2626 | <div style="background: #dc2626;" class="w-24 h-6"></div> |
+| bg-red-700 | background: #b91c1c | <div style="background: #b91c1c;" class="w-24 h-6"></div> |
+| bg-red-800 | background: #991b1b | <div style="background: #991b1b;" class="w-24 h-6"></div> |
+| bg-red-900 | background: #7f1d1d | <div style="background: #7f1d1d;" class="w-24 h-6"></div> |
+| bg-yellow-transparent | background: transparent | <div style="background: transparent;" class="w-24 h-6"></div> |
+| bg-yellow-current | background: currentColor | <div style="background: currentColor;" class="w-24 h-6"></div> |
+| bg-yellow-50 | background: #fffbeb | <div style="background: #fffbeb;" class="w-24 h-6"></div> |
+| bg-yellow-100 | background: #fef3c7 | <div style="background: #fef3c7;" class="w-24 h-6"></div> |
+| bg-yellow-200 | background: #fde68a | <div style="background: #fde68a;" class="w-24 h-6"></div> |
+| bg-yellow-300 | background: #fcd34d | <div style="background: #fcd34d;" class="w-24 h-6"></div> |
+| bg-yellow-400 | background: #fbbf24 | <div style="background: #fbbf24;" class="w-24 h-6"></div> |
+| bg-yellow-500 | background: #f59e0b | <div style="background: #f59e0b;" class="w-24 h-6"></div> |
+| bg-yellow-600 | background: #d97706 | <div style="background: #d97706;" class="w-24 h-6"></div> |
+| bg-yellow-700 | background: #b45309 | <div style="background: #b45309;" class="w-24 h-6"></div> |
+| bg-yellow-800 | background: #92400e | <div style="background: #92400e;" class="w-24 h-6"></div> |
+| bg-yellow-900 | background: #78350f | <div style="background: #78350f;" class="w-24 h-6"></div> |
+| bg-green-transparent | background: transparent | <div style="background: transparent;" class="w-24 h-6"></div> |
+| bg-green-current | background: currentColor | <div style="background: currentColor;" class="w-24 h-6"></div> |
+| bg-green-50 | background: #ecfdf5 | <div style="background: #ecfdf5;" class="w-24 h-6"></div> |
+| bg-green-100 | background: #d1fae5 | <div style="background: #d1fae5;" class="w-24 h-6"></div> |
+| bg-green-200 | background: #a7f3d0 | <div style="background: #a7f3d0;" class="w-24 h-6"></div> |
+| bg-green-300 | background: #6ee7b7 | <div style="background: #6ee7b7;" class="w-24 h-6"></div> |
+| bg-green-400 | background: #34d399 | <div style="background: #34d399;" class="w-24 h-6"></div> |
+| bg-green-500 | background: #10b981 | <div style="background: #10b981;" class="w-24 h-6"></div> |
+| bg-green-600 | background: #059669 | <div style="background: #059669;" class="w-24 h-6"></div> |
+| bg-green-700 | background: #047857 | <div style="background: #047857;" class="w-24 h-6"></div> |
+| bg-green-800 | background: #065f46 | <div style="background: #065f46;" class="w-24 h-6"></div> |
+| bg-green-900 | background: #064e3b | <div style="background: #064e3b;" class="w-24 h-6"></div> |
+| bg-blue-transparent | background: transparent | <div style="background: transparent;" class="w-24 h-6"></div> |
+| bg-blue-current | background: currentColor | <div style="background: currentColor;" class="w-24 h-6"></div> |
+| bg-blue-50 | background: #eff6ff | <div style="background: #eff6ff;" class="w-24 h-6"></div> |
+| bg-blue-100 | background: #dbeafe | <div style="background: #dbeafe;" class="w-24 h-6"></div> |
+| bg-blue-200 | background: #bfdbfe | <div style="background: #bfdbfe;" class="w-24 h-6"></div> |
+| bg-blue-300 | background: #93c5fd | <div style="background: #93c5fd;" class="w-24 h-6"></div> |
+| bg-blue-400 | background: #60a5fa | <div style="background: #60a5fa;" class="w-24 h-6"></div> |
+| bg-blue-500 | background: #3b82f6 | <div style="background: #3b82f6;" class="w-24 h-6"></div> |
+| bg-blue-600 | background: #2563eb | <div style="background: #2563eb;" class="w-24 h-6"></div> |
+| bg-blue-700 | background: #1d4ed8 | <div style="background: #1d4ed8;" class="w-24 h-6"></div> |
+| bg-blue-800 | background: #1e40af | <div style="background: #1e40af;" class="w-24 h-6"></div> |
+| bg-blue-900 | background: #1e3a8a | <div style="background: #1e3a8a;" class="w-24 h-6"></div> |
+| bg-cyan-transparent | background: transparent | <div style="background: transparent;" class="w-24 h-6"></div> |
+| bg-cyan-current | background: currentColor | <div style="background: currentColor;" class="w-24 h-6"></div> |
+| bg-cyan-50 | background: #ecfeff | <div style="background: #ecfeff;" class="w-24 h-6"></div> |
+| bg-cyan-100 | background: #cffafe | <div style="background: #cffafe;" class="w-24 h-6"></div> |
+| bg-cyan-200 | background: #a5f3fc | <div style="background: #a5f3fc;" class="w-24 h-6"></div> |
+| bg-cyan-300 | background: #67e8f9 | <div style="background: #67e8f9;" class="w-24 h-6"></div> |
+| bg-cyan-400 | background: #22d3ee | <div style="background: #22d3ee;" class="w-24 h-6"></div> |
+| bg-cyan-500 | background: #06b6d4 | <div style="background: #06b6d4;" class="w-24 h-6"></div> |
+| bg-cyan-600 | background: #0891b2 | <div style="background: #0891b2;" class="w-24 h-6"></div> |
+| bg-cyan-700 | background: #0e7490 | <div style="background: #0e7490;" class="w-24 h-6"></div> |
+| bg-cyan-800 | background: #155e75 | <div style="background: #155e75;" class="w-24 h-6"></div> |
+| bg-cyan-900 | background: #164e63 | <div style="background: #164e63;" class="w-24 h-6"></div> |
+| bg-indigo-transparent | background: transparent | <div style="background: transparent;" class="w-24 h-6"></div> |
+| bg-indigo-current | background: currentColor | <div style="background: currentColor;" class="w-24 h-6"></div> |
+| bg-indigo-50 | background: #eef2ff | <div style="background: #eef2ff;" class="w-24 h-6"></div> |
+| bg-indigo-100 | background: #e0e7ff | <div style="background: #e0e7ff;" class="w-24 h-6"></div> |
+| bg-indigo-200 | background: #c7d2fe | <div style="background: #c7d2fe;" class="w-24 h-6"></div> |
+| bg-indigo-300 | background: #a5b4fc | <div style="background: #a5b4fc;" class="w-24 h-6"></div> |
+| bg-indigo-400 | background: #818cf8 | <div style="background: #818cf8;" class="w-24 h-6"></div> |
+| bg-indigo-500 | background: #6366f1 | <div style="background: #6366f1;" class="w-24 h-6"></div> |
+| bg-indigo-600 | background: #4f46e5 | <div style="background: #4f46e5;" class="w-24 h-6"></div> |
+| bg-indigo-700 | background: #4338ca | <div style="background: #4338ca;" class="w-24 h-6"></div> |
+| bg-indigo-800 | background: #3730a3 | <div style="background: #3730a3;" class="w-24 h-6"></div> |
+| bg-indigo-900 | background: #312e81 | <div style="background: #312e81;" class="w-24 h-6"></div> |
+| bg-purple-transparent | background: transparent | <div style="background: transparent;" class="w-24 h-6"></div> |
+| bg-purple-current | background: currentColor | <div style="background: currentColor;" class="w-24 h-6"></div> |
+| bg-purple-50 | background: #f5f3ff | <div style="background: #f5f3ff;" class="w-24 h-6"></div> |
+| bg-purple-100 | background: #ede9fe | <div style="background: #ede9fe;" class="w-24 h-6"></div> |
+| bg-purple-200 | background: #ddd6fe | <div style="background: #ddd6fe;" class="w-24 h-6"></div> |
+| bg-purple-300 | background: #c4b5fd | <div style="background: #c4b5fd;" class="w-24 h-6"></div> |
+| bg-purple-400 | background: #a78bfa | <div style="background: #a78bfa;" class="w-24 h-6"></div> |
+| bg-purple-500 | background: #8b5cf6 | <div style="background: #8b5cf6;" class="w-24 h-6"></div> |
+| bg-purple-600 | background: #7c3aed | <div style="background: #7c3aed;" class="w-24 h-6"></div> |
+| bg-purple-700 | background: #6d28d9 | <div style="background: #6d28d9;" class="w-24 h-6"></div> |
+| bg-purple-800 | background: #5b21b6 | <div style="background: #5b21b6;" class="w-24 h-6"></div> |
+| bg-purple-900 | background: #4c1d95 | <div style="background: #4c1d95;" class="w-24 h-6"></div> |
+| bg-pink-transparent | background: transparent | <div style="background: transparent;" class="w-24 h-6"></div> |
+| bg-pink-current | background: currentColor | <div style="background: currentColor;" class="w-24 h-6"></div> |
+| bg-pink-50 | background: #fdf2f8 | <div style="background: #fdf2f8;" class="w-24 h-6"></div> |
+| bg-pink-100 | background: #fce7f3 | <div style="background: #fce7f3;" class="w-24 h-6"></div> |
+| bg-pink-200 | background: #fbcfe8 | <div style="background: #fbcfe8;" class="w-24 h-6"></div> |
+| bg-pink-300 | background: #f9a8d4 | <div style="background: #f9a8d4;" class="w-24 h-6"></div> |
+| bg-pink-400 | background: #f472b6 | <div style="background: #f472b6;" class="w-24 h-6"></div> |
+| bg-pink-500 | background: #ec4899 | <div style="background: #ec4899;" class="w-24 h-6"></div> |
+| bg-pink-600 | background: #db2777 | <div style="background: #db2777;" class="w-24 h-6"></div> |
+| bg-pink-700 | background: #be185d | <div style="background: #be185d;" class="w-24 h-6"></div> |
+| bg-pink-800 | background: #9d174d | <div style="background: #9d174d;" class="w-24 h-6"></div> |
+| bg-pink-900 | background: #831843 | <div style="background: #831843;" class="w-24 h-6"></div> |
+
+还有 hover、active、focus、disabled 扩展，比如 `hover:bg-black`
+
+参考: [tailwindcss](https://tailwindcss.com/docs/background-color)
+
+*/
+
+@mixin bg-colors-map(
+  $colors: $colors,
+  $namePrefix: '',
+  $prefix: '.',
+  $suffix: ''
+) {
+  #{$prefix}bg#{$namePrefix}-transparent#{$suffix} {
+    background: transparent;
+  }
+
+  #{$prefix}bg#{$namePrefix}-current#{$suffix} {
+    background: currentColor;
+  }
+
+  @each $name, $color in $colors {
+    @if (is-map($color)) {
+      @include bg-colors-map($color, #{'-' + $name}, $prefix, $suffix);
+    } @else if $suffix == '.is-active' {
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}.is-active,
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}:active {
+        background-color: $color;
+      }
+    } @else if $suffix == '.is-disabled' {
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}.is-disabled,
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}:disabled {
+        background-color: $color;
+      }
+    } @else {
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}#{$suffix} {
+        background-color: $color;
+      }
+    }
+  }
+}
+
+@mixin bg-colors($prefix: '.', $suffix: '') {
+  #{$prefix}bg-transparent#{$suffix} {
+    background: transparent;
+  }
+  #{$prefix}bg-none#{$suffix} {
+    background: none !important;
+  }
+  @include bg-colors-map($colors, '', $prefix, $suffix);
+}
+
+@include bg-colors();
+@include bg-colors('.' + selector-escape('hover:'), ':hover');
+@include bg-colors('.' + selector-escape('active:'), '.is-active');
+@include bg-colors('.' + selector-escape('focus:'), ':focus');
+@include bg-colors('.' + selector-escape('disabled:'), '.is-disabled');
+@include bg-colors('.group:hover .' + selector-escape('group-hover:'));
+
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include bg-colors('.' + selector-escape($deivce + ':'));
+
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('hover:'),
+      ':hover'
+    );
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('active:'),
+      '.is-active'
+    );
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('focus:'),
+      ':focus'
+    );
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('disabled:'),
+      '.is-disabled'
+    );
+    @include bg-colors(
+      '.group:hover .' + selector-escape($deivce + ':') +
+        selector-escape('group-hover:')
+    );
+  }
+}

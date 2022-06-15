@@ -36,7 +36,10 @@ const http = require('http');
 let app = http.createServer((req, res) => {
   res.writeHead(200, {
     'Content-Type': 'text/plain',
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': 'http://localhost:8888',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Allow-Headers': '*'
   });
 
   let index = 1;
@@ -77,6 +80,20 @@ public class StreamingResponseBodyController {
 ```
 
 需要注意有些反向代理有 buffer 设置，比如 nginx 的 [proxy_buffer_size](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size)，它会使得即便后端返回内容也需要等 buffer 满了才会真正返回前端，如果需要更实时的效果就需要关掉此功能。
+
+## 对于超长日志的优化
+
+> 1.10.0 及以上版本
+
+如果日志非常长会导致页面卡顿，这时有几种处理方法，请根据需求进行选择，也可以都使用：
+
+1. 设置 `rowHeight`，比如 `"rowHeight": 22`，这时就会默认启用虚拟渲染，避免渲染卡顿
+   - 优点：仍然可以查看所有日志
+   - 缺点：如果某一行日志很长也不会自动折行，会出现水平滚动条；目前暂时不支持 autoScroll
+2. 设置 `maxLength`，限制最大显示行数
+   - 优点：某一行日志很长的时候会自动折行
+   - 缺点：无法查看之前的日志
+3. 试试通过 `"disableColor": false` 关闭 ANSI 颜色
 
 ## 自动滚动到底部
 
@@ -143,11 +160,15 @@ public class StreamingResponseBodyController {
 
 ## 属性表
 
-| 属性名      | 类型      | 默认值 | 说明               |
-| ----------- | --------- | ------ | ------------------ |
-| height      | `number`  | 500    | 展示区域高度       |
-| className   | `string`  |        | 外层 CSS 类名      |
-| autoScroll  | `boolean` | true   | 是否自动滚动       |
-| placeholder | `string`  |        | 加载中的文字       |
-| encoding    | `string`  | utf-8  | 返回内容的字符编码 |
-| source      | `string`  |        | 接口               |
+| 属性名       | 类型      | 默认值 | 说明                                            |
+| ------------ | --------- | ------ | ----------------------------------------------- |
+| height       | `number`  | 500    | 展示区域高度                                    |
+| className    | `string`  |        | 外层 CSS 类名                                   |
+| autoScroll   | `boolean` | true   | 是否自动滚动                                    |
+| placeholder  | `string`  |        | 加载中的文字                                    |
+| encoding     | `string`  | utf-8  | 返回内容的字符编码                              |
+| source       | `string`  |        | 接口                                            |
+| rowHeight    | `number`  |        | 设置每行高度，将会开启虚拟渲染                  |
+| maxLength    | `number`  |        | 最大显示行数                                    |
+| disableColor | `boolean` |        | 关闭 ANSI 颜色支持                              |
+| operation    | `Array`   |        | 可选日志操作：['stop','clear','showLineNumber'] |

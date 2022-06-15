@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`lexer:filter 1`] = `
+Array [
+  "<Raw> $abc is ",
+  "<OpenScript> \${",
+  "<Identifier> abc",
+  "<OpenFilter> |",
+  "<Char>  ",
+  "<Identifier> date",
+  "<Punctuator> :",
+  "<Char>  ",
+  "<Identifier> YYYY-MM-DD",
+  "<Char>  ",
+  "<Identifier> HH:mm:ss",
+  "<CloseScript> }",
+  "<EOF> undefined",
+]
+`;
+
+exports[`lexer:simple 1`] = `
+Array [
+  "<Raw> expression result is ",
+  "<OpenScript> \${",
+  "<Identifier> a",
+  "<Punctuator> +",
+  "<Identifier> b",
+  "<CloseScript> }",
+  "<EOF> undefined",
+]
+`;

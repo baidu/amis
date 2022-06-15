@@ -1,0 +1,9 @@
+/dist
+lib
+sdk
+/public
+/gh-pages
+/output
+/coverage
+/schema.json
+/npm

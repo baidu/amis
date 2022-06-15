@@ -1,0 +1,202 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:city 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  city
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-CityPicker"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-0-label"
+              class="cxd-Select"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="cxd-Select-valueWrap"
+              >
+                <div
+                  class="cxd-Select-value"
+                >
+                  北京市
+                </div>
+              </div>
+              <a
+                class="cxd-Select-clear"
+              >
+                <icon-mock
+                  classname="icon icon-close-small"
+                  icon="close-small"
+                />
+              </a>
+              <span
+                class="cxd-Select-arrow"
+              >
+                <icon-mock
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
+                />
+              </span>
+            </div>
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-1-label"
+              class="cxd-Select"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="cxd-Select-valueWrap"
+              >
+                <div
+                  class="cxd-Select-value"
+                >
+                  北京市市辖区
+                </div>
+              </div>
+              <a
+                class="cxd-Select-clear"
+              >
+                <icon-mock
+                  classname="icon icon-close-small"
+                  icon="close-small"
+                />
+              </a>
+              <span
+                class="cxd-Select-arrow"
+              >
+                <icon-mock
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
+                />
+              </span>
+            </div>
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-2-label"
+              class="cxd-Select is-focused"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="cxd-Select-valueWrap"
+              >
+                <div
+                  class="cxd-Select-value"
+                >
+                  东城区
+                </div>
+              </div>
+              <a
+                class="cxd-Select-clear"
+              >
+                <icon-mock
+                  classname="icon icon-close-small"
+                  icon="close-small"
+                />
+              </a>
+              <span
+                class="cxd-Select-arrow"
+              >
+                <icon-mock
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,200 @@
+.#{$ns}Pagination {
+  display: inline-block;
+  padding: 0;
+  margin: 0 0 px2rem(-10px);
+  border-radius: px2rem(4px);
+
+  > li {
+    display: inline-flex;
+    cursor: pointer;
+
+    > a,
+    > span {
+      user-select: none;
+      cursor: pointer;
+      position: relative;
+      float: left;
+      text-decoration: none;
+      min-width: var(--Pagination-minWidth);
+      height: var(--Pagination-height);
+      border: 0;
+      line-height: var(--Pagination-height);
+      padding: var(--Pagination-padding);
+      text-align: center;
+      color: #666666;
+      border-radius: 0;
+      margin-left: 0;
+      font-size: var(--Pagination-fontSize);
+    }
+
+    > a:hover,
+    > span:hover,
+    > a:focus,
+    > span:focus {
+      background: transparent;
+      color: var(--primary);
+    }
+  }
+  .ellipsis {
+    cursor: unset;
+    > a {
+      cursor: unset;
+      position: relative;
+      top: px2rem(-4px);
+    }
+  }
+
+  > li.is-disabled {
+    > span,
+    > a {
+      cursor: not-allowed;
+    }
+
+    > a,
+    > span,
+    > a:hover,
+    > span:hover,
+    > a:focus,
+    > span:focus {
+      color: #cccccc;
+    }
+  }
+
+  > li.is-active {
+    > a,
+    > span,
+    > a:hover,
+    > span:hover,
+    > a:focus,
+    > span:focus {
+      background: var(--Pagination-onActive-backgroundColor);
+      color: var(--Pagination-onActive-color);
+      border: var(--Pagination-onActive-border);
+      border-radius: var(--borderRadius);
+    }
+  }
+  &-simple {
+    >ul >li {
+      &:hover,
+      &:focus {
+        outline: none;
+      }
+      &.is-active > a {
+        border: none;
+        &:hover,
+        &:focus {
+          border: none;
+        }
+      }
+    }
+  }
+  &-prev {
+    > span {
+      cursor: pointer;
+    }
+  }
+
+
+
+  &-next {
+    > span {
+      cursor: pointer;
+    }
+  }
+
+  &-total {
+    display: inline-block;
+    color: var(--Pagination-light-color);
+  }
+
+  &-inputGroup {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    height: var(--Pagination-height);
+
+      &-left {
+        color: var(--Pagination-light-color);
+      }
+      input {
+        min-width: px2rem(50px);
+        width: px2rem(50px);
+        height: var(--Pagination-height);
+        line-height: var(--Pagination-height);
+        // height: var(--Pagination-height);
+        border: none;
+        border: var(--borderWidth) solid var(--borderColor);
+        border-radius: var(--borderRadius) 0 0 var(--borderRadius);
+        padding: var(--Pagination-padding);
+        margin-left: px2rem(10px);
+        text-align: center;
+
+        &:focus,
+        &:hover {
+          outline: none;
+          // border: var(--borderWidth) solid var(--primary);
+          border-color: var(--primary);
+        }
+      }
+      &-right {
+        display: inline-block;
+        width: px2rem(32px);
+        cursor: pointer;
+        text-align: center;
+        height: var(--Pagination-height);
+        line-height: var(--Pagination-height);
+        border: var(--borderWidth) solid var(--borderColor);
+        border-left: none;
+        border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
+        font-size: var(--fontSizeSm);
+        &:hover {
+          color: var(--primary);
+          border-color: var(--primary);
+          border-left: var(--borderWidth) solid var(--primary);
+        }
+      }
+  }
+}
+
+.#{$ns}Pagination-wrap {
+  line-height: px2rem(30px);
+
+  .#{$ns}Pagination-item {
+    margin-left: px2rem(10px);
+    &:nth-child(1) {
+      margin-left: 0;
+    }
+  }
+  &.disabled {
+    background-color: #fff;
+    .#{$ns}Pagination {
+      > li {
+        > a,
+        > span {
+          color: var(--Pagination-onDisabled-color);
+          cursor: not-allowed;
+        }
+
+        &.is-active {
+          > a,
+          > span,
+          > a:hover,
+          > span:hover,
+          > a:focus,
+          > span:focus {
+            background-color: var(--Pagination-onDisabled-backgroundColor);
+            border-color: var(--Pagination-onDisabled-color);
+          }
+        }
+      }
+    }
+  }
+}
+
+.#{$ns}PaginationWrapper-pager {
+  &:first-child {
+    margin-bottom: var(--gap-sm);
+  }
+
+  text-align: right;
+}

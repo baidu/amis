@@ -3,9 +3,7 @@
  */
 import React from 'react';
 import axios from 'axios';
-import SearchBox from '../../src/components/SearchBox';
-import Drawer from '../../src/components/Drawer';
-import {Icon} from '../../src';
+import {Icon, Drawer, SearchBox} from 'amis';
 
 let ContextPath = '';
 

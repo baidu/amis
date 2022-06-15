@@ -34,6 +34,6 @@ order: 42
 
 | 属性名    | 类型     | 默认值     | 说明                                |
 | --------- | -------- | ---------- | ----------------------------------- |
-| type      | `string` |            | `"dialog"` 指定为 Dialog 渲染器     |
+| type      | `string` |            | `"divider"` 指定为 分割线 渲染器     |
 | className | `string` |            | 外层 Dom 的类名                     |
 | lineStyle | `string` | `"dashed"` | 分割线的样式，支持`dashed`和`solid` |

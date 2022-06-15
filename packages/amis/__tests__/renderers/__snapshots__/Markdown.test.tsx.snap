@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:markdown 1`] = `
+<div>
+  <div
+    class="cxd-Markdown"
+  >
+    <div
+      class="markdown-body"
+      data-testid="markdown-body"
+    >
+      <h1>
+        title
+      </h1>
+      
+
+      <p>
+        markdown 
+        <strong>
+          text
+        </strong>
+      </p>
+      
+
+    </div>
+  </div>
+</div>
+`;

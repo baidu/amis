@@ -1,0 +1,62 @@
+.#{$ns}TextareaControl {
+  @include input-text();
+  --Form-input-clearBtn-padding: #{px2rem(2px)};
+
+  position: relative;
+
+  > textarea {
+    @include input-border();
+
+    border: 1px solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    background: var(--Form-input-bg);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+    font-size: var(--Form-input-fontSize);
+    display: block;
+    width: 100%;
+    line-height: var(--Form-input-lineHeight);
+    outline: none;
+    resize: vertical;
+
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+    }
+
+    // yunshe4.0
+    &:hover {
+      border-color: var(--Form-input-onHover-borderColor);
+    }
+  }
+
+  &-counter {
+    position: absolute;
+    right: var(--Form-input-paddingX);
+    bottom: var(--Form-input-paddingY);
+    font-size: var(--fontSizeSm);
+    padding: 0 5px;
+    border-radius: 3px;
+    color: #84868c;
+
+    &.is-empty {
+      color: #84868c;
+    }
+
+    &.is-clearable {
+      right: calc(
+        var(--Form-input-paddingX) + var(--Form-input-clearBtn-size) +
+          var(--Form-input-clearBtn-padding) * 2 + #{px2rem(5px)}
+      );
+    }
+  }
+
+  .has-error--maxLength &-counter {
+    background: var(--danger);
+  }
+
+  &-clear {
+    @include input-clear();
+    position: absolute;
+    right: var(--Form-input-paddingX);
+    bottom: var(--Form-input-paddingY);
+  }
+}

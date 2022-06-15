@@ -1,20 +1,19 @@
 import React from 'react';
-import NotFound from '../../src/components/404';
-import Layout from '../../src/components/Layout';
-import AsideNav from '../../src/components/AsideNav';
 import {
+  NotFound,
+  Layout,
+  AsideNav,
   AlertComponent,
   Button,
   Drawer,
   Spinner,
-  ToastComponent
-} from '../../src/components/index';
-import {eachTree, mapTree} from '../../src/utils/helper';
-import {Icon} from '../../src/components/icons';
-import '../../src/locale/en-US';
+  ToastComponent,
+  Select,
+  InputBox
+} from 'amis';
+import {eachTree, mapTree} from 'amis-core';
+import 'amis-ui/lib/locale/en-US';
 import {withRouter} from 'react-router';
-import Select from '../../src/components/Select';
-import InputBox from '../../src/components/InputBox';
 import DocSearch from './DocSearch';
 import Doc from './Doc';
 import DocNavCN from './DocNavCN';
@@ -92,7 +91,7 @@ const docVersions = [
   {
     label: '主干版本',
     value: '',
-    url: '/zh-CN/docs/start/1-2-0'
+    url: '/zh-CN/docs/index'
   },
   {
     label: '1.1.x 文档',

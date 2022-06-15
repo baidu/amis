@@ -1,0 +1,5 @@
+lib/
+/node_modules
+/esm
+/tsconfig.tsbuildinfo
+/coverage

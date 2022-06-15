@@ -124,6 +124,101 @@ order: 31
 }
 ```
 
+## 只允许选中叶子节点
+
+> 1.8.0 及以上版本，如果是之前版本可以在对应的节点上不设置 value 实现
+
+在单选时，可以通过 `onlyLeaf` 来设置只允许选择叶子节点，即便分支节点有 `value` 也不会被选中。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "nested-select",
+      "name": "nestedSelect",
+      "label": "级联选择器",
+      "onlyLeaf": true,
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b",
+          "children": [
+            {
+              "label": "B-1",
+              "value": "b-1"
+            },
+            {
+              "label": "B-2",
+              "value": "b-2"
+            },
+            {
+              "label": "B-3",
+              "value": "b-3"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
+在多选时，也可以通过 `onlyLeaf` 来设置只允许选择叶子节点，即便分支节点有 `value` 也不会有选中动作。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "nested-select",
+      "name": "nestedSelect",
+      "label": "级联选择器",
+      "onlyLeaf": true,
+      "multiple": true,
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b",
+          "children": [
+            {
+              "label": "B-1",
+              "value": "b-1"
+            },
+            {
+              "label": "B-2",
+              "value": "b-2"
+            },
+            {
+              "label": "B-3",
+              "value": "b-3"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 选中父节点是否自动选中子节点
 
 默认选中父节点会自动选中子节点，可以设置`"cascade": true`，不自动选中子节点
@@ -519,18 +614,25 @@ order: 31
 | noResultsText     | `string`                                  | `"未找到任何结果"`   | 无结果时的文本                                                                              |
 | multiple          | `boolean`                                 | `false`              | 可否多选                                                                                    |
 | hideNodePathLabel | `boolean`                                 | `false`              | 是否隐藏选择框中已选择节点的路径 label 信息                                                 |
+| onlyLeaf          | `boolean`                                 | `false`              | 只允许选择叶子节点                                                                          |
 
 ## 事件表
 
-| 事件名称 | 事件参数                                                                                           | 说明 |
-| -------- | -------------------------------------------------------------------------------------------------- | ---- |
-| change    |  `value: string \| Option[]` 选中值 | 选中值发生变化时触发 |
-| blur    |  `(event: Event)` 原始事件 | 失去焦点时触发 |
-| focus    |  `(event: Event)` 原始事件 | 获得焦点时触发 |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                          | 说明                 |
+| -------- | --------------------------------- | -------------------- |
+| change   | `event.data.value: string` 选中值 | 选中值变化时触发     |
+| blur     | `event.data.value: string` 选中值 | 输入框失去焦点时触发 |
+| focus    | `event.data.value: string` 选中值 | 输入框获取焦点时触发 |
 
 ## 动作表
 
-| 动作名称 | 动作配置                                                                                           | 说明 |
-| -------- | -------------------------------------------------------------------------------------------------- | ---- |
-| clear    |  - | 清空 |
-| reset    |  `resetValue: boolean` 重置值 | 重置 |
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                 | 说明                                                    |
+| -------- | ------------------------ | ------------------------------------------------------- |
+| clear    | -                        | 清空                                                    |
+| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空  |
+| reload   | -                        | 重新加载，调用 `source`，刷新数据域数据刷新（重新加载） |
+| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`时，多个值用`,`分隔             |

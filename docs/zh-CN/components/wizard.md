@@ -80,40 +80,45 @@ order: 73
 
 ### step
 
-| 属性名            | 类型                                     | 默认值 | 说明                                                                                          |
-| ----------------- | ---------------------------------------- | ------ | --------------------------------------------------------------------------------------------- |
-| title             | `string`                                 |        | 步骤标题                                                                                      |
+| 属性名            | 类型                                     | 默认值 | 说明                                                                                       |
+| ----------------- | ---------------------------------------- | ------ | ------------------------------------------------------------------------------------------ |
+| title             | `string`                                 |        | 步骤标题                                                                                   |
 | mode              | `string`                                 |        | 展示默认，跟 [Form](./Form/Form) 中的模式一样，选择： `normal`、`horizontal`或者`inline`。 |
-| horizontal        | `Object`                                 |        | 当为水平模式时，用来控制左右占比                                                              |
-| horizontal.label  | `number`                                 |        | 左边 label 的宽度占比                                                                         |
-| horizontal.right  | `number`                                 |        | 右边控制器的宽度占比。                                                                        |
-| horizontal.offset | `number`                                 |        | 当没有设置 label 时，右边控制器的偏移量                                                       |
-| api               | [API](../../docs/types/api)              |        | 当前步骤保存接口，可以不配置。                                                                |
-| initApi           | [API](../../docs/types/api)              |        | 当前步骤数据初始化接口。                                                                      |
-| initFetch         | `boolean`                                |        | 当前步骤数据初始化接口是否初始拉取。                                                          |
-| initFetchOn       | [表达式](../../docs/concepts/expression) |        | 当前步骤数据初始化接口是否初始拉取，用表达式来决定。                                          |
-| body              | Array<[FormItem](./form/formItem)>       |        | 当前步骤的表单项集合，请参考 [FormItem](./form/formItem)。                                    |
-
+| horizontal        | `Object`                                 |        | 当为水平模式时，用来控制左右占比                                                           |
+| horizontal.label  | `number`                                 |        | 左边 label 的宽度占比                                                                      |
+| horizontal.right  | `number`                                 |        | 右边控制器的宽度占比。                                                                     |
+| horizontal.offset | `number`                                 |        | 当没有设置 label 时，右边控制器的偏移量                                                    |
+| api               | [API](../../docs/types/api)              |        | 当前步骤保存接口，可以不配置。                                                             |
+| initApi           | [API](../../docs/types/api)              |        | 当前步骤数据初始化接口。                                                                   |
+| initFetch         | `boolean`                                |        | 当前步骤数据初始化接口是否初始拉取。                                                       |
+| initFetchOn       | [表达式](../../docs/concepts/expression) |        | 当前步骤数据初始化接口是否初始拉取，用表达式来决定。                                       |
+| body              | Array<[FormItem](./form/formItem)>       |        | 当前步骤的表单项集合，请参考 [FormItem](./form/formItem)。                                 |
 
 ## 事件表
 
-| 事件名称           | 事件参数                                        | 说明                  |
-|-------------------|------------------------------------------------|----------------------|
-| inited            | `formData: object` 表单数据                     | 初始化完成             |
-| finished          | `formData: object` 表单数据                     | 点击完成              |
-| stepChange        | `step: number, formData: object` 步骤, 表单数据  | 步骤切换              |
-| change            | `formData: object` 表单数据                     | 数值变化              |
-| submitSucc        | `formData: object` 表单数据                     | 提交成功              |
-| submitFail        | `error: object` 错误信息                        | 提交失败              |
-| stepSubmitSucc    | `formData: object` 表单数据                     | 步骤提交成功           |
-| stepSubmitFail    | `error: object` 错误信息                        | 步骤提交失败           |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称       | 事件参数                                                             | 说明                         |
+| -------------- | -------------------------------------------------------------------- | ---------------------------- |
+| inited         | `event.data: object` initApi 远程请求返回的初始化数据                | 远程初始化接口请求成功时触发 |
+| stepChange     | `event.data.step: number` 步骤索引                                   | 切换步骤时触发               |
+| change         | `event.data: object` 当前表单数据                                    | 表单值变化时触发             |
+| stepSubmitSucc | -                                                                    | 单个步骤提交成功             |
+| stepSubmitFail | `event.data.error: object` 单个步骤 api 远程请求失败后返回的错误信息 | 单个步骤提交失败             |
+| finished       | `event.data: object` 即将提交的表单数据                              | 最终提交时触发               |
+| submitSucc     | `event.data.result: object` api 远程请求成功后返回的结果数据         | 最终提交成功时触发           |
+| submitFail     | `event.data.error: object` api 远程请求失败后返回的错误信息          | 最终提交失败时触发           |
 
 ## 动作表
 
-| 动作名称           | 动作配置                 | 说明                    |
-|-------------------|-------------------------|------------------------|
-| submit            | -                       | 全部提交                |
-| step-submit       | -                       | 分步提交                |
-| next              | -                       | 下一步                  |
-| prev              | -                       | 上一步                  |
-| goto-step         | `step: number` 目标步骤  | 定位步骤                |
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称    | 动作配置                   | 说明                                     |
+| ----------- | -------------------------- | ---------------------------------------- |
+| submit      | -                          | 全部提交                                 |
+| step-submit | -                          | 分步提交                                 |
+| next        | -                          | 下一步                                   |
+| prev        | -                          | 上一步                                   |
+| goto-step   | `step: number` 目标步骤    | 定位步骤                                 |
+| reload      | -                          | 重新加载，调用 `intiApi`，刷新数据域数据 |
+| setValue    | `value: object` 更新的数据 | 更新数据                                 |

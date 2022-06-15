@@ -247,6 +247,10 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 
 配置写法和编写普通 css 的体验是一致的，可以使用任意 css 选择符及属性。
 
+## aside 位置固定
+
+通过配置 `asideSticky` 来开关，默认是开启状态。
+
 ## 属性表
 
 | 属性名              | 类型                                      | 默认值                                     | 说明                                                                                  |
@@ -259,10 +263,11 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | asideResizor        | `boolean`                                 |                                            | 页面的边栏区域宽度是否可调整                                                          |
 | asideMinWidth       | `number`                                  |                                            | 页面边栏区域的最小宽度                                                                |
 | asideMaxWidth       | `number`                                  |                                            | 页面边栏区域的最大宽度                                                                |
+| asideSticky         | `boolean`                                 | true                                       | 用来控制边栏固定与否                                                                  |
 | toolbar             | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的右上角加内容，需要注意的是，当有 title 时，该区域在右上角，没有时该区域在顶部 |
 | body                | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的内容区域加内容                                                                |
 | className           | `string`                                  |                                            | 外层 dom 类名                                                                         |
-| cssVars             | `object`                                  |                                            | 自定义 CSS 变量，请参考[样式](../../../style)                                         |
+| cssVars             | `object`                                  |                                            | 自定义 CSS 变量，请参考[样式](../style)                                               |
 | toolbarClassName    | `string`                                  | `v-middle wrapper text-right bg-light b-b` | Toolbar dom 类名                                                                      |
 | bodyClassName       | `string`                                  | `wrapper`                                  | Body dom 类名                                                                         |
 | asideClassName      | `string`                                  | `w page-aside-region bg-auto`              | Aside dom 类名                                                                        |
@@ -273,4 +278,22 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | interval            | `number`                                  | `3000`                                     | 刷新时间(最小 1000)                                                                   |
 | silentPolling       | `boolean`                                 | `false`                                    | 配置刷新时是否显示加载动画                                                            |
 | stopAutoRefreshWhen | [表达式](../../docs/concepts/expression)  | `""`                                       | 通过表达式来配置停止刷新的条件                                                        |
-| pullRefresh         | `object`                                 | `{disabled: true}`                          | 下拉刷新配置                                                                       |
+| pullRefresh         | `object`                                  | `{disabled: true}`                         | 下拉刷新配置（仅用于移动端）                                                          |
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称    | 事件参数                                      | 说明                                           |
+| ----------- | --------------------------------------------- | ---------------------------------------------- |
+| inited      | `event.data` initApi 远程请求返回的初始化数据 | 远程初始化接口请求成功时触发                   |
+| pullRefresh | -                                             | 开启下拉刷新后，下拉释放后触发（仅用于移动端） |
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                   | 说明                                     |
+| -------- | -------------------------- | ---------------------------------------- |
+| reload   | -                          | 重新加载，调用 `intiApi`，刷新数据域数据 |
+| setValue | `value: object` 更新的数据 | 更新数据                                 |

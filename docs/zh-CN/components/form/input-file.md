@@ -105,6 +105,8 @@ order: 21
 - `chunkApi` 用来接收每个分块上传
 - `finishChunkApi` 用来收尾分块上传
 
+还可以通过 `concurrency` 控制并行数量，默认是 3
+
 ### startChunkApi
 
 用来做分块前的准备工作，一个文件只会调用一次。如果出错了，后续的分块上传就会中断。
@@ -293,7 +295,7 @@ order: 21
 | maxSize          | `number`                       |                                                                                                            | 默认没有限制，当设置后，文件大小大于此值将不允许上传。单位为`B`                                                                      |
 | maxLength        | `number`                       |                                                                                                            | 默认没有限制，当设置后，一次只允许上传指定数量文件。                                                                                 |
 | multiple         | `boolean`                      | `false`                                                                                                    | 是否多选。                                                                                                                           |
-| drag             | `boolean`                      | `false`                                              | 是否为拖拽上传 | |
+| drag             | `boolean`                      | `false`                                                                                                    | 是否为拖拽上传                                                                                                                       |
 | joinValues       | `boolean`                      | `true`                                                                                                     | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                                           |
 | extractValue     | `boolean`                      | `false`                                                                                                    | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                       |
 | delimiter        | `string`                       | `,`                                                                                                        | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                                            |
@@ -311,15 +313,20 @@ order: 21
 | startChunkApi    | [API](../../../docs/types/api) |                                                                                                            | startChunkApi                                                                                                                        |
 | chunkApi         | [API](../../../docs/types/api) |                                                                                                            | chunkApi                                                                                                                             |
 | finishChunkApi   | [API](../../../docs/types/api) |                                                                                                            | finishChunkApi                                                                                                                       |
+| concurrency      | `number`                       |                                                                                                            | 分块上传时并行个数                                                                                                                   |
+| documentation    | `string`                       |                                                                                                            | 文档内容                                                                                                                             |
+| documentLink     | `string`                       |                                                                                                            | 文档链接                                                                                                                             |
 
 ## 事件表
 
-| 事件名称 | 事件参数                 | 说明                 |
-| -------- | ------------------------ | -------------------- |
-| change   | `file: Array<FileValue>` | 选中值发生变化时触发 |
-| remove   | `file: FileValue`        | 被移除的文件         |
-| success  | `file: FileValue`        | 上传成功的文件       |
-| fail     | `file: FileValue`        | 上传失败的文件       |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                                                                                                   | 说明                                     |
+| -------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| change   | `event.data.file: Array<FileValue>` 上传的文件                                                             | 上传文件值变化时触发(上传失败同样会触发) |
+| remove   | `event.data.file: FileValue` 被移除的文件                                                                  | 移除文件时触发                           |
+| success  | `event.data.file: FileValue` 远程上传请求成功后返回的结果数据                                              | 上传成功时触发                           |
+| fail     | `event.data.file: FileValue` 上传的文件 <br /> `event.data.error: object` 远程上传请求失败后返回的错误信息 | 上传文件失败时触发                       |
 
 ### FileValue 属性表
 
@@ -329,7 +336,10 @@ order: 21
 | value  | `string` | 上传成功后返回的 url                               |
 | state  | `string` | 文件当前状态,值可为 `pending` `uploaded` `invalid` |
 | error  | `string` | 错误信息                                           |
+
 ## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
 | 动作名称 | 动作配置 | 说明 |
 | -------- | -------- | ---- |

@@ -139,7 +139,6 @@ order: 56
                     "value": "dd"
                 }
             ]
-
         }
     ]
 }
@@ -193,6 +192,7 @@ order: 56
 {
     "type": "form",
     "api": "/api/mock2/form/saveForm",
+    "debug": true,
     "body": [
         {
             "name": "text",
@@ -287,23 +287,28 @@ order: 56
 
 可以配置 transform，来自动转换值，支持转小写或大写。
 
+> 注意下面第一个示例，只有输入的内容才会触发 transform，下拉框选中的值是不会处理的。
+
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "body": [
     {
-      "name": "a",
+      "name": "lower",
       "type": "input-text",
-      "label": "A",
+      "label": "转换小写",
       "placeholder": "输入的英文自动转为小写",
       "transform": {
         "lowerCase": true
-      }
+      },
+      "multiple": true,
+      "options": ["APPLE", "ORANGE", "WATERMELON"],
     },
     {
-      "name": "b",
+      "name": "upper",
       "type": "input-text",
-      "label": "B",
+      "label": "转换大写",
       "placeholder": "输入的英文自动转为大写",
       "transform": {
         "upperCase": true
@@ -343,3 +348,27 @@ order: 56
 | minLength      | `number`                                  |           | 限制最小字数                                                                                |
 | maxLength      | `number`                                  |           | 限制最大字数                                                                                |
 | transform      | `object`                                  |           | 自动转换值，可选 `transform: { lowerCase: true, upperCase: true }`                          |
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                          | 说明                 |
+| -------- | --------------------------------- | -------------------- |
+| click    | `event.data.value: string` 输入值 | 点击输入框时触发     |
+| focus    | `event.data.value: string` 输入值 | 输入框获取焦点时触发 |
+| blur     | `event.data.value: string` 输入值 | 输入框失去焦点时触发 |
+| enter    | `event.data.value: string` 输入值 | 回车时触发           |
+| change   | `event.data.value: string` 输入值 | 值变化时触发         |
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                 | 说明                                               |
+| -------- | ------------------------ | -------------------------------------------------- |
+| clear    | -                        | 清空                                               |
+| reset    | -                        | 重置                                               |
+| focus    | -                        | 获取焦点                                           |
+| reload   | -                        | 刷新（重新加载），只针对配置了`source`的输入框有效 |
+| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`多选时用`,`分隔            |

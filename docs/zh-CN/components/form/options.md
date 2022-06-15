@@ -421,7 +421,45 @@ order: 2
 }
 ```
 
+还可以通过 `checkAll` 开启全选。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "label": "多选",
+            "type": "select",
+            "name": "select2",
+            "checkAll": true,
+            "multiple": true,
+            "source": "/api/mock2/form/getOptions"
+        }
+    ]
+}
+```
+
 默认多选的值格式为逗号拼接 value 值，例如：`1,2,3`，如果需要改变值格式，请阅读下面 [拼接符 delimiter](#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)、[拼接值 joinValues](#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues) 和 [提取多选值 extractValue](#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)配置项。
+
+如果值太多折行可以通过 `valuesNoWrap` 来避免折行。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "label": "多选",
+            "type": "select",
+            "name": "select2",
+            "checkAll": true,
+            "valuesNoWrap": true,
+            "multiple": true,
+            "source": "/api/mock2/form/getOptions"
+        }
+    ]
+}
+```
 
 ## 拼接符 delimiter
 
@@ -1326,7 +1364,6 @@ order: 2
 
 上例中我们配置了`"autoFill": {"option.instantValidate": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前表单项中`name`为`option.instantValidate`的文本框中。可以额外配置`"validateOnChange": true`，实现自动填充后立即校验填充项。
 
-
 **多选模式**
 
 当表单项为多选模式时，不能再直接取选项中的值了，而是通过 `items` 变量来取，通过它可以获取当前选中的选项集合。
@@ -1364,16 +1401,43 @@ order: 2
 
 支持该配置项的有：ButtonGroup、List、NestedSelect、Picker、Radios、Select。
 
+## 控制选项高度
+
+> 1.10.0 及以上版本
+
+下拉框在数据量较大时（超过 100，可以通过 `virtualThreshold` 控制）会自动切换到虚拟渲染模式，如果选项的内容较长会导致内容重叠，这时需要设置 `itemHeight` 来避免。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "select",
+            "label": "虚拟列表选择",
+            "name": "virtual-select",
+            "clearable": true,
+            "searchable": true,
+            "source": "/api/mock2/form/getOptions?waitSeconds=1&size=200"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名       | 类型                                                                              | 默认值    | 说明                                                                   |
-| ------------ | --------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------- |
-| options      | `Array<object>`或`Array<string>`                                                  |           | 选项组，供用户选择                                                     |
-| source       | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |           | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象          |
-| multiple     | `boolean`                                                                         | `false`   | 是否支持多选                                                           |
-| labelField   | `boolean`                                                                         | `"label"` | 标识选项中哪个字段是`label`值                                          |
-| valueField   | `boolean`                                                                         | `"value"` | 标识选项中哪个字段是`value`值                                          |
-| joinValues   | `boolean`                                                                         | `true`    | 是否拼接`value`值                                                      |
-| extractValue | `boolean`                                                                         | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效 |
+| 属性名           | 类型                                                                              | 默认值    | 说明                                                                         |
+| ---------------- | --------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------------- |
+| options          | `Array<object>`或`Array<string>`                                                  |           | 选项组，供用户选择                                                           |
+| source           | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |           | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象                |
+| multiple         | `boolean`                                                                         | `false`   | 是否支持多选                                                                 |
+| labelField       | `boolean`                                                                         | `"label"` | 标识选项中哪个字段是`label`值                                                |
+| valueField       | `boolean`                                                                         | `"value"` | 标识选项中哪个字段是`value`值                                                |
+| joinValues       | `boolean`                                                                         | `true`    | 是否拼接`value`值                                                            |
+| extractValue     | `boolean`                                                                         | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效       |
+| itemHeight       | `number`                                                                          | `32`      | 每个选项的高度，用于虚拟渲染                                                 |
+| virtualThreshold | `number`                                                                          | `100`     | 在选项数量超过多少时开启虚拟渲染                                             |
+| valuesNoWrap     | `boolean`                                                                         | `false`   | 默认情况下多选所有选项都会显示，通过这个可以最多显示一行，超出的部分变成 ... |

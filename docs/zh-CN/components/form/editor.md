@@ -124,6 +124,34 @@ order: 19
 }
 ```
 
+## 编辑器自定义开发
+
+amis 的编辑器是基于 monaco 开发的，如果想进行深度定制，比如自动完成功能，可以通过自定义 `editorDidMount` 属性来获取到 monaco 实例，它有两种写法，一种是在 JS 中直接用函数，示例如下：
+
+```javascript
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "editor",
+            "name": "editor",
+            "label": "编辑器",
+            "language": "myLan",
+            "editorDidMount": (editor, monaco) => {
+                // editor 是 monaco 实例，monaco 是全局的名称空间
+                const dispose = monaco.languages.registerCompletionItemProvider('myLan', {
+                    /// 其他细节参考 monaco 手册
+                });
+
+                // 如果返回一个函数，这个函数会在编辑器组件卸载的时候调用，主要用于清理资源
+                return dispose;
+            }
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -134,3 +162,23 @@ order: 19
 | size            | `string`  | `md`         | 编辑器高度，取值可以是 `md`、`lg`、`xl`、`xxl`                                                                                                                                                           |
 | allowFullscreen | `boolean` | `false`      | 是否显示全屏模式开关                                                                                                                                                                                     |
 | options         | `object`  |              | monaco 编辑器的其它配置，比如是否显示行号等，请参考[这里](https://microsoft.github.io/monaco-editor/api/enums/monaco.editor.EditorOption.html)，不过无法设置 readOnly，只读模式需要使用 `disabled: true` |
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                            | 说明                 |
+| -------- | ----------------------------------- | -------------------- |
+| focus    | `event.data.value: string` 当前代码 | 输入框获取焦点时触发 |
+| blur     | `event.data.value: string` 当前代码 | 输入框失去焦点时触发 |
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                 | 说明                                                   |
+| -------- | ------------------------ | ------------------------------------------------------ |
+| clear    | -                        | 清空                                                   |
+| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
+| focus    | -                        | 获取焦点                                               |
+| setValue | `value: string` 更新的值 | 更新数据                                               |

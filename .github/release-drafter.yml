@@ -1,9 +1,3 @@
-template: |
- 
- ## 更新记录
-
-  $CHANGES
-  
 categories:
   - title: 新功能
     label: feat
@@ -13,5 +7,30 @@ categories:
     label: dep
   - title: 日常维护
     label: chore
+  - title: 样式更新
+    label: style
   - title: 文档
-    label: docs
+    label: doc
+
+autolabeler:
+  - label: 'feat'
+    title:
+      - '/feat/i'
+  - label: 'fix'
+    title:
+      - '/fix/i'
+  - label: 'chore'
+    title:
+      - '/chore/i'
+  - label: 'style'
+    title:
+      - '/style/i'
+  - label: 'doc'
+    title:
+      - '/doc/i'
+
+template: |
+
+  ## 更新记录
+
+   $CHANGES

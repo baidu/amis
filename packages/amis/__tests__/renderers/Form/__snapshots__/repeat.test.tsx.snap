@@ -1,0 +1,474 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:repeat 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  repeat
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-RepeatControl cxd-Form-control"
+          >
+            <div
+              class="repeat-control hbox"
+            >
+              <div
+                class="col v-middle"
+                style="width: 30px;"
+              >
+                <span>
+                  每
+                </span>
+              </div>
+              <div
+                class="col v-middle"
+              >
+                <div
+                  class="cxd-InputRange-wrap"
+                >
+                  <div
+                    class="cxd-InputRange-track cxd-InputRange-track--background"
+                  >
+                    <div
+                      class="cxd-InputRange-track-active"
+                      style="width: 0%; left: 0%;"
+                    />
+                    <div
+                      class="cxd-InputRange-handle"
+                      style="left: 0%; z-index: 1; position: relative;"
+                    >
+                      <div
+                        class="cxd-InputRange-handle-icon"
+                      >
+                        <icon-mock
+                          classname="icon icon-slider-handle"
+                          icon="slider-handle"
+                        />
+                      </div>
+                      <div
+                        class="cxd-InputRange-label pos-top"
+                        style="position: relative;"
+                      >
+                        <span>
+                          1
+                        </span>
+                        <div
+                          class="resize-sensor"
+                          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+  
+                          <div
+                            class="resize-sensor-expand"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-shrink"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-appear"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="resize-sensor"
+                        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+  
+                        <div
+                          class="resize-sensor-expand"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+    
+                          <div
+                            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-shrink"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+    
+                          <div
+                            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-appear"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col v-middle repeat-btn"
+              >
+                <div
+                  aria-expanded="true"
+                  aria-haspopup="listbox"
+                  aria-labelledby="downshift-0-label"
+                  aria-owns="downshift-0-menu"
+                  class="cxd-Select is-opened pull-right has-popover"
+                  role="combobox"
+                  style="position: relative;"
+                  tabindex="0"
+                >
+                  <div
+                    class="cxd-Select-valueWrap"
+                  >
+                    <div
+                      class="cxd-Select-value"
+                    >
+                      年
+                    </div>
+                  </div>
+                  <span
+                    class="cxd-Select-arrow"
+                  >
+                    <icon-mock
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
+                  </span>
+                  <div
+                    class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
+                    style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                    theme="cxd"
+                  >
+                    <div
+                      class="cxd-PopOver-overlay"
+                    />
+                    <div
+                      class="cxd-Select-menu"
+                    >
+                      <div
+                        class="cxd-Select-option hidden"
+                      >
+                        <span>
+                          Placeholder
+                        </span>
+                      </div>
+                      <div
+                        aria-selected="false"
+                        class="cxd-Select-option"
+                        id="downshift-0-item-0"
+                        role="option"
+                      >
+                        <span
+                          class="cxd-Select-option-content"
+                          title="不重复"
+                        >
+                          不重复
+                        </span>
+                      </div>
+                      <div
+                        aria-selected="false"
+                        class="cxd-Select-option"
+                        id="downshift-0-item-1"
+                        role="option"
+                      >
+                        <span
+                          class="cxd-Select-option-content"
+                          title="秒"
+                        >
+                          秒
+                        </span>
+                      </div>
+                      <div
+                        aria-selected="false"
+                        class="cxd-Select-option"
+                        id="downshift-0-item-2"
+                        role="option"
+                      >
+                        <span
+                          class="cxd-Select-option-content"
+                          title="分"
+                        >
+                          分
+                        </span>
+                      </div>
+                      <div
+                        aria-selected="false"
+                        class="cxd-Select-option"
+                        id="downshift-0-item-3"
+                        role="option"
+                      >
+                        <span
+                          class="cxd-Select-option-content"
+                          title="时"
+                        >
+                          时
+                        </span>
+                      </div>
+                      <div
+                        aria-selected="false"
+                        class="cxd-Select-option"
+                        id="downshift-0-item-4"
+                        role="option"
+                      >
+                        <span
+                          class="cxd-Select-option-content"
+                          title="天"
+                        >
+                          天
+                        </span>
+                      </div>
+                      <div
+                        aria-selected="false"
+                        class="cxd-Select-option"
+                        id="downshift-0-item-5"
+                        role="option"
+                      >
+                        <span
+                          class="cxd-Select-option-content"
+                          title="周中"
+                        >
+                          周中
+                        </span>
+                      </div>
+                      <div
+                        aria-selected="false"
+                        class="cxd-Select-option"
+                        id="downshift-0-item-6"
+                        role="option"
+                      >
+                        <span
+                          class="cxd-Select-option-content"
+                          title="周"
+                        >
+                          周
+                        </span>
+                      </div>
+                      <div
+                        aria-selected="false"
+                        class="cxd-Select-option"
+                        id="downshift-0-item-7"
+                        role="option"
+                      >
+                        <span
+                          class="cxd-Select-option-content"
+                          title="月"
+                        >
+                          月
+                        </span>
+                      </div>
+                      <div
+                        aria-selected="false"
+                        class="cxd-Select-option is-active"
+                        id="downshift-0-item-8"
+                        role="option"
+                      >
+                        <span
+                          class="cxd-Select-option-content"
+                          title="年"
+                        >
+                          年
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="resize-sensor"
+                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+  
+                      <div
+                        class="resize-sensor-expand"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+    
+                        <div
+                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                        />
+                        
+  
+                      </div>
+                      
+  
+                      <div
+                        class="resize-sensor-shrink"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+    
+                        <div
+                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                        />
+                        
+  
+                      </div>
+                      
+  
+                      <div
+                        class="resize-sensor-appear"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="resize-sensor"
+                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+  
+                    <div
+                      class="resize-sensor-expand"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+    
+                      <div
+                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                      />
+                      
+  
+                    </div>
+                    
+  
+                    <div
+                      class="resize-sensor-shrink"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+    
+                      <div
+                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                      />
+                      
+  
+                    </div>
+                    
+  
+                    <div
+                      class="resize-sensor-appear"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;

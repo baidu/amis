@@ -1,0 +1,142 @@
+.#{$ns}Progress {
+  display: flex;
+  align-items: center;
+  color: var(--text-color);
+  font-size: var(--fontSizeXs);
+  &-line {
+    display: inline-block;
+    width: 100%;
+
+    &-inter {
+      height: 100%;
+      background-color: var(--Progress-bar-backgroundColor);
+      overflow: hidden;
+      border-radius: var(--Progress-borderRadius);
+    }
+
+    &-text {
+      display: inline-block;
+      flex-grow: 1;
+      margin-left: 8px;
+      white-space: nowrap;
+      text-align: left;
+      word-break: normal;
+      .icon {
+        font-size: 15px;
+      }
+    }
+
+    &-bar {
+      float: left;
+      width: 0;
+      height: 10px;
+      background: var(--primary);
+      transition: width var(--animation-duration) ease;
+
+      &--stripe {
+        background-image: linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.15) 25%,
+          transparent 25%,
+          transparent 50%,
+          rgba(255, 255, 255, 0.15) 50%,
+          rgba(255, 255, 255, 0.15) 75%,
+          transparent 75%,
+          transparent
+        );
+        background-size: 2rem 2rem;
+      }
+
+      &--animate {
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.08, 0.82, 0.17, 1) 0s;
+        &::before {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background: var(--Progress-animate-backgroundColor);
+          border-radius: 10px;
+          opacity: 0;
+          animation: progress-bar-active 2.4s cubic-bezier(0.23, 1, 0.32, 1)
+            infinite;
+          content: '';
+        }
+      }
+      &--stripe-animate {
+        animation: progress-bar-stripes 1s linear infinite;
+      }
+    }
+  }
+
+  &-circle {
+    width: 100%;
+    position: relative;
+    &-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      white-space: normal;
+      text-align: center;
+      transform: translate(-50%, -50%);
+      .icon {
+        font-size: 1.2em;
+      }
+    }
+    .bg-warning-circle {
+      &-path {
+        stroke: var(--warning);
+      }
+    }
+    .bg-danger-circle {
+      &-path {
+        stroke: var(--danger);
+      }
+    }
+    .bg-info-circle {
+      &-path {
+        stroke: var(--info);
+      }
+    }
+    .bg-success-circle {
+      &-path {
+        stroke: var(--success);
+      }
+    }
+    .bg-primary-circle {
+      &-path {
+        stroke: var(--primary);
+      }
+    }
+  }
+}
+
+@keyframes progress-bar-active {
+  0% {
+    transform: translateX(-100%) scaleX(0);
+    opacity: 0.1;
+  }
+
+  20% {
+    transform: translateX(-100%) scaleX(0);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translateX(0) scaleX(1);
+    opacity: 0;
+  }
+}
+
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 2rem 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}

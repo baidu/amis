@@ -1,21 +1,16 @@
 import React from 'react';
-import {render} from '../../src/index';
+import {render, toast, Button, LazyComponent, Drawer} from 'amis';
 import axios from 'axios';
 import Portal from 'react-overlays/Portal';
-import {toast} from '../../src/components/Toast';
-import {normalizeLink} from '../../src/utils/normalizeLink';
-import Button from '../../src/components/Button';
-import LazyComponent from '../../src/components/LazyComponent';
-import {default as DrawerContainer} from '../../src/components/Drawer';
-
+import {toast} from 'amis';
+import {normalizeLink} from 'amis-core';
 import {withRouter} from 'react-router';
-import {matchPath} from 'react-router-dom';
 import copy from 'copy-to-clipboard';
+import {qsparse} from 'amis-core';
 
 function loadEditor() {
   return new Promise(resolve =>
-    require(['../../src/components/Editor'], component =>
-      resolve(component.default))
+    require(['amis-ui'], component => resolve(component.Editor))
   );
 }
 
@@ -76,14 +71,32 @@ export default function (schema, showCode, envOverrides) {
             }
           },
           isCurrentUrl: to => {
-            if (!to) {
-              return false;
-            }
+            const history = this.props.history;
             const link = normalizeLink(to);
-            return !!matchPath(history.location.pathname, {
-              path: link,
-              exact: true
-            });
+            const location = history.location;
+            let pathname = link;
+            let search = '';
+            const idx = link.indexOf('?');
+            if (~idx) {
+              pathname = link.substring(0, idx);
+              search = link.substring(idx);
+            }
+
+            if (search) {
+              if (pathname !== location.pathname || !location.search) {
+                return false;
+              }
+              const currentQuery = qsparse(location.search.substring(1));
+              const query = qsparse(search.substring(1));
+
+              return Object.keys(query).every(
+                key => query[key] === currentQuery[key]
+              );
+            } else if (pathname === location.pathname) {
+              return true;
+            }
+
+            return false;
           },
           fetcher: ({url, method, data, config, headers}) => {
             config = config || {};
@@ -247,7 +260,7 @@ export default function (schema, showCode, envOverrides) {
           <>
             <div className="schema-wrapper">
               {finalShowCode !== false ? (
-                <DrawerContainer
+                <Drawer
                   classPrefix={ns}
                   size="lg"
                   onHide={this.close}
@@ -257,7 +270,7 @@ export default function (schema, showCode, envOverrides) {
                   position="right"
                 >
                   {this.state.open ? this.renderCode() : null}
-                </DrawerContainer>
+                </Drawer>
               ) : null}
               {this.renderSchema()}
             </div>

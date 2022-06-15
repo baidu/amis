@@ -87,8 +87,10 @@ order: 43
     ]
 }
 ```
+
 ## 自定义抽屉尺寸
-值如果是数字类型单位默认使用`px`, 如果是字符串类型可以使用自定义css宽度变量，如：`%`、`vw`、`px`等
+
+值如果是数字类型单位默认使用`px`, 如果是字符串类型可以使用自定义 css 宽度变量，如：`%`、`vw`、`px`等
 
 ```schema: scope="body"
 {
@@ -263,23 +265,42 @@ order: 43
 
 ## 属性表
 
-| 属性名         | 类型                                      | 默认值             | 说明                                                                                              |
-| -------------- | ----------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------- |
-| type           | `string`                                  |                    | `"drawer"` 指定为 Drawer 渲染器                                                                   |
-| title          | [SchemaNode](../../docs/types/schemanode) |                    | 弹出层标题                                                                                        |
-| body           | [SchemaNode](../../docs/types/schemanode) |                    | 往 Drawer 内容区加内容                                                                            |
-| size           | `string`                                  |                    | 指定 Drawer 大小，支持: `xs`、`sm`、`md`、`lg`、`xl`                                                    |
-| position           | `string`                                  |                    | 指定 Drawer 方向，支持: `left`、`right`、`top`、`bottom`                                                    |
-| className      | `string`                                  | ``                 | Drawer 最外层容器的样式类名                                                                        |
+| 属性名          | 类型                                      | 默认值             | 说明                                                                                              |
+| --------------- | ----------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------- |
+| type            | `string`                                  |                    | `"drawer"` 指定为 Drawer 渲染器                                                                   |
+| title           | [SchemaNode](../../docs/types/schemanode) |                    | 弹出层标题                                                                                        |
+| body            | [SchemaNode](../../docs/types/schemanode) |                    | 往 Drawer 内容区加内容                                                                            |
+| size            | `string`                                  |                    | 指定 Drawer 大小，支持: `xs`、`sm`、`md`、`lg`、`xl`                                              |
+| position        | `string`                                  |                    | 指定 Drawer 方向，支持: `left`、`right`、`top`、`bottom`                                          |
+| className       | `string`                                  | ``                 | Drawer 最外层容器的样式类名                                                                       |
 | headerClassName | `string`                                  |                    | Drawer 头部 区域的样式类名                                                                        |
-| bodyClassName  | `string`                                  | `modal-body`       | Drawer body 区域的样式类名                                                                        |
+| bodyClassName   | `string`                                  | `modal-body`       | Drawer body 区域的样式类名                                                                        |
 | footerClassName | `string`                                  |                    | Drawer 页脚 区域的样式类名                                                                        |
-| showCloseButton | `boolean`                                 | `true`            | 是否展示关闭按钮，当值为false时，默认开启closeOnOutside                                                               |
-| closeOnEsc     | `boolean`                                 | `false`            | 是否支持按 `Esc` 关闭 Drawer                                                                      |
-| closeOnOutside | `boolean`                                 | `false`            | 点击内容区外是否关闭 Drawer                                                                       |
-| overlay        | `boolean`                                 | `true`             | 是否显示蒙层                                                                                      |
-| resizable      | `boolean`                                 | `false`            | 是否可通过拖拽改变 Drawer 大小                                                                    |
-| width          | `string \| number`                         |  `500px`             | 容器的宽度，在 position 为 `left` 或 `right` 时生效              |
-| height          | `string \| number`                         |  `500px`             | 容器的高度，在 position 为 `top` 或 `bottom` 时生效              |
-| actions        | Array<[Action](./action)>                 | 【确认】和【取消】 | 可以不设置，默认只有两个按钮。                                                                    |
-| data           | `object`                                  |                    | 支持 [数据映射](../../docs/concepts/data-mapping)，如果不设定将默认将触发按钮的上下文中继承数据。 |
+| showCloseButton | `boolean`                                 | `true`             | 是否展示关闭按钮，当值为 false 时，默认开启 closeOnOutside                                        |
+| closeOnEsc      | `boolean`                                 | `false`            | 是否支持按 `Esc` 关闭 Drawer                                                                      |
+| closeOnOutside  | `boolean`                                 | `false`            | 点击内容区外是否关闭 Drawer                                                                       |
+| overlay         | `boolean`                                 | `true`             | 是否显示蒙层                                                                                      |
+| resizable       | `boolean`                                 | `false`            | 是否可通过拖拽改变 Drawer 大小                                                                    |
+| width           | `string \| number`                        | `500px`            | 容器的宽度，在 position 为 `left` 或 `right` 时生效                                               |
+| height          | `string \| number`                        | `500px`            | 容器的高度，在 position 为 `top` 或 `bottom` 时生效                                               |
+| actions         | Array<[Action](./action)>                 | 【确认】和【取消】 | 可以不设置，默认只有两个按钮。                                                                    |
+| data            | `object`                                  |                    | 支持 [数据映射](../../docs/concepts/data-mapping)，如果不设定将默认将触发按钮的上下文中继承数据。 |
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                      | 说明               |
+| -------- | ----------------------------- | ------------------ |
+| confirm  | `event.data: object` 抽屉数据 | 点击确认提交时触发 |
+| cancel   | `event.data: object` 抽屉数据 | 点击取消时触发     |
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                   | 说明         |
+| -------- | -------------------------- | ------------ |
+| confirm  | -                          | 确认（提交） |
+| cancel   | -                          | 取消（关闭） |
+| setValue | `value: object` 更新的数据 | 更新数据     |

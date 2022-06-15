@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:custom 1`] = `
+<div>
+  <div
+    class="amis-custom-demo"
+  >
+    <div>
+      <h2>
+        hello, world!
+      </h2>
+    </div>
+    <button />
+  </div>
+</div>
+`;

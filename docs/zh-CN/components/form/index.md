@@ -170,6 +170,8 @@ order: 24
 }
 ```
 
+#### 两端对齐
+
 有时表单内容需要两端对齐，可在 horizontal 中增加 justify 配置，注意只对内联控件生效
 
 ```schema: scope="body"
@@ -210,6 +212,34 @@ order: 24
           "offText": "非在职"
         }
       ]
+    }
+  ]
+}
+```
+
+#### label 对齐模式
+
+水平模式下 `labelAlign` 可以设置标签文本的对齐方式，支持`right`和`left`，默认为`right`。该属性的优先级：表单项 > 表单。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "label对齐模式",
+  "mode": "horizontal",
+  "labelAlign": "left",
+  "body": [
+    {
+      "type": "input-email",
+      "name": "email",
+      "label": "邮箱",
+      "labelAlign": "right",
+      "required": true
+    },
+    {
+      "type": "input-password",
+      "name": "password",
+      "label": "密码",
+      "required": true
     }
   ]
 }
@@ -575,6 +605,31 @@ Form 支持轮询初始化接口，步骤如下：
     "type": "form",
     "data": {
       "name": "rick",
+      "email": "rick@gmail.com"
+    },
+    "title": "用户信息",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名"
+      },
+      {
+        "type": "input-email",
+        "name": "email",
+        "label": "邮箱"
+      }
+    ]
+  }
+```
+
+注意这里的 `data` 会进行数据映射，如果想不映射，需要进行转义，比如下面的例子
+
+```schema: scope="body"
+{
+    "type": "form",
+    "data": {
+      "name": "\\${rick}",
       "email": "rick@gmail.com"
     },
     "title": "用户信息",
@@ -1135,6 +1190,7 @@ Form 支持轮询初始化接口，步骤如下：
 | name                        | `string`                                                                  |                                                                        | 设置一个名字后，方便其他组件与其通信                                                                                                                                                                                                                                                                                                                         |
 | mode                        | `string`                                                                  | `normal`                                                               | 表单展示方式，可以是：`normal`、`horizontal` 或者 `inline`                                                                                                                                                                                                                                                                                                   |
 | horizontal                  | `Object`                                                                  | `{"left":"col-sm-2", "right":"col-sm-10", "offset":"col-sm-offset-2"}` | 当 mode 为 `horizontal` 时有用，用来控制 label                                                                                                                                                                                                                                                                                                               |
+| labelAlign                  | `"right" \| "left"`                                                       | `"right"`                                                              | 表单项标签对齐方式，默认右对齐，仅在 `mode`为`horizontal` 时生效                                                                                                                                                                                                                                                                                             |
 | title                       | `string`                                                                  | `"表单"`                                                               | Form 的标题                                                                                                                                                                                                                                                                                                                                                  |
 | submitText                  | `String`                                                                  | `"提交"`                                                               | 默认的提交按钮名称，如果设置成空，则可以把默认按钮去掉。                                                                                                                                                                                                                                                                                                     |
 | className                   | `string`                                                                  |                                                                        | 外层 Dom 的类名                                                                                                                                                                                                                                                                                                                                              |
@@ -1176,3 +1232,32 @@ Form 支持轮询初始化接口，步骤如下：
 | trimValues                  | `boolean`                                                                 | `false`                                                                | trim 当前表单项的每一个值                                                                                                                                                                                                                                                                                                                                    |
 | promptPageLeave             | `boolean`                                                                 | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
 | columnCount                 | `number`                                                                  | 0                                                                      | 表单项显示为几列                                                                                                                                                                                                                                                                                                                                             |
+| inheritData                 | `booelan`                                                                 | `true`                                                                 | 默认表单是采用数据链的形式创建个自己的数据域，表单提交的时候只会发送自己这个数据域的数据，如果希望共用上层数据域可以设置这个属性为 false，这样上层数据域的数据不需要在表单中用隐藏域或者显式映射才能发送了。                                                                                                                                                 |
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称              | 事件参数                                                     | 说明                         |
+| --------------------- | ------------------------------------------------------------ | ---------------------------- |
+| inited                | `event.data: object` initApi 远程请求返回的初始化数据        | 远程初始化接口请求成功时触发 |
+| change                | `event.data: object` 当前表单数据                            | 表单值变化时触发             |
+| formItemValidateSucc  | `event.data: object` 当前表单数据                            | 表单项校验成功时触发         |
+| formItemValidateError | `event.data: object` 当前表单数据                            | 表单项校验失败时触发         |
+| validateSucc          | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
+| validateError         | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
+| submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据 | 提交成功时触发               |
+| submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息  | 提交失败时触发               |
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                       | 说明                       |
+| -------- | ------------------------------ | -------------------------- |
+| submit   | -                              | 提交表单                   |
+| reset    | -                              | 重置表单                   |
+| clear    | -                              | 清空表单                   |
+| validate | -                              | 校验表单                   |
+| reload   | -                              | 刷新（重新加载）           |
+| setValue | `value: object` 更新的表单数据 | 更新数据，对数据进行 merge |

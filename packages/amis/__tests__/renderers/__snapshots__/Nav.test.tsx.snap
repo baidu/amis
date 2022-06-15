@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:nav 1`] = `
+<div>
+  <div
+    class="cxd-Nav"
+  >
+    <ul
+      class="cxd-Nav-list w-md cxd-Nav-list--stacked"
+    >
+      <li
+        class="cxd-Nav-item is-active"
+        data-id="0"
+      >
+        <div
+          class="cxd-Badge"
+        >
+          <a
+            data-depth="1"
+            data-id="0"
+            style="padding-left: 24px;"
+            title="Nav 1"
+          >
+            <img
+              class="cxd-Nav-itemIcon"
+              src="https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg"
+            />
+            Nav 1
+          </a>
+        </div>
+      </li>
+      <li
+        class="cxd-Nav-item"
+        data-id="1"
+      >
+        <div
+          class="cxd-Badge"
+        >
+          <a
+            data-depth="1"
+            data-id="1"
+            style="padding-left: 24px;"
+            title="Nav 2"
+          >
+            Nav 2
+          </a>
+          <div
+            class="cxd-Badge-ribbon-out cxd-Badge-ribbon-out--top-left"
+            style="width: 21.970562748477143px; height: 21.970562748477143px;"
+          >
+            <span
+              class="cxd-Badge-ribbon cxd-Badge-ribbon--top-left cxd-Badge--danger"
+              style="height: 12px; line-height: 12px; font-size: 12px;"
+            >
+              HOT
+            </span>
+          </div>
+        </div>
+      </li>
+      <li
+        class="cxd-Nav-item"
+        data-id="2"
+      >
+        <div
+          class="cxd-Badge"
+        >
+          <a
+            data-depth="1"
+            data-id="2"
+            style="padding-left: 24px;"
+            title="Nav 3"
+          >
+            Nav 3
+          </a>
+          <div
+            class="cxd-Badge-ribbon-out cxd-Badge-ribbon-out--top-left"
+            style="width: 21.970562748477143px; height: 21.970562748477143px;"
+          >
+            <span
+              class="cxd-Badge-ribbon cxd-Badge-ribbon--top-left cxd-Badge--success"
+              style="height: 12px; line-height: 12px; font-size: 12px;"
+            >
+              SUC
+            </span>
+          </div>
+        </div>
+      </li>
+      <li
+        class="cxd-Nav-item"
+        data-id="3"
+      >
+        <div
+          class="cxd-Badge"
+        >
+          <a
+            data-depth="1"
+            data-id="3"
+            style="padding-left: 24px;"
+            title="外部地址"
+          >
+            外部地址
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

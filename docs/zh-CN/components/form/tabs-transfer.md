@@ -20,11 +20,11 @@ icon:
     "name": "a",
     "sortable": true,
     "selectMode": "tree",
-    "searchable": true,
     "options": [
       {
         "label": "成员",
         "selectMode": "tree",
+        "searchable": true,
         "children": [
           {
             "label": "法师",
@@ -131,13 +131,13 @@ icon:
       "name": "a",
       "sortable": true,
       "selectMode": "tree",
-      "searchable": true,
       "menuTpl": "<div class='flex justify-between'><span>${label}</span><span class='text-muted m-r text-sm'>${tag}</span></div>",
       "valueTpl": "${label}(${value})",
       "options": [
         {
           "label": "成员",
           "selectMode": "list",
+          "searchable": true,
           "children": [
             {
               "label": "诸葛亮",
@@ -226,11 +226,11 @@ icon:
     "name": "a",
     "sortable": true,
     "selectMode": "tree",
-    "searchable": true,
     "options": [
       {
         "label": "成员",
         "selectMode": "associated",
+        "searchable": true,
         "leftMode": "tree",
         "children": [
           {
@@ -366,3 +366,24 @@ icon:
 ## 属性表
 
 更多配置请参考[穿梭器（Transfer）](./transfer)。
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称   | 事件参数                                      | 说明             |
+| ---------- | --------------------------------------------- | ---------------- |
+| change     | `event.data.value: string` 选中值             | 选中值变化时触发 |
+| tab-change | `event.data.key: number` 当前激活的选项卡索引 | 选项卡切换时触发 |
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称     | 动作配置                       | 说明                                                   |
+| ------------ | ------------------------------ | ------------------------------------------------------ |
+| clear        | -                              | 清空                                                   |
+| reset        | -                              | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
+| selectAll    | -                              | 全选                                                   |
+| changeTabKey | `activeKey: number` 选中的 Tab | 修改当前选中 tab，来选择其他选项                       |
+| setValue     | `value: string` 更新的值       | 更新数据，多值用`,`分隔                                |

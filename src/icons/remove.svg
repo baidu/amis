@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 12 12" version="1.1" p-id="1463">
-    <g>
-        <rect id="Rectangle-path" x="4" y="5" width="1" height="4"></rect>
-        <rect id="Rectangle-path" x="7" y="5" width="1" height="4"></rect>
-        <path d="M0,2 L0,3 L1,3 L1,11 L1,11.5 L1,12 L11,12 L11,11.5 L11,11 L11,3 L12,3 L12,2 L0,2 Z M10,11 L2,11 L2,3 L10,3 L10,11 Z" id="Shape"></path>
-        <rect id="Rectangle-path" x="4" y="0" width="4" height="1"></rect>
-    </g>
-</svg>

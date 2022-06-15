@@ -1,0 +1,312 @@
+.#{$ns}Number {
+  margin: 0;
+  padding: 0;
+  line-height: var(--Form-input-height);
+  font-size: var(--Form-input-fontSize);
+  height: var(--Form-input-height);
+  display: inline-block;
+  vertical-align: middle;
+  background: var(--Number-bg);
+  border: var(--Number-borderWidth) solid var(--Number-borderColor);
+  border-radius: var(--Number-borderRadius);
+  overflow: hidden;
+
+  @include input-border();
+  &.no-steps > &-handler-wrap {
+    display: none;
+  }
+  &-focused {
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+  }
+
+  &-handler {
+    text-align: center;
+    overflow: hidden;
+    display: block;
+    touch-action: none;
+
+    &-active {
+      background: #ddd;
+    }
+  }
+
+  &-handler-up-inner,
+  &-handler-down-inner {
+    user-select: none;
+    -webkit-user-select: none;
+    display: inline-block;
+  }
+
+  &:hover {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
+
+  &-disabled:hover {
+    border-color: var(--Form-input-onDisabled-borderColor);
+  }
+
+  &-input-wrap {
+    overflow: hidden;
+    height: 100%;
+  }
+
+  &-input {
+    width: 100%;
+    background: transparent;
+    text-align: left;
+    vertical-align: top;
+    outline: 0;
+    -moz-appearance: textfield;
+    line-height: calc(var(--Form-input-height) - var(--Number-borderWidth) * 2);
+    height: 100%;
+    transition: all var(--animation-duration) ease;
+    border: 0;
+    border-radius: var(--Form-input-borderRadius);
+    color: var(--Form-input-color);
+    padding: 0 var(--Form-inputNumber-paddingX);
+  }
+
+  &-handler {
+    background: var(--Number-handler-bg);
+    color: var(--Number-handler-color);
+    font-family: var(--Number-handler-fontFamily);
+    font-size: var(--Number-handler-fontSize);
+
+    &:hover {
+      background: var(--Number-handler-onHover-bg);
+      color: var(--Number-handler-onHover-color);
+      cursor: pointer;
+    }
+
+    &:hover:active {
+      background: var(--Number-handler-onActive-bg);
+    }
+  }
+
+  &-handler-up {
+    &-inner {
+      transform: var(--Number-handler--up-transform);
+
+      &:after {
+        content: var(--Number-handler--up-content);
+      }
+    }
+  }
+
+  &-handler-down {
+    &-inner {
+      &:after {
+        content: var(--Number-handler--down-content);
+      }
+    }
+  }
+
+  @if $Number-handler-mode==vertical {
+    &-handler-wrap {
+      float: right;
+      border-left: px2rem(1px) solid var(--Form-input-borderColor);
+      width: var(--Number-handler-width);
+      height: 100%;
+    }
+
+    &-handler {
+      line-height: calc((var(--Form-input-height) - #{px2rem(6px)}) / 2);
+      height: calc(
+        (var(--Form-input-height) - var(--Number-borderWidth) * 2) / 2
+      );
+    }
+
+    &-handler-up {
+      border-bottom: var(--Number-handler-borderBottom);
+      padding-top: px2rem(1px);
+    }
+  } @else {
+    position: relative;
+
+    &-input {
+      text-align: center;
+    }
+
+    &-handler-up,
+    &-handler-down {
+      position: absolute;
+      width: var(--Number-handler-width);
+      height: 100%;
+      top: 0;
+    }
+
+    &-handler-down {
+      left: 0;
+    }
+
+    &-handler-up {
+      right: 0;
+    }
+  }
+
+  &-handler-down-disabled,
+  &-handler-up-disabled {
+    background: var(--Number-handler-onDisabled-bg);
+    pointer-events: none;
+    color: var(--Number-handler-onDisabled-color);
+  }
+
+  &-disabled {
+    border-color: var(--Form-input-onDisabled-borderColor);
+    .#{$ns}Number-input {
+      opacity: 0.72;
+      cursor: not-allowed;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+      color: var(--text--muted-color);
+      background: var(--Form-input-onDisabled-bg);
+      border-color: var(--Form-input-onDisabled-borderColor);
+    }
+    .#{$ns}Number-handler-wrap {
+      border-color: var(--Form-input-onDisabled-borderColor);
+    }
+    .#{$ns}Number-handler {
+      cursor: not-allowed;
+      color: var(--text--muted-color);
+      background: var(--Form-input-onDisabled-bg);
+      border-color: var(--Form-input-onDisabled-borderColor);
+      opacity: 0.72;
+
+      &:hover {
+        color: var(--text--muted-color);
+        border-color: var(--Form-input-borderColor);
+      }
+      &:hover:active {
+        background: var(--Form-input-onDisabled-bg);
+      }
+    }
+  }
+}
+
+.#{$ns}NumberControl:not(.is-inline) > .#{$ns}Number {
+  display: block;
+}
+
+.#{$ns}Number--borderHalf,
+.#{$ns}Number--borderNone {
+  .#{$ns}Number-handler-wrap {
+    border-left: none;
+  }
+}
+
+.#{$ns}NumberControl--withUnit {
+  display: flex;
+  .#{$ns}Number {
+    flex-grow: 1;
+  }
+  .#{$ns}Select {
+    border-left: 0;
+  }
+}
+.#{$ns}Number--enhance {
+  display: inline-flex;
+  align-items: center;
+  border: var(--Number-borderWidth) solid var(--Number-borderColor);
+  border-radius: var(--Number-borderRadius);
+  overflow: hidden;
+  .#{$ns}Number--enhance-left-icon,
+  .#{$ns}Number--enhance-right-icon {
+    display: inline-block;
+    width: var(--Form-inputNumber-base-width);
+    height: var(--Form-inputNumber-base-height);
+    line-height: var(--Form-inputNumber-base-height);
+    text-align: center;
+    color: var(--Form-input-color);
+    background: var(--Form-input-bg);
+    &:hover {
+        cursor: pointer;
+        background: var(--Form-input-bg);
+        color: var(--Form-input-onHover-borderColor);
+    }
+    &-focused {
+        background: var(--Form-input-bg);
+        color: var(--Form-input-onFocused-borderColor);
+    }
+    & > svg {
+      width: var(--fontSizeSm);
+      height: var(--fontSizeSm);
+    }
+  }
+  .#{$ns}Number--enhance-left-icon {
+    border-top-left-radius: var(--Number-borderRadius);
+    border-bottom-left-radius: var(--Number-borderRadius);
+  }
+  .#{$ns}Number--enhance-right-icon {
+    border-top-right-radius: var(--Number-borderRadius);
+    border-bottom-right-radius: var(--Number-borderRadius);
+  }
+  .#{$ns}Number--enhance-input {
+    flex: 1;
+    border: 0;
+    border-left: var(--Number-borderWidth) solid var(--Number-borderColor);
+    border-right: var(--Number-borderWidth) solid var(--Number-borderColor);
+    border-radius: 0;
+    .#{$ns}Number-handler-wrap {
+      display: none;
+    }
+  }
+  &:hover {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
+  &:focus-within {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
+  .#{$ns}Number--enhance-border-min,
+  .#{$ns}Number--enhance-border-max{
+    background: var(--Number-handler-onDisabled-bg);
+    pointer-events: none;
+    color: var(--Number-handler-onDisabled-color);
+    &:hover {
+        background: var(--Number-handler-onDisabled-bg);
+        color: var(--Number-handler-onDisabled-color);
+    }
+  }
+  .#{$ns}Number--enhance-border-disabled {
+    background: var(--Form-input-onDisabled-bg);
+    color: var(--Form-inputNumber-strong-disabled-color);
+    cursor: not-allowed;
+    &:hover {
+        cursor: not-allowed;
+        background: var(--Form-input-onDisabled-bg);
+        color: var(--Form-inputNumber-strong-disabled-color);
+    }
+  }
+  .#{$ns}Number--enhance-border-readOnly,
+  .#{$ns}Number--enhance-border-readOnly {
+    &:hover {
+      color: var(--Number-handler-onHover-color);;
+    }
+  }
+}
+
+.#{$ns}Number--enhance-no-steps {
+  .#{$ns}Number--enhance-left-icon,
+  .#{$ns}Number--enhance-right-icon {
+    display: none;
+  }
+  .#{$ns}Number--enhance-input {
+    border: none;
+    border-radius: var(--Number-borderRadius);
+  }
+}
+
+.#{$ns}Number--enhance-disabled{
+  border-color: var(--Form-input-onDisabled-borderColor);
+  .#{$ns}Number--enhance-input {
+    border-color: var(--Form-input-onDisabled-borderColor);
+  }
+  &:hover {
+    border-color: var(--Number-borderColor);
+  }
+}
+
+.#{$ns}Number--enhance-borderNone,
+.#{$ns}Number--enhance-borderHalf {
+  border: none;
+}

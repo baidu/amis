@@ -2,9 +2,9 @@ const predefined = {
   crud: {
     type: 'crud',
     draggable: true,
-    api:
-      'http://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample',
+    api: 'http://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample',
     syncLocation: false,
+    perPage: 50,
     filter: {
       title: '条件搜索',
       submitText: '',
@@ -163,8 +163,7 @@ const predefined = {
                   },
                   {
                     type: 'html',
-                    html:
-                      '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                    html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                   }
                 ]
               }
@@ -264,9 +263,8 @@ const predefined = {
         label: '记住登录'
       },
       {
-        type: 'submit',
-        btnClassName: 'btn-default',
-        label: '登录'
+        type: 'static',
+        value: 'AMIS_HOST'
       }
     ]
   },
@@ -304,6 +302,10 @@ const predefined = {
         type: 'datetime',
         labelClassName: 'text-muted',
         name: 'date'
+      },
+      {
+        type: 'static',
+        value: 'AMIS_HOST'
       }
     ]
   }

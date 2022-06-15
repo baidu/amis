@@ -98,15 +98,11 @@ amis.embed(
   {
     // 这里是初始 props
   },
+  // 注意是第四个参数
   {
     theme: 'antd'
   }
 );
-
-// 或者
-amisScoped.updateProps({
-  theme: 'antd'
-});
 ```
 
 > 如果想使用 amis 1.2.2 之前的默认主题，名字是 ang
@@ -156,8 +152,8 @@ let amisScoped = amis.embed(
     //
     // 全局 api 适配器。
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
-    // responseAdaptor(api, response, query, request) {
-    //   return response;
+    // responseAdaptor(api, payload, query, request, response) {
+    //   return payload;
     // }
     //
     // 用来接管页面跳转，比如用 location.href 或 window.open，或者自己实现 amis 配置更新
@@ -235,9 +231,9 @@ amisScoped.updateProps(
 
 ### Hash 路由
 
-默认 JSSDK 不是 hash 路由，如果你想改成 hash 路由模式，请查看此处代码实现。只需要修改 env.isCurrentUrl、env.jumpTo 和 env.updateLocation 这几个方法即可。
+默认 JSSDK 不是 hash 路由，如果你想改成 hash 路由模式，请查看此处代码实现。只需要修改 `env.isCurrentUrl`、`env.jumpTo` 和 `env.updateLocation` 这几个方法，并在路由切换的时候，通过 amisScoped 对象的 `updateProps` 方法，更新 `location` 属性即可。
 
-参考：https://github.com/baidu/amis/blob/master/examples/components/Example.jsx#L551-L575
+参考：https://github.com/baidu/amis/blob/master/examples/app/index.jsx
 
 ### 销毁
 

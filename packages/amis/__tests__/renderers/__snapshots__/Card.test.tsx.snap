@@ -1,0 +1,743 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:card 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Card className cxd-Card--link"
+          >
+            <div
+              class="cxd-Card-heading"
+            >
+              <div
+                class="cxd-Card-meta"
+              >
+                <div
+                  class="cxd-Card-title"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      标题
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Card-body bodyClassName"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  这里是内容
+                </span>
+              </span>
+            </div>
+            <div
+              class="cxd-Card-footer-wrapper"
+            >
+              <div
+                class="cxd-Card-actions-wrapper"
+              >
+                <div
+                  class="cxd-Card-actions"
+                >
+                  <a
+                    class="cxd-Card-action cxd-Card-action--sm"
+                  >
+                    <span>
+                      编辑
+                    </span>
+                  </a>
+                  <a
+                    class="cxd-Card-action cxd-Card-action--sm"
+                  >
+                    <span>
+                      删除
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:cards color 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Cards"
+          >
+            <div
+              class="cxd-Cards-fixedTop"
+            />
+            <div
+              class="cxd-Cards-body cxd-Grid"
+            >
+              <div
+                class="cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
+              >
+                <div
+                  class="cxd-Card cxd-Card--link"
+                >
+                  <div
+                    class="cxd-Card-heading"
+                  >
+                    <span
+                      class="cxd-Card-avtarText"
+                      style="background: rgb(180, 0, 158);"
+                    >
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          TR
+                        </span>
+                      </span>
+                    </span>
+                    <div
+                      class="cxd-Card-meta"
+                    />
+                  </div>
+                  <div
+                    class="cxd-Card-body"
+                  >
+                    <div
+                      class="cxd-Card-field"
+                    >
+                      <label
+                        class="cxd-Card-fieldLabel"
+                      >
+                        Browser
+                      </label>
+                      <div
+                        class="cxd-Card-fieldValue"
+                      >
+                        <span
+                          class="cxd-PlainField"
+                        >
+                          Internet Explorer 4.0
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
+              >
+                <div
+                  class="cxd-Card cxd-Card--link"
+                >
+                  <div
+                    class="cxd-Card-heading"
+                  >
+                    <span
+                      class="cxd-Card-avtarText"
+                      style="background: rgb(0, 180, 255);"
+                    >
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          CH
+                        </span>
+                      </span>
+                    </span>
+                    <div
+                      class="cxd-Card-meta"
+                    />
+                  </div>
+                  <div
+                    class="cxd-Card-body"
+                  >
+                    <div
+                      class="cxd-Card-field"
+                    >
+                      <label
+                        class="cxd-Card-fieldLabel"
+                      >
+                        Browser
+                      </label>
+                      <div
+                        class="cxd-Card-fieldValue"
+                      >
+                        <span
+                          class="cxd-PlainField"
+                        >
+                          Chrome 44
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
+              >
+                <div
+                  class="cxd-Card cxd-Card--link"
+                >
+                  <div
+                    class="cxd-Card-heading"
+                  >
+                    <span
+                      class="cxd-Card-avtarText"
+                      style="background: rgb(181, 14, 14);"
+                    >
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          GE
+                        </span>
+                      </span>
+                    </span>
+                    <div
+                      class="cxd-Card-meta"
+                    />
+                  </div>
+                  <div
+                    class="cxd-Card-body"
+                  >
+                    <div
+                      class="cxd-Card-field"
+                    >
+                      <label
+                        class="cxd-Card-fieldLabel"
+                      >
+                        Browser
+                      </label>
+                      <div
+                        class="cxd-Card-fieldValue"
+                      >
+                        <span
+                          class="cxd-PlainField"
+                        >
+                          Firefox 1.0
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
+              >
+                <div
+                  class="cxd-Card cxd-Card--link"
+                >
+                  <div
+                    class="cxd-Card-heading"
+                  >
+                    <span
+                      class="cxd-Card-avtarText"
+                      style="background: rgb(0, 120, 215);"
+                    >
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          PR
+                        </span>
+                      </span>
+                    </span>
+                    <div
+                      class="cxd-Card-meta"
+                    />
+                  </div>
+                  <div
+                    class="cxd-Card-body"
+                  >
+                    <div
+                      class="cxd-Card-field"
+                    >
+                      <label
+                        class="cxd-Card-fieldLabel"
+                      >
+                        Browser
+                      </label>
+                      <div
+                        class="cxd-Card-fieldValue"
+                      >
+                        <span
+                          class="cxd-PlainField"
+                        >
+                          Opera 10
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Grid-col--sm6 cxd-Grid-col--md4 cxd-Grid-col--lg3"
+              >
+                <div
+                  class="cxd-Card cxd-Card--link"
+                >
+                  <div
+                    class="cxd-Card-heading"
+                  >
+                    <span
+                      class="cxd-Card-avtarText"
+                      style="background: rgb(232, 17, 35);"
+                    >
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          WE
+                        </span>
+                      </span>
+                    </span>
+                    <div
+                      class="cxd-Card-meta"
+                    />
+                  </div>
+                  <div
+                    class="cxd-Card-body"
+                  >
+                    <div
+                      class="cxd-Card-field"
+                    >
+                      <label
+                        class="cxd-Card-fieldLabel"
+                      >
+                        Browser
+                      </label>
+                      <div
+                        class="cxd-Card-fieldValue"
+                      >
+                        <span
+                          class="cxd-PlainField"
+                        >
+                          Safari 12
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:cards hightlight 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Card"
+          >
+            <div
+              class="cxd-Card-multiMedia--left"
+            >
+              <img
+                class="cxd-Card-multiMedia-img w-36 h-24"
+                src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+              />
+              <div
+                class="cxd-Card-multiMedia-flex"
+              >
+                <div
+                  class="cxd-Card-heading"
+                >
+                  <div
+                    class="cxd-Card-meta"
+                  >
+                    <div
+                      class="cxd-Card-title"
+                    >
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          标题
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Card-toolbar"
+                  >
+                    <i
+                      class="cxd-Card-highlight test-highlight-class"
+                    />
+                    <span
+                      class="cxd-TplField label label-warning"
+                    >
+                      <span>
+                        标签
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Card-body"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这里是内容
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="cxd-Card-footer-wrapper"
+                >
+                  <div
+                    class="cxd-Card-secondary"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        次要说明
+                      </span>
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-Card-actions-wrapper"
+                  >
+                    <div
+                      class="cxd-Card-actions"
+                    >
+                      <a
+                        class="cxd-Card-action mr-4"
+                      >
+                        <span>
+                          操作
+                        </span>
+                      </a>
+                      <a
+                        class="cxd-Card-action mr-2.5"
+                      >
+                        <span>
+                          操作
+                        </span>
+                      </a>
+                      <div
+                        class="cxd-DropDown  cxd-Card-action pr-1 flex"
+                      >
+                        <button
+                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                        >
+                          <i
+                            class="m-r-xs fa fa-ellipsis-h"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:cards hightlight 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Card"
+          >
+            <div
+              class="cxd-Card-multiMedia--left"
+            >
+              <img
+                class="cxd-Card-multiMedia-img w-36 h-24"
+                src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+              />
+              <div
+                class="cxd-Card-multiMedia-flex"
+              >
+                <div
+                  class="cxd-Card-heading"
+                >
+                  <div
+                    class="cxd-Card-meta"
+                  >
+                    <div
+                      class="cxd-Card-title"
+                    >
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          标题
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Card-toolbar"
+                  >
+                    <i
+                      class="cxd-Card-highlight test-highlight-class"
+                    />
+                    <span
+                      class="cxd-TplField label label-warning"
+                    >
+                      <span>
+                        标签
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Card-body"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这里是内容
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="cxd-Card-footer-wrapper"
+                >
+                  <div
+                    class="cxd-Card-secondary"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        次要说明
+                      </span>
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-Card-actions-wrapper"
+                  >
+                    <div
+                      class="cxd-Card-actions"
+                    >
+                      <a
+                        class="cxd-Card-action mr-4"
+                      >
+                        <span>
+                          操作
+                        </span>
+                      </a>
+                      <a
+                        class="cxd-Card-action mr-2.5"
+                      >
+                        <span>
+                          操作
+                        </span>
+                      </a>
+                      <div
+                        class="cxd-DropDown  cxd-Card-action pr-1 flex"
+                      >
+                        <button
+                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                        >
+                          <i
+                            class="m-r-xs fa fa-ellipsis-h"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:cards media 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Card"
+          >
+            <div
+              class="cxd-Card-multiMedia--left"
+            >
+              <img
+                class="cxd-Card-multiMedia-img w-36 h-24"
+                src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+              />
+              <div
+                class="cxd-Card-multiMedia-flex"
+              >
+                <div
+                  class="cxd-Card-heading"
+                >
+                  <div
+                    class="cxd-Card-meta"
+                  >
+                    <div
+                      class="cxd-Card-title"
+                    >
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          标题
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Card-toolbar"
+                  >
+                    <span
+                      class="cxd-TplField label label-warning"
+                    >
+                      <span>
+                        标签
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Card-body"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这里是内容
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="cxd-Card-footer-wrapper"
+                >
+                  <div
+                    class="cxd-Card-secondary"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        次要说明
+                      </span>
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-Card-actions-wrapper"
+                  >
+                    <div
+                      class="cxd-Card-actions"
+                    >
+                      <a
+                        class="cxd-Card-action mr-4"
+                      >
+                        <span>
+                          操作
+                        </span>
+                      </a>
+                      <a
+                        class="cxd-Card-action mr-2.5"
+                      >
+                        <span>
+                          操作
+                        </span>
+                      </a>
+                      <div
+                        class="cxd-DropDown  cxd-Card-action pr-1 flex"
+                      >
+                        <button
+                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                        >
+                          <i
+                            class="m-r-xs fa fa-ellipsis-h"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

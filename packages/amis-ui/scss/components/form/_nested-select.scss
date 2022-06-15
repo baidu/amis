@@ -1,0 +1,106 @@
+.#{$ns}NestedSelectControl {
+  position: relative;
+}
+
+.#{$ns}NestedSelect {
+  position: relative;
+  @include input-border();
+  &-optionArrowRight {
+    display: inline-block;
+    padding-right: px2rem(40px);
+
+    svg {
+      width: px2rem(12px);
+      height: px2rem(12px);
+      fill: var(--Form-input-iconColor);
+      color: var(--default-icon-color);
+    }
+  }
+
+  &-menuOuter {
+    display: flex;
+  }
+
+  &-noResult {
+    width: px2rem(160px);
+    padding: 0 var(--gap-xs);
+    color: var(--Form-select-placeholderColor);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-select-input-fontSize);
+    user-select: none;
+    padding: calc(
+        (
+            var(--Form-select-menu-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--Form-select-paddingX);
+  }
+
+  &-menu {
+    width: px2rem(160px);
+    min-height: px2rem(32px);
+    max-height: px2rem(175px);
+    background: var(--Form-select-menu-bg);
+    color: var(--Form-select-menu-color);
+    border: var(--Form-select-outer-borderWidth) solid
+      var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-select-outer-boxShadow);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &:not(:first-child) {
+      border-left: 0;
+    }
+
+    .#{$ns}NestedSelect-option {
+      position: relative;
+      padding-left: var(--gap-md);
+      min-height: var(--Form-input-height);
+      line-height: var(--Form-input-height);
+      cursor: pointer;
+      display: flex;
+
+      > .#{$ns}NestedSelect-optionLabel {
+        flex: 1;
+        height: px2rem(32px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        &.is-disabled {
+          cursor: not-allowed;
+          color: var(--text--muted-color);
+        }
+      }
+      .#{$ns}NestedSelect-optionLabel-highlight {
+        color: var(--Form-select-menu-onActive-color);
+      }
+
+      &.is-active {
+        color: var(--Form-select-menu-onActive-color);
+        background: var(--Form-select-menu-onActive-bg);
+      }
+
+      &:hover {
+        color: var(--Form-select-menu-onHover-color);
+        background: var(--Form-select-menu-onHover-bg);
+      }
+
+      &:hover > .#{$ns}NestedSelect-childrenOuter {
+        display: block;
+      }
+
+      &.no-result {
+        justify-content: center;
+        cursor: default;
+        color: var(--Form-select-placeholderColor);
+        &:hover {
+          color: unset;
+          background: unset;
+        }
+      }
+    }
+  }
+  &-popup {
+    height: px2rem(460px);
+  }
+}

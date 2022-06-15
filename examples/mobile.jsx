@@ -5,13 +5,13 @@
 import './polyfills/index';
 
 import React from 'react';
-import {render} from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import axios from 'axios';
 import copy from 'copy-to-clipboard';
-import {toast} from '../src/components/Toast';
-import '../src/locale/en-US';
+import {toast} from 'amis';
+import 'amis-ui/lib/locale/en-US';
 
-import {render as renderAmis} from '../src/index';
+import {render as renderAmis} from 'amis';
 
 class AMISComponent extends React.Component {
   state = {
@@ -95,5 +95,6 @@ class AMISComponent extends React.Component {
 }
 
 export function bootstrap(mountTo) {
-  render(<AMISComponent />, mountTo);
+  const root = createRoot(mountTo);
+  root.render(<AMISComponent />);
 }

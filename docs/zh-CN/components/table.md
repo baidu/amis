@@ -50,6 +50,34 @@ order: 67
 ]
 ```
 
+## 空状态展示
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=5",
+    "body": [
+        {
+            "type": "table",
+            "title": "表格1",
+            "source": [],
+            "columns": [
+                {
+                    "name": "engine",
+                    "label": "Engine"
+                },
+
+                {
+                    "name": "version",
+                    "label": "Version"
+                }
+            ],
+            "placeholder": "您还没有创建任何实例"
+        }
+    ]
+}
+```
+
 ## 列配置
 
 `columns`内，除了简单的配置`label`和`name`展示数据以外，还支持一些额外的配置项，可以帮助更好的展示数据。
@@ -1434,6 +1462,45 @@ popOver 的其它配置请参考 [popover](./popover)
 }
 ```
 
+> 1.8.1 及以上版本
+
+新增 `affixRowClassNameExpr`、`affixRowClassName`、`prefixRowClassNameExpr`、`prefixRowClassName` 来控制总结行样式，比如下面的例子
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "columns": [
+                {
+                    "name": "browser",
+                    "label": "Browser"
+                },
+
+                {
+                    "name": "version",
+                    "label": "Version"
+                }
+            ],
+            "affixRowClassNameExpr": "${SUM(ARRAYMAP(rows, item => item.version)) > 30 ? 'text-success' : ''}",
+            "affixRow":[
+                {
+                    "type": "text",
+                    "text": "总计"
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "${rows|pick:version|sum}"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ### 配置合并单元格
 
 可以配置 `colSpan` 来设置一列所合并的列数，例如
@@ -1759,7 +1826,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | source           | `string`                                 | `${items}`                | 数据源, 绑定当前环境变量                                                  |
 | affixHeader      | `boolean`                                | `true`                    | 是否固定表头                                                              |
 | columnsTogglable | `auto` 或者 `boolean`                    | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启                   |
-| placeholder      | string                                   | `暂无数据`                | 当没数据的时候的文字提示                                                  |
+| placeholder      | `string` 或者 `SchemaTpl`                | `暂无数据`                | 当没数据的时候的文字提示                                                  |
 | className        | `string`                                 | `panel-default`           | 外层 CSS 类名                                                             |
 | tableClassName   | `string`                                 | `table-db table-striped`  | 表格 CSS 类名                                                             |
 | headerClassName  | `string`                                 | `Action.md-table-header`  | 顶部外层 CSS 类名                                                         |
