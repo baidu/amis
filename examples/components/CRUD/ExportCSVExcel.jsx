@@ -150,6 +150,13 @@ export default {
         type: 'link'
       },
       {
+        name: 'link',
+        label: '浏览器地址',
+        type: 'link',
+        href: 'http://www.browser.com/?q=${browser}',
+        body: '${browser}'
+      },
+      {
         name: 'engine.name',
         label: '引擎'
       },
