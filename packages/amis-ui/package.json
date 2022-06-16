@@ -18,6 +18,16 @@
     "esm",
     "scss"
   ],
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./esm/index.js"
+    },
+    "./lib/*": {
+      "require": "./lib/*.js",
+      "import": "./esm/*.js"
+    }
+  },
   "dependencies": {
     "amis-core": "*",
     "amis-formula": "*",
