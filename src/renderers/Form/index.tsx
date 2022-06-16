@@ -1014,6 +1014,7 @@ export default class Form extends React.Component<FormProps, object> {
             throwErrors,
             delegate
           );
+          return;
         }
       });
     }
