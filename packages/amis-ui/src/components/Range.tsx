@@ -67,6 +67,9 @@ interface LabelProps extends ThemeProps {
   positionTop?: number;
 }
 
+// 小数或者整数
+const MARKS_REG = /^[0-9]+(\.?[0-9]+)?%$/;
+
 /**
  * 滑块值 -> position.left
  * @param value 滑块值
@@ -434,7 +437,7 @@ export class Range extends React.Component<RangeItemProps, any> {
   @autobind
   getOffsetLeft(value: number | string) {
     const {max, min} = this.props;
-    if (isString(value) && /^\d+%$/.test(value)) {
+    if (isString(value) && MARKS_REG.test(value)) {
       return value;
     }
     return (+value * 100) / (max - min) + '%';
@@ -541,14 +544,14 @@ export class Range extends React.Component<RangeItemProps, any> {
             <div className={cx('InputRange-marks')}>
               {keys(marks).map((key: keyof MarksType) => {
                 const offsetLeft = this.getOffsetLeft(key);
-                if (/^\d+%$/.test(offsetLeft)) {
+                if (MARKS_REG.test(offsetLeft)) {
                   return (
                     <div key={key} style={{left: offsetLeft}}>
                       <span style={(marks[key] as any)?.style}>
                         {(marks[key] as any)?.label || marks[key]}
                       </span>
                     </div>
-                  )
+                  );
                 } else {
                   return null;
                 }
