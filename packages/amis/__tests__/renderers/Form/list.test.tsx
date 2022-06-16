@@ -1,4 +1,4 @@
-import React = require('react');
+require('react');
 import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
