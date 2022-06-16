@@ -60,7 +60,7 @@ export interface RangeControlSchema extends FormBaseControlSchema {
   /**
    * 分割块数
    */
-  parts?: number;
+  parts?: number | number[];
 
   /**
    * 刻度
@@ -101,17 +101,22 @@ export interface RangeControlSchema extends FormBaseControlSchema {
    * 是否禁用
    */
   disabled?: boolean;
+
+  /**
+   * 输入框是否可清除
+   */
+  clearable?: boolean;
 }
 
 type MarksType = {
-  [index: string]: MarksValue;
-  [index: number]: MarksValue;
+  [index: string | number]: MarksValue;
 };
 
-type MarksValue = Record<
-  number,
-  SchemaObject | {style?: React.CSSProperties; label?: string}
->;
+type MarksValue =
+  | string
+  | number
+  | SchemaObject
+  | {style?: React.CSSProperties; label?: string};
 
 export interface RangeProps extends FormControlProps {
   /**
@@ -193,6 +198,11 @@ export interface RangeProps extends FormControlProps {
    * 是否禁用
    */
   disabled: boolean;
+
+  /**
+   * 输入框是否可清除
+   */
+  clearable?: boolean;
 
   /**
    * value改变事件
