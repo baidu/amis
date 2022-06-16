@@ -5,7 +5,7 @@ export function isPureVariable(path?: any): path is string {
     try {
       const ast = parse(path);
       // 只有一个成员说明是纯表达式模式
-      return ast.body.length === 1;
+      return ast.body.length === 1 && ast.body[0].type === 'script';
     } catch (err) {
       return false;
     }
