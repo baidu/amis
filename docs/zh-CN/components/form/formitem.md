@@ -433,9 +433,9 @@ order: 1
 }
 ```
 
-**tip：** value表达式（`${xxx}`）支持 模板字符串、链式取值、过滤器，详细用法参考[数据映射](../../../docs/concepts/data-mapping)。
+**tip：** value 表达式（`${xxx}`）支持 模板字符串、链式取值、过滤器，详细用法参考[数据映射](../../../docs/concepts/data-mapping)。
 
-我们也可以不设置value表达式，通过 name 来映射当前数据域中某个字段。比如我们表单数据域中有变量`"text1": "hello world!"`，然后我们设置表达项`"name": "text1"`，这样就可以自动映射值了。如下：
+我们也可以不设置 value 表达式，通过 name 来映射当前数据域中某个字段。比如我们表单数据域中有变量`"text1": "hello world!"`，然后我们设置表达项`"name": "text1"`，这样就可以自动映射值了。如下：
 
 ```schema: scope="body"
 {
@@ -455,7 +455,7 @@ order: 1
 }
 ```
 
-关于优先级问题，当我们同时设置了value表达式`${xxx}`和`name`值映射，会优先使用value表达式`${xxx}`。只有当value为普通字符串`非${xxx}`时，才会使用`name`值映射。如下：
+关于优先级问题，当我们同时设置了 value 表达式`${xxx}`和`name`值映射，会优先使用 value 表达式`${xxx}`。只有当 value 为普通字符串`非${xxx}`时，才会使用`name`值映射。如下：
 
 ```schema: scope="body"
 {
@@ -1209,6 +1209,7 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 | value                | `string`                                           |           | 表单默认值                                                       |
 | label                | [模板](../../../docs/concepts/template) 或 `false` |           | 表单项标签                                                       |
 | labelAlign           | `"right" \| "left"`                                | `"right"` | 表单项标签对齐方式，默认右对齐，仅在 `mode`为`horizontal` 时生效 |
+| labelWidth           | `number \| string`                                 |           | 表单项标签自定义宽度                                             |
 | labelRemark          | [Remark](../remark)                                |           | 表单项标签描述                                                   |
 | description          | [模板](../../../docs/concepts/template)            |           | 表单项描述                                                       |
 | placeholder          | `string`                                           |           | 表单项描述                                                       |
