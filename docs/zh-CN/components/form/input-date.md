@@ -376,8 +376,8 @@ order: 13
 | 事件名称 | 事件参数               | 说明                 |
 | -------- | ---------------------- | -------------------- |
 | change   | `value: string` 时间值 | 值变化               |
-| focus    | `value: string` 时间值  | 获得焦点(非内嵌模式) |
-| blur     | `value: string` 时间值  | 失去焦点(非内嵌模式) |
+| focus    | `value: string` 时间值 | 获得焦点(非内嵌模式) |
+| blur     | `value: string` 时间值 | 失去焦点(非内嵌模式) |
 
 ## 动作表
 

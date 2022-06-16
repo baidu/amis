@@ -132,7 +132,7 @@ register('de-DE', {
   'File.retry': 'Wiederholen',
   'File.start': 'Hochladen beginnen',
   'File.upload': 'Hochladen',
-  'Image.upload':'Hochladen',
+  'Image.upload': 'Hochladen',
   'File.uploadFailed': 'Zurückgegebene Daten der Upload-API sind leer',
   'File.uploading': 'Wird hochgeladen...',
   'FormItem.autoUpdateloadFaild': 'Die Schnittstelle hat einen Fehler zurückgegeben, bitte sorgfältig prüfen',
@@ -333,5 +333,5 @@ register('de-DE', {
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
   'JSONSchema.array_items': 'Items',
-  'TimeNow': 'Jetzt',
+  'TimeNow': 'Jetzt'
 });

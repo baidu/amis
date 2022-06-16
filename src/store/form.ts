@@ -9,6 +9,7 @@ import {
   Instance
 } from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
+import find from 'lodash/find';
 import {ServiceStore} from './service';
 import {FormItemStore, IFormItemStore, SFormItemStore} from './formItem';
 import {Api, ApiObject, fetchOptions, Payload} from '../types';
@@ -326,7 +327,6 @@ export const FormStore = ServiceStore.named('FormStore')
         }
 
         if (!json.ok) {
-
           if (json.status === 422 && json.errors) {
             setFormItemErrors(json.errors);
 
@@ -359,22 +359,23 @@ export const FormStore = ServiceStore.named('FormStore')
           );
           if (!ret?.dispatcher?.prevented) {
             self.msg &&
-            getEnv(self).notify(
-              'success',
-              self.msg,
-              json.msgTimeout !== undefined
-                ? {
-                    closeButton: true,
-                    timeout: json.msgTimeout
-                  }
-                : undefined
-            );
+              getEnv(self).notify(
+                'success',
+                self.msg,
+                json.msgTimeout !== undefined
+                  ? {
+                      closeButton: true,
+                      timeout: json.msgTimeout
+                    }
+                  : undefined
+              );
           }
           return json.data;
         }
       } catch (e) {
         self.markSaving(false);
-        let ret = options && options.onFailed && options.onFailed(e.response || {});
+        let ret =
+          options && options.onFailed && options.onFailed(e.response || {});
         if (ret?.then) {
           ret = yield ret;
         }
@@ -486,7 +487,7 @@ export const FormStore = ServiceStore.named('FormStore')
           if (dispatcher?.then) {
             dispatcher = yield dispatcher;
           }
-          if (!dispatcher?.prevented){
+          if (!dispatcher?.prevented) {
             msg && env.notify('error', msg);
           }
           throw new Error(msg);
@@ -548,20 +549,26 @@ export const FormStore = ServiceStore.named('FormStore')
       return self.valid;
     });
 
-    const validateFields: (fields: Array<string>) => Promise<boolean> = flow(
-      function* validateFields(fields: Array<string>) {
-        const items = self.items.concat();
-        let result: Array<boolean> = [];
-        for (let i = 0, len = items.length; i < len; i++) {
-          let item = items[i] as IFormItemStore;
+    const validateFields: (
+      fields: Array<string | {name: string; rules: {[propName: string]: any}}>
+    ) => Promise<boolean> = flow(function* validateFields(
+      fields: Array<string | {name: string; rules: {[propName: string]: any}}>
+    ) {
+      const items = self.items.concat();
+      const normalizedfields = fields.map(field =>
+        typeof field === 'string' ? {name: field, rules: {}} : field
+      );
+      let result: Array<boolean> = [];
+      for (let i = 0, len = items.length; i < len; i++) {
+        let item = items[i] as IFormItemStore;
+        const field = find(normalizedfields, field => field.name === item.name);
 
-          if (~fields.indexOf(item.name)) {
-            result.push(yield item.validate(self.data));
-          }
+        if (field) {
+          result.push(yield item.validate(self.data, undefined, field.rules));
         }
-        return result.every(item => item);
       }
-    );
+      return result.every(item => item);
+    });
 
     function clearErrors() {
       const items = self.items.concat();

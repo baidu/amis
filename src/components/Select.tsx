@@ -7,6 +7,9 @@
 
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
+import merge from 'lodash/merge';
+import isInteger from 'lodash/isInteger';
+import omit from 'lodash/omit';
 import VirtualList from './virtual-list';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
@@ -24,21 +27,20 @@ import {
   normalizeNodePath,
   isMobile
 } from '../utils/helper';
-import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
-import union from 'lodash/union';
 import {highlight} from '../renderers/Form/Options';
 import {findDOMNode} from 'react-dom';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import Checkbox from './Checkbox';
 import Input from './Input';
-import {Api} from '../types';
 import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
 import {Option, Options} from '../Schema';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
 import PopUp from './PopUp';
+
+import type {TooltipObject} from '../components/TooltipWrapper';
 
 export {Option, Options};
 
@@ -60,6 +62,8 @@ export interface OptionProps {
   disabled?: boolean;
   creatable?: boolean;
   pathSeparator?: string;
+  itemHeight?: number; // 每个选项的高度，主要用于虚拟渲染
+  virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染
   hasError?: boolean;
   block?: boolean;
   onAdd?: (
@@ -350,6 +354,16 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
    * 移动端样式类名
    */
   mobileClassName?: string;
+
+  /**
+   * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+   */
+  maxTagCount?: number;
+
+  /**
+   * 收纳标签的Popover配置
+   */
+  overflowTagPopover?: TooltipObject;
 }
 
 interface SelectState {
@@ -382,7 +396,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
     checkAll: false,
     checkAllLabel: 'Select.checkAll',
     defaultCheckAll: false,
-    overlayPlacement: 'auto'
+    overlayPlacement: 'auto',
+    virtualThreshold: 100
   };
 
   input: HTMLInputElement;
@@ -397,7 +412,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       inputValue: '',
       highlightedIndex: -1,
       selection: value2array(props.value, props),
-      itemHeight: 35,
+      itemHeight: 32 /** Select选项高度保持一致 */,
       pickerSelectItem: ''
     };
   }
@@ -712,7 +727,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   @autobind
   menuItemRef(ref: any) {
-    ref && this.setState({itemHeight: ref.offsetHeight});
+    if (ref && typeof ref.offsetHeight === 'number' && ref > 0) {
+      this.setState({itemHeight: ref.offsetHeight});
+    }
   }
 
   renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
@@ -723,11 +740,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
       placeholder,
       labelField,
       disabled,
+      maxTagCount,
+      overflowTagPopover,
       translate: __
     } = this.props;
-
     const selection = this.state.selection;
-    // console.log('selection', selection);
 
     if (!selection.length) {
       return (
@@ -735,6 +752,114 @@ export class Select extends React.Component<SelectProps, SelectState> {
           {__(placeholder)}
         </div>
       );
+    }
+
+    if (
+      multiple &&
+      maxTagCount != null &&
+      isInteger(Math.floor(maxTagCount)) &&
+      Math.floor(maxTagCount) >= 0 &&
+      Math.floor(maxTagCount) < selection.length
+    ) {
+      const maxVisibleCount = Math.floor(maxTagCount);
+      const tooltipProps: TooltipObject = {
+        placement: 'top',
+        trigger: 'hover',
+        showArrow: false,
+        offset: [0, -10],
+        tooltipClassName: cx(
+          'Select-overflow',
+          overflowTagPopover?.tooltipClassName
+        ),
+        ...omit(overflowTagPopover, ['children', 'content', 'tooltipClassName'])
+      };
+      return [
+        ...selection.slice(0, maxVisibleCount),
+        {label: `+ ${selection.length - maxVisibleCount} ...`}
+      ].map((item, index) => {
+        if (index === maxVisibleCount) {
+          return (
+            <TooltipWrapper
+              key={selection.length}
+              tooltip={{
+                ...tooltipProps,
+                children: () => (
+                  <div className={cx('Select-overflow-wrapper')}>
+                    {selection
+                      .slice(maxVisibleCount, selection.length)
+                      .map((item, index) => {
+                        const itemIndex = index + maxVisibleCount;
+                        return (
+                          <div
+                            key={itemIndex}
+                            className={cx('Select-value', {
+                              'is-disabled': disabled,
+                              'is-invalid': item.__unmatched
+                            })}
+                          >
+                            <span className={cx('Select-valueLabel')}>
+                              {item[labelField || 'label']}
+                            </span>
+                            <span
+                              className={cx('Select-valueIcon', {
+                                'is-disabled': disabled || item.disabled
+                              })}
+                              onClick={this.removeItem.bind(this, itemIndex)}
+                            >
+                              <Icon icon="close" className="icon" />
+                            </span>
+                          </div>
+                        );
+                      })}
+                  </div>
+                )
+              }}
+            >
+              <div
+                className={cx('Select-value', {
+                  'is-disabled': disabled,
+                  'is-invalid': item.__unmatched
+                })}
+                onClick={(e: React.MouseEvent) =>
+                  e.stopPropagation()
+                } /** 避免点击查看浮窗时呼出下拉菜单 */
+              >
+                <span className={cx('Select-valueLabel')}>
+                  {item[labelField || 'label']}
+                </span>
+              </div>
+            </TooltipWrapper>
+          );
+        }
+
+        return (
+          <TooltipWrapper
+            placement={'top'}
+            tooltip={item[labelField || 'label']}
+            trigger={'hover'}
+            key={index}
+          >
+            <div
+              className={cx('Select-value', {
+                'is-disabled': disabled,
+                'is-invalid': item.__unmatched
+              })}
+            >
+              <span className={cx('Select-valueLabel')}>
+                {item[labelField || 'label']}
+              </span>
+              <span
+                className={cx('Select-valueIcon', {
+                  'is-disabled': disabled || item.disabled
+                })}
+                onClick={this.removeItem.bind(this, index)}
+              >
+                <Icon icon="close" className="icon" />
+              </span>
+            </div>
+          </TooltipWrapper>
+        );
+      });
     }
 
     return selection.map((item, index) => {
@@ -822,6 +947,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       hideSelected,
       renderMenu,
       mobileClassName,
+      virtualThreshold = 100,
       useMobileUI = false
     } = this.props;
     const {selection} = this.state;
@@ -835,7 +961,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
           })
         : options.concat()
     ).filter((option: Option) => !option.hidden && option.visible !== false);
-
+    const enableVirtualRender =
+      filtedOptions.length && filtedOptions.length > virtualThreshold;
     const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
       const optionsValues = (checkAllBySearch ? filtedOptions : options).map(
@@ -850,7 +977,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       );
     }
 
-    const itemHeight = this.state.itemHeight;
+    // 用于虚拟渲染的每项高度
+    const virtualItemHeight = this.props.itemHeight || this.state.itemHeight;
 
     // 渲染单个选项
     const renderItem = ({index, style}: {index: number; style?: object}) => {
@@ -874,7 +1002,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             item,
             disabled: item.disabled
           })}
-          style={style}
+          style={merge(style, enableVirtualRender ? {width: '100%'} : {})}
           className={cx(`Select-option`, {
             'is-disabled': item.disabled,
             'is-highlight': highlightedIndex === index,
@@ -952,7 +1080,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
               {item.tip}
             </Checkbox>
           ) : (
-            <span>
+            <span
+              className={cx('Select-option-content')}
+              title={
+                typeof item[labelField] === 'string' ? item[labelField] : ''
+              }
+            >
               {item.disabled
                 ? item[labelField]
                 : highlight(
@@ -976,8 +1109,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       <div
         ref={this.menu}
         className={cx('Select-menu', {
-          'Select--longlist':
-            filtedOptions.length && filtedOptions.length > 100,
+          'Select--longlist': enableVirtualRender,
           'is-mobile': mobileUI
         })}
       >
@@ -1039,15 +1171,15 @@ export class Select extends React.Component<SelectProps, SelectState> {
         ) : null}
 
         {filtedOptions.length ? (
-          filtedOptions.length > 100 ? ( // 超过 100 行数据才启用 virtuallist 避免滚动条问题
+          filtedOptions.length > virtualThreshold ? ( // 较多数据时才启用 virtuallist，避免滚动条问题
             <VirtualList
               height={
                 filtedOptions.length > 8
                   ? 266
-                  : filtedOptions.length * itemHeight
+                  : filtedOptions.length * virtualItemHeight
               }
               itemCount={filtedOptions.length}
-              itemSize={itemHeight}
+              itemSize={virtualItemHeight}
               renderItem={renderItem}
             />
           ) : (

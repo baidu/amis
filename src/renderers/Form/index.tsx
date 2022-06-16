@@ -63,7 +63,7 @@ export interface FormSchemaHorizontal {
   right?: number;
   leftFixed?: boolean | number | 'xs' | 'sm' | 'md' | 'lg';
   justify?: boolean; // 两端对齐
-  labelAlign?: 'left' | 'right' // label对齐方式
+  labelAlign?: 'left' | 'right'; // label对齐方式
 }
 
 /**
@@ -988,7 +988,12 @@ export default class Form extends React.Component<FormProps, object> {
       data = store.data;
     }
     if (Array.isArray(action.required) && action.required.length) {
-      return store.validateFields(action.required).then(async result => {
+      const fields = action.required.map(item => ({
+        name: item,
+        rules: {isRequired: true}
+      }));
+
+      return store.validateFields(fields).then(async result => {
         if (!result) {
           const dispatcher = await dispatchEvent(
             'validateError',
@@ -997,6 +1002,9 @@ export default class Form extends React.Component<FormProps, object> {
           if (!dispatcher?.prevented) {
             env.notify('error', __('Form.validateFailed'));
           }
+
+          /** 抛异常是为了在dialog中catch这个错误，避免弹窗直接关闭 */
+          return Promise.reject(__('Form.validateFailed'));
         } else {
           dispatchEvent('validateSucc', this.props.data);
           this.handleAction(

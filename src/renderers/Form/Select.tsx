@@ -18,6 +18,9 @@ import Spinner from '../../components/Spinner';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import TransferDropDown from '../../components/TransferDropDown';
 
+import type {TooltipObject} from '../../components/TooltipWrapper';
+import type {SchemaClassName} from '../../Schema';
+
 /**
  * Select 下拉选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/select
@@ -85,18 +88,46 @@ export interface SelectControlSchema extends FormOptionsControl {
    * 搜索 API
    */
   searchApi?: SchemaApi;
+
+  /**
+   * 单个选项的高度，主要用于虚拟渲染
+   */
+  itemHeight?: number;
+
+  /**
+   * 在选项数量达到多少时开启虚拟渲染
+   */
+  virtualThreshold?: number;
+
   /**
    * 可多选条件下，是否可全选
    */
   checkAll?: boolean;
+
   /**
    * 可多选条件下，是否默认全选中所有值
    */
   defaultCheckAll?: boolean;
+
   /**
    * 可多选条件下，全选项文案，默认 ”全选“
    */
   checkAllLabel?: string;
+
+  /**
+   * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+   */
+  maxTagCount?: number;
+
+  /**
+   * 收纳标签的Popover配置
+   */
+  overflowTagPopover?: object;
+
+  /**
+   * 选项的自定义CSS类名
+   */
+  optionClassName?: SchemaClassName;
 }
 
 export interface SelectProps extends OptionsControlProps {
@@ -104,6 +135,8 @@ export interface SelectProps extends OptionsControlProps {
   searchable?: boolean;
   defaultOpen?: boolean;
   useMobileUI?: boolean;
+  maxTagCount?: number;
+  overflowTagPopover?: TooltipObject;
 }
 
 export type SelectRendererEvent =
@@ -322,9 +355,11 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
   @autobind
   renderMenu(option: Option, state: any) {
-    const {menuTpl, render, data} = this.props;
+    const {menuTpl, render, data, optionClassName} = this.props;
 
     return render(`menu/${state.index}`, menuTpl, {
+      showNativeTitle: true,
+      className: cx('Select-option-content', optionClassName),
       data: createObject(createObject(data, state), option)
     });
   }
@@ -476,7 +511,9 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       leftMode,
       borderMode,
       useMobileUI,
-      popOverContainer
+      popOverContainer,
+      maxTagCount,
+      overflowTagPopover
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -520,6 +557,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           borderMode={borderMode}
           useMobileUI={useMobileUI}
           popOverContainer={popOverContainer}
+          maxTagCount={maxTagCount}
+          overflowTagPopover={overflowTagPopover}
         />
 
         <Spinner overlay key="info" show={loading} />

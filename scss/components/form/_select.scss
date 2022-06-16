@@ -1,6 +1,42 @@
 .#{$ns}Select {
   display: inline-flex;
 
+  /* select 标签样式 */
+  @mixin select-value {
+    .#{$ns}Select-value {
+      position: static;
+      white-space: normal;
+      user-select: none;
+      line-height: calc(
+        var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(
+            2px
+          )}
+      );
+      display: inline-block;
+      vertical-align: middle;
+      font-size: var(--Form-selectValue-fontSize);
+      background: var(--Form-select-value-bgColor);
+      border: px2rem(1px) solid var(--Form-select-value-borderColor);
+      border-radius: px2rem(2px);
+      margin-right: var(--gap-xs);
+      margin-bottom: var(--gap-xs);
+
+      &:hover {
+        background-color: var(--Form-selectValue-onHover-bgColor);
+      }
+    }
+
+    .#{$ns}Select-valueLabel {
+      display: inline-block;
+      max-width: var(--Form-valueLabel-maxWidth);
+      padding: 0 var(--gap-xs);
+      overflow: hidden;
+      vertical-align: top;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
   &--block {
     display: flex;
   }
@@ -45,10 +81,13 @@
 
   .#{$ns}PopOver.#{$ns}Select-popover {
     .#{$ns}Select-menu {
+      overflow-x: hidden;
+
       .#{$ns}Select-option {
         height: px2rem(32px);
         line-height: px2rem(22px);
       }
+
       .#{$ns}Select-addBtn {
         height: px2rem(32px);
         line-height: px2rem(30px);
@@ -117,38 +156,7 @@
       transform: translateY(0);
     }
 
-    .#{$ns}Select-value {
-      position: static;
-      white-space: normal;
-      user-select: none;
-      line-height: calc(
-        var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(
-            2px
-          )}
-      );
-      display: inline-block;
-      vertical-align: middle;
-      font-size: var(--Form-selectValue-fontSize);
-      background: var(--Form-select-value-bgColor);
-      border: px2rem(1px) solid var(--Form-select-value-borderColor);
-      border-radius: px2rem(2px);
-      margin-right: var(--gap-xs);
-      margin-bottom: var(--gap-xs);
-
-      &:hover {
-        background-color: var(--Form-selectValue-onHover-bgColor);
-      }
-    }
-
-    .#{$ns}Select-valueLabel {
-      display: inline-block;
-      max-width: var(--Form-valueLabel-maxWidth);
-      padding: 0 var(--gap-xs);
-      overflow: hidden;
-      vertical-align: top;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    @include select-value();
   }
   &-valueIcon {
     cursor: pointer;
@@ -237,6 +245,7 @@
     overflow: hidden;
     max-height: max-content;
   }
+
   &-input {
     cursor: pointer;
     outline: none;
@@ -309,6 +318,16 @@
 
     &.is-highlight > a {
       display: block;
+    }
+
+    .#{$ns}Select-option-content,
+    .#{$ns}Select-option-content > span > div {
+      flex: auto;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: inline-block;
+      max-width: 100%;
     }
   }
 
@@ -389,6 +408,43 @@
 
   &-popup {
     height: px2rem(320px);
+  }
+
+  &-overflow {
+    &-wrapper {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+      align-items: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: calc(
+        (
+            var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(
+                2px
+              )} + var(--gap-xs)
+          ) * 5
+      );
+
+      @include select-value();
+    }
+
+    &.#{$ns}Tooltip--dark {
+      .#{$ns}Select-overflow-wrapper {
+        .#{$ns}Select-value {
+          background-color: var(--Form-select-value-bgColor--dark);
+          border: none;
+
+          &:hover {
+            background-color: var(--ResultBox-value--onHover-bg--dark);
+          }
+
+          .#{$ns}Select-valueIcon {
+            color: var(--Form-select-valueIcon-color--dark);
+          }
+        }
+      }
+    }
   }
 }
 
