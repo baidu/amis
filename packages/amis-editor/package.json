@@ -1,8 +1,8 @@
 {
   "name": "amis-editor",
-  "version": "5.2.0-beta.0",
+  "version": "5.2.0-beta.1",
   "description": "amis 可视化编辑器",
-  "main": "lib/index.min.js",
+  "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,7 +26,8 @@
   "dependencies": {
     "amis-editor-comp": "*",
     "amis-editor-core": "*",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "@webcomponents/webcomponentsjs": "^2.6.0"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
@@ -51,7 +52,6 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/sortablejs": "^1.10.7",
     "@types/tinycolor2": "^1.4.3",
-    "@webcomponents/webcomponentsjs": "^2.6.0",
     "ajv": "^8.8.2",
     "amis": "^2.0.0-rc.10",
     "amis-core": "^2.0.0-rc.10",
