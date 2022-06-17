@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {PluginInterface, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,

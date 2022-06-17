@@ -1,6 +1,6 @@
 import {Button} from 'amis';
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {PluginInterface, registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
   BaseEventContext,
