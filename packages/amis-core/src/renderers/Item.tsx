@@ -53,6 +53,11 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
   labelAlign?: LabelAlign;
 
   /**
+   * label自定义宽度，默认单位为px
+   */
+  labelWidth?: number | string;
+
+  /**
    * 配置 label className
    */
   labelClassName?: string;
@@ -321,9 +326,11 @@ export interface FormItemProps extends RendererProps {
   formMode: 'normal' | 'horizontal' | 'inline' | 'row' | 'default';
   formHorizontal: FormHorizontal;
   formLabelAlign: LabelAlign;
+  formLabelWidth?: number | string;
   defaultSize?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
   labelAlign?: LabelAlign;
+  labelWidth?: number | string;
   disabled?: boolean;
   btnDisabled: boolean;
   defaultValue: any;
@@ -604,6 +611,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       const left = getWidthRate(horizontal.left);
       const right = getWidthRate(horizontal.right);
       const labelAlign = props.labelAlign || props.formLabelAlign;
+      const labelWidth = props.labelWidth || props.formLabelWidth;
 
       return (
         <div
@@ -634,6 +642,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 },
                 labelClassName
               )}
+              style={labelWidth != null ? {width: labelWidth} : undefined}
             >
               <span>
                 {label
@@ -862,7 +871,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         showErrorMsg,
         useMobileUI
       } = props;
-
+      const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
 
       return (
@@ -879,7 +888,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           )}
         >
           {label && renderLabel !== false ? (
-            <label className={cx(`Form-label`, labelClassName)}>
+            <label
+              className={cx(`Form-label`, labelClassName)}
+              style={labelWidth != null ? {width: labelWidth} : undefined}
+            >
               <span>
                 {label
                   ? render(
@@ -983,7 +995,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         showErrorMsg,
         useMobileUI
       } = props;
-
+      const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
 
       return (
@@ -1001,7 +1013,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         >
           <div className={cx('Form-rowInner')}>
             {label && renderLabel !== false ? (
-              <label className={cx(`Form-label`, labelClassName)}>
+              <label
+                className={cx(`Form-label`, labelClassName)}
+                style={labelWidth != null ? {width: labelWidth} : undefined}
+              >
                 <span>
                   {render(
                     'label',
