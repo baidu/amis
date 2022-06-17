@@ -17,7 +17,8 @@ import {getIcon} from 'amis-ui';
 import {generateIcon} from 'amis-core';
 import {RootClose} from 'amis-core';
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
-import type {IColumn} from 'amis-core/lib/store/table';
+import {IColumn} from 'amis-core/lib/store/table';
+import type {IColumn as IColumn2} from 'amis-core/lib/store/table-v2';
 
 export interface ColumnTogglerProps extends RendererProps {
   /**
@@ -113,14 +114,14 @@ export interface ColumnTogglerProps extends RendererProps {
   /**
    * 列数据
    */
-  columns: Array<IColumn>;
+  columns: Array<IColumn | IColumn2>;
 
   /**
    * 弹窗底部按钮大小
    */
   footerBtnSize?: 'xs' | 'sm' | 'md' | 'lg';
 
-  activeToggaleColumns: Array<IColumn>;
+  activeToggaleColumns: Array<IColumn | IColumn2>;
   onColumnToggle: (columns: Array<IColumn>) => void;
   modalContainer?: () => HTMLElement;
 }
