@@ -301,8 +301,8 @@ export class DateRangeControlPlugin extends BasePlugin {
                 mode: 'normal',
                 dropDownOption: {
                   'yesterday': '昨天',
-                  'thisweek': '本周',
-                  'prevweek': '这个周',
+                  'thisweek': '这个周',
+                  'prevweek': '上周',
                   '7daysago': '最近7天',
                   'thismonth': '这个月',
                   'prevmonth': '上个月',

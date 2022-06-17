@@ -29,6 +29,7 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^2.6.0",
     "rimraf": "^3.0.2",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@svgr/webpack": "^5.5.0",
