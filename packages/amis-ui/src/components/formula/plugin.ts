@@ -200,23 +200,30 @@ export class FormulaPlugin {
         return _;
       });
 
+      const REPLACE_KEY = 'AMIS_FORMULA_REPLACE_KEY';
       // 标记变量
       vars.forEach(v => {
         let from = 0;
         let idx = -1;
         while (~(idx = content.indexOf(v, from))) {
-          this.markText(
-            {
-              line: line,
-              ch: idx
-            },
-            {
-              line: line,
-              ch: idx + v.length
-            },
-            varMap[v],
-            'cm-field'
-          );
+          const encode = content.replace(v, REPLACE_KEY);
+          const curNameEg = new RegExp(`\\b${REPLACE_KEY}\\b`, 'g');
+
+          if (curNameEg.test(encode)) {
+            this.markText(
+              {
+                line: line,
+                ch: idx
+              },
+              {
+                line: line,
+                ch: idx + v.length
+              },
+              varMap[v],
+              'cm-field'
+            );
+          }
+
           from = idx + v.length;
         }
       });
