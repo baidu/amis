@@ -167,4 +167,8 @@
   &-inspect {
     padding: var(--gap-sm);
   }
+
+  &-logLine {
+    overflow-x: hidden;
+  }
 }

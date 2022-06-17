@@ -53,6 +53,11 @@ class AMISDebugStore {
    * 当前选中的组件节点 id
    */
   @observable activeId: string;
+
+  /**
+   * 字段值文本最大展示长度
+   */
+  @observable ellipsisThreshold: number;
 }
 
 const store = new AMISDebugStore();
@@ -67,6 +72,8 @@ const ComponentInfo = {} as {[propName: string]: ComponentInspect};
 
 const LogView = observer(({store}: {store: AMISDebugStore}) => {
   const logs = store.logs;
+  const ellipsisThreshold = store.ellipsisThreshold ?? 50;
+
   return (
     <>
       {logs.map((log, index) => {
@@ -83,6 +90,7 @@ const LogView = observer(({store}: {store: AMISDebugStore}) => {
                 collapsed={true}
                 enableClipboard={false}
                 displayDataTypes={false}
+                collapseStringsAfterLength={ellipsisThreshold}
                 iconStyle="square"
               />
             ) : null}

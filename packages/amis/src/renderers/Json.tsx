@@ -54,6 +54,11 @@ export interface JsonSchema extends BaseSchema {
    * 是否为键排序
    */
   sortKeys?: boolean;
+
+  /**
+   * 设置字符串的最大展示长度，超出长度阈值的字符串将被截断，点击value可切换字符串展示方式，默认为false
+   */
+  ellipsisThreshold?: number | false;
 }
 
 export interface JSONProps extends RendererProps, JsonSchema {
@@ -74,7 +79,8 @@ export class JSONField extends React.Component<JSONProps, object> {
     enableClipboard: false,
     iconStyle: 'square',
     quotesOnKeys: true,
-    sortKeys: false
+    sortKeys: false,
+    ellipsisThreshold: false
   };
 
   @autobind
@@ -114,7 +120,8 @@ export class JSONField extends React.Component<JSONProps, object> {
       iconStyle,
       quotesOnKeys,
       sortKeys,
-      name
+      name,
+      ellipsisThreshold
     } = this.props;
 
     const value = getPropValue(this.props);
@@ -157,6 +164,7 @@ export class JSONField extends React.Component<JSONProps, object> {
             shouldCollapse={this.shouldExpandNode}
             enableClipboard={enableClipboard}
             displayDataTypes={displayDataTypes}
+            collapseStringsAfterLength={ellipsisThreshold}
             iconStyle={iconStyle}
             quotesOnKeys={quotesOnKeys}
             sortKeys={sortKeys}

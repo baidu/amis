@@ -233,16 +233,36 @@ List 的内容、Card 卡片的内容配置同上
 }
 ```
 
+## 文本过长自动处理
+
+> 2.0.0 及以上版本
+
+设置`ellipsisThreshold`可以设置字符串的最大展示长度，点击字符串可以切换全量/部分展示方式，默认展示全量字符串。
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "json",
+        "ellipsisThreshold": 80,
+        "value": {
+            "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        }
+    }
+}
+```
+
 ## 属性表
 
-| 属性名           | 类型              | 默认值     | 说明                                                                                 |
-| ---------------- | ----------------- | ---------- | ------------------------------------------------------------------------------------ |
-| type             | `string`          |            | 如果在 Table、Card 和 List 中，为`"json"`；在 Form 中用作静态展示，为`"static-json"` |
-| className        | `string`          |            | 外层 CSS 类名                                                                        |
-| value            | `object`/`string` |            | json 值，如果是 string 会自动 parse                                                  |
-| source           | `string`          | `''`       | 通过数据映射获取数据链中的值                                                         |
-| placeholder      | `string`          | `-`        | 占位文本                                                                             |
-| levelExpand      | `number`          | `1`        | 默认展开的层级                                                                       |
-| jsonTheme        | `string`          | `twilight` | 主题，可选`twilight`和`eighties`                                                     |
-| mutable          | `boolean`         | `false`    | 是否可修改                                                                           |
-| displayDataTypes | `boolean`         | `false`    | 是否显示数据类型                                                                     |
+| 属性名            | 类型              | 默认值     | 说明                                                                                 |
+| ----------------- | ----------------- | ---------- | ------------------------------------------------------------------------------------ |
+| type              | `string`          |            | 如果在 Table、Card 和 List 中，为`"json"`；在 Form 中用作静态展示，为`"static-json"` |
+| className         | `string`          |            | 外层 CSS 类名                                                                        |
+| value             | `object`/`string` |            | json 值，如果是 string 会自动 parse                                                  |
+| source            | `string`          | `''`       | 通过数据映射获取数据链中的值                                                         |
+| placeholder       | `string`          | `-`        | 占位文本                                                                             |
+| levelExpand       | `number`          | `1`        | 默认展开的层级                                                                       |
+| jsonTheme         | `string`          | `twilight` | 主题，可选`twilight`和`eighties`                                                     |
+| mutable           | `boolean`         | `false`    | 是否可修改                                                                           |
+| displayDataTypes  | `boolean`         | `false`    | 是否显示数据类型                                                                     |
+| ellipsisThreshold | `number`          | `false`    | 设置字符串的最大展示长度，点击字符串可以切换全量/部分展示方式，默认展示全量字符串    |
