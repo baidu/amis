@@ -48,6 +48,8 @@ export interface FormHorizontal {
   leftFixed?: boolean | number | 'xs' | 'sm' | 'md' | 'lg';
   justify?: boolean; // 两端对齐
   labelAlign?: 'left' | 'right'; // label对齐方式
+  /** label自定义宽度，默认单位为px */
+  labelWidth?: number | string;
 }
 
 export interface FormSchemaBase {
@@ -282,6 +284,11 @@ export interface FormSchemaBase {
    * 表单label的对齐方式
    */
   labelAlign?: LabelAlign;
+
+  /**
+   * label自定义宽度，默认单位为px
+   */
+  labelWidth?: number | string;
 }
 
 export type FormGroup = FormSchemaBase & {
@@ -1450,7 +1457,8 @@ export default class Form extends React.Component<FormProps, object> {
       lazyChange,
       formLazyChange,
       dispatchEvent,
-      labelAlign
+      labelAlign,
+      labelWidth
     } = props;
 
     const subProps = {
@@ -1464,6 +1472,7 @@ export default class Form extends React.Component<FormProps, object> {
       formMode: mode,
       formHorizontal: horizontal,
       formLabelAlign: labelAlign !== 'left' ? 'right' : labelAlign,
+      formLabelWidth: labelWidth,
       controlWidth,
       disabled: disabled || (control as Schema).disabled || form.loading,
       btnDisabled: disabled || form.loading || form.validating,
