@@ -9,10 +9,7 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {BUTTON_DEFAULT_ACTION, tipedLabel} from '../component/BaseControl';
 import {getEventControlConfig} from '../util';
-import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 
 export class ButtonPlugin extends BasePlugin {
@@ -41,7 +38,7 @@ export class ButtonPlugin extends BasePlugin {
   panelTitle = '按钮';
 
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'click',
       eventLabel: '点击',
@@ -66,7 +63,7 @@ export class ButtonPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [];
+  actions: RendererPluginAction[] = [];
 
   panelJustify = true;
 

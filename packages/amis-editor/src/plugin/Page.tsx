@@ -4,9 +4,9 @@ import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../util';
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import type {SchemaObject} from 'amis/lib/Schema';
 
 export class PagePlugin extends BasePlugin {
@@ -42,7 +42,7 @@ export class PagePlugin extends BasePlugin {
     body: '内容'
   };
 
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
       eventLabel: '初始化完成',
@@ -67,7 +67,7 @@ export class PagePlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'reload',
       actionLabel: '重新加载',

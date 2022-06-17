@@ -2,9 +2,9 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {formItemControl} from '../../component/BaseControl';
 
@@ -52,7 +52,7 @@ export class ButtonGroupControlPlugin extends BasePlugin {
   panelTitle = '按钮点选';
 
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'change',
       eventLabel: '值变化',
@@ -72,7 +72,7 @@ export class ButtonGroupControlPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

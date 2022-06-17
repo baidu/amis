@@ -2,9 +2,9 @@
  * @file input-kv 组件的素项目部
  */
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, valuePipeOut} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
@@ -44,7 +44,7 @@ export class KVControlPlugin extends BasePlugin {
   };
 
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'add',
       eventLabel: '添加',
@@ -84,7 +84,7 @@ export class KVControlPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

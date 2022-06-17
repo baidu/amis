@@ -1,10 +1,7 @@
-import type {
-  ActionTypeNode,
-  RendererAction
-} from 'amis-editor-comp/dist/renderers/event-action';
+import type {RendererPluginAction} from 'amis-editor-core';
 
 // 表单类动作
-const formActions: RendererAction[] = [
+const formActions: RendererPluginAction[] = [
   {
     actionLabel: '提交',
     actionType: 'submit',
@@ -28,7 +25,7 @@ const formActions: RendererAction[] = [
 ];
 
 // 页面类动作
-const pageActions: RendererAction[] = [
+const pageActions: RendererPluginAction[] = [
   {
     actionLabel: '打开页面',
     actionType: 'openPage',
@@ -47,7 +44,7 @@ const pageActions: RendererAction[] = [
 ];
 
 // 弹框类动作
-const dialogActions: RendererAction[] = [
+const dialogActions: RendererPluginAction[] = [
   {
     actionLabel: '打开弹窗',
     actionType: 'dialog',
@@ -87,7 +84,7 @@ const dialogActions: RendererAction[] = [
 ];
 
 // 服务类动作
-const serviceActions: RendererAction[] = [
+const serviceActions: RendererPluginAction[] = [
   {
     actionLabel: '发送请求',
     actionType: 'ajax',
@@ -100,7 +97,7 @@ const serviceActions: RendererAction[] = [
   }
 ];
 
-const ACTION_TYPE_TREE: ActionTypeNode[] = [
+const ACTION_TYPE_TREE: RendererPluginAction[] = [
   {
     actionLabel: '页面',
     actionType: 'page',

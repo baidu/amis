@@ -1,8 +1,8 @@
 import {relativeValueRe} from 'amis';
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {availableLanguages} from 'amis/lib/renderers/Form/Editor';
 import {defaultValue, getSchemaTpl, valuePipeOut} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
@@ -113,7 +113,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
   };
   panelJustify = true;
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'change',
       eventLabel: '值变化',
@@ -165,7 +165,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

@@ -11,9 +11,9 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {jsonToJsonSchema} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {getEventControlConfig} from '../../util';
 
@@ -213,7 +213,7 @@ export class FormPlugin extends BasePlugin {
   panelTitle = '表单';
 
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
       eventLabel: '初始化完成',
@@ -346,7 +346,7 @@ export class FormPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionLabel: '提交表单',
       actionType: 'submit',

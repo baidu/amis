@@ -3,7 +3,7 @@ import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {tipedLabel} from '../component/BaseControl';
 import {ValidatorTag} from '../validator';
 import {getEventControlConfig} from '../util';
-import {RendererEvent} from 'amis-editor-comp/dist/renderers/event-action';
+import {RendererPluginEvent} from 'amis-editor-core';
 
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
@@ -45,7 +45,7 @@ export class PaginationPlugin extends BasePlugin {
   panelTitle = '分页器';
 
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'pageChange',
       eventLabel: '分页改变',

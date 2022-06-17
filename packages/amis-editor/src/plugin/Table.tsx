@@ -1,8 +1,8 @@
 import {resolveVariable} from 'amis';
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 
 import {registerEditorPlugin, repeatArray} from 'amis-editor-core';
@@ -156,7 +156,7 @@ export class TablePlugin extends BasePlugin {
 
   panelTitle = '表格';
 
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'selectedChange',
       eventLabel: '选择表格项',
@@ -287,7 +287,7 @@ export class TablePlugin extends BasePlugin {
     }
   ];
 
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'select',
       actionLabel: '设置选中项',

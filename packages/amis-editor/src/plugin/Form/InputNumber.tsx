@@ -1,7 +1,7 @@
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import flatten from 'lodash/flatten';
 import {ContainerWrapper} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
@@ -56,7 +56,7 @@ export class NumberControlPlugin extends BasePlugin {
   panelJustify = true;
 
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'change',
       eventLabel: '值变化',
@@ -108,7 +108,7 @@ export class NumberControlPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

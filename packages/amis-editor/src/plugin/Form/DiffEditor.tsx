@@ -12,9 +12,9 @@ import type {BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../util';
 import {
-  RendererEvent,
-  RendererAction
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginEvent,
+  RendererPluginAction
+} from 'amis-editor-core';
 
 export class DiffEditorControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -49,7 +49,7 @@ export class DiffEditorControlPlugin extends BasePlugin {
     ]
   };
 
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'focus',
       eventLabel: '获取焦点',
@@ -84,7 +84,7 @@ export class DiffEditorControlPlugin extends BasePlugin {
     }
   ];
 
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

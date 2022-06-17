@@ -16,9 +16,9 @@ import {diff, JSONPipeIn} from 'amis-editor-core';
 import {JSONPipeOut} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 import {
-  RendererEvent,
-  RendererAction
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginEvent,
+  RendererPluginAction
+} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 
 export class ComboControlPlugin extends BasePlugin {
@@ -76,7 +76,7 @@ export class ComboControlPlugin extends BasePlugin {
   };
 
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'add',
       eventLabel: '添加',
@@ -132,7 +132,7 @@ export class ComboControlPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

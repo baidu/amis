@@ -7,10 +7,10 @@ import {
   RegionConfig,
   RendererInfo
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {defaultValue, getSchemaTpl, } from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
 import AMisCodeEditor from 'amis-editor-core';
-import {RendererAction} from 'amis-editor-comp/dist/renderers/event-action';
+import {RendererPluginAction} from 'amis-editor-core';
 
 const ChartConfigEditor = ({value, onChange}: any) => {
   return (
@@ -57,7 +57,7 @@ export class ChartPlugin extends BasePlugin {
   };
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'reload',
       actionLabel: '重新加载',

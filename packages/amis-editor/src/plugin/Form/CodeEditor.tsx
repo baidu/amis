@@ -6,9 +6,9 @@ import {BasePlugin} from 'amis-editor-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {
-  RendererEvent,
-  RendererAction
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginEvent,
+  RendererPluginAction
+} from 'amis-editor-core';
 import {getEventControlConfig} from '../../util';
 
 export class CodeEditorControlPlugin extends BasePlugin {
@@ -43,7 +43,7 @@ export class CodeEditorControlPlugin extends BasePlugin {
     ]
   };
 
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'focus',
       eventLabel: '获取焦点',
@@ -78,7 +78,7 @@ export class CodeEditorControlPlugin extends BasePlugin {
     }
   ];
 
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

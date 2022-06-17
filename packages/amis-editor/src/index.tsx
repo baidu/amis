@@ -153,6 +153,7 @@ import './renderer/RangePartsControl';
 import './renderer/DataBindingControl';
 import './renderer/DataMappingControl';
 import './renderer/DataPickerControl';
+import './renderer/event-control/index';
 
 export * from './component/BaseControl';
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Button} from 'amis';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import type {ActionConfigItemsMap} from 'amis-editor-comp/dist/renderers/event-action';
+import {defaultValue, getSchemaTpl, RendererPluginAction} from 'amis-editor-core';
 
 export const getComboWrapper = (items: any, multiple: boolean = false) => ({
   type: 'combo',
@@ -16,7 +15,7 @@ export const getComboWrapper = (items: any, multiple: boolean = false) => ({
  * 获取动作配置项map
  * @param manager
  */
-export function getActionConfigItemsMap(manager: any): ActionConfigItemsMap {
+export function getActionConfigItemsMap(manager: any): {[propName: string]: RendererPluginAction} {
   return {
     ajax: {
       config: ['api'],

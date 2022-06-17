@@ -5,9 +5,9 @@ import {tipedLabel} from '../component/BaseControl';
 import {ValidatorTag} from '../validator';
 import {getEventControlConfig} from '../util';
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 export class LinkPlugin extends BasePlugin {
   // 关联渲染器名字

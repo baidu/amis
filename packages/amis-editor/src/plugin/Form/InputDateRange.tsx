@@ -6,9 +6,9 @@ import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../util';
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 const DateType: {
   [key: string]: {
@@ -105,7 +105,7 @@ export class DateRangeControlPlugin extends BasePlugin {
 
   panelTitle = '日期范围';
 
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'change',
       eventLabel: '值变化',
@@ -157,7 +157,7 @@ export class DateRangeControlPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

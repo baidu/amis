@@ -24,7 +24,6 @@
     ]
   },
   "dependencies": {
-    "amis-editor-comp": "*",
     "amis-editor-core": "*",
     "lodash": "^4.17.15",
     "@webcomponents/webcomponentsjs": "^2.6.0"

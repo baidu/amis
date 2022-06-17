@@ -6,9 +6,9 @@ import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../util';
 
 import type {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 export class ServicePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -45,7 +45,7 @@ export class ServicePlugin extends BasePlugin {
     }
   ];
 
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'fetchInited',
       eventLabel: 'api 初始化数据',
@@ -58,7 +58,7 @@ export class ServicePlugin extends BasePlugin {
     }
   ];
 
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'reload',
       actionLabel: '重新加载',

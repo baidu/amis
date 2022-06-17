@@ -4,9 +4,9 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {getEventControlConfig} from '../../util';
 
 export class TabsTransferPlugin extends BasePlugin {
@@ -134,7 +134,7 @@ export class TabsTransferPlugin extends BasePlugin {
 
   panelTitle = '组合穿梭器';
 
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'change',
       eventLabel: '值变化',
@@ -186,7 +186,7 @@ export class TabsTransferPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

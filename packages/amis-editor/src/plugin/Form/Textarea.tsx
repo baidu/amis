@@ -7,9 +7,9 @@ import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../util';
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 export class TextareaControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -43,7 +43,7 @@ export class TextareaControlPlugin extends BasePlugin {
 
   panelTitle = '多行文本';
 
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'change',
       eventLabel: '值变化',
@@ -94,7 +94,7 @@ export class TextareaControlPlugin extends BasePlugin {
     }
   ];
 
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

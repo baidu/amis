@@ -15,9 +15,9 @@ import {
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from '../../component/BaseControl';
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {getEventControlConfig} from '../../util';
 
 setSchemaTpl('option', {
@@ -59,7 +59,7 @@ export class CheckboxControlPlugin extends BasePlugin {
   panelTitle = '勾选框';
   panelJustify = true;
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'change',
       eventLabel: '值变化',
@@ -78,7 +78,7 @@ export class CheckboxControlPlugin extends BasePlugin {
     }
   ];
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

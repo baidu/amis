@@ -13,9 +13,9 @@ import {mapReactElement} from 'amis-editor-core';
 import {RegionWrapper as Region} from 'amis-editor-core';
 
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {getEventControlConfig} from '../util';
 import {getComboWrapper} from '../event-action/schema';
 
@@ -82,7 +82,7 @@ export class WizardPlugin extends BasePlugin {
   };
 
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
       eventLabel: '初始化完成',
@@ -203,7 +203,7 @@ export class WizardPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'submit',
       actionLabel: '全部提交',

@@ -11,9 +11,9 @@ import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../util';
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 export class MatrixControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -66,7 +66,7 @@ export class MatrixControlPlugin extends BasePlugin {
   panelTitle = '矩阵开关';
   panelJustify = true;
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'change',
       eventLabel: '值变化',
@@ -86,7 +86,7 @@ export class MatrixControlPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',

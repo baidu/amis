@@ -12,9 +12,9 @@ import {
 } from 'amis-editor-core';
 import {formItemControl} from '../../component/BaseControl';
 import {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 export class ExcelControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -49,7 +49,7 @@ export class ExcelControlPlugin extends BasePlugin {
   notRenderFormZone = true;
 
   // 事件定义
-  events: RendererEvent[] = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'change',
       eventLabel: '值变化',
@@ -69,7 +69,7 @@ export class ExcelControlPlugin extends BasePlugin {
   ];
 
   // 动作定义
-  actions: RendererAction[] = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'clear',
       actionLabel: '清空',
