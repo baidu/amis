@@ -169,15 +169,25 @@ export class FormulaEditor extends React.Component<
       return _?.replace(func, `<span class="c-func">${func}</span>`);
     });
 
+    const REPLACE_KEY = 'AMIS_FORMULA_REPLACE_KEY';
     vars.forEach(v => {
       let from = 0;
       let idx = -1;
       while (~(idx = content.indexOf(v, from))) {
-        const curNameEg = new RegExp(`\\b${v}\\b`, 'g'); // 避免变量识别冲突，比如：name、me 被识别成 na「me」
-        html = html.replace(
-          curNameEg,
-          `<span class="c-field">${varMap[v]}</span>`
-        );
+        // 处理一下 \b 匹配不到的字符，比如 中文、[] 等
+        const encodeHtml = html.replace(v, REPLACE_KEY);
+        const curNameEg = new RegExp(`\\b${REPLACE_KEY}\\b`, 'g'); // 避免变量识别冲突，比如：name、me 被识别成 na「me」
+
+        // 如果匹配到则高亮，没有匹配到替换成原值
+        if (curNameEg.test(encodeHtml)) {
+          html = encodeHtml.replace(
+            curNameEg,
+            `<span class="c-field">${varMap[v]}</span>`
+          );
+        } else {
+          html = encodeHtml.replace(REPLACE_KEY, v);
+        }
+
         from = idx + v.length;
       }
     });
@@ -239,7 +249,12 @@ export class FormulaEditor extends React.Component<
   handleVariableSelect(item: VariableItem) {
     const {evalMode, selfVariableName} = this.props;
 
-    if (item && item.value && (selfVariableName && selfVariableName === item.value)) {
+    if (
+      item &&
+      item.value &&
+      selfVariableName &&
+      selfVariableName === item.value
+    ) {
       toast.warning('不能使用当前变量[self]，避免循环引用。');
       return;
     }
