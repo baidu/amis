@@ -70,9 +70,21 @@ export class PartsControl extends React.Component<
     const {partsSource = PartsSourceEnum.NO_BLOCK, parts = 1} = props.data;
     this.state = {
       options: this.transformOptionValue(partsSource, parts),
-      source: partsSource,
+      source: this.getPartsSource(parts),
       parts
     };
+  }
+
+  // 根据滑块配置获取分块方式
+  @autobind
+  getPartsSource(parts: number | number[]) {
+    if (Array.isArray(parts)) {
+      return PartsSourceEnum.CUSTOM;
+    }
+    if (parts > 1) {
+      return PartsSourceEnum.AVERAGE;
+    }
+    return PartsSourceEnum.NO_BLOCK;
   }
 
   @autobind
@@ -92,7 +104,6 @@ export class PartsControl extends React.Component<
     const {source, parts, options} = this.state;
     const {onBulkChange} = this.props;
     const data: Partial<PartsControlProps> = {
-      partsSource: source,
       parts,
       showSteps: false
     };
@@ -119,7 +130,6 @@ export class PartsControl extends React.Component<
     }
 
     onBulkChange && onBulkChange(data);
-    return;
   }
 
   /**
@@ -235,15 +245,13 @@ export class PartsControl extends React.Component<
   }
 
   render() {
-    const {
-      className,
-      data: {partsSource}
-    } = this.props;
+    const {className} = this.props;
+    const {source} = this.state;
 
     return (
       <div className={cx('ae-OptionControl', className)}>
         {this.renderHeader()}
-        {this.renderContent(partsSource)}
+        {this.renderContent(source)}
       </div>
     );
   }
@@ -258,10 +266,10 @@ export class MarksControl extends React.Component<
 > {
   constructor(props: MarksControlProps) {
     super(props);
-    const {marks = [], marksSource = MarksSourceEnum.PARKS} = props.data;
+    const {marks = {}} = props.data;
     this.state = {
       options: this.transformOptionValue(marks),
-      source: marksSource
+      source: !Object.keys(marks).length ? MarksSourceEnum.PARKS : MarksSourceEnum.CUSTOM
     };
   }
 
@@ -301,18 +309,15 @@ export class MarksControl extends React.Component<
    */
   @autobind
   onChange() {
-    const {options, source} = this.state;
+    const {options} = this.state;
     const {onBulkChange} = this.props;
-    const data: {marks: {[index: number]: any}; marksSource: string} = {
-      marks: {},
-      marksSource: source
-    };
+    const marks: {[index: number]: any} = {};
     if (options && !!options.length) {
       options.forEach((item: MarksOptionControlItem) => {
-        data.marks[item.number] = item.label || item.number;
+        marks[item.number] = item.label || item.number;
       });
     }
-    onBulkChange && onBulkChange(data);
+    onBulkChange && onBulkChange({marks});
   }
 
   /**
