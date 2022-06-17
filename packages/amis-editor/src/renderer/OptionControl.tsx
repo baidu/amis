@@ -584,7 +584,7 @@ export default class OptionControl extends React.Component<
           <InputBox
             className="ae-OptionControlItem-input"
             value={label}
-            placeholder="请输入显示文本"
+            placeholder="请输入文本/值"
             clearable={false}
             onChange={value => this.handleEditLabel(index, value)}
           />

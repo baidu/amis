@@ -100,30 +100,12 @@ export class CollapseGroupPlugin extends BasePlugin {
                         name: 'expandIcon',
                         type: 'icon-picker',
                         className: 'fix-icon-picker-overflow',
-                        pipeIn: (value: any) => {
-                          const val = value?.icon ?? '';
-                          return (
-                            val &&
-                            (value?.prefix
-                              ? `${value.prefix}${val}`
-                              : `fa fa-${val}`)
-                          );
-                        },
-                        pipeOut: (value: any) => {
-                          let fa = ~value.lastIndexOf('fa fa-');
-                          let fab = ~value.lastIndexOf('fab fa-');
-                          if (!(value || fa || fab)) {
-                            return '';
-                          }
-                          let prefix = fab ? 'fab fa-' : fa ? 'fa fa-' : '';
-                          value =
-                            value.substring(prefix.length, value.length) ?? '';
-                          return {
-                            type: 'icon',
-                            prefix: prefix,
-                            icon: value
-                          };
-                        }
+                        pipeIn: (value: any) => value?.icon,
+                        pipeOut: (value: any) => ({
+                          type: 'icon',
+                          vendor: '',
+                          icon: value
+                        })
                       }
                     ]
                   },
@@ -163,6 +145,7 @@ export class CollapseGroupPlugin extends BasePlugin {
                   mode: 'normal',
                   multiple: true,
                   addable: true,
+                  columnClassName: 'w-20',
                   addButtonText: '新增折叠器',
                   minLength: 1,
                   draggable: true,
@@ -171,7 +154,7 @@ export class CollapseGroupPlugin extends BasePlugin {
                   items: [
                     {
                       type: 'container',
-                      columnClassName: 'w-xs w-9 text-xs',
+                      columnClassName: 'flex-none',
                       body: tipedLabel(
                         [
                           {

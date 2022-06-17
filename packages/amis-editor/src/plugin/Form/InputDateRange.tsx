@@ -302,13 +302,13 @@ export class DateRangeControlPlugin extends BasePlugin {
                 dropDownOption: {
                   'yesterday': '昨天',
                   'thisweek': '本周',
-                  'prevweek': '上周',
+                  'prevweek': '这个周',
                   '7daysago': '最近7天',
-                  'thismonth': '本月',
-                  'prevmonth': '上月',
-                  'thisquarter': '本季度',
-                  'prevquarter': '上季度',
-                  'thisyear': '本年'
+                  'thismonth': '这个月',
+                  'prevmonth': '上个月',
+                  'thisquarter': '这个季度',
+                  'prevquarter': '上个季度',
+                  'thisyear': '今年'
                 }
               }),
               // getSchemaTpl('remark'),
@@ -317,13 +317,13 @@ export class DateRangeControlPlugin extends BasePlugin {
                 type: 'input-text',
                 name: 'startPlaceholder',
                 label: '前占位提示',
-                pipeIn: defaultValue('选择开始时间')
+                pipeIn: defaultValue('开始时间')
               },
               {
                 type: 'input-text',
                 name: 'endPlaceholder',
                 label: '后占位提示',
-                pipeIn: defaultValue('选择结束时间')
+                pipeIn: defaultValue('结束时间')
               }
             ]
           },

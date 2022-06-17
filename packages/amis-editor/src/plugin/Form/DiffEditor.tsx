@@ -138,12 +138,13 @@ export class DiffEditorControlPlugin extends BasePlugin {
                 name: 'diffValue',
                 label: '左侧默认值',
                 pipeOut: valuePipeOut,
-                placeholder: '支持使用 <code>\\${xxx}</code> 来获取变量'
+                placeholder: '支持使用 ${xxx} 来获取变量'
               },
               {
                 type: 'textarea',
                 name: 'value',
-                label: '右侧默认值'
+                label: '右侧默认值',
+                placeholder: '支持使用 ${xxx} 来获取变量'
               },
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),

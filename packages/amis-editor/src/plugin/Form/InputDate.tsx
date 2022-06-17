@@ -25,7 +25,7 @@ const DateType: {
   [key: string]: {
     format: string;
     placeholder: string;
-    formatOptions: Array<{label: string; value: string}>;
+    formatOptions: Array<{label: string; value: string; timeFormat?: string}>;
   };
 } = {
   date: {
@@ -72,19 +72,23 @@ const DateType: {
     formatOptions: [
       {
         label: 'HH:mm',
-        value: 'HH:mm'
+        value: 'HH:mm',
+        timeFormat: 'HH:mm'
       },
       {
         label: 'HH:mm:ss',
-        value: 'HH:mm:ss'
+        value: 'HH:mm:ss',
+        timeFormat: 'HH:mm'
       },
       {
         label: 'HH时mm分',
-        value: 'HH时mm分'
+        value: 'HH时mm分',
+        timeFormat: 'HH:mm'
       },
       {
         label: 'HH时mm分ss秒',
-        value: 'HH时mm分ss秒'
+        value: 'HH时mm分ss秒',
+        timeFormat: 'HH:mm:ss'
       }
     ]
   },
@@ -249,6 +253,7 @@ export class DateControlPlugin extends BasePlugin {
                   form: any
                 ) => {
                   let type: string = value.split('-')[1];
+
                   form.setValues({
                     inputFormat: DateType[type]?.format,
                     placeholder: DateType[type]?.placeholder,
@@ -283,9 +288,21 @@ export class DateControlPlugin extends BasePlugin {
                   model: any,
                   form: any
                 ) => {
-                  model.setOptions(
-                    DateType[form.data.type.split('-')[1]].formatOptions
-                  );
+                  const type = form.data.type.split('-')[1];
+                  model.setOptions(DateType[type].formatOptions);
+                  // 时间日期类组件 input-time 需要更加关注 timeFormat 和 inputFormat 属性区别
+                  // inputFormat 表示输入框内的显示格式； timeFormat表示选择下拉弹窗中展示"HH、mm、ss"的组合
+                  if (type === 'time') {
+                    const timeFormatObj = DateType[type].formatOptions.find(
+                      item => item.value === value
+                    );
+                    const timeFormat = timeFormatObj
+                      ? (timeFormatObj as any).timeFormat
+                      : 'HH:mm:ss';
+                    form.setValues({
+                      timeFormat: timeFormat
+                    });
+                  }
                 },
                 options:
                   DateType[this.scaffold.type.split('-')[1]].formatOptions
