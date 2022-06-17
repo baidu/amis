@@ -327,6 +327,10 @@ export class Range extends React.Component<RangeItemProps, any> {
       return;
     }
     const result = stripNumber(this.getStepValue(value, step));
+    // 值相同 不更新
+    if (result === originValue) {
+      return;
+    }
     if (multiple) {
       this.updateValue({...(originValue as MultipleValue), [type]: result});
     } else {
