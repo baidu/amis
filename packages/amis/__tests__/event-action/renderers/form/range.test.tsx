@@ -3,7 +3,7 @@ import '../../../../src';
 import {render as amisRender} from '../../../../src';
 import {makeEnv, wait} from '../../../helper';
 
-test('Renderer:range2', async () => {
+test('EventAction:inputRange', async () => {
   const notify = jest.fn();
   const {container} = render(
     amisRender(
