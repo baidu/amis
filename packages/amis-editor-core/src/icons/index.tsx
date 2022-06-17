@@ -36,6 +36,22 @@ import DeleteIcon from './delete-icon.svg';
 import FixedIcon from './fixed.svg';
 import NoFixedIcon from './no-fixed.svg';
 
+import Edit from './edit.svg';
+import Plus from './plus.svg';
+import UpArrow from './up-arrow.svg';
+import DownArrowR from './down-arrow.svg';
+import DeleteEasy from './delete-easy.svg';
+import DeleteBold from './delete-bold.svg';
+import DragIcon from './drag-icon.svg';
+
+registerIcon('edit-full-btn', Edit);
+registerIcon('add-btn', Plus);
+registerIcon('close-btn', UpArrow);
+registerIcon('open-btn-r', DownArrowR);
+registerIcon('delete-easy-btn', DeleteEasy);
+registerIcon('delete-bold-btn', DeleteBold);
+registerIcon('drag-six-circle-btn', DragIcon);
+
 // 3.0 升级 相关icon
 import BackUpBtn from './v3/back-up.svg';
 import DownArrow from './v3/down-arrow.svg';

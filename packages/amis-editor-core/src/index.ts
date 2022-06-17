@@ -4,10 +4,6 @@
 import Editor from './component/Editor';
 import './component/ClassNameControl';
 
-// 引入editor公共组件
-import 'amis-editor-comp';
-import 'amis-editor-comp/dist/index.css';
-
 import './plugin/AvailableRenderers';
 import './plugin/BasicToolbar';
 import './plugin/Code';

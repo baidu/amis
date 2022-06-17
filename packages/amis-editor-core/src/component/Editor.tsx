@@ -7,7 +7,7 @@ import {SchemaObject} from 'amis/lib/Schema';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
 import {RenderOptions, toast} from 'amis';
-import {PluginEventListener} from '../plugin';
+import {PluginEventListener, RendererPluginAction} from '../plugin';
 import {SubEditor} from './SubEditor';
 import Breadcrumb from './Breadcrumb';
 import {destroy} from 'mobx-state-tree';
@@ -16,10 +16,6 @@ import {PopOverForm} from './PopOverForm';
 import {ContextMenuPanel} from './Panel/ContextMenuPanel';
 import {LeftPanels} from './Panel/LeftPanels';
 import {RightPanels} from './Panel/RightPanels';
-import type {
-  ActionConfigItemsMap,
-  ActionTypeNode
-} from 'amis-editor-comp/dist/renderers/event-action';
 
 export interface EditorProps extends PluginEventListener {
   value: SchemaObject;
@@ -80,11 +76,11 @@ export interface EditorProps extends PluginEventListener {
     /**
      * 通用动作集（事件动作面板左侧动作树）
      */
-    actionTreeGetter?: (actionTree: ActionTypeNode[]) => ActionTypeNode[];
+    actionTreeGetter?: (actionTree: RendererPluginAction[]) => RendererPluginAction[];
     /**
      * 自定义动作配置
      */
-    customActionGetter?: (manager: EditorManager) => ActionConfigItemsMap;
+    customActionGetter?: (manager: EditorManager) => {[propName: string]: RendererPluginAction};
   };
 
   onUndo?: () => void; // 用于触发外部 undo 事件

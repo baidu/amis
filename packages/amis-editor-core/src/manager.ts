@@ -26,7 +26,10 @@ import {
   ScaffoldForm,
   SelectionEventContext,
   BuildPanelEventContext,
-  DeleteEventContext
+  DeleteEventContext,
+  RendererPluginEvent,
+  PluginEvents,
+  PluginActions
 } from './plugin';
 import {
   EditorStoreType,
@@ -62,11 +65,6 @@ import {EditorDNDManager} from './dnd';
 import {IScopedContext} from 'amis';
 import {SchemaObject} from 'amis/lib/Schema';
 import type {RendererConfig} from 'amis-core/lib/factory';
-import type {
-  PluginActions,
-  PluginEvents,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -134,7 +132,7 @@ export class EditorManager {
   amisStore: Object = {};
 
   // 广播事件集
-  readonly broadcasts: RendererEvent[] = [];
+  readonly broadcasts: RendererPluginEvent[] = [];
   // 插件事件集
   readonly pluginEvents: PluginEvents = {};
   // 插件动作集
@@ -1634,7 +1632,7 @@ export class EditorManager {
    * @param {RendererEvent[]} events 事件集
    * @memberof EditorManager
    */
-  addBroadcast(event: RendererEvent) {
+  addBroadcast(event: RendererPluginEvent) {
     this.broadcasts.push(event);
   }
 
