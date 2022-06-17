@@ -728,14 +728,13 @@ export default class ComboControl extends React.Component<ComboProps> {
 
   validate(): any {
     const {
-      value,
       minLength,
       maxLength,
       messages,
       nullable,
       translate: __
     } = this.props;
-
+    const value = this.getValueAsArray();
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
       return __(
         (messages && messages.minLengthValidateFailed) || 'Combo.minLength',
