@@ -21,6 +21,9 @@ $category-2-height: px2rem(32px);
 
   .ae-Settings-content {
     padding: var(--gap-base);
+    [data-tooltip][data-position=bottom]:hover:after {
+      margin-left: 15px;
+    }
   }
 
   // FIXME: icon-picker临时修复超出内容显示滚动条问题，后amis中修复后可删除 fix-icon-picker-overflow 类
