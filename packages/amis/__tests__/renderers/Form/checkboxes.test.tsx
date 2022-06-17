@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, cleanup, fireEvent} from '@testing-library/react';
+import {render, cleanup, screen, fireEvent} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
@@ -199,5 +199,58 @@ test('Renderer:checkboxes checkall', async () => {
       makeEnv()
     )
   );
+  expect(container).toMatchSnapshot();
+});
+
+test('Renderer:checkboxes menuTpl', async () => {
+  const {getByText, container} = render(
+    amisRender(
+      {
+        type: 'form',
+        api: '/api/mock2/form/saveForm',
+        body: [
+          {
+            name: 'checkboxes',
+            type: 'checkboxes',
+            label: '复选框',
+            menuTpl: "<span class='label label-${klass}'>${label}</span>",
+            options: [
+              {
+                label: 'OptionA',
+                value: 'a',
+                klass: 'success'
+              },
+              {
+                label: 'OptionB',
+                value: 'b',
+                klass: 'danger'
+              },
+              {
+                label: 'OptionC',
+                value: 'c',
+                klass: 'warning'
+              },
+              {
+                label: 'OptionD',
+                value: 'd',
+                klass: 'info'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  const optionA = screen.getByText('OptionA');
+  expect(optionA).toBeVisible();
+  expect(optionA).toHaveClass('label label-success');
+
+  const optionC = screen.getByText('OptionA');
+  expect(optionC).toBeVisible();
+  expect(optionC).toHaveClass('label label-success');
+
   expect(container).toMatchSnapshot();
 });
