@@ -988,6 +988,8 @@ export default class Form extends React.Component<FormProps, object> {
       data = store.data;
     }
     if (Array.isArray(action.required) && action.required.length) {
+      store.clearErrors(); // 如果是按钮指定了required，则校验前先清空一下遗留的校验报错
+
       const fields = action.required.map(item => ({
         name: item,
         rules: {isRequired: true}
