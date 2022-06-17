@@ -49,6 +49,7 @@ import EditorCode from './v3/code.svg';
 import EditorCommonConfig from './v3/common-config.svg';
 import EditorDoubleArrow from './v3/right-double-arrow.svg';
 import SearchClear from './v3/search-clear.svg';
+import Shortcut from './v3/shortcut.svg';
 
 registerIcon('drag-btn', DragBtn);
 registerIcon('more-btn', MoreBtn);
@@ -64,6 +65,7 @@ registerIcon('copy-icon', CopyIcon);
 registerIcon('delete-icon', DeleteIcon);
 registerIcon('fixed-icon', FixedIcon);
 registerIcon('no-fixed-icon', NoFixedIcon);
+registerIcon('editor-shortcut', Shortcut);
 
 // 外观-显示类型
 registerIcon('display-inline', DisplayInline);

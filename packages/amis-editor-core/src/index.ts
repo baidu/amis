@@ -37,6 +37,7 @@ import {EditorNodeType} from './store/node';
 import {ContainerWrapper} from './component/ContainerWrapper';
 import {EditorStoreType} from './store/editor';
 import {AvailableRenderersPlugin} from './plugin/AvailableRenderers';
+import ShortcutKey from './component/base/ShortcutKey';
 
 export default Editor;
 
@@ -56,5 +57,6 @@ export {
   EditorNodeType,
   EditorStoreType,
   ContainerWrapper,
-  AvailableRenderersPlugin
+  AvailableRenderersPlugin,
+  ShortcutKey
 };

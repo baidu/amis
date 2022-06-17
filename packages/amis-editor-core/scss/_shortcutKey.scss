@@ -1,0 +1,69 @@
+// 快捷键展示面板
+
+.shortcut-icon-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: $default-icon-color;
+  cursor: pointer;
+
+  &:hover {
+    color: $editor-active-color;
+  }
+}
+
+.shortcut-list-modal {
+
+  .shortcut-modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .shortcut-modal-title {
+      font-family: PingFangSC-Medium;
+      font-size: 16px;
+      color: #141a25;
+      letter-spacing: 0;
+      line-height: 22px;
+      font-weight: 500;
+    }
+
+    svg.shortcut-modal-icon {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  .shortcut-modal-body {
+    padding-top: 20px;
+
+    .shortcut-list {
+      display: flex;
+      flex-direction: column;
+
+      .shortcut-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        color: #828282;
+        letter-spacing: 0;
+        line-height: 30px;
+
+        .shortcut-letter {
+          margin: 0 2px;
+          display: inline-flex;
+          min-width: 12px;
+          height: 22px;
+          line-height: 22px;
+          border: 1px solid #1f38584d;
+          border-radius: 3px;
+          padding: 0 8px;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
