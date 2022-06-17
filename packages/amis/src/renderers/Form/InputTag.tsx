@@ -7,6 +7,9 @@ import {
 } from 'amis-core';
 import Downshift from 'downshift';
 import find from 'lodash/find';
+import isInteger from 'lodash/isInteger';
+import unionWith from 'lodash/unionWith';
+import isEqual from 'lodash/isEqual';
 import {findDOMNode} from 'react-dom';
 import {ResultBox} from 'amis-ui';
 import {autobind, filterTree, createObject} from 'amis-core';
@@ -35,6 +38,16 @@ export interface TagControlSchema extends FormOptionsSchema {
   dropdown?: boolean;
 
   /**
+   * 允许添加的标签的最大数量
+   */
+  max?: number;
+
+  /**
+   * 单个标签的最大文本长度
+   */
+  maxTagLength?: number;
+
+  /**
    * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
    */
   maxTagCount?: number;
@@ -43,9 +56,21 @@ export interface TagControlSchema extends FormOptionsSchema {
    * 收纳标签的Popover配置
    */
   overflowTagPopover?: object;
+
+  /** 是否开启批量添加模式 */
+  enableBatchAdd: boolean;
+
+  /**
+   * 开启批量添加后，输入多个标签的分隔符，支持传入多个符号，默认为"-"
+   *
+   * @default "-"
+   */
+  separator?: string;
 }
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
+
+export type InputTagValidationType = 'max' | 'maxLength';
 
 export interface TagProps extends OptionsControlProps {
   placeholder?: string;
@@ -53,6 +78,19 @@ export interface TagProps extends OptionsControlProps {
   resetValue?: any;
   optionsTip: string;
   dropdown?: boolean;
+  /** 是否支持批量输入 */
+  enableBatchAdd: boolean;
+  /** 开启批量添加后，输入多个标签的分隔符，支持传入多个符号，默认为英文逗号 */
+  separator?: string;
+  /** 允许添加的tag的最大数量 */
+  max?: number;
+  /** 单个标签的最大文本长度 */
+  maxTagLength?: number;
+  /** 文本输入后校验失败的callback */
+  onInputValidateFailed?(
+    value: string | string[],
+    validationType: InputTagValidationType
+  ): void;
 }
 
 export interface TagState {
@@ -73,7 +111,8 @@ export default class TagControl extends React.PureComponent<
     valueField: 'value',
     multiple: true,
     placeholder: 'Tag.placeholder',
-    optionsTip: 'Tag.tip'
+    optionsTip: 'Tag.tip',
+    separator: '-'
   };
 
   state = {
@@ -117,6 +156,97 @@ export default class TagControl extends React.PureComponent<
     return !!rendererEvent?.prevented;
   }
 
+  /** 处理输入的内容 */
+  normalizeInputValue(inputValue: string, separator: string = '-'): Option[] {
+    let batchValues = [];
+
+    if (typeof separator === 'string') {
+      batchValues = inputValue.split(separator);
+    } else {
+      batchValues.push(inputValue);
+    }
+
+    return batchValues
+      .filter(Boolean)
+      .map(item => ({value: item, label: item}));
+  }
+
+  normalizeOptions(options: Option[]) {
+    const {joinValues, extractValue, delimiter, valueField} = this.props;
+
+    return joinValues
+      ? options.map(item => item[valueField || 'value']).join(delimiter || ',')
+      : extractValue
+      ? options.map(item => item[valueField || 'value'])
+      : options;
+  }
+
+  /** 输入的内容和存量的内容合并，过滤掉value值相同的 */
+  normalizeMergedValue(inputValue: string, normalized: boolean = true) {
+    const {
+      selectedOptions,
+      joinValues,
+      extractValue,
+      delimiter,
+      valueField,
+      enableBatchAdd,
+      separator
+    } = this.props;
+
+    const options = unionWith(
+      selectedOptions.concat(),
+      this.normalizeInputValue(
+        inputValue,
+        enableBatchAdd ? separator : undefined
+      ),
+      (origin: Option, input: Option) => origin.value === input.value
+    );
+
+    return normalized ? this.normalizeOptions(options) : options;
+  }
+
+  validateInputValue(inputValue: string): boolean {
+    const {
+      max,
+      maxTagLength,
+      enableBatchAdd,
+      separator,
+      onInputValidateFailed
+    } = this.props;
+
+    const normalizedValue = this.normalizeMergedValue(
+      inputValue,
+      false
+    ) as Option[];
+
+    if (max != null && isInteger(max) && normalizedValue.length > max) {
+      onInputValidateFailed?.(
+        normalizedValue.map(item => item.value),
+        'max'
+      );
+      return false;
+    }
+
+    const addedValues = this.normalizeInputValue(
+      inputValue,
+      enableBatchAdd ? separator : undefined
+    );
+
+    if (
+      maxTagLength != null &&
+      isInteger(maxTagLength) &&
+      addedValues.some(item => item.value.length > maxTagLength)
+    ) {
+      onInputValidateFailed?.(
+        addedValues.map(item => item.value),
+        'maxLength'
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   @autobind
   getValue(type: 'push' | 'pop' | 'normal' = 'normal', option: any = {}) {
     const {selectedOptions, joinValues, extractValue, delimiter, valueField} =
@@ -129,12 +259,11 @@ export default class TagControl extends React.PureComponent<
       newValue.pop();
     }
 
-    const newValueRes = joinValues
+    return joinValues
       ? newValue.map(item => item[valueField || 'value']).join(delimiter || ',')
       : extractValue
       ? newValue.map(item => item[valueField || 'value'])
       : newValue;
-    return newValueRes;
   }
 
   async addItem(option: Option) {
@@ -169,21 +298,20 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   async handleBlur(e: any) {
-    const {
-      selectedOptions,
-      onChange,
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField
-    } = this.props;
+    const {selectedOptions, onChange} = this.props;
 
     const value = this.state.inputValue.trim();
-    const newValueRes = this.getValue('normal');
 
+    if (!this.validateInputValue(value)) {
+      this.setState({isFocused: false, isOpened: false});
+      return;
+    }
+
+    const newValueRes = this.normalizeMergedValue(value);
     const isPrevented = await this.dispatchEvent('blur', {
       value: newValueRes
     });
+
     isPrevented || this.props.onBlur?.(e);
     this.setState(
       {
@@ -193,22 +321,8 @@ export default class TagControl extends React.PureComponent<
       },
       value
         ? () => {
-            const newValue = selectedOptions.concat();
-            if (!find(newValue, item => item.value === value)) {
-              const option = {
-                label: value,
-                value: value
-              };
-              newValue.push(option);
-              onChange(
-                joinValues
-                  ? newValue
-                      .map(item => item[valueField || 'value'])
-                      .join(delimiter || ',')
-                  : extractValue
-                  ? newValue.map(item => item[valueField || 'value'])
-                  : newValue
-              );
+            if (selectedOptions.length !== newValueRes.length) {
+              onChange?.(newValueRes);
             }
           }
         : undefined
@@ -224,9 +338,7 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   handleInputChange(text: string) {
-    this.setState({
-      inputValue: text
-    });
+    this.setState({inputValue: text});
   }
 
   @autobind
@@ -271,17 +383,19 @@ export default class TagControl extends React.PureComponent<
     } else if (value && (evt.key === 'Enter' || evt.key === delimiter)) {
       evt.preventDefault();
       evt.stopPropagation();
-      const newValue = selectedOptions.concat();
 
-      if (!find(newValue, item => item.value == value)) {
-        const newValueRes = this.getValue('push', {
-          label: value,
-          value: value
-        });
-        const isPrevented = await this.dispatchEvent('change', {
-          value: newValueRes
-        });
-        isPrevented || onChange(newValueRes);
+      const newValueRes = this.normalizeMergedValue(value);
+      const isPrevented = await this.dispatchEvent('change', {
+        value: newValueRes
+      });
+
+      if (!this.validateInputValue(value)) {
+        this.setState({isFocused: false, isOpened: false});
+        return;
+      }
+
+      if (!isPrevented && selectedOptions.length !== newValueRes.length) {
+        onChange(newValueRes);
       }
 
       this.setState({
@@ -295,6 +409,7 @@ export default class TagControl extends React.PureComponent<
     if (this.state.inputValue || !option) {
       return;
     }
+
     this.addItem(option);
   }
 
