@@ -6,7 +6,7 @@ import {EditorStore, EditorStoreType} from '../store/editor';
 import {SchemaObject} from 'amis/lib/Schema';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
-import {RenderOptions} from 'amis';
+import {RenderOptions, toast} from 'amis';
 import {PluginEventListener} from '../plugin';
 import {SubEditor} from './SubEditor';
 import Breadcrumb from './Breadcrumb';
@@ -99,7 +99,7 @@ export default class Editor extends Component<EditorProps> {
   readonly mainRef = React.createRef<HTMLDivElement>();
   unReaction: () => void;
   lastResult: any;
-  curCopySchemaId: any; // 用于记录当前复制的元素ID
+  curCopySchemaData: any; // 用于记录当前复制的元素
 
   static defaultProps = {
     autoFocus: true
@@ -137,50 +137,6 @@ export default class Editor extends Component<EditorProps> {
     this.manager = new EditorManager(config, this.store);
 
     (window as any).editorStore = this.store;
-    // 增加插件动态添加事件响应机制
-    window.addEventListener(
-      'message',
-      (event: any) => {
-        if (!event.data) {
-          return;
-        }
-        if (
-          event.data.type === 'amis-widget-register-event' &&
-          event.data.editorPluginName
-        ) {
-          console.info(
-            '[amis-editor]响应动态添加插件事件：',
-            event.data.editorPluginName
-          );
-          this.manager.dynamicAddPlugin(event.data.editorPluginName);
-        }
-      },
-      false
-    );
-
-    // 添加快捷键事件
-    document.addEventListener('keydown', this.handleKeyDown);
-
-    // 增加插件动态添加事件响应机制
-    window.addEventListener(
-      'message',
-      (event: any) => {
-        if (!event.data) {
-          return;
-        }
-        if (
-          event.data.type === 'amis-widget-register-event' &&
-          event.data.editorPluginName
-        ) {
-          console.info(
-            '[amis-editor]响应动态添加插件事件：',
-            event.data.editorPluginName
-          );
-          this.manager.dynamicAddPlugin(event.data.editorPluginName);
-        }
-      },
-      false
-    );
 
     // 添加快捷键事件
     document.addEventListener('keydown', this.handleKeyDown);
@@ -255,19 +211,18 @@ export default class Editor extends Component<EditorProps> {
   // 快捷功能键
   @autobind
   handleKeyDown(e: KeyboardEvent) {
-    // 弹窗模式不处理，或者已经阻止不处理
-    if (e.defaultPrevented || this.props.isSubEditor) {
+    // 弹窗模式不处理
+    if (this.props.isSubEditor) {
+      // e.defaultPrevented // 或者已经阻止不处理
       return;
     }
+
     const manager = this.manager;
     const store = manager.store;
 
-    // console.log('e.key:', e.key);
-    // console.log('e.keyCode:', e.keyCode);
-
     if (
       (e.target as HTMLElement).tagName === 'BODY' &&
-      e.key === 'z' &&
+      (e.key === 'z' || e.key === 'Z') &&
       (e.metaKey || e.ctrlKey) &&
       e.shiftKey
     ) {
@@ -276,7 +231,7 @@ export default class Editor extends Component<EditorProps> {
       return;
     } else if (
       (e.target as HTMLElement).tagName === 'BODY' &&
-      e.key === 'z' &&
+      (e.key === 'z' || e.key === 'Z') &&
       (e.metaKey || e.ctrlKey)
     ) {
       e.preventDefault();
@@ -304,7 +259,86 @@ export default class Editor extends Component<EditorProps> {
       (e.metaKey || e.ctrlKey)
     ) {
       e.preventDefault();
-      this.paste(); // 粘贴
+      if (this.curCopySchemaData) {
+        this.paste(); // 粘贴
+      }
+      return;
+    } else if (
+      (e.target as HTMLElement).tagName === 'BODY' &&
+      e.key === 'x' &&
+      (e.metaKey || e.ctrlKey)
+    ) {
+      e.preventDefault();
+      // 剪切
+      if (this.store.activeId) {
+        const node = store.getNodeById(this.store.activeId);
+        if (node && store.activeRegion) {
+          toast.warning('区域节点不允许剪切。');
+        } else if (store.isRootSchema(this.store.activeId)) {
+          toast.warning('根节点不允许剪切。');
+        } else if (node && node.moveable) {
+          this.copy(); // 复制
+          this.manager.del(this.store.activeId); // 删除
+        } else {
+          toast.warning('当前元素不允许剪切。');
+        }
+      }
+    } else if (
+      (e.target as HTMLElement).tagName === 'BODY' &&
+      e.key === 'p' &&
+      (e.metaKey || e.ctrlKey)
+    ) {
+      // 预览
+      e.preventDefault(); // 避免触发系统默认的事件（打印快捷键）
+      this.preview();
+    } else if (
+      (e.target as HTMLElement).tagName === 'BODY' &&
+      e.key === 'ArrowUp' &&
+      (e.metaKey || e.ctrlKey)
+    ) {
+      e.preventDefault();
+      // 向上移动
+      if (this.store.activeId) {
+        const node = store.getNodeById(this.store.activeId);
+        if (node && node.canMoveUp) {
+          this.manager.moveUp();
+        } else {
+          toast.warning('当前元素不能向上移动');
+        }
+      }
+    } else if (
+      (e.target as HTMLElement).tagName === 'BODY' &&
+      e.key === 'ArrowDown' &&
+      (e.metaKey || e.ctrlKey)
+    ) {
+      e.preventDefault();
+      // 向下移动
+      if (this.store.activeId) {
+        const node = store.getNodeById(this.store.activeId);
+        if (node && node.canMoveDown) {
+          this.manager.moveDown();
+        } else {
+          toast.warning('当前元素不能向下移动');
+        }
+      }
+    } else if (
+      (e.target as HTMLElement).tagName === 'BODY' &&
+      (e.key === 'Backspace' || e.key === 'Delete')
+    ) {
+      e.preventDefault();
+      // 删除快捷键
+      if (this.store.activeId) {
+        const node = store.getNodeById(this.store.activeId);
+        if (node && store.activeRegion) {
+          toast.warning('区域节点不可以直接删除。');
+        } else if (store.isRootSchema(this.store.activeId)) {
+          toast.warning('根节点不允许删除。');
+        } else if (node && node.moveable) {
+          this.manager.del(this.store.activeId);
+        } else {
+          toast.warning('当前元素不允许删除。');
+        }
+      }
       return;
     }
   }
@@ -406,7 +440,7 @@ export default class Editor extends Component<EditorProps> {
    */
   copy() {
     if (this.store.activeId) {
-      this.curCopySchemaId = this.store.activeId;
+      this.curCopySchemaData = this.store.getSchema(this.store.activeId);
     }
   }
 
@@ -414,14 +448,15 @@ export default class Editor extends Component<EditorProps> {
    * 粘贴上一次复制的内容
    */
   paste() {
-    if (this.store.activeId && this.curCopySchemaId) {
-      const curCopySchema = this.store.getSchema(this.curCopySchemaId);
-      if (!curCopySchema) {
+    if (this.store.activeId && this.curCopySchemaData) {
+      if (!this.curCopySchemaData) {
         // 考虑复制的元素被删除的情况
         return;
       }
-      const curSimpleSchema = this.store.getSimpleSchema(curCopySchema);
-      if (this.store.activeId === this.curCopySchemaId) {
+      const curSimpleSchema = this.store.getSimpleSchema(
+        this.curCopySchemaData
+      );
+      if (this.store.activeId === this.curCopySchemaData.$$id) {
         // 复制和粘贴是同一个元素，则直接追加到当前元素后面
         this.manager.appendSiblingSchema(curSimpleSchema);
       } else {
@@ -429,6 +464,7 @@ export default class Editor extends Component<EditorProps> {
       }
     }
   }
+
 
   @autobind
   getToolbarContainer() {
