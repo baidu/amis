@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:range2 1`] = `
+exports[`EventAction:inputRange 1`] = `
 <div>
   <div
     class="cxd-Page"
