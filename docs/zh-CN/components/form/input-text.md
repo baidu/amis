@@ -353,13 +353,13 @@ order: 56
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称 | 事件参数                          | 说明                 |
-| -------- | --------------------------------- | -------------------- |
-| click    | `event.data.value: string` 输入值 | 点击输入框时触发     |
-| focus    | `event.data.value: string` 输入值 | 输入框获取焦点时触发 |
-| blur     | `event.data.value: string` 输入值 | 输入框失去焦点时触发 |
-| enter    | `event.data.value: string` 输入值 | 回车时触发           |
-| change   | `event.data.value: string` 输入值 | 值变化时触发         |
+| 事件名称 | 事件参数                           | 说明                                           |
+| -------- | --------------------------------- | --------------------------------------------- |
+| click    | `event.data.value: string` 输入值 | 点击输入框时触发，只针对选择器模式的输入框有效     |
+| enter    | `event.data.value: string` 输入值 | 回车时触发，只针对选择器模式的输入框有效          |
+| focus    | `event.data.value: string` 输入值 | 输入框获取焦点时触发                            |
+| blur     | `event.data.value: string` 输入值 | 输入框失去焦点时触发                            |
+| change   | `event.data.value: string` 输入值 | 值变化时触发                                   |
 
 ## 动作表
 
