@@ -122,6 +122,7 @@ import './plugin/Table';
 import './plugin/Tabs';
 import './plugin/Tasks';
 import './plugin/Time';
+import './plugin/Timeline';
 import './plugin/Tpl';
 import './plugin/AnchorNav';
 import './plugin/Video';
