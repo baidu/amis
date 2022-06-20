@@ -425,6 +425,7 @@ export interface PanelItem {
   position?: 'left' | 'right';
   render?: (props: PanelProps) => JSX.Element;
   menus?: Array<any>;
+  isNotConfigPanel?: boolean; // 可用于标记非组件属性配置面板
 }
 
 export type BasicPanelItem = Omit<PanelItem, 'order'> &
@@ -1011,7 +1012,9 @@ export abstract class BasePlugin implements PluginInterface {
           } else if (
             panel.key === 'outline' ||
             panel.key === 'commonConfig' ||
-            panel.key === 'name-list'
+            panel.key === 'page-setting' ||
+            panel.key === 'name-list' ||
+            panel.isNotConfigPanel
           ) {
             // do nothing
           } else {
