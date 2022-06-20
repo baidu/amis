@@ -11,10 +11,6 @@ import {EditorDNDManager} from './dnd';
 import React from 'react';
 import {DiffChange} from './util';
 import find from 'lodash/find';
-import type {
-  RendererAction,
-  RendererEvent
-} from 'amis-editor-comp/dist/renderers/event-action';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema} from 'amis/lib/Schema';
@@ -755,13 +751,13 @@ export interface PluginInterface
    *
    * 事件定义集合
    */
-  events?: RendererEvent[];
+  events?: RendererPluginEvent[];
 
   /**
    *
    * 专有动作定义集合
    */
-  actions?: RendererAction[];
+  actions?: RendererPluginAction[];
 
   /**
    * 右侧面板是否需要两端对齐布局
@@ -852,6 +848,37 @@ export interface PluginInterface
     e: any,
     data: any
   ) => void;
+}
+
+export interface RendererPluginEvent {
+  eventName: string; // 事件名称value
+  eventLabel: string; // 事件名称label
+  description?: string; // 事件描述
+  defaultShow?: boolean; // 是否默认展示
+  isBroadcast?: boolean; // 广播事件
+  owner?: string; // 标记来源，主要用于广播
+  dataSchema?: any[]; // 上下文schema
+}
+
+// 动作声明
+export interface RendererPluginAction {
+  actionType?: string; // 动作名称value
+  actionLabel?: string; // 动作名称label
+  description?: string; // 动作描述
+  schema?: any; // 动作配置schema
+  config?: string[]; // 动作配置字段结合，主要是为了区分特性字段和附加参数
+  desc?: (info: any) => string | JSX.Element; // 动作详情描述规则
+  withComponentId?: boolean; // 需要配置组件ID
+  supportComponents?: string[]; // 该动作支持的组件类型，用于 withComponentId: true 的自定义动作
+  children?: RendererPluginAction[]; // 子类型，for动作树
+}
+
+export interface PluginEvents {
+  [propName: string]: RendererPluginEvent[];
+}
+
+export interface PluginActions {
+  [propName: string]: RendererPluginAction[];
 }
 
 /**
