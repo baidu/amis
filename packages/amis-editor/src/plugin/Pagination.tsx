@@ -70,11 +70,11 @@ export class PaginationPlugin extends BasePlugin {
                 pipeIn: defaultValue('normal'),
                 options: [
                   {
-                    label: 'normal',
+                    label: '普通',
                     value: 'normal'
                   },
                   {
-                    label: 'simple',
+                    label: '简易',
                     value: 'simple'
                   }
                 ]

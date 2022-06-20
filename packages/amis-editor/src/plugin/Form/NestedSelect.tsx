@@ -23,7 +23,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
   $schema = '/schemas/NestedSelectControlSchema.json';
 
   // 组件名称
-  name = '级联选择';
+  name = '级联选择框';
   isBaseComponent = true;
   icon = 'fa fa-indent';
   description = `适用于选项中含有子项，可通过<code>source</code>拉取选项，支持多选`;
@@ -68,7 +68,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
     ]
   };
 
-  panelTitle = '级联选择';
+  panelTitle = '级联选择框';
   notRenderFormZone = true;
   panelDefinitions = {
     options: {
@@ -290,7 +290,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
           {
             title: '选项',
             body: [
-              // getSchemaTpl('optionControl'), // 备注：级联选择 不适合用这种方式添加选项
+              // getSchemaTpl('optionControl'), // 备注：级联选择框 不适合用这种方式添加选项
               getSchemaTpl('valueFormula', {
                 rendererSchema: context?.schema,
                 mode: 'vertical' // 改成上下展示模式
