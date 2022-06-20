@@ -221,7 +221,7 @@ export async function exportExcel(
           text: text || absoluteURL,
           hyperlink: absoluteURL
         };
-      } else if (type === 'mapping') {
+      } else if (type === 'mapping' || (type as any) === 'static-mapping') {
         // 拷贝自 Mapping.tsx
         let map = column.pristine.map;
         const source = column.pristine.source;
