@@ -282,6 +282,19 @@ export default class FormulaControl extends React.Component<
         'size',
         'remark',
         'labelRemark',
+        'hidden',
+        'hiddenOn',
+        'visible',
+        'visibleOn',
+        'disabled',
+        'disabledOn',
+        'required',
+        'requiredOn',
+        'className',
+        'labelClassName',
+        'labelAlign',
+        'inputClassName',
+        'autoUpdate'
       ];
 
       // 当前组件要剔除的字段
