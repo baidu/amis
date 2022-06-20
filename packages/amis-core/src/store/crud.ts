@@ -567,6 +567,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       });
     };
 
+    const updateColumns = (columns: Array<any>) => {
+      self.columns = columns;
+    }
+
     return {
       getData,
       updateSelectData,
@@ -582,7 +586,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       setUnSelectedItems,
       setInnerModalOpened,
       initFromScope,
-      exportAsCSV
+      exportAsCSV,
+      updateColumns
     };
   });
 
