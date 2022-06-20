@@ -137,9 +137,6 @@ export class AnchorNavPlugin extends BasePlugin {
                     }
                   });
                   return value;
-                },
-                deleteBtn: {
-                  icon: 'fa fa-trash'
                 }
               }),
               {

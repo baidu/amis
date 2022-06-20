@@ -77,36 +77,35 @@ export class ButtonGroupPlugin extends BasePlugin {
                 pipeIn: defaultValue(false)
               }),
 
-              getSchemaTpl('combo-container', [
-                {
-                  type: 'combo',
-                  label: '按钮管理',
-                  name: 'buttons',
-                  mode: 'normal',
-                  multiple: true,
-                  addable: true,
-                  minLength: 1,
-                  draggable: true,
-                  editable: false,
-                  items: [
-                    {
-                      type: 'tpl',
-                      inline: false,
-                      className: 'p-t-xs',
-                      tpl:
-                        '<span class="label label-default"><% if (data.type === "button-group") { %> 按钮组 <% } else { %><%= data.label %><% if (data.icon) { %><i class="<%= data.icon %>"/><% }%><% } %></span>'
-                    }
-                  ],
-                  addButtonText: '新增按钮',
-                  scaffold: {
-                    type: 'button',
-                    label: '按钮'
+              getSchemaTpl('combo-container', {
+                type: 'combo',
+                label: '按钮管理',
+                name: 'buttons',
+                mode: 'normal',
+                multiple: true,
+                addable: true,
+                minLength: 1,
+                draggable: true,
+                editable: false,
+                items: [
+                  {
+                    type: 'tpl',
+                    inline: false,
+                    className: 'p-t-xs',
+                    tpl: '<span class="label label-default"><% if (data.type === "button-group") { %> 按钮组 <% } else { %><%= data.label %><% if (data.icon) { %><i class="<%= data.icon %>"/><% }%><% } %></span>'
                   }
+                ],
+                addButtonText: '新增按钮',
+                scaffold: {
+                  type: 'button',
+                  label: '按钮'
                 }
-              ])
+              })
             ]
           },
-          getSchemaTpl('status')
+          getSchemaTpl('status', {
+            disabled: true
+          })
         ])
       },
       {
@@ -116,6 +115,10 @@ export class ButtonGroupPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
+                getSchemaTpl('buttonLevel', {
+                  label: '样式',
+                  name: 'btnLevel'
+                }),
                 getSchemaTpl('size', {
                   label: '尺寸'
                 })
