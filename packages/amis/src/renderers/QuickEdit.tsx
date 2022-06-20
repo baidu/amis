@@ -9,8 +9,8 @@ import {RendererProps} from 'amis-core';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {ActionObject} from 'amis-core';
 import keycode from 'keycode';
-import {Overlay} from 'amis-ui';
-import {PopOver} from 'amis-ui';
+import {Overlay} from 'amis-core';
+import {PopOver} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {SchemaCollection, SchemaObject} from '../Schema';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {themeable, ClassNamesFn, ThemeProps} from 'amis-core';
-import Overlay from './Overlay';
-import PopOver from './PopOver';
+import {Overlay} from 'amis-core';
+import {PopOver} from 'amis-core';
 import {Icon} from './icons';
 import {autobind} from 'amis-core';
 import Alert2 from './Alert2';

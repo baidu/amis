@@ -6,7 +6,8 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {ClassNamesFn, themeable, camel, preventDefault} from 'amis-core';
+import {ClassNamesFn, themeable} from '../theme';
+import {camel, preventDefault} from '../utils';
 
 export interface Offset {
   x: number;

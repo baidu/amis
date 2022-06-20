@@ -1,7 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {Overlay} from 'amis-ui';
-import {PopOver} from 'amis-ui';
+import {Overlay} from 'amis-core';
+import {PopOver} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
 import {isDisabled, isVisible, noop} from 'amis-core';
 import {filter} from 'amis-core';

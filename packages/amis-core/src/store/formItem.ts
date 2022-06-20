@@ -668,7 +668,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
 
       !silent &&
-        getEnv(self).notify('info', self.__('FormItem.autoUpdateloadFaild'));
+        getEnv(self).notify('info', self.__('FormItem.autoFillLoadFailed'));
 
       return;
     });
