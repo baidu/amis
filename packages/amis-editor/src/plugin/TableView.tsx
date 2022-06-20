@@ -494,7 +494,7 @@ export class TableViewPlugin extends BasePlugin {
     panels: Array<BasicPanelItem>
   ) {
     super.buildEditorPanel(context, panels);
-    const plugin: PluginInterface = this;
+    const store = this.manager.store;
 
     if (context.info.schemaPath.endsWith('/td')) {
       panels.push({
@@ -509,7 +509,7 @@ export class TableViewPlugin extends BasePlugin {
           body: this.tdVRendererConfig.panelBodyCreator
             ? this.tdVRendererConfig.panelBodyCreator(context)
             : this.tdVRendererConfig.panelBody!,
-          rendererName: plugin.rendererName
+          panelById: store.activeId
         })
       });
     } else if (context.info.schemaPath.endsWith('/tr')) {
@@ -525,7 +525,7 @@ export class TableViewPlugin extends BasePlugin {
           body: this.trVRendererConfig.panelBodyCreator
             ? this.trVRendererConfig.panelBodyCreator(context)
             : this.trVRendererConfig.panelBody!,
-          rendererName: plugin.rendererName
+          panelById: store.activeId
         })
       });
     }

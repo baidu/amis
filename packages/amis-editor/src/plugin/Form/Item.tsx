@@ -25,6 +25,7 @@ export class ItemPlugin extends BasePlugin {
     panels: Array<BasicPanelItem>
   ) {
     const renderer = context.info.renderer;
+    const store = this.manager.store;
 
     if (context.selections.length) {
       return;
@@ -42,7 +43,7 @@ export class ItemPlugin extends BasePlugin {
         title: this.panelTitle,
         render: this.manager.makeSchemaFormRender({
           body: this.panelBodyCreator(context),
-          rendererName: plugin.rendererName,
+          panelById: store.activeId,
           formKey: 'form-item',
         }),
         order: -200

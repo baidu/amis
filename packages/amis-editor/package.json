@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "5.2.0-beta.5",
+  "version": "5.2.0-beta.6",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

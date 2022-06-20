@@ -215,8 +215,8 @@ export class PanelPlugin extends BasePlugin {
     context: BuildPanelEventContext,
     panels: Array<BasicPanelItem>
   ) {
-    const plugin: PluginInterface = this;
     const schema = context.schema;
+    const store = this.manager.store;
 
     if (
       context.info.renderer.name === 'form' &&
@@ -230,7 +230,7 @@ export class PanelPlugin extends BasePlugin {
         title: this.panelTitle,
         render: this.manager.makeSchemaFormRender({
           body: this.panelBodyCreator(context),
-          rendererName: 'form'
+          panelById: store.activeId
         })
       });
     } else {
