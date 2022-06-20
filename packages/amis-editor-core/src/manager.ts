@@ -1553,7 +1553,7 @@ export class EditorManager {
     api?: any;
     submitOnChange?: boolean;
     justify?: boolean;
-    rendererName?: string;
+    panelById?: string;
     formKey?: string;
   }) {
     return makeSchemaFormRender(this, schema);

@@ -308,7 +308,7 @@ export function makeSchemaFormRender(
     api?: any;
     submitOnChange?: boolean;
     justify?: boolean;
-    rendererName?: string;
+    panelById?: string;
     formKey?: string;
   },
 ) {
@@ -317,12 +317,9 @@ export function makeSchemaFormRender(
   return ({value, onChange, popOverContainer, id, store, node}: PanelProps) => {
     const ctx = {...manager.store.ctx};
 
-    if (schema?.rendererName && schema?.rendererName !== node?.type) {
+    if (schema?.panelById && schema?.panelById !== node?.id) {
       // 用于过滤掉异常的渲染
-      if (node?.type !== 'cell') {
-        // 识别表格列
-        return <></>;
-      }
+      return <></>;
     }
 
     if (id) {

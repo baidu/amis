@@ -964,7 +964,7 @@ export abstract class BasePlugin implements PluginInterface {
             ? plugin.panelControlsCreator(context)
             : plugin.panelControls!,
           justify: plugin.panelJustify,
-          rendererName: plugin.rendererName
+          panelById: store.activeId
         })
       });
     } else if (
@@ -990,7 +990,7 @@ export abstract class BasePlugin implements PluginInterface {
             ? plugin.vRendererConfig.panelBodyCreator(context)
             : plugin.vRendererConfig.panelBody!,
           justify: plugin.vRendererConfig.panelJustify,
-          rendererName: plugin.rendererName
+          panelById: store.activeId
         })
       });
     }

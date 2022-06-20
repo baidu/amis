@@ -530,7 +530,7 @@ export class BasicToolbarPlugin extends BasePlugin {
     if (!context.selections.length) {
       return;
     }
-    const plugin: PluginInterface = this;
+    const store = this.manager.store;
 
     let menus: Array<ContextMenuItem> = [];
     const contextMenuContext: ContextMenuEventContext = {
@@ -561,7 +561,7 @@ export class BasicToolbarPlugin extends BasePlugin {
                 }))
             }
           ],
-          rendererName: plugin.rendererName
+          panelById: store.activeId
         })
       });
     }
