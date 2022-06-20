@@ -70,45 +70,20 @@ export class PaginationPlugin extends BasePlugin {
                 pipeIn: defaultValue('normal'),
                 options: [
                   {
-                    label: 'normal',
+                    label: '普通',
                     value: 'normal'
                   },
                   {
-                    label: 'simple',
+                    label: '简易',
                     value: 'simple'
                   }
                 ]
-              },
-              {
-                name: 'hasNext',
-                label: '是否有下一页',
-                mode: 'row',
-                inputClassName: 'inline-flex justify-between flex-row-reverse',
-                type: 'switch',
-                visibleOn: 'data.mode === "simple"'
-              },
-              {
-                name: 'activePage',
-                label: tipedLabel('当前页', '支持使用 \\${xxx} 来获取变量'),
-                type: 'input-text'
-              },
-              {
-                name: 'lastPage',
-                label: tipedLabel('最后页码', '支持使用 \\${xxx} 来获取变量'),
-                type: 'input-text',
-                visibleOn: 'data.mode === "normal"'
-              },
-              {
-                name: 'total',
-                label: tipedLabel('总条数', '支持使用 \\${xxx} 来获取变量'),
-                type: 'input-text',
-                visibleOn: 'data.mode === "normal"'
               },
               getSchemaTpl('combo-container', {
                 name: 'layout',
                 type: 'combo',
                 label: tipedLabel(
-                  '分页布局',
+                  '分页布局展示',
                   '选中表示渲染该项，可以拖拽排序调整显示的顺序'
                 ),
                 visibleOn: 'data.mode === "normal"',
@@ -153,18 +128,34 @@ export class PaginationPlugin extends BasePlugin {
                 }
               }),
               {
-                name: 'showPerPage',
-                label: '显示每页条数',
-                mode: 'row',
-                inputClassName: 'inline-flex justify-between flex-row-reverse',
-                type: 'switch',
+                type: 'ae-formulaControl',
+                label: '是否有下一页',
+                name: 'hasNext',
+                visibleOn: 'data.mode === "simple"'
+              },
+              {
+                type: 'ae-formulaControl',
+                label: '当前页',
+                name: 'activePage'
+              },
+              {
+                type: 'ae-formulaControl',
+                label: '最后页码',
+                name: 'lastPage',
+                visibleOn: 'data.mode === "normal"'
+              },
+              {
+                type: 'ae-formulaControl',
+                label: '总条数',
+                name: 'total',
                 visibleOn: 'data.mode === "normal"'
               },
               getSchemaTpl('combo-container', {
                 name: 'perPageAvailable',
                 type: 'combo',
                 label: '每页条数选项',
-                visibleOn: 'data.mode === "normal"',
+                visibleOn:
+                  'data.mode === "normal" && data.layout?.includes("perPage")',
                 mode: 'normal',
                 multiple: true,
                 multiLine: false,
@@ -174,7 +165,6 @@ export class PaginationPlugin extends BasePlugin {
                 editable: true,
                 minLength: 1,
                 tabsStyle: 'inline',
-                addButtonClassName: 'm-b-sm',
                 items: [
                   {
                     type: 'input-number',
@@ -193,22 +183,19 @@ export class PaginationPlugin extends BasePlugin {
                 name: 'perPage',
                 type: 'input-text',
                 label: '默认每页条数',
-                visibleOn: 'data.mode === "normal"'
+                visibleOn:
+                  'data.mode === "normal" && data.layout?.includes("perPage")'
               },
               {
                 name: 'maxButton',
-                label: '最多按钮数',
+                label: tipedLabel(
+                  '最多按钮数',
+                  '最多显示多少个分页按钮，最小为5，最大值为20'
+                ),
                 type: 'input-number',
                 min: 5,
                 max: 20,
-                visibleOn: 'data.mode === "normal"'
-              },
-              {
-                name: 'showPageInput',
-                label: '显示页面跳转',
-                mode: 'row',
-                inputClassName: 'inline-flex justify-between flex-row-reverse',
-                type: 'switch',
+                pipeOut: (value: any) => value || 5,
                 visibleOn: 'data.mode === "normal"'
               }
             ]

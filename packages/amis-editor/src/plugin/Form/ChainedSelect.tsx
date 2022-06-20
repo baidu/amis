@@ -21,7 +21,7 @@ export class ChainedSelectControlPlugin extends BasePlugin {
   $schema = '/schemas/ChainedSelectControlSchema.json';
 
   // 组件名称
-  name = '级联下拉框';
+  name = '链式下拉框';
   isBaseComponent = true;
   icon = 'fa fa-th-list';
   description =
@@ -30,8 +30,8 @@ export class ChainedSelectControlPlugin extends BasePlugin {
   tags = ['表单项'];
   scaffold = {
     type: 'chained-select',
-    label: '级联下拉框',
-    name: 'chained-select',
+    label: '链式下拉',
+    name: 'chainedSelect',
     joinValues: true
   };
   previewSchema: any = {
@@ -88,7 +88,7 @@ export class ChainedSelectControlPlugin extends BasePlugin {
     }
   ];
 
-  panelTitle = '级联选择';
+  panelTitle = '链式下拉';
 
   notRenderFormZone = true;
   panelJustify = true;
