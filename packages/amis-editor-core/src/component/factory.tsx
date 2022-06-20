@@ -319,7 +319,10 @@ export function makeSchemaFormRender(
 
     if (schema?.rendererName && schema?.rendererName !== node?.type) {
       // 用于过滤掉异常的渲染
-      return <></>;
+      if (node?.type !== 'cell') {
+        // 识别表格列
+        return <></>;
+      }
     }
 
     if (id) {
