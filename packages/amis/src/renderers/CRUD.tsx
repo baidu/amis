@@ -490,8 +490,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     // 另外autoGenerateFilter时，table 里面会单独处理这块逻辑
     // 所以这里应该忽略 autoGenerateFilter 情况
     if (
-      (!this.props.filter || (store.filterTogggable && !store.filterVisible)) &&
-      !autoGenerateFilter
+      (!this.props.filter && !autoGenerateFilter) ||
+      (store.filterTogggable && !store.filterVisible)
     ) {
       this.handleFilterInit({});
     }
