@@ -9,17 +9,13 @@ import Sortable from 'sortablejs';
 import {
   render as amisRender,
   FormItem,
-  Button,
-  Checkbox,
   Icon,
-  InputBox,
-  SchemaApi
+  InputBox
 } from 'amis';
-import {autobind} from '../../util';
-import {getSchemaTpl} from '../../component/schemaTpl';
-import {tipedLabel} from '../../component/control/BaseControl';
-import type {FormControlProps} from 'amis/lib/renderers/Form/Item';
-import { boolean } from 'mobx-state-tree/dist/internal';
+import {autobind} from 'amis-editor-core';
+import {getSchemaTpl} from 'amis-editor-core';
+import type {FormControlProps} from 'amis-core';
+import {SchemaApi} from 'amis/lib/Schema';
 
 type TimelineItem = {
   title: string;
@@ -213,7 +209,7 @@ export default class TimelineItemControl extends React.Component<
       },
       {
         visibleOn: 'this["otherConfig"]',
-        type: 'icon-text',
+        type: 'input-text',
         name: 'icon',
         value: props?.['icon'],
         placeholder: '请输入',
@@ -322,12 +318,12 @@ export default class TimelineItemControl extends React.Component<
     const dom = findDOMNode(this) as HTMLElement;
 
     this.sortable = new Sortable(
-      dom.querySelector('.ae-OptionControl-content') as HTMLElement,
+      dom.querySelector('.ae-TimelineItemControl-content') as HTMLElement,
       {
-        group: 'OptionControlGroup',
+        group: 'TimelineItemControlGroup',
         animation: 150,
-        handle: '.ae-OptionControlItem-dragBar',
-        ghostClass: 'ae-OptionControlItem--dragging',
+        handle: '.ae-TimelineItemControlItem-dragBar',
+        ghostClass: 'ae-TimelineItemControlItem--dragging',
         onEnd: (e: any) => {
           // 没有移动
           if (e.newIndex === e.oldIndex) {
@@ -391,7 +387,7 @@ export default class TimelineItemControl extends React.Component<
     }));
 
     return (
-      <header className="ae-OptionControl-header">
+      <header className="ae-TimelineItemControl-header">
         <label className={cx(`${classPrefix}Form-label`)}>
           {label || ''}
           {labelRemark
@@ -531,7 +527,7 @@ export default class TimelineItemControl extends React.Component<
 
   renderApiPanel() {
     const {render} = this.props;
-    const {source, api, labelField, valueField} = this.state;
+    const {source, api} = this.state;
     if (source !== 'api') {
       return null;
     }
@@ -553,22 +549,22 @@ export default class TimelineItemControl extends React.Component<
     const {source, items} = this.state;
     const {render, className} = this.props;
     return (
-        <div className={cx('ae-OptionControl ae-TimelineItemControl', className)}>
+        <div className={cx('ae-TimelineItemControl', className)}>
           {this.renderHeader()}
 
           {source === 'custom'
-            ? <div className="ae-OptionControl-wrapper ae-TimelineItemControl-wrapper">
+            ? <div className="ae-TimelineItemControl-wrapper">
                 {Array.isArray(items) && items.length ? (
-                  <ul className="ae-OptionControl-content ae-TimelineItemControl-content" ref={this.dragRef} >
+                  <ul className="ae-TimelineItemControl-content" ref={this.dragRef} >
                     {items.map((item: TimelineItem, index: number) =>
                       this.renderOption({...item, index})
                     )}
                   </ul>
                 ) : (
-                  <div className="ae-OptionControl-placeholder">无选项</div>
+                  <div className="ae-TimelineItemControl-placeholder">无选项</div>
                 )}
 
-                <div className="ae-OptionControl-footer">
+                <div className="ae-TimelineItemControl-footer">
                   {amisRender(this.buildAddSchema(), {
                     onSubmit: this.handleAdd
                   })}

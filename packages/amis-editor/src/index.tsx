@@ -136,6 +136,7 @@ import './plugin/WebComponent';
 import {GridPlugin} from './plugin/Grid';
 
 import './renderer/OptionControl';
+import './renderer/TimelineItemControl';
 import './renderer/APIControl';
 import './renderer/ValidationControl';
 import './renderer/ValidationItem';
