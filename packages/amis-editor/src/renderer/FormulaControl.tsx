@@ -279,7 +279,9 @@ export default class FormulaControl extends React.Component<
         'style',
         'readOnly',
         'horizontal',
-        'size'
+        'size',
+        'remark',
+        'labelRemark',
       ];
 
       // 当前组件要剔除的字段
