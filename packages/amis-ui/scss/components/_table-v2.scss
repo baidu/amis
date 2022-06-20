@@ -1,8 +1,6 @@
 .#{$ns}Table-v2 {
   position: relative;
-
   border-radius: var(--Table-borderRadius);
-  margin-bottom: var(--gap-md);
 
   &.#{$ns}Table-bordered {
     border-width: var(--Table-borderWidth) var(--Table-borderWidth) 0
@@ -653,11 +651,13 @@
 
         .#{$ns}Table-thead-resizable {
           position: absolute;
-          width: 3px;
-          right: 0;
+          width: 7px;
+          right: -4px;
           top: 0;
           bottom: 0;
+          user-select: none;
           cursor: col-resize;
+          z-index: 3000;
         }
       }
     }

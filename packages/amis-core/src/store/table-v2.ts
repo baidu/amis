@@ -199,7 +199,7 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
     selectedRows: types.array(types.reference(Row)),
     expandedRowKeys: types.array(types.frozen()),
     columnsTogglable: types.optional(
-      types.union(types.boolean, types.literal('auto')),
+      types.union(types.boolean, types.literal('auto'), types.frozen()),
       'auto'
     ),
     orderBy: '',
@@ -218,7 +218,7 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
         return self.columns.filter.length > 10;
       }
 
-      return self.columnsTogglable;
+      return !!self.columnsTogglable;
     }
 
     function hasColumnHidden() {
@@ -416,6 +416,20 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
 
       newRows.forEach((item, index) => (item.newIndex = index));
       self.rows.replace(newRows);
+    }
+
+    function toggleAllColumns() {
+      if (self.activeToggaleColumns.length) {
+        if (self.activeToggaleColumns.length === self.toggableColumns.length) {
+          self.toggableColumns.map(column => column.setToggled(false));
+        } else {
+          self.toggableColumns.map(column => column.setToggled(true));
+        }
+      } else {
+        // 如果没有一个激活的，那就改成全选
+        self.toggableColumns.map(column => column.setToggled(true));
+      }
+      persistSaveToggledColumns();
     }
 
     function persistSaveToggledColumns() {
@@ -712,6 +726,7 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
       updateExpanded,
       exchange,
       reset,
+      toggleAllColumns,
 
       // events
       afterCreate() {

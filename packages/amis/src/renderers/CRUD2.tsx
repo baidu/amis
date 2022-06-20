@@ -51,7 +51,7 @@ export interface CRUD2CommonSchema extends BaseSchema {
   /**
    * 指定内容区的展示模式。
    */
-  mode?: 'table' | 'grid' | 'cards' | /* grid 的别名*/ 'list';
+  mode?: 'table' | 'grid' | 'cards' | /* grid 的别名*/ 'list' | 'table-v2';
 
   /**
    * 初始化数据 API
@@ -276,6 +276,13 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       this.props.store.updateData({
         items: []
       });
+    }
+
+    // 自定义列需要用store里的数据同步显示列
+    // 所以需要先初始化一下
+    const {mode, columns} = props;
+    if (mode === 'table-v2' && columns) {
+      store.updateColumns(columns);
     }
   }
 
@@ -944,6 +951,22 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   @autobind
+  toggleAllColumns(value: boolean) {
+    const {store} = this.props;
+
+    store.updateColumns(store.columns.map((c: any) => ({...c, toggled: value})));
+  }
+
+  @autobind
+  toggleToggle(toggled: boolean, index: number) {
+    const {store} = this.props;
+
+    store.updateColumns(store.columns.map((c: any, i: number) => ({
+      ...c, toggled: (index === i ? toggled : c.toggled)
+   })));
+  }
+
+  @autobind
   renderChild(region: string, schema: any, props: object = {}) {
     const {render, store} = this.props;
 
@@ -953,7 +976,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       lastPage: store.lastPage,
       perPage: store.perPage,
       total: store.total,
-      onPageChange: this.handleChangePage
+      onPageChange: this.handleChangePage,
+      cols: store.columns, // 和grid的columns属性重复，ColumnsToggler的columns改一下名字 只有用store里的columns
+      toggleAllColumns: this.toggleAllColumns,
+      toggleToggle: this.toggleToggle
       // onAction: onAction
     };
 
