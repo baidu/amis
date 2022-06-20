@@ -8,6 +8,9 @@ import padStart from 'lodash/padStart';
 import capitalize from 'lodash/capitalize';
 import escape from 'lodash/escape';
 import truncate from 'lodash/truncate';
+import uniqWith from 'lodash/uniqWith';
+import uniqBy from 'lodash/uniqBy';
+import isEqual from 'lodash/isEqual';
 import {EvaluatorOptions, FilterContext, FilterMap, FunctionMap} from './types';
 
 export class Evaluator {
@@ -1855,6 +1858,43 @@ export class Evaluator {
     } else {
       return '';
     }
+  }
+
+  /**
+   * 数组合并
+   *
+   * 示例：
+   *
+   * CONCAT(['a', 'b', 'c'], ['1'], ['3']) 得到 ['a', 'b', 'c', '1', '3']
+   *
+   * @param {Array<any>} arr 数组
+   * @namespace 数组
+   * @example CONCAT(['a', 'b', 'c'], ['1'], ['3'])
+   * @returns {Array<any>} 结果
+   */
+  fnCONCAT(...arr: any[]) {
+    if (arr?.[0] && !Array.isArray(arr[0])) {
+      arr[0] = [arr[0]];
+    }
+    return arr.reduce((a, b) => a.concat(b), []).filter((item: any) => item);
+  }
+
+  /**
+   * 数组去重，第二个参数「field」，可指定根据该字段去重
+   *
+   * 示例：
+   *
+   * UNIQ([{a: '1'}, {b: '2'}, {a: '1'}]， 'id')
+   *
+   * @param {Array<any>} arr 数组
+   * @param {string} field 字段
+   * @namespace 数组
+   * @example UNIQ([{a: '1'}, {b: '2'}, {a: '1'}])
+   * @example UNIQ([{a: '1'}, {b: '2'}, {a: '1'}], 'x')
+   * @returns {Array<any>} 结果
+   */
+  fnUNIQ(arr: any[], field?: string) {
+    return field ? uniqBy(arr, field) : uniqWith(arr, isEqual);
   }
 }
 

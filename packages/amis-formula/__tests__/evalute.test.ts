@@ -416,7 +416,19 @@ test('evalute:array:func', () => {
     arr1: [0, 1, false, 2, '', 3],
     arr2: ['a', 'b', 'c'],
     arr3: [1, 2, 3],
-    arr4: [2, 4, 6]
+    arr4: [2, 4, 6],
+    arr5: [
+      {
+        id: 1.1
+      },
+      {
+        id: 2.2
+      },
+      {
+        id: 1.1,
+        name: 1.3
+      }
+    ]
   };
 
   expect(evaluate('${COMPACT(arr1)}', data)).toMatchObject([1, 2, 3]);
@@ -434,4 +446,17 @@ test('evalute:array:func', () => {
   expect(evaluate('${MIN(arr4)}', data)).toBe(2);
 
   expect(evaluate('${MAX(arr4)}', data)).toBe(6);
+
+  expect(evaluate('${CONCAT(arr3, arr4)}', data)).toMatchObject([
+    1, 2, 3, 2, 4, 6
+  ]);
+
+  expect(evaluate('${CONCAT(arr, arr4)}', data)).toMatchObject([2, 4, 6]);
+
+  expect(evaluate('${UNIQ(arr5)}', data)).toMatchObject(data.arr5);
+
+  expect(evaluate('${UNIQ(arr5, "id")}', data)).toMatchObject([
+    {id: 1.1},
+    {id: 2.2}
+  ]);
 });

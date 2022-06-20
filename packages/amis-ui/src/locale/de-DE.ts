@@ -140,8 +140,9 @@ register('de-DE', {
   'Image.upload': 'Hochladen',
   'File.uploadFailed': 'Zurückgegebene Daten der Upload-API sind leer',
   'File.uploading': 'Wird hochgeladen...',
-  'FormItem.autoUpdateloadFaild':
+  'FormItem.autoFillLoadFailed':
     'Die Schnittstelle hat einen Fehler zurückgegeben, bitte sorgfältig prüfen',
+  'FormItem.autoFillSuggest': 'Referenzdateneingabe',
   'Form.loadOptionsFailed':
     'Optionen wurden auf folgendem Grund nicht geladen: {{reason}}',
   'Form.submit': 'Absenden',

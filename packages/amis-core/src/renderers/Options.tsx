@@ -487,6 +487,10 @@ export function registerOptionsControl(config: OptionsConfig) {
     syncAutoFill(selectedOptions: Array<any>) {
       const {autoFill, multiple, onBulkChange, data} = this.props;
       const formItem = this.props.formItem as IFormItemStore;
+      // 参照录入｜自动填充
+      if (autoFill?.hasOwnProperty('api')) {
+        return;
+      }
 
       if (
         onBulkChange &&

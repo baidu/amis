@@ -601,7 +601,7 @@ export interface SchemaApiObject {
   };
 
   /**
-   * autoFillApi 是否显示自动填充错误提示
+   * autoFill 是否显示自动填充错误提示
    */
   silent?: boolean;
 }
