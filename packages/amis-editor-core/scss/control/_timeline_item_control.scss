@@ -65,5 +65,14 @@
         width: 100%;
         height: 1px;
         margin-top: 12px;
+        margin-bottom: 12px;
+    }
+
+    &-footer > * {
+        width: calc(50% - #{px2rem(6px)});
+
+        &:first-child {
+            margin-right: px2rem(12px);
+        }
     }
 }
