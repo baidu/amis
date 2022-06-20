@@ -79,7 +79,7 @@ export class PanelPlugin extends BasePlugin {
 
   panelTitle = '面板';
   panelBodyCreator = (context: BaseEventContext) => {
-    const isForm = /(?:^|\/)form$/.test(context.path);
+    const isForm = /(?:^|\/)form$/.test(context.path) || context?.schema?.type === 'form';
 
     return [
       getSchemaTpl('tabs', [
@@ -223,13 +223,14 @@ export class PanelPlugin extends BasePlugin {
       schema.wrapWithPanel !== false &&
       !context.selections.length
     ) {
+
       panels.push({
         key: 'panel',
         icon: 'fa fa-list-alt',
         title: this.panelTitle,
         render: this.manager.makeSchemaFormRender({
           body: this.panelBodyCreator(context),
-          rendererName: plugin.rendererName
+          rendererName: 'form'
         })
       });
     } else {
