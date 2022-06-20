@@ -23,21 +23,6 @@ export interface ShortcutKeyStates {
 
 const ShortcutKeyList = [
   {
-    title: '重做',
-    letters: ['⌘', 'Shift', 'z'],
-    tooltip: '恢复上一次撤销的操作'
-  },
-  {
-    title: '撤销',
-    letters: ['⌘', 'z'],
-    tooltip: '恢复上一次撤销的操作'
-  },
-  {
-    title: '保存',
-    letters: ['⌘', 's'],
-    tooltip: '保存当前所有操作'
-  },
-  {
     title: '复制',
     letters: ['⌘', 'c'],
     tooltip: '复制当前选中元素'
@@ -53,6 +38,26 @@ const ShortcutKeyList = [
     tooltip: '剪切当前选中元素'
   },
   {
+    title: '撤销',
+    letters: ['⌘', 'z'],
+    tooltip: '恢复上一次撤销的操作'
+  },
+  {
+    title: '重做',
+    letters: ['⌘', 'Shift', 'z'],
+    tooltip: '恢复上一次撤销的操作'
+  },
+  {
+    title: '保存',
+    letters: ['⌘', 's'],
+    tooltip: '保存当前所有操作'
+  },
+  {
+    title: '预览',
+    letters: ['⌘', 'p'],
+    tooltip: '开启预览模式'
+  },
+  {
     title: '删除',
     letters: ['Delete'],
     tooltip: '删除当前节点'
@@ -61,11 +66,6 @@ const ShortcutKeyList = [
     title: '删除',
     letters: ['Backspace'],
     tooltip: '删除当前节点'
-  },
-  {
-    title: '预览',
-    letters: ['⌘', 'p'],
-    tooltip: '开启预览模式'
   },
   {
     title: '向上移动',
