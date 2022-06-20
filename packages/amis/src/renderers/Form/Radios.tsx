@@ -27,8 +27,13 @@ export interface RadiosControlSchema extends FormOptionsSchema {
 export interface RadiosProps extends OptionsControlProps {
   placeholder?: any;
   columnsCount?: number;
-  labelClassName?: string;
   labelField?: string;
+  /**
+   * @deprecated 和checkbox的labelClassName有冲突，请用optionClassName代替
+   */
+  labelClassName?: string;
+  /** 选项CSS类名 */
+  optionClassName?: string;
 }
 
 export default class RadiosControl extends React.Component<RadiosProps, any> {
@@ -100,6 +105,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       classPrefix,
       itemClassName,
       labelClassName,
+      optionClassName,
       labelField,
       valueField,
       translate: __,
@@ -117,7 +123,8 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         joinValues={joinValues}
         extractValue={extractValue!}
         delimiter={delimiter!}
-        labelClassName={labelClassName}
+        /** 兼容一下错误的用法 */
+        labelClassName={optionClassName ?? labelClassName}
         labelField={labelField}
         valueField={valueField}
         placeholder={__(placeholder)}
