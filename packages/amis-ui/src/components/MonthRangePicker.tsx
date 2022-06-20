@@ -9,9 +9,9 @@ import moment from 'moment';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import {Icon} from './icons';
-import Overlay from './Overlay';
+import {Overlay} from 'amis-core';
 import Calendar from './calendar/Calendar';
-import PopOver from './PopOver';
+import {PopOver} from 'amis-core';
 import PopUp from './PopUp';
 import {themeable, ThemeProps} from 'amis-core';
 

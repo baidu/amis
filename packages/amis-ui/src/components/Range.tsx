@@ -11,7 +11,7 @@ import difference from 'lodash/difference';
 import React from 'react';
 import {uncontrollable} from 'amis-core';
 
-import Overlay from './Overlay';
+import {Overlay} from 'amis-core';
 import type {ThemeProps} from 'amis-core';
 import {themeable} from 'amis-core';
 import {autobind, camel} from 'amis-core';

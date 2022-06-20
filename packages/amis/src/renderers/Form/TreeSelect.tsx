@@ -1,6 +1,6 @@
 import React from 'react';
-import {Overlay} from 'amis-ui';
-import {PopOver} from 'amis-ui';
+import {Overlay} from 'amis-core';
+import {PopOver} from 'amis-core';
 import {PopUp} from 'amis-ui';
 
 import {

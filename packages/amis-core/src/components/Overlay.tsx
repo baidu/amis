@@ -8,10 +8,17 @@ import Portal from 'react-overlays/Portal';
 import classNames from 'classnames';
 import ReactDOM, {findDOMNode} from 'react-dom';
 import React, {cloneElement} from 'react';
-import {calculatePosition, getContainer, ownerDocument} from 'amis-core';
-import {autobind, getScrollParent, noop} from 'amis-core';
-import {resizeSensor, getComputedStyle} from 'amis-core';
-import {RootClose} from 'amis-core';
+import {
+  autobind,
+  calculatePosition,
+  getComputedStyle,
+  getContainer,
+  getScrollParent,
+  noop,
+  ownerDocument,
+  resizeSensor,
+  RootClose
+} from '../utils';
 
 function onScroll(elem: HTMLElement, callback: () => void) {
   const handler = () => {

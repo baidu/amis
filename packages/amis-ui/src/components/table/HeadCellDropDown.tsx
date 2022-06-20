@@ -7,8 +7,9 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 
 import {themeable, ThemeProps, LocaleProps, localeable} from 'amis-core';
-import Overlay from '../Overlay';
-import PopOver from '../PopOver';
+
+import {Overlay} from 'amis-core';
+import {PopOver} from 'amis-core';
 
 export interface FilterPayload {
   closeDropdown?: boolean;

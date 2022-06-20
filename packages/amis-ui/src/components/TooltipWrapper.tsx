@@ -10,7 +10,7 @@ import {uncontrollable} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import Tooltip from './Tooltip';
 import {ClassNamesFn, themeable} from 'amis-core';
-import Overlay from './Overlay';
+import {Overlay} from 'amis-core';
 import {isObject} from 'amis-core';
 
 export type Trigger = 'hover' | 'click' | 'focus';

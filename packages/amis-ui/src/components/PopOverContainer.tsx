@@ -1,7 +1,7 @@
 import React from 'react';
 import {autobind, isMobile} from 'amis-core';
-import Overlay from './Overlay';
-import PopOver from './PopOver';
+import {Overlay} from 'amis-core';
+import {PopOver} from 'amis-core';
 import PopUp from './PopUp';
 import {findDOMNode} from 'react-dom';
 
