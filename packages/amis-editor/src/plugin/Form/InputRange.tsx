@@ -197,7 +197,7 @@ export class RangeControlPlugin extends BasePlugin {
                   {
                     type: 'input-number',
                     validations: 'isNumeric',
-                    name: 'min',
+                    name: 'value.min',
                     value: 0
                   },
                   {
@@ -207,7 +207,7 @@ export class RangeControlPlugin extends BasePlugin {
                   {
                     type: 'input-number',
                     validations: 'isNumeric',
-                    name: 'max',
+                    name: 'value.max',
                     value: 100
                   }
                 ]
@@ -280,13 +280,11 @@ export class RangeControlPlugin extends BasePlugin {
             body: [
               {
                 type: 'ae-partsControl',
-                mode: 'normal',
-                name: 'partsSource'
+                mode: 'normal'
               },
               {
                 type: 'ae-marksControl',
-                mode: 'normal',
-                name: 'markSource'
+                mode: 'normal'
               }
             ]
           },
