@@ -41,12 +41,20 @@
 
   &-body {
     padding: var(--gap-base);
-    border-top: 1px solid #d4d6d9;
-    --Form-item-gap: 12px
+    --Form-item-gap: 12px;
 
-    .cxd-IconPickerControl-valueWrap {
-      overflow: hidden;
+    .cxd-IconPickerControl {
+      .cxd-IconPickerControl-value {
+        width: 88%;
+      }
+      input {
+        width: 0;
+      }
+      .cxd-IconPickerControl-clear {
+        display: inline-block;
+      }
     }
+
   }
 
   .inputGroup-addOn-no-border {
