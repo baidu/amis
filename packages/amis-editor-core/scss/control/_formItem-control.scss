@@ -43,6 +43,10 @@
     padding: var(--gap-base);
     border-top: 1px solid #d4d6d9;
     --Form-item-gap: 12px
+
+    .cxd-IconPickerControl-valueWrap {
+      overflow: hidden;
+    }
   }
 
   .inputGroup-addOn-no-border {
