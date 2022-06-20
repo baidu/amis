@@ -1009,6 +1009,7 @@ export const EditorStore = types
         if (node?.clickable === false || (id && !node)) {
           return;
         }
+
         self.activeId = id;
         self.activeRegion = region;
         self.selections = selections;
