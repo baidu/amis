@@ -52,12 +52,27 @@ setSchemaTpl('style:others', (schemas: any[] = []) => ({
   body: [...schemas]
 }));
 
-setSchemaTpl('style:common', (exclude: string[] | string) => {
+/**
+ * 通用CSS Style控件
+ * @param {string | Array<string>} exclude 需要隐藏的配置key
+ * @param {string | Array<string>} include 包含的配置key，存在时，优先级高于exclude
+ */
+setSchemaTpl('style:common', (
+  exclude: string[] | string,
+  include: string[] | string,
+) => {
   // key统一转换成Kebab case，eg: boxShadow => bos-shadow
   exclude = (exclude
     ? Array.isArray(exclude)
       ? exclude
       : [exclude]
+    : []
+  ).map((key: string) => kebabCase(key));
+
+  include = (include
+    ? Array.isArray(include)
+      ? include
+      : [include]
     : []
   ).map((key: string) => kebabCase(key));
 
@@ -176,7 +191,11 @@ setSchemaTpl('style:common', (exclude: string[] | string) => {
         }
       ]
     }
-  ].filter(item => !~exclude.indexOf(item.key));
+  ].filter(item => 
+    include.length
+      ? ~include.indexOf(item.key)
+      : !~exclude.indexOf(item.key)
+  );
 });
 
 /**
