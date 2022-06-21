@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="表格" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="方形" stroke="#B8BABF" stroke-linejoin="round" x="2" y="2" width="12" height="12"></rect>
+        <line x1="2" y1="6" x2="14" y2="6" id="直线" stroke="#B8BABF" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="2" y1="10" x2="14" y2="10" id="直线" stroke="#B8BABF" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="6" y1="6" x2="6" y2="14" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="10" y1="6" x2="10" y2="14" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+    </g>
+</svg>

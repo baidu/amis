@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="下拉按钮" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <rect id="方形" stroke="#B8BABF" x="2" y="2" width="12" height="12"></rect>
+        <polyline id="路径" stroke="#B8BABF" stroke-linecap="round" transform="translate(8.000000, 6.433317) rotate(-45.000000) translate(-8.000000, -6.433317) " points="10.25 8.68331687 5.75 8.68331687 5.75 4.18331687"></polyline>
+    </g>
+</svg>

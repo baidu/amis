@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="月份范围" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <rect id="矩形" stroke="#B8BABF" x="1.5" y="3" width="13" height="11"></rect>
+        <line x1="5" y1="2" x2="5" y2="4" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="11" y1="2" x2="11" y2="4" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="1.5" y1="6.0024863" x2="14.5" y2="6.0024863" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="6" y1="8.0049726" x2="6" y2="9.0049726" id="直线-4" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="6" y1="8.5049726" x2="12" y2="8.5049726" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="4" y1="11.5027439" x2="10" y2="11.5027439" id="直线备份" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="10" y1="11.0027439" x2="10" y2="12.0027439" id="直线-4备份" stroke="#B8BABF" stroke-linecap="round"></line>
+    </g>
+</svg>

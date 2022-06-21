@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="条件输入" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <rect id="方形" stroke="#B8BABF" x="2" y="2" width="12" height="12"></rect>
+        <polygon id="三角形" stroke="#B8BABF" transform="translate(8.000000, 8.000000) scale(1, -1) translate(-8.000000, -8.000000) " points="7.32196859 5.49815889 8.70798871 4.49815889 8.70798871 8.49815889 11 11.5018411 5 11.5018411 7.32196859 8.49815889"></polygon>
+    </g>
+</svg>

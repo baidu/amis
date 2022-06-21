@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="列表选择" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="2" y1="10" x2="14" y2="10" id="直线" stroke="#B8BABF"></line>
+        <line x1="2" y1="14" x2="14" y2="14" id="直线" stroke="#B8BABF"></line>
+        <polyline id="路径" stroke="#B8BABF" transform="translate(4.474874, 3.097012) rotate(-45.000000) translate(-4.474874, -3.097012) " points="6.72487373 4.34701222 2.22487373 4.34701222 2.22487373 1.84701222"></polyline>
+        <line x1="9.5" y1="2" x2="14" y2="2" id="直线" stroke="#B8BABF"></line>
+        <line x1="9.5" y1="6" x2="14" y2="6" id="直线" stroke="#B8BABF"></line>
+    </g>
+</svg>

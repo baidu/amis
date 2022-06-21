@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="year" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" stroke="#B8BABF" stroke-linejoin="round" x="1.5" y="3" width="13" height="11"></rect>
+        <line x1="5" y1="2" x2="5" y2="4" id="直线" stroke="#B8BABF" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="11" y1="2" x2="11" y2="4" id="直线" stroke="#B8BABF" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="1.5" y1="6.0024863" x2="14.5" y2="6.0024863" id="直线" stroke="#B8BABF" stroke-linecap="round" stroke-linejoin="round"></line>
+        <path d="M8.6075,12.35 L8.6075,11.285 L10.2775,11.285 L10.2775,10.775 L8.6075,10.775 L8.6075,9.85 L9.9525,9.85 L9.9525,9.36 L8.6075,9.36 L8.6075,8.715 L10.1275,8.715 L10.1275,8.21 L7.1125,8.21 C7.1675,8.07 7.2175,7.92 7.2625,7.76 L6.7225,7.66 C6.5525,8.285 6.2175,8.78 5.7225,9.15 L6.0725,9.595 C6.3875,9.355 6.6525,9.065 6.8625,8.715 L8.0825,8.715 L8.0825,9.36 L6.6025,9.36 L6.6025,10.775 L5.8325,10.775 L5.8325,11.285 L8.0825,11.285 L8.0825,12.35 L8.6075,12.35 Z M8.0825,10.775 L7.1275,10.775 L7.1275,9.85 L8.0825,9.85 L8.0825,10.775 Z" id="年" stroke="#B8BABF" stroke-width="0.1" fill="#B8BABF" fill-rule="nonzero"></path>
+    </g>
+</svg>

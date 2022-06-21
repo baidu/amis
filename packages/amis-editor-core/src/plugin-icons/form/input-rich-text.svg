@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="富文本编辑器" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="椭圆形" stroke="#B8BABF" stroke-linejoin="round" cx="3" cy="3" r="1"></circle>
+        <circle id="椭圆形" stroke="#B8BABF" stroke-linejoin="round" cx="13" cy="3" r="1"></circle>
+        <circle id="椭圆形" stroke="#B8BABF" stroke-linejoin="round" cx="13" cy="13" r="1"></circle>
+        <circle id="椭圆形" stroke="#B8BABF" stroke-linejoin="round" cx="3" cy="13" r="1"></circle>
+        <line x1="4" y1="3" x2="12" y2="3" id="直线" stroke="#B8BABF" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="4" y1="13" x2="12" y2="13" id="直线" stroke="#B8BABF" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="3" y1="4" x2="3" y2="12" id="直线" stroke="#B8BABF" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="13" y1="4" x2="13" y2="12" id="直线" stroke="#B8BABF" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="8" y1="5.5" x2="8" y2="10.5" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="6" y1="5.5" x2="10" y2="5.5" id="直线" stroke="#B8BABF" stroke-linecap="round" stroke-linejoin="round"></line>
+    </g>
+</svg>

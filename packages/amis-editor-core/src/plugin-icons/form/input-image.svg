@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="图片上传" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <polyline id="路径" stroke="#B8BABF" stroke-linecap="round" transform="translate(12.732233, 11.732233) rotate(-135.000000) translate(-12.732233, -11.732233) " points="13.982233 10.482233 13.982233 12.982233 11.482233 12.982233"></polyline>
+        <polyline id="路径" stroke="#B8BABF" stroke-linecap="round" points="9.5 12.5 1.5 12.5 1.5 2.5 14.5 2.5 14.5 8.5"></polyline>
+        <line x1="12.732233" y1="9.96446609" x2="12.732233" y2="13.4644661" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <polyline id="直线" stroke="#B8BABF" stroke-linecap="round" points="3.5 10.5 5.5 8.5 7.5 10.5 12.5 5.5"></polyline>
+        <circle id="椭圆形" stroke="#B8BABF" cx="4.5" cy="5.5" r="1"></circle>
+    </g>
+</svg>

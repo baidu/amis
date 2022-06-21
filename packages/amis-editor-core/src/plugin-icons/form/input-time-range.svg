@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="日期时间范围" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <polyline id="路径" stroke="#B8BABF" stroke-linecap="round" points="6.5 13.75 1.5 13.75 1.5 2.75 14.5 2.75 14.5 6.75"></polyline>
+        <line x1="5" y1="1.75" x2="5" y2="3.75" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="11" y1="1.75" x2="11" y2="3.75" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="1.5" y1="5.7524863" x2="14.5" y2="5.7524863" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="3.75" y1="7.7524863" x2="5.25" y2="7.7524863" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <circle id="椭圆形" stroke="#B8BABF" cx="11" cy="10.75" r="3.5"></circle>
+        <line x1="10.6693798" y1="11.1350636" x2="12.1693798" y2="11.1350636" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="10.6693798" y1="9.63754993" x2="10.6693798" y2="11.1375499" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="3.75" y1="9.7524863" x2="5.25" y2="9.7524863" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="3.75" y1="11.7524863" x2="5.25" y2="11.7524863" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+    </g>
+</svg>

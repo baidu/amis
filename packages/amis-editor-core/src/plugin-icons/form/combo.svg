@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="组合输入" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <polyline id="路径" stroke="#B8BABF" stroke-linecap="round" points="4 2 14 2 14 12"></polyline>
+        <rect id="矩形" stroke="#B8BABF" x="2" y="4" width="10" height="10"></rect>
+        <polyline id="路径" stroke="#B8BABF" stroke-linecap="round" transform="translate(7.000000, 8.000000) rotate(-45.000000) translate(-7.000000, -8.000000) " points="8.5 9.5 5.5 9.5 5.5 6.5"></polyline>
+    </g>
+</svg>

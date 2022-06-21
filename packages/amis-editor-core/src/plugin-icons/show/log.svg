@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="日志" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <rect id="矩形" stroke="#B8BABF" x="2.5" y="2.5" width="11" height="12"></rect>
+        <line x1="5" y1="1.5" x2="5" y2="3.5" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="11" y1="1.5" x2="11" y2="3.5" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="5.5" y1="6" x2="10.5" y2="6" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="5.5" y1="8.5" x2="10.5" y2="8.5" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <line x1="5.5" y1="11" x2="8.5" y2="11" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+    </g>
+</svg>
