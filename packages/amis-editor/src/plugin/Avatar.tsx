@@ -23,7 +23,7 @@ export class AvatarPlugin extends BasePlugin {
   icon = 'fa fa-user';
   description = '用户头像';
   docLink = '/amis/zh-CN/components/avatar';
-  tags = ['其他'];
+  tags = ['展示'];
   scaffold = {
     type: 'avatar',
     showtype: 'image',
