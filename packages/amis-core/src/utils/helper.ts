@@ -931,7 +931,7 @@ export function everyTree<T extends TreeItem>(
   paths: Array<T> = [],
   indexes: Array<number> = []
 ): boolean {
-  if (!Array.isArray(tree) && !isObservableArray(tree)) {
+  if (!Array.isArray(tree)) {
     return false;
   }
   return tree.every((item, index) => {
