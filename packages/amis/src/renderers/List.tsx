@@ -928,7 +928,7 @@ export default class List extends React.Component<ListProps, object> {
       translate: __
     } = this.props;
 
-    render(
+    return render(
       `${index}`,
       {
         type: 'list-item',
