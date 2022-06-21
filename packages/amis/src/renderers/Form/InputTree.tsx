@@ -88,6 +88,11 @@ export interface TreeControlSchema extends FormOptionsSchema {
   showOutline?: boolean;
 
   deferApi?: SchemaApi;
+
+  /**
+   * 需要高亮的字符串
+   */
+  highlightTxt?: string;
 }
 
 export interface TreeProps
@@ -207,7 +212,8 @@ export default class TreeControl extends React.Component<TreeProps> {
       nodePath,
       deferLoad,
       expandTreeOptions,
-      translate: __
+      translate: __,
+      highlightTxt
     } = this.props;
 
     return (
@@ -229,6 +235,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             delimiter={delimiter}
             placeholder={__(placeholder)}
             options={options}
+            highlightTxt={highlightTxt}
             multiple={multiple}
             initiallyOpen={initiallyOpen}
             unfoldedLevel={unfoldedLevel}
