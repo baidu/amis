@@ -1,16 +1,15 @@
 import React from 'react';
-import {toast} from '../../src/components/Toast';
-import {render, makeTranslator} from '../../src/index';
-import {normalizeLink} from '../../src/utils/normalizeLink';
-import {isMobile} from '../../src/utils/helper';
-import attachmentAdpator from '../../src/utils/attachmentAdpator';
-import {alert, confirm} from '../../src/components/Alert';
+import {toast, render, makeTranslator} from 'amis';
+import {normalizeLink} from 'amis-core';
+import {isMobile} from 'amis-core';
+import {attachmentAdpator} from 'amis-core';
+import {alert, confirm} from 'amis-ui';
 import axios from 'axios';
 import JSON5 from 'json5';
-import CodeEditor from '../../src/components/Editor';
+import {Editor as CodeEditor} from 'amis-ui';
 import copy from 'copy-to-clipboard';
 import {matchPath} from 'react-router-dom';
-import Drawer from '../../src/components/Drawer';
+import {Drawer} from 'amis-ui';
 
 const DEFAULT_CONTENT = `{
     "$schema": "/schemas/page.json#",
@@ -480,15 +479,15 @@ export default class PlayGround extends React.Component {
 
   render() {
     const {vertical, mini, height, theme, classPrefix} = this.props;
-    console.log(classPrefix);
     if (mini) {
       return (
         <div className="Playgroud Playgroud--mini">
-          <a onClick={this.toggleDrawer}>
+          <a onClick={this.toggleDrawer} className="Playgroud-edit-btn">
             编辑代码 <i className="fa fa-code p-l-xs"></i>
           </a>
           <Drawer
             showCloseButton
+            closeOnOutside
             resizable
             theme={theme}
             overlay={false}

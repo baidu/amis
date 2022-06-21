@@ -314,15 +314,19 @@ order: 21
 | chunkApi         | [API](../../../docs/types/api) |                                                                                                            | chunkApi                                                                                                                             |
 | finishChunkApi   | [API](../../../docs/types/api) |                                                                                                            | finishChunkApi                                                                                                                       |
 | concurrency      | `number`                       |                                                                                                            | 分块上传时并行个数                                                                                                                   |
+| documentation    | `string`                       |                                                                                                            | 文档内容                                                                                                                             |
+| documentLink     | `string`                       |                                                                                                            | 文档链接                                                                                                                             |
 
 ## 事件表
 
-| 事件名称 | 事件参数                 | 说明                 |
-| -------- | ------------------------ | -------------------- |
-| change   | `file: Array<FileValue>` | 文件值发生变化时触发 |
-| remove   | `file: FileValue`        | 被移除的文件         |
-| success  | `file: FileValue`        | 上传成功的文件       |
-| fail     | `file: FileValue`        | 上传失败的文件       |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                                                                                                   | 说明                                     |
+| -------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| change   | `event.data.file: Array<FileValue>` 上传的文件                                                             | 上传文件值变化时触发(上传失败同样会触发) |
+| remove   | `event.data.file: FileValue` 被移除的文件                                                                  | 移除文件时触发                           |
+| success  | `event.data.file: FileValue` 远程上传请求成功后返回的结果数据                                              | 上传成功时触发                           |
+| fail     | `event.data.file: FileValue` 上传的文件 <br /> `event.data.error: object` 远程上传请求失败后返回的错误信息 | 上传文件失败时触发                       |
 
 ### FileValue 属性表
 
@@ -334,6 +338,8 @@ order: 21
 | error  | `string` | 错误信息                                           |
 
 ## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
 | 动作名称 | 动作配置 | 说明 |
 | -------- | -------- | ---- |

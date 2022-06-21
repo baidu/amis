@@ -95,7 +95,7 @@ _特殊字符变量名_
 }
 ```
 
-!!!include(amis-formula/dist/doc.md)!!!
+!!!include(amis-formula/lib/doc.md)!!!
 
 ## 函数调用示例
 

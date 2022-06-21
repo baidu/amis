@@ -7,6 +7,8 @@ categories:
     label: dep
   - title: 日常维护
     label: chore
+  - title: 样式更新
+    label: style
   - title: 文档
     label: doc
 
@@ -20,13 +22,15 @@ autolabeler:
   - label: 'chore'
     title:
       - '/chore/i'
+  - label: 'style'
+    title:
+      - '/style/i'
   - label: 'doc'
     title:
       - '/doc/i'
 
 template: |
- 
- ## 更新记录
 
-  $CHANGES
-  
+  ## 更新记录
+
+   $CHANGES

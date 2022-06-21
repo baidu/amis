@@ -1,0 +1,30 @@
+.#{$ns}CollapseGroup {
+
+  .#{$ns}Collapse {
+    border-radius: 0;
+  }
+
+  .#{$ns}Collapse:first-child {
+    border-radius: 4px 4px 0 0;
+  }
+
+  .#{$ns}Collapse:last-child {
+    border-radius: 0 0 4px 4px;
+  }
+
+  .#{$ns}Collapse:not(:last-child) {
+    border-bottom: none;
+  }
+
+  &.icon-position-right {
+    .#{$ns}Collapse-header {
+      .#{$ns}Collapse-arrow {
+        float: right;
+      }
+
+      .#{$ns}Collapse-icon-tranform {
+        float: right;
+      }
+    }
+  }
+}

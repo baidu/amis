@@ -247,7 +247,7 @@ order: 59
 
 ## 选中父节点自动选中子节点，数据是否包含父子节点的值
 
-`cascade`默认为 false，子节点禁止反选，值不包含子节点值，配置`"cascade": true`，子节点可以反选，值包含父子节点值（1.9.0之前的版本cascade配置为true的效果为：选中父节点不默认选中子节点）
+`cascade`默认为 false，子节点禁止反选，值不包含子节点值，配置`"cascade": true`，子节点可以反选，值包含父子节点值（1.9.0 之前的版本 cascade 配置为 true 的效果为：选中父节点不默认选中子节点）
 
 ```schema: scope="body"
 {
@@ -492,6 +492,72 @@ order: 59
         {
           "label": "C",
           "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 只允许选择叶子节点
+
+> 1.10.0 及以上版本
+
+在单选时，可通过 `onlyLeaf` 可以配置只允许选择叶子节点
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "onlyLeaf": true,
+      "searchable": true,
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "file C",
+          "value": 4
+        },
+        {
+          "label": "file D",
+          "value": 5
+        },
+        {
+          "label": "Folder E",
+          "value": "61",
+          "children": [
+            {
+              "label": "Folder G",
+              "value": "62",
+              "children": [
+                {
+                  "label": "file H",
+                  "value": 6
+                },
+                {
+                  "label": "file I",
+                  "value": 7
+                }
+              ]
+            }
+          ]
         }
       ]
     }
@@ -916,6 +982,7 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | cascade                | `boolean`                                    | `false`          | autoCheckChildren 为 true 时生效；默认行为：子节点禁用，值只包含父节点值；设置为 true 时，子节点可反选，值包含父子节点值。           |
 | withChildren           | `boolean`                                    | `false`          | cascade 为 false 时生效，选中父节点时，值里面将包含父子节点的值，否则只会保留父节点的值。                                            |
 | onlyChildren           | `boolean`                                    | `false`          | autoCheckChildren 为 true 时生效，不受 cascade 影响；onlyChildren 为 true，ui 行为级联选中子节点，子节点可反选，值只包含子节点的值。 |
+| onlyLeaf               | `boolean`                                    | `false`          | 只允许选择叶子节点                                                                                                                   |
 | rootCreatable          | `boolean`                                    | `false`          | 是否可以创建顶级节点                                                                                                                 |
 | rootCreateTip          | `string`                                     | `"添加一级节点"` | 创建顶级节点的悬浮提示                                                                                                               |
 | minLength              | `number`                                     |                  | 最少选中的节点数                                                                                                                     |
@@ -926,19 +993,23 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 ## 事件表
 
-| 事件名称     | 事件参数                       | 说明           |
-| ------------ | ------------------------------ | -------------- |
-| change       | value: `string` 更新后的数据   | 选中值更改     |
-| add          | value: `string` 新增节点信息   | 新增选项       |
-| edit         | value: `string` 编辑节点信息   | 编辑选项       |
-| delete       | value: `string` 删除节点信息   | 删除选项       |
-| loadFinished | value: `json` 懒加载返回的数据 | 懒加载完成触发 |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称     | 事件参数                                                                              | 说明                         |
+| ------------ | ------------------------------------------------------------------------------------- | ---------------------------- |
+| change       | `event.data.value: string` 选中节点的值                                               | 选中值变化时触发             |
+| add          | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 新增的节点信息 | 新增节点提交时触发           |
+| edit         | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 编辑的节点信息 | 编辑节点提交时触发           |
+| delete       | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 删除的节点信息 | 删除节点提交时触发           |
+| loadFinished | `event.data.value: object` deferApi 懒加载远程请求成功后返回的数据                    | 懒加载接口远程请求成功时触发 |
 
 ## 动作表
 
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
 | 动作名称 | 动作配置                 | 说明                                                   |
 | -------- | ------------------------ | ------------------------------------------------------ |
-| expand   | openLevel: `number`      | 展开层级                                               |
+| expand   | openLevel: `number`      | 展开指定层级                                           |
 | collapse | -                        | 收起                                                   |
 | clear    | -                        | 清空                                                   |
 | reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |

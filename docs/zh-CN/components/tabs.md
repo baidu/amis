@@ -497,6 +497,36 @@ order: 68
 }
 ```
 
+### 动态设置选项卡
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "key": "tab2"
+    },
+    "body": [
+        {
+            "type": "tabs",
+            "activeKey": "${key}",
+            "tabs": [
+                {
+                    "title": "Tab 1",
+                    "hash": "tab1",
+                    "tab": "Content 1"
+                },
+
+                {
+                    "title": "Tab 2",
+                    "hash": "tab2",
+                    "tab": "Content 2"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 图标
 
 通过 icon 可以设置 tab 的图标，可以是 fontawesome 或 URL 地址。
@@ -587,12 +617,16 @@ order: 68
 
 ## 事件表
 
-| 事件名称 | 事件参数                             | 说明             |
-| -------- | ------------------------------------ | ---------------- |
-| change   | `value: number \| string` 选项卡切换 | 切换选项卡时触发 |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                                        | 说明             |
+| -------- | ----------------------------------------------- | ---------------- |
+| change   | `event.data.value: number \| string` 选项卡索引 | 切换选项卡时触发 |
 
 ## 动作表
 
-| 动作名称        | 动作配置                             | 说明              |
-| --------------- | ------------------------------------ | ----------------- |
-| changeActiveKey | `activeKey: number \| string` 激活项 | 修改激活的 tab 值 |
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称        | 动作配置                                 | 说明             |
+| --------------- | ---------------------------------------- | ---------------- |
+| changeActiveKey | `activeKey: number \| string` 选项卡索引 | 激活指定的选项卡 |

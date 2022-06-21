@@ -1,0 +1,74 @@
+.#{$ns}InputBox {
+  @include input-input();
+  @include input-border();
+
+  &--inline {
+    display: inline-flex;
+  }
+
+  > input[readonly] {
+    cursor: inherit;
+  }
+
+  &.is-error,
+  .is-error > & {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
+
+  &.is-focused {
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+    background: var(--Form-input-onFocused-bg);
+  }
+
+  &.is-clickable:hover {
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+    cursor: pointer;
+  }
+
+  &.is-error.is-focused {
+    border-color: var(--Form-input-onError-borderColor);
+  }
+
+  &.is-disabled {
+    color: var(--text--muted-color);
+    background: var(--Form-input-onDisabled-bg);
+    border-color: var(--Form-input-onDisabled-borderColor);
+  }
+
+  &-clear {
+    @include input-clear();
+  }
+
+  > svg {
+    display: inline-block;
+    width: 14px;
+    color: var(--icon-color);
+  }
+
+  > a {
+    cursor: pointer;
+  }
+
+  &-caret {
+    transition: transform var(--animation-duration) ease-out;
+    margin: 5px;
+    display: flex;
+    color: var(--Form-select-caret-iconColor);
+    &:hover {
+      color: var(--Form-select-caret-onHover-iconColor);
+    }
+
+    > svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
+    }
+  }
+
+  &.is-active &-caret {
+    transform: rotate(180deg);
+  }
+}

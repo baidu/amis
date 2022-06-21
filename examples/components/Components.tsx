@@ -79,9 +79,7 @@ export const components = [
         label: 'Pagination分页',
         path: '/zh-CN/components/pagination',
         component: React.lazy(() =>
-          import('../../docs/zh-CN/components/pagination.md').then(
-            wrapDoc
-          )
+          import('../../docs/zh-CN/components/pagination.md').then(wrapDoc)
         )
       },
       {
@@ -560,7 +558,7 @@ export const components = [
       },
 
       {
-        label: 'Chart 单选框',
+        label: 'ChartRadios 图表单选框',
         path: '/zh-CN/components/form/chart-radios',
         component: React.lazy(() =>
           import('../../docs/zh-CN/components/form/chart-radios.md').then(
@@ -740,6 +738,16 @@ export const components = [
         path: '/zh-CN/components/form/input-year-range',
         component: React.lazy(() =>
           import('../../docs/zh-CN/components/form/input-year-range.md').then(
+            wrapDoc
+          )
+        )
+      },
+
+      {
+        label: 'JsonSchema',
+        path: '/zh-CN/components/form/json-schema',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/form/json-schema.md').then(
             wrapDoc
           )
         )

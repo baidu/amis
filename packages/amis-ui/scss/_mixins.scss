@@ -1,0 +1,473 @@
+// 媒体查询最小阈值
+@mixin media-breakpoint-up($name, $breakpoints: $breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+//媒体查询最大阈值
+@mixin media-breakpoint-down($name, $breakpoints: $breakpoints) {
+  $max: breakpoint-max($name, $breakpoints);
+
+  @if $max {
+    @media (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+//媒体查询中间阈值
+@mixin media-breakpoint-between($min, $max, $breakpoints: $breakpoints) {
+  $min: breakpoint-min($min, $breakpoints);
+  $max: breakpoint-max($max, $breakpoints);
+
+  @media (min-width: $min) and (max-width: $max) {
+    @content;
+  }
+}
+
+@mixin media-device($name, $devices: $devices) {
+  $n: map-get($devices, $name);
+
+  @media #{$n} {
+    @content;
+  }
+}
+
+@mixin clearfix() {
+  &::before,
+  &::after {
+    display: table;
+    content: '';
+  }
+  &::after {
+    clear: both;
+  }
+}
+
+// @deprecated 不建议用了
+@mixin color-schema($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
+  background: saturate(darken($bg-color, $percent), $sat-percent);
+}
+
+// @deprecated 不建议用了
+@mixin color-schema-lt($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
+  background: desaturate(lighten($bg-color, $percent), $sat-percent);
+}
+
+// @deprecated 不建议用了
+@mixin color-variant(
+  $bg-color: #555,
+  $lt-percent: 10%,
+  $lter-percent: 15%,
+  $dk-percent: 10%,
+  $dker-percent: 15%
+) {
+  background-color: $bg-color;
+
+  &.lt,
+  & .lt {
+    @include color-schema-lt($bg-color, $lt-percent, 2.5%);
+  }
+
+  &.lter,
+  & .lter {
+    @include color-schema-lt($bg-color, $lter-percent, 5%);
+  }
+
+  &.dk,
+  & .dk {
+    @include color-schema($bg-color, $dk-percent, 2.5%);
+  }
+
+  &.dker,
+  & .dker {
+    @include color-schema($bg-color, $dker-percent, 5%);
+  }
+
+  &.bg,
+  & .bg {
+    background-color: $bg-color;
+  }
+}
+
+// @deprecated 不建议用了
+@mixin font-variant($bg-color) {
+  $font-color: desaturate(lighten($bg-color, 40%), 10%);
+  $link-color: desaturate(lighten($bg-color, 50%), 10%);
+  $hover-color: #fff;
+  color: $font-color;
+
+  & a,
+  & .#{$ns}Button--link {
+    color: $link-color;
+
+    &:hover {
+      color: $hover-color;
+    }
+  }
+
+  & .open > a {
+    &,
+    &:hover,
+    &:focus {
+      color: $hover-color;
+    }
+  }
+
+  & .text-muted {
+    color: darken($text-color, 10%) !important;
+  }
+
+  & .text-lt {
+    color: lighten($text-color, 25%) !important;
+  }
+
+  // &.auto,
+  // & .auto {
+  //   & .list-group-item {
+  //     border-color: darken($bg-color, 5%) !important;
+  //     background: transparent;
+
+  //     &:hover,
+  //     &:focus,
+  //     &:active,
+  //     &.active {
+  //       @include color-schema($bg-color, 5%, 2.5% !important);
+  //     }
+  //   }
+  // }
+}
+
+// @deprecated 不建议用了
+@mixin text-wariant($bg-color, $name) {
+  a.bg-#{'' + $name}:hover {
+    background: darken($bg-color, 5%);
+  }
+
+  a.text-#{'' + $name}:hover {
+    color: darken($bg-color, 5%);
+  }
+
+  .text-#{'' + $name} {
+    color: $bg-color;
+  }
+
+  .text-#{'' + $name}-lt {
+    color: darken($bg-color, 5%);
+  }
+
+  .text-#{'' + $name}-lter {
+    color: darken($bg-color, 10%);
+  }
+
+  .text-#{'' + $name}-dk {
+    color: darken($bg-color, 5%);
+  }
+
+  .text-#{'' + $name}-dker {
+    color: darken($bg-color, 10%);
+  }
+}
+
+@mixin hover {
+  &:hover {
+    @content;
+  }
+}
+
+@mixin focus {
+  &:focus {
+    @content;
+  }
+}
+
+@mixin hover-focus {
+  &:hover:focus {
+    @content;
+  }
+}
+
+@mixin hover-active {
+  &:hover:active {
+    @content;
+  }
+}
+
+@mixin button-size(
+  $padding-y,
+  $padding-x,
+  $font-size,
+  $line-height,
+  $border-radius,
+  $height: auto,
+  $iconWdith: px2rem(20px),
+  $icon-rightMargin: var(--Button-icon-rightMargin)
+) {
+  padding: $padding-y $padding-x;
+  font-size: $font-size;
+  line-height: $line-height;
+  border-radius: $border-radius;
+  height: $height;
+
+  .#{$ns}Button-icon:first-child:not(:last-child):not(.pull-right),
+  > svg.icon:not(:last-child):not(.pull-right),
+  > .pull-left {
+    margin-right: $icon-rightMargin;
+  }
+
+  .#{$ns}Button-icon:last-child:not(:first-child):not(.pull-left),
+  > .pull-right {
+    margin-left: $padding-x;
+  }
+
+  .#{$ns}Button--loading:first-child:not(:last-child):not(.pull-right),
+  > svg.icon:not(:last-child):not(.pull-right),
+  > .pull-left {
+    margin-right: $icon-rightMargin;
+  }
+
+  .#{$ns}Button--loading:last-child:not(:first-child):not(.pull-left),
+  > .pull-right {
+    margin-left: $padding-x;
+  }
+
+  // img 需要加一下高度限制
+  img.#{$ns}Button-icon {
+    height: var(--Button-fontSize);
+    vertical-align: middle;
+  }
+}
+
+@mixin button-loading-icon() {
+  transition: --Button-transition;
+  svg {
+    @include animation-svg(var(--Button-animation-spin));
+  }
+}
+
+@mixin animation-svg($animation) {
+  animation: $animation;
+}
+
+@mixin button-variant(
+  $background,
+  $border: $background,
+  $color: $white,
+  $hover-background: darken($background, 7.5%),
+  $hover-border: darken($border, 10%),
+  $hover-color: $color,
+  $active-background: darken($background, 10%),
+  $active-border: darken($border, 12.5%),
+  $active-color: $color
+) {
+  color: $color;
+  background: $background;
+  border-color: $border;
+  box-shadow: var(--Button-boxShadow);
+  text-shadow: var(--Button-textShadow);
+
+  &:not(:disabled):not(.is-disabled) {
+    @include hover {
+      color: $hover-color;
+      background: $hover-background;
+      border-color: $hover-border;
+    }
+    @include hover-active {
+      color: $active-color;
+      background: $active-background;
+      border-color: $active-border;
+    }
+  }
+
+  // @include focus {
+  //   color: $color;
+  //   background: $background;
+  //   border-color: $border;
+  //   box-shadow: var(--Button-boxShadow);
+  // }
+
+  @include hover-focus {
+    // color: $hover-color;
+    // background: $hover-background;
+    // border-color: $hover-border;
+    box-shadow: var(--Button-boxShadow);
+  }
+}
+
+@mixin input-clear {
+  padding: var(--Form-input-clearBtn-padding);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  text-decoration: none;
+
+  svg {
+    fill: var(--Form-input-clearBtn-color);
+    top: 0;
+    width: var(--Form-input-clearBtn-size);
+    height: var(--Form-input-clearBtn-size);
+  }
+
+  &:hover svg {
+    fill: var(--Form-input-clearBtn-color-onHover);
+  }
+
+  &:active svg {
+    fill: var(--Form-input-clearBtn-color-onActive);
+  }
+}
+
+@mixin input-input {
+  display: flex;
+  background: var(--Form-input-bg);
+  border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+  border-radius: var(--Form-input-borderRadius);
+  // height: var(--Form-input-height);
+  line-height: var(--Form-input-lineHeight);
+  padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  font-size: var(--Form-input-fontSize);
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  input {
+    flex-basis: px2rem(30px);
+    flex-grow: 1;
+    outline: none;
+    background: transparent;
+    border: none;
+    color: var(--Form-input-color);
+    width: 100%;
+    height: calc(var(--Form-input-lineHeight) * var(--Form-input-fontSize));
+
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+      user-select: none;
+    }
+  }
+
+  &:hover {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
+}
+
+@mixin input-border {
+  &--borderHalf {
+    border-left-color: transparent !important;
+    border-right-color: transparent !important;
+    border-top-color: transparent !important;
+  }
+
+  &--borderNone {
+    border-color: transparent !important;
+  }
+}
+
+@mixin input-text {
+  position: relative;
+  max-width: 100%;
+
+  &.is-inline {
+    display: inline-block;
+    width: var(--Form-control-widthBase);
+  }
+
+  &-input {
+    @include input-input();
+    @include input-border();
+  }
+
+  &.is-error > &-input {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+    transition: all var(--animation-duration);
+  }
+
+  &.is-focused > &-input {
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+    background: var(--Form-input-onFocused-bg);
+    transition: all var(--animation-duration);
+  }
+
+  &.is-error.is-focused > &-input {
+    border-color: var(--Form-input-onError-borderColor);
+  }
+
+  &.is-disabled > &-input {
+    color: var(--text--muted-color);
+    background: var(--Form-input-onDisabled-bg);
+    border-color: var(--Form-input-onDisabled-borderColor);
+    transition: all var(--animation-duration);
+  }
+
+  &-spinner {
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize)
+    );
+  }
+
+  &-clear {
+    @include input-clear();
+  }
+
+  &-revealPassword {
+    cursor: pointer;
+    color: var(--text--muted-color);
+  }
+
+  // 需要能撑开
+  @include media-breakpoint-up(sm) {
+    &.#{$ns}Form-control--sizeXs > &-input,
+    &.#{$ns}Form-control--sizeSm > &-input,
+    &.#{$ns}Form-control--sizeMd > &-input,
+    &.#{$ns}Form-control--sizeLg > &-input {
+      min-width: 100%;
+      display: inline-flex;
+    }
+  }
+}
+
+@mixin checkboxes-placeholder {
+  height: var(--Form-input-height);
+  line-height: var(--Form-input-lineHeight);
+  font-size: var(--Form-input-fontSize);
+  padding: calc(
+      (
+          var(--Form-input-height) - var(--Form-input-lineHeight) *
+            var(--Form-input-fontSize)
+        ) / 2
+    )
+    var(--gap-sm);
+  color: var(--text--muted-color);
+}
+
+@mixin label-variant($color) {
+  background: $color;
+
+  // todo：不支持了
+  // &[href] {
+  //   &:hover,
+  //   &:focus {
+  //     background: darken($color, 10%);
+  //   }
+  // }
+}
+
+@mixin icon-color {
+  color: var(--icon-color);
+
+  &:hover {
+    color: var(--icon-onHover-color);
+  }
+}

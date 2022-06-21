@@ -187,22 +187,23 @@ order: 70
 
 ## 属性表
 
-| 属性名        | 类型                   | 默认值     | 说明                                 |
-| ------------ | --------------------- | --------- | ----------------------------------- |
-| actionType   | `string`              | `"toast"` | 指定为 toast 轻提示组件                |
-| items        | `Array<ToastItem>`    | `[]`      | 轻提示内容                            |
-| position     | `string`              | `top-center（移动端为center）`    | 提示显示位置，可用'top-right'、'top-center'、'top-left'、'bottom-center'、'bottom-left'、'bottom-right'、'center'         |
-| closeButton  | `boolean`            | `false`    | 是否展示关闭按钮，移动端不展示            |
-| showIcon     | `boolean`            | `true`     | 是否展示图标                           |
-| timeout      | `number`             | `5000（error类型为6000，移动端为3000）` | 持续时间     |
+| 属性名      | 类型               | 默认值                                  | 说明                                                                                                              |
+| ----------- | ------------------ | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| actionType  | `string`           | `"toast"`                               | 指定为 toast 轻提示组件                                                                                           |
+| items       | `Array<ToastItem>` | `[]`                                    | 轻提示内容                                                                                                        |
+| position    | `string`           | `top-center（移动端为center）`          | 提示显示位置，可用'top-right'、'top-center'、'top-left'、'bottom-center'、'bottom-left'、'bottom-right'、'center' |
+| closeButton | `boolean`          | `false`                                 | 是否展示关闭按钮，移动端不展示                                                                                    |
+| showIcon    | `boolean`          | `true`                                  | 是否展示图标                                                                                                      |
+| timeout     | `number`           | `5000（error类型为6000，移动端为3000）` | 持续时间                                                                                                          |
 
-## ToastItem属性表
-| 属性名        | 类型                     | 默认值     | 说明                                |
-| ------------ | ----------------------- | --------- | ---------------------------------- |
-| title        | `string \| SchemaNode`  |           | 标题                                |
-| body         | `string \| SchemaNode`  |           | 内容                                |
-| level        | `string`                | `info`    | 展示图标，可选'info'、'success'、'error'、'warning' |
-| position     | `string`                | `top-center（移动端为center）`    | 提示显示位置，可用'top-right'、'top-center'、'top-left'、'bottom-center'、'bottom-left'、'bottom-right'、'center'          |
-| closeButton  | `boolean`               | `false`   | 是否展示关闭按钮                      |
-| showIcon     | `boolean`               | `true`    | 是否展示图标                         |
-| timeout      | `number`                | `5000（error类型为6000，移动端为3000）` | 持续时间  |
+## ToastItem 属性表
+
+| 属性名      | 类型                   | 默认值                                  | 说明                                                                                                              |
+| ----------- | ---------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| title       | `string \| SchemaNode` |                                         | 标题                                                                                                              |
+| body        | `string \| SchemaNode` |                                         | 内容                                                                                                              |
+| level       | `string`               | `info`                                  | 展示图标，可选'info'、'success'、'error'、'warning'                                                               |
+| position    | `string`               | `top-center（移动端为center）`          | 提示显示位置，可用'top-right'、'top-center'、'top-left'、'bottom-center'、'bottom-left'、'bottom-right'、'center' |
+| closeButton | `boolean`              | `false`                                 | 是否展示关闭按钮                                                                                                  |
+| showIcon    | `boolean`              | `true`                                  | 是否展示图标                                                                                                      |
+| timeout     | `number`               | `5000（error类型为6000，移动端为3000）` | 持续时间                                                                                                          |

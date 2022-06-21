@@ -55,9 +55,9 @@ title: 快速开始
 使用方法：
 
 - JS SDK
-  - 引入 sdk 中的文件 `<link rel="stylesheet" href="sdk/ helper.css" />`
+  - 引入 sdk 中的文件 `<link rel="stylesheet" href="sdk/helper.css" />`
 - React
-  - `import 'amis/lib/ helper.css'`;
+  - `import 'amis/lib/helper.css'`;
 
 目前这个文件没有和主题文件合并在一起，用户可以选择性加载。
 

@@ -45,6 +45,63 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
         {
             "name": "grade",
             "label": "CSS grade"
+        },
+        {
+            "type": "operation",
+            "label": "操作",
+            "buttons": [
+                {
+                    "label": "详情",
+                    "type": "button",
+                    "level": "link",
+                    "actionType": "dialog",
+                    "dialog": {
+                        "title": "查看详情",
+                        "body": {
+                            "type": "form",
+                            "body": [
+                                {
+                                    "type": "input-text",
+                                    "name": "engine",
+                                    "label": "Engine"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "browser",
+                                    "label": "Browser"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "platform",
+                                    "label": "platform"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "version",
+                                    "label": "version"
+                                },
+                                {
+                                    "type": "control",
+                                    "label": "grade",
+                                    "body": {
+                                        "type": "tag",
+                                        "label": "${grade}",
+                                        "displayMode": "normal",
+                                        "color": "active"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "label": "删除",
+                    "type": "button",
+                    "level": "link",
+                    "className": "text-danger",
+                    "disabledOn": "this.grade === 'A'"
+                }
+            ]
         }
     ]
 }
@@ -2115,21 +2172,35 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
-它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整，比如
+它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整。`reload`支持两种触发方式：
+
+- `"type": "reload"`，CRUD 内置的方法
+- `{"actionType": "reload", "target": "targetName"}`，动作触发
 
 ```schema: scope="body"
 {
     "type": "crud",
+    "name": "crud",
     "syncLocation": false,
     "api": "/api/mock2/sample",
     "headerToolbar": [
         {
+            "type": "action",
+            "align": "right",
+            "icon": "iconfont icon-refresh",
+            "label": "刷新(actionType)",
+            "tooltip": "",
+            "level": "primary",
+            "actionType": 'reload',
+            "target": 'crud'
+        },
+        {
             "type": "reload",
             "align": "right",
             "icon": "iconfont icon-refresh",
-            "label": "刷新",
+            "label": "刷新(type)",
             "tooltip": "",
-            "level": "success"
+            "level": "primary"
         }
     ],
     "columns": [
