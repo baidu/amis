@@ -57,6 +57,20 @@ const MarksSourceOptions = [
   {label: '自定义', value: MarksSourceEnum.CUSTOM}
 ];
 
+// 根据滑块配置获取分块方式
+const getPartsSource = (parts: number | number[], showSteps?: boolean) => {
+  if (Array.isArray(parts)) {
+    return PartsSourceEnum.CUSTOM;
+  }
+  if (parts > 1) {
+    return PartsSourceEnum.AVERAGE;
+  }
+  if (showSteps) {
+    return PartsSourceEnum.STEPS;
+  }
+  return PartsSourceEnum.NO_BLOCK;
+}
+
 /**
  * 分块
  */
@@ -67,24 +81,12 @@ export class PartsControl extends React.Component<
   constructor(props: PartsControlProps) {
     super(props);
 
-    const {partsSource = PartsSourceEnum.NO_BLOCK, parts = 1} = props.data;
+    const {parts = 1, showSteps} = props.data;
     this.state = {
-      options: this.transformOptionValue(partsSource, parts),
-      source: this.getPartsSource(parts),
+      options: this.transformOptionValue(getPartsSource(parts), parts),
+      source: getPartsSource(parts, showSteps),
       parts
     };
-  }
-
-  // 根据滑块配置获取分块方式
-  @autobind
-  getPartsSource(parts: number | number[]) {
-    if (Array.isArray(parts)) {
-      return PartsSourceEnum.CUSTOM;
-    }
-    if (parts > 1) {
-      return PartsSourceEnum.AVERAGE;
-    }
-    return PartsSourceEnum.NO_BLOCK;
   }
 
   @autobind
@@ -274,17 +276,21 @@ export class MarksControl extends React.Component<
   }
 
   componentDidUpdate(prevProps: MarksControlProps) {
-    const {parts, partsSource, unit} = prevProps.data;
+    const {parts, unit, max, min, showSteps} = prevProps.data;
     const {
       parts: nextParts,
-      partsSource: nextPartsSource,
-      unit: nextUnit
+      unit: nextUnit,
+      max: nextMax,
+      min: nextMin,
+      showSteps: nextShowSteps
     } = this.props.data;
     const {source} = this.state;
     if (
       parts !== nextParts ||
-      partsSource !== nextPartsSource ||
-      unit !== nextUnit
+      unit !== nextUnit ||
+      max !== nextMax ||
+      min !== nextMin ||
+      showSteps !== nextShowSteps
     ) {
       // 与分块保持一致，当分块、单位发生变换同步时，同步下标
       source === MarksSourceEnum.PARKS && this.onSynchronismParts();
@@ -310,14 +316,14 @@ export class MarksControl extends React.Component<
   @autobind
   onChange() {
     const {options} = this.state;
-    const {onBulkChange} = this.props;
+    const {onChange} = this.props;
     const marks: {[index: number]: any} = {};
     if (options && !!options.length) {
       options.forEach((item: MarksOptionControlItem) => {
         marks[item.number] = item.label || item.number;
       });
     }
-    onBulkChange && onBulkChange({marks});
+    onChange && onChange(marks);
   }
 
   /**
@@ -326,9 +332,10 @@ export class MarksControl extends React.Component<
   @autobind
   onSynchronismParts() {
     const {
-      data: {parts, partsSource, max, min, step = 1, unit = ''}
+      data: {parts, max, min, step = 1, unit = '', showSteps}
     } = this.props;
     const options = [];
+    const partsSource = getPartsSource(parts, showSteps);
     switch (partsSource) {
       case PartsSourceEnum.AVERAGE:
         const len = (max - min) / parts;

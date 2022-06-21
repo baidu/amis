@@ -149,8 +149,10 @@ export class RangeControlPlugin extends BasePlugin {
               },
 
               getSchemaTpl('valueFormula', {
+                name: 'value',
                 rendererSchema: {
                   ...context?.schema,
+                  value: context?.schema.min || 0,
                   type: 'input-number'
                 },
                 valueType: 'number', // 期望数值类型
@@ -161,7 +163,7 @@ export class RangeControlPlugin extends BasePlugin {
                 name: 'min',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.min,
+                  value: context?.schema.min || 0,
                   type: 'input-number'
                 },
                 needDeleteProps: ['min'], // 避免自我限制
@@ -176,7 +178,7 @@ export class RangeControlPlugin extends BasePlugin {
                 name: 'max',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.max,
+                  value: context?.schema.max || 100,
                   type: 'input-number'
                 },
                 needDeleteProps: ['max'], // 避免自我限制
@@ -217,7 +219,10 @@ export class RangeControlPlugin extends BasePlugin {
                 label: '步长',
                 name: 'step',
                 type: 'input-number',
-                value: 1
+                value: 1,
+                pipeOut: (value?: number) => {
+                  return value || 1;
+                }
               },
 
               {
@@ -284,7 +289,8 @@ export class RangeControlPlugin extends BasePlugin {
               },
               {
                 type: 'ae-marksControl',
-                mode: 'normal'
+                mode: 'normal',
+                name: 'marks'
               }
             ]
           },
