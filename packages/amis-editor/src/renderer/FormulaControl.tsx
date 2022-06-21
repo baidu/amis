@@ -93,6 +93,11 @@ export interface FormulaControlProps extends FormControlProps {
    * 备注3: 默认都是字符串类型；
    */
   valueType?: string;
+
+  /**
+   * 不在表单项上触发时，传入想要获取变量的 表单props 获取对应变量
+   */
+  formProps?: any;
 }
 
 interface FormulaControlState {
@@ -232,7 +237,7 @@ export default class FormulaControl extends React.Component<
   }
 
   async resolveVariablesFromScope() {
-    const {node, manager} = this.props;
+    const {node, manager} = this.props.formProps || this.props;
     await manager?.getContextSchemas(node);
     const dataPropsAsOptions = manager?.dataSchema?.getDataPropsAsOptions();
     return dataPropsAsOptions || [];
@@ -263,11 +268,11 @@ export default class FormulaControl extends React.Component<
   filterCustomRendererProps(rendererSchema: any) {
     const {data} = this.props;
 
-    let curRendererSchema:any = null;
+    let curRendererSchema: any = null;
     if (rendererSchema) {
       curRendererSchema = Object.assign({}, rendererSchema, data, {
         type: rendererSchema.type ?? data.type,
-        value: this.props.value ?? rendererSchema.value ?? data.value,
+        value: this.props.value ?? rendererSchema.value ?? data.value
       });
 
       // 默认要剔除的字段
@@ -305,7 +310,10 @@ export default class FormulaControl extends React.Component<
       curRendererSchema = omit(curRendererSchema, deleteProps);
 
       // 避免没有清空icon
-      if (curRendererSchema.clearable !== undefined && !curRendererSchema.clearable) {
+      if (
+        curRendererSchema.clearable !== undefined &&
+        !curRendererSchema.clearable
+      ) {
         curRendererSchema.clearable = true;
       }
     }
@@ -402,6 +410,9 @@ export default class FormulaControl extends React.Component<
             {render(
               this.filterCustomRendererProps(rendererSchema),
               {
+                data: {
+                  ...this.props.data
+                },
                 onChange: this.handleSimpleInputChange,
                 manager: manager
               },
