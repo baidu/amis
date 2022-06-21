@@ -2,7 +2,7 @@
  * @file 给组件用的，渲染器里面不要用这个
  */
 import React from 'react';
-import {themeable, ThemeProps} from 'amis-core';
+import {localeable, themeable, ThemeProps, LocaleProps} from 'amis-core';
 import {
   ControllerProps as ReactHookFormControllerProps,
   Controller as ReactHookFormController,
@@ -10,7 +10,7 @@ import {
 } from 'react-hook-form';
 import {method} from 'lodash';
 
-export interface FormFieldProps extends ThemeProps {
+export interface FormFieldProps extends LocaleProps, ThemeProps {
   mode?: 'normal' | 'horizontal';
   horizontal?: {
     left?: number;
@@ -84,13 +84,13 @@ function FormField(props: FormFieldProps) {
   );
 }
 
-const ThemedFormField = themeable(FormField);
+const ThemedFormField = themeable(localeable(FormField));
 
 export default ThemedFormField;
 
 export interface ControllerProps
   extends ReactHookFormControllerProps,
-    Omit<FormFieldProps, keyof ThemeProps> {
+    Omit<FormFieldProps, keyof ThemeProps | keyof LocaleProps> {
   rules?: Omit<
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
