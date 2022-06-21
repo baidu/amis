@@ -245,6 +245,11 @@ export default {
           label: '邮箱'
         },
         {
+          type: 'input-date-range',
+          name: 'date',
+          label: '日期'
+        },
+        {
           type: 'input-password',
           name: 'password',
           placeholder: '密码',
