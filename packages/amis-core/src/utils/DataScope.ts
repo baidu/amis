@@ -132,14 +132,19 @@ export class DataScope {
     options: Array<any>,
     schema: JSONSchema,
     path: string = '',
-    key: string = ''
+    key: string = '',
+    /** 是否数组元素，数组元素的内容将获取每个成员的对应值 */
+    isArrayItem = false,
+    /** 不是所有的都可以选择，但不影响子元素 */
+    disabled?: boolean
   ) {
     // todo 支持 oneOf, anyOf
     const option: any = {
       label: schema.title || key,
       value: path,
       type: schema.type,
-      description: schema.description
+      tag: schema.description ?? schema.type,
+      disabled
     };
 
     options.push(option);
@@ -150,29 +155,43 @@ export class DataScope {
 
       keys.forEach(key => {
         const child: any = schema.properties![key];
+        const newPath = isArrayItem ? `ARRAYMAP(${path}, item => item.${key})` : (path + (path ? '.' : '') + key);
 
         this.buildOptions(
           option.children,
           child,
-          path + (path ? '.' : '') + key,
-          key
+          newPath,
+          key,
+          isArrayItem,
+          false
         );
       });
     } else if (schema.type === 'array' && schema.items) {
       option.children = [];
+      
       this.buildOptions(
         option.children,
         {
-          title: 'Member',
+          title: '成员',
           ...(schema.items as any)
         },
-        path + (path ? '.' : '') + 'items',
-        'items'
+        path,
+        'items',
+        true,
+        true
       );
-      option.children = mapTree(option.children, item => ({
-        ...item,
-        disabled: true
-      }));
+
+      this.buildOptions(
+        option.children,
+        {
+          title: '总数',
+          type: 'number'
+        },
+        path + (path ? '.' : '') + 'length',
+        'length',
+        true,
+        isArrayItem
+      );
     }
   }
 

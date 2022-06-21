@@ -780,14 +780,16 @@ export function mapTree<T extends TreeItem>(
  */
 export function eachTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number) => any,
-  level: number = 1
+  iterator: (item: T, key: number, level: number, paths?: Array<T>) => any,
+  level: number = 1,
+  paths: Array<T> = []
 ) {
   tree.map((item, index) => {
-    iterator(item, index, level);
+    let currentPath = paths.concat(item);
+    iterator(item, index, level, currentPath);
 
     if (item.children?.splice) {
-      eachTree(item.children, iterator, level + 1);
+      eachTree(item.children, iterator, level + 1, currentPath);
     }
   });
 }

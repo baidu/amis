@@ -914,6 +914,52 @@ export default class List extends React.Component<ListProps, object> {
     return void 0;
   }
 
+  // editor重写该方法，不要改名或参数
+  renderListItem(index: number, template: ListItemSchema | undefined, item: IItem, itemClassName: string) {
+    const {
+      render,
+      multiple,
+      store,
+      onAction,
+      hideCheckToggler,
+      checkOnItemClick,
+      itemAction,
+      classnames: cx,
+      translate: __
+    } = this.props;
+
+    return render(
+      `${index}`,
+      {
+        type: 'list-item',
+        ...template
+      },
+      {
+        key: item.index,
+        className: cx(itemClassName, {
+          'is-checked': item.checked,
+          'is-modified': item.modified,
+          'is-moved': item.moved
+        }),
+        selectable: store.selectable,
+        checkable: item.checkable,
+        multiple,
+        item,
+        itemIndex: item.index,
+        hideCheckToggler,
+        checkOnItemClick,
+        itemAction,
+        selected: item.checked,
+        onCheck: this.handleCheck,
+        dragging: store.dragging,
+        onAction,
+        data: item.locals,
+        onQuickChange: store.dragging ? null : this.handleQuickChange,
+        popOverContainer: this.getPopOverContainer
+      }
+    );
+  }
+
   render() {
     const {
       className,
@@ -957,36 +1003,7 @@ export default class List extends React.Component<ListProps, object> {
         {store.items.length ? (
           <div className={cx('List-items')}>
             {store.items.map((item, index) =>
-              render(
-                `${index}`,
-                {
-                  type: 'list-item',
-                  ...listItem
-                },
-                {
-                  key: item.index,
-                  className: cx(itemClassName, {
-                    'is-checked': item.checked,
-                    'is-modified': item.modified,
-                    'is-moved': item.moved
-                  }),
-                  selectable: store.selectable,
-                  checkable: item.checkable,
-                  multiple,
-                  item,
-                  itemIndex: item.index,
-                  hideCheckToggler,
-                  checkOnItemClick,
-                  itemAction,
-                  selected: item.checked,
-                  onCheck: this.handleCheck,
-                  dragging: store.dragging,
-                  onAction,
-                  data: item.locals,
-                  onQuickChange: store.dragging ? null : this.handleQuickChange,
-                  popOverContainer: this.getPopOverContainer
-                }
-              )
+              this.renderListItem(index, listItem, item, itemClassName)
             )}
           </div>
         ) : (

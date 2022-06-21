@@ -2,11 +2,11 @@ import React from 'react';
 import {
   Renderer,
   createObject,
-  isVisible,
-  BaseSchema
+  isVisible
 } from 'amis-core';
 import {Checkbox} from 'amis-ui';
 import ColumnToggler, {ColumnTogglerProps} from '../Table/ColumnToggler';
+import { BaseSchema } from '../../Schema';
 
 export interface ColumnTogglerSchema extends BaseSchema {
   label?: string;
