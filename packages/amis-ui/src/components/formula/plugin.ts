@@ -172,7 +172,7 @@ export class FormulaPlugin {
 
     eachTree(variables, item => {
       if (item.value) {
-        const key = item.value;
+        const key = `\${${item.value}}`;
         varMap[key] = item.label;
       }
     });

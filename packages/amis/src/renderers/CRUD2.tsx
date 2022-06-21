@@ -1156,7 +1156,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             popOverContainer,
             onSave: this.handleSave,
             onSaveOrder: this.handleSaveOrder,
-            onQuery: this.handleTableQuery,
+            onSearch: this.handleTableQuery,
+            onSort: this.handleTableQuery,
             onSelect: this.handleSelect,
             data: store.mergedData
           }
