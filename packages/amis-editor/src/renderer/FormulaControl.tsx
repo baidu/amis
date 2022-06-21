@@ -98,6 +98,11 @@ export interface FormulaControlProps extends FormControlProps {
    * 不在表单项上触发时，传入想要获取变量的 表单props 获取对应变量
    */
   formProps?: any;
+
+  /**
+   * 是否使用外部的Form数据
+   */
+  useExternalFormData?: boolean;
 }
 
 interface FormulaControlState {
@@ -352,6 +357,7 @@ export default class FormulaControl extends React.Component<
       rendererSchema,
       rendererWrapper,
       manager,
+      useExternalFormData = false,
       ...rest
     } = this.props;
 
@@ -410,9 +416,11 @@ export default class FormulaControl extends React.Component<
             {render(
               this.filterCustomRendererProps(rendererSchema),
               {
-                data: {
-                  ...this.props.data
-                },
+                data: useExternalFormData
+                  ? {
+                      ...this.props.data
+                    }
+                  : {},
                 onChange: this.handleSimpleInputChange,
                 manager: manager
               },
