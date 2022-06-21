@@ -35,7 +35,8 @@ function FormField(props: FormFieldProps) {
     hasError,
     isRequired,
     label,
-    description
+    description,
+    translate: __
   } = props;
 
   const errors = Array.isArray(props.errors)
@@ -58,7 +59,7 @@ function FormField(props: FormFieldProps) {
       {label ? (
         <label className={cx(`Form-label`)}>
           <span>
-            {label}
+            {__(label)}
             {isRequired && label ? (
               <span className={cx(`Form-star`)}>*</span>
             ) : null}
