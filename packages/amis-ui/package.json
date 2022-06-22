@@ -2,7 +2,7 @@
   "name": "amis-ui",
   "main": "lib/index.js",
   "module": "esm/index.js",
-  "version": "2.0.0-rc.14",
+  "version": "2.0.0-rc.15",
   "description": "",
   "scripts": {
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
