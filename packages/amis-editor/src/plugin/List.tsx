@@ -196,6 +196,7 @@ export class ListPlugin extends BasePlugin {
           type: 'list',
           listItem: '$$'
         },
+        memberImmutable: ['body'],
         onChange: newValue => {
           newValue = {...value, listItem: newValue};
           manager.panelChangeValue(newValue, diff(value, newValue));
