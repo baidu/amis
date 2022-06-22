@@ -60,11 +60,25 @@ export class SubEditor extends React.Component<SubEditorProps> {
   handleBuildPanels(event: PluginEvent<BuildPanelEventContext>) {
     const store = this.props.store;
     const slot = store.subEditorContext?.slot;
+
     if (!slot) {
       return;
     }
-    const slotPath = store.subEditorSlotPath;
+    // const slotPath = store.subEditorSlotPath;
     const context = event.context;
+
+    // 成员节点固定时，不展示组件面板
+    if (!!context.info.memberImmutable) {
+      const panels = context.data.concat();
+      context.data.splice(0, context.data.length);
+      const renderersPanel = panels.filter(r => r.key !== 'renderers');
+      renderersPanel && context.data.push(...renderersPanel);
+      // 默认选中大纲
+      context.changeLeftPanelKey = 'outline';
+    }
+
+    /*
+    // 备注: 当前逻辑有点问题（context.schemaPath 基本上都不会含 slotPath），先注释掉。
     if (!~context.schemaPath.indexOf(slotPath)) {
       const panels = context.data.concat();
       context.data.splice(0, context.data.length);
@@ -75,6 +89,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
         renderersPanel && context.data.push(renderersPanel);
       }
     }
+    */
   }
 
   buildSchema() {

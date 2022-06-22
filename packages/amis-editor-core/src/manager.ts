@@ -421,6 +421,11 @@ export class EditorManager {
 
       triggerEvent && this.trigger('build-panels', context);
       panels = context.data || panels;
+
+      if (context.changeLeftPanelKey) {
+        // 改变左侧激活面板
+       this.store.changeLeftPanelKey(context.changeLeftPanelKey);
+      }
     }
 
     return panels;
