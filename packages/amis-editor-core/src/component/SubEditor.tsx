@@ -129,6 +129,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     ctx={store.ctx}
                     amisEnv={config.amisEnv}
                     plugins={config.plugins}
+                    showCustomRenderersPanel={store.showCustomRenderersPanel ?? true}
                     isHiddenProps={config.isHiddenProps}
                     $schemaUrl={config.$schemaUrl}
                   />
