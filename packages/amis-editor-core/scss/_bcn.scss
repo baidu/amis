@@ -74,7 +74,7 @@
           z-index: 100000; // 设置一个最大的层级
           visibility: hidden;
           transition: all ease-out 0.15s;
-          @include minScrollBar();
+          
           > li > span {
             display: block;
             padding: 6px 12px;

@@ -228,7 +228,7 @@ export default class Breadcrumb extends React.Component<
                       {item.label}
                     </span>
                     {nearby?.length > 1 ? (
-                      <ul>
+                      <ul className='hoverShowScrollBar'>
                         {nearby.map(child => (
                           <li key={`${child.id}-${child.region}`}>
                             <span
