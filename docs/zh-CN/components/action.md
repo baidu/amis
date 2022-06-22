@@ -648,6 +648,70 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 该 actionType 为[FormItem-Table](./form/input-table)专用行为
 
+### 校验表单
+
+下面的表单中会优先校验按钮`required`属性包含的表单项，当所有的字段校验完毕后，才会校验表单中固有的项目。
+
+```schema: scope="body"
+{
+    "type":"button",
+    "label":"打开弹窗表单",
+    "actionType":"dialog",
+    "dialog":{
+        "type":"dialog",
+        "title":"系统提示",
+        "closeOnEsc": true,
+        "body":[
+            {
+                "type":"form",
+                "title":"表单",
+                "api":"/api/mock2/form/saveForm",
+                "body":[
+                    {
+                        "label":"字段a",
+                        "type":"input-text",
+                        "name":"a",
+                        "required":true
+                    },
+                    {
+                        "name":"b",
+                        "label":"字段b",
+                        "type":"input-text"
+                    },
+                    {
+                        "name":"c",
+                        "label":"字段c",
+                        "type":"input-text"
+                    },
+                    {
+                        "name":"d",
+                        "label":"字段d",
+                        "type":"input-text",
+                        "required":true
+                    }
+                ]
+            }
+        ],
+        "actions":[
+            {
+                "type":"submit",
+                "label":"提交-校验字段b",
+                "actionType":"submit",
+                "required":["b"],
+                "level": "info"
+            },
+            {
+                "type":"submit",
+                "label":"提交-校验字段b, c",
+                "actionType":"submit",
+                "required":["b", "c"],
+                "level": "info"
+            }
+        ]
+    }
+}
+```
+
 ### 重置表单
 
 在 form 中，配置`"type": "reset"`的按钮，可以实现重置表单数据的功能

@@ -4,7 +4,6 @@ import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Schema, Action} from '../types';
 import {filter} from '../utils/tpl';
 import Modal from '../components/Modal';
-import findLast from 'lodash/findLast';
 import {
   guid,
   isVisible,
