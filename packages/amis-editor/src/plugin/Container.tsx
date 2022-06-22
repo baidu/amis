@@ -38,7 +38,7 @@ export class ContainerPlugin extends BasePlugin {
         title: '属性',
         body: getSchemaTpl('collapseGroup', [
           {
-            title: '常用',
+            title: '基本',
             body: [
               {
                 name: 'wrapperComponent',
@@ -66,24 +66,25 @@ export class ContainerPlugin extends BasePlugin {
                 validateOnChange: false
               }
             ]
-          }
+          },
+          getSchemaTpl('status'),
         ])
       },
       {
         title: '外观',
         className: 'p-none',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('style:common'),
-          {
-            title: 'CSS 类名',
-            body: [
-              getSchemaTpl('className', {label: '外层CSS类名'}),
+          ...getSchemaTpl('style:common', [], ['layout']),
+          getSchemaTpl('style:classNames', {
+            isFormItem: false,
+            schema: [
               getSchemaTpl('className', {
                 name: 'bodyClassName',
-                label: '内容区CSS类名'
+                label: '内容区'
               })
             ]
-          }
+          }),
+          ...getSchemaTpl('style:common', ['layout']),
         ])
       }
     ]);
