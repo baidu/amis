@@ -10,6 +10,7 @@ import {Spinner} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
+import {isPureVariable, resolveVariable} from '../../utils/tpl-builtin';
 
 /**
  * Tree 下拉选择框。
@@ -213,8 +214,13 @@ export default class TreeControl extends React.Component<TreeProps> {
       deferLoad,
       expandTreeOptions,
       translate: __,
-      highlightTxt
+      data
     } = this.props;
+    let {highlightTxt} = this.props;
+
+    if (isPureVariable(highlightTxt)) {
+      highlightTxt = resolveVariable(highlightTxt, data);
+    }
 
     return (
       <div
