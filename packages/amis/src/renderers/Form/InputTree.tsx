@@ -10,7 +10,7 @@ import {Spinner} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
-import {isPureVariable, resolveVariable} from '../../utils/tpl-builtin';
+import {isPureVariable, resolveVariable} from 'amis-core';
 
 /**
  * Tree 下拉选择框。

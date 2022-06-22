@@ -990,7 +990,7 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | treeContainerClassName | `string`                                     |                  | tree 最外层容器类名                                                                                                                  |
 | enableNodePath         | `boolean`                                    | `false`          | 是否开启节点路径模式                                                                                                                 |
 | pathSeparator          | `string`                                     | `/`              | 节点路径的分隔符，`enableNodePath`为`true`时生效                                                                                     |
-| highlight              | `string`                                     |                  | 标签中需要高亮的字符，支持变量                                                                                                       |
+| highlightTxt           | `string`                                     |                  | 标签中需要高亮的字符，支持变量                                                                                                       |
 
 ## 事件表
 
