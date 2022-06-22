@@ -17,7 +17,7 @@ import {
   RendererPluginEvent
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../util';
-import {getComboWrapper} from '../event-action/schema';
+import { getArgsWrapper } from '../renderer/event-control/helper';
 
 export class WizardPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -249,7 +249,7 @@ export class WizardPlugin extends BasePlugin {
           </div>
         );
       },
-      schema: getComboWrapper([
+      schema: getArgsWrapper([
         {
           type: 'input-formula',
           variables: '${variables}',

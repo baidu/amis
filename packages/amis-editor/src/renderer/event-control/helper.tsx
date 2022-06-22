@@ -1,15 +1,15 @@
 /**
- * @file 公共的动作配置项
+ * @file 一些处理方法
  */
 import React from 'react';
-import {RendererPluginAction} from 'amis-editor-core';
-
-const MSG_TYPES: {[key: string]: string} = {
-  info: '提示',
-  warning: '警告',
-  success: '成功',
-  error: '错误'
-};
+import {
+  PluginActions,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
+import {ActionConfig, ComponentInfo, ContextVariables} from './types';
+import {DataSchema, findTree} from 'amis-core';
+import CmptActionSelect from './comp-action-select';
 
 // 数据容器范围
 export const DATA_CONTAINER = [
@@ -28,13 +28,7 @@ export const IS_DATA_CONTAINER = `${JSON.stringify(
   DATA_CONTAINER
 )}.includes(__rendererName)`;
 
-export function defaultValue(defaultValue: any, strictMode: boolean = true) {
-  return strictMode
-    ? (value: any) => (typeof value === 'undefined' ? defaultValue : value)
-    : (value: any) => value || defaultValue;
-}
-
-export const getComboWrapper = (items: any, multiple: boolean = false) => ({
+export const getArgsWrapper = (items: any, multiple: boolean = false) => ({
   type: 'combo',
   name: 'args',
   // label: '动作参数',
@@ -42,6 +36,352 @@ export const getComboWrapper = (items: any, multiple: boolean = false) => ({
   strictMode: false,
   items: Array.isArray(items) ? items : [items]
 });
+
+// 获取动作树中指定的动作
+export const findActionNode = (
+  actions: RendererPluginAction[],
+  actionType: string
+) => findTree(actions, node => node.actionType === actionType);
+
+// 获取包含指定子动作的动作
+export const findHasSubActionNode = (
+  actions: RendererPluginAction[],
+  actionType: string
+) =>
+  findTree(actions, node =>
+    node.actions?.find(item => item.actionType === actionType)
+  );
+
+// 获取真实的动作类型
+export const getActionType = (
+  action: ActionConfig,
+  hasSubActionNode: RendererPluginAction | null
+) =>
+  action.__isCmptAction
+    ? 'component'
+    : hasSubActionNode
+    ? hasSubActionNode.actionType
+    : action.actionType;
+
+// 获取事件Label文案
+export const getEventLabel = (events: RendererPluginEvent[], name: string) =>
+  events.find(item => item.eventName === name)?.eventLabel;
+
+// 获取事件描述文案
+export const getEventDesc = (events: RendererPluginEvent[], name: string) =>
+  events.find(item => item.eventName === name)?.description;
+
+// 获取动作Label文案
+export const getActionLabel = (events: RendererPluginAction[], name: string) =>
+  findTree(events, item => item.actionType === name)?.actionLabel;
+
+// 根据动作类型获取过滤后的组件树
+export const getComponentTreeSource = (
+  actionType: string,
+  pluginActions: PluginActions,
+  getComponents: () => ComponentInfo[],
+  commonActions?: {[propName: string]: RendererPluginAction}
+) => {
+  if (!actionType) {
+    return [];
+  }
+
+  const commonActionConfig = {
+    ...COMMON_ACTION_SCHEMA_MAP,
+    ...commonActions
+  };
+  // 如果组件树结构没有传，则重新获取
+  const components = getComponents ? getComponents() || [] : [];
+  return getComponentTreeByType(
+    components,
+    actionType,
+    pluginActions,
+    commonActionConfig
+  );
+};
+
+/**
+ * 根据不同的动作类型过滤组件树
+ * @param componentsTree 组件树
+ * @param actionType 动作类型
+ * @returns
+ */
+export const getComponentTreeByType = (
+  componentsTree: ComponentInfo[] = [],
+  actionType: string = '',
+  pluginActions: {
+    [key: string]: any;
+  } = {},
+  actionConfigItems: {[propName: string]: RendererPluginAction}
+) => {
+  const hasActionType = (actions?: RendererPluginAction[]) => {
+    if (!Array.isArray(actions)) {
+      return false;
+    }
+    return !!actions?.find(item =>
+      [item.actionType, 'component'].includes(actionType)
+    );
+  };
+
+  const loopChildren = (nodes: ComponentInfo[]) => {
+    const temp: ComponentInfo[] = [];
+    for (let node of nodes) {
+      const actions = pluginActions[node.type];
+
+      if (
+        ['visibility'].includes(actionType) ||
+        (['usability'].includes(actionType) &&
+          ['form', ...FORMITEM_CMPTS].includes(node.type)) ||
+        (!['submit', 'clear', 'reset', 'validate'].includes(actionType) &&
+          node.type &&
+          hasActionType(actions)) ||
+        (['submit', 'clear', 'reset', 'validate'].includes(actionType) &&
+          node.type === 'form') ||
+        ((actionType === 'component' ||
+          actionConfigItems[actionType]?.withComponentId) &&
+          actionConfigItems[actionType]?.supportComponents?.includes(node.type))
+      ) {
+        // 组件特性动作，如果当前组件没有动作，则禁用
+        const disabled =
+          actionType === 'component' && (!actions || !actions.length);
+        const newNode: ComponentInfo = {
+          ...node,
+          disabled: disabled || node.disabled,
+          children: []
+        };
+        if (node.children?.length) {
+          // 检查子项
+          newNode.children?.push(...loopChildren(node.children));
+        }
+        temp.push(newNode);
+      } else if (node.children?.length) {
+        const childNodes = loopChildren(node.children);
+        if (childNodes.length) {
+          temp.push(...childNodes);
+        }
+      }
+    }
+    return temp;
+  };
+
+  return loopChildren(componentsTree);
+};
+
+// 获取动作配置
+export const getAcionConfig = (
+  action: ActionConfig,
+  actionTree: RendererPluginAction[],
+  pluginActions: PluginActions,
+  commonActions?: {[propName: string]: RendererPluginAction}
+): RendererPluginAction | undefined => {
+  const commonActionConfig = {
+    ...COMMON_ACTION_SCHEMA_MAP,
+    ...commonActions
+  };
+  const actionNode = findActionNode(actionTree, action.actionType);
+  if (actionNode) {
+    return actionNode;
+  }
+
+  const hasSubActionNode = findHasSubActionNode(actionTree, action.actionType);
+  let actionConfig: RendererPluginAction | undefined =
+    hasSubActionNode?.actions?.find(
+      item => item.actionType === action.actionType
+    ) ?? commonActionConfig[action.actionType];
+
+  if (!actionConfig && action.componentId) {
+    // 尝试从actions中获取desc
+    actionConfig = pluginActions[action.__rendererName]?.find(
+      (item: RendererPluginAction) => item.actionType === action.actionType
+    );
+  }
+
+  return actionConfig;
+};
+
+// 格式化初始化时的动作配置
+export const formatActionInitConfig = (
+  action: ActionConfig,
+  actionTree: RendererPluginAction[],
+  pluginActions: PluginActions,
+  getComponents: () => ComponentInfo[],
+  commonActions?: {[propName: string]: RendererPluginAction}
+) => {
+  let config = {...action};
+
+  if (['setValue', 'url', 'link'].includes(action.actionType) && action.args) {
+    const prop = action.actionType === 'setValue' ? 'value' : 'params';
+    !config.args && (config.args = {});
+    if (Array.isArray(action.args[prop])) {
+      config.args[prop] = action.args[prop].reduce(
+        (arr: any, valueItem: any, index: number) => {
+          if (!arr[index]) {
+            arr[index] = {};
+          }
+          arr[index].item = Object.entries(valueItem).map(([key, val]) => ({
+            key,
+            val
+          }));
+          return arr;
+        },
+        []
+      );
+    } else if (typeof action.args[prop] === 'object') {
+      config.args[prop] = Object.keys(action.args[prop]).map(key => ({
+        key,
+        val: action.args?.[prop][key]
+      }));
+    } else if (
+      action.actionType === 'setValue' &&
+      typeof action.args[prop] === 'string'
+    ) {
+      config.args['valueInput'] = config.args['value'];
+      delete config.args?.value;
+    }
+  }
+
+  // 获取动作配置
+  const actionConfig: any = getAcionConfig(
+    action,
+    actionTree,
+    pluginActions,
+    commonActions
+  );
+  // 还原args为可视化配置结构(args + addOnArgs)
+  if (config.args) {
+    if (actionConfig?.config) {
+      let tmpArgs = {};
+      config.addOnArgs = [];
+      Object.keys(config.args).forEach(key => {
+        // 筛选出附加配置参数
+        if (!actionConfig?.config.includes(key)) {
+          config.addOnArgs = [
+            ...config.addOnArgs,
+            {
+              key: key,
+              val: config.args?.[key]
+            }
+          ];
+        } else {
+          tmpArgs = {
+            ...tmpArgs,
+            [key]: config.args?.[key]
+          };
+        }
+      });
+      config.args = tmpArgs;
+    }
+  }
+
+  // 获取左侧命中的动作节点
+  const hasSubActionNode = findHasSubActionNode(actionTree, action.actionType);
+  const actionType = getActionType(action, hasSubActionNode);
+
+  return {
+    ...config,
+    actionType,
+    __cmptTreeSource: getComponentTreeSource(
+      actionType!,
+      pluginActions,
+      getComponents,
+      commonActions
+    ),
+    __cmptActionType:
+      hasSubActionNode || action.componentId ? action.actionType : '',
+    __actionDesc: action.__actionDesc ?? hasSubActionNode?.desc ?? actionConfig.schema, // 树节点描述
+    __actionSchema: action.__actionSchema ?? hasSubActionNode?.schema ?? actionConfig.schema, // 树节点schema
+    __subActions: hasSubActionNode?.actions // 树节点子动作
+    // broadcastId: action.actionType === 'broadcast' ? action.eventName : ''
+  };
+};
+
+// 渲染组件选择配置项
+export function renderCmptSelect(
+  componentLabel: string,
+  required: boolean,
+  onChange?: (value: string, oldVal: any, data: any, form: any) => void
+) {
+  return [
+    {
+      type: 'tree-select',
+      name: 'componentId',
+      label: componentLabel,
+      showIcon: false,
+      searchable: true,
+      required,
+      selfDisabledAffectChildren: false,
+      size: 'lg',
+      source: '${__cmptTreeSource}',
+      mode: 'horizontal',
+      autoFill: {
+        __rendererLabel: '${label}',
+        __rendererName: '${type}',
+        __nodeId: '${id}',
+        __nodeSchema: '${schema}'
+      },
+      onChange: async (value: string, oldVal: any, data: any, form: any) => {
+        onChange?.(value, oldVal, data, form);
+      }
+    }
+  ];
+}
+
+// 渲染组件特性动作配置项
+export function renderCmptActionSelect(
+  componentLabel: string,
+  required: boolean,
+  onChange?: (value: string, oldVal: any, data: any, form: any) => void
+) {
+  return [
+    ...renderCmptSelect(
+      '选择组件',
+      true,
+      async (value: string, oldVal: any, data: any, form: any) => {
+        // 获取组件上下文
+        if (form.data.__nodeId) {
+          const dataSchema: any = await form.data.getContextSchemas?.(
+            form.data.__nodeId,
+            true
+          );
+          const dataSchemaIns = new DataSchema(dataSchema || []);
+          const variables = dataSchemaIns?.getDataPropsAsOptions() || [];
+
+          form.setValueByName('__cmptDataSchema', dataSchema);
+          form.setValueByName('__cmptVariables', variables); // 组件上下文（不含父级）
+          form.setValueByName('__cmptVariablesWithSys', [
+            // 组件上下文+页面+系统
+            {
+              label: `${form.data.__rendererLabel}变量`,
+              children: variables
+            },
+            ...form.data.rawVariables.filter((item: ContextVariables) =>
+              ['页面变量', '系统变量'].includes(item.label)
+            )
+          ]);
+        }
+
+        if (form.data.actionType === 'setValue') {
+          // todo:这里会闪一下，需要从amis查下问题
+          form.setValueByName('args.value', undefined);
+          form.setValueByName('args.valueInput', undefined);
+        }
+        form.setValueByName('__cmptActionType', '');
+
+        onChange?.(value, oldVal, data, form);
+      }
+    ),
+    {
+      asFormItem: true,
+      label: '组件动作',
+      name: '__cmptActionType',
+      mode: 'horizontal',
+      required: true,
+      visibleOn: 'data.actionType === "component"',
+      component: CmptActionSelect,
+      description: '${__cmptActionDesc}'
+    }
+  ];
+}
 
 // 表单项组件
 export const FORMITEM_CMPTS = [
@@ -110,226 +450,11 @@ export const FORMITEM_CMPTS = [
 ];
 
 // 动作配置项schema map
-export const COMMON_ACTION_SCHEMA_MAP: {[propName: string]: RendererPluginAction} = {
-  url: {
-    config: ['url', 'params', 'blank'],
-    desc: (info: any) => {
-      return (
-        <div>
-          跳转<span className="variable-left">{info?.args?.url}</span>
-        </div>
-      );
-    },
-    schema: getComboWrapper([
-      {
-        type: 'wrapper',
-        className: 'p-none',
-        body: [
-          {
-            label: '页面地址',
-            type: 'input-formula',
-            variables: '${variables}',
-            evalMode: false,
-            variableMode: 'tabs',
-            inputMode: 'input-group',
-            name: 'url',
-            placeholder: 'http://',
-            mode: 'horizontal',
-            size: 'lg',
-            required: true
-          },
-          {
-            type: 'combo',
-            name: 'params',
-            label: '页面参数',
-            multiple: true,
-            mode: 'horizontal',
-            items: [
-              {
-                name: 'key',
-                placeholder: '参数名',
-                type: 'input-text',
-                mode: 'inline',
-                size: 'xs'
-              },
-              {
-                name: 'val',
-                placeholder: '参数值',
-                type: 'input-formula',
-                variables: '${variables}',
-                evalMode: false,
-                variableMode: 'tabs',
-                inputMode: 'input-group',
-                size: 'xs'
-              }
-            ]
-          },
-          {
-            type: 'switch',
-            name: 'blank',
-            label: '新窗口打开',
-            onText: '是',
-            offText: '否',
-            mode: 'horizontal',
-            pipeIn: defaultValue(true)
-          }
-        ]
-      }
-    ])
-  },
-  custom: {
-    schema: {
-      type: 'js-editor',
-      allowFullscreen: true,
-      required: true,
-      name: 'script',
-      label: '自定义JS',
-      mode: 'horizontal',
-      className: 'ae-event-control-action-js-editor',
-      value: `/* 自定义JS使用说明： 
- * 1.动作执行函数doAction，可以执行所有类型的动作
- * 2.通过上下文对象context可以获取当前组件实例，例如context.props可以获取该组件相关属性
- * 3.事件对象event，在doAction之后执行event.stopPropagation = true;可以阻止后续动作执行
-*/
-const myMsg = '我是自定义JS';
-doAction({
-  actionType: 'toast',
-  args: {
-    msg: myMsg
-  }
-});
-`
-    }
-  },
-  toast: {
-    config: [
-      'title',
-      'msgType',
-      'msg',
-      'position',
-      'timeout',
-      'closeButton',
-      'showIcon'
-    ],
-    desc: (info: any) => {
-      return (
-        <div>
-          <span className="variable-right">
-            {MSG_TYPES[info?.args?.msgType] || ''}
-          </span>
-          消息提醒：
-          <span className="variable-left">{info?.args?.msg}</span>
-        </div>
-      );
-    },
-    schema: getComboWrapper({
-      type: 'wrapper',
-      className: 'p-none',
-      body: [
-        {
-          type: 'button-group-select',
-          name: 'msgType',
-          label: '消息类型',
-          value: 'info',
-          required: true,
-          mode: 'horizontal',
-          options: Object.keys(MSG_TYPES).map(key => ({
-            label: MSG_TYPES[key],
-            value: key,
-            level: 'default'
-          }))
-        },
-        {
-          name: 'msg',
-          label: '消息内容',
-          mode: 'horizontal',
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          variableMode: 'tabs',
-          inputMode: 'input-group',
-          size: 'lg',
-          required: true
-        },
-        {
-          name: 'title',
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          variableMode: 'tabs',
-          inputMode: 'input-group',
-          label: '标题内容',
-          size: 'lg',
-          mode: 'horizontal'
-        },
-        {
-          name: 'timeout',
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          variableMode: 'tabs',
-          inputMode: 'input-group',
-          label: '持续时间(ms)',
-          size: 'lg',
-          mode: 'horizontal'
-        },
-        {
-          type: 'button-group-select',
-          name: 'position',
-          value: 'top-right',
-          mode: 'horizontal',
-          label: '显示位置',
-          options: [
-            {
-              label: '左上',
-              value: 'top-left'
-            },
-
-            {
-              label: '中上',
-              value: 'top-center'
-            },
-
-            {
-              label: '右上',
-              value: 'top-right'
-            },
-
-            {
-              label: '左下',
-              value: 'bottom-left'
-            },
-            {
-              label: '中下',
-              value: 'bottom-center'
-            },
-
-            {
-              label: '右下',
-              value: 'bottom-right'
-            }
-          ]
-        },
-        {
-          type: 'switch',
-          name: 'closeButton',
-          value: true,
-          label: '展示关闭按钮',
-          mode: 'horizontal'
-        },
-        {
-          type: 'switch',
-          name: 'showIcon',
-          value: true,
-          label: '展示图标',
-          mode: 'horizontal'
-        }
-      ]
-    })
-  },
+export const COMMON_ACTION_SCHEMA_MAP: {
+  [propName: string]: RendererPluginAction;
+} = {
   setValue: {
     config: ['value', 'valueInput'],
-    withComponentId: true,
     desc: (info: any) => {
       return (
         <div>
@@ -346,7 +471,7 @@ doAction({
         </div>
       );
     },
-    schema: getComboWrapper({
+    schema: getArgsWrapper({
       type: 'wrapper',
       className: 'p-none',
       body: [
@@ -440,97 +565,7 @@ doAction({
       ]
     })
   },
-  broadcast: {
-    schema: {
-      type: 'wrapper',
-      className: 'p-none',
-      body: [
-        {
-          type: 'input-text',
-          name: 'eventName',
-          label: '广播标识',
-          mode: 'horizontal',
-          required: true,
-          description: '广播事件标识派发出去后，其他组件可以进行监听并作出响应'
-        },
-        {
-          type: 'input-text',
-          label: '广播名称',
-          name: 'eventLabel',
-          mode: 'horizontal',
-          required: true
-        },
-        {
-          type: 'textarea',
-          label: '描述',
-          name: 'description',
-          mode: 'horizontal',
-          required: true
-        }
-      ]
-    }
-  },
-  copy: {
-    config: ['content', 'copyFormat'],
-    desc: (info: any) => {
-      return (
-        <div>
-          复制内容：
-          <span className="variable-left">{info?.args?.content}</span>
-        </div>
-      );
-    },
-    schema: getComboWrapper({
-      type: 'wrapper',
-      className: 'p-none',
-      body: [
-        {
-          name: 'content',
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          variableMode: 'tabs',
-          inputMode: 'input-group',
-          label: '内容模板',
-          mode: 'horizontal',
-          size: 'lg',
-          required: true
-        },
-        {
-          type: 'select',
-          name: 'copyFormat',
-          mode: 'horizontal',
-          value: 'text/plain',
-          size: 'lg',
-          options: [
-            {
-              label: '纯文本',
-              value: 'text/plain'
-            },
-            {
-              label: '富文本',
-              value: 'text/html'
-            }
-          ],
-          label: '复制格式'
-        }
-      ]
-    })
-  },
-  refresh: {
-    desc: (info: any) => <div>刷新页面</div>
-  },
-  goBack: {
-    desc: (info: any) => <div>返回上一页</div>
-  },
-  alert: {
-    desc: (info: any) => <div>打开提示对话框</div>
-  },
-  confirm: {
-    desc: (info: any) => <div>打开确认对话框</div>
-  },
   reload: {
-    withComponentId: true,
     desc: (info: any) => {
       return (
         <div>
@@ -543,64 +578,7 @@ doAction({
       );
     }
   },
-  show: {
-    withComponentId: true,
-    desc: (info: any) => {
-      return (
-        <div>
-          显示
-          <span className="variable-left variable-right">
-            {info?.__rendererLabel}
-          </span>
-          组件
-        </div>
-      );
-    }
-  },
-  hidden: {
-    withComponentId: true,
-    desc: (info: any) => {
-      return (
-        <div>
-          隐藏
-          <span className="variable-left variable-right">
-            {info?.__rendererLabel}
-          </span>
-          组件
-        </div>
-      );
-    }
-  },
-  enabled: {
-    withComponentId: true,
-    desc: (info: any) => {
-      return (
-        <div>
-          启用
-          <span className="variable-left variable-right">
-            {info?.__rendererLabel}
-          </span>
-          组件
-        </div>
-      );
-    }
-  },
-  disabled: {
-    withComponentId: true,
-    desc: (info: any) => {
-      return (
-        <div>
-          禁用
-          <span className="variable-left variable-right">
-            {info?.__rendererLabel}
-          </span>
-          组件
-        </div>
-      );
-    }
-  },
   clear: {
-    withComponentId: true,
     desc: (info: any) => {
       return (
         <div>
@@ -611,7 +589,6 @@ doAction({
     }
   },
   reset: {
-    withComponentId: true,
     desc: (info: any) => {
       return (
         <div>
@@ -621,12 +598,23 @@ doAction({
       );
     }
   },
-  focus: {
+  submit: {
     desc: (info: any) => {
       return (
         <div>
           <span className="variable-right">{info?.__rendererLabel}</span>
-          获取焦点
+          {info?.__rendererName === 'form' ? '提交' : null}
+          {info?.__rendererName === 'wizard' ? '提交全部数据' : null}
+        </div>
+      );
+    }
+  },
+  validate: {
+    desc: (info: any) => {
+      return (
+        <div>
+          <span className="variable-right">{info?.__rendererLabel}</span>
+          校验
         </div>
       );
     }
@@ -653,29 +641,6 @@ doAction({
       );
     }
   },
-  submit: {
-    withComponentId: true,
-    desc: (info: any) => {
-      return (
-        <div>
-          <span className="variable-right">{info?.__rendererLabel}</span>
-          {info?.__rendererName === 'form' ? '提交' : null}
-          {info?.__rendererName === 'wizard' ? '提交全部数据' : null}
-        </div>
-      );
-    }
-  },
-  validate: {
-    withComponentId: true,
-    desc: (info: any) => {
-      return (
-        <div>
-          <span className="variable-right">{info?.__rendererLabel}</span>
-          校验
-        </div>
-      );
-    }
-  },
   collapse: {
     desc: (info: any) => {
       return (
@@ -695,5 +660,24 @@ doAction({
         </div>
       );
     }
+  },
+  focus: {
+    desc: (info: any) => {
+      return (
+        <div>
+          <span className="variable-right">{info?.__rendererLabel}</span>
+          获取焦点
+        </div>
+      );
+    }
+  },
+  refresh: {
+    desc: (info: any) => <div>刷新页面</div>
+  },
+  alert: {
+    desc: (info: any) => <div>打开提示对话框</div>
+  },
+  confirm: {
+    desc: (info: any) => <div>打开确认对话框</div>
   }
 };

@@ -21,8 +21,8 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
-import {getComboWrapper} from '../event-action/schema';
 import {getEventControlConfig} from '../util';
+import { getArgsWrapper } from '../renderer/event-control/helper';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -293,7 +293,7 @@ export class TablePlugin extends BasePlugin {
       actionLabel: '设置选中项',
       description: '设置表格的选中项',
       config: ['selected'],
-      schema: getComboWrapper([
+      schema: getArgsWrapper([
         {
           type: 'input-formula',
           variables: '${variables}',

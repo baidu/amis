@@ -6,23 +6,38 @@ import {RendererProps, Schema} from 'amis-core';
 import {RendererPluginAction} from 'amis-editor-core';
 import React from 'react';
 import cx from 'classnames';
+import {COMMON_ACTION_SCHEMA_MAP, renderCmptActionSelect} from './helper';
 
 export default class ActionConfigPanel extends React.Component<RendererProps> {
   render() {
-    const {actionConfigItems, data, onBulkChange, render, actions} = this.props;
-    const hasParentType = ['component', 'openPage'].includes(data.actionType);
-    const actionType = hasParentType ? data.__cmptActionType : data.actionType;
-    let schema = undefined;
-    if (data.actionType === 'component') {
-      // 对于组件从actions中获取
-      schema = actions?.[data.__rendererName]?.find(
-        (item: RendererPluginAction) => item.actionType === actionType
-      )?.schema;
-    }
+    const {data, onBulkChange, render, pluginActions, actionConfigItemsMap} = this.props;
+    const actionType = data.__subActions
+      ? data.__cmptActionType
+      : data.actionType;
+    const commonActionConfig = {
+      ...COMMON_ACTION_SCHEMA_MAP,
+      ...actionConfigItemsMap
+    };
+    let schema: any = data.__actionSchema;
+
+    // 找不到动作树中的动作schema的话，就从plugins或者通用动作配置中获取
     if (!schema) {
-      schema = {
-        ...actionConfigItems[actionType]
-      }.schema;
+      // 组件特性动作从plugins里面获取
+      if (data.actionType === 'component') {
+        const subActionSchema =
+          pluginActions?.[data.__rendererName]?.find(
+            (item: RendererPluginAction) =>
+              item.actionType === data.__cmptActionType
+          )?.schema ?? commonActionConfig[data.__cmptActionType]?.schema;
+        const baseSchema = renderCmptActionSelect('选择组件', true);
+        // 追加到基础配置
+        schema = [
+          ...(Array.isArray(baseSchema) ? baseSchema : [baseSchema]),
+          ...(Array.isArray(subActionSchema)
+            ? subActionSchema
+            : [subActionSchema])
+        ];
+      }
     }
 
     return schema ? (
@@ -34,7 +49,7 @@ export default class ActionConfigPanel extends React.Component<RendererProps> {
           });
         }
       })
-    ) : data.__showSelectCmpt || hasParentType ? (
+    ) : data.__subActions ? (
       <></>
     ) : (
       <div

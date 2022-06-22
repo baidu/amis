@@ -6,8 +6,8 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
-import {getComboWrapper} from '../../event-action/schema';
 import {getEventControlConfig} from '../../util';
+import { getArgsWrapper } from '../../renderer/event-control/helper';
 
 export class TreeControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -176,7 +176,7 @@ export class TreeControlPlugin extends BasePlugin {
           </div>
         );
       },
-      schema: getComboWrapper({
+      schema: getArgsWrapper({
         type: 'input-formula',
         variables: '${variables}',
         evalMode: false,

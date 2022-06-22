@@ -19,7 +19,7 @@ import {Tab} from 'amis';
 import {tipedLabel} from '../component/BaseControl';
 import {ValidatorTag} from '../validator';
 import {getEventControlConfig} from '../util';
-import {getComboWrapper} from '../event-action/schema';
+import { getArgsWrapper } from '../renderer/event-control/helper';
 
 export class TabsPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -99,7 +99,7 @@ export class TabsPlugin extends BasePlugin {
           </div>
         );
       },
-      schema: getComboWrapper({
+      schema: getArgsWrapper({
         type: 'input-formula',
         variables: '${variables}',
         evalMode: false,

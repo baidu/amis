@@ -31,8 +31,7 @@ export default class CmptActionSelect extends React.Component<RendererProps> {
           'componentId',
           '__rendererName',
           '__rendererLabel',
-          '__componentTreeSource',
-          '__showSelectCmpt'
+          '__cmptTreeSource'
         ].includes(key)
       ) {
         removeKeys[key] = undefined;
@@ -49,9 +48,9 @@ export default class CmptActionSelect extends React.Component<RendererProps> {
     this.props.onChange(option.value);
   }
   render() {
-    const {data, formStore, pluginActions} = this.props;
+    const {data, formStore} = this.props;
     // 根据type 从组件树中获取actions
-    const actions = pluginActions[data.__rendererName] || [];
+    const actions = data.pluginActions[data.__rendererName] || [];
 
     return (
       <Select

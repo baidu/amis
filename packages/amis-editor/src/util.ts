@@ -1,7 +1,6 @@
 import {BaseEventContext, EditorManager} from 'amis-editor-core';
-import ACTION_TYPE_TREE from './event-action/actions';
-import {getActionConfigItemsMap} from './event-action/schema';
 import {mapTree} from 'amis';
+import ACTION_TYPE_TREE from './renderer/event-control/actions';
 
 /**
  * 获取事件动作面板所需属性配置
@@ -42,10 +41,9 @@ export const getEventControlConfig = (
       true
     ),
   actionTree: manager?.config.actionOptions?.actionTreeGetter
-    ? manager?.config.actionOptions?.actionTreeGetter(ACTION_TYPE_TREE)
-    : ACTION_TYPE_TREE,
-  actionConfigItemsMap: {
-    ...getActionConfigItemsMap(manager),
+    ? manager?.config.actionOptions?.actionTreeGetter(ACTION_TYPE_TREE(manager))
+    : ACTION_TYPE_TREE(manager),
+  commonActions: {
     ...manager?.config.actionOptions?.customActionGetter?.(manager)
   },
   owner: '',
