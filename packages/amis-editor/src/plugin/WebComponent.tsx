@@ -1,6 +1,11 @@
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin} from 'amis-editor-core';
+import {
+  registerEditorPlugin,
+  BasePlugin,
+  BaseEventContext,
+  getSchemaTpl
+} from 'amis-editor-core';
 import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter';
+import {tipedLabel} from '../component/BaseControl';
 
 // 需要一个示例，不然默认的没有高度都无法选中
 class WebComponentDemo extends HTMLElement {
@@ -36,18 +41,39 @@ export class WebComponentPlugin extends BasePlugin {
   };
 
   panelTitle = '包裹';
-  panelBody = [
-    {
-      type: 'input-text',
-      label: '标签',
-      name: 'tag'
-    },
-    {
-      type: 'input-kv',
-      label: '属性',
-      name: 'props'
-    }
-  ];
+
+  notRenderFormZone = true;
+
+  panelJustify = true;
+
+  panelBodyCreator = (context: BaseEventContext) => {
+    return getSchemaTpl('tabs', [
+      {
+        title: '属性',
+        body: [
+          getSchemaTpl('collapseGroup', [
+            {
+              className: 'p-none',
+              title: '基本',
+              body: [
+                {
+                  type: 'input-text',
+                  label: '标签',
+                  name: 'tag'
+                },
+                getSchemaTpl('combo-container', {
+                  type: 'input-kv',
+                  mode: 'normal',
+                  name: 'props',
+                  label: '属性'
+                }),
+              ]
+            }
+          ])
+        ]
+      }
+    ]);
+  };
 }
 
 registerEditorPlugin(WebComponentPlugin);

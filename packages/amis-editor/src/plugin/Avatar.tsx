@@ -173,7 +173,8 @@ export class AvatarPlugin extends BasePlugin {
                     }
                   ]
                 },
-                getSchemaTpl('badge')
+                // TODO 临时关闭，目前角标功能还没完善，待完善后再开启
+                // getSchemaTpl('badge')
               ]
             },
             getSchemaTpl('status')

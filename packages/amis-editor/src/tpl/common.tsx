@@ -552,7 +552,7 @@ setSchemaTpl('className', (schema: any) => {
 setSchemaTpl('combo-container', (config: SchemaObject) => {
   if (isObject(config)) {
     const itemsWrapperClassName =
-      (config as any).type === 'combo' &&
+      ['input-kv', 'combo'].includes((config as any).type) &&
       'ae-Combo-items ' + ((config as any).itemsWrapperClassName ?? '');
     return {
       ...(config as any),
