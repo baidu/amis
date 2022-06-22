@@ -11,6 +11,7 @@ export class LocationControlPlugin extends BasePlugin {
   name = '地理位置选择';
   isBaseComponent = true;
   icon = 'fa fa-location-arrow';
+  pluginIcon = 'location-picker-plugin';
   description = `地理位置选择`;
   docLink = '/amis/zh-CN/components/form/location-picker';
   tags = ['表单项'];

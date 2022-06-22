@@ -18,6 +18,7 @@ export class RangeControlPlugin extends BasePlugin {
   name = '滑块';
   isBaseComponent = true;
   icon = 'fa fa-sliders';
+  pluginIcon = 'input-range-plugin';
   description = `选择某个值或者某个范围`;
   docLink = '/amis/zh-CN/components/form/input-range';
   tags = ['表单项'];

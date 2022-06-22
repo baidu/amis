@@ -21,6 +21,7 @@ export class TextareaControlPlugin extends BasePlugin {
   name = '多行文本框';
   isBaseComponent = true;
   icon = 'fa fa-paragraph';
+  pluginIcon = 'textarea-plugin';
   description = `支持换行输入`;
   docLink = '/amis/zh-CN/components/form/textarea';
   tags = ['表单项'];

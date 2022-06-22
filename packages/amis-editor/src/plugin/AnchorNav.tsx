@@ -21,6 +21,7 @@ export class AnchorNavPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/anchor-nav';
   tags = ['容器'];
   icon = 'fa fa-link';
+  pluginIcon = 'anchor-nav-plugin';
   scaffold = {
     type: 'anchor-nav',
     links: [

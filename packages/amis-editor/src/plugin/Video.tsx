@@ -16,6 +16,7 @@ export class VideoPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/video';
   tags = ['功能'];
   icon = 'fa fa-video-camera';
+  pluginIcon = 'video-plugin';
   scaffold = {
     type: 'video',
     autoPlay: false,

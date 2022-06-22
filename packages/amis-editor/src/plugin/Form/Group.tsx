@@ -20,6 +20,7 @@ export class GroupControlPlugin extends BasePlugin {
   name = '表单组';
   isBaseComponent = true;
   icon = 'fa fa-id-card-o';
+  pluginIcon = 'form-group-plugin';
   description = '水平展示多个表单项';
   docLink = '/amis/zh-CN/components/form/group';
   tags = ['表单项'];

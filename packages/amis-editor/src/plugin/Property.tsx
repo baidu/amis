@@ -14,6 +14,7 @@ export class PropertyPlugin extends BasePlugin {
   name = '属性表';
   isBaseComponent = true;
   icon = 'fa fa-list';
+  pluginIcon = 'property-sheet-plugin';
   description = '属性表';
   docLink = '/amis/zh-CN/components/property';
   tags = ['其他'];

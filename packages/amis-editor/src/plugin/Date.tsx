@@ -14,6 +14,7 @@ export class DatePlugin extends BasePlugin {
     '主要用来关联字段名做日期展示，支持各种格式如：X（时间戳），YYYY-MM-DD HH:mm:ss。';
   tags = ['展示'];
   icon = 'fa fa-calendar';
+  pluginIcon = 'date-plugin';
   scaffold = {
     type: 'date',
     value: Math.round(Date.now() / 1000)

@@ -13,6 +13,7 @@ export class ContainerPlugin extends BasePlugin {
   description = '一个简单的容器，可以将多个渲染器放置在一起。';
   tags = ['容器'];
   icon = 'fa fa-square-o';
+  pluginIcon = 'container-plugin';
   scaffold = {
     type: 'container',
     body: '内容'

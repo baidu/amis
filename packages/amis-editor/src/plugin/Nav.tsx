@@ -14,6 +14,7 @@ export class NavPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/nav';
   tags = ['功能'];
   icon = 'fa fa-map-signs';
+  pluginIcon = 'nav-plugin';
   scaffold = {
     type: 'nav',
     stacked: true,

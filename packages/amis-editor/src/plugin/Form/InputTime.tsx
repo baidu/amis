@@ -10,6 +10,7 @@ export class TimeControlPlugin extends DateControlPlugin {
   name = '时间框';
   isBaseComponent = true;
   icon = 'fa fa-clock-o';
+  pluginIcon = 'input-time-plugin';
   description = `时分秒输入`;
   docLink = '/amis/zh-CN/components/form/input-time';
   tags = ['表单项'];

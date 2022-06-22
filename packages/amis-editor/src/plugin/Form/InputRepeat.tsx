@@ -11,6 +11,7 @@ export class RepeatControlPlugin extends BasePlugin {
   name = '重复周期选择';
   isBaseComponent = true;
   icon = 'fa fa-repeat';
+  pluginIcon = 'input-repeat-plugin';
   description = `选择重复的频率，如每时、每天、每周等`;
   docLink = '/amis/zh-CN/components/form/input-repeat';
   tags = ['表单项'];

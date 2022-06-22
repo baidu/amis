@@ -22,6 +22,7 @@ export class CustomPlugin extends BasePlugin {
   description = '通过内嵌代码来实现功能';
   tags = ['功能'];
   icon = 'fa fa-gears';
+  pluginIcon = 'custom-plugin';
   docLink = '/amis/zh-CN/components/custom';
   scaffold = {
     type: 'custom',

@@ -14,6 +14,7 @@ export class QRCodePlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/qrcode';
   tags = ['功能'];
   icon = 'fa fa-qrcode';
+  pluginIcon = 'qrcode-plugin';
   scaffold = {
     type: 'qrcode',
     value: 'https://amis.baidu.com'

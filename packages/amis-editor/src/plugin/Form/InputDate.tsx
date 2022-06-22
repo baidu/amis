@@ -151,6 +151,7 @@ export class DateControlPlugin extends BasePlugin {
 
   // 组件名称
   icon = 'fa fa-calendar';
+  pluginIcon = 'input-date-plugin';
   name = '日期';
   isBaseComponent = true;
   // 添加源对应组件中文名称 & type字段

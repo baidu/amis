@@ -21,6 +21,7 @@ export class AvatarPlugin extends BasePlugin {
   name = '头像';
   isBaseComponent = true;
   icon = 'fa fa-user';
+  pluginIcon = 'avatar-plugin';
   description = '用户头像';
   docLink = '/amis/zh-CN/components/avatar';
   tags = ['展示'];

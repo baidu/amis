@@ -23,6 +23,7 @@ export class KVControlPlugin extends BasePlugin {
   name = 'KV 键值对';
   isBaseComponent = true;
   icon = 'fa fa-eyedropper';
+  pluginIcon = 'input-kv-plugin';
   description = '用于编辑键值对类型的数据';
   docLink = '/amis/zh-CN/components/form/input-kv';
   tags = ['表单项'];

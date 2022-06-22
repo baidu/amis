@@ -25,6 +25,7 @@ export class TagControlPlugin extends BasePlugin {
   name = '标签';
   isBaseComponent = true;
   icon = 'fa fa-tag';
+  pluginIcon = 'input-tag-plugin';
   description = `配置<code>options</code>可以实现选择选项`;
   docLink = '/amis/zh-CN/components/form/input-tag';
   tags = ['表单项'];

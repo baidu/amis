@@ -20,6 +20,7 @@ export class LinkPlugin extends BasePlugin {
   description = '用来展示文字链接';
   tags = ['展示'];
   icon = 'fa fa-link';
+  // pluginIcon = 'link-plugin'; // 暂无新 icon
   scaffold = {
     type: 'link',
     value: 'http://www.baidu.com/'

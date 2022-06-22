@@ -23,6 +23,7 @@ export class CityControlPlugin extends BasePlugin {
   name = '城市选择';
   isBaseComponent = true;
   icon = 'fa fa-building-o';
+  pluginIcon = 'input-city-plugin';
   description = '可配置是否选择区域或者城市';
   docLink = '/amis/zh-CN/components/form/input-city';
   tags = ['表单项'];

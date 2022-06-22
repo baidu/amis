@@ -23,6 +23,7 @@ export class ServicePlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/service';
   tags = ['功能'];
   icon = 'fa fa-server';
+  pluginIcon = 'service-plugin';
   scaffold = {
     type: 'service',
     body: [

@@ -30,6 +30,7 @@ export class CardsPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/cards';
   tags = ['展示'];
   icon = 'fa fa-window-maximize';
+  pluginIcon = 'cards-plugin';
   scaffold = {
     type: 'cards',
     data: {

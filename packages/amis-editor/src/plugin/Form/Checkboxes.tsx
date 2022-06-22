@@ -31,6 +31,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
   name = '复选框';
   isBaseComponent = true;
   icon = 'fa fa-check-square';
+  pluginIcon = 'checkboxes-plugin';
   description =
     '通过<code>options</code>配置多个勾选框，也可以通过<code>source</code>拉取选项';
   docLink = '/amis/zh-CN/components/form/checkboxes';

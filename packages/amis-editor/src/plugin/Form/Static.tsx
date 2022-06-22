@@ -20,6 +20,7 @@ export class StaticControlPlugin extends BasePlugin {
   name = '静态展示框';
   isBaseComponent = true;
   icon = 'fa fa-info';
+  pluginIcon = 'static-plugin';
   description = `纯用来展示数据，可用来展示<code>json、date、image、progress</code>等数据`;
   docLink = '/amis/zh-CN/components/form/static';
   tags = ['表单项'];

@@ -92,6 +92,7 @@ export class TableViewPlugin extends BasePlugin {
   name = '表格视图';
   isBaseComponent = true;
   icon = 'fa fa-columns';
+  pluginIcon = 'table-view-plugin';
   description = '表格类型的展现';
   docLink = '/amis/zh-CN/components/table-view';
   tags = ['容器'];

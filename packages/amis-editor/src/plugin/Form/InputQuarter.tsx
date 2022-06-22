@@ -11,6 +11,7 @@ export class InputQuarterPlugin extends DateControlPlugin {
   name = '季度';
   isBaseComponent = true;
   icon = 'fa fa-calendar';
+  pluginIcon = 'input-quarter-plugin';
   description = `季度选择`;
   docLink = '/amis/zh-CN/components/form/input-quarter';
   tags = ['表单项'];

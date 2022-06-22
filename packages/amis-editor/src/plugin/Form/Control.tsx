@@ -14,6 +14,7 @@ export class ControlPlugin extends BasePlugin {
   name = '表单项容器';
   isBaseComponent = true;
   icon = 'fa fa-object-group';
+  pluginIcon = 'form-group-plugin';
   description = `表单项容器`;
   docLink = '/amis/zh-CN/components/form/group';
   tags = ['容器'];

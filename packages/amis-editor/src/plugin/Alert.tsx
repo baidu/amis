@@ -16,6 +16,8 @@ export class AlertPlugin extends BasePlugin {
     '用来做文字特殊提示，分为四类：提示类、成功类、警告类和危险类。可结合 <code>visibleOn</code> 用来做错误信息提示。';
   docLink = '/amis/zh-CN/components/alert';
   icon = 'fa fa-exclamation-circle';
+  pluginIcon = 'tooltip-plugin';
+
   scaffold: SchemaObject = {
     type: 'alert',
     body: {

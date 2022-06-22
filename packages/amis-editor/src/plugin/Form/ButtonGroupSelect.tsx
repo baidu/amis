@@ -17,6 +17,7 @@ export class ButtonGroupControlPlugin extends BasePlugin {
   name = '按钮点选';
   isBaseComponent = true;
   icon = 'fa fa-object-group';
+  pluginIcon = 'btn-select-plugin';
   description =
     '用来展示多个按钮，视觉上会作为一个整体呈现，同时可以作为表单项选项选择器来用。';
   docLink = '/amis/zh-CN/components/button-group';

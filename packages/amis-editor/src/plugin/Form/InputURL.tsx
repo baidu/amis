@@ -8,6 +8,7 @@ export class URLControlPlugin extends TextControlPlugin {
   name = 'URL输入框';
   isBaseComponent = true;
   icon = 'fa fa-link';
+  pluginIcon = 'input-url-plugin';
 
   description = '验证输入是否为合法的 URL';
   docLink = '/amis/zh-CN/components/form/input-url';

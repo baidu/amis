@@ -18,6 +18,7 @@ export class TreeControlPlugin extends BasePlugin {
   name = '树选择框';
   isBaseComponent = true;
   icon = 'fa fa-list-alt';
+  pluginIcon = 'input-tree-plugin';
   description = `树型结构来选择，可通过<code>options</code>来配置选项，也可通过<code>source</code>拉取选项`;
   docLink = '/amis/zh-CN/components/form/input-tree';
   tags = ['表单项'];

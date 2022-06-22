@@ -20,6 +20,7 @@ export class SwitchControlPlugin extends BasePlugin {
   name = '开关';
   isBaseComponent = true;
   icon = 'fa fa-toggle-on';
+  pluginIcon = 'switch-plugin';
   description = `开关控件`;
   docLink = '/amis/zh-CN/components/form/switch';
   tags = ['表单项'];

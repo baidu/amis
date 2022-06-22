@@ -16,6 +16,7 @@ export class MappingPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/mapping';
   tags = ['展示'];
   icon = 'fa fa-exchange';
+  pluginIcon = 'mapping-plugin';
   scaffold = {
     type: 'mapping',
     value: 2,

@@ -11,6 +11,7 @@ export class ButtonToolbarPlugin extends BasePlugin {
   description = '可以用来放置多个按钮或者按钮组，按钮之间会存在一定的间隔';
   tags = ['按钮'];
   icon = 'fa fa-ellipsis-h';
+  pluginIcon = 'btn-toolbar-plugin';
   /**
    * 组件选择面板中隐藏，和ButtonGroup合并
    */

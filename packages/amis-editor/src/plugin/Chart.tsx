@@ -33,6 +33,7 @@ export class ChartPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/chart';
   tags = ['展示'];
   icon = 'fa fa-pie-chart';
+  pluginIcon = 'chart-plugin';
   scaffold = {
     type: 'chart',
     config: {

@@ -30,6 +30,7 @@ export class ComboControlPlugin extends BasePlugin {
   name = '组合输入';
   isBaseComponent = true;
   icon = 'fa fa-group';
+  pluginIcon = 'combo-plugin';
   description = '多个表单项的组合，可配置是否增加和删除初始设定的模板';
   docLink = '/amis/zh-CN/components/form/combo';
   tags = ['表单项'];

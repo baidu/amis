@@ -14,6 +14,7 @@ export class JsonPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/json';
   tags = ['展示'];
   icon = 'fa fa-code';
+  // pluginIcon = 'json-plugin'; // 暂无新icon
   scaffold = {
     type: 'json'
   };

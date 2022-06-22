@@ -29,6 +29,7 @@ export class NumberControlPlugin extends BasePlugin {
   name = '数字框';
   isBaseComponent = true;
   icon = 'fa fa-sort-numeric-asc';
+  pluginIcon = 'input-number-plugin';
   description = '支持设定最大值和最小值，以及步长与精度';
   docLink = '/amis/zh-CN/components/form/input-number';
   tags = ['表单项'];

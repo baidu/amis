@@ -18,6 +18,7 @@ export class ImageControlPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/form/input-image';
   tags = ['表单项'];
   icon = 'fa fa-crop';
+  pluginIcon = 'input-image-plugin';
   scaffold = {
     type: 'input-image',
     label: '图片上传',

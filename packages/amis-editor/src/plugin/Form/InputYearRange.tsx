@@ -11,6 +11,7 @@ export class YearRangeControlPlugin extends DateRangeControlPlugin {
 
   // 组件名称
   icon = 'fa fa-calendar';
+  pluginIcon = 'input-month-range-plugin';
   name = '日期范围';
   isBaseComponent = true;
   description =

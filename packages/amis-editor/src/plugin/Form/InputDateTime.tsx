@@ -10,6 +10,7 @@ export class DateTimeControlPlugin extends DateControlPlugin {
   // 组件名称
   isBaseComponent = true;
   icon = 'fa fa-calendar';
+  pluginIcon = 'input-datetime-plugin';
   name = '日期时间';
   description = '年月日时分选择';
   docLink = '/amis/zh-CN/components/form/input-datetime';

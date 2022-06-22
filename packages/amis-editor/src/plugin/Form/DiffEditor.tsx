@@ -25,6 +25,7 @@ export class DiffEditorControlPlugin extends BasePlugin {
   name = 'Diff编辑器';
   isBaseComponent = true;
   icon = 'fa fa-columns';
+  pluginIcon = 'diff-editor-plugin';
   description = `左右两边的代码做对比，支持的语言包括：${availableLanguages
     .slice(0, 10)
     .join('，')}等等`;

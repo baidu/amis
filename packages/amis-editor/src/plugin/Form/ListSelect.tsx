@@ -19,6 +19,7 @@ export class ListControlPlugin extends BasePlugin {
   name = '列表选择';
   isBaseComponent = true;
   icon = 'fa fa-ellipsis-h';
+  pluginIcon = 'list-select-plugin';
   description = `单选或者多选，支持<code>source</code>拉取选项，选项可配置图片，也可以自定义<code>HTML</code>配置`;
   docLink = '/amis/zh-CN/components/form/list-select';
   tags = ['表单项'];

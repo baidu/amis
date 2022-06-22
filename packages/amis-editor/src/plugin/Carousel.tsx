@@ -16,6 +16,7 @@ export class CarouselPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/carousel';
   tags = ['展示'];
   icon = 'fa fa-images';
+  pluginIcon = 'carousel-plugin';
   scaffold = {
     type: 'carousel',
     options: [

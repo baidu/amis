@@ -113,6 +113,7 @@ export class FormPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/form/index';
   tags = ['功能'];
   icon = 'fa fa-list-alt';
+  pluginIcon = 'form-plugin';
   scaffold = {
     type: 'form',
     title: '表单',

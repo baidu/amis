@@ -14,6 +14,7 @@ export class StepsPlugin extends BasePlugin {
   name = 'Steps 步骤条';
   isBaseComponent = true;
   icon = 'fa fa-forward';
+  // pluginIcon = 'steps-plugin'; // 暂无新icon
   description = 'Steps 步骤条';
   docLink = '/amis/zh-CN/components/steps';
   tags = ['展示'];

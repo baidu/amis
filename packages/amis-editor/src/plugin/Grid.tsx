@@ -31,6 +31,7 @@ export class GridPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/grid';
   tags = ['容器'];
   icon = 'fa fa-th';
+  pluginIcon = 'grid-plugin';
 
   /*
   scaffolds = [

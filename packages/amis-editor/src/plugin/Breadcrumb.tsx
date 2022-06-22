@@ -15,6 +15,7 @@ export class BreadcrumbPlugin extends BasePlugin {
   name = '面包屑';
   isBaseComponent = true;
   icon = 'fa fa-list';
+  pluginIcon = 'breadcrumb-plugin';
   description = '面包屑导航';
   docLink = '/amis/zh-CN/components/breadcrumb';
   tags = ['其他'];

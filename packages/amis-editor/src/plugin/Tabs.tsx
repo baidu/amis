@@ -33,6 +33,7 @@ export class TabsPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/tabs';
   tags = ['容器'];
   icon = 'fa fa-folder-o';
+  pluginIcon = 'tabs-plugin';
   scaffold = {
     type: 'tabs',
     tabs: [

@@ -14,6 +14,7 @@ export class TasksPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/tasks';
   tags = ['功能'];
   icon = '';
+  pluginIcon = 'tasks-plugin';
   scaffold = {
     type: 'tasks',
     name: 'tasks',

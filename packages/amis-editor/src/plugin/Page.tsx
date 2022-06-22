@@ -23,6 +23,7 @@ export class PagePlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/page';
   tags = '容器';
   icon = 'fa fa-desktop';
+  // pluginIcon = 'page-plugin'; // 暂无新 icon
   scaffold: SchemaObject = {
     type: 'page',
     body: [

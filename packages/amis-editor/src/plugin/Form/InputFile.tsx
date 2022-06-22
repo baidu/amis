@@ -18,6 +18,7 @@ export class FileControlPlugin extends BasePlugin {
   name = '文件上传';
   isBaseComponent = true;
   icon = 'fa fa-upload';
+  pluginIcon = 'input-file-plugin';
   description = `可上传多个文件，可配置是否自动上传以及大文件分片上传`;
   docLink = '/amis/zh-CN/components/form/input-file';
   tags = ['表单项'];

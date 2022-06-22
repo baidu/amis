@@ -20,6 +20,7 @@ export class RadiosControlPlugin extends BasePlugin {
   name = '单选框';
   isBaseComponent = true;
   icon = 'fa fa-dot-circle-o';
+  pluginIcon = 'radios-plugin';
   description = `通过<code>options</code>配置选项，可通过<code>source</code>拉取选项`;
   docLink = '/amis/zh-CN/components/form/radios';
   tags = ['表单项'];

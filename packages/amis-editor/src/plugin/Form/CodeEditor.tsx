@@ -20,6 +20,7 @@ export class CodeEditorControlPlugin extends BasePlugin {
   name = '代码编辑器';
   isBaseComponent = true;
   icon = 'fa fa-code';
+  pluginIcon = 'editor-plugin';
   description = `代码编辑器，采用 monaco-editor 支持：${availableLanguages
     .slice(0, 10)
     .join('，')}等等`;

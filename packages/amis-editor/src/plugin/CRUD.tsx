@@ -55,6 +55,7 @@ export class CRUDPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/crud';
   tags = ['功能'];
   icon = 'fa fa-table';
+  pluginIcon = 'table-plugin';
 
   scaffold: any = {
     type: 'crud',

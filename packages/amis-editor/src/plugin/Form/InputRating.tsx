@@ -23,6 +23,7 @@ export class RateControlPlugin extends BasePlugin {
   name = '评分';
   isBaseComponent = true;
   icon = 'fa fa-star-o';
+  pluginIcon = 'input-rating-plugin';
   description = `支持只读、半星选择`;
   docLink = '/amis/zh-CN/components/form/input-rating';
   tags = ['表单项'];

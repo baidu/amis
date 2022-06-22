@@ -25,6 +25,7 @@ export class ExcelControlPlugin extends BasePlugin {
   name = '上传 Excel';
   isBaseComponent = true;
   icon = 'fa fa-eyedropper';
+  pluginIcon = 'input-excel-plugin';
   description = '自动解析 Excel';
   docLink = '/amis/zh-CN/components/form/input-excel';
   tags = ['表单项'];

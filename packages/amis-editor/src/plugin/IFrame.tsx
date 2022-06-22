@@ -19,6 +19,7 @@ export class IFramePlugin extends BasePlugin {
   description = '可以用来嵌入现有页面。';
   tags = ['容器'];
   icon = 'fa fa-window-maximize';
+  pluginIcon = 'iframe-plugin';
   scaffold = {
     type: 'iframe',
     src: '//www.baidu.com'

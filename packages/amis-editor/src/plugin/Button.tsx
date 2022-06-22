@@ -25,6 +25,7 @@ export class ButtonPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/button';
   tags = ['按钮'];
   icon = 'fa fa-square';
+  pluginIcon = 'button-plugin';
   scaffold: SchemaObject = {
     type: 'button',
     label: '按钮',

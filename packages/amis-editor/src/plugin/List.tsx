@@ -27,6 +27,7 @@ export class ListPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/list';
   tags = ['展示'];
   icon = 'fa fa-list';
+  pluginIcon = 'list-plugin';
   scaffold = {
     type: 'list',
     listItem: {

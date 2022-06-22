@@ -22,6 +22,7 @@ export class SelectControlPlugin extends BasePlugin {
   name = '下拉框';
   isBaseComponent = true;
   icon = 'fa fa-th-list';
+  pluginIcon = 'select-plugin';
   description = `支持多选，输入提示，可使用<code>source</code>获取选项`;
   docLink = '/amis/zh-CN/components/form/select';
   tags = ['表单项'];

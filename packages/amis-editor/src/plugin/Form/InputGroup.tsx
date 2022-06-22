@@ -13,6 +13,7 @@ export class InputGroupControlPlugin extends BasePlugin {
   name = '输入组合';
   isBaseComponent = true;
   icon = 'fa fa-object-group';
+  pluginIcon = 'input-group-plugin';
   description = `输入组合，支持多种类型的控件组合`;
   docLink = '/amis/zh-CN/components/form/input-group';
   tags = ['表单项'];

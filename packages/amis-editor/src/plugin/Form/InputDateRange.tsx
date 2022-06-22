@@ -75,6 +75,7 @@ export class DateRangeControlPlugin extends BasePlugin {
 
   // 组件名称
   icon = 'fa fa-calendar';
+  pluginIcon = 'input-date-range-plugin';
   name = '日期范围';
   isBaseComponent = true;
   // 添加源对应组件中文名称 & type字段

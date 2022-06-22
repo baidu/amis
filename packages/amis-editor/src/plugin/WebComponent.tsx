@@ -32,6 +32,7 @@ export class WebComponentPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/web-component';
   tags = ['容器'];
   icon = 'fa fa-square-o';
+  pluginIcon = 'web-component-plugin';
   scaffold = {
     type: 'web-component',
     tag: 'web-component-demo'

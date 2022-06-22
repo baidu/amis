@@ -18,6 +18,7 @@ export class PaginationPlugin extends BasePlugin {
   description = '分页组件，可以对列表进行分页展示，提高页面性能';
   tags = ['容器'];
   icon = 'fa fa-window-minimize';
+  // pluginIcon = 'pagination-plugin'; // 暂无新icon
   baseLayoutLIst = [
     {text: '总数', value: 'total', checked: false},
     {text: '每页条数', value: 'perPage', checked: false},

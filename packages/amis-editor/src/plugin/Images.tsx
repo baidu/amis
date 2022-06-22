@@ -14,6 +14,7 @@ export class ImagesPlugin extends BasePlugin {
   description = '展示多张图片';
   tags = ['展示'];
   icon = 'fa fa-clone';
+  pluginIcon = 'images-plugin';
   scaffold = {
     type: 'images'
   };

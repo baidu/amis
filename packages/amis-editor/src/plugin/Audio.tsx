@@ -13,6 +13,7 @@ export class AudioPlugin extends BasePlugin {
   description = '音频控件，可以用来播放各种音频文件。';
   tags = ['功能'];
   icon = 'fa fa-music';
+  pluginIcon = 'audio-plugin';
   scaffold = {
     type: 'audio',
     autoPlay: false,

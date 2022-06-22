@@ -8,6 +8,7 @@ export class EmailControlPlugin extends TextControlPlugin {
   name = '邮箱框';
   isBaseComponent = true;
   icon = 'fa fa-envelope-o';
+  pluginIcon = 'input-email-plugin';
 
   description = '验证输入是否符合邮箱的格式';
 

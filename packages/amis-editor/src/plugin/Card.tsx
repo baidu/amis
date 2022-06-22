@@ -26,6 +26,7 @@ export class CardPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/card';
   tags = ['展示'];
   icon = '';
+  pluginIcon = 'card-plugin';
   scaffold = {
     type: 'card',
     header: {

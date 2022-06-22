@@ -24,6 +24,7 @@ export class ChainedSelectControlPlugin extends BasePlugin {
   name = '链式下拉框';
   isBaseComponent = true;
   icon = 'fa fa-th-list';
+  pluginIcon = 'chained-select-plugin';
   description =
     '通过<code>source</code>拉取选项，只要有返回结果，就可以无限级别增加';
   docLink = '/amis/zh-CN/components/form/chain-select';

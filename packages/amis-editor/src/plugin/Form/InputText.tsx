@@ -34,6 +34,7 @@ export class TextControlPlugin extends BasePlugin {
 
   isBaseComponent = true;
   icon = 'fa fa-terminal';
+  pluginIcon = 'input-text-plugin';
 
   description = '文本输入框，支持普通文本、密码、URL、邮箱等多种内容输入';
 

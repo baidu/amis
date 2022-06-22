@@ -26,6 +26,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
   name = '级联选择框';
   isBaseComponent = true;
   icon = 'fa fa-indent';
+  pluginIcon = 'nested-select-plugin';
   description = `适用于选项中含有子项，可通过<code>source</code>拉取选项，支持多选`;
   docLink = '/amis/zh-CN/components/form/nestedselect';
   tags = ['表单项'];

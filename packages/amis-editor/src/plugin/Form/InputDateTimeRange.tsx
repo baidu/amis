@@ -11,6 +11,7 @@ export class DateTimeRangeControlPlugin extends DateRangeControlPlugin {
 
   // 组件名称
   icon = 'fa fa-calendar';
+  pluginIcon = 'input-date-range-plugin';
   name = '日期时间范围';
   isBaseComponent = true;
   description =

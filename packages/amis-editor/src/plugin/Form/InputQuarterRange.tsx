@@ -11,6 +11,7 @@ export class QuarterRangePlugin extends DateRangeControlPlugin {
 
   // 组件名称
   icon = 'fa fa-calendar';
+  pluginIcon = 'input-quarter-range-plugin';
   name = '季度范围';
   isBaseComponent = true;
   description =

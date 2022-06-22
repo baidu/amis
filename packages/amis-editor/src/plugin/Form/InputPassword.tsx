@@ -8,6 +8,7 @@ export class PasswordControlPlugin extends TextControlPlugin {
   name = '密码框';
   isBaseComponent = true;
   icon = 'fa fa-asterisk';
+  pluginIcon = 'input-password-plugin';
 
   description = '验证输入是否符合邮箱的格式';
 

@@ -16,6 +16,7 @@ export class TransferPlugin extends BasePlugin {
   name = '穿梭器';
   isBaseComponent = true;
   icon = 'fa fa-th-list';
+  pluginIcon = 'transfer-plugin';
   description = `穿梭器组件`;
   docLink = '/amis/zh-CN/components/form/transfer';
   tags = ['表单项'];

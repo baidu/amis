@@ -12,6 +12,7 @@ export class PlainPlugin extends BasePlugin {
   name = '纯文本';
   isBaseComponent = true;
   icon = 'fa fa-file-text-o';
+  // pluginIcon = 'plain-plugin'; // 暂无新icon
   description = '用来展示纯文字，html 标签会被转义。';
   docLink = '/amis/zh-CN/components/plain';
   tags = ['展示'];

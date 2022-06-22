@@ -15,6 +15,7 @@ export class CollapsePlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/collapse';
   tags = ['展示'];
   icon = 'fa fa-window-minimize';
+  pluginIcon = 'collapse-plugin';
   scaffold = {
     type: 'collapse',
     header: '标题',

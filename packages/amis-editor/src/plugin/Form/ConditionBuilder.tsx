@@ -24,6 +24,7 @@ export class ConditionBilderPlugin extends BasePlugin {
   name = '条件组件';
   isBaseComponent = true;
   icon = 'fa fa-group';
+  pluginIcon = 'condition-builder-plugin';
   description =
     '用于设置复杂组合条件，支持添加条件，添加分组，设置组合方式，拖拽排序等功能。';
   docLink = '/amis/zh-CN/components/form/condition-builder';

@@ -9,6 +9,8 @@ export class TimePlugin extends DatePlugin {
   name = '时间展示';
   isBaseComponent = true;
 
+  pluginIcon = 'time-plugin';
+
   scaffold = {
     type: 'time',
     value: Math.round(Date.now() / 1000)

@@ -22,6 +22,7 @@ export class EachPlugin extends BasePlugin {
   description = '功能渲染器，可以基于现有变量循环输出渲染器。';
   tags = ['功能'];
   icon = 'fa fa-repeat';
+  pluginIcon = 'each-plugin';
   scaffold = {
     type: 'each',
     name: 'arr',

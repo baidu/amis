@@ -18,6 +18,7 @@ export class DialogPlugin extends BasePlugin {
   // 组件名称
   name = '弹框';
   isBaseComponent = true;
+
   wrapperProps = {
     wrapperComponent: InlineModal,
     onClose: noop,

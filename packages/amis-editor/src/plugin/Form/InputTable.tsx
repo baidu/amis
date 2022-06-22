@@ -27,6 +27,7 @@ export class TableControlPlugin extends BasePlugin {
   name = '表格编辑框';
   isBaseComponent = true;
   icon = 'fa fa-table';
+  pluginIcon = 'table-plugin';
   description = `可以用来展现数据的,可以用来展示数组类型的数据，比如 <code>multiple</code> 的子 <code>form</code>`;
   docLink = '/amis/zh-CN/components/form/input-table';
   tags = ['表单项'];

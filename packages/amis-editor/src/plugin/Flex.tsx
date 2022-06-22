@@ -21,6 +21,7 @@ export class FlexPlugin extends BasePlugin {
   name = 'Flex 布局';
   isBaseComponent = true;
   icon = 'fa fa-columns';
+  pluginIcon = 'flex-plugin';
   description = 'flex 布局';
   docLink = '/amis/zh-CN/components/flex';
   tags = ['容器'];

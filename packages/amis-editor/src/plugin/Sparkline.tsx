@@ -18,6 +18,7 @@ export class SparklinePlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/sparkline';
   tags = ['展示'];
   icon = 'fa fa-area-chart';
+  pluginIcon = 'sparkline-plugin';
   scaffold = {
     type: 'sparkline',
     height: 30,

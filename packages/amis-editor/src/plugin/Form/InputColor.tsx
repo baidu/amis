@@ -64,6 +64,7 @@ export class ColorControlPlugin extends BasePlugin {
   name = '颜色框';
   isBaseComponent = true;
   icon = 'fa fa-eyedropper';
+  pluginIcon = 'input-color-plugin';
   description =
     '支持<code>hex、hls、rgb、rgba</code>格式，默认为<code>hex</code>格式';
   docLink = '/amis/zh-CN/components/form/input-color';
