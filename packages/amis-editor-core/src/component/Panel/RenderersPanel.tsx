@@ -2,6 +2,7 @@ import {Html, Icon, render, TooltipWrapper} from 'amis';
 import {observer} from 'mobx-react';
 import React from 'react';
 import cx from 'classnames';
+import {Icon as PluginIcon} from '../../plugin-icons/index';
 import SearchRendererPanel from '../base/SearchRendererPanel';
 import SearchCustomRendererPanel from '../base/SearchCustomRendererPanel';
 import {autobind, noop} from '../../util';
@@ -181,12 +182,21 @@ export default class RenderersPanel extends React.Component<
                             title={`点击添加「${item.name}」`}
                             onClick={this.handleClick}
                           >
-                            <i
-                              className={cx(
-                                'fa-fw',
-                                item.icon || 'fa fa-circle-thin'
-                              )}
-                            />
+                            {
+                              item.pluginIcon && (
+                                <PluginIcon icon={item.pluginIcon} />
+                              )
+                            }
+                            {
+                              !item.pluginIcon && (
+                                <i
+                                  className={cx(
+                                   'fa-fw',
+                                   item.icon || 'fa fa-circle-thin'
+                                  )}
+                                />
+                              )
+                            }
                           </div>
                           <div
                             className="ae-RendererInfo"

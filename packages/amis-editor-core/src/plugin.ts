@@ -160,6 +160,8 @@ export interface RendererScaffoldInfo {
   // 图标
   icon?: string;
 
+  pluginIcon?: string; // 优先级比 icon 高，用于使用新版组件 icon
+
   // 组件搜索关键字
   searchKeywords?: string;
 
@@ -1054,6 +1056,7 @@ export abstract class BasePlugin implements PluginInterface {
         scaffoldForm: plugin.scaffoldForm,
         disabledRendererPlugin: plugin.disabledRendererPlugin,
         isBaseComponent: plugin.isBaseComponent,
+        pluginIcon: plugin.pluginIcon,
         rendererName: plugin.rendererName
       }));
     } else if (plugin.name && plugin.description) {
@@ -1070,6 +1073,7 @@ export abstract class BasePlugin implements PluginInterface {
         scaffoldForm: plugin.scaffoldForm,
         disabledRendererPlugin: plugin.disabledRendererPlugin,
         isBaseComponent: plugin.isBaseComponent,
+        pluginIcon: plugin.pluginIcon,
         rendererName: plugin.rendererName
       };
     }
