@@ -156,7 +156,7 @@ export class ColorControlPlugin extends BasePlugin {
           key: `${color}-${index}`,
           color: convertColor(color, format)
         })),
-      pipeOut: (value: any[]) => value.map(({color}) => color)
+      pipeOut: (value: any[]) => value.map(({color = ''}) => color)
     });
   }
 
