@@ -962,7 +962,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     const {store} = this.props;
 
     store.updateColumns(store.columns.map((c: any, i: number) => ({
-      ...c, toggled: (index === i ? toggled : c.toggled)
+      ...c, toggled: (index === i ? toggled : (c.toggled !== false))
    })));
   }
 

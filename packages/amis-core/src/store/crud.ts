@@ -164,13 +164,15 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           if (Array.isArray(options.columns)) {
             options.columns.forEach((column: any) => {
               let value: any;
+              // 兼容新老版本的name和key
+              const key = column.name || column.key;
               if (
                 column.searchable &&
-                column.name &&
-                (value = getVariable(self.query, column.name))
+                key &&
+                (value = getVariable(self.query, key))
               ) {
                 items = matchSorter(items, value, {
-                  keys: [column.name]
+                  keys: [key]
                 });
               }
             });
@@ -249,7 +251,6 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             hasNext,
             items: oItems,
             rows: oRows,
-            columns,
             ...rest
           } = result;
 
@@ -308,13 +309,14 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             if (Array.isArray(options.columns)) {
               options.columns.forEach((column: any) => {
                 let value: any;
+                const key = column.name || column.key;
                 if (
                   column.searchable &&
-                  column.name &&
-                  (value = getVariable(self.query, column.name))
+                  key &&
+                  (value = getVariable(self.query, key))
                 ) {
                   filteredItems = matchSorter(filteredItems, value, {
-                    keys: [column.name]
+                    keys: [key]
                   });
                 }
               });
@@ -331,8 +333,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             data.count = data.total = filteredItems.length;
           }
 
-          if (Array.isArray(columns)) {
-            self.columns = columns.concat();
+          if (Array.isArray(options.columns)) {
+            self.columns = options.columns.concat();
           } else {
             self.columns = undefined;
           }
