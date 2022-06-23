@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="循环" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <path d="M6,3.5 L11.5,3.5 M10,12.5 L4.5,12.5" id="形状" stroke="#B8BABF"></path>
-        <polyline id="路径" stroke="#B8BABF" stroke-linecap="round" transform="translate(10.085786, 3.500000) rotate(-45.000000) translate(-10.085786, -3.500000) " points="11.0857864 2.5 11.0857864 4.5 9.08578644 4.5"></polyline>
-        <polyline id="路径" stroke="#B8BABF" stroke-linecap="round" transform="translate(5.914214, 12.500000) scale(-1, 1) rotate(-45.000000) translate(-5.914214, -12.500000) " points="6.91421356 11.5 6.91421356 13.5 4.91421356 13.5"></polyline>
-        <path d="M6,3.5 C3.51471863,3.5 1.5,5.51471863 1.5,8 C1.5,8.72037934 1.66927225,9.40122303 1.97021153,10.0049258" id="路径" stroke="#B8BABF" stroke-linecap="round"></path>
-        <path d="M10.4648106,6.00594558 C10.1672477,6.60694585 10,7.28394152 10,8 C10,10.4852814 12.0147186,12.5 14.5,12.5" id="路径" stroke="#B8BABF" stroke-linecap="round" transform="translate(12.250000, 9.252973) scale(-1, 1) translate(-12.250000, -9.252973) "></path>
-        <path d="M8,8 C8,7.17157288 7.32842712,6.5 6.5,6.5 C5.67157288,6.5 5,7.17157288 5,8 C5,8.82842712 5.67157288,9.5 6.5,9.5 C6.67594335,9.5 6.84481158,9.46970784 7.00167381,9.41405442" id="路径" stroke="#B8BABF" stroke-linecap="round"></path>
-        <path d="M8,8 C8,8.82842712 8.67157288,9.5 9.5,9.5 C10.3284271,9.5 11,8.82842712 11,8 C11,7.17157288 10.3284271,6.5 9.5,6.5 C9.32462667,6.5 9.15628269,6.5300962 8.99985117,6.58540547" id="路径" stroke="#B8BABF" stroke-linecap="round"></path>
+        <path d="M6,3.5 L11.5,3.5 M10,12.5 L4.5,12.5" id="形状" stroke="currentColor"></path>
+        <polyline id="路径" stroke="currentColor" stroke-linecap="round" transform="translate(10.085786, 3.500000) rotate(-45.000000) translate(-10.085786, -3.500000) " points="11.0857864 2.5 11.0857864 4.5 9.08578644 4.5"></polyline>
+        <polyline id="路径" stroke="currentColor" stroke-linecap="round" transform="translate(5.914214, 12.500000) scale(-1, 1) rotate(-45.000000) translate(-5.914214, -12.500000) " points="6.91421356 11.5 6.91421356 13.5 4.91421356 13.5"></polyline>
+        <path d="M6,3.5 C3.51471863,3.5 1.5,5.51471863 1.5,8 C1.5,8.72037934 1.66927225,9.40122303 1.97021153,10.0049258" id="路径" stroke="currentColor" stroke-linecap="round"></path>
+        <path d="M10.4648106,6.00594558 C10.1672477,6.60694585 10,7.28394152 10,8 C10,10.4852814 12.0147186,12.5 14.5,12.5" id="路径" stroke="currentColor" stroke-linecap="round" transform="translate(12.250000, 9.252973) scale(-1, 1) translate(-12.250000, -9.252973) "></path>
+        <path d="M8,8 C8,7.17157288 7.32842712,6.5 6.5,6.5 C5.67157288,6.5 5,7.17157288 5,8 C5,8.82842712 5.67157288,9.5 6.5,9.5 C6.67594335,9.5 6.84481158,9.46970784 7.00167381,9.41405442" id="路径" stroke="currentColor" stroke-linecap="round"></path>
+        <path d="M8,8 C8,8.82842712 8.67157288,9.5 9.5,9.5 C10.3284271,9.5 11,8.82842712 11,8 C11,7.17157288 10.3284271,6.5 9.5,6.5 C9.32462667,6.5 9.15628269,6.5300962 8.99985117,6.58540547" id="路径" stroke="currentColor" stroke-linecap="round"></path>
     </g>
 </svg>

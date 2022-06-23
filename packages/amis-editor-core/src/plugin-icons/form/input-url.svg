@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="URL输入框" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <rect id="矩形" stroke="#B8BABF" x="1.5" y="2.5" width="13" height="11"></rect>
-        <g id="编组" transform="translate(8.000000, 8.000000) rotate(-45.000000) translate(-8.000000, -8.000000) translate(4.000000, 6.500000)" stroke="#B8BABF" stroke-linecap="round">
+        <rect id="矩形" stroke="currentColor" x="1.5" y="2.5" width="13" height="11"></rect>
+        <g id="编组" transform="translate(8.000000, 8.000000) rotate(-45.000000) translate(-8.000000, -8.000000) translate(4.000000, 6.500000)" stroke="currentColor" stroke-linecap="round">
             <path d="M5,1.5 C5,2.32842712 4.32842712,3 3.5,3 L1.5,3 C0.671572875,3 0,2.32842712 0,1.5 C0,0.671572875 0.671572875,0 1.5,0 L2,0" id="路径"></path>
             <path d="M3,1.5 C3,0.671572875 3.67157288,0 4.5,0 L6.5,0 C7.32842712,0 8,0.671572875 8,1.5 C8,2.32842712 7.32842712,3 6.5,3 L6,3" id="路径"></path>
         </g>

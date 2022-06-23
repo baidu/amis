@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="标签" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <polygon id="矩形" stroke="#B8BABF" transform="translate(6.928932, 6.928932) rotate(-45.000000) translate(-6.928932, -6.928932) " points="2.92893219 3.92893219 6.92893219 0.928932188 10.9289322 3.92893219 10.9289322 12.9289322 2.92893219 12.9289322"></polygon>
-        <circle id="椭圆形" stroke="#B8BABF" cx="6.04480186" cy="6.04398566" r="1.25"></circle>
+        <polygon id="矩形" stroke="currentColor" transform="translate(6.928932, 6.928932) rotate(-45.000000) translate(-6.928932, -6.928932) " points="2.92893219 3.92893219 6.92893219 0.928932188 10.9289322 3.92893219 10.9289322 12.9289322 2.92893219 12.9289322"></polygon>
+        <circle id="椭圆形" stroke="currentColor" cx="6.04480186" cy="6.04398566" r="1.25"></circle>
     </g>
 </svg>

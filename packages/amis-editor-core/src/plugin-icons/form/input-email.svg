@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="邮箱框" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <rect id="矩形" stroke="#B8BABF" x="1.5" y="2.5" width="13" height="11"></rect>
-        <polyline id="直线" stroke="#B8BABF" stroke-linecap="round" points="1.5 3.5 8 8.5 14.5 3.5"></polyline>
+        <rect id="矩形" stroke="currentColor" x="1.5" y="2.5" width="13" height="11"></rect>
+        <polyline id="直线" stroke="currentColor" stroke-linecap="round" points="1.5 3.5 8 8.5 14.5 3.5"></polyline>
     </g>
 </svg>

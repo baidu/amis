@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="选项卡" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <polygon id="矩形" stroke="#B8BABF" points="1.49800692 2.00008611 8 2.00008611 8 5.83750889 11.0625909 5.83750889 14.4980069 5.83750889 14.4980069 14.0000861 1.49800692 14.0000861"></polygon>
-        <line x1="3.71345049" y1="3.80694506" x2="5.71345049" y2="3.80694506" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
-        <line x1="10.7020447" y1="3.73413125" x2="12.7706361" y2="3.73413125" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <polygon id="矩形" stroke="currentColor" points="1.49800692 2.00008611 8 2.00008611 8 5.83750889 11.0625909 5.83750889 14.4980069 5.83750889 14.4980069 14.0000861 1.49800692 14.0000861"></polygon>
+        <line x1="3.71345049" y1="3.80694506" x2="5.71345049" y2="3.80694506" id="直线" stroke="currentColor" stroke-linecap="round"></line>
+        <line x1="10.7020447" y1="3.73413125" x2="12.7706361" y2="3.73413125" id="直线" stroke="currentColor" stroke-linecap="round"></line>
     </g>
 </svg>

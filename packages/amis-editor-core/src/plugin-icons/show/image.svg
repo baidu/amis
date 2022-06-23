@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="图片展示" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <rect id="方形" stroke="#B8BABF" x="2" y="2" width="12" height="12"></rect>
-        <circle id="椭圆形" stroke="#B8BABF" cx="5" cy="5" r="1"></circle>
-        <polyline id="直线" stroke="#B8BABF" stroke-linecap="round" points="2 12 5 9 7 11 11 7 14 10"></polyline>
+        <rect id="方形" stroke="currentColor" x="2" y="2" width="12" height="12"></rect>
+        <circle id="椭圆形" stroke="currentColor" cx="5" cy="5" r="1"></circle>
+        <polyline id="直线" stroke="currentColor" stroke-linecap="round" points="2 12 5 9 7 11 11 7 14 10"></polyline>
     </g>
 </svg>

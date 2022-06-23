@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="组合穿梭框" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <polyline id="路径" stroke="#B8BABF" stroke-linecap="round" points="4 2 14 2 14 12"></polyline>
-        <rect id="矩形" stroke="#B8BABF" x="2" y="4" width="10" height="10"></rect>
-        <polyline id="路径" stroke="#B8BABF" stroke-linecap="round" transform="translate(5.414214, 7.414214) rotate(-225.000000) translate(-5.414214, -7.414214) " points="6.41421356 6.41421356 6.41421356 8.41421356 4.41421356 8.41421356"></polyline>
-        <polyline id="路径" stroke="#B8BABF" stroke-linecap="round" transform="translate(8.585786, 10.585786) rotate(-45.000000) translate(-8.585786, -10.585786) " points="9.58578644 9.58578644 9.58578644 11.5857864 7.58578644 11.5857864"></polyline>
-        <line x1="5" y1="7.41421356" x2="8" y2="7.41421356" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
-        <line x1="6" y1="10.5857864" x2="9" y2="10.5857864" id="直线" stroke="#B8BABF" stroke-linecap="round"></line>
+        <polyline id="路径" stroke="currentColor" stroke-linecap="round" points="4 2 14 2 14 12"></polyline>
+        <rect id="矩形" stroke="currentColor" x="2" y="4" width="10" height="10"></rect>
+        <polyline id="路径" stroke="currentColor" stroke-linecap="round" transform="translate(5.414214, 7.414214) rotate(-225.000000) translate(-5.414214, -7.414214) " points="6.41421356 6.41421356 6.41421356 8.41421356 4.41421356 8.41421356"></polyline>
+        <polyline id="路径" stroke="currentColor" stroke-linecap="round" transform="translate(8.585786, 10.585786) rotate(-45.000000) translate(-8.585786, -10.585786) " points="9.58578644 9.58578644 9.58578644 11.5857864 7.58578644 11.5857864"></polyline>
+        <line x1="5" y1="7.41421356" x2="8" y2="7.41421356" id="直线" stroke="currentColor" stroke-linecap="round"></line>
+        <line x1="6" y1="10.5857864" x2="9" y2="10.5857864" id="直线" stroke="currentColor" stroke-linecap="round"></line>
     </g>
 </svg>

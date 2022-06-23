@@ -239,6 +239,13 @@
           font-size: 16px;
           color: #b8babf;
         }
+
+        // 新版 icon 使用 svg
+        svg {
+          width: 16px;
+          height: 16px;
+          color: #7c7d82; // icon 颜色深一点，会显得更清晰点
+        }
       }
 
       .ae-RendererInfo {
