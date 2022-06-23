@@ -276,6 +276,7 @@
         > svg {
           width: 16px;
           height: 16px;
+          top: 0 !important; // 覆盖amis样式，避免未垂直居中
         }
 
         &:hover {
