@@ -15,6 +15,7 @@ export class PaginationPlugin extends BasePlugin {
   // 组件名称
   name = '分页组件';
   isBaseComponent = true;
+  disabledRendererPlugin = true;
   description = '分页组件，可以对列表进行分页展示，提高页面性能';
   tags = ['容器'];
   icon = 'fa fa-window-minimize';
