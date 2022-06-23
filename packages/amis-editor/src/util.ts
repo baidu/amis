@@ -81,8 +81,7 @@ export const getEventControlConfig = (
               action.supportComponents === '*' ||
               action.supportComponents === node.type;
           } else if (Array.isArray(action.supportComponents)) {
-            isSupport =
-              action.supportComponents.includes(node.type);
+            isSupport = action.supportComponents.includes(node.type);
           }
           if (['reload', 'setValue'].includes(actionType)) {
             isSupport = hasActionType(actionType, actions);
@@ -154,12 +153,12 @@ export const getEventControlConfig = (
 
       // 还原args为可视化配置结构(args + addOnArgs)
       if (config.args) {
-        if (innerArgs?.config) {
+        if (innerArgs) {
           let tmpArgs = {};
           config.addOnArgs = [];
           Object.keys(config.args).forEach(key => {
             // 筛选出附加配置参数
-            if (!innerArgs?.config.includes(key)) {
+            if (!innerArgs.includes(key)) {
               config.addOnArgs = [
                 ...config.addOnArgs,
                 {

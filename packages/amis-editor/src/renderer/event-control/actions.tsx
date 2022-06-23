@@ -602,12 +602,13 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 <span className="variable-left variable-right">
                   {info?.__rendererLabel}
                 </span>
-                的值为
-                <span className="variable-left variable-right">
+                的数据
+                {/* 值为
+                <span className="variable-left variable-right"> // 因为初始化时进行了格式化，会导致args的值发生变化并同步到右侧动作表，因此关闭详情
                   {info?.args?.value
                     ? JSON.stringify(info?.args?.value)
                     : info?.args?.valueInput}
-                </span>
+                </span> */}
               </div>
             );
           },
@@ -633,13 +634,13 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     {
                       name: 'key',
                       type: 'input-text',
-                      placeholder: '变量名',
+                      placeholder: '字段名',
                       required: true
                     },
                     {
                       name: 'val',
                       type: 'input-formula',
-                      placeholder: '变量值',
+                      placeholder: '字段值',
                       variables: '${variables}',
                       evalMode: false,
                       variableMode: 'tabs',
@@ -716,8 +717,9 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           descDetail: (info: any) => {
             return (
               <div>
-                <span className="variable-right">{info?.__rendererLabel}</span>
                 提交
+                <span className="variable-right">{info?.__rendererLabel}</span>
+                的数据
               </div>
             );
           },
@@ -731,8 +733,9 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           descDetail: (info: any) => {
             return (
               <div>
-                <span className="variable-right">{info?.__rendererLabel}</span>
                 清空
+                <span className="variable-right">{info?.__rendererLabel}</span>
+                的数据
               </div>
             );
           },
@@ -746,8 +749,9 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           descDetail: (info: any) => {
             return (
               <div>
-                <span className="variable-right">{info?.__rendererLabel}</span>
                 重置
+                <span className="variable-right">{info?.__rendererLabel}</span>
+                的数据
               </div>
             );
           },
@@ -761,8 +765,9 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           descDetail: (info: any) => {
             return (
               <div>
-                <span className="variable-right">{info?.__rendererLabel}</span>
                 校验
+                <span className="variable-right">{info?.__rendererLabel}</span>
+                的数据
               </div>
             );
           },
