@@ -186,6 +186,11 @@ export interface FileControlSchema extends FormBaseControlSchema {
   };
 
   /**
+   * 初始化时是否把其他字段同步到表单内部。
+   */
+  initAutoFill?: boolean;
+
+  /**
    * 接口返回的数据中，哪个用来当做值
    */
   valueField?: string;
@@ -333,6 +338,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     file: any;
     executor: () => void;
   }> = [];
+  initAutoFill: boolean;
 
   static valueToFile(
     value: string | FileValue,
@@ -382,6 +388,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
+    this.initAutoFill = !!props.initAutoFill;
 
     if (value && value instanceof Blob) {
       files = [value as any];
@@ -466,14 +473,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             return obj;
           })
           .filter(item => item);
+        this.setState(
+          {
+            files: files
+          },
+          this.syncAutoFill
+        );
+      } else if (prevProps.value !== props.value && !this.initAutoFill) {
+        this.initAutoFill = true;
+        this.syncAutoFill();
       }
-
-      this.setState(
-        {
-          files: files
-        },
-        this.syncAutoFill
-      );
     }
   }
 
@@ -931,7 +940,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     // 排除自身的字段，否则会无限更新state
     const excludeSelfAutoFill = omit(autoFill, name || '');
 
-    if (!isEmpty(excludeSelfAutoFill) && onBulkChange) {
+    if (!isEmpty(excludeSelfAutoFill) && onBulkChange && this.initAutoFill) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
