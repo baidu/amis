@@ -17,6 +17,7 @@ import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
 import {SchemaApi} from 'amis/lib/Schema';
+import { isObject } from 'lodash';
 
 type TimelineItem = {
   title: string;
@@ -213,11 +214,16 @@ export default class TimelineItemControl extends React.Component<
         label: '图标',
         className: 'fix-icon-picker-overflow',
         pipeIn: (value: any) => value?.icon,
-        pipeOut: (value: any) => ({
-          type: 'icon',
-          vendor: '',
-          icon: value
-        })
+        pipeOut: (value: any) => {
+          if (value) {
+            return {
+              type: 'icon',
+              vendor: '',
+              icon: value
+            }
+          }
+          return undefined;
+        }
       }
     ]
   }
