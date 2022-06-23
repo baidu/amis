@@ -2,15 +2,16 @@ import React from 'react';
 import cx from 'classnames';
 import {Tree as TreeSelector} from 'amis-ui';
 import {
-  FormOptionsControl,
   OptionsControl,
-  OptionsControlProps
+  OptionsControlProps,
+  autobind,
+  createObject,
+  ActionObject,
+  isPureVariable,
+  resolveVariableAndFilter
 } from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
-import {autobind, createObject} from 'amis-core';
-import {ActionObject} from 'amis-core';
-import {isPureVariable, resolveVariable} from 'amis-core';
 
 /**
  * Tree 下拉选择框。
@@ -219,7 +220,7 @@ export default class TreeControl extends React.Component<TreeProps> {
     let {highlightTxt} = this.props;
 
     if (isPureVariable(highlightTxt)) {
-      highlightTxt = resolveVariable(highlightTxt, data);
+      highlightTxt = resolveVariableAndFilter(highlightTxt, data);
     }
 
     return (
