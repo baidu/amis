@@ -15,7 +15,7 @@ export class StatusPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/status';
   tags = ['展示'];
   icon = 'fa fa-check-square-o';
-  // pluginIcon = 'status-plugin'; // 暂无新icon
+  pluginIcon = 'status-plugin';
   scaffold = {
     type: 'status',
     value: 1

@@ -1641,6 +1641,7 @@ export class CRUDPlugin extends BasePlugin {
       return {
         name: plugin.name,
         icon: plugin.icon,
+        pluginIcon: plugin.pluginIcon,
         description: plugin.description,
         previewSchema: plugin.previewSchema,
         tags: plugin.tags,

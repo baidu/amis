@@ -11,6 +11,7 @@ export class DividerPlugin extends BasePlugin {
   name = '分隔线';
   isBaseComponent = true;
   icon = 'fa fa-minus';
+  pluginIcon = 'divider-plugin';
   description = '用来展示一个分割线，可用来做视觉上的隔离。';
   scaffold = {
     type: 'divider'

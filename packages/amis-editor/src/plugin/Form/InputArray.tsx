@@ -24,6 +24,7 @@ export class ArrayControlPlugin extends BasePlugin {
   name = '数组输入框';
   isBaseComponent = true;
   icon = 'fa fa-bars';
+  pluginIcon = 'input-array-plugin';
   description =
     'Array 数组输入框，可自定义成员输入形式。其实是 Combo 的 flat 值打平的一种用法，可直接用 combo 代替。';
   docLink = '/amis/zh-CN/components/form/input-array';

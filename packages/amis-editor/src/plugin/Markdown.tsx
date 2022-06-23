@@ -14,7 +14,7 @@ export class MarkdownPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/markdown';
   tags = ['展示'];
   icon = 'fa fa-file-text';
-  // pluginIcon = 'markdown-plugin'; // 暂无新icon
+  pluginIcon = 'markdown-plugin';
   scaffold = {
     type: 'markdown',
     value: '## 这是标题'

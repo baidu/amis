@@ -31,7 +31,7 @@ export class WizardPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/wizard';
   tags = ['功能'];
   icon = 'fa fa-list-ol';
-  // pluginIcon = 'wizard-plugin'; // 暂无新 icon
+  pluginIcon = 'wizard-plugin';
 
   scaffold = {
     type: 'wizard',

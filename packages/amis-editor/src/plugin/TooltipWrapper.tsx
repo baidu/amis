@@ -6,8 +6,6 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from '../component/BaseControl';
-import {ValidatorTag} from '../validator';
-import {getEventControlConfig} from '../util';
 
 export class TooltipWrapperPlugin extends BasePlugin {
   rendererName = 'tooltip-wrapper';
@@ -20,6 +18,7 @@ export class TooltipWrapperPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/tooltip';
   tags = ['容器'];
   icon = 'fa fa-comment-alt';
+  pluginIcon = 'tooltip-wrapper-plugin';
 
   scaffold = {
     type: 'tooltip-wrapper',

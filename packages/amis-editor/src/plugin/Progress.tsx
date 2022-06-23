@@ -18,7 +18,7 @@ export class ProgressPlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/progress';
   tags = ['展示'];
   icon = 'fa fa-angle-double-right';
-  // pluginIcon = 'progress-plugin'; // 暂无新 icon
+  pluginIcon = 'progress-plugin';
   scaffold = {
     type: 'progress',
     value: 66,
