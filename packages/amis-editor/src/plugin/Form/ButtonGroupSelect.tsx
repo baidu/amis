@@ -5,8 +5,9 @@ import {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
-import {getSchemaTpl} from 'amis-editor-core';
-import {formItemControl} from '../../component/BaseControl';
+import {getSchemaTpl, defaultValue} from 'amis-editor-core';
+import {tipedLabel} from '../../component/BaseControl';
+import {getEventControlConfig} from '../../util';
 
 export class ButtonGroupControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -25,6 +26,7 @@ export class ButtonGroupControlPlugin extends BasePlugin {
   scaffold = {
     type: 'button-group-select',
     name: 'a',
+    inline: false,
     options: [
       {
         label: '选项1',
@@ -99,73 +101,95 @@ export class ButtonGroupControlPlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
-    return formItemControl(
+    return getSchemaTpl('tabs', [
       {
-        common: {
-          replace: true,
-          body: [
-            getSchemaTpl('formItemName', {
-              required: true
-            }),
-            getSchemaTpl('label'),
-            // getSchemaTpl('value'),
-            getSchemaTpl('valueFormula', {
-              rendererSchema: context?.schema,
-              useSelectMode: true // 改用 Select 设置模式
-            }),
-            getSchemaTpl('clearable'),
-            getSchemaTpl('multiple'),
-            getSchemaTpl('extractValue')
-          ]
-        },
-        option: {
-          title: '按钮管理',
-          body: [getSchemaTpl('optionControlV2'), getSchemaTpl('autoFill')]
-        },
-        style: {
-          // reverse: true,
-          body: [
-            getSchemaTpl('size'),
-
-            getSchemaTpl('buttonLevel', {
-              label: '按钮样式',
-              name: 'btnLevel'
-            }),
-
+        title: '属性',
+        body: [
+          getSchemaTpl('collapseGroup', [
             {
-              type: 'button-group-select',
-              name: 'vertical',
-              label: '布局方向',
-              value: false,
-              options: [
-                {
-                  label: '水平',
-                  value: false
-                },
-                {
-                  label: '垂直',
-                  value: true
-                }
+              title: '基本',
+              body: [
+                getSchemaTpl('formItemName', {
+                  required: true
+                }),
+                getSchemaTpl('label'),
+                getSchemaTpl('multiple'),
+                getSchemaTpl('valueFormula', {
+                  rendererSchema: context?.schema,
+                  useSelectMode: true, // 改用 Select 设置模式
+                  visibleOn: 'this.options && this.options.length > 0'
+                }),
               ]
             },
-
             {
-              type: 'switch',
-              name: 'tiled',
-              label: '平铺模式',
-              value: false
+              title: '按钮管理',
+              body: [
+                getSchemaTpl('optionControlV2'),
+                getSchemaTpl('autoFill')
+              ]
             },
-
-            getSchemaTpl('buttonLevel', {
-              label: '按钮选中样式',
-              name: 'btnActiveLevel'
+            getSchemaTpl('status', {
+              isFormItem: true,
             })
-          ]
-        },
-        status: {}
+          ])
+        ]
       },
-      context
-    );
+      {
+        title: '外观',
+        body: [
+          getSchemaTpl('collapseGroup', [
+            {
+              title: '基本',
+              body: [
+                getSchemaTpl('formItemMode'),
+                getSchemaTpl('horizontal', {
+                  label: '',
+                  visibleOn:
+                    'data.mode == "horizontal" && data.label !== false && data.horizontal'
+                }),
+                getSchemaTpl('switch', {
+                  name: 'tiled',
+                  label: tipedLabel(
+                    '平铺模式',
+                    '使按钮宽度占满父容器，各按钮宽度自适应'
+                  ),
+                  pipeIn: defaultValue(false),
+                  visibleOn: 'data.mode !== "inline"'
+                }),
+                getSchemaTpl('size'),
+                getSchemaTpl('buttonLevel', {
+                  label: '按钮样式',
+                  name: 'btnLevel'
+                }),
+                getSchemaTpl('buttonLevel', {
+                  label: '按钮选中样式',
+                  name: 'btnActiveLevel'
+                })
+              ]
+            },
+            getSchemaTpl('style:classNames', {
+              isFormItem: true,
+              schema: [
+                getSchemaTpl('className', {
+                  label: '按钮',
+                  name: 'btnClassName'
+                }),
+              ]
+            }),
+          ]),
+        ]
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
+      }
+    ]);
   };
 }
 
