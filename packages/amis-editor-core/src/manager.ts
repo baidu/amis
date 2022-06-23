@@ -960,6 +960,20 @@ export class EditorManager {
   }
 
   /**
+   * 判断当前元素是否为flex布局子容器
+   * 备注: 以便额外增加布局相关配置项
+   */
+  isFlexItem(id: string) {
+    const store = this.store;
+    const activeId = id || store.activeId;
+    const parentSchema = store.getSchemaParentById(activeId);
+    if (parentSchema?.type === 'flex') {
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * 入口在 Preview 里面，用来获取渲染器对应的编辑器信息。
    * 拿到这些信息后会在渲染原本渲染器的地方包一层，并创建高亮框在点选或者 hover 的时候显示。
    * @param renderer  amis元素渲染器，比如 { type: 'audio', component: 'xxx渲染器'}

@@ -366,7 +366,7 @@ export const EditorStore = types
       getSchemaParentById(id: string) {
         return JSONGetParentById(self.schema, id);
       },
-
+      
       getSchemaPath(id: string): string {
         const paths = JSONGetPathById(self.schema, id);
         return Array.isArray(paths) ? paths.join('/') : '';
