@@ -24,6 +24,30 @@ interface ActionDialogProp {
 }
 
 export default class ActionDialog extends React.Component<ActionDialogProp> {
+  /**
+   * 获取组件树搜索列表
+   * @param tree
+   * @param keywords
+   * @returns
+   */
+   getTreeSearchList(tree: RendererPluginAction[], keywords: string): any {
+    if (!keywords) {
+      return [];
+    }
+    let result: any[] = [];
+    const getSearchList = (result: any[], array: RendererPluginAction[], keywords: string) => {
+      array.forEach(node => {
+        if (node.children) {
+          getSearchList(result, node.children, keywords);
+        } else if (node.actionLabel.includes(keywords)) {
+          result.push({...node});
+        }
+      });
+    };
+    getSearchList(result, tree, keywords);
+    return result;
+  }
+
   render() {
     const {
       data,
@@ -55,6 +79,10 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                 wrapperComponent: 'div',
                 submitText: '保存',
                 autoFocus: true,
+                data: {
+                  // 直接传入时内部有函数引用等解析会报错
+                  resultActionTree: JSON.parse(JSON.stringify(actionTree)),
+                },
                 preventEnterSubmit: true,
                 // debug: true,
                 onSubmit: this.props.onSubmit?.bind(this, type),
@@ -72,10 +100,32 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                             inline: false
                           },
                           {
+                            type: 'input-text',
+                            name: 'keywords',
+                            className: 'action-tree-search',
+                            placeholder: '请搜索执行动作',
+                            clearable: true,
+                            onChange: (
+                              value: string,
+                              oldVal: any,
+                              data: any,
+                              form: any
+                            ) => {
+                              if (value) {
+                                const list = this.getTreeSearchList(actionTree, value);
+                                form.setValueByName('resultActionTree', list);
+                              } else {
+                                form.setValueByName('resultActionTree', actionTree);
+                              }
+                            }
+                          },
+                          {
                             type: 'input-tree',
                             name: 'actionType',
                             disabled: false,
-                            options: actionTree,
+                            onlyLeaf: true,
+                            highlightTxt: '${keywords}',
+                            source: '${resultActionTree}',
                             showIcon: false,
                             className: 'action-tree',
                             mode: 'normal',
@@ -135,6 +185,8 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                               const action = data.selectedOptions[0];
                               form.setValues({
                                 ...removeKeys,
+                                resultActionTree: form.data.resultActionTree,
+                                keywords: form.data.keywords,
                                 componentId: form.data.componentId
                                   ? ''
                                   : undefined,

@@ -25,6 +25,7 @@ import {
   RendererPluginEvent,
   SubRendererPluginAction
 } from 'amis-editor-core';
+import clone from 'lodash/clone';
 
 interface EventControlProps extends FormControlProps {
   actions: PluginActions; // 组件的动作列表
