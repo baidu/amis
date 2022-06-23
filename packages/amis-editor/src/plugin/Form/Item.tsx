@@ -9,7 +9,8 @@ import {
   ReplaceEventContext,
   BuildPanelEventContext,
   ContextMenuEventContext,
-  ContextMenuItem
+  ContextMenuItem,
+  PluginInterface
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import find from 'lodash/find';
@@ -19,11 +20,13 @@ export class ItemPlugin extends BasePlugin {
   // panelTitle = '表单项通配';
   panelTitle = '表单项';
   order = -990;
+  pluginIcon = 'form-plugin';
 
   buildEditorPanel(
     context: BuildPanelEventContext,
     panels: Array<BasicPanelItem>
   ) {
+    const thisPlugin: PluginInterface = this;
     const renderer = context.info.renderer;
     const store = this.manager.store;
 
@@ -40,6 +43,7 @@ export class ItemPlugin extends BasePlugin {
       panels.push({
         key: 'form-item',
         icon: 'fa fa-desktop',
+        pluginIcon: thisPlugin.pluginIcon,
         title: this.panelTitle,
         render: this.manager.makeSchemaFormRender({
           body: this.panelBodyCreator(context),

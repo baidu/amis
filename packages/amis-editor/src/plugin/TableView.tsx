@@ -495,6 +495,7 @@ export class TableViewPlugin extends BasePlugin {
     panels: Array<BasicPanelItem>
   ) {
     super.buildEditorPanel(context, panels);
+    const plugin: PluginInterface = this;
     const store = this.manager.store;
 
     if (context.info.schemaPath.endsWith('/td')) {
@@ -502,6 +503,7 @@ export class TableViewPlugin extends BasePlugin {
         key: 'td',
         order: 100,
         icon: this.tdVRendererConfig.panelIcon || 'fa fa-tablet',
+        pluginIcon: plugin.pluginIcon,
         title: this.tdVRendererConfig.panelTitle || '格子',
         render: this.manager.makeSchemaFormRender({
           controls: this.tdVRendererConfig.panelControlsCreator

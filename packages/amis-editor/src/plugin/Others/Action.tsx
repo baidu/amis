@@ -6,7 +6,8 @@ import {
   BasePlugin,
   BasicPanelItem,
   BasicToolbarItem,
-  BuildPanelEventContext
+  BuildPanelEventContext,
+  PluginInterface
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
