@@ -351,7 +351,8 @@ setSchemaTpl(
             rendererSchema: curRendererSchema,
             rendererWrapper: config?.rendererWrapper,
             needDeleteValue: config?.needDeleteValue,
-            valueType: config?.valueType
+            valueType: config?.valueType,
+            visibleOn: config?.visibleOn
           }
         ]
       };

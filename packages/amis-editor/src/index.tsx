@@ -149,6 +149,7 @@ import './renderer/style-control/Border';
 import './renderer/style-control/BoxShadow';
 import './renderer/style-control/Background';
 import './renderer/style-control/Display';
+import './renderer/style-control/InsetBoxModel';
 import './renderer/RangePartsControl';
 import './renderer/DataBindingControl';
 import './renderer/DataMappingControl';
