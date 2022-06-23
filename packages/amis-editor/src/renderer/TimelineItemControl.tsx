@@ -37,8 +37,6 @@ export interface TimelineItemState {
   items: Array<Partial<TimelineItem>>;
   source: 'custom' | 'api';
   api: SchemaApi;
-  labelField: string;
-  valueField: string;
 }
 
 export default class TimelineItemControl extends React.Component<
@@ -55,8 +53,6 @@ export default class TimelineItemControl extends React.Component<
     this.state = {
       items: props.value,
       api: props.data.source,
-      labelField: props.data.labelField,
-      valueField: props.data.valueField,
       source: props.data.source ? 'api' : 'custom'
     }
   }
@@ -71,16 +67,6 @@ export default class TimelineItemControl extends React.Component<
   @autobind
   handleAPIChange(source: SchemaApi) {
     this.setState({api: source}, this.onChange);
-  }
-
-  @autobind
-  handleLableFieldChange(labelField: string) {
-    this.setState({labelField}, this.onChange);
-  }
-
-  @autobind
-  handleValueFieldChange(valueField: string) {
-    this.setState({valueField}, this.onChange);
   }
 
   onChange() {
