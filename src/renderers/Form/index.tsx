@@ -943,13 +943,13 @@ export default class Form extends React.Component<FormProps, object> {
     );
   }
 
-  handleAction(
+  async handleAction(
     e: React.UIEvent<any> | void,
     action: Action,
     data: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
-  ): any {
+  ): Promise<any> {
     const {
       store,
       onSubmit,
@@ -987,6 +987,7 @@ export default class Form extends React.Component<FormProps, object> {
     if (data === this.props.data) {
       data = store.data;
     }
+
     if (Array.isArray(action.required) && action.required.length) {
       store.clearErrors(); // 如果是按钮指定了required，则校验前先清空一下遗留的校验报错
 
@@ -994,31 +995,21 @@ export default class Form extends React.Component<FormProps, object> {
         name: item,
         rules: {isRequired: true}
       }));
+      const validationRes = await store.validateFields(fields);
 
-      return store.validateFields(fields).then(async result => {
-        if (!result) {
-          const dispatcher = await dispatchEvent(
-            'validateError',
-            this.props.data
-          );
-          if (!dispatcher?.prevented) {
-            env.notify('error', __('Form.validateFailed'));
-          }
+      if (!validationRes) {
+        const dispatcher = await dispatchEvent(
+          'validateError',
+          this.props.data
+        );
 
-          /** 抛异常是为了在dialog中catch这个错误，避免弹窗直接关闭 */
-          return Promise.reject(__('Form.validateFailed'));
-        } else {
-          dispatchEvent('validateSucc', this.props.data);
-          this.handleAction(
-            e,
-            {...action, required: undefined},
-            data,
-            throwErrors,
-            delegate
-          );
-          return;
+        if (!dispatcher?.prevented) {
+          env.notify('error', __('Form.validateFailed'));
         }
-      });
+
+        /** 抛异常是为了在dialog中catch这个错误，避免弹窗直接关闭 */
+        return Promise.reject(__('Form.validateFailed'));
+      }
     }
     if (
       action.type === 'submit' ||
