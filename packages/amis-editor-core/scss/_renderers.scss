@@ -245,6 +245,7 @@
           width: 16px;
           height: 16px;
           color: #7c7d82; // icon 颜色深一点，会显得更清晰点
+          top: 0 !important; // 覆盖amis样式，避免未垂直居中
         }
       }
 
