@@ -870,12 +870,15 @@ export interface RendererPluginAction {
   actionLabel?: string; // 动作名称label
   description?: string; // 动作描述
   schema?: any; // 动作配置schema
-  config?: string[]; // 动作配置字段结合，主要是为了区分特性字段和附加参数
-  desc?: (info: any) => string | JSX.Element; // 动作详情描述规则
-  withComponentId?: boolean; // 需要配置组件ID
-  supportComponents?: string[]; // 该动作支持的组件类型，用于 withComponentId: true 的自定义动作
+  supportComponents?: string[] | string; // 如果schema中包含选择组件，可以指定该动作支持的组件类型，用于组件数树过滤
+  innerArgs?: string[]; // 动作专属配置参数，主要是为了区分特性字段和附加参数
+  descDetail?: (info: any) => string | JSX.Element; // 动作详细描述
+  actions?: SubRendererPluginAction[]; // 分支动作（配置面板包含多种动作的情况）
   children?: RendererPluginAction[]; // 子类型，for动作树
 }
+
+// 分支动作
+export interface SubRendererPluginAction extends Pick<RendererPluginAction, 'actionType' | 'innerArgs' | 'descDetail'>{}
 
 export interface PluginEvents {
   [propName: string]: RendererPluginEvent[];
