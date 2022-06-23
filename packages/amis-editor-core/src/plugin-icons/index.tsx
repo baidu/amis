@@ -11,7 +11,7 @@ import {registerIcon, Icon} from 'amis';
  * 6. 其他类组件 icon x 2
  */
 
-// 功能类组件 icon x 10
+// 功能类组件 icon x 12
 import audio from './feat/audio.svg';
 import custom from './feat/custom.svg';
 import each from './feat/each.svg';
@@ -22,8 +22,9 @@ import service from './feat/service.svg';
 import table from './feat/table.svg';
 import tasks from './feat/tasks.svg';
 import video from './feat/video.svg';
+import wizard from './feat/wizard.svg';
 
-// 容器类组件 icon x 11
+// 容器类组件 icon x 12
 import anchorNav from './container/anchor-nav.svg';
 import collapse from './container/collapse.svg';
 import container from './container/container.svg';
@@ -35,6 +36,7 @@ import panel from './container/panel.svg';
 import tableView from './container/table-view.svg';
 import tabs from './container/tabs.svg';
 import webComponent from './container/web-component.svg';
+import tooltipWrapper from './container/tooltip-wrapper.svg';
 
 // 按钮类组件 icon x 5
 import btnGroup from './btn/btn-group.svg';
@@ -43,7 +45,7 @@ import btnToolbar from './btn/btn-toolbar.svg';
 import button from './btn/button.svg';
 import dropdownBtn from './btn/dropdown-btn.svg';
 
-// 展示类组件 icon x 15
+// 展示类组件 icon x 23
 import breadcrumb from './show/breadcrumb.svg';
 import card from './show/card.svg';
 import cards from './show/cards.svg';
@@ -60,8 +62,15 @@ import log from './show/log.svg';
 import mapping from './show/mapping.svg';
 import avatar from './show/avatar.svg';
 import sparkline from './show/sparkline.svg';
+import progress from './show/progress.svg';
+import jsonView from './show/json-view.svg';
+import markdown from './show/markdown.svg';
+import steps from './show/steps.svg';
+import status from './show/status.svg';
+import plain from './show/plain.svg';
+import URL from './show/URL.svg';
 
-// 表单类组件 icon x 51
+// 表单类组件 icon x 53
 import chainedSelect from './form/chained-select.svg';
 import checkbox from './form/checkbox.svg';
 import checkboxes from './form/checkboxes.svg';
@@ -113,12 +122,15 @@ import textarea from './form/textarea.svg';
 import transfer from './form/transfer.svg';
 import treeSelect from './form/tree-select.svg';
 import uuid from './form/uuid.svg';
+import formula from './form/formula.svg';
+import inputArray from './form/inputArray.svg';
 
-// 其他类组件 icon x 2
+// 其他类组件 icon x 3
 import propertySheet from './other/property-sheet.svg';
 import tooltip from './other/tooltip.svg';
+import divider from './other/divider.svg';
 
-// 功能类组件 icon x 11
+// 功能类组件 icon x 12
 registerIcon('audio-plugin', audio);
 registerIcon('custom-plugin', custom);
 registerIcon('each-plugin', each);
@@ -129,6 +141,7 @@ registerIcon('service-plugin', service);
 registerIcon('table-plugin', table);
 registerIcon('tasks-plugin', tasks);
 registerIcon('video-plugin', video);
+registerIcon('wizard-plugin', wizard);
 
 // 容器类组件 icon x 10
 registerIcon('anchor-nav-plugin', anchorNav);
@@ -142,6 +155,7 @@ registerIcon('iframe-plugin', iframe);
 registerIcon('table-view-plugin', tableView);
 registerIcon('tabs-plugin', tabs);
 registerIcon('web-component-plugin', webComponent);
+registerIcon('tooltip-wrapper-plugin', tooltipWrapper);
 
 // 按钮类组件 icon x5
 registerIcon('btn-group-plugin', btnGroup);
@@ -150,7 +164,7 @@ registerIcon('btn-toolbar-plugin', btnToolbar);
 registerIcon('button-plugin', button);
 registerIcon('dropdown-btn-plugin', dropdownBtn);
 
-// 展示类组件 icon x 16
+// 展示类组件 icon x 23
 registerIcon('breadcrumb-plugin', breadcrumb);
 registerIcon('card-plugin', card);
 registerIcon('cards-plugin', cards);
@@ -167,8 +181,15 @@ registerIcon('log-plugin', log);
 registerIcon('mapping-plugin', mapping);
 registerIcon('sparkline-plugin', sparkline);
 registerIcon('avatar-plugin', avatar);
+registerIcon('progress-plugin', progress);
+registerIcon('json-view-plugin', jsonView);
+registerIcon('markdown-plugin', markdown);
+registerIcon('steps-plugin', steps);
+registerIcon('status-plugin', status);
+registerIcon('plain-plugin', plain);
+registerIcon('url-plugin', URL);
 
-// 表单类组件 icon
+// 表单类组件 icon x 53
 registerIcon('chained-select-plugin', chainedSelect);
 registerIcon('checkbox-plugin', checkbox);
 registerIcon('checkboxes-plugin', checkboxes);
@@ -223,9 +244,12 @@ registerIcon('textarea-plugin', textarea);
 registerIcon('transfer-plugin', transfer);
 registerIcon('tree-select-plugin', treeSelect);
 registerIcon('uuid-plugin', uuid);
+registerIcon('input-array-plugin', inputArray); // 暂时没用上
+registerIcon('formula-plugin', formula);
 
 // 其他类组件 icon
 registerIcon('property-sheet-plugin', propertySheet);
 registerIcon('tooltip-plugin', tooltip);
+registerIcon('divider-plugin', divider);
 
 export {Icon};

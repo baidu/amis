@@ -1052,6 +1052,7 @@ export abstract class BasePlugin implements PluginInterface {
       return plugin.scaffolds.map(scaffold => ({
         name: (scaffold.name ?? plugin.name)!,
         icon: scaffold.icon ?? plugin.icon,
+        pluginIcon: plugin.pluginIcon,
         description: scaffold.description ?? plugin.description,
         previewSchema: scaffold.previewSchema ?? plugin.previewSchema,
         tags: scaffold.tags ?? plugin.tags,
@@ -1061,7 +1062,6 @@ export abstract class BasePlugin implements PluginInterface {
         scaffoldForm: plugin.scaffoldForm,
         disabledRendererPlugin: plugin.disabledRendererPlugin,
         isBaseComponent: plugin.isBaseComponent,
-        pluginIcon: plugin.pluginIcon,
         rendererName: plugin.rendererName
       }));
     } else if (plugin.name && plugin.description) {
