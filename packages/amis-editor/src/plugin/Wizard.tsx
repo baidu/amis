@@ -214,7 +214,7 @@ export class WizardPlugin extends BasePlugin {
       actionType: 'stepSubmit',
       actionLabel: '分步提交',
       description: '提交当前步骤数据',
-      desc: (info: any) => {
+      descDetail: (info: any) => {
         return (
           <div>
             <span className="variable-right">{info?.__rendererLabel}</span>
@@ -237,8 +237,8 @@ export class WizardPlugin extends BasePlugin {
       actionType: 'goto-step',
       actionLabel: '定位步骤',
       description: '切换到指定步骤',
-      config: ['step'],
-      desc: (info: any) => {
+      innerArgs: ['step'],
+      descDetail: (info: any) => {
         return (
           <div>
             <span className="variable-right">{info?.__rendererLabel}</span>

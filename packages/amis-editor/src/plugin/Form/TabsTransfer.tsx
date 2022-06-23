@@ -202,7 +202,7 @@ export class TabsTransferPlugin extends BasePlugin {
       actionType: 'changeTabKey',
       actionLabel: '修改选中tab',
       description: '修改当前选中tab，来选择其他选项',
-      desc: (info: any) => {
+      descDetail: (info: any) => {
         return (
           <div>
             <span className="variable-right">{info?.__rendererLabel}</span>

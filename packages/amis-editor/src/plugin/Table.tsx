@@ -294,7 +294,7 @@ export class TablePlugin extends BasePlugin {
       actionType: 'select',
       actionLabel: '设置选中项',
       description: '设置表格的选中项',
-      config: ['selected'],
+      innerArgs: ['selected'],
       schema: getArgsWrapper([
         {
           type: 'input-formula',

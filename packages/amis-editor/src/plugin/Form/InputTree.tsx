@@ -164,8 +164,8 @@ export class TreeControlPlugin extends BasePlugin {
       actionType: 'expand',
       actionLabel: '展开',
       description: '展开指定层级',
-      config: ['openLevel'],
-      desc: (info: any) => {
+      innerArgs: ['openLevel'],
+      descDetail: (info: any) => {
         return (
           <div>
             <span className="variable-right">{info?.__rendererLabel}</span>

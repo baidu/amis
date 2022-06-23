@@ -54,64 +54,57 @@ export const getEventControlConfig = (
       return manager.dataSchema;
     },
     getComponents: (action: RendererPluginAction) => {
-      const components = mapTree(
-        manager?.store?.outline ?? [],
-        (item: any) => {
-          const schema = manager?.store?.getSchema(item.id);
-          return {
-            id: item.id,
-            label: item.label,
-            value: schema.id || item.id,
-            type: schema.type,
-            schema,
-            disabled: !!item.region,
-            children: item?.children
-          };
+      const actionType = action.actionType!;
+      const components = filterTree(
+        mapTree(
+          manager?.store?.outline ?? [],
+          (item: any) => {
+            const schema = manager?.store?.getSchema(item.id);
+            return {
+              id: item.id,
+              label: item.label,
+              value: schema.id || item.id,
+              type: schema.type,
+              schema,
+              disabled: !!item.region,
+              children: item?.children
+            };
+          },
+          1,
+          true
+        ),
+        node => {
+          const actions = manager?.pluginActions[node.type];
+          let isSupport = false;
+          if (typeof action.supportComponents === 'string') {
+            isSupport =
+              action.supportComponents === '*' ||
+              action.supportComponents === node.type;
+          } else if (Array.isArray(action.supportComponents)) {
+            isSupport =
+              action.supportComponents.includes(node.type);
+          }
+          if (['reload', 'setValue'].includes(actionType)) {
+            isSupport = hasActionType(actionType, actions);
+          }
+
+          if (actionType === 'component' && !actions?.length) {
+            node.disabled = true;
+          }
+
+          if (isSupport) {
+            return true;
+          } else if (!isSupport && !!node.children?.length) {
+            node.disabled = true;
+            return true;
+          }
+          return false;
         },
         1,
         true
       );
 
-      const actionType = action.actionType!;
-      const loopChildren = (nodes: ComponentInfo[]) => {
-        const temp: ComponentInfo[] = [];
-        for (let node of nodes) {
-          const actions = manager?.pluginActions[node.type];
-          let isSupport = false;
-          if (typeof action.supportComponents === 'string') {
-            isSupport = action.supportComponents === '*' || action.supportComponents === node.type;
-          }
-          else if (Array.isArray(action.supportComponents)) {
-            isSupport = action.supportComponents.includes(node.type);
-          }
-          else {
-            isSupport = hasActionType(actionType, actions);
-          }
-          if (isSupport) {
-            // 组件特性动作，如果当前组件没有动作，则禁用
-            const disabled =
-              actionType === 'component' && (!actions || !actions.length);
-            const newNode: ComponentInfo = {
-              ...node,
-              disabled: disabled || node.disabled,
-              children: []
-            };
-            if (node.children?.length) {
-              // 检查子项
-              newNode.children?.push(...loopChildren(node.children));
-            }
-            temp.push(newNode);
-          } else if (node.children?.length) {
-            const childNodes = loopChildren(node.children);
-            if (childNodes.length) {
-              temp.push(...childNodes);
-            }
-          }
-        }
-        return temp;
-      };
-
-      return loopChildren(components);
+      return components;
     },
     actionConfigInitFormatter: (action: ActionConfig) => {
       let config = {...action};

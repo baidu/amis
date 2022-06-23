@@ -66,9 +66,9 @@ interface EventControlState {
         rawVariables: ContextVariables[];
         __cmptActionType?: string;
         __actionDesc?: string;
-        __cmptTreeSource?: ComponentInfo[],
+        __cmptTreeSource?: ComponentInfo[];
         __actionSchema?: any;
-        __subActions?: SubRendererPluginAction[]
+        __subActions?: SubRendererPluginAction[];
       }
     | undefined;
   type: 'update' | 'add';
@@ -460,6 +460,7 @@ export class EventControl extends React.Component<
       const actionConfig = actionConfigInitFormatter?.(action);
       const actionNode = findActionNode(actionTree, actionConfig?.actionType!);
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
+
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,
@@ -468,12 +469,12 @@ export class EventControl extends React.Component<
         getContextSchemas,
         rawVariables,
         ...actionConfig,
-        __cmptTreeSource: getComponents?.(actionNode!) ?? [],
         __cmptActionType:
           hasSubActionNode || action.componentId ? action.actionType : '',
         __actionDesc: actionNode!.description!, // 树节点描述
         __actionSchema: actionNode!.schema, // 树节点schema
-        __subActions: hasSubActionNode?.actions // 树节点子动作
+        __subActions: hasSubActionNode?.actions, // 树节点子动作
+        __cmptTreeSource: actionConfig?.componentId ? getComponents?.(actionNode!) ?? [] : []
         // broadcastId: action.actionType === 'broadcast' ? action.eventName : ''
       };
     } else {
@@ -512,6 +513,7 @@ export class EventControl extends React.Component<
       commonActions,
       getComponents
     } = this.props;
+
     return [
       {
         type: 'form',
@@ -596,15 +598,16 @@ export class EventControl extends React.Component<
                       }
 
                       const action = data.selectedOptions[0];
-
                       form.setValues({
                         ...removeKeys,
                         componentId: form.data.componentId ? '' : undefined,
-                        __cmptTreeSource: getComponents?.(action) ?? [],
                         __cmptActionType,
                         __actionDesc: action.description,
                         __actionSchema: action.schema,
-                        __subActions: action.actions
+                        __subActions: action.actions,
+                        __cmptTreeSource: action.supportComponents
+                          ? getComponents?.(action) ?? []
+                          : []
                       });
                     }
                   }
@@ -801,7 +804,13 @@ export class EventControl extends React.Component<
                                   />
                                 </div>
                                 <div className="action-item-actiontype">
-                                  {getPropOfAcion(action, 'actionLabel', actionTree, pluginActions, commonActions) || action.actionType}
+                                  {getPropOfAcion(
+                                    action,
+                                    'actionLabel',
+                                    actionTree,
+                                    pluginActions,
+                                    commonActions
+                                  ) || action.actionType}
                                 </div>
                               </div>
                               <div className="action-control-header-right">

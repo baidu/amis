@@ -587,6 +587,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
+          supportComponents: [],
           schema: renderCmptSelect('选择组件', true)
         },
         {
@@ -610,6 +611,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
+          supportComponents: [],
           schema: [
             ...renderCmptSelect('选择组件', true),
             getArgsWrapper({
@@ -771,6 +773,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '组件特性动作',
           actionType: 'component',
           description: '触发所选组件的特性动作',
+          supportComponents: '*',
           actions: [],
           schema: renderCmptActionSelect('选择组件', true)
         }
