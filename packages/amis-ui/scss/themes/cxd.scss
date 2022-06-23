@@ -1,54 +1,36 @@
 // 百度云舍主题：http://console.yunshe.design/docs/index
 
 @import './cxd-variables';
-
 @import './common';
 
 .#{$ns}Switch {
-  .text {
-    margin: 0 px2rem(8px) 0 px2rem(25px);
-    vertical-align: super;
-  }
-  .slider {
-    &:before {
-      width: calc(var(--Switch-height) - #{px2rem(4px)});
-      top: px2rem(2px);
-      bottom: px2rem(2px);
-      left: px2rem(2px);
-      transition: all 0.5s ease;
-    }
-  }
   &:active {
     .slider::before {
-      width: calc(var(--Switch-height) + #{px2rem(2px)});
+      width: calc(var(--Switch-slider-width) + var(--Switch-slider-margin) * 2);
       border-radius: 10px;
     }
   }
-  &:hover {
-    background: var(--Switch-onHover-bgColor);
-  }
+
   &.is-checked {
-    background: var(--Switch-checked-bgColor);
-
-    .slider::before {
-      right: auto;
-      left: calc(
-        100% - (var(--Switch-height) - #{px2rem(4px)}) - #{px2rem(2px)}
-      );
-    }
-
-    .text {
-      margin: 0 px2rem(25px) 0 px2rem(8px);
-    }
     &:hover {
       background: var(--Switch-checked-onHover-bgColor);
     }
     &:active {
       background: var(--Switch-checked-onActive-bgColor);
+
       .slider::before {
-        left: calc(
-          100% - (var(--Switch-height) + #{px2rem(2px)}) - #{px2rem(2px)}
+        right: calc(var(--Switch-slider-margin) * 2);
+      }
+    }
+  }
+
+  &--sm {
+    &:active {
+      .slider::before {
+        width: calc(
+          var(--Switch-slider-width--sm) + var(--Switch-slider-margin) * 2
         );
+        border-radius: 10px;
       }
     }
   }
