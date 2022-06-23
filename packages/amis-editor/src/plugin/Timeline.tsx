@@ -1,5 +1,6 @@
 import React from 'react';
 import {getEventControlConfig} from '../util';
+import {tipedLabel} from '../component/BaseControl';
 import {registerEditorPlugin, getSchemaTpl} from 'amis-editor-core';
 import { RendererAction, RendererEvent } from 'amis-editor-comp/dist/renderers/event-action';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
@@ -14,14 +15,14 @@ export class TimelinePlugin extends BasePlugin {
   icon = 'fa fa-bars';
   description = '用来展示时间轴';
   docLink = '/amis/zh-CN/components/timeline';
-  tags = ['容器'];
+  tags = ['功能'];
   scaffold = {
     type: 'timeline',
     label: '时间轴',
     name: 'timeline',
     items: [
-      {time: '2012-12-21', title: '世界末日'},
-      {time: '2012-12-24', title: '期末考试'}
+      {time: '2012-12-21', title: '节点数据'},
+      {time: '2012-12-24', title: '节点数据'}
     ]
   };
   previewSchema = {
@@ -30,21 +31,21 @@ export class TimelinePlugin extends BasePlugin {
 
   // 事件定义
   events: RendererEvent[] = [
-    {
-      eventName: 'add',
-      eventLabel: '新增选项',
-      description: '新增选项'
-    },
-    {
-      eventName: 'edit',
-      eventLabel: '编辑选项',
-      description: '编辑选项'
-    },
-    {
-      eventName: 'delete',
-      eventLabel: '删除选项',
-      description: '删除选项'
-    }
+    // {
+    //   eventName: 'add',
+    //   eventLabel: '新增选项',
+    //   description: '新增选项'
+    // },
+    // {
+    //   eventName: 'edit',
+    //   eventLabel: '编辑选项',
+    //   description: '编辑选项'
+    // },
+    // {
+    //   eventName: 'delete',
+    //   eventLabel: '删除选项',
+    //   description: '删除选项'
+    // }
   ];
 
   panelTitle = '时间轴';
@@ -61,29 +62,6 @@ export class TimelinePlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
-              getSchemaTpl('labelRemark'),
-              getSchemaTpl('remark'),
-              getSchemaTpl('description')
-            ]
-          },
-          {
-            title: '数据',
-            body: [
-              getSchemaTpl('timelineItemControl', {
-                name: 'items',
-                mode: 'normal',
-              }),
-              {
-                label: '方向',
-                name: 'direction',
-                value: 'vertical',
-                type: 'button-group-select',
-                inline: true,
-                options: [
-                  {label: '垂直', value: 'vertical'},
-                  {label: '水平', value: 'horizontal'}
-                ],
-              },
               {
                 label: '排序',
                 name: 'reverse',
@@ -96,7 +74,21 @@ export class TimelinePlugin extends BasePlugin {
                 ]
               },
               {
-                label: '文字方向',
+                label: '时间轴方向',
+                name: 'direction',
+                value: 'vertical',
+                type: 'button-group-select',
+                inline: true,
+                options: [
+                  {label: '垂直', value: 'vertical'},
+                  {label: '水平', value: 'horizontal'}
+                ],
+              },
+              {
+                label: tipedLabel(
+                  '文字方向',
+                  '文字相对时间轴位置'
+                  ),
                 name: 'mode',
                 value: 'right',
                 type: 'button-group-select',
@@ -109,7 +101,16 @@ export class TimelinePlugin extends BasePlugin {
               }
             ]
           },
-          getSchemaTpl('status', {isFormItem: true})
+          {
+            title: '数据',
+            body: [
+              getSchemaTpl('timelineItemControl', {
+                name: 'items',
+                mode: 'normal',
+              }),
+            ]
+          },
+          getSchemaTpl('status')
         ])
       },
       {
@@ -120,14 +121,13 @@ export class TimelinePlugin extends BasePlugin {
             body: [
               {
                 name: 'className',
-                label: '外层class',
+                label: '外层',
                 type: 'input-text',
                 placeholder: '请输入className'
               },
 
             ]
-          },
-          getSchemaTpl('status')
+          }
         ])
       },
       {

@@ -12,6 +12,7 @@ import {
   Icon,
   InputBox
 } from 'amis';
+import {tipedLabel} from '../component/BaseControl';
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
@@ -177,30 +178,27 @@ export default class TimelineItemControl extends React.Component<
         value: props?.['detail'],
         placeholder: '请输入内容'
       },
-      getSchemaTpl('switch', {
-        name: 'otherConfig',
-        label: '折叠描述',
-        value: props?.['otherConfig'],
-        clearValueOnHidden: true
-      }),
       {
-        visibleOn: 'this["otherConfig"]',
         type: 'input-text',
         name: 'detailCollapsedText',
         value: props?.['detailCollapsedText'],
         placeholder: '请输入',
-        label: '折叠前文案',
+        label: tipedLabel(
+          '折叠前文案',
+          '无配置情况，默认显示标题'
+        ),
       },
       {
-        visibleOn: 'this["otherConfig"]',
         type: 'input-text',
         name: 'detailExpandedText',
         value: props?.['detailExpandedText'],
         placeholder: '请输入',
-        label: '折叠后文案'
+        label: tipedLabel(
+          '折叠后文案',
+          '无配置情况，默认显示标题'
+        )
       },
       {
-        visibleOn: 'this["otherConfig"]',
         type: 'input-color',
         name: 'color',
         value: props?.['color'],
@@ -208,12 +206,18 @@ export default class TimelineItemControl extends React.Component<
         label: '颜色'
       },
       {
-        visibleOn: 'this["otherConfig"]',
-        type: 'input-text',
+        type: 'icon-picker',
         name: 'icon',
         value: props?.['icon'],
         placeholder: '请输入',
-        label: '图标'
+        label: '图标',
+        className: 'fix-icon-picker-overflow',
+        pipeIn: (value: any) => value?.icon,
+        pipeOut: (value: any) => ({
+          type: 'icon',
+          vendor: '',
+          icon: value
+        })
       }
     ]
   }
@@ -277,6 +281,7 @@ export default class TimelineItemControl extends React.Component<
       type: 'action',
       actionType: 'dialog',
       label: '添加选项',
+      active: true,
       dialog: {
         title: '节点配置',
         headerClassName: 'font-bold',
