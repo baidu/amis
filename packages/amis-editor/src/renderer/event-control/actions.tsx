@@ -34,7 +34,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           descDetail: (info: any) => {
             return (
               <div>
-                跳转<span className="variable-left">{info?.args?.url}</span>
+                跳转至<span className="variable-left">{info?.args?.url}</span>
               </div>
             );
           },
@@ -288,7 +288,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 <span className="variable-right">
                   {MSG_TYPES[info?.args?.msgType] || ''}
                 </span>
-                消息提醒：
+                提醒消息：
                 <span className="variable-left">{info?.args?.msg}</span>
               </div>
             );
@@ -621,7 +621,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 {
                   type: 'combo',
                   name: 'value',
-                  label: '变量赋值',
+                  label: '字段赋值',
                   multiple: true,
                   removable: true,
                   required: true,
@@ -651,7 +651,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 {
                   type: 'combo',
                   name: 'value',
-                  label: '变量赋值',
+                  label: '字段赋值',
                   multiple: true,
                   removable: true,
                   required: true,
@@ -699,7 +699,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   evalMode: false,
                   variableMode: 'tabs',
                   inputMode: 'input-group',
-                  label: '变量赋值',
+                  label: '赋值',
                   size: 'lg',
                   mode: 'horizontal',
                   visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && __rendererName !== 'combo'`,
