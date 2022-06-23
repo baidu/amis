@@ -6,6 +6,7 @@ import {
 } from 'amis-editor-core';
 import React from 'react';
 import {
+  FORMITEM_CMPTS,
   getArgsWrapper,
   IS_DATA_CONTAINER,
   renderCmptActionSelect,
@@ -29,8 +30,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '跳转链接',
           actionType: 'url',
           description: '跳转至指定链接的页面',
-          config: ['url', 'params', 'blank'],
-          desc: (info: any) => {
+          innerArgs: ['url', 'params', 'blank'],
+          descDetail: (info: any) => {
             return (
               <div>
                 跳转<span className="variable-left">{info?.args?.url}</span>
@@ -98,8 +99,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '打开页面',
           actionType: 'link',
           description: '打开指定页面',
-          config: ['link', 'params'],
-          desc: (info: any) => {
+          innerArgs: ['link', 'params'],
+          descDetail: (info: any) => {
             return (
               <div>
                 打开
@@ -127,7 +128,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '回退页面',
           actionType: 'goBack',
           description: '浏览器回退',
-          desc: (info: any) => <div>返回上一页</div>
+          descDetail: (info: any) => <div>返回上一页</div>
         }
       ]
     },
@@ -272,7 +273,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '消息提醒',
           actionType: 'toast',
           description: '弹出消息提醒',
-          config: [
+          innerArgs: [
             'title',
             'msgType',
             'msg',
@@ -281,7 +282,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             'closeButton',
             'showIcon'
           ],
-          desc: (info: any) => {
+          descDetail: (info: any) => {
             return (
               <div>
                 <span className="variable-right">
@@ -407,8 +408,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '发送请求',
           actionType: 'ajax',
           description: '配置并发送API请求',
-          config: ['api'],
-          desc: (info: any) => {
+          innerArgs: ['api'],
+          descDetail: (info: any) => {
             return (
               <div>
                 发送
@@ -436,7 +437,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '下载文件',
           actionType: 'download',
           description: '触发下载文件',
-          config: ['api'],
+          innerArgs: ['api'],
           schema: {
             type: 'wrapper',
             style: {padding: '0 0 0 32px'},
@@ -462,7 +463,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actions: [
             {
               actionType: 'show',
-              desc: (info: any) => {
+              descDetail: (info: any) => {
                 return (
                   <div>
                     显示
@@ -476,7 +477,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             },
             {
               actionType: 'hidden',
-              desc: (info: any) => {
+              descDetail: (info: any) => {
                 return (
                   <div>
                     隐藏
@@ -489,6 +490,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               }
             }
           ],
+          supportComponents: '*',
           schema: [
             ...renderCmptSelect('选择组件', true),
             {
@@ -519,7 +521,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actions: [
             {
               actionType: 'enabled',
-              desc: (info: any) => {
+              descDetail: (info: any) => {
                 return (
                   <div>
                     启用
@@ -533,7 +535,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             },
             {
               actionType: 'disabled',
-              desc: (info: any) => {
+              descDetail: (info: any) => {
                 return (
                   <div>
                     禁用
@@ -546,6 +548,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               }
             }
           ],
+          supportComponents: ['form', ...FORMITEM_CMPTS],
           schema: [
             ...renderCmptSelect('选择组件', true),
             {
@@ -573,7 +576,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '刷新组件',
           actionType: 'reload',
           description: '请求并重新加载所选组件的数据',
-          desc: (info: any) => {
+          descDetail: (info: any) => {
             return (
               <div>
                 刷新
@@ -590,8 +593,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '设置组件数据',
           actionType: 'setValue',
           description: '设置数据容器或表单项的数据',
-          config: ['value', 'valueInput'],
-          desc: (info: any) => {
+          innerArgs: ['value', 'valueInput'],
+          descDetail: (info: any) => {
             return (
               <div>
                 设置
@@ -708,7 +711,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '提交表单',
           actionType: 'submit',
           description: '提交表单数据至数据源',
-          desc: (info: any) => {
+          descDetail: (info: any) => {
             return (
               <div>
                 <span className="variable-right">{info?.__rendererLabel}</span>
@@ -716,13 +719,14 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
+          supportComponents: 'form',
           schema: renderCmptSelect('选择组件', true)
         },
         {
           actionLabel: '清空表单',
           actionType: 'clear',
           description: '清空表单数据',
-          desc: (info: any) => {
+          descDetail: (info: any) => {
             return (
               <div>
                 <span className="variable-right">{info?.__rendererLabel}</span>
@@ -730,13 +734,14 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
+          supportComponents: 'form',
           schema: renderCmptSelect('选择组件', true)
         },
         {
           actionLabel: '重置表单',
           actionType: 'reset',
           description: '重置表单数据',
-          desc: (info: any) => {
+          descDetail: (info: any) => {
             return (
               <div>
                 <span className="variable-right">{info?.__rendererLabel}</span>
@@ -744,13 +749,14 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
+          supportComponents: 'form',
           schema: renderCmptSelect('选择组件', true)
         },
         {
           actionLabel: '校验表单',
           actionType: 'validate',
           description: '校验表单数据',
-          desc: (info: any) => {
+          descDetail: (info: any) => {
             return (
               <div>
                 <span className="variable-right">{info?.__rendererLabel}</span>
@@ -758,6 +764,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
+          supportComponents: 'form',
           schema: renderCmptSelect('选择组件', true)
         },
         {
@@ -777,8 +784,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '复制内容',
           actionType: 'copy',
           description: '复制文本内容至粘贴板',
-          config: ['content', 'copyFormat'],
-          desc: (info: any) => {
+          innerArgs: ['content', 'copyFormat'],
+          descDetail: (info: any) => {
             return (
               <div>
                 复制内容：

@@ -3,22 +3,16 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import Sortable from 'sortablejs';
 import {DataSchema, FormItem, Icon, TooltipWrapper} from 'amis';
-import {
-  FormControlProps,
-  autobind,
-  render as amisRender
-} from 'amis-core';
+import {FormControlProps, autobind, render as amisRender} from 'amis-core';
 
 import {BASE_ACTION_PROPS} from './comp-action-select';
 import ActionConfigPanel from './action-config-panel';
 import {
-  findHasSubActionNode,
-  formatActionInitConfig,
-  getAcionConfig,
-  getActionLabel,
-  getComponentTreeSource,
+  findActionNode,
+  findSubActionNode,
   getEventDesc,
-  getEventLabel
+  getEventLabel,
+  getPropOfAcion
 } from './helper';
 import {
   ActionConfig,
@@ -30,7 +24,8 @@ import {
   PluginActions,
   PluginEvents,
   RendererPluginAction,
-  RendererPluginEvent
+  RendererPluginEvent,
+  SubRendererPluginAction
 } from 'amis-editor-core';
 
 interface EventControlProps extends FormControlProps {
@@ -46,8 +41,10 @@ interface EventControlProps extends FormControlProps {
   ) => void;
   addBroadcast?: (event: RendererPluginEvent) => void;
   removeBroadcast?: (eventName: string) => void;
-  getComponents: () => ComponentInfo[]; // 当前页面组件树
+  getComponents: (action: RendererPluginAction) => ComponentInfo[]; // 当前页面组件树
   getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema; // 获取上下文
+  actionConfigInitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置初始化时格式化
+  actionConfigSubmitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置提交时格式化
   owner?: string; // 组件标识
 }
 
@@ -67,6 +64,11 @@ interface EventControlState {
         pluginActions: PluginActions;
         getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema;
         rawVariables: ContextVariables[];
+        __cmptActionType?: string;
+        __actionDesc?: string;
+        __cmptTreeSource?: ComponentInfo[],
+        __actionSchema?: any;
+        __subActions?: SubRendererPluginAction[]
       }
     | undefined;
   type: 'update' | 'add';
@@ -425,9 +427,9 @@ export class EventControl extends React.Component<
     const {
       actions: pluginActions,
       getContextSchemas,
-      actionTree,
-      commonActions,
-      getComponents
+      actionConfigInitFormatter,
+      getComponents,
+      actionTree
     } = this.props;
     const {events, rawVariables} = this.state;
 
@@ -454,6 +456,10 @@ export class EventControl extends React.Component<
 
     // 编辑操作，需要格式化动作配置
     if (data.type === 'update') {
+      const action = data.actionData!.action!;
+      const actionConfig = actionConfigInitFormatter?.(action);
+      const actionNode = findActionNode(actionTree, actionConfig?.actionType!);
+      const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,
@@ -461,13 +467,14 @@ export class EventControl extends React.Component<
         pluginActions,
         getContextSchemas,
         rawVariables,
-        ...formatActionInitConfig(
-          data.actionData!.action!,
-          actionTree,
-          pluginActions,
-          getComponents,
-          commonActions
-        )
+        ...actionConfig,
+        __cmptTreeSource: getComponents?.(actionNode!) ?? [],
+        __cmptActionType:
+          hasSubActionNode || action.componentId ? action.actionType : '',
+        __actionDesc: actionNode!.description!, // 树节点描述
+        __actionSchema: actionNode!.schema, // 树节点schema
+        __subActions: hasSubActionNode?.actions // 树节点子动作
+        // broadcastId: action.actionType === 'broadcast' ? action.eventName : ''
       };
     } else {
       data.actionData = {
@@ -484,17 +491,14 @@ export class EventControl extends React.Component<
 
   // 渲染描述信息
   renderDesc(action: ActionConfig) {
-    const {
-      actions: pluginActions,
-      actionTree,
-      commonActions
-    } = this.props;
-    const desc = getAcionConfig(
+    const {actions: pluginActions, actionTree, commonActions} = this.props;
+    const desc = getPropOfAcion(
       action,
+      'descDetail',
       actionTree,
       pluginActions,
       commonActions
-    )?.desc;
+    );
 
     return typeof desc === 'function' ? (
       <div className="action-control-content">{desc?.(action) || '-'}</div>
@@ -591,19 +595,16 @@ export class EventControl extends React.Component<
                         __cmptActionType = 'enabled';
                       }
 
+                      const action = data.selectedOptions[0];
+
                       form.setValues({
                         ...removeKeys,
-                        __cmptTreeSource: getComponentTreeSource(
-                          value,
-                          pluginActions,
-                          getComponents,
-                          commonActions
-                        ),
-                        __cmptActionType,
                         componentId: form.data.componentId ? '' : undefined,
-                        __actionDesc: data.selectedOptions[0].description,
-                        __actionSchema: data.selectedOptions[0].schema,
-                        __subActions: data.selectedOptions[0].actions
+                        __cmptTreeSource: getComponents?.(action) ?? [],
+                        __cmptActionType,
+                        __actionDesc: action.description,
+                        __actionSchema: action.schema,
+                        __subActions: action.actions
                       });
                     }
                   }
@@ -681,78 +682,9 @@ export class EventControl extends React.Component<
   }
 
   submitConfig(type: string, config: any) {
-    const {actionTree} = this.props;
+    const {actionConfigSubmitFormatter} = this.props;
+    const action = actionConfigSubmitFormatter?.(config) ?? config;
 
-    let action = {...config};
-
-    // 修正动作名称
-    if (config.actionType === 'component') {
-      // 标记一下组件特性动作
-      action.__isCmptAction = true;
-      action.actionType = config.__cmptActionType;
-    }
-    const hasSubActionNode = findHasSubActionNode(
-      actionTree,
-      config.__cmptActionType
-    );
-    if (hasSubActionNode) {
-      // 修正动作
-      action.actionType = config.__cmptActionType;
-    }
-    action.__label = getActionLabel(actionTree, config.actionType);
-
-    // 合并附加的动作参数
-    if (config.addOnArgs) {
-      config.addOnArgs.forEach((args: any) => {
-        action.args = action.args ?? {};
-        action.args = {
-          ...action.args,
-          [args.key]: args.val
-        };
-      });
-      delete action.addOnArgs;
-    }
-    // 转换下格式
-    if (['setValue', 'url', 'link'].includes(action.actionType)) {
-      const prop = action.actionType === 'setValue' ? 'value' : 'params';
-
-      if (Array.isArray(config.args[prop])) {
-        action.args = action.args ?? {};
-        if (action.__rendererName === 'combo') {
-          // combo特殊处理
-          let tempArr: any = [];
-          config.args?.[prop].forEach((valueItem: any, index: number) => {
-            valueItem.item.forEach((item: any) => {
-              if (!tempArr[index]) {
-                tempArr[index] = {};
-              }
-              tempArr[index][item.key] = item.val;
-            });
-          });
-          action.args = {
-            ...action.args,
-            [prop]: tempArr
-          };
-        } else {
-          let tmpObj: any = {};
-          config.args[prop].forEach((item: any) => {
-            tmpObj[item.key] = item.val;
-          });
-          action.args = {
-            ...action.args,
-            [prop]: tmpObj
-          };
-        }
-      } else if (action.actionType === 'setValue') {
-        // 处理变量赋值非数组的情况
-        action.args = {
-          ...action.args,
-          value: config.args['valueInput']
-        };
-      }
-    }
-
-    delete action.config;
     if (type === 'add') {
       this.addAction(config.eventKey, action);
     } else if (type === 'update') {
@@ -763,6 +695,7 @@ export class EventControl extends React.Component<
   }
 
   render() {
+    const {actionTree, actions: pluginActions, commonActions} = this.props;
     const {
       onEvent,
       events,
@@ -868,7 +801,7 @@ export class EventControl extends React.Component<
                                   />
                                 </div>
                                 <div className="action-item-actiontype">
-                                  {action.__label || action.actionType}
+                                  {getPropOfAcion(action, 'actionLabel', actionTree, pluginActions, commonActions) || action.actionType}
                                 </div>
                               </div>
                               <div className="action-control-header-right">
