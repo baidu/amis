@@ -14,7 +14,7 @@ import type {IScopedContext} from 'amis-core';
 
 import type {FormControlProps} from 'amis-core';
 import type {FormSchema} from 'amis/lib/Schema';
-import type {Offset} from 'amis-core/lib/components/PopOver';
+import {Offset} from 'amis-ui/lib/components/PopOver';
 
 export interface PopoverEditProps extends FormControlProps {
   className?: string;
