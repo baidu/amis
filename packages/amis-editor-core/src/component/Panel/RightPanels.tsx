@@ -1,10 +1,10 @@
 import {observer} from 'mobx-react';
 import React from 'react';
-import {Icon} from 'amis';
+import {Tab, Tabs, Icon} from 'amis';
+import cx from 'classnames';
 import {EditorManager} from '../../manager';
 import {EditorStoreType} from '../../store/editor';
-import cx from 'classnames';
-import {Tab, Tabs} from 'amis';
+import {Icon as PluginIcon} from '../../plugin-icons/index';
 import {autobind} from '../../util';
 import {findDOMNode} from 'react-dom';
 import {PanelItem} from '../../plugin';
@@ -144,7 +144,16 @@ export class RightPanels extends React.Component<
                         editor-tooltip={panel.title}
                         tooltip-position="left"
                       >
-                        <i className={`fa ${panel.icon}`}></i>
+                        {
+                          panel.pluginIcon && (
+                            <PluginIcon icon={panel.pluginIcon} className='pluginIcon' />
+                          )
+                        }
+                        {
+                          !panel.pluginIcon && (
+                             <i className={`fa ${panel.icon}`} />
+                          )
+                        } 
                       </span>
                     }
                     className={`editorPanel-tabs-pane ae-Editor-${panel.key}Pane`}

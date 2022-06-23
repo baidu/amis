@@ -8,7 +8,6 @@ import {
   BuildPanelEventContext,
   PluginEvent,
   InsertEventContext,
-  PluginInterface
 } from '../plugin';
 import {registerEditorPlugin} from '../manager';
 import type {MenuItem} from 'amis-ui/lib/components/ContextMenu';

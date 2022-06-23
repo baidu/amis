@@ -190,6 +190,13 @@ $category-2-height: px2rem(32px);
               height: 45px;
               color: #151b26;
             }
+
+            // 新版icon
+            > svg.pluginIcon {
+              width: 20px;
+              height: 20px;
+              color: #151b26;
+            }
           }
         }
 

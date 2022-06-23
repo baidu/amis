@@ -421,6 +421,7 @@ export interface PanelItem {
   nodeId?: string;
   key: string;
   icon: string;
+  pluginIcon?: string; // 新版icon（svg）
   title: string | JSX.Element; // 标题
   component?: React.ComponentType<PanelProps | any>;
   order: number;
@@ -955,6 +956,7 @@ export abstract class BasePlugin implements PluginInterface {
       panels.push({
         key: 'config',
         icon: plugin.panelIcon || plugin.icon || 'fa fa-cog',
+        pluginIcon: plugin.pluginIcon,
         title: plugin.panelTitle || '设置',
         render: this.manager.makeSchemaFormRender({
           definitions: plugin.panelDefinitions,
