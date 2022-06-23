@@ -1,6 +1,9 @@
-@import 'amis-ui/scss/functions';
-@import 'amis-ui/scss/variables';
-@import 'amis-ui/scss/mixins';
+// @import 'amis-ui/scss/functions';
+// @import 'amis-ui/scss/variables';
+// @import 'amis-ui/scss/mixins';
+@import '../../../node_modules/amis-ui/scss/functions';
+@import '../../../node_modules/amis-ui/scss/variables';
+@import '../../../node_modules/amis-ui/scss/mixins';
 @import './_mixin';
 @import './_variables';
 @import './_backTop';
