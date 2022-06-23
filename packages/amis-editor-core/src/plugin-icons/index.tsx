@@ -2,16 +2,16 @@ import {registerIcon, Icon} from 'amis';
 
 /**
  * 新版组件 icon
- * 备注: 合计 94 个 icon，详细如下:
- * 1. 功能类组件 icon x 10
- * 2. 容器类组件 icon x 11
+ * 备注: 合计 107 个 icon，详细如下:
+ * 1. 功能类组件 icon x 11
+ * 2. 容器类组件 icon x 12
  * 3. 按钮类组件 icon x 5
- * 4. 展示类组件 icon x 15
- * 5. 表单类组件 icon x 51
- * 6. 其他类组件 icon x 2
+ * 4. 展示类组件 icon x 23
+ * 5. 表单类组件 icon x 53
+ * 6. 其他类组件 icon x 3
  */
 
-// 功能类组件 icon x 12
+// 功能类组件 icon x 11
 import audio from './feat/audio.svg';
 import custom from './feat/custom.svg';
 import each from './feat/each.svg';
@@ -81,6 +81,7 @@ import editor from './form/editor.svg';
 import hidden from './form/hidden.svg';
 import inputCity from './form/input-city.svg';
 import inputColor from './form/input-color.svg';
+
 import inputTimeRange from './form/input-time-range.svg';
 import inputDateRange from './form/input-date-range.svg';
 import inputMonthRange from './form/input-month-range.svg';
@@ -91,6 +92,7 @@ import inputEmail from './form/input-email.svg';
 import inputExcel from './form/input-excel.svg';
 import inputFile from './form/input-file.svg';
 import inputGroup from './form/input-group.svg';
+
 import inputImage from './form/input-image.svg';
 import inputKv from './form/input-kv.svg';
 import inputNumber from './form/input-number.svg';
@@ -101,6 +103,7 @@ import inputRepeat from './form/input-repeat.svg';
 import inputRichText from './form/input-rich-text.svg';
 import inputTag from './form/input-tag.svg';
 import inputText from './form/input-text.svg';
+
 import inputTime from './form/input-time.svg';
 import inputTree from './form/input-tree.svg';
 import inputUrl from './form/input-url.svg';
@@ -111,6 +114,7 @@ import matrixCheckboxes from './form/matrix-checkboxes.svg';
 import month from './form/month.svg';
 import nestedSelect from './form/nested-select.svg';
 import picker from './form/picker.svg';
+
 import quarter from './form/quarter.svg';
 import radios from './form/radios.svg';
 import select from './form/select.svg';
@@ -121,6 +125,7 @@ import tabsTransfer from './form/tabs-transfer.svg';
 import textarea from './form/textarea.svg';
 import transfer from './form/transfer.svg';
 import treeSelect from './form/tree-select.svg';
+
 import uuid from './form/uuid.svg';
 import formula from './form/formula.svg';
 import inputArray from './form/inputArray.svg';
@@ -130,7 +135,7 @@ import propertySheet from './other/property-sheet.svg';
 import tooltip from './other/tooltip.svg';
 import divider from './other/divider.svg';
 
-// 功能类组件 icon x 12
+// 功能类组件 icon x 11
 registerIcon('audio-plugin', audio);
 registerIcon('custom-plugin', custom);
 registerIcon('each-plugin', each);
