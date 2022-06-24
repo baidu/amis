@@ -308,13 +308,17 @@ $category-2-height: px2rem(32px);
           height: 100%;
           width: 100%;
           text-align: center;
-          padding: 0 !important;
+          padding: 2px 0 0 0 !important;
+          font-family: PingFangSC-Regular;
           color: #84868c;
           width: 100%;
           font-size: 14px;
           letter-spacing: 0;
           font-weight: 400;
           text-decoration: none;
+          border: none !important;
+          border-bottom: 2px solid #fff !important;
+          box-sizing: border-box;
           display: flex !important;
           justify-content: center !important;
           align-items: center !important;
@@ -322,16 +326,7 @@ $category-2-height: px2rem(32px);
 
         &.is-active > a {
           color: $Editor-theme-color !important;
-
-          font-family: PingFangSC-Regular;
-          font-size: 14px;
-          color: #84868c;
-          letter-spacing: 0;
-          font-weight: 400;
-
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          border-bottom: 2px solid $editor-active-color !important;
         }
 
         &:not(:last-child):after {

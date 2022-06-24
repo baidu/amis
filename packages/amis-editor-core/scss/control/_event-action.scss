@@ -1,8 +1,9 @@
 .ae-event-control {
     font-size: #{px2rem(12px)};
     padding-top: #{px2rem(56px)};
+    
     &-header {
-      position: fixed;
+      position: absolute;
       top: #{px2rem(45px)};
       width: 100%;
       padding: #{px2rem(12px)};
