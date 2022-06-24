@@ -103,6 +103,30 @@ order: 51
 }
 ```
 
+## 不同尺寸
+
+> 2.0.0 及以上版本
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "name": "switch",
+            "type": "switch",
+            "label": ""
+        },
+        {
+            "name": "switch-sm",
+            "type": "switch",
+            "label": "",
+            "size": "sm"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -114,6 +138,7 @@ order: 51
 | offText    | `string / IconSchema`       |         | 关闭时开关显示的内容 |
 | trueValue  | `boolean / string / number` | `true`  | 标识真值             |
 | falseValue | `boolean / string / number` | `false` | 标识假值             |
+| size       | `"sm" \| "md"`              | `"md"`  | 开关大小             |
 
 IconSchema 配置
 | 属性名 | 类型 | 默认值 | 说明 |
