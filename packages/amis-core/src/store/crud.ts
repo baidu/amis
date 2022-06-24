@@ -251,6 +251,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             hasNext,
             items: oItems,
             rows: oRows,
+            columns,
             ...rest
           } = result;
 
@@ -333,10 +334,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             data.count = data.total = filteredItems.length;
           }
 
-          if (Array.isArray(options.columns)) {
-            self.columns = options.columns.concat();
+          if (Array.isArray(columns)) {
+            self.columns = columns.concat();
           } else {
-            self.columns = undefined;
+            self.columns = options.columns;
           }
 
           self.items.replace(rowsData);
