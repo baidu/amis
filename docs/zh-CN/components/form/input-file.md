@@ -316,6 +316,7 @@ order: 21
 | concurrency      | `number`                       |                                                                                                            | 分块上传时并行个数                                                                                                                   |
 | documentation    | `string`                       |                                                                                                            | 文档内容                                                                                                                             |
 | documentLink     | `string`                       |                                                                                                            | 文档链接                                                                                                                             |
+| initAutoFill     | `boolean`                      | `true`                                                                                                     | 初始化时是否自动填充                                                                                                                 |
 
 ## 事件表
 
