@@ -440,7 +440,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   componentDidUpdate(prevProps: FileProps) {
     const props = this.props;
 
-    if (prevProps.value !== props.value && this.emitValue !== props.value) {
+    if (
+      prevProps.value !== props.value &&
+      this.emitValue !== props.value &&
+      props.formInited !== false
+    ) {
       const value: string | Array<string | FileValue> | FileValue = props.value;
       const joinValues = props.joinValues;
       const delimiter = props.delimiter as string;
