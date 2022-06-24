@@ -723,6 +723,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       ...selectedItems[0],
       rows: selectedItems,
       items: selectedItems,
+      selectedItems,
       unSelectedItems: unSelectedItems,
       ids
     });

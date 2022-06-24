@@ -1472,7 +1472,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 批量操作会默认将下面数据添加到数据域中以供按钮行为使用
 
-- `items` `Array<object>` 当前页数据集合。
+- `items` `Array<object>` selectedItems 的别名
 - `rows` items 的别名，推荐用 items。
 - `selectedItems` `Array<object>` 选中的行数据集合
 - `unSelectedItems` `Array<object>` 没选中的行数据也可获取。
