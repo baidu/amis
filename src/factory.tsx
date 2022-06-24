@@ -503,7 +503,7 @@ export function updateEnv(options: Partial<RenderOptions>, session = 'global') {
 
   let store = stores[options.session || session];
   if (!store) {
-    store = RendererStore.create({}, options);
+    store = RendererStore.create({}, {...defaultOptions, ...options});
     stores[options.session || session] = store;
   } else {
     const env = getEnv(store);
