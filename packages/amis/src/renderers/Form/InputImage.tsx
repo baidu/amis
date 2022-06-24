@@ -394,6 +394,7 @@ export default class ImageControl extends React.Component<
   resolve?: (value?: any) => void;
   emitValue: any;
   unmounted = false;
+  firstLoad = true; // 是否为初始加载
   initAutoFill: boolean;
 
   constructor(props: ImageProps) {
@@ -448,7 +449,12 @@ export default class ImageControl extends React.Component<
   }
 
   componentDidMount() {
-    this.syncAutoFill();
+    const {formInited, addHook} = this.props;
+    if (this.initAutoFill) {
+      formInited || !addHook
+        ? this.syncAutoFill()
+        : addHook(this.syncAutoFill, 'init');
+    }
   }
 
   componentDidUpdate(prevProps: ImageProps) {
@@ -492,15 +498,13 @@ export default class ImageControl extends React.Component<
           })
           .filter(item => item);
       }
-
       this.setState(
         {
           files: (this.files = files)
         },
         this.syncAutoFill
       );
-    } else if (prevProps.value !== props.value && !this.initAutoFill) {
-      this.initAutoFill = true;
+    } else if (prevProps.value !== props.value) {
       this.syncAutoFill();
     }
 
@@ -714,6 +718,7 @@ export default class ImageControl extends React.Component<
   }
 
   async removeFile(file: FileValue, index: number) {
+    this.firstLoad = false;
     const files = this.files.concat();
     const dispatcher = await this.dispatchEvent('remove', file);
     if (dispatcher?.prevented) {
@@ -810,7 +815,11 @@ export default class ImageControl extends React.Component<
     }
 
     onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
-    this.syncAutoFill();
+    if (this.initAutoFill) {
+      this.syncAutoFill();
+    } else if (!this.firstLoad) {
+      this.syncAutoFill();
+    }
   }
 
   syncAutoFill() {
@@ -822,17 +831,20 @@ export default class ImageControl extends React.Component<
     // 排除自身的字段，否则会无限更新state
     const excludeSelfAutoFill = omit(autoFill, name || '');
 
-    if (!isEmpty(excludeSelfAutoFill) && onBulkChange && this.initAutoFill) {
+    if (!isEmpty(excludeSelfAutoFill) && onBulkChange) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
       const toSync = dataMapping(
         excludeSelfAutoFill,
-        multiple
-          ? {
-              items: files
-            }
-          : files[0]
+        createObject(
+          data,
+          multiple
+            ? {
+                items: files
+              }
+            : files[0]
+        )
       );
 
       Object.keys(toSync).forEach(key => {
@@ -849,6 +861,7 @@ export default class ImageControl extends React.Component<
   }
 
   handleRetry(index: number) {
+    this.firstLoad = false;
     const files = this.files.concat();
     const file = files[index];
 
@@ -869,6 +882,7 @@ export default class ImageControl extends React.Component<
 
   handleDrop(files: Array<FileX>) {
     const {multiple, crop} = this.props;
+    this.firstLoad = false;
 
     if (crop && !multiple) {
       const file = files[0] as any;
@@ -910,6 +924,7 @@ export default class ImageControl extends React.Component<
   }
 
   handleCrop() {
+    this.firstLoad = false;
     const {cropFormat, cropQuality} = this.props;
     this.cropper.getCroppedCanvas().toBlob(
       (file: File) => {
