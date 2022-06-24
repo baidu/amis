@@ -950,11 +950,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       );
       const toSync = dataMapping(
         excludeSelfAutoFill,
-        multiple
-          ? {
-              items: files
-            }
-          : files[0]
+        createObject(
+          data,
+          multiple
+            ? {
+                items: files
+              }
+            : files[0]
+        )
       );
       Object.keys(toSync).forEach(key => {
         if (isPlainObject(toSync[key]) && isPlainObject(data[key])) {
