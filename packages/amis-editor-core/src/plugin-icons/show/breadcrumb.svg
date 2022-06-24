@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="面包屑" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <rect id="矩形" stroke="currentColor" x="1.5" y="3" width="3" height="10"></rect>
-        <rect id="矩形" stroke="currentColor" x="11.5" y="3" width="3" height="10"></rect>
-        <polyline id="路径" stroke="currentColor" stroke-linecap="round" transform="translate(7.140519, 8.000000) rotate(-135.000000) translate(-7.140519, -8.000000) " points="8.39051929 9.25 5.89051929 9.25 5.89051929 6.75"></polyline>
-    </g>
-</svg>

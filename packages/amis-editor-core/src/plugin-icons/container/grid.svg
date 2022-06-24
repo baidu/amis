@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="分栏" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <rect id="矩形" stroke="currentColor" x="1.49800692" y="2" width="5.50199308" height="12"></rect>
-        <rect id="矩形" stroke="currentColor" x="9" y="2" width="5.50214767" height="12"></rect>
-    </g>
-</svg>

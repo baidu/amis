@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="iframe" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <rect id="方形" stroke="currentColor" x="2" y="2" width="12" height="12"></rect>
-        <rect id="方形" stroke="currentColor" x="2" y="8" width="6" height="6"></rect>
-    </g>
-</svg>

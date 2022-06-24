@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-   <g id="进度展示" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
-        <polyline id="路径" stroke="currentColor" transform="translate(10.964466, 8.000000) rotate(-45.000000) translate(-10.964466, -8.000000) " points="13.4644661 5.5 13.4644661 10.5 8.46446609 10.5"></polyline>
-        <polyline id="路径" stroke="currentColor" transform="translate(6.167869, 8.000000) rotate(-45.000000) translate(-6.167869, -8.000000) " points="8.66786933 5.5 8.66786933 10.5 3.66786933 10.5"></polyline>
-        <polyline id="路径" stroke="currentColor" transform="translate(1.500000, 8.000000) rotate(-45.000000) translate(-1.500000, -8.000000) " points="4 5.5 4 10.5 -1 10.5"></polyline>
-    </g>
-</svg>

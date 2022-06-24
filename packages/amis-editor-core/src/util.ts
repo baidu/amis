@@ -1,7 +1,7 @@
 /**
  * @file 功能类函数集合。
  */
-import {utils} from 'amis';
+import {utils, hasIcon} from 'amis';
 import isEqual from 'lodash/isEqual';
 import {isObservable, reaction} from 'mobx';
 import DeepDiff, {Diff} from 'deep-diff';
@@ -869,4 +869,9 @@ export function jsonToJsonSchema(json: any = {}) {
     }
   });
   return jsonschema;
+}
+
+// 是否使用 plugin 自带的 svg 版 icon
+export function isHasPluginIcon(plugin: any) {
+  return plugin.pluginIcon && hasIcon(plugin.pluginIcon);
 }

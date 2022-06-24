@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-   <g id="状态显示" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <path d="M8,5.5 C9.67888513,5.5 11.1161903,6.53432675 11.7094497,8.0005144 C11.1155427,9.46613922 9.67850691,10.5 8,10.5 C6.32149309,10.5 4.8844573,9.46613922 4.29095141,8.00047642 C4.88380971,6.53432675 6.32111487,5.5 8,5.5 Z" id="形状结合" stroke="currentColor"></path>
-        <circle id="椭圆形" stroke="currentColor" cx="8.00020053" cy="8" r="1"></circle>
-        <rect id="方形" stroke="currentColor" x="2" y="2" width="12" height="12"></rect>
-    </g>
-</svg>

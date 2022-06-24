@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="锚点导航" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <line x1="2" y1="2" x2="2" y2="14" id="直线" stroke="currentColor" stroke-linecap="round"></line>
-        <rect id="矩形" stroke="currentColor" x="4.5" y="2" width="9.5" height="2.5"></rect>
-        <rect id="矩形" stroke="currentColor" x="4.5" y="6.75" width="9.5" height="2.5"></rect>
-        <rect id="矩形" stroke="currentColor" x="4.5" y="11.5" width="9.5" height="2.5"></rect>
-    </g>
-</svg>

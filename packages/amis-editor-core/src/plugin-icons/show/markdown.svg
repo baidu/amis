@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="markdown" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <polygon id="方形" stroke="currentColor" points="2.5 1.5 10.5 1.5 13.5 4.5 13.5 14.5 2.5 14.5"></polygon>
-        <polygon id="M" stroke="currentColor" stroke-width="0.2" fill="currentColor" fill-rule="nonzero" points="6.1485 11.5 6.1485 8.056 6.1765 8.056 7.6465 11.5 8.3535 11.5 9.8235 8.056 9.8515 8.056 9.8515 11.5 10.6705 11.5 10.6705 6.502 9.7115 6.502 8.0175 10.422 7.9895 10.422 6.2885 6.502 5.3295 6.502 5.3295 11.5"></polygon>
-    </g>
-</svg>

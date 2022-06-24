@@ -101,4 +101,4 @@ registerIcon('editor-common-config', EditorCommonConfig);
 registerIcon('editor-double-arrow', EditorDoubleArrow);
 registerIcon('search-clear', SearchClear);
 
-export {Icon};
+export {registerIcon, Icon};

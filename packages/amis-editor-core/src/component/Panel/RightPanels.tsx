@@ -1,11 +1,11 @@
 import {observer} from 'mobx-react';
 import React from 'react';
-import {Tab, Tabs, Icon} from 'amis';
+import {Tab, Tabs} from 'amis';
 import cx from 'classnames';
 import {EditorManager} from '../../manager';
 import {EditorStoreType} from '../../store/editor';
-import {Icon as PluginIcon} from '../../plugin-icons/index';
-import {autobind} from '../../util';
+import {Icon} from '../../icons/index';
+import {autobind, isHasPluginIcon} from '../../util';
 import {findDOMNode} from 'react-dom';
 import {PanelItem} from '../../plugin';
 import {WidthDraggableBtn} from '../base/WidthDraggableBtn';
@@ -132,6 +132,7 @@ export class RightPanels extends React.Component<
               onSelect={this.handleSelect}
             >
               {panels.map(panel => {
+                const usePluginIcon = isHasPluginIcon(panel);
                 return (
                   <Tab
                     key={panel.key}
@@ -145,12 +146,12 @@ export class RightPanels extends React.Component<
                         tooltip-position="left"
                       >
                         {
-                          panel.pluginIcon && (
-                            <PluginIcon icon={panel.pluginIcon} className='pluginIcon' />
+                          usePluginIcon && (
+                            <Icon icon={panel.pluginIcon} className='pluginIcon' />
                           )
                         }
                         {
-                          !panel.pluginIcon && (
+                          !usePluginIcon && (
                              <i className={`fa ${panel.icon}`} />
                           )
                         } 

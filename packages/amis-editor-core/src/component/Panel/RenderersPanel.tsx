@@ -1,11 +1,11 @@
-import {Html, Icon, render, TooltipWrapper} from 'amis';
+import {Html, render, TooltipWrapper, hasIcon} from 'amis';
 import {observer} from 'mobx-react';
 import React from 'react';
 import cx from 'classnames';
-import {Icon as PluginIcon} from '../../plugin-icons/index';
+import {Icon} from '../../icons/index';
 import SearchRendererPanel from '../base/SearchRendererPanel';
 import SearchCustomRendererPanel from '../base/SearchCustomRendererPanel';
-import {autobind, noop} from '../../util';
+import {autobind, noop, isHasPluginIcon} from '../../util';
 import {EditorStoreType} from '../../store/editor';
 import {EditorManager} from '../../manager';
 import {SubRendererInfo} from '../../plugin';
@@ -162,6 +162,7 @@ export default class RenderersPanel extends React.Component<
                   >
                     {items.map((item: any) => {
                       const key = `${index}_${item.id}`;
+                      const usePluginIcon = isHasPluginIcon(item);
 
                       return (
                         <div
@@ -183,12 +184,12 @@ export default class RenderersPanel extends React.Component<
                             onClick={this.handleClick}
                           >
                             {
-                              item.pluginIcon && (
-                                <PluginIcon icon={item.pluginIcon} />
+                              usePluginIcon && (
+                                <Icon icon={item.pluginIcon} />
                               )
                             }
                             {
-                              !item.pluginIcon && (
+                              !usePluginIcon && (
                                 <i
                                   className={cx(
                                    'fa-fw',
