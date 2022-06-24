@@ -430,11 +430,11 @@ export const getPropOfAcion = (
 };
 
 // 渲染组件选择配置项
-export function renderCmptSelect(
+export const renderCmptSelect = (
   componentLabel: string,
   required: boolean,
   onChange?: (value: string, oldVal: any, data: any, form: any) => void
-) {
+) => {
   return [
     {
       type: 'tree-select',
@@ -461,11 +461,11 @@ export function renderCmptSelect(
 }
 
 // 渲染组件特性动作配置项
-export function renderCmptActionSelect(
+export const renderCmptActionSelect = (
   componentLabel: string,
   required: boolean,
   onChange?: (value: string, oldVal: any, data: any, form: any) => void
-) {
+) => {
   return [
     ...renderCmptSelect(
       '选择组件',

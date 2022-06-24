@@ -718,7 +718,9 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 提交
-                <span className="variable-right">{info?.__rendererLabel}</span>
+                <span className="variable-right">
+                  {info?.__rendererLabel}
+                </span>
                 的数据
               </div>
             );
@@ -734,7 +736,9 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 清空
-                <span className="variable-right">{info?.__rendererLabel}</span>
+                <span className="variable-right">
+                  {info?.__rendererLabel}
+                </span>
                 的数据
               </div>
             );
@@ -750,7 +754,9 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 重置
-                <span className="variable-right">{info?.__rendererLabel}</span>
+                <span className="variable-right">
+                  {info?.__rendererLabel}
+                </span>
                 的数据
               </div>
             );
@@ -766,7 +772,9 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 校验
-                <span className="variable-right">{info?.__rendererLabel}</span>
+                <span className="variable-right">
+                  {info?.__rendererLabel}
+                </span>
                 的数据
               </div>
             );
@@ -797,7 +805,9 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 复制内容：
-                <span className="variable-left">{info?.args?.content}</span>
+                <span className="variable-left">
+                  {info?.args?.content}
+                </span>
               </div>
             );
           },

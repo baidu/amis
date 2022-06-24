@@ -8,6 +8,7 @@ import React from 'react';
 import {ActionConfig, ComponentInfo} from './types';
 import ActionConfigPanel from './action-config-panel';
 import {BASE_ACTION_PROPS} from './comp-action-select';
+import { findActionNode } from './helper';
 
 interface ActionDialogProp {
   show: boolean;
@@ -39,7 +40,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
       array.forEach(node => {
         if (node.children) {
           getSearchList(result, node.children, keywords);
-        } else if (node.actionLabel.includes(keywords)) {
+        } else if (node.actionLabel!.includes(keywords)) {
           result.push({...node});
         }
       });
@@ -81,7 +82,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                 autoFocus: true,
                 data: {
                   // 直接传入时内部有函数引用等解析会报错
-                  resultActionTree: JSON.parse(JSON.stringify(actionTree)),
+                  __resultActionTree: JSON.parse(JSON.stringify(actionTree)),
                 },
                 preventEnterSubmit: true,
                 // debug: true,
@@ -101,7 +102,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                           },
                           {
                             type: 'input-text',
-                            name: 'keywords',
+                            name: '__keywords',
                             className: 'action-tree-search',
                             placeholder: '请搜索执行动作',
                             clearable: true,
@@ -113,9 +114,9 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                             ) => {
                               if (value) {
                                 const list = this.getTreeSearchList(actionTree, value);
-                                form.setValueByName('resultActionTree', list);
+                                form.setValueByName('__resultActionTree', list);
                               } else {
-                                form.setValueByName('resultActionTree', actionTree);
+                                form.setValueByName('__resultActionTree', actionTree);
                               }
                             }
                           },
@@ -124,8 +125,8 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                             name: 'actionType',
                             disabled: false,
                             onlyLeaf: true,
-                            highlightTxt: '${keywords}',
-                            source: '${resultActionTree}',
+                            highlightTxt: '${__keywords}',
+                            source: '${__resultActionTree}',
                             showIcon: false,
                             className: 'action-tree',
                             mode: 'normal',
@@ -182,20 +183,21 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                                 __cmptActionType = 'enabled';
                               }
 
-                              const action = data.selectedOptions[0];
+                              const actionNode = findActionNode(actionTree, value);
+
                               form.setValues({
                                 ...removeKeys,
-                                resultActionTree: form.data.resultActionTree,
-                                keywords: form.data.keywords,
+                                __resultActionTree: form.data.__resultActionTree,
+                                __keywords: form.data.__keywords,
                                 componentId: form.data.componentId
                                   ? ''
                                   : undefined,
                                 __cmptActionType,
-                                __actionDesc: action.description,
-                                __actionSchema: action.schema,
-                                __subActions: action.actions,
-                                __cmptTreeSource: action.supportComponents
-                                  ? getComponents?.(action) ?? []
+                                __actionDesc: actionNode?.description,
+                                __actionSchema: actionNode?.schema,
+                                __subActions: actionNode?.actions,
+                                __cmptTreeSource: actionNode?.supportComponents
+                                  ? getComponents?.(actionNode) ?? []
                                   : []
                               });
                             }
@@ -254,7 +256,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                                 label: '执行条件',
                                 mode: 'horizontal',
                                 size: 'lg',
-                                placeholder: '不设置条件，默认执行该动作',
+                                placeholder: '默认执行该动作',
                                 visibleOn: 'data.actionType'
                               }
                             ]
