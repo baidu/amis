@@ -990,7 +990,6 @@ export default class Form extends React.Component<FormProps, object> {
 
     if (Array.isArray(action.required) && action.required.length) {
       store.clearErrors(); // 如果是按钮指定了required，则校验前先清空一下遗留的校验报错
-
       const fields = action.required.map(item => ({
         name: item,
         rules: {isRequired: true}
@@ -1009,6 +1008,9 @@ export default class Form extends React.Component<FormProps, object> {
 
         /** 抛异常是为了在dialog中catch这个错误，避免弹窗直接关闭 */
         return Promise.reject(__('Form.validateFailed'));
+      } else {
+        /** 重置validated状态，保证submit时触发表单中的校验项 */
+        store.clearErrors();
       }
     }
     if (
