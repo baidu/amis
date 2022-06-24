@@ -25,7 +25,6 @@ import {
   RendererPluginEvent,
   SubRendererPluginAction
 } from 'amis-editor-core';
-import clone from 'lodash/clone';
 
 interface EventControlProps extends FormControlProps {
   actions: PluginActions; // 组件的动作列表
@@ -476,6 +475,8 @@ export class EventControl extends React.Component<
         __cmptTreeSource: actionConfig?.componentId ? getComponents?.(actionNode!) ?? [] : []
         // broadcastId: action.actionType === 'broadcast' ? action.eventName : ''
       };
+      // 选中项自动滚动至可见位置
+      setTimeout(() => document.querySelector('.action-tree .cxd-Tree-item--isLeaf .is-checked')?.scrollIntoView(), 0);
     } else {
       data.actionData = {
         eventKey: data.actionData!.eventKey,

@@ -31,9 +31,9 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
    * @param keywords
    * @returns
    */
-   getTreeSearchList(tree: RendererPluginAction[], keywords: string): any {
+  getTreeSearchList(tree: RendererPluginAction[], keywords: string): any {
     if (!keywords) {
-      return [];
+      return tree;
     }
     let result: any[] = [];
     const getSearchList = (result: any[], array: RendererPluginAction[], keywords: string) => {
@@ -47,6 +47,113 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
     };
     getSearchList(result, tree, keywords);
     return result;
+  }
+
+  /**
+   * 获取组件树配置schema
+   * @param isSearch 是否是搜索
+   * @param actionTree 原数据源
+   * @param getComponents
+   * @returns
+   */
+  getInputTreeSchema(
+    isSearch: boolean,
+    actionTree: RendererPluginAction[],
+    getComponents: (action: RendererPluginAction) => ComponentInfo[]
+  ) {
+    const inputTreeSchema = {
+      type: 'input-tree',
+      name: 'actionType',
+      visibleOn: isSearch ? '__keywords' : '!__keywords',
+      disabled: false,
+      onlyLeaf: true,
+      showIcon: false,
+      className: 'action-tree',
+      mode: 'normal',
+      labelField: 'actionLabel',
+      valueField: 'actionType',
+      inputClassName: 'no-border action-tree-control',
+      onChange: (
+        value: string,
+        oldVal: any,
+        data: any,
+        form: any
+      ) => {
+        // 因为不知道动作都有哪些字段，这里只保留基础配置
+        let removeKeys: {
+          [key: string]: any;
+        } = {};
+        let __cmptActionType = '';
+
+        Object.keys(form.data).forEach((key: string) => {
+          if (!BASE_ACTION_PROPS.includes(key)) {
+            removeKeys[key] = undefined;
+          }
+        });
+
+        if (
+          value === 'openDialog' &&
+          !['dialog', 'drawer'].includes(__cmptActionType)
+        ) {
+          __cmptActionType = 'dialog';
+        }
+
+        if (
+          value === 'closeDialog' &&
+          !['closeDialog', 'closeDrawer'].includes(
+            __cmptActionType
+          )
+        ) {
+          __cmptActionType = 'closeDialog';
+        }
+
+        if (
+          value === 'visibility' &&
+          !['show', 'hidden'].includes(__cmptActionType)
+        ) {
+          __cmptActionType = 'show';
+        }
+
+        if (
+          value === 'usability' &&
+          !['enabled', 'disabled'].includes(
+            __cmptActionType
+          )
+        ) {
+          __cmptActionType = 'enabled';
+        }
+
+        const actionNode = findActionNode(actionTree, value);
+
+        form.setValues({
+          ...removeKeys,
+          __keywords: form.data.__keywords,
+          __resultActionTree: form.data.__resultActionTree,
+          componentId: form.data.componentId
+            ? ''
+            : undefined,
+          __cmptActionType,
+          __actionDesc: actionNode.description,
+          __actionSchema: actionNode.schema,
+          __subActions: actionNode.actions,
+          __cmptTreeSource: actionNode.supportComponents
+            ? getComponents?.(actionNode) ?? []
+            : []
+        });
+      }
+    }
+    if (isSearch) {
+      return {
+        ...inputTreeSchema,
+        source: '${__resultActionTree}',
+        highlightTxt: '${__keywords}'
+      }
+    } else {
+      return {
+        ...inputTreeSchema,
+        options: actionTree,
+      }
+    }
   }
 
   render() {
@@ -81,8 +188,8 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                 submitText: '保存',
                 autoFocus: true,
                 data: {
-                  // 直接传入时内部有函数引用等解析会报错
-                  __resultActionTree: JSON.parse(JSON.stringify(actionTree)),
+                  __keywords: '',
+                  __resultActionTree: []
                 },
                 preventEnterSubmit: true,
                 // debug: true,
@@ -120,88 +227,10 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                               }
                             }
                           },
-                          {
-                            type: 'input-tree',
-                            name: 'actionType',
-                            disabled: false,
-                            onlyLeaf: true,
-                            highlightTxt: '${__keywords}',
-                            source: '${__resultActionTree}',
-                            showIcon: false,
-                            className: 'action-tree',
-                            mode: 'normal',
-                            labelField: 'actionLabel',
-                            valueField: 'actionType',
-                            inputClassName: 'no-border action-tree-control',
-                            onChange: (
-                              value: string,
-                              oldVal: any,
-                              data: any,
-                              form: any
-                            ) => {
-                              // 因为不知道动作都有哪些字段，这里只保留基础配置
-                              let removeKeys: {
-                                [key: string]: any;
-                              } = {};
-                              let __cmptActionType = '';
-
-                              Object.keys(form.data).forEach((key: string) => {
-                                if (!BASE_ACTION_PROPS.includes(key)) {
-                                  removeKeys[key] = undefined;
-                                }
-                              });
-
-                              if (
-                                value === 'openDialog' &&
-                                !['dialog', 'drawer'].includes(__cmptActionType)
-                              ) {
-                                __cmptActionType = 'dialog';
-                              }
-
-                              if (
-                                value === 'closeDialog' &&
-                                !['closeDialog', 'closeDrawer'].includes(
-                                  __cmptActionType
-                                )
-                              ) {
-                                __cmptActionType = 'closeDialog';
-                              }
-
-                              if (
-                                value === 'visibility' &&
-                                !['show', 'hidden'].includes(__cmptActionType)
-                              ) {
-                                __cmptActionType = 'show';
-                              }
-
-                              if (
-                                value === 'usability' &&
-                                !['enabled', 'disabled'].includes(
-                                  __cmptActionType
-                                )
-                              ) {
-                                __cmptActionType = 'enabled';
-                              }
-
-                              const actionNode = findActionNode(actionTree, value);
-
-                              form.setValues({
-                                ...removeKeys,
-                                __resultActionTree: form.data.__resultActionTree,
-                                __keywords: form.data.__keywords,
-                                componentId: form.data.componentId
-                                  ? ''
-                                  : undefined,
-                                __cmptActionType,
-                                __actionDesc: actionNode?.description,
-                                __actionSchema: actionNode?.schema,
-                                __subActions: actionNode?.actions,
-                                __cmptTreeSource: actionNode?.supportComponents
-                                  ? getComponents?.(actionNode) ?? []
-                                  : []
-                              });
-                            }
-                          }
+                          // actionTree中包含function及class类型的属性，直接传入form的data中解析会报错
+                          // 故采用两棵树分别使用静态及动态选项组
+                          this.getInputTreeSchema(false, actionTree, getComponents),
+                          this.getInputTreeSchema(true, actionTree, getComponents)
                         ],
                         md: 3,
                         columnClassName: 'left-panel'
