@@ -650,12 +650,13 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 ### 校验表单
 
-下面的表单中会优先校验按钮`required`属性包含的表单项，当所有的字段校验完毕后，才会校验表单中固有的项目。
+下面的表单中会优先校验按钮`required`属性包含的表单项，当所有的字段校验完毕后，才会校验表单中固有的项目。需要额外注意的是，当按钮中的 `required` 和对应表单项本身的 `required` 属性冲突时，最终校验方式是`"required": true`。
 
 ```schema: scope="body"
 {
     "type":"button",
     "label":"打开弹窗表单",
+    "level": "primary",
     "actionType":"dialog",
     "dialog":{
         "type":"dialog",
@@ -676,7 +677,13 @@ Access-Control-Expose-Headers:  Content-Disposition
                     {
                         "name":"b",
                         "label":"字段b",
-                        "type":"input-text"
+                        "type":"input-text",
+                        "validations": {
+                          "minimum": 1,
+                          "isNumeric": true,
+                          "isInt": true
+                        },
+                        required: false
                     },
                     {
                         "name":"c",
