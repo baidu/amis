@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="勾选框" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <circle id="椭圆形" stroke="currentColor" cx="8" cy="8" r="6.5"></circle>
+        <polyline id="路径" stroke="currentColor" stroke-linecap="round" transform="translate(8.000000, 6.488329) rotate(-45.000000) translate(-8.000000, -6.488329) " points="11 8.48832882 5 8.48832882 5 4.48832882"></polyline>
+    </g>
+</svg>

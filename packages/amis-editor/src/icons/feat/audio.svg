@@ -1,0 +1,7 @@
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="音频" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <polygon id="方形备份-2" stroke="currentColor" points="2.5 1.5 10.5 1.5 13.5 4.5 13.5 14.5 2.5 14.5"></polygon>
+        <circle id="椭圆形" stroke="currentColor" cx="7" cy="10.5" r="2"></circle>
+        <polyline id="直线-" stroke="currentColor" stroke-linecap="round" points="11 4.5 9 5.5 9 10.5"></polyline>
+    </g>
+</svg>

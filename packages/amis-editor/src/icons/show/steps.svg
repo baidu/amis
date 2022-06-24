@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Steps-步骤条" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <rect id="矩形" stroke="currentColor" x="1.5" y="2.5" width="13" height="11"></rect>
+        <polygon id="路径" stroke="currentColor" stroke-linecap="round" transform="translate(3.130106, 8.000000) rotate(-45.000000) translate(-3.130106, -8.000000) " points="4.38010614 6.75 4.38010614 9.25 1.88010614 9.25"></polygon>
+        <polygon id="路径" stroke="currentColor" stroke-linecap="round" transform="translate(7.130106, 8.000000) rotate(-45.000000) translate(-7.130106, -8.000000) " points="8.38010614 6.75 8.38010614 9.25 5.88010614 9.25"></polygon>
+        <polygon id="路径" stroke="currentColor" stroke-linecap="round" transform="translate(11.130106, 8.000000) rotate(-45.000000) translate(-11.130106, -8.000000) " points="12.3801061 6.75 12.3801061 9.25 9.88010614 9.25"></polygon>
+    </g>
+</svg>

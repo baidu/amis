@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="数字框" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="方形" stroke="currentColor" stroke-linejoin="round" x="2" y="2" width="12" height="12"></rect>
+        <path d="M9.092,10.856 L9.092,5.144 L8.436,5.144 C8.244,5.352 8.004,5.536 7.716,5.712 C7.428,5.872 7.164,5.984 6.908,6.048 L6.908,6.912 C7.436,6.76 7.876,6.52 8.22,6.192 L8.22,10.856 L9.092,10.856 Z" id="1" stroke="currentColor" stroke-width="0.1" fill="currentColor" fill-rule="nonzero"></path>
+    </g>
+</svg>

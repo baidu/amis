@@ -156,5 +156,6 @@ import './renderer/DataPickerControl';
 import './renderer/event-control/index';
 
 export * from './component/BaseControl';
+export * from './icons/index';
 
 export {GridPlugin};

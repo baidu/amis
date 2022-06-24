@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="颜色框" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <rect id="矩形" stroke="currentColor" x="1.5" y="2.5" width="13" height="11"></rect>
+        <circle id="椭圆形" stroke="currentColor" cx="8" cy="6.85" r="2.5"></circle>
+        <circle id="椭圆形" stroke="currentColor" cx="9.5" cy="9.15" r="2.5"></circle>
+        <circle id="椭圆形" stroke="currentColor" cx="6.5" cy="9.15" r="2.5"></circle>
+    </g>
+</svg>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="异步任务" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <rect id="方形" stroke="currentColor" x="2" y="2" width="12" height="12"></rect>
+        <polyline id="路径" stroke="currentColor" stroke-linecap="round" transform="translate(5.500000, 4.879211) rotate(-45.000000) translate(-5.500000, -4.879211) " points="7 5.87921116 4 5.87921116 4 3.87921116"></polyline>
+        <line x1="9" y1="5.5" x2="12" y2="5.5" id="直线" stroke="currentColor" stroke-linecap="round"></line>
+        <circle id="椭圆形" stroke="currentColor" cx="5.5" cy="10.5" r="1.5"></circle>
+        <line x1="9" y1="10.5" x2="12" y2="10.5" id="直线" stroke="currentColor" stroke-linecap="round"></line>
+    </g>
+</svg>
