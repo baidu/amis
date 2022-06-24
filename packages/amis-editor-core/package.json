@@ -55,7 +55,7 @@
     "ajv": "^8.8.2",
     "amis": "^2.0.0-rc.16",
     "amis-core": "^2.0.0-rc.16",
-    "amis-formula": "^2.0.0-rc.16",
+    "amis-formula": "^2.0.0-rc.15",
     "amis-ui": "^2.0.0-rc.16",
     "axios": "0.21.1",
     "concurrently": "^6.2.0",
