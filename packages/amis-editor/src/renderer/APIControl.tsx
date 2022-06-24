@@ -196,7 +196,7 @@ export default class APIControl extends React.Component<
     }
 
     if (typeof value !== 'string' || typeof values !== 'string') {
-      api = merge({}, normalizeApi(value), normalizeApi(values));
+      api = merge({}, normalizeApi(values));
     }
 
     onChange?.(api);
