@@ -318,6 +318,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     multiple: false,
     autoUpload: true,
     hideUploadButton: false,
+    initAutoFill: true,
     stateTextMap: {
       init: '',
       pending: '等待上传',
@@ -428,7 +429,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   componentDidMount() {
-    this.syncAutoFill();
+    if (this.initAutoFill) {
+      const {formInited, addHook} = this.props;
+      formInited || !addHook
+        ? this.syncAutoFill()
+        : addHook(this.syncAutoFill, 'init');
+    }
   }
 
   componentDidUpdate(prevProps: FileProps) {
@@ -473,16 +479,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             return obj;
           })
           .filter(item => item);
-        this.setState(
-          {
-            files: files
-          },
-          this.syncAutoFill
-        );
-      } else if (prevProps.value !== props.value && !this.initAutoFill) {
-        this.initAutoFill = true;
-        this.syncAutoFill();
       }
+
+      this.setState(
+        {
+          files: files
+        },
+        this.syncAutoFill
+      );
     }
   }
 
@@ -940,7 +944,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     // 排除自身的字段，否则会无限更新state
     const excludeSelfAutoFill = omit(autoFill, name || '');
 
-    if (!isEmpty(excludeSelfAutoFill) && onBulkChange && this.initAutoFill) {
+    if (!isEmpty(excludeSelfAutoFill) && onBulkChange) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
