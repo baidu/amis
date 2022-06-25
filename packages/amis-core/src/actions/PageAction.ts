@@ -70,8 +70,9 @@ export class PageRefreshAction implements RendererAction {
       renderer.props.env
         ? renderer.props.env?.updateLocation(link, true)
         : location.replace(link);
+    } else {
+      window.location.reload();
     }
-    window.location.reload();
   }
 }
 
