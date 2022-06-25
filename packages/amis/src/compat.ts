@@ -17,6 +17,7 @@ import {RichTextControlRenderer} from './renderers/Form/InputRichText';
 import isPlainObject from 'lodash/isPlainObject';
 import {GridRenderer} from './renderers/Grid';
 import {HBoxRenderer} from './renderers/HBox';
+import {ActionRenderer, ButtonRenderer} from './renderers/Action';
 
 // 兼容老的用法，老用法 label 用在 checkbox 的右侧内容，新用法用 option 来代替。
 addSchemaFilter(function CheckboxPropsFilter(schema: Schema, renderer) {
@@ -664,4 +665,96 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       ? wrapStatic(item)
       : item;
   }
+});
+
+// 事件动作
+// 只处理button和action，不做功能按钮的转换
+// ajax/download：Action的ajax（附加一些连贯动作）与事件动作中的ajax设计不同，不做转换
+// onClick：参数不同，不做转换
+// saveAs：没有可视化，不做转换
+// reload/target：如果传了query，是作为数据塞给目标组件，这里不好区分用户意图（设置数据 or 刷新），不做转换
+// 虽然reload可以在很多动作后配置执行，但弹窗本来就不会执行reload，其他动作reload的场景也很少
+addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
+  if (
+    (renderer.component !== ButtonRenderer &&
+      renderer.component !== ActionRenderer) ||
+    !schema.actionType
+  ) {
+    return schema;
+  }
+
+  if (
+    ['dialog', 'drawer', 'link', 'url', 'email', 'copy'].includes(
+      schema.actionType
+    )
+  ) {
+    const actions = schema.onEvent?.click?.actions ?? [];
+    let config: any = null;
+
+    if (schema.actionType.match(/^(dialog|drawer)$/)) {
+      const name = schema.actionType.match(/^(dialog|drawer)$/)?.[1];
+      config = {
+        actionType: name,
+        [name]: schema[name]
+      };
+
+      delete schema[name];
+    } else if (schema.actionType.match(/^(link|url)$/)) {
+      const name = schema.actionType.match(/^(link|url)$/)?.[1];
+      config = {
+        actionType: name,
+        args: {
+          [name]: schema[name]
+        }
+      };
+      if (schema.actionType === 'url') {
+        config = {
+          ...config,
+          args: {
+            ...config.args,
+            blank: schema.blank
+          }
+        };
+      }
+
+      delete schema[name];
+    } else if (schema.actionType === 'email') {
+      config = {
+        actionType: name,
+        args: {
+          to: schema.to,
+          cc: schema.cc,
+          subject: schema.subject,
+          body: schema.body
+        }
+      };
+
+      delete schema.to;
+      delete schema.cc;
+      delete schema.subject;
+      delete schema.body;
+    } else if (schema.actionType === 'copy') {
+      config = {
+        actionType: name,
+        args: {
+          content: schema.content,
+          copyFormat: schema.copyFormat
+        }
+      };
+
+      delete schema.content;
+    }
+
+    delete schema.actionType;
+    schema = {
+      ...schema,
+      onEvent: {
+        click: {
+          actions: actions?.length ? [config] : [config, ...actions]
+        }
+      }
+    };
+  }
+
+  return schema;
 });
