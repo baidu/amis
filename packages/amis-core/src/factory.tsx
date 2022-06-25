@@ -80,7 +80,12 @@ export interface RendererConfig extends RendererBasicConfig {
 }
 
 export interface RenderSchemaFilter {
-  (schema: Schema, renderer: RendererConfig, props?: any): Schema;
+  (
+    schema: Schema,
+    renderer: RendererConfig,
+    props?: any,
+    context?: any
+  ): Schema;
 }
 
 export interface wsObject {
@@ -117,10 +122,11 @@ export function addSchemaFilter(fn: RenderSchemaFilter) {
 export function filterSchema(
   schema: Schema,
   render: RendererConfig,
-  props?: any
+  props?: any,
+  context?: any
 ) {
   return schemaFilters.reduce(
-    (schema, filter) => filter(schema, render, props),
+    (schema, filter) => filter(schema, render, props, context),
     schema
   ) as Schema;
 }

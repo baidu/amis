@@ -1,3 +1,4 @@
+import {qsstringify} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
@@ -10,6 +11,9 @@ export interface IPageGoAction extends ListenerAction {
   actionType: 'goBack' | 'refresh' | 'goPage';
   args: {
     delta?: number;
+    params?: {
+      [key: string]: string;
+    };
     [propName: string]: any;
   };
 }
@@ -61,6 +65,12 @@ export class PageRefreshAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
+    if (action.args?.params) {
+      const link = location.pathname + '?' + qsstringify(action.args?.params);
+      renderer.props.env
+        ? renderer.props.env?.updateLocation(link, true)
+        : location.replace(link);
+    }
     window.location.reload();
   }
 }

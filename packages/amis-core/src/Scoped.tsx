@@ -106,7 +106,7 @@ function createScopedTools(
       return resolved || (parent && parent.getComponentByName(name));
     },
 
-    getComponentById(id: string) {
+    getComponentById(idOrName: string) {
       let root: AliasIScopedContext = this;
       // 找到顶端scoped
       while (root.parent) {
@@ -117,7 +117,7 @@ function createScopedTools(
       let component = undefined;
       findTree([root], (item: TreeItem) =>
         item.getComponents().find((cmpt: ScopedComponentType) => {
-          if (cmpt.props.id === id) {
+          if ([cmpt.props.id, cmpt.props.name].includes(idOrName)) {
             component = cmpt;
             return true;
           }

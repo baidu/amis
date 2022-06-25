@@ -357,7 +357,9 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     const renderer = this.renderer as RendererConfig;
-    schema = filterSchema(schema, renderer, rest);
+
+    schema = filterSchema(schema, renderer, rest, this.context);
+
     const {
       data: defaultData,
       value: defaultValue,
