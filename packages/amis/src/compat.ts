@@ -718,6 +718,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       }
 
       delete schema[name];
+      delete schema.blank;
     } else if (schema.actionType === 'email') {
       config = {
         actionType: name,
@@ -743,6 +744,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       };
 
       delete schema.content;
+      delete schema.copyFormat;
     }
 
     delete schema.actionType;
