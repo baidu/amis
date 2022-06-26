@@ -863,7 +863,7 @@ addSchemaFilter(function (
       ) {
         addActions = [...addActions, ...resolveReloadAction(schema.reload)];
 
-        delete schema.reload;
+        // delete schema.reload; // 暂时不下，反正actionType下了，这个留着也不会有影响
       }
     }
 
@@ -877,7 +877,7 @@ addSchemaFilter(function (
       }
     };
   }
-  console.log(schema);
+
   return schema;
 
   function resolveReloadAction(target: string | string[]) {
