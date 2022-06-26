@@ -5,7 +5,7 @@
 import {SchemaNode, Schema} from 'amis-core/lib/types';
 import {RendererProps, addSchemaFilter} from 'amis-core';
 import {CheckboxControlRenderer} from './renderers/Form/Checkbox';
-import {FormRenderer} from 'amis-core';
+import {FormRenderer, guid} from 'amis-core';
 import {FieldSetRenderer} from './renderers/Form/FieldSet';
 import {CardRenderer} from './renderers/Card';
 import {ListItemRenderer} from './renderers/List';
@@ -674,10 +674,11 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
 
 // 事件动作
 // 只处理button和action，不做功能按钮的转换
-// ajax/download：Action的ajax（附加一些连贯动作）与事件动作中的ajax设计不同，不做转换
-// onClick：参数不同，不做转换
+// ajax/download：Action的ajax（附加一些连贯动作）与事件动作中的ajax设计不同，且组件处理不同，细节需要梳理，暂不做转换
+// submit/reset/reset-and-submit/clear-and-submit：组件处理不同，细节需要梳理，暂不做转换
+// onClick：参数不同，暂不做转换
 // saveAs：没有可视化，不做转换
-// prev/next/confirm/cancel 暂不做转换
+// prev/next/confirm/cancel 暂暂不做转换
 addSchemaFilter(function (
   schema: Schema,
   renderer: RendererConfig,
@@ -686,9 +687,7 @@ addSchemaFilter(function (
 ) {
   if (
     (renderer.component !== ButtonRenderer &&
-      renderer.component !== ActionRenderer &&
-      renderer.component !== SubmitRenderer &&
-      renderer.component !== ResetRenderer) ||
+      renderer.component !== ActionRenderer) ||
     !schema.actionType
   ) {
     return schema;
@@ -702,11 +701,11 @@ addSchemaFilter(function (
       'url',
       'email',
       'copy',
-      'reload',
-      'submit',
-      'reset',
-      'reset-and-submit',
-      'clear-and-submit'
+      'reload'
+      // 'submit',
+      // 'reset',
+      // 'reset-and-submit',
+      // 'clear-and-submit'
     ].includes(schema.actionType)
   ) {
     const actions = schema.onEvent?.click?.actions ?? [];
@@ -716,59 +715,108 @@ addSchemaFilter(function (
       addActions = resolveReloadAction(schema.target);
 
       delete schema.target;
-    } else if (
-      schema.actionType.match(
-        /^(submit|reset|reset-and-submit|clear-and-submit)$/
-      )
-    ) {
-      const name = schema.actionType.match(
-        /^(submit|reset|reset-and-submit|clear-and-submit)$/
-      )?.[1];
-      const targetComp = schema.target
-        ? context?.getComponentByName(schema.target)
-        : null; // 这里用ByName是为了和老的保持一致
-      addActions = [
-        {
-          actionType: name,
-          componentId: targetComp
-            ? targetComp.props.$schema.id || targetComp.props.$schema.name
-            : schema.target ?? ''
-        }
-      ];
+    }
+    // else if (
+    //   ['submit', 'reset', 'reset-and-submit', 'clear-and-submit'].includes(
+    //     schema.actionType
+    //   )
+    // ) {
+    //   const name = schema.actionType.match(
+    //     /^(submit|reset|reset-and-submit|clear-and-submit)$/
+    //   )?.[1];
+    //   const targetComp = schema.target
+    //     ? context?.getComponentByName(schema.target)
+    //     : null; // 这里用ByName是为了和老的保持一致
+    //   addActions = [
+    //     {
+    //       actionType: name,
+    //       componentId: targetComp
+    //         ? targetComp.props.$schema.id || targetComp.props.$schema.name
+    //         : schema.target ?? ''
+    //     }
+    //   ];
 
-      delete schema.target;
-    } else if (schema.actionType.match(/^(dialog|drawer)$/)) {
+    //   delete schema.target;
+    // }
+    else if (['dialog', 'drawer'].includes(schema.actionType)) {
       const name = schema.actionType.match(/^(dialog|drawer)$/)?.[1];
+      let dialogConfig = schema[name];
+
+      // 弹窗附加的reload动作，暂时不转
+      // 预期1:是提交请求成功返回后reload，而目前dialog是确认点击后，另外，接口是绑定在内部第一层form上的
+      // 预期2:内部form没绑api，提交即刷新
+      if (schema.reload) {
+        const dialogBody = schema[name].body;
+        // 给form绑定提交成功后的reload动作
+        const reloadAction = {
+          onEvent: {
+            submitSucc: {
+              actions: resolveReloadAction(schema.reload)
+            }
+          }
+        };
+        let addedReload = false;
+        let body = {...dialogBody};
+        if (Array.isArray(dialogBody)) {
+          body = dialogBody?.map((child: any) => {
+            if (child.type === 'form' && child.api) {
+              addedReload = true;
+              return {
+                ...child,
+                ...reloadAction
+              };
+            }
+            return child;
+          });
+        } else {
+          if (dialogBody.type === 'form' && dialogBody.api) {
+            addedReload = true;
+            body = {
+              ...dialogBody,
+              ...reloadAction
+            };
+          }
+        }
+
+        dialogConfig = {
+          ...schema[name],
+          id: schema[name].id || `ui:${guid()}`,
+          body
+        };
+
+        // 给dialog的确认提交补个reload
+        if (!addedReload) {
+          dialogConfig = {
+            ...dialogConfig,
+            onEvent: {
+              confirm: {
+                actions: resolveReloadAction(schema.reload)
+              }
+            }
+          };
+        }
+      }
+
       addActions = [
         {
           actionType: name,
-          [name]: schema[name]
+          [name]: dialogConfig
         }
       ];
 
       delete schema[name];
-    } else if (schema.actionType.match(/^(link|url)$/)) {
+    } else if (['link', 'url'].includes(schema.actionType)) {
       const name = schema.actionType.match(/^(link|url)$/)?.[1];
       addActions = [
         {
           actionType: name,
           args: {
-            [name]: schema[name]
+            [name]: schema[name],
+            to: schema.to,
+            blank: schema.blank
           }
         }
       ];
-      if (schema.actionType === 'url') {
-        addActions = [
-          {
-            ...addActions,
-            args: {
-              ...addActions.args,
-              to: schema.to,
-              blank: schema.blank
-            }
-          }
-        ];
-      }
 
       delete schema[name];
       delete schema.to;
@@ -776,7 +824,7 @@ addSchemaFilter(function (
     } else if (schema.actionType === 'email') {
       addActions = [
         {
-          actionType: name,
+          actionType: 'email',
           args: {
             to: schema.to,
             cc: schema.cc,
@@ -793,7 +841,7 @@ addSchemaFilter(function (
     } else if (schema.actionType === 'copy') {
       addActions = [
         {
-          actionType: name,
+          actionType: 'copy',
           args: {
             content: schema.content,
             copyFormat: schema.copyFormat
@@ -807,9 +855,16 @@ addSchemaFilter(function (
 
     // 刷新
     if (schema.reload) {
-      addActions = resolveReloadAction(schema.reload);
+      // 跳过dialog/drawer
+      if (
+        ['dialog', 'drawer'].includes(
+          addActions[addActions.length - 1].actionType
+        )
+      ) {
+        addActions = [...addActions, ...resolveReloadAction(schema.reload)];
 
-      delete schema.reload;
+        delete schema.reload;
+      }
     }
 
     delete schema.actionType;
@@ -822,7 +877,7 @@ addSchemaFilter(function (
       }
     };
   }
-
+  console.log(schema);
   return schema;
 
   function resolveReloadAction(target: string | string[]) {
@@ -845,13 +900,6 @@ addSchemaFilter(function (
         name = name.substring(0, idx2);
       }
 
-      const targetComp = context?.getComponentByName(name); // 这里用ByName是为了和老的保持一致
-      // 处理子路径，用叶子名称作为name
-      const idx = name.indexOf('.');
-      if (~idx) {
-        name = name.substring(1 + idx);
-      }
-
       let reloadAction: any = {};
       if (name === 'window') {
         reloadAction = {
@@ -867,6 +915,12 @@ addSchemaFilter(function (
           };
         }
       } else {
+        const targetComp = context?.getComponentByName(name); // 这里用ByName是为了和老的保持一致
+        // 处理子路径，用叶子名称作为name
+        const idx = name.indexOf('.');
+        if (~idx) {
+          name = name.substring(1 + idx);
+        }
         reloadAction = {
           actionType: 'reload',
           componentId: targetComp

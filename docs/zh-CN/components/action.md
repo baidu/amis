@@ -535,6 +535,7 @@ Access-Control-Expose-Headers:  Content-Disposition
           "type": "select",
           "name": "group",
           "label": "分组",
+          "id": "group",
           "source": "/api/mock2/form/getOptions"
         },
         {

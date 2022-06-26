@@ -73,12 +73,8 @@ export class CmptAction implements RendererAction {
       // 执行组件动作
       return component?.doAction?.(action, action.args);
     } else {
-      if (
-        ['action', 'button', 'submit', 'reset'].includes(component.props.type)
-      ) {
-        // 兼容老按钮动作
-        return component?.props.onAction?.('click', action, action.args);
-      }
+      // 兼容老按钮动作
+      return component?.props.onAction?.('click', action, action.args);
     }
   }
 }
