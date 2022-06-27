@@ -8,6 +8,7 @@
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
     "dev": "rollup -c -w",
     "test": "jest",
+    "update-snapshot": "jest --updateSnapshot",
     "coverage": "jest --coverage",
     "clean-dist": "rimraf lib/* esm/*"
   },

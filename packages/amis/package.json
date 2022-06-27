@@ -6,6 +6,7 @@
   "module": "esm/index.js",
   "scripts": {
     "test": "jest",
+    "update-snapshot": "jest --updateSnapshot",
     "coverage": "jest --coverage",
     "publish-to-internal": "sh build.sh && sh publish.sh",
     "build": "sh build.sh",

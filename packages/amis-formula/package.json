@@ -9,6 +9,7 @@
     "clean-dist": "rimraf lib/*",
     "declaration": "tsc --project tsconfig-for-declaration.json --allowJs --declaration --emitDeclarationOnly --declarationDir ./lib --rootDir ./src",
     "test": "jest",
+    "update-snapshot": "jest --updateSnapshot",
     "coverage": "jest --coverage",
     "genDoc": "ts-node ./scripts/genDoc.ts"
   },
