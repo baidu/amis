@@ -23,6 +23,8 @@
       "require": "./lib/index.js",
       "import": "./esm/index.js"
     },
+    "./scss/": "./scss/",
+    "./lib/themes/": "./lib/themes/",
     "./lib/*": {
       "require": "./lib/*.js",
       "import": "./esm/*.js"
