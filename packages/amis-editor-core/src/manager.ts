@@ -966,7 +966,7 @@ export class EditorManager {
   isFlexItem(id: string) {
     const store = this.store;
     const activeId = id || store.activeId;
-    const parentSchema = store.getSchemaParentById(activeId);
+    const parentSchema = store.getSchemaParentById(activeId, true);
     if (parentSchema?.type === 'flex') {
       return true;
     }

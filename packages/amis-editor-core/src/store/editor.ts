@@ -363,8 +363,8 @@ export const EditorStore = types
         return id ? JSONGetById(self.schema, id) : self.schema;
       },
 
-      getSchemaParentById(id: string) {
-        return JSONGetParentById(self.schema, id);
+      getSchemaParentById(id: string, skipArray: boolean = false) {
+        return JSONGetParentById(self.schema, id, skipArray);
       },
       
       getSchemaPath(id: string): string {
