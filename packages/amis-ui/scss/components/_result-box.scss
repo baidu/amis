@@ -1,6 +1,7 @@
 .#{$ns}ResultBox {
   @include input-input();
   @include input-border();
+  display: flex !important;
   flex-wrap: nowrap;
   padding: 0 px2rem(5px);
   min-height: var(--Form-input-height);
