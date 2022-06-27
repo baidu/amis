@@ -857,7 +857,7 @@ addSchemaFilter(function (
     if (schema.reload) {
       // 跳过dialog/drawer
       if (
-        ['dialog', 'drawer'].includes(
+        !['dialog', 'drawer'].includes(
           addActions[addActions.length - 1].actionType
         )
       ) {
