@@ -541,16 +541,53 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 ```schema: scope="body"
 {
     "type": "crud",
+    "name": "crud",
     "syncLocation": false,
     "api": "/api/mock2/sample",
      "filter": {
         "title": "条件搜索",
         "body": [
             {
-                "type": "input-text",
-                "name": "keywords",
-                "placeholder": "通过关键字搜索"
+                "type": "flex",
+                "justify": "space-between",
+                "alignItems": "center",
+                "items": [
+                    {
+                        "type": "input-text",
+                        "name": "keywords",
+                        "placeholder": "通过关键字搜索",
+                        "size": "sm"
+                    },
+                    {
+                        "type": "button",
+                        "actionType": "drawer",
+                        "icon": "fa fa-plus",
+                        "label": "创建记录",
+                        "target": "crud",
+                        "closeOnOutside": true,
+                        "drawer": {
+                            "title": "创建记录",
+                            "body": {
+                                "type": "form",
+                                "api": "post:/api/mock2/sample",
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "engine",
+                                        "label": "Engine"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "browser",
+                                        "label": "Browser"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
             }
+
         ]
     },
     "columns": [
