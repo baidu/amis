@@ -8,11 +8,9 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import camelCase from 'lodash/camelCase';
 import {FormItem} from 'amis';
-import isString from 'lodash/isString';
-
 import {isNumeric} from 'amis-editor-core';
-
 import type {FormControlProps} from 'amis-core';
+import {isAuto} from '../../util';
 import type {PlainObject} from './types';
 
 export type Direction = 'left' | 'right' | 'top' | 'bottom';
@@ -38,7 +36,10 @@ function InsetBoxModel({
       // 数字类型或带有合法单位的字符串都支持
       if (
         isNumeric(inputValue) ||
-        isString(inputValue)
+        isAuto(inputValue) ||
+        /^(-?(\d*\.)?\d+)((px)|(em)|(%)|(ex)|(ch)|(rem)|(vw)|(vh)|(vmin)|(vmax)|(cm)|(mm)|(in)|(pt)|(pc))$/.test(
+          inputValue
+        )
       ) {
         onChange({
           ...value,

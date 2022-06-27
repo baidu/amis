@@ -68,17 +68,9 @@ export class FlexPlugin extends BasePlugin {
               {
                 title: '布局',
                 body: [
-                  getSchemaTpl('layout:position', {
-                    name: 'style.position',
-                    // mode: 'vertical',
-                    value: 'static',
-                    label: tipedLabel('定位模式', '指定当前容器元素的定位类型'),
-                  }),
+                  getSchemaTpl('layout:position'),
                   getSchemaTpl('layout:inset', {
-                    name: 'style.inset',
                     mode: 'vertical',
-                    label: tipedLabel('布局位置', '指定当前容器元素的定位位置，支持配置 top、right、bottom、left。'),
-                    visibleOn: 'data.style.position && data.style.position !== "static"',
                     pipeIn: (value: any) => {
                       let curValue = value || 'auto';
                       if (isNumber(curValue)) {
@@ -99,17 +91,9 @@ export class FlexPlugin extends BasePlugin {
                       return `${value.insetTop ?? 'auto'} ${value.insetRight ?? 'auto'} ${value.insetBottom ?? 'auto'} ${value.insetLeft ?? 'auto'}`;
                     }
                   }),
-                  getSchemaTpl('layout:z-index', {
-                    name: 'style.zIndex',
-                    mode: 'vertical',
-                    label: tipedLabel('层级', '指定元素的堆叠顺序，层级高的元素总是会处于较低层级元素的上面。'),
-                    visibleOn: 'data.style.position && data.style.position !== "static"'
-                  }),
+                  getSchemaTpl('layout:z-index'),
                   getSchemaTpl('layout:flexDirection', {
                     name: 'direction',
-                    // mode: 'vertical',
-                    value: 'row',
-                    label: tipedLabel('排列方向', '设置成水平排列方向，则从左到右放置子项；设置成垂直排列方向，则从上到下放置子项')
                   }),
                   getSchemaTpl('layout:justifyContent', {
                     name: 'justify',
@@ -118,9 +102,12 @@ export class FlexPlugin extends BasePlugin {
                   }),
                   getSchemaTpl('layout:alignItems', {
                     name: 'alignItems',
-                    // mode: 'vertical',
                     label: tipedLabel(`${isRowContent ? '垂直' : '水平'}对齐方式`, '设置子元素在交叉轴上的对齐方式')
                   }),
+                  getSchemaTpl('layout:isFixedHeight'),
+                  getSchemaTpl('layout:height'),
+                  getSchemaTpl('layout:isFixedWidth'),
+                  getSchemaTpl('layout:width'),
                 ]
               },
               {

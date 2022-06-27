@@ -15,6 +15,7 @@ import {
   getPropOfAcion,
   hasActionType
 } from './renderer/event-control/helper';
+import isString from 'lodash/isString';
 
 /**
  * 获取事件动作面板所需属性配置
@@ -268,3 +269,14 @@ export const getEventControlConfig = (
     }
   };
 };
+
+/**
+ * 布局配置项，数值设置时需要
+ */
+export const isAuto = (value: any) => {
+  if (value && isString(value)
+   && /^((a)|(au)|(aut)|(auto))$/.test(value)) {
+    return true;
+  }
+  return false;
+}
