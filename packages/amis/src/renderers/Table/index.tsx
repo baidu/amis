@@ -803,7 +803,11 @@ export default class Table extends React.Component<TableProps, object> {
     form && this.props.store.addForm(form.props.store, y);
   }
 
-  handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
+  handleAction(
+    e: React.UIEvent<any> | undefined,
+    action: ActionObject,
+    ctx: object
+  ) {
     const {onAction} = this.props;
 
     // todo
@@ -2720,6 +2724,7 @@ export default class Table extends React.Component<TableProps, object> {
         store.toggleDragging();
         break;
       default:
+        this.handleAction(undefined, action, data);
         break;
     }
   }
