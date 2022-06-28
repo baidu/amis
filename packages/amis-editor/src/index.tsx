@@ -140,6 +140,10 @@ import './plugin/Layout/Layout1_1_v2';
 import './plugin/Layout/Layout1_1_1';
 import './plugin/Layout/Layout1_2_3';
 
+import './plugin/Layout/Layout1_1_1_v2';
+import './plugin/Layout/Layout1_2_v2';
+import './plugin/Layout/Layout2_1_v2';
+
 import {GridPlugin} from './plugin/Grid';
 
 import './renderer/OptionControl';

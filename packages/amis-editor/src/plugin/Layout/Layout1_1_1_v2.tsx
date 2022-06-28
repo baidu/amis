@@ -1,16 +1,16 @@
 /**
- * @file Flex 常见布局 1:2:3
+ * @file Flex 常见布局 上中下布局
  */
 import {registerEditorPlugin} from 'amis-editor-core';
 import {FlexPluginBase} from './FlexPluginBase';
 
-export class Layout1_2_3 extends FlexPluginBase {
-  name = '1:2:3 三栏';
+export class Layout1_1_1_v2 extends FlexPluginBase {
+  name = '上中下布局';
   isBaseComponent = false; // 在自定义组件面板中展示
   pluginIcon = 'flex-container-plugin';
-  description = '常见布局：1:2:3 三栏（布局容器 是基于 CSS Flex 实现的布局容器）。';
+  description = '常见布局：上中下布局（布局容器 是基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
-  order = 301;
+  order = 303;
   scaffold:any = {
     type: "flex",
     items: [
@@ -27,8 +27,11 @@ export class Layout1_2_3 extends FlexPluginBase {
           flex: "1 1 auto",
           flexBasis: "auto",
           flexGrow: 1,
-          display: "block",
-          backgroundColor: "rgba(181, 242, 167, 1)"
+          backgroundColor: "rgba(181, 242, 167, 1)",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "stretch"
         }
       },
       {
@@ -43,9 +46,12 @@ export class Layout1_2_3 extends FlexPluginBase {
         style: {
           flex: "1 1 auto",
           flexBasis: "auto",
-          flexGrow: 2,
-          display: "block",
-          backgroundColor: "rgba(245, 166, 35, 0.48)"
+          flexGrow: 1,
+          backgroundColor: "rgba(245, 166, 35, 0.48)",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "stretch"
         }
       },
       {
@@ -59,17 +65,23 @@ export class Layout1_2_3 extends FlexPluginBase {
         ],
         style: {
           flex: "1 1 auto",
-          display: "block",
           flexBasis: "auto",
-          flexGrow: 3,
-          backgroundColor: "rgba(242, 54, 54, 0.51)"
+          flexGrow: 1,
+          backgroundColor: "rgba(74, 144, 226, 1)",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "stretch"
         }
-      }
+      },
     ],
+    direction: "column",
+    justify: "center",
+    alignItems: "stretch",
   };
   previewSchema = {
     ...this.scaffold
   };
 }
 
-registerEditorPlugin(Layout1_2_3);
+registerEditorPlugin(Layout1_1_1_v2);

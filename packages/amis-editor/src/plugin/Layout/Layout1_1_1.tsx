@@ -1,5 +1,5 @@
 /**
- * @file Flex 常见布局 1:1:1
+ * @file Flex 常见布局 1:1:1 三栏均分
  */
 import {registerEditorPlugin} from 'amis-editor-core';
 import {FlexPluginBase} from './FlexPluginBase';

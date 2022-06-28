@@ -1,14 +1,14 @@
 /**
- * @file Flex 常见布局 1:1 左右均分
+ * @file Flex 常见布局 上下布局
  */
 import {registerEditorPlugin} from 'amis-editor-core';
 import {FlexPluginBase} from './FlexPluginBase';
 
 export class Layout1_1_v2 extends FlexPluginBase {
-  name = '上下均分';
+  name = '上下布局';
   isBaseComponent = false; // 在自定义组件面板中展示
   pluginIcon = 'flex-container-plugin';
-  description = '常见布局：上下均分（布局容器 是基于 CSS Flex 实现的布局容器）。';
+  description = '常见布局：上下布局（布局容器 是基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
   order = 203;
   scaffold:any = {
