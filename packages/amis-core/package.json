@@ -4,6 +4,7 @@
   "description": "amis-core",
   "main": "lib/index.js",
   "module": "esm/index.js",
+  "types": "lib/index.d.ts",
   "author": "fex",
   "license": "Apache-2.0",
   "devDependencies": {

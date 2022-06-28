@@ -4,6 +4,7 @@
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest",
     "update-snapshot": "jest --updateSnapshot",
