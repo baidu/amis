@@ -11,73 +11,73 @@ export class Layout1_1_1_v2 extends FlexPluginBase {
   description = '常见布局：上中下（布局容器 是基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
   order = 303;
-  scaffold:any = {
-    type: "flex",
+  scaffold: any = {
+    type: 'flex',
     items: [
       {
-        type: "wrapper",
+        type: 'wrapper',
         body: [
           {
-            type: "tpl",
-            tpl: "第一列",
-            inline: false,
+            type: 'tpl',
+            tpl: '第一列',
+            inline: false
           }
         ],
         style: {
-          flex: "1 1 auto",
-          flexBasis: "auto",
+          flex: '1 1 auto',
+          flexBasis: 'auto',
           flexGrow: 1,
-          backgroundColor: "rgba(181, 242, 167, 1)",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          alignItems: "stretch"
+          backgroundColor: 'rgba(181, 242, 167, 1)',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'stretch'
         }
       },
       {
-        type: "wrapper",
+        type: 'wrapper',
         body: [
           {
-            type: "tpl",
-            tpl: "第二列",
-            inline: false,
+            type: 'tpl',
+            tpl: '第二列',
+            inline: false
           }
         ],
         style: {
-          flex: "1 1 auto",
-          flexBasis: "auto",
+          flex: '1 1 auto',
+          flexBasis: 'auto',
           flexGrow: 1,
-          backgroundColor: "rgba(245, 166, 35, 0.48)",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          alignItems: "stretch"
+          backgroundColor: 'rgba(245, 166, 35, 0.48)',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'stretch'
         }
       },
       {
-        type: "wrapper",
+        type: 'wrapper',
         body: [
           {
-            type: "tpl",
-            tpl: "第三列",
-            inline: false,
+            type: 'tpl',
+            tpl: '第三列',
+            inline: false
           }
         ],
         style: {
-          flex: "1 1 auto",
-          flexBasis: "auto",
+          flex: '1 1 auto',
+          flexBasis: 'auto',
           flexGrow: 1,
-          backgroundColor: "rgba(74, 144, 226, 1)",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          alignItems: "stretch"
+          backgroundColor: 'rgba(74, 144, 226, 1)',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'stretch'
         }
-      },
+      }
     ],
-    direction: "column",
-    justify: "center",
-    alignItems: "stretch",
+    direction: 'column',
+    justify: 'center',
+    alignItems: 'stretch'
   };
   previewSchema = {
     ...this.scaffold

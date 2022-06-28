@@ -1,10 +1,7 @@
 /**
  * @file Flex 常见布局 1:3
  */
-import {
-  BasePlugin,
-  PluginEvent
-} from 'amis-editor-core';
+import {BasePlugin, PluginEvent} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import type {
   BaseEventContext,
@@ -24,7 +21,8 @@ export class FlexPluginBase extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-columns';
   pluginIcon = 'flex-container-plugin';
-  description = '布局容器 是基于 CSS Flex 实现的布局效果，它比 Grid 和 HBox 对子节点位置的可控性更强，比用 CSS 类的方式更易用';
+  description =
+    '布局容器 是基于 CSS Flex 实现的布局效果，它比 Grid 和 HBox 对子节点位置的可控性更强，比用 CSS 类的方式更易用';
   docLink = '/amis/zh-CN/components/flex';
   tags = ['容器'];
   scaffold = {
@@ -54,7 +52,9 @@ export class FlexPluginBase extends BasePlugin {
 
   panelBodyCreator = (context: BaseEventContext) => {
     const curRendererSchema = context?.schema;
-    const isRowContent = curRendererSchema?.direction === 'row' || curRendererSchema?.direction === 'row-reverse';
+    const isRowContent =
+      curRendererSchema?.direction === 'row' ||
+      curRendererSchema?.direction === 'row-reverse';
     return [
       getSchemaTpl('tabs', [
         {
@@ -67,20 +67,26 @@ export class FlexPluginBase extends BasePlugin {
                 body: [
                   getSchemaTpl('layout:position'),
                   getSchemaTpl('layout:inset', {
-                    mode: 'vertical',
+                    mode: 'vertical'
                   }),
                   getSchemaTpl('layout:z-index'),
                   getSchemaTpl('layout:flexDirection', {
-                    name: 'direction',
+                    name: 'direction'
                   }),
                   getSchemaTpl('layout:justifyContent', {
                     name: 'justify',
                     // mode: 'vertical', // 改成上下展示模式
-                    label: tipedLabel(`${isRowContent ? '水平' : '垂直'}对齐方式`, '设置子元素在主轴上的对齐方式')
+                    label: tipedLabel(
+                      `${isRowContent ? '水平' : '垂直'}对齐方式`,
+                      '设置子元素在主轴上的对齐方式'
+                    )
                   }),
                   getSchemaTpl('layout:alignItems', {
                     name: 'alignItems',
-                    label: tipedLabel(`${isRowContent ? '垂直' : '水平'}对齐方式`, '设置子元素在交叉轴上的对齐方式')
+                    label: tipedLabel(
+                      `${isRowContent ? '垂直' : '水平'}对齐方式`,
+                      '设置子元素在交叉轴上的对齐方式'
+                    )
                   }),
                   getSchemaTpl('layout:isFixedHeight'),
                   getSchemaTpl('layout:height'),
@@ -90,7 +96,7 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:max-width'),
                   getSchemaTpl('layout:overflow-x'),
                   getSchemaTpl('layout:overflow-y'),
-                  getSchemaTpl('layout:margin-center'),
+                  getSchemaTpl('layout:margin-center')
                 ]
               },
               {
@@ -111,8 +117,7 @@ export class FlexPluginBase extends BasePlugin {
                     items: [
                       {
                         type: 'tpl',
-                        tpl:
-                          '<span class="label label-default">子节点${index | plus}</span>'
+                        tpl: '<span class="label label-default">子节点${index | plus}</span>'
                       }
                     ]
                   }
