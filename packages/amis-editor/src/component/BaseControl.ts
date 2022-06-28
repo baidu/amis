@@ -400,6 +400,7 @@ export function remarkTpl(config: {
   return {
     type: 'ae-switch-more',
     formType: 'dialog',
+    className:'ae-switch-more-flex',
     label: config.labelRemark
       ? tipedLabel(config.label, config.labelRemark)
       : config.label,

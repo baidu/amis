@@ -11,6 +11,8 @@ import {BUTTON_DEFAULT_ACTION, tipedLabel} from '../component/BaseControl';
 import {getEventControlConfig} from '../util';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
+import {RendererAction, RendererEvent} from '../event-action';
+// import {getOldActionSchema} from '../event-action/schema';
 
 export class ButtonPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -282,12 +284,23 @@ export class ButtonPlugin extends BasePlugin {
       {
         title: '事件',
         className: 'p-none',
-        body: [
-          getSchemaTpl('eventControl', {
-            name: 'onEvent',
-            ...getEventControlConfig(this.manager, context)
-          })
-        ]
+        body:
+          this.manager?.config.actionOptions?.showOldEntry !== false &&
+          (!!context.schema.actionType ||
+            ['submit', 'reset'].includes(context.schema.type))
+            ? [
+                getSchemaTpl('eventControl', {
+                  name: 'onEvent',
+                  ...getEventControlConfig(this.manager, context)
+                }),
+                // getOldActionSchema(this.manager, context)
+              ]
+            : [
+                getSchemaTpl('eventControl', {
+                  name: 'onEvent',
+                  ...getEventControlConfig(this.manager, context)
+                })
+              ]
       }
     ]);
   };

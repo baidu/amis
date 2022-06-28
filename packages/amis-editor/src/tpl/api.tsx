@@ -85,9 +85,8 @@ setSchemaTpl('api', (patch: any = {}) => {
             let url = value;
             let method = 'get';
 
-            const m = /^(raw:|external:)?(get|post|put|patch|delete):(.*)$/.exec(
-              url
-            );
+            const m =
+              /^(raw:|external:)?(get|post|put|patch|delete):(.*)$/.exec(url);
             if (m) {
               url = m[1] + m[3];
               method = m[2];
@@ -157,8 +156,7 @@ setSchemaTpl('api', (patch: any = {}) => {
             visibleOn: '!this.data',
             inline: false,
             className: 'text-sm text-muted m-b',
-            tpl:
-              '当没开启数据映射时，发送 API 的时候会发送尽可能多的数据，如果你想自己控制发送的数据，或者需要额外的数据处理，请开启此选项'
+            tpl: '当没开启数据映射时，发送 API 的时候会发送尽可能多的数据，如果你想自己控制发送的数据，或者需要额外的数据处理，请开启此选项'
           },
 
           {
@@ -432,6 +430,43 @@ setSchemaTpl('apiControl', (patch: any = {}) => {
               html={`
                   <pre><code>${sampleBuilder(data)}</code></pre>
                   `}
+            />
+          ),
+          trigger: 'click',
+          className: 'm-l-xs',
+          rootClose: true,
+          placement: 'left'
+        }
+      : undefined,
+    ...rest
+  };
+});
+
+/**
+ * 接口控件
+ */
+setSchemaTpl('actionApiControl', (patch: any = {}) => {
+  const {name, label, value, description, sampleBuilder, ...rest} = patch;
+
+  return {
+    type: 'ae-actionApiControl',
+    label,
+    name,
+    description,
+    mode: 'normal',
+    labelRemark: sampleBuilder
+      ? {
+          icon: '',
+          label: '示例',
+          title: '接口返回示例',
+          tooltipClassName: 'ae-ApiSample-tooltip',
+          render: (data: any) => (
+            <Html
+              className="ae-ApiSample"
+              inline={false}
+              html={`
+                    <pre><code>${sampleBuilder(data)}</code></pre>
+                    `}
             />
           ),
           trigger: 'click',

@@ -336,6 +336,11 @@ const Background: React.FC<BackgroundProps> = props => {
     }
     return returnVal;
   }
+  // 背景图路径设置
+  function getbgValue() {
+    let backgroundImage = props.data?.style?.backgroundImage;
+    return /linear-gradient/g.test(backgroundImage) ? '' : backgroundImage;
+  }
   // 清空背景颜色、渐变色、背景图
   function clearValues() {
     const {value, onChange} = props;
@@ -472,7 +477,7 @@ const Background: React.FC<BackgroundProps> = props => {
                     name: 'backgroundImage',
                     placeholder: '点击或拖拽图片上传',
                     fixedSize: true,
-                    value: props.data?.style?.backgroundImage,
+                    value: getbgValue(),
                     onChange: onChange('backgroundImage'),
                     fixedSizeClassName: 'ae-Background-upload',
                     accept: '.jpg,.png,.svg,.gif',

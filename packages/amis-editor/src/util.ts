@@ -35,6 +35,10 @@ export const getEventControlConfig = (
     ...commonActions
   };
   return {
+    showOldEntry:
+    manager?.config.actionOptions?.showOldEntry !== false &&
+    (!!context.schema.actionType ||
+      ['submit', 'reset'].includes(context.schema.type)),
     actions: manager?.pluginActions,
     events: manager?.pluginEvents,
     actionTree,

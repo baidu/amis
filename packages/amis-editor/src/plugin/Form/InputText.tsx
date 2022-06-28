@@ -30,7 +30,7 @@ export class TextControlPlugin extends BasePlugin {
   searchKeywords =
     '文本框、邮箱框、input-email、URL框、input-url、密码框、input-password';
   // 组件名称
-  name = '输入框';
+  name = '文本框';
 
   isBaseComponent = true;
   icon = 'fa fa-terminal';

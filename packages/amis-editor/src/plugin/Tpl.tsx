@@ -59,12 +59,8 @@ setSchemaTpl('tpl:wrapperComponent', {
   label: '文字格式',
   options: [
     {
-      label: '普通文字(内联)',
-      value: 'span'
-    },
-    {
-      label: '普通文字(行级)',
-      value: 'div'
+      label: '普通文字',
+      value: ''
     },
     {
       label: '段落',
@@ -100,7 +96,8 @@ setSchemaTpl('tpl:wrapperComponent', {
     }
   ],
   onChange: (value: string, oldValue: string, model: any, form: any) => {
-    (!value || !oldValue) && form.setValueByName('tpl', '');
+    (value === undefined || oldValue === undefined) &&
+      form.setValueByName('tpl', '');
   }
 });
 
@@ -124,8 +121,8 @@ export class TplPlugin extends BasePlugin {
   scaffold: any = {
     type: 'tpl',
     tpl: '请编辑内容',
-    inline: false,
-    wrapperComponent: 'span'
+    inline: true,
+    wrapperComponent: ''
   };
 
   panelTitle = '文字';
@@ -142,6 +139,15 @@ export class TplPlugin extends BasePlugin {
             title: '基本',
             body: [
               !isInTable ? getSchemaTpl('tpl:wrapperComponent') : null,
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '内联模式',
+                  '内联模式默认采用 <code>span</code> 标签包裹内容、非内联将默认采用 <code>div</code> 标签作为容器。'
+                ),
+                name: 'inline',
+                pipeIn: defaultValue(true),
+                hiddenOn:'data.wrapperComponent !== ""'
+              }),
               getSchemaTpl('tpl:content'),
               getSchemaTpl('tpl:rich-text')
             ]
@@ -152,19 +158,6 @@ export class TplPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          {
-            title: '布局',
-            body: [
-              getSchemaTpl('switch', {
-                label: tipedLabel(
-                  '内联模式',
-                  '内联模式采用 <code>span</code> 标签、非内联将采用 <code>div</code> 标签作为容器。'
-                ),
-                name: 'inline',
-                pipeIn: defaultValue(true)
-              })
-            ]
-          },
           ...getSchemaTpl('style:common', ['layout']),
           getSchemaTpl('style:classNames', {
             isFormItem: false
