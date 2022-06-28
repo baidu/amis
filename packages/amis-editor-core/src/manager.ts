@@ -1557,6 +1557,7 @@ export class EditorManager {
     definitions?: any;
     api?: any;
     submitOnChange?: boolean;
+    panelById?: string;
     justify?: boolean;
     panelById?: string;
     formKey?: string;

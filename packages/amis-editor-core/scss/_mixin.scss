@@ -84,6 +84,7 @@
 }
 
 @mixin panel-sm-content {
+  --ColorPicker-fontSize: var(--fontSizeBase);
   --fontSizeBase: #{$Editor-right-panel-font-size};
   --Form-item-fontSize: #{$Editor-right-panel-font-size};
   --Button--md-fontSize: #{$Editor-right-panel-font-size};

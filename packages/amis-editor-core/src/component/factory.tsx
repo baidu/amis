@@ -226,6 +226,7 @@ function SchemaFrom({
   submitOnChange?: boolean;
   node?: EditorNodeType;
   manager: EditorManager;
+  panelById?: string;
   justify?: boolean;
 }) {
   let containerKey = 'body';
@@ -307,6 +308,7 @@ export function makeSchemaFormRender(
     definitions?: any;
     api?: any;
     submitOnChange?: boolean;
+    panelById?: string;
     justify?: boolean;
     panelById?: string;
     formKey?: string;

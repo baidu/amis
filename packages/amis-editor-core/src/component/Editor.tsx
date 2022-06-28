@@ -73,6 +73,8 @@ export interface EditorProps extends PluginEventListener {
    * 事件动作面板相关配置
    */
   actionOptions?: {
+    // 是否开启老动作配置入口
+    showOldEntry?: boolean;
     /**
      * 通用动作集（事件动作面板左侧动作树）
      */

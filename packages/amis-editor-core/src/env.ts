@@ -1,7 +1,7 @@
 /**
  * 传给 amis 渲染器的默认 env
  */
-import {RenderOptions} from 'amis-core';
+import {attachmentAdpator, RenderOptions} from 'amis-core';
 import axios from 'axios';
 import {alert, confirm, toast} from 'amis';
 
@@ -10,24 +10,22 @@ export const env: RenderOptions = {
   jumpTo: () => {
     toast.info('温馨提示：预览模式下禁止跳转');
   },
-  fetcher: ({url, method, data, config}: any) => {
+  fetcher: async ({url, method, data, config}: any) => {
     config = config || {};
+    config.url = url;
     config.withCredentials = true;
 
     if (config.cancelExecutor) {
-      config.cancelToken = new (axios as any).CancelToken(
-        config.cancelExecutor
-      );
+      config.cancelToken = new axios.CancelToken(config.cancelExecutor);
     }
 
-    if (method !== 'post' && method !== 'put' && method !== 'patch') {
-      if (data) {
-        config.params = data;
-      }
+    config.headers = config.headers || {};
+    config.method = method;
+    config.data = data;
 
-      return (axios as any)[method](url, config);
+    if (method === 'get' && data) {
+      config.params = data;
     } else if (data && data instanceof FormData) {
-      // config.headers = config.headers || {};
       // config.headers['Content-Type'] = 'multipart/form-data';
     } else if (
       data &&
@@ -36,11 +34,12 @@ export const env: RenderOptions = {
       !(data instanceof ArrayBuffer)
     ) {
       data = JSON.stringify(data);
-      config.headers = config.headers || {};
       config.headers['Content-Type'] = 'application/json';
     }
 
-    return (axios as any)[method](url, data, config);
+    let response = await axios(config);
+    response = await attachmentAdpator(response, (msg: string) => '');
+    return response;
   },
   isCancel: (value: any) => (axios as any).isCancel(value),
   alert,

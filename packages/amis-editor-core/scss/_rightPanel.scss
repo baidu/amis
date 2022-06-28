@@ -282,6 +282,14 @@ $category-2-height: px2rem(32px);
     overflow: hidden;
     margin: calc(0rem - (var(--gap-base)));
 
+    // 老动作入口
+    .old-action-btn {
+      position: fixed;
+      left: 10px;
+      top: 60px;
+      width: 92%;
+    }
+
     // tab导航
     ul[role='tablist'],
     &-links {
@@ -359,6 +367,11 @@ $category-2-height: px2rem(32px);
       padding: 0;
       overflow-y: overlay;
       @include minScrollBar();
+    }
+
+    div.ae-switch-more-flex {
+      display: flex;
+      line-height: 25px;
     }
   }
 
