@@ -572,7 +572,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     const updateColumns = (columns: Array<any>) => {
       self.columns = columns;
-    }
+    };
 
     return {
       getData,

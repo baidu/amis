@@ -2099,7 +2099,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 onReset: this.handleFilterReset,
                 onSubmit: this.handleFilterSubmit,
                 onInit: this.handleFilterInit,
-                formStore: undefined
+                formStore: undefined,
+                disabled: store.loading
               }
             )
           : null}
@@ -2162,8 +2163,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             loading: store.loading
           }
         )}
-
-        <Spinner overlay size="lg" key="info" show={store.loading} />
 
         {render(
           'dialog',
