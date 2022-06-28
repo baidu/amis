@@ -22,7 +22,7 @@ import {isObject, JSONPipeIn} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {ActionSchema} from 'amis/lib/renderers/Action';
 import {getEnv} from 'mobx-state-tree';
-import {EditorNodeType} from 'amis-editor-core';
+import {EditorNodeType, RendererPluginAction} from 'amis-editor-core';
 import {normalizeApi} from 'amis-core';
 
 interface ColumnItem {
@@ -76,6 +76,14 @@ export class CRUDPlugin extends BasePlugin {
     bulkActions: [],
     itemActions: []
   };
+
+  actions: RendererPluginAction[] = [
+    {
+      actionType: 'reload',
+      actionLabel: '重新加载',
+      description: '触发组件数据刷新并重新渲染'
+    }
+  ];
 
   sampleBuilder = (schema: any) => {
     const data: any = {
