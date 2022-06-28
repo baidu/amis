@@ -1,16 +1,13 @@
-/**
- * @file Flex 常见布局 二拖一布局
- */
 import {registerEditorPlugin} from 'amis-editor-core';
 import {FlexPluginBase} from './FlexPluginBase';
 
-export class Layout2_1_v2 extends FlexPluginBase {
-  name = '二拖一';
+export class Layout2_1_v3 extends FlexPluginBase {
+  name = '左二右一';
   isBaseComponent = false; // 在自定义组件面板中展示
   pluginIcon = 'flex-container-plugin';
-  description = '常见布局：一拖二（布局容器 是基于 CSS Flex 实现的布局容器）。';
+  description = '常见布局：左二右一（布局容器 是基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
-  order = 305;
+  order = 306;
   scaffold:any = {
     type: "flex",
     items: [
@@ -56,17 +53,24 @@ export class Layout2_1_v2 extends FlexPluginBase {
               },
             ],
             style: {
-              height: "100%",
+              "height": "100%",
+              "position": "static",
+              "maxHeight": "auto",
+              "maxWidth": "auto",
+              "width": "auto",
+              "overflowX": "auto",
+              "overflowY": "auto",
+              "margin": "0"
             },
-            alignItems: "stretch"
+            alignItems: "stretch",
+            direction: "column",
+            justify: "center"
           }
         ],
         style: {
-          flex: "0 0 auto",
-          flexBasis: "100px",
+          flex: "1 1 auto",
           padding: 0,
-        },
-        isFixedHeight: true,
+        }
       },
       {
         type: "wrapper",
@@ -78,8 +82,8 @@ export class Layout2_1_v2 extends FlexPluginBase {
           }
         ],
         style: {
-          flex: "1 1 auto",
-          flexBasis: "200px",
+          flex: "0 0 auto",
+          flexBasis: "250px",
           backgroundColor: "rgba(181, 242, 167, 1)",
           display: "flex",
           flexDirection: "row",
@@ -95,7 +99,7 @@ export class Layout2_1_v2 extends FlexPluginBase {
       height: "350px",
       overflowY: "auto"
     },
-    direction: "column",
+    direction: "row",
     justify: "center",
     alignItems: "stretch",
     isFixedHeight: true
@@ -105,4 +109,4 @@ export class Layout2_1_v2 extends FlexPluginBase {
   };
 }
 
-registerEditorPlugin(Layout2_1_v2);
+registerEditorPlugin(Layout2_1_v3);
