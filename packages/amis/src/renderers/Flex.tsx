@@ -117,7 +117,7 @@ export default class Flex extends React.Component<FlexProps, object> {
           (item, key) =>
             render(`flexItem/${key}`, item, {
               key: `flexItem/${key}`,
-              disabled
+              disabled: item?.disabled ?? disabled
             })
         )}
       </div>
