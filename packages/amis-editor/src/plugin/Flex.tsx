@@ -14,8 +14,6 @@ import type {
   RendererJSONSchemaResolveEventContext
 } from 'amis-editor-core';
 import {tipedLabel} from '../component/BaseControl';
-import isNumber from 'lodash/isNumber';
-import isString from 'lodash/isString';
 
 export class FlexPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -71,25 +69,6 @@ export class FlexPlugin extends BasePlugin {
                   getSchemaTpl('layout:position'),
                   getSchemaTpl('layout:inset', {
                     mode: 'vertical',
-                    pipeIn: (value: any) => {
-                      let curValue = value || 'auto';
-                      if (isNumber(curValue)) {
-                        curValue = curValue.toString();
-                      } if (!isString(curValue)) {
-                        curValue = '0';
-                      }
-                      const inset = curValue.split(' ');
-                      return {
-                        insetTop: inset[0] || 'auto',
-                        insetRight: inset[1] || 'auto',
-                        insetBottom: inset[2] || inset[0] || 'auto',
-                        insetLeft: inset[3] || inset[1] || 'auto',
-                      };
-                    },
-                    pipeOut: (value: any) => {
-                      console.log('pipeOut:', value);
-                      return `${value.insetTop ?? 'auto'} ${value.insetRight ?? 'auto'} ${value.insetBottom ?? 'auto'} ${value.insetLeft ?? 'auto'}`;
-                    }
                   }),
                   getSchemaTpl('layout:z-index'),
                   getSchemaTpl('layout:flexDirection', {
@@ -108,6 +87,10 @@ export class FlexPlugin extends BasePlugin {
                   getSchemaTpl('layout:height'),
                   getSchemaTpl('layout:isFixedWidth'),
                   getSchemaTpl('layout:width'),
+                  getSchemaTpl('layout:max-height'),
+                  getSchemaTpl('layout:max-width'),
+                  getSchemaTpl('layout:overflow-x'),
+                  getSchemaTpl('layout:overflow-y'),
                 ]
               },
               {

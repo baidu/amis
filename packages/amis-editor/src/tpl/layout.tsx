@@ -1,5 +1,7 @@
 import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {tipedLabel} from '../component/BaseControl'
+import isNumber from 'lodash/isNumber';
+import isString from 'lodash/isString';
 
 /**
  * 布局相关配置项
@@ -262,8 +264,6 @@ setSchemaTpl(
     name?: string;
     value?: string,
     visibleOn?: string;
-    pipeIn?: (value: any, data: any) => void;
-    pipeOut?: (value: any, data: any) => void;
   }) => {
     const configSchema = {
       type: 'inset-box-model',
@@ -271,8 +271,25 @@ setSchemaTpl(
       name: config?.name || 'style.inset',
       value: config?.value || 'auto',
       visibleOn: config?.visibleOn ?? 'data.style.position && data.style.position !== "static"',
-      pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut,
+      pipeIn: (value: any) => {
+        let curValue = value || 'auto';
+        if (isNumber(curValue)) {
+          curValue = curValue.toString();
+        } if (!isString(curValue)) {
+          curValue = '0';
+        }
+        const inset = curValue.split(' ');
+        return {
+          insetTop: inset[0] || 'auto',
+          insetRight: inset[1] || 'auto',
+          insetBottom: inset[2] || inset[0] || 'auto',
+          insetLeft: inset[3] || inset[1] || 'auto',
+        };
+      },
+      pipeOut: (value: any) => {
+        console.log('pipeOut:', value);
+        return `${value.insetTop ?? 'auto'} ${value.insetRight ?? 'auto'} ${value.insetBottom ?? 'auto'} ${value.insetLeft ?? 'auto'}`;
+      }
     }
 
     if (config?.mode === 'vertical') {
@@ -431,8 +448,6 @@ setSchemaTpl(
     name?: string;
     value?: string,
     visibleOn?: string;
-    pipeIn?: (value: any, data: any) => void;
-    pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
       type: 'switch',
@@ -440,8 +455,12 @@ setSchemaTpl(
       name: config?.name || 'style.flex',
       value: config?.value || '0 0 auto',
       visibleOn: config?.visibleOn,
-      pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut,
+      pipeIn: (value: string) => {
+        return value === '1 1 auto' ? true : false;
+      },
+      pipeOut: (value: boolean) => {
+        return value ? '1 1 auto' : '0 0 auto';
+      }
     };
 });
 
@@ -490,5 +509,182 @@ setSchemaTpl(
       clearable: true,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
+    };
+});
+
+// 布局模式
+setSchemaTpl(
+  'layout:display',
+  (config?: {
+    mode?: string;
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    const configSchema = {
+      type: 'select',
+      label: config?.label || tipedLabel('布局模式', '默认为块级，可设置为弹性布局模式（flex布局容器）'),
+      name: config?.name || 'style.display',
+      value: config?.value || 'block',
+      visibleOn: config?.visibleOn,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+      options: [
+        {
+          label: '默认',
+          value: 'block'
+        },
+        {
+          label: '弹性布局',
+          value: 'flex'
+        },
+      ]
+    }
+
+    if (config?.mode === 'vertical') {
+      // 上下展示，可避免 自定义渲染器 出现挤压
+      return {
+        type: 'group',
+        mode: 'vertical',
+        visibleOn: config?.visibleOn,
+        body: [
+          {
+            ...configSchema
+          }
+        ]
+      };
+    } else {
+      // 默认左右展示
+      return configSchema;
+    }
+});
+
+
+// 最大宽度设置
+setSchemaTpl(
+  'layout:max-width',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-text',
+      label: config?.label || tipedLabel('最大宽度', '最大宽度即当前元素最多的展示宽度'),
+      name: config?.name || 'style.maxWidth',
+      value: config?.value || 'auto',
+      visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
+      clearable: true,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+    };
+});
+
+// 最大高度设置
+setSchemaTpl(
+  'layout:max-height',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-text',
+      label: config?.label || tipedLabel('最大高度', '最大高度即当前元素最多的展示高度'),
+      name: config?.name || 'style.maxHeight',
+      value: config?.value || 'auto',
+      visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
+      clearable: true,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+    };
+});
+
+// x轴（水平轴）滚动模式
+setSchemaTpl(
+  'layout:overflow-x',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'select',
+      label: config?.label || tipedLabel(' x轴滚动模式', '用于设置水平方向的滚动模式'),
+      name: config?.name || 'style.overflow-x',
+      value: config?.value || 'auto',
+      visibleOn: config?.visibleOn ?? 'data.isFixedWidth || data.style.maxWidth',
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+      options: [
+        {
+          label: '超出显示',
+          value: 'visible'
+        },
+        {
+          label: '超出隐藏',
+          value: 'hidden'
+        },
+        {
+          label: '滚动显示',
+          value: 'scroll'
+        },
+        {
+          label: '自动适配',
+          value: 'auto'
+        },
+      ]
+    };
+});
+
+// y轴（交叉轴）滚动模式
+setSchemaTpl(
+  'layout:overflow-y',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'select',
+      label: config?.label || tipedLabel(' y轴滚动模式', '用于设置垂直方向的滚动模式'),
+      name: config?.name || 'style.overflow-y',
+      value: config?.value || 'auto',
+      visibleOn: config?.visibleOn ?? 'data.isFixedHeight || data.style.maxHeight',
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+      options: [
+        {
+          label: '超出显示',
+          value: 'visible'
+        },
+        {
+          label: '超出隐藏',
+          value: 'hidden'
+        },
+        {
+          label: '滚动显示',
+          value: 'scroll'
+        },
+        {
+          label: '自动适配',
+          value: 'auto'
+        },
+      ]
     };
 });

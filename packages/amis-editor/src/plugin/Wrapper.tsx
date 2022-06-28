@@ -47,16 +47,19 @@ export class WrapperPlugin extends BasePlugin {
               isFlexItem ? {
                 title: '布局',
                 body: [
-                  getSchemaTpl('layout:flex', {
-                    pipeIn: (value: string) => {
-                      return value === '1 1 auto' ? true : false;
-                    },
-                    pipeOut: (value: boolean) => {
-                      return value ? '1 1 auto' : '0 0 auto';
-                    }
-                  }),
+                  getSchemaTpl('layout:flex'),
                   getSchemaTpl('layout:flex-basis'),
                   getSchemaTpl('layout:flex-grow'),
+                  getSchemaTpl('layout:display'),
+                  getSchemaTpl('layout:flexDirection', {
+                    visibleOn: 'data.style.display === "flex"',
+                  }),
+                  getSchemaTpl('layout:justifyContent', {
+                    visibleOn: 'data.style.display === "flex"',
+                  }),
+                  getSchemaTpl('layout:alignItems', {
+                    visibleOn: 'data.style.display === "flex"',
+                  }),
                 ]
               } : null,
               {
