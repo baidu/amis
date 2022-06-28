@@ -742,8 +742,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         {
           uploading: false
         },
-        () => {
-          this.onChange(!!this.resolve);
+        async () => {
+          await this.onChange(!!this.resolve);
 
           if (this.resolve) {
             this.resolve(
@@ -932,6 +932,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
 
     onChange((this.emitValue = value), undefined, changeImmediately);
+    console.log('onChange', changeImmediately);
     this.syncAutoFill();
   }
 
