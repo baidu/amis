@@ -27,6 +27,12 @@ setSchemaTpl(
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
+      onChange: (value: string, oldValue: string, model: any, form: any) => {
+        if (value === 'static') {
+          form.setValueByName('style.inset', undefined);
+          form.setValueByName('style.zIndex', undefined);
+        }
+      },
       options: [
         {
           label: '默认',
@@ -330,6 +336,7 @@ setSchemaTpl(
       visibleOn: config?.visibleOn ?? 'data.style.position && data.style.position !== "static"',
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
+
     }
 
     if (config?.mode === 'vertical') {
@@ -369,6 +376,15 @@ setSchemaTpl(
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
+      onChange: (value: boolean, oldValue: boolean, model: any, form: any) => {
+        if (value) {
+          // 固定高度时，剔除最大高度
+          form.setValueByName('style.maxHeight', undefined);
+        } else {
+          // 非固定高度时，剔除高度数值
+          form.setValueByName('style.height', undefined);
+        }
+      },
     };
 });
 
@@ -391,6 +407,15 @@ setSchemaTpl(
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
+      onChange: (value: boolean, oldValue: boolean, model: any, form: any) => {
+        if (value) {
+          // 固定宽度时，剔除最大宽度
+          form.setValueByName('style.maxWidth', undefined);
+        } else {
+          // 非固定宽度时，剔除宽度数值
+          form.setValueByName('style.width', undefined);
+        }
+      },
     };
 });
 
@@ -460,7 +485,14 @@ setSchemaTpl(
       },
       pipeOut: (value: boolean) => {
         return value ? '1 1 auto' : '0 0 auto';
-      }
+      },
+      onChange: (value: any, oldValue: boolean, model: any, form: any) => {
+        if (!value || value === '0 0 auto') {
+          // 非弹性模式下，剔除默认宽度和占比设置
+          form.setValueByName('style.flexBasis', undefined);
+          form.setValueByName('style.flexGrow', undefined);
+        }
+      },
     };
 });
 
@@ -532,6 +564,13 @@ setSchemaTpl(
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
+      onChange: (value: string, oldValue: string, model: any, form: any) => {
+        if (value !== 'flex' && value !== 'inline-flex') {
+          form.setValueByName('style.flexDirection', undefined);
+          form.setValueByName('style.justifyContent', undefined);
+          form.setValueByName('style.alignItems', undefined);
+        }
+      },
       options: [
         {
           label: '默认',
@@ -623,7 +662,7 @@ setSchemaTpl(
     return {
       type: 'select',
       label: config?.label || tipedLabel(' x轴滚动模式', '用于设置水平方向的滚动模式'),
-      name: config?.name || 'style.overflow-x',
+      name: config?.name || 'style.overflowX',
       value: config?.value || 'auto',
       visibleOn: config?.visibleOn ?? 'data.isFixedWidth || data.style.maxWidth',
       pipeIn: config?.pipeIn,
@@ -663,7 +702,7 @@ setSchemaTpl(
     return {
       type: 'select',
       label: config?.label || tipedLabel(' y轴滚动模式', '用于设置垂直方向的滚动模式'),
-      name: config?.name || 'style.overflow-y',
+      name: config?.name || 'style.overflowY',
       value: config?.value || 'auto',
       visibleOn: config?.visibleOn ?? 'data.isFixedHeight || data.style.maxHeight',
       pipeIn: config?.pipeIn,
