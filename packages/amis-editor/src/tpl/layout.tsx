@@ -276,7 +276,7 @@ setSchemaTpl(
       label: config?.label || tipedLabel('布局位置', '指定当前容器元素的定位位置，用于配置 top、right、bottom、left。'),
       name: config?.name || 'style.inset',
       value: config?.value || 'auto',
-      visibleOn: config?.visibleOn ?? 'data.style.position && data.style.position !== "static"',
+      visibleOn: config?.visibleOn ?? 'data.style && data.style.position && data.style.position !== "static"',
       pipeIn: (value: any) => {
         let curValue = value || 'auto';
         if (isNumber(curValue)) {
@@ -333,7 +333,7 @@ setSchemaTpl(
       label: config?.label || tipedLabel('层级', '指定元素的堆叠顺序，层级高的元素总是会处于较低层级元素的上面。'),
       name: config?.name || 'style.zIndex',
       value: config?.value || '0',
-      visibleOn: config?.visibleOn ?? 'data.style.position && data.style.position !== "static"',
+      visibleOn: config?.visibleOn ?? 'data.style && data.style.position && data.style.position !== "static"',
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
 
@@ -664,7 +664,7 @@ setSchemaTpl(
       label: config?.label || tipedLabel(' x轴滚动模式', '用于设置水平方向的滚动模式'),
       name: config?.name || 'style.overflowX',
       value: config?.value || 'auto',
-      visibleOn: config?.visibleOn ?? 'data.isFixedWidth || data.style.maxWidth',
+      visibleOn: config?.visibleOn ?? 'data.isFixedWidth || data.style && data.style.maxWidth',
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
       options: [
@@ -704,7 +704,7 @@ setSchemaTpl(
       label: config?.label || tipedLabel(' y轴滚动模式', '用于设置垂直方向的滚动模式'),
       name: config?.name || 'style.overflowY',
       value: config?.value || 'auto',
-      visibleOn: config?.visibleOn ?? 'data.isFixedHeight || data.style.maxHeight',
+      visibleOn: config?.visibleOn ?? 'data.isFixedHeight || data.style && data.style.maxHeight',
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
       options: [
@@ -725,5 +725,45 @@ setSchemaTpl(
           value: 'auto'
         },
       ]
+    };
+});
+
+// 居中显示
+setSchemaTpl(
+  'layout:margin-center',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'switch',
+      label: config?.label || tipedLabel('居中显示', '通过将设置 margin: 0 auto 来达到居中显示'),
+      name: config?.name || 'style.margin',
+      value: config?.value || '0',
+      visibleOn: config?.visibleOn ?? 'data.isFixedWidth || data.style && data.style.maxWidth',
+      pipeIn: (value: any) => {
+        let curValue = value || '0';
+        if (isNumber(curValue)) {
+          curValue = curValue.toString();
+        } if (!isString(curValue)) {
+          curValue = '0';
+        }
+        const margin = value.split(' ');
+        const curMargin = {
+          top: margin[0] || '0',
+          right: margin[1] || '0',
+          bottom: margin[2] || margin[0] || '0',
+          left: margin[3] || margin[1] || '0',
+        }
+        // 当左右margin数值相同时，则可认为是居中模式
+        return curMargin.left !== '0' && curMargin.left === curMargin.right ? true : false;
+      },
+      pipeOut: (value: boolean) => {
+        return value ? '0 auto' : '0';
+      }
     };
 });

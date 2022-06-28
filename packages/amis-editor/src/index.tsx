@@ -132,6 +132,14 @@ import './plugin/TableView';
 import './plugin/CodeView';
 import './plugin/WebComponent';
 
+// 常见布局
+import './plugin/Layout/Layout1_1';
+import './plugin/Layout/Layout1_2';
+import './plugin/Layout/Layout1_3';
+import './plugin/Layout/Layout1_1_v2';
+import './plugin/Layout/Layout1_1_1';
+import './plugin/Layout/Layout1_2_3';
+
 import {GridPlugin} from './plugin/Grid';
 
 import './renderer/OptionControl';

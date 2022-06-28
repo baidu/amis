@@ -33,6 +33,8 @@ export class WrapperPlugin extends BasePlugin {
 
   panelTitle = '包裹';
 
+  panelJustify = true;
+
   panelBodyCreator = (context: BaseEventContext) => {
     const curRendererSchema = context?.schema;
     const isFlexItem = this.manager?.isFlexItem(context?.id);
@@ -52,13 +54,13 @@ export class WrapperPlugin extends BasePlugin {
                   getSchemaTpl('layout:flex-grow'),
                   getSchemaTpl('layout:display'),
                   getSchemaTpl('layout:flexDirection', {
-                    visibleOn: 'data.style.display === "flex"',
+                    visibleOn: 'data.style && data.style.display === "flex"',
                   }),
                   getSchemaTpl('layout:justifyContent', {
-                    visibleOn: 'data.style.display === "flex"',
+                    visibleOn: 'data.style && data.style.display === "flex"',
                   }),
                   getSchemaTpl('layout:alignItems', {
-                    visibleOn: 'data.style.display === "flex"',
+                    visibleOn: 'data.style && data.style.display === "flex"',
                   }),
                 ]
               } : null,
