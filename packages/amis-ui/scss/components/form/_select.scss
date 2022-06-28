@@ -304,6 +304,11 @@
         overflow: hidden;
         white-space: nowrap;
         align-items: center;
+
+        > i {
+          flex-shrink: 0;
+        }
+
         > span {
           text-overflow: ellipsis;
           overflow: hidden;
