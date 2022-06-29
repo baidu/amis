@@ -8,8 +8,7 @@ export class Layout1_1_1 extends FlexPluginBase {
   name = '三栏均分';
   isBaseComponent = false; // 在自定义组件面板中展示
   pluginIcon = 'flex-container-plugin';
-  description =
-    '常见布局：三栏均分布局（布局容器 是基于 CSS Flex 实现的布局容器）。';
+  description = '常见布局：三栏均分布局（基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
   order = 300;
   scaffold: any = {

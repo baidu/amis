@@ -480,12 +480,8 @@ setSchemaTpl(
       name: config?.name || 'style.flex',
       value: config?.value || '0 0 auto',
       visibleOn: config?.visibleOn,
-      pipeIn: (value: string) => {
-        return value === '1 1 auto' ? true : false;
-      },
-      pipeOut: (value: boolean) => {
-        return value ? '1 1 auto' : '0 0 auto';
-      },
+      trueValue: '1 1 auto',
+      falseValue: '0 0 auto',
       onChange: (value: any, oldValue: boolean, model: any, form: any) => {
         if (!value || value === '0 0 auto') {
           // 非弹性模式下，剔除默认宽度和占比设置
@@ -536,9 +532,8 @@ setSchemaTpl(
       step: 1,
       label: config?.label || tipedLabel('占比设置', '定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。'),
       name: config?.name || 'style.flexGrow',
-      value: config?.value || 0,
-      visibleOn: config?.visibleOn,
-      clearable: true,
+      value: config?.value || 1,
+      visibleOn: config?.visibleOn || 'data.style && data.style.flex !== "0 0 auto"',
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
     };
@@ -615,7 +610,7 @@ setSchemaTpl(
   }) => {
     return {
       type: 'input-text',
-      label: config?.label || tipedLabel('最大宽度', '最大宽度即当前元素最多的展示宽度'),
+      label: config?.label || tipedLabel('最大宽度', '最大宽度即当前元素最大的水平展示区域'),
       name: config?.name || 'style.maxWidth',
       value: config?.value || 'auto',
       visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
@@ -765,5 +760,51 @@ setSchemaTpl(
       pipeOut: (value: boolean) => {
         return value ? '0 auto' : '0';
       }
+    };
+});
+
+// 最小宽度设置
+setSchemaTpl(
+  'layout:min-width',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-text',
+      label: config?.label || tipedLabel('最小宽度', '最小宽度即当前元素最小的水平展示区域'),
+      name: config?.name || 'style.minWidth',
+      value: config?.value || 'auto',
+      visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
+      clearable: true,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+    };
+});
+
+// 最小高度设置
+setSchemaTpl(
+  'layout:min-height',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-text',
+      label: config?.label || tipedLabel('最小高度', '最小宽度即当前元素最小的垂直展示区域'),
+      name: config?.name || 'style.minHeight',
+      value: config?.value || 'auto',
+      visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
+      clearable: true,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
     };
 });

@@ -8,7 +8,7 @@ export class Layout2_1_v2 extends FlexPluginBase {
   name = '二拖一';
   isBaseComponent = false; // 在自定义组件面板中展示
   pluginIcon = 'flex-container-plugin';
-  description = '常见布局：一拖二（布局容器 是基于 CSS Flex 实现的布局容器）。';
+  description = '常见布局：一拖二布局（基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
   order = 305;
   scaffold: any = {
@@ -54,7 +54,7 @@ export class Layout2_1_v2 extends FlexPluginBase {
         ],
         style: {
           flex: '0 0 auto',
-          flexBasis: '100px',
+          flexBasis: '100px'
         },
         alignItems: 'stretch'
       },

@@ -1,16 +1,13 @@
-/**
- * @file Flex 常见布局 1:1 左右均分
- */
 import {registerEditorPlugin} from 'amis-editor-core';
 import {FlexPluginBase} from './FlexPluginBase';
 
-export class Layout1_1 extends FlexPluginBase {
-  name = '左右均分';
+export class Layout_fixed_top extends FlexPluginBase {
+  name = '吸顶容器';
   isBaseComponent = false; // 在自定义组件面板中展示
   pluginIcon = 'flex-container-plugin';
-  description = '常见布局：左右均分布局（基于 CSS Flex 实现的布局容器）。';
+  description = '常见布局：吸顶容器（基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
-  order = 200;
+  order = 502;
   scaffold: any = {
     type: 'flex',
     items: [
@@ -47,12 +44,44 @@ export class Layout1_1 extends FlexPluginBase {
           display: 'block',
           backgroundColor: 'rgba(245, 166, 35, 0.48)'
         }
+      },
+      {
+        type: 'wrapper',
+        body: [
+          {
+            type: 'tpl',
+            tpl: '第三列',
+            inline: false
+          }
+        ],
+        style: {
+          flex: '1 1 auto',
+          display: 'block',
+          flexBasis: 'auto',
+          flexGrow: 1,
+          backgroundColor: 'rgba(242, 54, 54, 0.51)'
+        }
       }
-    ]
+    ],
+    style: {
+      position: 'fixed',
+      inset: '0 auto auto 0',
+      zIndex: 2,
+      width: '100%',
+      overflowX: 'auto',
+      margin: '0',
+      overflowY: 'auto',
+      height: 'auto'
+    },
+    isFixedWidth: true,
+    direction: 'row',
+    justify: 'center',
+    alignItems: 'stretch',
+    isFixedHeight: 'false'
   };
   previewSchema = {
     ...this.scaffold
   };
 }
 
-registerEditorPlugin(Layout1_1);
+registerEditorPlugin(Layout_fixed_top);

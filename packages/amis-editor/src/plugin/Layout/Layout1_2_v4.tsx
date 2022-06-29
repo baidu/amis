@@ -5,8 +5,7 @@ export class Layout1_2_v4 extends FlexPluginBase {
   name = '经典布局1';
   isBaseComponent = false; // 在自定义组件面板中展示
   pluginIcon = 'flex-container-plugin';
-  description =
-    '常见布局：经典布局1（布局容器 是基于 CSS Flex 实现的布局容器）。';
+  description = '常见布局：经典布局1（基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
   order = 307;
   scaffold: any = {
@@ -22,9 +21,7 @@ export class Layout1_2_v4 extends FlexPluginBase {
           }
         ],
         style: {
-          flex: '1 1 auto',
-          flexBasis: 'auto',
-          flexGrow: 1,
+          flex: '0 0 auto',
           backgroundColor: 'rgba(74, 144, 226, 1)',
           display: 'flex',
           flexDirection: 'row',
@@ -123,13 +120,18 @@ export class Layout1_2_v4 extends FlexPluginBase {
           overflowX: 'auto',
           margin: '0',
           maxWidth: 'auto',
-          height: '350px',
-          overflowY: 'auto'
+          overflowY: 'auto',
+          position: 'static',
+          minWidth: 'auto',
+          width: 'auto',
+          maxHeight: 'auto',
+          minHeight: '300px'
         },
         direction: 'row',
         justify: 'center',
         alignItems: 'stretch',
-        isFixedHeight: true
+        isFixedHeight: false,
+        isFixedWidth: 'false'
       }
     ],
     direction: 'column',

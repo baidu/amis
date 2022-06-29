@@ -93,7 +93,9 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:isFixedWidth'),
                   getSchemaTpl('layout:width'),
                   getSchemaTpl('layout:max-height'),
+                  getSchemaTpl('layout:min-height'),
                   getSchemaTpl('layout:max-width'),
+                  getSchemaTpl('layout:min-width'),
                   getSchemaTpl('layout:overflow-x'),
                   getSchemaTpl('layout:overflow-y'),
                   getSchemaTpl('layout:margin-center')
