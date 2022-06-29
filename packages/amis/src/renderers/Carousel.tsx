@@ -14,7 +14,7 @@ import {
   getPropValue
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
-import {Icon} from 'amis-ui';
+import {Icon, Spinner} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaName} from '../Schema';
 import {Html} from 'amis-ui';
 import Image from '../renderers/Image';
@@ -390,7 +390,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       controlsTheme,
       placeholder,
       data,
-      name
+      name,
+      loading = false
     } = this.props;
     const {options, current, nextAnimation} = this.state;
 
@@ -451,6 +452,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                         )
                       }
                     )}
+                    <Spinner overlay show={loading} />
                   </div>
                 );
               }}
@@ -478,6 +480,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             <Icon icon="right-arrow" className="icon" />
           </div>
         ) : null}
+
+        <Spinner overlay show={loading} />
       </div>
     );
   }

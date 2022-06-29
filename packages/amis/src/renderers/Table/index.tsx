@@ -2643,7 +2643,7 @@ export default class Table extends React.Component<TableProps, object> {
       itemActions,
       dispatchEvent,
       onEvent,
-      loading
+      loading = false
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2694,7 +2694,7 @@ export default class Table extends React.Component<TableProps, object> {
           loading={loading}
         />
 
-        <Spinner overlay size="lg" key="info" show={loading} />
+        <Spinner overlay show={loading} />
       </>
     );
   }

@@ -70,7 +70,7 @@ exports[`EventAction:drawer 1`] = `
           data-testid="spinner"
         >
           <div
-            class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+            class="cxd-Spinner-icon cxd-Spinner-icon--default"
           />
         </div>
       </div>

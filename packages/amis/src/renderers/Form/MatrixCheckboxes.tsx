@@ -355,7 +355,7 @@ export default class MatrixCheckbox extends React.Component<
           this.renderInput()
         )}
 
-        <Spinner size="lg" overlay key="info" show={loading} />
+        <Spinner overlay key="info" show={loading} />
       </div>
     );
   }

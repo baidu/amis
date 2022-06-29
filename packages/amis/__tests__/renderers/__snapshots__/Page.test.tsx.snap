@@ -663,7 +663,7 @@ exports[`Renderer:Page handleAction actionType=drawer default 1`] = `
           data-testid="spinner"
         >
           <div
-            class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+            class="cxd-Spinner-icon cxd-Spinner-icon--default"
           />
         </div>
       </div>
@@ -1817,10 +1817,10 @@ exports[`Renderer:Page initApi show loading 1`] = `
           class="cxd-Page-body"
         >
           <div
-            class="cxd-Spinner-overlay"
+            class="cxd-Spinner-overlay in"
           />
           <div
-            class="cxd-Spinner cxd-Spinner--overlay"
+            class="cxd-Spinner cxd-Spinner--overlay in"
             data-testid="spinner"
           >
             <div

@@ -592,7 +592,7 @@ export default class Drawer extends React.Component<DrawerProps> {
 
         {!store.entered ? (
           <div className={cx('Drawer-body', bodyClassName)}>
-            <Spinner overlay show size="lg" />
+            <Spinner overlay show />
           </div>
         ) : body ? (
           <div className={cx('Drawer-body', bodyClassName)}>

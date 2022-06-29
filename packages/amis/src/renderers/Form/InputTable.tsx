@@ -1084,7 +1084,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       perPage,
       classnames: cx,
       rowClassName,
-      rowClassNameExpr
+      rowClassNameExpr,
+      loading
     } = this.props;
 
     if (formInited === false) {
@@ -1135,7 +1136,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             reUseRow: false,
             offset,
             rowClassName,
-            rowClassNameExpr
+            rowClassNameExpr,
+            loading
           }
         )}
         {(addable && showAddBtn !== false) || showPager ? (

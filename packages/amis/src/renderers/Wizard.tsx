@@ -1137,7 +1137,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                 }
               )
             ) : currentStep === -1 ? (
-              __('loading')
+              <Spinner overlay show={true} />
             ) : (
               <p className="text-danger">{__('Wizard.configError')}</p>
             )}
@@ -1160,7 +1160,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             show: store.dialogOpen
           }
         )}
-        <Spinner size="lg" overlay key="info" show={store.loading} />
+        {/* spinner可以交给孩子处理 */}
+        {/* <Spinner size="lg" overlay key="info" show={store.loading} /> */}
       </div>
     );
   }

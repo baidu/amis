@@ -17,7 +17,7 @@ import {
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import Sortable from 'sortablejs';
 import {filter} from 'amis-core';
-import {Icon} from 'amis-ui';
+import {Icon, Spinner} from 'amis-ui';
 import {
   BaseSchema,
   SchemaClassName,
@@ -962,7 +962,8 @@ export default class Cards extends React.Component<GridProps, object> {
       masonryLayout,
       itemsClassName,
       classnames: cx,
-      translate: __
+      translate: __,
+      loading = false
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -1021,6 +1022,8 @@ export default class Cards extends React.Component<GridProps, object> {
         )}
 
         {footer}
+
+        <Spinner overlay show={loading} />
       </div>
     );
   }

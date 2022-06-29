@@ -8,6 +8,7 @@ import {
 } from 'amis-core';
 import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind, getPropValue} from 'amis-core';
+import {Spinner} from 'amis-ui';
 import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
 
 /**
@@ -163,7 +164,8 @@ export class ImagesField extends React.Component<ImagesProps> {
       src,
       originalSrc,
       listClassName,
-      options
+      options,
+      loading = false
     } = this.props;
 
     let value: any;
@@ -227,6 +229,8 @@ export class ImagesField extends React.Component<ImagesProps> {
         ) : (
           placeholder
         )}
+
+        <Spinner overlay show={loading} />
       </div>
     );
   }

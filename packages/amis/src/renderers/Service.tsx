@@ -598,7 +598,8 @@ export default class Service extends React.Component<ServiceProps> {
 
         {this.renderBody()}
 
-        <Spinner size="lg" overlay key="info" show={store.loading} />
+        {/* spinner可以交给孩子处理 */}
+        {/* <Spinner size="lg" overlay key="info" show={store.loading} /> */}
 
         {render(
           // 单独给 feedback 服务的，handleAction 里面先不要处理弹窗

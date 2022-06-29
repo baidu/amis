@@ -214,6 +214,7 @@
 
   &-stepContent {
     padding: var(--Wizard-stepsContent-padding);
+    min-height: px2rem(80px);
 
     & .Step-pane {
       display: none;

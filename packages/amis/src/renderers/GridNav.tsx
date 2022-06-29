@@ -10,7 +10,7 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {GridNav, GridNavDirection, GridNavItem} from 'amis-ui';
-import {BadgeObject} from 'amis-ui';
+import {BadgeObject, Spinner} from 'amis-ui';
 import {handleAction} from 'amis-core';
 import {validations} from 'amis-core';
 
@@ -154,7 +154,14 @@ export default class List extends React.Component<ListProps, object> {
   }
 
   render() {
-    const {itemClassName, source, data, options, classnames} = this.props;
+    const {
+      itemClassName,
+      source,
+      data,
+      options,
+      classnames,
+      loading = false
+    } = this.props;
 
     let value = getPropValue(this.props);
     let list: any = [];
@@ -198,6 +205,7 @@ export default class List extends React.Component<ListProps, object> {
             }
           />
         ))}
+        <Spinner overlay show={loading} />
       </GridNav>
     );
   }

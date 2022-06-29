@@ -1250,17 +1250,6 @@ exports[`Renderer:Wizard initApi default 1`] = `
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
-    <div
-      class="cxd-Spinner-overlay"
-    />
-    <div
-      class="cxd-Spinner cxd-Spinner--overlay"
-      data-testid="spinner"
-    >
-      <div
-        class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -1798,7 +1787,17 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
         class="cxd-Wizard-stepContent clearfix"
         role="wizard-body"
       >
-        加载中
+        <div
+          class="cxd-Spinner-overlay in"
+        />
+        <div
+          class="cxd-Spinner cxd-Spinner--overlay in"
+          data-testid="spinner"
+        >
+          <div
+            class="cxd-Spinner-icon cxd-Spinner-icon--default"
+          />
+        </div>
       </div>
     </div>
     <div
@@ -1838,17 +1837,6 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
-    <div
-      class="cxd-Spinner-overlay"
-    />
-    <div
-      class="cxd-Spinner cxd-Spinner--overlay"
-      data-testid="spinner"
-    >
-      <div
-        class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
       />
     </div>
   </div>
