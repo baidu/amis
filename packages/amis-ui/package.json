@@ -2,12 +2,14 @@
   "name": "amis-ui",
   "main": "lib/index.js",
   "module": "esm/index.js",
-  "version": "2.0.0-rc.14",
+  "types": "lib/index.d.ts",
+  "version": "2.0.0-rc.23",
   "description": "",
   "scripts": {
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
     "dev": "rollup -c -w",
     "test": "jest",
+    "update-snapshot": "jest --updateSnapshot",
     "coverage": "jest --coverage",
     "clean-dist": "rimraf lib/* esm/*"
   },
@@ -18,6 +20,18 @@
     "esm",
     "scss"
   ],
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./esm/index.js"
+    },
+    "./scss/": "./scss/",
+    "./lib/themes/": "./lib/themes/",
+    "./lib/*": {
+      "require": "./lib/*.js",
+      "import": "./esm/*.js"
+    }
+  },
   "dependencies": {
     "amis-core": "*",
     "amis-formula": "*",

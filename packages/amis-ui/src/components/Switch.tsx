@@ -9,10 +9,11 @@ import {ClassNamesFn, themeable} from 'amis-core';
 import {classPrefix, classnames} from '../themes/default';
 
 const sizeMap = {
-  md: 'i-switch-md',
-  lg: 'i-switch-lg',
-  middle: 'i-switch-md',
-  large: 'i-switch-lg'
+  sm: 'Switch--sm',
+  md: 'Switch--md',
+  middle: 'Switch--md',
+  lg: 'Switch--lg',
+  large: 'Switch--lg'
 };
 
 const levelMap = {
@@ -23,7 +24,7 @@ const levelMap = {
 
 interface SwitchProps {
   id?: string;
-  size?: 'md' | 'lg' | 'middle' | 'large';
+  size?: 'sm' | 'md' | 'lg' | 'middle' | 'large';
   level?: 'info' | 'primary' | 'danger';
   className?: string;
   classPrefix: string;

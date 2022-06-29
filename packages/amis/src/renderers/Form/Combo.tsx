@@ -715,7 +715,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
   }
 
-  handleAction(action: ActionObject): any {
+  handleAction(e: React.UIEvent<any> | undefined, action: ActionObject): any {
     const {onAction} = this.props;
 
     if (action.actionType === 'delete') {

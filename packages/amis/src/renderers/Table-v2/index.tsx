@@ -31,6 +31,7 @@ import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import './TableCell';
 import './ColumnToggler';
 import type {SortProps} from 'amis-ui/lib/components/table';
+import { Action } from '../../types';
 
 /**
  * Table 表格v2渲染器。

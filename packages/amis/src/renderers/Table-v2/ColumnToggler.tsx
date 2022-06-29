@@ -2,11 +2,11 @@ import React from 'react';
 import {
   Renderer,
   createObject,
-  isVisible,
-  BaseSchema
+  isVisible
 } from 'amis-core';
 import {Checkbox} from 'amis-ui';
 import ColumnToggler, {ColumnTogglerProps} from '../Table/ColumnToggler';
+import { BaseSchema } from '../../Schema';
 
 export interface ColumnTogglerSchema extends BaseSchema {
   label?: string;
@@ -123,10 +123,10 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
             onClick={async () => {
               const {data, dispatchEvent} = this.props;
               let columns = activeToggaleColumns.map((item: any) => item);
-              if (!column.toggled) {
+              if (column.toggled !== false) {
                 columns.push(column);
               } else {
-                columns = columns.filter((c: any) => c.name !== column.name);
+                columns = columns.filter((c: any) => c.key !== column.key);
               }
               const rendererEvent = await dispatchEvent(
                 'columnToggled',
@@ -139,7 +139,7 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
                 return;
               }
 
-              toggleToggle && toggleToggle(!column.toggled, index);
+              toggleToggle && toggleToggle(!(column.toggled !== false), index);
             }}
           >
             <Checkbox size="sm" classPrefix={ns} checked={column.toggled !== false}>

@@ -10,7 +10,6 @@
   border-radius: var(--DatePicker-borderRadius);
   color: var(--DatePicker-color);
   background: var(--DatePicker-bg);
-  min-width: var(--DateRangePicker-minWidth);
   @include input-border();
 
   .#{$ns}DateRangePicker-clear {
@@ -46,6 +45,7 @@
     padding: 0;
     background: 0;
     flex: 1;
+    width: 50%;
   }
 
   .#{$ns}DateRangePicker-input.isActive {
@@ -116,7 +116,7 @@
   margin: 0;
   padding-left: px2rem(10px);
   list-style: none;
-  background: #F7F7F9;
+  background: #f7f7f9;
   line-height: px2rem(32px);
 }
 
@@ -144,16 +144,6 @@
 
 .#{$ns}DateRangeControl:not(.is-inline) > .#{$ns}DateRangePicker {
   display: flex;
-}
-
-.#{$ns}DateRangeControl {
-  &.is-date > .#{$ns}DateRangePicker {
-    min-width: calc(var(--DateRangePicker-minWidth) + var(--fontSizeLg) * 10);
-  }
-
-  &.is-datetime > .#{$ns}DateRangePicker {
-    min-width: calc(var(--DateRangePicker-minWidth) + var(--fontSizeLg) * 10);
-  }
 }
 
 .#{$ns}DateRangePicker-popover {

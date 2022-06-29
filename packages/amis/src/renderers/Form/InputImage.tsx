@@ -448,7 +448,12 @@ export default class ImageControl extends React.Component<
   }
 
   componentDidMount() {
-    this.syncAutoFill();
+    if (this.initAutoFill) {
+      const {formInited, addHook} = this.props;
+      formInited || !addHook
+        ? this.syncAutoFill()
+        : addHook(this.syncAutoFill, 'init');
+    }
   }
 
   componentDidUpdate(prevProps: ImageProps) {
@@ -697,8 +702,8 @@ export default class ImageControl extends React.Component<
           uploading: false,
           locked: false
         },
-        () => {
-          this.onChange(!!this.resolve, false);
+        async () => {
+          await this.onChange(!!this.resolve, false);
 
           if (this.resolve) {
             this.resolve(

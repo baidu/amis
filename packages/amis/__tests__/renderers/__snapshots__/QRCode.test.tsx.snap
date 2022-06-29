@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:qr-code 1`] = `
+exports[`Renderer:qr-code QRCode render with svg 1`] = `
 <div>
   <div
     class="cxd-Page"
@@ -31,6 +31,96 @@ exports[`Renderer:qr-code 1`] = `
               <path
                 d="M0 0h7v1H0zM8 0h5v1H8zM14,0 h7v1H14zM0 1h1v1H0zM6 1h1v1H6zM8 1h2v1H8zM11 1h2v1H11zM14 1h1v1H14zM20,1 h1v1H20zM0 2h1v1H0zM2 2h3v1H2zM6 2h1v1H6zM8 2h1v1H8zM11 2h2v1H11zM14 2h1v1H14zM16 2h3v1H16zM20,2 h1v1H20zM0 3h1v1H0zM2 3h3v1H2zM6 3h1v1H6zM9 3h2v1H9zM14 3h1v1H14zM16 3h3v1H16zM20,3 h1v1H20zM0 4h1v1H0zM2 4h3v1H2zM6 4h1v1H6zM10 4h2v1H10zM14 4h1v1H14zM16 4h3v1H16zM20,4 h1v1H20zM0 5h1v1H0zM6 5h1v1H6zM8 5h4v1H8zM14 5h1v1H14zM20,5 h1v1H20zM0 6h7v1H0zM8 6h1v1H8zM10 6h1v1H10zM12 6h1v1H12zM14,6 h7v1H14zM8 7h1v1H8zM2 8h3v1H2zM6 8h1v1H6zM8 8h1v1H8zM12 8h4v1H12zM18,8 h3v1H18zM2 9h2v1H2zM7 9h1v1H7zM9 9h2v1H9zM12 9h1v1H12zM15 9h1v1H15zM17 9h1v1H17zM20,9 h1v1H20zM1 10h1v1H1zM3 10h2v1H3zM6 10h2v1H6zM9 10h2v1H9zM13 10h2v1H13zM16 10h4v1H16zM1 11h1v1H1zM3 11h1v1H3zM5 11h1v1H5zM8 11h2v1H8zM13 11h1v1H13zM15 11h5v1H15zM1 12h2v1H1zM5 12h3v1H5zM10 12h1v1H10zM12 12h1v1H12zM16 12h1v1H16zM8 13h4v1H8zM13 13h2v1H13zM20,13 h1v1H20zM0 14h7v1H0zM9 14h1v1H9zM11 14h5v1H11zM17 14h3v1H17zM0 15h1v1H0zM6 15h1v1H6zM10 15h2v1H10zM14 15h1v1H14zM17 15h2v1H17zM0 16h1v1H0zM2 16h3v1H2zM6 16h1v1H6zM8 16h2v1H8zM11 16h1v1H11zM14 16h2v1H14zM17 16h1v1H17zM19 16h1v1H19zM0 17h1v1H0zM2 17h3v1H2zM6 17h1v1H6zM8 17h2v1H8zM12 17h1v1H12zM14 17h2v1H14zM18 17h1v1H18zM0 18h1v1H0zM2 18h3v1H2zM6 18h1v1H6zM8 18h1v1H8zM10 18h1v1H10zM12 18h2v1H12zM16 18h2v1H16zM0 19h1v1H0zM6 19h1v1H6zM10 19h2v1H10zM14 19h3v1H14zM18 19h1v1H18zM0 20h7v1H0zM10 20h2v1H10zM13 20h1v1H13zM16 20h1v1H16zM18 20h2v1H18z"
                 fill="#000"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:qr-code QRCode with background/foreground color 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-QrCode"
+          >
+            <svg
+              class=""
+              height="128"
+              shape-rendering="crispEdges"
+              viewBox="0 0 21 21"
+              width="128"
+            >
+              <path
+                d="M0,0 h21v21H0z"
+                fill="#108cee"
+              />
+              <path
+                d="M0 0h7v1H0zM8 0h5v1H8zM14,0 h7v1H14zM0 1h1v1H0zM6 1h1v1H6zM8 1h2v1H8zM11 1h2v1H11zM14 1h1v1H14zM20,1 h1v1H20zM0 2h1v1H0zM2 2h3v1H2zM6 2h1v1H6zM8 2h1v1H8zM11 2h2v1H11zM14 2h1v1H14zM16 2h3v1H16zM20,2 h1v1H20zM0 3h1v1H0zM2 3h3v1H2zM6 3h1v1H6zM9 3h2v1H9zM14 3h1v1H14zM16 3h3v1H16zM20,3 h1v1H20zM0 4h1v1H0zM2 4h3v1H2zM6 4h1v1H6zM10 4h2v1H10zM14 4h1v1H14zM16 4h3v1H16zM20,4 h1v1H20zM0 5h1v1H0zM6 5h1v1H6zM8 5h4v1H8zM14 5h1v1H14zM20,5 h1v1H20zM0 6h7v1H0zM8 6h1v1H8zM10 6h1v1H10zM12 6h1v1H12zM14,6 h7v1H14zM8 7h1v1H8zM2 8h3v1H2zM6 8h1v1H6zM8 8h1v1H8zM12 8h4v1H12zM18,8 h3v1H18zM2 9h2v1H2zM7 9h1v1H7zM9 9h2v1H9zM12 9h1v1H12zM15 9h1v1H15zM17 9h1v1H17zM20,9 h1v1H20zM1 10h1v1H1zM3 10h2v1H3zM6 10h2v1H6zM9 10h2v1H9zM13 10h2v1H13zM16 10h4v1H16zM1 11h1v1H1zM3 11h1v1H3zM5 11h1v1H5zM8 11h2v1H8zM13 11h1v1H13zM15 11h5v1H15zM1 12h2v1H1zM5 12h3v1H5zM10 12h1v1H10zM12 12h1v1H12zM16 12h1v1H16zM8 13h4v1H8zM13 13h2v1H13zM20,13 h1v1H20zM0 14h7v1H0zM9 14h1v1H9zM11 14h5v1H11zM17 14h3v1H17zM0 15h1v1H0zM6 15h1v1H6zM10 15h2v1H10zM14 15h1v1H14zM17 15h2v1H17zM0 16h1v1H0zM2 16h3v1H2zM6 16h1v1H6zM8 16h2v1H8zM11 16h1v1H11zM14 16h2v1H14zM17 16h1v1H17zM19 16h1v1H19zM0 17h1v1H0zM2 17h3v1H2zM6 17h1v1H6zM8 17h2v1H8zM12 17h1v1H12zM14 17h2v1H14zM18 17h1v1H18zM0 18h1v1H0zM2 18h3v1H2zM6 18h1v1H6zM8 18h1v1H8zM10 18h1v1H10zM12 18h2v1H12zM16 18h2v1H16zM0 19h1v1H0zM6 19h1v1H6zM10 19h2v1H10zM14 19h3v1H14zM18 19h1v1H18zM0 20h7v1H0zM10 20h2v1H10zM13 20h1v1H13zM16 20h1v1H16zM18 20h2v1H18z"
+                fill="yellow"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:qr-code QRCode with image 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-QrCode"
+          >
+            <svg
+              class=""
+              height="128"
+              shape-rendering="crispEdges"
+              viewBox="0 0 21 21"
+              width="128"
+            >
+              <path
+                d="M0,0 h21v21H0z"
+                fill="#fff"
+              />
+              <path
+                d="M0 0h7v1H0zM8 0h5v1H8zM14,0 h7v1H14zM0 1h1v1H0zM6 1h1v1H6zM8 1h2v1H8zM11 1h2v1H11zM14 1h1v1H14zM20,1 h1v1H20zM0 2h1v1H0zM2 2h3v1H2zM6 2h1v1H6zM8 2h1v1H8zM11 2h2v1H11zM14 2h1v1H14zM16 2h3v1H16zM20,2 h1v1H20zM0 3h1v1H0zM2 3h3v1H2zM6 3h1v1H6zM9 3h2v1H9zM14 3h1v1H14zM16 3h3v1H16zM20,3 h1v1H20zM0 4h1v1H0zM2 4h3v1H2zM6 4h1v1H6zM10 4h2v1H10zM14 4h1v1H14zM16 4h3v1H16zM20,4 h1v1H20zM0 5h1v1H0zM6 5h1v1H6zM8 5h4v1H8zM14 5h1v1H14zM20,5 h1v1H20zM0 6h7v1H0zM8 6h1v1H8zM10 6h1v1H10zM12 6h1v1H12zM14,6 h7v1H14zM8 7h1v1H8zM2 8h3v1H2zM6 8h1v1H6zM8 8h1v1H8zM12 8h4v1H12zM18,8 h3v1H18zM2 9h2v1H2zM7 9h1v1H7zM9 9h2v1H9zM12 9h1v1H12zM15 9h1v1H15zM17 9h1v1H17zM20,9 h1v1H20zM1 10h1v1H1zM3 10h2v1H3zM6 10h2v1H6zM9 10h2v1H9zM13 10h2v1H13zM16 10h4v1H16zM1 11h1v1H1zM3 11h1v1H3zM5 11h1v1H5zM8 11h2v1H8zM13 11h1v1H13zM15 11h5v1H15zM1 12h2v1H1zM5 12h3v1H5zM10 12h1v1H10zM12 12h1v1H12zM16 12h1v1H16zM8 13h4v1H8zM13 13h2v1H13zM20,13 h1v1H20zM0 14h7v1H0zM9 14h1v1H9zM11 14h5v1H11zM17 14h3v1H17zM0 15h1v1H0zM6 15h1v1H6zM10 15h2v1H10zM14 15h1v1H14zM17 15h2v1H17zM0 16h1v1H0zM2 16h3v1H2zM6 16h1v1H6zM8 16h2v1H8zM11 16h1v1H11zM14 16h2v1H14zM17 16h1v1H17zM19 16h1v1H19zM0 17h1v1H0zM2 17h3v1H2zM6 17h1v1H6zM8 17h2v1H8zM12 17h1v1H12zM14 17h2v1H14zM18 17h1v1H18zM0 18h1v1H0zM2 18h3v1H2zM6 18h1v1H6zM8 18h1v1H8zM10 18h1v1H10zM12 18h2v1H12zM16 18h2v1H16zM0 19h1v1H0zM6 19h1v1H6zM10 19h2v1H10zM14 19h3v1H14zM18 19h1v1H18zM0 20h7v1H0zM10 20h2v1H10zM13 20h1v1H13zM16 20h1v1H16zM18 20h2v1H18z"
+                fill="#000"
+              />
+              <image
+                height="4.921875"
+                preserveAspectRatio="none"
+                width="8.203125"
+                x="3.28125"
+                xlink:href="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg"
+                y="4.921875"
               />
             </svg>
           </div>

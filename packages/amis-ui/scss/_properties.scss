@@ -1280,8 +1280,27 @@
   --Switch-onDisabled-bgColor: #ccc;
   --Switch-onDisabled-circle-BackgroundColor: var(--white);
   --Switch-onDisabled-color: #fff;
+  --Switch-onHover-bgColor: var(--Switch-bgColor);
   --Switch-valueColor: var(--white);
   --Switch-width: #{px2rem(50px)};
+  --Switch-slider-margin: #{px2rem(1px)};
+  --Switch-slider-width: calc(
+    var(--Switch-height) - var(--Switch-slider-margin) * 2
+  );
+  --Switch-slider-transition: margin-left var(--animation-duration);
+  --Switch-text-marginRight: #{px2rem(8px)};
+  --Switch-text-marginLeft: #{px2rem(25px)};
+  --Switch-width--sm: #{px2rem(28px)};
+  --Switch-height--sm: #{px2rem(16px)};
+  --Switch-slider-width--sm: calc(
+    var(--Switch-height--sm) - var(--Switch-slider-margin) * 2
+  );
+  --Switch-text-marginRight--sm: calc(
+    var(--Switch-slider-margin) * 2 + var(--Switch-text-marginRight) / 2
+  );
+  --Switch-text-marginLeft--sm: calc(
+    var(--Switch-slider-margin) * 2 + var(--Switch-text-marginLeft) / 2
+  );
 
   --Table--unsaved-heading-bg: #e8f0fe;
   --Table--unsaved-heading-color: #4285f4;
