@@ -46,12 +46,23 @@ export class WrapperPlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              isFlexItem ? {
+              {
                 title: '布局',
                 body: [
-                  getSchemaTpl('layout:flex'),
-                  getSchemaTpl('layout:flex-basis'),
-                  getSchemaTpl('layout:flex-grow'),
+                  isFlexItem ? getSchemaTpl('layout:flex', {
+                    visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
+                  }) : null,
+                  isFlexItem ? getSchemaTpl('layout:flex-basis', {
+                    visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
+                  }) : null,
+                  isFlexItem ? getSchemaTpl('layout:flex-grow', {
+                    visibleOn: 'data.style && data.style.flex !== "0 0 auto" && (data.style.position === "static" || data.style.position === "relative")',
+                  }) : null,
+                  getSchemaTpl('layout:position'),
+                  getSchemaTpl('layout:inset', {
+                    mode: 'vertical'
+                  }),
+                  getSchemaTpl('layout:z-index'),
                   getSchemaTpl('layout:display'),
                   getSchemaTpl('layout:flexDirection', {
                     visibleOn: 'data.style && data.style.display === "flex"',
@@ -62,8 +73,10 @@ export class WrapperPlugin extends BasePlugin {
                   getSchemaTpl('layout:alignItems', {
                     visibleOn: 'data.style && data.style.display === "flex"',
                   }),
+                  getSchemaTpl('layout:min-width'),
+                  getSchemaTpl('layout:min-height'),
                 ]
-              } : null,
+              },
               {
                 title: '常用',
                 body: [

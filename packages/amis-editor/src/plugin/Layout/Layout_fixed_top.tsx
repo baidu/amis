@@ -66,12 +66,12 @@ export class Layout_fixed_top extends FlexPluginBase {
     style: {
       position: 'fixed',
       inset: '0 auto auto 0',
-      zIndex: 2,
+      zIndex: 10,
       width: '100%',
       overflowX: 'auto',
       margin: '0',
       overflowY: 'auto',
-      height: 'auto'
+      height: '55px'
     },
     isFixedWidth: true,
     direction: 'row',
@@ -80,7 +80,10 @@ export class Layout_fixed_top extends FlexPluginBase {
     isFixedHeight: 'false'
   };
   previewSchema = {
-    ...this.scaffold
+    ...this.scaffold,
+    style: {
+      position: 'static'
+    }
   };
 }
 

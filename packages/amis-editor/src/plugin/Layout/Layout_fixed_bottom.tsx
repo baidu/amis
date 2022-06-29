@@ -80,7 +80,10 @@ export class Layout_fixed_bottom extends FlexPluginBase {
     isFixedHeight: 'false'
   };
   previewSchema = {
-    ...this.scaffold
+    ...this.scaffold,
+    style: {
+      position: 'static'
+    }
   };
 }
 
