@@ -378,8 +378,9 @@ setSchemaTpl(
       pipeOut: config?.pipeOut,
       onChange: (value: boolean, oldValue: boolean, model: any, form: any) => {
         if (value) {
-          // 固定高度时，剔除最大高度
+          // 固定高度时，剔除最大高度、最小高度
           form.setValueByName('style.maxHeight', undefined);
+          form.setValueByName('style.minHeight', undefined);
         } else {
           // 非固定高度时，剔除高度数值
           form.setValueByName('style.height', undefined);
@@ -409,8 +410,9 @@ setSchemaTpl(
       pipeOut: config?.pipeOut,
       onChange: (value: boolean, oldValue: boolean, model: any, form: any) => {
         if (value) {
-          // 固定宽度时，剔除最大宽度
+          // 固定宽度时，剔除最大宽度、最小宽度
           form.setValueByName('style.maxWidth', undefined);
+          form.setValueByName('style.minWidth', undefined);
         } else {
           // 非固定宽度时，剔除宽度数值
           form.setValueByName('style.width', undefined);
@@ -612,7 +614,7 @@ setSchemaTpl(
       type: 'input-text',
       label: config?.label || tipedLabel('最大宽度', '最大宽度即当前元素最大的水平展示区域'),
       name: config?.name || 'style.maxWidth',
-      value: config?.value || 'auto',
+      value: config?.value,
       visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
       clearable: true,
       pipeIn: config?.pipeIn,
@@ -635,7 +637,7 @@ setSchemaTpl(
       type: 'input-text',
       label: config?.label || tipedLabel('最大高度', '最大高度即当前元素最多的展示高度'),
       name: config?.name || 'style.maxHeight',
-      value: config?.value || 'auto',
+      value: config?.value,
       visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
       clearable: true,
       pipeIn: config?.pipeIn,
@@ -778,7 +780,7 @@ setSchemaTpl(
       type: 'input-text',
       label: config?.label || tipedLabel('最小宽度', '最小宽度即当前元素最小的水平展示区域'),
       name: config?.name || 'style.minWidth',
-      value: config?.value || 'auto',
+      value: config?.value,
       visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
       clearable: true,
       pipeIn: config?.pipeIn,
@@ -801,7 +803,7 @@ setSchemaTpl(
       type: 'input-text',
       label: config?.label || tipedLabel('最小高度', '最小宽度即当前元素最小的垂直展示区域'),
       name: config?.name || 'style.minHeight',
-      value: config?.value || 'auto',
+      value: config?.value,
       visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
       clearable: true,
       pipeIn: config?.pipeIn,

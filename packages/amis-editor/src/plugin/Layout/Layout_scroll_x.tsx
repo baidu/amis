@@ -4,7 +4,7 @@ import {FlexPluginBase} from './FlexPluginBase';
 export class Layout_scroll_x extends FlexPluginBase {
   name = 'x轴滚动容器';
   isBaseComponent = false;
-  pluginIcon = 'flex-container-plugin';
+  pluginIcon = 'layout-3cols-plugin';
   description = '常见布局：x轴滚动容器（基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
   order = 505;
@@ -172,12 +172,12 @@ export class Layout_scroll_x extends FlexPluginBase {
     style: {
       position: 'static',
       minHeight: 'auto',
-      maxWidth: 'auto',
+      maxWidth: '1080px',
       minWidth: 'auto',
       height: '200px',
       overflowX: 'scroll',
       overflowY: 'scroll',
-      margin: '0'
+      margin: '0 auto'
     },
     isFixedHeight: true,
     isFixedWidth: false

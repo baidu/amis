@@ -16,7 +16,6 @@ export class FlexPluginBase extends BasePlugin {
   $schema = '/schemas/FlexSchema.json';
   disabledRendererPlugin = false;
 
-  // 组件名称
   name = '布局容器';
   isBaseComponent = true;
   icon = 'fa fa-columns';
@@ -75,7 +74,6 @@ export class FlexPluginBase extends BasePlugin {
                   }),
                   getSchemaTpl('layout:justifyContent', {
                     name: 'justify',
-                    // mode: 'vertical', // 改成上下展示模式
                     label: tipedLabel(
                       `${isRowContent ? '水平' : '垂直'}对齐方式`,
                       '设置子元素在主轴上的对齐方式'
@@ -151,9 +149,6 @@ export class FlexPluginBase extends BasePlugin {
     {
       key: 'items',
       label: '子节点集合',
-      // 复写渲染器里面的 render 方法
-      renderMethod: 'render',
-      dndMode: 'position-h'
     }
   ];
 

@@ -4,7 +4,7 @@ import {FlexPluginBase} from './FlexPluginBase';
 export class Layout2_1_v3 extends FlexPluginBase {
   name = '左二右一';
   isBaseComponent = false; // 在自定义组件面板中展示
-  pluginIcon = 'flex-container-plugin';
+  pluginIcon = 'layout-2-1-plugin';
   description = '常见布局：左二右一布局（基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
   order = 306;
@@ -19,7 +19,7 @@ export class Layout2_1_v3 extends FlexPluginBase {
             body: [
               {
                 type: 'tpl',
-                tpl: '第一列',
+                tpl: '第一行',
                 inline: false
               }
             ],
@@ -36,7 +36,7 @@ export class Layout2_1_v3 extends FlexPluginBase {
             body: [
               {
                 type: 'tpl',
-                tpl: '第二列',
+                tpl: '第二行',
                 inline: false
               }
             ],
@@ -61,7 +61,7 @@ export class Layout2_1_v3 extends FlexPluginBase {
         body: [
           {
             type: 'tpl',
-            tpl: '第一行',
+            tpl: '第二列',
             inline: false
           }
         ],

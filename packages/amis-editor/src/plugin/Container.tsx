@@ -1,6 +1,7 @@
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin, RegionConfig} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {tipedLabel} from '../component/BaseControl';
 
 export class ContainerPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -34,6 +35,11 @@ export class ContainerPlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
+    const curRendererSchema = context?.schema;
+    const isRowContent =
+      curRendererSchema?.direction === 'row' ||
+      curRendererSchema?.direction === 'row-reverse';
+
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -66,6 +72,47 @@ export class ContainerPlugin extends BasePlugin {
                 },
                 validateOnChange: false
               }
+            ]
+          },
+          {
+            title: '布局',
+            body: [
+              getSchemaTpl('layout:position'),
+              getSchemaTpl('layout:inset', {
+                mode: 'vertical'
+              }),
+              getSchemaTpl('layout:z-index'),
+              getSchemaTpl('layout:display'),
+
+              getSchemaTpl('layout:flexDirection', {
+                visibleOn: 'data.style && data.style.display === "flex"',
+              }),
+              getSchemaTpl('layout:justifyContent', {
+                visibleOn: 'data.style && data.style.display === "flex"',
+                label: tipedLabel(
+                  `${isRowContent ? '水平' : '垂直'}对齐方式`,
+                  '设置子元素在主轴上的对齐方式'
+                )
+              }),
+              getSchemaTpl('layout:alignItems', {
+                visibleOn: 'data.style && data.style.display === "flex"',
+                label: tipedLabel(
+                  `${isRowContent ? '垂直' : '水平'}对齐方式`,
+                  '设置子元素在交叉轴上的对齐方式'
+                )
+              }),
+
+              getSchemaTpl('layout:isFixedHeight'),
+              getSchemaTpl('layout:height'),
+              getSchemaTpl('layout:isFixedWidth'),
+              getSchemaTpl('layout:width'),
+              getSchemaTpl('layout:max-height'),
+              getSchemaTpl('layout:min-height'),
+              getSchemaTpl('layout:max-width'),
+              getSchemaTpl('layout:min-width'),
+              getSchemaTpl('layout:overflow-x'),
+              getSchemaTpl('layout:overflow-y'),
+              getSchemaTpl('layout:margin-center')
             ]
           },
           getSchemaTpl('status'),

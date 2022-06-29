@@ -2,10 +2,10 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {FlexPluginBase} from './FlexPluginBase';
 
 export class Layout1_2_v4 extends FlexPluginBase {
-  name = '经典布局1';
-  isBaseComponent = false; // 在自定义组件面板中展示
-  pluginIcon = 'flex-container-plugin';
-  description = '常见布局：经典布局1（基于 CSS Flex 实现的布局容器）。';
+  name = '经典布局';
+  isBaseComponent = false;
+  pluginIcon = 'layout-3-1-plugin';
+  description = '常见布局：经典布局（基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
   order = 307;
   scaffold: any = {
@@ -16,7 +16,7 @@ export class Layout1_2_v4 extends FlexPluginBase {
         body: [
           {
             type: 'tpl',
-            tpl: '第一列',
+            tpl: '第一行',
             inline: false
           }
         ],
@@ -37,7 +37,7 @@ export class Layout1_2_v4 extends FlexPluginBase {
             body: [
               {
                 type: 'tpl',
-                tpl: '第一行',
+                tpl: '第一列',
                 inline: false
               }
             ],
@@ -62,7 +62,7 @@ export class Layout1_2_v4 extends FlexPluginBase {
                     body: [
                       {
                         type: 'tpl',
-                        tpl: '第一列',
+                        tpl: '第一行',
                         inline: false
                       }
                     ],
@@ -79,7 +79,7 @@ export class Layout1_2_v4 extends FlexPluginBase {
                     body: [
                       {
                         type: 'tpl',
-                        tpl: '第二列',
+                        tpl: '第二行',
                         inline: false
                       }
                     ],

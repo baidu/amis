@@ -3,7 +3,7 @@ import {FlexPluginBase} from './FlexPluginBase';
 
 export class Layout_fixed_top extends FlexPluginBase {
   name = '吸顶容器';
-  isBaseComponent = false; // 在自定义组件面板中展示
+  isBaseComponent = false;
   pluginIcon = 'flex-container-plugin';
   description = '常见布局：吸顶容器（基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];

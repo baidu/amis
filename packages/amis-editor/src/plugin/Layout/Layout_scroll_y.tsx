@@ -4,7 +4,7 @@ import {FlexPluginBase} from './FlexPluginBase';
 export class Layout_scroll_y extends FlexPluginBase {
   name = 'y轴滚动容器';
   isBaseComponent = false;
-  pluginIcon = 'flex-container-plugin';
+  pluginIcon = 'layout-3row-plugin';
   description = '常见布局：y轴滚动容器（基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
   order = 504;

@@ -6,8 +6,8 @@ import {FlexPluginBase} from './FlexPluginBase';
 
 export class Layout1_1_v2 extends FlexPluginBase {
   name = '上下布局';
-  isBaseComponent = false; // 在自定义组件面板中展示
-  pluginIcon = 'flex-container-plugin';
+  isBaseComponent = false;
+  pluginIcon = 'layout-2row-plugin';
   description = '常见布局：上下布局（基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
   order = 203;
@@ -19,7 +19,7 @@ export class Layout1_1_v2 extends FlexPluginBase {
         body: [
           {
             type: 'tpl',
-            tpl: '第一列',
+            tpl: '第一行',
             inline: false
           }
         ],
@@ -39,7 +39,7 @@ export class Layout1_1_v2 extends FlexPluginBase {
         body: [
           {
             type: 'tpl',
-            tpl: '第二列',
+            tpl: '第二行',
             inline: false
           }
         ],

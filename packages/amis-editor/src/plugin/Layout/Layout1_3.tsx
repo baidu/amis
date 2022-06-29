@@ -6,8 +6,8 @@ import {FlexPluginBase} from './FlexPluginBase';
 
 export class Layout1_3 extends FlexPluginBase {
   name = '1:3 布局';
-  isBaseComponent = false; // 在自定义组件面板中展示
-  pluginIcon = 'flex-container-plugin';
+  isBaseComponent = false;
+  pluginIcon = 'layout-2cols-plugin';
   description = '常见布局：1:3 布局（基于 CSS Flex 实现的布局容器）。';
   tags = ['常见布局'];
   order = 202;
