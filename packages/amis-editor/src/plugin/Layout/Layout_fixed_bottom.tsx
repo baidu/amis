@@ -16,7 +16,7 @@ export class Layout_fixed_bottom extends FlexPluginBase {
         body: [
           {
             type: 'tpl',
-            tpl: '第一列',
+            tpl: '吸底容器：第一列',
             inline: false
           }
         ],
@@ -24,7 +24,10 @@ export class Layout_fixed_bottom extends FlexPluginBase {
           flex: '1 1 auto',
           flexBasis: 'auto',
           flexGrow: 1,
-          display: 'block',
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "stretch",
           backgroundColor: 'rgba(181, 242, 167, 1)'
         }
       },
@@ -41,7 +44,10 @@ export class Layout_fixed_bottom extends FlexPluginBase {
           flex: '1 1 auto',
           flexBasis: 'auto',
           flexGrow: 1,
-          display: 'block',
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "stretch",
           backgroundColor: 'rgba(245, 166, 35, 0.48)'
         }
       },
@@ -56,9 +62,12 @@ export class Layout_fixed_bottom extends FlexPluginBase {
         ],
         style: {
           flex: '1 1 auto',
-          display: 'block',
           flexBasis: 'auto',
           flexGrow: 1,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "stretch",
           backgroundColor: 'rgba(242, 54, 54, 0.51)'
         }
       }
@@ -77,7 +86,7 @@ export class Layout_fixed_bottom extends FlexPluginBase {
     direction: 'row',
     justify: 'center',
     alignItems: 'stretch',
-    isFixedHeight: 'false'
+    isFixedHeight: false
   };
   previewSchema = {
     ...this.scaffold,

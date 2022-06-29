@@ -16,7 +16,7 @@ export class Layout_fixed_top extends FlexPluginBase {
         body: [
           {
             type: 'tpl',
-            tpl: '第一列',
+            tpl: '吸顶容器：第一列',
             inline: false
           }
         ],
@@ -77,7 +77,7 @@ export class Layout_fixed_top extends FlexPluginBase {
     direction: 'row',
     justify: 'center',
     alignItems: 'stretch',
-    isFixedHeight: 'false'
+    isFixedHeight: false
   };
   previewSchema = {
     ...this.scaffold,

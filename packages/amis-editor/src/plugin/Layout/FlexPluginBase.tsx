@@ -54,6 +54,8 @@ export class FlexPluginBase extends BasePlugin {
     const isRowContent =
       curRendererSchema?.direction === 'row' ||
       curRendererSchema?.direction === 'row-reverse';
+    const isFlexItem = this.manager?.isFlexItem(context?.id);
+
     return [
       getSchemaTpl('tabs', [
         {
@@ -64,6 +66,15 @@ export class FlexPluginBase extends BasePlugin {
               {
                 title: '布局',
                 body: [
+                  isFlexItem ? getSchemaTpl('layout:flex', {
+                    visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
+                  }) : null,
+                  isFlexItem ? getSchemaTpl('layout:flex-grow', {
+                    visibleOn: 'data.style && data.style.flex !== "0 0 auto" && (data.style.position === "static" || data.style.position === "relative")',
+                  }) : null,
+                  isFlexItem ? getSchemaTpl('layout:flex-basis', {
+                    visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
+                  }) : null,
                   getSchemaTpl('layout:position'),
                   getSchemaTpl('layout:inset', {
                     mode: 'vertical'

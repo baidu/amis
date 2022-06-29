@@ -22,7 +22,7 @@ export class Layout2_1_v2 extends FlexPluginBase {
             body: [
               {
                 type: 'tpl',
-                tpl: '第一列',
+                tpl: '二拖一布局：第一列',
                 inline: false
               }
             ],

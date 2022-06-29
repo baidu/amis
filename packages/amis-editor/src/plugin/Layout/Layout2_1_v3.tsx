@@ -19,7 +19,7 @@ export class Layout2_1_v3 extends FlexPluginBase {
             body: [
               {
                 type: 'tpl',
-                tpl: '第一行',
+                tpl: '左二右一布局：第一行',
                 inline: false
               }
             ],

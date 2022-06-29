@@ -52,11 +52,11 @@ export class WrapperPlugin extends BasePlugin {
                   isFlexItem ? getSchemaTpl('layout:flex', {
                     visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
                   }) : null,
-                  isFlexItem ? getSchemaTpl('layout:flex-basis', {
-                    visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
-                  }) : null,
                   isFlexItem ? getSchemaTpl('layout:flex-grow', {
                     visibleOn: 'data.style && data.style.flex !== "0 0 auto" && (data.style.position === "static" || data.style.position === "relative")',
+                  }) : null,
+                  isFlexItem ? getSchemaTpl('layout:flex-basis', {
+                    visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
                   }) : null,
                   getSchemaTpl('layout:position'),
                   getSchemaTpl('layout:inset', {

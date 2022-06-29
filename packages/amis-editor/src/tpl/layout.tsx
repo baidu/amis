@@ -7,6 +7,15 @@ import isString from 'lodash/isString';
  * 布局相关配置项
  */
 
+// 默认支持的单位
+const LayoutUnitOptions = [
+  "px",
+  "%",
+  "em",
+  "vh",
+  "vw"
+];
+
 // 定位模式
 setSchemaTpl(
   'layout:position',
@@ -51,6 +60,102 @@ setSchemaTpl(
           value: 'absolute'
         },
       ]
+    }
+
+    if (config?.mode === 'vertical') {
+      // 上下展示，可避免 自定义渲染器 出现挤压
+      return {
+        type: 'group',
+        mode: 'vertical',
+        visibleOn: config?.visibleOn,
+        body: [
+          {
+            ...configSchema
+          }
+        ]
+      };
+    } else {
+      // 默认左右展示
+      return configSchema;
+    }
+});
+
+// inset 配置: 
+setSchemaTpl(
+  'layout:inset',
+  (config?: {
+    mode?: string;
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+  }) => {
+    const configSchema = {
+      type: 'inset-box-model',
+      label: config?.label || tipedLabel('布局位置', '指定当前容器元素的定位位置，用于配置 top、right、bottom、left。'),
+      name: config?.name || 'style.inset',
+      value: config?.value || 'auto',
+      visibleOn: config?.visibleOn ?? 'data.style && data.style.position && data.style.position !== "static"',
+      pipeIn: (value: any) => {
+        let curValue = value || 'auto';
+        if (isNumber(curValue)) {
+          curValue = curValue.toString();
+        } if (!isString(curValue)) {
+          curValue = '0';
+        }
+        const inset = curValue.split(' ');
+        return {
+          insetTop: inset[0] || 'auto',
+          insetRight: inset[1] || 'auto',
+          insetBottom: inset[2] || inset[0] || 'auto',
+          insetLeft: inset[3] || inset[1] || 'auto',
+        };
+      },
+      pipeOut: (value: any) => {
+        console.log('pipeOut:', value);
+        return `${value.insetTop ?? 'auto'} ${value.insetRight ?? 'auto'} ${value.insetBottom ?? 'auto'} ${value.insetLeft ?? 'auto'}`;
+      }
+    }
+
+    if (config?.mode === 'vertical') {
+      // 上下展示，可避免 自定义渲染器 出现挤压
+      return {
+        type: 'group',
+        mode: 'vertical',
+        visibleOn: config?.visibleOn,
+        body: [
+          {
+            ...configSchema
+          }
+        ]
+      };
+    } else {
+      // 默认左右展示
+      return configSchema;
+    }
+});
+
+// z-index 配置: 
+setSchemaTpl(
+  'layout:z-index',
+  (config?: {
+    mode?: string;
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    const configSchema = {
+      type: 'input-number',
+      label: config?.label || tipedLabel('层级', '指定元素的堆叠顺序，层级高的元素总是会处于较低层级元素的上面。'),
+      name: config?.name || 'style.zIndex',
+      value: config?.value || '0',
+      visibleOn: config?.visibleOn ?? 'data.style && data.style.position && data.style.position !== "static"',
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+
     }
 
     if (config?.mode === 'vertical') {
@@ -261,102 +366,6 @@ setSchemaTpl(
     }
 });
 
-// inset 配置: 
-setSchemaTpl(
-  'layout:inset',
-  (config?: {
-    mode?: string;
-    label?: string;
-    name?: string;
-    value?: string,
-    visibleOn?: string;
-  }) => {
-    const configSchema = {
-      type: 'inset-box-model',
-      label: config?.label || tipedLabel('布局位置', '指定当前容器元素的定位位置，用于配置 top、right、bottom、left。'),
-      name: config?.name || 'style.inset',
-      value: config?.value || 'auto',
-      visibleOn: config?.visibleOn ?? 'data.style && data.style.position && data.style.position !== "static"',
-      pipeIn: (value: any) => {
-        let curValue = value || 'auto';
-        if (isNumber(curValue)) {
-          curValue = curValue.toString();
-        } if (!isString(curValue)) {
-          curValue = '0';
-        }
-        const inset = curValue.split(' ');
-        return {
-          insetTop: inset[0] || 'auto',
-          insetRight: inset[1] || 'auto',
-          insetBottom: inset[2] || inset[0] || 'auto',
-          insetLeft: inset[3] || inset[1] || 'auto',
-        };
-      },
-      pipeOut: (value: any) => {
-        console.log('pipeOut:', value);
-        return `${value.insetTop ?? 'auto'} ${value.insetRight ?? 'auto'} ${value.insetBottom ?? 'auto'} ${value.insetLeft ?? 'auto'}`;
-      }
-    }
-
-    if (config?.mode === 'vertical') {
-      // 上下展示，可避免 自定义渲染器 出现挤压
-      return {
-        type: 'group',
-        mode: 'vertical',
-        visibleOn: config?.visibleOn,
-        body: [
-          {
-            ...configSchema
-          }
-        ]
-      };
-    } else {
-      // 默认左右展示
-      return configSchema;
-    }
-});
-
-// z-index 配置: 
-setSchemaTpl(
-  'layout:z-index',
-  (config?: {
-    mode?: string;
-    label?: string;
-    name?: string;
-    value?: string,
-    visibleOn?: string;
-    pipeIn?: (value: any, data: any) => void;
-    pipeOut?: (value: any, data: any) => void;
-  }) => {
-    const configSchema = {
-      type: 'input-number',
-      label: config?.label || tipedLabel('层级', '指定元素的堆叠顺序，层级高的元素总是会处于较低层级元素的上面。'),
-      name: config?.name || 'style.zIndex',
-      value: config?.value || '0',
-      visibleOn: config?.visibleOn ?? 'data.style && data.style.position && data.style.position !== "static"',
-      pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut,
-
-    }
-
-    if (config?.mode === 'vertical') {
-      // 上下展示，可避免 自定义渲染器 出现挤压
-      return {
-        type: 'group',
-        mode: 'vertical',
-        visibleOn: config?.visibleOn,
-        body: [
-          {
-            ...configSchema
-          }
-        ]
-      };
-    } else {
-      // 默认左右展示
-      return configSchema;
-    }
-});
-
 // 是否固定高度: isFixedHeight 配置:
 setSchemaTpl(
   'layout:isFixedHeight',
@@ -372,7 +381,7 @@ setSchemaTpl(
       type: 'switch',
       label: config?.label || '固定高度',
       name: config?.name || 'isFixedHeight',
-      value: config?.value || 'false',
+      value: config?.value || false,
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
@@ -404,7 +413,7 @@ setSchemaTpl(
       type: 'switch',
       label: config?.label || '固定宽度',
       name: config?.name || 'isFixedWidth',
-      value: config?.value || 'false',
+      value: config?.value || false,
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
@@ -429,16 +438,18 @@ setSchemaTpl(
     name?: string;
     value?: string,
     visibleOn?: string;
+    unitOptions?: Array<string>;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'input-text',
+      type: 'input-number',
       label: config?.label || '高度',
       name: config?.name || 'style.height',
-      value: config?.value || 'auto',
+      value: config?.value || '300px',
       visibleOn: config?.visibleOn ?? 'data.isFixedHeight',
       clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
     };
@@ -452,16 +463,18 @@ setSchemaTpl(
     name?: string;
     value?: string,
     visibleOn?: string;
+    unitOptions?: Array<string>;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'input-text',
+      type: 'input-number',
       label: config?.label || '宽度',
       name: config?.name || 'style.width',
-      value: config?.value || 'auto',
+      value: config?.value || '300px',
       visibleOn: config?.visibleOn ?? 'data.isFixedWidth',
       clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
     };
@@ -502,16 +515,18 @@ setSchemaTpl(
     name?: string;
     value?: string,
     visibleOn?: string;
+    unitOptions?: Array<string>;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'input-text',
+      type: 'input-number',
       label: config?.label || tipedLabel('默认宽度', '定义在分配多余空间之前，项目占据的主轴空间（main size）'),
       name: config?.name || 'style.flexBasis',
       value: config?.value || 'auto',
       visibleOn: config?.visibleOn,
       clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
     };
@@ -607,16 +622,18 @@ setSchemaTpl(
     name?: string;
     value?: string,
     visibleOn?: string;
+    unitOptions?: Array<string>;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'input-text',
+      type: 'input-number',
       label: config?.label || tipedLabel('最大宽度', '最大宽度即当前元素最大的水平展示区域'),
       name: config?.name || 'style.maxWidth',
       value: config?.value,
       visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
       clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
     };
@@ -630,16 +647,18 @@ setSchemaTpl(
     name?: string;
     value?: string,
     visibleOn?: string;
+    unitOptions?: Array<string>;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'input-text',
+      type: 'input-number',
       label: config?.label || tipedLabel('最大高度', '最大高度即当前元素最多的展示高度'),
       name: config?.name || 'style.maxHeight',
       value: config?.value,
       visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
       clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
     };
@@ -773,16 +792,18 @@ setSchemaTpl(
     name?: string;
     value?: string,
     visibleOn?: string;
+    unitOptions?: Array<string>;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'input-text',
+      type: 'input-number',
       label: config?.label || tipedLabel('最小宽度', '最小宽度即当前元素最小的水平展示区域'),
       name: config?.name || 'style.minWidth',
       value: config?.value,
       visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
       clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
     };
@@ -796,16 +817,18 @@ setSchemaTpl(
     name?: string;
     value?: string,
     visibleOn?: string;
+    unitOptions?: Array<string>;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'input-text',
+      type: 'input-number',
       label: config?.label || tipedLabel('最小高度', '最小宽度即当前元素最小的垂直展示区域'),
       name: config?.name || 'style.minHeight',
       value: config?.value,
       visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
       clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
     };

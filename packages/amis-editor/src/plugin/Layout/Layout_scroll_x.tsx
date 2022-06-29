@@ -16,7 +16,7 @@ export class Layout_scroll_x extends FlexPluginBase {
         body: [
           {
             type: 'tpl',
-            tpl: '第一列',
+            tpl: 'x轴滚动容器：第一列',
             inline: false
           }
         ],

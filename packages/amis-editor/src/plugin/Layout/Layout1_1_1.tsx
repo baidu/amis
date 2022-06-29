@@ -19,7 +19,7 @@ export class Layout1_1_1 extends FlexPluginBase {
         body: [
           {
             type: 'tpl',
-            tpl: '第一列',
+            tpl: '三栏均分布局：第一列',
             inline: false
           }
         ],

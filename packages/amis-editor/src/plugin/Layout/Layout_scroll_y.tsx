@@ -16,7 +16,7 @@ export class Layout_scroll_y extends FlexPluginBase {
         body: [
           {
             type: 'tpl',
-            tpl: '第一行',
+            tpl: 'y轴滚动容器：第一行',
             inline: false
           }
         ],
@@ -156,7 +156,7 @@ export class Layout_scroll_y extends FlexPluginBase {
       margin: '0'
     },
     isFixedHeight: true,
-    isFixedWidth: 'false'
+    isFixedWidth: false
   };
   previewSchema = {
     ...this.scaffold,
