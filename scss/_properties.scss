@@ -1,4 +1,5 @@
 // 这里放 css 自定义变量
+@import './cxd-colors';
 
 :root {
   --black: #{$black};
@@ -733,6 +734,10 @@
   --Form-input-onHover-bg: #{rgba($white, 0.6)};
   --Form-input-onHover-borderColor: var(--Form-input-onFocused-borderColor);
   --Form-input-paddingX: #{px2rem(8px)};
+
+  --Form-input-password-icon-size: #{px2rem(16px)};
+  --Form-input-password-icon-color: #{$G5};
+
   --Form-inputNumber-paddingX: #{px2rem(12px)};
   --Form-inputNumber-base-width: #{px2rem(24px)};
   --Form-inputNumber-base-height: #{px2rem(32px)};
