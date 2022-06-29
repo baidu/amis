@@ -100,8 +100,6 @@
 .ae-Main {
   flex: 1 1 auto;
   min-width: 0; // 防止撑开
-  transform: scale(1); // 此后内部元素的fixed会相对此dom定位
-  transform-origin: center top;
   background-color: $default-bg-color;
   display: flex;
   flex-direction: column;
@@ -128,6 +126,8 @@
   flex-grow: 1;
   background-color: $default-bg-color;
   overflow: hidden;
+  transform: scale(1); // 此后内部元素的fixed会相对此dom定位
+  transform-origin: center top;
 
   .ae-Preview-body {
     position: relative;
