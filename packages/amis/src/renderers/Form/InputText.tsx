@@ -216,6 +216,10 @@ export default class TextControl extends React.PureComponent<
             : this.valueToString(props.value)
       });
     }
+    if (prevProps.revealPassword !== props.revealPassword) {
+      /** 隐藏按钮的同时将密码设置为隐藏态 */
+      !props.revealPassword && this.setState({revealPassword: false});
+    }
   }
 
   componentWillUnmount() {
