@@ -5,7 +5,7 @@ import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
 import forEach from 'lodash/forEach';
 import {evalExpression, filter} from 'amis-core';
-import {BadgeObject, Checkbox} from 'amis-ui';
+import {BadgeObject, Checkbox, Spinner} from 'amis-ui';
 import {Button} from 'amis-ui';
 import {TableStore, ITableStore} from 'amis-core';
 import {
@@ -2643,7 +2643,7 @@ export default class Table extends React.Component<TableProps, object> {
       itemActions,
       dispatchEvent,
       onEvent,
-      loading
+      loading = false
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2651,47 +2651,51 @@ export default class Table extends React.Component<TableProps, object> {
     store.rows.length;
 
     return (
-      <TableContent
-        tableClassName={cx(
-          store.combineNum > 0 ? 'Table-table--withCombine' : '',
-          {'Table-table--checkOnItemClick': checkOnItemClick},
-          tableClassName
-        )}
-        className={tableContentClassName}
-        itemActions={itemActions}
-        itemAction={itemAction}
-        store={store}
-        classnames={cx}
-        columns={store.filteredColumns}
-        columnsGroup={store.columnGroup}
-        rows={store.rows}
-        placeholder={placeholder}
-        render={render}
-        onMouseMove={this.handleMouseMove}
-        onScroll={this.handleOutterScroll}
-        tableRef={this.tableRef}
-        renderHeadCell={this.renderHeadCell}
-        renderCell={this.renderCell}
-        onCheck={this.handleCheck}
-        onQuickChange={store.dragging ? undefined : this.handleQuickChange}
-        footable={store.footable}
-        footableColumns={store.footableColumns}
-        checkOnItemClick={checkOnItemClick}
-        buildItemProps={buildItemProps}
-        onAction={this.handleAction}
-        rowClassNameExpr={rowClassNameExpr}
-        rowClassName={rowClassName}
-        data={store.data}
-        prefixRow={prefixRow}
-        affixRow={affixRow}
-        prefixRowClassName={prefixRowClassName}
-        affixRowClassName={affixRowClassName}
-        locale={locale}
-        translate={translate}
-        dispatchEvent={dispatchEvent}
-        onEvent={onEvent}
-        loading={loading}
-      />
+      <>
+        <TableContent
+          tableClassName={cx(
+            store.combineNum > 0 ? 'Table-table--withCombine' : '',
+            {'Table-table--checkOnItemClick': checkOnItemClick},
+            tableClassName
+          )}
+          className={tableContentClassName}
+          itemActions={itemActions}
+          itemAction={itemAction}
+          store={store}
+          classnames={cx}
+          columns={store.filteredColumns}
+          columnsGroup={store.columnGroup}
+          rows={store.rows}
+          placeholder={placeholder}
+          render={render}
+          onMouseMove={this.handleMouseMove}
+          onScroll={this.handleOutterScroll}
+          tableRef={this.tableRef}
+          renderHeadCell={this.renderHeadCell}
+          renderCell={this.renderCell}
+          onCheck={this.handleCheck}
+          onQuickChange={store.dragging ? undefined : this.handleQuickChange}
+          footable={store.footable}
+          footableColumns={store.footableColumns}
+          checkOnItemClick={checkOnItemClick}
+          buildItemProps={buildItemProps}
+          onAction={this.handleAction}
+          rowClassNameExpr={rowClassNameExpr}
+          rowClassName={rowClassName}
+          data={store.data}
+          prefixRow={prefixRow}
+          affixRow={affixRow}
+          prefixRowClassName={prefixRowClassName}
+          affixRowClassName={affixRowClassName}
+          locale={locale}
+          translate={translate}
+          dispatchEvent={dispatchEvent}
+          onEvent={onEvent}
+          loading={loading}
+        />
+
+        <Spinner overlay show={loading} />
+      </>
     );
   }
 

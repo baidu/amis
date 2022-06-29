@@ -7,14 +7,15 @@
 
 import React from 'react';
 import {themeable, ThemeProps} from 'amis-core';
-import Transition, {ENTERED} from 'react-transition-group/Transition';
+import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {Icon, hasIcon} from './icons';
 import {generateIcon} from 'amis-core';
 
 const fadeStyles: {
   [propName: string]: string;
 } = {
-  [ENTERED]: 'in'
+  [ENTERED]: 'in',
+  [ENTERING]: 'in'
 };
 
 // Spinner Props

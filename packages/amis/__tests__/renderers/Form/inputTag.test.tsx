@@ -71,13 +71,13 @@ describe('Renderer:InputTag', () => {
     fireEvent.focus(input);
     await wait(500);
 
-    fireEvent.change(input, {target: {value: 'Watermelon'}});
+    fireEvent.change(input, {target: {value: 'Honey-dew melon'}});
     await wait(500);
 
     fireEvent.keyDown(input, {key: 'Enter', code: 13});
     await wait(500);
 
-    const option = screen.getByText('Watermelon');
+    const option = screen.getByText('Honey-dew melon');
     expect(option).toHaveClass('cxd-ResultBox-valueLabel');
     expect(container).toMatchSnapshot();
   });
