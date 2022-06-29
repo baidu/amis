@@ -913,7 +913,6 @@ export default class Cards extends React.Component<GridProps, object> {
       checkable: item.checkable,
       draggable: item.draggable,
       selected: item.checked,
-      onSelect: this.handleCheck,
       dragging: store.dragging,
       data: item.locals,
       onAction: this.handleAction,
