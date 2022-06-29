@@ -67,8 +67,8 @@ export const getEventControlConfig = (
             return {
               id: item.id,
               label: item.label,
-              value: schema.id || item.id,
-              type: schema.type,
+              value: schema?.id ?? item.id,
+              type: schema?.type ?? item.type,
               schema,
               disabled: !!item.region,
               children: item?.children

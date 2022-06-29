@@ -8,8 +8,8 @@ import {PickerContainer} from 'amis-ui';
 import {getEnv} from 'mobx-state-tree';
 import {normalizeApi, isEffectiveApi, isApiOutdated} from 'amis-core';
 
-import {isObject, autobind, createObject, anyChanged} from '../../util';
-import {tipedLabel} from '../../component/control/BaseControl';
+import {autobind, isObject, anyChanged, createObject} from 'amis-editor-core';
+import {tipedLabel} from '../component/BaseControl';
 
 import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis/lib/Schema';
 import type {Api} from 'amis/lib/types';

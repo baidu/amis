@@ -534,31 +534,18 @@ export class EventControl extends React.Component<
       type,
       actionData
     } = this.state;
+    const {showOldEntry} = this.props;
     const eventKeys = Object.keys(onEvent);
 
     return (
       <div className="ae-event-control">
-        <header
-          className={cx({
-            'ae-event-control-header': true,
-            'no-bd-btm': !eventKeys.length
-          })}
-        >
-          {amisRender({
-            type: 'dropdown-button',
-            level: 'enhance',
-            label: '添加事件',
-            disabled: false,
-            className: 'block w-full',
-            closeOnClick: true,
-            buttons: events.map(item => ({
-              type: 'button',
-              actionType: '',
-              label: item.eventLabel,
-              onClick: this.addEvent.bind(this, item)
-            }))
-          })}
-        </header>
+        {showOldEntry ? (
+          <header
+            className={cx({
+              'ae-event-control-header': true
+            })}
+          ></header>
+        ) : null}
         <ul className="ae-event-control-content" ref={this.dragRef}>
           {eventKeys.length ? (
             eventKeys.map((eventKey, eventIndex) => {
@@ -684,6 +671,27 @@ export class EventControl extends React.Component<
             </div>
           )}
         </ul>
+        <footer
+          className={cx({
+            'ae-event-control-footer': true,
+            'no-bd-btm': !eventKeys.length
+          })}
+        >
+          {amisRender({
+            type: 'dropdown-button',
+            level: 'enhance',
+            label: '添加事件',
+            disabled: false,
+            className: 'block w-full add-event-dropdown',
+            closeOnClick: true,
+            buttons: events.map(item => ({
+              type: 'button',
+              actionType: '',
+              label: item.eventLabel,
+              onClick: this.addEvent.bind(this, item)
+            }))
+          })}
+        </footer>
         <ActionDialog
           show={showAcionDialog}
           type={type}
