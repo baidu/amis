@@ -374,7 +374,7 @@
 
     .action-desc {
       font-size: 12px;
-      margin-left: 40px;
+      margin-left: 16px;
       color: var(--Form-description-color);
     }
 
@@ -411,6 +411,10 @@
 
       .action-exec-on {
         width: 100%;
+      }
+
+      .cxd-Form-item--horizontal > .cxd-Form-label {
+        text-align: left;
       }
     }
   }
