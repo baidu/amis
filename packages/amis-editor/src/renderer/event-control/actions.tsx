@@ -423,7 +423,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           },
           schema: {
             type: 'wrapper',
-            style: {padding: '0 0 0 32px'},
+            style: {padding: '0'},
             body: [
               getArgsWrapper(
                 getSchemaTpl('apiControl', {
@@ -440,7 +440,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           innerArgs: ['api'],
           schema: {
             type: 'wrapper',
-            style: {padding: '0 0 0 32px'},
+            style: {padding: '0'},
             body: [
               getArgsWrapper(
                 getSchemaTpl('apiControl', {
@@ -860,7 +860,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             label: '自定义JS',
             mode: 'horizontal',
             className: 'ae-event-control-action-js-editor',
-            value: `/* 自定义JS使用说明： 
+            value: `/* 自定义JS使用说明：
   * 1.动作执行函数doAction，可以执行所有类型的动作
   * 2.通过上下文对象context可以获取当前组件实例，例如context.props可以获取该组件相关属性
   * 3.事件对象event，在doAction之后执行event.stopPropagation = true;可以阻止后续动作执行
