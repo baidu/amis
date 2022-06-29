@@ -33,116 +33,103 @@ export class Layout1_2_v4 extends FlexPluginBase {
         }
       },
       {
-        type: 'wrapper',
-        body: [
+        type: 'flex',
+        items: [
           {
-            type: 'flex',
-            items: [
+            type: 'wrapper',
+            body: [
               {
-                type: 'wrapper',
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '第一行',
-                    inline: false
-                  }
-                ],
-                style: {
-                  flex: '0 0 auto',
-                  flexBasis: '250px',
-                  backgroundColor: 'rgba(181, 242, 167, 1)',
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'stretch'
-                }
-              },
-              {
-                type: 'wrapper',
-                body: [
-                  {
-                    type: 'flex',
-                    items: [
-                      {
-                        type: 'wrapper',
-                        body: [
-                          {
-                            type: 'tpl',
-                            tpl: '第一列',
-                            inline: false
-                          }
-                        ],
-                        style: {
-                          flex: '1 1 auto',
-                          flexBasis: 'auto',
-                          flexGrow: 1,
-                          display: 'block',
-                          backgroundColor: 'rgba(71, 92, 233, 0.68)'
-                        }
-                      },
-                      {
-                        type: 'wrapper',
-                        body: [
-                          {
-                            type: 'tpl',
-                            tpl: '第二列',
-                            inline: false
-                          }
-                        ],
-                        style: {
-                          flex: '1 1 auto',
-                          flexBasis: 'auto',
-                          flexGrow: 1,
-                          display: 'block',
-                          backgroundColor: 'rgba(245, 166, 35, 0.48)'
-                        }
-                      }
-                    ],
-                    style: {
-                      height: '100%',
-                      position: 'static',
-                      maxHeight: 'auto',
-                      maxWidth: 'auto',
-                      width: 'auto',
-                      overflowX: 'auto',
-                      overflowY: 'auto',
-                      margin: '0'
-                    },
-                    alignItems: 'stretch',
-                    direction: 'column',
-                    justify: 'center'
-                  }
-                ],
-                style: {
-                  flex: '1 1 auto',
-                  padding: 0
-                }
+                type: 'tpl',
+                tpl: '第一行',
+                inline: false
               }
             ],
             style: {
-              overflowX: 'auto',
-              margin: '0',
-              maxWidth: 'auto',
-              height: '350px',
-              overflowY: 'auto'
-            },
-            direction: 'row',
-            justify: 'center',
-            alignItems: 'stretch',
-            isFixedHeight: true
+              flex: '0 0 auto',
+              flexBasis: '250px',
+              backgroundColor: 'rgba(181, 242, 167, 1)',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'stretch'
+            }
+          },
+          {
+            type: 'wrapper',
+            body: [
+              {
+                type: 'flex',
+                items: [
+                  {
+                    type: 'wrapper',
+                    body: [
+                      {
+                        type: 'tpl',
+                        tpl: '第一列',
+                        inline: false
+                      }
+                    ],
+                    style: {
+                      flex: '1 1 auto',
+                      flexBasis: 'auto',
+                      flexGrow: 1,
+                      display: 'block',
+                      backgroundColor: 'rgba(71, 92, 233, 0.68)'
+                    }
+                  },
+                  {
+                    type: 'wrapper',
+                    body: [
+                      {
+                        type: 'tpl',
+                        tpl: '第二列',
+                        inline: false
+                      }
+                    ],
+                    style: {
+                      flex: '1 1 auto',
+                      flexBasis: 'auto',
+                      flexGrow: 1,
+                      display: 'block',
+                      backgroundColor: 'rgba(245, 166, 35, 0.48)'
+                    }
+                  }
+                ],
+                style: {
+                  height: '100%',
+                  position: 'static',
+                  maxHeight: 'auto',
+                  maxWidth: 'auto',
+                  width: 'auto',
+                  overflowX: 'auto',
+                  overflowY: 'auto',
+                  margin: '0'
+                },
+                alignItems: 'stretch',
+                direction: 'column',
+                justify: 'center'
+              }
+            ],
+            style: {
+              flex: '1 1 auto',
+              padding: 0
+            }
           }
         ],
         style: {
           flex: '1 1 auto',
           flexBasis: 'auto',
           flexGrow: 1,
-          backgroundColor: 'rgba(245, 166, 35, 0.48)',
-          display: 'block',
-          paddingTop: '0',
-          paddingLeft: '0',
-          paddingBottom: '0',
-          paddingRight: '0'
-        }
+          overflowX: 'auto',
+          margin: '0',
+          maxWidth: 'auto',
+          height: '350px',
+          overflowY: 'auto'
+        },
+        direction: 'row',
+        justify: 'center',
+        alignItems: 'stretch',
+        isFixedHeight: true
       }
     ],
     direction: 'column',

@@ -13,65 +13,49 @@ export class Layout2_1_v3 extends FlexPluginBase {
     type: 'flex',
     items: [
       {
-        type: 'wrapper',
-        body: [
+        type: 'flex',
+        items: [
           {
-            type: 'flex',
-            items: [
+            type: 'wrapper',
+            body: [
               {
-                type: 'wrapper',
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '第一列',
-                    inline: false
-                  }
-                ],
-                style: {
-                  flex: '1 1 auto',
-                  flexBasis: 'auto',
-                  flexGrow: 1,
-                  display: 'block',
-                  backgroundColor: 'rgba(71, 92, 233, 0.68)'
-                }
-              },
-              {
-                type: 'wrapper',
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '第二列',
-                    inline: false
-                  }
-                ],
-                style: {
-                  flex: '1 1 auto',
-                  flexBasis: 'auto',
-                  flexGrow: 1,
-                  display: 'block',
-                  backgroundColor: 'rgba(245, 166, 35, 0.48)'
-                }
+                type: 'tpl',
+                tpl: '第一列',
+                inline: false
               }
             ],
             style: {
-              height: '100%',
-              position: 'static',
-              maxHeight: 'auto',
-              maxWidth: 'auto',
-              width: 'auto',
-              overflowX: 'auto',
-              overflowY: 'auto',
-              margin: '0'
-            },
-            alignItems: 'stretch',
-            direction: 'column',
-            justify: 'center'
+              flex: '1 1 auto',
+              flexBasis: 'auto',
+              flexGrow: 1,
+              display: 'block',
+              backgroundColor: 'rgba(71, 92, 233, 0.68)'
+            }
+          },
+          {
+            type: 'wrapper',
+            body: [
+              {
+                type: 'tpl',
+                tpl: '第二列',
+                inline: false
+              }
+            ],
+            style: {
+              flex: '1 1 auto',
+              flexBasis: 'auto',
+              flexGrow: 1,
+              display: 'block',
+              backgroundColor: 'rgba(245, 166, 35, 0.48)'
+            }
           }
         ],
         style: {
           flex: '1 1 auto',
-          padding: 0
-        }
+        },
+        alignItems: 'stretch',
+        direction: 'column',
+        justify: 'center'
       },
       {
         type: 'wrapper',
