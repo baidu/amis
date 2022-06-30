@@ -388,9 +388,8 @@ import * as React from 'react';
 import axios from 'axios';
 import copy from 'copy-to-clipboard';
 
-import {render as renderAmis, ToastComponent, AlertComponent} from 'amis';
-import {alert, confirm} from 'amis/lib/components/Alert';
-import {toast} from 'amis/lib/components/Toast';
+import {render as renderAmis} from 'amis';
+import {ToastComponent, AlertComponent, alert, confirm, toast} from 'amis-ui';
 
 class MyComponent extends React.Component<any, any> {
   render() {
@@ -594,7 +593,7 @@ render 有三个参数，后面会详细说明这三个参数内的属性
 #### confirm
 
 ```ts
-(msg: string) => boolean | Promise<boolean>
+(msg: string) => boolean | Promise<boolean>;
 ```
 
 用来实现确认框。返回 boolean 值
@@ -662,7 +661,7 @@ render 有三个参数，后面会详细说明这三个参数内的属性
 #### loadRenderer
 
 ```ts
-(schema: any, path: string) => Promise<Function>
+(schema: any, path: string) => Promise<Function>;
 ```
 
 可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。

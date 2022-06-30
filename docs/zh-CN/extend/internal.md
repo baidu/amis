@@ -48,7 +48,7 @@ Page 组件的示例代码
 
 ```jsx
 import * as React from 'react';
-import {Renderer} from 'amis';
+import {Renderer} from 'amis-core';
 
 @Renderer({
   type: 'page'
