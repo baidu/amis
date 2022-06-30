@@ -5,6 +5,21 @@ import isString from 'lodash/isString';
 
 /**
  * 布局相关配置项
+ * 备注: 当前合计新增22个布局相关配置项，详细如下：
+ * 一、布局容器新增「定位模式」配置项，可选择：默认、相对、绝对、固定，其中绝对和固定可实现特殊布局（fixed：吸顶元素、吸底元素，不随指定页面内容滚动）；
+ * 1. 相对、绝对和固定布局 均提供 「inset 配置项」（top、right、bottom、left）；
+ * 2. 列级容器（布局容器中的直接子容器，比如 wrapper，container、嵌套布局容器）增加 「弹性模式」（固定宽度、弹性宽度）、「展示模式」（默认、弹性布局）、「默认宽度」配置项；
+ * 3. 开启 弹性模式 后，增加 「占比设置」配置项；
+ * 4. 展示模式 设置为 弹性布局（flex布局）后，新增 「排列方向」、「水平对齐方式」、「垂直对齐方式」、「自动换行」配置项；
+ * 5. 相对、绝对和固定布局 均提供「层级」配置项（z-index）；
+ * 备注：目前主要针对 布局容器（flex）、容器（container）和 包裹 （wrapper） 增加以上配置项。（布局容器 是 之前的 Flex 布局 组件 的升级版）
+ * 
+ * 二、布局容器（flex）、容器（container）可通过以下新增配置项，实现滚动展示、居中展示等布局；
+ * 1. 新增是否「固定高度」，设置成固定高度，则增加 「高度」配置项、「y轴滚动」模式配置；
+ * 2. 新增是否「固定宽度」，设置成固定宽度，则增加「宽度」配置项、「x轴滚动」模式配置；
+ * 3. 非固定宽度，新增「最大宽度」、「最小宽度」配置项；
+ * 4. 非固定高度，新增「最大高度」、「最小高度」配置项；
+ * 5. 设置了 固定宽度 或者 最大宽度时，新增「居中显示」配置项；
  */
 
 // 默认支持的单位
@@ -176,6 +191,75 @@ setSchemaTpl(
     }
 });
 
+// 展示模式
+setSchemaTpl(
+  'layout:display',
+  (config?: {
+    mode?: string;
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    const configSchema = {
+      type: 'select',
+      label: config?.label || tipedLabel('展示模式', '默认为块级，可设置为弹性布局模式（flex布局容器）'),
+      name: config?.name || 'style.display',
+      value: config?.value || 'block',
+      visibleOn: config?.visibleOn,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+      onChange: (value: string, oldValue: string, model: any, form: any) => {
+        if (value !== 'flex' && value !== 'inline-flex') {
+          form.setValueByName('style.flexDirection', undefined);
+          form.setValueByName('style.justifyContent', undefined);
+          form.setValueByName('style.alignItems', undefined);
+        }
+      },
+      options: [
+        {
+          label: '默认',
+          value: 'block'
+        },
+        {
+          label: '弹性布局',
+          value: 'flex'
+        },
+        {
+          label: '行内弹性布局',
+          value: 'inline-flex'
+        },
+        {
+          label: '行内块级',
+          value: 'inline-block'
+        },
+        {
+          label: '行内元素',
+          value: 'inline'
+        },
+      ]
+    }
+
+    if (config?.mode === 'vertical') {
+      // 上下展示，可避免 自定义渲染器 出现挤压
+      return {
+        type: 'group',
+        mode: 'vertical',
+        visibleOn: config?.visibleOn,
+        body: [
+          {
+            ...configSchema
+          }
+        ]
+      };
+    } else {
+      // 默认左右展示
+      return configSchema;
+    }
+});
+
 // 主轴排列方向
 setSchemaTpl(
   'layout:justifyContent',
@@ -286,7 +370,19 @@ setSchemaTpl(
         {
           label: '自动拉伸',
           value: 'stretch'
-        }
+        },
+        {
+          label: '首尾留空',
+          value: 'space-around'
+        },
+        {
+          label: '首尾对齐',
+          value: 'space-between'
+        },
+        {
+          label: '元素等间距',
+          value: 'space-evenly'
+        },
       ]
     }
 
@@ -366,9 +462,9 @@ setSchemaTpl(
     }
 });
 
-// 是否固定高度: isFixedHeight 配置:
+// 如何换行
 setSchemaTpl(
-  'layout:isFixedHeight',
+  'layout:flex-wrap',
   (config?: {
     label?: string;
     name?: string;
@@ -378,105 +474,27 @@ setSchemaTpl(
     pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
-      type: 'switch',
-      label: config?.label || '固定高度',
-      name: config?.name || 'isFixedHeight',
-      value: config?.value || false,
+      type: 'select',
+      label: config?.label || '如何换行',
+      name: config?.name || 'style.flexWrap',
+      value: config?.value || 'nowrap',
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
-      onChange: (value: boolean, oldValue: boolean, model: any, form: any) => {
-        if (value) {
-          // 固定高度时，剔除最大高度、最小高度
-          form.setValueByName('style.maxHeight', undefined);
-          form.setValueByName('style.minHeight', undefined);
-        } else {
-          // 非固定高度时，剔除高度数值
-          form.setValueByName('style.height', undefined);
-        }
-      },
-    };
-});
-
-// 是否固定高度: isFixedWidth 配置:
-setSchemaTpl(
-  'layout:isFixedWidth',
-  (config?: {
-    label?: string;
-    name?: string;
-    value?: string,
-    visibleOn?: string;
-    pipeIn?: (value: any, data: any) => void;
-    pipeOut?: (value: any, data: any) => void;
-  }) => {
-    return {
-      type: 'switch',
-      label: config?.label || '固定宽度',
-      name: config?.name || 'isFixedWidth',
-      value: config?.value || false,
-      visibleOn: config?.visibleOn,
-      pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut,
-      onChange: (value: boolean, oldValue: boolean, model: any, form: any) => {
-        if (value) {
-          // 固定宽度时，剔除最大宽度、最小宽度
-          form.setValueByName('style.maxWidth', undefined);
-          form.setValueByName('style.minWidth', undefined);
-        } else {
-          // 非固定宽度时，剔除宽度数值
-          form.setValueByName('style.width', undefined);
-        }
-      },
-    };
-});
-
-// 高度设置
-setSchemaTpl(
-  'layout:height',
-  (config?: {
-    label?: string;
-    name?: string;
-    value?: string,
-    visibleOn?: string;
-    unitOptions?: Array<string>;
-    pipeIn?: (value: any, data: any) => void;
-    pipeOut?: (value: any, data: any) => void;
-  }) => {
-    return {
-      type: 'input-number',
-      label: config?.label || '高度',
-      name: config?.name || 'style.height',
-      value: config?.value || '300px',
-      visibleOn: config?.visibleOn ?? 'data.isFixedHeight',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut,
-    };
-});
-
-// 宽度设置
-setSchemaTpl(
-  'layout:width',
-  (config?: {
-    label?: string;
-    name?: string;
-    value?: string,
-    visibleOn?: string;
-    unitOptions?: Array<string>;
-    pipeIn?: (value: any, data: any) => void;
-    pipeOut?: (value: any, data: any) => void;
-  }) => {
-    return {
-      type: 'input-number',
-      label: config?.label || '宽度',
-      name: config?.name || 'style.width',
-      value: config?.value || '300px',
-      visibleOn: config?.visibleOn ?? 'data.isFixedWidth',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut,
+      options: [
+        {
+          label: '默认（不换行）',
+          value: 'nowrap'
+        },
+        {
+          label: '自动换行',
+          value: 'wrap'
+        },
+        {
+          label: '自动换行（颠倒）',
+          value: 'wrap-reverse'
+        },
+      ]
     };
 });
 
@@ -494,13 +512,15 @@ setSchemaTpl(
       label: config?.label || tipedLabel('弹性模式', '设置为弹性模式后，自动适配当前所在区域'),
       name: config?.name || 'style.flex',
       value: config?.value || '0 0 auto',
-      visibleOn: config?.visibleOn,
       trueValue: '1 1 auto',
       falseValue: '0 0 auto',
+      onText: "弹性宽度",
+      offText: "固定宽度",
+      inputClassName: 'inline-flex justify-between',
+      visibleOn: config?.visibleOn,
       onChange: (value: any, oldValue: boolean, model: any, form: any) => {
         if (!value || value === '0 0 auto') {
-          // 非弹性模式下，剔除默认宽度和占比设置
-          form.setValueByName('style.flexBasis', undefined);
+          // 固定宽度模式下，剔除默认宽度和占比设置
           form.setValueByName('style.flexGrow', undefined);
         }
       },
@@ -556,11 +576,10 @@ setSchemaTpl(
     };
 });
 
-// 布局模式
+// 是否固定高度: isFixedHeight 配置:
 setSchemaTpl(
-  'layout:display',
+  'layout:isFixedHeight',
   (config?: {
-    mode?: string;
     label?: string;
     name?: string;
     value?: string,
@@ -568,51 +587,52 @@ setSchemaTpl(
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
   }) => {
-    const configSchema = {
-      type: 'select',
-      label: config?.label || tipedLabel('布局模式', '默认为块级，可设置为弹性布局模式（flex布局容器）'),
-      name: config?.name || 'style.display',
-      value: config?.value || 'block',
+    return {
+      type: 'switch',
+      label: config?.label || '固定高度',
+      name: config?.name || 'isFixedHeight',
+      value: config?.value || false,
       visibleOn: config?.visibleOn,
+      inputClassName: 'inline-flex justify-between',
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
-      onChange: (value: string, oldValue: string, model: any, form: any) => {
-        if (value !== 'flex' && value !== 'inline-flex') {
-          form.setValueByName('style.flexDirection', undefined);
-          form.setValueByName('style.justifyContent', undefined);
-          form.setValueByName('style.alignItems', undefined);
+      onChange: (value: boolean, oldValue: boolean, model: any, form: any) => {
+        if (value) {
+          // 固定高度时，剔除最大高度、最小高度
+          form.setValueByName('style.maxHeight', undefined);
+          form.setValueByName('style.minHeight', undefined);
+        } else {
+          // 非固定高度时，剔除高度数值
+          form.setValueByName('style.height', undefined);
         }
       },
-      options: [
-        {
-          label: '默认',
-          value: 'block'
-        },
-        {
-          label: '弹性布局',
-          value: 'flex'
-        },
-      ]
-    }
-
-    if (config?.mode === 'vertical') {
-      // 上下展示，可避免 自定义渲染器 出现挤压
-      return {
-        type: 'group',
-        mode: 'vertical',
-        visibleOn: config?.visibleOn,
-        body: [
-          {
-            ...configSchema
-          }
-        ]
-      };
-    } else {
-      // 默认左右展示
-      return configSchema;
-    }
+    };
 });
 
+// 宽度设置
+setSchemaTpl(
+  'layout:width',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    unitOptions?: Array<string>;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-number',
+      label: config?.label || '宽度',
+      name: config?.name || 'style.width',
+      value: config?.value || '300px',
+      visibleOn: config?.visibleOn ?? 'data.isFixedWidth',
+      clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+    };
+});
 
 // 最大宽度设置
 setSchemaTpl(
@@ -632,31 +652,6 @@ setSchemaTpl(
       name: config?.name || 'style.maxWidth',
       value: config?.value,
       visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut,
-    };
-});
-
-// 最大高度设置
-setSchemaTpl(
-  'layout:max-height',
-  (config?: {
-    label?: string;
-    name?: string;
-    value?: string,
-    visibleOn?: string;
-    unitOptions?: Array<string>;
-    pipeIn?: (value: any, data: any) => void;
-    pipeOut?: (value: any, data: any) => void;
-  }) => {
-    return {
-      type: 'input-number',
-      label: config?.label || tipedLabel('最大高度', '最大高度即当前元素最多的展示高度'),
-      name: config?.name || 'style.maxHeight',
-      value: config?.value,
-      visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
       pipeIn: config?.pipeIn,
@@ -701,6 +696,139 @@ setSchemaTpl(
           value: 'auto'
         },
       ]
+    };
+});
+
+// 最小宽度设置
+setSchemaTpl(
+  'layout:min-width',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    unitOptions?: Array<string>;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-number',
+      label: config?.label || tipedLabel('最小宽度', '最小宽度即当前元素最小的水平展示区域'),
+      name: config?.name || 'style.minWidth',
+      value: config?.value,
+      visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
+      clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+    };
+});
+
+// 是否固定高度: isFixedWidth 配置:
+setSchemaTpl(
+  'layout:isFixedWidth',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'switch',
+      label: config?.label || '固定宽度',
+      name: config?.name || 'isFixedWidth',
+      value: config?.value || false,
+      visibleOn: config?.visibleOn,
+      inputClassName: 'inline-flex justify-between',
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+      onChange: (value: boolean, oldValue: boolean, model: any, form: any) => {
+        if (value) {
+          // 固定宽度时，剔除最大宽度、最小宽度
+          form.setValueByName('style.maxWidth', undefined);
+          form.setValueByName('style.minWidth', undefined);
+        } else {
+          // 非固定宽度时，剔除宽度数值
+          form.setValueByName('style.width', undefined);
+        }
+      },
+    };
+});
+
+// 高度设置
+setSchemaTpl(
+  'layout:height',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    unitOptions?: Array<string>;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-number',
+      label: config?.label || '高度',
+      name: config?.name || 'style.height',
+      value: config?.value || '300px',
+      visibleOn: config?.visibleOn ?? 'data.isFixedHeight',
+      clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+    };
+});
+
+// 最大高度设置
+setSchemaTpl(
+  'layout:max-height',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    unitOptions?: Array<string>;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-number',
+      label: config?.label || tipedLabel('最大高度', '最大高度即当前元素最多的展示高度'),
+      name: config?.name || 'style.maxHeight',
+      value: config?.value,
+      visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
+      clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+    };
+});
+
+// 最小高度设置
+setSchemaTpl(
+  'layout:min-height',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    unitOptions?: Array<string>;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-number',
+      label: config?.label || tipedLabel('最小高度', '最小宽度即当前元素最小的垂直展示区域'),
+      name: config?.name || 'style.minHeight',
+      value: config?.value,
+      visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
+      clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
     };
 });
 
@@ -760,6 +888,7 @@ setSchemaTpl(
       label: config?.label || tipedLabel('居中显示', '通过将设置 margin: 0 auto 来达到居中显示'),
       name: config?.name || 'style.margin',
       value: config?.value || '0',
+      inputClassName: 'inline-flex justify-between',
       visibleOn: config?.visibleOn ?? 'data.isFixedWidth || data.style && data.style.maxWidth',
       pipeIn: (value: any) => {
         let curValue = value || '0';
@@ -781,55 +910,5 @@ setSchemaTpl(
       pipeOut: (value: boolean) => {
         return value ? '0 auto' : '0';
       }
-    };
-});
-
-// 最小宽度设置
-setSchemaTpl(
-  'layout:min-width',
-  (config?: {
-    label?: string;
-    name?: string;
-    value?: string,
-    visibleOn?: string;
-    unitOptions?: Array<string>;
-    pipeIn?: (value: any, data: any) => void;
-    pipeOut?: (value: any, data: any) => void;
-  }) => {
-    return {
-      type: 'input-number',
-      label: config?.label || tipedLabel('最小宽度', '最小宽度即当前元素最小的水平展示区域'),
-      name: config?.name || 'style.minWidth',
-      value: config?.value,
-      visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut,
-    };
-});
-
-// 最小高度设置
-setSchemaTpl(
-  'layout:min-height',
-  (config?: {
-    label?: string;
-    name?: string;
-    value?: string,
-    visibleOn?: string;
-    unitOptions?: Array<string>;
-    pipeIn?: (value: any, data: any) => void;
-    pipeOut?: (value: any, data: any) => void;
-  }) => {
-    return {
-      type: 'input-number',
-      label: config?.label || tipedLabel('最小高度', '最小宽度即当前元素最小的垂直展示区域'),
-      name: config?.name || 'style.minHeight',
-      value: config?.value,
-      visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut,
     };
 });

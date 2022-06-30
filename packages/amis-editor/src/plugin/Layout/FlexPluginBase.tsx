@@ -97,17 +97,21 @@ export class FlexPluginBase extends BasePlugin {
                       '设置子元素在交叉轴上的对齐方式'
                     )
                   }),
+                  getSchemaTpl('layout:flex-wrap'),
+
                   getSchemaTpl('layout:isFixedHeight'),
                   getSchemaTpl('layout:height'),
-                  getSchemaTpl('layout:isFixedWidth'),
-                  getSchemaTpl('layout:width'),
                   getSchemaTpl('layout:max-height'),
                   getSchemaTpl('layout:min-height'),
+                  getSchemaTpl('layout:overflow-y'),
+
+                  getSchemaTpl('layout:isFixedWidth'),
+                  getSchemaTpl('layout:width'),
                   getSchemaTpl('layout:max-width'),
                   getSchemaTpl('layout:min-width'),
                   getSchemaTpl('layout:overflow-x'),
-                  getSchemaTpl('layout:overflow-y'),
-                  getSchemaTpl('layout:margin-center')
+
+                  !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
                 ]
               },
               {

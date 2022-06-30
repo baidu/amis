@@ -73,8 +73,23 @@ export class WrapperPlugin extends BasePlugin {
                   getSchemaTpl('layout:alignItems', {
                     visibleOn: 'data.style && data.style.display === "flex"',
                   }),
-                  getSchemaTpl('layout:min-width'),
+                  getSchemaTpl('layout:flex-wrap', {
+                    visibleOn: 'data.style && data.style.display === "flex"',
+                  }),
+
+                  getSchemaTpl('layout:isFixedHeight'),
+                  getSchemaTpl('layout:height'),
+                  getSchemaTpl('layout:max-height'),
                   getSchemaTpl('layout:min-height'),
+                  getSchemaTpl('layout:overflow-y'),
+
+                  getSchemaTpl('layout:isFixedWidth'),
+                  getSchemaTpl('layout:width'),
+                  getSchemaTpl('layout:max-width'),
+                  getSchemaTpl('layout:min-width'),
+                  getSchemaTpl('layout:overflow-x'),
+
+                  !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
                 ]
               },
               {
