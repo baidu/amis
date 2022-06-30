@@ -40,6 +40,11 @@ export interface SelectControlSchema extends FormOptionsControl {
   menuTpl?: string;
 
   /**
+   * 当在value值未匹配到当前options中的选项时，是否value值对应文本飘红显示
+   */
+  showInvalidMatch: boolean;
+
+  /**
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
@@ -133,6 +138,7 @@ export interface SelectControlSchema extends FormOptionsControl {
 export interface SelectProps extends OptionsControlProps {
   autoComplete?: Api;
   searchable?: boolean;
+  showInvalidMatch?: boolean;
   defaultOpen?: boolean;
   useMobileUI?: boolean;
   maxTagCount?: number;
@@ -150,7 +156,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   static defaultProps: Partial<SelectProps> = {
     clearable: false,
     searchable: false,
-    multiple: false
+    multiple: false,
+    showInvalidMatch: false
   };
 
   input: any;
@@ -397,6 +404,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     let {
       autoComplete,
       searchable,
+      showInvalidMatch,
       options,
       className,
       loading,
@@ -452,6 +460,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             loadOptions={
               isEffectiveApi(autoComplete) ? this.lazyloadRemote : undefined
             }
+            showInvalidMatch={showInvalidMatch}
             creatable={creatable}
             searchable={searchable || !!autoComplete}
             onChange={this.changeValue}

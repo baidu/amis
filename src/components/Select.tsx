@@ -296,6 +296,7 @@ const DownshiftChangeTypes = Downshift.stateChangeTypes;
 interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   className?: string;
   popoverClassName?: string;
+  showInvalidMatch?: boolean;
   creatable: boolean;
   createBtnLabel: string;
   multiple: boolean;
@@ -381,6 +382,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     multiple: false,
     clearable: true,
     creatable: false,
+    showInvalidMatch: false,
     createBtnLabel: 'Select.createLabel',
     searchPromptText: 'Select.searchPromptText',
     loadingPlaceholder: 'loading',
@@ -742,6 +744,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       disabled,
       maxTagCount,
       overflowTagPopover,
+      showInvalidMatch,
       translate: __
     } = this.props;
     const selection = this.state.selection;
@@ -794,7 +797,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                             key={itemIndex}
                             className={cx('Select-value', {
                               'is-disabled': disabled,
-                              'is-invalid': item.__unmatched
+                              'is-invalid': showInvalidMatch
+                                ? item.__unmatched
+                                : false
                             })}
                           >
                             <span className={cx('Select-valueLabel')}>
@@ -818,7 +823,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               <div
                 className={cx('Select-value', {
                   'is-disabled': disabled,
-                  'is-invalid': item.__unmatched
+                  'is-invalid': showInvalidMatch ? item.__unmatched : false
                 })}
                 onClick={(e: React.MouseEvent) =>
                   e.stopPropagation()
@@ -842,7 +847,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             <div
               className={cx('Select-value', {
                 'is-disabled': disabled,
-                'is-invalid': item.__unmatched
+                'is-invalid': showInvalidMatch ? item.__unmatched : false
               })}
             >
               <span className={cx('Select-valueLabel')}>
@@ -868,7 +873,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           <div
             className={cx('Select-value', {
               'is-disabled': disabled,
-              'is-invalid': item.__unmatched
+              'is-invalid': showInvalidMatch ? item.__unmatched : false
             })}
             key={index}
           >
@@ -891,7 +896,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           <div
             className={cx('Select-value', {
               'is-disabled': disabled,
-              'is-invalid': item.__unmatched
+              'is-invalid': showInvalidMatch ? item.__unmatched : false
             })}
           >
             <span className={cx('Select-valueLabel')}>
