@@ -105,7 +105,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 打开
                 <span className="variable-left variable-right">
-                  {info?.__pageName}
+                  {info?.args?.__pageName}
                 </span>
                 页面
               </div>
