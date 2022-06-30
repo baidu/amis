@@ -422,6 +422,10 @@ export default class Preview extends Component<PreviewProps> {
   rendererResolver(path: string, schema: Schema, props: any) {
     const {editable, manager} = this.props;
 
+    // preview视图中只能是默认状态
+    props.rootStore.setVisible(props.schema.id, true);
+    props.rootStore.setDisable(props.schema.id, false);
+
     let renderer: RendererConfig = resolveRenderer(path, schema)!;
     if (editable === false) {
       return renderer;
