@@ -490,8 +490,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     // 另外autoGenerateFilter时，table 里面会单独处理这块逻辑
     // 所以这里应该忽略 autoGenerateFilter 情况
     if (
-      (!this.props.filter || (store.filterTogggable && !store.filterVisible)) &&
-      !autoGenerateFilter
+      (!this.props.filter && !autoGenerateFilter) ||
+      (store.filterTogggable && !store.filterVisible)
     ) {
       this.handleFilterInit({});
     }
@@ -723,6 +723,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       ...selectedItems[0],
       rows: selectedItems,
       items: selectedItems,
+      selectedItems,
       unSelectedItems: unSelectedItems,
       ids
     });
@@ -2161,8 +2162,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             loading: store.loading
           }
         )}
-
-        <Spinner overlay size="lg" key="info" show={store.loading} />
+        {/* spinner可以交给孩子处理 */}
+        {/* <Spinner overlay size="lg" key="info" show={store.loading} /> */}
 
         {render(
           'dialog',

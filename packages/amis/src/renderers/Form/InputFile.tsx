@@ -186,6 +186,11 @@ export interface FileControlSchema extends FormBaseControlSchema {
   };
 
   /**
+   * 初始化时是否把其他字段同步到表单内部。
+   */
+  initAutoFill?: boolean;
+
+  /**
    * 接口返回的数据中，哪个用来当做值
    */
   valueField?: string;
@@ -313,6 +318,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     multiple: false,
     autoUpload: true,
     hideUploadButton: false,
+    initAutoFill: true,
     stateTextMap: {
       init: '',
       pending: '等待上传',
@@ -333,6 +339,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     file: any;
     executor: () => void;
   }> = [];
+  initAutoFill: boolean;
 
   static valueToFile(
     value: string | FileValue,
@@ -382,6 +389,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
+    this.initAutoFill = !!props.initAutoFill;
 
     if (value && value instanceof Blob) {
       files = [value as any];
@@ -421,7 +429,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   componentDidMount() {
-    this.syncAutoFill();
+    if (this.initAutoFill) {
+      const {formInited, addHook} = this.props;
+      formInited || !addHook
+        ? this.syncAutoFill()
+        : addHook(this.syncAutoFill, 'init');
+    }
   }
 
   componentDidUpdate(prevProps: FileProps) {
@@ -472,7 +485,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         {
           files: files
         },
-        this.syncAutoFill
+        props.formInited !== false ? this.syncAutoFill : undefined
       );
     }
   }
@@ -729,8 +742,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         {
           uploading: false
         },
-        () => {
-          this.onChange(!!this.resolve);
+        async () => {
+          await this.onChange(!!this.resolve);
 
           if (this.resolve) {
             this.resolve(
@@ -919,6 +932,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
 
     onChange((this.emitValue = value), undefined, changeImmediately);
+    console.log('onChange', changeImmediately);
     this.syncAutoFill();
   }
 
@@ -937,11 +951,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       );
       const toSync = dataMapping(
         excludeSelfAutoFill,
-        multiple
-          ? {
-              items: files
-            }
-          : files[0]
+        createObject(
+          data,
+          multiple
+            ? {
+                items: files
+              }
+            : files[0]
+        )
       );
       Object.keys(toSync).forEach(key => {
         if (isPlainObject(toSync[key]) && isPlainObject(data[key])) {

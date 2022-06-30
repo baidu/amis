@@ -1062,25 +1062,30 @@ export class Select extends React.Component<SelectProps, SelectState> {
               })
             )
           ) : multiple ? (
-            <Checkbox
-              checked={checked}
-              trueValue={item.value}
-              onChange={() => {
-                this.handleChange(item);
-              }}
-              disabled={item.disabled}
-              size="sm"
+            <div
+              title={item[labelField]}
+              className={cx('Select-option-checkbox')}
             >
-              {item.disabled
-                ? item[labelField]
-                : highlight(
-                    item[labelField],
-                    inputValue as string,
-                    cx('Select-option-hl')
-                  )}
+              <Checkbox
+                checked={checked}
+                trueValue={item.value}
+                onChange={() => {
+                  this.handleChange(item);
+                }}
+                disabled={item.disabled}
+                size="sm"
+              >
+                {item.disabled
+                  ? item[labelField]
+                  : highlight(
+                      item[labelField],
+                      inputValue as string,
+                      cx('Select-option-hl')
+                    )}
 
-              {item.tip}
-            </Checkbox>
+                {item.tip}
+              </Checkbox>
+            </div>
           ) : (
             <span
               className={cx('Select-option-content')}

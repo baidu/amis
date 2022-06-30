@@ -450,14 +450,15 @@ order: 67
                 "expandableOn": "this.record.id === 1 || this.record.id === 3",
                 "keyField": "id",
                 "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
-                "expandedRowKeys": ["3"]
-            },
-            "expandableBody": [
-                {
-                    "type": "tpl",
-                    "html": "<div class=\"test\">测试测试</div>"
-                }
-            ]
+                "expandedRowKeys": ["3"],
+                "type": "container",
+                "body": [
+                    {
+                        "type": "tpl",
+                        "html": "<div class=\"test\">测试测试</div>"
+                    }
+                ]
+            }
         }
     ]
 }
@@ -498,14 +499,15 @@ order: 67
                 "expandableOn": "this.record.id === 1 || this.record.id === 3",
                 "keyField": "id",
                 "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
-                "expandedRowKeysExpr": "data.record.id == '3'"
-            },
-            "expandableBody": [
-                {
-                    "type": "tpl",
-                    "html": "<div class=\"test\">测试测试</div>"
-                }
-            ]
+                "expandedRowKeysExpr": "data.record.id == '3'",
+                "type": "container",
+                "body": [
+                    {
+                        "type": "tpl",
+                        "html": "<div class=\"test\">测试测试</div>"
+                    }
+                ]
+            }
         }
     ]
 }

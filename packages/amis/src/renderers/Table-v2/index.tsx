@@ -7,7 +7,7 @@ import isEqual from 'lodash/isEqual';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {ActionObject} from 'amis-core';
-import {Icon, Table} from 'amis-ui';
+import {Icon, Table, Spinner} from 'amis-ui';
 import {BaseSchema, SchemaObject, SchemaTokenizeableString} from '../../Schema';
 import {
   isObject,
@@ -31,6 +31,7 @@ import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import './TableCell';
 import './ColumnToggler';
 import type {SortProps} from 'amis-ui/lib/components/table';
+import {Action} from '../../types';
 
 /**
  * Table 表格v2渲染器。
@@ -908,7 +909,15 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
   }
 
   renderActions(region: string) {
-    let {actions, render, store, classnames: cx, data, columnsTogglable, $path} = this.props;
+    let {
+      actions,
+      render,
+      store,
+      classnames: cx,
+      data,
+      columnsTogglable,
+      $path
+    } = this.props;
 
     // 如果table是在crud里面，自定义显示列配置在grid里，这里就不需要渲染了
     const isInCrud = /(?:\/|^)crud2\//.test($path as string);
@@ -923,20 +932,23 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
       region === 'header' &&
       !~this.renderedToolbars.indexOf('columns-toggler')
     ) {
-
       actions.push({
         type: 'button',
-        children: render('column-toggler', {
-          ...(isObject(columnsTogglable) ? columnsTogglable : {}),
-          type: 'column-toggler'
-        }, {
-          cols: store.columnsData.map(item => item.pristine),
-          toggleAllColumns: () => store.toggleAllColumns(),
-          toggleToggle: (toggled: boolean, index: number) => {
-            const column = store.columnsData[index];
-            column.toggleToggle();
+        children: render(
+          'column-toggler',
+          {
+            ...(isObject(columnsTogglable) ? columnsTogglable : {}),
+            type: 'column-toggler'
+          },
+          {
+            cols: store.columnsData.map(item => item.pristine),
+            toggleAllColumns: () => store.toggleAllColumns(),
+            toggleToggle: (toggled: boolean, index: number) => {
+              const column = store.columnsData[index];
+              column.toggleToggle();
+            }
           }
-        })
+        )
       });
     }
 
@@ -1332,7 +1344,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
   }
 
   render() {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, loading = false} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
 
@@ -1343,6 +1355,8 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
         {this.renderActions('header')}
         {heading}
         {this.renderTable()}
+
+        <Spinner overlay show={loading} />
       </div>
     );
   }

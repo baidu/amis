@@ -1,14 +1,16 @@
 {
   "name": "amis-formula",
-  "version": "2.0.0-rc.14",
+  "version": "2.0.0-rc.24",
   "description": "负责 amis 里面的表达式实现，内置公式，编辑器等",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "npm run clean-dist && NODE_ENV=production rollup -c && npm run genDoc && npm run declaration ",
     "lib": "npm run clean-dist && NODE_ENV=lib rollup -c",
     "clean-dist": "rimraf lib/*",
     "declaration": "tsc --project tsconfig-for-declaration.json --allowJs --declaration --emitDeclarationOnly --declarationDir ./lib --rootDir ./src",
     "test": "jest",
+    "update-snapshot": "jest --updateSnapshot",
     "coverage": "jest --coverage",
     "genDoc": "ts-node ./scripts/genDoc.ts"
   },

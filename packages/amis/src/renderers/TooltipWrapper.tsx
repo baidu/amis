@@ -229,7 +229,8 @@ export default class TooltipWrapper extends React.Component<
       showArrow,
       disabled,
       enterable,
-      data
+      data,
+      env
     } = this.props;
 
     const tooltipObj: TooltipObject = {
@@ -239,7 +240,7 @@ export default class TooltipWrapper extends React.Component<
       placement,
       trigger,
       rootClose,
-      container,
+      container: container !== undefined ? container : (env && env.getModalContainer ? env.getModalContainer : undefined),
       tooltipTheme,
       tooltipClassName,
       mouseEnterDelay,

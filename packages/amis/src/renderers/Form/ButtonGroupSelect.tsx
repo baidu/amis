@@ -133,6 +133,8 @@ export default class ButtonGroupControl extends React.Component<
             size: size,
             block: block,
             activeLevel: btnActiveLevel,
+            level: btnLevel,
+            disabled,
             ...button
           },
           {

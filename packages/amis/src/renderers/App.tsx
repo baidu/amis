@@ -131,6 +131,10 @@ export interface AppSchema extends BaseSchema {
    * css 类名。
    */
   className?: SchemaClassName;
+  /**
+   * 显示面包屑路径。
+   */
+   showBreadcrumb?: boolean;
 }
 
 export interface AppProps
@@ -356,7 +360,7 @@ export default class App extends React.Component<AppProps, object> {
   }
 
   render() {
-    const {className, size, classnames: cx, store, render} = this.props;
+    const {className, size, classnames: cx, store, render, showBreadcrumb = true} = this.props;
 
     return (
       <Layout
@@ -368,7 +372,7 @@ export default class App extends React.Component<AppProps, object> {
       >
         {store.activePage && store.schema ? (
           <>
-            {store.bcn.length ? (
+            {showBreadcrumb && store.bcn.length ? (
               <ul className={cx('AppBcn')}>
                 {store.bcn.map((item: any, index: number) => {
                   return (

@@ -41,12 +41,16 @@ export interface SwitchControlSchema extends FormBaseControlSchema {
    * 关闭时显示的内容
    */
   offText?: string | IconSchema;
+
+  /** 开关尺寸 */
+  size?: 'sm' | 'md';
 }
 
 export interface SwitchProps extends FormControlProps {
   option?: string;
   trueValue?: any;
   falseValue?: any;
+  size?: 'sm';
 }
 
 export type SwitchRendererEvent = 'change';
@@ -76,6 +80,7 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
 
   render() {
     const {
+      size,
       className,
       classPrefix: ns,
       classnames: cx,
@@ -112,6 +117,7 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
           offText={off}
           disabled={disabled}
           onChange={this.handleChange}
+          size={size as any}
         />
 
         {optionAtLeft ? null : (

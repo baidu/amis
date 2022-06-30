@@ -32,6 +32,11 @@ export interface IAjaxAction extends ListenerAction {
  * @implements {Action}
  */
 export class AjaxAction implements RendererAction {
+  fetcherType: string;
+  constructor(fetcherType: string = 'ajax') {
+    this.fetcherType = fetcherType;
+  }
+
   async run(
     action: IAjaxAction,
     renderer: ListenerContext,
@@ -39,6 +44,11 @@ export class AjaxAction implements RendererAction {
   ) {
     if (!renderer.props.env?.fetcher) {
       throw new Error('env.fetcher is required!');
+    }
+    if (this.fetcherType === 'download' && action.actionType === 'download') {
+      if ((action as any).args?.api) {
+        (action as any).args.api.responseType = 'blob';
+      }
     }
 
     const env = event.context.env;
@@ -109,3 +119,5 @@ export class AjaxAction implements RendererAction {
 }
 
 registerAction('ajax', new AjaxAction());
+
+registerAction('download', new AjaxAction('download'));

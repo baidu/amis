@@ -2,14 +2,16 @@ import React from 'react';
 import cx from 'classnames';
 import {Tree as TreeSelector} from 'amis-ui';
 import {
-  FormOptionsControl,
   OptionsControl,
-  OptionsControlProps
+  OptionsControlProps,
+  autobind,
+  createObject,
+  ActionObject,
+  isPureVariable,
+  resolveVariableAndFilter
 } from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
-import {autobind, createObject} from 'amis-core';
-import {ActionObject} from 'amis-core';
 
 /**
  * Tree 下拉选择框。
@@ -88,6 +90,11 @@ export interface TreeControlSchema extends FormOptionsSchema {
   showOutline?: boolean;
 
   deferApi?: SchemaApi;
+
+  /**
+   * 需要高亮的字符串
+   */
+  highlightTxt?: string;
 }
 
 export interface TreeProps
@@ -207,8 +214,14 @@ export default class TreeControl extends React.Component<TreeProps> {
       nodePath,
       deferLoad,
       expandTreeOptions,
-      translate: __
+      translate: __,
+      data
     } = this.props;
+    let {highlightTxt} = this.props;
+
+    if (isPureVariable(highlightTxt)) {
+      highlightTxt = resolveVariableAndFilter(highlightTxt, data);
+    }
 
     return (
       <div
@@ -229,6 +242,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             delimiter={delimiter}
             placeholder={__(placeholder)}
             options={options}
+            highlightTxt={highlightTxt}
             multiple={multiple}
             initiallyOpen={initiallyOpen}
             unfoldedLevel={unfoldedLevel}

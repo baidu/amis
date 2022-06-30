@@ -815,7 +815,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         hint,
         data,
         showErrorMsg,
-        useMobileUI
+        useMobileUI,
+        translate: __
       } = props;
 
       // 强制不渲染 label 的话
@@ -865,7 +866,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 {label
                   ? render(
                       'label',
-                      typeof label === 'string' ? filter(label, data) : label
+                      typeof label === 'string'
+                        ? filter(__(label), data)
+                        : label
                     )
                   : null}
                 {required && (label || labelRemark) ? (
@@ -968,7 +971,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         hint,
         data,
         showErrorMsg,
-        useMobileUI
+        useMobileUI,
+        translate: __
       } = props;
 
       description = description || desc;
@@ -992,7 +996,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 {label
                   ? render(
                       'label',
-                      typeof label === 'string' ? filter(label, data) : label
+                      typeof label === 'string'
+                        ? filter(__(label), data)
+                        : label
                     )
                   : null}
                 {required && (label || labelRemark) ? (
@@ -1086,7 +1092,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         renderDescription,
         data,
         showErrorMsg,
-        useMobileUI
+        useMobileUI,
+        translate: __
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1113,7 +1120,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 {label
                   ? render(
                       'label',
-                      typeof label === 'string' ? filter(label, data) : label
+                      typeof label === 'string'
+                        ? filter(__(label), data)
+                        : label
                     )
                   : label}
                 {required && (label || labelRemark) ? (
@@ -1210,7 +1219,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         hint,
         data,
         showErrorMsg,
-        useMobileUI
+        useMobileUI,
+        translate: __
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1237,7 +1247,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 <span>
                   {render(
                     'label',
-                    typeof label === 'string' ? filter(label, data) : label
+                    typeof label === 'string' ? filter(__(label), data) : label
                   )}
                   {required && (label || labelRemark) ? (
                     <span className={cx(`Form-star`)}>*</span>
