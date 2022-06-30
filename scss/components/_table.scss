@@ -15,6 +15,14 @@
     z-index: var(--Table-fixed-zIndex);
     top: auto;
     box-shadow: none;
+
+    &--autoFillHeight {
+      & > table thead {
+        position: sticky; // 简单实现表头吸顶效果，不考虑 IE 11 不然太麻烦
+        top: 0;
+        z-index: 1; // 由于 badge 导致 tbody 里 tr 的 position: relative 了
+      }
+    }
   }
 
   &-fixedLeft {
@@ -606,7 +614,7 @@
     display: inline-block;
     vertical-align: top;
     padding-left: var(--gap-sm);
-    
+
     &:hover {
       color: var(--TableCell-searchBtn--onActive-color);
     }
