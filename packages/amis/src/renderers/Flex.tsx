@@ -5,7 +5,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {Schema} from 'amis-core';
-import {BaseSchema, SchemaCollection} from '../Schema';
+import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
 
 /**
  * Flex 布局
@@ -117,7 +117,7 @@ export default class Flex extends React.Component<FlexProps, object> {
           (item, key) =>
             render(`flexItem/${key}`, item, {
               key: `flexItem/${key}`,
-              disabled
+              disabled: (item as SchemaObject)?.disabled ?? disabled
             })
         )}
       </div>

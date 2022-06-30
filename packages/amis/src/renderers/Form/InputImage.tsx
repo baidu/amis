@@ -702,8 +702,8 @@ export default class ImageControl extends React.Component<
           uploading: false,
           locked: false
         },
-        () => {
-          this.onChange(!!this.resolve, false);
+        async () => {
+          await this.onChange(!!this.resolve, false);
 
           if (this.resolve) {
             this.resolve(

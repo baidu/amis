@@ -288,6 +288,34 @@
           ) / 2
       )
       var(--Form-select-paddingX);
+    display: flex;
+
+    &-checkbox {
+      width: 100%;
+      display: flex;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      align-items: center;
+      > label {
+        width: 100%;
+        display: flex;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        align-items: center;
+
+        > i {
+          flex-shrink: 0;
+        }
+
+        > span {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+      }
+    }
 
     &.is-active {
       color: var(--Form-select-menu-onActive-color);

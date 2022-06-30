@@ -1817,10 +1817,10 @@ exports[`Renderer:Page initApi show loading 1`] = `
           class="cxd-Page-body"
         >
           <div
-            class="cxd-Spinner-overlay"
+            class="cxd-Spinner-overlay in"
           />
           <div
-            class="cxd-Spinner cxd-Spinner--overlay"
+            class="cxd-Spinner cxd-Spinner--overlay in"
             data-testid="spinner"
           >
             <div
