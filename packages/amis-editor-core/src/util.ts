@@ -875,3 +875,14 @@ export function jsonToJsonSchema(json: any = {}) {
 export function isHasPluginIcon(plugin: any) {
   return plugin.pluginIcon && hasIcon(plugin.pluginIcon);
 }
+
+/**
+ * 判断是否是布局容器类组件
+ * 备注：当前只有一个flex布局容器
+ */
+export function isLayoutPlugin(plugin: any) {
+  if (plugin && plugin.type === 'flex') {
+    return true;
+  }
+  return false;
+}

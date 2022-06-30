@@ -44,7 +44,8 @@ import {
   reactionWithOldValue,
   reGenerateID,
   isString,
-  isObject
+  isObject,
+  isLayoutPlugin
 } from './util';
 import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
@@ -748,7 +749,7 @@ export class EditorManager {
       toast.warning('请先选择一个元素作为插入的位置。');
       return;
     }
-    const regionNode = node.parent as EditorNodeType; // 父级节点
+    const parentNode = node.parent as EditorNodeType; // 父级节点
 
     // 插入新元素需要的字段
     let nextId = null;
@@ -766,16 +767,20 @@ export class EditorManager {
       // 当前节点是容器节点
       regionNodeId = id;
       regionNodeRegion = 'body';
-    } else if (regionNode) {
+    } else if (node.schema.items && isLayoutPlugin(node.schema)) {
+      // 当前节点是布局类容器节点
+      regionNodeId = id;
+      regionNodeRegion = 'items';
+    } else if (parentNode) {
       // 存在父节点
-      regionNodeId = regionNode.id;
-      regionNodeRegion = regionNode.region;
+      regionNodeId = parentNode.id;
+      regionNodeRegion = parentNode.region;
 
       // 考虑特殊情况，比如「表单项容器」
-      if (!regionNode.region && regionNode.schema.body) {
+      if (!parentNode.region && parentNode.schema.body) {
         // 默认插入到父节点的body中
         regionNodeRegion = 'body';
-      } else if (!regionNode.region && !regionNode.schema.body) {
+      } else if (!parentNode.region && !parentNode.schema.body) {
         // 其他特殊情况暂时不考虑，给予提示
         toast.warning('当前节点不允许追加新组件。');
         return;
