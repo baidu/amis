@@ -1503,7 +1503,8 @@ export default class Table extends React.Component<TableProps, object> {
   @autobind
   handleColResizeMouseMove(e: MouseEvent) {
     const moveX = e.clientX - this.lineStartX;
-    this.resizeLine.style.left = this.resizeLineLeft + moveX + 'px';
+    // 光标right为-4px，列宽改变时会自动跟随，不需要单独处理位置
+    // this.resizeLine.style.left = this.resizeLineLeft + moveX + 'px';
     this.targetTh.style.width = this.targetThWidth + moveX + 'px';
   }
 

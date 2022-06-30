@@ -1844,6 +1844,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | affixRow         | `Array`                                  |                           | 底部总结行                                                                |
 | itemBadge        | [`BadgeSchema`](./badge)                 |                           | 行角标配置                                                                |
 | autoFillHeight   | `boolean`                                |                           | 内容区域自适应高度                                                        |
+| resizable        | `boolean`                                | `true`                    | 列宽度是否支持调整                                                        |
 
 ## 列配置属性表
 
