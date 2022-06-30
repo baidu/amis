@@ -422,9 +422,17 @@ export default class Preview extends Component<PreviewProps> {
   rendererResolver(path: string, schema: Schema, props: any) {
     const {editable, manager} = this.props;
 
-    // preview视图中只能是默认状态
-    props.rootStore.setVisible(props.schema.id, true);
-    props.rootStore.setDisable(props.schema.id, false);
+    // 编辑态为可见可用状态，预览态的初始状态以组件属性配置为准
+    props.rootStore.setVisible(
+      props.schema.id,
+      editable
+        ? true
+        : props.schema.visible !== false && props.schema.hidden !== true
+    );
+    props.rootStore.setDisable(
+      props.schema.id,
+      editable ? false : props.schema.disabled
+    );
 
     let renderer: RendererConfig = resolveRenderer(path, schema)!;
     if (editable === false) {
@@ -614,15 +622,8 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
   }
 
   render() {
-    const {
-      editable,
-      store,
-      autoFocus,
-      env,
-      data,
-      manager,
-      ...rest
-    } = this.props;
+    const {editable, store, autoFocus, env, data, manager, ...rest} =
+      this.props;
 
     return render(
       editable ? store.filteredSchema : store.filteredSchemaForPreview,
