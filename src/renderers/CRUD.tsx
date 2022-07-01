@@ -20,7 +20,6 @@ import Button from '../components/Button';
 import Select from '../components/Select';
 import getExprProperties from '../utils/filter-schema';
 import pick from 'lodash/pick';
-import isEqual from 'lodash/isEqual';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from '../utils/tpl';
 import {isEffectiveApi, isApiOutdated, str2function} from '../utils/api';
@@ -305,14 +304,6 @@ export interface CRUDCommonSchema extends BaseSchema {
    * 内容区域占满屏幕剩余空间
    */
   autoFillHeight?: boolean;
-
-  /**
-   * 格式化query参数的配置
-   */
-  queryParseOptions?: {
-    /** array元素数量超出限制，会被自动转化为object格式，默认值1000 */
-    queryArrayLimit?: number;
-  };
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -393,8 +384,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onSaved',
     'onQuery',
     'formStore',
-    'autoFillHeight',
-    'queryParseOptions'
+    'autoFillHeight'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -411,10 +401,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     filterDefaultVisible: true,
     loadDataOnce: false,
     loadDataOnceFetchOnFilter: true,
-    autoFillHeight: false,
-    queryParseOptions: {
-      arrayLimit: 1000
-    }
+    autoFillHeight: false
   };
 
   control: any;
@@ -454,25 +441,21 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       perPageField,
       syncLocation,
-      loadDataOnce,
-      queryParseOptions
+      loadDataOnce
     } = props;
 
     this.mounted = true;
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        qsparse(location.search.substring(1), queryParseOptions),
+        qsparse(location.search.substring(1)),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        qsparse(
-          window.location.search.substring(1),
-          queryParseOptions
-        ) as object,
+        qsparse(window.location.search.substring(1)) as object,
         undefined,
         pageField,
         perPageField
@@ -558,12 +541,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (
       prevProps.syncLocation &&
       prevProps.location &&
-      (prevProps.location.search !== props.location.search ||
-        !isEqual(prevProps.queryParseOptions, props.queryParseOptions))
+      prevProps.location.search !== props.location.search
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        qsparse(props.location.search.substring(1), props.queryParseOptions),
+        qsparse(props.location.search.substring(1)),
         undefined,
         props.pageField,
         props.perPageField
@@ -863,12 +845,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env,
       pageField,
       perPageField,
-      loadDataOnceFetchOnFilter,
-      queryParseOptions
+      loadDataOnceFetchOnFilter
     } = this.props;
 
     values = syncLocation
-      ? qsparse(qsstringify(values, undefined, true), queryParseOptions)
+      ? qsparse(qsstringify(values, undefined, true))
       : values;
 
     store.updateQuery(
