@@ -137,10 +137,13 @@ export default class FormulaControl extends React.Component<
     if (!this.props.variables) {
       // 从amis数据域中取变量数据
       this.resolveVariablesFromScope().then(variables => {
-        if (!this.isUnmount && !isEqual(variables, this.state.variables)) {
-          this.setState({
-            variables
-          });
+        if (Array.isArray(variables)) {
+          const vars = variables.filter(item => item.children?.length);
+          if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
+            this.setState({
+              variables: vars
+            });
+          }
         }
       });
     }
