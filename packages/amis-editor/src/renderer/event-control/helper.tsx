@@ -100,6 +100,25 @@ export const FORMITEM_CMPTS = [
   'uuid'
 ];
 
+export const SUPPORT_DISABLED_CMPTS = [
+  'button-group',
+  'action',
+  'button',
+  'submit',
+  'reset',
+  'collapse',
+  'container',
+  'dropdown-button',
+  'flex',
+  'flex-item',
+  'grid',
+  'grid-2d',
+  'link',
+  'nav',
+  'wizard'
+  // 'card2'
+]
+
 export const getArgsWrapper = (items: any, multiple: boolean = false) => ({
   type: 'combo',
   name: 'args',

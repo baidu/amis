@@ -10,7 +10,8 @@ import {
   getArgsWrapper,
   IS_DATA_CONTAINER,
   renderCmptActionSelect,
-  renderCmptSelect
+  renderCmptSelect,
+  SUPPORT_DISABLED_CMPTS
 } from './helper';
 
 const MSG_TYPES: {[key: string]: string} = {
@@ -548,7 +549,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               }
             }
           ],
-          supportComponents: ['form', ...FORMITEM_CMPTS],
+          supportComponents: ['form', ...FORMITEM_CMPTS, ...SUPPORT_DISABLED_CMPTS],
           schema: [
             ...renderCmptSelect('选择组件', true),
             {
