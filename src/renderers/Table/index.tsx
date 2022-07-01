@@ -462,6 +462,7 @@ export default class Table extends React.Component<TableProps, object> {
   affixedTable?: HTMLTableElement;
   parentNode?: HTMLElement | Window;
   lastScrollLeft: number = -1;
+  lastScrollTop: number = 0;
   totalWidth: number = 0;
   totalHeight: number = 0;
   outterWidth: number = 0;
@@ -658,6 +659,13 @@ export default class Table extends React.Component<TableProps, object> {
     const footToolbar = table.querySelector(
       `.${ns}Table-footToolbar`
     ) as HTMLElement;
+    const leftFixedColumns = table.querySelector(
+      `.${ns}Table-fixedLeft`
+    ) as HTMLElement;
+    const rightFixedColumns = table.querySelector(
+      `.${ns}Table-fixedRight`
+    ) as HTMLElement;
+
     if (!tableContent) {
       return;
     }
@@ -690,13 +698,24 @@ export default class Table extends React.Component<TableProps, object> {
       parentNode = parentNode.parentElement;
     }
 
-    tableContent.style.height = `${
+    const tableContentHeight = `${
       viewportHeight -
       tableContentTop -
       tableContentWrapMarginButtom -
       footToolbarHeight -
       allParentPaddingButtom
     }px`;
+
+    tableContent.style.height = tableContentHeight;
+    /**autoFillHeight开启后固定列会溢出Table高度，需要同步一下 */
+    if (leftFixedColumns) {
+      leftFixedColumns.style.height = tableContentHeight;
+      leftFixedColumns.style.overflowY = 'auto';
+    }
+    if (rightFixedColumns) {
+      rightFixedColumns.style.height = tableContentHeight;
+      rightFixedColumns.style.overflowY = 'auto';
+    }
   }
 
   componentDidUpdate(prevProps: TableProps) {
@@ -1170,39 +1189,66 @@ export default class Table extends React.Component<TableProps, object> {
   handleOutterScroll() {
     const outter = (this.table as HTMLElement).parentNode as HTMLElement;
     const scrollLeft = outter.scrollLeft;
-
-    if (scrollLeft === this.lastScrollLeft) {
-      return;
-    }
-
-    this.lastScrollLeft = scrollLeft;
-    let leading = scrollLeft === 0;
-    let trailing = Math.ceil(scrollLeft) + this.outterWidth >= this.totalWidth;
-    // console.log(scrollLeft, store.outterWidth, store.totalWidth, (scrollLeft + store.outterWidth) === store.totalWidth);
-    // store.setLeading(leading);
-    // store.setTrailing(trailing);
-
     const ns = this.props.classPrefix;
     const dom = findDOMNode(this) as HTMLElement;
-
     const fixedLeft = dom.querySelectorAll(`.${ns}Table-fixedLeft`);
-    if (fixedLeft && fixedLeft.length) {
-      for (let i = 0, len = fixedLeft.length; i < len; i++) {
-        let node = fixedLeft[i];
-        leading ? node.classList.remove('in') : node.classList.add('in');
+    const fixedRight = dom.querySelectorAll(`.${ns}Table-fixedRight`);
+
+    if (scrollLeft !== this.lastScrollLeft) {
+      this.lastScrollLeft = scrollLeft;
+      let leading = scrollLeft === 0;
+      let trailing =
+        Math.ceil(scrollLeft) + this.outterWidth >= this.totalWidth;
+      // console.log(scrollLeft, store.outterWidth, store.totalWidth, (scrollLeft + store.outterWidth) === store.totalWidth);
+      // store.setLeading(leading);
+      // store.setTrailing(trailing);
+
+      if (fixedLeft && fixedLeft.length) {
+        for (let i = 0, len = fixedLeft.length; i < len; i++) {
+          let node = fixedLeft[i];
+          leading ? node.classList.remove('in') : node.classList.add('in');
+        }
+      }
+
+      if (fixedRight && fixedRight.length) {
+        for (let i = 0, len = fixedRight.length; i < len; i++) {
+          let node = fixedRight[i];
+          trailing ? node.classList.remove('in') : node.classList.add('in');
+        }
+      }
+      const table = this.affixedTable;
+      if (table) {
+        table.style.cssText += `transform: translateX(-${scrollLeft}px)`;
       }
     }
 
-    const fixedRight = dom.querySelectorAll(`.${ns}Table-fixedRight`);
-    if (fixedRight && fixedRight.length) {
-      for (let i = 0, len = fixedRight.length; i < len; i++) {
-        let node = fixedRight[i];
-        trailing ? node.classList.remove('in') : node.classList.add('in');
+    /* 同步固定列内容的垂直滚动 */
+    if (outter.scrollTop !== this.lastScrollTop) {
+      this.lastScrollTop = outter.scrollTop;
+
+      if (fixedLeft && fixedLeft.length) {
+        forEach(fixedLeft, node => node.scrollTo({top: outter.scrollTop}));
+      }
+
+      if (fixedRight && fixedRight.length) {
+        forEach(fixedRight, node => node.scrollTo({top: outter.scrollTop}));
       }
     }
-    const table = this.affixedTable;
-    if (table) {
-      table.style.cssText += `transform: translateX(-${scrollLeft}px)`;
+  }
+
+  @autobind
+  handleFixedColumnsScroll(event: React.UIEvent<any>) {
+    /** table内容区当前Top */
+    const currentScrollTop = this.lastScrollTop;
+    /** 固定列的新Top */
+    const fixedScrollTop = event.currentTarget.scrollTop;
+
+    if (currentScrollTop !== fixedScrollTop) {
+      this.lastScrollTop = fixedScrollTop;
+      const tableContentDom = (this.table as HTMLElement)
+        .parentNode as HTMLElement;
+
+      tableContentDom.scrollTo({top: fixedScrollTop});
     }
   }
 
@@ -2758,8 +2804,11 @@ export default class Table extends React.Component<TableProps, object> {
           onMouseLeave={this.handleMouseLeave}
         >
           <div
-            className={cx('Table-fixedLeft')}
+            className={cx('Table-fixedLeft', {
+              'Table-fixedLeft--autoFillHeight': autoFillHeight
+            })}
             onMouseMove={this.handleMouseMove}
+            onScroll={this.handleFixedColumnsScroll}
           >
             {affixColumns !== false && store.leftFixedColumns.length
               ? this.renderFixedColumns(
@@ -2771,8 +2820,11 @@ export default class Table extends React.Component<TableProps, object> {
               : null}
           </div>
           <div
-            className={cx('Table-fixedRight')}
+            className={cx('Table-fixedRight', {
+              'Table-fixedLeft--autoFillHeight': autoFillHeight
+            })}
             onMouseMove={this.handleMouseMove}
+            onScroll={this.handleFixedColumnsScroll}
           >
             {affixColumns !== false && store.rightFixedColumns.length
               ? this.renderFixedColumns(
