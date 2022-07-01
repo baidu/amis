@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "path": "./",
+      "name": "monorepo"
+    },
+    {
+      "path": "./packages/amis-formula"
+    },
+    {
+      "path": "./packages/amis-core"
+    },
+    {
+      "path": "./packages/amis-ui"
+    },
+    {
+      "path": "./packages/amis"
+    }
+  ]
+}

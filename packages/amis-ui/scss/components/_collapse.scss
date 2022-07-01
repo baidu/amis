@@ -1,0 +1,120 @@
+.#{$ns}Collapse {
+  border: var(--Collapse-border);
+  padding: 0;
+  line-height: px2rem(20px);
+  border-radius: 4px;
+  // overflow: hidden;
+
+  &-header {
+    font-size: var(--Collapse-header-fontSize);
+    font-weight: var(--Collapse-header-fontWeight);
+    color: var(--text--loud-color);
+    padding: var(--Collapse-header-padding);
+    margin: 0;
+    cursor: pointer;
+    background: var(--Collapse-header-bg);
+
+    &-wrapper {
+      display: inline-flex;
+      flex-direction: var(--Collapse-header-wrapper-direction);
+    }
+
+    &-tpl {
+      margin-right: px2rem(8px);
+    }
+
+    &:hover {
+      background: var(--Collapse-header-onHover-bg);
+    }
+  }
+
+  &-arrow {
+    display: inline-block;
+    width: px2rem(16px);
+    text-align: center;
+    margin-right: var(--gap-sm);
+
+    &:before {
+      content: '';
+      position: relative;
+      display: inline-block;
+      width: px2rem(6px);
+      height: px2rem(6px);
+      top: px2rem(-2px);
+      border-color: #84868C;
+      border-style: solid;
+      border-width: px2rem(1px) px2rem(1px) 0 0;
+      transform: rotate(45deg);
+      transform-origin: 50% 50%;
+    }
+  }
+
+  &-icon-tranform {
+    display: inline-block;
+    width: px2rem(16px);
+    text-align: center;
+    margin-right: var(--gap-xs);
+  }
+
+  .#{$ns}TplField {
+    display: inline-block;
+  }
+
+  &.is-active &-arrow:before {
+    transform: rotate(135deg);
+    transform-origin: 50% 30%;
+  }
+  &.is-active &-icon-tranform {
+    transform: rotate(90deg);
+  }
+
+  &--disabled &-header {
+    cursor: not-allowed;
+    user-select: none;
+    color: var(--text--muted-color);
+    &:hover {
+      background-color: var(--Collapse-header-bg-disabled-color);
+    }
+  }
+
+  &--disabled &-arrow:before {
+    border-color: var(--text--muted-color);
+  }
+
+  // title 显示在底部的模式
+  &--title-bottom &-header {
+    text-align: center;
+    font-size: var(--fontSizeBase);
+    border-top: var(--Collapse-header-collapsed-borderTop);
+    border-bottom: var(--Collapse-header-collapsed-borderBottom);
+  }
+
+  &--title-bottom.is-collapsed &-header {
+    border-top: none;
+  }
+
+  &--title-bottom &-arrow:before {
+    top: px2rem(-4px);
+    transform: rotate(135deg);
+  }
+
+  &--title-bottom.is-active &-arrow:before {
+    top: 0;
+    transform: rotate(-45deg);
+  }
+
+  &-contentWrapper {
+    transition: height var(--animation-duration) ease;
+    &.in,
+    &.out {
+      height: 0;
+      overflow: hidden;
+    }
+  }
+  &-content {
+    padding: var(--Collapse-content-padding);
+    color: var(--body-color);
+    font-size: var(--Collapse-content-fontSize);
+    font-weight: var(--Collapse-content-fontWeight);
+  }
+}

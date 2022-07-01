@@ -45,6 +45,63 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
         {
             "name": "grade",
             "label": "CSS grade"
+        },
+        {
+            "type": "operation",
+            "label": "操作",
+            "buttons": [
+                {
+                    "label": "详情",
+                    "type": "button",
+                    "level": "link",
+                    "actionType": "dialog",
+                    "dialog": {
+                        "title": "查看详情",
+                        "body": {
+                            "type": "form",
+                            "body": [
+                                {
+                                    "type": "input-text",
+                                    "name": "engine",
+                                    "label": "Engine"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "browser",
+                                    "label": "Browser"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "platform",
+                                    "label": "platform"
+                                },
+                                {
+                                    "type": "input-text",
+                                    "name": "version",
+                                    "label": "version"
+                                },
+                                {
+                                    "type": "control",
+                                    "label": "grade",
+                                    "body": {
+                                        "type": "tag",
+                                        "label": "${grade}",
+                                        "displayMode": "normal",
+                                        "color": "active"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "label": "删除",
+                    "type": "button",
+                    "level": "link",
+                    "className": "text-danger",
+                    "disabledOn": "this.grade === 'A'"
+                }
+            ]
         }
     ]
 }
@@ -484,16 +541,53 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 ```schema: scope="body"
 {
     "type": "crud",
+    "name": "crud",
     "syncLocation": false,
     "api": "/api/mock2/sample",
      "filter": {
         "title": "条件搜索",
         "body": [
             {
-                "type": "input-text",
-                "name": "keywords",
-                "placeholder": "通过关键字搜索"
+                "type": "flex",
+                "justify": "space-between",
+                "alignItems": "center",
+                "items": [
+                    {
+                        "type": "input-text",
+                        "name": "keywords",
+                        "placeholder": "通过关键字搜索",
+                        "size": "sm"
+                    },
+                    {
+                        "type": "button",
+                        "actionType": "drawer",
+                        "icon": "fa fa-plus",
+                        "label": "创建记录",
+                        "target": "crud",
+                        "closeOnOutside": true,
+                        "drawer": {
+                            "title": "创建记录",
+                            "body": {
+                                "type": "form",
+                                "api": "post:/api/mock2/sample",
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "engine",
+                                        "label": "Engine"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "browser",
+                                        "label": "Browser"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
             }
+
         ]
     },
     "columns": [
@@ -1415,7 +1509,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 批量操作会默认将下面数据添加到数据域中以供按钮行为使用
 
-- `items` `Array<object>` 当前页数据集合。
+- `items` `Array<object>` selectedItems 的别名
 - `rows` items 的别名，推荐用 items。
 - `selectedItems` `Array<object>` 选中的行数据集合
 - `unSelectedItems` `Array<object>` 没选中的行数据也可获取。
@@ -2115,21 +2209,35 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
-它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整，比如
+它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整。`reload`支持两种触发方式：
+
+- `"type": "reload"`，CRUD 内置的方法
+- `{"actionType": "reload", "target": "targetName"}`，动作触发
 
 ```schema: scope="body"
 {
     "type": "crud",
+    "name": "crud",
     "syncLocation": false,
     "api": "/api/mock2/sample",
     "headerToolbar": [
         {
+            "type": "action",
+            "align": "right",
+            "icon": "iconfont icon-refresh",
+            "label": "刷新(actionType)",
+            "tooltip": "",
+            "level": "primary",
+            "actionType": 'reload',
+            "target": 'crud'
+        },
+        {
             "type": "reload",
             "align": "right",
             "icon": "iconfont icon-refresh",
-            "label": "刷新",
+            "label": "刷新(type)",
             "tooltip": "",
-            "level": "success"
+            "level": "primary"
         }
     ],
     "columns": [

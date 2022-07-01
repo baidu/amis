@@ -103,6 +103,30 @@ order: 51
 }
 ```
 
+## 不同尺寸
+
+> 2.0.0 及以上版本
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "name": "switch",
+            "type": "switch",
+            "label": ""
+        },
+        {
+            "name": "switch-sm",
+            "type": "switch",
+            "label": "",
+            "size": "sm"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -114,6 +138,7 @@ order: 51
 | offText    | `string / IconSchema`       |         | 关闭时开关显示的内容 |
 | trueValue  | `boolean / string / number` | `true`  | 标识真值             |
 | falseValue | `boolean / string / number` | `false` | 标识假值             |
+| size       | `"sm" \| "md"`              | `"md"`  | 开关大小             |
 
 IconSchema 配置
 | 属性名 | 类型 | 默认值 | 说明 |
@@ -123,11 +148,15 @@ IconSchema 配置
 
 ## 事件表
 
-| 事件名称 | 事件参数                          | 说明                 |
-| -------- | --------------------------------- | -------------------- |
-| change   | `value: string \| boolean` 值变化 | 开关值发生变化时触发 |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                                     | 说明             |
+| -------- | -------------------------------------------- | ---------------- |
+| change   | `event.data.value: string \| boolean` 开关值 | 开关值变化时触发 |
 
 ## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
 | 动作名称 | 动作配置                              | 说明     |
 | -------- | ------------------------------------- | -------- |

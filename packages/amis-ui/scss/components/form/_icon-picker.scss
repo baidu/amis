@@ -1,0 +1,111 @@
+.#{$ns}IconPickerControl {
+  @include input-text();
+
+  &-placeholder {
+    color: var(--Form-input-placeholderColor);
+    user-select: none;
+    line-height: var(--Form-input-lineHeight);
+    position: absolute;
+    left: 2px;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  &-valueWrap {
+    justify-content: space-between;
+    flex-grow: 1;
+    line-height: 1;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+
+    > input {
+      display: inline-block;
+      width: auto;
+      vertical-align: middle;
+    }
+  }
+
+  &-input--withAC {
+    position: relative;
+    flex-wrap: wrap;
+    width: 100%;
+
+    > input {
+      width: auto;
+    }
+  }
+
+  &-sugsPanel {
+    position: absolute;
+    background: var(--Form-select-menu-bg);
+    color: var(--Form-select-menu-color);
+    border: var(--Form-input-borderWidth) solid
+      var(--Form-input-onFocused-borderColor);
+    left: px2rem(-1px);
+    right: px2rem(-1px);
+    top: 100%;
+    z-index: 10;
+    height: auto;
+  }
+
+  &-tabs {
+    background: var(--IconPicker-tabs-bg);
+  }
+
+  &-tab {
+    display: inline-block;
+    padding: var(--IconPicker-tab-padding);
+    height: var(--IconPicker-tab-height);
+    line-height: var(--IconPicker-tab-lineHeight);
+    cursor: pointer;
+    text-align: center;
+    font-size: var(--fontSizeSm);
+    user-select: none;
+
+    &.active {
+      background: var(--IconPicker-tab-onActive-bg);
+    }
+  }
+
+  &-sugs {
+    position: relative;
+    padding: var(--IconPicker-padding);
+    max-height: var(--IconPicker-content-maxHeight);
+    overflow-y: auto;
+  }
+
+  &-sugItem {
+    display: inline-block;
+    width: var(--IconPicker-sugItem-width);
+    height: var(--IconPicker-sugItem-height);
+    text-align: center;
+    line-height: var(--IconPicker-sugItem-lineHeight);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--Form-select-menu-onHover-bg);
+    }
+
+    &.is-active {
+      color: var(--white);
+      background: var(--Form-select-menu-onActive-color);
+    }
+  }
+
+  &-value {
+    user-select: none;
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize)
+    );
+    vertical-align: middle;
+    display: inline-block;
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    > i {
+      display: inline-block;
+      margin-right: var(--IconPicker-selectedIcon-marginRight);
+    }
+  }
+}

@@ -191,7 +191,7 @@ order: 67
             "rowSelection": {
                 "type": "checkbox",
                 "keyField": "id",
-                "selectedRowKeysExpr": "<%= data.record.id === 1 %>"
+                "selectedRowKeysExpr": "data.record.id === 1"
             },
             "columns": [
                 {
@@ -450,14 +450,15 @@ order: 67
                 "expandableOn": "this.record.id === 1 || this.record.id === 3",
                 "keyField": "id",
                 "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
-                "expandedRowKeys": ["3"]
-            },
-            "expandableBody": [
-                {
-                    "type": "tpl",
-                    "html": "<div class=\"test\">测试测试</div>"
-                }
-            ]
+                "expandedRowKeys": ["3"],
+                "type": "container",
+                "body": [
+                    {
+                        "type": "tpl",
+                        "html": "<div class=\"test\">测试测试</div>"
+                    }
+                ]
+            }
         }
     ]
 }
@@ -498,14 +499,15 @@ order: 67
                 "expandableOn": "this.record.id === 1 || this.record.id === 3",
                 "keyField": "id",
                 "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
-                "expandedRowKeysExpr": "<%= data.record.id == '3' %>"
-            },
-            "expandableBody": [
-                {
-                    "type": "tpl",
-                    "html": "<div class=\"test\">测试测试</div>"
-                }
-            ]
+                "expandedRowKeysExpr": "data.record.id == '3'",
+                "type": "container",
+                "body": [
+                    {
+                        "type": "tpl",
+                        "html": "<div class=\"test\">测试测试</div>"
+                    }
+                ]
+            }
         }
     ]
 }
@@ -809,10 +811,11 @@ order: 67
             "type": "table-v2",
             "source": "$rows",
             "draggable": true,
+            "keyField": "id",
             "columns": [
                 {
-                    "title": "Engine",
-                    "key": "engine",
+                    "title": "ID",
+                    "key": "id"
                 },
                 {
                     "title": "Grade",
@@ -827,8 +830,8 @@ order: 67
                     "key": "badgeText",
                     "children": [
                         {
-                            "title": "ID",
-                            "key": "id"
+                            "title": "Engine",
+                            "key": "engine",
                         }
                     ]
                 },
@@ -3272,6 +3275,212 @@ order: 67
 }
 ```
 
+## 列样式
+
+可以通过设置`columns`中的`className`控制整列样式
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+        {
+            "type": "table-v2",
+            "source": "$rows",
+            "columns": [
+                {
+                    "title": "Engine",
+                    "key": "engine"
+                },
+                {
+                    "title": "Version",
+                    "key": "version",
+                    "className": "text-primary"
+                },
+                {
+                    "title": "Browser",
+                    "key": "browser"
+                },
+                {
+                    "title": "Operation",
+                    "key": "operation",
+                    "type": "button",
+                    "label": "删除",
+                    "size": "sm"
+                }
+            ]
+        }
+    ]
+}
+```
+
+也可以通过`titleClassName`单独控制表头对应单元格的样式
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+        {
+            "type": "table-v2",
+            "source": "$rows",
+            "columns": [
+                {
+                    "title": "Engine",
+                    "key": "engine"
+                },
+                {
+                    "title": "Version",
+                    "key": "version",
+                    "className": "text-primary",
+                    "titleClassName": "font-bold"
+                },
+                {
+                    "title": "Browser",
+                    "key": "browser"
+                },
+                {
+                    "title": "Operation",
+                    "key": "operation",
+                    "type": "button",
+                    "label": "删除",
+                    "size": "sm"
+                }
+            ]
+        }
+    ]
+}
+```
+
+## 单元格样式
+
+可以通过设置`columns`的`classNameExpr`，根据数据动态添加单元格CSS类，支持模版语法
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+        {
+            "type": "table-v2",
+            "source": "$rows",
+            "columns": [
+                {
+                    "title": "Engine",
+                    "key": "engine"
+                },
+                {
+                    "title": "Version",
+                    "key": "version",
+                    "classNameExpr": "<%= data.version > 5 ? 'text-danger' : '' %>"
+                },
+                {
+                    "title": "Browser",
+                    "key": "browser"
+                },
+                {
+                    "title": "Operation",
+                    "key": "operation",
+                    "type": "button",
+                    "label": "删除",
+                    "size": "sm"
+                }
+            ]
+        }
+    ]
+}
+```
+
+## 行操作按钮
+
+通过设置`itemActions`可以设置鼠标移动到行上出现操作按钮
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+        {
+            "type": "table-v2",
+            "source": "$rows",
+            "itemActions": [
+                {
+                    "label": "编辑",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "dialog": {
+                        "title": "编辑",
+                        "body": "这是个简单的编辑弹框"
+                    }
+                },
+                {
+                    "label": "删除",
+                    "type": "button",
+                    "actionType": "ajax",
+                    "confirmText": "确认要删除？",
+                    "api": "/api/mock2/form/saveForm"
+                }
+            ],
+            "columns": [
+                {
+                    "title": "Engine",
+                    "key": "engine"
+                },
+                {
+                    "title": "Version",
+                    "key": "version"
+                }
+            ]
+        }
+    ]
+}
+```
+
+固定表头情况下，展示行操作按钮
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=20",
+    "body": [
+        {
+            "type": "table-v2",
+            "source": "$rows",
+            "itemActions": [
+                {
+                    "label": "编辑",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "dialog": {
+                        "title": "编辑",
+                        "body": "这是个简单的编辑弹框"
+                    }
+                },
+                {
+                    "label": "删除",
+                    "type": "button",
+                    "actionType": "ajax",
+                    "confirmText": "确认要删除？",
+                    "api": "/api/mock2/form/saveForm"
+                }
+            ],
+            "scroll": {
+                "y": 100
+            },
+            "columns": [
+                {
+                    "title": "Engine",
+                    "key": "engine"
+                },
+                {
+                    "title": "Version",
+                    "key": "version"
+                }
+            ]
+        }
+    ]
+}
+```
 
 ## 属性表
 

@@ -1,0 +1,252 @@
+.is-modalOpened {
+  overflow: hidden;
+
+  .#{$ns}Modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -300px, 0) scale(0.2);
+  }
+}
+
+@keyframes modalOut {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -300px, 0) scale(0.2);
+  }
+}
+
+.#{$ns}Modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $zindex-modal;
+  overflow: hidden;
+  outline: 0;
+
+  &-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%; // Ensure `.modal-content` extends the full width of the parent `.modal-dialog`
+    pointer-events: auto;
+    background: var(--Modal-bg);
+    background-clip: padding-box;
+    outline: 0;
+    z-index: 2;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: var(--Modal-content-startMarginTop);
+    margin-bottom: var(--gap-md);
+    border: var(--Modal-content-borderWidth) solid
+      var(--Modal-content-borderColor);
+    border-radius: var(--Modal-content-borderRadius);
+
+    &.in,
+    &.out {
+      // opacity: 1;
+      // transform: translateY(0) scale(1);
+      animation-duration: var(--animation-duration);
+      animation-fill-mode: both;
+    }
+
+    &.in {
+      animation-name: modalIn;
+    }
+
+    &.out {
+      animation-name: modalOut;
+    }
+  }
+
+  &-overlay {
+    transition: ease-in-out opacity var(--animation-duration);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background: var(--Modal-overlay-bg);
+    pointer-events: none; // 很重要，如果不设置，弹框虽然滚轮可滚，但是鼠标没办法操作滚动条。
+    opacity: 0;
+
+    &.in {
+      opacity: 1;
+    }
+
+    &.out {
+      opacity: 0;
+    }
+  }
+
+  &-header {
+    padding: var(--Modal-header-paddingY) var(--Modal-header-paddingX);
+    background: var(--Modal-header-bg);
+    @include clearfix();
+    border-bottom: var(--Modal-body-borderTop);
+    border-top-left-radius: var(--Modal-content-borderRadius);
+    border-top-right-radius: var(--Modal-content-borderRadius);
+  }
+
+  &-title {
+    font-size: var(--Modal-title-fontSize);
+    color: var(--Modal-title-color);
+    font-weight: var(--Modal-title-fontWeight);
+  }
+
+  &-close {
+    float: right;
+    color: var(--Modal-close-color);
+    line-height: inherit;
+    text-decoration: none;
+    vertical-align: middle;
+
+    svg {
+      width: var(--Modal-close-width);
+      height: var(--Modal-close-width);
+      fill: var(--Modal-close-color);
+    }
+
+    &:not(.is-disabled) {
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: none;
+        color: var(--Model-close-onHover-color);
+
+        svg {
+          fill: var(--Model-close-onHover-color);
+        }
+      }
+    }
+  }
+
+  &-content > &-close {
+    position: absolute;
+    right: var(--gap-md);
+    top: var(--gap-sm);
+    z-index: 10;
+  }
+
+  &-body {
+    padding: var(--Modal-body--noHeader-paddingTop) var(--Modal-body-paddingX)
+      var(--Modal-body-paddingY);
+    flex-grow: 1;
+  }
+
+  &-header + &-body {
+    padding-top: var(--Modal-body-paddingY);
+  }
+
+  &-footer {
+    // @include clearfix();
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--Modal-footer-padding);
+    border-top: var(--Modal-body-borderBottom);
+    margin: var(--Modal-footer-marginY) var(--Modal-footer-marginX);
+    border-bottom-left-radius: var(--Modal-content-borderRadius);
+    border-bottom-right-radius: var(--Modal-content-borderRadius);
+
+    .#{$ns}Button {
+      min-width: var(--Modal-footer-button-width);
+      margin-left: var(--gap-sm);
+    }
+  }
+}
+
+@for $i from (2) through 10 {
+  .#{$ns}Modal--#{$i}th {
+    .#{$ns}Modal-content {
+      margin-top: calc(
+        var(--Modal-content-startMarginTop) +
+          #{($i - 1)} *
+          var(--Modal-content-stepMarginTop)
+      );
+    }
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .#{$ns}Modal-content {
+    max-width: var(--Modal-widthBase);
+  }
+
+  .#{$ns}Modal--sm .#{$ns}Modal-content {
+    max-width: var(--Modal-widthSm);
+  }
+
+  .#{$ns}Modal--base .#{$ns}Modal-content {
+    max-width: var(--Modal-widthBase);
+  }
+
+  .#{$ns}Modal--md .#{$ns}Modal-content {
+    max-width: var(--Modal-widthMd);
+  }
+
+  .#{$ns}Modal--lg .#{$ns}Modal-content {
+    max-width: var(--Modal-widthLg);
+  }
+
+  .#{$ns}Modal--xl .#{$ns}Modal-content {
+    max-width: var(--Modal-widthXl);
+  }
+}
+
+.#{$ns}Dialog-info {
+  flex-basis: 0;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.#{$ns}Dialog-error {
+  color: var(--danger);
+  white-space: pre-wrap;
+}
+
+.#{$ns}Modal--full {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > .#{$ns}Modal-content {
+    flex-basis: 0;
+    flex-grow: 1;
+    margin: 30px;
+    width: calc(100% - 60px);
+    max-width: unset;
+
+    > .#{$ns}Modal-body {
+      height: 0;
+      overflow: auto;
+    }
+  }
+}
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Modal {
+    .#{$ns}Modal-footer {
+      display: flex;
+
+      > .#{$ns}Button {
+        flex: 1;
+        height: px2rem(44px);
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}

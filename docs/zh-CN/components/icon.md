@@ -204,5 +204,5 @@ v6 用 fa-regular / fa-solid 等表示前缀，可参考官网[示例](https://f
 | --------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------------- |
 | type      | `string` | `icon` | 指定组件类型                                                                                                              |
 | className | `string` |        | 外层 CSS 类名                                                                                                             |
-| icon      | `string` |        | icon 名称，支持 [fontawesome v4](https://fontawesome.com/v4/icons/) 或使用 url                                            |
+| icon      | `string` |        | icon 名称，支持 [fontawesome v4](https://fontawesome.com/v4/icons/) 或 通过 registerIcon 注册的 icon、或使用 url          |
 | vendor    | `string` |        | icon 类型，默认为`fa`, 表示 fontawesome v4。也支持 iconfont, 如果是 fontawesome v5 以上版本或者其他框架可以设置为空字符串 |

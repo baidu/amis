@@ -134,13 +134,41 @@ order: 14
 
 上例中配置了`"value": "+1hours"`，默认就会选中一小时后的时间。
 
-支持的相对值关键字除了 [Date](./date#%E7%9B%B8%E5%AF%B9%E5%80%BC) 中的以外，还支持：
+支持的相对值关键字除了 [Date](./input-date#%E7%9B%B8%E5%AF%B9%E5%80%BC) 中的以外，还支持：
 
 - `now`: 当前时间
 - `minute`或`minutes`或`min`或`mins`: 分钟
 - `hour`或`hours`: 小时
 
 ## 限制范围
+
+### 控制时间范围
+
+通过 `timeConstraints` 属性可以控制时间输入范围
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-datetime",
+            "name": "datetime",
+            "label": "日期时间",
+            "timeConstraints": {
+                "hours": {
+                    "min": 12,
+                    "max": 18
+                },
+                "minutes": {
+                    "step": 15
+                }
+            }
+        }
+    ]
+}
+```
 
 可以通过配置`maxDate`和`minDate`显示可选范围
 
@@ -172,7 +200,7 @@ order: 14
 
 ### 支持相对值
 
-范围限制也支持设置 [相对值](./date#%E7%9B%B8%E5%AF%B9%E5%80%BC)。
+范围限制也支持设置 [相对值](./input-date#%E7%9B%B8%E5%AF%B9%E5%80%BC)。
 
 ```schema: scope="body"
 {
@@ -317,13 +345,17 @@ order: 14
 
 ## 事件表
 
-| 事件名称 | 事件参数               | 说明                 |
-| -------- | ---------------------- | -------------------- |
-| change   | `value: string` 时间值 | 值变化               |
-| focus    | `value: string` 时间值  | 获得焦点(非内嵌模式) |
-| blur     | `value: string` 时间值  | 失去焦点(非内嵌模式) |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                          | 说明                             |
+| -------- | --------------------------------- | -------------------------------- |
+| change   | `event.data.value: string` 时间值 | 时间值变化时触发                 |
+| focus    | `event.data.value: string` 时间值 | 输入框获取焦点(非内嵌模式)时触发 |
+| blur     | `event.data.value: string` 时间值 | 输入框失去焦点(非内嵌模式)时触发 |
 
 ## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
 | 动作名称 | 动作配置                     | 说明                                                   |
 | -------- | ---------------------------- | ------------------------------------------------------ |

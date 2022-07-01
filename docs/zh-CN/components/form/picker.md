@@ -510,3 +510,11 @@ order: 35
 | modalMode    | `string`                                                                                     | `"dialog"`                                      | 设置 `dialog` 或者 `drawer`，用来配置弹出方式。                                             |
 | pickerSchema | `string`                                                                                     | `{mode: 'list', listItem: {title: '${label}'}}` | 即用 List 类型的渲染，来展示列表信息。更多配置参考 [CRUD](../crud)                          |
 | embed        | `boolean`                                                                                    | `false`                                         | 是否使用内嵌模式                                                                            |
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                                                           | 说明             |
+| -------- | ------------------------------------------------------------------ | ---------------- |
+| change   | `event.data.value: string`<br/> `event.data.option: Option` 选中值 | 选中值变化时触发 |

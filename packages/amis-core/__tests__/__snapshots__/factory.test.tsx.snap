@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`factory custom not found 2! 1`] = `
+<div>
+  <div>
+    Not Found
+  </div>
+</div>
+`;
+
+exports[`factory custom not found 3! 1`] = `
+<div>
+  <div>
+    Not Found
+  </div>
+</div>
+`;
+
+exports[`factory custom not found! 1`] = `
+<div>
+  <div>
+    Not Found
+  </div>
+</div>
+`;
+
+exports[`factory load Renderer on need 1`] = `
+<div>
+  <div>
+    This is Custom Renderer2, a is 
+    23
+  </div>
+</div>
+`;
+
+exports[`factory unregistered Renderer 1`] = `
+<div>
+  <div
+    class="RuntimeError"
+  >
+    <p>
+      Error: 找不到对应的渲染器
+    </p>
+    <p>
+      Path: 
+      my-renderer
+    </p>
+    <pre>
+      <code>
+        {
+  "type": "my-renderer",
+  "a": 23
+}
+      </code>
+    </pre>
+  </div>
+</div>
+`;
+
+exports[`factory:registerRenderer 1`] = `
+<div>
+  <div>
+    This is Custom Renderer, a is 
+    23
+  </div>
+</div>
+`;

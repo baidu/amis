@@ -354,6 +354,35 @@ Content-Disposition: attachment; filename="download.pdf"
 Access-Control-Expose-Headers:  Content-Disposition
 ```
 
+## 保存到本地
+
+> 1.10.0 及以上版本
+
+和前面的下载接口功能类似，但不需要返回 `Content-Disposition` header，只需要解决跨域问题，主要用于一些简单的场景，比如下载文本
+
+```schema: scope="body"
+{
+    "label": "保存",
+    "type": "action",
+    "actionType": "saveAs",
+    "api": "/api/download"
+}
+```
+
+> 这个功能目前还没用到 env 里的 fetcher 方法，不支持 POST
+
+默认会自动取 url 中的文件名，如果没有的话就需要指定，比如
+
+```schema: scope="body"
+{
+    "label": "保存",
+    "type": "action",
+    "actionType": "saveAs",
+    "fileName": "下载的文件名",
+    "api": "/api/download"
+}
+```
+
 ## 倒计时
 
 主要用于发验证码的场景，通过设置倒计时 `countDown`（单位是秒），让点击按钮后禁用一段时间：
@@ -617,7 +646,78 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 ### 表单中表格添加一行
 
-该 actionType 为[FormItem-Table](./form/input-table)专用行为
+该 actionType 为[FormItem-Table](./form/input-table#按钮触发新增行)专用行为
+
+### 校验表单
+
+下面的表单中会优先校验按钮`required`属性包含的表单项，当所有的字段校验完毕后，才会校验表单中固有的项目。需要额外注意的是，当按钮中的 `required` 和对应表单项本身的 `required` 属性冲突时，最终校验方式是`"required": true`。
+
+```schema: scope="body"
+{
+    "type":"button",
+    "label":"打开弹窗表单",
+    "level": "primary",
+    "actionType":"dialog",
+    "dialog":{
+        "type":"dialog",
+        "title":"系统提示",
+        "closeOnEsc": true,
+        "body": [
+            {
+                "type":"form",
+                "title":"表单",
+                "api":"/api/mock2/form/saveForm",
+                "body":[
+                    {
+                        "label":"字段a",
+                        "type":"input-text",
+                        "name":"a",
+                        "required":true
+                    },
+                    {
+                        "name":"b",
+                        "label":"字段b",
+                        "type":"input-text",
+                        "validations": {
+                          "minimum": 1,
+                          "isNumeric": true,
+                          "isInt": true
+                        },
+                        "required": false
+                    },
+                    {
+                        "name":"c",
+                        "label":"字段c",
+                        "type":"input-text"
+                    },
+                    {
+                        "name":"d",
+                        "label":"字段d",
+                        "type":"input-text",
+                        "required":true
+                    }
+                ]
+            }
+        ],
+        "actions":[
+            {
+                "type":"submit",
+                "label":"提交-校验字段b",
+                "actionType":"submit",
+                "required":["b"],
+                "level": "info"
+            },
+            {
+                "type":"submit",
+                "label":"提交-校验字段b, c",
+                "actionType":"submit",
+                "required":["b", "c"],
+                "level": "info"
+            }
+        ]
+    }
+}
+```
 
 ### 重置表单
 
@@ -935,11 +1035,13 @@ action 还可以使用 `body` 来渲染其他组件，让那些不支持行为�
 
 ## 事件表
 
-| 事件名称   | 事件参数 | 说明     |
-| ---------- | -------- | -------- |
-| click      | -        | 点击     |
-| mouseenter | -        | 鼠标移入 |
-| mouseleave | -        | 鼠标移出 |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称   | 事件参数 | 说明           |
+| ---------- | -------- | -------------- |
+| click      | -        | 点击时触发     |
+| mouseenter | -        | 鼠标移入时触发 |
+| mouseleave | -        | 鼠标移出时触发 |
 
 ## 动作表
 

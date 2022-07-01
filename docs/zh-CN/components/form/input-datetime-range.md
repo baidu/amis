@@ -69,7 +69,7 @@ order: 16
 | 属性名      | 类型                      | 默认值                                                          | 说明                                                                                 |
 | ----------- | ------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | format      | `string`                  | `X`                                                             | [日期时间选择器值格式](./datetime#%E5%80%BC%E6%A0%BC%E5%BC%8F)                       |
-| inputFormat | `string`                  | `YYYY-DD-MM`                                                    | [日期时间选择器显示格式](./datetime#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F)            |
+| inputFormat | `string`                  | `YYYY-MM-DD`                                                    | [日期时间选择器显示格式](./datetime#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F)            |
 | placeholder | `string`                  | `"请选择日期范围"`                                              | 占位文本                                                                             |
 | ranges      | `Array<string> 或 string` | `"yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter"` | 日期范围快捷键                                                                       |
 | minDate     | `string`                  |                                                                 | 限制最小日期时间，用法同 [限制范围](./datetime#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
@@ -79,13 +79,17 @@ order: 16
 
 ## 事件表
 
-| 事件名称 | 事件参数               | 说明                 |
-| -------- | ---------------------- | -------------------- |
-| change   | `value: string` 时间值 | 值变化               |
-| focus    | `value: string` 时间值  | 获得焦点(非内嵌模式) |
-| blur     | `value: string` 时间值  | 失去焦点(非内嵌模式) |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称 | 事件参数                          | 说明                             |
+| -------- | --------------------------------- | -------------------------------- |
+| change   | `event.data.value: string` 时间值 | 时间值变化时触发                 |
+| focus    | `event.data.value: string` 时间值 | 输入框获取焦点(非内嵌模式)时触发 |
+| blur     | `event.data.value: string` 时间值 | 输入框失去焦点(非内嵌模式)时触发 |
 
 ## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
 | 动作名称 | 动作配置                                    | 说明                                                     |
 | -------- | ------------------------------------------- | -------------------------------------------------------- |

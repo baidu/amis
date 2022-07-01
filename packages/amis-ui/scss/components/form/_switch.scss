@@ -1,0 +1,138 @@
+.#{$ns}Switch {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  height: var(--Switch-height);
+  min-width: var(--Switch-width);
+  overflow: hidden;
+  border-radius: px2rem(30px);
+  background: var(--Switch-bgColor);
+  margin: 0;
+  vertical-align: middle;
+  text-align: left;
+  transition: all 0.5s ease;
+
+  &.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
+  .text {
+    margin: 0 var(--Switch-text-marginRight) 0 var(--Switch-text-marginLeft);
+    color: var(--Switch-valueColor);
+    text-indent: var(--gap-xs);
+    text-transform: uppercase;
+    font-size: var(--fontSizeSm);
+    line-height: var(--Switch-height);
+    vertical-align: super;
+    font-style: normal;
+    font-weight: bold;
+    transition: all var(--animation-duration);
+
+    > svg {
+      width: var(--fontSizeSm);
+      height: var(--fontSizeSm);
+      margin-top: calc((var(--Switch-height) - var(--fontSizeSm)) / 2);
+    }
+  }
+
+  .slider {
+    &:before {
+      content: '';
+      position: absolute;
+      background: var(--white);
+      width: var(--Switch-slider-width);
+      top: var(--Switch-slider-margin);
+      bottom: var(--Switch-slider-margin);
+      left: var(--Switch-slider-margin);
+      border-radius: 50%;
+      transition: var(--Switch-slider-transition);
+    }
+  }
+
+  &:hover {
+    background: var(--Switch-onHover-bgColor);
+  }
+
+  &.is-checked {
+    background: var(--Switch-onActive-bgColor);
+
+    .slider::before {
+      left: auto;
+      right: var(--Switch-slider-margin);
+      border-width: 0;
+    }
+
+    .text {
+      color: var(--white);
+      margin: 0 var(--Switch-text-marginLeft) 0 var(--Switch-text-marginRight);
+    }
+  }
+
+  &.is-checked.is-disabled {
+    .slider:before {
+      color: var(--Switch-onDisabled-color);
+    }
+
+    .text {
+      color: var(--Switch-onDisabled-color);
+    }
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  &--sm {
+    height: var(--Switch-height--sm);
+    min-width: var(--Switch-width--sm);
+
+    .text {
+      line-height: var(--Switch-height--sm);
+      margin: 0 var(--Switch-text-marginRight--sm) 0
+        var(--Switch-text-marginLeft--sm);
+
+      > svg {
+        margin-top: calc((var(--Switch-height--sm) - var(--fontSizeSm)) / 2);
+      }
+    }
+
+    .slider::before {
+      width: var(--Switch-slider-width--sm);
+    }
+
+    &.is-checked {
+      .slider::before {
+        right: var(--Switch-slider-margin);
+      }
+
+      .text {
+        margin: 0 var(--Switch-text-marginLeft--sm) 0
+          var(--Switch-text-marginRight--sm);
+      }
+    }
+  }
+}
+
+.#{$ns}Switch-option {
+  vertical-align: middle;
+  margin-left: var(--Switch-gap);
+
+  &:first-child {
+    margin-left: 0;
+    margin-right: var(--Switch-gap);
+  }
+
+  &:empty {
+    display: none;
+  }
+}
+
+.#{$ns}SwitchControl {
+  padding-top: calc((var(--Form-input-height) - var(--Switch-height)) / 2);
+
+  &.is-inline {
+    display: inline-block;
+  }
+}
