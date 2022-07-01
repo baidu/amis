@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "1.9.1-beta.22",
+  "version": "1.9.1-beta.28",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "scripts": {
