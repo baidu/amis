@@ -1084,7 +1084,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       perPage,
       classnames: cx,
       rowClassName,
-      rowClassNameExpr
+      rowClassNameExpr,
+      affixHeader = false,
+      autoFillHeight = false,
+      tableContentClassName
     } = this.props;
 
     if (formInited === false) {
@@ -1112,9 +1115,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             type: 'table',
             placeholder: __(placeholder),
             columns: this.state.columns,
-            affixHeader: false,
+            affixHeader,
             prefixRow,
-            affixRow
+            affixRow,
+            affixOffsetTop:
+              this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0,
+            autoFillHeight,
+            tableContentClassName
           },
           {
             value: undefined,
