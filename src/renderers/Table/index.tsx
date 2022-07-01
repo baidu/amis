@@ -511,7 +511,6 @@ export default class Table extends React.Component<TableProps, object> {
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
     this.handleColumnToggle = this.handleColumnToggle.bind(this);
-
     this.updateAutoFillHeight = this.updateAutoFillHeight.bind(this);
 
     const {
