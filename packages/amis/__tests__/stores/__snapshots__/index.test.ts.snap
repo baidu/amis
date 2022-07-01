@@ -2,32 +2,24 @@
 
 exports[`store:index 1`] = `
 Object {
-  "disableState": Object {},
   "storeType": "RendererStore",
-  "visibleState": Object {},
 }
 `;
 
 exports[`store:index 2`] = `
 Object {
-  "disableState": Object {},
   "storeType": "RendererStore",
-  "visibleState": Object {},
 }
 `;
 
 exports[`store:index 3`] = `
 Object {
-  "disableState": Object {},
   "storeType": "RendererStore",
-  "visibleState": Object {},
 }
 `;
 
 exports[`store:index 4`] = `
 Object {
-  "disableState": Object {},
   "storeType": "RendererStore",
-  "visibleState": Object {},
 }
 `;

@@ -6,7 +6,9 @@ export const RootStore = ServiceStore.named('RootStore')
   .props({
     runtimeError: types.frozen(),
     runtimeErrorStack: types.frozen(),
-    query: types.frozen()
+    query: types.frozen(),
+    visibleState: types.optional(types.frozen(), {}),
+    disableState: types.optional(types.frozen(), {})
   })
   .views(self => ({
     get downStream() {
@@ -37,6 +39,20 @@ export const RootStore = ServiceStore.named('RootStore')
           qsparse(window.location.search.substring(1)));
 
       self.query = query;
+    },
+    setVisible(id: string, value: boolean) {
+      const state = {
+        ...self.visibleState,
+        [id]: value
+      };
+      self.visibleState = state;
+    },
+    setDisable(id: string, value: boolean) {
+      const state = {
+        ...self.disableState,
+        [id]: value
+      };
+      self.disableState = state;
     }
   }));
 

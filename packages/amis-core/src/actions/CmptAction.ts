@@ -44,12 +44,12 @@ export class CmptAction implements RendererAction {
 
     // 显隐&状态控制
     if (['show', 'hidden'].includes(action.actionType)) {
-      return renderer.props.rootStore.setVisible(
+      return renderer.props.topStore.setVisible(
         action.componentId,
         action.actionType === 'show'
       );
     } else if (['enabled', 'disabled'].includes(action.actionType)) {
-      return renderer.props.rootStore.setDisable(
+      return renderer.props.topStore.setDisable(
         action.componentId,
         action.actionType === 'disabled'
       );
