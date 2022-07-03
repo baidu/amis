@@ -7,7 +7,7 @@ import {EditorManager} from '../manager';
 import {DragEventContext, SubRendererInfo} from '../plugin';
 import {EditorStoreType} from '../store/editor';
 import {EditorNodeType} from '../store/node';
-import {autobind, reactionWithOldValue} from '../util';
+import {autobind, reactionWithOldValue, unitFormula} from '../util';
 import {DefaultDNDMode} from './default';
 import {DNDModeInterface} from './interface';
 import {PositionHDNDMode} from './position-h';
@@ -47,15 +47,16 @@ export class EditorDNDManager {
   lastX: number = 0;
   lastY: number = 0;
   lastMoveAt: number = 0;
+  curDragId: string;
+  startX: number = 0;
+  startY: number = 0;
 
   constructor(
     readonly manager: EditorManager,
     readonly store: EditorStoreType
   ) {
     this.toDispose.push(
-      /**
-       * 自动给正在拖拽的元素加 is-draging 之类的 css。
-       */
+      
       reactionWithOldValue(
         () => (store.dragType === 'schema' ? store.dragId : ''),
         this.updateDragElements
@@ -192,6 +193,17 @@ export class EditorDNDManager {
       return;
     }
 
+    this.lastX = e.clientX;
+    this.lastY = e.clientY;
+
+    if (this.manager.draggableContainer(node.id)) {
+      this.curDragId = id; 
+      this.startX = e.clientX;
+      this.startY = e.clientY;
+      return;
+    }
+
+
     this.dragElement = dom as HTMLElement;
     // const rect = dom.getBoundingClientRect();
     e.dataTransfer!.effectAllowed = 'move';
@@ -219,6 +231,10 @@ export class EditorDNDManager {
   dragEnter(e: DragEvent) {
     const store = this.store;
     this.dragEnterCount++;
+
+    if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
+      return;
+    }
 
     if (store.dragId || this.dragEnterCount !== 1) {
       return;
@@ -265,11 +281,6 @@ export class EditorDNDManager {
   dragOver(e: DragEvent) {
     const store = this.store;
     const target = e.target as HTMLElement;
-
-    if (!store.dropId || !target) {
-      return;
-    }
-
     e.preventDefault();
 
     const dx = e.clientX - this.lastX;
@@ -280,6 +291,34 @@ export class EditorDNDManager {
     const curElem = target.closest(`[data-region][data-region-host]`);
     const hostId = curElem?.getAttribute('data-region-host');
     const region = curElem?.getAttribute('data-region');
+
+    if (d > 5 && this.curDragId && this.manager.draggableContainer(this.curDragId)) {
+      const doc = store.getDoc();
+
+      const dragHlBoxItem = doc.querySelector(`[data-hlbox-id='${this.curDragId}']`) as HTMLElement;
+      dragHlBoxItem.style.top = unitFormula(dragHlBoxItem.style.top, dy);
+      dragHlBoxItem.style.left = unitFormula(dragHlBoxItem.style.left, dx);
+
+      const dragContainerItem = doc.querySelector(`[data-editor-id='${this.curDragId}']`) as HTMLElement;
+      let curInset = dragContainerItem.style.inset || 'auto';
+      const insetArr = curInset.split(' ');
+      const inset = {
+        top: insetArr[0] || 'auto',
+        right: insetArr[1] || 'auto',
+        bottom: insetArr[2] || insetArr[0] || 'auto',
+        left: insetArr[3] || insetArr[1] || 'auto',
+      };
+
+      dragContainerItem.style.inset = `${inset.top !== 'auto' ? unitFormula(inset.top, dy) : 'auto'} ${inset.right !== 'auto' ? unitFormula(inset.right, -dx) : 'auto'} ${inset.bottom !== 'auto' ? unitFormula(inset.bottom, -dy) : 'auto'} ${inset.left !== 'auto' ? unitFormula(inset.left, dx) : 'auto'}`;
+
+      this.lastX = e.clientX;
+      this.lastY = e.clientY;
+      return;
+    }
+
+    if (!store.dropId || !target) {
+      return;
+    }
 
     // 没移动还是不要处理，免得晃动个不停。
     if (d < 5) {
@@ -320,6 +359,14 @@ export class EditorDNDManager {
   @autobind
   async drop(e: DragEvent) {
     const store = this.store;
+    if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
+      const dx = e.clientX - this.startX;
+      const dy = e.clientY - this.startY;
+      this.manager.updateContainerStyleByDrag(this.curDragId, dx, dy);
+      this.curDragId = ''; // 重置拖拽ID，避免影响其他拖拽元素
+      return;
+    }
+
     const beforeId = this.dndMode?.getDropBeforeId();
 
     if (store.dragMode === 'move') {
@@ -379,6 +426,9 @@ export class EditorDNDManager {
    */
   @autobind
   updateDragElements(dragId: string) {
+    if (dragId && this.manager.draggableContainer(dragId)) {
+      return;
+    }
     if (dragId) {
       [].slice
         .call(
@@ -400,6 +450,9 @@ export class EditorDNDManager {
     value: {id: string; region: string},
     oldValue?: {id: string; region: string}
   ) {
+    if (this.store.dragId && this.manager.draggableContainer(this.store.dragId)) {
+      return;
+    }
     if (oldValue?.id && oldValue.region) {
       this.store
         .getDoc()
@@ -427,6 +480,9 @@ export class EditorDNDManager {
     value: {id: string; region: string},
     oldValue?: {id: string; region: string}
   ) {
+    if (this.store.dragId && this.manager.draggableContainer(this.store.dragId)) {
+      return;
+    }
     if (oldValue?.id && oldValue.region) {
       this.store
         .getDoc()

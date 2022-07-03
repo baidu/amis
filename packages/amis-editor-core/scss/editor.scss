@@ -157,7 +157,7 @@
 
     .ae-Preview-inner {
       position: relative;
-      display: flex;
+      // display: flex;
       min-height: 100%;
       background: #fff;
       box-shadow: 0 2px 6px 0 rgba(211, 211, 211, 0.5);
@@ -166,7 +166,7 @@
       > *:first-child {
         // min-width: 100%;
         position: relative;
-        min-height: 100%;
+        min-height: calc(100vh - 131px); // 确保能撑开画布区
         height: auto;
         background: white;
         box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
@@ -1162,6 +1162,15 @@
       padding: 2px 5px;
     }
   }
+}
+
+// 优化画布区页面展示效果
+[data-region="aside"][data-renderer="page"] {
+  min-height: calc(100vh - 131px);
+}
+
+[data-region="body"][data-renderer="page"] {
+  min-height: calc(100vh - 165px);
 }
 
 .ae-Editor-rhlbox {

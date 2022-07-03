@@ -886,3 +886,20 @@ export function isLayoutPlugin(plugin: any) {
   }
   return false;
 }
+
+/**
+ * 单位数值运算
+ * 备注：支持带单位的数值进行运算
+ */
+ export function unitFormula(insetStr: string, offsetVal: number) {
+  const insetNum = parseInt(insetStr);
+  let curOffsetVal = offsetVal;
+  if (!isNumber(offsetVal)) {
+    curOffsetVal = parseInt(offsetVal);
+  }
+  let insetUnit = insetStr.substring(insetNum.toString().length);
+  if (!insetUnit) {
+    insetUnit = 'px';
+  }
+  return `${insetNum + curOffsetVal}${insetUnit}`;
+}

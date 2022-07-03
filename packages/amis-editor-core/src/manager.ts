@@ -969,13 +969,22 @@ export class EditorManager {
    * 备注: 以便额外增加布局相关配置项
    */
   isFlexItem(id: string) {
-    const store = this.store;
-    const activeId = id || store.activeId;
-    const parentSchema = store.getSchemaParentById(activeId, true);
-    if (parentSchema?.type === 'flex') {
-      return true;
-    }
-    return false;
+    return this.store.isFlexItem(id);
+  }
+
+  /**
+   * 判断当前元素是否为特殊布局元素（fixed、absolute）
+   * 备注: 以便支持拖拽位置
+   */
+  draggableContainer(id: string) {
+    return this.store.draggableContainer(id);
+  }
+
+  /**
+   * 更新特殊布局元素的位置（fixed、absolute）
+   */
+  updateContainerStyleByDrag(dragId: string, dx: number, dy: number) {
+    this.store.updateContainerStyleByDrag(dragId, dx, dy);
   }
 
   /**
