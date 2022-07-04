@@ -879,6 +879,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   /**
    * 表格列上的筛选触发
    */
+  @autobind
   handleTableQuery(values: object, forceReload: boolean = false) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
