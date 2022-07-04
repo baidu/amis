@@ -26,27 +26,55 @@
       font-style: italic;
       margin-right: 5px;
     }
+    &-highlight{
+      background: #ffffb6;
+      display: inline-block;
+      color: #000;
+    }
   }
 
   &-operation {
-    position: absolute;
-    top: 0;
-    left: -16px;
-    .#{$ns}Button {
-      margin-right: var(--gap-xs);
+    position: relative;
+    background: rgba(28, 28, 28, 0.5);
+    & > a {
+      display: inline-flex;
+      flex-direction: row;
+      line-height: var(--Form-input-lineHeight);
+      font-size: var(--Form-input-fontSize);
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: flex-end;
+      height: 30px;
+      width: 30px;
+      padding-left: 8px;
+      transition: all var(--animation-duration) ease-in-out;
+      border: var(--Form-input-borderWidth) solid transparent;
+      border-radius: var(--Form-input-borderRadius);
+      overflow: hidden;
+      height: 30px;
+      width: 30px;
     }
-    &-hidden {
-      background: #f0f2f5;
-      width: 24px;
-      height: 48px;
-      box-shadow: 0 4px 6px 0 rgb(8 14 26 / 4%), 0 1px 10px 0 rgb(8 14 26 / 5%),
-        0 2px 4px -1px rgb(8 14 26 / 6%);
-      border-radius: 0 2px 2px 0;
-      padding-top: 14px;
-      padding-left: 6px;
-      cursor: pointer;
-      color: #000;
-      transition: all 0.3s;
+    a {
+       color: #000;
+    }
+    & > a:hover {
+      background: var(--Form-input-onHover-bg);
+      color: var(--link-color);
+    }
+
+    & > a > svg {
+       margin-right: 8px;
+    }
+
+    & > a.is-disabled {
+      cursor: not-allowed;
+      color: #6b7280;
+    }
+
+    & > a.is-disabled:hover {
+       cursor: not-allowed;
+       background: transparent;
+       color: #6b7280;
     }
   }
 
