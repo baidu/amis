@@ -393,7 +393,7 @@ export class Log extends React.Component<LogProps, LogState> {
                   onClick={() => this.setState({showLineNumber: !showLineNumber})}
                   href="javascript:void(0);"
                 >
-                  <Icon icon={showLineNumber ? "view" : "invisible"}/>
+                  <Icon icon={showLineNumber ? "invisible" : "view"}/>
                 </a>
               )}
 
