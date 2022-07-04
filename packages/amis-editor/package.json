@@ -7,7 +7,8 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
+    "build-rollup": "npm run clean-dist && NODE_ENV=production rollup -c ",
+    "build": "npm run clean-dist && webpack",
     "clean-dist": "rimraf lib/* esm/*"
   },
   "keywords": [
