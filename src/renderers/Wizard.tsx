@@ -745,6 +745,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             };
           },
           onFailed: async (error: any) => {
+            store.markSaving(false);
             const dispatcher = await this.dispatchEvent(
               'submitFail',
               createObject(this.props.data, {error})
@@ -805,7 +806,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
   // 接管里面 form 的提交，不能直接让 form 提交，因为 wizard 自己需要知道进度。
   @autobind
-  async handleSubmit(values: object, action: Action) {
+  handleSubmit(values: object, action: Action) {
     const {store, steps, finishedField} = this.props;
 
     if (this.state.currentStep < steps.length) {
