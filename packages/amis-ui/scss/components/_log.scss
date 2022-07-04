@@ -26,7 +26,7 @@
       font-style: italic;
       margin-right: 5px;
     }
-    &-highlight{
+    &-highlight {
       background: #ffffb6;
       display: inline-block;
       color: #000;
@@ -55,7 +55,7 @@
       width: 30px;
     }
     a {
-       color: #000;
+      color: #000;
     }
     & > a:hover {
       background: var(--Form-input-onHover-bg);
@@ -63,7 +63,7 @@
     }
 
     & > a > svg {
-       margin-right: 8px;
+      margin-right: 8px;
     }
 
     & > a.is-disabled {
@@ -72,9 +72,9 @@
     }
 
     & > a.is-disabled:hover {
-       cursor: not-allowed;
-       background: transparent;
-       color: #6b7280;
+      cursor: not-allowed;
+      background: transparent;
+      color: #6b7280;
     }
   }
 

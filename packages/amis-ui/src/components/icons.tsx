@@ -222,7 +222,7 @@ registerIcon('invisible', Invisible);
 registerIcon('plus-fine', PlusFineIcon);
 registerIcon('date', DateIcon);
 registerIcon('remove', RemoveIcon);
-registerIcon("invisible", InvisibleIcon)
+registerIcon('invisible', InvisibleIcon);
 
 export function Icon({
   icon,
@@ -238,7 +238,7 @@ export function Icon({
 
   const Component = getIcon(icon);
   return Component ? (
-    <Component {...rest} className={`${className || ''} icon-${icon}`}/>
+    <Component {...rest} className={`${className || ''} icon-${icon}`} />
   ) : (
     <span className="text-danger">没有 icon {icon}</span>
   );

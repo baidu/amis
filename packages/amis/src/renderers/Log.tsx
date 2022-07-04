@@ -7,7 +7,12 @@ import {BaseSchema} from '../Schema';
 import Ansi from 'ansi-to-react';
 import {Icon, SearchBox, VirtualList} from 'amis-ui';
 
-export type LogOperation = 'stop' | 'restart' | 'showLineNumber' | 'clear' | 'filter';
+export type LogOperation =
+  | 'stop'
+  | 'restart'
+  | 'showLineNumber'
+  | 'clear'
+  | 'filter';
 
 /**
  * 日志展示组件
@@ -67,8 +72,7 @@ export interface LogSchema extends BaseSchema {
 
 export interface LogProps
   extends RendererProps,
-    Omit<LogSchema, 'type' | 'className'> {
-}
+    Omit<LogSchema, 'type' | 'className'> {}
 
 export interface LogState {
   lastLine: string;
@@ -154,27 +158,34 @@ export class Log extends React.Component<LogProps, LogState> {
     }
   }
 
-  refresh = () => {
+  refresh = (e: React.MouseEvent<HTMLElement>) => {
     let origin = this.state.refresh;
     this.setState({
       refresh: !origin
     });
     if (!origin) {
-      this.clear();
+      this.clear(e);
       this.loadLogs();
     }
+    e.preventDefault();
   };
 
-  clear = () => {
+  clear = (e: React.MouseEvent<HTMLElement>) => {
     this.setState({
       logs: [],
       lastLine: ''
     });
+    e.preventDefault();
   };
 
   changeFilterWord = (value: string) => {
     let logs = this.state.originLogs;
-    if (value !== '' && value !== undefined && value !== null && value.length > 0) {
+    if (
+      value !== '' &&
+      value !== undefined &&
+      value !== null &&
+      value.length > 0
+    ) {
       logs = logs.filter(line => line.includes(value));
     }
 
@@ -182,7 +193,7 @@ export class Log extends React.Component<LogProps, LogState> {
       filterWord: value,
       logs: logs
     });
-  }
+  };
 
   async loadLogs() {
     const {source, data, env, translate: __, encoding, maxLength} = this.props;
@@ -205,7 +216,7 @@ export class Log extends React.Component<LogProps, LogState> {
       const reader = body.getReader();
       let lastline = '';
       let logs: string[] = [];
-      for (; ;) {
+      for (;;) {
         if (!this.state.refresh) {
           await reader.cancel('click cancel button').then(() => {
             this.props.env.notify('success', '日志已经停止刷新');
@@ -263,9 +274,12 @@ export class Log extends React.Component<LogProps, LogState> {
     let items = line.split(filterWord);
     return items.map((item, index) => {
       if (index < items.length - 1) {
-        return (<span>
-        {item}<span className={cx('Log-line-highlight')}>{filterWord}</span>
-      </span>)
+        return (
+          <span>
+            {item}
+            <span className={cx('Log-line-highlight')}>{filterWord}</span>
+          </span>
+        );
       }
       return item;
     });
@@ -276,9 +290,11 @@ export class Log extends React.Component<LogProps, LogState> {
     if (filterWord === '') {
       return line;
     }
-    return line.replaceAll(filterWord, `\u001b[43;1m\u001b[30;1m${filterWord}\u001b[0m`);
+    return line.replaceAll(
+      filterWord,
+      `\u001b[43;1m\u001b[30;1m${filterWord}\u001b[0m`
+    );
   }
-
 
   /**
    * 渲染某一行
@@ -290,8 +306,11 @@ export class Log extends React.Component<LogProps, LogState> {
         {showLineNumber && (
           <span className={cx('Log-line-number')}>{index + 1} </span>
         )}
-        {disableColor ? this.renderHighlightWord(line) :
-          <Ansi useClasses>{this.renderHighlightWordWithAnsi(line)}</Ansi>}
+        {disableColor ? (
+          this.renderHighlightWord(line)
+        ) : (
+          <Ansi useClasses>{this.renderHighlightWordWithAnsi(line)}</Ansi>
+        )}
       </div>
     );
   }
@@ -306,7 +325,7 @@ export class Log extends React.Component<LogProps, LogState> {
       rowHeight,
       disableColor,
       translate: __,
-      operation,
+      operation
     } = this.props;
 
     const {refresh, showLineNumber} = this.state;
@@ -343,7 +362,9 @@ export class Log extends React.Component<LogProps, LogState> {
               {disableColor ? (
                 this.renderHighlightWord(logs[index])
               ) : (
-                <Ansi useClasses>{this.renderHighlightWordWithAnsi(logs[index])}</Ansi>
+                <Ansi useClasses>
+                  {this.renderHighlightWordWithAnsi(logs[index])}
+                </Ansi>
               )}
             </div>
           )}
@@ -358,17 +379,15 @@ export class Log extends React.Component<LogProps, LogState> {
     return (
       <div className={cx('Log', className)}>
         <div className={cx('Log-operation')}>
-          {operation &&
-          operation?.length > 0 && (
+          {operation && operation?.length > 0 && (
             <>
               {operation.includes('stop') && (
                 <a
                   title={__('stop')}
                   className={!refresh ? 'is-disabled' : ''}
                   onClick={this.refresh}
-                  href="javascript:void(0);"
                 >
-                  <Icon icon="pause"/>
+                  <Icon icon="pause" />
                 </a>
               )}
 
@@ -377,9 +396,8 @@ export class Log extends React.Component<LogProps, LogState> {
                   title={__('reload')}
                   className={refresh ? 'is-disabled' : ''}
                   onClick={this.refresh}
-                  href="javascript:void(0);"
                 >
-                  <Icon icon="refresh"/>
+                  <Icon icon="refresh" />
                 </a>
               )}
 
@@ -390,21 +408,28 @@ export class Log extends React.Component<LogProps, LogState> {
                       ? __('Log.notShowLineNumber')
                       : __('Log.showLineNumber')
                   }
-                  onClick={() => this.setState({showLineNumber: !showLineNumber})}
-                  href="javascript:void(0);"
+                  onClick={e => {
+                    this.setState({showLineNumber: !showLineNumber});
+                    e.preventDefault();
+                  }}
                 >
-                  <Icon icon={showLineNumber ? "invisible" : "view"}/>
+                  <Icon icon={showLineNumber ? 'invisible' : 'view'} />
                 </a>
               )}
 
               {operation.includes('clear') && (
-                <a onClick={this.clear} title={__('clear')} href="javascript:void(0);">
-                  <Icon icon="remove"/>
+                <a onClick={this.clear} title={__('clear')}>
+                  <Icon icon="remove" />
                 </a>
               )}
 
-              {operation && operation.includes("filter") && (
-                <SearchBox className={cx('Log-filter-box')} placeholder="过滤词" onChange={this.changeFilterWord}/>)}
+              {operation && operation.includes('filter') && (
+                <SearchBox
+                  className={cx('Log-filter-box')}
+                  placeholder="过滤词"
+                  onChange={this.changeFilterWord}
+                />
+              )}
             </>
           )}
         </div>
