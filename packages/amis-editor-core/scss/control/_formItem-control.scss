@@ -41,7 +41,18 @@
 
   &-body {
     padding: var(--gap-base);
-    --Form-item-gap: 12px
+    --Form-item-gap: 12px;
+    .cxd-IconPickerControl {
+      .cxd-IconPickerControl-value {
+        width: 88%;
+      }
+      input {
+        width: 0;
+      }
+      .cxd-IconPickerControl-clear {
+        display: inline-block;
+      }
+    }
   }
 
   .inputGroup-addOn-no-border {
