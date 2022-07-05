@@ -535,7 +535,7 @@ export const EditorStore = types
           );
         }
 
-        return bcn;
+        return bcn.filter(item => !item.isSecondFactor);
       },
 
       get activePath(): Array<EditorNodeType> {

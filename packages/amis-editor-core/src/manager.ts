@@ -44,7 +44,8 @@ import {
   reactionWithOldValue,
   reGenerateID,
   isString,
-  isObject
+  isObject,
+  generateNodeId
 } from './util';
 import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
@@ -63,7 +64,7 @@ import {EditorProps} from './component/Editor';
 import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from './dnd';
 import {IScopedContext} from 'amis';
-import {SchemaObject} from 'amis/lib/Schema';
+import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
 import type {RendererConfig} from 'amis-core/lib/factory';
 
 export interface EditorManagerConfig
@@ -440,6 +441,7 @@ export class EditorManager {
       const node = this.store.getNodeById(id);
       panels = node ? this.collectPanels(node, true) : panels;
     }
+
     this.store.setPanels(
       panels.map(item => ({
         ...item,
@@ -1271,7 +1273,7 @@ export class EditorManager {
     const commonContext = this.buildEventContext(id);
 
     if (!('id' in json)) {
-      json = {...json, id: 'u:' + guid()};
+      json = {...json, id: generateNodeId()};
     }
 
     if (beforeId) {
@@ -1552,7 +1554,7 @@ export class EditorManager {
    * @param schema
    */
   makeSchemaFormRender(schema: {
-    body?: Array<any>;
+    body?: SchemaCollection;
     controls?: Array<any>;
     definitions?: any;
     api?: any;
@@ -1665,6 +1667,8 @@ export class EditorManager {
     let scope: DataScope | void;
     let from = node;
     let region = node;
+
+    // 查找最近一层的数据域
     while (!scope && from) {
       scope = this.dataSchema.hasScope(`${from.id}-${from.type}`)
         ? this.dataSchema.getScope(`${from.id}-${from.type}`)
@@ -1675,11 +1679,18 @@ export class EditorManager {
       }
     }
 
-    const nearestScope = scope;
+    let nearestScope;
 
+    // 更新组件树中的所有上下文数据声明为最新数据
     while (scope) {
       const [id, type] = scope.id.split('-');
       const node = this.store.getNodeById(id, type);
+
+      // 拿非重复组件id的父组件作为主数据域展示，如CRUD，不展示表格，只展示增删改查信息，避免变量面板出现两份数据
+      if (!nearestScope && node && !node.isSecondFactor) {
+        nearestScope = scope;
+      }
+
       const jsonschema = await node?.info?.plugin?.buildDataSchemas?.(
         node,
         region
@@ -1699,6 +1710,44 @@ export class EditorManager {
     return withoutSuper
       ? this.dataSchema.current.schemas
       : this.dataSchema.getSchemas();
+  }
+
+  /**
+   * 获取可用上下文待绑定字段
+   */
+  async getAvailableContextFields(node: EditorNodeType) {
+    if (!node) {
+      return [];
+    }
+
+    let scope: DataScope | void;
+    let from = node;
+    let region = node;
+
+    // 查找最近一层的数据域
+    while (!scope && from) {
+      scope = this.dataSchema.hasScope(`${from.id}-${from.type}`)
+        ? this.dataSchema.getScope(`${from.id}-${from.type}`)
+        : undefined;
+      from = from.parent;
+      if (from?.isRegion) {
+        region = from;
+      }
+    }
+
+    while (scope) {
+      const [id, type] = scope.id.split('-');
+      const scopeNode = this.store.getNodeById(id, type);
+
+      if (scopeNode) {
+        return scopeNode?.info.plugin.getAvailableContextFields?.(scopeNode, node) || [];
+      }
+      
+      scope = scope.parent;
+    }
+
+    return [];
+    
   }
 
   beforeDispatchEvent(

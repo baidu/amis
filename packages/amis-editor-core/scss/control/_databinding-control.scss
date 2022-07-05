@@ -1,0 +1,85 @@
+.ae-DataBindingList {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  height: px2rem(350px);
+  border: 1px solid rgba(232, 233, 235, 1);
+  border-radius: px2rem(4px);
+
+  &-searchBox {
+    width: auto;
+    padding: #{px2rem(12px)};
+
+    & > div {
+      width: 100% !important;
+    }
+  }
+
+  &-body {
+    @include minScrollBar();
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  &-collapse {
+    border: none;
+    background: #f7f7f9;
+
+    &-title {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: unset;
+      padding: #{px2rem(5px)} #{px2rem(12px)};
+      background: transparent;
+      font-size: var(--fontSizeSm);
+      font-weight: bold;
+      position: relative;
+
+      .#{$ns}DataSourceList-expandIcon {
+        font-size: var(--fontSizeSm);
+        line-height: var(--fontSizeXl);
+        transform-origin: #{px2rem(7px)} #{px2rem(9px)};
+        transition: transform 0.2s;
+        position: absolute;
+        right: #{px2rem(6px)};
+      }
+    }
+
+    &-body {
+      background: #fff;
+      color: #303540;
+
+      > div {
+        padding: 5px 0;
+      }
+    }
+  }
+
+  &-item {
+    cursor: pointer;
+    padding: 0 var(--gap-xl); // 和标题对齐不好看，加个缩进
+    height: px2rem(32px);
+    line-height: px2rem(32px);
+    color: #303540;
+    font-weight: 400;
+
+    &:hover {
+      background: var(--Tree-item-onHover-bg);
+    }
+
+    &.is-active {
+      color: var(--primary);
+      background: var(--Tree-item-onHover-bg);
+    }
+  }
+
+  &-empty {
+    color: #b4b6ba;
+    padding-top: px2rem(10px);
+    text-align: center;
+    vertical-align: middle;
+  }
+}

@@ -8,6 +8,7 @@ import DeepDiff, {Diff} from 'deep-diff';
 import isPlainObject from 'lodash/isPlainObject';
 import isNumber from 'lodash/isNumber';
 import type {Schema} from 'amis/lib/types';
+import {SchemaObject} from 'amis/lib/Schema';
 
 const {
   guid,
@@ -541,6 +542,7 @@ export function reGenerateID(json: any) {
 
 export function createElementFromHTML(htmlString: string): HTMLElement {
   var div = document.createElement('div');
+  // bca-disable-line
   div.innerHTML = htmlString.trim();
 
   // Change this to div.childNodes to support multiple top-level nodes
@@ -591,9 +593,10 @@ export function filterSchemaForConfig(schema: any, valueWithConfig?: any): any {
       } else if (key === '$$commonSchema' && valueWithConfig) {
         let config: any = deepFind(valueWithConfig, value);
         config[value] &&
-          (schema = mapped = {
-            ...config[value]
-          });
+          (schema = mapped =
+            {
+              ...config[value]
+            });
       }
     });
     return modified ? mapped : schema;
@@ -869,6 +872,13 @@ export function jsonToJsonSchema(json: any = {}) {
     }
   });
   return jsonschema;
+}
+
+/**
+ * 生成节点id
+ */
+export function generateNodeId() {
+  return 'u:' + guid();
 }
 
 // 是否使用 plugin 自带的 svg 版 icon
