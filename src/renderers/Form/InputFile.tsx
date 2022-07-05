@@ -222,12 +222,12 @@ export interface FileControlSchema extends FormBaseControl {
   /**
    * 说明文档内容配置
    */
-   documentation?: string;
+  documentation?: string;
 
-   /**
+  /**
    * 说明文档链接配置
    */
-    documentLink?: string;
+  documentLink?: string;
 
   /**
    * 是否为拖拽上传
@@ -580,14 +580,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       file[urlField as keyof typeof file] ||
       file[valueField as keyof typeof file];
 
-    let api =
-      typeof downloadUrl === 'string' && !~downloadUrl.indexOf('$')
+    const api =
+      typeof downloadUrl === 'string' &&
+      !~downloadUrl.indexOf('$') &&
+      typeof fileUrl === 'string'
         ? `${downloadUrl}${fileUrl}`
         : downloadUrl
         ? downloadUrl
-        : `${fileUrl}`;
+        : undefined;
 
-    this.handleApi(api, file);
+    api && this.handleApi(api, file);
   }
 
   downloadTpl(e: React.MouseEvent) {
@@ -1283,7 +1285,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       templateUrl,
       drag,
       documentation,
-      documentLink,
+      documentLink
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
@@ -1348,17 +1350,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   <Icon icon="cloud-upload" className="icon" />
                   <span>
                     {__('File.dragDrop')}
-                    <span 
-                      className={cx('FileControl-acceptTip-click')}
-                    >{__('File.clickUpload')}</span>
+                    <span className={cx('FileControl-acceptTip-click')}>
+                      {__('File.clickUpload')}
+                    </span>
                   </span>
-                  <div
-                    className={cx('FileControl-acceptTip-help', 'TplField')}>
-                    {documentLink ?
-                      <a
-                        href={documentLink}
-                        onClick={e => e.stopPropagation()}
-                      >{documentation ? documentation : __('File.helpText')}</a> : null}
+                  <div className={cx('FileControl-acceptTip-help', 'TplField')}>
+                    {documentLink ? (
+                      <a href={documentLink} onClick={e => e.stopPropagation()}>
+                        {documentation ? documentation : __('File.helpText')}
+                      </a>
+                    ) : null}
                   </div>
                   {maxSize ? (
                     <div className={cx('FileControl-sizeTip')}>
