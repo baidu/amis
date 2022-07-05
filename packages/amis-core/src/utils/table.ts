@@ -1,34 +1,15 @@
 /**
- * @description 生成不同的key
+ * @description 针对 table 的特定场景
  */
 
-class Key {
-  private _lastKey: number;
-
-  static key: Key;
-
-  constructor() {
-    Key.key = Key.key || this;
-    return Key.key;
-  }
-
-  generate() {
-    if (this._lastKey) {
-      this._lastKey++;
-    } else {
-      this._lastKey = new Date().getTime();
-    }
-    return this._lastKey;
-  }
-}
-
-export const tableKeyGenerator = new Key();
+import {guid} from './helper';
 
 export const tableKey = '__id'; // __id ?
 
 export interface TreeNode {
   children?: TreeNode[];
-  [tableKey]?: number;
+  __isPlaceholder?: true;
+  [tableKey]?: string;
   [x: string]: any;
 }
 
@@ -74,20 +55,26 @@ export function traverseTreeWith(
   return traversesTree;
 }
 
+/**
+ * 为 table 中的每一条数据增加 key
+ */
 export const generateTableItemsKey = traverseTreeWith(item => {
   if (!item[tableKey as keyof typeof item]) {
     return {
-      [tableKey]: tableKeyGenerator.generate(),
+      [tableKey]: guid(),
       ...item
     };
   }
   return item;
 });
 
+/**
+ * 复制元素
+ */
 export const copyItemFromOrigin = <T extends TreeNode>(originItem: T) => {
   return {
     ...originItem,
-    [tableKey]: tableKeyGenerator.generate(),
+    [tableKey]: guid(),
     children: originItem.children
       ? generateTableItemsKey(originItem.children)
       : []

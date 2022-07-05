@@ -507,7 +507,7 @@ extendsFilters({
       falseValue
     );
   },
-  notEquals(input, equalsValue, trueValue, falseValue) {
+  notEquals(input: any, equalsValue: any, trueValue: any, falseValue: any) {
     equalsValue =
       getStrOrVariable(equalsValue, this.data as any, this.filter?.args[0]) ??
       equalsValue;

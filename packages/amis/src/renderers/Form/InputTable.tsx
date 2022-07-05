@@ -1,5 +1,4 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {
   createObject,
   getTree,
@@ -9,23 +8,22 @@ import {
   copyItemFromOrigin,
   generateTableItemsKey,
   tableKey,
-  tableKeyGenerator,
   traverseTreeWith,
-  TreeNode
+  TreeNode,
+  guid,
+  FormBaseControl,
+  FormControlProps,
+  FormItem,
+  dataMapping
 } from 'amis-core';
 import {Button} from 'amis-ui';
 import {RendererData, ActionObject, Api, Payload, ApiObject} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {filter} from 'amis-core';
 import omit from 'lodash/omit';
-import {dataMapping} from 'amis-core';
-import findIndex from 'lodash/findIndex';
-import {SimpleMap} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {TableSchema} from '../Table';
 import {SchemaApi} from '../../Schema';
-import {TableSchema} from '../Table';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
 
 export interface TableControlSchema
   extends FormBaseControl,
@@ -197,7 +195,7 @@ export interface TableState {
   items: TreeNode[];
   raw?: any;
   columns: Array<any>;
-  editIndex: number;
+  editIndex: number | string;
   isCreateMode?: boolean;
   page?: number;
 }
@@ -347,11 +345,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   emitValue() {
-    const items = traverseTreeWith(item =>
-      item.__isPlaceholder ? undefined : item
-    )(this.state.items);
+    // ! 不确定在 needConfirm === false 时 为什么要剔除掉 __isPlaceholder 的元素
+    // TODO 如果这段逻辑时必要的，那需要增加一个新的字段，来表示新加的行（用来告诉Table组件需要展开的行）
+    // const items = traverseTreeWith(item =>
+    //   item.__isPlaceholder ? undefined : item
+    // )(this.state.items);
     const {onChange} = this.props;
-    onChange?.(items);
+    onChange?.(this.state.items);
   }
 
   async doAction(action: ActionObject, ctx: RendererData, ...rest: Array<any>) {
@@ -390,10 +390,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
 
         toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
-        let lastKey: number;
+        let lastKey: string;
         let isTargetToAddInItems = false;
         const toAddValidValueSet = new Set(
-          toAdd.map(addItem => addItem[valueField as string])
+          toAdd.map(toAddItem => toAddItem[valueField as string])
         );
         traverseTreeWith(item => {
           if (toAddValidValueSet.has(item[valueField as string])) {
@@ -403,7 +403,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         toAdd.forEach((toAdd: any) => {
           if (!valueField || !isTargetToAddInItems) {
             const newValue = {
-              [tableKey]: tableKeyGenerator.generate(),
+              [tableKey]: guid(),
               ...toAdd
             };
             lastKey = newValue[tableKey];
@@ -466,7 +466,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     return onAction && onAction(action, ctx, ...rest);
   }
 
-  copyItem(key: number) {
+  copyItem(key: string) {
     const {needConfirm} = this.props;
     const items = this.state.items.concat();
     let newValue: any = null;
@@ -496,16 +496,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   /**
    *
    * @param key item的key，
-   * - number 时，表示key
+   * - string 时，表示key
    * - undefined 时，表示在尾部添加
    */
-  addItem(key?: number) {
-    const {needConfirm, scaffold, columns, store} = this.props;
+  addItem(key?: string) {
+    const {needConfirm, scaffold, columns} = this.props;
     const items = this.state.items.concat();
 
     let value: any = {
       __isPlaceholder: true,
-      [tableKey]: tableKeyGenerator.generate()
+      [tableKey]: guid()
     };
 
     if (Array.isArray(columns)) {
@@ -523,9 +523,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       ...scaffold
     };
 
-    if (needConfirm === false) {
-      delete value.__isPlaceholder;
-    }
+    // if (needConfirm === false) {
+    //   delete value.__isPlaceholder;
+    // }
 
     const newItems =
       typeof key !== 'undefined'
@@ -554,7 +554,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
   }
 
-  startEdit(key: number, isCreate: boolean = false) {
+  startEdit(key: string, isCreate: boolean = false) {
     let raw = null;
     traverseTreeWith(item => {
       if (item[tableKey] === key) {
@@ -643,7 +643,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
   }
 
-  async removeItem(key: number) {
+  async removeItem(key: string) {
     const {
       value,
       onChange,

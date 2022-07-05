@@ -27,10 +27,9 @@ import {
 } from 'amis-core';
 import debounce from 'lodash/debounce';
 import Sortable from 'sortablejs';
-import {resizeSensor} from 'amis-core';
+import {resizeSensor, tableKey} from 'amis-core';
 import find from 'lodash/find';
 import {Icon} from 'amis-ui';
-import {tableKey} from '../../utils/table';
 import {TableCell} from './TableCell';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';

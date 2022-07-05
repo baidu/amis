@@ -24,7 +24,7 @@ import {
   RendererConfig
 } from './factory';
 import './renderers/builtin';
-export * from './utils/index';
+export * from './utils';
 export * from './types';
 export * from './store';
 import * as utils from './utils/helper';
