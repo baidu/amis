@@ -1992,7 +1992,7 @@ export default class Table extends React.Component<TableProps, object> {
             classPrefix={ns}
             type={multiple ? 'checkbox' : 'radio'}
             checked={item.checked}
-            disabled={item.checkdisable}
+            disabled={item.checkdisable || item.checkable}
             onChange={
               checkOnItemClick ? noop : this.handleCheck.bind(this, item)
             }
