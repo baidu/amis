@@ -1147,10 +1147,12 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
       "autoFill": {
         showSuggestion: false,
         "fillMapping": {
-          "name": "${name}",
+          browser: "${browser}",
+          version: "${version}",
+          platform: '${platform1}'
         },
         api: {
-          url: "/api/mock2/form/autoUpdate?browser=$browser",
+          url: "/api/mock2/form/autoUpdate?browser=${browser}&version=${version}",
           responseData: {
             browser: "${browser}",
             version: "${version}",
@@ -1168,7 +1170,7 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
     {
       "type": "input-text",
       "label": "平台",
-      "name": "platform1"
+      "name": "platform"
     },
   ]
 }
@@ -1209,8 +1211,8 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 
 fillMapping 配置 支持变量取值和表达式；
 如下配置中，如果想一次选中多条数据并映射可如下配置表达式，其中 items 默认为选中的 1 至 N 条数据：
-仅挑选 name,version 字段追加数据并去重：combo：'${UNIQ(CONCAT(combo, ARRAYMAP(items, item => {browserName: item.name, version: item.version})))}'
-数据替换并去重：combo：'${UNIQ(ARRAYMAP(items, item => {browserName: item.name, version: item.version}))}'
+仅挑选 platform,version 字段追加数据并去重：combo：'${UNIQ(CONCAT(combo, ARRAYMAP(items, item => {platform: item.platform, version: item.version})))}'
+数据替换并去重：combo：'${UNIQ(ARRAYMAP(items, item => {platform: item.platform, version: item.version}))}'
 数据替换：combo: ${items}
 
 ```schema:scope="body"
@@ -1223,11 +1225,11 @@ fillMapping 配置 支持变量取值和表达式；
       "name": "browser",
       "autoFill": {
         "showSuggestion": true,
-        "api": "/api/mock2/form/autoFillApi",
+        "api": "/api/mock2/form/autoUpdate?items=1",
         "multiple": true,
         "fillMapping": {
-          "combo": "${UNIQ(CONCAT(combo, ARRAYMAP(items, item => {browserName: item.name, version: item.version})))}",
-          "name": "${name}",
+          "combo": "${UNIQ(CONCAT(combo, ARRAYMAP(items, item => {platform: item.platform, version: item.version})))}",
+          "version": "${items[0].version}",
         },
         "labelField": "name",
         "position": "left-bottom-left-top",
@@ -1236,7 +1238,7 @@ fillMapping 配置 支持变量取值和表达式；
         "size": "md",
         "filter": {
           "body": [
-            { "type": "input-text", "name": "name", "label": "名称" },
+            { "type": "input-text", "name": "platfrom", "label": "平台" },
             { "type": "input-text", "name": "version", "label": "版本" },
             { "type": "button-toolbar", "buttons": [{ "type": "submit", "label": "搜索", "level": "primary" }] }
           ],
@@ -1244,7 +1246,7 @@ fillMapping 配置 支持变量取值和表达式；
           "mode": "horizontal"
         },
         "columns": [
-          { "name": "name", "label": "名称", "sortable": true },
+          { "name": "platform", "label": "平台", "sortable": true },
           { "name": "version", "label": "版本", "sortable": true }
         ]
       }
@@ -1257,12 +1259,13 @@ fillMapping 配置 支持变量取值和表达式；
     {
         type: 'combo',
         name: 'combo',
+        strictMode: false,
         addable: true,
         multiple: true,
         label: '版本明细',
         items: [
           {
-            name: 'name',
+            name: 'platform',
             label: '平台',
             type: 'input-text'
           },
