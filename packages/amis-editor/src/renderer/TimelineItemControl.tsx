@@ -572,8 +572,6 @@ export default class TimelineItemControl extends React.Component<
               </div>
             : null}
           {this.renderApiPanel()}
-
-          <div className='ae-TimelineItemControl-border'></div>
         </div>
     )
   }
