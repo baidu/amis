@@ -55,12 +55,12 @@ export class DialogPlugin extends BasePlugin {
     {
       eventName: 'confirm',
       eventLabel: '确认',
-      description: '确认'
+      description: '点击弹窗确认按钮时触发'
     },
     {
       eventName: 'cancel',
       eventLabel: '取消',
-      description: '取消'
+      description: '点击弹窗取消按钮时触发'
     }
   ];
 
@@ -68,12 +68,12 @@ export class DialogPlugin extends BasePlugin {
     {
       actionType: 'confirm',
       actionLabel: '确认',
-      description: '确认操作'
+      description: '触发弹窗确认操作'
     },
     {
       actionType: 'cancel',
       actionLabel: '取消',
-      description: '取消操作'
+      description: '触发弹窗取消操作'
     },
     {
       actionType: 'setValue',

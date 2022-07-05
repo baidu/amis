@@ -55,12 +55,12 @@ export class DrawerPlugin extends BasePlugin {
     {
       eventName: 'confirm',
       eventLabel: '确认',
-      description: '确认'
+      description: '点击抽屉确认按钮时触发'
     },
     {
       eventName: 'cancel',
       eventLabel: '取消',
-      description: '取消'
+      description: '点击抽屉取消按钮时触发'
     }
   ];
 
@@ -68,12 +68,12 @@ export class DrawerPlugin extends BasePlugin {
     {
       actionType: 'confirm',
       actionLabel: '确认',
-      description: '确认操作'
+      description: '触发抽屉确认操作'
     },
     {
       actionType: 'cancel',
       actionLabel: '取消',
-      description: '取消操作'
+      description: '触发抽屉取消操作'
     },
     {
       actionType: 'setValue',
