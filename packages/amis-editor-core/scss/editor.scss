@@ -588,7 +588,8 @@
         height: 20px;
         line-height: 20px;
         border-radius: 20px;
-        top: 20%;
+        top: 50%;
+        transform: translate(0, -50%);
 
         > span > svg {
           width: 12px;

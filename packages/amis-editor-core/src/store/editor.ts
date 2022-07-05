@@ -852,6 +852,7 @@ export const EditorStore = types
         return idx < self.schemaHistory.length - 1;
       },
 
+      // 判断是否时布局容器中的列级元素
       isFlexItem(id: string) {
         const activeId = id || self.activeId;
         const parentSchema = this.getSchemaParentById(activeId, true);

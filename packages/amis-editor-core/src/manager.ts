@@ -869,6 +869,9 @@ export class EditorManager {
       if (!regionNode.region && regionNode.schema.body) {
         // 默认插入到父节点的body中
         regionNodeRegion = 'body';
+      } else if (!regionNode.region && regionNode.schema?.type === 'flex' && regionNode.schema.items) {
+        // flex布局容器
+        regionNodeRegion = 'items';
       } else if (!regionNode.region && !regionNode.schema.body) {
         // 其他特殊情况暂时不考虑，给予提示
         toast.warning('当前节点不允许追加新组件。');
