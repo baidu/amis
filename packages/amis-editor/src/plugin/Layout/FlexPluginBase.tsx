@@ -7,9 +7,86 @@ import type {
   BaseEventContext,
   EditorNodeType,
   RegionConfig,
-  RendererJSONSchemaResolveEventContext
+  RendererJSONSchemaResolveEventContext,
+  BasicToolbarItem
 } from 'amis-editor-core';
 import {tipedLabel} from '../../component/BaseControl';
+
+// 默认的布局容器Schema
+const defaultFlexContainerSchema = {
+  type: 'flex',
+  items: [
+    {
+      type: 'wrapper',
+      body: [
+        {
+          type: 'tpl',
+          tpl: '第一列',
+          inline: false
+        }
+      ],
+      style: {
+        position: 'static',
+        display: 'flex',
+        flex: '1 1 auto',
+        flexGrow: 1,
+        flexBasis: 'auto',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        flexWrap: 'nowrap'
+      },
+      isFixedHeight: false,
+      isFixedWidth: false
+    },
+    {
+      type: 'wrapper',
+      body: [
+        {
+          type: 'tpl',
+          tpl: '第二列',
+          inline: false
+        }
+      ],
+      style: {
+        position: 'static',
+        display: 'flex',
+        flex: '1 1 auto',
+        flexGrow: 1,
+        flexBasis: 'auto',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        flexWrap: 'nowrap'
+      },
+      isFixedHeight: false,
+      isFixedWidth: false
+    },
+    {
+      type: 'wrapper',
+      body: [
+        {
+          type: 'tpl',
+          tpl: '第三列',
+          inline: false
+        }
+      ],
+      style: {
+        position: 'static',
+        display: 'flex',
+        flex: '1 1 auto',
+        flexGrow: 1,
+        flexBasis: 'auto',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        flexWrap: 'nowrap'
+      },
+      isFixedHeight: false,
+      isFixedWidth: false
+    }
+  ]
+};
 
 export class FlexPluginBase extends BasePlugin {
   rendererName = 'flex';
@@ -24,23 +101,7 @@ export class FlexPluginBase extends BasePlugin {
     '布局容器 是基于 CSS Flex 实现的布局效果，它比 Grid 和 HBox 对子节点位置的可控性更强，比用 CSS 类的方式更易用';
   docLink = '/amis/zh-CN/components/flex';
   tags = ['容器'];
-  scaffold = {
-    type: 'flex',
-    items: [
-      {
-        type: 'wrapper',
-        body: '第一列'
-      },
-      {
-        type: 'wrapper',
-        body: '第二列'
-      },
-      {
-        type: 'wrapper',
-        body: '第三列'
-      }
-    ]
-  };
+  scaffold: any = defaultFlexContainerSchema;
   previewSchema = {
     ...this.scaffold
   };
@@ -166,6 +227,37 @@ export class FlexPluginBase extends BasePlugin {
       label: '子节点集合',
     }
   ];
+
+  buildEditorToolbar(
+    {id, info, schema}: BaseEventContext,
+    toolbars: Array<BasicToolbarItem>
+  ) {
+    const store = this.manager.store;
+    const parent = store.getSchemaParentById(id);
+    const draggableContainer = this.manager.draggableContainer(id);
+
+    if (parent && (info.renderer.name === 'flex' || info.renderer.name === 'container') && !draggableContainer) {
+
+      toolbars.push(
+        {
+          iconSvg: 'add-btn',
+          tooltip: '向前插入布局容器',
+          level: 'special',
+          placement: 'top',
+          className: 'ae-InsertBefore is-vertical',
+          onClick: () => this.manager.appendSiblingSchema(defaultFlexContainerSchema, true, true)
+        },
+        {
+          iconSvg: 'add-btn',
+          tooltip: '向后插入布局容器',
+          level: 'special',
+          placement: 'bottom',
+          className: 'ae-InsertAfter is-vertical',
+          onClick: () => this.manager.appendSiblingSchema(defaultFlexContainerSchema, false, true)
+        }
+      );
+    }
+  }
 
   afterResolveJsonSchema(
     event: PluginEvent<RendererJSONSchemaResolveEventContext>
