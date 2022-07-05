@@ -837,7 +837,11 @@ export class EditorManager {
    * 备注：目前主要用在复制&粘贴快捷功能键中
    * @param rendererSchema
    */
-  async appendSiblingSchema(rendererSchema: Object) {
+  async appendSiblingSchema(
+    rendererSchema: Object,
+    beforeInsert?: boolean,
+    disabledAutoSelectInsertElem?: boolean
+  ) {
     if (!rendererSchema) {
       return;
     }
@@ -881,7 +885,7 @@ export class EditorManager {
         }
         return result;
       });
-      nextId = parent[beforeId + 1]?.$$id; // 下一个节点的ID（追加时需要）
+      nextId = parent[beforeInsert ? beforeId : beforeId + 1]?.$$id; // 下一个节点的ID（追加时需要）
 
       const child = this.addChild(
         regionNodeId,
@@ -889,7 +893,7 @@ export class EditorManager {
         rendererSchema,
         nextId
       );
-      if (child) {
+      if (child && !disabledAutoSelectInsertElem) {
         // mobx 修改数据是异步的
         setTimeout(() => {
           store.setActiveId(child.$$id);
