@@ -2,10 +2,8 @@ import {getSchemaTpl, valuePipeOut} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {formItemControl} from '../../component/BaseControl';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+
 export class ImageControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'input-image';

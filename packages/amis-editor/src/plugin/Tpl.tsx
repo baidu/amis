@@ -1,7 +1,7 @@
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, setSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../validator';
 import {getEventControlConfig} from '../util';
 
@@ -146,7 +146,7 @@ export class TplPlugin extends BasePlugin {
                 ),
                 name: 'inline',
                 pipeIn: defaultValue(true),
-                hiddenOn:'data.wrapperComponent !== ""'
+                hiddenOn: 'data.wrapperComponent !== ""'
               }),
               getSchemaTpl('tpl:content'),
               getSchemaTpl('tpl:rich-text')

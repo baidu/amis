@@ -1,9 +1,11 @@
-import {setSchemaTpl, getSchemaTpl} from 'amis-editor-core';
+import {setSchemaTpl, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import React from 'react';
 import {buildApi, Html} from 'amis';
+import {get} from 'lodash';
 
 setSchemaTpl('api', (patch: any = {}) => {
-  const {name, label, value, description, sampleBuilder, ...rest} = patch;
+  const {name, label, value, description, sampleBuilder, apiDesc, ...rest} =
+    patch;
 
   return {
     type: 'container',
@@ -13,21 +15,25 @@ setSchemaTpl('api', (patch: any = {}) => {
         label: label || 'API',
         labelRemark: sampleBuilder
           ? {
-              icon: '',
-              label: '示例',
+              label: false,
               title: '接口返回示例',
+              icon: 'fas fa-code',
+              className: 'm-l-xs ae-ApiSample-icon',
               tooltipClassName: 'ae-ApiSample-tooltip',
-              render: (data: any) => (
-                <Html
-                  className="ae-ApiSample"
-                  inline={false}
-                  html={`
-                  <pre><code>${sampleBuilder(data)}</code></pre>
-                  `}
-                />
-              ),
+              children: () => {
+                return (
+                  <Html
+                    className="ae-ApiSample"
+                    inline={false}
+                    html={`<pre><code>${sampleBuilder()}</code></pre>${
+                      apiDesc
+                        ? `<span class="ae-ApiSample-desc">${apiDesc}</span>`
+                        : ''
+                    }`}
+                  />
+                );
+              },
               trigger: 'click',
-              className: 'm-l-xs',
               rootClose: true,
               placement: 'left'
             }
@@ -166,6 +172,7 @@ setSchemaTpl('api', (patch: any = {}) => {
             mode: 'normal',
             renderLabel: false,
             visibleOn: 'this.data',
+            valueType: 'ae-DataPickerControl',
             descriptionClassName: 'help-block text-xs m-b-none',
             description:
               '<p>当没开启数据映射时，发送数据自动切成白名单模式，配置啥发送啥，请绑定数据。如：<code>{"a": "\\${a}", "b": 2}</code></p><p>如果希望在默认的基础上定制，请先添加一个 Key 为 `&` Value 为 `\\$$` 作为第一行。</p><div>当值为 <code>__undefined</code>时，表示删除对应的字段，可以结合<code>{"&": "\\$$"}</code>来达到黑名单效果。</div>'
@@ -346,55 +353,66 @@ setSchemaTpl('apiString', {
   placeholder: 'http://'
 });
 
-setSchemaTpl('initFetch', {
-  type: 'group',
-  label: '是否初始加载',
-  visibleOn: 'this.initApi',
-  direction: 'vertical',
-  className: 'm-b-none',
-  labelRemark: {
-    trigger: 'click',
-    rootClose: true,
-    className: 'm-l-xs',
-    content:
-      '当配置初始化接口后，组件初始就会拉取接口数据，可以通过以下配置修改。',
-    placement: 'left'
-  },
-  body: [
-    {
-      name: 'initFetch',
-      type: 'radios',
-      inline: true,
-      onChange: () => {},
-      // pipeIn: (value:any) => typeof value === 'boolean' ? value : '1'
-      options: [
+setSchemaTpl(
+  'initFetch',
+  (overrides: {visibleOn?: string; name?: string} = {}) => {
+    const visibleOn = get(overrides, 'visibleOn', 'this.initApi');
+    const fieldName = get(overrides, 'name', 'initFetch');
+    const label = get(overrides, 'label', '是否初始加载');
+
+    return {
+      type: 'group',
+      label: tipedLabel(
+        label,
+        '当配置初始化接口后，组件初始就会拉取接口数据，可以通过以下配置修改。'
+      ),
+      visibleOn,
+      direction: 'vertical',
+      body: [
         {
-          label: '是',
-          value: true
+          name: fieldName,
+          type: 'radios',
+          inline: true,
+          onChange: () => {},
+          // pipeIn: (value:any) => typeof value === 'boolean' ? value : '1'
+          options: [
+            {
+              label: '是',
+              value: true
+            },
+
+            {
+              label: '否',
+              value: false
+            },
+
+            {
+              label: '表达式',
+              value: ''
+            }
+          ]
         },
 
-        {
-          label: '否',
-          value: false
-        },
-
-        {
-          label: '表达式',
-          value: ''
-        }
+        getSchemaTpl('valueFormula', {
+          label: '',
+          name: `${fieldName}On`,
+          autoComplete: false,
+          visibleOn: `typeof this.${fieldName} !== "boolean"`,
+          placeholder: '如：this.id 表示有 id 值时初始加载',
+          className: 'm-t-n-sm'
+        })
+        // {
+        //   name: `${fieldName}On`,
+        //   autoComplete: false,
+        //   visibleOn: `typeof this.${fieldName} !== "boolean"`,
+        //   type: 'input-text',
+        //   placeholder: '如：this.id 表示有 id 值时初始加载',
+        //   className: 'm-t-n-sm'
+        // }
       ]
-    },
-
-    {
-      name: 'initFetchOn',
-      autoComplete: false,
-      visibleOn: 'typeof this.initFetch !== "boolean"',
-      type: 'input-text',
-      placeholder: '如：this.id 表示有 id 值时初始加载',
-      className: 'm-t-n-sm'
-    }
-  ]
-});
+    };
+  }
+);
 
 setSchemaTpl('proxy', {
   type: 'switch',
@@ -409,31 +427,35 @@ setSchemaTpl('proxy', {
 });
 
 setSchemaTpl('apiControl', (patch: any = {}) => {
-  const {name, label, value, description, sampleBuilder, ...rest} = patch;
+  const {name, label, value, description, sampleBuilder, apiDesc, ...rest} =
+    patch;
 
   return {
     type: 'ae-apiControl',
     label,
     name,
     description,
-    mode: 'normal',
     labelRemark: sampleBuilder
       ? {
-          icon: '',
-          label: '示例',
+          label: false,
           title: '接口返回示例',
+          icon: 'fas fa-code',
+          className: 'm-l-xs ae-ApiSample-icon',
           tooltipClassName: 'ae-ApiSample-tooltip',
-          render: (data: any) => (
-            <Html
-              className="ae-ApiSample"
-              inline={false}
-              html={`
-                  <pre><code>${sampleBuilder(data)}</code></pre>
-                  `}
-            />
-          ),
+          children: () => {
+            return (
+              <Html
+                className="ae-ApiSample"
+                inline={false}
+                html={`<pre><code>${sampleBuilder()}</code></pre>${
+                  apiDesc
+                    ? `<span class="ae-ApiSample-desc">${apiDesc}</span>`
+                    : ''
+                }`}
+              />
+            );
+          },
           trigger: 'click',
-          className: 'm-l-xs',
           rootClose: true,
           placement: 'left'
         }
@@ -441,6 +463,50 @@ setSchemaTpl('apiControl', (patch: any = {}) => {
     ...rest
   };
 });
+
+setSchemaTpl('interval', (more: any = {}) => ({
+  type: 'ae-switch-more',
+  label: '定时刷新',
+  name: 'interval',
+  formType: 'extend',
+  bulk: true,
+  mode: 'normal',
+  form: {
+    body: [
+      getSchemaTpl('withUnit', {
+        label: '刷新间隔',
+        name: 'interval',
+        control: {
+          type: 'input-number',
+          name: 'interval',
+          value: 1000
+        },
+        unit: '毫秒'
+      })
+    ]
+  },
+  ...more
+}));
+
+setSchemaTpl('silentPolling', () =>
+  getSchemaTpl('switch', {
+    label: tipedLabel('静默刷新', '设置自动定时刷新时是否显示loading'),
+    name: 'silentPolling',
+    visibleOn: '!!this.interval'
+  })
+);
+
+setSchemaTpl('stopAutoRefreshWhen', (extra: any = {}) =>
+  getSchemaTpl('valueFormula', {
+    name: 'stopAutoRefreshWhen',
+    label: tipedLabel(
+      '定时刷新停止',
+      '定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则停止刷新'
+    ),
+    visibleOn: '!!this.interval',
+    ...extra
+  })
+);
 
 /**
  * 接口控件

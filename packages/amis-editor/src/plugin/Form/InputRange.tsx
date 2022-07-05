@@ -1,11 +1,7 @@
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../util';
 
@@ -278,7 +274,8 @@ export class RangeControlPlugin extends BasePlugin {
                 label: '可重置',
                 value: false,
                 visibleOn: '!!data.showInput'
-              })
+              }),
+              getSchemaTpl('autoFillApi')
             ]
           },
           {

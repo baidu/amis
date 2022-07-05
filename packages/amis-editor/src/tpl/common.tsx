@@ -2,9 +2,11 @@ import {
   setSchemaTpl,
   getSchemaTpl,
   defaultValue,
-  isObject
+  isObject,
+  tipedLabel,
+  DSField
 } from 'amis-editor-core';
-import {remarkTpl, tipedLabel} from '../component/BaseControl';
+import {remarkTpl} from '../component/BaseControl';
 import {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
 import {InputComponentName} from '../component/InputComponentName';
@@ -23,12 +25,45 @@ setSchemaTpl('switch', {
 });
 
 /**
+ * 分割线
+ */
+setSchemaTpl('divider', {
+  type: 'divider',
+  className: 'mx-0'
+});
+
+/**
+ * 带单位的控件
+ */
+setSchemaTpl(
+  'withUnit',
+  (config: {name: string; label: string; control: any; unit: string}) => {
+    return {
+      type: 'input-group',
+      name: config.name,
+      label: config.label,
+      body: [
+        config.control,
+        {
+          type: 'tpl',
+          addOnclassName: 'border-0 bg-none',
+          tpl: config.unit
+        }
+      ]
+    };
+  }
+);
+
+/**
  * 表单项字段name
  */
 setSchemaTpl('formItemName', {
   label: '字段名',
   name: 'name',
-  type: 'ae-DataBindingControl'
+  type: 'ae-DataBindingControl',
+  onBindingChange(field: DSField, onBulkChange: (value: any) => void) {
+    onBulkChange(field.resolveEditSchema?.() || {label: field.label});
+  }
   // validations: {
   //     matchRegexp: /^[a-z\$][a-z0-0\-_]*$/i
   // },
@@ -38,37 +73,45 @@ setSchemaTpl('formItemName', {
   // validateOnChange: false
 });
 
-setSchemaTpl('formItemMode', {
-  label: '布局',
-  name: 'mode',
-  type: 'button-group-select',
-  option: '继承',
-  horizontal: {
-    left: 2,
-    justify: true
-  },
-  // className: 'w-full',
-  pipeIn: defaultValue(''),
-  options: [
-    {
-      label: '内联',
-      value: 'inline'
+setSchemaTpl(
+  'formItemMode',
+  (config: {
+    // 是不是独立表单，没有可以集成的内容
+    isForm: boolean;
+  }) => ({
+    label: '布局',
+    name: 'mode',
+    type: 'button-group-select',
+    option: '继承',
+    horizontal: {
+      left: 2,
+      justify: true
     },
-    {
-      label: '水平',
-      value: 'horizontal'
-    },
-    {
-      label: '垂直',
-      value: 'normal'
-    },
-    {
-      label: '继承',
-      value: ''
-    }
-  ],
-  pipeOut: (v: string) => (v ? v : undefined)
-});
+    // className: 'w-full',
+    pipeIn: defaultValue(''),
+    options: [
+      {
+        label: '内联',
+        value: 'inline'
+      },
+      {
+        label: '水平',
+        value: 'horizontal'
+      },
+      {
+        label: '垂直',
+        value: 'normal'
+      },
+      config?.isForm
+        ? null
+        : {
+            label: '继承',
+            value: ''
+          }
+    ].filter(i => i),
+    pipeOut: (v: string) => (v ? v : undefined)
+  })
+);
 
 setSchemaTpl('formItemInline', {
   type: 'switch',
@@ -243,37 +286,31 @@ setSchemaTpl(
       key: string;
       visibleOn: string;
       body: Array<any>;
-    }>,
-    rendererSchema?: any
+    }>
   ) => {
-    let currentKey = rendererSchema
-      ? `${rendererSchema.$$id}_${rendererSchema.type}_${rendererSchema.configTitle}_collapse`
-      : `config_collapse`;
-    currentKey = currentKey.replace(/-/g, '__');
-
     const collapseGroupBody = config
       .filter(
         item => item && Array.isArray(item?.body) && item?.body.length > 0
       )
-      .map((item, index) => ({
+      .map(item => ({
         type: 'collapse',
+        collapsed: false,
         headingClassName: 'ae-formItemControl-header',
         bodyClassName: 'ae-formItemControl-body',
         ...item,
-        key: `${currentKey}_${item.key || index.toString()}`,
+        key: item.title,
         body: flatten(item.body)
       }));
 
     return {
       type: 'collapse-group',
-      key: currentKey,
+      activeKey: collapseGroupBody.map(panel => panel.title),
       expandIconPosition: 'right',
       expandIcon: {
         type: 'icon',
         icon: 'chevron-right'
       },
       className: 'ae-formItemControl ae-styleControl',
-      activeKey: collapseGroupBody.map((group, index) => group.key),
       body: collapseGroupBody
     };
   }
@@ -346,7 +383,7 @@ setSchemaTpl(
         body: [
           {
             type: 'ae-formulaControl',
-            label: config?.label || '默认值',
+            label: config?.label ?? '默认值',
             name: config?.name || 'value',
             rendererSchema: curRendererSchema,
             rendererWrapper: config?.rendererWrapper,
@@ -509,28 +546,29 @@ setSchemaTpl('size', {
 });
 
 setSchemaTpl('name', {
-  label: '名字',
+  label: tipedLabel(
+    '名字',
+    '需要联动时才需要，其他组件可以通过这个名字跟当前组件联动'
+  ),
   name: 'name',
   type: 'input-text',
-  description: '需要联动时才需要，其他组件可以通过这个名字跟当前组件联动',
   placeholder: '请输入字母或者数字'
 });
 
 setSchemaTpl('reload', {
-  label: '刷新目标组件',
   name: 'reload',
   asFormItem: true,
   // type: 'input-text',
   component: InputComponentName,
-  description:
-    '可以指定操作完成后刷新目标组件，请填写目标组件的 <code>name</code> 属性，多个组件请用<code>,</code>隔开，如果目标组件为表单项，请先填写表单的名字，再用<code>.</code>连接表单项的名字如：<code>xxForm.xxControl</code>。另外如果刷新目标对象设置为 <code>window</code>，则会刷新整个页面。',
-  labelRemark: {
-    trigger: 'click',
-    className: 'm-l-xs',
-    rootClose: true,
-    content:
-      '设置名字后，当前组件操作完成会触发目标组件（根据设置的名字）的刷新。',
-    placement: 'left'
+  label: tipedLabel(
+    '刷新目标组件',
+    '可以指定操作完成后刷新目标组件，请填写目标组件的 <code>name</code> 属性，多个组件请用<code>,</code>隔开，如果目标组件为表单项，请先填写表单的名字，再用<code>.</code>连接表单项的名字如：<code>xxForm.xxControl</code>。另外如果刷新目标对象设置为 <code>window</code>，则会刷新整个页面。'
+  ),
+  placeholder: '请输入组件name',
+  mode: 'horizontal',
+  horizontal: {
+    left: 4,
+    justify: true
   }
 });
 
@@ -577,7 +615,7 @@ setSchemaTpl(
           ? getSchemaTpl('disabled')
           : null,
         config?.isFormItem ? getSchemaTpl('clearValueOnHidden') : null
-      ]
+      ].filter(Boolean)
     };
   }
 );

@@ -4,10 +4,13 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
+  BasicRendererInfo,
   InsertEventContext,
   PluginEvent,
+  PluginInterface,
   RegionConfig,
   RendererInfo,
+  RendererInfoResolveEventContext,
   VRendererConfig
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
@@ -204,6 +207,8 @@ export class CardPlugin extends BasePlugin {
   }*/
 
   fieldWrapperResolve = (dom: HTMLElement) => dom;
+
+  
   overrides = {
     renderFeild: function (
       this: any,

@@ -4,7 +4,7 @@
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 
 const DefaultSize = 40;
 const DefaultBorderRadius = 20;
@@ -173,7 +173,7 @@ export class AvatarPlugin extends BasePlugin {
                       visibleOn: 'data.showtype === "text"'
                     }
                   ]
-                },
+                }
                 // TODO 临时关闭，目前角标功能还没完善，待完善后再开启
                 // getSchemaTpl('badge')
               ]

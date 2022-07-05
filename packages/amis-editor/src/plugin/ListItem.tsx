@@ -13,6 +13,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {VRenderer} from 'amis-editor-core';
+import { getEventControlConfig } from '../util';
 
 export class ListItemPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -37,83 +38,78 @@ export class ListItemPlugin extends BasePlugin {
   ];
 
   panelTitle = '列表项';
-  panelBody = getSchemaTpl('tabs', [
-    {
-      title: '基本',
-      body: [
-        // {
-        //   children: (
-        //     <Button
-        //       size="sm"
-        //       className="m-b-sm"
-        //       level="info"
-        //       block
-        //       onClick={() => {
-        //         this.pickChild('actions', 'actions', undefined, ['button']);
-        //       }}
-        //     >
-        //       新增按钮
-        //     </Button>
-        //   )
-        // },
-        // {
-        //   children: (
-        //     <div>
-        //       <Button
-        //         level="primary"
-        //         size="sm"
-        //         block
-        //         onClick={this.handleAdd}
-        //       >
-        //         新增内容
-        //       </Button>
-        //     </div>
-        //   )
-        // },
-        // {
-        //   type: 'divider'
-        // },
-        {
-          name: 'title',
-          type: 'input-text',
-          label: '标题',
-          descrition: '支持模板语法如： ${xxx}'
-        },
-        {
-          name: 'subTitle',
-          type: 'input-text',
-          label: '副标题',
-          descrition: '支持模板语法如： ${xxx}'
-        },
-        {
-          name: 'avatar',
-          type: 'input-text',
-          label: '图片地址',
-          descrition: '支持模板语法如： ${xxx}'
-        },
-        {
-          name: 'desc',
-          type: 'textarea',
-          label: '描述',
-          descrition: '支持模板语法如： ${xxx}'
-        }
-      ]
-    },
-    {
-      title: '外观',
-      body: [
-        getSchemaTpl('className', {
-          name: 'avatarClassName',
-          label: '图片 CSS 类名',
-          pipeIn: defaultValue('thumb-sm avatar m-r')
-        }),
-        getSchemaTpl('className', {
-          name: 'titleClassName',
-          label: '标题 CSS 类名'
-        })
-      ]
-    }
-  ]);
+  panelJustify = true;
+  panelBodyCreator = (context: BaseEventContext) => {
+    const isCRUDBody = ['crud', 'crud2'].includes(context.schema.type);
+
+    return getSchemaTpl('tabs', [
+      {
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              {
+                name: 'title',
+                type: 'input-text',
+                label: '标题',
+                descrition: '支持模板语法如： ${xxx}'
+              },
+              {
+                name: 'subTitle',
+                type: 'input-text',
+                label: '副标题',
+                descrition: '支持模板语法如： ${xxx}'
+              },
+              {
+                name: 'avatar',
+                type: 'input-text',
+                label: '图片地址',
+                descrition: '支持模板语法如： ${xxx}'
+              },
+              {
+                name: 'desc',
+                type: 'textarea',
+                label: '描述',
+                descrition: '支持模板语法如： ${xxx}'
+              }
+            ]
+          },
+          getSchemaTpl('status', {
+            isFormItem: false
+          })
+        ])
+      },
+      {
+        title: '外观',
+        body: getSchemaTpl('collapseGroup', [
+          getSchemaTpl('style:classNames', {
+            isFormItem: false,
+            schema: [
+              getSchemaTpl('className', {
+                name: 'avatarClassName',
+                label: '图片'
+              }),
+              getSchemaTpl('className', {
+                name: 'titleClassName',
+                label: '标题'
+              })
+            ]
+          })
+        ])
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
+      }
+    ]);
+  };
 
   getRendererInfo({
     renderer,

@@ -16,10 +16,10 @@ import {VRenderer} from 'amis-editor-core';
 import findIndex from 'lodash/findIndex';
 import {RegionWrapper as Region} from 'amis-editor-core';
 import {Tab} from 'amis';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../validator';
 import {getEventControlConfig} from '../util';
-import { getArgsWrapper } from '../renderer/event-control/helper';
+import {getArgsWrapper} from '../renderer/event-control/helper';
 
 export class TabsPlugin extends BasePlugin {
   // 关联渲染器名字

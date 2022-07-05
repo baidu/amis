@@ -1,5 +1,5 @@
 import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 
 setSchemaTpl('options', {
@@ -114,7 +114,7 @@ setSchemaTpl('tree', {
 
 setSchemaTpl('multiple', (schema: any = {}) => {
   return {
-    type: 'ae-Switch-More',
+    type: 'ae-switch-more',
     mode: 'normal',
     name: 'multiple',
     label: '可多选',

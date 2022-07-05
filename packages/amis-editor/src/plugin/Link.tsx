@@ -1,13 +1,10 @@
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, RendererInfo} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../validator';
 import {getEventControlConfig} from '../util';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class LinkPlugin extends BasePlugin {
   // 关联渲染器名字

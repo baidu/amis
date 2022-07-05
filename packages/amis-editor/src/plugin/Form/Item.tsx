@@ -112,9 +112,15 @@ export class ItemPlugin extends BasePlugin {
             ignoreValidator ? null : getSchemaTpl('required'),
             getSchemaTpl('description'),
             getSchemaTpl('placeholder'),
-            getSchemaTpl('remark'),
-            renderer.renderLabel !== false ? getSchemaTpl('labelRemark') : null,
-            autoFillApi ? getSchemaTpl('autoFillApi') : null
+            getSchemaTpl('remark', {
+              mode: 'row'
+            }),
+            renderer.renderLabel !== false
+              ? getSchemaTpl('labelRemark', {
+                  mode: 'row'
+                })
+              : null,
+            getSchemaTpl('autoFillApi')
           ]
         },
 

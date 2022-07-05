@@ -5,15 +5,12 @@ import {
   BasicSubRenderInfo,
   RendererEventContext,
   SubRendererInfo,
-  BaseEventContext
+  BaseEventContext,
+  tipedLabel
 } from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../util';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class MatrixControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -151,7 +148,8 @@ export class MatrixControlPlugin extends BasePlugin {
                   }
                 ],
                 pipeIn: defaultValue('column')
-              }
+              },
+              getSchemaTpl('autoFillApi')
             ]
           },
           {

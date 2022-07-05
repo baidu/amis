@@ -20,7 +20,7 @@ import {value2array} from 'amis-ui/lib/components/Select';
 
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import type {FormControlProps} from 'amis-core';
@@ -396,33 +396,29 @@ export default class OptionControl extends React.Component<
   }
 
   renderHeader() {
-    const {
-      render,
-      label,
-      labelRemark,
-      useMobileUI,
-      env,
-      popOverContainer
-    } = this.props;
+    const {render, label, labelRemark, useMobileUI, env, popOverContainer} =
+      this.props;
     const classPrefix = env?.theme?.classPrefix;
     const {source} = this.state;
-    const optionSourceList = ([
-      {
-        label: '自定义选项',
-        value: 'custom'
-      },
-      {
-        label: '接口获取',
-        value: 'api'
-      }
-      // {
-      //   label: '表单实体',
-      //   value: 'form'
-      // }
-    ] as Array<{
-      label: string;
-      value: 'custom' | 'api' | 'form';
-    }>).map(item => ({
+    const optionSourceList = (
+      [
+        {
+          label: '自定义选项',
+          value: 'custom'
+        },
+        {
+          label: '接口获取',
+          value: 'api'
+        }
+        // {
+        //   label: '表单实体',
+        //   value: 'form'
+        // }
+      ] as Array<{
+        label: string;
+        value: 'custom' | 'api' | 'form';
+      }>
+    ).map(item => ({
       ...item,
       onClick: () => this.handleSourceChange(item.value)
     }));
@@ -586,7 +582,7 @@ export default class OptionControl extends React.Component<
             value={label}
             placeholder="请输入文本/值"
             clearable={false}
-            onChange={value => this.handleEditLabel(index, value)}
+            onChange={(value: string) => this.handleEditLabel(index, value)}
           />
           {amisRender({
             type: 'dropdown-button',
@@ -636,8 +632,7 @@ export default class OptionControl extends React.Component<
             body: [
               {
                 type: 'tpl',
-                tpl:
-                  '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每行可通过空格来分别设置label和value,例："张三 zhangsan"'
+                tpl: '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每行可通过空格来分别设置label和value,例："张三 zhangsan"'
               }
             ],
             showIcon: true,
@@ -700,6 +695,7 @@ export default class OptionControl extends React.Component<
       getSchemaTpl('apiControl', {
         label: '接口',
         name: 'source',
+        mode: 'normal',
         className: 'ae-ExtendMore',
         visibleOn: 'data.autoComplete !== false',
         value: api,

@@ -6,8 +6,7 @@ import {
   SubRendererInfo,
   BaseEventContext
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl, setSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../util';
 
@@ -222,7 +221,7 @@ export class TextControlPlugin extends BasePlugin {
                 {
                   name: 'addOn',
                   label: tipedLabel('AddOn', '输入框左侧或右侧的附加挂件'),
-                  type: 'ae-Switch-More',
+                  type: 'ae-switch-more',
                   mode: 'normal',
                   formType: 'extend',
                   title: 'AddOn',

@@ -1,8 +1,5 @@
 import {relativeValueRe} from 'amis';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {availableLanguages} from 'amis/lib/renderers/Form/Editor';
 import {defaultValue, getSchemaTpl, valuePipeOut} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
@@ -11,9 +8,9 @@ import {
   BasicSubRenderInfo,
   RendererEventContext,
   SubRendererInfo,
-  BaseEventContext
+  BaseEventContext,
+  tipedLabel
 } from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../util';
 
@@ -285,7 +282,8 @@ export class NestedSelectControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           {

@@ -74,6 +74,7 @@ import './plugin/ButtonGroup';
 import './plugin/ButtonToolbar';
 import './plugin/Breadcrumb';
 import './plugin/Card';
+import './plugin/Card2';
 import './plugin/Cards';
 import './plugin/Carousel';
 import './plugin/Chart';
@@ -119,6 +120,8 @@ import './plugin/Steps';
 import './plugin/Sparkline';
 import './plugin/Submit';
 import './plugin/Table';
+import './plugin/Table-v2';
+import './plugin/TableCell-v2';
 import './plugin/Tabs';
 import './plugin/Tasks';
 import './plugin/Time';
@@ -131,6 +134,8 @@ import './plugin/TooltipWrapper';
 import './plugin/TableView';
 import './plugin/CodeView';
 import './plugin/WebComponent';
+import './plugin/CRUD2';
+import './plugin/ColumnToggler';
 
 import {GridPlugin} from './plugin/Grid';
 

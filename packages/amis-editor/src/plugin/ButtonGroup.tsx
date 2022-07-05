@@ -1,12 +1,13 @@
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {
-  BUTTON_DEFAULT_ACTION,
-  formItemControl,
-  tipedLabel
-} from '../component/BaseControl';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {RegionWrapper as Region} from 'amis-editor-core';
+  BasePlugin,
+  RegionConfig,
+  BaseEventContext,
+  tipedLabel,
+  defaultValue,
+  getSchemaTpl,
+  registerEditorPlugin
+} from 'amis-editor-core';
+import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
 
 export class ButtonGroupPlugin extends BasePlugin {
   // 关联渲染器名字

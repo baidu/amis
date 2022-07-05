@@ -1,14 +1,10 @@
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../util';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 const DateType: {
   [key: string]: {
@@ -184,72 +180,74 @@ export class DateRangeControlPlugin extends BasePlugin {
     return getSchemaTpl('tabs', [
       {
         title: '属性',
-        body: getSchemaTpl('collapseGroup', [
-          {
-            title: '基本',
-            body: [
-              getSchemaTpl('formItemName', {
-                required: true
-              }),
-              getSchemaTpl('label'),
-              getSchemaTpl('selectDateRangeType', {
-                value: this.scaffold.type,
-                onChange: (
-                  value: string,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  const type: string = value.split('-')[1];
-                  form.setValues({
-                    inputFormat: DateType[type]?.format,
-                    placeholder: DateType[type]?.placeholder,
-                    format: type === 'time' ? 'HH:mm' : 'X',
-                    minDate: '',
-                    maxDate: '',
-                    value: '',
-                    ranges: DateType[type]?.ranges
-                  });
-                }
-              }),
-              {
-                type: 'input-text',
-                name: 'format',
-                label: tipedLabel(
-                  '值格式',
-                  '提交数据前将根据设定格式化数据，请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
-                ),
-                pipeIn: defaultValue('X')
-              },
-              {
-                type: 'input-text',
-                name: 'inputFormat',
-                label: tipedLabel(
-                  '显示格式',
-                  '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
-                ),
-                pipeIn: defaultValue('YYYY-MM-DD'),
-                clearable: true
-                // onChange: (
-                //   value: string,
-                //   oldValue: any,
-                //   model: any,
-                //   form: any
-                // ) => {
-                //   model.setOptions(
-                //     DateType[form.data.type.split('-')[1]].formatOptions
-                //   );
-                // },
-                // options:
-                //   DateType[this.scaffold.type.split('-')[1]].formatOptions
-              },
-              getSchemaTpl('utc'),
-              getSchemaTpl('clearable', {
-                pipeIn: defaultValue(true)
-              }),
+        body: getSchemaTpl(
+          'collapseGroup',
+          [
+            {
+              title: '基本',
+              body: [
+                getSchemaTpl('formItemName', {
+                  required: true
+                }),
+                getSchemaTpl('label'),
+                getSchemaTpl('selectDateRangeType', {
+                  value: this.scaffold.type,
+                  onChange: (
+                    value: string,
+                    oldValue: any,
+                    model: any,
+                    form: any
+                  ) => {
+                    const type: string = value.split('-')[1];
+                    form.setValues({
+                      inputFormat: DateType[type]?.format,
+                      placeholder: DateType[type]?.placeholder,
+                      format: type === 'time' ? 'HH:mm' : 'X',
+                      minDate: '',
+                      maxDate: '',
+                      value: '',
+                      ranges: DateType[type]?.ranges
+                    });
+                  }
+                }),
+                {
+                  type: 'input-text',
+                  name: 'format',
+                  label: tipedLabel(
+                    '值格式',
+                    '提交数据前将根据设定格式化数据，请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
+                  ),
+                  pipeIn: defaultValue('X')
+                },
+                {
+                  type: 'input-text',
+                  name: 'inputFormat',
+                  label: tipedLabel(
+                    '显示格式',
+                    '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
+                  ),
+                  pipeIn: defaultValue('YYYY-MM-DD'),
+                  clearable: true
+                  // onChange: (
+                  //   value: string,
+                  //   oldValue: any,
+                  //   model: any,
+                  //   form: any
+                  // ) => {
+                  //   model.setOptions(
+                  //     DateType[form.data.type.split('-')[1]].formatOptions
+                  //   );
+                  // },
+                  // options:
+                  //   DateType[this.scaffold.type.split('-')[1]].formatOptions
+                },
+                getSchemaTpl('utc'),
+                getSchemaTpl('clearable', {
+                  pipeIn: defaultValue(true)
+                }),
 
-              getSchemaTpl('valueFormula', {
-                /* 备注: 待 amis 日期组件优化
+                getSchemaTpl('valueFormula', {
+                  /* 备注: 待 amis 日期组件优化
                 rendererSchema: {
                   ...context?.schema,
                   size: 'full', // 备注：目前样式还有问题，需要在amis端进行优化
@@ -257,120 +255,127 @@ export class DateRangeControlPlugin extends BasePlugin {
                 },
                 mode: 'vertical',
                 */
-                rendererSchema: {
-                  type: 'input-date'
-                },
-                label: tipedLabel(
-                  '默认值',
-                  '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>等这种相对值用法'
-                )
-              }),
-              getSchemaTpl('valueFormula', {
-                name: 'minDate',
-                rendererSchema: {
-                  ...context?.schema,
-                  value: context?.schema.minDate,
-                  type: 'input-date'
-                },
-                needDeleteProps: ['minDate'], // 避免自我限制
-                label: tipedLabel('最小值', tipedLabelText)
-              }),
-              getSchemaTpl('valueFormula', {
-                name: 'maxDate',
-                rendererSchema: {
-                  ...context?.schema,
-                  value: context?.schema.maxDate,
-                  type: 'input-date'
-                },
-                needDeleteProps: ['maxDate'], // 避免自我限制
-                label: tipedLabel('最大值', tipedLabelText)
-              }),
+                  rendererSchema: {
+                    type: 'input-date'
+                  },
+                  label: tipedLabel(
+                    '默认值',
+                    '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>等这种相对值用法'
+                  )
+                }),
+                getSchemaTpl('valueFormula', {
+                  name: 'minDate',
+                  rendererSchema: {
+                    ...context?.schema,
+                    value: context?.schema.minDate,
+                    type: 'input-date'
+                  },
+                  needDeleteProps: ['minDate'], // 避免自我限制
+                  label: tipedLabel('最小值', tipedLabelText)
+                }),
+                getSchemaTpl('valueFormula', {
+                  name: 'maxDate',
+                  rendererSchema: {
+                    ...context?.schema,
+                    value: context?.schema.maxDate,
+                    type: 'input-date'
+                  },
+                  needDeleteProps: ['maxDate'], // 避免自我限制
+                  label: tipedLabel('最大值', tipedLabelText)
+                }),
 
-              getSchemaTpl('formulaControl', {
-                name: 'minDuration',
-                label: tipedLabel('最小跨度', '例如 2days'),
-                placeholder: '请输入最小跨度',
-                inputClassName: 'is-inline'
-              }),
-              getSchemaTpl('formulaControl', {
-                name: 'maxDuration',
-                label: tipedLabel('最大跨度', '例如 1year'),
-                placeholder: '请输入最大跨度',
-                inputClassName: 'is-inline'
-              }),
-              getSchemaTpl('dateShortCutControl', {
-                mode: 'normal',
-                dropDownOption: {
-                  'yesterday': '昨天',
-                  'thisweek': '这个周',
-                  'prevweek': '上周',
-                  '7daysago': '最近7天',
-                  'thismonth': '这个月',
-                  'prevmonth': '上个月',
-                  'thisquarter': '这个季度',
-                  'prevquarter': '上个季度',
-                  'thisyear': '今年'
-                }
-              }),
-              // getSchemaTpl('remark'),
-              // getSchemaTpl('labelRemark'),
-              {
-                type: 'input-text',
-                name: 'startPlaceholder',
-                label: '前占位提示',
-                pipeIn: defaultValue('开始时间')
-              },
-              {
-                type: 'input-text',
-                name: 'endPlaceholder',
-                label: '后占位提示',
-                pipeIn: defaultValue('结束时间')
-              }
-            ]
-          },
-          getSchemaTpl('status', {isFormItem: true}),
-          getSchemaTpl('validation', {
-            tag: ValidatorTag.Date
-          })
-        ], {...context?.schema, configTitle: 'props'})
+                getSchemaTpl('formulaControl', {
+                  name: 'minDuration',
+                  label: tipedLabel('最小跨度', '例如 2days'),
+                  placeholder: '请输入最小跨度',
+                  inputClassName: 'is-inline'
+                }),
+                getSchemaTpl('formulaControl', {
+                  name: 'maxDuration',
+                  label: tipedLabel('最大跨度', '例如 1year'),
+                  placeholder: '请输入最大跨度',
+                  inputClassName: 'is-inline'
+                }),
+                getSchemaTpl('dateShortCutControl', {
+                  mode: 'normal',
+                  dropDownOption: {
+                    'yesterday': '昨天',
+                    'thisweek': '这个周',
+                    'prevweek': '上周',
+                    '7daysago': '最近7天',
+                    'thismonth': '这个月',
+                    'prevmonth': '上个月',
+                    'thisquarter': '这个季度',
+                    'prevquarter': '上个季度',
+                    'thisyear': '今年'
+                  }
+                }),
+                // getSchemaTpl('remark'),
+                // getSchemaTpl('labelRemark'),
+                {
+                  type: 'input-text',
+                  name: 'startPlaceholder',
+                  label: '前占位提示',
+                  pipeIn: defaultValue('开始时间')
+                },
+                {
+                  type: 'input-text',
+                  name: 'endPlaceholder',
+                  label: '后占位提示',
+                  pipeIn: defaultValue('选择结束时间')
+                },
+                getSchemaTpl('autoFillApi')
+              ]
+            },
+            getSchemaTpl('status', {isFormItem: true}),
+            getSchemaTpl('validation', {
+              tag: ValidatorTag.Date
+            })
+          ],
+          {...context?.schema, configTitle: 'props'}
+        )
       },
       {
         title: '外观',
-        body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:formItem', renderer),
-          getSchemaTpl('style:classNames', [
-            getSchemaTpl('className', {
-              label: '描述',
-              name: 'descriptionClassName',
-              visibleOn: 'this.description'
-            }),
-            getSchemaTpl('className', {
-              name: 'addOn.className',
-              label: 'AddOn',
-              visibleOn: 'this.addOn && this.addOn.type === "text"'
-            })
-          ]),
-          getSchemaTpl('style:others', [
-            {
-              name: 'embed',
-              type: 'button-group-select',
-              size: 'md',
-              label: '模式',
-              mode: 'row',
-              value: false,
-              options: [
-                {
-                  label: '浮层',
-                  value: false
-                },
-                {
-                  label: '内嵌',
-                  value: true
-                }
-              ]
-            }
-          ])
-        ], {...context?.schema, configTitle: 'style'})
+        body: getSchemaTpl(
+          'collapseGroup',
+          [
+            getSchemaTpl('style:formItem', renderer),
+            getSchemaTpl('style:classNames', [
+              getSchemaTpl('className', {
+                label: '描述',
+                name: 'descriptionClassName',
+                visibleOn: 'this.description'
+              }),
+              getSchemaTpl('className', {
+                name: 'addOn.className',
+                label: 'AddOn',
+                visibleOn: 'this.addOn && this.addOn.type === "text"'
+              })
+            ]),
+            getSchemaTpl('style:others', [
+              {
+                name: 'embed',
+                type: 'button-group-select',
+                size: 'md',
+                label: '模式',
+                mode: 'row',
+                value: false,
+                options: [
+                  {
+                    label: '浮层',
+                    value: false
+                  },
+                  {
+                    label: '内嵌',
+                    value: true
+                  }
+                ]
+              }
+            ])
+          ],
+          {...context?.schema, configTitle: 'style'}
+        )
       },
       {
         title: '事件',

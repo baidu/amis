@@ -4,10 +4,11 @@ import {
   BasePlugin,
   BasicRendererInfo,
   PluginInterface,
-  RendererInfoResolveEventContext
+  RendererInfoResolveEventContext,
+  tipedLabel
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {BUTTON_DEFAULT_ACTION, tipedLabel} from '../component/BaseControl';
+import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
 import {getEventControlConfig} from '../util';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';

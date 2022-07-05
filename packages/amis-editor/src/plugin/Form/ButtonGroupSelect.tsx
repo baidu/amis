@@ -3,10 +3,10 @@ import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {
   RendererPluginAction,
-  RendererPluginEvent
+  RendererPluginEvent,
+  tipedLabel
 } from 'amis-editor-core';
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {getEventControlConfig} from '../../util';
 
 export class ButtonGroupControlPlugin extends BasePlugin {
@@ -118,17 +118,15 @@ export class ButtonGroupControlPlugin extends BasePlugin {
                   rendererSchema: context?.schema,
                   useSelectMode: true, // 改用 Select 设置模式
                   visibleOn: 'this.options && this.options.length > 0'
-                }),
+                })
               ]
             },
             {
               title: '按钮管理',
-              body: [
-                getSchemaTpl('optionControlV2'),
-              ]
+              body: [getSchemaTpl('optionControlV2')]
             },
             getSchemaTpl('status', {
-              isFormItem: true,
+              isFormItem: true
             })
           ])
         ]
@@ -172,10 +170,10 @@ export class ButtonGroupControlPlugin extends BasePlugin {
                 getSchemaTpl('className', {
                   label: '按钮',
                   name: 'btnClassName'
-                }),
+                })
               ]
-            }),
-          ]),
+            })
+          ])
         ]
       },
       {

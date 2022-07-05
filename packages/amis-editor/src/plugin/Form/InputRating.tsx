@@ -5,14 +5,10 @@ import {
   undefinedPipeOut
 } from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
+import {BasePlugin, BaseEventContext, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../util';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class RateControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -234,7 +230,8 @@ export class RateControlPlugin extends BasePlugin {
 
                   return res;
                 }
-              })
+              }),
+              getSchemaTpl('autoFillApi')
             ]
           },
           getSchemaTpl('status', {isFormItem: true, readonly: true}),

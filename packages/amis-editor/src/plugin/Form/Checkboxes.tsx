@@ -168,7 +168,8 @@ export class CheckboxesControlPlugin extends BasePlugin {
               getSchemaTpl('extractValue'),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           {
