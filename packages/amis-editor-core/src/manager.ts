@@ -1158,9 +1158,9 @@ export class EditorManager {
     const event = this.trigger('before-move', context);
     if (!event.prevented) {
       store.moveUp(node.id);
-      this.buildToolbars();
-
+      // this.buildToolbars();
       this.trigger('after-move', context);
+      this.trigger('after-update', context);
     }
   }
 
@@ -1189,9 +1189,9 @@ export class EditorManager {
     const event = this.trigger('before-move', context);
     if (!event.prevented) {
       store.moveDown(node.id);
-      this.buildToolbars();
-
+      // this.buildToolbars();
       this.trigger('after-move', context);
+      this.trigger('after-update', context);
     }
   }
 
