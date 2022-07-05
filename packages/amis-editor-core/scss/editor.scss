@@ -580,7 +580,8 @@
 
     button {
       &.ae-InsertBefore,
-      &.ae-InsertAfter {
+      &.ae-InsertAfter,
+      &.ae-AppendChild {
         pointer-events: all;
         position: absolute;
         background: $Editor-hlbox-bg;
@@ -630,6 +631,14 @@
           top: auto;
           bottom: -25px;
         }
+      }
+
+      &.ae-AppendChild {
+        top: 10px;
+        right: 10px;
+        left: auto;
+        bottom: auto;
+        transform: none;
       }
     }
   }
