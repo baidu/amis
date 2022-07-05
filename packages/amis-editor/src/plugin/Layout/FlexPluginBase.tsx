@@ -12,79 +12,40 @@ import type {
 } from 'amis-editor-core';
 import {tipedLabel} from '../../component/BaseControl';
 
+
+// 默认的列容器Schema
+const defaultFlexColumnSchema = (title: string) => {
+  return {
+    type: 'wrapper',
+    body: [
+      {
+        type: 'tpl',
+        tpl: title || '新的一列',
+        inline: false
+      }
+    ],
+    style: {
+      position: 'static',
+      display: 'flex',
+      flex: '1 1 auto',
+      flexGrow: 1,
+      flexBasis: 'auto',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'stretch',
+      flexWrap: 'nowrap'
+    },
+    isFixedHeight: false,
+    isFixedWidth: false
+  };
+};
 // 默认的布局容器Schema
 const defaultFlexContainerSchema = {
   type: 'flex',
   items: [
-    {
-      type: 'wrapper',
-      body: [
-        {
-          type: 'tpl',
-          tpl: '第一列',
-          inline: false
-        }
-      ],
-      style: {
-        position: 'static',
-        display: 'flex',
-        flex: '1 1 auto',
-        flexGrow: 1,
-        flexBasis: 'auto',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'stretch',
-        flexWrap: 'nowrap'
-      },
-      isFixedHeight: false,
-      isFixedWidth: false
-    },
-    {
-      type: 'wrapper',
-      body: [
-        {
-          type: 'tpl',
-          tpl: '第二列',
-          inline: false
-        }
-      ],
-      style: {
-        position: 'static',
-        display: 'flex',
-        flex: '1 1 auto',
-        flexGrow: 1,
-        flexBasis: 'auto',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'stretch',
-        flexWrap: 'nowrap'
-      },
-      isFixedHeight: false,
-      isFixedWidth: false
-    },
-    {
-      type: 'wrapper',
-      body: [
-        {
-          type: 'tpl',
-          tpl: '第三列',
-          inline: false
-        }
-      ],
-      style: {
-        position: 'static',
-        display: 'flex',
-        flex: '1 1 auto',
-        flexGrow: 1,
-        flexBasis: 'auto',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'stretch',
-        flexWrap: 'nowrap'
-      },
-      isFixedHeight: false,
-      isFixedWidth: false
-    }
+    defaultFlexColumnSchema('第一列'),
+    defaultFlexColumnSchema('第二列'),
+    defaultFlexColumnSchema('第三列')
   ]
 };
 
@@ -235,6 +196,7 @@ export class FlexPluginBase extends BasePlugin {
     const store = this.manager.store;
     const parent = store.getSchemaParentById(id);
     const draggableContainer = this.manager.draggableContainer(id);
+    const isFlexItem = this.manager?.isFlexItem(id);
 
     if (parent && (info.renderer.name === 'flex' || info.renderer.name === 'container') && !draggableContainer) {
 
@@ -257,6 +219,30 @@ export class FlexPluginBase extends BasePlugin {
         }
       );
     }
+
+    if (isFlexItem) {
+      // 布局容器的列级元素 增加左右插入icon
+      const newColumnSchema = defaultFlexColumnSchema('新的一列');
+      toolbars.push(
+        {
+          iconSvg: 'add-btn',
+          tooltip: '左侧（上侧）插入列级容器',
+          level: 'special',
+          placement: 'bottom',
+          className: 'ae-InsertBefore',
+          onClick: () => this.manager.appendSiblingSchema(newColumnSchema, true, true)
+        },
+        {
+          iconSvg: 'add-btn',
+          tooltip: '右侧（下侧）插入列级容器',
+          level: 'special',
+          placement: 'bottom',
+          className: 'ae-InsertAfter',
+          onClick: () => this.manager.appendSiblingSchema(newColumnSchema, false, true)
+        }
+      );
+    }
+
   }
 
   afterResolveJsonSchema(
