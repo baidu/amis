@@ -197,6 +197,7 @@ export class FlexPluginBase extends BasePlugin {
     const parent = store.getSchemaParentById(id);
     const draggableContainer = this.manager.draggableContainer(id);
     const isFlexItem = this.manager?.isFlexItem(id);
+    const newColumnSchema = defaultFlexColumnSchema('新的一列');
 
     if (parent && (info.renderer.name === 'flex' || info.renderer.name === 'container') && !draggableContainer) {
 
@@ -216,13 +217,20 @@ export class FlexPluginBase extends BasePlugin {
           placement: 'bottom',
           className: 'ae-InsertAfter is-vertical',
           onClick: () => this.manager.appendSiblingSchema(defaultFlexContainerSchema, false, true)
+        },
+        {
+          iconSvg: 'add-btn',
+          tooltip: '新增列级元素',
+          level: 'special',
+          placement: 'bottom',
+          className: 'ae-AppendChild',
+          onClick: () => this.manager.addElem(newColumnSchema)
         }
       );
     }
 
     if (isFlexItem) {
       // 布局容器的列级元素 增加左右插入icon
-      const newColumnSchema = defaultFlexColumnSchema('新的一列');
       toolbars.push(
         {
           iconSvg: 'add-btn',
