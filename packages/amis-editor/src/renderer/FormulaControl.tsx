@@ -24,7 +24,7 @@ import type {
   VariableItem,
   FuncGroup
 } from 'amis-ui/lib/components/formula/Editor';
-import type {FormControlProps} from 'amis-core';
+import {dataMapping, FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
 
@@ -157,6 +157,13 @@ export default class FormulaControl extends React.Component<
   normalizeVariables(variables: any) {
     if (!variables) {
       return [];
+    }
+
+    if (
+      variables &&
+      variables.some((item: any) => isExpression(item.children))
+    ) {
+      variables = dataMapping(variables, this.props.data);
     }
 
     const {context, evalMode} = this.props;
