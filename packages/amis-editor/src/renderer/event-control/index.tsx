@@ -217,10 +217,12 @@ export class EventControl extends React.Component<
         });
     }
     activeConfig[event] = true;
-    onEventConfig[event] = {
-      actions: onEventConfig[event].actions.concat(config),
-      weight: onEvent[event].weight
-    };
+    if (config.actionType) {
+      onEventConfig[event] = {
+        actions: onEventConfig[event].actions.concat(config),
+        weight: onEvent[event].weight
+      };
+    }
 
     this.setState({
       onEvent: onEventConfig,
@@ -667,7 +669,7 @@ export class EventControl extends React.Component<
             })
           ) : (
             <div className="ae-event-control-placeholder">
-              快去创建事件，让你的产品动起来吧
+              快去添加事件，让你的产品动起来吧
             </div>
           )}
         </ul>
