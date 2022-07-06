@@ -212,14 +212,6 @@ export class NumberControlPlugin extends BasePlugin {
                   )
                 },
 
-                {
-                  type: 'input-number',
-                  name: 'precision',
-                  label: '小数点精度',
-                  min: 0,
-                  max: 100
-                },
-
                 getSchemaTpl('combo-container', {
                   type: 'combo',
                   label: '单位选项',
@@ -277,7 +269,7 @@ export class NumberControlPlugin extends BasePlugin {
                     value: 'base',
                     options: [
                       {
-                        label: '单测按钮',
+                        label: '单侧按钮',
                         value: 'base'
                       },
                       {
