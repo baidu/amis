@@ -62,6 +62,8 @@ export interface DateRangePickerState {
   isFocused: boolean;
   startDate?: moment.Moment;
   endDate?: moment.Moment;
+  oldStartDate?: moment.Moment;
+  oldEndDate?: moment.Moment;
   editState?: 'start' | 'end'; // 编辑开始时间还是结束时间
   startInputValue?: string;
   endInputValue?: string;
@@ -534,6 +536,8 @@ export class DateRangePicker extends React.Component<
       editState: 'start',
       startDate,
       endDate,
+      oldStartDate: startDate,
+      oldEndDate: endDate,
       startInputValue: startDate?.format(inputFormat),
       endInputValue: endDate?.format(inputFormat)
     };
@@ -645,7 +649,17 @@ export class DateRangePicker extends React.Component<
     });
   }
 
-  close() {
+  close(isConfirm: boolean = false) {
+    if (!isConfirm) {
+      const {oldEndDate, oldStartDate} = this.state;
+      const {inputFormat} = this.props;
+      this.setState({
+        endDate: oldEndDate,
+        endInputValue: oldEndDate ? oldEndDate.format(inputFormat) : '',
+        startDate: oldStartDate,
+        startInputValue: oldStartDate ? oldStartDate.format(inputFormat) : ''
+      });
+    }
     this.setState(
       {
         isOpened: false,
@@ -693,7 +707,7 @@ export class DateRangePicker extends React.Component<
     if (this.state.startDate && !this.state.endDate) {
       this.setState({editState: 'end'});
     } else {
-      this.close();
+      this.close(true);
     }
   }
 
@@ -746,6 +760,7 @@ export class DateRangePicker extends React.Component<
     );
     const newState = {
       startDate: date,
+      oldStartDate: startDate,
       startInputValue: date.format(inputFormat)
     } as any;
     // 这些没有时间的选择点第一次后第二次就是选结束时间
@@ -769,6 +784,7 @@ export class DateRangePicker extends React.Component<
     if (newValue.isBefore(startDate)) {
       this.setState({
         startDate: undefined,
+        oldStartDate: startDate,
         startInputValue: ''
       });
     }
@@ -777,6 +793,7 @@ export class DateRangePicker extends React.Component<
     this.setState(
       {
         endDate: date,
+        oldEndDate: endDate,
         endInputValue: date.format(inputFormat)
       },
       () => {
