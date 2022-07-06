@@ -54,10 +54,11 @@ export interface NumberProps extends ThemeProps {
 }
 
 export class NumberInput extends React.Component<NumberProps, any> {
-  static defaultProps: Pick<NumberProps, 'step' | 'readOnly' | 'borderMode'> = {
+  static defaultProps: Pick<NumberProps, 'step' | 'readOnly' | 'borderMode' | 'keyboard'> = {
     step: 1,
     readOnly: false,
-    borderMode: 'full'
+    borderMode: 'full',
+    keyboard: true
   };
 
   @autobind
@@ -182,7 +183,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
         placeholder={placeholder}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        keyboard={keyboard || true}
+        keyboard={keyboard}
         {...precisionProps}
       />
     );
