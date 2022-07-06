@@ -125,7 +125,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Page-title-color: #000;
   --Page-header-paddingX: var(--gap-md);
   --Page-header-paddingY: #{px2rem(10px)};
+
   --Form-item-fontSize: var(--fontSizeBase);
+  --Form-input-marginTop: #{px2rem(4px)};
   --Form-input-marginBottom: #{px2rem(4px)};
   --Form-item-fontColor: #{$G4};
   --Form-item-gap: var(--gap-xl);

@@ -17,6 +17,10 @@ import {FormBaseControlSchema} from '../../Schema';
 import split from 'lodash/split';
 
 /**
+ * TODO: 1. 在支持多选的情况下：点击选中高级别的时候应该回显全部 当前 `allow` 级别的标签，非多选情况下，只能选中最低级
+ */
+
+/**
  * City 城市选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/city
  */
@@ -52,13 +56,17 @@ export interface InputCityControlSchema extends FormBaseControlSchema {
   allowDistrict?: boolean;
 
   /**
+   * 允许输入街道，多选时字段失效
+   */
+  allowStreet?: boolean;
+
+  /**
    * 是否显示搜索框
    */
   searchable?: boolean;
 
   /**
    * 是否多选
-   * todo 在文档中增加
    */
   multiple?: boolean;
 }
@@ -86,10 +94,12 @@ interface CityValue {
   cityCode: number;
   district: string;
   districtCode: number;
+  street?: string;
 }
 
 export interface CityPickerState {
   value: CityValue | CityValue[];
+  street?: string;
 
   db?: {
     options: Option[];
@@ -127,7 +137,6 @@ export class CityPicker extends React.Component<
 
   componentDidUpdate(prevProps: CityPickerProps) {
     const props = this.props;
-
     if (props.value !== prevProps.value) {
       this.loadDb(() => this.syncIn(props));
     }
@@ -205,11 +214,20 @@ export class CityPicker extends React.Component<
       return;
     }
 
-    const inputValues: CityValue[] | string[] = extractValue
+    let inputValues: CityValue[] | string[] = extractValue
       ? split(inputValue, delimiter)
       : Array.isArray(inputValue)
       ? inputValue
       : [inputValue];
+    let inputStreet = '';
+
+    if (!multiple) {
+      inputStreet =
+        typeof inputValues[1] === 'string'
+          ? inputValues[1]
+          : inputValues[1]?.street || '';
+      inputValues = inputValues.slice(0, 1);
+    }
 
     const values = inputValues.map(value => {
       const state = {
@@ -257,20 +275,42 @@ export class CityPicker extends React.Component<
       return state;
     });
     const stateValues = multiple ? values : values[0];
-    this.setState({value: stateValues});
+    this.setState({value: stateValues, street: inputStreet});
   }
 
+  /**
+   * 触发 onChange 逻辑
+   */
   @autobind
   syncOut() {
-    const {onChange, joinValues, extractValue, delimiter} = this.props;
-    const {value} = this.state;
-
+    const {
+      onChange,
+      joinValues,
+      extractValue,
+      delimiter,
+      allowStreet,
+      multiple
+    } = this.props;
+    const {value, street} = this.state;
     const values = Array.isArray(value) ? value : [value];
     if (extractValue ?? joinValues) {
-      onChange(values.map(({code}) => String(code || '')).join(delimiter));
-      return;
+      const cityCodes = values.map(({code}) => String(code || ''));
+      if (allowStreet && street && !multiple) {
+        cityCodes.push(street);
+      }
+      onChange(cityCodes.join(delimiter));
+    } else {
+      // 数组：  返回 code 存在的
+      // 非数组：allowStreet == true street 拼接到 value 中返回
+      //        alowStreet == false 返回 value
+      onChange(
+        Array.isArray(value)
+          ? value.filter(item => item.code)
+          : allowStreet
+          ? {...value, street}
+          : value
+      );
     }
-    onChange(Array.isArray(value) ? value.filter(item => item.code) : value);
   }
 
   translateCodeToAreaDetails(code: number) {
@@ -315,6 +355,18 @@ export class CityPicker extends React.Component<
     );
   }
 
+  @autobind
+  handleStreetChange(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({
+      street: e.currentTarget.value
+    });
+  }
+
+  @autobind
+  handleStreetEnd() {
+    this.syncOut();
+  }
+
   render() {
     const {
       classnames: cx,
@@ -324,10 +376,12 @@ export class CityPicker extends React.Component<
       multiple,
       render,
       searchable,
+      allowStreet,
+      allowCity,
       translate: __
     } = this.props;
 
-    const {value, db} = this.state;
+    const {value, db, street} = this.state;
 
     const values = Array.isArray(value) ? value : [value];
 
@@ -351,10 +405,23 @@ export class CityPicker extends React.Component<
               multiple: multiple,
               delimiter: delimiter,
               disabled,
-              clearable: true
+              clearable: true,
+              onlyLeaf: !multiple,
+              onlyChildren: true
             }
           )}
         </div>
+
+        {allowStreet && !multiple ? (
+          <input
+            className={cx('CityPicker-input')}
+            value={street || ''}
+            onChange={this.handleStreetChange}
+            onBlur={this.handleStreetEnd}
+            placeholder={__('City.street')}
+            disabled={disabled}
+          />
+        ) : null}
       </>
     ) : (
       <Spinner show size="sm" />
