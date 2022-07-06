@@ -1139,7 +1139,7 @@ export const components = [
 
 export default class Components extends React.PureComponent<any> {
   componentDidMount() {
-    this.props.setNavigations(components);
+    this.props.setNavigations(components, false);
   }
 
   componentDidUpdate(preProps: any) {
