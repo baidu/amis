@@ -204,7 +204,7 @@ export default class TreeOptionControl extends React.Component<
       const options = cloneDeep(this.state.options);
       const {path: nodePath} = this.getNodePath(path);
       set(options, `${nodePath}.${key}`, value);
-      this.setState({options});
+      this.setState({options}, () => this.rereshBindDrag());
   }
   @autobind
   handleDelete(pathStr: string, index: number) {
@@ -226,7 +226,7 @@ export default class TreeOptionControl extends React.Component<
       }
       set(options, parentPath, parentNode);
     }
-    this.setState({options});
+    this.setState({options}, () => this.rereshBindDrag());
   }
   @autobind
   getNodePath(pathStr: string) {
@@ -259,7 +259,7 @@ export default class TreeOptionControl extends React.Component<
       parentNode.children?.splice(+index + 1, 0, {...defaultOption});
       set(options, parentPath, parentNode);
     }
-    this.setState({options});
+    this.setState({options}, () => this.rereshBindDrag());
   }
   @autobind
   addChildOption(pathStr: string) {
@@ -273,7 +273,7 @@ export default class TreeOptionControl extends React.Component<
       node.children = [{...defaultOption}];
     }
     set(options, path, node);
-    this.setState({options});
+    this.setState({options}, () => this.rereshBindDrag());
   }
   @autobind
   hideModal(notResetOptions?: boolean) {
@@ -376,7 +376,13 @@ export default class TreeOptionControl extends React.Component<
       this.drag = ref;
       this.initDragging();
     } else if (this.drag && !ref) {
+      this.destroyDragging(true);
+    }
+  }
+  rereshBindDrag() {
+    if (this.drag) {
       this.destroyDragging();
+      this.initDragging();
     }
   }
   initDragging() {
@@ -388,10 +394,10 @@ export default class TreeOptionControl extends React.Component<
         handle: '.ae-TreeOptionControlItem-dragBar',
         ghostClass: 'ae-TreeOptionControlItem-dragging',
         onEnd: (e: any) => {
-          const options = this.state.options.concat();
+          const options = cloneDeep(this.state.options);
           const {oldIndex, newIndex} = e;
           [options[newIndex], options[oldIndex]] = [options[oldIndex], options[newIndex]];
-          this.setState({options});
+          this.setState({options}, () => this.rereshBindDrag());
         },
         onMove: (e: any) => {
           const {from, to} = e;
@@ -414,7 +420,7 @@ export default class TreeOptionControl extends React.Component<
         // fallbackOnBody: true,
         onEnd: (e: any) => {
           const {item, oldIndex, newIndex} = e;
-          const options = this.state.options.concat();
+          const options = cloneDeep(this.state.options);
           const nodePath = item.dataset.path;
           if (!nodePath) {
             return;
@@ -438,12 +444,12 @@ export default class TreeOptionControl extends React.Component<
   }
 
   @autobind
-  destroyDragging() {
+  destroyDragging(destroyRoot?: boolean) {
     this.sortables.forEach(sortable => {
       sortable?.destroy();
     });
     this.sortables = [];
-    this.drag = null;
+    destroyRoot && (this.drag = null);
   }
   @autobind
   renderModal() {
