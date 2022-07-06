@@ -97,6 +97,7 @@ import Post from '../icons/post.svg';
 import DotIcon from '../icons/dot.svg';
 import Invisible from '../icons/invisible.svg';
 import DateIcon from '../icons/date.svg';
+import InvisibleIcon from '../icons/invisible.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -220,6 +221,8 @@ registerIcon('desk-empty', DeskEmptyIcon);
 registerIcon('invisible', Invisible);
 registerIcon('plus-fine', PlusFineIcon);
 registerIcon('date', DateIcon);
+registerIcon('remove', RemoveIcon);
+registerIcon('invisible', InvisibleIcon);
 
 export function Icon({
   icon,
