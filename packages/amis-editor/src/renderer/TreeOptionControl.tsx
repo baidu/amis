@@ -405,7 +405,7 @@ export default class TreeOptionControl extends React.Component<
     if (!parents) {
       return;
     }
-    Array.from(parents).forEach(parent => {
+    Array.from(parents).forEach((parent: HTMLElement) => {
       const sortable = new Sortable(parent, {
         group: 'TreeOptionControlGroup',
         animation: 150,
