@@ -316,7 +316,12 @@ export default class FormulaControl extends React.Component<
         'labelAlign',
         'inputClassName',
         'description',
-        'autoUpdate'
+        'autoUpdate',
+        'prefix',
+        'suffix',
+        'unitOptions',
+        'keyboard',
+        'kilobitSeparator'
       ];
 
       // 当前组件要剔除的字段
