@@ -265,7 +265,8 @@ export default class FormulaControl extends React.Component<
 
   handleSimpleInputChange = debounce(
     (value: any) => {
-      this.props?.onChange?.(this.replaceExpression(value));
+      const curValue = this.replaceExpression(value);
+      this.props?.onChange?.(curValue);
     },
     250,
     {
@@ -281,7 +282,7 @@ export default class FormulaControl extends React.Component<
   // 剔除掉一些用不上的属性
   @autobind
   filterCustomRendererProps(rendererSchema: any) {
-    const {data} = this.props;
+    const {data, name} = this.props;
 
     let curRendererSchema: any = null;
     if (rendererSchema) {
@@ -322,7 +323,10 @@ export default class FormulaControl extends React.Component<
       if (this.props.needDeleteProps) {
         deleteProps.push(...this.props.needDeleteProps);
       }
-
+      if (name) {
+        // 剔除自身配置的影响
+        deleteProps.push(name);
+      }
       curRendererSchema = omit(curRendererSchema, deleteProps);
 
       // 避免没有清空icon
