@@ -314,6 +314,7 @@ export default class FormulaControl extends React.Component<
         'labelClassName',
         'labelAlign',
         'inputClassName',
+        'description',
         'autoUpdate'
       ];
 
@@ -330,6 +331,13 @@ export default class FormulaControl extends React.Component<
         !curRendererSchema.clearable
       ) {
         curRendererSchema.clearable = true;
+      }
+
+      // 设置统一的占位提示
+      if (curRendererSchema.type === 'select') {
+        curRendererSchema.placeholder = '请选择默认值';
+      } else {
+        curRendererSchema.placeholder = '请输入静态默认值';
       }
     }
     return curRendererSchema;
