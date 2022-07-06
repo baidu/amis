@@ -106,6 +106,7 @@
     overflow: auto;
     scroll-behavior: smooth;
     background: var(--Tabs-content-bg);
+    position: relative;
 
     > .#{$ns}AnchorNav-section {
       display: block;
