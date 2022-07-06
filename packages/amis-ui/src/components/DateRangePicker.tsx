@@ -55,6 +55,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   onBlur?: Function;
   type?: string;
   onRef?: any;
+  label?: string;
 }
 
 export interface DateRangePickerState {
@@ -1243,7 +1244,8 @@ export class DateRangePicker extends React.Component<
       locale,
       embed,
       type,
-      viewMode = 'days'
+      viewMode = 'days',
+      useMobileUI
     } = this.props;
     const __ = this.props.translate;
 
@@ -1253,7 +1255,7 @@ export class DateRangePicker extends React.Component<
     const isTimeRange = type === 'input-datetime-range' || viewMode === 'time';
 
     return (
-      <div className={`${ns}DateRangePicker-wrap`} ref={this.calendarRef}>
+      <div className={cx(`${ns}DateRangePicker-wrap`)} ref={this.calendarRef}>
         {this.renderRanges(ranges)}
         {(!isTimeRange || (editState === 'start' && !embed)) && (
           <Calendar
@@ -1417,7 +1419,7 @@ export class DateRangePicker extends React.Component<
 
     const CalendarMobileTitle = (
       <div className={`${ns}CalendarMobile-title`}>
-        {__('Calendar.datepicker')}
+        {this.props.label ?? __('Calendar.datepicker')}
       </div>
     );
 
@@ -1483,7 +1485,10 @@ export class DateRangePicker extends React.Component<
             <PopUp
               isShow={isOpened}
               container={popOverContainer}
-              className={cx(`${ns}CalendarMobile-pop`)}
+              className={cx(
+                `${ns}CalendarMobile-pop`,
+                `${ns}CalendarMobile-pop--${viewMode}`
+              )}
               onHide={this.close}
               header={CalendarMobileTitle}
             >

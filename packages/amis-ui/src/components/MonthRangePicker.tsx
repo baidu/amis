@@ -53,6 +53,7 @@ export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   useMobileUI?: boolean;
   onFocus?: Function;
   onBlur?: Function;
+  label?: string;
 }
 
 export interface MonthRangePickerState {
@@ -617,7 +618,7 @@ export class MonthRangePicker extends React.Component<
 
     const CalendarMobileTitle = (
       <div className={`${ns}CalendarMobile-title`}>
-        {__('Calendar.datepicker')}
+        {this.props.label ?? __('Calendar.datepicker')}
       </div>
     );
 
