@@ -1,42 +1,45 @@
 .ae-event-control {
   font-size: #{px2rem(12px)};
-  &-header {
-    height: 54px;
-    width: 100%;
-    padding: #{px2rem(12px)};
-    background: #fff;
+  &-header-oldentry {
+    height: 100px;
+    .add-event-dropdown {
+      top: 47px;
+      width: 100%;
+    }
   }
-  &-footer {
+  &-header {
     position: fixed;
-    bottom: 0;
+    top: #{px2rem(45px)};
     width: 100%;
     padding: #{px2rem(12px)};
     background: #fff;
     z-index: 1;
-    button {
-      width: 100%;
-      color: #2468F2;
-      border: #{px2rem(1px)} solid #2468F2;
-      border-radius: #{px2rem(4px)};
-      span {
-        display: none;
-      }
-    }
     .add-event-dropdown {
-      .cxd-DropDown-menu-root {
-        bottom: 110%;
+      button {
+        top: 44px;
         width: 100%;
-        top: auto;
+        color: #2468F2;
+        border: #{px2rem(1px)} solid #2468F2;
+        border-radius: #{px2rem(4px)};
+        span {
+          display: none;
+        }
       }
-    //   .cxd-DropDown-button {
-    //     height: auto;
-    //     padding: #{px2rem(7px)} #{px2rem(12px)};
-    //   }
     }
+    ul {
+      width: 100%;
+      .cxd-DropDown-button {
+        height: auto;
+        padding: #{px2rem(7px)} #{px2rem(12px)};
+      }
+    }
+  }
+  &-content-oldentry {
+    margin-top: 100px !important;
   }
   &-content {
     padding: 0;
-    margin-top: 0;
+    margin-top: 52px;
     .icon {
       cursor: pointer;
       color: #30343f;
