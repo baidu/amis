@@ -1548,7 +1548,9 @@ export default class Form extends React.Component<FormProps, object> {
 
         {debug ? (
           <pre>
-            <code>{JSON.stringify(store.data, null, 2)}</code>
+            <code className={cx('Form--debug')}>
+              {JSON.stringify(store.data, null, 2)}
+            </code>
           </pre>
         ) : null}
 

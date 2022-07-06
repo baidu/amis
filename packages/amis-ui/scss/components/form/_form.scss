@@ -387,6 +387,11 @@
   }
 }
 
+.#{$ns}Form--debug {
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
 .#{$ns}Form--quickEdit {
   min-width: var(--Form-control-widthSm);
 }
