@@ -16,7 +16,8 @@ test('Renderer:city', async () => {
             name: 'a',
             label: 'city',
             allowDistrict: true,
-            allowCity: true
+            allowCity: true,
+            placeholder: '请选择'
           }
         ],
         title: 'The form',

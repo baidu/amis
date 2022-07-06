@@ -63,92 +63,100 @@ exports[`Renderer:city 1`] = `
                   class="cxd-ResultBox cxd-NestedSelect cxd-NestedSelect--single is-clickable is-clearable"
                   tabindex="0"
                 >
-                  <span
-                    class="cxd-ResultBox-singleValue"
+                  <div
+                    class="cxd-ResultBox-value-wrap"
                   >
                     <span
-                      class="cxd-Select-valueLabel"
+                      class="cxd-ResultBox-singleValue"
                     >
-                      <span>
-                        <span
-                          class=""
-                        >
-                          河
+                      <span
+                        class="cxd-Select-valueLabel"
+                      >
+                        <span>
+                          <span
+                            class=""
+                          >
+                            河
+                          </span>
+                          <span
+                            class=""
+                          >
+                            北
+                          </span>
+                          <span
+                            class=""
+                          >
+                            省
+                          </span>
+                          &gt;
                         </span>
-                        <span
-                          class=""
-                        >
-                          北
+                        <span>
+                          <span
+                            class=""
+                          >
+                            石
+                          </span>
+                          <span
+                            class=""
+                          >
+                            家
+                          </span>
+                          <span
+                            class=""
+                          >
+                            庄
+                          </span>
+                          <span
+                            class=""
+                          >
+                            市
+                          </span>
+                          &gt;
                         </span>
-                        <span
-                          class=""
-                        >
-                          省
-                        </span>
-                        &gt;
-                      </span>
-                      <span>
-                        <span
-                          class=""
-                        >
-                          石
-                        </span>
-                        <span
-                          class=""
-                        >
-                          家
-                        </span>
-                        <span
-                          class=""
-                        >
-                          庄
-                        </span>
-                        <span
-                          class=""
-                        >
-                          市
-                        </span>
-                        &gt;
-                      </span>
-                      <span>
-                        <span
-                          class=""
-                        >
-                          长
-                        </span>
-                        <span
-                          class=""
-                        >
-                          安
-                        </span>
-                        <span
-                          class=""
-                        >
-                          区
+                        <span>
+                          <span
+                            class=""
+                          >
+                            长
+                          </span>
+                          <span
+                            class=""
+                          >
+                            安
+                          </span>
+                          <span
+                            class=""
+                          >
+                            区
+                          </span>
                         </span>
                       </span>
                     </span>
-                  </span>
-                  <a
-                    class="cxd-ResultBox-clear cxd-ResultBox-clear-with-arrow"
+                  </div>
+                  <div
+                    class="cxd-ResultBox-actions"
                   >
-                    <div
-                      class="cxd-ResultBox-clear-wrap"
+                    <a
+                      class="cxd-ResultBox-clear cxd-ResultBox-clear-with-arrow"
+                    >
+                      <div
+                        class="cxd-ResultBox-clear-wrap"
+                      >
+                        <icon-mock
+                          classname="icon icon-input-clear"
+                          icon="input-clear"
+                        />
+                      </div>
+                    </a>
+                    <span
+                      class="cxd-ResultBox-pc-arrow"
                     >
                       <icon-mock
-                        classname="icon icon-input-clear"
-                        icon="input-clear"
+                        classname="icon icon-right-arrow-bold"
+                        icon="right-arrow-bold"
                       />
-                    </div>
-                  </a>
-                  <span
-                    class="cxd-ResultBox-pc-arrow"
-                  >
-                    <icon-mock
-                      classname="icon icon-right-arrow-bold"
-                      icon="right-arrow-bold"
-                    />
-                  </span>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

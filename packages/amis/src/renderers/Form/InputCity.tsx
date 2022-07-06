@@ -17,10 +17,6 @@ import {FormBaseControlSchema} from '../../Schema';
 import split from 'lodash/split';
 
 /**
- * TODO: 1. 在支持多选的情况下：点击选中高级别的时候应该回显全部 当前 `allow` 级别的标签，非多选情况下，只能选中最低级
- */
-
-/**
  * City 城市选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/city
  */
@@ -116,7 +112,8 @@ export class CityPicker extends React.Component<
     extractValue: true,
     delimiter: ',',
     allowCity: true,
-    allowDistrict: true
+    allowDistrict: true,
+    allowStreet: false
   };
 
   state: CityPickerState = {
@@ -378,6 +375,7 @@ export class CityPicker extends React.Component<
       searchable,
       allowStreet,
       allowCity,
+      placeholder,
       translate: __
     } = this.props;
 
@@ -407,7 +405,8 @@ export class CityPicker extends React.Component<
               disabled,
               clearable: true,
               onlyLeaf: !multiple,
-              onlyChildren: true
+              onlyChildren: true,
+              placeholder
             }
           )}
         </div>

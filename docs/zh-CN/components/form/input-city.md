@@ -100,9 +100,11 @@ order: 10
 | ------------- | --------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
 | allowCity     | `boolean` | `true`  | 允许选择城市                                                                                                          |
 | allowDistrict | `boolean` | `true`  | 允许选择区域                                                                                                          |
+| allowStreet   | `boolean` | `false` | 允许输入街道，多选时该字段失效                                                                                        |
 | searchable    | `boolean` | `false` | 是否出搜索框                                                                                                          |
 | extractValue  | `boolean` | `true`  | 默认 `true` 是否抽取值，如果设置成 `false` 值格式会变成对象，包含 `code`、`province`、`city` 和 `district` 文字信息。 |
 | multiple      | `boolean` | `false` | 是否支持多选                                                                                                          |
+
 
 ## 事件表
 

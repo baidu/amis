@@ -1,5 +1,5 @@
 import React from 'react';
-import {Overlay} from 'amis-core';
+import {eachTree, Overlay} from 'amis-core';
 import {Checkbox} from 'amis-ui';
 import {PopOver} from 'amis-core';
 import {PopUp} from 'amis-ui';
@@ -306,6 +306,7 @@ export default class NestedSelectControl extends React.Component<
       options,
       onlyLeaf
     } = this.props;
+
     const {stack} = this.state;
 
     let valueField = this.props.valueField || 'value';
@@ -532,23 +533,29 @@ export default class NestedSelectControl extends React.Component<
     const {options, labelField, valueField} = this.props;
 
     const regexp = string2regExp(inputValue);
+    // 避免 children 丢失
+    let filterOptions: any[] = [];
 
-    let filtedOptions =
-      inputValue && this.state.isOpened
-        ? filterTree(
-            options,
-            option =>
-              regexp.test(option[labelField || 'label']) ||
-              regexp.test(option[valueField || 'value']) ||
-              !!(option.children && option.children.length),
-            1,
-            true
-          )
-        : options.concat();
+    if (inputValue && this.state.isOpened) {
+      eachTree(
+        options,
+        option => {
+          if (
+            regexp.test(option[labelField || 'label']) ||
+            regexp.test(option[valueField || 'value'])
+          ) {
+            filterOptions.push(option);
+          }
+        },
+        1
+      );
+    } else {
+      filterOptions = options.concat();
+    }
 
     this.setState({
       inputValue,
-      stack: [filtedOptions]
+      stack: [filterOptions]
     });
   }
 
@@ -677,12 +684,12 @@ export default class NestedSelectControl extends React.Component<
                     className={cx('NestedSelect-optionLabel', {
                       'is-disabled': nodeDisabled
                     })}
-                    onClick={() =>
+                    onClick={() => {
                       !nodeDisabled &&
-                      (multiple
-                        ? this.handleCheck(option, index)
-                        : this.handleOptionClick(option))
-                    }
+                        (multiple
+                          ? this.handleCheck(option, index)
+                          : this.handleOptionClick(option));
+                    }}
                   >
                     {option[labelField || 'label']}
                   </div>
@@ -721,9 +728,7 @@ export default class NestedSelectControl extends React.Component<
       noResultsText = render('noResultText', __(noResultsText));
     }
     const regexp = string2regExp(inputValue || '');
-    const flattenTreeWithNodes = flattenTree(stack[0]).filter(option => {
-      return regexp.test(option[labelField || 'label']);
-    });
+    const flattenTreeWithNodes = stack[0];
 
     // 一个stack一个menu
     const resultBody = (
@@ -772,9 +777,10 @@ export default class NestedSelectControl extends React.Component<
                     'is-disabled': isNodeDisabled
                   })}
                   onClick={() => {
+                    this.handleInputChange('');
                     !isNodeDisabled &&
                       (multiple
-                        ? this.handleCheck(option, option.value)
+                        ? this.handleCheck(option)
                         : this.handleOptionClick(option));
                   }}
                 >
