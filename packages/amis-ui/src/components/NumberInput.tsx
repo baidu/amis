@@ -182,7 +182,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
         placeholder={placeholder}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        keyboard={keyboard}
+        keyboard={keyboard || true}
         {...precisionProps}
       />
     );

@@ -10,7 +10,9 @@
   border: var(--Number-borderWidth) solid var(--Number-borderColor);
   border-radius: var(--Number-borderRadius);
   overflow: hidden;
-
+  &-handler-wrap {
+    display: none;
+  }
   @include input-border();
   &.no-steps > &-handler-wrap {
     display: none;
@@ -18,8 +20,17 @@
   &-focused {
     border-color: var(--Form-input-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
+    .#{$ns}Number-handler-wrap {
+      display: block;
+    }
   }
-
+  &.no-steps {
+    &-focused {
+      .#{$ns}Number-handler-wrap {
+        display: block;
+      }
+    }
+  }
   &-handler {
     text-align: center;
     overflow: hidden;
@@ -37,9 +48,18 @@
     -webkit-user-select: none;
     display: inline-block;
   }
+  &:not(.no-steps) {
+    &:hover {
+      .cxd-Number-handler-wrap {
+        display: block;
+      }
+    }
+  }
 
-  &:hover {
-    border-color: var(--Form-input-onFocused-borderColor);
+  &:not(.#{$ns}Number-focused){
+    &:hover {
+      border-color: var(--Form-input-onHover-borderColor);
+    }
   }
 
   &-disabled:hover {
@@ -65,22 +85,26 @@
     border-radius: var(--Form-input-borderRadius);
     color: var(--Form-input-color);
     padding: 0 var(--Form-inputNumber-paddingX);
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+      user-select: none;
+    }
   }
 
   &-handler {
     background: var(--Number-handler-bg);
-    color: var(--Number-handler-color);
+    color: var(--Number-icon-color);
     font-family: var(--Number-handler-fontFamily);
     font-size: var(--Number-handler-fontSize);
 
     &:hover {
       background: var(--Number-handler-onHover-bg);
-      color: var(--Number-handler-onHover-color);
+      color: var(--Form-input-onHover-borderColor);
       cursor: pointer;
     }
 
     &:hover:active {
-      background: var(--Number-handler-onActive-bg);
+      color: var(--Form-input-onFocused-borderColor);
     }
   }
 
@@ -205,7 +229,7 @@
   }
 }
 .#{$ns}Number--enhance {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   border: var(--Number-borderWidth) solid var(--Number-borderColor);
   border-radius: var(--Number-borderRadius);
@@ -217,16 +241,16 @@
     height: var(--Form-inputNumber-base-height);
     line-height: var(--Form-inputNumber-base-height);
     text-align: center;
-    color: var(--Form-input-color);
+    color: var(--Number-enhance-icon-color);
     background: var(--Form-input-bg);
     &:hover {
-        cursor: pointer;
-        background: var(--Form-input-bg);
-        color: var(--Form-input-onHover-borderColor);
+      cursor: pointer;
+      background: var(--Form-input-bg);
+      color: var(--Form-input-onHover-borderColor);
     }
-    &-focused {
-        background: var(--Form-input-bg);
-        color: var(--Form-input-onFocused-borderColor);
+    &:active {
+      background: var(--Form-input-bg);
+      color: var(--Form-input-onFocused-borderColor);
     }
     & > svg {
       width: var(--fontSizeSm);
@@ -244,15 +268,28 @@
   .#{$ns}Number--enhance-input {
     flex: 1;
     border: 0;
+    height: var(--Form-inputNumber-base-height);
+    line-height: var(--Form-inputNumber-base-height);
     border-left: var(--Number-borderWidth) solid var(--Number-borderColor);
     border-right: var(--Number-borderWidth) solid var(--Number-borderColor);
     border-radius: 0;
     .#{$ns}Number-handler-wrap {
       display: none;
     }
+    &:hover {
+      .#{$ns}Number-handler-wrap {
+        display: none;
+      }
+    }
   }
   &:hover {
-    border-color: var(--Form-input-onFocused-borderColor);
+    border-color: var(--Form-input-onHover-borderColor);
+    .#{$ns}Number--enhance-input:hover {
+      border-color: var(--Number-borderColor);
+    }
+  }
+  &:active {
+    color: var(--Form-input-onFocused-borderColor);
   }
   &:focus-within {
     border-color: var(--Form-input-onFocused-borderColor);
@@ -302,7 +339,7 @@
     border-color: var(--Form-input-onDisabled-borderColor);
   }
   &:hover {
-    border-color: var(--Number-borderColor);
+    border-color: var(--Form-input-onDisabled-borderColor);
   }
 }
 

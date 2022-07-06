@@ -742,8 +742,8 @@
   --Form-input-password-icon-color: #{$G5};
 
   --Form-inputNumber-paddingX: #{px2rem(12px)};
-  --Form-inputNumber-base-width: #{px2rem(24px)};
-  --Form-inputNumber-base-height: #{px2rem(32px)};
+  --Form-inputNumber-base-width: #{px2rem(32px)};
+  --Form-inputNumber-base-height: #{px2rem(30px)};
   --Form-inputNumber-strong-disabled-color: #b4b6ba;
 
   --Form-input-paddingY: calc(
@@ -1130,6 +1130,8 @@
   --Number-handler-onHover-color: var(--text-color);
   --Number-handler-width: var(--gap-lg);
   --Number-onDisabled-bg: var(--Form-input-bg);
+  --Number-icon-color: #999999;
+  --Number-enhance-icon-color: #1A1A1A;
 
   --Page-aside-bg: #{desaturate(darken($light, 3%), 2.5%)};
   --Page-aside-maxWidth: #{px2rem(300px)};
