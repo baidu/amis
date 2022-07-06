@@ -132,6 +132,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
           componentId: form.data.componentId
             ? ''
             : undefined,
+          args: {},
           __cmptActionType,
           __actionDesc: actionNode?.description,
           __actionSchema: actionNode?.schema,
