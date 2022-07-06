@@ -18,6 +18,7 @@ export interface TagProps extends ThemeProps {
   disabled?: boolean;
   closeIcon?: string | React.ReactNode;
   onClose?: (e: React.MouseEvent) => void;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 export interface CheckableTagProps extends TagProps {
@@ -82,6 +83,12 @@ export class Tag extends React.Component<TagProps> {
     onClose?.(e);
   }
 
+  @autobind
+  handleClick(e: React.MouseEvent<HTMLElement>) {
+    const {onClick} = this.props;
+    onClick?.(e);
+  }
+
   render() {
     const {
       children,
@@ -92,7 +99,8 @@ export class Tag extends React.Component<TagProps> {
       color,
       icon,
       style,
-      label
+      label,
+      closable
     } = this.props;
 
     const isPresetColor =
@@ -131,9 +139,12 @@ export class Tag extends React.Component<TagProps> {
           [`Tag--disabled`]: disabled
         })}
         style={tagStyle}
+        onClick={this.handleClick}
       >
-        {prevIcon}
-        {label || children}
+        <span className={cx('Tag-text')}>
+          {prevIcon}
+          {label || children}
+        </span>
         {this.renderCloseIcon()}
       </span>
     );

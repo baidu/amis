@@ -371,6 +371,10 @@ body {
 
   &-nav {
     width: 180px;
+
+    a {
+      width: initial;
+    }
   }
 
   &-toc {

@@ -1709,4 +1709,9 @@
   --default-padding: 4px 12px; // 6px 12px
   --menu-min-width: 150px; // 一级子项最小宽度
   --menu-sub-min-width: 100px; // 二级子项最小宽度
+
+  --SearchBox-height: #{px2rem(30px)};
+  --SearchBox-width: #{px2rem(150px)};
+  --SearchBox-history-dropdown-maxWidth: calc(var(--SearchBox-width) * 2);
+  --SearchBox-history-dropdown-maxHeight: #{px2rem(200px)};
 }

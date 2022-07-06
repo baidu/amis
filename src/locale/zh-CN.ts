@@ -193,6 +193,7 @@ register('zh-CN', {
   'saveFailed': '保存失败',
   'saveSuccess': '保存成功',
   'search': '搜索',
+  'searchHistory': '搜索历史',
   'searchResult': '搜索结果',
   'stop': '停止',
   'Checkboxes.selectAll': '全选/不选',
