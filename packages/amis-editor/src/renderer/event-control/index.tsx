@@ -541,14 +541,32 @@ export class EventControl extends React.Component<
 
     return (
       <div className="ae-event-control">
-        {showOldEntry ? (
           <header
             className={cx({
-              'ae-event-control-header': true
+              'ae-event-control-header': true,
+              'ae-event-control-header-oldentry': showOldEntry,
+              'no-bd-btm': !eventKeys.length
             })}
-          ></header>
-        ) : null}
-        <ul className="ae-event-control-content" ref={this.dragRef}>
+          >
+            {amisRender({
+              type: 'dropdown-button',
+              level: 'enhance',
+              label: '添加事件',
+              disabled: false,
+              className: 'block w-full add-event-dropdown',
+              closeOnClick: true,
+              buttons: events.map(item => ({
+                type: 'button',
+                actionType: '',
+                label: item.eventLabel,
+                onClick: this.addEvent.bind(this, item)
+              }))
+            })}
+          </header>
+        <ul className={cx({
+              'ae-event-control-content': true,
+              'ae-event-control-content-oldentry': showOldEntry
+            })} ref={this.dragRef}>
           {eventKeys.length ? (
             eventKeys.map((eventKey, eventIndex) => {
               return (
@@ -673,27 +691,6 @@ export class EventControl extends React.Component<
             </div>
           )}
         </ul>
-        <footer
-          className={cx({
-            'ae-event-control-footer': true,
-            'no-bd-btm': !eventKeys.length
-          })}
-        >
-          {amisRender({
-            type: 'dropdown-button',
-            level: 'enhance',
-            label: '添加事件',
-            disabled: false,
-            className: 'block w-full add-event-dropdown',
-            closeOnClick: true,
-            buttons: events.map(item => ({
-              type: 'button',
-              actionType: '',
-              label: item.eventLabel,
-              onClick: this.addEvent.bind(this, item)
-            }))
-          })}
-        </footer>
         <ActionDialog
           show={showAcionDialog}
           type={type}
