@@ -1,4 +1,3 @@
-
 .#{$ns}ScheduleCalendar {
   &-icon {
     position: absolute;
@@ -30,9 +29,9 @@
   }
 
   &-text-overflow {
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     position: absolute;
     width: 100%;
   }
@@ -45,7 +44,7 @@
         background: transparent !important;
       }
     }
-    td.rdtActive:hover{
+    td.rdtActive:hover {
       background: var(--Calendar-cell-onHover-bg);
     }
   }
@@ -108,6 +107,11 @@
     border-radius: px2rem(16px) px2rem(16px) 0 0;
     overflow: hidden;
     border-width: 0;
+
+    &--time {
+      height: fit-content;
+      max-height: 90vh;
+    }
   }
 
   &-wrap {
@@ -189,13 +193,15 @@
       border-spacing: 0 px2rem(4px);
     }
 
-    .rdt .rdtPicker td.rdtActive, .rdt .rdtPicker td.rdtActive:hover {
+    .rdt .rdtPicker td.rdtActive,
+    .rdt .rdtPicker td.rdtActive:hover {
       background: transparent;
       color: var(--Calendar-color);
       text-shadow: none;
     }
 
-    .rdt .rdtPicker tr td.rdtDisabled, .rdt .rdtPicker tr td.rdtDisabled:hover {
+    .rdt .rdtPicker tr td.rdtDisabled,
+    .rdt .rdtPicker tr td.rdtDisabled:hover {
       color: #999;
     }
 
@@ -257,7 +263,7 @@
     }
     &-ranges {
       background: #fff;
-      box-shadow: 0 0 2px 2px rgba(0,0,0,0.02);
+      box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.02);
       border-radius: 24px;
       overflow-x: auto;
       position: relative;
@@ -281,8 +287,8 @@
   }
 
   & &-calendar-wrap &-calendar .rdtPicker {
-      width: 100%;
-      padding: 0;
+    width: 100%;
+    padding: 0;
     .rdtOld {
       visibility: hidden;
     }
@@ -309,18 +315,30 @@
 
     .rdtRangeHasEnd,
     .rdtRangeHasEnd:hover {
-      background: linear-gradient(to right, transparent 0%, transparent 50%, var(--Calendar-cell-onBetween-bg) 51%, var(--Calendar-cell-onBetween-bg) 100%) !important;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        transparent 50%,
+        var(--Calendar-cell-onBetween-bg) 51%,
+        var(--Calendar-cell-onBetween-bg) 100%
+      ) !important;
     }
 
     .rdtRangeEnd,
     .rdtRangeEnd:hover {
-      background: linear-gradient(to right, var(--Calendar-cell-onBetween-bg) 0%, var(--Calendar-cell-onBetween-bg) 50%, transparent 51%, transparent 100%) !important;
+      background: linear-gradient(
+        to right,
+        var(--Calendar-cell-onBetween-bg) 0%,
+        var(--Calendar-cell-onBetween-bg) 50%,
+        transparent 51%,
+        transparent 100%
+      ) !important;
     }
 
     .rdtToday {
       border: none;
       .calendar-wrap {
-        border: 1px solid #2468F2;
+        border: 1px solid #2468f2;
       }
     }
   }
@@ -363,7 +381,7 @@
     transform: translate(-50%, -50%);
     width: px2rem(136px);
     height: px2rem(36px);
-    background: rgba(0, 0, 0, .9);
+    background: rgba(0, 0, 0, 0.9);
     border-radius: 4px;
     color: #fff;
     display: flex;
