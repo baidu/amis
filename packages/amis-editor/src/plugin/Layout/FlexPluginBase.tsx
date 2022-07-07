@@ -229,7 +229,7 @@ export class FlexPluginBase extends BasePlugin {
       );
     }
 
-    if (isFlexItem) {
+    if (isFlexItem && !draggableContainer) {
       // 布局容器的列级元素 增加左右插入icon
       toolbars.push(
         {
