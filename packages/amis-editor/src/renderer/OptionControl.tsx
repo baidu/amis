@@ -577,8 +577,8 @@ export default class OptionControl extends React.Component<
       }
     ]
 
-    // 选中时增加取消操作
-    if (!closeDefaultCheck && checked) {
+    // 单选模式，选中时增加取消操作
+    if (!closeDefaultCheck && !isMultiple && checked) {
       operationBtn.unshift({
         type: 'button',
         className: 'ae-OptionControlItem-action',
