@@ -63,6 +63,7 @@ export class LinkPlugin extends BasePlugin {
                 name: 'position',
                 pipeIn: defaultValue('rightIcon'),
                 size: 'sm',
+                value: 'rightIcon',
                 options: [
                   {
                   label: '左侧',
