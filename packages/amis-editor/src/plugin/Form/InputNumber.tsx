@@ -248,7 +248,8 @@ export class NumberControlPlugin extends BasePlugin {
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
                 getSchemaTpl('placeholder'),
-                getSchemaTpl('description')
+                getSchemaTpl('description'),
+                getSchemaTpl('autoFillApi')
               ]
             },
             getSchemaTpl('status', {isFormItem: true}),

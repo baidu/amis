@@ -346,7 +346,6 @@ export class FileControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
               getSchemaTpl('description'),
               getSchemaTpl('autoFillApi')
-              // getSchemaTpl('autoFill')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

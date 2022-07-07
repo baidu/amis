@@ -1,7 +1,4 @@
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
@@ -363,7 +360,12 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 getSchemaTpl('joinValues'),
                 getSchemaTpl('delimiter'),
                 getSchemaTpl('extractValue'),
-                getSchemaTpl('autoFill'),
+                getSchemaTpl('autoFillApi', {
+                  visibleOn: '!this.autoFill || this.autoFill.api'
+                }),
+                getSchemaTpl('autoFill', {
+                  visibleOn: '!this.autoFill || !this.autoFill.api'
+                }),
 
                 getSchemaTpl('creatable'),
                 getSchemaTpl('api', {

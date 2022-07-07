@@ -141,15 +141,20 @@ export class TagControlPlugin extends BasePlugin {
             }),
             getSchemaTpl('joinValues'),
             getSchemaTpl('delimiter'),
-            getSchemaTpl('extractValue')
+            getSchemaTpl('extractValue'),
+            getSchemaTpl('autoFillApi', {
+              visibleOn: '!this.autoFill || this.autoFill.api'
+            }),
+            getSchemaTpl('autoFill', {
+              visibleOn: '!this.autoFill || !this.autoFill.api'
+            })
           ]
         },
         option: {
           body: [
             getSchemaTpl('optionControlV2', {
               description: '设置选项后，输入时会下拉这些选项供用户参考。'
-            }),
-            getSchemaTpl('autoFill')
+            })
           ]
         },
         status: {}

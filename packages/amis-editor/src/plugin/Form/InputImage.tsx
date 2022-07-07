@@ -114,8 +114,6 @@ export class ImageControlPlugin extends BasePlugin {
               __isUpload: true
             }),
 
-            getSchemaTpl('autoFill'),
-
             {
               type: 'input-text',
               value: '.jpeg, .jpg, .png, .gif',
@@ -282,7 +280,13 @@ export class ImageControlPlugin extends BasePlugin {
                     '当宽高比没有满足条件时，此描述将作为提示信息显示'
                 }
               ]
-            }
+            },
+            getSchemaTpl('autoFillApi', {
+              visibleOn: '!this.autoFill || this.autoFill.api'
+            }),
+            getSchemaTpl('autoFill', {
+              visibleOn: '!this.autoFill || !this.autoFill.api'
+            })
           ]
         }
       },
