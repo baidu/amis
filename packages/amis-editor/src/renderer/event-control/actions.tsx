@@ -610,7 +610,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '设置组件数据',
           actionType: 'setValue',
           description: '设置数据容器或表单项的数据',
-          innerArgs: ['value', 'valueInput'],
+          innerArgs: ['value', 'valueInput', 'index', '__comboType'],
           descDetail: (info: any) => {
             return (
               <div>
@@ -635,6 +635,38 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               type: 'wrapper',
               className: 'p-none',
               body: [
+                {
+                  type: 'radios',
+                  required: true,
+                  name: '__comboType',
+                  mode: 'horizontal',
+                  label: '赋值方式',
+                  visibleOn: `data.__rendererName && __rendererName === 'combo'`,
+                  options: [
+                    {
+                      label: '全量',
+                      value: 'all'
+                    },
+                    {
+                      label: '指定序号',
+                      value: 'appoint',
+                    }
+                  ],
+                  onChange: (value: string, oldVal: any, data: any, form: any) => {
+                    form.setValueByName('index', undefined);
+                    form.setValueByName('value', []);
+                    form.setValueByName('valueInput', undefined);
+                  }
+                },
+                {
+                  type: 'input-number',
+                  required: true,
+                  name: 'index',
+                  mode: 'horizontal',
+                  label: '输入序号',
+                  placeholder: '请输入待更新序号',
+                  visibleOn: `data.__comboType && __comboType === 'appoint'`
+                },
                 {
                   type: 'combo',
                   name: 'value',
@@ -662,7 +694,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       type: 'input-text',
                       placeholder: '变量名',
                       required: true,
-                      visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP}`
+                      visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP} && __comboType === 'appoint'`
                     },
                     {
                       name: 'val',
@@ -674,7 +706,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       inputMode: 'input-group'
                     }
                   ],
-                  visibleOn: `data.__rendererName && ${IS_DATA_CONTAINER}`
+                  visibleOn: `data.__rendererName && ${IS_DATA_CONTAINER} || (data.__comboType && __comboType === 'appoint')`
                 },
                 {
                   type: 'combo',
@@ -729,7 +761,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       ]
                     }
                   ],
-                  visibleOn: `data.__rendererName && __rendererName === 'combo'`
+                  visibleOn: `data.__rendererName && __rendererName === 'combo' && data.__comboType && __comboType === 'all'`
                 },
                 {
                   name: 'valueInput',

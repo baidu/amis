@@ -154,7 +154,6 @@ export const getEventControlConfig = (
         manager.pluginActions,
         commonActions
       );
-
       // 还原args为可视化配置结构(args + addOnArgs)
       if (config.args) {
         if (innerArgs) {
@@ -228,7 +227,7 @@ export const getEventControlConfig = (
 
         if (Array.isArray(config.args?.[propName])) {
           action.args = action.args ?? {};
-          if (action.__rendererName === 'combo') {
+          if (action.__rendererName === 'combo' && action.args?.index === undefined) {
             // combo特殊处理
             let tempArr: any = [];
             config.args?.[propName].forEach((valueItem: any, index: number) => {
