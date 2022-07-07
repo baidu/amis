@@ -341,14 +341,14 @@ html 中引入：
 js 中引入：
 
 ```js
-import './node_modules/amis/lib/themes/cxd.css';
-import './node_modules/amis/lib/helper.css';
-import './node_modules/amis/sdk/iconfont.css';
-// 或 import './node_modules/amis/lib/themes/antd.css';
+import 'amis/lib/themes/cxd.css';
+import 'amis/lib/helper.css';
+import 'amis/sdk/iconfont.css';
+// 或 import 'amis/lib/themes/antd.css';
 ```
 
 > 上面只是示例，请根据自己的项目结构调整引用路径
-> 如果要支持 IE 11 请引入 ./node_modules/amis/sdk/cxd-ie11.css，但这样就没法支持 CSS 变量了
+> 如果要支持 IE 11 请引入 amis/sdk/cxd-ie11.css，但这样就没法支持 CSS 变量了
 
 2. 渲染器使用配置主题
 
