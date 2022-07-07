@@ -19,7 +19,9 @@ import {
   DSBuilder,
   DSBuilderManager,
   DSFeature,
-  DSFeatureType
+  DSFeatureType,
+  RendererPluginAction,
+  RendererPluginEvent
 } from 'amis-editor-core';
 import {flattenDeep, fromPairs, isObject, remove} from 'lodash';
 import {ButtonSchema} from 'amis/lib/renderers/Action';
@@ -296,7 +298,7 @@ const FilterTypes: Array<FeatOption> = [
                 componentId: setting.id,
                 args: {
                   query: {
-                    filters: '${event.data}'
+                    simpleFilters: '${event.data}'
                   }
                 }
               }
@@ -333,7 +335,9 @@ const FilterTypes: Array<FeatOption> = [
                 actionType: 'search',
                 componentId: setting.id,
                 args: {
-                  query: '${event.data}'
+                  query: {
+                    customFilters: '${event.data}'
+                  }
                 }
               }
             ]
@@ -472,7 +476,10 @@ export class CRUDPlugin extends BasePlugin {
         host.schema,
         'api'
       );
-      const body = builder.makeFieldFilterSetting({});
+      const body = builder.makeFieldFilterSetting({
+        schema: host.schema,
+        sourceKey: 'api'
+      });
 
       if (!body) {
         return;
@@ -821,12 +828,20 @@ export class CRUDPlugin extends BasePlugin {
                 return null;
               }
 
+              const fields: any = [];
+              // await builder.getContextFileds({
+              //   schema: context.node.schema,
+              //   feat: item.value,
+              //   sourceKey: 'api'
+              // });
+
               // 开关配置
-              const moreConfig = builder.makeFieldsSettingForm({
-                feat: item.value,
-                inCrud: true,
-                inScaffold: false
-              });
+              // const moreConfig = builder.makeFieldsSettingForm({
+              //   feat: item.value,
+              //   inCrud: true,
+              //   inScaffold: false
+              // });
+
               const base = {
                 label: item.label,
                 name: `__${item.value}`, // 没有真实作用，只是有这个才触发onChange
@@ -866,13 +881,14 @@ export class CRUDPlugin extends BasePlugin {
                   return undefined;
                 }
               };
-              return moreConfig && moreConfig.length
+              return fields && fields.length
                 ? {
                     ...base,
                     type: 'ae-switch-more',
                     formType: 'extend',
+                    mode: 'normal',
                     form: {
-                      body: moreConfig
+                      body: fields
                     }
                   }
                 : getSchemaTpl('switch', base);
@@ -1184,6 +1200,7 @@ export class CRUDPlugin extends BasePlugin {
         });
 
         schema.id = schema.id ?? generateNodeId(); // 先生成一个，方便其他流程生成事件动作
+        value.id = schema.id; // 事件动作需要
         schema.$$m = value;
 
         if (value.filters) {
@@ -1237,7 +1254,7 @@ export class CRUDPlugin extends BasePlugin {
     };
   }
 
-  events = [
+  events: RendererPluginEvent[] = [
     {
       eventName: 'get-data',
       eventLabel: '数据加载',
@@ -1245,13 +1262,12 @@ export class CRUDPlugin extends BasePlugin {
     }
   ];
 
-  actions = [
+  actions: RendererPluginAction[] = [
     {
       actionType: 'search',
       actionLabel: '数据查询',
       description: '使用指定条件完成列表数据查询',
-      config: ['query'],
-      desc: (info: any) => {
+      descDetail: (info: any) => {
         return (
           <div>
             <span className="variable-right">{info?.__rendererLabel}</span>
@@ -1287,7 +1303,7 @@ export class CRUDPlugin extends BasePlugin {
       actionType: 'loadMore',
       actionLabel: '加载更多',
       description: '加载更多条数据到列表容器',
-      desc: (info: any) => {
+      descDetail: (info: any) => {
         return (
           <div>
             <span className="variable-right">{info?.__rendererLabel}</span>
