@@ -320,6 +320,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         },
         {
           ...rest,
+          topStore: this.store,
           body: (
             <>
               <h3>{this.store.runtimeError?.toString()}</h3>
@@ -337,6 +338,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         {
           render(pathPrefix!, schema, {
             ...rest,
+            topStore: this.store,
             data: this.store.downStream,
             onAction: this.handleAction
           }) as JSX.Element
@@ -349,6 +351,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           },
           {
             ...rest,
+            topStore: this.store,
             show: store.loading
           }
         )}
@@ -361,6 +364,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
               },
               {
                 ...rest,
+                topStore: this.store,
                 body: store.msg,
                 showCloseButton: true,
                 onClose: store.clearMessage
@@ -378,6 +382,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           {
             ...rest,
             key: 'dialog',
+            topStore: this.store,
             data: store.dialogData,
             onConfirm: this.handleDialogConfirm,
             onClose: this.handleDialogClose,
@@ -396,6 +401,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           {
             ...rest,
             key: 'drawer',
+            topStore: this.store,
             data: store.drawerData,
             onConfirm: this.handleDrawerConfirm,
             onClose: this.handleDrawerClose,

@@ -81,11 +81,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     this.dispatchEvent = this.dispatchEvent.bind(this);
 
-    // 监听rootStore更新
+    // 监听topStore更新
     this.reaction = reaction(
       () =>
-        `${props.rootStore.visibleState[props.schema.id || props.$path]}${
-          props.rootStore.disableState[props.schema.id || props.$path]
+        `${props.topStore.visibleState[props.schema.id || props.$path]}${
+          props.topStore.disableState[props.schema.id || props.$path]
         }`,
       () => this.forceUpdate()
     );
@@ -240,7 +240,14 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   render(): JSX.Element | null {
-    let {$path: _, schema: __, rootStore, render, ...rest} = this.props;
+    let {
+      $path: _,
+      schema: __,
+      rootStore,
+      topStore,
+      render,
+      ...rest
+    } = this.props;
 
     if (__ == null) {
       return null;
@@ -261,11 +268,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       : {};
 
     // 控制显隐
-    const visible = isAlive(rootStore)
-      ? rootStore.visibleState[schema.id || $path]
+    const visible = isAlive(topStore)
+      ? topStore.visibleState[schema.id || $path]
       : undefined;
-    const disable = isAlive(rootStore)
-      ? rootStore.disableState[schema.id || $path]
+    const disable = isAlive(topStore)
+      ? topStore.disableState[schema.id || $path]
       : undefined;
 
     if (
@@ -294,7 +301,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             $schema: schema,
             render: this.renderChild,
             forwardedRef: this.refFn,
-            rootStore: rootStore,
+            rootStore,
+            topStore,
             dispatchEvent: this.dispatchEvent
           });
     } else if (typeof schema.component === 'function') {
@@ -322,7 +330,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             ref: isSFC ? undefined : this.refFn,
             forwardedRef: isSFC ? this.refFn : undefined,
             render: this.renderChild,
-            rootStore: rootStore,
+            rootStore,
+            topStore,
             dispatchEvent: this.dispatchEvent
           });
     } else if (Object.keys(schema).length === 0) {
@@ -351,6 +360,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
           $schema={schema}
           retry={this.reRender}
           rootStore={rootStore}
+          topStore={topStore}
           dispatchEvent={this.dispatchEvent}
         />
       );
@@ -397,7 +407,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       $schema: $schema,
       ref: this.refFn,
       render: this.renderChild,
-      rootStore: rootStore,
+      rootStore,
+      topStore,
       dispatchEvent: this.dispatchEvent
     };
 

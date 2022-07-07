@@ -159,8 +159,6 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-clearBtn-color: #{$G7};
   --Form-input-clearBtn-color-onHover: #{$G4};
   --Form-input-clearBtn-color-onActive: #{$G3};
-  --Form-input-password-icon-size: #{px2rem(16px)};
-  --Form-input-password-icon-color: #{$G5};
 
   --Form-select-borderWidth: #{px2rem(1px)};
   --Form-select-borderRadius: #{$R3};
@@ -232,14 +230,19 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Switch-width: #{px2rem(44px)};
   --Switch-valueColor: #{$G11};
   --Switch-bgColor: #{$G7};
-  --Switch-onActive-bgColor: #{$G6};
+  --Switch-onActive-bgColor: var(--primary);
   --Switch-onHover-bgColor: #{$G6};
-  --Switch-checked-bgColor: var(--primary);
   --Switch-checked-onHover-bgColor: #{$B7};
   --Switch-checked-onActive-bgColor: #{$B7};
   --Switch-onDisabled-bgColor: #{$B2};
   --Switch-onDisabled-color: #{$G11};
   // --Switch-onDisabled-circle-BackgroundColor: #fff;
+  --Switch-slider-margin: #{px2rem(2px)};
+  --Switch-slider-width: calc(
+    var(--Switch-height) - var(--Switch-slider-margin) * 2
+  );
+  --Switch-slider-transition: all 0.5s ease;
+  --Switch-text-margin: 0 px2rem(8px) 0 px2rem(25px);
 
   --Calendar-icon-bottom: #{px2rem(-4px)};
   --Calendar-icon-width: #{px2rem(10px)};

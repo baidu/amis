@@ -5,7 +5,7 @@ import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
 import forEach from 'lodash/forEach';
 import {evalExpression, filter} from 'amis-core';
-import {BadgeObject, Checkbox} from 'amis-ui';
+import {BadgeObject, Checkbox, Spinner} from 'amis-ui';
 import {Button} from 'amis-ui';
 import {TableStore, ITableStore} from 'amis-core';
 import {
@@ -803,7 +803,11 @@ export default class Table extends React.Component<TableProps, object> {
     form && this.props.store.addForm(form.props.store, y);
   }
 
-  handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
+  handleAction(
+    e: React.UIEvent<any> | undefined,
+    action: ActionObject,
+    ctx: object
+  ) {
     const {onAction} = this.props;
 
     // todo
@@ -1499,7 +1503,8 @@ export default class Table extends React.Component<TableProps, object> {
   @autobind
   handleColResizeMouseMove(e: MouseEvent) {
     const moveX = e.clientX - this.lineStartX;
-    this.resizeLine.style.left = this.resizeLineLeft + moveX + 'px';
+    // 光标right为-4px，列宽改变时会自动跟随，不需要单独处理位置
+    // this.resizeLine.style.left = this.resizeLineLeft + moveX + 'px';
     this.targetTh.style.width = this.targetThWidth + moveX + 'px';
   }
 
@@ -1947,7 +1952,7 @@ export default class Table extends React.Component<TableProps, object> {
             classPrefix={ns}
             type={multiple ? 'checkbox' : 'radio'}
             checked={item.checked}
-            disabled={item.checkdisable}
+            disabled={item.checkdisable || item.checkable}
             onChange={
               checkOnItemClick ? noop : this.handleCheck.bind(this, item)
             }
@@ -2639,7 +2644,7 @@ export default class Table extends React.Component<TableProps, object> {
       itemActions,
       dispatchEvent,
       onEvent,
-      loading
+      loading = false
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2647,47 +2652,51 @@ export default class Table extends React.Component<TableProps, object> {
     store.rows.length;
 
     return (
-      <TableContent
-        tableClassName={cx(
-          store.combineNum > 0 ? 'Table-table--withCombine' : '',
-          {'Table-table--checkOnItemClick': checkOnItemClick},
-          tableClassName
-        )}
-        className={tableContentClassName}
-        itemActions={itemActions}
-        itemAction={itemAction}
-        store={store}
-        classnames={cx}
-        columns={store.filteredColumns}
-        columnsGroup={store.columnGroup}
-        rows={store.rows}
-        placeholder={placeholder}
-        render={render}
-        onMouseMove={this.handleMouseMove}
-        onScroll={this.handleOutterScroll}
-        tableRef={this.tableRef}
-        renderHeadCell={this.renderHeadCell}
-        renderCell={this.renderCell}
-        onCheck={this.handleCheck}
-        onQuickChange={store.dragging ? undefined : this.handleQuickChange}
-        footable={store.footable}
-        footableColumns={store.footableColumns}
-        checkOnItemClick={checkOnItemClick}
-        buildItemProps={buildItemProps}
-        onAction={this.handleAction}
-        rowClassNameExpr={rowClassNameExpr}
-        rowClassName={rowClassName}
-        data={store.data}
-        prefixRow={prefixRow}
-        affixRow={affixRow}
-        prefixRowClassName={prefixRowClassName}
-        affixRowClassName={affixRowClassName}
-        locale={locale}
-        translate={translate}
-        dispatchEvent={dispatchEvent}
-        onEvent={onEvent}
-        loading={loading}
-      />
+      <>
+        <TableContent
+          tableClassName={cx(
+            store.combineNum > 0 ? 'Table-table--withCombine' : '',
+            {'Table-table--checkOnItemClick': checkOnItemClick},
+            tableClassName
+          )}
+          className={tableContentClassName}
+          itemActions={itemActions}
+          itemAction={itemAction}
+          store={store}
+          classnames={cx}
+          columns={store.filteredColumns}
+          columnsGroup={store.columnGroup}
+          rows={store.rows}
+          placeholder={placeholder}
+          render={render}
+          onMouseMove={this.handleMouseMove}
+          onScroll={this.handleOutterScroll}
+          tableRef={this.tableRef}
+          renderHeadCell={this.renderHeadCell}
+          renderCell={this.renderCell}
+          onCheck={this.handleCheck}
+          onQuickChange={store.dragging ? undefined : this.handleQuickChange}
+          footable={store.footable}
+          footableColumns={store.footableColumns}
+          checkOnItemClick={checkOnItemClick}
+          buildItemProps={buildItemProps}
+          onAction={this.handleAction}
+          rowClassNameExpr={rowClassNameExpr}
+          rowClassName={rowClassName}
+          data={store.data}
+          prefixRow={prefixRow}
+          affixRow={affixRow}
+          prefixRowClassName={prefixRowClassName}
+          affixRowClassName={affixRowClassName}
+          locale={locale}
+          translate={translate}
+          dispatchEvent={dispatchEvent}
+          onEvent={onEvent}
+          loading={loading}
+        />
+
+        <Spinner overlay show={loading} />
+      </>
     );
   }
 
@@ -2720,6 +2729,7 @@ export default class Table extends React.Component<TableProps, object> {
         store.toggleDragging();
         break;
       default:
+        this.handleAction(undefined, action, data);
         break;
     }
   }

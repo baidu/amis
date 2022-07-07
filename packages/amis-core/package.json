@@ -1,9 +1,10 @@
 {
   "name": "amis-core",
-  "version": "2.0.0-rc.15",
+  "version": "2.0.0",
   "description": "amis-core",
   "main": "lib/index.js",
   "module": "esm/index.js",
+  "types": "lib/index.d.ts",
   "author": "fex",
   "license": "Apache-2.0",
   "devDependencies": {
@@ -33,6 +34,7 @@
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
     "dev": "rollup -c -w",
     "test": "jest",
+    "update-snapshot": "jest --updateSnapshot",
     "coverage": "jest --coverage",
     "clean-dist": "rimraf lib/* esm/*"
   },

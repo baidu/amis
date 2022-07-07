@@ -56,9 +56,9 @@ amis 主要代码在 `src` 和 `scss` 目录下，这里主要介绍 `src` 下�
 
 ```tsx
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
-import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
 
 // schema 是用来给编辑器提示用的，同时也作为组件 props 的类型定义
 export interface AvatarSchema extends BaseSchema {

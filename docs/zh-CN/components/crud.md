@@ -541,16 +541,53 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 ```schema: scope="body"
 {
     "type": "crud",
+    "name": "crud",
     "syncLocation": false,
     "api": "/api/mock2/sample",
      "filter": {
         "title": "条件搜索",
         "body": [
             {
-                "type": "input-text",
-                "name": "keywords",
-                "placeholder": "通过关键字搜索"
+                "type": "flex",
+                "justify": "space-between",
+                "alignItems": "center",
+                "items": [
+                    {
+                        "type": "input-text",
+                        "name": "keywords",
+                        "placeholder": "通过关键字搜索",
+                        "size": "sm"
+                    },
+                    {
+                        "type": "button",
+                        "actionType": "drawer",
+                        "icon": "fa fa-plus",
+                        "label": "创建记录",
+                        "target": "crud",
+                        "closeOnOutside": true,
+                        "drawer": {
+                            "title": "创建记录",
+                            "body": {
+                                "type": "form",
+                                "api": "post:/api/mock2/sample",
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "engine",
+                                        "label": "Engine"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "browser",
+                                        "label": "Browser"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
             }
+
         ]
     },
     "columns": [
@@ -1472,7 +1509,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 批量操作会默认将下面数据添加到数据域中以供按钮行为使用
 
-- `items` `Array<object>` 当前页数据集合。
+- `items` `Array<object>` selectedItems 的别名
 - `rows` items 的别名，推荐用 items。
 - `selectedItems` `Array<object>` 选中的行数据集合
 - `unSelectedItems` `Array<object>` 没选中的行数据也可获取。

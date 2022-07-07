@@ -1652,8 +1652,8 @@ import {
   ListenerContext,
   registerAction,
   RendererAction
-} from 'amis/lib/actions';
-import {RendererEvent} from 'amis/lib/utils/renderer-event';
+} from 'amis-core';
+import {RendererEvent} from 'amis-core';
 
 // 动作定义
 interface IMyAction extends ListenerAction {

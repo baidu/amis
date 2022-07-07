@@ -46,10 +46,6 @@ export const RendererStore = types
   .model('RendererStore', {
     storeType: 'RendererStore'
   })
-  .props({
-    visibleState: types.optional(types.frozen(), {}),
-    disableState: types.optional(types.frozen(), {})
-  })
   .views(self => ({
     get fetcher() {
       return getEnv(self).fetcher;
@@ -97,22 +93,6 @@ export const RendererStore = types
     removeStore(store: IStoreNode) {
       // store.dispose();
       removeStore(store);
-    },
-
-    setVisible(id: string, value: boolean) {
-      const state = {
-        ...self.visibleState,
-        [id]: value
-      };
-      self.visibleState = state;
-    },
-
-    setDisable(id: string, value: boolean) {
-      const state = {
-        ...self.disableState,
-        [id]: value
-      };
-      self.disableState = state;
     }
   }));
 

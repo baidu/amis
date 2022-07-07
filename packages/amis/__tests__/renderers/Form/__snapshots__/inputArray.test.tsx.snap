@@ -45,7 +45,9 @@ exports[`Renderer:inputArray 1`] = `
                   type="submit"
                 />
                 <pre>
-                  <code>
+                  <code
+                    class="cxd-Form--debug"
+                  >
                     {
   "array": [
     "amis"

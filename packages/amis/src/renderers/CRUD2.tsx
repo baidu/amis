@@ -879,6 +879,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   /**
    * 表格列上的筛选触发
    */
+  @autobind
   handleTableQuery(values: object, forceReload: boolean = false) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
@@ -954,16 +955,21 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   toggleAllColumns(value: boolean) {
     const {store} = this.props;
 
-    store.updateColumns(store.columns.map((c: any) => ({...c, toggled: value})));
+    store.updateColumns(
+      store.columns.map((c: any) => ({...c, toggled: value}))
+    );
   }
 
   @autobind
   toggleToggle(toggled: boolean, index: number) {
     const {store} = this.props;
 
-    store.updateColumns(store.columns.map((c: any, i: number) => ({
-      ...c, toggled: (index === i ? toggled : c.toggled)
-   })));
+    store.updateColumns(
+      store.columns.map((c: any, i: number) => ({
+        ...c,
+        toggled: index === i ? toggled : c.toggled !== false
+      }))
+    );
   }
 
   @autobind
@@ -1159,11 +1165,12 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             onSearch: this.handleTableQuery,
             onSort: this.handleTableQuery,
             onSelect: this.handleSelect,
-            data: store.mergedData
+            data: store.mergedData,
+            loading: store.loading
           }
         )}
-
-        <Spinner overlay size="lg" key="info" show={store.loading} />
+        {/* spinner可以交给孩子处理 */}
+        {/* <Spinner overlay size="lg" key="info" show={store.loading} /> */}
 
         <div className={cx('Crud2-toolbar')}>
           {this.renderToolbar('footerToolbar', footerToolbar)}

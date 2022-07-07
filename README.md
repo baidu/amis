@@ -38,7 +38,7 @@
 
 > 如果 github 下载慢可以使用 [gitee](https://gitee.com/baidu/amis) 上的镜像。
 
-推荐使用 node 12/14。
+推荐使用 node 12/14/16。npm 7+， 因为用到了 workspaces 功能。
 
 ```bash
 # 安装项目 npm 依赖，在 node 12 下会有报错但不影响正常使用。

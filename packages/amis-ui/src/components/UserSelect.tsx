@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {themeable, ThemeProps} from 'amis-core';
+import {Payload, themeable, ThemeProps} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import {ResultBox} from '.';
 import type {Option} from 'amis-core';
@@ -20,7 +20,6 @@ import Spinner from './Spinner';
 import flatten from 'lodash/flatten';
 import {findDOMNode} from 'react-dom';
 import {Api, PlainObject} from 'amis-core';
-import {Payload} from 'echarts';
 
 export interface UserSelectProps extends ThemeProps, LocaleProps {
   showNav?: boolean;

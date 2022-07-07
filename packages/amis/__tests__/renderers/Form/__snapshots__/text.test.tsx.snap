@@ -1631,7 +1631,9 @@ exports[`Renderer:text with options 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {}
           </code>
         </pre>
@@ -1769,7 +1771,9 @@ exports[`Renderer:text with options and multiple: first option selected 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {
   "text": "a"
 }
@@ -1958,7 +1962,9 @@ exports[`Renderer:text with options and multiple: options is opened 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {}
           </code>
         </pre>
@@ -2142,7 +2148,9 @@ exports[`Renderer:text with options and multiple: options is opened again, and f
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {
   "text": "a"
 }
@@ -2331,7 +2339,9 @@ exports[`Renderer:text with options and multiple: second option selected 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {
   "text": "a,b"
 }
@@ -2523,7 +2533,9 @@ exports[`Renderer:text with options: options is open 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {}
           </code>
         </pre>
@@ -2687,7 +2699,9 @@ exports[`Renderer:text with options: select first option 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {
   "text": "a"
 }

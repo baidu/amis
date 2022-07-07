@@ -156,6 +156,7 @@
       border-radius: 50%;
       background-color: var(--InputRange-track-dot-bg);
       position: absolute;
+      transform: translateX(-50%);
     }
   }
 
