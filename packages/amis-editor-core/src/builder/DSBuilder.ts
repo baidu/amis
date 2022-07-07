@@ -160,10 +160,8 @@ export abstract class DSBuilder {
    */
   public abstract makeFieldFilterSetting(config: {
     /** 数据源字段名 */
-    sourceKey?: string;
-    inCrud?: boolean;
-    inScaffold?: boolean;
-    schema?: any;
+    sourceKey: string;
+    schema: any;
   }): SchemaObject[];
 
   /**
@@ -230,9 +228,7 @@ export abstract class DSBuilder {
     feat?: DSFeatureType;
   }): SchemaObject[];
 
-  abstract resolveSimpleFilterSchema(config: {
-    setting: any
-  }): SchemaObject[];
+  abstract resolveSimpleFilterSchema(config: {setting: any}): SchemaObject[];
 
   abstract resolveAdvancedFilterSchema(config: {
     setting: any;
@@ -244,18 +240,18 @@ export abstract class DSBuilder {
    * 当前上下文中使用的字段
    */
   abstract getContextFileds(config: {
-    schema: any,
-    sourceKey: string,
-    feat: DSFeatureType
+    schema: any;
+    sourceKey: string;
+    feat: DSFeatureType;
   }): Promise<DSFieldGroup[] | void>;
 
   /**
    * 上下文可以使用的字段
    */
   abstract getAvailableContextFileds(config: {
-    schema: any,
-    sourceKey: string,
-    feat: DSFeatureType
+    schema: any;
+    sourceKey: string;
+    feat: DSFeatureType;
   }): Promise<DSFieldGroup[] | void>;
 }
 
@@ -297,7 +293,9 @@ export class DSBuilderManager {
 
   resolveBuilderBySchema(schema: any, propKey: string) {
     const builders = Object.values(this.builders);
-    return builders.find(builder => builder.match(schema[propKey])) || builders[0];
+    return (
+      builders.find(builder => builder.match(schema[propKey])) || builders[0]
+    );
   }
 
   getDefaultBuilderName() {
@@ -308,7 +306,8 @@ export class DSBuilderManager {
           value: key,
           order: builder.order
         };
-      }).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+      })
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
     return builderOptions[0].value;
   }
 
