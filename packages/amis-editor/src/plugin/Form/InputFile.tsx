@@ -345,7 +345,12 @@ export class FileControlPlugin extends BasePlugin {
               getSchemaTpl('remark'),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('description'),
-              getSchemaTpl('autoFillApi')
+              getSchemaTpl('autoFillApi', {
+                visibleOn: '!this.autoFill || this.autoFill.api'
+              }),
+              getSchemaTpl('autoFill', {
+                visibleOn: '!this.autoFill || !this.autoFill.api'
+              })
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
