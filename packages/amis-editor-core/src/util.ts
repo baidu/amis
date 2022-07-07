@@ -891,7 +891,7 @@ export function isLayoutPlugin(plugin: any) {
  * 单位数值运算
  * 备注：支持带单位的数值进行运算
  */
- export function unitFormula(insetStr: string, offsetVal: number) {
+export function unitFormula(insetStr: string, offsetVal: number) {
   const insetNum = parseInt(insetStr);
   let curOffsetVal = offsetVal;
   if (!isNumber(offsetVal)) {
