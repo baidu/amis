@@ -24,10 +24,10 @@ export class Layout_fixed_bottom extends FlexPluginBase {
           flex: '1 1 auto',
           flexBasis: 'auto',
           flexGrow: 1,
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "stretch",
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'stretch',
           backgroundColor: 'rgba(181, 242, 167, 1)'
         }
       },
@@ -44,10 +44,10 @@ export class Layout_fixed_bottom extends FlexPluginBase {
           flex: '1 1 auto',
           flexBasis: 'auto',
           flexGrow: 1,
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "stretch",
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'stretch',
           backgroundColor: 'rgba(245, 166, 35, 0.48)'
         }
       },
@@ -64,10 +64,10 @@ export class Layout_fixed_bottom extends FlexPluginBase {
           flex: '1 1 auto',
           flexBasis: 'auto',
           flexGrow: 1,
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "stretch",
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'stretch',
           backgroundColor: 'rgba(242, 54, 54, 0.51)'
         }
       }

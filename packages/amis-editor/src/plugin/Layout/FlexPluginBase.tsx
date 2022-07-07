@@ -12,7 +12,6 @@ import type {
 } from 'amis-editor-core';
 import {tipedLabel} from '../../component/BaseControl';
 
-
 // 默认的列容器Schema
 const defaultFlexColumnSchema = (title: string) => {
   return {
@@ -88,15 +87,24 @@ export class FlexPluginBase extends BasePlugin {
               {
                 title: '布局',
                 body: [
-                  isFlexItem ? getSchemaTpl('layout:flex', {
-                    visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
-                  }) : null,
-                  isFlexItem ? getSchemaTpl('layout:flex-grow', {
-                    visibleOn: 'data.style && data.style.flex !== "0 0 auto" && (data.style.position === "static" || data.style.position === "relative")',
-                  }) : null,
-                  isFlexItem ? getSchemaTpl('layout:flex-basis', {
-                    visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
-                  }) : null,
+                  isFlexItem
+                    ? getSchemaTpl('layout:flex', {
+                        visibleOn:
+                          'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                      })
+                    : null,
+                  isFlexItem
+                    ? getSchemaTpl('layout:flex-grow', {
+                        visibleOn:
+                          'data.style && data.style.flex !== "0 0 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                      })
+                    : null,
+                  isFlexItem
+                    ? getSchemaTpl('layout:flex-basis', {
+                        visibleOn:
+                          'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                      })
+                    : null,
                   getSchemaTpl('layout:position'),
                   getSchemaTpl('layout:inset', {
                     mode: 'vertical'
@@ -133,7 +141,7 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:min-width'),
                   getSchemaTpl('layout:overflow-x'),
 
-                  !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
+                  !isFlexItem ? getSchemaTpl('layout:margin-center') : null
                 ]
               },
               {
@@ -185,7 +193,7 @@ export class FlexPluginBase extends BasePlugin {
   regions: Array<RegionConfig> = [
     {
       key: 'items',
-      label: '子节点集合',
+      label: '子节点集合'
     }
   ];
 
@@ -199,8 +207,11 @@ export class FlexPluginBase extends BasePlugin {
     const isFlexItem = this.manager?.isFlexItem(id);
     const newColumnSchema = defaultFlexColumnSchema('新的一列');
 
-    if (parent && (info.renderer.name === 'flex' || info.renderer.name === 'container') && !draggableContainer) {
-
+    if (
+      parent &&
+      (info.renderer.name === 'flex' || info.renderer.name === 'container') &&
+      !draggableContainer
+    ) {
       toolbars.push(
         {
           iconSvg: 'add-btn',
@@ -208,7 +219,12 @@ export class FlexPluginBase extends BasePlugin {
           level: 'special',
           placement: 'top',
           className: 'ae-InsertBefore is-vertical',
-          onClick: () => this.manager.appendSiblingSchema(defaultFlexContainerSchema, true, true)
+          onClick: () =>
+            this.manager.appendSiblingSchema(
+              defaultFlexContainerSchema,
+              true,
+              true
+            )
         },
         {
           iconSvg: 'add-btn',
@@ -216,7 +232,12 @@ export class FlexPluginBase extends BasePlugin {
           level: 'special',
           placement: 'bottom',
           className: 'ae-InsertAfter is-vertical',
-          onClick: () => this.manager.appendSiblingSchema(defaultFlexContainerSchema, false, true)
+          onClick: () =>
+            this.manager.appendSiblingSchema(
+              defaultFlexContainerSchema,
+              false,
+              true
+            )
         },
         {
           iconSvg: 'add-btn',
@@ -238,7 +259,8 @@ export class FlexPluginBase extends BasePlugin {
           level: 'special',
           placement: 'bottom',
           className: 'ae-InsertBefore',
-          onClick: () => this.manager.appendSiblingSchema(newColumnSchema, true, true)
+          onClick: () =>
+            this.manager.appendSiblingSchema(newColumnSchema, true, true)
         },
         {
           iconSvg: 'add-btn',
@@ -246,11 +268,11 @@ export class FlexPluginBase extends BasePlugin {
           level: 'special',
           placement: 'bottom',
           className: 'ae-InsertAfter',
-          onClick: () => this.manager.appendSiblingSchema(newColumnSchema, false, true)
+          onClick: () =>
+            this.manager.appendSiblingSchema(newColumnSchema, false, true)
         }
       );
     }
-
   }
 
   afterResolveJsonSchema(
