@@ -920,14 +920,14 @@ export class DateRangePicker extends React.Component<
     if (
       startDate &&
       minDuration &&
-      newValue.isAfter(startDate.clone().add(minDuration))
+      newValue.isBefore(startDate.clone().add(minDuration))
     ) {
       newValue = startDate.clone().add(minDuration);
     }
     if (
       startDate &&
       maxDuration &&
-      newValue.isBefore(startDate.clone().add(maxDuration))
+      newValue.isAfter(startDate.clone().add(maxDuration))
     ) {
       newValue = startDate.clone().add(maxDuration);
     }
