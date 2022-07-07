@@ -15,12 +15,88 @@ order: 9
 ```schema: scope="body"
 {
     "type": "form",
+    "debug": true,
     "api": "/api/mock2/form/saveForm",
     "body": [
         {
         "name": "checkboxes",
         "type": "checkboxes",
         "label": "复选框",
+        "options": [
+            {
+                "label": "OptionA",
+                "value": "a"
+            },
+            {
+                "label": "OptionB",
+                "value": "b"
+            },
+            {
+                "label": "OptionC",
+                "value": "c"
+            },
+            {
+                "label": "OptionD",
+                "value": "d"
+            }
+            ]
+        }
+    ]
+}
+```
+
+## 结果是数组模式
+
+默认是拼接成字符串，如果希望结果是数组，可以设置 `"joinValues": false`
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+        "name": "checkboxes",
+        "type": "checkboxes",
+        "label": "复选框",
+        "joinValues": false,
+        "options": [
+            {
+                "label": "OptionA",
+                "value": "a"
+            },
+            {
+                "label": "OptionB",
+                "value": "b"
+            },
+            {
+                "label": "OptionC",
+                "value": "c"
+            },
+            {
+                "label": "OptionD",
+                "value": "d"
+            }
+            ]
+        }
+    ]
+}
+```
+
+如果只想提取 value，需要加上 `"extractValue": true`
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+        "name": "checkboxes",
+        "type": "checkboxes",
+        "label": "复选框",
+        "joinValues": false,
+        "extractValue": true,
         "options": [
             {
                 "label": "OptionA",

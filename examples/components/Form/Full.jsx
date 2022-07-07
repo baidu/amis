@@ -926,6 +926,27 @@ export default {
           name: 'kv'
         },
         {
+          type: 'input-kvs',
+          name: 'kvs',
+          label: 'kvs',
+          keyItem: {
+            label: '字段名'
+          },
+          valueItems: [
+            {
+              type: 'switch',
+              name: 'primary',
+              label: '是否是主键'
+            },
+            {
+              type: 'select',
+              name: 'type',
+              label: '字段类型',
+              options: ['text', 'int', 'number']
+            }
+          ]
+        },
+        {
           type: 'divider'
         },
         {
