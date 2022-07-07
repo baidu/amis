@@ -17,6 +17,11 @@ import {DataSchema, findTree} from 'amis-core';
 import CmptActionSelect from './comp-action-select';
 import {Button} from 'amis';
 
+interface SetValueDsItem {
+  name: string;
+  label: string;
+}
+
 // 数据容器范围
 export const DATA_CONTAINER = [
   'form',
@@ -29,10 +34,21 @@ export const DATA_CONTAINER = [
   'chart'
 ];
 
+// 下拉展示可赋值属性范围
+export const SELECT_PROPS_CONTAINER = [
+  'form',
+];
+
 // 是否数据容器
 export const IS_DATA_CONTAINER = `${JSON.stringify(
   DATA_CONTAINER
 )}.includes(__rendererName)`;
+
+// 是否下拉展示可赋值属性
+export const SHOW_SELECT_PROP = `${JSON.stringify(
+  SELECT_PROPS_CONTAINER
+)}.includes(__rendererName)`;
+
 
 // 表单项组件
 export const FORMITEM_CMPTS = [
@@ -168,9 +184,20 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           items: [
             {
               name: 'key',
+              type: 'select',
+              placeholder: '变量名',
+              source: '${__setValueDs}',
+              labelField: 'label',
+              valueField: 'value',
+              required: true,
+              visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`,
+            },
+            {
+              name: 'key',
               type: 'input-text',
               placeholder: '变量名',
-              required: true
+              required: true,
+              visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP}`
             },
             {
               name: 'val',
@@ -498,7 +525,8 @@ export const renderCmptActionSelect = (
       '选择组件',
       true,
       async (value: string, oldVal: any, data: any, form: any) => {
-        // 获取组件上下文
+        // 获取组件上下文.
+        const rendererType = form.data.__rendererName
         if (form.data.__nodeId) {
           const dataSchema: any = await form.data.getContextSchemas?.(
             form.data.__nodeId,
@@ -519,15 +547,18 @@ export const renderCmptActionSelect = (
               ['页面变量', '系统变量'].includes(item.label)
             )
           ]);
-        }
-
-        if (form.data.actionType === 'setValue') {
-          // todo:这里会闪一下，需要从amis查下问题
-          form.setValueByName('args.value', undefined);
-          form.setValueByName('args.valueInput', undefined);
+          if (form.data.actionType === 'setValue') {
+            // todo:这里会闪一下，需要从amis查下问题
+            form.setValueByName('args.value', []);
+            form.setValueByName('args.valueInput', undefined);
+            if (SELECT_PROPS_CONTAINER.includes(rendererType)) {
+              form.setValueByName('__setValueDs', variables.filter(item => item.value !== '$$id'));
+            } else {
+              form.setValueByName('__setValueDs', []);
+            }
+          }
         }
         form.setValueByName('__cmptActionType', '');
-
         onChange?.(value, oldVal, data, form);
       }
     ),

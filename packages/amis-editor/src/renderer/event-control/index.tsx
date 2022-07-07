@@ -3,6 +3,7 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import Sortable from 'sortablejs';
 import {DataSchema, FormItem, Icon, TooltipWrapper} from 'amis';
+import cloneDeep from 'lodash/cloneDeep';
 import {FormControlProps, autobind, render as amisRender} from 'amis-core';
 import ActionDialog from './action-config-dialog';
 import {
@@ -10,7 +11,8 @@ import {
   findSubActionNode,
   getEventDesc,
   getEventLabel,
-  getPropOfAcion
+  getPropOfAcion,
+  SELECT_PROPS_CONTAINER
 } from './helper';
 import {
   ActionConfig,
@@ -67,6 +69,7 @@ interface EventControlState {
         __cmptTreeSource?: ComponentInfo[];
         __actionSchema?: any;
         __subActions?: SubRendererPluginAction[];
+        __setValueDs?: any[]
       }
     | undefined;
   type: 'update' | 'add';
@@ -303,10 +306,18 @@ export class EventControl extends React.Component<
    * @param {*} config
    * @memberof EventControl
    */
-  updateValue(event: string, index: number, config: any) {
+  async updateValue(event: string, index: number, config: any) {
     const {onEvent} = this.state;
+    let emptyEventAcion = {...onEvent};
     let onEventConfig = {...onEvent};
 
+    emptyEventAcion[event] =  {
+      actions: onEvent[event].actions.map((item, actionIndex) => {
+        return actionIndex === index
+          ? {actionType: ''} : item;
+      }),
+      weight: onEvent[event].weight
+    };
     onEventConfig[event] = {
       actions: onEvent[event].actions.map((item, actionIndex) => {
         return actionIndex === index
@@ -320,11 +331,9 @@ export class EventControl extends React.Component<
       }),
       weight: onEvent[event].weight
     };
-
     this.setState({
       onEvent: onEventConfig
     });
-
     this.props.onChange && this.props.onChange(onEventConfig);
   }
 
@@ -460,7 +469,16 @@ export class EventControl extends React.Component<
       const actionConfig = actionConfigInitFormatter?.(action);
       const actionNode = findActionNode(actionTree, actionConfig?.actionType!);
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
-
+      let setValueDs: any = null;
+      if (actionConfig?.actionType === 'setValue') {
+        const rendererType = actionConfig?.__rendererName;
+        const rendererName = actionConfig?.__rendererLabel;
+        // todo:这里会闪一下，需要从amis查下问题
+        if (SELECT_PROPS_CONTAINER.includes(rendererType)) {
+          const curVariable = rawVariables.find(item => item.label === `${rendererName}变量`);
+          setValueDs = curVariable?.children?.filter(item => item.value !== '$$id');
+        }
+      }
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,
@@ -474,7 +492,8 @@ export class EventControl extends React.Component<
         __actionDesc: actionNode!.description!, // 树节点描述
         __actionSchema: actionNode!.schema, // 树节点schema
         __subActions: hasSubActionNode?.actions, // 树节点子动作
-        __cmptTreeSource: actionConfig?.componentId ? getComponents?.(actionNode!) ?? [] : []
+        __cmptTreeSource: actionConfig?.componentId ? getComponents?.(actionNode!) ?? [] : [],
+        __setValueDs: setValueDs
         // broadcastId: action.actionType === 'broadcast' ? action.eventName : ''
       };
       // 选中项自动滚动至可见位置
@@ -536,8 +555,9 @@ export class EventControl extends React.Component<
       type,
       actionData
     } = this.state;
+    const enventSnapshot = cloneDeep(onEvent);
     const {showOldEntry} = this.props;
-    const eventKeys = Object.keys(onEvent);
+    const eventKeys = Object.keys(enventSnapshot);
 
     return (
       <div className="ae-event-control">
@@ -575,7 +595,7 @@ export class EventControl extends React.Component<
                     className={cx({
                       'event-item-header': true,
                       'no-bd-btm': !(
-                        onEvent[eventKey].actions?.length &&
+                        enventSnapshot[eventKey].actions?.length &&
                         eventPanelActive[eventKey]
                       )
                     })}
@@ -620,10 +640,10 @@ export class EventControl extends React.Component<
                       </div>
                     </div>
                   </div>
-                  {onEvent[eventKey].actions.length &&
+                  {enventSnapshot[eventKey].actions.length &&
                   eventPanelActive[eventKey] ? (
                     <ul className="item-content">
-                      {onEvent[eventKey].actions.map((action, actionIndex) => {
+                      {enventSnapshot[eventKey].actions.map((action, actionIndex) => {
                         return (
                           <li
                             className="ae-option-control-item"

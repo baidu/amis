@@ -9,6 +9,7 @@ import {
   FORMITEM_CMPTS,
   getArgsWrapper,
   IS_DATA_CONTAINER,
+  SHOW_SELECT_PROP,
   renderCmptActionSelect,
   renderCmptSelect,
   SUPPORT_DISABLED_CMPTS
@@ -424,13 +425,27 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           },
           schema: {
             type: 'wrapper',
-            style: {padding: '0'},
+            className: "p-none",
             body: [
               getArgsWrapper(
                 getSchemaTpl('apiControl', {
-                  name: 'api'
+                  name: 'api',
+                  label: '配置请求',
+                  mode: 'horizontal',
+                  size: 'lg',
+                  required: true
                 })
-              )
+              ),
+              {
+                name: 'outputVar',
+                type: 'input-text',
+                label: '请求出参',
+                placeholder: '请输入存储请求结果的变量名称',
+                description: '后面的动作可以通过${event.data.请求出参名称}来获取本次请求的返回结果',
+                mode: 'horizontal',
+                size: 'lg',
+                required: true
+              }
             ]
           }
         },
@@ -615,7 +630,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           },
           supportComponents: [],
           schema: [
-            ...renderCmptSelect('选择组件', true),
+            ...renderCmptActionSelect('选择组件', true),
             getArgsWrapper({
               type: 'wrapper',
               className: 'p-none',
@@ -634,9 +649,20 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   items: [
                     {
                       name: 'key',
+                      type: 'select',
+                      placeholder: '变量名',
+                      source: '${__setValueDs}',
+                      labelField: 'label',
+                      valueField: 'value',
+                      required: true,
+                      visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`,
+                    },
+                    {
+                      name: 'key',
                       type: 'input-text',
-                      placeholder: '字段名',
-                      required: true
+                      placeholder: '变量名',
+                      required: true,
+                      visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP}`
                     },
                     {
                       name: 'val',
@@ -678,8 +704,19 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       items: [
                         {
                           name: 'key',
+                          type: 'select',
+                          source: '${__setValueDs}',
+                          labelField: 'label',
+                          valueField: 'name',
+                          required: true,
+                          visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`,
+                        },
+                        {
+                          name: 'key',
                           type: 'input-text',
-                          required: true
+                          required: true,
+                          placeholder: '变量名',
+                          visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP}`
                         },
                         {
                           name: 'val',
