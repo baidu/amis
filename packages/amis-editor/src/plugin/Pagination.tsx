@@ -35,11 +35,9 @@ export class PaginationPlugin extends BasePlugin {
     total: 1,
     hasNext: false,
     disabled: false,
-    showPerPage: false,
     perPageAvailable: [10, 20, 50, 100],
     perPage: 10,
-    maxButton: 7,
-    showPageInput: false
+    maxButtons: 7
   };
   previewSchema = {
     ...this.scaffold
@@ -189,7 +187,7 @@ export class PaginationPlugin extends BasePlugin {
                   'data.mode === "normal" && data.layout?.includes("perPage")'
               },
               {
-                name: 'maxButton',
+                name: 'maxButtons',
                 label: tipedLabel(
                   '最多按钮数',
                   '最多显示多少个分页按钮，最小为5，最大值为20'
