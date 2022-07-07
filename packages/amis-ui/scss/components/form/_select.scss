@@ -87,6 +87,12 @@
         height: px2rem(32px);
         line-height: px2rem(22px);
       }
+      // fix https://github.com/baidu/amis/issues/4793
+      .#{$ns}Select-menu {
+        .hidden {
+          display: none;
+        }
+      }
       .#{$ns}Select-addBtn {
         height: px2rem(32px);
         line-height: px2rem(30px);

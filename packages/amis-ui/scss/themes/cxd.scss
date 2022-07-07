@@ -62,6 +62,12 @@
         }
       }
     }
+    // fix https://github.com/baidu/amis/issues/4793
+    .#{$ns}Select-menu {
+      .hidden {
+        display: none;
+      }
+    }
   }
 }
 
