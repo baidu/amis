@@ -459,7 +459,12 @@ class APIBuilder extends DSBuilder {
       ]) as SchemaObject[];
   }
 
-  public makeFieldFilterSetting(): SchemaObject[] {
+  public async makeFieldFilterSetting(config: {
+    /** 数据源字段名 */
+    sourceKey: string;
+    schema: any;
+    fieldName: string;
+  }) {
     return [];
   }
 

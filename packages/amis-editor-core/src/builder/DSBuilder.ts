@@ -162,7 +162,8 @@ export abstract class DSBuilder {
     /** 数据源字段名 */
     sourceKey: string;
     schema: any;
-  }): SchemaObject[];
+    fieldName: string;
+  }): Promise<SchemaObject[]>;
 
   /**
    * 数据源schema生成
@@ -243,7 +244,7 @@ export abstract class DSBuilder {
     schema: any;
     sourceKey: string;
     feat: DSFeatureType;
-  }): Promise<DSFieldGroup[] | void>;
+  }): Promise<DSField[] | void>;
 
   /**
    * 上下文可以使用的字段
