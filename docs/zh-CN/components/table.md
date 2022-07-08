@@ -743,24 +743,52 @@ order: 67
 
 可以给列上配置 `popOver` 属性，会在该列的内容区里，渲染一个图标，点击会显示弹出框，用于展示内容
 
-```schema: scope="body"
+```schema
 {
-    "type": "crud",
-    "api": "/api/mock2/sample?waitSeconds=1",
-    "columns": [
-        {
-            "name": "id",
-            "label": "ID"
-        },
-        {
-            "name": "engine",
-            "label": "Rendering engine",
-            "popOver": {
-                "body": {
-                    "type": "tpl",
-                    "tpl": "${engine}"
-                }
+    "type": "page",
+    "data": {
+        "table": [
+            {
+                "id": 1,
+                "text": "The longest word in any of the major English language dictionaries is pneumonoultramicroscopicsilicovolcanoconiosis, a word that refers to a lung disease contracted from the inhalation of very fine silica particles, specifically from a volcano; medically, it is the same as silicosis."
+            },
+            {
+                "id": 2,
+                "text": "The longest word in any of the major English language dictionaries is pneumonoultramicroscopicsilicovolcanoconiosis, a word that refers to a lung disease contracted from the inhalation of very fine silica particles, specifically from a volcano; medically, it is the same as silicosis."
             }
+        ]
+    },
+    "body": [
+        {
+            "type": "crud",
+            "source": "${table}",
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID"
+                },
+                {
+                    "type": "container",
+                    "style": {
+                        "display": "inline-block"
+                    },
+                    "body": {
+                        "type": "tpl",
+                        "name": "text",
+                        "label": "long text",
+                        "className": "text-ellipsis",
+                        "style": {
+                            "max-width": "300px"
+                        },
+                    },
+                    "popOver": {
+                        "body": {
+                            "type": "tpl",
+                            "tpl": "${text}"
+                        }
+                    }
+                }
+            ]
         }
     ]
 }
