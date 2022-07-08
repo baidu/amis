@@ -441,14 +441,14 @@ export class CRUDPlugin extends BasePlugin {
     this.dsBuilderMgr = new DSBuilderManager('crud2', 'api');
   }
 
-  afterBuildPanelBody(event: PluginEvent<AfterBuildPanelBody>) {
+  async afterBuildPanelBody(event: PluginEvent<AfterBuildPanelBody>) {
     const {context} = event.context;
 
     if (
       context.info.renderer?.isFormItem &&
-      new RegExp('/crud2/filter/d/form/').test(context.path)
+      new RegExp('/crud2/filter/').test(context.path)
     ) {
-      this.addFilterPanelSetting(event.context);
+      await this.addFilterPanelSetting(event.context);
     } else if (
       context.schema.type === 'crud2' &&
       context.schema.mode === this.scaffold.mode
@@ -457,7 +457,7 @@ export class CRUDPlugin extends BasePlugin {
     }
   }
 
-  addFilterPanelSetting(context: AfterBuildPanelBody) {
+  async addFilterPanelSetting(context: AfterBuildPanelBody) {
     const {info, node} = context.context;
     if (info.renderer?.isFormItem) {
       const form = node.getClosestParentByType('form');
@@ -476,12 +476,13 @@ export class CRUDPlugin extends BasePlugin {
         host.schema,
         'api'
       );
-      const body = builder.makeFieldFilterSetting({
+      const body = await builder.makeFieldFilterSetting({
         schema: host.schema,
-        sourceKey: 'api'
+        sourceKey: 'api',
+        fieldName: node.schema.name
       });
 
-      if (!body) {
+      if (!body || !body.length) {
         return;
       }
 
