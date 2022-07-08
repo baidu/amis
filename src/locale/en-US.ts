@@ -186,6 +186,7 @@ register('en-US', {
   'saveFailed': 'Save failed',
   'saveSuccess': 'Saved successfully',
   'search': 'Search',
+  'searchHistory': 'Search History',
   'searchResult': 'Search result',
   'Checkboxes.selectAll': 'Select/Deselect All',
   'Select.checkAll': 'Check all',

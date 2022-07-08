@@ -88,6 +88,7 @@ export class TagField extends React.Component<TagProps, object> {
       displayMode,
       color,
       className,
+      closable,
       data,
       style = {}
     } = this.props;
@@ -114,6 +115,7 @@ export class TagField extends React.Component<TagProps, object> {
         displayMode={displayMode}
         color={color}
         icon={icon}
+        closable={closable}
         style={style}
       >
         {label}
