@@ -264,7 +264,7 @@ exports[`Renderer:crud [source] 1`] = `
 </div>
 `;
 
-exports[`Renderer:crud 1`] = `
+exports[`Renderer:crud basic interval 1`] = `
 <div>
   <div
     class="cxd-Page"
@@ -1303,7 +1303,7 @@ exports[`Renderer:crud 1`] = `
                     <div
                       class="cxd-Crud-statistics"
                     >
-                      1/15 总共：144 项
+                      1/14 总共：140 项
                     </div>
                   </div>
                   <div
@@ -1406,7 +1406,7 @@ exports[`Renderer:crud 1`] = `
                             <a
                               role="button"
                             >
-                              15
+                              14
                             </a>
                           </li>
                           <li
@@ -2365,7 +2365,7 @@ exports[`Renderer:crud cards 2`] = `
 </div>
 `;
 
-exports[`Renderer:crud filter 1`] = `
+exports[`Renderer:crud filter stopAutoRefreshWhen 1`] = `
 <div>
   <div
     class="cxd-Page"

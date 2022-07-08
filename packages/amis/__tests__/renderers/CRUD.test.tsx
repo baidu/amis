@@ -1,11 +1,17 @@
 import React = require('react');
-import {render, waitFor} from '@testing-library/react';
+import {cleanup, render, waitFor} from '@testing-library/react';
 import '../../src';
-import {render as amisRender} from '../../src';
+import {clearStoresCache, render as amisRender} from '../../src';
 import {makeEnv, wait} from '../helper';
 import rows from '../mockData/rows';
 
-const fetcher = async (config: any) => {
+afterEach(() => {
+  cleanup();
+  clearStoresCache();
+  jest.useRealTimers();
+});
+
+async function fetcher(config: any) {
   return {
     status: 200,
     headers: {},
@@ -18,9 +24,10 @@ const fetcher = async (config: any) => {
       }
     }
   };
-};
+}
 
-test('Renderer:crud', async () => {
+test('Renderer:crud basic interval', async () => {
+  const mockFetcher = jest.fn(fetcher);
   const {container, getByText} = render(
     amisRender(
       {
@@ -29,6 +36,7 @@ test('Renderer:crud', async () => {
           type: 'crud',
           api: '/api/mock2/sample',
           syncLocation: false,
+          interval: 1000,
           columns: [
             {
               name: '__id',
@@ -58,7 +66,7 @@ test('Renderer:crud', async () => {
         }
       },
       {},
-      makeEnv({fetcher})
+      makeEnv({fetcher: mockFetcher})
     )
   );
 
@@ -69,6 +77,38 @@ test('Renderer:crud', async () => {
     ).not.toBeInTheDocument();
   });
   expect(container).toMatchSnapshot();
+
+  await wait(1001);
+  expect(mockFetcher.mock.calls.length).toEqual(2);
+});
+
+test('Renderer:crud stopAutoRefreshWhen', async () => {
+  const mockFetcher2 = jest.fn(fetcher);
+  render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'crud',
+          api: '/api/mock2/sample',
+          syncLocation: false,
+          interval: 1000,
+          stopAutoRefreshWhen: 'true',
+          columns: [
+            {
+              name: '__id',
+              label: 'ID'
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({fetcher: mockFetcher2})
+    )
+  );
+
+  await wait(1500);
+  expect(mockFetcher2.mock.calls.length).toEqual(1);
 });
 
 test('Renderer:crud loadDataOnce', async () => {
@@ -220,7 +260,8 @@ test('Renderer:crud [source]', async () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:crud filter', async () => {
+test('Renderer:crud filter stopAutoRefreshWhen', async () => {
+  const mockFetcher = jest.fn(fetcher);
   const {container} = render(
     amisRender(
       {
@@ -269,11 +310,10 @@ test('Renderer:crud filter', async () => {
         }
       },
       {},
-      makeEnv({fetcher})
+      makeEnv({fetcher: mockFetcher})
     )
   );
 
-  // await wait(300);
   await waitFor(() => {
     expect(
       container.querySelector('[data-testid="spinner"]')
