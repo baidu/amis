@@ -102,6 +102,7 @@ export default class CheckboxControl extends React.Component<
       partial,
       optionType,
       checked,
+      labelClassName,
       classPrefix: ns
     } = this.props;
 
@@ -117,6 +118,7 @@ export default class CheckboxControl extends React.Component<
           partial={partial}
           optionType={optionType}
           checked={checked}
+          labelClassName={labelClassName}
         >
           {option ? render('option', option) : null}
         </Checkbox>
