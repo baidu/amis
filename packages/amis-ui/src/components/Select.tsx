@@ -729,13 +729,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
     onDelete && onDelete(item);
   }
 
-  @autobind
-  menuItemRef(ref: any) {
-    if (ref && typeof ref.offsetHeight === 'number' && ref > 0) {
-      this.setState({itemHeight: ref.offsetHeight});
-    }
-  }
-
   renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
     const {
       classnames: cx,
@@ -1166,14 +1159,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
             </Checkbox>
           </div>
         ) : null}
-
-        <div ref={this.menuItemRef} className={cx('Select-option hidden')}>
-          {multiple ? (
-            <Checkbox size="sm">Placeholder</Checkbox>
-          ) : (
-            <span>Placeholder</span>
-          )}
-        </div>
 
         {creatable && !disabled ? (
           <a className={cx('Select-addBtn')} onClick={this.handleAddClick}>
