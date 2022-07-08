@@ -2,17 +2,24 @@
   display: inline-flex;
   height: var(--Tag-height);
   padding: 0 var(--gap-sm);
+  flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
   font-size: var(--Tag-content-fontSize);
   max-width: 160px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
   transition: all 0.3;
   border-radius: var(--Tag-borderRadius);
   background-color: var(--Tag-default-color);
   color: var(--Tag-fontColor);
+
+  &-text {
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: var(--Tag-height);
+  }
+
   &:not(:last-child) {
     margin-right: var(--gap-sm);
   }
@@ -47,6 +54,8 @@
     border-radius: calc((var(--Tag-height) + 2px) / 2);
     border: 1px solid var(--Tag-default-color);
     color: var(--Tag-default-color);
+    line-height: 22px;
+
     &--inactive {
       border-color: var(--Tag-inactive-color);
       color: var(--Tag-inactive-color);

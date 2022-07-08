@@ -26,6 +26,16 @@ icon:
             "label": "普通标签",
             "color": "processing"
         },
+        {
+            "type": "tag",
+            "label": "这是一个很长长长长长长长长长长长长长的标签",
+            "color": "success"
+        },
+        {
+            "type": "tag",
+            "label": "这是一个很长长长长长长长长长长长长长的标签",
+            "closable": true
+        }
     ]
 }
 ```
@@ -123,5 +133,5 @@ icon:
 | color       | `'active' \| 'inactive' \| 'error' \| 'success' \| 'processing' \| 'warning' \| 具体色值 ` |            | 颜色主题，提供默认主题，并支持自定义颜色值 |
 | label       | `string`                                                                                   | `-`        | 标签内容                                   |
 | icon        | `SchemaIcon`                                                                               | `dot 图标` | status 模式下的前置图标                    |
-| className   | `string`    |        | 自定义 CSS 样式类名      |
-| style       | `object`    |   {}     | 自定义样式（行内样式），优先级最高     |
+| className   | `string`                                                                                   |            | 自定义 CSS 样式类名                        |
+| style       | `object`                                                                                   | {}         | 自定义样式（行内样式），优先级最高         |
