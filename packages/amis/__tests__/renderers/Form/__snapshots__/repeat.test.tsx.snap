@@ -220,13 +220,6 @@ exports[`Renderer:repeat 1`] = `
                       class="cxd-Select-menu"
                     >
                       <div
-                        class="cxd-Select-option hidden"
-                      >
-                        <span>
-                          Placeholder
-                        </span>
-                      </div>
-                      <div
                         aria-selected="false"
                         class="cxd-Select-option"
                         id="downshift-0-item-0"
