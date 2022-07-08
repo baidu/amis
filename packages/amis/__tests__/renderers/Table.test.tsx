@@ -634,7 +634,7 @@ test('Renderer:table groupName-startNoGroupName', () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:table column head style', () => {
+test('Renderer:table column head style className', () => {
   const {container} = render(
     amisRender(
       {
@@ -644,6 +644,11 @@ test('Renderer:table column head style', () => {
           items: rows
         },
         columnsTogglable: false,
+        className: 'className',
+        tableClassName: 'tableClassName',
+        headerClassName: 'headerClassName',
+        footerClassName: 'footerClassName',
+        toolbarClassName: 'toolbarClassName',
         columns: [
           {
             name: 'engine',
