@@ -1303,7 +1303,7 @@ exports[`Renderer:crud basic interval 1`] = `
                     <div
                       class="cxd-Crud-statistics"
                     >
-                      1/14 总共：140 项
+                      1/15 总共：144 项
                     </div>
                   </div>
                   <div
@@ -1406,7 +1406,7 @@ exports[`Renderer:crud basic interval 1`] = `
                             <a
                               role="button"
                             >
-                              14
+                              15
                             </a>
                           </li>
                           <li

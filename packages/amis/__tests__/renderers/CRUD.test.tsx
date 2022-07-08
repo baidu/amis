@@ -1,5 +1,11 @@
 import React = require('react');
-import {cleanup, render, waitFor} from '@testing-library/react';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+  screen
+} from '@testing-library/react';
 import '../../src';
 import {clearStoresCache, render as amisRender} from '../../src';
 import {makeEnv, wait} from '../helper';
@@ -320,4 +326,55 @@ test('Renderer:crud filter stopAutoRefreshWhen', async () => {
     ).not.toBeInTheDocument();
   });
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:crud draggable & itemDraggableOn', async () => {
+  const {container, debug} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'crud',
+          api: '/api/mock2/sample',
+          syncLocation: false,
+          draggable: true,
+          itemDraggableOn: '${__id !== 1}',
+          columns: [
+            {
+              name: '__id',
+              label: 'ID'
+            },
+            {
+              name: 'engine',
+              label: 'Rendering engine'
+            },
+            {
+              name: 'browser',
+              label: 'Browser'
+            },
+            {
+              name: 'platform',
+              label: 'Platform(s)'
+            },
+            {
+              name: 'version',
+              label: 'Engine version'
+            },
+            {
+              name: 'grade',
+              label: 'CSS grade'
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({fetcher})
+    )
+  );
+  await waitFor(() => {
+    expect(container.querySelector('[icon="exchange"]')).toBeInTheDocument();
+  });
+  fireEvent.click(container.querySelector('[icon="exchange"]')!);
+  await wait(50);
+  expect(container.querySelectorAll('[icon=drag]').length).toBe(9);
 });
