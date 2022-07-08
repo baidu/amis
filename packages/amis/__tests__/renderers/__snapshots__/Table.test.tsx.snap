@@ -2102,10 +2102,10 @@ exports[`Renderer:table classNameExpr 1`] = `
 </div>
 `;
 
-exports[`Renderer:table column head style 1`] = `
+exports[`Renderer:table column head style className 1`] = `
 <div>
   <div
-    class="cxd-Table"
+    class="cxd-Table className"
   >
     <div
       class="cxd-Table-heading"
@@ -2122,7 +2122,7 @@ exports[`Renderer:table column head style 1`] = `
         class="cxd-Table-fixedRight"
       >
         <table
-          class="cxd-Table-table cxd-Table-table"
+          class="cxd-Table-table cxd-Table-table tableClassName"
           style="width: 0px; table-layout: auto;"
         >
           <thead>
@@ -2320,7 +2320,7 @@ exports[`Renderer:table column head style 1`] = `
         style="position: relative;"
       >
         <table
-          class="cxd-Table-table"
+          class="cxd-Table-table tableClassName"
         >
           <thead>
             <tr
@@ -2666,7 +2666,7 @@ exports[`Renderer:table column head style 1`] = `
         class="cxd-Table-fixedRight"
       >
         <table
-          class="cxd-Table-table cxd-Table-table"
+          class="cxd-Table-table cxd-Table-table tableClassName"
           style="width: 0px; table-layout: auto;"
         >
           <thead>
@@ -2702,7 +2702,7 @@ exports[`Renderer:table column head style 1`] = `
         style="width: 0px;"
       >
         <table
-          class="cxd-Table-table"
+          class="cxd-Table-table tableClassName"
           style="width: 0px; table-layout: auto; transform: translateX(-0px);"
         >
           <colgroup>
