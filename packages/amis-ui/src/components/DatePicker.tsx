@@ -276,7 +276,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
     };
   };
   popOverContainer?: any;
-  label?: string;
+  label?: string | false;
   borderMode?: 'full' | 'half' | 'none';
   // 是否为内嵌模式，如果开启就不是 picker 了，直接页面点选。
   embed?: boolean;
@@ -657,7 +657,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       largeMode,
       scheduleClassNames,
       onScheduleClick,
-      mobileCalendarMode
+      mobileCalendarMode,
+      label
     } = this.props;
 
     const __ = this.props.translate;
@@ -687,7 +688,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     );
     const CalendarMobileTitle = (
       <div className={`${ns}CalendarMobile-title`}>
-        {this.props.label ?? __('Calendar.datepicker')}
+        {label && typeof label === 'string' ? label : __('Calendar.datepicker')}
       </div>
     );
     const useCalendarMobile =
