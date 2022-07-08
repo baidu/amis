@@ -250,6 +250,7 @@ export default class CheckboxesControl extends React.Component<
       data
     } = this.props;
     const labelText = String(option[labelField || 'label']);
+    const optionLabelClassName = option['labelClassName'];
 
     return (
       <Checkbox
@@ -259,7 +260,7 @@ export default class CheckboxesControl extends React.Component<
         checked={!!~selectedOptions.indexOf(option)}
         disabled={disabled || option.disabled}
         inline={inline}
-        labelClassName={labelClassName}
+        labelClassName={optionLabelClassName || labelClassName}
         description={option.description}
         optionType={optionType}
       >

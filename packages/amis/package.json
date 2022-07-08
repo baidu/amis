@@ -160,9 +160,25 @@
       "require": "./lib/index.js",
       "import": "./esm/index.js"
     },
+    "./lib/helper.css": {
+      "require": "./lib/helper.css",
+      "import": "./lib/helper.css"
+    },
+    "./lib/themes/*": {
+      "require": "./lib/themes/*",
+      "import": "./lib/themes/*"
+    },
     "./lib/*": {
       "require": "./lib/*.js",
       "import": "./esm/*.js"
+    },
+    "./sdk/*": {
+      "require": [
+        "./sdk/*"
+      ],
+      "import": [
+        "./sdk/*"
+      ]
     }
   },
   "jest": {

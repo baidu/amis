@@ -1664,13 +1664,6 @@ exports[`Renderer:select virtual 1`] = `
                   class="cxd-Select-menu cxd-Select--longlist"
                 >
                   <div
-                    class="cxd-Select-option hidden"
-                  >
-                    <span>
-                      Placeholder
-                    </span>
-                  </div>
-                  <div
                     style="overflow: auto; will-change: transform; height: 266px; width: 100%;"
                   >
                     <div

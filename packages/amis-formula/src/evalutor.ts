@@ -1456,6 +1456,7 @@ export class Evaluator {
    * 返回时间的时间戳
    *
    * @example TIMESTAMP(date[, format = "X"])
+   * @example TIMESTAMP(date, 'x')
    * @namespace 日期函数
    * @param {date} date 日期对象
    * @param {string} format 时间戳格式，带毫秒传入 'x'。默认为 'X' 不带毫秒的。
@@ -1494,6 +1495,7 @@ export class Evaluator {
    * 将日期转成日期字符串
    *
    * @example DATETOSTR(date[, format="YYYY-MM-DD HH:mm:ss"])
+   * @example DATETOSTR(date, 'YYYY-MM-DD')
    * @namespace 日期函数
    * @param {date} date 日期对象
    * @param {string} format 日期格式，默认为 "YYYY-MM-DD HH:mm:ss"

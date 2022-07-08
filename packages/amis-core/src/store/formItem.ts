@@ -448,7 +448,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           if (childFirst !== undefined) {
             return childFirst;
           }
-        } else if (option[self.valueField || 'value'] && !option.disabled) {
+        } else if (
+          option[self.valueField || 'value'] != null &&
+          !option.disabled
+        ) {
           return option;
         }
       }
