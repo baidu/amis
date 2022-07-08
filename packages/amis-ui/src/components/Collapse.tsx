@@ -5,15 +5,8 @@
  */
 
 import React from 'react';
-import {ClassNamesFn, themeable} from 'amis-core';
-import Transition, {
-  EXITED,
-  ENTERING,
-  EXITING
-} from 'react-transition-group/Transition';
-import {autobind} from 'amis-core';
-import {isClickOnInput} from 'amis-core';
-import {TranslateFn} from 'amis-core';
+import {autobind, ClassNamesFn, evalExpression, isClickOnInput, themeable, TranslateFn} from 'amis-core';
+import Transition, {ENTERING, EXITED, EXITING} from 'react-transition-group/Transition';
 
 const collapseStyles: {
   [propName: string]: string;
@@ -38,8 +31,8 @@ export interface CollapseProps {
   body: any;
   bodyClassName?: string;
   disabled?: boolean;
-  collapsable?: boolean;
-  collapsed?: boolean;
+  collapsable?: string;
+  collapsed?: string;
   showArrow?: boolean;
   expandIcon?: React.ReactElement | null;
   headingClassName?: string;
@@ -50,6 +43,7 @@ export interface CollapseProps {
   headingComponent?: any;
   translate?: TranslateFn;
   propsUpdate?: boolean;
+  data: any;
 }
 
 export interface CollapseState {
@@ -66,7 +60,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
     className: '',
     headingClassName: '',
     bodyClassName: '',
-    collapsable: true,
+    collapsable: 'true',
     disabled: false,
     showArrow: true,
     propsUpdate: false
@@ -78,19 +72,31 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
 
   constructor(props: CollapseProps) {
     super(props);
-
     this.toggleCollapsed = this.toggleCollapsed.bind(this);
-    this.state.collapsed = props.collapsable ? !!props.collapsed : false;
+    if (props.collapsed) {
+      let collapsable = true;
+      if (props.collapsable) {
+        collapsable = evalExpression(props.collapsable, props.data);
+      }
+      this.state.collapsed = collapsable ? evalExpression(props.collapsed, props.data) : false;
+    }
   }
 
   static getDerivedStateFromProps(
     nextProps: CollapseProps,
     preState: CollapseState
   ) {
-    if (nextProps.propsUpdate && nextProps.collapsed !== preState.collapsed) {
-      return {
-        collapsed: !!nextProps.collapsed
-      };
+
+    if (nextProps.propsUpdate) {
+      if (nextProps.collapsed) {
+        const {data} = nextProps;
+        const collapsed = evalExpression(nextProps.collapsed, data);
+        if (collapsed !== preState.collapsed) {
+          return {
+            collapsed: !!nextProps.collapsed
+          };
+        }
+      }
     }
     return null;
   }
@@ -100,8 +106,13 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       return;
     }
     const props = this.props;
-    if (props.disabled || props.collapsable === false) {
+    if (props.disabled) {
       return;
+    }
+    if (props.collapsable) {
+      if (!evalExpression(props.collapsable, props.data)) {
+        return;
+      }
     }
     props.onCollapse && props.onCollapse(props, !this.state.collapsed);
     this.setState({

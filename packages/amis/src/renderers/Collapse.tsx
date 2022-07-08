@@ -1,7 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {Collapse as BasicCollapse} from 'amis-ui';
-import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
+import {BaseSchema, SchemaCollection, SchemaObject, SchemaTpl} from '../Schema';
 
 /**
  * Collapse 折叠渲染器，格式说明。
@@ -46,12 +46,12 @@ export interface CollapseSchema extends BaseSchema {
   /**
    * 是否可折叠
    */
-  collapsable?: boolean;
+  collapsable?: string;
 
   /**
    * 默认是否折叠
    */
-  collapsed?: boolean;
+  collapsed?: string;
 
   /**
    * 图标是否展示
@@ -129,7 +129,8 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       disabled,
       collapsed,
       propsUpdate,
-      onCollapse
+      onCollapse,
+      data
     } = this.props;
 
     return (
@@ -148,14 +149,15 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
         headerPosition={titlePosition || headerPosition}
         collapsable={collapsable}
         collapsed={collapsed}
+        data={data}
         showArrow={showArrow}
         disabled={disabled}
         propsUpdate={propsUpdate}
         expandIcon={
           expandIcon
             ? render('arrow-icon', expandIcon || '', {
-                className: cx('Collapse-icon-tranform')
-              })
+              className: cx('Collapse-icon-tranform')
+            })
             : null
         }
         collapseHeader={
@@ -174,7 +176,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
             : null
         }
         onCollapse={onCollapse}
-      ></BasicCollapse>
+      />
     );
   }
 }

@@ -58,7 +58,7 @@ class CollapseGroup extends React.Component<
   updateActiveKey(propsActiveKey: any, isInit?: boolean) {
     const props = this.props;
     let curActiveKey = propsActiveKey;
-    
+
     if (!Array.isArray(curActiveKey)) {
       curActiveKey = curActiveKey ? [curActiveKey] : [];
     }
@@ -120,7 +120,7 @@ class CollapseGroup extends React.Component<
         ...props,
         key: collapseId,
         collapseId,
-        collapsed,
+        collapsed: collapsed.toString(),
         expandIcon: this.props.expandIcon,
         propsUpdate: true,
         onCollapse: () => this.collapseChange(collapseId, collapsed)

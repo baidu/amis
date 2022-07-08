@@ -25,12 +25,12 @@ export interface FieldSetControlSchema
   /**
    * 是否可折叠
    */
-  collapsable?: boolean;
+  collapsable?: string;
 
   /**
    * 默认是否折叠
    */
-  collapsed?: boolean;
+  collapsed?: string;
 
   /**
    * 内容区域
@@ -101,7 +101,7 @@ export default class FieldSetControl extends React.Component<
       store,
       formClassName,
       disabled,
-
+      collapsed,
       formHorizontal,
       subFormMode,
       subFormHorizontal
@@ -117,6 +117,7 @@ export default class FieldSetControl extends React.Component<
     };
     mode && (props.mode = mode);
     typeof collapsable !== 'undefined' && (props.collapsable = collapsable);
+    typeof collapsed !== 'undefined' && (props.collapsed = collapsable);
     horizontal && (props.horizontal = horizontal);
 
     return (

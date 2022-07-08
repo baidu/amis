@@ -211,6 +211,34 @@ order: 36
 }
 ```
 
+## 结合 Each 组件使用
+```schema: scope="body"
+{
+    "type": "page",
+    "data": {
+        "arr": [
+          "A",
+          "B",
+          "C"
+        ]
+    },
+    "body": {
+        "type": "collapse-group",
+        "body": {
+          "type":"each",
+          "source": "${arr}",
+          "items":{
+             "type":"collapse",
+             "key": "${index}",
+             "header": "标题${index}",
+             "collapsed": "data.index == 1",
+             "body": "这里是内容${index}"
+          }
+        }
+    }
+}
+```
+
 ## CollapseGroup 属性表
 
 | 属性名 | 类型 | 默认值 | 说明 |
@@ -227,7 +255,7 @@ order: 36
 | - | - | - | - |
 | type | `string` | `"collapse"` | 指定为 collapse 渲染器 |
 | disabled | `boolean` | `false` | 禁用 |
-| collapsed | `boolean` | `true` | 初始状态是否折叠 |
+| collapsed | [表达式](../../docs/concepts/expression) | "true" | 初始状态是否折叠 |
 | key | `string \| number` | - | 标识 |
 | header | `string \| SchemaNode` | - | 标题 |
 | body | `string \| SchemaNode` | - | 内容 |
