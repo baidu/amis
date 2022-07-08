@@ -588,7 +588,7 @@ export default class CSSDocs extends React.PureComponent<any> {
   }
 
   componentDidUpdate() {
-    this.props.setNavigations(cssDocs);
+    this.props.setNavigations(cssDocs, false);
   }
 
   render() {
