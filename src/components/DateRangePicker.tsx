@@ -55,7 +55,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   onBlur?: Function;
   type?: string;
   onRef?: any;
-  label?: string;
+  label?: string | false;
 }
 
 export interface DateRangePickerState {
@@ -1318,7 +1318,10 @@ export class DateRangePicker extends React.Component<
 
         {embed ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
-            <a className={cx('Button', 'Button--default')} onClick={this.close}>
+            <a
+              className={cx('Button', 'Button--default')}
+              onClick={() => this.close}
+            >
               {__('cancel')}
             </a>
             <a
@@ -1367,7 +1370,8 @@ export class DateRangePicker extends React.Component<
       maxDuration,
       dateFormat,
       viewMode = 'days',
-      ranges
+      ranges,
+      label
     } = this.props;
     const useCalendarMobile =
       useMobileUI &&
@@ -1419,7 +1423,7 @@ export class DateRangePicker extends React.Component<
 
     const CalendarMobileTitle = (
       <div className={`${ns}CalendarMobile-title`}>
-        {this.props.label ?? __('Calendar.datepicker')}
+        {label && typeof label === 'string' ? label : __('Calendar.datepicker')}
       </div>
     );
 
