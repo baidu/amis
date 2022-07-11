@@ -5,7 +5,7 @@ import {PopOver} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
 import {isDisabled, isVisible, noop} from 'amis-core';
 import {filter} from 'amis-core';
-import {Icon} from 'amis-ui';
+import {Icon, hasIcon} from 'amis-ui';
 import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
@@ -334,10 +334,6 @@ export default class DropDownButton extends React.Component<
       hideCaret
     } = this.props;
 
-    const iconElement = generateIcon(cx, icon, 'm-r-xs');
-
-    const rightIconElement = generateIcon(cx, rightIcon, 'm-l-xs');
-
     return (
       <div
         className={cx(
@@ -380,9 +376,13 @@ export default class DropDownButton extends React.Component<
               size ? `Button--${size}` : ''
             )}
           >
-            {iconElement}
+            {hasIcon(icon)
+              ? <Icon icon={icon} className="icon" />
+              : generateIcon(cx, icon, 'm-r-xs')}
             {typeof label === 'string' ? filter(label, data) : label}
-            {rightIconElement}
+            {hasIcon(rightIcon)
+              ? <Icon icon={icon} className="icon" />
+              : generateIcon(cx, rightIcon, 'm-l-xs')}
             {!hideCaret ? (
               <span className={cx('DropDown-caret')}>
                 <Icon icon="caret" className="icon" />
