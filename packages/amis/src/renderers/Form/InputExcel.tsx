@@ -65,6 +65,12 @@ export default class ExcelControl extends React.PureComponent<
 
   ExcelJS: any;
 
+  componentDidUpdate(prevProps: ExcelProps) {
+    if (prevProps.value !== this.props.value && !this.props.value) {
+      this.setState({filename: ''});
+    }
+  }
+
   @autobind
   handleDrop(files: File[]) {
     const {allSheets, onChange, dispatchEvent, data} = this.props;

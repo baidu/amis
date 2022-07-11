@@ -55,6 +55,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   onBlur?: Function;
   type?: string;
   onRef?: any;
+  label?: string | false;
 }
 
 export interface DateRangePickerState {
@@ -1243,7 +1244,8 @@ export class DateRangePicker extends React.Component<
       locale,
       embed,
       type,
-      viewMode = 'days'
+      viewMode = 'days',
+      useMobileUI
     } = this.props;
     const __ = this.props.translate;
 
@@ -1253,7 +1255,7 @@ export class DateRangePicker extends React.Component<
     const isTimeRange = type === 'input-datetime-range' || viewMode === 'time';
 
     return (
-      <div className={`${ns}DateRangePicker-wrap`} ref={this.calendarRef}>
+      <div className={cx(`${ns}DateRangePicker-wrap`)} ref={this.calendarRef}>
         {this.renderRanges(ranges)}
         {(!isTimeRange || (editState === 'start' && !embed)) && (
           <Calendar
@@ -1316,7 +1318,10 @@ export class DateRangePicker extends React.Component<
 
         {embed ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
-            <a className={cx('Button', 'Button--default')} onClick={this.close}>
+            <a
+              className={cx('Button', 'Button--default')}
+              onClick={() => this.close}
+            >
               {__('cancel')}
             </a>
             <a
@@ -1365,7 +1370,8 @@ export class DateRangePicker extends React.Component<
       maxDuration,
       dateFormat,
       viewMode = 'days',
-      ranges
+      ranges,
+      label
     } = this.props;
     const useCalendarMobile =
       useMobileUI &&
@@ -1417,7 +1423,7 @@ export class DateRangePicker extends React.Component<
 
     const CalendarMobileTitle = (
       <div className={`${ns}CalendarMobile-title`}>
-        {__('Calendar.datepicker')}
+        {label && typeof label === 'string' ? label : __('Calendar.datepicker')}
       </div>
     );
 
@@ -1483,7 +1489,10 @@ export class DateRangePicker extends React.Component<
             <PopUp
               isShow={isOpened}
               container={popOverContainer}
-              className={cx(`${ns}CalendarMobile-pop`)}
+              className={cx(
+                `${ns}CalendarMobile-pop`,
+                `${ns}CalendarMobile-pop--${viewMode}`
+              )}
               onHide={this.close}
               header={CalendarMobileTitle}
             >
