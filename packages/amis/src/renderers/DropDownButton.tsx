@@ -179,7 +179,8 @@ export default class DropDownButton extends React.Component<
     });
   }
 
-  open() {
+  async open() {
+    await this.props.dispatchEvent('mouseenter', {data: this.props.buttons});
     this.setState({
       isOpened: true
     });
@@ -187,6 +188,7 @@ export default class DropDownButton extends React.Component<
 
   close() {
     this.timer = setTimeout(() => {
+      this.props.dispatchEvent('mouseleave', {data: this.props.buttons});
       this.setState({
         isOpened: false
       });
