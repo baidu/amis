@@ -1,6 +1,6 @@
 {
   "name": "amis-core",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "amis-core",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -43,7 +43,7 @@
     "esm"
   ],
   "dependencies": {
-    "amis-formula": "*",
+    "amis-formula": "^2.0.1",
     "classnames": "2.3.1",
     "file-saver": "^2.0.2",
     "hoist-non-react-statics": "^3.3.2",
@@ -98,5 +98,5 @@
       }
     }
   },
-  "gitHead": "6affe8e364da3f1fe062c338237a8d1f0f304866"
+  "gitHead": "37d23b4a8eb1c663bc38e8dd9040889ea1526ec4"
 }
