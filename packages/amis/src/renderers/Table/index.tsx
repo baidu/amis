@@ -1946,7 +1946,6 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     if (column.type === '__checkme') {
-      console.log(item.checkdisable, item.checkable);
       return (
         <td key={props.key} className={cx(column.pristine.className)}>
           <Checkbox
@@ -2651,7 +2650,6 @@ export default class Table extends React.Component<TableProps, object> {
     // 理论上来说 store.rows 应该也行啊
     // 不过目前看来只有这样写它才会重新更新视图
     store.rows.length;
-    console.log(store.filteredColumns);
 
     return (
       <>
