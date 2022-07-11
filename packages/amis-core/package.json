@@ -43,7 +43,7 @@
     "esm"
   ],
   "dependencies": {
-    "amis-formula": "*",
+    "amis-formula": "^2.0.1",
     "classnames": "2.3.1",
     "file-saver": "^2.0.2",
     "hoist-non-react-statics": "^3.3.2",
@@ -98,5 +98,5 @@
       }
     }
   },
-  "gitHead": "f8303a3abc81af174229fa1b988dfbaeedadd3c4"
+  "gitHead": "1d6f7919097944d1b4bd8b224ae2bf08d4c602be"
 }

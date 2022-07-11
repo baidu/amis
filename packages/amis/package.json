@@ -40,8 +40,8 @@
     ]
   },
   "dependencies": {
-    "amis-core": "*",
-    "amis-ui": "*",
+    "amis-core": "^2.0.1",
+    "amis-ui": "^2.0.1",
     "ansi-to-react": "^6.1.6",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
@@ -221,5 +221,5 @@
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
   },
-  "gitHead": "f8303a3abc81af174229fa1b988dfbaeedadd3c4"
+  "gitHead": "1d6f7919097944d1b4bd8b224ae2bf08d4c602be"
 }
