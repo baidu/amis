@@ -190,12 +190,6 @@ export class FormPlugin extends BasePlugin {
           })
         };
 
-        builder.resolveSourceSchema({
-          schema,
-          setting: value,
-          feat: value.feat
-        });
-
         builder.resolveCreateSchema({
           schema,
           setting: value,
