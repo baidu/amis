@@ -1,12 +1,18 @@
 .#{$ns}ResultBox {
   @include input-input();
   @include input-border();
+  justify-content: space-between;
   flex-wrap: nowrap;
   padding: 0 px2rem(12px);
   min-height: var(--Form-input-height);
   align-items: center;
   border-radius: 3px;
   position: relative;
+
+  &.flex {
+    // 增加权重
+    display: flex;
+  }
 
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
