@@ -453,7 +453,7 @@ export class App extends React.PureComponent<{
           classnames: cx,
           depth
         }: any) => {
-          let children = [];
+          let children: any[] = [];
 
           if (link.children && link.children.length) {
             children.push(

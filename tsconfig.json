@@ -19,7 +19,8 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     //
-    "composite": true
+    "composite": true,
+    "typeRoots": ["./node_modules/@types", "./types", "./examples/types"]
   },
   "types": ["typePatches"],
   "references": [{"path": "packages/amis"}],
