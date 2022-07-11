@@ -77,6 +77,7 @@ export interface LogProps
 export interface LogState {
   lastLine: string;
   logs: string[];
+  originLastLine: string;
   originLogs: string[];
   refresh: boolean;
   showLineNumber: boolean;
@@ -100,6 +101,7 @@ export class Log extends React.Component<LogProps, LogState> {
   state: LogState = {
     lastLine: '',
     logs: [],
+    originLastLine: '',
     originLogs: [],
     refresh: true,
     showLineNumber: false,
@@ -173,27 +175,34 @@ export class Log extends React.Component<LogProps, LogState> {
   clear = (e: React.MouseEvent<HTMLElement>) => {
     this.setState({
       logs: [],
-      lastLine: ''
+      lastLine: '',
+      originLogs: [],
+      originLastLine: ''
     });
     e.preventDefault();
   };
 
-  changeFilterWord = (value: string) => {
-    let logs = this.state.originLogs;
+  filterWord = (logs: string[], lastLine: string, word: string) => {
+    let originLogs = logs;
+    let originLastLine = lastLine;
     if (
-      value !== '' &&
-      value !== undefined &&
-      value !== null &&
-      value.length > 0
-    ) {
-      logs = logs.filter(line => line.includes(value));
+      word !== '' &&
+      word !== undefined &&
+      word !== null &&
+      word.length > 0) {
+      logs = logs.filter(line => line.includes(word));
+      if (!lastLine.includes(word)) {
+        lastLine = "";
+      }
     }
-
     this.setState({
-      filterWord: value,
-      logs: logs
+      filterWord: word,
+      lastLine: lastLine,
+      logs: logs,
+      originLogs: originLogs,
+      originLastLine: originLastLine,
     });
-  };
+  }
 
   async loadLogs() {
     const {source, data, env, translate: __, encoding, maxLength} = this.props;
@@ -214,7 +223,7 @@ export class Log extends React.Component<LogProps, LogState> {
         return;
       }
       const reader = body.getReader();
-      let lastline = '';
+      let lastLine = '';
       let logs: string[] = [];
       for (;;) {
         if (!this.state.refresh) {
@@ -230,30 +239,24 @@ export class Log extends React.Component<LogProps, LogState> {
           const lines = text.split('\n');
           // 如果没有换行符就只更新最后一行
           if (lines.length === 1) {
-            lastline += lines[0];
+            lastLine += lines[0];
             this.setState({
-              lastLine: lastline
+              lastLine: lastLine
             });
           } else {
             // 将之前的数据补上
-            lines[0] = lastline + lines[0];
+            lines[0] = lastLine + lines[0];
             // 最后一个要么是空，要么是下一行的数据
-            lastline = lines.pop() || '';
+            lastLine = lines.pop() || '';
             if (maxLength) {
               if (logs.length + lines.length > maxLength) {
                 logs.splice(0, logs.length + lines.length - maxLength);
               }
             }
             logs = logs.concat(lines);
-            this.setState({
-              logs: logs,
-              originLogs: logs,
-              lastLine: lastline
-            });
+            this.filterWord(logs, lastLine, this.state.filterWord);
           }
         }
-
-        this.changeFilterWord(this.state.filterWord);
 
         if (done) {
           this.isDone = true;
@@ -427,7 +430,8 @@ export class Log extends React.Component<LogProps, LogState> {
                 <SearchBox
                   className={cx('Log-filter-box')}
                   placeholder="过滤词"
-                  onChange={this.changeFilterWord}
+                  onChange={(value) => this.filterWord(this.state.originLogs, this.state.lastLine, value)}
+                  value={this.state.filterWord}
                 />
               )}
             </>
