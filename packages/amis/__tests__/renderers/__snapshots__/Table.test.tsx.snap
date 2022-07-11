@@ -494,6 +494,7 @@ exports[`Renderer:table align 1`] = `
               >
                 <div
                   class="cxd-TableCell--title"
+                  style="text-align: right;"
                 />
                 <div
                   class="cxd-Table-content-colDragLine"
@@ -877,6 +878,7 @@ exports[`Renderer:table align 1`] = `
               >
                 <div
                   class="cxd-TableCell--title"
+                  style="text-align: right;"
                 />
                 <div
                   class="cxd-Table-content-colDragLine"
