@@ -617,6 +617,7 @@ export default class Cards extends React.Component<GridProps, object> {
 
   destroyDragging() {
     this.sortable && this.sortable.destroy();
+    this.sortable = undefined;
   }
 
   renderActions(region: string) {
@@ -848,7 +849,14 @@ export default class Cards extends React.Component<GridProps, object> {
   }
 
   renderDragToggler() {
-    const {store, multiple, selectable, env, translate: __} = this.props;
+    const {
+      store,
+      multiple,
+      selectable,
+      env,
+      translate: __,
+      dragIcon
+    } = this.props;
 
     if (!store.draggable || store.items.length < 2) {
       return null;
@@ -868,9 +876,14 @@ export default class Cards extends React.Component<GridProps, object> {
           e.preventDefault();
           store.toggleDragging();
           store.dragging && store.clear();
+          store.dragging ? this.initDragging() : undefined;
         }}
       >
-        <Icon icon="exchange" className="icon r90" />
+        {React.isValidElement(dragIcon) ? (
+          dragIcon
+        ) : (
+          <Icon icon="exchange" className="icon r90" />
+        )}
       </Button>
     );
   }
@@ -904,9 +917,11 @@ export default class Cards extends React.Component<GridProps, object> {
       className: cx((card && card.className) || '', {
         'is-checked': item.checked,
         'is-modified': item.modified,
-        'is-moved': item.moved
+        'is-moved': item.moved,
+        'drag-mode': store.dragging
       }),
       item,
+      key: index,
       itemIndex: item.index,
       multiple,
       selectable: store.selectable,
