@@ -14,7 +14,7 @@ import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 
 /**
- * 级联选择框
+ * 链式下拉框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/chained-select
  */
 export interface ChainedSelectControlSchema extends FormOptionsSchema {
@@ -167,7 +167,12 @@ export default class ChainedSelectControl extends React.Component<
 
             const stack = this.state.stack.concat();
             const remoteValue = ret.data ? ret.data.value : undefined;
-            let options = (ret.data && (ret.data as any).options) || ret.data;
+            let options =
+              ret?.data?.options ||
+              ret?.data?.items ||
+              ret?.data?.rows ||
+              ret.data ||
+              [];
 
             stack.splice(idx, stack.length - idx);
 
@@ -287,7 +292,7 @@ export default class ChainedSelectControl extends React.Component<
           }
           classPrefix={ns}
           key="base"
-          options={options}
+          options={Array.isArray(options) ? options : []}
           value={arr[0]}
           onChange={this.handleChange.bind(this, 0)}
           loading={loading}
@@ -306,7 +311,7 @@ export default class ChainedSelectControl extends React.Component<
               }
               classPrefix={ns}
               key={`x-${index + 1}`}
-              options={options}
+              options={Array.isArray(options) ? options : []}
               value={arr[index + 1]}
               onChange={this.handleChange.bind(this, index + 1)}
               loading={loading}
