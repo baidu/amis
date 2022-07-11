@@ -204,12 +204,13 @@ export class CityPicker extends React.Component<
 
   @autobind
   syncIn(props = this.props) {
-    const db = this.state.db!;
-    const {value: inputValue, multiple, extractValue, delimiter} = props;
+    const db = this.state.db;
 
     if (!db) {
       return;
     }
+
+    const {value: inputValue, multiple, extractValue, delimiter} = props;
 
     let inputValues: CityValue[] | string[] = extractValue
       ? split(inputValue, delimiter)
@@ -399,14 +400,15 @@ export class CityPicker extends React.Component<
               withChildren: false,
               // code = 0 的不传
               value: values.map(item => item.code || '').join(delimiter),
-              searchable: searchable,
-              multiple: multiple,
-              delimiter: delimiter,
+              searchable,
+              multiple,
+              delimiter,
               disabled,
               clearable: true,
               onlyLeaf: !multiple,
               onlyChildren: true,
-              placeholder
+              placeholder,
+              checkAll: false
             }
           )}
         </div>

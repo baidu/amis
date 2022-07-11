@@ -4,7 +4,6 @@
   flex-wrap: nowrap;
   padding: 0 px2rem(12px);
   min-height: var(--Form-input-height);
-  justify-content: space-between;
   align-items: center;
   border-radius: 3px;
   position: relative;
@@ -82,7 +81,7 @@
   }
 
   &-singleValue {
-    padding-right: calc(var(--Form-input-paddingX) - #{px2rem(3px)});
+    padding: 0 calc(var(--Form-input-paddingX) - #{px2rem(3px)});
     flex-grow: 1;
     display: inline-block;
     max-width: 100%;
@@ -93,7 +92,6 @@
   &-pc-arrow {
     height: 100%;
     margin: auto 0;
-    right: 10px;
     display: flex;
     align-items: center;
     transition: transform var(--animation-duration) ease;

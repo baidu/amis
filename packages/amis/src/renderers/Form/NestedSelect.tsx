@@ -80,6 +80,7 @@ export interface NestedSelectProps extends OptionsControlProps {
   onlyChildren?: boolean;
   hideNodePathLabel?: boolean;
   useMobileUI?: boolean;
+  checkAll?: boolean;
 }
 
 export interface NestedSelectState {
