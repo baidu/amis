@@ -325,7 +325,7 @@ List 的内容、Card 卡片的内容配置同上
 
 | 属性名         | 类型                                 | 默认值    | 说明                                                                                   |
 | -------------- | ------------------------------------ | --------- | -------------------------------------------------------------------------------------- |
-| type           | `string`                             |           | 如果在 Table、Card 和 List 中，为`"color"`；在 Form 中用作静态展示，为`"static-color"` |
+| type           | `string`                             |           | 如果在 Table、Card 和 List 中，为`"image"`；在 Form 中用作静态展示，为`"static-image"` |
 | className      | `string`                             |           | 外层 CSS 类名                                                                          |
 | imageClassName | `string`                             |           | 图片 CSS 类名                                                                          |
 | thumbClassName | `string`                             |           | 图片缩率图 CSS 类名                                                                    |

@@ -42,7 +42,14 @@ export class DialogAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    renderer.props.onAction?.(event, action, action.args);
+    renderer.props.onAction?.(
+      event,
+      {
+        ...action,
+        reload: 'none'
+      },
+      action.args
+    );
   }
 }
 

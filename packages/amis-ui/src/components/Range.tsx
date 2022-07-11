@@ -444,7 +444,8 @@ export class Range extends React.Component<RangeItemProps, any> {
     if (isString(value) && MARKS_REG.test(value)) {
       return value;
     }
-    return (+value * 100) / (max - min) + '%';
+    value = Math.min(Math.max(+value, min), max);
+    return ((value - min) * 100) / (max - min) + '%';
   }
 
   render() {

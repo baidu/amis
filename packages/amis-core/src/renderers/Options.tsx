@@ -450,7 +450,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       if (prevProps.value !== props.value || formItem?.expressionsInOptions) {
-        formItem.syncOptions(undefined, props.data);
+        formItem?.syncOptions(undefined, props.data);
       }
     }
 

@@ -55,6 +55,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   onBlur?: Function;
   type?: string;
   onRef?: any;
+  label?: string | false;
 }
 
 export interface DateRangePickerState {
@@ -62,6 +63,8 @@ export interface DateRangePickerState {
   isFocused: boolean;
   startDate?: moment.Moment;
   endDate?: moment.Moment;
+  oldStartDate?: moment.Moment;
+  oldEndDate?: moment.Moment;
   editState?: 'start' | 'end'; // 编辑开始时间还是结束时间
   startInputValue?: string;
   endInputValue?: string;
@@ -534,6 +537,8 @@ export class DateRangePicker extends React.Component<
       editState: 'start',
       startDate,
       endDate,
+      oldStartDate: startDate,
+      oldEndDate: endDate,
       startInputValue: startDate?.format(inputFormat),
       endInputValue: endDate?.format(inputFormat)
     };
@@ -645,7 +650,17 @@ export class DateRangePicker extends React.Component<
     });
   }
 
-  close() {
+  close(isConfirm: boolean = false) {
+    if (!isConfirm) {
+      const {oldEndDate, oldStartDate} = this.state;
+      const {inputFormat} = this.props;
+      this.setState({
+        endDate: oldEndDate,
+        endInputValue: oldEndDate ? oldEndDate.format(inputFormat) : '',
+        startDate: oldStartDate,
+        startInputValue: oldStartDate ? oldStartDate.format(inputFormat) : ''
+      });
+    }
     this.setState(
       {
         isOpened: false,
@@ -693,7 +708,7 @@ export class DateRangePicker extends React.Component<
     if (this.state.startDate && !this.state.endDate) {
       this.setState({editState: 'end'});
     } else {
-      this.close();
+      this.close(true);
     }
   }
 
@@ -746,6 +761,7 @@ export class DateRangePicker extends React.Component<
     );
     const newState = {
       startDate: date,
+      oldStartDate: startDate,
       startInputValue: date.format(inputFormat)
     } as any;
     // 这些没有时间的选择点第一次后第二次就是选结束时间
@@ -769,6 +785,7 @@ export class DateRangePicker extends React.Component<
     if (newValue.isBefore(startDate)) {
       this.setState({
         startDate: undefined,
+        oldStartDate: startDate,
         startInputValue: ''
       });
     }
@@ -777,6 +794,7 @@ export class DateRangePicker extends React.Component<
     this.setState(
       {
         endDate: date,
+        oldEndDate: endDate,
         endInputValue: date.format(inputFormat)
       },
       () => {
@@ -920,14 +938,14 @@ export class DateRangePicker extends React.Component<
     if (
       startDate &&
       minDuration &&
-      newValue.isAfter(startDate.clone().add(minDuration))
+      newValue.isBefore(startDate.clone().add(minDuration))
     ) {
       newValue = startDate.clone().add(minDuration);
     }
     if (
       startDate &&
       maxDuration &&
-      newValue.isBefore(startDate.clone().add(maxDuration))
+      newValue.isAfter(startDate.clone().add(maxDuration))
     ) {
       newValue = startDate.clone().add(maxDuration);
     }
@@ -1226,7 +1244,8 @@ export class DateRangePicker extends React.Component<
       locale,
       embed,
       type,
-      viewMode = 'days'
+      viewMode = 'days',
+      useMobileUI
     } = this.props;
     const __ = this.props.translate;
 
@@ -1236,7 +1255,7 @@ export class DateRangePicker extends React.Component<
     const isTimeRange = type === 'input-datetime-range' || viewMode === 'time';
 
     return (
-      <div className={`${ns}DateRangePicker-wrap`} ref={this.calendarRef}>
+      <div className={cx(`${ns}DateRangePicker-wrap`)} ref={this.calendarRef}>
         {this.renderRanges(ranges)}
         {(!isTimeRange || (editState === 'start' && !embed)) && (
           <Calendar
@@ -1299,7 +1318,10 @@ export class DateRangePicker extends React.Component<
 
         {embed ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
-            <a className={cx('Button', 'Button--default')} onClick={this.close}>
+            <a
+              className={cx('Button', 'Button--default')}
+              onClick={() => this.close}
+            >
               {__('cancel')}
             </a>
             <a
@@ -1348,7 +1370,8 @@ export class DateRangePicker extends React.Component<
       maxDuration,
       dateFormat,
       viewMode = 'days',
-      ranges
+      ranges,
+      label
     } = this.props;
     const useCalendarMobile =
       useMobileUI &&
@@ -1400,7 +1423,7 @@ export class DateRangePicker extends React.Component<
 
     const CalendarMobileTitle = (
       <div className={`${ns}CalendarMobile-title`}>
-        {__('Calendar.datepicker')}
+        {label && typeof label === 'string' ? label : __('Calendar.datepicker')}
       </div>
     );
 
@@ -1466,7 +1489,10 @@ export class DateRangePicker extends React.Component<
             <PopUp
               isShow={isOpened}
               container={popOverContainer}
-              className={cx(`${ns}CalendarMobile-pop`)}
+              className={cx(
+                `${ns}CalendarMobile-pop`,
+                `${ns}CalendarMobile-pop--${viewMode}`
+              )}
               onHide={this.close}
               header={CalendarMobileTitle}
             >

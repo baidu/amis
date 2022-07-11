@@ -129,7 +129,14 @@ export const AppStore = ServiceStore.named('AppStore')
       }
     },
 
-    setActivePage(page: any, env: RendererEnv, params?: any) {
+    setActivePage(
+      page: any,
+      env: RendererEnv & {
+        showFullBreadcrumbPath?: boolean;
+        showBreadcrumbHomePath?: boolean;
+      },
+      params?: any
+    ) {
       // 同一个页面直接返回。
       if (self.activePage?.id === page.id) {
         return;
@@ -140,12 +147,15 @@ export const AppStore = ServiceStore.named('AppStore')
       findTree(self.pages, (item, index, level, paths) => {
         if (item.id === page.id) {
           bcn = paths.filter(item => item.path && item.label);
+          if (env.showFullBreadcrumbPath) {
+            bcn = paths.filter(item => item.label);
+          }
           bcn.push({
             ...item,
             path: ''
           });
           self.__;
-          if (bcn[0].path !== '/') {
+          if (env.showBreadcrumbHomePath && bcn[0].path !== '/') {
             bcn.unshift({
               label: self.__('App.home'),
               path: '/'

@@ -1841,10 +1841,10 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
       />
     </div>
     <div
-      class="cxd-Spinner-overlay"
+      class="cxd-Spinner-overlay in"
     />
     <div
-      class="cxd-Spinner cxd-Spinner--overlay"
+      class="cxd-Spinner cxd-Spinner--overlay in"
       data-testid="spinner"
     >
       <div

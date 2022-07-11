@@ -1,4 +1,6 @@
 import React from 'react';
+import omit from 'lodash/omit';
+import merge from 'lodash/merge';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
@@ -9,7 +11,6 @@ import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
 import Copyable, {SchemaCopyable} from './Copyable';
-import omit from 'lodash/omit';
 import {
   BaseSchema,
   SchemaClassName,
@@ -207,6 +208,11 @@ export interface CardSchema extends BaseSchema {
    * 次要说明
    */
   secondary?: SchemaTpl;
+
+  /**
+   * 卡片内容区的表单项label是否使用Card内部的样式，默认为true
+   */
+  useCardLabel?: boolean;
 }
 export interface CardProps
   extends RendererProps,
@@ -249,7 +255,8 @@ export class CardRenderer extends React.Component<CardProps> {
     selectable: false,
     checkable: true,
     selected: false,
-    hideCheckToggler: false
+    hideCheckToggler: false,
+    useCardLabel: true
   };
 
   static propsList: Array<string> = [
@@ -490,10 +497,10 @@ export class CardRenderer extends React.Component<CardProps> {
     return this.renderFeild(`column/${index}`, field, index, props);
   }
 
-  renderFeild(region: string, field: any, key: any, props: any) {
-    const {render, classnames: cx, itemIndex} = props;
+  renderFeild(region: string, field: Schema, key: any, props: any) {
+    const {render, classnames: cx, itemIndex, useCardLabel} = props;
     const data = this.props.data;
-    if (!isVisible(field, data)) {
+    if (!field || !isVisible(field, data)) {
       return;
     }
 
@@ -501,7 +508,7 @@ export class CardRenderer extends React.Component<CardProps> {
 
     return (
       <div className={cx('Card-field')} key={key}>
-        {field && field.label ? (
+        {useCardLabel && field.label ? (
           <label className={cx('Card-fieldLabel', field.labelClassName)}>
             {field.label}
           </label>
@@ -510,12 +517,17 @@ export class CardRenderer extends React.Component<CardProps> {
         {
           render(
             region,
-            {
-              ...field,
-              field: field,
-              $$id,
-              type: 'card-item-field'
-            },
+            merge(
+              {
+                ...field,
+                field: field,
+                $$id,
+                type: 'card-item-field'
+              },
+              useCardLabel
+                ? {label: false, field: {...field, label: false}}
+                : {}
+            ),
             {
               className: cx('Card-fieldValue', field.className),
               rowIndex: itemIndex,

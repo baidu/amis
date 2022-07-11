@@ -168,4 +168,10 @@ $link-color: $info;
   --Table-onChecked-borderColor: var(--Table-borderColor);
 
   --Switch-bgColor: #bfbfbf;
+
+  // tree
+  --Tree-item-onChekced-bg: #bae7ff;
+  --Tree-item-onChekced-bg-borderRadius: #{px2rem(2px)};
+  --Tree-itemHeight: #{px2rem(24px)};
+  --Tree-icon-gap: var(--gap-sm);
 }

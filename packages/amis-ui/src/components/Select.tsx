@@ -298,6 +298,7 @@ const DownshiftChangeTypes = Downshift.stateChangeTypes;
 interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   className?: string;
   popoverClassName?: string;
+  showInvalidMatch?: boolean;
   creatable: boolean;
   createBtnLabel: string;
   multiple: boolean;
@@ -383,6 +384,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     multiple: false,
     clearable: true,
     creatable: false,
+    showInvalidMatch: false,
     createBtnLabel: 'Select.createLabel',
     searchPromptText: 'Select.searchPromptText',
     loadingPlaceholder: 'loading',
@@ -727,13 +729,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
     onDelete && onDelete(item);
   }
 
-  @autobind
-  menuItemRef(ref: any) {
-    if (ref && typeof ref.offsetHeight === 'number' && ref > 0) {
-      this.setState({itemHeight: ref.offsetHeight});
-    }
-  }
-
   renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
     const {
       classnames: cx,
@@ -744,6 +739,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       disabled,
       maxTagCount,
       overflowTagPopover,
+      showInvalidMatch,
       translate: __
     } = this.props;
     const selection = this.state.selection;
@@ -796,7 +792,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                             key={itemIndex}
                             className={cx('Select-value', {
                               'is-disabled': disabled,
-                              'is-invalid': item.__unmatched
+                              'is-invalid': showInvalidMatch
+                                ? item.__unmatched
+                                : false
                             })}
                           >
                             <span className={cx('Select-valueLabel')}>
@@ -820,7 +818,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               <div
                 className={cx('Select-value', {
                   'is-disabled': disabled,
-                  'is-invalid': item.__unmatched
+                  'is-invalid': showInvalidMatch ? item.__unmatched : false
                 })}
                 onClick={(e: React.MouseEvent) =>
                   e.stopPropagation()
@@ -844,7 +842,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             <div
               className={cx('Select-value', {
                 'is-disabled': disabled,
-                'is-invalid': item.__unmatched
+                'is-invalid': showInvalidMatch ? item.__unmatched : false
               })}
             >
               <span className={cx('Select-valueLabel')}>
@@ -870,7 +868,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           <div
             className={cx('Select-value', {
               'is-disabled': disabled,
-              'is-invalid': item.__unmatched
+              'is-invalid': showInvalidMatch ? item.__unmatched : false
             })}
             key={index}
           >
@@ -893,7 +891,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           <div
             className={cx('Select-value', {
               'is-disabled': disabled,
-              'is-invalid': item.__unmatched
+              'is-invalid': showInvalidMatch ? item.__unmatched : false
             })}
           >
             <span className={cx('Select-valueLabel')}>
@@ -1062,25 +1060,30 @@ export class Select extends React.Component<SelectProps, SelectState> {
               })
             )
           ) : multiple ? (
-            <Checkbox
-              checked={checked}
-              trueValue={item.value}
-              onChange={() => {
-                this.handleChange(item);
-              }}
-              disabled={item.disabled}
-              size="sm"
+            <div
+              title={item[labelField]}
+              className={cx('Select-option-checkbox')}
             >
-              {item.disabled
-                ? item[labelField]
-                : highlight(
-                    item[labelField],
-                    inputValue as string,
-                    cx('Select-option-hl')
-                  )}
+              <Checkbox
+                checked={checked}
+                trueValue={item.value}
+                onChange={() => {
+                  this.handleChange(item);
+                }}
+                disabled={item.disabled}
+                size="sm"
+              >
+                {item.disabled
+                  ? item[labelField]
+                  : highlight(
+                      item[labelField],
+                      inputValue as string,
+                      cx('Select-option-hl')
+                    )}
 
-              {item.tip}
-            </Checkbox>
+                {item.tip}
+              </Checkbox>
+            </div>
           ) : (
             <span
               className={cx('Select-option-content')}
@@ -1156,14 +1159,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
             </Checkbox>
           </div>
         ) : null}
-
-        <div ref={this.menuItemRef} className={cx('Select-option hidden')}>
-          {multiple ? (
-            <Checkbox size="sm">Placeholder</Checkbox>
-          ) : (
-            <span>Placeholder</span>
-          )}
-        </div>
 
         {creatable && !disabled ? (
           <a className={cx('Select-addBtn')} onClick={this.handleAddClick}>

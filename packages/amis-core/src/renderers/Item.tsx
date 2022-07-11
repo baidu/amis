@@ -30,7 +30,7 @@ import {filter} from '../utils/tpl';
 import {HocStoreFactory} from '../WithStore';
 import {wrapControl} from './wrapControl';
 import debounce from 'lodash/debounce';
-import {isEffectiveApi} from '../utils/api';
+import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {findDOMNode} from 'react-dom';
 import {dataMapping} from '../utils';
 import Overlay from '../components/Overlay';
@@ -439,6 +439,23 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     }
   }
 
+  componentDidUpdate(prevProps: FormItemProps) {
+    const props = this.props;
+    const {formItem: model} = props;
+
+    if (
+      isEffectiveApi(props.autoFill?.api, props.data) &&
+      isApiOutdated(
+        prevProps.autoFill?.api,
+        props.autoFill?.api,
+        prevProps.data,
+        props.data
+      )
+    ) {
+      this.syncAutoFill(model?.tmpValue, true);
+    }
+  }
+
   componentDidMount() {
     this.target = findDOMNode(this) as HTMLElement;
   }
@@ -514,8 +531,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
   }
 
   syncAutoFill = debounce(
-    (term: any) => {
-      (async (term: string) => {
+    (term: any, reload?: boolean) => {
+      (async (term: string, reload?: boolean) => {
         const {autoFill, onBulkChange, formItem, data} = this.props;
 
         // 参照录入
@@ -531,9 +548,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             [itemName || '']: term
           });
           if (
-            onBulkChange &&
-            isEffectiveApi(autoFill.api, ctx) &&
-            this.lastSearchTerm !== term
+            (onBulkChange &&
+              isEffectiveApi(autoFill.api, ctx) &&
+              this.lastSearchTerm !== term) ||
+            reload
           ) {
             let result = await formItem?.loadAutoUpdateData(
               autoFill.api,
@@ -551,7 +569,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             result && onBulkChange?.(result);
           }
         }
-      })(term).catch(e => console.error(e));
+      })(term, reload).catch(e => console.error(e));
     },
     250,
     {
@@ -815,7 +833,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         hint,
         data,
         showErrorMsg,
-        useMobileUI
+        useMobileUI,
+        translate: __
       } = props;
 
       // 强制不渲染 label 的话
@@ -865,7 +884,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 {label
                   ? render(
                       'label',
-                      typeof label === 'string' ? filter(label, data) : label
+                      typeof label === 'string'
+                        ? filter(__(label), data)
+                        : label
                     )
                   : null}
                 {required && (label || labelRemark) ? (
@@ -968,7 +989,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         hint,
         data,
         showErrorMsg,
-        useMobileUI
+        useMobileUI,
+        translate: __
       } = props;
 
       description = description || desc;
@@ -992,7 +1014,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 {label
                   ? render(
                       'label',
-                      typeof label === 'string' ? filter(label, data) : label
+                      typeof label === 'string'
+                        ? filter(__(label), data)
+                        : label
                     )
                   : null}
                 {required && (label || labelRemark) ? (
@@ -1086,7 +1110,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         renderDescription,
         data,
         showErrorMsg,
-        useMobileUI
+        useMobileUI,
+        translate: __
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1113,7 +1138,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 {label
                   ? render(
                       'label',
-                      typeof label === 'string' ? filter(label, data) : label
+                      typeof label === 'string'
+                        ? filter(__(label), data)
+                        : label
                     )
                   : label}
                 {required && (label || labelRemark) ? (
@@ -1210,7 +1237,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         hint,
         data,
         showErrorMsg,
-        useMobileUI
+        useMobileUI,
+        translate: __
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1237,7 +1265,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 <span>
                   {render(
                     'label',
-                    typeof label === 'string' ? filter(label, data) : label
+                    typeof label === 'string' ? filter(__(label), data) : label
                   )}
                   {required && (label || labelRemark) ? (
                     <span className={cx(`Form-star`)}>*</span>
@@ -1408,7 +1436,8 @@ export const detectProps = [
   'minLength',
   'maxLength',
   'embed',
-  'displayMode'
+  'displayMode',
+  'revealPassword'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {

@@ -14,10 +14,11 @@
     "deploy-gh-page": "sh ./deploy-gh-pages.sh",
     "build": "npm run build --workspaces",
     "test": "npm test --workspaces",
+    "update-snapshot": "npm run update-snapshot --workspaces",
     "prepare": "husky install",
     "coverage": "jest --coverage",
     "version": "lerna version",
-    "release": "npm run build --workspaces && lerna publish from-package --registry=https://registry.npmjs.org",
+    "release": "npm run build --workspaces && lerna publish from-package --registry=https://registry.npmjs.org --ignore-scripts",
     "publish-to-internal": "sh ./publish-to-internal.sh"
   },
   "dependencies": {

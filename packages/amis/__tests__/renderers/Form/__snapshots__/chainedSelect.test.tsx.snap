@@ -33,7 +33,9 @@ exports[`Renderer:chained-select 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {
   "select3": "a,b"
 }

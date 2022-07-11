@@ -341,14 +341,14 @@ html 中引入：
 js 中引入：
 
 ```js
-import './node_modules/amis/lib/themes/cxd.css';
-import './node_modules/amis/lib/helper.css';
-import './node_modules/amis/sdk/iconfont.css';
-// 或 import './node_modules/amis/lib/themes/antd.css';
+import 'amis/lib/themes/cxd.css';
+import 'amis/lib/helper.css';
+import 'amis/sdk/iconfont.css';
+// 或 import 'amis/lib/themes/antd.css';
 ```
 
 > 上面只是示例，请根据自己的项目结构调整引用路径
-> 如果要支持 IE 11 请引入 ./node_modules/amis/sdk/cxd-ie11.css，但这样就没法支持 CSS 变量了
+> 如果要支持 IE 11 请引入 amis/sdk/cxd-ie11.css，但这样就没法支持 CSS 变量了
 
 2. 渲染器使用配置主题
 
@@ -388,9 +388,8 @@ import * as React from 'react';
 import axios from 'axios';
 import copy from 'copy-to-clipboard';
 
-import {render as renderAmis, ToastComponent, AlertComponent} from 'amis';
-import {alert, confirm} from 'amis/lib/components/Alert';
-import {toast} from 'amis/lib/components/Toast';
+import {render as renderAmis} from 'amis';
+import {ToastComponent, AlertComponent, alert, confirm, toast} from 'amis-ui';
 
 class MyComponent extends React.Component<any, any> {
   render() {
@@ -594,7 +593,7 @@ render 有三个参数，后面会详细说明这三个参数内的属性
 #### confirm
 
 ```ts
-(msg: string) => boolean | Promise<boolean>
+(msg: string) => boolean | Promise<boolean>;
 ```
 
 用来实现确认框。返回 boolean 值
@@ -662,7 +661,7 @@ render 有三个参数，后面会详细说明这三个参数内的属性
 #### loadRenderer
 
 ```ts
-(schema: any, path: string) => Promise<Function>
+(schema: any, path: string) => Promise<Function>;
 ```
 
 可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。

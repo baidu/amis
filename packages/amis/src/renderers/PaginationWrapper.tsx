@@ -114,6 +114,7 @@ export class PaginationWrapper extends React.Component<PaginationWrapProps> {
               lastPage: store.lastPage,
               mode: store.mode,
               onPageChange: store.switchTo,
+              perPage: store.perPage,
               className: 'PaginationWrapper-pager'
             }
           )

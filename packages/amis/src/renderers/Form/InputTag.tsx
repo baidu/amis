@@ -157,10 +157,11 @@ export default class TagControl extends React.PureComponent<
   }
 
   /** 处理输入的内容 */
-  normalizeInputValue(inputValue: string, separator: string = '-'): Option[] {
+  normalizeInputValue(inputValue: string): Option[] {
+    const {enableBatchAdd, separator} = this.props;
     let batchValues = [];
 
-    if (typeof separator === 'string') {
+    if (enableBatchAdd && separator && typeof separator === 'string') {
       batchValues = inputValue.split(separator);
     } else {
       batchValues.push(inputValue);
@@ -183,22 +184,11 @@ export default class TagControl extends React.PureComponent<
 
   /** 输入的内容和存量的内容合并，过滤掉value值相同的 */
   normalizeMergedValue(inputValue: string, normalized: boolean = true) {
-    const {
-      selectedOptions,
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField,
-      enableBatchAdd,
-      separator
-    } = this.props;
+    const {selectedOptions} = this.props;
 
     const options = unionWith(
       selectedOptions.concat(),
-      this.normalizeInputValue(
-        inputValue,
-        enableBatchAdd ? separator : undefined
-      ),
+      this.normalizeInputValue(inputValue),
       (origin: Option, input: Option) => origin.value === input.value
     );
 
@@ -227,10 +217,7 @@ export default class TagControl extends React.PureComponent<
       return false;
     }
 
-    const addedValues = this.normalizeInputValue(
-      inputValue,
-      enableBatchAdd ? separator : undefined
-    );
+    const addedValues = this.normalizeInputValue(inputValue);
 
     if (
       maxTagLength != null &&
