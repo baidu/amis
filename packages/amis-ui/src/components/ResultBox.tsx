@@ -225,7 +225,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
 
     return (
       <div
-        className={cx('ResultBox', 'flex', className, {
+        className={cx('ResultBox', className, {
           'is-focused': isFocused,
           'is-disabled': disabled,
           'is-error': hasError,

@@ -1,18 +1,12 @@
 .#{$ns}ResultBox {
   @include input-input();
   @include input-border();
-  justify-content: space-between;
   flex-wrap: nowrap;
   padding: 0 px2rem(12px);
   min-height: var(--Form-input-height);
   align-items: center;
   border-radius: 3px;
   position: relative;
-
-  &.flex {
-    // 增加权重
-    display: flex;
-  }
 
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
@@ -200,27 +194,8 @@
   }
 
   &.#{$ns}TransferDropDown {
-    padding: 0 var(--gap-base);
-
-    &.is-group {
-      padding: var(--gap-xs);
-
-      > .#{$ns}TransferDropDown-icon {
-        margin-right: var(--gap-sm);
-      }
-
-      > .#{$ns}ResultBox-placeholder {
-        padding-left: var(--gap-sm);
-      }
-    }
-
-    > .#{$ns}ResultBox-value {
-      background: var(--Form-select-value-bgColor);
-
-      &:hover {
-        background: var(--Form-selectValue-onHover-bgColor);
-      }
-    }
+    // TODO: 等 select 单选 中也使用 ResultBox组件时，可以删除这段
+    padding-right: var(--gap-base);
   }
 
   &-overflow {
@@ -297,5 +272,12 @@
         transform: rotate(-90deg);
       }
     }
+  }
+}
+
+.#{$ns}Form-control--withSize {
+  > .#{$ns}ResultBox {
+    // 兼容 @media (min-width: 576px) .cxd-Form-control--sizeLg
+    display: flex;
   }
 }
