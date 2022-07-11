@@ -44,28 +44,6 @@ exports[`Renderer:input table 1`] = `
                   style="display: none;"
                   type="submit"
                 />
-                <pre>
-                  <code
-                    class="cxd-Form--debug"
-                  >
-                    {
-  "table": [
-    {
-      "a": "a1",
-      "b": "b1"
-    },
-    {
-      "a": "a2",
-      "b": "b2"
-    },
-    {
-      "a": "a3",
-      "b": "b3"
-    }
-  ]
-}
-                  </code>
-                </pre>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
