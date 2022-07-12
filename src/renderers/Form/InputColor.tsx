@@ -4,10 +4,7 @@ import cx from 'classnames';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import type {PresetColor} from '../../components/ColorPicker';
 import {isMobile} from '../../utils/helper';
-
-export const ColorPicker = React.lazy(
-  () => import('../../components/ColorPicker')
-);
+import ColorPicker from '../../components/ColorPicker';
 
 /**
  * Color 颜色选择框
@@ -80,21 +77,19 @@ export default class ColorControl extends React.PureComponent<
     const mobileUI = useMobileUI && isMobile();
     return (
       <div className={cx(`${ns}ColorControl`, className)}>
-        <Suspense fallback={<div>...</div>}>
-          <ColorPicker
-            classPrefix={ns}
-            {...rest}
-            useMobileUI={useMobileUI}
-            popOverContainer={
-              mobileUI && env && env.getModalContainer
-                ? env.getModalContainer
-                : mobileUI
-                ? undefined
-                : rest.popOverContainer
-            }
-            value={value || ''}
-          />
-        </Suspense>
+        <ColorPicker
+          classPrefix={ns}
+          {...rest}
+          useMobileUI={useMobileUI}
+          popOverContainer={
+            mobileUI && env && env.getModalContainer
+              ? env.getModalContainer
+              : mobileUI
+              ? undefined
+              : rest.popOverContainer
+          }
+          value={value || ''}
+        />
       </div>
     );
   }
