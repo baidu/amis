@@ -380,7 +380,7 @@ export default class DropDownButton extends React.Component<
               ? <Icon icon={icon} className="icon" />
               : generateIcon(cx, icon, 'm-r-xs')}
             {typeof label === 'string' ? filter(label, data) : label}
-            {hasIcon(rightIcon)
+            {rightIcon && hasIcon(rightIcon)
               ? <Icon icon={icon} className="icon" />
               : generateIcon(cx, rightIcon, 'm-l-xs')}
             {!hideCaret ? (
