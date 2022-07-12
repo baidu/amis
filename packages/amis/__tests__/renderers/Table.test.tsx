@@ -927,11 +927,12 @@ test('Renderer:table list', () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:table selectable', async () => {
+describe('Renderer:table selectable', () => {
   const schema: any = {
     type: 'table',
     title: '表格1',
     selectable: true,
+    itemCheckableOn: '${__id != 1}',
     data: {
       items: rows
     },
@@ -947,19 +948,26 @@ test('Renderer:table selectable', async () => {
     ]
   };
 
-  const {container, rerender} = render(amisRender(schema, {}, makeEnv({})));
+  test('radio style', async () => {
+    const {container, debug} = render(amisRender(schema, {}, makeEnv({})));
+    await waitFor(() => {
+      expect(container.querySelector('[type=radio]')).toBeInTheDocument();
+    });
 
-  await waitFor(() => {
-    expect(container.querySelector('[type=radio]')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-id="1"] [type=radio][disabled=""]')!
+    ).toBeInTheDocument();
   });
 
-  schema.multiple = true;
-  const {container: multipleContainer} = render(
-    amisRender(schema, {}, makeEnv({}))
-  );
-  await waitFor(() => {
+  test('checkbox style', async () => {
+    schema.multiple = true;
+    const {container} = render(amisRender(schema, {}, makeEnv({})));
+    await waitFor(() => {
+      expect(container.querySelector('[type=checkbox]')).toBeInTheDocument();
+    });
+
     expect(
-      multipleContainer.querySelector('[type=checkbox]')
+      container.querySelector('[data-id="1"] [type=checkbox][disabled=""]')!
     ).toBeInTheDocument();
   });
 });
