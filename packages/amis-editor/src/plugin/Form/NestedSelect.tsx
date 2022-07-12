@@ -245,7 +245,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 },
                 {
                   type: 'container',
-                  className: 'ae-ExtendMore',
+                  className: 'ae-ExtendMore mb-3',
                   visibleOn: 'this.multiple',
                   body: [
                     {
