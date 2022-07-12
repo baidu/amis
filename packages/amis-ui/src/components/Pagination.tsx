@@ -5,9 +5,13 @@
  */
 import React from 'react';
 import isInteger from 'lodash/isInteger';
-import {localeable, LocaleProps} from 'amis-core';
-import {themeable, ThemeProps} from 'amis-core';
-import {autobind} from 'amis-core';
+import {
+  localeable,
+  LocaleProps,
+  themeable,
+  ThemeProps,
+  autobind
+} from 'amis-core';
 import {Icon} from './icons';
 import Select from './Select';
 
@@ -103,24 +107,18 @@ export class Pagination extends React.Component<
   static defaultProps = {
     layout: [PaginationWidget.Pager],
     maxButtons: 5,
-    mode: 'normal' as MODE_TYPE,
+    mode: 'normal',
     activePage: 1,
     perPage: 10,
     perPageAvailable: [10, 20, 50, 100]
   };
 
-  state = {
-    pageNum: '',
-    perPage: Number(this.props.perPage)
-  };
-
   constructor(props: PaginationProps) {
     super(props);
-
-    this.handlePageNumChange = this.handlePageNumChange.bind(this);
-    this.renderPageItem = this.renderPageItem.bind(this);
-    this.renderEllipsis = this.renderEllipsis.bind(this);
-    this.handlePageNums = this.handlePageNums.bind(this);
+    this.state = {
+      pageNum: '',
+      perPage: Number(this.props.perPage)
+    };
   }
 
   componentDidUpdate(prevProps: PaginationProps) {
@@ -130,6 +128,13 @@ export class Pagination extends React.Component<
     }
   }
 
+  transNum(value: number | string | undefined, resetValue = 0) {
+    let val = parseInt(value as any);
+    val = Number.isNaN(val) ? resetValue : val;
+    return val < 0 ? -val : val;
+  }
+
+  @autobind
   handlePageNumChange(page: number, perPage?: number) {
     const {disabled, onPageChange} = this.props;
 
@@ -144,8 +149,10 @@ export class Pagination extends React.Component<
    *
    * @param page 页码
    */
+  @autobind
   renderPageItem(page: number) {
-    const {classnames: cx, activePage} = this.props;
+    let {classnames: cx, activePage} = this.props;
+    activePage = this.transNum(activePage, 1);
     const {perPage} = this.state;
 
     return (
@@ -167,6 +174,7 @@ export class Pagination extends React.Component<
    * @param key 类型 'prev-ellipsis' | 'next-ellipsis'
    * @param page 页码
    */
+  @autobind
   renderEllipsis(key: string) {
     const {classnames: cx} = this.props;
     return (
@@ -184,6 +192,7 @@ export class Pagination extends React.Component<
    * @param min 最小页码
    * @param max 最大页码
    */
+  @autobind
   handlePageNums(
     cur: number,
     counts: number,
@@ -217,18 +226,23 @@ export class Pagination extends React.Component<
   }
 
   getLastPage() {
-    const {total, perPage, lastPage, activePage, hasNext} = this.props;
+    let {total, perPage, lastPage, activePage, hasNext, perPageAvailable} =
+      this.props;
+    total = this.transNum(total, 0);
+    lastPage = this.transNum(lastPage, 0);
+    activePage = this.transNum(activePage, 1);
+    perPage = this.transNum(perPage, perPageAvailable?.[0] || 10);
     // 输入total，重新计算lastPage
     if (total || total === 0) {
       return Math.ceil(total / (perPage as number));
     }
     if (lastPage) {
-      return Number(lastPage);
+      return lastPage;
     }
     if (hasNext) {
-      return Number(activePage + 1);
+      return activePage + 1;
     }
-    return Number(activePage);
+    return activePage;
   }
 
   @autobind
@@ -244,7 +258,7 @@ export class Pagination extends React.Component<
   }
 
   render() {
-    const {
+    let {
       layout,
       maxButtons,
       mode,
@@ -259,7 +273,13 @@ export class Pagination extends React.Component<
       hasNext,
       translate: __
     } = this.props;
-    const {pageNum, perPage} = this.state;
+    let {pageNum, perPage} = this.state;
+
+    total = this.transNum(total, 0);
+    activePage = this.transNum(activePage, 1);
+    maxButtons = this.transNum(maxButtons, 5);
+    perPage = this.transNum(perPage, perPageAvailable?.[0] || 10);
+
     const lastPage = this.getLastPage();
 
     // 简易模式
