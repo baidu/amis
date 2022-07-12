@@ -410,6 +410,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
+
+  target: React.RefObject<HTMLDivElement> = React.createRef();
+
   constructor(props: CRUDProps) {
     super(props);
 
@@ -434,6 +437,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     this.renderHeaderToolbar = this.renderHeaderToolbar.bind(this);
     this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     this.clearSelection = this.clearSelection.bind(this);
+    this.getTarget = this.getTarget.bind(this);
 
     const {
       location,
@@ -1755,6 +1759,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           classPrefix={ns}
           searchable={false}
           placeholder={__('Select.placeholder')}
+          popOverContainer={this.getTarget}
           options={perPages}
           value={store.perPage + ''}
           onChange={(value: any) => this.handleChangePage(1, value.value)}
@@ -1762,6 +1767,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         />
       </div>
     );
+  }
+
+  getTarget() {
+    return this.target.current?.ownerDocument.body;
   }
 
   renderLoadMore() {
@@ -2075,6 +2084,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         className={cx('Crud', className, {
           'is-loading': store.loading
         })}
+        ref={this.target}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
           ? render(

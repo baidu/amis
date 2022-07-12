@@ -95,11 +95,12 @@ export function calculatePosition(
 
   const clip = container.getBoundingClientRect();
   const clip2 = overlayNode.getBoundingClientRect();
+  // getBoundingClientRect 会返回长宽精确值，rem计算后可能会有小数 导致 scale 不正确，所以这里需要四舍五入取整
   const scaleX = overlayNode.offsetWidth
-    ? clip2.width / overlayNode.offsetWidth
+    ? Math.round(clip2.width) / overlayNode.offsetWidth
     : 1;
   const scaleY = overlayNode.offsetHeight
-    ? clip2.height / overlayNode.offsetHeight
+    ? Math.round(clip2.height) / overlayNode.offsetHeight
     : 1;
 
   // auto 尝试四个方向对齐。
