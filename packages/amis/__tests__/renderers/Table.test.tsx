@@ -927,7 +927,7 @@ test('Renderer:table list', () => {
   expect(container).toMatchSnapshot();
 });
 
-describe('Renderer:table selectable', () => {
+describe('Renderer:table selectable & itemCheckableOn', () => {
   const schema: any = {
     type: 'table',
     title: '表格1',
