@@ -85,11 +85,11 @@ test('Renderer:crud basic interval', async () => {
   expect(container).toMatchSnapshot();
 
   await wait(1001);
-  expect(mockFetcher.mock.calls.length).toEqual(2);
+  expect(mockFetcher).toHaveBeenCalledTimes(2);
 });
 
 test('Renderer:crud stopAutoRefreshWhen', async () => {
-  const mockFetcher2 = jest.fn(fetcher);
+  const mockFetcher = jest.fn(fetcher);
   render(
     amisRender(
       {
@@ -109,16 +109,16 @@ test('Renderer:crud stopAutoRefreshWhen', async () => {
         }
       },
       {},
-      makeEnv({fetcher: mockFetcher2})
+      makeEnv({fetcher: mockFetcher})
     )
   );
 
-  await wait(1500);
-  expect(mockFetcher2.mock.calls.length).toEqual(1);
+  await wait(1001);
+  expect(mockFetcher).toHaveBeenCalledTimes(1);
 });
 
 test('Renderer:crud loadDataOnce', async () => {
-  const {container} = render(
+  const {container, getByText, debug} = render(
     amisRender(
       {
         type: 'page',
@@ -160,12 +160,12 @@ test('Renderer:crud loadDataOnce', async () => {
     )
   );
 
-  await wait(300);
+  await waitFor(() => getByText('Internet Explorer 4.0'));
   expect(container.querySelector('.cxd-Crud-pager')).not.toBeInTheDocument();
 });
 
 test('Renderer:crud list', async () => {
-  const {container} = render(
+  const {container, getByText} = render(
     amisRender(
       {
         type: 'page',
@@ -187,12 +187,12 @@ test('Renderer:crud list', async () => {
     )
   );
   expect(container).toMatchSnapshot();
-  await wait(300);
+  await waitFor(() => getByText('Internet Explorer 4.0'));
   expect(container).toMatchSnapshot();
 });
 
 test('Renderer:crud cards', async () => {
-  const {container} = render(
+  const {container, getByText} = render(
     amisRender(
       {
         type: 'page',
@@ -228,7 +228,9 @@ test('Renderer:crud cards', async () => {
   );
 
   expect(container).toMatchSnapshot();
-  await wait(300);
+  await waitFor(() =>
+    expect(container.querySelector('.cxd-Card-title')).toBeInTheDocument()
+  );
   expect(container).toMatchSnapshot();
 });
 
@@ -266,9 +268,8 @@ test('Renderer:crud [source]', async () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:crud filter stopAutoRefreshWhen', async () => {
-  const mockFetcher = jest.fn(fetcher);
-  const {container} = render(
+test('Renderer:crud filter', async () => {
+  const {container, getByText} = render(
     amisRender(
       {
         type: 'page',
@@ -316,15 +317,11 @@ test('Renderer:crud filter stopAutoRefreshWhen', async () => {
         }
       },
       {},
-      makeEnv({fetcher: mockFetcher})
+      makeEnv({fetcher})
     )
   );
 
-  await waitFor(() => {
-    expect(
-      container.querySelector('[data-testid="spinner"]')
-    ).not.toBeInTheDocument();
-  });
+  await waitFor(() => getByText('Internet Explorer 4.0'));
   expect(container).toMatchSnapshot();
 });
 
@@ -375,6 +372,8 @@ test('Renderer:crud draggable & itemDraggableOn', async () => {
     expect(container.querySelector('[icon="exchange"]')).toBeInTheDocument();
   });
   fireEvent.click(container.querySelector('[icon="exchange"]')!);
-  await wait(50);
+  await waitFor(() => {
+    expect(container.querySelector('[icon=drag]')).toBeInTheDocument();
+  });
   expect(container.querySelectorAll('[icon=drag]').length).toBe(9);
 });
