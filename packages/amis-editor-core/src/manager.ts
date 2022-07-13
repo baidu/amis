@@ -1665,8 +1665,10 @@ export class EditorManager {
     let from = node;
     let region = node;
     while (!scope && from) {
-      scope = this.dataSchema.hasScope(`${from.id}-${from.type}`)
-        ? this.dataSchema.getScope(`${from.id}-${from.type}`)
+      const nodeId = from.info?.id;
+      const type = from.info?.type;
+      scope = this.dataSchema.hasScope(`${nodeId}-${type}`)
+        ? this.dataSchema.getScope(`${nodeId}-${type}`)
         : undefined;
       from = from.parent;
       if (from?.isRegion) {
