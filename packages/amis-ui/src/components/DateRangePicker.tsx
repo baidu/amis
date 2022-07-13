@@ -651,6 +651,7 @@ export class DateRangePicker extends React.Component<
   }
 
   close(isConfirm: boolean = false) {
+    console.log('close');
     if (!isConfirm) {
       const {oldEndDate, oldStartDate} = this.state;
       const {inputFormat} = this.props;
@@ -1320,7 +1321,7 @@ export class DateRangePicker extends React.Component<
           <div key="button" className={`${ns}DateRangePicker-actions`}>
             <a
               className={cx('Button', 'Button--default')}
-              onClick={() => this.close}
+              onClick={() => this.close()}
             >
               {__('cancel')}
             </a>

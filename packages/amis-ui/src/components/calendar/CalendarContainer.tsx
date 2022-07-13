@@ -22,6 +22,8 @@ export default class CustomCalendarContainer extends React.Component<CalendarPro
   };
 
   render() {
+    console.log(this.props.view);
+
     return React.createElement(
       this.viewComponents[this.props.view],
       this.props.viewProps
