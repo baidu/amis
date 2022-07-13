@@ -78,11 +78,15 @@ export interface EditorProps extends PluginEventListener {
     /**
      * 通用动作集（事件动作面板左侧动作树）
      */
-    actionTreeGetter?: (actionTree: RendererPluginAction[]) => RendererPluginAction[];
+    actionTreeGetter?: (
+      actionTree: RendererPluginAction[]
+    ) => RendererPluginAction[];
     /**
      * 自定义动作配置
      */
-    customActionGetter?: (manager: EditorManager) => {[propName: string]: RendererPluginAction};
+    customActionGetter?: (manager: EditorManager) => {
+      [propName: string]: RendererPluginAction;
+    };
   };
 
   onUndo?: () => void; // 用于触发外部 undo 事件
@@ -237,7 +241,7 @@ export default class Editor extends Component<EditorProps> {
       return;
     } else if (
       (e.target as HTMLElement).tagName === 'BODY' &&
-      e.key === 's' &&
+      (e.key === 's' || e.key === 'S') &&
       (e.metaKey || e.ctrlKey)
     ) {
       e.preventDefault();
@@ -245,7 +249,7 @@ export default class Editor extends Component<EditorProps> {
       return;
     } else if (
       (e.target as HTMLElement).tagName === 'BODY' &&
-      e.key === 'c' &&
+      (e.key === 'c' || e.key === 'C') &&
       (e.metaKey || e.ctrlKey)
     ) {
       e.preventDefault();
@@ -253,7 +257,7 @@ export default class Editor extends Component<EditorProps> {
       return;
     } else if (
       (e.target as HTMLElement).tagName === 'BODY' &&
-      e.key === 'v' &&
+      (e.key === 'v' || e.key === 'V') &&
       (e.metaKey || e.ctrlKey)
     ) {
       e.preventDefault();
@@ -462,7 +466,6 @@ export default class Editor extends Component<EditorProps> {
       }
     }
   }
-
 
   @autobind
   getToolbarContainer() {

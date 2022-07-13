@@ -173,7 +173,7 @@ export function JSONPipeOut(
     if (
       typeof filterHiddenProps === 'function'
         ? filterHiddenProps(key, prop)
-        : filterHiddenProps && key.substring(0, 2) === '__'
+        : filterHiddenProps !== false && key.substring(0, 2) === '__'
     ) {
       toUpdate[key] = undefined;
       flag = true;
@@ -591,9 +591,10 @@ export function filterSchemaForConfig(schema: any, valueWithConfig?: any): any {
       } else if (key === '$$commonSchema' && valueWithConfig) {
         let config: any = deepFind(valueWithConfig, value);
         config[value] &&
-          (schema = mapped = {
-            ...config[value]
-          });
+          (schema = mapped =
+            {
+              ...config[value]
+            });
       }
     });
     return modified ? mapped : schema;

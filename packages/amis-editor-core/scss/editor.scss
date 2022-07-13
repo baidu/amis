@@ -1,23 +1,23 @@
-@import 'amis-ui/scss/_functions';
-@import 'amis-ui/scss/_variables';
-@import 'amis-ui/scss/_mixins';
-@import './_mixin';
-@import './_variables';
-@import './_backTop';
-@import './_context-menu-setting';
-@import './_outline';
-@import './_leftPanel';
-@import './_rightPanel';
-@import './_bcn';
-@import './_classname-picker';
-@import './_renderers';
-@import './_searchRendererPanel';
-@import './_tableview';
-@import './_targetname';
-@import './_selection';
-@import './_data-chain';
-@import './_tooltip';
-@import './_shortcutKey';
+@import 'amis-ui/scss/functions';
+@import 'amis-ui/scss/variables';
+@import 'amis-ui/scss/mixins';
+@import './mixin';
+@import './variables';
+@import './backTop';
+@import './context-menu-setting';
+@import './outline';
+@import './leftPanel';
+@import './rightPanel';
+@import './bcn';
+@import './classname-picker';
+@import './renderers';
+@import './searchRendererPanel';
+@import './tableview';
+@import './targetname';
+@import './selection';
+@import './data-chain';
+@import './tooltip';
+@import './shortcutKey';
 @import './control/option-control';
 @import './control/api-control';
 @import './control/switch-more-control';
@@ -1411,8 +1411,8 @@ div.ae-DragImage {
 
 // Pagination配置面板里的layout字段样式
 .ae-pagination-layout-item {
-  input+div {
-    >div:nth-child(1) {
+  input + div {
+    > div:nth-child(1) {
       flex-basis: px2rem(32px);
       flex-grow: 0;
       padding-right: 0;
@@ -1559,8 +1559,8 @@ div.ae-DragImage {
   }
 }
 
-.ae-collapse-checkbox{
-  label{
+.ae-collapse-checkbox {
+  label {
     margin-right: 0;
   }
 }
