@@ -21,7 +21,6 @@ export interface IconSelectControlSchema extends FormBaseControlSchema {
 export interface IconSelectProps extends FormControlProps {
   placeholder?: string;
   disabled?: boolean;
-  onChange?: (e: string) => void;
 }
 
 export interface IconSelectState {
