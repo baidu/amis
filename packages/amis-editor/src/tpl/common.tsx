@@ -324,6 +324,7 @@ setSchemaTpl(
     useSelectMode?: boolean; // 是否使用Select选择设置模式，需要确保 rendererSchema.options 不为 undefined
     valueType?: string; // 用于设置期望数值类型
     visibleOn?: string; // 用于控制显示的表达式
+    evalMode?: boolean; // 为false时，则会用 ${这里面才是表达式} 包裹变量
   }) => {
     let curRendererSchema = config?.rendererSchema;
     if (
@@ -351,7 +352,8 @@ setSchemaTpl(
             rendererSchema: curRendererSchema,
             rendererWrapper: config?.rendererWrapper,
             needDeleteValue: config?.needDeleteValue,
-            valueType: config?.valueType
+            valueType: config?.valueType,
+            evalMode: config?.evalMode ?? false, // 默认需要${}包裹变量
           }
         ]
       };
@@ -365,7 +367,8 @@ setSchemaTpl(
         rendererWrapper: config?.rendererWrapper,
         needDeleteValue: config?.needDeleteValue,
         valueType: config?.valueType,
-        visibleOn: config?.visibleOn
+        visibleOn: config?.visibleOn,
+        evalMode: config?.evalMode ?? false, // 默认需要${}包裹变量
       };
     }
   }

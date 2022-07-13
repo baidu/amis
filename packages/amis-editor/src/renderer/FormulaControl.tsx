@@ -128,7 +128,7 @@ export default class FormulaControl extends React.Component<
     this.state = {
       variables: this.normalizeVariables(props.variables), // 备注: 待沟通
       variableMode: 'tabs',
-      evalMode: false
+      evalMode: true
     };
   }
 
