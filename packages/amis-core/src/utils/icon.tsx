@@ -21,6 +21,14 @@ export const generateIcon = (
     return icon;
   }
 
+  if (icon && typeof icon === 'string' && icon.startsWith('svg-')) {
+    return (
+      <svg className="icon">
+        <use xlinkHref={`#${icon.replace(/^svg-/, '')}`}></use>
+      </svg>
+    )
+  }
+
   const isURLIcon = icon?.indexOf('.') !== -1;
 
   return icon ? (

@@ -58,6 +58,7 @@ interface SearchBoxProps
     Omit<SearchBoxSchema, 'type' | 'className'> {
   name: string;
   onQuery?: (query: {[propName: string]: string}) => void;
+  onChange?: (value: string) => void;
 }
 
 export interface SearchBoxState {
@@ -91,6 +92,8 @@ export class SearchBoxRenderer extends React.Component<
   @autobind
   handleChange(value: string) {
     this.setState({value});
+
+    this.props.onChange && this.props.onChange(value);
   }
 
   @autobind

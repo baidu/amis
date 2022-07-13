@@ -16,8 +16,24 @@ order: 50
 {
     "type": "page",
     "body": {
-        "type": "icon",
-        "icon": "cloud"
+      "type": "form",
+      "body": [
+        {
+          "type": "icon",
+          "icon": "svg-import-fill"
+        },
+        {
+          "type": "icon-picker",
+          "name": "date",
+          "label": "图标"
+        },
+        {
+          "type": "icon-select",
+          "name": "iconSS",
+          "label": "图标",
+          "disabled": false
+        }
+      ]
     }
 }
 ```

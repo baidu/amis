@@ -42,6 +42,15 @@ export class Icon extends React.Component<IconProps, object> {
       return <CustomIcon className={cx(className, `icon-${icon}`)} />;
     }
 
+    // 是否是 svg 管理的 icon
+    if (icon && typeof icon === 'string' && icon.startsWith('svg-')) {
+      return (
+        <svg className={cx('icon', className)}>
+          <use xlinkHref={`#${icon.replace(/^svg-/, '')}`}></use>
+        </svg>
+      )
+    }
+
     const isURLIcon = icon?.indexOf('.') !== -1;
     let iconPrefix = '';
     if (vendor === 'iconfont') {
