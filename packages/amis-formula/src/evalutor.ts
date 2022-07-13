@@ -603,10 +603,7 @@ export class Evaluator {
    * @returns {number} 所有传入值中最大的那个
    */
   fnMAX(...args: Array<any>) {
-    let arr = args;
-    if (args.length === 1 && Array.isArray(args[0])) {
-      arr = args[0];
-    }
+    const arr = normalizeArgs(args);
     return Math.max.apply(
       Math,
       arr.map(item => this.formatNumber(item))
@@ -623,10 +620,7 @@ export class Evaluator {
    * @returns {number} 所有传入值中最小的那个
    */
   fnMIN(...args: Array<number>) {
-    let arr = args;
-    if (args.length === 1 && Array.isArray(args[0])) {
-      arr = args[0];
-    }
+    const arr = normalizeArgs(args);
     return Math.min.apply(
       Math,
       arr.map(item => this.formatNumber(item))
@@ -643,10 +637,7 @@ export class Evaluator {
    * @returns {number} 所有传入数值的总和
    */
   fnSUM(...args: Array<number>) {
-    let arr = args;
-    if (args.length === 1 && Array.isArray(args[0])) {
-      arr = args[0];
-    }
+    const arr = normalizeArgs(args);
     return arr.reduce((sum, a) => sum + this.formatNumber(a) || 0, 0);
   }
 
@@ -781,10 +772,7 @@ export class Evaluator {
    * @returns {number} 所有数值的平均值
    */
   fnAVG(...args: Array<any>) {
-    let arr = args;
-    if (args.length === 1 && Array.isArray(args[0])) {
-      arr = args[0];
-    }
+    const arr = normalizeArgs(args);
     return (
       this.fnSUM.apply(
         this,
@@ -806,10 +794,7 @@ export class Evaluator {
     if (args.length === 0) {
       return null;
     }
-    let arr = args;
-    if (args.length === 1 && Array.isArray(args[0])) {
-      arr = args[0];
-    }
+    const arr = normalizeArgs(args);
 
     const nums = arr.map(item => this.formatNumber(item));
     const sum = nums.reduce((sum, a) => sum + a || 0, 0);
@@ -1923,6 +1908,15 @@ function stripNumber(number: number) {
   } else {
     return number;
   }
+}
+
+// 如果只有一个成员，同时第一个成员为 args
+// 则把它展开，当成是多个参数，毕竟公式里面还不支持 ...args 语法，
+function normalizeArgs(args: Array<any>) {
+  if (args.length === 1 && Array.isArray(args[0])) {
+    args = args[0];
+  }
+  return args;
 }
 
 export function createObject(
