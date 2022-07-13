@@ -353,7 +353,7 @@ setSchemaTpl(
             rendererWrapper: config?.rendererWrapper,
             needDeleteValue: config?.needDeleteValue,
             valueType: config?.valueType,
-            evalMode: config?.evalMode ?? false, // 默认需要${}包裹变量
+            evalMode: config?.evalMode ?? false // 默认需要${}包裹变量
           }
         ]
       };
@@ -368,7 +368,7 @@ setSchemaTpl(
         needDeleteValue: config?.needDeleteValue,
         valueType: config?.valueType,
         visibleOn: config?.visibleOn,
-        evalMode: config?.evalMode ?? false, // 默认需要${}包裹变量
+        evalMode: config?.evalMode ?? false // 默认需要${}包裹变量
       };
     }
   }
@@ -727,7 +727,8 @@ setSchemaTpl('richText', {
   buttons: [
     'paragraphFormat',
     'quote',
-    'color',
+    'textColor',
+    'backgroundColor',
     '|',
     'bold',
     'italic',
@@ -997,15 +998,18 @@ setSchemaTpl('app-page-args', {
   ]
 });
 
-setSchemaTpl('iconLink', (schema: {name: 'icon' | 'rightIcon', visibleOn: boolean}) => {
-  const {name, visibleOn} = schema;
-  return {
-    name: name,
-    visibleOn,
-    label: '图标',
-    type: 'icon-picker',
-    placeholder: '点击选择图标',
-    clearable: true,
-    description: ''
+setSchemaTpl(
+  'iconLink',
+  (schema: {name: 'icon' | 'rightIcon'; visibleOn: boolean}) => {
+    const {name, visibleOn} = schema;
+    return {
+      name: name,
+      visibleOn,
+      label: '图标',
+      type: 'icon-picker',
+      placeholder: '点击选择图标',
+      clearable: true,
+      description: ''
+    };
   }
-});
+);

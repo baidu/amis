@@ -25,7 +25,8 @@ setSchemaTpl('tpl:rich-text', {
   buttons: [
     'paragraphFormat',
     'quote',
-    'color',
+    'textColor',
+    'backgroundColor',
     '|',
     'bold',
     'italic',
@@ -146,7 +147,7 @@ export class TplPlugin extends BasePlugin {
                 ),
                 name: 'inline',
                 pipeIn: defaultValue(true),
-                hiddenOn:'data.wrapperComponent !== ""'
+                hiddenOn: 'data.wrapperComponent !== ""'
               }),
               getSchemaTpl('tpl:content'),
               getSchemaTpl('tpl:rich-text')
