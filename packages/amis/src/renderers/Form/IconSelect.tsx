@@ -4,13 +4,11 @@ import {matchSorter} from 'match-sorter';
 import {
   FormItem,
   FormControlProps,
-  autobind,
-  // @ts-ignore
+  autobind
 } from 'amis-core';
 import {Modal, Button, Spinner} from 'amis-ui';
 
 import debounce from 'lodash/debounce';
-// @ts-ignore
 import {FormBaseControlSchema} from '../../Schema';
 
 import * as IconSelectStore from './IconSelectStore';
