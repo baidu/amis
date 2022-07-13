@@ -32,7 +32,7 @@ export interface BadgeObject {
   mode?: 'text' | 'dot' | 'ribbon';
 
   /**
-   * 角标位置，优先级大于position
+   * 角标位置，相对于position的位置进行偏移
    */
   offset?: [number | string, number | string];
 
@@ -226,9 +226,7 @@ export class Badge extends React.Component<BadgeProps, object> {
     }
 
     let offsetStyle = {};
-    // 如果设置了offset属性，offset在position为'top-right'的基础上进行translate定位
     if (offset && offset.length) {
-      position = 'top-right';
       const left = `calc(50% + ${parseInt(offset[0] as string, 10)}px)`;
       const right = `calc(-50% + ${parseInt(offset[1] as string, 10)}px)`;
       offsetStyle = {
