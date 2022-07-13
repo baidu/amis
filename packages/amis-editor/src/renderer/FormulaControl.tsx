@@ -328,9 +328,13 @@ export default class FormulaControl extends React.Component<
       if (this.props.needDeleteProps) {
         deleteProps.push(...this.props.needDeleteProps);
       }
-      if (name) {
-        // 剔除自身配置的影响
-        deleteProps.push(name);
+      if (name && name === 'min') {
+        // 避免min影响自身默认值设置
+        deleteProps.push('min');
+      }
+      if (name && name === 'max') {
+        // 避免max影响自身默认值设置
+        deleteProps.push('max');
       }
       curRendererSchema = omit(curRendererSchema, deleteProps);
 
