@@ -1326,7 +1326,7 @@ export class DateRangePicker extends React.Component<
             inputFormat={inputFormat}
             timeFormat={timeFormat}
             viewDate={this.nextMonth}
-            isEndDate
+            // isEndDate
             isValidDate={this.checkEndIsValidDate}
             viewMode={viewMode}
             input={false}
