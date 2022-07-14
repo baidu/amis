@@ -485,7 +485,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           typeof column.value !== 'undefined' &&
           typeof column.name === 'string'
         ) {
-          if (['input-date', 'input-datetime'].includes(column.type)) {
+          if (
+            [
+              'input-date',
+              'input-datetime',
+              'input-time',
+              'input-month',
+              'input-quarter',
+              'input-year'
+            ].includes(column.type)
+          ) {
             const date = filterDate(column.value, data, column.format || 'X');
             setVariable(
               value,
