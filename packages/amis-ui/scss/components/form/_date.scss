@@ -289,7 +289,6 @@
     .rdtActive.rdtToday {
       color: #151b26;
       > span {
-        background: transparent;
         border-color: #144bcc;
       }
     }
@@ -619,28 +618,24 @@ td.rdtQuarter {
   }
 }
 
-.#{$ns}DateRangePicker-start {
-  .rdtPicker .rdtActive.rdtBetween {
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      transparent 50%,
-      var(--Calendar-cell-onBetween-bg) 51%,
-      var(--Calendar-cell-onBetween-bg) 100%
-    );
-  }
+.rdtPicker .rdtActive.rdtBetween.rdtStartDay {
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 50%,
+    var(--Calendar-cell-onBetween-bg) 51%,
+    var(--Calendar-cell-onBetween-bg) 100%
+  );
 }
 
-.#{$ns}DateRangePicker-end {
-  .rdtPicker .rdtActive.rdtBetween {
-    background: linear-gradient(
-      to right,
-      var(--Calendar-cell-onBetween-bg) 0%,
-      var(--Calendar-cell-onBetween-bg) 50%,
-      transparent 51%,
-      transparent 100%
-    );
-  }
+.rdtPicker .rdtActive.rdtBetween.rdtEndDay {
+  background: linear-gradient(
+    to right,
+    var(--Calendar-cell-onBetween-bg) 0%,
+    var(--Calendar-cell-onBetween-bg) 50%,
+    transparent 51%,
+    transparent 100%
+  );
 }
 
 .#{$ns}DateCalendar {
