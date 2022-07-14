@@ -1,18 +1,8 @@
-import React = require('react');
-import PageRenderer from '../../../../amis-core/src/renderers/Form';
-import * as renderer from 'react-test-renderer';
-import {
-  render,
-  fireEvent,
-  cleanup,
-  getByText,
-  waitFor
-} from '@testing-library/react';
+import {render, fireEvent, cleanup, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {wait, makeEnv} from '../../helper';
 import {clearStoresCache} from '../../../src';
-import {createMemoryHistory} from 'history';
 
 // mock getComputedStyle
 Object.defineProperty(window, 'getComputedStyle', {
@@ -517,5 +507,64 @@ test('Renderer:Form sendOn:true', async () => {
     ).not.toBeInTheDocument();
   });
   expect(fetcher).toHaveBeenCalled();
+  expect(container).toMatchSnapshot();
+});
+
+test('Renderer:Form reset', async () => {
+  const pristineData = {
+    email: 'user@baidu.com'
+  };
+  const onReset = jest.fn();
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        body: [
+          {
+            type: 'input-text',
+            name: 'name',
+            label: '姓名'
+          },
+          {
+            type: 'input-email',
+            name: 'email',
+            label: '邮箱',
+            value: pristineData.email
+          }
+        ],
+        actions: [
+          {
+            type: 'reset',
+            label: 'ResetButton'
+          },
+          {
+            type: 'submit',
+            label: 'SubmitBtn'
+          }
+        ]
+      },
+      {onReset},
+      makeEnv({})
+    )
+  );
+  const textInput = container.querySelector(
+    'input[name="name"]'
+  ) as HTMLInputElement;
+  const emailInput = container.querySelector(
+    'input[name="email"]'
+  ) as HTMLInputElement;
+
+  expect(textInput).toBeInTheDocument();
+  expect(emailInput).toBeInTheDocument();
+
+  fireEvent.change(textInput, {target: {value: 'username'}});
+  fireEvent.change(emailInput, {target: {value: 'user_changed@baidu.com'}});
+  fireEvent.click(getByText('ResetButton'));
+
+  await waitFor(() => {
+    expect(onReset).toHaveBeenCalled();
+    expect(onReset).toHaveBeenCalledWith(pristineData);
+  });
+
   expect(container).toMatchSnapshot();
 });
