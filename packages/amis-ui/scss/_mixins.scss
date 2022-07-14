@@ -203,46 +203,58 @@
 }
 
 @mixin button-size(
-  $padding-y,
-  $padding-x,
-  $font-size,
-  $line-height,
-  $border-radius,
-  $height: auto,
-  $iconWdith: px2rem(20px),
-  $icon-rightMargin: var(--Button-icon-rightMargin)
+  $font-size: var(--button-size-default-font-size),
+  $line-height: var(--button-size-default-font-lineHeight),
+  $border-radius: var(--button-size-default-border-radius),
+  $height: var(--button-size-default-height),
+  $paddingTop: var(--button-size-default-paddingTop),
+  $paddingBottom: var(--button-size-default-paddingBottom),
+  $paddingLeft: var(--button-size-default-paddingLeft),
+  $paddingRight: var(--button-size-default-paddingRight),
+  $marginTop: var(--button-size-default-marginTop),
+  $marginBottom: var(--button-size-default-marginBottom),
+  $marginLeft: var(--button-size-default-marginLeft),
+  $marginRight: var(--button-size-default-marginRight),
+  $minWidth: var(--button-size-default-minWidth),
+  $iconSize: var(--button-size-default-icon-size),
+  $iconMargin: var(--button-size-default-icon-margin)
 ) {
-  padding: $padding-y $padding-x;
   font-size: $font-size;
   line-height: $line-height;
   border-radius: $border-radius;
   height: $height;
+  padding: $paddingTop $paddingRight $paddingBottom $paddingLeft;
+  margin: $marginTop $marginRight $marginBottom $marginLeft;
 
   .#{$ns}Button-icon:first-child:not(:last-child):not(.pull-right),
   > svg.icon:not(:last-child):not(.pull-right),
   > .pull-left {
-    margin-right: $icon-rightMargin;
+    margin-right: $iconMargin;
+    font-size: $iconSize;
   }
 
   .#{$ns}Button-icon:last-child:not(:first-child):not(.pull-left),
   > .pull-right {
-    margin-left: $padding-x;
+    font-size: $iconSize;
+    margin-left: $iconMargin;
   }
 
   .#{$ns}Button--loading:first-child:not(:last-child):not(.pull-right),
   > svg.icon:not(:last-child):not(.pull-right),
   > .pull-left {
-    margin-right: $icon-rightMargin;
+    font-size: $iconSize;
+    margin-right: $iconMargin;
   }
 
   .#{$ns}Button--loading:last-child:not(:first-child):not(.pull-left),
   > .pull-right {
-    margin-left: $padding-x;
+    font-size: $iconSize;
+    margin-left: $iconMargin;
   }
 
   // img 需要加一下高度限制
   img.#{$ns}Button-icon {
-    height: var(--Button-fontSize);
+    height: $iconSize;
     vertical-align: middle;
   }
 }
@@ -259,46 +271,57 @@
 }
 
 @mixin button-variant(
-  $background,
-  $border: $background,
-  $color: $white,
-  $hover-background: darken($background, 7.5%),
-  $hover-border: darken($border, 10%),
-  $hover-color: $color,
-  $active-background: darken($background, 10%),
-  $active-border: darken($border, 12.5%),
-  $active-color: $color
+  // 常规
+  $bg-color: var(--button-default-default-bg-color),
+  $border-color: var(--button-default-default-border-color),
+  $font-color: var(--button-default-default-font-color),
+  // 悬浮
+  $hover-bg-color: var(--button-default-hover-bg-color),
+  $hover-border-color: var(--button-default-hover-border-color),
+  $hover-font-color: var(--button-default-hover-font-color),
+  // 点击
+  $active-bg-color: var(--button-default-active-bg-color),
+  $active-border-color: var(--button-default-active-border-color),
+  $active-font-color: var(--button-default-active-font-color),
+  // 禁用
+  $disabled-bg-color: var(--button-default-disabled-bg-color),
+  $disabled-border-color: var(--button-default-disabled-border-color),
+  $disabled-font-color: var(--button-default-disabled-font-color),
+  // 其他
+  $border-width: var(--button-default-default-border-width),
+  $border-style: var(--button-default-default-border-style),
+  $shadow: var(--button-default-default-shadow)
 ) {
-  color: $color;
-  background: $background;
-  border-color: $border;
-  box-shadow: var(--Button-boxShadow);
-  text-shadow: var(--Button-textShadow);
+  color: $font-color;
+  background: $bg-color;
+  border-color: $border-color;
+  box-shadow: $shadow;
+
+  border-width: $border-width;
+  border-style: $border-style;
+
+  // text-shadow: var(--Button-textShadow);
 
   &:not(:disabled):not(.is-disabled) {
     @include hover {
-      color: $hover-color;
-      background: $hover-background;
-      border-color: $hover-border;
+      color: $hover-font-color;
+      background: $hover-bg-color;
+      border-color: $hover-border-color;
     }
     @include hover-active {
-      color: $active-color;
-      background: $active-background;
-      border-color: $active-border;
+      color: $active-font-color;
+      background: $active-bg-color;
+      border-color: $active-border-color;
     }
   }
-
-  // @include focus {
-  //   color: $color;
-  //   background: $background;
-  //   border-color: $border;
-  //   box-shadow: var(--Button-boxShadow);
-  // }
+  &:disabled,
+  &.is-disabled {
+    color: $disabled-font-color;
+    background: $disabled-bg-color;
+    border-color: $disabled-border-color;
+  }
 
   @include hover-focus {
-    // color: $hover-color;
-    // background: $hover-background;
-    // border-color: $hover-border;
     box-shadow: var(--Button-boxShadow);
   }
 }

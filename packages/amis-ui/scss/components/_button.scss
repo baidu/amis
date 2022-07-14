@@ -1,14 +1,33 @@
 .#{$ns}Button {
-  display: inline-block;
-  font-weight: var(--Button-fontWeight);
-  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   vertical-align: middle;
   user-select: none;
   background: transparent;
-  border: var(--Button-borderWidth) solid transparent;
   transition: var(--Button-transition);
   white-space: nowrap;
-  min-width: var(--Button-mimWidth);
+  min-width: auto;
+  border: var(--button-base-border-width) var(--button-base-border-style)
+    var(--button-default-default-border-color);
+
+  @include button-size(
+    var(--button-base-font-size),
+    var(--button-base-font-lineHeight),
+    var(--button-base-border-radius),
+    auto,
+    var(--button-base-paddingTop),
+    var(--button-base-paddingBottom),
+    var(--button-base-paddingLeft),
+    var(--button-base-paddingRight),
+    var(--button-base-marginTop),
+    var(--button-base-marginBottom),
+    var(--button-base-marginLeft),
+    var(--button-base-marginRight),
+    auto,
+    var(--button-base-icon-size),
+    var(--button-base-icon-margin)
+  );
 
   &--primary {
     @include button-variant(
@@ -137,27 +156,39 @@
   }
 
   &--default {
-    @include button-variant(
-      var(--Button--default-bg),
-      var(--Button--default-border),
-      var(--Button--default-color),
-      var(--Button--default-onHover-bg),
-      var(--Button--default-onHover-border),
-      var(--Button--default-onHover-color),
-      var(--Button--default-onActive-bg),
-      var(--Button--default-onActive-border),
-      var(--Button--default-onActive-color)
+    @include button-variant();
+  }
+
+  &--size-default {
+    @include button-size(
+      var(--button-size-default-font-size),
+      var(--button-size-default-font-lineHeight),
+      var(--button-size-default-border-radius),
+      var(--button-size-default-height),
+      var(--button-size-default-paddingTop),
+      var(--button-size-default-paddingBottom),
+      var(--button-size-default-paddingLeft),
+      var(--button-size-default-paddingRight),
+      var(--button-size-default-marginTop),
+      var(--button-size-default-marginBottom),
+      var(--button-size-default-marginLeft),
+      var(--button-size-default-marginRight),
+      var(--button-size-default-minWith),
+      var(--button-size-default-icon-size),
+      var(--button-size-default-icon-margin)
     );
   }
 
-  &--xs {
+  &--size-xs {
     @include button-size(
-      var(--Button--xs-paddingY),
-      var(--Button--xs-paddingX),
       var(--Button--xs-fontSize),
       var(--Button--xs-lineHeight),
       var(--Button--sm-borderRadius),
-      var(--Button--xs-height)
+      var(--Button--xs-height),
+      var(--Button--xs-paddingY),
+      var(--Button--xs-paddingY),
+      var(--Button--xs-paddingX),
+      var(--Button--xs-paddingX)
     );
 
     &.#{$ns}Button--iconOnly {
@@ -167,14 +198,16 @@
     }
   }
 
-  &--sm {
+  &--size-sm {
     @include button-size(
-      var(--Button--sm-paddingY),
-      var(--Button--sm-paddingX),
       var(--Button--sm-fontSize),
       var(--Button--sm-lineHeight),
       var(--Button--sm-borderRadius),
-      var(--Button--sm-height)
+      var(--Button--sm-height),
+      var(--Button--sm-paddingY),
+      var(--Button--sm-paddingY),
+      var(--Button--sm-paddingX),
+      var(--Button--sm-paddingX)
     );
 
     &.#{$ns}Button--iconOnly {
@@ -184,14 +217,16 @@
     }
   }
 
-  &--md {
+  &--size-md {
     @include button-size(
-      var(--Button--md-paddingY),
-      var(--Button--md-paddingX),
       var(--Button--md-fontSize),
       var(--Button--md-lineHeight),
       var(--Button-borderRadius),
-      var(--Button--md-height)
+      var(--Button--md-height),
+      var(--Button--md-paddingY),
+      var(--Button--md-paddingY),
+      var(--Button--md-paddingX),
+      var(--Button--md-paddingX)
     );
 
     &.#{$ns}Button--iconOnly {
@@ -201,14 +236,16 @@
     }
   }
 
-  &--lg {
+  &--size-lg {
     @include button-size(
-      var(--Button--lg-paddingY),
-      var(--Button--lg-paddingX),
       var(--Button--lg-fontSize),
       var(--Button--lg-lineHeight),
       var(--Button--lg-borderRadius),
-      var(--Button--lg-height)
+      var(--Button--lg-height),
+      var(--Button--lg-paddingY),
+      var(--Button--lg-paddingY),
+      var(--Button--lg-paddingX),
+      var(--Button--lg-paddingX)
     );
 
     &.#{$ns}Button--iconOnly {
@@ -252,15 +289,6 @@
     }
   }
 
-  @include button-size(
-    var(--Button-paddingY),
-    var(--Button-paddingX),
-    var(--Button-fontSize),
-    var(--Button-lineHeight),
-    var(--Button-borderRadius),
-    var(--Button-height)
-  );
-
   @include hover-focus {
     // color: var(--text-color);
     text-decoration: none;
@@ -274,13 +302,8 @@
 
   &.is-disabled,
   &:disabled {
-    // opacity: var(--Button-onDisabled-opacity);
-    filter: grayscale(100%);
     box-shadow: none;
     cursor: not-allowed;
-    color: var(--text--muted-color);
-    border: var(--Button-borderWidth) solid var(--Button-onDisabled-borderColor);
-    background: var(--Button-onDisabled-bg);
 
     & > svg,
     & > svg path {

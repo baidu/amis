@@ -688,3 +688,258 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
     --fontSizeBase: var(--fontSizeLg);
   }
 }
+
+:root {
+  --colors-error-bg: #ffe8e6;
+  --colors-error-main: #f23d3d;
+  --colors-error-hover: #ff6966;
+  --colors-error-active: #cc292e;
+  --colors-error-1: #590410;
+  --colors-error-2: #800d18;
+  --colors-error-3: #a61922;
+  --colors-error-4: #cc292e;
+  --colors-error-5: #f23d3d;
+  --colors-error-6: #ff6966;
+  --colors-error-7: #ff908c;
+  --colors-error-8: #ffb6b3;
+  --colors-error-9: #ffdbd9;
+  --colors-error-10: #ffe8e6;
+  --colors-error-default: #f23d3d;
+  --colors-warning-bg: #fff4e6;
+  --colors-warning-main: #ff9326;
+  --colors-warning-hover: #ffab52;
+  --colors-warning-active: #d97116;
+  --colors-warning-1: #662500;
+  --colors-warning-2: #8c3800;
+  --colors-warning-3: #b35209;
+  --colors-warning-4: #d97116;
+  --colors-warning-5: #ff9326;
+  --colors-warning-6: #ffab52;
+  --colors-warning-7: #ffc27d;
+  --colors-warning-8: #ffd8a8;
+  --colors-warning-9: #ffecd4;
+  --colors-warning-10: #fff4e6;
+  --colors-warning-default: #ff9326;
+  --colors-success-bg: #ecffe6;
+  --colors-success-main: #30bf13;
+  --colors-success-hover: #54cc39;
+  --colors-success-active: #1b9908;
+  --colors-success-1: #012600;
+  --colors-success-2: #054d00;
+  --colors-success-3: #0b7300;
+  --colors-success-4: #1b9908;
+  --colors-success-5: #30bf13;
+  --colors-success-6: #54cc39;
+  --colors-success-7: #7bd964;
+  --colors-success-8: #a5e693;
+  --colors-success-9: #d1f2c7;
+  --colors-success-10: #ecffe6;
+  --colors-success-default: #30bf13;
+  --colors-brand-bg: #e6f0ff;
+  --colors-brand-main: #2468f2;
+  --colors-brand-hover: #528eff;
+  --colors-brand-active: #144bcc;
+  --colors-brand-1: #001259;
+  --colors-brand-2: #001e80;
+  --colors-brand-3: #0832a6;
+  --colors-brand-4: #144bcc;
+  --colors-brand-5: #2468f2;
+  --colors-brand-6: #528eff;
+  --colors-brand-7: #7dadff;
+  --colors-brand-8: #a8caff;
+  --colors-brand-9: #d4e5ff;
+  --colors-brand-10: #e6f0ff;
+  --colors-brand-default: #2468f2;
+  --colors-neutral-bg: #f7f8fa;
+  --colors-neutral-info: #84878c;
+  --colors-neutral-none: transparent;
+  --colors-neutral-border: #e8e9eb;
+  --colors-neutral-cardBg: #ffffff;
+  --colors-neutral-1: #070c14;
+  --colors-neutral-2: #151b26;
+  --colors-neutral-3: #303540;
+  --colors-neutral-4: #5c5f66;
+  --colors-neutral-5: #84878c;
+  --colors-neutral-6: #b8babf;
+  --colors-neutral-7: #d4d6d9;
+  --colors-neutral-8: #e8e9eb;
+  --colors-neutral-9: #f2f3f5;
+  --colors-neutral-10: #f7f8fa;
+  --colors-neutral-11: #ffffff;
+  --colors-neutral-strong: #151b26;
+  --colors-neutral-lessStrong: #5c5f66;
+  --colors-neutral-disabledInfo: #b8babf;
+  --fonts-base-size: 14px;
+  --fonts-base-family: -apple-system, BlinkMacSystemFont, SF Pro SC, SF Pro Text,
+    Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto, Hiragino Sans GB,
+    Arial, microsoft yahei ui, Microsoft YaHei, SimSun, sans-serif;
+  --fonts-base-weight: 400;
+  --fonts-base-lineHeight: 1.5;
+  --fonts-other-xs-size: 10px;
+  --fonts-other-xs-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
+    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
+    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --fonts-other-xs-weight: 400;
+  --fonts-other-xs-lineHeight: 1.5;
+  --fonts-other-sm-size: 12px;
+  --fonts-other-sm-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
+    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
+    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --fonts-other-sm-weight: 400;
+  --fonts-other-sm-lineHeight: 1.5;
+  --fonts-other-lg-size: 16px;
+  --fonts-other-lg-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
+    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
+    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --fonts-other-lg-weight: 400;
+  --fonts-other-lg-lineHeight: 1.5;
+  --fonts-other-xl-size: 18px;
+  --fonts-other-xl-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
+    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
+    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --fonts-other-xl-weight: 400;
+  --fonts-other-xl-lineHeight: 1.5;
+  --fonts-heading-1-size: 2em;
+  --fonts-heading-1-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
+    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
+    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --fonts-heading-1-weight: 400;
+  --fonts-heading-1-lineHeight: 1.5;
+  --fonts-heading-2-size: 1.5em;
+  --fonts-heading-2-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
+    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
+    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --fonts-heading-2-weight: 400;
+  --fonts-heading-2-lineHeight: 1.5;
+  --fonts-heading-3-size: 1.17em;
+  --fonts-heading-3-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
+    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
+    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --fonts-heading-3-weight: 400;
+  --fonts-heading-3-lineHeight: 1.5;
+  --fonts-heading-4-size: 1em;
+  --fonts-heading-4-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
+    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
+    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --fonts-heading-4-weight: 400;
+  --fonts-heading-4-lineHeight: 1.5;
+  --fonts-heading-5-size: 0.83em;
+  --fonts-heading-5-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
+    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
+    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --fonts-heading-5-weight: 400;
+  --fonts-heading-5-lineHeight: 1.5;
+  --fonts-heading-6-size: 0.67em;
+  --fonts-heading-6-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
+    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
+    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --fonts-heading-6-weight: 400;
+  --fonts-heading-6-lineHeight: 1.5;
+  --borders-line-1-style: ;
+  --borders-line-1-width: 0px;
+  --borders-line-2-style: solid;
+  --borders-line-2-width: 1px;
+  --borders-line-3-style: solid;
+  --borders-line-3-width: 2px;
+  --borders-line-4-style: solid;
+  --borders-line-4-width: 3px;
+  --borders-radius-1-radius: 0px;
+  --borders-radius-2-radius: 2px;
+  --borders-radius-3-radius: 4px;
+  --borders-radius-4-radius: 6px;
+  --borders-radius-5-radius: 8px;
+  --borders-radius-6-radius: 10px;
+  --borders-radius-7-radius: 50%;
+  --sizes-size-0-size: 0px;
+  --sizes-size-1-size: auto;
+  --sizes-size-2-size: 2px;
+  --sizes-size-3-size: 4px;
+  --sizes-size-4-size: 8px;
+  --sizes-size-5-size: 10px;
+  --sizes-size-6-size: 12px;
+  --sizes-size-7-size: 14px;
+  --sizes-size-8-size: 16px;
+  --sizes-size-9-size: 18px;
+  --sizes-size-10-size: 20px;
+  --sizes-size-11-size: 22px;
+  --sizes-size-12-size: 24px;
+  --sizes-size-13-size: 26px;
+  --sizes-size-14-size: 28px;
+  --sizes-size-15-size: 30px;
+  --sizes-size-16-size: 32px;
+  --button-base-shadow: ;
+  --button-base-font-size: 14px;
+  --button-base-font-weight: 400;
+  --button-base-font-lineHeight: 1.5;
+  --button-base-font-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
+    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
+    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --button-base-icon-size: ;
+  --button-base-font-color: #151b26;
+  --button-base-border-style: solid;
+  --button-base-border-width: 1px;
+  --button-base-border-color: #e8e9eb;
+  --button-base-border-radius: 4px;
+  --button-base-icon-marginRight: ;
+  --button-base-marginTop: 0px;
+  --button-base-marginLeft: 0px;
+  --button-base-paddingTop: 4px;
+  --button-base-marginRight: 0px;
+  --button-base-paddingLeft: 12px;
+  --button-base-marginBottom: 0px;
+  --button-base-paddingRight: 12px;
+  --button-base-paddingBottom: 4px;
+  --button-default-default-shadow: ;
+  --button-default-default-bg-color: transparent;
+  --button-default-default-font-size: 18px;
+  --button-default-default-font-weight: 400;
+  --button-default-default-font-lineHeight: 1.5;
+  --button-default-default-font-family: -apple-system, BlinkMacSystemFont,
+    SF Pro SC, SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI,
+    Roboto, Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --button-default-default-font-color: #151b26;
+  --button-default-default-border-style: solid;
+  --button-default-default-border-width: 1px;
+  --button-default-default-border-color: #e8e9eb;
+  --button-default-hover-bg-color: transparent;
+  --button-default-hover-font-color: #2468f2;
+  --button-default-hover-border-color: #2468f2;
+  --button-default-active-bg-color: transparent;
+  --button-default-active-font-color: #144bcc;
+  --button-default-active-border-color: #144bcc;
+  --button-default-disabled-bg-color: #f7f8fa;
+  --button-default-disabled-font-color: #b8babf;
+  --button-default-disabled-border-color: #f7f8fa;
+  --button-size-default-height: 32px;
+  --button-size-default-minWidth: auto;
+  --button-size-default-font-size: 14px;
+  --button-size-default-font-weight: 400;
+  --button-size-default-font-lineHeight: 1.5;
+  --button-size-default-font-family: -apple-system, BlinkMacSystemFont,
+    SF Pro SC, SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI,
+    Roboto, Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
+    sans-serif;
+  --button-size-default-icon-size: ;
+  --button-size-default-border-radius: 4px;
+  --button-size-default-icon-marginRight: ;
+  --button-size-default-marginTop: 0px;
+  --button-size-default-marginLeft: 0px;
+  --button-size-default-paddingTop: 4px;
+  --button-size-default-marginRight: 0px;
+  --button-size-default-paddingLeft: 12px;
+  --button-size-default-marginBottom: 0px;
+  --button-size-default-paddingRight: 12px;
+  --button-size-default-paddingBottom: 4px;
+}

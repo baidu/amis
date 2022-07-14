@@ -30,12 +30,14 @@
     font-size: var(--Combo-addBtn-fontSize);
 
     @include button-size(
-      var(--Combo-addBtn-paddingY),
-      var(--Combo-addBtn-paddingX),
       var(--Combo-addBtn-fontSize),
       var(--Combo-addBtn-lineHeight),
       var(--Combo-addBtn-borderRadius),
-      var(--Combo-addBtn-height)
+      var(--Combo-addBtn-height),
+      var(--Combo-addBtn-paddingY),
+      var(--Combo-addBtn-paddingY),
+      var(--Combo-addBtn-paddingX),
+      var(--Combo-addBtn-paddingX)
     );
 
     @include button-variant(
