@@ -332,6 +332,7 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   inline: boolean;
   disabled: boolean;
   popOverContainer?: any;
+  popOverContainerSelector?: string;
   overlayPlacement?: string;
   onChange: (value: void | string | Option | Array<Option>) => void;
   onFocus?: Function;
@@ -933,6 +934,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       valuesNoWrap,
       classnames: cx,
       popoverClassName,
+      popOverContainerSelector,
       checkAll,
       checkAllLabel,
       checkAllBySearch,
@@ -1201,6 +1203,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     ) : (
       <Overlay
         container={popOverContainer || this.getTarget}
+        containerSelector={popOverContainerSelector}
         target={this.getTarget}
         placement={overlayPlacement}
         show

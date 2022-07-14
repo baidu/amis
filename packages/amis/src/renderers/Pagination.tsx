@@ -72,6 +72,12 @@ export interface PaginationSchema extends BaseSchema {
   disabled?: boolean;
 
   hasNext?: boolean;
+
+  /**
+   * 弹层挂载节点
+   * @default false
+   */
+  popOverContainerSelector?: string;
 }
 
 export interface PaginationProps
