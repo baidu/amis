@@ -34,6 +34,87 @@ order: 9
 
 ```schema
 {
+  "type": "page",
+  "body": {
+    "type": "crud",
+    "syncLocation": false,
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample",
+    "headerToolbar": [
+      "bulkActions"
+    ],
+    "bulkActions": [
+      {
+        "label": "批量删除",
+        "confirmText": "确定要批量删除?",
+        onEvent: {
+          click: {
+            actions: [
+              {
+                "actionType": "ajax",
+                args: {
+                  "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample/${event.data.selectedItems|pick:id|raw}"
+                },
+                preventDefault: true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "批量修改",
+        "actionType": "dialog",
+        "dialog": {
+          "title": "批量编辑",
+          "body": {
+            "type": "form",
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample/bulkUpdate2",
+            "body": [
+              {
+                "type": "hidden",
+                "name": "ids"
+              },
+              {
+                "type": "input-text",
+                "name": "engine",
+                "label": "Engine"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID"
+      },
+      {
+        "name": "engine",
+        "label": "Rendering engine"
+      },
+      {
+        "name": "browser",
+        "label": "Browser"
+      },
+      {
+        "name": "platform",
+        "label": "Platform(s)"
+      },
+      {
+        "name": "version",
+        "label": "Engine version"
+      },
+      {
+        "name": "grade",
+        "label": "CSS grade"
+      }
+    ]
+  }
+}
+```
+
+```schema
+{
   type: 'page',
   body: [
     {
