@@ -29,6 +29,22 @@ export interface IFrameSchema extends BaseSchema {
 
   width?: number | string;
   height?: number | string;
+
+  alloow?: string;
+
+  name?: string;
+
+  referrerpolicy?:
+    | 'no-referrer'
+    | 'no-referrer-when-downgrade'
+    | 'origin'
+    | 'origin-when-cross-origin'
+    | 'same-origin'
+    | 'strict-origin'
+    | 'strict-origin-when-cross-origin'
+    | 'unsafe-url';
+
+  sandbox?: string;
 }
 
 export interface IFrameProps
@@ -145,7 +161,17 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 
   render() {
     const {width, height} = this.state;
-    let {className, src, name, frameBorder, data, style} = this.props;
+    let {
+      className,
+      src,
+      name,
+      frameBorder,
+      data,
+      style,
+      allow,
+      sandbox,
+      referrerpolicy
+    } = this.props;
 
     let tempStyle: any = {};
 
@@ -178,6 +204,9 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         ref={this.IFrameRef}
         onLoad={this.onLoad}
         src={finalSrc}
+        allow={allow}
+        referrerPolicy={referrerpolicy}
+        sandbox={sandbox}
       />
     );
   }
