@@ -152,6 +152,7 @@ export interface GridProps
   multiple?: boolean;
   valueField?: string;
   draggable?: boolean;
+  dragIcon?: SVGAElement;
   onSelect: (
     selectedItems: Array<object>,
     unSelectedItems: Array<object>
@@ -918,7 +919,7 @@ export default class Cards extends React.Component<GridProps, object> {
         'is-checked': item.checked,
         'is-modified': item.modified,
         'is-moved': item.moved,
-        'drag-mode': store.dragging
+        'is-dragging': store.dragging
       }),
       item,
       key: index,
