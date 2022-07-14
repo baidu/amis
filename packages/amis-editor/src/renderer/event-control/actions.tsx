@@ -780,7 +780,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
         {
           actionLabel: '提交表单',
           actionType: 'submit',
-          description: '提交表单数据至数据源',
+          description: '触发表单提交',
           descDetail: (info: any) => {
             return (
               <div>
@@ -925,6 +925,18 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             name: 'script',
             label: '自定义JS',
             mode: 'horizontal',
+            options: {
+              automaticLayout: true,
+              lineNumbers: 'off',
+              glyphMargin: false,
+              tabSize: 2,
+              wordWrap: 'on',
+              lineDecorationsWidth: 0,
+              lineNumbersMinChars: 0,
+              selectOnLineNumbers: true,
+              scrollBeyondLastLine: false,
+              folding: true
+            },
             className: 'ae-event-control-action-js-editor',
             value: `/* 自定义JS使用说明：
   * 1.动作执行函数doAction，可以执行所有类型的动作
