@@ -910,16 +910,37 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     e: React.MouseEvent<any> | string | void | null,
     action: any
   ) {
-    const {env, onAction, data, ignoreConfirm, dispatchEvent} = this.props;
+    const {env, onAction, data, ignoreConfirm, dispatchEvent, $schema} =
+      this.props;
     let mergedData = data;
 
     if (action?.actionType === 'click' && isObject(action?.args)) {
       mergedData = createObject(data, action.args);
     }
 
-    if (!ignoreConfirm && action.confirmText && env.confirm) {
-      let confirmed = await env.confirm(filter(action.confirmText, mergedData));
-      if (confirmed) {
+    // crud是不会下发onEvent的。这里区分开事件动作机制与组件联动机制
+    if ($schema.onEvent && Object.keys($schema.onEvent).length) {
+      if (action.confirmText && env.confirm) {
+        let confirmed = await env.confirm(
+          filter(action.confirmText, mergedData)
+        );
+        if (confirmed) {
+          // 触发渲染器事件
+          const rendererEvent = await dispatchEvent(
+            e as React.MouseEvent<any> | string,
+            mergedData
+          );
+
+          // 阻止原有动作执行
+          if (rendererEvent?.prevented) {
+            return;
+          }
+
+          await onAction(e, action, mergedData);
+        } else if (action.countDown) {
+          throw new Error('cancel');
+        }
+      } else {
         // 触发渲染器事件
         const rendererEvent = await dispatchEvent(
           e as React.MouseEvent<any> | string,
@@ -932,22 +953,20 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         }
 
         await onAction(e, action, mergedData);
-      } else if (action.countDown) {
-        throw new Error('cancel');
       }
     } else {
-      // 触发渲染器事件
-      const rendererEvent = await dispatchEvent(
-        e as React.MouseEvent<any> | string,
-        mergedData
-      );
-
-      // 阻止原有动作执行
-      if (rendererEvent?.prevented) {
-        return;
+      if (!ignoreConfirm && action.confirmText && env.confirm) {
+        let confirmed = await env.confirm(
+          filter(action.confirmText, mergedData)
+        );
+        if (confirmed) {
+          await onAction(e, action, mergedData);
+        } else if (action.countDown) {
+          throw new Error('cancel');
+        }
+      } else {
+        await onAction(e, action, mergedData);
       }
-
-      await onAction(e, action, mergedData);
     }
   }
 
