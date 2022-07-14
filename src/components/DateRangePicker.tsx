@@ -1165,6 +1165,14 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
+    if (startDate && currentDate.isSame(startDate, 'day')) {
+      props.className += ' rdtActive rdtStartDay';
+    }
+
+    if (endDate && currentDate.isSame(endDate, 'day')) {
+      props.className += ' rdtActive rdtEndDay';
+    }
+
     return (
       <td {...props}>
         <span>{currentDate.date()}</span>
@@ -1320,7 +1328,7 @@ export class DateRangePicker extends React.Component<
           <div key="button" className={`${ns}DateRangePicker-actions`}>
             <a
               className={cx('Button', 'Button--default')}
-              onClick={() => this.close}
+              onClick={() => this.close()}
             >
               {__('cancel')}
             </a>

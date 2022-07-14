@@ -494,7 +494,11 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
         );
       }
     }
-    return <td {...props}><span>{currentDate.date()}</span></td>;
+    return (
+      <td {...props}>
+        <span>{currentDate.date()}</span>
+      </td>
+    );
   };
 
   /** 时间选择器数据源 */
@@ -522,8 +526,6 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
     const inputs: Array<React.ReactNode> = [];
     const timeConstraints = this.timeConstraints;
-
-    inputs.push(this.showTime());
 
     timeFormat.split(':').forEach((format, i) => {
       const type = /h/i.test(format)
@@ -623,7 +625,12 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       }
     });
     inputs.length && inputs.pop();
-    return <div>{inputs}</div>;
+    return (
+      <div className={cx('CalendarTimesWrapper')}>
+        {this.showTime()}
+        <div className={cx('CalendarInputsWrapper')}>{inputs}</div>
+      </div>
+    );
   };
 
   renderFooter = () => {
