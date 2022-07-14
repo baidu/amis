@@ -86,6 +86,13 @@ export interface BasicPaginationProps {
   disabled?: boolean;
 
   hasNext?: boolean;
+
+  /**
+   * 弹层挂载节点
+   * @default false
+   */
+  popOverContainerSelector?: string;
+
   onPageChange?: (page: number, perPage?: number) => void;
 }
 export interface PaginationProps
@@ -257,6 +264,7 @@ export class Pagination extends React.Component<
       className,
       disabled,
       hasNext,
+      popOverContainerSelector,
       translate: __
     } = this.props;
     const {pageNum, perPage} = this.state;
@@ -475,6 +483,7 @@ export class Pagination extends React.Component<
         disabled={disabled}
         value={perPage}
         options={selection}
+        popOverContainerSelector={popOverContainerSelector}
         onChange={(p: any) => {
           this.setState({
             perPage: p.value,
