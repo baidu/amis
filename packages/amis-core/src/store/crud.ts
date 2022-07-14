@@ -58,8 +58,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       return extendObject(self.data, {
         ...self.query,
         ...self.data,
-        selectedItems: self.selectedItems,
-        unSelectedItems: self.unSelectedItems
+        selectedItems: self.selectedItems.concat(),
+        unSelectedItems: self.unSelectedItems.concat()
       });
     },
 
@@ -572,7 +572,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     const updateColumns = (columns: Array<any>) => {
       self.columns = columns;
-    }
+    };
 
     return {
       getData,
