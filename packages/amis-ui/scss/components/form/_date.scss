@@ -24,6 +24,9 @@
       outline: none;
       box-sizing: none;
     }
+    &::placeholder {
+      color: #{$G6};
+    }
   }
 
   .#{$ns}DatePicker-clear {
@@ -47,11 +50,11 @@
         display: none;
       }
     }
-  }
 
-  &.is-focused {
-    border-color: var(--DatePicker-onFocused-borderColor);
-    box-shadow: var(--Form-input-boxShadow);
+    &.is-focused {
+      border-color: var(--DatePicker-onFocused-borderColor);
+      box-shadow: var(--Form-input-boxShadow);
+    }
   }
 
   &.is-disabled {
@@ -254,8 +257,14 @@
     .rdtTimeToggle {
       background: var(--Calendar-cell-bg);
 
-      &:hover {
+      &:hover span {
         background: var(--Calendar-cell-onHover-bg);
+      }
+    }
+
+    td.rdtToday {
+      &:hover span {
+        background: transparent;
       }
     }
 
@@ -294,7 +303,6 @@
       }
     }
 
-    td.rdtDisabled,
     td.rdtDisabled:hover {
       > span {
         background: var(--Calendar-cell-onDisabled-bg);
@@ -360,13 +368,20 @@
       text-align: center;
       height: 28px;
       line-height: 28px;
-      &.is-highlight,
-      &:hover {
+      &.is-highlight {
         color: var(--Form-select-menu-onHover-color);
         background: var(--Form-select-menu-onHover-bg);
       }
+      &:hover {
+        color: var(--Form-select-menu-onHover-color);
+        background: #F7F7F9;
+      }
     }
   }
+}
+
+.#{$ns}TimeContentWrapper {
+  display: flex;
 }
 
 .#{$ns}TimeRangeHeaderWrapper {
@@ -382,6 +397,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 12px;
+  border-top: 1px solid var(--Calendar-input-borderColor);
 
   .#{$ns}Button {
     height: 24px;
@@ -565,7 +581,6 @@
   display: table;
   table-layout: fixed;
   border-collapse: separate;
-  border-bottom: 1px solid var(--Calendar-input-borderColor);
   height: 40px;
   width: 100%;
   margin-top: -8px;
@@ -581,6 +596,16 @@
   }
 }
 
+.header-line {
+  display: block;
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 40px;
+  height: 1px;
+  background: var(--Calendar-input-borderColor);
+}
+
 td.rdtMonth,
 td.rdtYear,
 td.rdtQuarter {
@@ -592,7 +617,15 @@ td.rdtQuarter {
     background: var(--Calendar-cell-onBetween-bg);
   }
 
-  &:hover,
+  &:hover {
+    background: transparent;
+
+    > span {
+      color: var(--Form-select-menu-onHover-color);
+      background: #F7F7F9;
+    }
+  }
+
   &.rdtActive,
   &.rdtActive:hover {
     background: transparent;

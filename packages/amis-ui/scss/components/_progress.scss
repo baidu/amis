@@ -29,9 +29,10 @@
     &-bar {
       float: left;
       width: 0;
-      height: 10px;
+      height: 8px;
       background: var(--primary);
       transition: width var(--animation-duration) ease;
+      border-radius: var(--Progress-borderRadius);
 
       &--stripe {
         background-image: linear-gradient(

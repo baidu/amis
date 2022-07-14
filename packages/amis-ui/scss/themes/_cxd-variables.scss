@@ -558,7 +558,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --TransferSelect-heading-borderBottom: 0;
 
   // Alert
-  --Alert-fontColor: #{$G4};
+  --Alert-fontColor: #{$G2};
   --Alert-title-fontColor: #{$G2};
 
   --Alert-height: #{px2rem(40px)};
@@ -567,19 +567,19 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Alert-borderRadius: #{$R3};
   --Alert-marginBottom: var(--gap-md);
 
-  --Alert--danger-color: #{$G4};
+  --Alert--danger-color: #{$G2};
   --Alert--danger-bg: #{$danger-bg};
   --Alert--danger-borderColor: transparent;
 
-  --Alert--info-color: #{$G4};
+  --Alert--info-color: #{$G2};
   --Alert--info-bg: #{$info-bg};
   --Alert--info-borderColor: transparent;
 
-  --Alert--success-color: #{$G4};
+  --Alert--success-color: #{$G2};
   --Alert--success-bg: #{$success-bg};
   --Alert--success-borderColor: transparent;
 
-  --Alert--warning-color: #{$G4};
+  --Alert--warning-color: #{$G2};
   --Alert--warning-bg: #{$warning-bg};
   --Alert--warning-borderColor: transparent;
 

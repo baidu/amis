@@ -768,6 +768,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                   &raquo;
                 </a>
               </div>
+              <div className='header-line'></div>
             </th>
           </tr>
           <tr>
