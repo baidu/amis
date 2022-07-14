@@ -116,6 +116,11 @@ export interface ServiceSchema extends BaseSchema {
   messages?: SchemaMessage;
 
   name?: SchemaName;
+
+  /**
+   * 是否同步父级数据域，开启后通过动作事件更新数据域会同步更新到Service中
+   */
+  canSyncSuperData?: boolean;
 }
 
 export interface ServiceProps
@@ -164,7 +169,6 @@ export default class Service extends React.Component<ServiceProps> {
   componentDidUpdate(prevProps: ServiceProps) {
     const props = this.props;
     const store = props.store;
-
     const {fetchSuccess, fetchFailed} = props.messages!;
 
     isApiOutdated(prevProps.api, props.api, prevProps.data, props.data) &&
@@ -201,6 +205,13 @@ export default class Service extends React.Component<ServiceProps> {
 
     if (props.dataProvider !== prevProps.dataProvider) {
       this.runDataProvider();
+    }
+
+    if (
+      props.canSyncSuperData &&
+      isObjectShallowModified(prevProps.data?.__super, props.data?.__super)
+    ) {
+      store.reInitData(props.data?.__super);
     }
   }
 
