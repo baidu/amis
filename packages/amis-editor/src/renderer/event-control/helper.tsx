@@ -1102,7 +1102,7 @@ export const getEventControlConfig = (
       };
     },
     actionConfigSubmitFormatter: (config: ActionConfig) => {
-      let action = {...config};
+      let action: ActionConfig = {...config, groupType: undefined};
       action.__title = findActionNode(
         actionTree,
         config.actionType
@@ -1175,6 +1175,12 @@ export const getEventControlConfig = (
       }
 
       delete action.config;
+
+      // 去掉空参
+      if (action.args && !Object.keys(action.args).length) {
+        delete action.args;
+      }
+
       return action;
     }
   };
