@@ -9,7 +9,7 @@ import {
   RendererPluginEvent,
   RendererPluginAction
 } from 'amis-editor-core';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class CodeEditorControlPlugin extends BasePlugin {
   // 关联渲染器名字

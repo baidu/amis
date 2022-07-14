@@ -4,11 +4,12 @@ import cx from 'classnames';
 import Sortable from 'sortablejs';
 import {DataSchema, FormItem, Icon, TooltipWrapper} from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
-import {FormControlProps, autobind, render as amisRender} from 'amis-core';
+import {FormControlProps, autobind, render as amisRender, findTree} from 'amis-core';
 import ActionDialog from './action-config-dialog';
 import {
   findActionNode,
   findSubActionNode,
+  getActionType,
   getEventDesc,
   getEventLabel,
   getPropOfAcion,
@@ -64,7 +65,7 @@ interface EventControlState {
         pluginActions: PluginActions;
         getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema;
         rawVariables: ContextVariables[];
-        __cmptActionType?: string;
+        groupType?: string;
         __actionDesc?: string;
         __cmptTreeSource?: ComponentInfo[];
         __actionSchema?: any;
@@ -487,8 +488,7 @@ export class EventControl extends React.Component<
         getContextSchemas,
         rawVariables,
         ...actionConfig,
-        __cmptActionType:
-          hasSubActionNode || action.componentId ? action.actionType : '',
+        groupType: action.actionType,
         __actionDesc: actionNode!.description!, // 树节点描述
         __actionSchema: actionNode!.schema, // 树节点schema
         __subActions: hasSubActionNode?.actions, // 树节点子动作
@@ -513,7 +513,7 @@ export class EventControl extends React.Component<
 
   // 渲染描述信息
   renderDesc(action: ActionConfig) {
-    const {actions: pluginActions, actionTree, commonActions} = this.props;
+    const {actions: pluginActions, actionTree, commonActions, getComponents} = this.props;
     const desc = getPropOfAcion(
       action,
       'descDetail',
@@ -521,9 +521,25 @@ export class EventControl extends React.Component<
       pluginActions,
       commonActions
     );
+    let info = {...action};
+    // 根据子动作类型获取动作树节点的配置
+    const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
+    const actionType = getActionType(action, hasSubActionNode);
+    const actionNode = actionType && findActionNode(actionTree, actionType);
+
+    if (action.componentId && actionNode) {
+      const cmpts = getComponents(actionNode);
+      const node = findTree(cmpts, item => item.value === action.componentId);
+      if (node) {
+        info = {
+          ...info,
+          rendererLabel: node.label
+        }
+      }
+    }
 
     return typeof desc === 'function' ? (
-      <div className="action-control-content">{desc?.(action) || '-'}</div>
+      <div className="action-control-content">{desc?.(info) || '-'}</div>
     ) : null;
   }
 

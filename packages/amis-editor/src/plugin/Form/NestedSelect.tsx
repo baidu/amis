@@ -15,7 +15,7 @@ import {
 } from 'amis-editor-core';
 import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class NestedSelectControlPlugin extends BasePlugin {
   // 关联渲染器名字

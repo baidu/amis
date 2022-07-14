@@ -15,7 +15,7 @@ import {
   RendererPluginEvent
 } from 'amis-editor-core';
 import {setVariable} from 'amis-core';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 // 用于脚手架的常用表单控件
 const formItemOptions = [

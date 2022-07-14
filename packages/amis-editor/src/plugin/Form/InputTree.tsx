@@ -1,13 +1,12 @@
 import React from 'react';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
-import {getEventControlConfig} from '../../util';
-import { getArgsWrapper } from '../../renderer/event-control/helper';
+import {
+  getArgsWrapper,
+  getEventControlConfig
+} from '../../renderer/event-control/helper';
 
 export class TreeControlPlugin extends BasePlugin {
   // 关联渲染器名字

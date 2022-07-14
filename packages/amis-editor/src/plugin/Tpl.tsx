@@ -3,7 +3,6 @@ import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, setSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from '../component/BaseControl';
 import {ValidatorTag} from '../validator';
-import {getEventControlConfig} from '../util';
 
 setSchemaTpl('tpl:content', {
   label: tipedLabel(

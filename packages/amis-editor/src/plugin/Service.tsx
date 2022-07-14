@@ -3,7 +3,7 @@ import React from 'react';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin, RegionConfig} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
-import {getEventControlConfig} from '../util';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 import type {
   RendererPluginAction,

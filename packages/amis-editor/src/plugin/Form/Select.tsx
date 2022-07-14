@@ -5,7 +5,7 @@ import isArray from 'lodash/isArray';
 
 import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {
   RendererPluginAction,
   RendererPluginEvent

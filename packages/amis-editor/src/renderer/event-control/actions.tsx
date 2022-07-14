@@ -154,7 +154,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             {
               type: 'radios',
               label: '类型',
-              name: '__cmptActionType',
+              name: 'groupType',
               mode: 'horizontal',
               value: 'dialog',
               required: true,
@@ -181,7 +181,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 body: '<p>对，你刚刚点击了</p>'
               }),
               asFormItem: true,
-              visibleOn: 'data.__cmptActionType === "dialog"',
+              visibleOn: 'data.groupType === "dialog"',
               children: ({value, onChange, data}: any) => (
                 <Button
                   size="sm"
@@ -209,7 +209,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 body: '<p>对，你刚刚点击了</p>'
               }),
               asFormItem: true,
-              visibleOn: 'data.__cmptActionType === "drawer"',
+              visibleOn: 'data.groupType === "drawer"',
               children: ({value, onChange, data}: any) => (
                 <Button
                   size="sm"
@@ -240,7 +240,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               {
                 type: 'radios',
                 label: '类型',
-                name: '__cmptActionType',
+                name: 'groupType',
                 mode: 'horizontal',
                 value: 'closeDialog',
                 required: true,
@@ -287,10 +287,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           descDetail: (info: any) => {
             return (
               <div>
-                <span className="variable-right">
-                  {MSG_TYPES[info?.args?.msgType] || ''}
-                </span>
-                提醒消息：
+                {MSG_TYPES[info?.args?.msgType] || ''}消息：
                 <span className="variable-left">{info?.args?.msg}</span>
               </div>
             );
@@ -484,7 +481,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     显示
                     <span className="variable-left variable-right">
-                      {info?.__rendererLabel}
+                      {info?.rendererLabel}
                     </span>
                     组件
                   </div>
@@ -498,7 +495,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     隐藏
                     <span className="variable-left variable-right">
-                      {info?.__rendererLabel}
+                      {info?.rendererLabel}
                     </span>
                     组件
                   </div>
@@ -512,7 +509,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             {
               type: 'radios',
               label: '显示/隐藏',
-              name: '__cmptActionType',
+              name: 'groupType',
               mode: 'horizontal',
               value: 'show',
               required: true,
@@ -542,7 +539,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     启用
                     <span className="variable-left variable-right">
-                      {info?.__rendererLabel}
+                      {info?.rendererLabel}
                     </span>
                     组件
                   </div>
@@ -556,7 +553,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     禁用
                     <span className="variable-left variable-right">
-                      {info?.__rendererLabel}
+                      {info?.rendererLabel}
                     </span>
                     组件
                   </div>
@@ -570,7 +567,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             {
               type: 'radios',
               label: '启用/禁用',
-              name: '__cmptActionType',
+              name: 'groupType',
               mode: 'horizontal',
               value: 'enabled',
               required: true,
@@ -597,7 +594,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 刷新
                 <span className="variable-left variable-right">
-                  {info?.__rendererLabel}
+                  {info?.rendererLabel}
                 </span>
                 组件
               </div>
@@ -610,13 +607,13 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '设置组件数据',
           actionType: 'setValue',
           description: '设置数据容器或表单项的数据',
-          innerArgs: ['value', 'valueInput', 'index', '__comboType'],
+          innerArgs: ['value', 'index'],
           descDetail: (info: any) => {
             return (
               <div>
                 设置
                 <span className="variable-left variable-right">
-                  {info?.__rendererLabel}
+                  {info?.rendererLabel}
                 </span>
                 的数据
                 {/* 值为
@@ -788,8 +785,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 提交
-                <span className="variable-right">
-                  {info?.__rendererLabel}
+                <span className="variable-left variable-right">
+                  {info?.rendererLabel}
                 </span>
                 的数据
               </div>
@@ -806,8 +803,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 清空
-                <span className="variable-right">
-                  {info?.__rendererLabel}
+                <span className="variable-left variable-right">
+                  {info?.rendererLabel}
                 </span>
                 的数据
               </div>
@@ -824,8 +821,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 重置
-                <span className="variable-right">
-                  {info?.__rendererLabel}
+                <span className="variable-left variable-right">
+                  {info?.rendererLabel}
                 </span>
                 的数据
               </div>
@@ -842,8 +839,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 校验
-                <span className="variable-right">
-                  {info?.__rendererLabel}
+                <span className="variable-left variable-right">
+                  {info?.rendererLabel}
                 </span>
                 的数据
               </div>
@@ -857,7 +854,6 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionType: 'component',
           description: '触发所选组件的特性动作',
           supportComponents: '*',
-          actions: [],
           schema: renderCmptActionSelect('选择组件', true)
         }
       ]
