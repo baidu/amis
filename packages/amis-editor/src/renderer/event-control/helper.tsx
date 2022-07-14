@@ -1026,7 +1026,7 @@ export const getEventControlConfig = (
       let config = {...action};
 
       if (
-        ['setValue', 'url', 'link'].includes(action.actionType) &&
+        ['setValue', 'url'].includes(action.actionType) &&
         action.args
       ) {
         const prop = action.actionType === 'setValue' ? 'value' : 'params';
@@ -1135,7 +1135,7 @@ export const getEventControlConfig = (
         delete action.addOnArgs;
       }
       // 转换下格式
-      if (['setValue', 'url', 'link'].includes(action.actionType)) {
+      if (['setValue', 'url'].includes(action.actionType)) {
         const propName = action.actionType === 'setValue' ? 'value' : 'params';
 
         if (Array.isArray(config.args?.[propName])) {

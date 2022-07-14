@@ -974,28 +974,11 @@ setSchemaTpl('app-page', {
 });
 
 setSchemaTpl('app-page-args', {
-  type: 'combo',
+  type: 'ae-DataMappingControl',
   name: 'params',
   label: '页面参数',
-  multiple: true,
-  mode: 'horizontal',
-  items: [
-    {
-      name: 'key',
-      placeholder: '参数名',
-      type: 'input-text',
-      mode: 'inline',
-      size: 'xs'
-    },
-    {
-      name: 'val',
-      placeholder: '参数值',
-      type: 'input-formula',
-      variableMode: 'tabs',
-      size: 'xs',
-      variables: '${variables}'
-    }
-  ]
+  schema: {"type": "object", "properties":{}},
+  mode: 'horizontal'
 });
 
 setSchemaTpl(
