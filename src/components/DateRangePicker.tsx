@@ -738,8 +738,22 @@ export class DateRangePicker extends React.Component<
     return value;
   }
 
-  handleDateChange(newValue: moment.Moment) {
+  handleDateChange(
+    newValue: moment.Moment,
+    timeRangeContext?: 'start' | 'end'
+  ) {
     let {editState} = this.state;
+
+    if (timeRangeContext) {
+      if (timeRangeContext === 'start') {
+        this.handleStartDateChange(newValue);
+      } else if (timeRangeContext === 'end') {
+        this.handeleEndDateChange(newValue);
+      }
+
+      return;
+    }
+
     if (editState === 'start') {
       this.handleStartDateChange(newValue);
     } else if (editState === 'end') {
@@ -791,6 +805,7 @@ export class DateRangePicker extends React.Component<
     }
 
     const date = this.filterDate(newValue, endDate, timeFormat, 'end');
+
     this.setState(
       {
         endDate: date,
@@ -1291,7 +1306,8 @@ export class DateRangePicker extends React.Component<
             renderQuarter={this.renderQuarter}
             renderYear={this.renderYear}
             locale={locale}
-            timeRangeHeader="开始时间"
+            timeRangeHeader={__('Calendar.startPick')}
+            timeRangeContext="start"
           />
         )}
         {(!isTimeRange || (editState === 'end' && !embed)) && (
@@ -1320,7 +1336,8 @@ export class DateRangePicker extends React.Component<
             renderQuarter={this.renderQuarter}
             renderYear={this.renderYear}
             locale={locale}
-            timeRangeHeader="结束时间"
+            timeRangeHeader={__('Calendar.endPick')}
+            timeRangeContext="end"
           />
         )}
 
