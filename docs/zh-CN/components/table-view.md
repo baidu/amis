@@ -142,6 +142,71 @@ table view 的设置项有三层，可以分别对表格级别、行级别、单
 | rowspan    | `number`                                  |                | 单元格垂直跨几列                                                 |
 | body       | [SchemaNode](../../docs/types/schemanode) |                | 其它 amis 设置                                                   |
 
+#### 单元格样式示例
+
+比如将其它两列的单元格边框设置为 0，就能实现特殊的展现效果
+
+```schema: scope="body"
+{
+  "type": "table-view",
+  "trs": [
+    {
+      "background": "#F7F7F7",
+      "tds": [
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": "地区"
+          }
+        },
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": "城市"
+          }
+        },
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": "销量"
+          }
+        }
+      ]
+    },
+    {
+      "tds": [
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": ""
+          },
+          "style": {
+            "borderBottomWidth": 0,
+            "borderLeftWidth": 0
+          }
+        },
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": "北京"
+          }
+        },
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": ""
+          },
+          "style": {
+            "borderBottomWidth": 0,
+            "borderRightWidth": 0
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### 列设置项
 
 列设置项主要是用于控制整列的样式，比如
