@@ -16,17 +16,19 @@
       display: flex;
       position: relative;
       margin-top: var(--IconSelect-base-margin);
+      height: var(--IconSelect-dialog-height);
       align-items: stretch;
       border: 1px solid var(--IconSelect-border-color);
       border-radius: var(--IconSelect-base-border-radius);
 
       &-aside {
         border-right: 1px solid var(--IconSelect-border-color);
+        overflow-x: hidden;
+        overflow-y: auto;
       }
 
       &-main {
         flex: 1;
-        height: var(--IconSelect-dialog-height);
         overflow: auto;
       }
     }
