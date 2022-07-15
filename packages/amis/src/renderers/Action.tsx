@@ -918,29 +918,11 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
       mergedData = createObject(data, action.args);
     }
 
-    // crud是不会下发onEvent的。这里区分开事件动作机制与组件联动机制
-    if ($schema.onEvent && Object.keys($schema.onEvent).length) {
-      if (action.confirmText && env.confirm) {
-        let confirmed = await env.confirm(
-          filter(action.confirmText, mergedData)
-        );
-        if (confirmed) {
-          // 触发渲染器事件
-          const rendererEvent = await dispatchEvent(
-            e as React.MouseEvent<any> | string,
-            mergedData
-          );
-
-          // 阻止原有动作执行
-          if (rendererEvent?.prevented) {
-            return;
-          }
-
-          await onAction(e, action, mergedData);
-        } else if (action.countDown) {
-          throw new Error('cancel');
-        }
-      } else {
+    const hasOnEvent = $schema.onEvent && Object.keys($schema.onEvent).length;
+    // 有些组件虽然要求这里忽略二次确认，但是如果配了事件动作还是需要在这里等待二次确认提交才可以
+    if ((!ignoreConfirm || hasOnEvent) && action.confirmText && env.confirm) {
+      let confirmed = await env.confirm(filter(action.confirmText, mergedData));
+      if (confirmed) {
         // 触发渲染器事件
         const rendererEvent = await dispatchEvent(
           e as React.MouseEvent<any> | string,
@@ -952,21 +934,24 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
           return;
         }
 
-        await onAction(e, action, mergedData);
+        // 因为crud里面也会处理二次确认，所以如果按钮处理过了就跳过crud的二次确认
+        await onAction(e, {...action, ignoreConfirm: !!hasOnEvent}, mergedData);
+      } else if (action.countDown) {
+        throw new Error('cancel');
       }
     } else {
-      if (!ignoreConfirm && action.confirmText && env.confirm) {
-        let confirmed = await env.confirm(
-          filter(action.confirmText, mergedData)
-        );
-        if (confirmed) {
-          await onAction(e, action, mergedData);
-        } else if (action.countDown) {
-          throw new Error('cancel');
-        }
-      } else {
-        await onAction(e, action, mergedData);
+      // 触发渲染器事件
+      const rendererEvent = await dispatchEvent(
+        e as React.MouseEvent<any> | string,
+        mergedData
+      );
+
+      // 阻止原有动作执行
+      if (rendererEvent?.prevented) {
+        return;
       }
+
+      await onAction(e, action, mergedData);
     }
   }
 
