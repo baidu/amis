@@ -514,10 +514,15 @@ export function JSONMoveDownById(json: any, id: string) {
   });
 }
 
-export function JSONDuplicate(json: any, id: string) {
+export function JSONDuplicate(
+  json: any,
+  id: string,
+  // 有时候复制时因为局部会有事件动作等内容，需要改为复制部分的新id，这里把老id与新id的关系存下来
+  reIds: {[propKey: string]: string} = {}
+) {
   return JSONChangeInArray(json, id, (arr: any[], node: any, index: number) => {
     const copy = JSONPipeIn(JSONPipeOut(node));
-    arr.splice(index + 1, 0, reGenerateID(copy));
+    arr.splice(index + 1, 0, reGenerateID(copy, reIds));
   });
 }
 
@@ -525,16 +530,24 @@ export function JSONDuplicate(json: any, id: string) {
  * 用于复制或粘贴的时候重新生成
  * @param json
  */
-export function reGenerateID(json: any) {
+export function reGenerateID(
+  json: any,
+  // 有时候复制时因为局部会有事件动作等内容，需要改为复制部分的新id，这里把老id与新id的关系存下来
+  reIds: {[propKey: string]: string} = {}
+) {
   JSONTraverse(json, (value: any, key: string, host: any) => {
-    if (
-      key === 'id' &&
-      typeof value === 'string' &&
-      value.indexOf('u:') === 0 &&
-      host
-    ) {
-      host.id = 'u:' + guid();
+    const isNodeIdFormat =
+      typeof value === 'string' && value.indexOf('u:') === 0;
+    if (key === 'id' && isNodeIdFormat && host) {
+      const newID = generateNodeId();
+      reIds[host.id] = newID;
+      host.id = newID;
     }
+    // 组件ID，给新的id内容
+    else if (key === 'componentId' && isNodeIdFormat) {
+      host.componentId = reIds[value] ?? value;
+    }
+
     return value;
   });
   return json;

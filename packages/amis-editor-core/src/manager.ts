@@ -45,19 +45,14 @@ import {
   reGenerateID,
   isString,
   isObject,
-  generateNodeId
+  generateNodeId,
+  JSONTraverse
 } from './util';
 import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
 import debounce from 'lodash/debounce';
-import {
-  openContextMenus,
-  toast,
-  alert,
-  DataScope,
-  DataSchema
-} from 'amis';
+import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
 import {parse, stringify} from 'json-ast-comments';
 import {EditorNodeType} from './store/node';
 import {EditorProps} from './component/Editor';
@@ -66,6 +61,7 @@ import {EditorDNDManager} from './dnd';
 import {IScopedContext} from 'amis';
 import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
 import type {RendererConfig} from 'amis-core/lib/factory';
+import {isPlainObject} from 'lodash';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -303,7 +299,6 @@ export class EditorManager {
     }
   }
 
-
   // 首次初始化时，增加组件物料和面板加载逻辑，避免 autoFocus 为 false 时，左右面板为空
   buildRenderersAndPanels() {
     setTimeout(async () => {
@@ -342,9 +337,8 @@ export class EditorManager {
     let jsonschemaUri = '';
 
     if (id) {
-      const context: RendererJSONSchemaResolveEventContext = this.buildEventContext(
-        id
-      );
+      const context: RendererJSONSchemaResolveEventContext =
+        this.buildEventContext(id);
 
       const event = this.trigger('before-resolve-json-schema', context);
       jsonschemaUri = event.context.data;
@@ -425,7 +419,7 @@ export class EditorManager {
 
       if (context.changeLeftPanelKey) {
         // 改变左侧激活面板
-       this.store.changeLeftPanelKey(context.changeLeftPanelKey);
+        this.store.changeLeftPanelKey(context.changeLeftPanelKey);
       }
     }
 
@@ -559,9 +553,14 @@ export class EditorManager {
       const curNode = getNodeById(activeId);
       if (curPluginType && curNode) {
         // 获取当前plugin
-        const curPlugin = this.plugins.find(item => item.rendererName === curPluginType);
+        const curPlugin = this.plugins.find(
+          item => item.rendererName === curPluginType
+        );
         // 删除当前属性配置面板
-        panels.splice(panels.findIndex(item => item.key === 'config'), 1);
+        panels.splice(
+          panels.findIndex(item => item.key === 'config'),
+          1
+        );
 
         const context: BuildPanelEventContext = {
           ...this.buildEventContext(curNode),
@@ -610,8 +609,9 @@ export class EditorManager {
   ) {
     if (typeof preferTag === 'undefined' && id) {
       const node = this.store.getNodeById(id);
-      preferTag = node?.info?.regions?.find(child => child.key === region)
-        ?.preferTag;
+      preferTag = node?.info?.regions?.find(
+        child => child.key === region
+      )?.preferTag;
     }
     const curRenderers = await this.collectRenderers(region, id);
     this.store.setInsertRenderers(curRenderers);
@@ -1272,9 +1272,12 @@ export class EditorManager {
     let index: number = -1;
     const commonContext = this.buildEventContext(id);
 
-    if (!('id' in json)) {
-      json = {...json, id: generateNodeId()};
-    }
+    // 填充id，有些脚手架生成了复杂的布局等，这里都填充一下id
+    JSONTraverse(json, (value: any) => {
+      if (isPlainObject(value) && value.type && !value.id) {
+        value.id = generateNodeId();
+      }
+    });
 
     if (beforeId) {
       const arr = commonContext.schema[region];
@@ -1740,14 +1743,16 @@ export class EditorManager {
       const scopeNode = this.store.getNodeById(id, type);
 
       if (scopeNode) {
-        return scopeNode?.info.plugin.getAvailableContextFields?.(scopeNode, node) || [];
+        return (
+          scopeNode?.info.plugin.getAvailableContextFields?.(scopeNode, node) ||
+          []
+        );
       }
-      
+
       scope = scope.parent;
     }
 
     return [];
-    
   }
 
   beforeDispatchEvent(

@@ -152,6 +152,23 @@ class APIBuilder extends DSBuilder {
     ];
   }
 
+  onFieldsInit(value: any, form: any) {
+    this.features.forEach(feat => {
+      const key = `${DSFeature[feat].value}Fields`;
+      const currentData = form.getValueByName(key);
+
+      const result = cloneDeep(value || []).map((field: any) => {
+        const exist = currentData?.find((f: any) => f.name === field.name);
+
+        return {
+          ...field,
+          checked: exist ? exist.checked : true
+        };
+      });
+      form.setValueByName(key, result);
+    });
+  }
+
   public makeFieldsSettingForm(config: {
     sourceKey?: string;
     feat: DSFeatureType;
@@ -195,6 +212,7 @@ class APIBuilder extends DSBuilder {
           addable: false,
           removable: false,
           itemClassName: 'ae-Fields-Setting-Item',
+          // CRUD的脚手架面板，基于现有字段进行选择
           hidden: setting || !inCrud || ['Delete', 'BulkDelete'].includes(feat),
           items: {
             type: 'container',
@@ -224,24 +242,8 @@ class APIBuilder extends DSBuilder {
           removable: true,
           columnsTogglable: false,
           needConfirm: false,
-          onChange: (value: any, oldValue: any, model: any, form: any) => {
-            this.features.forEach(feat => {
-              const key = `${DSFeature[feat].value}Fields`;
-              const currentData = form.getValueByName(key);
-
-              const result = cloneDeep(value || []).map((field: any) => {
-                const exist = currentData?.find(
-                  (f: any) => f.name === field.name
-                );
-
-                return {
-                  ...field,
-                  checked: exist ? exist.checked : true
-                };
-              });
-              form.setValueByName(key, result);
-            });
-          },
+          onChange: (value: any, oldValue: any, model: any, form: any) =>
+            this.onFieldsInit(value, form),
           columns: [
             {
               type: 'switch',
@@ -443,6 +445,7 @@ class APIBuilder extends DSBuilder {
                           props.formStore.setValues({
                             [key]: autoFillKeyValues
                           });
+                          this.onFieldsInit(autoFillKeyValues, props.formStore);
                         } else {
                           toast.warning(
                             'API返回格式不正确，请查看接口响应格式要求'
