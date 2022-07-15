@@ -55,7 +55,11 @@ interface CustomDaysViewProps extends LocaleProps {
     selected?: moment.Moment
   ) => boolean;
   showView: (view: string) => () => void;
-  updateSelectedDate: (event: React.MouseEvent<any>, close?: boolean) => void;
+  updateSelectedDate: (
+    event: React.MouseEvent<any>,
+    close?: boolean,
+    timeRangeContext?: 'start' | 'end'
+  ) => void;
   handleClickOutside: () => void;
   classnames: ClassNamesFn;
   schedules?: Array<{
@@ -70,6 +74,7 @@ interface CustomDaysViewProps extends LocaleProps {
   getColumns: (types: DateType[], dateBoundary: void) => any;
   getDateBoundary: (currentDate: moment.Moment) => any;
   timeConstraints?: any;
+  timeRangeContext?: 'start' | 'end';
 }
 
 export class CustomDaysView extends React.Component<CustomDaysViewProps> {

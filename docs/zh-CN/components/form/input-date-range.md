@@ -14,6 +14,7 @@ order: 15
 {
     "type": "form",
     "api": "/api/mock2/form/saveForm",
+    "debug": true,
     "body": [
         {
             "type": "input-date-range",

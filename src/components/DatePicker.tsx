@@ -368,7 +368,6 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
   componentDidUpdate(prevProps: DateProps) {
     const props = this.props;
-
     const prevValue = prevProps.value;
 
     if (prevValue !== props.value) {
@@ -400,9 +399,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 
   handleBlur(e: React.SyntheticEvent<HTMLDivElement>) {
-    this.setState({
-      isFocused: false
-    });
+    this.setState({isFocused: false});
     const {onBlur} = this.props;
     onBlur && onBlur(e);
   }
