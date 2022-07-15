@@ -12,13 +12,14 @@ import {RendererData, Action, Api, Payload, ApiObject} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {filter} from '../../utils/tpl';
 import omit from 'lodash/omit';
-import {dataMapping} from '../../utils/tpl-builtin';
+import {dataMapping, filterDate} from '../../utils/tpl-builtin';
 import findIndex from 'lodash/findIndex';
 import {SimpleMap} from '../../utils/SimpleMap';
 import {Icon} from '../../components/icons';
 import {TableSchema} from '../Table';
 import {SchemaApi} from '../../Schema';
 import find from 'lodash/find';
+import moment from 'moment';
 
 export interface TableControlSchema
   extends FormBaseControl,
@@ -466,7 +467,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   addItem(index: number) {
-    const {needConfirm, scaffold, columns} = this.props;
+    const {needConfirm, scaffold, columns, data} = this.props;
     const items = this.state.items.concat();
     let value: any = {
       __isPlaceholder: true
@@ -478,7 +479,27 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           typeof column.value !== 'undefined' &&
           typeof column.name === 'string'
         ) {
-          setVariable(value, column.name, column.value);
+          if (
+            [
+              'input-date',
+              'input-datetime',
+              'input-time',
+              'input-month',
+              'input-quarter',
+              'input-year'
+            ].includes(column.type)
+          ) {
+            const date = filterDate(column.value, data, column.format || 'X');
+            setVariable(
+              value,
+              column.name,
+              (column.utc ? moment.utc(date) : date).format(
+                column.format || 'X'
+              )
+            );
+          } else {
+            setVariable(value, column.name, column.value);
+          }
         }
       });
     }
