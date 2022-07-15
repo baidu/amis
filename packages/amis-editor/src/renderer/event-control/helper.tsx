@@ -257,7 +257,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           visibleOn: `data.__rendererName && __rendererName === 'combo'`
         },
         {
-          name: 'valueInput',
+          name: '__valueInput',
           type: 'input-formula',
           variables: '${variables}',
           evalMode: false,
@@ -560,7 +560,7 @@ export const renderCmptActionSelect = (
           if (form.data.actionType === 'setValue') {
             // todo:这里会闪一下，需要从amis查下问题
             form.setValueByName('args.value', []);
-            form.setValueByName('args.valueInput', undefined);
+            form.setValueByName('args.__valueInput', undefined);
             if (SELECT_PROPS_CONTAINER.includes(rendererType)) {
               form.setValueByName('__setValueDs', variables.filter(item => item.value !== '$$id'));
             } else {
@@ -1045,16 +1045,22 @@ export const getEventControlConfig = (
             },
             []
           );
+          // 目前只有给combo赋值会是数组，所以认为是全量的赋值方式
+          config.args['__comboType'] = 'all';
         } else if (typeof action.args[prop] === 'object') {
           config.args[prop] = Object.keys(action.args[prop]).map(key => ({
             key,
             val: action.args?.[prop][key]
           }));
+          // 如果有index，认为是给指定序号的combo赋值，所以认为是指定序号的赋值方式
+          if (action.args.index !== undefined) {
+            config.args['__comboType'] = 'appoint';
+          }
         } else if (
           action.actionType === 'setValue' &&
           typeof action.args[prop] === 'string'
         ) {
-          config.args['valueInput'] = config.args['value'];
+          config.args['__valueInput'] = config.args['value'];
           delete config.args?.value;
         }
       }
@@ -1137,8 +1143,11 @@ export const getEventControlConfig = (
       // 转换下格式
       if (['setValue', 'url'].includes(action.actionType)) {
         const propName = action.actionType === 'setValue' ? 'value' : 'params';
-
-        if (Array.isArray(config.args?.[propName])) {
+        if (action.actionType === 'setValue' && config.args?.__valueInput !== undefined) {
+          action.args = {
+            value: config.args?.__valueInput
+          };
+        } else if (Array.isArray(config.args?.[propName])) {
           action.args = action.args ?? {};
           if (action.__rendererName === 'combo' && action.args?.index === undefined) {
             // combo特殊处理
@@ -1165,12 +1174,6 @@ export const getEventControlConfig = (
               [propName]: tmpObj
             };
           }
-        } else if (action.actionType === 'setValue') {
-          // 处理变量赋值非数组的情况
-          action.args = {
-            ...action.args,
-            value: config.args?.['valueInput']
-          };
         }
       }
 

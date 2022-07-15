@@ -607,7 +607,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '设置组件数据',
           actionType: 'setValue',
           description: '设置数据容器或表单项的数据',
-          innerArgs: ['value', 'index'],
+          innerArgs: ['value', 'index', '__valueInput', '__comboType'],
           descDetail: (info: any) => {
             return (
               <div>
@@ -652,7 +652,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   onChange: (value: string, oldVal: any, data: any, form: any) => {
                     form.setValueByName('index', undefined);
                     form.setValueByName('value', []);
-                    form.setValueByName('valueInput', undefined);
+                    form.setValueByName('__valueInput', undefined);
                   }
                 },
                 {
@@ -761,7 +761,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   visibleOn: `data.__rendererName && __rendererName === 'combo' && data.__comboType && __comboType === 'all'`
                 },
                 {
-                  name: 'valueInput',
+                  name: '__valueInput',
                   type: 'input-formula',
                   variables: '${variables}',
                   evalMode: false,

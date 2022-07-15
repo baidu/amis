@@ -496,12 +496,15 @@ export class EventControl extends React.Component<
       const actionConfig = actionConfigInitFormatter?.(action);
       const actionNode = findActionNode(actionTree, actionConfig?.actionType!);
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
+      const cmpts = getComponents(actionNode);
+      const node = findTree(cmpts, item => item.value === action.componentId);
+
       let setValueDs: any = null;
       if (actionConfig?.actionType === 'setValue') {
-        const rendererType = actionConfig?.__rendererName;
-        const rendererName = actionConfig?.__rendererLabel;
+        const rendererType = node?.type;
+        const rendererName = node?.label;
         // todo:这里会闪一下，需要从amis查下问题
-        if (SELECT_PROPS_CONTAINER.includes(rendererType)) {
+        if (SELECT_PROPS_CONTAINER.includes(rendererType || '')) {
           const curVariable = rawVariables.find(
             item => item.label === `${rendererName}变量`
           );
