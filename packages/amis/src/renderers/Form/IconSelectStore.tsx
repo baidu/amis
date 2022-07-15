@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash/cloneDeep';
+
 export interface SvgIcon {
   name: string;
   id: string;
@@ -76,6 +78,25 @@ export function setRefreshSvgListAction(
   }
 }
 
-export function setSvgIconList(icons: SvgIconTypes[]) {
-  svgIcons = icons;
+export function setSvgIconList(icons: SvgIconTypes[], combine: boolean = true) {
+  const clonedIcons = cloneDeep(icons);
+
+  if (combine) {
+    const allIcons: SvgIcon[] = [];
+
+    clonedIcons.forEach(item => {
+      allIcons.push(...item.icons);
+    });
+
+    svgIcons = ([
+      {
+        name: '全部',
+        typeId: 'all',
+        icons: allIcons
+      }
+    ]).concat(icons);
+  }
+  else {
+    svgIcons = icons;
+  }
 }

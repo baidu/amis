@@ -6,7 +6,7 @@ import {
   FormControlProps,
   autobind
 } from 'amis-core';
-import {Modal, Button, Spinner} from 'amis-ui';
+import {Modal, Button, Spinner, SearchBox} from 'amis-ui';
 
 import debounce from 'lodash/debounce';
 import {FormBaseControlSchema} from '../../Schema';
@@ -21,6 +21,7 @@ export interface IconSelectControlSchema extends FormBaseControlSchema {
 export interface IconSelectProps extends FormControlProps {
   placeholder?: string;
   disabled?: boolean;
+  noDataTip?: string;
 }
 
 export interface IconSelectState {
@@ -36,6 +37,13 @@ export default class IconSelectControl extends React.PureComponent<
   IconSelectState
 > {
   input?: HTMLInputElement;
+
+  static defaultProps: Pick<
+    IconSelectProps,
+    'noDataTip'
+  > = {
+    noDataTip: 'placeholder.noData'
+  };
 
   state: IconSelectState = {
     activeTypeIndex: 0,
@@ -139,11 +147,13 @@ export default class IconSelectControl extends React.PureComponent<
 
   @autobind
   renderIconList(icons: any[]) {
-    const {classPrefix: ns} = this.props;
+    const {classPrefix: ns, noDataTip, translate: __} = this.props;
 
     if (!icons || !icons.length) {
       return (
-        <p className={cx(`${ns}IconSelectControl-icon-list-empty`)}>无符合条件图标</p>
+        <p className={cx(`${ns}IconSelectControl-icon-list-empty`)}>
+          {__(noDataTip)}
+        </p>
       )
     }
 
@@ -212,23 +222,17 @@ export default class IconSelectControl extends React.PureComponent<
     const inputValue = this.state.searchValue;
 
     const filteredIcons = inputValue
-                            ? matchSorter(icons, inputValue, {keys: ['label', 'id']})
+                            ? matchSorter(icons, inputValue, {keys: ['name', 'id']})
                             : icons;
     return (
       <>
-        {
-          render(
-            'search-box',
-            {
-              type: 'search-box',
-              clearable: true
-            },
-            {
-              className: cx(`${ns}IconSelectControl-Modal-search`),
-              onChange: this.handleSearchValueChange
-            }
-          )
-        }
+        <SearchBox
+          className={cx(`${ns}IconSelectControl-Modal-search`)}
+          mini={false}
+          clearable
+          onChange={this.handleSearchValueChange}
+        />
+
         {
           IconSelectStore.refreshIconList && render('refresh',
             {
