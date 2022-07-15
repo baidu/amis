@@ -1558,15 +1558,31 @@ export class CardsCRUDPlugin extends CRUDPlugin {
               wrapperComponent: 'h2'
             },
             {
-              type: 'tpl',
-              tpl: '副标题内容',
-              inline: false,
-              style: {
-                color: '#9b9b9b',
-                marginTop: '0',
-                marginBottom: '0'
-              }
+              type: 'form',
+              body: [
+                {
+                  type: 'static-tpl',
+                  label: '字段',
+                  tpl: '内容'
+                }
+              ]
+            },
+            {
+              type: 'divider'
+            },
+            {
+              type: 'button-group'
             }
+            // {
+            //   type: 'tpl',
+            //   tpl: '副标题内容',
+            //   inline: false,
+            //   style: {
+            //     color: '#9b9b9b',
+            //     marginTop: '0',
+            //     marginBottom: '0'
+            //   }
+            // }
           ]
           // style: {
           //   borderStyle: 'solid',
@@ -1650,13 +1666,25 @@ export class ListCRUDPlugin extends CRUDPlugin {
           body: [
             {
               type: 'tpl',
-              tpl: '简单的展示数据'
-              // style: {
-              //   marginTop: '0',
-              //   marginBottom: '0',
-              //   paddingTop: '',
-              //   paddingBottom: ''
-              // }
+              tpl: '标题',
+              inline: false,
+              style: {
+                marginTop: '0',
+                marginBottom: '0',
+                paddingTop: '',
+                paddingBottom: ''
+              },
+              wrapperComponent: 'h2'
+            },
+            {
+              type: 'tpl',
+              tpl: '副标题内容',
+              inline: false,
+              style: {
+                color: '#9b9b9b',
+                marginTop: '0',
+                marginBottom: '0'
+              }
             }
           ]
         }
