@@ -1941,6 +1941,7 @@ export default class Table extends React.Component<TableProps, object> {
             column.pristine.className,
             column.pristine.labelClassName
           )}
+          style={props.style}
         >
           {column.label ? render('tpl', column.label) : null}
 
