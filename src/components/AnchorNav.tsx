@@ -75,6 +75,9 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
   // 后代节点观察器
   observer: MutationObserver;
 
+  // 滚动区域的高度
+  contentDomHeight = 0;
+
   componentDidMount() {
     // 初始化滚动标识
     this.setState({fromSelect: false});
@@ -84,15 +87,20 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
 
     this.updateSectionOffset(sectionRootDom, false);
     this.observer = new MutationObserver((mutations: MutationRecord[]) => {
-      const ModDetected = mutations.some(record =>
-        record.target.parentNode?.isSameNode(sectionRootDom)
-      );
+      let height = sectionRootDom.scrollHeight;
 
-      if (ModDetected) {
+      // 监听sectio容器dom高度是否变化，如果变化，则重新计算section的offset
+      if (height !== this.contentDomHeight) {
+        this.contentDomHeight = height;
         this.updateSectionOffset(sectionRootDom, true);
       }
     });
-    this.observer.observe(sectionRootDom, {childList: true, subtree: true});
+
+    this.observer.observe(sectionRootDom, {
+      childList: true,
+      attributes: true, // 属性变化也有可能导致高度的变化，例如类名，所以也要监听
+      subtree: true
+    });
   }
 
   componentWillUnmount() {
