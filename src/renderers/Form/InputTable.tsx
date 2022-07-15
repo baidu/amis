@@ -474,7 +474,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     };
 
     if (Array.isArray(columns)) {
-      columns.forEach(column => {
+      columns.forEach((column: any) => {
         if (
           typeof column.value !== 'undefined' &&
           typeof column.name === 'string'
