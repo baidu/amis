@@ -207,6 +207,17 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
         <div
           class="cxd-Page-body"
         >
+          <div
+            class="cxd-Spinner-overlay"
+          />
+          <div
+            class="cxd-Spinner cxd-Spinner--overlay"
+            data-testid="spinner"
+          >
+            <div
+              class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+            />
+          </div>
           <span
             class="cxd-TplField"
           >
@@ -349,6 +360,17 @@ exports[`Renderer:Page handleAction actionType=ajax 1`] = `
         <div
           class="cxd-Page-body"
         >
+          <div
+            class="cxd-Spinner-overlay"
+          />
+          <div
+            class="cxd-Spinner cxd-Spinner--overlay"
+            data-testid="spinner"
+          >
+            <div
+              class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+            />
+          </div>
           <span
             class="cxd-TplField"
           >
@@ -389,6 +411,68 @@ exports[`Renderer:Page handleAction actionType=dialog default 1`] = `
         <div
           class="cxd-Page-body"
         />
+      </div>
+    </div>
+  </div>
+  <div
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Modal-overlay in"
+    />
+    <div
+      class="cxd-Modal-content in"
+    >
+      <div
+        class="cxd-Modal-header"
+      >
+        <a
+          class="cxd-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="cxd-Modal-title"
+        >
+          弹框
+        </div>
+      </div>
+      <div
+        class="cxd-Modal-body"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            this is dialog
+          </span>
+        </span>
+      </div>
+      <div
+        class="cxd-Modal-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
       </div>
     </div>
   </div>
@@ -1788,6 +1872,17 @@ exports[`Renderer:Page initApi reload by action 2`] = `
         <div
           class="cxd-Page-body"
         >
+          <div
+            class="cxd-Spinner-overlay"
+          />
+          <div
+            class="cxd-Spinner cxd-Spinner--overlay"
+            data-testid="spinner"
+          >
+            <div
+              class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+            />
+          </div>
           <span
             class="cxd-TplField"
           >
