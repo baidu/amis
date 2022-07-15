@@ -79,6 +79,9 @@ exports[`Renderer:calendar 1`] = `
                                   »
                                 </a>
                               </div>
+                              <div
+                                class="header-line"
+                              />
                             </th>
                           </tr>
                           <tr>
@@ -572,6 +575,9 @@ exports[`Renderer:calendar largeMode 1`] = `
                                   »
                                 </a>
                               </div>
+                              <div
+                                class="header-line"
+                              />
                             </th>
                           </tr>
                           <tr>
@@ -1213,6 +1219,9 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                                   »
                                 </a>
                               </div>
+                              <div
+                                class="header-line"
+                              />
                             </th>
                           </tr>
                           <tr>
