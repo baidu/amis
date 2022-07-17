@@ -49,7 +49,7 @@ export interface Validator {
   /**
    * 快速编辑的表单
    */
-  schema?: SchemaObject[];
+  schema?: any[];
 
   /**
    * 输入类型，true则表示是默认
