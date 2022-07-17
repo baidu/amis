@@ -3,7 +3,7 @@
  */
 
 import flatten from 'lodash/flatten';
-import {getEventControlConfig} from '../util';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 import {getSchemaTpl, isObject} from 'amis-editor-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';

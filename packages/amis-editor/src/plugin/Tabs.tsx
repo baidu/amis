@@ -18,8 +18,10 @@ import {RegionWrapper as Region} from 'amis-editor-core';
 import {Tab} from 'amis';
 import {tipedLabel} from '../component/BaseControl';
 import {ValidatorTag} from '../validator';
-import {getEventControlConfig} from '../util';
-import { getArgsWrapper } from '../renderer/event-control/helper';
+import {
+  getArgsWrapper,
+  getEventControlConfig
+} from '../renderer/event-control/helper';
 
 export class TabsPlugin extends BasePlugin {
   // 关联渲染器名字

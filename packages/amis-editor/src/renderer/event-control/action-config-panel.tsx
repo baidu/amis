@@ -13,7 +13,7 @@ export default class ActionConfigPanel extends React.Component<RendererProps> {
   render() {
     const {data, onBulkChange, render, pluginActions, actionConfigItemsMap} = this.props;
     const actionType = data.__subActions
-      ? data.__cmptActionType
+      ? data.groupType
       : data.actionType;
     const commonActionConfig = {
       ...COMMON_ACTION_SCHEMA_MAP,
@@ -26,8 +26,8 @@ export default class ActionConfigPanel extends React.Component<RendererProps> {
       const subActionSchema =
         pluginActions?.[data.__rendererName]?.find(
           (item: RendererPluginAction) =>
-            item.actionType === data.__cmptActionType
-        )?.schema ?? commonActionConfig[data.__cmptActionType]?.schema;
+            item.actionType === data.groupType
+        )?.schema ?? commonActionConfig[data.groupType]?.schema;
       const baseSchema = renderCmptActionSelect('选择组件', true);
       // 追加到基础配置
       schema = [

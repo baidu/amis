@@ -150,7 +150,7 @@ export class StatusControl extends React.Component<
                 type: 'select',
                 label: '条件',
                 name: name,
-                value: `typeof this.${expressioName} === "string" ? 2 : 1`,
+                valueOn: `typeof this.${expressioName} === "string" ? 2 : 1`,
                 options: options || [
                   {
                     label: '静态',

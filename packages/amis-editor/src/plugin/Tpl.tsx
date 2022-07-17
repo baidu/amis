@@ -3,7 +3,6 @@ import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, setSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from '../component/BaseControl';
 import {ValidatorTag} from '../validator';
-import {getEventControlConfig} from '../util';
 
 setSchemaTpl('tpl:content', {
   label: tipedLabel(
@@ -25,7 +24,8 @@ setSchemaTpl('tpl:rich-text', {
   buttons: [
     'paragraphFormat',
     'quote',
-    'color',
+    'textColor',
+    'backgroundColor',
     '|',
     'bold',
     'italic',
@@ -146,7 +146,7 @@ export class TplPlugin extends BasePlugin {
                 ),
                 name: 'inline',
                 pipeIn: defaultValue(true),
-                hiddenOn:'data.wrapperComponent !== ""'
+                hiddenOn: 'data.wrapperComponent !== ""'
               }),
               getSchemaTpl('tpl:content'),
               getSchemaTpl('tpl:rich-text')

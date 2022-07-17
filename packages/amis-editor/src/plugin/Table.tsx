@@ -1,8 +1,5 @@
 import {resolveVariable} from 'amis';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 
 import {registerEditorPlugin, repeatArray} from 'amis-editor-core';
@@ -21,8 +18,10 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
-import {getEventControlConfig} from '../util';
-import { getArgsWrapper } from '../renderer/event-control/helper';
+import {
+  getArgsWrapper,
+  getEventControlConfig
+} from '../renderer/event-control/helper';
 
 export class TablePlugin extends BasePlugin {
   // 关联渲染器名字

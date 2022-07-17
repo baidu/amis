@@ -15,7 +15,7 @@ import {
 } from 'amis-editor-core';
 import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class NestedSelectControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -245,7 +245,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 },
                 {
                   type: 'container',
-                  className: 'ae-ExtendMore',
+                  className: 'ae-ExtendMore mb-3',
                   visibleOn: 'this.multiple',
                   body: [
                     {

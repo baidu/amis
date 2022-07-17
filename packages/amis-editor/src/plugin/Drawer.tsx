@@ -7,7 +7,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {noop} from 'amis-editor-core';
-import {getEventControlConfig} from '../util';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 import {InlineModal} from './Dialog';
 
 export class DrawerPlugin extends BasePlugin {

@@ -9,7 +9,7 @@ import {
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from '../../component/BaseControl';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {
   RendererPluginAction,
   RendererPluginEvent

@@ -396,33 +396,29 @@ export default class OptionControl extends React.Component<
   }
 
   renderHeader() {
-    const {
-      render,
-      label,
-      labelRemark,
-      useMobileUI,
-      env,
-      popOverContainer
-    } = this.props;
+    const {render, label, labelRemark, useMobileUI, env, popOverContainer} =
+      this.props;
     const classPrefix = env?.theme?.classPrefix;
     const {source} = this.state;
-    const optionSourceList = ([
-      {
-        label: '自定义选项',
-        value: 'custom'
-      },
-      {
-        label: '接口获取',
-        value: 'api'
-      }
-      // {
-      //   label: '表单实体',
-      //   value: 'form'
-      // }
-    ] as Array<{
-      label: string;
-      value: 'custom' | 'api' | 'form';
-    }>).map(item => ({
+    const optionSourceList = (
+      [
+        {
+          label: '自定义选项',
+          value: 'custom'
+        },
+        {
+          label: '接口获取',
+          value: 'api'
+        }
+        // {
+        //   label: '表单实体',
+        //   value: 'form'
+        // }
+      ] as Array<{
+        label: string;
+        value: 'custom' | 'api' | 'form';
+      }>
+    ).map(item => ({
       ...item,
       onClick: () => this.handleSourceChange(item.value)
     }));
@@ -575,7 +571,7 @@ export default class OptionControl extends React.Component<
         label: '删除',
         onClick: () => this.handleDelete(index)
       }
-    ]
+    ];
 
     // 单选模式，选中时增加取消操作
     if (!closeDefaultCheck && !isMultiple && checked) {
@@ -584,7 +580,7 @@ export default class OptionControl extends React.Component<
         className: 'ae-OptionControlItem-action',
         label: '取消选中',
         onClick: () => this.handleToggleDefaultValue(index, false)
-      })
+      });
     }
 
     return (
@@ -600,7 +596,9 @@ export default class OptionControl extends React.Component<
                   className="ae-OptionControlItem-checkbox"
                   checked={checked}
                   type={isMultiple ? 'checkbox' : 'radio'}
-                  onChange={(newChecked: any, shift?: boolean) => this.handleToggleDefaultValue(index, newChecked, shift)}
+                  onChange={(newChecked: any, shift?: boolean) =>
+                    this.handleToggleDefaultValue(index, newChecked, shift)
+                  }
                 />
               </span>
             )}
@@ -646,8 +644,7 @@ export default class OptionControl extends React.Component<
             body: [
               {
                 type: 'tpl',
-                tpl:
-                  '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每行可通过空格来分别设置label和value,例："张三 zhangsan"'
+                tpl: '每个选项单列一行，将所有值不重复的项加为新的选项;<br/>每行可通过空格来分别设置label和value,例："张三 zhangsan"'
               }
             ],
             showIcon: true,

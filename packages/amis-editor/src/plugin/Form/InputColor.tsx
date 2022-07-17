@@ -2,7 +2,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {tipedLabel} from '../../component/BaseControl';
 import tinyColor from 'tinycolor2';
 

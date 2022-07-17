@@ -1,7 +1,7 @@
 import {getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {
   RendererPluginAction,
   RendererPluginEvent

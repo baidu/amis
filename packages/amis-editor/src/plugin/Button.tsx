@@ -8,7 +8,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {BUTTON_DEFAULT_ACTION, tipedLabel} from '../component/BaseControl';
-import {getEventControlConfig} from '../util';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 import {getOldActionSchema} from '../renderer/event-control/helper';

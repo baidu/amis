@@ -18,7 +18,7 @@ import {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 setSchemaTpl('option', {
   name: 'option',
