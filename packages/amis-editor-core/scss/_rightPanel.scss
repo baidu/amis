@@ -273,7 +273,7 @@ $category-2-height: px2rem(32px);
 
   // 内层tabs
   .editor-prop-config-tabs {
-    display: flex;
+    display: block;
     position: relative;
     height: 100%;
     padding: 0;
@@ -364,7 +364,9 @@ $category-2-height: px2rem(32px);
 
     // tab内容
     &-cont {
-      flex: 1 1 auto;
+      height: calc( 100% - 45px);
+      position:absolute;
+      width: 100%;
       padding: 0;
       overflow-y: overlay;
       @include minScrollBar();

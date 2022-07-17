@@ -85,16 +85,6 @@ export class AvailableRenderersPanel extends React.Component<
               searchRendererType={'renderer'}
             />
           )}
-          {(!store.showCustomRenderersPanel ||
-            Object.keys(groupedCustomRenderers).length < 1) && (
-            <RenderersPanel
-              className={'only-base-component'}
-              groupedRenderers={groupedSubRenderers}
-              store={store}
-              manager={manager}
-              searchRendererType={'renderer'}
-            />
-          )}
         </div>
       </div>
     );

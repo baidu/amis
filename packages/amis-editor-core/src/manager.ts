@@ -51,13 +51,7 @@ import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
 import debounce from 'lodash/debounce';
-import {
-  openContextMenus,
-  toast,
-  alert,
-  DataScope,
-  DataSchema
-} from 'amis';
+import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
 import {parse, stringify} from 'json-ast-comments';
 import {EditorNodeType} from './store/node';
 import {EditorProps} from './component/Editor';
@@ -303,7 +297,6 @@ export class EditorManager {
     }
   }
 
-
   // 首次初始化时，增加组件物料和面板加载逻辑，避免 autoFocus 为 false 时，左右面板为空
   buildRenderersAndPanels() {
     setTimeout(async () => {
@@ -342,9 +335,8 @@ export class EditorManager {
     let jsonschemaUri = '';
 
     if (id) {
-      const context: RendererJSONSchemaResolveEventContext = this.buildEventContext(
-        id
-      );
+      const context: RendererJSONSchemaResolveEventContext =
+        this.buildEventContext(id);
 
       const event = this.trigger('before-resolve-json-schema', context);
       jsonschemaUri = event.context.data;
@@ -422,10 +414,9 @@ export class EditorManager {
 
       triggerEvent && this.trigger('build-panels', context);
       panels = context.data || panels;
-
       if (context.changeLeftPanelKey) {
         // 改变左侧激活面板
-       this.store.changeLeftPanelKey(context.changeLeftPanelKey);
+        this.store.changeLeftPanelKey(context.changeLeftPanelKey);
       }
     }
 
@@ -558,9 +549,14 @@ export class EditorManager {
       const curNode = getNodeById(activeId);
       if (curPluginType && curNode) {
         // 获取当前plugin
-        const curPlugin = this.plugins.find(item => item.rendererName === curPluginType);
+        const curPlugin = this.plugins.find(
+          item => item.rendererName === curPluginType
+        );
         // 删除当前属性配置面板
-        panels.splice(panels.findIndex(item => item.key === 'config'), 1);
+        panels.splice(
+          panels.findIndex(item => item.key === 'config'),
+          1
+        );
 
         const context: BuildPanelEventContext = {
           ...this.buildEventContext(curNode),
@@ -609,8 +605,9 @@ export class EditorManager {
   ) {
     if (typeof preferTag === 'undefined' && id) {
       const node = this.store.getNodeById(id);
-      preferTag = node?.info?.regions?.find(child => child.key === region)
-        ?.preferTag;
+      preferTag = node?.info?.regions?.find(
+        child => child.key === region
+      )?.preferTag;
     }
     const curRenderers = await this.collectRenderers(region, id);
     this.store.setInsertRenderers(curRenderers);
@@ -1701,8 +1698,10 @@ export class EditorManager {
     let from = node;
     let region = node;
     while (!scope && from) {
-      scope = this.dataSchema.hasScope(`${from.id}-${from.type}`)
-        ? this.dataSchema.getScope(`${from.id}-${from.type}`)
+      const nodeId = from.info?.id;
+      const type = from.info?.type;
+      scope = this.dataSchema.hasScope(`${nodeId}-${type}`)
+        ? this.dataSchema.getScope(`${nodeId}-${type}`)
         : undefined;
       from = from.parent;
       if (from?.isRegion) {
