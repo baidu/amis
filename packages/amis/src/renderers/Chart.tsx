@@ -264,6 +264,9 @@ export class Chart extends React.Component<ChartProps> {
         // @ts-ignore 官方没提供 type
         import('echarts/extension/bmap/bmap')
       ]).then(async ([echarts, ecStat]) => {
+        if(ecStat.default != null) {
+          ecStat = ecStat.default;
+        }
         (window as any).echarts = echarts;
         (window as any).ecStat = ecStat;
         let theme = 'default';
