@@ -338,7 +338,7 @@ export default class TreeOptionControl extends React.Component<
             type: 'dropdown-button',
             className: 'ae-TreeOptionControlItem-dropdown fa-sm',
             btnClassName: 'px-2',
-            icon: 'fa fa-plus',
+            icon: 'add',
             hideCaret: true,
             closeOnClick: true,
             trigger: 'hover',
