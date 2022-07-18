@@ -244,8 +244,6 @@ $category-2-height: px2rem(32px);
   .config-form-content {
     position: relative;
     height: 100%;
-    // 添加事件按钮display:fixed，继承该元素宽度
-    transform: translateX(0);
     padding: 16px 12px;
 
     // 带底部操作按钮的属性配置面板
