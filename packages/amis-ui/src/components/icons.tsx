@@ -98,6 +98,7 @@ import DotIcon from '../icons/dot.svg';
 import Invisible from '../icons/invisible.svg';
 import DateIcon from '../icons/date.svg';
 import InvisibleIcon from '../icons/invisible.svg';
+import RightDoubleArrowIcon from '../icons/right-double-arrow.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -223,6 +224,7 @@ registerIcon('plus-fine', PlusFineIcon);
 registerIcon('date', DateIcon);
 registerIcon('remove', RemoveIcon);
 registerIcon('invisible', InvisibleIcon);
+registerIcon('right-double-arrow', RightDoubleArrowIcon);
 
 export function Icon({
   icon,
@@ -266,5 +268,6 @@ export {
   UserRemove,
   Role,
   Department,
-  Post
+  Post,
+  RightDoubleArrowIcon
 };

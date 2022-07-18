@@ -594,6 +594,18 @@
   .rdtSwitch + .rdtSwitch {
     margin-left: var(--gap-xs);
   }
+
+  .date-icon-arrow-left,
+  .date-icon-arrow {
+    width: #{px2rem(10px)};
+    height: #{px2rem(10px)};
+    top: 0;
+  }
+
+  .date-icon-arrow-left {
+    transform: rotate(180deg);
+    transform-origin: 50% 50%;
+  }
 }
 
 .header-line {
