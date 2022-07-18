@@ -1575,7 +1575,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     let bulkBtns: Array<ActionSchema> = [];
     let itemBtns: Array<ActionSchema> = [];
 
-    const ctx = store.mergedData;
+    const ctx = createObject(store.mergedData, {
+      selectedItems: selectedItems.concat(),
+      unSelectedItems: unSelectedItems.concat()
+    });
 
     // const ctx = createObject(store.data, {
     //     ...store.query,
