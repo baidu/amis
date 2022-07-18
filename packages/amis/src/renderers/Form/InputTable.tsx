@@ -1,24 +1,31 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
   createObject,
   getTree,
   getVariable,
   setVariable,
-  spliceTree
+  spliceTree,
+  filterDate,
+  isEffectiveApi,
+  filter,
+  dataMapping,
+  SimpleMap,
+  RendererData,
+  ActionObject,
+  Api,
+  Payload,
+  ApiObject
 } from 'amis-core';
-import {Button} from 'amis-ui';
-import {RendererData, ActionObject, Api, Payload, ApiObject} from 'amis-core';
-import {isEffectiveApi} from 'amis-core';
-import {filter} from 'amis-core';
+import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
-import {dataMapping} from 'amis-core';
 import findIndex from 'lodash/findIndex';
-import {SimpleMap} from 'amis-core';
-import {Icon} from 'amis-ui';
 import {TableSchema} from '../Table';
 import {SchemaApi} from '../../Schema';
 import find from 'lodash/find';
+import moment from 'moment';
 
 export interface TableControlSchema
   extends FormBaseControl,
@@ -466,7 +473,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   addItem(index: number) {
-    const {needConfirm, scaffold, columns} = this.props;
+    const {needConfirm, scaffold, columns, data} = this.props;
     const items = this.state.items.concat();
     let value: any = {
       __isPlaceholder: true
@@ -478,7 +485,27 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           typeof column.value !== 'undefined' &&
           typeof column.name === 'string'
         ) {
-          setVariable(value, column.name, column.value);
+          if (
+            [
+              'input-date',
+              'input-datetime',
+              'input-time',
+              'input-month',
+              'input-quarter',
+              'input-year'
+            ].includes(column.type)
+          ) {
+            const date = filterDate(column.value, data, column.format || 'X');
+            setVariable(
+              value,
+              column.name,
+              (column.utc ? moment.utc(date) : date).format(
+                column.format || 'X'
+              )
+            );
+          } else {
+            setVariable(value, column.name, column.value);
+          }
         }
       });
     }

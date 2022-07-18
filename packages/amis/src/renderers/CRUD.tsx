@@ -775,7 +775,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       }
     };
 
-    if (action.confirmText && env.confirm) {
+    // Action如果配了事件动作也会处理二次确认，这里需要处理一下忽略
+    if (!action.ignoreConfirm && action.confirmText && env.confirm) {
       env
         .confirm(filter(action.confirmText, ctx))
         .then((confirmed: boolean) => confirmed && fn());
