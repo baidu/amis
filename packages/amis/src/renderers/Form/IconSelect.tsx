@@ -32,6 +32,9 @@ export interface IconSelectState {
   isRefreshLoading?: boolean;
 }
 
+/**
+ * 新图标选择器
+ */
 export default class IconSelectControl extends React.PureComponent<
   IconSelectProps,
   IconSelectState
