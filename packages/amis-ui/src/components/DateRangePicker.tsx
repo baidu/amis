@@ -668,7 +668,8 @@ export class DateRangePicker extends React.Component<
     this.setState(
       {
         isOpened: false,
-        editState: undefined
+        editState: undefined,
+        endDateOpenedFirst: false
       },
       this.blur
     );
@@ -1165,7 +1166,7 @@ export class DateRangePicker extends React.Component<
   }
 
   renderDay(props: any, currentDate: moment.Moment) {
-    let {startDate, endDate} = this.state;
+    let {startDate, endDate, endDateOpenedFirst, editState} = this.state;
 
     if (
       startDate &&
@@ -1183,8 +1184,11 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtActive rdtEndDay';
     }
 
+    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    props.className += className;
+
     return (
-      <td {...props}>
+      <td {...props} {...others}>
         <span>{currentDate.date()}</span>
       </td>
     );
@@ -1207,8 +1211,11 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
+    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    props.className += className;
+
     return (
-      <td {...props}>
+      <td {...props} {...others}>
         <span>{monthStrFixedLength}</span>
       </td>
     );
@@ -1226,8 +1233,11 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
+    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    props.className += className;
+
     return (
-      <td {...props}>
+      <td {...props} {...others}>
         <span>Q{quarter}</span>
       </td>
     );
@@ -1244,8 +1254,11 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
+    const {className, ...others} = this.getDisabledElementProps(currentDate);
+    props.className += className;
+
     return (
-      <td {...props}>
+      <td {...props} {...others}>
         <span>{year}</span>
       </td>
     );
@@ -1360,6 +1373,25 @@ export class DateRangePicker extends React.Component<
         )}
       </div>
     );
+  }
+
+  getDisabledElementProps(currentDate: moment.Moment) {
+    const {endDateOpenedFirst, endDate, startDate, editState} = this.state;
+    const afterEndDate =
+      editState === 'start' && endDateOpenedFirst && currentDate > endDate!;
+    const beforeStartDate =
+      editState === 'end' && !endDateOpenedFirst && currentDate < startDate!;
+
+    if (afterEndDate || beforeStartDate) {
+      return {
+        className: ' is-disabled',
+        onClick: undefined
+      };
+    }
+
+    return {
+      className: ''
+    };
   }
 
   render() {

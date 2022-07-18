@@ -17,8 +17,6 @@
   }
 
   &:not(.is-disabled) {
-    cursor: pointer;
-
     &:hover {
       background: var(--DatePicker-onHover-bg);
       border-color: var(--DatePicker-onHover-borderColor);

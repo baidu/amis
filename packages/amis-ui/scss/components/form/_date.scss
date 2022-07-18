@@ -628,6 +628,21 @@ td.rdtQuarter {
   );
 }
 
+.rdt .rdtPicker td.is-disabled {
+  cursor: not-allowed !important;
+  background: var(--Calendar-cell-onDisabled-bg);
+  color: var(--text--muted-color);
+
+  &:hover {
+    background: var(--Calendar-cell-onDisabled-bg);
+    color: var(--text--muted-color);
+    & > span {
+      background: inherit !important;
+      color: inherit !important;
+    }
+  }
+}
+
 .rdtPicker .rdtActive.rdtBetween.rdtEndDay {
   background: linear-gradient(
     to right,
