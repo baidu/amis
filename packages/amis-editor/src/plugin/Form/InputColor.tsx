@@ -1,5 +1,5 @@
 import {registerEditorPlugin} from 'amis-editor-core';
-import {getSchemaTpl} from 'amis-editor-core';
+import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
@@ -215,7 +215,9 @@ export class ColorControlPlugin extends BasePlugin {
               //   type: 'input-color',
               //   format: '${format}'
               // },
-              getSchemaTpl('clearable'),
+              getSchemaTpl('clearable', {
+                pipeIn: defaultValue(true)
+              }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
@@ -232,7 +234,7 @@ export class ColorControlPlugin extends BasePlugin {
                 ),
                 name: 'allowCustomColor',
                 disabledOn:
-                  'Array.isArray(presetColors) && presetColors.length === 0',
+                  'Array.isArray(this.presetColors) && this.presetColors.length === 0',
                 pipeIn: (value: any) =>
                   typeof value === 'undefined' ? false : !value,
                 pipeOut: (value: boolean) => !value
