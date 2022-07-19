@@ -1,4 +1,9 @@
 @mixin minScrollBar {
+
+  // 火狐浏览器
+  scrollbar-width: thin;
+  scrollbar-color: #d4d6d9 transparent;
+
   &::-webkit-scrollbar {
     // display: none;
     background-color: transparent;
@@ -13,12 +18,12 @@
 
   &::-webkit-scrollbar-thumb {
     width: 6px;
-    background-color: rgb(92, 95, 102, 0.5); // #babac0;
+    background-color: #d4d6d9; // #babac0;
     border-radius: 6px;
     border: 4px solid transparent;
 
     &:hover {
-      background-color: #d4d6d9;
+      background-color: rgb(92, 95, 102, 0.5);
     }
   }
 
