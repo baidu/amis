@@ -30,6 +30,7 @@ export interface EditorProps extends PluginEventListener {
   theme?: string;
   showCustomRenderersPanel?: boolean;
   amisDocHost?: string;
+  superEditorData?: any;
   withSuperDataSchema?: boolean;
   dataBindingChange?: (
     value: string,
@@ -114,8 +115,8 @@ export default class Editor extends Component<EditorProps> {
       value,
       isSubEditor = false,
       onChange,
-      data,
       showCustomRenderersPanel,
+      superEditorData,
       ...rest
     } = props;
 
@@ -129,6 +130,7 @@ export default class Editor extends Component<EditorProps> {
         isSubEditor,
         amisDocHost: props.amisDocHost,
         ctx: props.ctx,
+        superEditorData
       },
       config
     );

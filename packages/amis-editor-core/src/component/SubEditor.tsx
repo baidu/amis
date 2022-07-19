@@ -2,6 +2,8 @@ import React from 'react';
 import {EditorManager} from '../manager';
 import {EditorStoreType} from '../store/editor';
 import {render} from 'amis';
+import {createObject} from 'amis-core';
+
 import {observer} from 'mobx-react';
 import Editor from './Editor';
 import {
@@ -96,6 +98,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
     const {store, manager} = this.props;
     const subEditorContext = store.subEditorContext;
     const config = manager.config;
+    const superEditorData = store.isSubEditor ? createObject(store.superEditorData, store.subEditorContext?.data?.__super) : store.subEditorContext?.data?.__super;
 
     return {
       size: 'full',
@@ -134,6 +137,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     ref={store.subEditorRef}
                     onChange={onChange}
                     data={store.subEditorContext?.data}
+                    superEditorData={superEditorData}
                     schemaFilter={manager.config.schemaFilter}
                     theme={manager.env.theme}
                     afterResolveEditorInfo={this.afterResolveEditorInfo}
@@ -200,7 +204,6 @@ export class SubEditor extends React.Component<SubEditorProps> {
 
   render() {
     const {store, theme, manager} = this.props;
-
     return render(
       {
         type: 'dialog',
