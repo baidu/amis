@@ -418,10 +418,44 @@ export class FormPlugin extends BasePlugin {
               ? null
               : {
                   title: '数据源',
-                  body: builder.makeSourceSettingForm({
-                    name: 'api',
-                    feat: 'Edit'
-                  })
+                  body: [
+                    {
+                      type: 'radios',
+                      name: '__scene',
+                      label: '场景',
+                      options: Features,
+                      value: 'Insert',
+                      pipeIn(value: any, data: any) {
+                        return value ?? (data.initApi ? 'Edit' : 'Insert');
+                      },
+                      onChange: (
+                        value: any,
+                        oldValue: any,
+                        model: any,
+                        form: any
+                      ) => {
+                        if (value === 'Insert') {
+                          form.setValueByName(`initApi`, undefined);
+                        }
+                      }
+                    },
+                    {
+                      type: 'container',
+                      visibleOn: `__scene === 'Insert'`,
+                      body: builder.makeSourceSettingForm({
+                        name: 'api',
+                        feat: 'Insert'
+                      })
+                    },
+                    {
+                      type: 'container',
+                      visibleOn: `__scene === 'Edit'`,
+                      body: builder.makeSourceSettingForm({
+                        name: 'api',
+                        feat: 'Edit'
+                      })
+                    }
+                  ]
                 },
             {
               title: '基本',
@@ -760,18 +794,18 @@ export class FormPlugin extends BasePlugin {
 
   async getAvailableContextFields(
     scopeNode: EditorNodeType,
-    node: EditorNodeType,
+    target: EditorNodeType,
     region?: EditorNodeType
   ) {
     // 只有表单项组件可以使用表单组件的数据域
-    if (node.info.renderer.isFormItem) {
+    if (target.info.renderer.isFormItem) {
       if (
         scopeNode.parent?.type === 'crud2' &&
         scopeNode.schemaPath.startsWith('body/0/filter/')
       ) {
         return scopeNode.parent.info.plugin.getAvailableContextFields?.(
           scopeNode.parent,
-          node,
+          target,
           region
         );
       }
@@ -782,11 +816,14 @@ export class FormPlugin extends BasePlugin {
         'api'
       );
       if (builder && scopeNode.schema.api) {
-        return builder.getAvailableContextFileds({
-          schema: scopeNode.schema,
-          sourceKey: 'api',
-          feat: 'Insert'
-        });
+        return builder.getAvailableContextFileds(
+          {
+            schema: scopeNode.schema,
+            sourceKey: 'api',
+            feat: 'Insert'
+          },
+          target
+        );
       }
     }
   }

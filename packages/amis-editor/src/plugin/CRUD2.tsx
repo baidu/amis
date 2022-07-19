@@ -96,7 +96,17 @@ const Tools: Array<FeatOption> = [
     resolveSchema: (setting: any = {}, builder: DSBuilder) => {
       const form: FormSchema = {
         type: 'form',
-        body: []
+        body: [],
+        onEvent: {
+          submitSucc: {
+            actions: [
+              {
+                actionType: 'search',
+                componentId: setting.id
+              }
+            ]
+          }
+        }
       };
       builder.resolveCreateSchema({
         schema: form,
@@ -136,7 +146,17 @@ const Tools: Array<FeatOption> = [
         type: 'form',
         // @ts-ignore
         behavior: 'BulkEdit',
-        body: []
+        body: [],
+        onEvent: {
+          submitSucc: {
+            actions: [
+              {
+                actionType: 'search',
+                componentId: setting.id
+              }
+            ]
+          }
+        }
       };
       builder.resolveCreateSchema({
         schema: form,
@@ -162,7 +182,8 @@ const Tools: Array<FeatOption> = [
               }
             ]
           }
-        }
+        },
+        disabledOn: 'selectedItems != null && selectedItems.length < 1'
       };
     },
     align: 'left'
@@ -185,6 +206,11 @@ const Tools: Array<FeatOption> = [
         schema: button,
         setting,
         feat: 'BulkDelete'
+      });
+
+      button.onEvent?.click?.actions?.push({
+        actionType: 'search',
+        componentId: setting.id
       });
 
       return button;
@@ -382,7 +408,17 @@ const DataOperators: Array<FeatOption> = [
     resolveSchema: (setting: any = {}, builder: DSBuilder) => {
       const form: FormSchema = {
         type: 'form',
-        body: []
+        body: [],
+        onEvent: {
+          submitSucc: {
+            actions: [
+              {
+                actionType: 'search',
+                componentId: setting.id
+              }
+            ]
+          }
+        }
       };
       builder.resolveCreateSchema({
         schema: form,
@@ -428,6 +464,11 @@ const DataOperators: Array<FeatOption> = [
         schema: button,
         setting,
         feat: 'Delete'
+      });
+
+      button.onEvent?.click?.actions?.push({
+        actionType: 'search',
+        componentId: setting.id
       });
 
       return button;
@@ -1249,6 +1290,16 @@ export class CRUDPlugin extends BasePlugin {
 
         this.resolveListField(value, schema, builder);
 
+        this.addFeatToToolbar(
+          schema,
+          {
+            type: 'pagination',
+            behavior: 'Pagination',
+            layout: ['total', 'perPage', 'pager', 'go']
+          },
+          'footer',
+          'right'
+        );
         return schema;
       },
       canRebuild: true
@@ -1456,11 +1507,14 @@ export class CRUDPlugin extends BasePlugin {
       'api'
     );
     if (builder && scopeNode.schema.api) {
-      return builder.getAvailableContextFileds({
-        schema: scopeNode.schema,
-        sourceKey: 'api',
-        feat: 'List'
-      });
+      return builder.getAvailableContextFileds(
+        {
+          schema: scopeNode.schema,
+          sourceKey: 'api',
+          feat: 'List'
+        },
+        node
+      );
     }
   }
 }
