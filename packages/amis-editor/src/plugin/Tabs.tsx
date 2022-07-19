@@ -155,7 +155,17 @@ export class TabsPlugin extends BasePlugin {
                 ),
                 visibleOn: isNewTabMode,
                 clearValueOnHidden: true
-              })
+              }),
+
+              {
+                label: tipedLabel(
+                  '默认选项卡',
+                  '默认显示某个选项卡，选项卡配置hash时使用hash，否则使用索引值，支持获取变量，如：<code>tab\\${id}</code>、<code>\\${id}</code>'
+                ),
+                type: 'input-text',
+                name: 'activeKey',
+                pipeOut: (data: string) => data === '' || isNaN(Number(data)) ? data : Number(data)
+              },
             ]
           },
           getSchemaTpl('status'),
