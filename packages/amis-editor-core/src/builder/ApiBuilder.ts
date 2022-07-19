@@ -13,10 +13,11 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 import {getEnv} from 'mobx-state-tree';
 import {ButtonSchema} from 'amis/lib/renderers/Action';
-import {FormSchema, SchemaObject} from 'amis/lib/Schema';
+import {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
 
 import type {DSSourceSettingFormConfig} from './DSBuilder';
 import {getSchemaTpl, tipedLabel} from '../tpl';
+import {EditorNodeType} from '../store/node';
 
 class APIBuilder extends DSBuilder {
   public static type = 'api';
@@ -134,22 +135,27 @@ class APIBuilder extends DSBuilder {
     return config.schema.__fields;
   }
 
-  public async getAvailableContextFileds(config: {
-    schema: any;
-    sourceKey: string;
-    feat: DSFeatureType;
-  }) {
-    if (!config.schema.__fields) {
-      return;
-    }
-
-    return [
-      {
-        label: '字段',
-        value: 'fields',
-        children: config.schema.__fields
-      }
-    ];
+  public async getAvailableContextFileds(
+    config: {
+      schema: any;
+      sourceKey: string;
+      feat: DSFeatureType;
+    },
+    target: EditorNodeType
+  ) {
+    // API类目前没有，增加API中心的出参入参后，可以在这里提供绑定字段
+    // return {
+    //   type: 'ae-SimpleDataBindingPanel',
+    //   fields: [
+    //     {
+    //       label: '可用字段',
+    //       children: [
+    //         {label: '名称', value: 'name'},
+    //         {label: '年级', value: 'grade'}
+    //       ]
+    //     }
+    //   ]
+    // } as any;
   }
 
   onFieldsInit(value: any, form: any) {

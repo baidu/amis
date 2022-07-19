@@ -28,23 +28,21 @@
     background: #f7f7f9;
 
     &-title {
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: flex-start;
-      align-items: unset;
+      display: block !important;
       padding: #{px2rem(5px)} #{px2rem(12px)};
-      background: transparent;
+      background: transparent !important;
       font-size: var(--fontSizeSm);
       font-weight: bold;
       position: relative;
 
-      .#{$ns}DataSourceList-expandIcon {
+      .expandIcon {
         font-size: var(--fontSizeSm);
         line-height: var(--fontSizeXl);
         transform-origin: #{px2rem(7px)} #{px2rem(9px)};
         transition: transform 0.2s;
         position: absolute;
         right: #{px2rem(6px)};
+        margin-top: 3px;
       }
     }
 

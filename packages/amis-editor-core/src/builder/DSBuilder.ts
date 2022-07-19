@@ -4,7 +4,8 @@
 
 import {ButtonSchema} from 'amis/lib/renderers/Action';
 import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
-import {FormSchema, SchemaObject} from 'amis/lib/Schema';
+import {FormSchema, SchemaCollection, SchemaObject} from 'amis/lib/Schema';
+import {EditorNodeType} from '../store/node';
 
 /**
  * 数据源所需操作，目前是因为schema从后端来
@@ -249,11 +250,14 @@ export abstract class DSBuilder {
   /**
    * 上下文可以使用的字段
    */
-  abstract getAvailableContextFileds(config: {
-    schema: any;
-    sourceKey: string;
-    feat: DSFeatureType;
-  }): Promise<DSFieldGroup[] | void>;
+  abstract getAvailableContextFileds(
+    config: {
+      schema: any;
+      sourceKey: string;
+      feat: DSFeatureType;
+    },
+    target: EditorNodeType
+  ): Promise<SchemaCollection | void>;
 }
 
 /**

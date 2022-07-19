@@ -788,13 +788,16 @@ export interface PluginInterface
   panelJustify?: boolean;
 
   /**
-   * 有数据域的容器，可以为子组件提供读取的字段列表
+   * 有数据域的容器，可以为子组件提供读取的字段绑定页面
    */
   getAvailableContextFields?: (
+    // 提供数据域的容器节点
     scopeNode: EditorNodeType,
-    node: EditorNodeType,
+    // 数据域的应用节点
+    target: EditorNodeType,
+    // 节点所属的容器region
     region?: EditorNodeType
-  ) => Promise<DSFieldGroup[] | void>;
+  ) => Promise<SchemaCollection | void>;
 
   /**
    * @deprecated 用 panelBodyCreator

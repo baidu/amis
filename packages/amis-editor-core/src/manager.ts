@@ -1720,7 +1720,7 @@ export class EditorManager {
    */
   async getAvailableContextFields(node: EditorNodeType) {
     if (!node) {
-      return [];
+      return;
     }
 
     let scope: DataScope | void;
@@ -1743,16 +1743,14 @@ export class EditorManager {
       const scopeNode = this.store.getNodeById(id, type);
 
       if (scopeNode) {
-        return (
-          scopeNode?.info.plugin.getAvailableContextFields?.(scopeNode, node) ||
-          []
+        return scopeNode?.info.plugin.getAvailableContextFields?.(
+          scopeNode,
+          node
         );
       }
 
       scope = scope.parent;
     }
-
-    return [];
   }
 
   beforeDispatchEvent(
