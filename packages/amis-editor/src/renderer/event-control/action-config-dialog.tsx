@@ -116,7 +116,6 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
         }
 
         const actionNode = findActionNode(actionTree, value);
-
         form.setValues({
           ...removeKeys,
           __keywords: form.data.__keywords,
@@ -158,7 +157,6 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
       commonActions,
       onClose
     } = this.props;
-
     return amisRender(
       {
         type: 'dialog',
