@@ -55,7 +55,7 @@ export class Button extends React.Component<ButtonProps> {
   renderButton() {
     let {
       level,
-      size,
+      size = 'default',
       disabled,
       className,
       title,
@@ -92,7 +92,7 @@ export class Button extends React.Component<ButtonProps> {
             : {
                 'Button': true,
                 [`Button--${level}`]: level,
-                [`Button--${size}`]: size,
+                [`Button--size-${size}`]: size,
                 [`Button--block`]: block,
                 [`Button--iconOnly`]: iconOnly,
                 'is-disabled': disabled,

@@ -51,12 +51,17 @@
       border: var(--TagControl-sugBtn-borderWidth) solid transparent;
 
       @include button-size(
-        var(--TagControl-sugBtn-paddingY),
-        var(--TagControl-sugBtn-paddingX),
         var(--TagControl-sugBtn-fontSize),
         var(--TagControl-sugBtn-lineHeight),
         var(--TagControl-sugBtn-borderRadius),
-        var(--TagControl-sugBtn-height)
+        var(--TagControl-sugBtn-borderRadius),
+        var(--TagControl-sugBtn-borderRadius),
+        var(--TagControl-sugBtn-borderRadius),
+        var(--TagControl-sugBtn-height),
+        var(--TagControl-sugBtn-paddingY),
+        var(--TagControl-sugBtn-paddingY),
+        var(--TagControl-sugBtn-paddingX),
+        var(--TagControl-sugBtn-paddingX)
       );
 
       @include button-variant(
