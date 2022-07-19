@@ -282,11 +282,8 @@ function SchemaFrom({
     schema,
     {
       onFinished: (newValue: any) => {
-        if (newValue && newValue.type) {
-          // 确保type值不为空
           const diffValue = diff(value, newValue);
           onChange(newValue, diffValue);
-        }
       },
       data: value,
       node: node,
@@ -331,10 +328,10 @@ export function makeSchemaFormRender(
         }
       });
     }
-    
+
 
     // 每一层的面板数据不要共用
-    const curFormKey = `${id}-${node?.type}${schema.formKey ? '-': ''}${schema.formKey ? schema.formKey: ''}`; 
+    const curFormKey = `${id}-${node?.type}${schema.formKey ? '-': ''}${schema.formKey ? schema.formKey: ''}`;
 
     return (
       <SchemaFrom
