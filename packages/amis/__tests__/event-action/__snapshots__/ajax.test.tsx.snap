@@ -29,6 +29,72 @@ exports[`EventAction:ajax 1`] = `
               18岁的天空
             </span>
           </span>
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              发送请求2
+            </span>
+          </button>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              岁的天空，status:，msg:
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EventAction:ajax 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              发送请求
+            </span>
+          </button>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              18岁的天空
+            </span>
+          </span>
+          <button
+            class="cxd-Button cxd-Button--primary"
+            type="button"
+          >
+            <span>
+              发送请求2
+            </span>
+          </button>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              18岁的天空，status:0，msg:ok
+            </span>
+          </span>
         </div>
       </div>
     </div>
