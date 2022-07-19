@@ -51,7 +51,7 @@ title: 自定义组件 - SDK
     },
     {
       "name": "username",
-      "type": "custom",
+      "type": "static-custom",
       "label": "自定义组件",
       "onMount": "const button = document.createElement('button'); button.innerText = '点击修改姓名'; button.onclick = event => { onChange('new name', 'username'); event.preventDefault(); }; dom.appendChild(button);"
     }
