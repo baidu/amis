@@ -95,6 +95,7 @@ export class ButtonPlugin extends BasePlugin {
                 type: 'button-group-select',
                 name: 'type',
                 size: 'sm',
+                visibleOn: 'type === "submit" || type === "reset" ',
                 options: [
                   {
                     label: '按钮',
