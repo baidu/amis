@@ -1,14 +1,17 @@
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
+  registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
   RegionConfig,
-  RendererInfo
+  RendererInfo,
+  defaultValue,
+  getSchemaTpl,
+  noop
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {noop} from 'amis-editor-core';
+import {assign, cloneDeep} from 'lodash';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {InlineModal} from './Dialog';
+import {tipedLabel} from '../component/BaseControl';
 
 export class DrawerPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -83,153 +86,223 @@ export class DrawerPlugin extends BasePlugin {
   ];
 
   panelTitle = '弹框';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     return getSchemaTpl('tabs', [
       {
-        title: '常规',
-        body: [
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
           {
-            label: '标题',
-            type: 'input-text',
-            name: 'title'
-          },
-
-          // {
-          //   children: (
-          //     <Button
-          //       size="sm"
-          //       className="m-b-sm"
-          //       level="info"
-          //       block
-          //       onClick={() => this.manager.showInsertPanel('body')}
-          //     >
-          //       新增内容
-          //     </Button>
-          //   )
-          // },
-
-          {
-            type: 'divider'
-          },
-
-          {
-            label: '位置',
-            type: 'button-group-select',
-            name: 'position',
-            value: 'right',
-            size: 'sm',
-            mode: 'inline',
-            className: 'block',
-            options: [
+            title: '常用',
+            body: [
               {
-                label: '左',
-                value: 'left'
+                label: '标题',
+                type: 'input-text',
+                name: 'title'
               },
               {
-                label: '上',
-                value: 'top'
+                type: 'button-group-select',
+                name: 'position',
+                label: '位置',
+                value: 'right',
+                mode: 'horizontal',
+                options: [
+                  {
+                    label: '左',
+                    value: 'left'
+                  },
+                  {
+                    label: '上',
+                    value: 'top'
+                  },
+                  {
+                    label: '右',
+                    value: 'right'
+                  },
+                  {
+                    label: '下',
+                    value: 'bottom'
+                  }
+                ]
               },
               {
-                label: '右',
-                value: 'right'
+                type: 'button-group-select',
+                name: 'size',
+                label: '尺寸',
+                value: 'md',
+                size: 'sm',
+                mode: 'horizontal',
+                options: [
+                  {
+                    label: '超小',
+                    value: 'xs'
+                  },
+                  {
+                    label: '小',
+                    value: 'sm'
+                  },
+                  {
+                    label: '中',
+                    value: 'md'
+                  },
+                  {
+                    label: '大',
+                    value: 'lg'
+                  },
+                  {
+                    label: '超大',
+                    value: 'xl'
+                  }
+                ]
               },
+              getSchemaTpl('switch', {
+                name: 'overlay',
+                label: '显示蒙层',
+                pipeIn: defaultValue(true)
+              }),
+              getSchemaTpl('switch', {
+                name: 'showCloseButton',
+                label: '展示关闭按钮',
+                pipeIn: defaultValue(true)
+              }),
+              getSchemaTpl('switch', {
+                name: 'closeOnOutside',
+                label: '点击外部关闭'
+              }),
+              getSchemaTpl('switch', {
+                label: '可按 Esc 关闭',
+                name: 'closeOnEsc'
+              }),
+              getSchemaTpl('switch', {
+                name: 'resizable',
+                label: '可拖拽抽屉大小',
+                value: false
+              }),
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '数据映射',
+                  '<div> 当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：{"a": "${a}", "b": 2}。</div>'
+                  + '<div>当值为 __undefined时，表示删除对应的字段，可以结合{"&": "$$"}来达到黑名单效果。</div>'
+                ),
+                name: '__dataMapSwitch',
+                value: false,
+                className: 'm-b-xs',
+                onChange: (value: any, oldValue: any, model: any, form: any) => {
+                  if (value) {
+                    form.setValues({
+                      __dataMap: {},
+                      data: {}
+                    });
+                  } else {
+                    form.setValues({
+                      __dataMap: null,
+                      data: null
+                    });
+                  }
+                }
+              }),
               {
-                label: '下',
-                value: 'bottom'
-              }
-            ],
-            description: '定义弹框从什么位置呼出'
-          },
-
-          getSchemaTpl('switch', {
-            label: '数据映射',
-            name: 'data',
-            className: 'm-b-xs',
-            pipeIn: (value: any) => !!value,
-            pipeOut: (value: any) => (value ? {'&': '$$'} : null)
-          }),
-
-          {
-            type: 'tpl',
-            visibleOn: '!this.data',
-            tpl:
-              '<p class="text-sm text-muted">当没开启数据映射时，弹框中默认会拥有触发打开弹框按钮所在环境的所有数据。</p>'
-          },
-
-          {
-            type: 'input-kv',
-            syncDefaultValue: false,
-            name: 'data',
-            visibleOn: 'this.data',
-            descriptionClassName: 'help-block text-xs m-b-none',
-            description:
-              '<p>当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：<code>{"a": "\\${a}", "b": 2}</code></p><p>如果希望在默认的基础上定制，请先添加一个 Key 为 `&` Value 为 `\\$$` 作为第一行。</p><div>当值为 <code>__undefined</code>时，表示删除对应的字段，可以结合<code>{"&": "\\$$"}</code>来达到黑名单效果。</div>'
-          },
-
-          getSchemaTpl('switch', {
-            name: 'closeOnOutside',
-            label: '点击外部关闭弹框'
-          }),
-
-          getSchemaTpl('switch', {
-            label: '按 Esc 可关闭',
-            name: 'closeOnEsc'
-          })
-        ]
+                type: 'alert',
+                level: 'info',
+                visibleOn: 'this.__dataMapSwitch',
+                className: 'relative',
+                body: [
+                  {
+                    type: 'tpl',
+                    tpl: '${data["&"] ? "已开启定制参数功能，可点击关闭该功能。" : "如果需要在默认数据的基础上定制参数，请配置开启参数定制再定义key和value。"}'
+                  },
+                  {
+                    type: 'button',
+                    label: '${data["&"] ? "立即关闭" : "立即开启"}',
+                    level: 'link',
+                    className: 'absolute bottom-3 right-10',
+                    onClick: (e: any, props: any) => {
+                      let newData = props.data.data['&'] && props.data.data['&'] === '$$' ? {} : {'&': '$$'};
+                      // 用onBulkChange保证代码视图和编辑区域数据保持同步
+                      props.onBulkChange({
+                        data: newData,
+                        __dataMap: {}
+                      });
+                    }
+                  }
+                ],
+                showCloseButton: true
+              },
+              getSchemaTpl('combo-container', {
+                type: 'input-kv',
+                syncDefaultValue: false,
+                name: '__dataMap',
+                value: null,
+                visibleOn: 'this.__dataMapSwitch',
+                className: 'block -mt-5',
+                deleteBtn: {
+                  icon: 'fa fa-trash'
+                },
+                onChange: (value: any, oldValue: any, model: any, form: any) => {
+                  let newDataMap: any = null;
+                  if (form.data.data['&']) {
+                    // 用assign保证'&'第一个被遍历到
+                    newDataMap = assign({'&': '$$'}, value);
+                  } else {
+                    newDataMap = cloneDeep(value);
+                  }
+                  form.setValues({
+                    data: newDataMap
+                  });
+                }
+              })
+            ]
+          }
+        ])
       },
       {
         title: '外观',
-        body: [
+        body: getSchemaTpl('collapseGroup', [
           {
-            label: '尺寸',
-            type: 'button-group-select',
-            name: 'size',
-            size: 'sm',
-            mode: 'inline',
-            className: 'block',
-            options: [
+            title: '基本',
+            body: [
               {
-                label: '超小',
-                value: 'xs'
+                type: 'input-text',
+                name: 'width',
+                label: tipedLabel(
+                  '宽度',
+                  '位置为 "左" 或 "右" 时生效。 默认宽度为"尺寸"字段配置的宽度，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                ),
+                disabledOn: 'this.position === "top" || this.position === "bottom"',
+                tooltip: '位置为 为 "左" 或 "右" 时生效'
               },
               {
-                label: '小',
-                value: 'sm'
-              },
-              {
-                label: '中',
-                value: 'md'
-              },
-              {
-                label: '大',
-                value: 'lg'
-              },
-              {
-                label: '超大',
-                value: 'xl'
+                type: 'input-text',
+                name: 'height',
+                label: tipedLabel(
+                  '高度',
+                  '位置为 "上" 或 "下" 时生效。 默认宽度为"尺寸"字段配置的高度，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                ),
+                disabledOn: 'this.position === "left" || this.position === "right"'
               }
             ]
           },
-
-          getSchemaTpl('switch', {
-            name: 'overlay',
-            label: '是否显示蒙层',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'resizable',
-            label: '可拉拽',
-            description: '定义弹框是否可拉拽调整大小',
-            pipeIn: defaultValue(false)
-          }),
-
-          getSchemaTpl('className'),
-          getSchemaTpl('className', {
-            label: 'bodyClassName 类名',
-            name: 'bodyClassName'
-          })
-        ]
+          {
+            title: 'CSS类名',
+            body: [
+              getSchemaTpl('className', {
+                label: '外层'
+              }),
+              getSchemaTpl('className', {
+                label: '标题区域',
+                name: 'headClassName'
+              }),
+              getSchemaTpl('className', {
+                label: '内容区域',
+                name: 'bodyClassName'
+              }),
+              getSchemaTpl('className', {
+                label: '页脚区域',
+                name: 'footClassName'
+              })
+            ]
+          }
+        ])
       },
       {
         title: '事件',
