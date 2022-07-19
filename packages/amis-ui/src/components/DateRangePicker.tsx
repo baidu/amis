@@ -543,7 +543,8 @@ export class DateRangePicker extends React.Component<
       oldStartDate: startDate,
       oldEndDate: endDate,
       startInputValue: startDate?.format(inputFormat),
-      endInputValue: endDate?.format(inputFormat)
+      endInputValue: endDate?.format(inputFormat),
+      endDateOpenedFirst: false
     };
   }
   componentDidMount() {
@@ -664,6 +665,11 @@ export class DateRangePicker extends React.Component<
         startDate: oldStartDate,
         startInputValue: oldStartDate ? oldStartDate.format(inputFormat) : ''
       });
+    } else {
+      this.setState({
+        oldStartDate: this.state.startDate,
+        oldEndDate: this.state.endDate
+      });
     }
     this.setState(
       {
@@ -692,7 +698,7 @@ export class DateRangePicker extends React.Component<
   }
 
   confirm() {
-    if (!this.state.startDate || !this.state.endDate) {
+    if (!this.state.startDate && !this.state.endDate) {
       return;
     } else if (
       this.state.endDate &&
@@ -769,7 +775,6 @@ export class DateRangePicker extends React.Component<
     );
     const newState = {
       startDate: date,
-      oldStartDate: startDate,
       startInputValue: date.format(inputFormat)
     } as any;
     // 这些没有时间的选择点第一次后第二次就是选结束时间
@@ -786,32 +791,25 @@ export class DateRangePicker extends React.Component<
   }
 
   handelEndDateChange(newValue: moment.Moment) {
-    const {embed, timeFormat, inputFormat} = this.props;
+    const {embed, timeFormat, inputFormat, type} = this.props;
     let {startDate, endDate, endDateOpenedFirst} = this.state;
     newValue = this.getEndDateByDuration(newValue);
     const editState = endDateOpenedFirst ? 'start' : 'end';
-    // 如果结束时间在前面，需要清空开始时间
-    if (startDate && newValue.isBefore(startDate)) {
-      this.setState({
-        startDate: undefined,
-        oldStartDate: startDate,
-        startInputValue: '',
-        editState
-      });
-    }
 
     const date = this.filterDate(newValue, endDate, timeFormat, 'end');
     this.setState(
       {
         endDate: date,
-        oldEndDate: endDate,
-        endInputValue: date.format(inputFormat),
-        editState
+        endInputValue: date.format(inputFormat)
       },
       () => {
         embed && this.confirm();
       }
     );
+
+    if (type !== 'input-datetime-range') {
+      this.setState({editState});
+    }
   }
 
   // 手动控制输入时间
@@ -1363,7 +1361,8 @@ export class DateRangePicker extends React.Component<
                     isTimeRange &&
                     editState === 'start') ||
                   (!this.state.endDate && isTimeRange && editState === 'end') ||
-                  this.state.endDate?.isBefore(this.state.startDate)
+                  (this.state.startDate &&
+                    this.state.endDate?.isBefore(this.state.startDate))
               })}
               onClick={this.confirm}
             >
@@ -1377,10 +1376,8 @@ export class DateRangePicker extends React.Component<
 
   getDisabledElementProps(currentDate: moment.Moment) {
     const {endDateOpenedFirst, endDate, startDate, editState} = this.state;
-    const afterEndDate =
-      editState === 'start' && endDateOpenedFirst && currentDate > endDate!;
-    const beforeStartDate =
-      editState === 'end' && !endDateOpenedFirst && currentDate < startDate!;
+    const afterEndDate = editState === 'start' && currentDate > endDate!;
+    const beforeStartDate = editState === 'end' && currentDate < startDate!;
 
     if (afterEndDate || beforeStartDate) {
       return {
