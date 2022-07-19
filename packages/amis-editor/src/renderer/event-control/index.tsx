@@ -73,6 +73,7 @@ interface EventControlState {
         groupType?: string;
         __actionDesc?: string;
         __cmptTreeSource?: ComponentInfo[];
+        __superCmptTreeSource?: ComponentInfo[];
         __actionSchema?: any;
         __subActions?: SubRendererPluginAction[];
         __setValueDs?: any[];
@@ -492,13 +493,13 @@ export class EventControl extends React.Component<
       getContextSchemas,
       actionConfigInitFormatter,
       getComponents,
-      actionTree
+      actionTree,
+      allComponents
     } = this.props;
     const {rawVariables} = this.state;
     // 收集事件变量
     const eventVariables = this.getEventVariables(data);
     const variables = [...eventVariables, ...rawVariables];
-
     // 编辑操作，需要格式化动作配置
     if (data.type === 'update') {
       const action = data.actionData!.action!;
@@ -521,7 +522,7 @@ export class EventControl extends React.Component<
             item => item.value !== '$$id'
           );
         }
-      }
+      };
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,
@@ -537,6 +538,8 @@ export class EventControl extends React.Component<
         __cmptTreeSource: actionConfig?.componentId
           ? getComponents?.(actionNode!) ?? []
           : [],
+        __superCmptTreeSource: allComponents,
+        // __supersCmptTreeSource: '',
         __setValueDs: setValueDs
         // broadcastId: action.actionType === 'broadcast' ? action.eventName : ''
       };
@@ -554,10 +557,10 @@ export class EventControl extends React.Component<
         variables,
         pluginActions,
         getContextSchemas,
-        rawVariables
+        rawVariables,
+        __superCmptTreeSource: allComponents
       };
     }
-
     this.setState(data);
   }
 

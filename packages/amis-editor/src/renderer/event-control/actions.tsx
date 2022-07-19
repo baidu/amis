@@ -192,6 +192,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     manager.openSubEditor({
                       title: '配置弹框内容',
                       value: {type: 'dialog', ...value},
+                      data,
                       onChange: (value: any) => onChange(value)
                     })
                   }
