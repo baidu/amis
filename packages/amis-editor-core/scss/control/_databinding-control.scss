@@ -6,6 +6,14 @@
   height: px2rem(350px);
   border: 1px solid rgba(232, 233, 235, 1);
   border-radius: px2rem(4px);
+  overflow: scroll;
+
+  &-hint {
+    width: 100%;
+    line-height: 3;
+    text-align: center;
+    color: var(--text--muted-color);
+  }
 
   &-searchBox {
     width: auto;
@@ -57,12 +65,19 @@
   }
 
   &-item {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
     cursor: pointer;
     padding: 0 var(--gap-xl); // 和标题对齐不好看，加个缩进
     height: px2rem(32px);
     line-height: px2rem(32px);
     color: #303540;
     font-weight: 400;
+
+    span {
+      flex-grow: 1;
+    }
 
     &:hover {
       background: var(--Tree-item-onHover-bg);
