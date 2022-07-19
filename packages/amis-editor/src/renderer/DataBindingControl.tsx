@@ -27,6 +27,7 @@ import {
 } from 'amis-editor-core';
 import {matchSorter} from 'match-sorter';
 import {SchemaCollection} from 'amis/lib/Schema';
+import {default as cx} from 'classnames';
 
 export interface DataBindingProps extends FormControlProps {
   node: EditorNodeType;
@@ -103,7 +104,7 @@ export class DataBindingControl extends React.Component<
     const {
       className,
       classnames: cx,
-      value,
+      value: result,
       onChange,
       multiple,
       disabled,
@@ -126,21 +127,21 @@ export class DataBindingControl extends React.Component<
               <Spinner
                 show
                 icon="reload"
-                spinnerClassName={cx('ae-DataBindingList-spinner')}
+                spinnerClassName="ae-DataBindingList-spinner"
               />
             );
           }
 
           if (hint) {
-            return <p className={cx('ae-DataBindingList-hint')}>{hint}</p>;
+            return <p className="ae-DataBindingList-hint">{hint}</p>;
           }
 
           return render('content', schema!, {
             onSelect: onChange,
-            value
+            value: value ? value.value : result
           });
         }}
-        value={value}
+        value={result}
         onConfirm={this.handleConfirm}
       >
         {({onClick}: {onClick: (e: React.MouseEvent) => void}) => {
@@ -148,7 +149,7 @@ export class DataBindingControl extends React.Component<
             <InputBox
               className="ae-InputVariable"
               clearable={false}
-              value={value}
+              value={result}
               onChange={onChange}
               disabled={disabled}
             >
@@ -210,7 +211,7 @@ export class SimpleDataBindingControl extends React.Component<
   handleSelect() {}
 
   render() {
-    const {className, classnames: cx, value, onSelect, isSelected} = this.props;
+    const {className, value, onSelect, isSelected} = this.props;
 
     const {filteredFields} = this.state;
     return (
