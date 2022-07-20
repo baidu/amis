@@ -891,6 +891,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 label: '内容模板',
                 mode: 'horizontal',
                 size: 'lg',
+                visibleOn: 'data.actionType === "copy"',
                 required: true
               },
               {
