@@ -210,7 +210,7 @@ export class SelectControlPlugin extends BasePlugin {
               getSchemaTpl('clearable'),
               getSchemaTpl('searchable'),
               getSchemaTpl('multiple', {
-                popMore: [
+                body: [
                   getSchemaTpl('switch', {
                     label: '单行显示选中值',
                     name: 'valuesNoWrap'
