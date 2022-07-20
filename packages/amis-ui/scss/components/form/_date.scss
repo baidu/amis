@@ -289,7 +289,6 @@
     .rdtActive.rdtToday {
       color: #151b26;
       > span {
-        background: transparent;
         border-color: #144bcc;
       }
     }
@@ -334,12 +333,21 @@
   }
 }
 
+.#{$ns}CalendarTimesWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .#{$ns}CalendarInputsWrapper {
+    height: #{px2rem(248px)};
+  }
+}
+
 .#{$ns}CalendarInputWrapper {
   display: inline-block;
   position: relative;
   // padding-top: #{px2rem(4px)};
   width: #{px2rem(64px)};
-  height: #{px2rem(224px)};
+  height: #{px2rem(248px)};
   overflow: auto;
   .#{$ns}CalendarInput-sugs {
     list-style: none;
@@ -350,10 +358,10 @@
     top: 100%;
     z-index: 10;
     &Hours {
-      height: #{px2rem(868px)};
+      height: #{px2rem(892px)};
     }
     &Times {
-      height: #{px2rem(1876px)};
+      height: #{px2rem(1900px)};
       border-left: 1px solid var(--Calendar-input-borderColor);
     }
     &Item {
@@ -610,28 +618,39 @@ td.rdtQuarter {
   }
 }
 
-.#{$ns}DateRangePicker-start {
-  .rdtPicker .rdtActive.rdtBetween {
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      transparent 50%,
-      var(--Calendar-cell-onBetween-bg) 51%,
-      var(--Calendar-cell-onBetween-bg) 100%
-    );
+.rdtPicker .rdtActive.rdtBetween.rdtStartDay {
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 50%,
+    var(--Calendar-cell-onBetween-bg) 51%,
+    var(--Calendar-cell-onBetween-bg) 100%
+  );
+}
+
+.rdt .rdtPicker td.is-disabled {
+  cursor: not-allowed !important;
+  background: var(--Calendar-cell-onDisabled-bg);
+  color: var(--text--muted-color);
+
+  &:hover {
+    background: var(--Calendar-cell-onDisabled-bg);
+    color: var(--text--muted-color);
+    & > span {
+      background: inherit !important;
+      color: inherit !important;
+    }
   }
 }
 
-.#{$ns}DateRangePicker-end {
-  .rdtPicker .rdtActive.rdtBetween {
-    background: linear-gradient(
-      to right,
-      var(--Calendar-cell-onBetween-bg) 0%,
-      var(--Calendar-cell-onBetween-bg) 50%,
-      transparent 51%,
-      transparent 100%
-    );
-  }
+.rdtPicker .rdtActive.rdtBetween.rdtEndDay {
+  background: linear-gradient(
+    to right,
+    var(--Calendar-cell-onBetween-bg) 0%,
+    var(--Calendar-cell-onBetween-bg) 50%,
+    transparent 51%,
+    transparent 100%
+  );
 }
 
 .#{$ns}DateCalendar {

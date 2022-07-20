@@ -17,8 +17,6 @@
   }
 
   &:not(.is-disabled) {
-    cursor: pointer;
-
     &:hover {
       background: var(--DatePicker-onHover-bg);
       border-color: var(--DatePicker-onHover-borderColor);
@@ -40,7 +38,7 @@
 
   .#{$ns}DateRangePicker-input {
     border: none;
-    border-bottom: 1px solid transparent;
+    border-bottom: 2px solid transparent;
     outline: none;
     padding: 0;
     background: 0;
@@ -49,7 +47,7 @@
   }
 
   .#{$ns}DateRangePicker-input.isActive {
-    border-bottom: 1px solid var(--DatePicker-onFocused-borderColor);
+    border-bottom: 2px solid var(--Form-input-onHover-borderColor);
   }
 
   .#{$ns}DateRangePicker-input-separator {

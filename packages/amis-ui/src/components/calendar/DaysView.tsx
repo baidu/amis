@@ -531,8 +531,6 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     const inputs: Array<React.ReactNode> = [];
     const timeConstraints = this.timeConstraints;
 
-    inputs.push(this.showTime());
-
     timeFormat.split(':').forEach((format, i) => {
       const type = /h/i.test(format)
         ? 'hours'
@@ -631,7 +629,12 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       }
     });
     inputs.length && inputs.pop();
-    return <div>{inputs}</div>;
+    return (
+      <div className={cx('CalendarTimesWrapper')}>
+        {this.showTime()}
+        <div className={cx('CalendarInputsWrapper')}>{inputs}</div>
+      </div>
+    );
   };
 
   renderFooter = () => {
