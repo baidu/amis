@@ -284,14 +284,12 @@ export default class TreeSelectControl extends React.Component<
       this.close();
     }
 
-    multiple || !this.state.inputValue
-      ? this.resultChangeEvent(value)
-      : this.setState(
-          {
-            inputValue: ''
-          },
-          () => this.resultChangeEvent(value)
-        );
+    this.setState(
+      {
+        inputValue: ''
+      },
+      () => this.resultChangeEvent(value)
+    );
   }
 
   handleInputChange(value: string) {
