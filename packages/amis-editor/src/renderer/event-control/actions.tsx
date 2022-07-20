@@ -447,7 +447,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                           className: 'ae-BaseRemark',
                           icon: 'fa fa-question-circle',
                           trigger: ['hover', 'click'],
-                          placement: 'right',
+                          placement: 'left',
                           content: '勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
                         },
                         mode: 'inline',
