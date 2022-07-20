@@ -407,7 +407,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '发送请求',
           actionType: 'ajax',
           description: '配置并发送API请求',
-          innerArgs: ['api'],
+          innerArgs: ['api', 'options'],
           descDetail: (info: any) => {
             return (
               <div>
@@ -425,13 +425,38 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             className: "p-none",
             body: [
               getArgsWrapper(
-                getSchemaTpl('apiControl', {
-                  name: 'api',
-                  label: '配置请求',
-                  mode: 'horizontal',
-                  size: 'lg',
-                  required: true
-                })
+                [
+                  getSchemaTpl('apiControl', {
+                    name: 'api',
+                    label: '配置请求',
+                    mode: 'horizontal',
+                    size: 'lg',
+                    required: true
+                  }),
+                  {
+                    name: 'options',
+                    type: 'combo',
+                    label: false,
+                    mode: 'horizontal',
+                    items: [
+                      {
+                        type: 'checkbox',
+                        name: 'silent',
+                        option: '静默模式',
+                        remark: {
+                          className: 'ae-BaseRemark',
+                          icon: 'fa fa-question-circle',
+                          trigger: ['hover', 'click'],
+                          placement: 'right',
+                          content: '勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
+                        },
+                        mode: 'inline',
+                        className: 'm-r-none',
+                        value: false
+                      }
+                    ]
+                  }
+                ]
               ),
               {
                 name: 'outputVar',
