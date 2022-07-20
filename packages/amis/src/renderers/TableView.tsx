@@ -188,7 +188,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
           width: td.width || 'auto',
           textAlign: td.align || 'left',
           verticalAlign: td.valign || 'center',
-          ...style
+          ...td.style
         }}
         align={td.align}
         valign={td.valign}
@@ -261,22 +261,12 @@ export default class TableView extends React.Component<TableViewProps, object> {
   }
 
   render() {
-    const {
-      width,
-      border,
-      borderColor,
-      trs,
-      classnames: cx,
-      className
-    } = this.props;
-    let styleBorder;
-    if (border) {
-      styleBorder = `1px solid ${borderColor}`;
-    }
+    const {width, trs, classnames: cx, className} = this.props;
+
     return (
       <table
         className={cx('TableView', className)}
-        style={{width: width, border: styleBorder, borderCollapse: 'collapse'}}
+        style={{width: width, borderCollapse: 'collapse'}}
       >
         {this.renderCaption()}
         {this.renderCols()}
