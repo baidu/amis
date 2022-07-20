@@ -1,6 +1,12 @@
 .#{$ns}TextControl {
   @include input-text();
 
+  &-input input {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   &-placeholder {
     color: var(--Form-input-placeholderColor);
     user-select: none;
