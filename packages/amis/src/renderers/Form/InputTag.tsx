@@ -461,13 +461,14 @@ export default class TagControl extends React.PureComponent<
                 {...getInputProps({
                   name,
                   ref: this.input,
-                  placeholder: __(placeholder || 'Tag.placeholder'),
+                  placeholder: __(placeholder ?? 'Tag.placeholder'),
                   value: this.state.inputValue,
                   onKeyDown: this.handleKeyDown,
                   onFocus: this.handleFocus,
                   onBlur: this.handleBlur,
                   disabled
                 })}
+                inputPlaceholder={''}
                 onChange={this.handleInputChange}
                 className={cx('TagControl-input')}
                 result={selectedOptions}
