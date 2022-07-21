@@ -5,6 +5,7 @@ import {
   RendererPluginAction
 } from 'amis-editor-core';
 import React from 'react';
+import {normalizeApi} from 'amis-core';
 import {
   FORMITEM_CMPTS,
   getArgsWrapper,
@@ -409,14 +410,18 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           description: '配置并发送API请求',
           innerArgs: ['api'],
           descDetail: (info: any) => {
+            let apiInfo = info?.args?.api;
+            if (typeof apiInfo === 'string'){
+              apiInfo = normalizeApi(apiInfo);
+            }
             return (
               <div>
                 发送
                 <span className="variable-right variable-left">
-                  {info?.args?.api?.method}
+                  {apiInfo?.method}
                 </span>
                 请求：
-                <span className="variable-left">{info?.args?.api?.url}</span>
+                <span className="variable-left">{apiInfo?.url}</span>
               </div>
             );
           },
