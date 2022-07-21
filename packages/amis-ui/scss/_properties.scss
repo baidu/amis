@@ -1452,6 +1452,8 @@
   --Tabs-close-marginTop: #{px2rem(1px)};
   --Tabs-close-size: #{px2rem(12px)};
   --Tabs-link-maxWidth: #{px2rem(160px)};
+  --Tabs-icon-gap: var(--gap-sm);
+  --Tabs-animation-duration: var(--animation-duration);
 
   --Tabs--sidebar-sideWidth: #{px2rem(62px)};
   --Tabs--sidebar-sidePadding: #{px2rem(27px)};
