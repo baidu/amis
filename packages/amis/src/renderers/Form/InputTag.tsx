@@ -431,6 +431,7 @@ export default class TagControl extends React.PureComponent<
       optionsTip,
       maxTagCount,
       overflowTagPopover,
+      max,
       translate: __
     } = this.props;
 
@@ -445,12 +446,14 @@ export default class TagControl extends React.PureComponent<
         )
       : [];
 
+    const reachMax = max != null && isInteger(max) && selectedOptions.length >= max;
+
     return (
       <Downshift
         selectedItem={selectedOptions}
         isOpen={this.state.isFocused}
         inputValue={this.state.inputValue}
-        onChange={this.handleOptionChange}
+        onChange={(e: Option) => reachMax || this.handleOptionChange(e)}
         itemToString={this.renderItem}
       >
         {({isOpen, highlightedIndex, getItemProps, getInputProps}) => {
@@ -507,7 +510,10 @@ export default class TagControl extends React.PureComponent<
                         ...getItemProps({
                           index,
                           item,
-                          disabled: item.disabled
+                          disabled: reachMax || item.disabled,
+                          className: cx('ListMenu-item', {
+                            'is-disabled': reachMax
+                          }),
                         })
                       })}
                     />
