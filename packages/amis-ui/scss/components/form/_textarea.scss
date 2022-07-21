@@ -4,6 +4,11 @@
 
   position: relative;
 
+  > textarea.#{$ns}TextareaControl-input--counter {
+    // 23 px 是计数器 counter 的高度
+    padding-bottom: 23px;
+  }
+
   > textarea {
     @include input-border();
 
@@ -30,10 +35,16 @@
 
   &-counter {
     position: absolute;
-    right: var(--Form-input-paddingX);
-    bottom: var(--Form-input-paddingY);
+    left: 1px;
+    bottom: 1px;
+    right: var(--scrollbar-width);
+    padding-bottom: var(--Form-input-paddingY);
+    background-color: #fff;
+    text-align: right;
+    // right: var(--Form-input-paddingX);
+    // bottom: var(--Form-input-paddingY);
     font-size: var(--fontSizeSm);
-    padding: 0 5px;
+    // padding: 0 5px;
     border-radius: 3px;
     color: #84868c;
 
