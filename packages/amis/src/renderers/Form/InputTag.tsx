@@ -441,7 +441,6 @@ export default class TagControl extends React.PureComponent<
       optionsTip,
       maxTagCount,
       overflowTagPopover,
-      max,
       translate: __
     } = this.props;
 
