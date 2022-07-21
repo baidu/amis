@@ -32,6 +32,7 @@ import {
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
 import {ScopedContext, IScopedContext, ScopedComponentType} from '../Scoped';
 
 import {IComboStore} from '../store/combo';
@@ -559,6 +560,11 @@ export default class Form extends React.Component<FormProps, object> {
   componentDidUpdate(prevProps: FormProps) {
     const props = this.props;
     const store = props.store;
+    const {onChange} = props;
+
+    if (!isEqual(prevProps.data, props.data) && onChange) {
+      onChange(store.data, difference(store.data, store.pristine), this.props);
+    }
 
     if (
       isApiOutdated(
