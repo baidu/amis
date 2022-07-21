@@ -40,13 +40,6 @@
     &.is-empty {
       color: #84868c;
     }
-
-    &.is-clearable {
-      right: calc(
-        var(--Form-input-paddingX) + var(--Form-input-clearBtn-size) +
-          var(--Form-input-clearBtn-padding) * 2 + #{px2rem(5px)}
-      );
-    }
   }
 
   .has-error--maxLength &-counter {
@@ -57,6 +50,6 @@
     @include input-clear();
     position: absolute;
     right: var(--Form-input-paddingX);
-    bottom: var(--Form-input-paddingY);
+    top: var(--Form-input-paddingY);
   }
 }

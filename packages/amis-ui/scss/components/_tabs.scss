@@ -236,8 +236,16 @@
 
   &--line {
     > .#{$ns}Tabs-linksContainer-wrapper {
-      border-bottom: var(--Tabs-borderWidth) solid
-        var(--Tabs--simple-split-color);
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        border-bottom: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
+      }
 
       &--toolbar {
         .#{$ns}Tabs-link {
@@ -291,6 +299,13 @@
 
           .#{$ns}Tabs-link-close {
             fill: var(--primary);
+          }
+        }
+
+        &:not(.is-disabled):hover:active {
+          a:first-child {
+            color: #144BCC;
+            border-color: #144BCC;
           }
         }
 
