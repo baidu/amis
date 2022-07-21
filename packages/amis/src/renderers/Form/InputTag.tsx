@@ -253,8 +253,11 @@ export default class TagControl extends React.PureComponent<
       : newValue;
   }
 
-  @autobind
   async addItem(option: Option) {
+    if (this.isReachMax()) {
+      return;
+    }
+
     const {selectedOptions, onChange} = this.props;
     const newValue = selectedOptions.concat();
 
@@ -394,7 +397,7 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   handleOptionChange(option: Option) {
-    if (this.state.inputValue || !option) {
+    if (this.isReachMax() || this.state.inputValue || !option) {
       return;
     }
 
@@ -414,6 +417,12 @@ export default class TagControl extends React.PureComponent<
   reload() {
     const reload = this.props.reloadOptions;
     reload?.();
+  }
+
+  @autobind
+  isReachMax() {
+    const {max, selectedOptions} = this.props;
+    return max != null && isInteger(max) && selectedOptions.length >= max;
   }
 
   render() {
@@ -447,14 +456,14 @@ export default class TagControl extends React.PureComponent<
         )
       : [];
 
-    const reachMax = max != null && isInteger(max) && selectedOptions.length >= max;
+    const reachMax = this.isReachMax();
 
     return (
       <Downshift
         selectedItem={selectedOptions}
         isOpen={this.state.isFocused}
         inputValue={this.state.inputValue}
-        onChange={(e: Option) => reachMax || this.handleOptionChange(e)}
+        onChange={this.handleOptionChange}
         itemToString={this.renderItem}
       >
         {({isOpen, highlightedIndex, getItemProps, getInputProps}) => {
@@ -534,7 +543,7 @@ export default class TagControl extends React.PureComponent<
                         'is-disabled': item.disabled || disabled || reachMax
                       })}
                       key={index}
-                      onClick={() => reachMax || this.addItem(item)}
+                      onClick={this.addItem.bind(this, item)}
                     >
                       {item.label}
                     </div>
