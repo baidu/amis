@@ -172,12 +172,10 @@ export class FormulaPlugin {
 
     eachTree(variables, item => {
       if (item.value) {
-        const key = `\${${item.value}}`;
-        varMap[key] = item.label;
+        varMap[item.value] = item.label;
       }
     });
     const vars = Object.keys(varMap).sort((a, b) => b.length - a.length);
-
     const editor = this.editor;
     const lines = editor.lineCount();
     for (let line = 0; line < lines; line++) {
