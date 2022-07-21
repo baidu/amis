@@ -253,6 +253,7 @@ export default class TagControl extends React.PureComponent<
       : newValue;
   }
 
+  @autobind
   async addItem(option: Option) {
     const {selectedOptions, onChange} = this.props;
     const newValue = selectedOptions.concat();
@@ -530,10 +531,10 @@ export default class TagControl extends React.PureComponent<
                   {options.map((item, index) => (
                     <div
                       className={cx('TagControl-sugItem', {
-                        'is-disabled': item.disabled || disabled
+                        'is-disabled': item.disabled || disabled || reachMax
                       })}
                       key={index}
-                      onClick={this.addItem.bind(this, item)}
+                      onClick={() => reachMax || this.addItem(item)}
                     >
                       {item.label}
                     </div>
