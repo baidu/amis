@@ -166,6 +166,10 @@
           text-decoration: none;
         }
       }
+
+      & > .#{$ns}Button-icon:first-child:not(:last-child) {
+        margin-right: var(--Button-icon-rightMargin);
+      }
     }
   }
 
