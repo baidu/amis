@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 577 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<g id="left-arrow" transform="translate(-1.000000, 0.000000)" fill="currentColor" fill-rule="nonzero">
-		<path d="M101.211517,511.805631 L564.889594,73.082583 C581.083814,56.452218 581.083814,29.107879 564.889594,12.477515 C548.695374,-4.15285 522.393987,-4.15285 506.275618,12.477515 L12.750113,479.360302 C4.103082,488.3297 0.405338,500.295219 1.03111,511.805631 C0.386375,523.714261 4.103082,535.67978 12.750113,544.630216 L506.256655,1011.513 C522.375024,1028.16233 548.695373,1028.16233 564.870631,1011.513 C581.064851,994.427533 581.064851,967.5383 564.870631,950.907936 L101.211517,511.805631" id="路径">
-		</path>
+<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>方向/Left</title>
+	<g id="方向/Left" stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd">
+		<polyline id="1-L" stroke="currentColor" transform="translate(10.496854, 8.006854) rotate(-135.000000) translate(-10.496854, -8.006854) " points="6.49685425 4.00685425 14.4968542 4.00685425 14.4968542 12.0068542" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/>
 	</g>
 </svg>
