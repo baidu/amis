@@ -228,7 +228,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
   renderTrs(trs: TrObject[]) {
     const {data} = this.props;
     const tr = trs.map((tr, rowIndex) =>
-      this.renderTr(resolveMappingObject(tr, data), rowIndex)
+      this.renderTr(resolveMappingObject(tr, data) as TrObject, rowIndex)
     );
     return tr;
   }
