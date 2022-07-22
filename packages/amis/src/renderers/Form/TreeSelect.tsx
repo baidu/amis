@@ -629,7 +629,8 @@ export default class TreeSelectControl extends React.Component<
         <ResultBox
           disabled={disabled}
           ref={this.targetRef}
-          placeholder={__(placeholder || 'placeholder.empty')}
+          placeholder={__(placeholder ?? 'placeholder.empty')}
+          inputPlaceholder={''}
           className={cx(`TreeSelect`, {
             'TreeSelect--inline': inline,
             'TreeSelect--single': !multiple,
@@ -657,7 +658,6 @@ export default class TreeSelectControl extends React.Component<
           onKeyDown={this.handleInputKeyDown}
           clearable={clearable}
           allowInput={searchable || isEffectiveApi(autoComplete)}
-          inputPlaceholder={''}
         >
           {loading ? <Spinner size="sm" /> : undefined}
         </ResultBox>
