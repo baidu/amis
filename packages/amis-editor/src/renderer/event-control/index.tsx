@@ -441,15 +441,24 @@ export class EventControl extends React.Component<
     >
   ) {
     const {events, onEvent} = this.state;
+    const {actionTree, pluginActions, commonActions} = this.props;
     // 收集当前事件已有ajax动作的请求返回结果作为事件变量
     let oldActions = onEvent[activeData.actionData!.eventKey].actions;
     if (activeData.type === 'update') {
       oldActions = oldActions.slice(0, activeData.actionData!.actionIndex || oldActions?.length);
     }
-    const ajaxActions = oldActions?.filter(item => item.actionType === 'ajax');
-    const ajaxVariables = ajaxActions?.map((item: any, index: number) => {
+
+    const withOutputVarActions = oldActions?.filter(item => item.outputVar);
+    const withOutputVarVariables = withOutputVarActions?.map((item: any, index: number) => {
+      const actionLabel = getPropOfAcion(
+        item,
+        'actionLabel',
+        actionTree,
+        pluginActions,
+        commonActions
+      );
       return {
-        label: `${item.outputVar ? item.outputVar + '（请求返回结果）' : '请求返回结果'}`,
+        label: `${item.outputVar ? item.outputVar + `（${actionLabel}结果）` : `${actionLabel}结果`}`,
         tag: 'object',
         type: 'object',
         value: `${item.outputVar ? ('event.data.' + item.outputVar) : 'event.data'}`
@@ -458,7 +467,7 @@ export class EventControl extends React.Component<
     const eventVariables: ContextVariables[] = [
       {
         label: '事件变量',
-        children: ajaxVariables || []
+        children: withOutputVarVariables || []
       }
     ];
     const eventConfig = events.find(
