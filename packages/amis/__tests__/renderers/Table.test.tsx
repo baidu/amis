@@ -1,8 +1,8 @@
 import React = require('react');
-import {render} from '@testing-library/react';
+import {render, waitFor} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
-import {makeEnv} from '../helper';
+import {makeEnv, wait} from '../helper';
 import rows from '../mockData/rows';
 
 test('Renderer:table', () => {
@@ -634,7 +634,7 @@ test('Renderer:table groupName-startNoGroupName', () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:table column head style', () => {
+test('Renderer:table column head style className', () => {
   const {container} = render(
     amisRender(
       {
@@ -644,6 +644,11 @@ test('Renderer:table column head style', () => {
           items: rows
         },
         columnsTogglable: false,
+        className: 'className',
+        tableClassName: 'tableClassName',
+        headerClassName: 'headerClassName',
+        footerClassName: 'footerClassName',
+        toolbarClassName: 'toolbarClassName',
         columns: [
           {
             name: 'engine',
@@ -920,4 +925,41 @@ test('Renderer:table list', () => {
   );
 
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:table selectable', async () => {
+  const schema: any = {
+    type: 'table',
+    title: '表格1',
+    selectable: true,
+    data: {
+      items: rows
+    },
+    columns: [
+      {
+        name: 'engine',
+        label: 'Engine'
+      },
+      {
+        name: 'version',
+        label: 'Version'
+      }
+    ]
+  };
+
+  const {container, rerender} = render(amisRender(schema, {}, makeEnv({})));
+
+  await waitFor(() => {
+    expect(container.querySelector('[type=radio]')).toBeInTheDocument();
+  });
+
+  schema.multiple = true;
+  const {container: multipleContainer} = render(
+    amisRender(schema, {}, makeEnv({}))
+  );
+  await waitFor(() => {
+    expect(
+      multipleContainer.querySelector('[type=checkbox]')
+    ).toBeInTheDocument();
+  });
 });

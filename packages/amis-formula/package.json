@@ -1,6 +1,6 @@
 {
   "name": "amis-formula",
-  "version": "2.0.0-rc.24",
+  "version": "2.0.2",
   "description": "负责 amis 里面的表达式实现，内置公式，编辑器等",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -96,5 +96,5 @@
       }
     }
   },
-  "gitHead": "6affe8e364da3f1fe062c338237a8d1f0f304866"
+  "gitHead": "37d23b4a8eb1c663bc38e8dd9040889ea1526ec4"
 }

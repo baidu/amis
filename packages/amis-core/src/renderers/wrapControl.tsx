@@ -367,10 +367,7 @@ export function wrapControl<
             } else if (model) {
               const valueByName = getVariable(props.data, model.name);
 
-              if (
-                valueByName !== undefined &&
-                isEqual(props.defaultValue, prevProps.defaultValue)
-              ) {
+              if (isEqual(props.defaultValue, prevProps.defaultValue)) {
                 // value 非公式表达式时，name 值优先，若 defaultValue 主动变动时，则使用 defaultValue
                 if (
                   // 然后才是查看关联的 name 属性值是否变化

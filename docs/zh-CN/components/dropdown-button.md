@@ -276,3 +276,16 @@ order: 44
 | closeOnClick    | `boolean`               | `false`           | 点击按钮后自动关闭下拉菜单                |
 | trigger         | `click` 或 `hover`      | `click`           | 触发方式                                  |
 | hideCaret       | `boolean`               | false             | 隐藏下拉图标                              |
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称   | 事件参数 | 说明           |
+| ---------- | -------- | -------------- |
+| mouseenter | -        | 鼠标移入时触发 |
+| mouseleave | -        | 鼠标移出时触发 |
+
+## 动作表
+
+暂无

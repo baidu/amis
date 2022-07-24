@@ -6,6 +6,10 @@ npm run build --workspaces
 rm -rf npm
 mkdir npm
 
+# 如果有问题可以注释掉这两行，不知道为啥会导致 cp -rf 挂掉
+# rm -rf packages/amis/node_modules/.bin
+# rm -rf packages/amis-ui/node_modules/.bin
+
 cp -rf packages npm
 cp package.json npm
 
@@ -18,11 +22,11 @@ for f in $(find ./packages -name "package.json"); do
 done
 
 # 把代码里面import的部分换成内部包名称
-for f in $(find ./packages/*/lib -type f -name "*.js"); do
+for f in $(find ./packages/*/lib -type f -name "*.[tj]s"); do
   sed -i '' -e "s/\'amis/\'@fex\/amis/g" $f
 done
 
-for f in $(find ./packages/*/lib -type f -name "*.ts"); do
+for f in $(find ./packages/*/esm -type f -name "*.[tj]s"); do
   sed -i '' -e "s/\'amis/\'@fex\/amis/g" $f
 done
 

@@ -18,6 +18,7 @@ order: 55
             "type": "input-tag",
             "name": "tag",
             "label": "标签",
+            "placeholder": "请选择标签",
             "options": [
                 "Aaron Rodgers",
                 "Tom Brady",

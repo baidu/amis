@@ -38,6 +38,17 @@ order: 51
 }
 ```
 
+## 其它原生 iframe 属性
+
+> 2.1.0 及以上版本
+
+还支持以下原生 iframe 属性，具体配置项请[参考](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/iframe)。
+
+- name
+- allow
+- sandbox
+- referrerpolicy
+
 ## 如何和 iframe 通信
 
 #### amis 向 iframe 通信
@@ -137,12 +148,15 @@ window.parent.postMessage(
 
 ## 属性表
 
-| 属性名      | 类型               | 默认值     | 说明                 |
-| ----------- | ------------------ | ---------- | -------------------- |
-| type        | `string`           | `"iframe"` | 指定为 iFrame 渲染器 |
-| className   | `string`           |            | iFrame 的类名        |
-| frameBorder | `Array`            |            | frameBorder          |
-| style       | `object`           |            | 样式对象             |
-| src         | `string`           |            | iframe 地址          |
-| height      | `number`或`string` | `"100%"`   | iframe 高度          |
-| width       | `number`或`string` | `"100%"`   | iframe 宽度          |
+| 属性名         | 类型               | 默认值     | 说明                 |
+| -------------- | ------------------ | ---------- | -------------------- |
+| type           | `string`           | `"iframe"` | 指定为 iFrame 渲染器 |
+| className      | `string`           |            | iFrame 的类名        |
+| frameBorder    | `Array`            |            | frameBorder          |
+| style          | `object`           |            | 样式对象             |
+| src            | `string`           |            | iframe 地址          |
+| allow          | `string`           |            | allow 配置           |
+| sandbox        | `string`           |            | sandbox 配置         |
+| referrerpolicy | `string`           |            | referrerpolicy 配置  |
+| height         | `number`或`string` | `"100%"`   | iframe 高度          |
+| width          | `number`或`string` | `"100%"`   | iframe 宽度          |

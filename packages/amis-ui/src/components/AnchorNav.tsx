@@ -49,8 +49,13 @@ export interface AnchorNavProps extends ThemeProps {
   direction?: 'vertical' | 'horizontal'; // 导航方向
 }
 
+interface SectionOffset {
+  key: string | number;
+  offsetTop: number;
+}
+
 export interface AnchorNavState {
-  offsetArr: PlainObject[]; // 记录每个段落的offsetTop
+  offsetArr: SectionOffset[]; // 记录每个段落的offsetTop
   fromSelect: boolean; // 标识滚动触发来源
 }
 
@@ -67,16 +72,44 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
   // 滚动区域DOM
   contentDom: React.RefObject<HTMLDivElement> = React.createRef();
 
+  // 后代节点观察器
+  observer: MutationObserver;
+
   componentDidMount() {
-    // 初始化滚动标识
+    // 初始化滚动标识
     this.setState({fromSelect: false});
 
-    // add scroll event
     const sectionRootDom =
       this.contentDom && (this.contentDom.current as HTMLElement);
-    sectionRootDom.addEventListener('scroll', this.scrollToNav);
-    let offsetArr: Array<object> = [];
+
+    this.updateSectionOffset(sectionRootDom, false);
+    this.observer = new MutationObserver((mutations: MutationRecord[]) => {
+      const ModDetected = mutations.some(record =>
+        record.target.parentNode?.isSameNode(sectionRootDom)
+      );
+
+      if (ModDetected) {
+        this.updateSectionOffset(sectionRootDom, true);
+      }
+    });
+    this.observer.observe(sectionRootDom, {childList: true, subtree: true});
+  }
+
+  componentWillUnmount() {
+    if (this.contentDom && this.contentDom.current) {
+      this.contentDom.current.removeEventListener('scroll', this.scrollToNav);
+    }
+    this.observer && this.observer.disconnect();
+  }
+
+  updateSectionOffset(parentNode: HTMLElement, inited: boolean) {
+    const offsetArr: Array<SectionOffset> = [];
     const {children, active} = this.props;
+
+    if (!inited) {
+      // add scroll event
+      parentNode.addEventListener('scroll', this.scrollToNav);
+    }
 
     // 收集段落区域offsetTop
     children &&
@@ -85,7 +118,7 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
         (section: AnchorNavSectionComponent, index: number) => {
           offsetArr.push({
             key: section.props.name,
-            offsetTop: (sectionRootDom.children[index] as HTMLElement).offsetTop
+            offsetTop: (parentNode.children[index] as HTMLElement).offsetTop
           });
         }
       );
@@ -94,7 +127,7 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
       {
         offsetArr
       },
-      () => active && this.scrollToSection(active)
+      !inited ? () => active && this.scrollToSection(active) : undefined
     );
   }
 

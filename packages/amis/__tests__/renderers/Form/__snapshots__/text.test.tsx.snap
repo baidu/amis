@@ -1631,7 +1631,9 @@ exports[`Renderer:text with options 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {}
           </code>
         </pre>
@@ -1666,6 +1668,7 @@ exports[`Renderer:text with options 1`] = `
                 aria-autocomplete="list"
                 aria-labelledby="downshift-0-label"
                 autocomplete="off"
+                class=""
                 id="downshift-0-input"
                 name="text"
                 size="10"
@@ -1769,7 +1772,9 @@ exports[`Renderer:text with options and multiple: first option selected 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {
   "text": "a"
 }
@@ -1821,6 +1826,7 @@ exports[`Renderer:text with options and multiple: first option selected 1`] = `
                 aria-controls="downshift-1-menu"
                 aria-labelledby="downshift-1-label"
                 autocomplete="off"
+                class=""
                 id="downshift-1-input"
                 name="text"
                 size="10"
@@ -1958,7 +1964,9 @@ exports[`Renderer:text with options and multiple: options is opened 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {}
           </code>
         </pre>
@@ -1995,6 +2003,7 @@ exports[`Renderer:text with options and multiple: options is opened 1`] = `
                 aria-controls="downshift-1-menu"
                 aria-labelledby="downshift-1-label"
                 autocomplete="off"
+                class=""
                 id="downshift-1-input"
                 name="text"
                 size="10"
@@ -2142,7 +2151,9 @@ exports[`Renderer:text with options and multiple: options is opened again, and f
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {
   "text": "a"
 }
@@ -2194,6 +2205,7 @@ exports[`Renderer:text with options and multiple: options is opened again, and f
                 aria-controls="downshift-1-menu"
                 aria-labelledby="downshift-1-label"
                 autocomplete="off"
+                class=""
                 id="downshift-1-input"
                 name="text"
                 size="10"
@@ -2331,7 +2343,9 @@ exports[`Renderer:text with options and multiple: second option selected 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {
   "text": "a,b"
 }
@@ -2396,6 +2410,7 @@ exports[`Renderer:text with options and multiple: second option selected 1`] = `
                 aria-controls="downshift-1-menu"
                 aria-labelledby="downshift-1-label"
                 autocomplete="off"
+                class=""
                 id="downshift-1-input"
                 name="text"
                 size="10"
@@ -2523,7 +2538,9 @@ exports[`Renderer:text with options: options is open 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {}
           </code>
         </pre>
@@ -2560,6 +2577,7 @@ exports[`Renderer:text with options: options is open 1`] = `
                 aria-controls="downshift-0-menu"
                 aria-labelledby="downshift-0-label"
                 autocomplete="off"
+                class=""
                 id="downshift-0-input"
                 name="text"
                 size="10"
@@ -2687,7 +2705,9 @@ exports[`Renderer:text with options: select first option 1`] = `
           type="submit"
         />
         <pre>
-          <code>
+          <code
+            class="cxd-Form--debug"
+          >
             {
   "text": "a"
 }
@@ -2726,6 +2746,7 @@ exports[`Renderer:text with options: select first option 1`] = `
                 aria-controls="downshift-0-menu"
                 aria-labelledby="downshift-0-label"
                 autocomplete="off"
+                class=""
                 id="downshift-0-input"
                 name="text"
                 size="10"

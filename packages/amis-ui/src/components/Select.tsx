@@ -298,6 +298,7 @@ const DownshiftChangeTypes = Downshift.stateChangeTypes;
 interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   className?: string;
   popoverClassName?: string;
+  showInvalidMatch?: boolean;
   creatable: boolean;
   createBtnLabel: string;
   multiple: boolean;
@@ -331,6 +332,7 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   inline: boolean;
   disabled: boolean;
   popOverContainer?: any;
+  popOverContainerSelector?: string;
   overlayPlacement?: string;
   onChange: (value: void | string | Option | Array<Option>) => void;
   onFocus?: Function;
@@ -383,6 +385,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     multiple: false,
     clearable: true,
     creatable: false,
+    showInvalidMatch: false,
     createBtnLabel: 'Select.createLabel',
     searchPromptText: 'Select.searchPromptText',
     loadingPlaceholder: 'loading',
@@ -680,7 +683,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   @autobind
   handleKeyPress(e: React.KeyboardEvent) {
-    if (this.props.multiple && e.key === ' ') {
+    /**
+     * 考虑到label/value中有空格的case
+     * 这里使用组合键关闭 win：shift + space，mac：shift + space
+     */
+    if (e.key === ' ' && e.shiftKey) {
       this.toggle();
       e.preventDefault();
     }
@@ -727,13 +734,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
     onDelete && onDelete(item);
   }
 
-  @autobind
-  menuItemRef(ref: any) {
-    if (ref && typeof ref.offsetHeight === 'number' && ref > 0) {
-      this.setState({itemHeight: ref.offsetHeight});
-    }
-  }
-
   renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
     const {
       classnames: cx,
@@ -744,6 +744,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       disabled,
       maxTagCount,
       overflowTagPopover,
+      showInvalidMatch,
       translate: __
     } = this.props;
     const selection = this.state.selection;
@@ -796,7 +797,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                             key={itemIndex}
                             className={cx('Select-value', {
                               'is-disabled': disabled,
-                              'is-invalid': item.__unmatched
+                              'is-invalid': showInvalidMatch
+                                ? item.__unmatched
+                                : false
                             })}
                           >
                             <span className={cx('Select-valueLabel')}>
@@ -820,7 +823,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               <div
                 className={cx('Select-value', {
                   'is-disabled': disabled,
-                  'is-invalid': item.__unmatched
+                  'is-invalid': showInvalidMatch ? item.__unmatched : false
                 })}
                 onClick={(e: React.MouseEvent) =>
                   e.stopPropagation()
@@ -844,7 +847,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             <div
               className={cx('Select-value', {
                 'is-disabled': disabled,
-                'is-invalid': item.__unmatched
+                'is-invalid': showInvalidMatch ? item.__unmatched : false
               })}
             >
               <span className={cx('Select-valueLabel')}>
@@ -870,7 +873,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           <div
             className={cx('Select-value', {
               'is-disabled': disabled,
-              'is-invalid': item.__unmatched
+              'is-invalid': showInvalidMatch ? item.__unmatched : false
             })}
             key={index}
           >
@@ -893,7 +896,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           <div
             className={cx('Select-value', {
               'is-disabled': disabled,
-              'is-invalid': item.__unmatched
+              'is-invalid': showInvalidMatch ? item.__unmatched : false
             })}
           >
             <span className={cx('Select-valueLabel')}>
@@ -935,6 +938,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       valuesNoWrap,
       classnames: cx,
       popoverClassName,
+      popOverContainerSelector,
       checkAll,
       checkAllLabel,
       checkAllBySearch,
@@ -1162,14 +1166,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
           </div>
         ) : null}
 
-        <div ref={this.menuItemRef} className={cx('Select-option hidden')}>
-          {multiple ? (
-            <Checkbox size="sm">Placeholder</Checkbox>
-          ) : (
-            <span>Placeholder</span>
-          )}
-        </div>
-
         {creatable && !disabled ? (
           <a className={cx('Select-addBtn')} onClick={this.handleAddClick}>
             <Icon icon="plus" className="icon" />
@@ -1211,6 +1207,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     ) : (
       <Overlay
         container={popOverContainer || this.getTarget}
+        containerSelector={popOverContainerSelector}
         target={this.getTarget}
         placement={overlayPlacement}
         show

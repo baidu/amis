@@ -84,13 +84,7 @@ export class DataSchema {
 
   getScope(idOrScope: string | DataScope) {
     const id = typeof idOrScope === 'string' ? idOrScope : idOrScope.id;
-    const scope = this.idMap[id];
-
-    if (!scope) {
-      throw new Error('scope not found!');
-    }
-
-    return scope;
+    return this.idMap[id];
   }
 
   switchToRoot() {

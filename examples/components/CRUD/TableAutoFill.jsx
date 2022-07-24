@@ -142,11 +142,13 @@ export default {
           name: 'id',
           label: '主键',
           placeholder: '输入id'
-        }
+        },
+        fixed: 'left'
       },
       {
         name: 'engine',
-        label: 'Rendering engine'
+        label: 'Rendering engine',
+        fixed: 'left'
       },
       {
         name: 'browser',

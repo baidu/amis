@@ -92,6 +92,12 @@ export interface TextControlSchema extends FormOptionsSchema {
     /** 用户输入的字符自动转大写 */
     upperCase?: boolean;
   };
+
+  /** control节点的CSS类名 */
+  inputControlClassName?: string;
+
+  /** 原生input标签的CSS类名 */
+  nativeInputClassName: string;
 }
 
 export type InputTextRendererEvent =
@@ -120,6 +126,10 @@ export interface TextProps extends OptionsControlProps {
     lowerCase?: boolean; // 用户输入的字符自动转小写
     upperCase?: boolean; // 用户输入的字符自动转大写
   };
+  /** control节点的CSS类名 */
+  inputControlClassName?: string;
+  /** 原生input标签的CSS类名 */
+  nativeInputClassName?: string;
 }
 
 export interface TextState {
@@ -215,6 +225,10 @@ export default class TextControl extends React.PureComponent<
             ? ''
             : this.valueToString(props.value)
       });
+    }
+    if (prevProps.revealPassword !== props.revealPassword) {
+      /** 隐藏按钮的同时将密码设置为隐藏态 */
+      !props.revealPassword && this.setState({revealPassword: false});
     }
   }
 
@@ -572,6 +586,8 @@ export default class TextControl extends React.PureComponent<
   renderSugestMode() {
     const {
       className,
+      inputControlClassName,
+      nativeInputClassName,
       inputOnly,
       value,
       placeholder,
@@ -644,6 +660,7 @@ export default class TextControl extends React.PureComponent<
             <div
               className={cx(
                 `TextControl-input TextControl-input--withAC`,
+                inputControlClassName,
                 inputOnly ? className : '',
                 {
                   'is-opened': isOpen,
@@ -697,6 +714,7 @@ export default class TextControl extends React.PureComponent<
                   })}
                   autoComplete="off"
                   size={10}
+                  className={cx(nativeInputClassName)}
                 />
               </>
 
@@ -778,6 +796,8 @@ export default class TextControl extends React.PureComponent<
       classPrefix: ns,
       classnames: cx,
       className,
+      inputControlClassName,
+      nativeInputClassName,
       inputOnly,
       value,
       placeholder,
@@ -807,6 +827,7 @@ export default class TextControl extends React.PureComponent<
           {
             [`TextControl-input--border${ucFirst(borderMode)}`]: borderMode
           },
+          inputControlClassName,
           inputOnly ? className : ''
         )}
       >
@@ -831,11 +852,9 @@ export default class TextControl extends React.PureComponent<
           step={step}
           onChange={this.handleNormalInputChange}
           value={this.valueToString(value)}
-          className={cx(
-            type === 'password' &&
-              revealPassword &&
-              'TextControl-input-password'
-          )}
+          className={cx(nativeInputClassName, {
+            'TextControl-input-password': type === 'password' && revealPassword
+          })}
         />
         {clearable && !disabled && !readOnly && value ? (
           <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>

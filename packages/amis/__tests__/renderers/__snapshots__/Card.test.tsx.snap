@@ -184,11 +184,6 @@ exports[`Renderer:cards color 1`] = `
                     <div
                       class="cxd-Card-field"
                     >
-                      <label
-                        class="cxd-Card-fieldLabel"
-                      >
-                        Browser
-                      </label>
                       <div
                         class="cxd-Card-fieldValue"
                       >
@@ -233,11 +228,6 @@ exports[`Renderer:cards color 1`] = `
                     <div
                       class="cxd-Card-field"
                     >
-                      <label
-                        class="cxd-Card-fieldLabel"
-                      >
-                        Browser
-                      </label>
                       <div
                         class="cxd-Card-fieldValue"
                       >
@@ -282,11 +272,6 @@ exports[`Renderer:cards color 1`] = `
                     <div
                       class="cxd-Card-field"
                     >
-                      <label
-                        class="cxd-Card-fieldLabel"
-                      >
-                        Browser
-                      </label>
                       <div
                         class="cxd-Card-fieldValue"
                       >
@@ -331,11 +316,6 @@ exports[`Renderer:cards color 1`] = `
                     <div
                       class="cxd-Card-field"
                     >
-                      <label
-                        class="cxd-Card-fieldLabel"
-                      >
-                        Browser
-                      </label>
                       <div
                         class="cxd-Card-fieldValue"
                       >

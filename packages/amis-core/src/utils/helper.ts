@@ -1213,7 +1213,8 @@ export function qsparse(
   options: any = {
     arrayFormat: 'indices',
     encodeValuesOnly: true,
-    depth: 1000 // 默认是 5， 所以condition-builder只要来个条件组就会导致报错
+    depth: 1000, // 默认是 5， 所以condition-builder只要来个条件组就会导致报错
+    arrayLimit: 1000 /** array元素数量超出限制，会被自动转化为object格式，默认值1000 */
   }
 ) {
   return qs.parse(data, options);

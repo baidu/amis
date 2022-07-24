@@ -26,6 +26,7 @@ order: 31
             "type": "button",
             "label": "编辑",
             "actionType": "dialog",
+            "icon": "fa fa-pencil",
             "dialog": {
               "title": "编辑",
               "body": "你正在编辑该卡片"
@@ -34,6 +35,7 @@ order: 31
         {
           "type": "button",
           "label": "删除",
+          "icon": "fa fa-trash",
           "actionType": "dialog",
           "dialog": {
             "title": "提示",
@@ -641,49 +643,50 @@ order: 31
 
 ## 属性表
 
-| 属性名                        | 类型                                 | 默认值                              | 说明                                     |
-| ----------------------------- | ------------------------------------ | ----------------------------------- | ---------------------------------------- |
-| type                          | `string`                             | `"card"`                            | 指定为 Card 渲染器                       |
-| className                     | `string`                             |                                     | 外层 Dom 的类名                          |
-| href                          | [模板](../../docs/concepts/template) |                                     | 外部链接                                 |
-| header                        | `Object`                             |                                     | Card 头部内容设置                        |
-| header.className              | `string`                             |                                     | 头部类名                                 |
-| header.title                  | [模板](../../docs/concepts/template) |                                     | 标题                                     |
-| header.titleClassName         | `string`                             |                                     | 标题类名                                 |
-| header.subTitle               | [模板](../../docs/concepts/template) |                                     | 副标题                                   |
-| header.subTitleClassName      | `string`                             |                                     | 副标题类名                               |
-| header.subTitlePlaceholder    | `string`                             |                                     | 副标题占位                               |
-| header.description            | [模板](../../docs/concepts/template) |                                     | 描述                                     |
-| header.descriptionClassName   | `string`                             |                                     | 描述类名                                 |
-| header.descriptionPlaceholder | `string`                             |                                     | 描述占位                                 |
-| header.avatar                 | [模板](../../docs/concepts/template) |                                     | 图片                                     |
-| header.avatarClassName        | `string`                             | `"pull-left thumb avatar b-3x m-r"` | 图片包括层类名                           |
-| header.imageClassName         | `string`                             |                                     | 图片类名                                 |
-| header.avatarText             | [模板](../../docs/concepts/template) |                                     | 如果不配置图片，则会在图片处显示该文本   |
-| header.avatarTextBackground   | `Array`                              |                                     | 设置文本背景色，它会根据数据分配一个颜色 |
-| header.avatarTextClassName    | `string`                             |                                     | 图片文本类名                             |
-| header.highlight              | `boolean`                            | `false`                             | 是否显示激活样式                         |
-| header.highlightClassName     | `string`                             |                                     | 激活样式类名                             |
-| header.href                   | [模板](../../docs/concepts/template) |                                     | 点击卡片跳转的链接地址                   |
-| header.blank                  | `boolean`                            | `true`                              | 是否新窗口打开                           |
-| body                          | `Array`                              |                                     | 内容容器，主要用来放置非表单项组件       |
-| bodyClassName                 | `string`                             |                                     | 内容区域类名                             |
-| actions                       | Array<[Action](./action)>            |                                     | 配置按钮集合                             |
-| actionsCount                  | `number`                             | `4`                                 | 按钮集合每行个数                         |
-| itemAction                    | [Action](./action)                   |                                     | 点击卡片的行为                           |
-| media                         | `Object`                             |                                     | Card 多媒体部内容设置                    |
-| media.type                    | `'image'\|'video'`                   |                                     | 多媒体类型                               |
-| media.url                     | `string`                             |                                     | 图片/视频链接                            |
-| media.position                | `'left'\|'right'\|'top'\|'bottom'`   | `'left'`                            | 多媒体位置                               |
-| media.className               | `string`                             | `"w-44 h-28"`                       | 多媒体类名                               |
-| media.isLive                  | `boolean`                            | `false`                             | 视频是否为直播                           |
-| media.autoPlay                | `boolean`                            | `false`                             | 视频是否自动播放                         |
-| media.poster                  | `string`                             | `false`                             | 视频封面                                 |
-| secondary                     | [模板](../../docs/concepts/template) |                                     | 次要说明                                 |
-| toolbar                       | Array<[Action](./action)>            |                                     | 工具栏按钮                               |
-| dragging                      | `boolean`                            | `false`                             | 是否显示拖拽图标                         |
-| selectable                    | `boolean`                            | `false`                             | 卡片是否可选                             |
-| checkable                     | `boolean`                            | `true`                              | 卡片选择按钮是否禁用                     |
-| selected                      | `boolean`                            | `false`                             | 卡片选择按钮是否选中                     |
-| hideCheckToggler              | `boolean`                            | `false`                             | 卡片选择按钮是否隐藏                     |
-| multiple                      | `boolean`                            | `false`                             | 卡片是否为多选                           |
+| 属性名                        | 类型                                 | 默认值                              | 说明                                              |
+| ----------------------------- | ------------------------------------ | ----------------------------------- | ------------------------------------------------- |
+| type                          | `string`                             | `"card"`                            | 指定为 Card 渲染器                                |
+| className                     | `string`                             |                                     | 外层 Dom 的类名                                   |
+| href                          | [模板](../../docs/concepts/template) |                                     | 外部链接                                          |
+| header                        | `Object`                             |                                     | Card 头部内容设置                                 |
+| header.className              | `string`                             |                                     | 头部类名                                          |
+| header.title                  | [模板](../../docs/concepts/template) |                                     | 标题                                              |
+| header.titleClassName         | `string`                             |                                     | 标题类名                                          |
+| header.subTitle               | [模板](../../docs/concepts/template) |                                     | 副标题                                            |
+| header.subTitleClassName      | `string`                             |                                     | 副标题类名                                        |
+| header.subTitlePlaceholder    | `string`                             |                                     | 副标题占位                                        |
+| header.description            | [模板](../../docs/concepts/template) |                                     | 描述                                              |
+| header.descriptionClassName   | `string`                             |                                     | 描述类名                                          |
+| header.descriptionPlaceholder | `string`                             |                                     | 描述占位                                          |
+| header.avatar                 | [模板](../../docs/concepts/template) |                                     | 图片                                              |
+| header.avatarClassName        | `string`                             | `"pull-left thumb avatar b-3x m-r"` | 图片包括层类名                                    |
+| header.imageClassName         | `string`                             |                                     | 图片类名                                          |
+| header.avatarText             | [模板](../../docs/concepts/template) |                                     | 如果不配置图片，则会在图片处显示该文本            |
+| header.avatarTextBackground   | `Array`                              |                                     | 设置文本背景色，它会根据数据分配一个颜色          |
+| header.avatarTextClassName    | `string`                             |                                     | 图片文本类名                                      |
+| header.highlight              | `boolean`                            | `false`                             | 是否显示激活样式                                  |
+| header.highlightClassName     | `string`                             |                                     | 激活样式类名                                      |
+| header.href                   | [模板](../../docs/concepts/template) |                                     | 点击卡片跳转的链接地址                            |
+| header.blank                  | `boolean`                            | `true`                              | 是否新窗口打开                                    |
+| body                          | `Array`                              |                                     | 内容容器，主要用来放置非表单项组件                |
+| bodyClassName                 | `string`                             |                                     | 内容区域类名                                      |
+| actions                       | Array<[Action](./action)>            |                                     | 配置按钮集合                                      |
+| actionsCount                  | `number`                             | `4`                                 | 按钮集合每行个数                                  |
+| itemAction                    | [Action](./action)                   |                                     | 点击卡片的行为                                    |
+| media                         | `Object`                             |                                     | Card 多媒体部内容设置                             |
+| media.type                    | `'image'\|'video'`                   |                                     | 多媒体类型                                        |
+| media.url                     | `string`                             |                                     | 图片/视频链接                                     |
+| media.position                | `'left'\|'right'\|'top'\|'bottom'`   | `'left'`                            | 多媒体位置                                        |
+| media.className               | `string`                             | `"w-44 h-28"`                       | 多媒体类名                                        |
+| media.isLive                  | `boolean`                            | `false`                             | 视频是否为直播                                    |
+| media.autoPlay                | `boolean`                            | `false`                             | 视频是否自动播放                                  |
+| media.poster                  | `string`                             | `false`                             | 视频封面                                          |
+| secondary                     | [模板](../../docs/concepts/template) |                                     | 次要说明                                          |
+| toolbar                       | Array<[Action](./action)>            |                                     | 工具栏按钮                                        |
+| dragging                      | `boolean`                            | `false`                             | 是否显示拖拽图标                                  |
+| selectable                    | `boolean`                            | `false`                             | 卡片是否可选                                      |
+| checkable                     | `boolean`                            | `true`                              | 卡片选择按钮是否禁用                              |
+| selected                      | `boolean`                            | `false`                             | 卡片选择按钮是否选中                              |
+| hideCheckToggler              | `boolean`                            | `false`                             | 卡片选择按钮是否隐藏                              |
+| multiple                      | `boolean`                            | `false`                             | 卡片是否为多选                                    |
+| useCardLabel                  | `boolean`                            | `true`                              | 卡片内容区的表单项 label 是否使用 Card 内部的样式 |

@@ -223,7 +223,9 @@ exports[`EventAction:inputRange 1`] = `
                   type="submit"
                 />
                 <pre>
-                  <code>
+                  <code
+                    class="cxd-Form--debug"
+                  >
                     {
   "rangeValue": "值改变为0了",
   "rangeEvent": "触发了blur"

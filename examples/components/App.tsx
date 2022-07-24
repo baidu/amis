@@ -9,17 +9,20 @@ import {
   Spinner,
   ToastComponent,
   Select,
+  SearchBox,
   InputBox
 } from 'amis';
 import {eachTree, mapTree} from 'amis-core';
 import 'amis-ui/lib/locale/en-US';
 import {withRouter} from 'react-router';
+// @ts-ignore
 import DocSearch from './DocSearch';
 import Doc from './Doc';
 import DocNavCN from './DocNavCN';
-import Example, {examples} from './Example';
-import CSSDocs, {cssDocs} from './CssDocs';
-import Components, {components} from './Components';
+// @ts-ignore
+import Example from './Example';
+import CSSDocs from './CssDocs';
+import Components from './Components';
 import {
   BrowserRouter as Router,
   Route,
@@ -403,14 +406,17 @@ export class App extends React.PureComponent<{
   renderNavigation() {
     return (
       <div className="Doc-navigation">
-        <InputBox
-          theme={this.state.theme.value}
-          placeholder={'过滤...'}
-          value={this.state.filter || ''}
-          onChange={this.setNavigationFilter}
+        <SearchBox
           className="m-b m-r-md"
-          clearable={false}
+          placeholder="输入组件名称"
+          value={this.state.filter}
+          onSearch={this.setNavigationFilter}
+          onChange={this.setNavigationFilter}
+          clearable={true}
+          mini={false}
+          history={{enable: true}}
         />
+
         {this.renderAsideNav()}
       </div>
     );

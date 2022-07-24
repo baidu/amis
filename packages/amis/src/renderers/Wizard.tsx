@@ -749,6 +749,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             };
           },
           onFailed: async (error: any) => {
+            store.markSaving(false);
             const dispatcher = await this.dispatchEvent(
               'submitFail',
               createObject(this.props.data, {error})

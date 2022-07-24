@@ -586,14 +586,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       file[urlField as keyof typeof file] ||
       file[valueField as keyof typeof file];
 
-    let api =
-      typeof downloadUrl === 'string' && !~downloadUrl.indexOf('$')
+    const api =
+      typeof downloadUrl === 'string' &&
+      !~downloadUrl.indexOf('$') &&
+      typeof fileUrl === 'string'
         ? `${downloadUrl}${fileUrl}`
         : downloadUrl
         ? downloadUrl
-        : `${fileUrl}`;
+        : undefined;
 
-    this.handleApi(api, file);
+    api && this.handleApi(api, file);
   }
 
   downloadTpl(e: React.MouseEvent) {

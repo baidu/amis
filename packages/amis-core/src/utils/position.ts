@@ -25,6 +25,15 @@ export function position(node: HTMLElement, offsetParent?: HTMLElement) {
     const parent: HTMLElement = offsetParent || getOffsetParent(node);
     offset = getOffset(node);
 
+    if (parent === node) {
+      return {
+        top: 0,
+        left: 0,
+        width: offset.width,
+        height: offset.height
+      };
+    }
+
     if (nodeName(parent) !== 'html') parentOffset = getOffset(parent);
     const borderTop = String(
       getComputedStyle(parent).getPropertyValue('border-top-width') || 0

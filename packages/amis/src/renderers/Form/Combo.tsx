@@ -620,6 +620,23 @@ export default class ComboControl extends React.Component<ComboProps> {
       if (!hasDuplicateKey) {
         this.props.onChange(value, submitOnChange, true);
       }
+    } else if (type === 'input-kvs') {
+      // input-kvs 为了避免冲突 key 改成了 _key
+      let hasDuplicateKey = false;
+      const keys: {[key: string]: boolean} = {};
+      for (const item of value) {
+        if ('_key' in item) {
+          if (keys[item._key]) {
+            hasDuplicateKey = true;
+          } else {
+            keys[item._key] = true;
+          }
+        }
+      }
+      // 有重复值就不触发修改，因为 KV 模式下无法支持重复值
+      if (!hasDuplicateKey) {
+        this.props.onChange(value, submitOnChange, true);
+      }
     } else {
       this.props.onChange(value, submitOnChange, true);
     }
@@ -1614,3 +1631,10 @@ export class ComboControlRenderer extends ComboControl {
   extendsData: false
 })
 export class KVControlRenderer extends ComboControl {}
+
+@FormItem({
+  type: 'input-kvs',
+  storeType: ComboStore.name,
+  extendsData: false
+})
+export class KVSControlRenderer extends ComboControl {}
