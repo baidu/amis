@@ -24,6 +24,9 @@
         left: var(--TimelineItem--left-line-left);
         top: var(--TimelineItem--left-line-top);
         background-color: var(--TimelineItem--line-bg);
+        &-icon {
+          left: var(--TimelineItem--icon-left-line-left);
+        }
       }
 
       .#{$ns}TimelineItem-round {
@@ -72,9 +75,16 @@
       }
 
       .#{$ns}TimelineItem-title {
+        display: flex;
         color: var(--TimelineItem--text-primary-color);
         font-size: var(--Timeline--font-size);
         margin-bottom: var(--TimelineItem--content-title-margin-bottom);
+        .#{$ns}PlainField {
+          padding-right: var(--TimelineItem-custem-time-padding-right);
+        }
+        .#{$ns}Button {
+          margin-left: var(--TimelineItem-custem-button-margin-left);
+        }
       }
 
       .#{$ns}TimelineItem-detail {
@@ -98,6 +108,7 @@
 
         .#{$ns}TimelineItem-detail-visible {
           display: block;
+          border-radius: var(--Timeline-visible-border-radius);
           max-width: var(--TimelineItem-detail-visible-max-width);
           font-size: var(--Timeline--font-size);
           padding: var(--TimelineItem-detail-visible-padding);
@@ -155,7 +166,7 @@
         position: absolute;
         height: var(--TimelineItem--left-line-width);
         width: calc(100% - var(--TimelineItem--left-line-left));
-        left:  var(--TimelineItem--left-line-top);
+        left:  var(--TimelineItem--horizontal-left-line-top);
         top: var(--TimelineItem--left-line-left);
         background-color: var(--TimelineItem--line-bg);
       }
@@ -195,6 +206,7 @@
       }
     }
     &-content {
+      margin-top: var(--Timeline-horizontal-content-margin-top);
       padding-bottom: var(--TimelineItem--content-padding-bottom);
       margin-left: var(--TimelineItem--content-margin-left);
 
@@ -208,6 +220,7 @@
         color: var(--TimelineItem--text-primary-color);
         font-size: var(--Timeline--font-size);
         margin-bottom: var(--TimelineItem--content-title-margin-bottom);
+       
       }
 
       .#{$ns}TimelineItem-detail {
@@ -231,6 +244,7 @@
 
         .#{$ns}TimelineItem-detail-visible {
           display: block;
+          border-radius: var(--Timeline-visible-border-radius);
           max-width: var(--TimelineItem-detail-visible-max-width);
           font-size: var(--Timeline--font-size);
           padding: var(--TimelineItem-detail-visible-padding);
