@@ -130,14 +130,6 @@ test('Renderer:radios source', async () => {
     expect(
       (container.querySelector('.cxd-PlainField') as Element).innerHTML
     ).toBe('aa');
-
-    expect(
-      container.querySelector('span.class-a') as Element
-    ).toBeInTheDocument();
-
-    expect(
-      container.querySelector('.cxd-Grid-col--sm4') as Element
-    ).toBeInTheDocument();
   });
 
   await waitFor(() => {
