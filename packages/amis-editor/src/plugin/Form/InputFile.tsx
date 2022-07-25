@@ -334,6 +334,15 @@ export class FileControlPlugin extends BasePlugin {
                 visibleOn:
                   'data.submitType === "asUpload" && data.uploadType === "fileReceptor" && !data.useChunk'
               }),
+              {
+                type: 'input-text',
+                value: '',
+                name: 'accept',
+                label: tipedLabel(
+                  '文件类型',
+                  '请填入文件的后缀，多个类型用<code>,</code>隔开'
+                ),
+              },
               getSchemaTpl('fileUrl', {
                 name: 'templateUrl',
                 label: tipedLabel(
