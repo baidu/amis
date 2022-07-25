@@ -199,6 +199,9 @@ export function wrapControl<
               combo.bindUniuqueItem(model);
             }
 
+            console.log('store', store);
+            console.log('props', props);
+
             if (propValue !== undefined && propValue !== null) {
               // 同步 value: 优先使用 props 中的 value
               model.changeTmpValue(propValue);
@@ -207,7 +210,7 @@ export function wrapControl<
               const curTmpValue = isExpression(value)
                 ? FormulaExec['formula'](value, data) // 对组件默认值进行运算
                 // 生成 value 就近取值， 避免数据域问题导致 value 生成不正确
-                : getVariable(data, model.name) ?? store?.getValueByName(model.name) ?? replaceExpression(value); // 优先使用公式表达式
+                : getVariable(data, model.name, false) ?? store?.getValueByName(model.name) ?? replaceExpression(value); // 优先使用公式表达式
               // 同步 value
               model.changeTmpValue(curTmpValue);
 
