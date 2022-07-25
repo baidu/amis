@@ -40,7 +40,7 @@ test('EventAction:custom', async () => {
                     actionType: 'setValue',
                     componentId: 'page_001',
                     args: {
-                      value: '${event.data.result}'
+                      value: '${event.data.result.data}'
                     }
                   }
                 ]
@@ -63,7 +63,7 @@ test('EventAction:custom', async () => {
                     actionType: 'setValue',
                     componentId: 'page_001',
                     args: {
-                      value: '${event.data.result}'
+                      value: '${event.data.result.data}'
                     }
                   }
                 ]
