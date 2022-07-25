@@ -62,7 +62,7 @@
 
   &:hover {
     background: var(--Form-select-onHover-bg);
-    border-color: var(--Form-select-onHover-borderColor);
+    border-color: var(--Form-input-onHover-borderColor);
 
     .#{$ns}Select-arrow:before {
       color: var(--Form-select-caret-onHover-iconColor);

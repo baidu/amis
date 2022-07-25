@@ -264,6 +264,9 @@
     & td.text-right {
       text-align: right;
     }
+    & td .#{$ns}SwitchControl {
+      padding-top: 0;
+    }
 
     &--withCombine {
       > thead > tr > th,
@@ -309,13 +312,14 @@
       > th {
         background: var(--Table-thead-bg);
         padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+        text-align: left;
 
         &:first-child {
-          padding-left: var(--TableCell--edge-paddingX);
+          padding-left: px2rem(12px);
         }
 
         &:last-child {
-          padding-right: var(--TableCell--edge-paddingX);
+          padding-right: px2rem(12px);
           .#{$ns}Table-content-colDragLine {
             // 避免出现横向滚动条
             width: 4px;
@@ -343,6 +347,14 @@
           margin-left: var(--gap-xs);
         }
       }
+    }
+
+    > thead > tr > th:first-child {
+      border-top-left-radius: 4px;
+    }
+
+    > thead > tr > th:last-child {
+      border-top-right-radius: 4px;
     }
 
     > thead > tr + tr {
@@ -408,6 +420,14 @@
         & + tr {
           border-color: var(--Table-onHover-borderColor);
         }
+      }
+
+      &:active {
+        background: transparent;
+      }
+
+      &:hover.#{$ns}Table-placeholder {
+        color: var(--text--muted-color);
       }
 
       &.is-checked {
@@ -675,11 +695,12 @@
       height: 12px;
     }
 
-    &:hover {
-      color: var(--text-color);
-    }
     &.is-active {
       color: var(--TableCell-searchBtn--onActive-color);
+    }
+
+    &.is-opened {
+      color: var(--Button--default-onActive-border);
     }
   }
 
@@ -802,6 +823,10 @@
     color: var(--info);
   }
 
+  &-foot {
+    background: var(--Table-thead-bg);
+  }
+
   &-footTable {
     position: relative;
     width: 100%;
@@ -849,10 +874,11 @@
       width: px2rem(10px);
       height: px2rem(10px);
       top: 0;
+      transform: rotate(90deg);
     }
 
     &.is-active > svg {
-      transform: rotate(90deg);
+      transform: rotate(-90deg);
     }
 
     &:hover {
@@ -914,11 +940,30 @@
   }
 }
 
+.#{$ns}InputTable {
+  .#{$ns}Field--quickEditable svg {
+    color: var(--primary);
+
+    &:hover {
+      color: var(--primary-onHover);
+    }
+
+    &:active {
+      color: var(--primary-onActive);
+    }
+  }
+}
+
 .#{$ns}InputTable-toolbar {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  .#{$ns}Button {
+    border: none;
+    color: var(--Button--link-color);
+  }
 }
 
 .#{$ns}InputTable-pager {

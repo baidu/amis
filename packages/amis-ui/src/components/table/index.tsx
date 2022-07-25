@@ -839,7 +839,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       for (let i = 0; i < colGroup.length; i++) {
         const child = colGroup[i].children[index] as HTMLElement;
         if (child) {
-          currentWidth = child.offsetWidth
+          currentWidth = child.offsetWidth;
           children.push(child);
         }
       }

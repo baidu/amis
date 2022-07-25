@@ -243,7 +243,11 @@ export class HeadCellSearchDropDown extends React.Component<
 
     return (
       <span
-        className={cx(`${ns}TableCell-searchBtn`, isActive ? 'is-active' : '')}
+        className={cx(
+          `${ns}TableCell-searchBtn`,
+          isActive ? 'is-active' : '',
+          this.state.isOpened ? 'is-opened' : ''
+        )}
       >
         <span onClick={this.open}>
           <Icon icon="search" className="icon" />
