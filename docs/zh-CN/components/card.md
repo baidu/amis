@@ -26,6 +26,7 @@ order: 31
             "type": "button",
             "label": "编辑",
             "actionType": "dialog",
+            "icon": "fa fa-pencil",
             "dialog": {
               "title": "编辑",
               "body": "你正在编辑该卡片"
@@ -34,6 +35,7 @@ order: 31
         {
           "type": "button",
           "label": "删除",
+          "icon": "fa fa-trash",
           "actionType": "dialog",
           "dialog": {
             "title": "提示",

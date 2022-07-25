@@ -231,7 +231,7 @@ register('zh-CN', {
   'Table.index': '序号',
   'Table.toggleColumn': '显示列',
   'Table.searchFields': '设置查询字段',
-  'Tag.placeholder': '暂无标签',
+  'Tag.placeholder': '请输入/选择标签',
   'Tag.tip': '最近使用的标签',
   'Text.add': '新增：{{label}}',
   'Time.placeholder': '请选择时间',
