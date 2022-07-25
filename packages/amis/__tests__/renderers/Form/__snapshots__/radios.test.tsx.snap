@@ -367,3 +367,195 @@ exports[`Renderer:radios 2`] = `
   </div>
 </div>
 `;
+
+exports[`Renderer:radios source 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  radios
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-RadiosControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Grid"
+            >
+              <div
+                class="cxd-Grid-col--sm4"
+              >
+                <label
+                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                >
+                  <input
+                    type="radio"
+                  />
+                  <i />
+                  <span
+                    class="class-a"
+                  >
+                    A
+                  </span>
+                </label>
+              </div>
+              <div
+                class="cxd-Grid-col--sm4"
+              >
+                <label
+                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                >
+                  <input
+                    type="radio"
+                  />
+                  <i />
+                  <span
+                    class="class-a"
+                  >
+                    B
+                  </span>
+                </label>
+              </div>
+              <div
+                class="cxd-Grid-col--sm4"
+              >
+                <label
+                  class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                >
+                  <input
+                    type="radio"
+                  />
+                  <i />
+                  <span
+                    class="class-a"
+                  >
+                    C
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                aa
+              </span>
+            </div>
+          </div>
+        </div>
+        <span
+          class="cxd-TplField autoFillClass"
+        >
+          <span>
+            13
+          </span>
+        </span>
+      </form>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
