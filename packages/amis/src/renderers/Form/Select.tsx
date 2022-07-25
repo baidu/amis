@@ -42,7 +42,7 @@ export interface SelectControlSchema extends FormOptionsSchema {
   /**
    * 当在value值未匹配到当前options中的选项时，是否value值对应文本飘红显示
    */
-  showInvalidMatch: boolean;
+  showInvalidMatch?: boolean;
 
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
@@ -52,7 +52,7 @@ export interface SelectControlSchema extends FormOptionsSchema {
   /**
    * 勾选展示模式
    */
-  selectMode?: 'table' | 'group' | 'tree' | 'chained' | 'associated';
+  selectMode?: 'list' | 'table' | 'group' | 'tree' | 'chained' | 'associated';
 
   /**
    * 当 selectMode 为 associated 时用来定义左侧的选项
@@ -133,10 +133,14 @@ export interface SelectControlSchema extends FormOptionsSchema {
   optionClassName?: SchemaClassName;
 }
 
-export interface SelectProps extends OptionsControlProps {
+export interface SelectProps
+  extends SelectControlSchema,
+    Omit<
+      OptionsControlProps,
+      'className' | 'descriptionClassName' | 'inputClassName' | 'options'
+    > {
   autoComplete?: Api;
   searchable?: boolean;
-  showInvalidMatch?: boolean;
   defaultOpen?: boolean;
   useMobileUI?: boolean;
   maxTagCount?: number;

@@ -125,7 +125,7 @@ test('Renderer:combo multiple', async () => {
   await wait(300);
 
   // 下拉框点击
-  fireEvent.click(container.querySelector('.cxd-Select')!);
+  fireEvent.click(container.querySelector('.cxd-ResultBox')!);
 
   await waitFor(() => {
     expect(getByText('aOptions')).toBeInTheDocument();

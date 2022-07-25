@@ -102,11 +102,9 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       >
         {({onClick, isOpened, ref}) => (
           <ResultBox
-            className={cx(
-              'TransferDropDown',
-              className,
-              isOpened ? 'is-opened' : ''
-            )}
+            className={cx('TransferDropDown', className, {
+              'is-opened': isOpened
+            })}
             borderMode={borderMode}
             allowInput={false}
             result={multiple ? value : value?.[0] ? value?.[0] : null}

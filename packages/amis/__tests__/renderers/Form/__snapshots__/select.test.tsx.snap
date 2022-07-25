@@ -698,25 +698,33 @@ exports[`Renderer:select menutpl 1`] = `
                       aria-labelledby="downshift-0-label"
                       class="cxd-Select"
                       role="combobox"
-                      tabindex="0"
                     >
                       <div
-                        class="cxd-Select-valueWrap"
+                        class="cxd-ResultBox is-clickable"
+                        tabindex="-1"
                       >
                         <div
-                          class="cxd-Select-placeholder"
+                          class="cxd-ResultBox-value-wrap"
                         >
-                          请选择
+                          <span
+                            class="cxd-ResultBox-placeholder"
+                          >
+                            请选择
+                          </span>
+                        </div>
+                        <div
+                          class="cxd-ResultBox-actions"
+                        >
+                          <span
+                            class="cxd-ResultBox-pc-arrow"
+                          >
+                            <icon-mock
+                              classname="icon icon-right-arrow-bold"
+                              icon="right-arrow-bold"
+                            />
+                          </span>
                         </div>
                       </div>
-                      <span
-                        class="cxd-Select-arrow"
-                      >
-                        <icon-mock
-                          classname="icon icon-right-arrow-bold"
-                          icon="right-arrow-bold"
-                        />
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -1637,214 +1645,261 @@ exports[`Renderer:select virtual 1`] = `
               aria-haspopup="listbox"
               aria-labelledby="downshift-1-label"
               aria-owns="downshift-1-menu"
-              class="cxd-Select is-opened has-popover"
+              class="cxd-Select"
               role="combobox"
-              style="position: relative;"
-              tabindex="0"
             >
               <div
-                class="cxd-Select-valueWrap"
+                class="cxd-ResultBox is-opened is-clickable has-popover"
+                style="position: relative;"
+                tabindex="-1"
               >
                 <div
-                  class="cxd-Select-placeholder"
+                  class="cxd-ResultBox-value-wrap"
                 >
-                  请选择
+                  <span
+                    class="cxd-ResultBox-placeholder"
+                  >
+                    请选择
+                  </span>
                 </div>
-              </div>
-              <span
-                class="cxd-Select-arrow"
-              >
-                <icon-mock
-                  classname="icon icon-right-arrow-bold"
-                  icon="right-arrow-bold"
-                />
-              </span>
-              <div
-                class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
-                style="display: block; width: auto; left: 0px; top: 0px; position: relative;"
-                theme="cxd"
-              >
                 <div
-                  class="cxd-PopOver-overlay"
-                />
+                  class="cxd-ResultBox-actions"
+                >
+                  <span
+                    class="cxd-ResultBox-pc-arrow"
+                  >
+                    <icon-mock
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
+                  </span>
+                </div>
                 <div
-                  class="cxd-Select-menu cxd-Select--longlist"
+                  class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
+                  style="display: block; width: 100%; left: 0px; top: 0px; position: relative;"
+                  theme="cxd"
                 >
                   <div
-                    style="overflow: auto; will-change: transform; height: 266px; width: 100%;"
+                    class="cxd-PopOver-overlay"
+                  />
+                  <div
+                    class="cxd-Select-menu cxd-Select--longlist"
                   >
                     <div
-                      style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 6400px;"
+                      style="overflow: auto; will-change: transform; height: 266px; width: 100%;"
                     >
                       <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-0"
-                        role="option"
-                        style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
+                        style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 6400px;"
                       >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option0"
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-0"
+                          role="option"
+                          style="position: absolute; top: 0px; left: 0px; width: auto; height: 32px;"
                         >
-                          option0
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-1"
-                        role="option"
-                        style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option1"
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option0"
+                          >
+                            option0
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-1"
+                          role="option"
+                          style="position: absolute; top: 32px; left: 0px; width: auto; height: 32px;"
                         >
-                          option1
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-2"
-                        role="option"
-                        style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option2"
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option1"
+                          >
+                            option1
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-2"
+                          role="option"
+                          style="position: absolute; top: 64px; left: 0px; width: auto; height: 32px;"
                         >
-                          option2
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-3"
-                        role="option"
-                        style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option3"
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option2"
+                          >
+                            option2
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-3"
+                          role="option"
+                          style="position: absolute; top: 96px; left: 0px; width: auto; height: 32px;"
                         >
-                          option3
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-4"
-                        role="option"
-                        style="position: absolute; top: 128px; left: 0px; width: 100%; height: 32px;"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option4"
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option3"
+                          >
+                            option3
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-4"
+                          role="option"
+                          style="position: absolute; top: 128px; left: 0px; width: auto; height: 32px;"
                         >
-                          option4
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-5"
-                        role="option"
-                        style="position: absolute; top: 160px; left: 0px; width: 100%; height: 32px;"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option5"
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option4"
+                          >
+                            option4
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-5"
+                          role="option"
+                          style="position: absolute; top: 160px; left: 0px; width: auto; height: 32px;"
                         >
-                          option5
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-6"
-                        role="option"
-                        style="position: absolute; top: 192px; left: 0px; width: 100%; height: 32px;"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option6"
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option5"
+                          >
+                            option5
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-6"
+                          role="option"
+                          style="position: absolute; top: 192px; left: 0px; width: auto; height: 32px;"
                         >
-                          option6
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-7"
-                        role="option"
-                        style="position: absolute; top: 224px; left: 0px; width: 100%; height: 32px;"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option7"
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option6"
+                          >
+                            option6
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-7"
+                          role="option"
+                          style="position: absolute; top: 224px; left: 0px; width: auto; height: 32px;"
                         >
-                          option7
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-8"
-                        role="option"
-                        style="position: absolute; top: 256px; left: 0px; width: 100%; height: 32px;"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option8"
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option7"
+                          >
+                            option7
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-8"
+                          role="option"
+                          style="position: absolute; top: 256px; left: 0px; width: auto; height: 32px;"
                         >
-                          option8
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-9"
-                        role="option"
-                        style="position: absolute; top: 288px; left: 0px; width: 100%; height: 32px;"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option9"
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option8"
+                          >
+                            option8
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-9"
+                          role="option"
+                          style="position: absolute; top: 288px; left: 0px; width: auto; height: 32px;"
                         >
-                          option9
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-10"
-                        role="option"
-                        style="position: absolute; top: 320px; left: 0px; width: 100%; height: 32px;"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option10"
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option9"
+                          >
+                            option9
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-10"
+                          role="option"
+                          style="position: absolute; top: 320px; left: 0px; width: auto; height: 32px;"
                         >
-                          option10
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-1-item-11"
-                        role="option"
-                        style="position: absolute; top: 352px; left: 0px; width: 100%; height: 32px;"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="option11"
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option10"
+                          >
+                            option10
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-1-item-11"
+                          role="option"
+                          style="position: absolute; top: 352px; left: 0px; width: auto; height: 32px;"
                         >
-                          option11
-                        </span>
+                          <span
+                            class="cxd-Select-option-content"
+                            title="option11"
+                          >
+                            option11
+                          </span>
+                        </div>
                       </div>
                     </div>
+                  </div>
+                  <div
+                    class="resize-sensor"
+                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+  
+                    <div
+                      class="resize-sensor-expand"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+    
+                      <div
+                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                      />
+                      
+  
+                    </div>
+                    
+  
+                    <div
+                      class="resize-sensor-shrink"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+    
+                      <div
+                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                      />
+                      
+  
+                    </div>
+                    
+  
+                    <div
+                      class="resize-sensor-appear"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                    />
                   </div>
                 </div>
                 <div
@@ -1886,45 +1941,6 @@ exports[`Renderer:select virtual 1`] = `
                     style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
                   />
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
               </div>
             </div>
           </div>

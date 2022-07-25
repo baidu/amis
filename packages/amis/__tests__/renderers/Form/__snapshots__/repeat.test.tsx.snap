@@ -186,155 +186,202 @@ exports[`Renderer:repeat 1`] = `
                   aria-haspopup="listbox"
                   aria-labelledby="downshift-0-label"
                   aria-owns="downshift-0-menu"
-                  class="cxd-Select is-opened pull-right has-popover"
+                  class="cxd-Select pull-right"
                   role="combobox"
-                  style="position: relative;"
-                  tabindex="0"
                 >
                   <div
-                    class="cxd-Select-valueWrap"
+                    class="cxd-ResultBox is-opened is-clickable has-popover"
+                    style="position: relative;"
+                    tabindex="-1"
                   >
                     <div
-                      class="cxd-Select-value"
+                      class="cxd-ResultBox-value-wrap"
                     >
-                      年
+                      <span
+                        class="cxd-ResultBox-singleValue"
+                      >
+                        年
+                      </span>
                     </div>
-                  </div>
-                  <span
-                    class="cxd-Select-arrow"
-                  >
-                    <icon-mock
-                      classname="icon icon-right-arrow-bold"
-                      icon="right-arrow-bold"
-                    />
-                  </span>
-                  <div
-                    class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
-                    style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
-                    theme="cxd"
-                  >
                     <div
-                      class="cxd-PopOver-overlay"
-                    />
+                      class="cxd-ResultBox-actions"
+                    >
+                      <span
+                        class="cxd-ResultBox-pc-arrow"
+                      >
+                        <icon-mock
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
+                        />
+                      </span>
+                    </div>
                     <div
-                      class="cxd-Select-menu"
+                      class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
+                      style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                      theme="cxd"
                     >
                       <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-0-item-0"
-                        role="option"
+                        class="cxd-PopOver-overlay"
+                      />
+                      <div
+                        class="cxd-Select-menu"
                       >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="不重复"
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-0-item-0"
+                          role="option"
                         >
-                          不重复
-                        </span>
+                          <span
+                            class="cxd-Select-option-content"
+                            title="不重复"
+                          >
+                            不重复
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-0-item-1"
+                          role="option"
+                        >
+                          <span
+                            class="cxd-Select-option-content"
+                            title="秒"
+                          >
+                            秒
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-0-item-2"
+                          role="option"
+                        >
+                          <span
+                            class="cxd-Select-option-content"
+                            title="分"
+                          >
+                            分
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-0-item-3"
+                          role="option"
+                        >
+                          <span
+                            class="cxd-Select-option-content"
+                            title="时"
+                          >
+                            时
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-0-item-4"
+                          role="option"
+                        >
+                          <span
+                            class="cxd-Select-option-content"
+                            title="天"
+                          >
+                            天
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-0-item-5"
+                          role="option"
+                        >
+                          <span
+                            class="cxd-Select-option-content"
+                            title="周中"
+                          >
+                            周中
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-0-item-6"
+                          role="option"
+                        >
+                          <span
+                            class="cxd-Select-option-content"
+                            title="周"
+                          >
+                            周
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option"
+                          id="downshift-0-item-7"
+                          role="option"
+                        >
+                          <span
+                            class="cxd-Select-option-content"
+                            title="月"
+                          >
+                            月
+                          </span>
+                        </div>
+                        <div
+                          aria-selected="false"
+                          class="cxd-Select-option is-active"
+                          id="downshift-0-item-8"
+                          role="option"
+                        >
+                          <span
+                            class="cxd-Select-option-content"
+                            title="年"
+                          >
+                            年
+                          </span>
+                        </div>
                       </div>
                       <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-0-item-1"
-                        role="option"
+                        class="resize-sensor"
+                        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
                       >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="秒"
+                        
+  
+                        <div
+                          class="resize-sensor-expand"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
                         >
-                          秒
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-0-item-2"
-                        role="option"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="分"
+                          
+    
+                          <div
+                            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-shrink"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
                         >
-                          分
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-0-item-3"
-                        role="option"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="时"
-                        >
-                          时
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-0-item-4"
-                        role="option"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="天"
-                        >
-                          天
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-0-item-5"
-                        role="option"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="周中"
-                        >
-                          周中
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-0-item-6"
-                        role="option"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="周"
-                        >
-                          周
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option"
-                        id="downshift-0-item-7"
-                        role="option"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="月"
-                        >
-                          月
-                        </span>
-                      </div>
-                      <div
-                        aria-selected="false"
-                        class="cxd-Select-option is-active"
-                        id="downshift-0-item-8"
-                        role="option"
-                      >
-                        <span
-                          class="cxd-Select-option-content"
-                          title="年"
-                        >
-                          年
-                        </span>
+                          
+    
+                          <div
+                            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-appear"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                        />
                       </div>
                     </div>
                     <div
@@ -376,45 +423,6 @@ exports[`Renderer:repeat 1`] = `
                         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
                       />
                     </div>
-                  </div>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
                   </div>
                 </div>
               </div>

@@ -63,25 +63,33 @@ exports[`Renderer:service 1`] = `
               aria-labelledby="downshift-0-label"
               class="cxd-Select"
               role="combobox"
-              tabindex="0"
             >
               <div
-                class="cxd-Select-valueWrap"
+                class="cxd-ResultBox is-clickable"
+                tabindex="-1"
               >
                 <div
-                  class="cxd-Select-value"
+                  class="cxd-ResultBox-value-wrap"
                 >
-                  模板1
+                  <span
+                    class="cxd-ResultBox-singleValue"
+                  >
+                    模板1
+                  </span>
+                </div>
+                <div
+                  class="cxd-ResultBox-actions"
+                >
+                  <span
+                    class="cxd-ResultBox-pc-arrow"
+                  >
+                    <icon-mock
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
+                  </span>
                 </div>
               </div>
-              <span
-                class="cxd-Select-arrow"
-              >
-                <icon-mock
-                  classname="icon icon-right-arrow-bold"
-                  icon="right-arrow-bold"
-                />
-              </span>
             </div>
           </div>
         </div>

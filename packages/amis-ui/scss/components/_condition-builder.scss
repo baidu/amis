@@ -10,19 +10,19 @@
     text-align: center;
     margin-top: px2rem(-44px);
     margin-bottom: px2rem(16px);
-    .#{$ns}Select {
+    .#{$ns}Select.#{$ns}ResultBox {
       font-size: 12px;
       height: px2rem(28px);
-      width: px2rem(62px);
+      width: px2rem(72px);
       background: #d4e5ff;
       border: none;
       color: #0832a6;
       font-weight: 500;
-      padding: 0;
       padding-left: px2rem(8px);
       min-height: px2rem(28px);
-      &:hover {
+      &:not(.is-disabled):hover {
         background: #d4e5ff;
+        color: #0832a6;
       }
     }
   }

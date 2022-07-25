@@ -17,6 +17,8 @@ order: 48
 ```schema: scope="body"
 {
     "type": "form",
+    "api": "/api/mock2/form/saveForm",
+
     "body": [
         {
             "label": "选项",

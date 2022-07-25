@@ -5,44 +5,39 @@
  * @date 2017-11-07
  */
 
-import {uncontrollable} from 'amis-core';
-import React from 'react';
-import isInteger from 'lodash/isInteger';
-import omit from 'lodash/omit';
-import merge from 'lodash/merge';
-import VirtualList from './virtual-list';
-import {Overlay} from 'amis-core';
-import {PopOver} from 'amis-core';
-import TooltipWrapper from './TooltipWrapper';
-import Downshift, {ControllerStateAndHelpers} from 'downshift';
-import {closeIcon, Icon} from './icons';
-// @ts-ignore
-import {matchSorter} from 'match-sorter';
 import {
+  autobind,
+  localeable,
+  themeable,
+  uncontrollable,
+  Overlay,
+  PopOver,
   noop,
   isObject,
   findTree,
-  autobind,
-  ucFirst,
   normalizeNodePath,
-  isMobile
+  isMobile,
+  highlight,
+  ThemeProps,
+  LocaleProps
 } from 'amis-core';
-import find from 'lodash/find';
+import type {Option, Options} from 'amis-core';
+import React from 'react';
+import VirtualList from './virtual-list';
+import Downshift, {ControllerStateAndHelpers} from 'downshift';
+import {Icon} from './icons';
+// @ts-ignore
+import {matchSorter} from 'match-sorter';
 import isPlainObject from 'lodash/isPlainObject';
-import union from 'lodash/union';
-import {highlight} from 'amis-core';
 import {findDOMNode} from 'react-dom';
-import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import Checkbox from './Checkbox';
 import Input from './Input';
-import {LocaleProps, localeable} from 'amis-core';
-import Spinner from './Spinner';
-import type {Option, Options} from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
-import Picker from './Picker';
 import PopUp from './PopUp';
+import ResultBox from './ResultBox';
 
 import type {TooltipObject} from '../components/TooltipWrapper';
+import Spinner from './Spinner';
 
 export {Option, Options};
 
@@ -474,7 +469,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 
   @autobind
-  toggle(e?: React.MouseEvent<HTMLDivElement>) {
+  toggle(e?: React.MouseEvent<HTMLElement, MouseEvent>) {
     if (
       e &&
       this.menu.current &&
@@ -548,7 +543,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
   @autobind
   getTarget() {
     if (!this.target) {
-      this.target = findDOMNode(this) as HTMLElement;
+      const dom = findDOMNode(this);
+      this.target = (dom?.firstChild || dom) as HTMLElement;
     }
     return this.target as HTMLElement;
   }
@@ -586,6 +582,17 @@ export class Select extends React.Component<SelectProps, SelectState> {
     onChange(simpleValue ? selection.map(item => item.value) : selection);
   }
 
+  @autobind
+  handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
+    const {loadOptions} = this.props;
+    this.setState(
+      {
+        inputValue: evt.currentTarget.value
+      },
+      () => loadOptions && loadOptions(this.state.inputValue)
+    );
+  }
+
   removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
     const {onChange, simpleValue, disabled} = this.props;
     if (disabled) {
@@ -598,17 +605,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
     value.splice(index, 1);
 
     onChange(simpleValue ? value.map(item => item.value) : value);
-  }
-
-  @autobind
-  handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    const {loadOptions} = this.props;
-    this.setState(
-      {
-        inputValue: evt.currentTarget.value
-      },
-      () => loadOptions && loadOptions(this.state.inputValue)
-    );
   }
 
   @autobind
@@ -734,188 +730,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
     onDelete && onDelete(item);
   }
 
-  renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
-    const {
-      classnames: cx,
-      multiple,
-      valuesNoWrap,
-      placeholder,
-      labelField,
-      disabled,
-      maxTagCount,
-      overflowTagPopover,
-      showInvalidMatch,
-      translate: __
-    } = this.props;
-    const selection = this.state.selection;
-
-    if (!selection.length) {
-      return (
-        <div key="placeholder" className={cx('Select-placeholder')}>
-          {__(placeholder)}
-        </div>
-      );
-    }
-
-    if (
-      multiple &&
-      maxTagCount != null &&
-      isInteger(Math.floor(maxTagCount)) &&
-      Math.floor(maxTagCount) >= 0 &&
-      Math.floor(maxTagCount) < selection.length
-    ) {
-      const maxVisibleCount = Math.floor(maxTagCount);
-      const tooltipProps: TooltipObject = {
-        placement: 'top',
-        trigger: 'hover',
-        showArrow: false,
-        offset: [0, -10],
-        tooltipClassName: cx(
-          'Select-overflow',
-          overflowTagPopover?.tooltipClassName
-        ),
-        ...omit(overflowTagPopover, ['children', 'content', 'tooltipClassName'])
-      };
-      return [
-        ...selection.slice(0, maxVisibleCount),
-        {label: `+ ${selection.length - maxVisibleCount} ...`}
-      ].map((item, index) => {
-        if (index === maxVisibleCount) {
-          return (
-            <TooltipWrapper
-              key={selection.length}
-              tooltip={{
-                ...tooltipProps,
-                children: () => (
-                  <div className={cx('Select-overflow-wrapper')}>
-                    {selection
-                      .slice(maxVisibleCount, selection.length)
-                      .map((item, index) => {
-                        const itemIndex = index + maxVisibleCount;
-                        return (
-                          <div
-                            key={itemIndex}
-                            className={cx('Select-value', {
-                              'is-disabled': disabled,
-                              'is-invalid': showInvalidMatch
-                                ? item.__unmatched
-                                : false
-                            })}
-                          >
-                            <span className={cx('Select-valueLabel')}>
-                              {item[labelField || 'label']}
-                            </span>
-                            <span
-                              className={cx('Select-valueIcon', {
-                                'is-disabled': disabled || item.disabled
-                              })}
-                              onClick={this.removeItem.bind(this, itemIndex)}
-                            >
-                              <Icon icon="close" className="icon" />
-                            </span>
-                          </div>
-                        );
-                      })}
-                  </div>
-                )
-              }}
-            >
-              <div
-                className={cx('Select-value', {
-                  'is-disabled': disabled,
-                  'is-invalid': showInvalidMatch ? item.__unmatched : false
-                })}
-                onClick={(e: React.MouseEvent) =>
-                  e.stopPropagation()
-                } /** 避免点击查看浮窗时呼出下拉菜单 */
-              >
-                <span className={cx('Select-valueLabel')}>
-                  {item[labelField || 'label']}
-                </span>
-              </div>
-            </TooltipWrapper>
-          );
-        }
-
-        return (
-          <TooltipWrapper
-            placement={'top'}
-            tooltip={item[labelField || 'label']}
-            trigger={'hover'}
-            key={index}
-          >
-            <div
-              className={cx('Select-value', {
-                'is-disabled': disabled,
-                'is-invalid': showInvalidMatch ? item.__unmatched : false
-              })}
-            >
-              <span className={cx('Select-valueLabel')}>
-                {item[labelField || 'label']}
-              </span>
-              <span
-                className={cx('Select-valueIcon', {
-                  'is-disabled': disabled || item.disabled
-                })}
-                onClick={this.removeItem.bind(this, index)}
-              >
-                <Icon icon="close" className="icon" />
-              </span>
-            </div>
-          </TooltipWrapper>
-        );
-      });
-    }
-
-    return selection.map((item, index) => {
-      if (!multiple) {
-        return (
-          <div
-            className={cx('Select-value', {
-              'is-disabled': disabled,
-              'is-invalid': showInvalidMatch ? item.__unmatched : false
-            })}
-            key={index}
-          >
-            {item[labelField || 'label']}
-          </div>
-        );
-      }
-
-      return valuesNoWrap ? (
-        `${item[labelField || 'label']}${
-          index === selection.length - 1 ? '' : ' + '
-        }`
-      ) : (
-        <TooltipWrapper
-          placement={'top'}
-          tooltip={item[labelField || 'label']}
-          trigger={'hover'}
-          key={index}
-        >
-          <div
-            className={cx('Select-value', {
-              'is-disabled': disabled,
-              'is-invalid': showInvalidMatch ? item.__unmatched : false
-            })}
-          >
-            <span className={cx('Select-valueLabel')}>
-              {item[labelField || 'label']}
-            </span>
-            <span
-              className={cx('Select-valueIcon', {
-                'is-disabled': disabled || item.disabled
-              })}
-              onClick={this.removeItem.bind(this, index)}
-            >
-              <Icon icon="close" className="icon" />
-            </span>
-          </div>
-        </TooltipWrapper>
-      );
-    });
+  @autobind
+  itemRender(item: any): any {
+    const {labelField} = this.props;
+    return `${item.scopeLabel || ''}${item[labelField || 'label']}`;
   }
-
+  // TODO： 这里的性能很有问题
   renderOuter({
     selectedItem,
     getItemProps,
@@ -1008,7 +828,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             item,
             disabled: item.disabled
           })}
-          style={merge(style, enableVirtualRender ? {width: '100%'} : {})}
+          style={style}
           className={cx(`Select-option`, {
             'is-disabled': item.disabled,
             'is-highlight': highlightedIndex === index,
@@ -1216,7 +1036,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           overlay
           className={cx('Select-popover')}
           style={{
-            width: this.target ? this.target.offsetWidth : 'auto'
+            width: this.target ? this.target.offsetWidth : '100%'
           }}
           onHide={this.close}
         >
@@ -1226,24 +1046,41 @@ export class Select extends React.Component<SelectProps, SelectState> {
     );
   }
 
+  getDisplayValue() {
+    const {options, value, multiple, valueField} = this.props;
+
+    if (multiple || isObject(value)) {
+      return value;
+    }
+    if (Array.isArray(value)) {
+      return value[0];
+    }
+    if (typeof value === 'string' || typeof value === 'number') {
+      return options.find(item => item[valueField] === value);
+    }
+    return null;
+  }
+
   render() {
     const {
       classnames: cx,
       multiple,
       valuesNoWrap,
-      searchable,
       inline,
       block,
       className,
-      value,
-      loading,
+      loading = false,
       clearable,
       labelField,
       disabled,
-      checkAll,
       borderMode,
       useMobileUI,
-      hasError
+      hasError,
+      translate: __,
+      overflowTagPopover,
+      maxTagCount,
+      onChange,
+      placeholder
     } = this.props;
 
     const selection = this.state.selection;
@@ -1267,56 +1104,32 @@ export class Select extends React.Component<SelectProps, SelectState> {
           const {isOpen} = options;
           return (
             <div
-              tabIndex={disabled ? -1 : 0}
-              onKeyPress={this.handleKeyPress}
-              onClick={this.toggle}
-              onFocus={this.onFocus}
-              onBlur={this.onBlur}
-              className={cx(
-                `Select`,
-                {
-                  [`Select--multi`]: multiple,
-                  [`Select--inline`]: inline,
-                  [`Select--block`]: block,
-                  [`Select--searchable`]: searchable,
-                  'is-opened': isOpen,
-                  'is-focused': this.state.isFocused,
-                  'is-disabled': disabled,
-                  'is-mobile': mobileUI,
-                  'is-error': hasError,
-                  [`Select--border${ucFirst(borderMode)}`]: borderMode
-                },
-                className
-              )}
+              className={cx('Select', className, {
+                'Select--inline': inline,
+                'Select--block': block
+              })}
             >
-              <div
-                className={cx(`Select-valueWrap`, {
-                  'Select-valuesNoWrap': valuesNoWrap
+              <ResultBox
+                className={cx({
+                  'is-opened': isOpen,
+                  'is-error': hasError
                 })}
-              >
-                {this.renderValue(options)}
-              </div>
-              {clearable &&
-              !disabled &&
-              (Array.isArray(value)
-                ? value.length
-                : value != null && value !== resetValue) ? (
-                <a onClick={this.clearValue} className={cx('Select-clear')}>
-                  <Icon icon="close-small" className="icon" />
-                </a>
-              ) : null}
-              {loading ? (
-                <Spinner
-                  show
-                  icon="reload"
-                  size="sm"
-                  spinnerClassName={cx('Select-spinner')}
-                />
-              ) : null}
-
-              <span className={cx('Select-arrow')}>
-                <Icon icon="right-arrow-bold" className="icon" />
-              </span>
+                classnames={cx}
+                borderMode={borderMode}
+                allowInput={false}
+                result={this.getDisplayValue()}
+                onResultChange={onChange}
+                onResultClick={this.toggle}
+                placeholder={placeholder || __('Select.placeholder')}
+                disabled={disabled}
+                clearable={clearable}
+                maxTagCount={maxTagCount}
+                overflowTagPopover={overflowTagPopover}
+                hasDropDownArrow={!mobileUI}
+                useMobileUI={useMobileUI}
+                itemRender={this.itemRender}
+                actions={<Spinner show={loading} icon="reload" size="sm" />}
+              />
               {isOpen ? this.renderOuter(options) : null}
             </div>
           );

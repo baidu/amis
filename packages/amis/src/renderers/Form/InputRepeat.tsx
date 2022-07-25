@@ -4,15 +4,18 @@
  *
  * 不建议用，以后可能会删除。可以直接用组合出来，不需要新建一个组件。
  */
-
-import React from 'react';
-import cx from 'classnames';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
-
 /**
  * Repeat
  * 文档：https://baidu.gitee.io/amis/docs/components/form/repeat
  */
+import React from 'react';
+import cx from 'classnames';
+import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {Select} from 'amis-ui';
+import {Range as InputRange} from 'amis-ui';
+import {Option} from 'amis-core';
+import {FormBaseControlSchema} from '../../Schema';
+
 export interface RepeatControlSchema extends FormBaseControlSchema {
   type: 'input-repeat';
 
@@ -31,10 +34,8 @@ const LANG: {
   monthly: '月',
   yearly: '年'
 };
-import {Select} from 'amis-ui';
-import {Range as InputRange} from 'amis-ui';
-import {Option} from 'amis-core';
-import {FormBaseControlSchema} from '../../Schema';
+
+const UN_REPEAT_VALUE = '';
 
 export interface RepeatProps extends FormControlProps {
   options?: string;
@@ -86,7 +87,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
 
     optionsArray.unshift({
       label: __(placeholder as string),
-      value: ''
+      value: UN_REPEAT_VALUE
     });
 
     let input;
@@ -194,6 +195,9 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
         break;
     }
 
+    const selectedValue =
+      !input && value === UN_REPEAT_VALUE ? value : parts[0];
+
     return (
       <div className="repeat-control hbox">
         {input ? (
@@ -211,7 +215,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
             options={optionsArray}
             placeholder={__(placeholder)}
             onChange={this.handleOptionChange}
-            value={parts[0]}
+            value={selectedValue}
             clearable={false}
             searchable={false}
             disabled={disabled}

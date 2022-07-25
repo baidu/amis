@@ -58,33 +58,45 @@ exports[`Renderer:city 1`] = `
               aria-labelledby="downshift-0-label"
               class="cxd-Select"
               role="combobox"
-              tabindex="0"
             >
               <div
-                class="cxd-Select-valueWrap"
+                class="cxd-ResultBox is-clickable is-clearable"
+                tabindex="-1"
               >
                 <div
-                  class="cxd-Select-value"
+                  class="cxd-ResultBox-value-wrap"
                 >
-                  北京市
+                  <span
+                    class="cxd-ResultBox-singleValue"
+                  >
+                    北京市
+                  </span>
+                </div>
+                <div
+                  class="cxd-ResultBox-actions"
+                >
+                  <a
+                    class="cxd-ResultBox-clear cxd-ResultBox-clear-with-arrow"
+                  >
+                    <div
+                      class="cxd-ResultBox-clear-wrap"
+                    >
+                      <icon-mock
+                        classname="icon icon-input-clear"
+                        icon="input-clear"
+                      />
+                    </div>
+                  </a>
+                  <span
+                    class="cxd-ResultBox-pc-arrow"
+                  >
+                    <icon-mock
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
+                  </span>
                 </div>
               </div>
-              <a
-                class="cxd-Select-clear"
-              >
-                <icon-mock
-                  classname="icon icon-close-small"
-                  icon="close-small"
-                />
-              </a>
-              <span
-                class="cxd-Select-arrow"
-              >
-                <icon-mock
-                  classname="icon icon-right-arrow-bold"
-                  icon="right-arrow-bold"
-                />
-              </span>
             </div>
             <div
               aria-expanded="false"
@@ -92,67 +104,91 @@ exports[`Renderer:city 1`] = `
               aria-labelledby="downshift-1-label"
               class="cxd-Select"
               role="combobox"
-              tabindex="0"
             >
               <div
-                class="cxd-Select-valueWrap"
+                class="cxd-ResultBox is-clickable is-clearable"
+                tabindex="-1"
               >
                 <div
-                  class="cxd-Select-value"
+                  class="cxd-ResultBox-value-wrap"
                 >
-                  北京市市辖区
+                  <span
+                    class="cxd-ResultBox-singleValue"
+                  >
+                    北京市市辖区
+                  </span>
+                </div>
+                <div
+                  class="cxd-ResultBox-actions"
+                >
+                  <a
+                    class="cxd-ResultBox-clear cxd-ResultBox-clear-with-arrow"
+                  >
+                    <div
+                      class="cxd-ResultBox-clear-wrap"
+                    >
+                      <icon-mock
+                        classname="icon icon-input-clear"
+                        icon="input-clear"
+                      />
+                    </div>
+                  </a>
+                  <span
+                    class="cxd-ResultBox-pc-arrow"
+                  >
+                    <icon-mock
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
+                  </span>
                 </div>
               </div>
-              <a
-                class="cxd-Select-clear"
-              >
-                <icon-mock
-                  classname="icon icon-close-small"
-                  icon="close-small"
-                />
-              </a>
-              <span
-                class="cxd-Select-arrow"
-              >
-                <icon-mock
-                  classname="icon icon-right-arrow-bold"
-                  icon="right-arrow-bold"
-                />
-              </span>
             </div>
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="downshift-2-label"
-              class="cxd-Select is-focused"
+              class="cxd-Select"
               role="combobox"
-              tabindex="0"
             >
               <div
-                class="cxd-Select-valueWrap"
+                class="cxd-ResultBox is-clickable is-clearable"
+                tabindex="-1"
               >
                 <div
-                  class="cxd-Select-value"
+                  class="cxd-ResultBox-value-wrap"
                 >
-                  东城区
+                  <span
+                    class="cxd-ResultBox-singleValue"
+                  >
+                    东城区
+                  </span>
+                </div>
+                <div
+                  class="cxd-ResultBox-actions"
+                >
+                  <a
+                    class="cxd-ResultBox-clear cxd-ResultBox-clear-with-arrow"
+                  >
+                    <div
+                      class="cxd-ResultBox-clear-wrap"
+                    >
+                      <icon-mock
+                        classname="icon icon-input-clear"
+                        icon="input-clear"
+                      />
+                    </div>
+                  </a>
+                  <span
+                    class="cxd-ResultBox-pc-arrow"
+                  >
+                    <icon-mock
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
+                  </span>
                 </div>
               </div>
-              <a
-                class="cxd-Select-clear"
-              >
-                <icon-mock
-                  classname="icon icon-close-small"
-                  icon="close-small"
-                />
-              </a>
-              <span
-                class="cxd-Select-arrow"
-              >
-                <icon-mock
-                  classname="icon icon-right-arrow-bold"
-                  icon="right-arrow-bold"
-                />
-              </span>
             </div>
           </div>
         </div>

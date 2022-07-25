@@ -194,8 +194,27 @@
   }
 
   &.#{$ns}TransferDropDown {
-    // TODO: 等 select 单选 中也使用 ResultBox组件时，可以删除这段
-    padding-right: var(--gap-base);
+    padding: 0 var(--gap-base);
+
+    &.is-group {
+      padding: var(--gap-xs);
+
+      > .#{$ns}TransferDropDown-icon {
+        margin-right: var(--gap-sm);
+      }
+
+      > .#{$ns}ResultBox-placeholder {
+        padding-left: var(--gap-sm);
+      }
+    }
+
+    > .#{$ns}ResultBox-value {
+      background: var(--Form-select-value-bgColor);
+
+      &:hover {
+        background: var(--Form-selectValue-onHover-bgColor);
+      }
+    }
   }
 
   &-overflow {
@@ -272,12 +291,5 @@
         transform: rotate(-90deg);
       }
     }
-  }
-}
-
-.#{$ns}Form-control--withSize {
-  > .#{$ns}ResultBox {
-    // 兼容 @media (min-width: 576px) .cxd-Form-control--sizeLg
-    display: flex;
   }
 }
