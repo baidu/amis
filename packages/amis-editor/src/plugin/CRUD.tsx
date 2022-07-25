@@ -392,7 +392,7 @@ export class CRUDPlugin extends BasePlugin {
 
       valueSchema.bulkActions = [];
       /** 统一api格式 */
-      valueSchema.api = normalizeApi(valueSchema.api);
+      valueSchema.api = typeof valueSchema.api === 'string' ? valueSchema.api : normalizeApi(valueSchema.api);
       hasFeatures &&
         features.forEach((item: string) => {
           if (itemBtns.includes(item)) {

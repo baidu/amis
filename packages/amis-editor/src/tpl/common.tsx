@@ -574,6 +574,7 @@ setSchemaTpl(
     return {
       title: '状态',
       body: [
+        getSchemaTpl('newVisible'),
         getSchemaTpl('hidden'),
         config?.readonly ? getSchemaTpl('readonly') : null,
         config?.disabled || config?.isFormItem
@@ -622,7 +623,7 @@ setSchemaTpl('disabled', {
   label: '禁用',
   mode: 'normal',
   name: 'disabled',
-  expressioName: 'disabledOn'
+  expressionName: 'disabledOn'
 });
 
 setSchemaTpl('readonly', {
@@ -630,7 +631,7 @@ setSchemaTpl('readonly', {
   label: '只读',
   mode: 'normal',
   name: 'readOnly',
-  expressioName: 'readOnlyOn'
+  expressionName: 'readOnlyOn'
 });
 
 setSchemaTpl('visible', {
@@ -638,7 +639,18 @@ setSchemaTpl('visible', {
   label: '可见',
   mode: 'normal',
   name: 'visible',
-  expressioName: 'visibleOn'
+  expressionName: 'visibleOn'
+});
+
+
+// 新版配置面板兼容 [可见] 状态
+setSchemaTpl('newVisible', {
+    type: 'ae-StatusControl',
+    label: '可见',
+    mode: 'normal',
+    name: 'visible',
+    expressionName: 'visibleOn',
+    visibleOn:"data.visible || data.visible === false || data.visibleOn !== undefined"
 });
 
 setSchemaTpl('hidden', {
@@ -646,7 +658,7 @@ setSchemaTpl('hidden', {
   label: '隐藏',
   mode: 'normal',
   name: 'hidden',
-  expressioName: 'hiddenOn'
+  expressionName: 'hiddenOn'
 });
 
 setSchemaTpl('maximum', {
