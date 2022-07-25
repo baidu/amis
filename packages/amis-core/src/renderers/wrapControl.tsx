@@ -206,7 +206,8 @@ export function wrapControl<
               // 备注: 此处的 value 是 schema 中的 value（和props.defaultValue相同）
               const curTmpValue = isExpression(value)
                 ? FormulaExec['formula'](value, data) // 对组件默认值进行运算
-                : store?.getValueByName(model.name) ?? replaceExpression(value); // 优先使用公式表达式
+                // 生成 value 就近取值， 避免数据域问题导致 value 生成不正确
+                : getVariable(data, model.name) ?? store?.getValueByName(model.name) ?? replaceExpression(value); // 优先使用公式表达式
               // 同步 value
               model.changeTmpValue(curTmpValue);
 
