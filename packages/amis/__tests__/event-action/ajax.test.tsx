@@ -49,7 +49,7 @@ test('EventAction:ajax', async () => {
                     actionType: 'setValue',
                     componentId: 'page_001',
                     args: {
-                      value: '${event.data.result}'
+                      value: '${event.data.result.data}'
                     }
                   }
                 ]
@@ -93,7 +93,7 @@ test('EventAction:ajax', async () => {
           },
           {
             type: 'tpl',
-            tpl: '${responseData.age}岁的天空，status:${responseStatus}，msg:${responseMsg}'
+            tpl: '${responseResult.data.age}岁的天空，status:${responseResult.status}，msg:${responseResult.msg}'
           }
         ]
       },
