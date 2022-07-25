@@ -59,7 +59,7 @@ export class AjaxAction implements RendererAction {
         action.args?.options ?? {}
       );
       const responseData =
-        !isEmpty(result.data) || result.okj
+        !isEmpty(result.data) || result.ok
           ? normalizeApiResponseData(result.data)
           : null;
 
