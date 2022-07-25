@@ -95,7 +95,12 @@ order: 9
 
 ### 发送 http 请求
 
-通过配置`actionType: 'ajax'`和`api`实现 http 请求发送，该动作需实现 `env.fetcher` 请求器。请求结果的状态、数据、消息分别默认缓存在 `event.data.responseStatus`、`event.data.responseData`或`event.data.{{outputVar}}`、`event.data.responseMsg`。< 2.0.3 以以下版本，请求返回数据默认缓存在 `event.data`。`outputVar` 配置用于解决串行或者并行发送多个 http 请求的场景。
+通过配置`actionType: 'ajax'`和`api`实现 http 请求发送，该动作需实现 `env.fetcher` 请求器。
+
+- 请求结果缓存在`event.data.responseResult`或`event.data.{{outputVar}}`。
+- 请求结果的状态、数据、消息分别默认缓存在：`event.data.{{outputVar}}.status`、`event.data.{{outputVar}}.data`、`event.data.{{outputVar}}.msg`。
+
+< 2.0.3 及以下版本，请求返回数据默认缓存在 `event.data`。`outputVar` 配置用于解决串行或者并行发送多个 http 请求的场景。
 
 ```schema
 {

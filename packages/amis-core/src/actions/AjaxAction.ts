@@ -58,7 +58,6 @@ export class AjaxAction implements RendererAction {
         omit(action.args ?? {}, ['api', 'options', 'messages']),
         action.args?.options ?? {}
       );
-
       const responseData =
         !isEmpty(result.data) || result.ok
           ? normalizeApiResponseData(result.data)
@@ -68,9 +67,12 @@ export class AjaxAction implements RendererAction {
       event.setData(
         createObject(event.data, {
           ...responseData, // 兼容历史配置
-          [action.outputVar || 'responseData']: responseData,
-          responseStatus: result.status,
-          responseMsg: result.msg
+          [action.outputVar || 'responseResult']: {
+            data: responseData,
+            status: result.status,
+            msg: result.msg
+          },
+          responseData: responseData
         })
       );
 
