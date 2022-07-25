@@ -59,7 +59,7 @@ export class AjaxAction implements RendererAction {
         action.args?.options ?? {}
       );
       const responseData =
-        !isEmpty(result.data) || result.ok
+        !isEmpty(result.data) || result.okj
           ? normalizeApiResponseData(result.data)
           : null;
 
@@ -67,12 +67,13 @@ export class AjaxAction implements RendererAction {
       event.setData(
         createObject(event.data, {
           ...responseData, // 兼容历史配置
+          responseData: responseData,
           [action.outputVar || 'responseResult']: {
-            data: responseData,
-            status: result.status,
-            msg: result.msg
-          },
-          responseData: responseData
+            ...responseData,
+            responseData,
+            responseStatus: result.status,
+            responseMsg: result.msg
+          }
         })
       );
 

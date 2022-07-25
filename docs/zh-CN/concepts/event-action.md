@@ -98,7 +98,7 @@ order: 9
 通过配置`actionType: 'ajax'`和`api`实现 http 请求发送，该动作需实现 `env.fetcher` 请求器。
 
 - 请求结果缓存在`event.data.responseResult`或`event.data.{{outputVar}}`。
-- 请求结果的状态、数据、消息分别默认缓存在：`event.data.{{outputVar}}.status`、`event.data.{{outputVar}}.data`、`event.data.{{outputVar}}.msg`。
+- 请求结果的状态、数据、消息分别默认缓存在：`event.data.{{outputVar}}.responseStatus`、`event.data.{{outputVar}}.responseData`、`event.data.{{outputVar}}.responseMsg`。
 
 < 2.0.3 及以下版本，请求返回数据默认缓存在 `event.data`。`outputVar` 配置用于解决串行或者并行发送多个 http 请求的场景。
 
@@ -134,7 +134,7 @@ order: 9
             },
             {
               actionType: 'toast',
-              expression: '${event.data.responseStatus === 0}',
+              expression: '${event.data.responseResult.responseStatus === 0}',
               args: {
                 msg: '${event.data|json}'
               }
@@ -172,7 +172,7 @@ order: 9
             },
             {
               actionType: 'toast',
-              expression: '${event.data.responseStatus === 0}',
+              expression: '${event.data.responseResult.responseStatus === 0}',
               args: {
                 msg: '${event.data|json}'
               }
@@ -2305,7 +2305,7 @@ registerAction('my-action', new MyAction());
 
 **引用 http 请求动作返回的数据**
 
-http 请求动作执行结束后，后面的动作可以通过 `event.data.responseStatus`、`event.data.responseData`或`event.data.{{outputVar}}`、`event.data.responseMsg`来获取请求结果的状态、数据、消息。
+http 请求动作执行结束后，后面的动作可以通过 `event.data.responseResult.responseStatus`或`event.data.{{outputVar}}.responseStatus`、`event.data.responseResult.responseData`或`event.data.{{outputVar}}.responseData`、`event.data.responseResult.responseMsg`或`event.data.{{outputVar}}.responseMsg`来获取请求结果的状态、数据、消息。
 
 ```schema
 {
@@ -2327,7 +2327,7 @@ http 请求动作执行结束后，后面的动作可以通过 `event.data.respo
             {
               actionType: 'dialog',
               args: {
-                id: '${event.data.responseData.id}'
+                id: '${event.data.responseResult.responseData.id}'
               },
               dialog: {
                 type: 'dialog',
