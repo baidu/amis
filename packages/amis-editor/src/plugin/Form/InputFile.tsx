@@ -4,10 +4,7 @@ import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class FileControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -25,7 +22,11 @@ export class FileControlPlugin extends BasePlugin {
   scaffold = {
     type: 'input-file',
     label: '文件上传',
-    name: 'file'
+    name: 'file',
+    receiver: {
+      url: 'object-upload://default',
+      method: 'post'
+    }
   };
   previewSchema: any = {
     type: 'form',
@@ -341,7 +342,7 @@ export class FileControlPlugin extends BasePlugin {
                 label: tipedLabel(
                   '文件类型',
                   '请填入文件的后缀，多个类型用<code>,</code>隔开'
-                ),
+                )
               },
               getSchemaTpl('fileUrl', {
                 name: 'templateUrl',
