@@ -74,7 +74,11 @@
     display: inline-flex;
     align-items: center;
 
-    &:not(:first-child) {
+    &--left:not(:first-child) {
+      margin-left: var(--Crud-toolbar-gap);
+    }
+
+    &--right:not(:last-child) {
       margin-left: var(--Crud-toolbar-gap);
     }
 
@@ -133,7 +137,11 @@
       height: var(--Crud-toolbar-height);
       vertical-align: middle;
 
-      &:not(:first-child) {
+      &--left:not(:first-child) {
+        margin-left: var(--Crud-toolbar-gap);
+      }
+
+      &--right:not(:last-child) {
         margin-left: var(--Crud-toolbar-gap);
       }
 
