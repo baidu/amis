@@ -66,7 +66,7 @@ test('Renderer:radios', async () => {
 });
 
 
-test('Renderer:radios source', async () => {
+test('Renderer:radios source & autoFill', async () => {
   const {getByText, container} = render(
     amisRender(
       {
@@ -132,9 +132,8 @@ test('Renderer:radios source', async () => {
     ).toBe('aa');
   });
 
+  fireEvent.click(getByText(/C/));
   await waitFor(() => {
-    fireEvent.click(getByText(/C/));
-
     expect(
       (container.querySelector('.cxd-TplField.autoFillClass span') as Element).innerHTML
     ).toBe('13');

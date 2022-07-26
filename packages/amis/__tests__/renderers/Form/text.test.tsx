@@ -118,6 +118,10 @@ test('Renderer:text type is password', async () => {
 
   fireEvent.change(input, {target: {value: 'abcd'}});
   await wait(300);
+
+  expect(
+    input.getAttribute('type')
+  ).toBe('password');
   expect(container).toMatchSnapshot('password invisible');
 
   const revealPasswordBtn = container.querySelector(
@@ -127,6 +131,10 @@ test('Renderer:text type is password', async () => {
   fireEvent.click(revealPasswordBtn);
 
   await wait(300);
+
+  expect(
+    input.getAttribute('type')
+  ).toBe('text');
   expect(container).toMatchSnapshot('password visible');
 });
 
@@ -138,6 +146,10 @@ test('Renderer:text type is password with revealPassword', async () => {
     type: 'input-password',
     revealPassword: false
   });
+
+  expect(
+    container.querySelector('.cxd-TextControl-revealPassword') as Element
+  ).not.toBeInTheDocument();
 
   fireEvent.change(input, {target: {value: 'abcd'}});
   await wait(300);

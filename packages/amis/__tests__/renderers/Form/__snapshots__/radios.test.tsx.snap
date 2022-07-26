@@ -368,7 +368,7 @@ exports[`Renderer:radios 2`] = `
 </div>
 `;
 
-exports[`Renderer:radios source 1`] = `
+exports[`Renderer:radios source & autoFill 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
