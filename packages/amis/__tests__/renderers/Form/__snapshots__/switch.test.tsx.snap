@@ -62,7 +62,9 @@ exports[`Renderer:Switch Switch basic props 1`] = `
               />
               <span
                 class="text"
-              />
+              >
+                已开启飞行模式
+              </span>
               <span
                 class="slider"
               />

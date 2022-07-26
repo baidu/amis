@@ -10,7 +10,7 @@ afterEach(() => {
   clearStoresCache();
 });
 
-const setup = async (inputOptions: any = {}, formOptions: any = {}) => {
+const setup = async (inputOptions: any = {}, formOptions: any = {}, formItems: any[] = [{}]) => {
   const utils = render(
     amisRender(
       {
@@ -23,7 +23,8 @@ const setup = async (inputOptions: any = {}, formOptions: any = {}) => {
             type: 'input-text',
             changeImmediately: true,
             ...inputOptions
-          }
+          },
+          ...formItems
         ],
         ...formOptions
       },
@@ -117,6 +118,41 @@ test('Renderer:text type is password', async () => {
 
   fireEvent.change(input, {target: {value: 'abcd'}});
   await wait(300);
+
+  expect(
+    input.getAttribute('type')
+  ).toBe('password');
+  expect(container).toMatchSnapshot('password invisible');
+
+  const revealPasswordBtn = container.querySelector(
+    '.cxd-TextControl-revealPassword'
+  ) as HTMLElement;
+
+  fireEvent.click(revealPasswordBtn);
+
+  await wait(300);
+
+  expect(
+    input.getAttribute('type')
+  ).toBe('text');
+  expect(container).toMatchSnapshot('password visible');
+});
+
+/**
+ * type 为 password revealPassword
+ */
+test('Renderer:text type is password with revealPassword', async () => {
+  const {container, input} = await setup({
+    type: 'input-password',
+    revealPassword: false
+  });
+
+  expect(
+    container.querySelector('.cxd-TextControl-revealPassword') as Element
+  ).not.toBeInTheDocument();
+
+  fireEvent.change(input, {target: {value: 'abcd'}});
+  await wait(300);
   expect(container).toMatchSnapshot();
 });
 
@@ -192,9 +228,9 @@ test('Renderer:text with options', async () => {
 });
 
 /**
- * 选择器模式,多选
+ * 选择器模式，多选、分隔符、提取值
  */
-test('Renderer:text with options and multiple', async () => {
+test('Renderer:text with options and multiple and delimiter', async () => {
   const {container, input} = await setup(
     {
       multiple: true,
@@ -215,9 +251,20 @@ test('Renderer:text with options and multiple', async () => {
           label: 'OptionD',
           value: 'd'
         }
-      ]
+      ],
+      delimiter: '-',
+      joinValues: true,
+      creatable: true
     },
-    {debug: true}
+    {
+      debug: true
+    },
+    [
+      {
+        type: 'static',
+        name: 'text'
+      }
+    ]
   );
 
   const textControl = container.querySelector(
@@ -253,8 +300,27 @@ test('Renderer:text with options and multiple', async () => {
     ) as HTMLElement
   );
   await wait(300);
-  // expect(input.value).toBe('a,b');
+
+  // 分隔符
+  expect(
+    (container.querySelector('.cxd-PlainField') as Element).innerHTML
+  ).toBe('a-b');
+
   expect(container).toMatchSnapshot('second option selected');
+
+  // 可创建
+  fireEvent.click(textControl);
+  await wait(300);
+  fireEvent.change(input, {target: {value: 'AbCd'}});
+  await wait(500);
+  fireEvent.keyDown(input, {key: 'Enter', code: 13});
+  await wait(500);
+
+  expect(
+    (container.querySelector('.cxd-PlainField') as Element).innerHTML
+  ).toBe('a-b-AbCd');
+
+  expect(container).toMatchSnapshot('thrid option create');
 });
 
 /**
@@ -323,4 +389,84 @@ test('Renderer:text with transform upperCase', async () => {
   fireEvent.change(input, {target: {value: 'AbCd'}});
   await wait(300);
   expect(input.value).toBe('ABCD');
+});
+
+/**
+ * 配置 resetValue and trimContents
+ */
+test('Renderer:text with resetValue and trimContents', async () => {
+  const {container, input, submitBtn} = await setup({
+    resetValue: 'reset-value',
+    value: 'text-value',
+    trimContents: true
+  }, {}, [
+    {
+      type: 'action',
+      actionType: 'reset',
+      target: 'text',
+      className: 'reset-button'
+    }
+  ]);
+  
+  fireEvent.click(
+    container.querySelector('.cxd-Button.reset-button')
+  );
+
+  await wait(500);
+
+  expect(input.value).toBe('reset-value');
+
+  // trimContents
+  const textControl = container.querySelector(
+    '.cxd-TextControl-input'
+  ) as HTMLElement;
+
+  fireEvent.click(textControl);
+  await wait(300);
+  fireEvent.change(input, {target: {value: '  abcde  '}});
+  await wait(500);
+  fireEvent.blur(input);
+  await wait(500);
+
+  expect(input.value).toBe('abcde');
+});
+
+
+/**
+ * 配置 minLength、borderMode and className
+ */
+test('Renderer:text with minLength', async () => {
+  const {container, input, submitBtn} = await setup({
+    minLength: 5,
+    maxLength: 8,
+    borderMode: 'half',
+    inputControlClassName: 'test-text-class-one',
+    nativeInputClassName: 'test-text-class-two'
+  }, {});
+  
+  const textControl = container.querySelector(
+    '.cxd-TextControl-input'
+  ) as HTMLElement;
+
+  // 测试 minLength
+  fireEvent.click(textControl);
+  await wait(300);
+  fireEvent.change(input, {target: {value: '1234'}});
+  await wait(500);
+  fireEvent.click(submitBtn);
+  await wait(300);
+  expect(
+    container.querySelector('.cxd-TextControl.has-error--minLength') as Element
+  ).toBeInTheDocument();
+
+  // 测试 maxLength
+  fireEvent.click(textControl);
+  await wait(300);
+  fireEvent.change(input, {target: {value: '123456789'}});
+  await wait(500);
+  expect(
+    container.querySelector('.cxd-TextControl.has-error--maxLength') as Element
+  ).toBeInTheDocument();
+
+  expect(container).toMatchSnapshot();
 });

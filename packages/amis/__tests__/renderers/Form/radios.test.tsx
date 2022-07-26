@@ -64,3 +64,80 @@ test('Renderer:radios', async () => {
   });
   expect(container).toMatchSnapshot();
 });
+
+
+test('Renderer:radios source & autoFill', async () => {
+  const {getByText, container} = render(
+    amisRender(
+      {
+        type: 'form',
+        title: 'The form',
+        data: {
+          items: [
+            {
+              name: 'A',
+              id: 'aa',
+              fill: '11'
+            },
+            {
+              name: 'B',
+              id: 'bb',
+              fill: '12'
+            },
+            {
+              name: 'C',
+              id: 'cc',
+              fill: '13'
+            }
+          ]
+        },
+        body: [
+          {
+            name: 'radios',
+            type: 'radios',
+            label: 'radios',
+            inline: false,
+            columnsCount: 3,
+            selectFirst: true,
+            source: '${items}',
+            labelField: 'name',
+            valueField: 'id',
+            optionClassName: 'class-a',
+            autoFill: {
+              fillFromRadios: "${fill}"
+            }
+          },
+          {
+            type: 'static',
+            name: 'radios',
+            label: '当前值'
+          },
+          {
+            type: 'tpl',
+            className: 'autoFillClass',
+            tpl: '${fillFromRadios}'
+          }
+        ],
+        submitText: null,
+        actions: []
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  await waitFor(() => {
+    expect(
+      (container.querySelector('.cxd-PlainField') as Element).innerHTML
+    ).toBe('aa');
+  });
+
+  fireEvent.click(getByText(/C/));
+  await waitFor(() => {
+    expect(
+      (container.querySelector('.cxd-TplField.autoFillClass span') as Element).innerHTML
+    ).toBe('13');
+  });
+
+  expect(container).toMatchSnapshot();
+});
