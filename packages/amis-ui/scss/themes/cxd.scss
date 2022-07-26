@@ -163,42 +163,6 @@
   }
 }
 
-.#{$ns}Transfer {
-
-  &-result {
-    > .#{$ns}Selections {
-      height: 100%;
-    }
-  }
-
-  &-table-title {
-    background-color: unset;
-  }
-
-  .#{$ns}ListCheckboxes {
-    .#{$ns}ListCheckboxes-item {
-      padding-left: #{px2rem(16px)};
-      padding-right: #{px2rem(16px)};
-    }
-  }
-
-  .#{$ns}TableSelection {
-    .#{$ns}Table-table {
-      border-top: 0;
-      border-left: 0;
-      border-right: 0;
-    }
-
-    tbody {
-      tr {
-        &.is-active {
-          color: unset;
-        }
-      }
-    }
-  }
-}
-
 .#{$ns}GroupedSelection {
   &-item {
     padding-left: var(--gap-base);
