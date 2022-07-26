@@ -266,7 +266,7 @@ export function embed(
     return (
       <div className="amis-routes-wrapper">
         <ToastComponent
-          position={(env && env.toastPosition) || 'top-right'}
+          position={(env && env.toastPosition) || 'top-center'}
           closeButton={false}
           timeout={5000}
           locale={props?.locale}
