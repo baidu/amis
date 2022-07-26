@@ -3,7 +3,7 @@
   padding: 0;
   line-height: px2rem(20px);
   border-radius: 4px;
-  // overflow: hidden;
+  overflow: hidden;
 
   &-header {
     font-size: var(--Collapse-header-fontSize);
@@ -31,6 +31,7 @@
   &-arrow {
     display: inline-block;
     width: px2rem(16px);
+    height: px2rem(16px);
     text-align: center;
     margin-right: var(--gap-sm);
 

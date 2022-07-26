@@ -12,6 +12,10 @@
     border-radius: 0 0 4px 4px;
   }
 
+  .#{$ns}Collapse:first-child:nth-last-child(1) {
+    border-radius: 4px;
+  }
+
   .#{$ns}Collapse:not(:last-child) {
     border-bottom: none;
   }

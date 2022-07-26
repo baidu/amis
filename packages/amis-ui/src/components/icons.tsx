@@ -100,6 +100,7 @@ import StepsFinsh from '../icons/steps-finsh.svg';
 import Invisible from '../icons/invisible.svg';
 import DateIcon from '../icons/date.svg';
 import InvisibleIcon from '../icons/invisible.svg';
+import DownIcon from '../icons/down.svg';
 import RightDoubleArrowIcon from '../icons/right-double-arrow.svg';
 import NewEdit from '../icons/new-edit.svg';
 
@@ -229,6 +230,7 @@ registerIcon('steps-finsh', StepsFinsh);
 registerIcon('date', DateIcon);
 registerIcon('remove', RemoveIcon);
 registerIcon('invisible', InvisibleIcon);
+registerIcon('down', DownIcon);
 registerIcon('right-double-arrow', RightDoubleArrowIcon);
 registerIcon('new-edit', NewEdit);
 
