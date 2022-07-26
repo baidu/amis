@@ -98,7 +98,7 @@ import DotIcon from '../icons/dot.svg';
 import Invisible from '../icons/invisible.svg';
 import DateIcon from '../icons/date.svg';
 import InvisibleIcon from '../icons/invisible.svg';
-
+import DownIcon from '../icons/down.svg';
 // 兼容原来的用法，后续不直接试用。
 
 export const closeIcon = <CloseIcon />;
@@ -223,6 +223,7 @@ registerIcon('plus-fine', PlusFineIcon);
 registerIcon('date', DateIcon);
 registerIcon('remove', RemoveIcon);
 registerIcon('invisible', InvisibleIcon);
+registerIcon('down', DownIcon);
 
 export function Icon({
   icon,

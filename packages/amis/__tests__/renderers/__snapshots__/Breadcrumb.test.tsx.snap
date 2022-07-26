@@ -105,8 +105,8 @@ exports[`Renderer:breadcrumb className 1`] = `
         class="cxd-Breadcrumb-item-caret"
       >
         <icon-mock
-          classname="icon icon-caret"
-          icon="caret"
+          classname="icon icon-down"
+          icon="down"
         />
       </span>
       <ul
@@ -214,8 +214,8 @@ exports[`Renderer:breadcrumb dropdown 1`] = `
                 class="cxd-Breadcrumb-item-caret"
               >
                 <icon-mock
-                  classname="icon icon-caret"
-                  icon="caret"
+                  classname="icon icon-down"
+                  icon="down"
                 />
               </span>
             </span>

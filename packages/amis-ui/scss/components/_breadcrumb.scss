@@ -10,10 +10,20 @@
 
   &-item {
     position: relative;
+    display: inline-flex;
+    align-items: center;
 
     &-default {
       cursor: pointer;
       color: var(--Breadcrumb-item-default-color);
+
+      &:hover {
+        color: var(--Breadcrumb-item-hover-color);
+      }
+
+      &:active {
+        color: var(--Breadcrumb-item-active-color);
+      }
     }
     &-dropdown {
       cursor: pointer;
@@ -32,7 +42,8 @@
     }
 
     &-caret {
-      margin-left: var(--gap-sm);
+      height: 16px;
+      margin: 0 2px;
       cursor: pointer;
       display: inline-block;
       transition: transform var(--animation-duration) ease;
