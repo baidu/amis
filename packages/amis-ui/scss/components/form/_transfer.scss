@@ -17,18 +17,21 @@
   &-title {
     display: flex;
     align-items: center;
-    background: var(--Transfer-title-bg);
-    height: px2rem(30px);
-    line-height: var(--Form-input-lineHeight);
-    font-size: var(--Form-input-fontSize);
-    padding: calc(
-        (
-            #{px2rem(30px)} - var(--Form-input-lineHeight) * var(--Form-input-fontSize)
-          ) / 2
-      )
-      var(--gap-sm);
+    background: var(--transfer-base-title-bg);
+    color: var(--transfer-base-title-font-color);
+    line-height: var(--transfer-base-title-font-lineHeight);
+    font-size: var(--transfer-base-title-font-size);
+    font-weight: var(--transfer-base-title-font-weight);
+    font-family: var(--transfer-base-title-font-family);
+    padding-top: var(--transfer-base-header-paddingTop);
+    padding-right: var(--transfer-base-header-paddingRight);
+    padding-bottom: var(--transfer-base-header-paddingBottom);
+    padding-left: var(--transfer-base-header-paddingLeft);
+    margin-top: var(--transfer-base-header-marginTop);
+    margin-right: var(--transfer-base-header-marginRight);
+    margin-bottom: var(--transfer-base-header-marginBottom);
+    margin-left: var(--transfer-base-header-marginLeft);
     flex-direction: row;
-    border-radius: var(--borderRadius) var(--borderRadius) 0 0;
 
     &--light {
       background: transparent;
@@ -39,20 +42,23 @@
     }
   }
 
-  &-select {
-    overflow: hidden;
-  }
-
   &-select,
   &-result {
+    overflow: hidden;
     width: 0;
     min-width: px2rem(200px);
     max-height: px2rem(400px);
     flex-grow: 1;
-    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
     display: flex;
     flex-direction: column;
-    border-radius: var(--borderRadius);
+    border-top: var(--transfer-base-top-border-width) var(--transfer-base-top-border-style) var(--transfer-base-top-border-color);
+    border-right: var(--transfer-base-right-border-width) var(--transfer-base-right-border-style) var(--transfer-base-right-border-color);
+    border-bottom: var(--transfer-base-bottom-border-width) var(--transfer-base-bottom-border-style) var(--transfer-base-bottom-border-color);
+    border-left: var(--transfer-base-left-border-width) var(--transfer-base-left-border-style) var(--transfer-base-left-border-color);
+    border-top-right-radius: var(--transfer-base-top-right-border-radius);
+    border-bottom-left-radius: var(--transfer-base-bottom-left-border-radius);
+    border-bottom-right-radius: var(--transfer-base-bottom-right-border-radius);
+    border-top-left-radius: var(--transfer-base-top-left-border-radius);
   }
 
   &-select > &-selection,
@@ -61,6 +67,55 @@
     max-height: 100%;
     overflow: auto;
     position: relative; // 貌似不加 relative 会有 bug。
+    padding-top: var(--transfer-base-body-paddingTop);
+    padding-right: var(--transfer-base-body-paddingRight);
+    padding-bottom: var(--transfer-base-body-paddingBottom);
+    padding-left: var(--transfer-base-body-paddingLeft);
+    margin-top: var(--transfer-base-body-marginTop);
+    margin-right: var(--transfer-base-body-marginRight);
+    margin-bottom: var(--transfer-base-body-marginBottom);
+    margin-left: var(--transfer-base-body-marginLeft);
+  }
+
+  .#{$ns}GroupedSelection-item,
+  .#{$ns}Selections-item {
+    padding-top: var(--transfer-base-option-paddingTop);
+    padding-right: var(--transfer-base-option-paddingRight);
+    padding-bottom: var(--transfer-base-option-paddingBottom);
+    padding-left: var(--transfer-base-option-paddingLeft);
+    margin-top: var(--transfer-base-option-marginTop);
+    margin-right: var(--transfer-base-option-marginRight);
+    margin-bottom: var(--transfer-base-option-marginBottom);
+    margin-left: var(--transfer-base-option-marginLeft);
+    line-height: var(--transfer-base-content-font-lineHeight);
+    font-size: var(--transfer-base-content-font-size);
+    font-weight: var(--transfer-base-content-font-weight);
+    font-family: var(--transfer-base-content-font-family);
+    color: var(--transfer-base-content-font-color);
+  }
+
+  .#{$ns}ChainedSelection-item {
+    padding-top: var(--transfer-chained-paddingTop);
+    padding-right: var(--transfer-chained-paddingRight);
+    padding-bottom: var(--transfer-chained-paddingBottom);
+    padding-left: var(--transfer-chained-paddingLeft);
+    margin-top: var(--transfer-chained-marginTop);
+    margin-right: var(--transfer-chained-marginRight);
+    margin-bottom: var(--transfer-chained-marginBottom);
+    margin-left: var(--transfer-chained-marginLeft);
+    line-height: var(--transfer-base-content-font-lineHeight);
+    font-size: var(--transfer-base-content-font-size);
+    font-weight: var(--transfer-base-content-font-weight);
+    font-family: var(--transfer-base-content-font-family);
+    color: var(--transfer-base-content-font-color);
+  }
+
+  .#{$ns}GroupedSelection-group > .#{$ns}GroupedSelection-itemLabel {
+    font-size: var(--transfer-group-font-size);
+    font-weight: var(--transfer-group-font-weight);
+    line-height: var(--transfer-group-font-lineHeight);
+    font-family: var(--transfer-group-font-family);
+    color: var(--transfer-group-font-color);
   }
 
   &-select > .#{$ns}ChainedSelection {
@@ -106,6 +161,60 @@
 
   &-search {
     padding: var(--gap-sm);
+    padding-top: var(--transfer-search-paddingTop);
+    padding-right: var(--transfer-search-paddingRight);
+    padding-bottom: var(--transfer-search-paddingBottom);
+    padding-left: var(--transfer-search-paddingLeft);
+    margin-top: var(--transfer-search-marginTop);
+    margin-right: var(--transfer-search-marginRight);
+    margin-bottom: var(--transfer-search-marginBottom);
+    margin-left: var(--transfer-search-marginLeft);
+
+    .#{$ns}InputBox {
+      font-size: var(--transfer-search-font-size);
+      font-weight: var(--transfer-search-font-weight);
+      line-height: var(--transfer-search-font-lineHeight);
+      font-family: var(--transfer-search-font-family);
+      color: var(--transfer-search-font-color);
+      border-top: var(--transfer-search-top-border-width) var(--transfer-search-top-border-style) var(--transfer-search-top-border-color);
+      border-right: var(--transfer-search-right-border-width) var(--transfer-search-right-border-style) var(--transfer-search-right-border-color);
+      border-bottom: var(--transfer-search-bottom-border-width) var(--transfer-search-bottom-border-style) var(--transfer-search-bottom-border-color);
+      border-left: var(--transfer-search-left-border-width) var(--transfer-search-left-border-style) var(--transfer-search-left-border-color);
+      border-top-right-radius: var(--transfer-search-top-right-border-radius);
+      border-bottom-left-radius: var(--transfer-search-bottom-left-border-radius);
+      border-bottom-right-radius: var(--transfer-search-bottom-right-border-radius);
+      border-top-left-radius: var(--transfer-search-top-left-border-radius);
+      box-shadow: var(--transfer-search-shadow);
+      padding-top: var(--transfer-search-input-paddingTop);
+      padding-right: var(--transfer-search-input-paddingRight);
+      padding-bottom: var(--transfer-search-input-paddingBottom);
+      padding-left: var(--transfer-search-input-paddingLeft);
+      margin-top: var(--transfer-search-input-marginTop);
+      margin-right: var(--transfer-search-input-marginRight);
+      margin-bottom: var(--transfer-search-input-marginBottom);
+      margin-left: var(--transfer-search-input-marginLeft);
+
+      &:hover {
+        border-color: var(--transfer-search-border-hover-color);
+      }
+
+      &.is-focused {
+        border-color: var(--transfer-search-border-active-color);
+      }
+
+      input {
+        color: var(--transfer-search-font-color);
+        font-size: var(--transfer-search-font-size);
+        font-weight: var(--transfer-search-font-weight);
+        line-height: var(--transfer-search-font-lineHeight);
+        font-family: var(--transfer-search-font-family);
+        height: var(--transfer-search-font-lineHeight);
+      }
+
+      input::placeholder {
+        color: var(--transfer-search-placeholder-font-color);
+      }
+    }
   }
 
   &-mid {
@@ -144,10 +253,82 @@
   }
 
   .#{$ns}Tree {
-    padding: px2rem(2px) px2rem(10px);
+    padding-top: var(--transfer-tree-paddingTop);
+    padding-right: var(--transfer-tree-paddingRight);
+    padding-bottom: var(--transfer-tree-paddingBottom);
+    padding-left: var(--transfer-tree-paddingLeft);
+    margin-top: var(--transfer-tree-marginTop);
+    margin-right: var(--transfer-tree-marginLeft);
+    margin-bottom: var(--transfer-tree-marginBottom);
+    margin-left: var(--transfer-tree-marginRight);
 
     &-itemLabel:hover::after {
       left: 0;
+    }
+
+    &-itemLabel {
+      padding-top: var(--transfer-tree-option-paddingTop);
+      padding-right: var(--transfer-tree-option-paddingRight);
+      padding-bottom: var(--transfer-tree-option-paddingBottom);
+      padding-left: var(--transfer-tree-option-paddingLeft);
+      margin-top: var(--transfer-tree-option-marginTop);
+      margin-right: var(--transfer-tree-option-marginLeft);
+      margin-bottom: var(--transfer-tree-option-marginBottom);
+      margin-left: var(--transfer-tree-option-marginRight);
+      border-top-right-radius: var(--transfer-tree-top-right-border-radius);
+      border-bottom-left-radius: var(--transfer-tree-bottom-left-border-radius);
+      border-bottom-right-radius: var(--transfer-tree-bottom-right-border-radius);
+      border-top-left-radius: var(--transfer-tree-top-left-border-radius);
+
+      &:hover {
+        background: var(--transfer-tree-bg-hover-color);
+      }
+
+      &.is-checked {
+        background: var(--transfer-tree-bg-active-color);
+      }
+    }
+
+    &-itemText {
+      line-height: var(--transfer-base-content-font-lineHeight);
+      font-size: var(--transfer-base-content-font-size);
+      font-weight: var(--transfer-base-content-font-weight);
+      font-family: var(--transfer-base-content-font-family);
+      color: var(--transfer-base-content-font-color);
+    }
+  }
+
+  .#{$ns}Table-content {
+    .#{$ns}Table-table > thead > tr > th {
+      padding-top: var(--transfer-table-header-paddingTop);
+      padding-right: var(--transfer-table-header-paddingRight);
+      padding-bottom: var(--transfer-table-header-paddingBottom);
+      padding-left: var(--transfer-table-header-paddingLeft);
+      background: var(--transfer-base-title-bg);
+      color: var(--transfer-base-title-font-color);
+      line-height: var(--transfer-base-title-font-lineHeight);
+      font-size: var(--transfer-base-title-font-size);
+      font-weight: var(--transfer-base-title-font-weight);
+      font-family: var(--transfer-base-title-font-family);
+
+      &:last-child {
+        padding-right: var(--transfer-table-last-paddingRight);
+      }
+    }
+    .#{$ns}Table-table > tbody > tr > td {
+      padding-top: var(--transfer-table-option-paddingTop);
+      padding-right: var(--transfer-table-option-paddingRight);
+      padding-bottom: var(--transfer-table-option-paddingBottom);
+      padding-left: var(--transfer-table-option-paddingLeft);
+      line-height: var(--transfer-base-content-font-lineHeight);
+      font-size: var(--transfer-base-content-font-size);
+      font-weight: var(--transfer-base-content-font-weight);
+      font-family: var(--transfer-base-content-font-family);
+      color: var(--transfer-base-content-font-color);
+
+      &:last-child {
+        padding-right: var(--transfer-table-last-paddingRight);
+      }
     }
   }
 }
@@ -252,6 +433,7 @@
 .#{$ns}TransferControl {
   position: relative;
   overflow: hidden;
+  box-shadow: var(--transfer-base-shadow);
 
   &.is-inline {
     display: inline-block;
