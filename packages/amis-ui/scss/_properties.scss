@@ -131,8 +131,8 @@
   --Alert-boxShadow: none;
   --Alert-fontSize: var(--fontSizeBase);
   --Alert-marginBottom: var(--gap-md);
-  --Alert-paddingX: var(--gap-sm);
-  --Alert-paddingY: var(--gap-sm);
+  --Alert-paddingX: var(--gap-md);
+  --Alert-paddingY: var(--gap-xs);
 
   --Audio-border: #{px2rem(1px)} solid #dee2e6;
   --Audio-height: #{px2rem(50px)};
@@ -607,7 +607,7 @@
   --DatePicker-height: var(--Form-input-height);
   --DatePicker-iconColor: var(--icon-color);
   --DatePicker-lineHeight: var(--Form-input-lineHeight);
-  --DatePicker-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
+  --DatePicker-onFocused-borderColor: #144BCC;
   --DatePicker-onHover-bg: var(--DatePicker-bg);
   --DatePicker-onHover-borderColor: var(--Form-input-onFocused-borderColor);
   --DatePicker-onHover-iconColor: var(--icon-onHover-color);
@@ -1608,8 +1608,8 @@
   --Wizard-steps-ulDisplay: block;
   --Wizard-stepsContent-padding: var(--gap-base);
 
-  --AnchorNav-links-container-borderRight: #{px2rem(1px)} solid #d3dae0;
-  --AnchorNav-onActive-borderWidth: 0 #{px2rem(2px)} 0 0;
+  --AnchorNav-links-container-borderRight: #{px2rem(2px)} solid #d3dae0;
+  --AnchorNav-onActive-borderWidth: 0 0 0 #{px2rem(2px)};
 
   --Steps-bg: var(--borderColorDarken);
   --Steps-status-success: var(--info);

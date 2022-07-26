@@ -1505,7 +1505,9 @@ export class DateRangePicker extends React.Component<
           value={this.state.startInputValue || ''}
           disabled={disabled}
         />
-        <span className={cx('DateRangePicker-input-separator')}>-</span>
+        <span className={cx('DateRangePicker-input-separator')}>
+          <span className={cx('DateRangePicker-input-separator-line')}></span>
+        </span>
         <Input
           className={cx('DateRangePicker-input', {
             isActive: this.state.editState === 'end' && isOpened
