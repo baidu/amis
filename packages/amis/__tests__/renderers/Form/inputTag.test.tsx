@@ -52,6 +52,14 @@ const setupInputTag = async (inputTagOptions: any = {}) => {
 };
 
 describe('Renderer:InputTag', () => {
+  test('InputTag with placeholder', async () => {
+    const placeholder = 'please input the tag';
+    const {container, input} = await setupInputTag({placeholder});
+
+    expect(input.placeholder).toBe(placeholder);
+    expect(container).toMatchSnapshot();
+  });
+
   test('InputTag with options', async () => {
     const {container, input} = await setupInputTag({
       options: ['Apple', 'Orange', 'Banana']

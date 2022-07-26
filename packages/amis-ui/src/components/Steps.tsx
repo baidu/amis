@@ -197,7 +197,7 @@ export function Steps(props: StepsProps) {
                     >
                       {step.title}
                     </span>
-                    {step.subTitle && (
+                    {/* {step.subTitle && (  // 步骤条不支持副标题(4.0规范)
                       <span
                         className={cx(
                           'StepsItem-subTitle',
@@ -207,7 +207,7 @@ export function Steps(props: StepsProps) {
                       >
                         {step.subTitle}
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <div
                     className={cx('StepsItem-description', 'StepsItem-ellText')}

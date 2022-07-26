@@ -52,11 +52,6 @@
         // height: var(--Form-input-height);
         line-height: 1.1;
         padding: px2rem(5px) px2rem(12px);
-
-        &.is-highlight:hover > span {
-          color: var(--menu-active-color);
-        }
-
         svg {
           color: var(--default-icon-color);
         }
@@ -248,7 +243,6 @@
   }
 
   &-body {
-    padding: #{px2rem(16px)} 0 #{px2rem(24px)} 0;
     font-size: #{$T2};
     font-weight: #{$W2};
   }

@@ -119,14 +119,7 @@ export default class Property extends React.Component<PropertyProps, object> {
    */
   prepareRows() {
     const {column = 3, items, source, data} = this.props;
-    const propertyItems =
-      (items
-        ? items
-        : (resolveVariableAndFilter(
-            source,
-            data,
-            '| raw'
-          ) as Array<PropertyItem>)) || [];
+    const propertyItems = items ? items : source || [];
 
     const rows: PropertyContent[][] = [];
 
@@ -246,6 +239,7 @@ export default class Property extends React.Component<PropertyProps, object> {
 }
 
 @Renderer({
-  type: 'property'
+  type: 'property',
+  autoVar: true
 })
 export class PropertyRenderer extends Property {}

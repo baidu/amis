@@ -1,4 +1,4 @@
-import {render, cleanup} from '@testing-library/react';
+import {render, cleanup, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv} from '../../helper';
@@ -26,7 +26,9 @@ describe('Renderer:Switch', () => {
               falseValue: false,
               disabled: false,
               option: 'switch',
-              optionAtLeft: false
+              optionAtLeft: false,
+              onText: "已开启飞行模式",
+              offText: "已关闭飞行模式"
             }
           ],
           submitText: null,
@@ -36,6 +38,11 @@ describe('Renderer:Switch', () => {
         makeEnv()
       )
     );
+
+    expect(
+      (container.querySelector('.cxd-SwitchControl .cxd-Switch .text') as Element).innerHTML
+    ).toBe('已开启飞行模式');
+
     expect(container).toMatchSnapshot();
   });
 

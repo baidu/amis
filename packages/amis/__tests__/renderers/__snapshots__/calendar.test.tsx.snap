@@ -47,12 +47,18 @@ exports[`Renderer:calendar 1`] = `
                                 <a
                                   class="rdtPrev"
                                 >
-                                  «
+                                  <icon-mock
+                                    classname="icon date-icon-arrow-left icon-right-double-arrow"
+                                    icon="right-double-arrow"
+                                  />
                                 </a>
                                 <a
                                   class="rdtPrev"
                                 >
-                                  ‹
+                                  <icon-mock
+                                    classname="icon date-icon-arrow-left icon-right-arrow"
+                                    icon="right-arrow"
+                                  />
                                 </a>
                                 <div
                                   class="rdtCenter"
@@ -71,14 +77,23 @@ exports[`Renderer:calendar 1`] = `
                                 <a
                                   class="rdtNext"
                                 >
-                                  ›
+                                  <icon-mock
+                                    classname="icon date-icon-arrow icon-right-arrow"
+                                    icon="right-arrow"
+                                  />
                                 </a>
                                 <a
                                   class="rdtNext"
                                 >
-                                  »
+                                  <icon-mock
+                                    classname="icon date-icon-arrow icon-right-double-arrow"
+                                    icon="right-double-arrow"
+                                  />
                                 </a>
                               </div>
+                              <div
+                                class="header-line"
+                              />
                             </th>
                           </tr>
                           <tr>
@@ -540,12 +555,18 @@ exports[`Renderer:calendar largeMode 1`] = `
                                 <a
                                   class="rdtPrev"
                                 >
-                                  «
+                                  <icon-mock
+                                    classname="icon date-icon-arrow-left icon-right-double-arrow"
+                                    icon="right-double-arrow"
+                                  />
                                 </a>
                                 <a
                                   class="rdtPrev"
                                 >
-                                  ‹
+                                  <icon-mock
+                                    classname="icon date-icon-arrow-left icon-right-arrow"
+                                    icon="right-arrow"
+                                  />
                                 </a>
                                 <div
                                   class="rdtCenter"
@@ -564,14 +585,23 @@ exports[`Renderer:calendar largeMode 1`] = `
                                 <a
                                   class="rdtNext"
                                 >
-                                  ›
+                                  <icon-mock
+                                    classname="icon date-icon-arrow icon-right-arrow"
+                                    icon="right-arrow"
+                                  />
                                 </a>
                                 <a
                                   class="rdtNext"
                                 >
-                                  »
+                                  <icon-mock
+                                    classname="icon date-icon-arrow icon-right-double-arrow"
+                                    icon="right-double-arrow"
+                                  />
                                 </a>
                               </div>
+                              <div
+                                class="header-line"
+                              />
                             </th>
                           </tr>
                           <tr>
@@ -1181,12 +1211,18 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                                 <a
                                   class="rdtPrev"
                                 >
-                                  «
+                                  <icon-mock
+                                    classname="icon date-icon-arrow-left icon-right-double-arrow"
+                                    icon="right-double-arrow"
+                                  />
                                 </a>
                                 <a
                                   class="rdtPrev"
                                 >
-                                  ‹
+                                  <icon-mock
+                                    classname="icon date-icon-arrow-left icon-right-arrow"
+                                    icon="right-arrow"
+                                  />
                                 </a>
                                 <div
                                   class="rdtCenter"
@@ -1205,14 +1241,23 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                                 <a
                                   class="rdtNext"
                                 >
-                                  ›
+                                  <icon-mock
+                                    classname="icon date-icon-arrow icon-right-arrow"
+                                    icon="right-arrow"
+                                  />
                                 </a>
                                 <a
                                   class="rdtNext"
                                 >
-                                  »
+                                  <icon-mock
+                                    classname="icon date-icon-arrow icon-right-double-arrow"
+                                    icon="right-double-arrow"
+                                  />
                                 </a>
                               </div>
+                              <div
+                                class="header-line"
+                              />
                             </th>
                           </tr>
                           <tr>

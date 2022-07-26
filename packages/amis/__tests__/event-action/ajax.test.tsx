@@ -49,7 +49,7 @@ test('EventAction:ajax', async () => {
                     actionType: 'setValue',
                     componentId: 'page_001',
                     args: {
-                      value: '${event.data.result}'
+                      value: '${event.data.result.responseData}'
                     }
                   }
                 ]
@@ -59,6 +59,41 @@ test('EventAction:ajax', async () => {
           {
             type: 'tpl',
             tpl: '${age}岁的天空'
+          },
+          {
+            type: 'button',
+            label: '发送请求2',
+            level: 'primary',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'ajax',
+                    args: {
+                      api: {
+                        url: 'api/xxx',
+                        method: 'get'
+                      },
+                      messages: {
+                        success: '成功了！欧耶',
+                        failed: '失败了呢。。'
+                      }
+                    }
+                  },
+                  {
+                    actionType: 'setValue',
+                    componentId: 'page_001',
+                    args: {
+                      value: '${event.data}'
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            type: 'tpl',
+            tpl: '${responseResult.responseData.age}岁的天空，status:${responseResult.responseStatus}，msg:${responseResult.responseMsg}'
           }
         ]
       },
@@ -72,6 +107,12 @@ test('EventAction:ajax', async () => {
   fireEvent.click(getByText('发送请求'));
   await waitFor(() => {
     expect(getByText('18岁的天空')).toBeInTheDocument();
+  });
+  expect(container).toMatchSnapshot();
+
+  fireEvent.click(getByText('发送请求2'));
+  await waitFor(() => {
+    expect(getByText('18岁的天空，status:0，msg:ok')).toBeInTheDocument();
   });
   expect(container).toMatchSnapshot();
 });

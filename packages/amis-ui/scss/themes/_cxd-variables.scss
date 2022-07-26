@@ -86,7 +86,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --borderColor: #{$G8};
   --borderRadius: #{$R3};
   --body-bg: #ffffff;
-  --text-color: #151a26;
+  --text-color: #151b26;
 
   --text--muted-color: #{$G6};
   --text--loud-color: #333;
@@ -144,7 +144,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-onDisabled-borderColor: #{$G8};
   --Form-input-onDisabled-color: #{$G5};
   --Form-input-iconColor: #{$G5};
-  --Form-input-paddingX: #{px2rem(10px)};
+  --Form-input-paddingX: var(--gap-base);
   --Form-description-color: #999;
   --Form--horizontal-label-whiteSpace: normal;
   --Form--horizontal-label-widthXs: #{px2rem(50px)};
@@ -558,7 +558,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --TransferSelect-heading-borderBottom: 0;
 
   // Alert
-  --Alert-fontColor: #{$G4};
+  --Alert-fontColor: #{$G2};
   --Alert-title-fontColor: #{$G2};
 
   --Alert-height: #{px2rem(40px)};
@@ -567,19 +567,19 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Alert-borderRadius: #{$R3};
   --Alert-marginBottom: var(--gap-md);
 
-  --Alert--danger-color: #{$G4};
+  --Alert--danger-color: #{$G2};
   --Alert--danger-bg: #{$danger-bg};
   --Alert--danger-borderColor: transparent;
 
-  --Alert--info-color: #{$G4};
+  --Alert--info-color: #{$G2};
   --Alert--info-bg: #{$info-bg};
   --Alert--info-borderColor: transparent;
 
-  --Alert--success-color: #{$G4};
+  --Alert--success-color: #{$G2};
   --Alert--success-bg: #{$success-bg};
   --Alert--success-borderColor: transparent;
 
-  --Alert--warning-color: #{$G4};
+  --Alert--warning-color: #{$G2};
   --Alert--warning-bg: #{$warning-bg};
   --Alert--warning-borderColor: transparent;
 
@@ -655,7 +655,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   --Progress-borderRadius: #{$R7};
 
-  --Rating-inactive-color: #{$G9};
+  --Rating-inactive-color: #{$G8};
+  --Rating-text-color: #{$G2};
 
   // tree
   --Tree-item-onHover-bg-pure: #{$G10};

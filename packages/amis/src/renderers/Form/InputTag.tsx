@@ -254,6 +254,10 @@ export default class TagControl extends React.PureComponent<
   }
 
   async addItem(option: Option) {
+    if (this.isReachMax()) {
+      return;
+    }
+
     const {selectedOptions, onChange} = this.props;
     const newValue = selectedOptions.concat();
 
@@ -393,7 +397,7 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   handleOptionChange(option: Option) {
-    if (this.state.inputValue || !option) {
+    if (this.isReachMax() || this.state.inputValue || !option) {
       return;
     }
 
@@ -413,6 +417,12 @@ export default class TagControl extends React.PureComponent<
   reload() {
     const reload = this.props.reloadOptions;
     reload?.();
+  }
+
+  @autobind
+  isReachMax() {
+    const {max, selectedOptions} = this.props;
+    return max != null && isInteger(max) && selectedOptions.length >= max;
   }
 
   render() {
@@ -445,6 +455,8 @@ export default class TagControl extends React.PureComponent<
         )
       : [];
 
+    const reachMax = this.isReachMax();
+
     return (
       <Downshift
         selectedItem={selectedOptions}
@@ -461,13 +473,14 @@ export default class TagControl extends React.PureComponent<
                 {...getInputProps({
                   name,
                   ref: this.input,
-                  placeholder: __(placeholder || 'Tag.placeholder'),
+                  placeholder: __(placeholder ?? 'Tag.placeholder'),
                   value: this.state.inputValue,
                   onKeyDown: this.handleKeyDown,
                   onFocus: this.handleFocus,
                   onBlur: this.handleBlur,
                   disabled
                 })}
+                inputPlaceholder={''}
                 onChange={this.handleInputChange}
                 className={cx('TagControl-input')}
                 result={selectedOptions}
@@ -507,7 +520,10 @@ export default class TagControl extends React.PureComponent<
                         ...getItemProps({
                           index,
                           item,
-                          disabled: item.disabled
+                          disabled: reachMax || item.disabled,
+                          className: cx('ListMenu-item', {
+                            'is-disabled': reachMax
+                          }),
                         })
                       })}
                     />
@@ -524,7 +540,7 @@ export default class TagControl extends React.PureComponent<
                   {options.map((item, index) => (
                     <div
                       className={cx('TagControl-sugItem', {
-                        'is-disabled': item.disabled || disabled
+                        'is-disabled': item.disabled || disabled || reachMax
                       })}
                       key={index}
                       onClick={this.addItem.bind(this, item)}

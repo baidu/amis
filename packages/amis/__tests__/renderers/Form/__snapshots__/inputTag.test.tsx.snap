@@ -30,123 +30,6 @@ exports[`Renderer:InputTag InputTag input with batch tag 1`] = `
       <div
         aria-expanded="true"
         aria-haspopup="listbox"
-        aria-labelledby="downshift-2-label"
-        aria-owns="downshift-2-menu"
-        class="cxd-Form-control cxd-TagControl"
-        role="combobox"
-      >
-        <div
-          class="cxd-ResultBox cxd-TagControl-input is-focused is-group"
-          tabindex="-1"
-        >
-          <div
-            class="cxd-ResultBox-value-wrap"
-          >
-            <div
-              class="cxd-ResultBox-value"
-            >
-              <span
-                class="cxd-ResultBox-valueLabel"
-              >
-                Apple
-              </span>
-              <a
-                data-index="0"
-              >
-                <icon-mock
-                  classname="icon icon-close"
-                  icon="close"
-                />
-              </a>
-            </div>
-            <div
-              class="cxd-ResultBox-value"
-            >
-              <span
-                class="cxd-ResultBox-valueLabel"
-              >
-                Orange
-              </span>
-              <a
-                data-index="1"
-              >
-                <icon-mock
-                  classname="icon icon-close"
-                  icon="close"
-                />
-              </a>
-            </div>
-            <div
-              class="cxd-ResultBox-value"
-            >
-              <span
-                class="cxd-ResultBox-valueLabel"
-              >
-                Banana
-              </span>
-              <a
-                data-index="2"
-              >
-                <icon-mock
-                  classname="icon icon-close"
-                  icon="close"
-                />
-              </a>
-            </div>
-            <input
-              aria-autocomplete="list"
-              aria-controls="downshift-2-menu"
-              aria-labelledby="downshift-2-label"
-              autocomplete="off"
-              class="cxd-ResultBox-value-input"
-              id="downshift-2-input"
-              name="tag"
-              placeholder="请输入"
-              theme="cxd"
-              type="text"
-              value=""
-            />
-          </div>
-          <div
-            class="cxd-ResultBox-actions"
-          />
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
-`;
-
-exports[`Renderer:InputTag InputTag input with batch tag and separator "|" 1`] = `
-<div>
-  <form
-    class="cxd-Form cxd-Form--normal"
-    novalidate=""
-  >
-    <input
-      style="display: none;"
-      type="submit"
-    />
-    <div
-      class="cxd-Form-item cxd-Form-item--normal"
-      data-role="form-item"
-    >
-      <label
-        class="cxd-Form-label"
-      >
-        <span>
-          <span
-            class="cxd-TplField"
-          >
-            <span>
-              标签
-            </span>
-          </span>
-        </span>
-      </label>
-      <div
-        aria-expanded="true"
-        aria-haspopup="listbox"
         aria-labelledby="downshift-3-label"
         aria-owns="downshift-3-menu"
         class="cxd-Form-control cxd-TagControl"
@@ -218,7 +101,7 @@ exports[`Renderer:InputTag InputTag input with batch tag and separator "|" 1`] =
               class="cxd-ResultBox-value-input"
               id="downshift-3-input"
               name="tag"
-              placeholder="请输入"
+              placeholder=""
               theme="cxd"
               type="text"
               value=""
@@ -234,7 +117,7 @@ exports[`Renderer:InputTag InputTag input with batch tag and separator "|" 1`] =
 </div>
 `;
 
-exports[`Renderer:InputTag InputTag input with max quantity 2 1`] = `
+exports[`Renderer:InputTag InputTag input with batch tag and separator "|" 1`] = `
 <div>
   <form
     class="cxd-Form cxd-Form--normal"
@@ -262,9 +145,10 @@ exports[`Renderer:InputTag InputTag input with max quantity 2 1`] = `
         </span>
       </label>
       <div
-        aria-expanded="false"
+        aria-expanded="true"
         aria-haspopup="listbox"
         aria-labelledby="downshift-4-label"
+        aria-owns="downshift-4-menu"
         class="cxd-Form-control cxd-TagControl"
         role="combobox"
       >
@@ -309,17 +193,35 @@ exports[`Renderer:InputTag InputTag input with max quantity 2 1`] = `
                 />
               </a>
             </div>
+            <div
+              class="cxd-ResultBox-value"
+            >
+              <span
+                class="cxd-ResultBox-valueLabel"
+              >
+                Banana
+              </span>
+              <a
+                data-index="2"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
+            </div>
             <input
               aria-autocomplete="list"
+              aria-controls="downshift-4-menu"
               aria-labelledby="downshift-4-label"
               autocomplete="off"
               class="cxd-ResultBox-value-input"
               id="downshift-4-input"
               name="tag"
-              placeholder="请输入"
+              placeholder=""
               theme="cxd"
               type="text"
-              value="Banana"
+              value=""
             />
           </div>
           <div
@@ -332,7 +234,7 @@ exports[`Renderer:InputTag InputTag input with max quantity 2 1`] = `
 </div>
 `;
 
-exports[`Renderer:InputTag InputTag input with maxTagLength 5 1`] = `
+exports[`Renderer:InputTag InputTag input with max quantity 2 1`] = `
 <div>
   <form
     class="cxd-Form cxd-Form--normal"
@@ -390,6 +292,23 @@ exports[`Renderer:InputTag InputTag input with maxTagLength 5 1`] = `
                 />
               </a>
             </div>
+            <div
+              class="cxd-ResultBox-value"
+            >
+              <span
+                class="cxd-ResultBox-valueLabel"
+              >
+                Orange
+              </span>
+              <a
+                data-index="1"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
+            </div>
             <input
               aria-autocomplete="list"
               aria-labelledby="downshift-5-label"
@@ -397,7 +316,88 @@ exports[`Renderer:InputTag InputTag input with maxTagLength 5 1`] = `
               class="cxd-ResultBox-value-input"
               id="downshift-5-input"
               name="tag"
-              placeholder="请输入"
+              placeholder=""
+              theme="cxd"
+              type="text"
+              value="Banana"
+            />
+          </div>
+          <div
+            class="cxd-ResultBox-actions"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`Renderer:InputTag InputTag input with maxTagLength 5 1`] = `
+<div>
+  <form
+    class="cxd-Form cxd-Form--normal"
+    novalidate=""
+  >
+    <input
+      style="display: none;"
+      type="submit"
+    />
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              标签
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        aria-labelledby="downshift-6-label"
+        class="cxd-Form-control cxd-TagControl"
+        role="combobox"
+      >
+        <div
+          class="cxd-ResultBox cxd-TagControl-input is-focused is-group"
+          tabindex="-1"
+        >
+          <div
+            class="cxd-ResultBox-value-wrap"
+          >
+            <div
+              class="cxd-ResultBox-value"
+            >
+              <span
+                class="cxd-ResultBox-valueLabel"
+              >
+                Apple
+              </span>
+              <a
+                data-index="0"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
+            </div>
+            <input
+              aria-autocomplete="list"
+              aria-labelledby="downshift-6-label"
+              autocomplete="off"
+              class="cxd-ResultBox-value-input"
+              id="downshift-6-input"
+              name="tag"
+              placeholder=""
               theme="cxd"
               type="text"
               value="Banana"
@@ -443,8 +443,8 @@ exports[`Renderer:InputTag InputTag input with single tag 1`] = `
       <div
         aria-expanded="true"
         aria-haspopup="listbox"
-        aria-labelledby="downshift-1-label"
-        aria-owns="downshift-1-menu"
+        aria-labelledby="downshift-2-label"
+        aria-owns="downshift-2-menu"
         class="cxd-Form-control cxd-TagControl"
         role="combobox"
       >
@@ -474,13 +474,13 @@ exports[`Renderer:InputTag InputTag input with single tag 1`] = `
             </div>
             <input
               aria-autocomplete="list"
-              aria-controls="downshift-1-menu"
-              aria-labelledby="downshift-1-label"
+              aria-controls="downshift-2-menu"
+              aria-labelledby="downshift-2-label"
               autocomplete="off"
               class="cxd-ResultBox-value-input"
-              id="downshift-1-input"
+              id="downshift-2-input"
               name="tag"
-              placeholder="请输入"
+              placeholder=""
               theme="cxd"
               type="text"
               value=""
@@ -526,8 +526,8 @@ exports[`Renderer:InputTag InputTag with options 1`] = `
       <div
         aria-expanded="true"
         aria-haspopup="listbox"
-        aria-labelledby="downshift-0-label"
-        aria-owns="downshift-0-menu"
+        aria-labelledby="downshift-1-label"
+        aria-owns="downshift-1-menu"
         class="cxd-Form-control cxd-TagControl has-popover"
         role="combobox"
       >
@@ -541,13 +541,13 @@ exports[`Renderer:InputTag InputTag with options 1`] = `
           >
             <input
               aria-autocomplete="list"
-              aria-controls="downshift-0-menu"
-              aria-labelledby="downshift-0-label"
+              aria-controls="downshift-1-menu"
+              aria-labelledby="downshift-1-label"
               autocomplete="off"
               class="cxd-ResultBox-value-input"
-              id="downshift-0-input"
+              id="downshift-1-input"
               name="tag"
-              placeholder=""
+              placeholder="请输入/选择标签"
               theme="cxd"
               type="text"
               value=""
@@ -610,7 +610,7 @@ exports[`Renderer:InputTag InputTag with options 1`] = `
             <div
               aria-selected="false"
               class="cxd-ListMenu-item"
-              id="downshift-0-item-0"
+              id="downshift-1-item-0"
               role="option"
             >
               <div
@@ -622,7 +622,7 @@ exports[`Renderer:InputTag InputTag with options 1`] = `
             <div
               aria-selected="false"
               class="cxd-ListMenu-item"
-              id="downshift-0-item-1"
+              id="downshift-1-item-1"
               role="option"
             >
               <div
@@ -634,7 +634,7 @@ exports[`Renderer:InputTag InputTag with options 1`] = `
             <div
               aria-selected="false"
               class="cxd-ListMenu-item"
-              id="downshift-0-item-2"
+              id="downshift-1-item-2"
               role="option"
             >
               <div
@@ -683,6 +683,70 @@ exports[`Renderer:InputTag InputTag with options 1`] = `
               style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
             />
           </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`Renderer:InputTag InputTag with placeholder 1`] = `
+<div>
+  <form
+    class="cxd-Form cxd-Form--normal"
+    novalidate=""
+  >
+    <input
+      style="display: none;"
+      type="submit"
+    />
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              标签
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        aria-labelledby="downshift-0-label"
+        class="cxd-Form-control cxd-TagControl"
+        role="combobox"
+      >
+        <div
+          class="cxd-ResultBox cxd-TagControl-input is-group"
+          tabindex="-1"
+        >
+          <div
+            class="cxd-ResultBox-value-wrap"
+          >
+            <input
+              aria-autocomplete="list"
+              aria-labelledby="downshift-0-label"
+              autocomplete="off"
+              class="cxd-ResultBox-value-input"
+              id="downshift-0-input"
+              name="tag"
+              placeholder="please input the tag"
+              theme="cxd"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="cxd-ResultBox-actions"
+          />
         </div>
       </div>
     </div>

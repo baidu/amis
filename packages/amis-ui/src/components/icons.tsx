@@ -45,6 +45,7 @@ import ColmunsIcon from '../icons/columns.svg';
 import CalendarIcon from '../icons/calendar.svg';
 import ClockIcon from '../icons/clock.svg';
 import TreeDownIcon from '../icons/tree-down.svg';
+import CheckCircle from '../icons/check-circle.svg';
 import CloudUploadIcon from '../icons/cloud-upload.svg';
 import ImageIcon from '../icons/image.svg';
 import RefreshIcon from '../icons/refresh.svg';
@@ -95,10 +96,14 @@ import Role from '../icons/role.svg';
 import Department from '../icons/department.svg';
 import Post from '../icons/post.svg';
 import DotIcon from '../icons/dot.svg';
+import StepsFinsh from '../icons/steps-finsh.svg';
 import Invisible from '../icons/invisible.svg';
 import DateIcon from '../icons/date.svg';
 import InvisibleIcon from '../icons/invisible.svg';
 import DownIcon from '../icons/down.svg';
+import RightDoubleArrowIcon from '../icons/right-double-arrow.svg';
+import NewEdit from '../icons/new-edit.svg';
+
 // 兼容原来的用法，后续不直接试用。
 
 export const closeIcon = <CloseIcon />;
@@ -142,6 +147,7 @@ registerIcon('right-arrow', RightArrowIcon);
 registerIcon('prev', LeftArrowIcon);
 registerIcon('next', RightArrowIcon);
 registerIcon('check', CheckIcon);
+registerIcon('check-circle', CheckCircle);
 registerIcon('plus', PlusIcon);
 registerIcon('add', PlusIcon);
 registerIcon('minus', MinusIcon);
@@ -220,10 +226,13 @@ registerIcon('edit', EditIcon);
 registerIcon('desk-empty', DeskEmptyIcon);
 registerIcon('invisible', Invisible);
 registerIcon('plus-fine', PlusFineIcon);
+registerIcon('steps-finsh', StepsFinsh);
 registerIcon('date', DateIcon);
 registerIcon('remove', RemoveIcon);
 registerIcon('invisible', InvisibleIcon);
 registerIcon('down', DownIcon);
+registerIcon('right-double-arrow', RightDoubleArrowIcon);
+registerIcon('new-edit', NewEdit);
 
 export function Icon({
   icon,
@@ -267,5 +276,6 @@ export {
   UserRemove,
   Role,
   Department,
-  Post
+  Post,
+  RightDoubleArrowIcon
 };

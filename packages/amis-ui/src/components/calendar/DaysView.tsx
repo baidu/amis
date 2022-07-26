@@ -17,6 +17,7 @@ import Picker from '../Picker';
 import {PickerOption} from '../PickerColumn';
 import {DateType} from './Calendar';
 import type {TimeScale} from './TimeView';
+import {Icon} from '../icons';
 
 interface CustomDaysViewProps extends LocaleProps {
   classPrefix?: string;
@@ -531,8 +532,6 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     const inputs: Array<React.ReactNode> = [];
     const timeConstraints = this.timeConstraints;
 
-    inputs.push(this.showTime());
-
     timeFormat.split(':').forEach((format, i) => {
       const type = /h/i.test(format)
         ? 'hours'
@@ -631,7 +630,12 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       }
     });
     inputs.length && inputs.pop();
-    return <div>{inputs}</div>;
+    return (
+      <div className={cx('CalendarTimesWrapper')}>
+        {this.showTime()}
+        <div className={cx('CalendarInputsWrapper')}>{inputs}</div>
+      </div>
+    );
   };
 
   renderFooter = () => {
@@ -734,13 +738,13 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                   className="rdtPrev"
                   onClick={this.props.subtractTime(1, 'years')}
                 >
-                  &laquo;
+                  <Icon icon="right-double-arrow" className="icon date-icon-arrow-left" />
                 </a>
                 <a
                   className="rdtPrev"
                   onClick={this.props.subtractTime(1, 'months')}
                 >
-                  &lsaquo;
+                  <Icon icon="right-arrow" className="icon date-icon-arrow-left" />
                 </a>
 
                 <div className="rdtCenter">
@@ -762,12 +766,13 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                   className="rdtNext"
                   onClick={this.props.addTime(1, 'months')}
                 >
-                  &rsaquo;
+                  <Icon icon="right-arrow" className="icon date-icon-arrow" />
                 </a>
                 <a className="rdtNext" onClick={this.props.addTime(1, 'years')}>
-                  &raquo;
+                  <Icon icon="right-double-arrow" className="icon date-icon-arrow" />
                 </a>
               </div>
+              <div className='header-line'></div>
             </th>
           </tr>
           <tr>
