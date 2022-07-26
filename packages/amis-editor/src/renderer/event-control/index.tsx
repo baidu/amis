@@ -446,7 +446,7 @@ export class EventControl extends React.Component<
     // 收集当前事件已有ajax动作的请求返回结果作为事件变量
     let oldActions = onEvent[activeData.actionData!.eventKey].actions;
     if (activeData.type === 'update') {
-      // 编辑的时候只能拿到当前动作前面动作的时间变量
+      // 编辑的时候只能拿到当前动作前面动作的事件变量
       oldActions = oldActions.slice(0, activeData.actionData!.actionIndex);
     }
 
@@ -459,27 +459,21 @@ export class EventControl extends React.Component<
         pluginActions,
         commonActions
       );
+      const dataSchemaJson = getPropOfAcion(
+        item,
+        'outputVarDataSchema',
+        actionTree,
+        pluginActions,
+        commonActions
+      );
+      const dataSchema = new DataSchema(dataSchemaJson || []);
       return {
         label: `${item.outputVar ? item.outputVar + `（${actionLabel}结果）` : `${actionLabel}结果`}`,
         tag: 'object',
-        children: [
-          {
-            label: `请求结果数据`,
-            tag: 'object',
-            type: 'object',
-            value: `${item.outputVar ? ('event.data.' + item.outputVar) : 'event.data.responseResult'}.data`
-          },
-          {
-            label: `请求结果状态`,
-            tag: 'number',
-            value: `${item.outputVar ? ('event.data.' + item.outputVar) : 'event.data.responseResult'}.status`
-          },
-          {
-            label: `请求结果消息`,
-            tag: 'string',
-            value: `${item.outputVar ? ('event.data.' + item.outputVar) : 'event.data.responseResult'}.msg`
-          }
-        ]
+        children: dataSchema.getDataPropsAsOptions()?.map(variable => ({
+          ...variable,
+          value: variable.value.replace('${outputVar}', item.outputVar)
+        }))
       };
     });
     const eventVariables: ContextVariables[] = [

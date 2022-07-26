@@ -453,7 +453,13 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                         mode: 'inline',
                         className: 'm-r-none',
                         value: false,
-                        remark: BaseLabelMark('勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。')
+                        remark: {
+                          className: 'ae-BaseRemark',
+                          icon: 'fa fa-question-circle',
+                          shape: "circle",
+                          placement: "left",
+                          content: '勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
+                        }
                       }
                     ]
                   }
@@ -471,7 +477,26 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 required: true
               }
             ]
-          }
+          },
+          outputVarDataSchema: [
+            {
+              type: 'object',
+              properties: {
+                'event.data.${outputVar}.responseData': {
+                  type: 'object',
+                  title: '数据'
+                },
+                'event.data.${outputVar}.responseStatus': {
+                  type: 'number',
+                  title: '状态标识'
+                },
+                'event.data.${outputVar}.responseMsg': {
+                  type: 'string',
+                  title: '提示信息'
+                }
+              }
+            }
+          ]
         },
         {
           actionLabel: '下载文件',
