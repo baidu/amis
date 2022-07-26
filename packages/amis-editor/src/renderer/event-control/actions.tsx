@@ -57,7 +57,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   placeholder: 'http://',
                   mode: 'horizontal',
                   size: 'lg',
-                  required: true
+                  required: true,
+                  visibleOn: 'data.actionType === "url"'
                 },
                 {
                   type: 'combo',
