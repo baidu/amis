@@ -53,12 +53,6 @@ exports[`Renderer:steps 1`] = `
                       >
                         First
                       </span>
-                      <span
-                        class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
-                        title="this is subTitle"
-                      >
-                        this is subTitle
-                      </span>
                     </div>
                     <div
                       class="cxd-StepsItem-description cxd-StepsItem-ellText"

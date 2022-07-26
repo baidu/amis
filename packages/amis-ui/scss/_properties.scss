@@ -1578,7 +1578,7 @@
 
   --Tree-indent: var(--gap-md);
   --Tree-icon-gap: var(--gap-xs);
-  --Tree-icon-margin-right: #{px2rem(10px)};
+  --Tree-icon-margin-right: #{px2rem(8px)};
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
   --Tree-item-onHover-bg: rgba(0, 126, 255, 0.08);
   --Tree-item-onHover-bg-pure: rgba(0, 126, 255, 0.08);
@@ -1586,6 +1586,10 @@
   --Tree-itemHeight: #{px2rem(30px)};
   --Tree-itemLabel--onChecked-color: var(--Form-selectValue-color);
   --TreeSelect-popover-bg: #fff;
+  --Tree-item-text-max-height: #{px2rem(250px)};
+  --Tree-item-text-top: #{px2rem(4px)};
+  --Tree-item-arrow-padding-left: #{px2rem(4px)};
+  --Tree-item-arrow-color: #84868C;
 
   --Wizard-badge-bg: #{$gray400};
   --Wizard-badge-border: 0;
@@ -1616,12 +1620,15 @@
 
   --Steps-bg: var(--borderColorDarken);
   --Steps-status-success: var(--info);
-  --Steps-status-error: var(--danger);
+  --Steps-status-error: var(--Tag-error-color);
+  --Steps-status-wait: #84868C;
   --Steps-icon-fontsize: var(--fontSizeLg);
-  --Steps-title-fontsize: var(--fontSizeLg);
-  --Steps-title-color: var(--text--loud-color);
+  --Steps-title-fontsize: var(--fontSizeMd);
+  --Steps-title-color: #151B26;
   --Steps-sub-title-fontsize: var(--fontSizeBase);
   --Steps-sub-title-color: var(--text-color);
+  --Steps-description-title-fontsize: var(--fontSizeSm);
+  --Steps-description-title-color: #84868C;
   --Steps-line-bg: var(--Steps-bg);
   --Steps-line-success-bg: var(--Steps-status-success);
 
@@ -1651,6 +1658,8 @@
   --TimelineItem--left-line-width: #{px2rem(2px)};
   --TimelineItem--left-line-left: #{px2rem(13px)};
   --TimelineItem--left-line-top: #{px2rem(20px)};
+  --TimelineItem--horizontal-left-line-top: #{px2rem(18px)};
+  --TimelineItem--icon-left-line-left: #{px2rem(12px)};
   --TimelineItem--round-width: #{px2rem(8px)};
   --TimelineItem--round-height: #{px2rem(8px)};
   --TimelineItem--round-left: #{px2rem(10px)};
@@ -1667,6 +1676,8 @@
   --TimelineItem-detail-visible-padding: #{px2rem(10px)};
   --TimelineItem-detail-visible-max-width: #{px2rem(300px)};
   --Timeline-alternate-margin-left: var(--gap-xl);
+  --Timeline-visible-border-radius: var(--gap-xs);
+  --Timeline-horizontal-content-margin-top: #{px2rem(-3px)};
 
   --TimelineItem--icon-radius: 50%;
   --TimelineItem--round-radius: 50%;
@@ -1682,6 +1693,9 @@
   --TimelineItem--detail-button-color: var(--primary);
   --TimelineItem--line-bg: #e6e6e8;
   --TimelineItem--content-bg: #f2f2f4;
+  --TimelineItem-round-bg: #dadbdd;
+  --TimelineItem-custem-button-margin-left: var(--fontSizeSm);
+  --TimelineItem-custem-time-padding-right: var(--fontSizeSm);
   --TimelineItem-round-bg: #dadbdd;
 
   --Timeline--success-bg: var(--success);
@@ -1702,12 +1716,12 @@
   --Tag-fontColor: #151a26;
 
   --Tag-default-color: #f2f2f4;
-  --Tag-inactive-color: #b4b6ba;
-  --Tag-active-color: #2468f2;
-  --Tag-processing-color: #1ac5ff;
-  --Tag-success-color: #0bc286;
-  --Tag-error-color: #e8684a;
-  --Tag-warning-color: #ffb200;
+  --Tag-inactive-color: #B8BABF;
+  --Tag-active-color: #2468F2;
+  --Tag-processing-color: #528EFF;
+  --Tag-success-color: #30BF13;
+  --Tag-error-color: #F33E3E;
+  --Tag-warning-color: #FF9326;
 
   --Tag-checkable-bgColor: #f2f2f4;
   --Tag-checkable-bgColor-onDisable: #e6e6e8;
