@@ -163,9 +163,12 @@
     border-style: solid;
     border-width: var(--Panel-borderWidth) 0 0 0;
     clear: both;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: left;
 
     .#{$ns}Button + .#{$ns}Button {
-      margin-left: var(--Panel-footerButtonMarginLeft);
+      margin-right: var(--Panel-footerButtonMarginLeft);
     }
   }
 
@@ -174,7 +177,7 @@
     text-align: var(--Panel-btnToolbarTextAlign);
 
     .#{$ns}Button {
-      margin-left: var(--Panel-footerButtonMarginLeft);
+      margin-right: var(--Panel-footerButtonMarginLeft);
     }
 
     &:empty {
