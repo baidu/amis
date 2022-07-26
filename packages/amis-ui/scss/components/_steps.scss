@@ -212,18 +212,19 @@
             text-align: center;
             .#{$ns}StepsItem-title {
               padding: 0 px2rem(10px);
+              bottom: px2rem(9px);
               width: 100%;
               > span {
                 display: block;
                 position: relative;
                 left: px2rem(12px);
-                top: px2rem(-6px);;
               }
               .#{$ns}StepsItem-subTitle {
                 word-break: break-all;
                 padding: 0 px2rem(10px);
                 position: relative;
                 left: px2rem(10px);
+                bottom: px2rem(12px);
               }
             }
             .#{$ns}StepsItem-title:after {
@@ -233,7 +234,7 @@
               min-width: px2rem(200px);
               word-break: break-all;
               padding: 0 px2rem(20px);
-              bottom: px2rem(28px);
+              bottom: px2rem(44px);
             }
             .#{$ns}StepsItem-title.is-success {
               &:after {
