@@ -57,6 +57,9 @@ npm start
 # 安装依赖
 npm i --legacy-peer-deps
 
+# 执行构建
+npm run build
+
 # 执行测试用例
 npm test --workspaces
 
