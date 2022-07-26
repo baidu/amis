@@ -144,7 +144,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-onDisabled-borderColor: #{$G8};
   --Form-input-onDisabled-color: #{$G5};
   --Form-input-iconColor: #{$G5};
-  --Form-input-paddingX: #{px2rem(10px)};
+  --Form-input-paddingX: var(--gap-base);
   --Form-description-color: #999;
   --Form--horizontal-label-whiteSpace: normal;
   --Form--horizontal-label-widthXs: #{px2rem(50px)};
@@ -655,7 +655,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   --Progress-borderRadius: #{$R7};
 
-  --Rating-inactive-color: #{$G9};
+  --Rating-inactive-color: #{$G8};
+  --Rating-text-color: #{$G2};
 
   // tree
   --Tree-item-onHover-bg-pure: #{$G10};
