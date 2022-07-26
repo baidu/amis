@@ -35,6 +35,7 @@ export class FormulaPlugin {
     if (value) {
       // todo functions 也需要自动替换
       this.autoMark(variables!);
+      this.focus(value);
     }
   }
 
@@ -76,7 +77,7 @@ export class FormulaPlugin {
     if (braces.length) {
       for (let index = 0; index < braces.length; index++) {
         const brace = braces[index];
-        if (from > brace.begin && to <= brace.end) {
+        if (from >= brace.begin && to <= brace.end) {
           isIn = true;
           break;
         }
@@ -226,6 +227,14 @@ export class FormulaPlugin {
         }
       });
     }
+  }
+
+  // 焦点放在最后
+  focus(value: string) {
+    this.editor.setCursor({
+      line: 0,
+      ch: value?.length || 0
+    });
   }
 
   dispose() {}
