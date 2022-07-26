@@ -1,5 +1,11 @@
 .#{$ns}NestedSelectControl {
   position: relative;
+
+  .#{$ns}NestedSelect-menu {
+    padding-top: px2rem(4px);
+    padding-bottom: px2rem(4px);
+    box-shadow: 0 px2rem(2px) px2rem(8px) 0 rgba(7, 12, 20, 0.12);
+  }
 }
 
 .#{$ns}NestedSelect {
