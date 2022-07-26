@@ -1,22 +1,16 @@
 import React from 'react';
-import {render} from '../../src/index';
+import {render, toast, Button, LazyComponent, Drawer} from 'amis';
 import axios from 'axios';
 import Portal from 'react-overlays/Portal';
-import {toast} from '../../src/components/Toast';
-import {normalizeLink} from '../../src/utils/normalizeLink';
-import Button from '../../src/components/Button';
-import LazyComponent from '../../src/components/LazyComponent';
-import {default as DrawerContainer} from '../../src/components/Drawer';
-
+import {toast} from 'amis';
+import {normalizeLink} from 'amis-core';
 import {withRouter} from 'react-router';
-import {matchPath} from 'react-router-dom';
 import copy from 'copy-to-clipboard';
-import {qsparse} from '../../src/utils/helper';
+import {qsparse} from 'amis-core';
 
 function loadEditor() {
   return new Promise(resolve =>
-    require(['../../src/components/Editor'], component =>
-      resolve(component.default))
+    require(['amis-ui'], component => resolve(component.Editor))
   );
 }
 
@@ -266,7 +260,7 @@ export default function (schema, showCode, envOverrides) {
           <>
             <div className="schema-wrapper">
               {finalShowCode !== false ? (
-                <DrawerContainer
+                <Drawer
                   classPrefix={ns}
                   size="lg"
                   onHide={this.close}
@@ -276,7 +270,7 @@ export default function (schema, showCode, envOverrides) {
                   position="right"
                 >
                   {this.state.open ? this.renderCode() : null}
-                </DrawerContainer>
+                </Drawer>
               ) : null}
               {this.renderSchema()}
             </div>

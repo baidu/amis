@@ -1,0 +1,380 @@
+.#{$ns}Button {
+  display: inline-block;
+  font-weight: var(--Button-fontWeight);
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background: transparent;
+  border: var(--Button-borderWidth) solid transparent;
+  transition: var(--Button-transition);
+  white-space: nowrap;
+  min-width: var(--Button-mimWidth);
+
+  &--primary {
+    @include button-variant(
+      var(--Button--primary-bg),
+      var(--Button--primary-border),
+      var(--Button--primary-color),
+      var(--Button--primary-onHover-bg),
+      var(--Button--primary-onHover-border),
+      var(--Button--primary-onHover-color),
+      var(--Button--primary-onActive-bg),
+      var(--Button--primary-onActive-border),
+      var(--Button--primary-onActive-color)
+    );
+  }
+
+  &--secondary {
+    @include button-variant(
+      var(--Button--secondary-bg),
+      var(--Button--secondary-border),
+      var(--Button--secondary-color),
+      var(--Button--secondary-onHover-bg),
+      var(--Button--secondary-onHover-border),
+      var(--Button--secondary-onHover-color),
+      var(--Button--secondary-onActive-bg),
+      var(--Button--secondary-onActive-border),
+      var(--Button--secondary-onActive-color)
+    );
+  }
+
+  &--success {
+    @include button-variant(
+      var(--Button--success-bg),
+      var(--Button--success-border),
+      var(--Button--success-color),
+      var(--Button--success-onHover-bg),
+      var(--Button--success-onHover-border),
+      var(--Button--success-onHover-color),
+      var(--Button--success-onActive-bg),
+      var(--Button--success-onActive-border),
+      var(--Button--success-onActive-color)
+    );
+  }
+
+  &--enhance {
+    @include button-variant(
+      var(--Button--enhance-bg),
+      var(--Button--enhance-border),
+      var(--Button--enhance-color),
+      var(--Button--enhance-onHover-bg),
+      var(--Button--enhance-onHover-border),
+      var(--Button--enhance-onHover-color),
+      var(--Button--enhance-onActive-bg),
+      var(--Button--enhance-onActive-border),
+      var(--Button--enhance-onActive-color)
+    );
+  }
+
+  &--info {
+    @include button-variant(
+      var(--Button--info-bg),
+      var(--Button--info-border),
+      var(--Button--info-color),
+      var(--Button--info-onHover-bg),
+      var(--Button--info-onHover-border),
+      var(--Button--info-onHover-color),
+      var(--Button--info-onActive-bg),
+      var(--Button--info-onActive-border),
+      var(--Button--info-onActive-color)
+    );
+  }
+
+  &--warning {
+    @include button-variant(
+      var(--Button--warning-bg),
+      var(--Button--warning-border),
+      var(--Button--warning-color),
+      var(--Button--warning-onHover-bg),
+      var(--Button--warning-onHover-border),
+      var(--Button--warning-onHover-color),
+      var(--Button--warning-onActive-bg),
+      var(--Button--warning-onActive-border),
+      var(--Button--warning-onActive-color)
+    );
+  }
+
+  &--danger {
+    @include button-variant(
+      var(--Button--danger-bg),
+      var(--Button--danger-border),
+      var(--Button--danger-color),
+      var(--Button--danger-onHover-bg),
+      var(--Button--danger-onHover-border),
+      var(--Button--danger-onHover-color),
+      var(--Button--danger-onActive-bg),
+      var(--Button--danger-onActive-border),
+      var(--Button--danger-onActive-color)
+    );
+  }
+
+  &--light {
+    @include button-variant(
+      var(--Button--light-bg),
+      var(--Button--light-border),
+      var(--Button--light-color),
+      var(--Button--light-onHover-bg),
+      var(--Button--light-onHover-border),
+      var(--Button--light-onHover-color),
+      var(--Button--light-onActive-bg),
+      var(--Button--light-onActive-border),
+      var(--Button--light-onActive-color)
+    );
+  }
+
+  &--dark {
+    @include button-variant(
+      var(--Button--dark-bg),
+      var(--Button--dark-border),
+      var(--Button--dark-color),
+      var(--Button--dark-onHover-bg),
+      var(--Button--dark-onHover-border),
+      var(--Button--dark-onHover-color),
+      var(--Button--dark-onActive-bg),
+      var(--Button--dark-onActive-border),
+      var(--Button--dark-onActive-color)
+    );
+  }
+
+  &--default {
+    @include button-variant(
+      var(--Button--default-bg),
+      var(--Button--default-border),
+      var(--Button--default-color),
+      var(--Button--default-onHover-bg),
+      var(--Button--default-onHover-border),
+      var(--Button--default-onHover-color),
+      var(--Button--default-onActive-bg),
+      var(--Button--default-onActive-border),
+      var(--Button--default-onActive-color)
+    );
+  }
+
+  &--xs {
+    @include button-size(
+      var(--Button--xs-paddingY),
+      var(--Button--xs-paddingX),
+      var(--Button--xs-fontSize),
+      var(--Button--xs-lineHeight),
+      var(--Button--sm-borderRadius),
+      var(--Button--xs-height)
+    );
+
+    &.#{$ns}Button--iconOnly {
+      min-width: calc(
+        var(--Button--xs-height) * var(--Button--iconOnly-minWidthRate)
+      );
+    }
+  }
+
+  &--sm {
+    @include button-size(
+      var(--Button--sm-paddingY),
+      var(--Button--sm-paddingX),
+      var(--Button--sm-fontSize),
+      var(--Button--sm-lineHeight),
+      var(--Button--sm-borderRadius),
+      var(--Button--sm-height)
+    );
+
+    &.#{$ns}Button--iconOnly {
+      min-width: calc(
+        var(--Button--sm-height) * var(--Button--iconOnly-minWidthRate)
+      );
+    }
+  }
+
+  &--md {
+    @include button-size(
+      var(--Button--md-paddingY),
+      var(--Button--md-paddingX),
+      var(--Button--md-fontSize),
+      var(--Button--md-lineHeight),
+      var(--Button-borderRadius),
+      var(--Button--md-height)
+    );
+
+    &.#{$ns}Button--iconOnly {
+      min-width: calc(
+        var(--Button--md-height) * var(--Button--iconOnly-minWidthRate)
+      );
+    }
+  }
+
+  &--lg {
+    @include button-size(
+      var(--Button--lg-paddingY),
+      var(--Button--lg-paddingX),
+      var(--Button--lg-fontSize),
+      var(--Button--lg-lineHeight),
+      var(--Button--lg-borderRadius),
+      var(--Button--lg-height)
+    );
+
+    &.#{$ns}Button--iconOnly {
+      min-width: calc(
+        var(--Button--lg-height) * var(--Button--iconOnly-minWidthRate)
+      );
+    }
+  }
+
+  &--iconOnly {
+    min-width: calc(
+      var(--Button-height) * var(--Button--iconOnly-minWidthRate)
+    );
+
+    &:not(.#{$ns}Button--link) {
+      > svg.icon {
+        width: px2rem(14px);
+        height: px2rem(14px);
+        top: px2rem(2px);
+      }
+
+      > .fa,
+      > .iconfont {
+        font-size: var(--fontSizeMd);
+      }
+
+      > .iconfont {
+        line-height: 1;
+      }
+    }
+  }
+
+  &:active,
+  &.is-active {
+    color: var(--Button-onActive-color);
+    box-shadow: var(--Button-onActive-boxShadow);
+    border-color: var(--Button-onActive-border);
+
+    &:focus {
+      box-shadow: var(--Button-onActive-boxShadow);
+    }
+  }
+
+  @include button-size(
+    var(--Button-paddingY),
+    var(--Button-paddingX),
+    var(--Button-fontSize),
+    var(--Button-lineHeight),
+    var(--Button-borderRadius),
+    var(--Button-height)
+  );
+
+  @include hover-focus {
+    // color: var(--text-color);
+    text-decoration: none;
+  }
+
+  &:focus,
+  &.focus {
+    outline: 0;
+    box-shadow: var(--Button-onFocus-boxShadow);
+  }
+
+  &.is-disabled,
+  &:disabled {
+    // opacity: var(--Button-onDisabled-opacity);
+    filter: grayscale(100%);
+    box-shadow: none;
+    cursor: not-allowed;
+    color: var(--text--muted-color);
+    border: var(--Button-borderWidth) solid var(--Button-onDisabled-borderColor);
+    background: var(--Button-onDisabled-bg);
+
+    & > svg,
+    & > svg path {
+      fill: currentColor;
+    }
+  }
+
+  &:not(:disabled):not(.is-disabled) {
+    cursor: pointer;
+  }
+
+  &--link {
+    width: auto;
+    min-width: auto;
+    font-weight: var(--fontWeightNormal);
+    color: var(--Button--link-color);
+    text-decoration: var(--link-decoration);
+    border: none;
+    height: auto;
+    padding: 0;
+
+    @include hover-focus {
+      color: var(--Button--link-onHover-color);
+      box-shadow: none;
+    }
+
+    @include hover-active {
+      color: var(--Button--link-onActive-color);
+      box-shadow: none;
+    }
+
+    &:disabled,
+    &.is-disabled {
+      color: var(--text--muted-color);
+      border: none;
+      background: var(--Button--link-onDisabled-backgroundColor);
+
+      @include hover-active {
+        color: var(--text--muted-color);
+      }
+    }
+  }
+
+  &--block {
+    display: block;
+    width: 100%;
+
+    + .#{$ns}Button--block {
+      margin-top: var(--gap-base);
+    }
+  }
+
+  > .pull-left,
+  > .pull-right {
+    line-height: inherit;
+  }
+
+  > .fa,
+  > .iconfont,
+  > .glyphicon {
+    font-size: inherit;
+  }
+}
+
+a.#{$ns}Button.is-disabled,
+fieldset:disabled a.#{$ns}Button {
+  pointer-events: none;
+}
+
+.#{$ns}Button--loading {
+  @include button-loading-icon();
+}
+
+input[type='submit'],
+input[type='reset'],
+input[type='button'] {
+  &.#{$ns}Button--block {
+    width: 100%;
+  }
+}
+
+.#{$ns}ButtonToolbar {
+  margin-left: calc(var(--gap-xs) * -1);
+  margin-top: calc(var(--gap-xs) * -1);
+
+  > .#{$ns}Button {
+    margin-left: var(--gap-xs);
+    margin-top: var(--gap-xs);
+  }
+}
+
+.#{$ns}Action {
+  display: inline-block;
+  &:hover {
+    cursor: pointer;
+  }
+}

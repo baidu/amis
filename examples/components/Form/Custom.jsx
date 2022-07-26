@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormItem, Renderer} from '../../../src/index';
+import {FormItem, Renderer} from 'amis-core';
 
 @FormItem({
   type: 'my-custom'
@@ -74,7 +74,7 @@ export default {
             const button = document.createElement('button');
             button.innerText = '点击修改姓名';
             button.onclick = event => {
-              onChange('new name');
+              onChange('new name', 'name');
               event.preventDefault();
             };
             dom.appendChild(button);

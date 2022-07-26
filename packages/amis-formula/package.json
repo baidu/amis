@@ -1,0 +1,100 @@
+{
+  "name": "amis-formula",
+  "version": "2.0.2",
+  "description": "负责 amis 里面的表达式实现，内置公式，编辑器等",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "npm run clean-dist && NODE_ENV=production rollup -c && npm run genDoc && npm run declaration ",
+    "lib": "npm run clean-dist && NODE_ENV=lib rollup -c",
+    "clean-dist": "rimraf lib/*",
+    "declaration": "tsc --project tsconfig-for-declaration.json --allowJs --declaration --emitDeclarationOnly --declarationDir ./lib --rootDir ./src",
+    "test": "jest",
+    "update-snapshot": "jest --updateSnapshot",
+    "coverage": "jest --coverage",
+    "genDoc": "ts-node ./scripts/genDoc.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aisuda/amis-tpl.git"
+  },
+  "keywords": [
+    "amis",
+    "tpl",
+    "parser",
+    "formula"
+  ],
+  "files": [
+    "lib"
+  ],
+  "author": "fex",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aisuda/amis-tpl/issues"
+  },
+  "homepage": "https://github.com/aisuda/amis-tpl#readme",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "moment": "^2.29.1",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.3.2",
+    "@types/doctrine": "0.0.5",
+    "@types/jest": "^28.1.0",
+    "@types/lodash": "^4.14.175",
+    "doctrine": "^3.0.0",
+    "jest": "^28.1.0",
+    "jest-canvas-mock": "^2.3.0",
+    "jest-environment-jsdom": "^28.1.0",
+    "mini-css-extract-plugin": "^2.4.5",
+    "moment-timezone": "^0.5.33",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.60.2",
+    "rollup-plugin-license": "^2.6.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "sass": "^1.36.0",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.2.1",
+    "stylelint": "^13.0.0",
+    "ts-jest": "^28.0.3",
+    "ts-loader": "^9.2.3",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.3.5"
+  },
+  "browserslist": "IE >= 11",
+  "jest": {
+    "testEnvironment": "jsdom",
+    "collectCoverageFrom": [
+      "src/**/*"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "setupFiles": [
+      "jest-canvas-mock"
+    ],
+    "testRegex": "/.*\\.test\\.(ts|tsx|js)$",
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "<rootDir>/../__mocks__/styleMock.js",
+      "\\.(svg)$": "<rootDir>/../__mocks__/svgMock.js"
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/__tests__/jest.setup.js"
+    ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": false
+      }
+    }
+  },
+  "gitHead": "37d23b4a8eb1c663bc38e8dd9040889ea1526ec4"
+}

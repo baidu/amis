@@ -24,6 +24,31 @@ order: 56
 }
 ```
 
+## 不同边框风格
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "name": "text-half-border",
+            "type": "input-text",
+            "label": "半边框",
+            "borderMode": "half",
+            "inputControlClassName": "bg-gray-100"
+        },
+        {
+            "name": "text-no-border",
+            "type": "input-text",
+            "label": "无边框",
+            "borderMode": "none",
+            "nativeInputClassName": "focus:text-indigo-700"
+        }
+    ]
+}
+```
+
 ## 不同类型
 
 配置`type`可以支持不同格式的文本输入框
@@ -322,44 +347,47 @@ order: 56
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名         | 类型                                      | 默认值    | 说明                                                                                        |
-| -------------- | ----------------------------------------- | --------- | ------------------------------------------------------------------------------------------- |
-| options        | `Array<object>`或`Array<string>`          |           | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                   |
-| source         | `string`或 [API](../../../docs/types/api) |           | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                |
-| autoComplete   | `string`或 [API](../../../docs/types/api) |           | [自动补全](./options#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8-autocomplete)                     |
-| multiple       | `boolean`                                 |           | [是否多选](./options#%E5%A4%9A%E9%80%89-multiple)                                           |
-| delimiter      | `string`                                  | `,`       | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                   |
-| labelField     | `string`                                  | `"label"` | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield) |
-| valueField     | `string`                                  | `"value"` | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)            |
-| joinValues     | `boolean`                                 | `true`    | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                  |
-| extractValue   | `boolean`                                 | `false`   | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)              |
-| addOn          | `addOn`                                   |           | 输入框附加组件，比如附带一个提示文字，或者附带一个提交按钮。                                |
-| addOn.type     | `string`                                  |           | 请选择 `text` 、`button` 或者 `submit`。                                                    |
-| addOn.label    | `string`                                  |           | 文字说明                                                                                    |
-| addOn.position | `'left' \| 'right'`                       | `'right'` | addOn 位置                                                                                  |
-| addOn.xxx      | `string`                                  |           | 其他参数请参考按钮文档                                                                      |
-| trimContents   | `boolean`                                 |           | 是否去除首尾空白文本。                                                                      |
-| creatable      | `boolean`                                 |           | 是否可以创建，默认为可以，除非设置为 false 即只能选择选项中的值                             |
-| clearable      | `boolean`                                 |           | 是否可清除                                                                                  |
-| resetValue     | `string`                                  | `""`      | 清除后设置此配置项给定的值。                                                                |
-| prefix         | `string`                                  | `""`      | 前缀                                                                                        |
-| suffix         | `string`                                  | `""`      | 后缀                                                                                        |
-| showCounter    | `boolean`                                 |           | 是否显示计数器                                                                              |
-| minLength      | `number`                                  |           | 限制最小字数                                                                                |
-| maxLength      | `number`                                  |           | 限制最大字数                                                                                |
-| transform      | `object`                                  |           | 自动转换值，可选 `transform: { lowerCase: true, upperCase: true }`                          |
+| 属性名                | 类型                                      | 默认值    | 说明                                                                                        |
+| --------------------- | ----------------------------------------- | --------- | ------------------------------------------------------------------------------------------- |
+| options               | `Array<object>`或`Array<string>`          |           | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                   |
+| source                | `string`或 [API](../../../docs/types/api) |           | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                |
+| autoComplete          | `string`或 [API](../../../docs/types/api) |           | [自动补全](./options#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8-autocomplete)                     |
+| multiple              | `boolean`                                 |           | [是否多选](./options#%E5%A4%9A%E9%80%89-multiple)                                           |
+| delimiter             | `string`                                  | `,`       | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                   |
+| labelField            | `string`                                  | `"label"` | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield) |
+| valueField            | `string`                                  | `"value"` | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)            |
+| joinValues            | `boolean`                                 | `true`    | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                  |
+| extractValue          | `boolean`                                 | `false`   | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)              |
+| addOn                 | `addOn`                                   |           | 输入框附加组件，比如附带一个提示文字，或者附带一个提交按钮。                                |
+| addOn.type            | `string`                                  |           | 请选择 `text` 、`button` 或者 `submit`。                                                    |
+| addOn.label           | `string`                                  |           | 文字说明                                                                                    |
+| addOn.position        | `'left' \| 'right'`                       | `'right'` | addOn 位置                                                                                  |
+| addOn.xxx             | `string`                                  |           | 其他参数请参考按钮文档                                                                      |
+| trimContents          | `boolean`                                 |           | 是否去除首尾空白文本。                                                                      |
+| creatable             | `boolean`                                 |           | 是否可以创建，默认为可以，除非设置为 false 即只能选择选项中的值                             |
+| clearable             | `boolean`                                 |           | 是否可清除                                                                                  |
+| resetValue            | `string`                                  | `""`      | 清除后设置此配置项给定的值。                                                                |
+| prefix                | `string`                                  | `""`      | 前缀                                                                                        |
+| suffix                | `string`                                  | `""`      | 后缀                                                                                        |
+| showCounter           | `boolean`                                 |           | 是否显示计数器                                                                              |
+| minLength             | `number`                                  |           | 限制最小字数                                                                                |
+| maxLength             | `number`                                  |           | 限制最大字数                                                                                |
+| transform             | `object`                                  |           | 自动转换值，可选 `transform: { lowerCase: true, upperCase: true }`                          |
+| borderMode            | `"full"\| "half" \| "none"`               | `"full"`  | 输入框边框模式，全边框，还是半边框，或者没边框。                                            |
+| inputControlClassName | `string`                                  |           | control 节点的 CSS 类名                                                                     |
+| nativeInputClassName  | `string`                                  |           | 原生 input 标签的 CSS 类名                                                                  |
 
 ## 事件表
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称 | 事件参数                          | 说明                 |
-| -------- | --------------------------------- | -------------------- |
-| click    | `event.data.value: string` 输入值 | 点击输入框时触发     |
-| focus    | `event.data.value: string` 输入值 | 输入框获取焦点时触发 |
-| blur     | `event.data.value: string` 输入值 | 输入框失去焦点时触发 |
-| enter    | `event.data.value: string` 输入值 | 回车时触发           |
-| change   | `event.data.value: string` 输入值 | 值变化时触发         |
+| 事件名称 | 事件参数                           | 说明                                           |
+| -------- | --------------------------------- | --------------------------------------------- |
+| click    | `event.data.value: string` 输入值 | 点击输入框时触发，只针对选择器模式的输入框有效     |
+| enter    | `event.data.value: string` 输入值 | 回车时触发，只针对选择器模式的输入框有效          |
+| focus    | `event.data.value: string` 输入值 | 输入框获取焦点时触发                            |
+| blur     | `event.data.value: string` 输入值 | 输入框失去焦点时触发                            |
+| change   | `event.data.value: string` 输入值 | 值变化时触发                                   |
 
 ## 动作表
 

@@ -78,7 +78,7 @@ _特殊字符变量名_
 
 ### 公式
 
-除了支持简单表达式外，还集成了很多公式(函数)如：
+除了支持简单表达式外，还集成了很多公式(函数)如 `${ AVG(1, 2, 3, 4)}`：
 
 ```schema
 {
@@ -95,9 +95,9 @@ _特殊字符变量名_
 }
 ```
 
-!!!include(amis-formula/dist/doc.md)!!!
-
 ## 函数调用示例
+
+函数支持嵌套，参数支持常量及变量
 
 ```schema
 {
@@ -106,6 +106,9 @@ _特殊字符变量名_
     {
       "type": "form",
       "wrapWithPanel": false,
+      "data": {
+        "val": 3.5
+      },
       "body": [
         {
           "type": "static",
@@ -121,6 +124,11 @@ _特殊字符变量名_
           "type": "static",
           "label": "ROUND(3.5)",
           "tpl": "${ROUND(3.5)}"
+        },
+        {
+          "type": "static",
+          "label": "ROUND(val)",
+          "tpl": "${ROUND(val)}"
         },
         {
           "type": "static",
@@ -147,3 +155,7 @@ _特殊字符变量名_
   ]
 }
 ```
+
+下面是目前所支持函数的使用手册
+
+!!!include(amis-formula/lib/doc.md)!!!

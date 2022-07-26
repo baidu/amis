@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:index 1`] = `
+Object {
+  "storeType": "RendererStore",
+}
+`;
+
+exports[`store:index 2`] = `
+Object {
+  "storeType": "RendererStore",
+}
+`;
+
+exports[`store:index 3`] = `
+Object {
+  "storeType": "RendererStore",
+}
+`;
+
+exports[`store:index 4`] = `
+Object {
+  "storeType": "RendererStore",
+}
+`;

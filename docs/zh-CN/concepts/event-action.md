@@ -95,7 +95,12 @@ order: 9
 
 ### 发送 http 请求
 
-通过配置`actionType: 'ajax'`和`api`实现 http 请求发送，该动作需实现 env.fetcher(config: fetcherConfig) => Promise&lt;fetcherResult&gt;。
+通过配置`actionType: 'ajax'`和`api`实现 http 请求发送，该动作需实现 `env.fetcher` 请求器。
+
+- 请求结果缓存在`event.data.responseResult`或`event.data.{{outputVar}}`。
+- 请求结果的状态、数据、消息分别默认缓存在：`event.data.{{outputVar}}.responseStatus`、`event.data.{{outputVar}}.responseData`、`event.data.{{outputVar}}.responseMsg`。
+
+< 2.0.3 及以下版本，请求返回数据默认缓存在 `event.data`。`outputVar` 配置用于解决串行或者并行发送多个 http 请求的场景。
 
 ```schema
 {
@@ -109,6 +114,7 @@ order: 9
       id: 'b_001',
       label: '发送 Ajax 请求',
       level: 'primary',
+      "confirmText": "确认要发出这个请求？",
       onEvent: {
         click: {
           actions: [
@@ -124,6 +130,51 @@ order: 9
                   failed: '失败了呢。。'
                 },
                 age: 18
+              }
+            },
+            {
+              actionType: 'toast',
+              expression: '${event.data.responseResult.responseStatus === 0}',
+              args: {
+                msg: '${event.data|json}'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      id: 'b_001',
+      label: '发送 Ajax 请求（静默模式）',
+      level: 'primary',
+      "confirmText": "确认要发出这个请求？",
+      className: 'm',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'ajax',
+              args: {
+                api: {
+                  url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/initData?name=${name}',
+                  method: 'get'
+                },
+                messages: {
+                  success: '成功了！欧耶',
+                  failed: '失败了呢。。'
+                },
+                age: 18,
+                options: {
+                  silent: true
+                }
+              }
+            },
+            {
+              actionType: 'toast',
+              expression: '${event.data.responseResult.responseStatus === 0}',
+              args: {
+                msg: '${event.data|json}'
               }
             }
           ]
@@ -1651,8 +1702,8 @@ import {
   ListenerContext,
   registerAction,
   RendererAction
-} from 'amis/lib/actions';
-import {RendererEvent} from 'amis/lib/utils/renderer-event';
+} from 'amis-core';
+import {RendererEvent} from 'amis-core';
 
 // 动作定义
 interface IMyAction extends ListenerAction {
@@ -2122,7 +2173,7 @@ registerAction('my-action', new MyAction());
     body: [
       {
         type: 'button',
-        label: '同时执行动作1、2',
+        label: '同时发送两个ajax请求，并显示请求返回',
         level: 'primary',
         onEvent: {
           click: {
@@ -2131,20 +2182,40 @@ registerAction('my-action', new MyAction());
                 actionType: 'parallel',
                 children: [
                   {
-                    actionType: "alert",
+                    actionType: 'ajax',
                     args: {
-                      msg: '动作1'
-                    }
+                      api: {
+                        url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?name=${name}',
+                        method: 'get'
+                      },
+                      messages: {
+                        success: '请求1成功了！欧耶',
+                        failed: '失败了呢。。'
+                      }
+                    },
+                    outputVar: 'var1'
                   },
                   {
-                    actionType: "toast",
+                    actionType: 'ajax',
                     args: {
-                      msgType: 'success',
-                      msg: '动作2',
-                      position: 'top-right'
-                    }
+                      api: {
+                        url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?name=${name}',
+                        method: 'get'
+                      },
+                      messages: {
+                        success: '请求2成功了！欧耶',
+                        failed: '失败了呢。。'
+                      }
+                    },
+                    outputVar: 'var2'
                   }
                 ]
+              },
+              {
+                actionType: 'toast',
+                args: {
+                  msg: 'var1:${event.data.var1|json}, var2:${event.data.var2|json}'
+                }
               }
             ]
           }
@@ -2157,10 +2228,10 @@ registerAction('my-action', new MyAction());
 
 **动作属性**
 
-| 属性名     | 类型                                                 | 默认值     | 说明                                       |
-| ---------- | ---------------------------------------------------- | ---------- | ------------------------------------------ |
-| actionType | `string`                                             | `parallel` | 点击后显示一个弹出框                       |
-| children   | Array<[动作](../../docs/concepts/event-action#动作)> | -          | 指定弹框内容，格式可参考[Dialog](./dialog) |
+| 属性名     | 类型                                                 | 默认值     | 说明             |
+| ---------- | ---------------------------------------------------- | ---------- | ---------------- |
+| actionType | `string`                                             | `parallel` | 并行执行多个动作 |
+| children   | Array<[动作](../../docs/concepts/event-action#动作)> | -          | 子动作           |
 
 # 动作间数据传递
 
@@ -2232,9 +2303,9 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-**存储异步请求返回的数据**
+**引用 http 请求动作返回的数据**
 
-通过 `outputVar` 指定输出的变量名，其他动作可以通过`${event.data.{{outputVar}}}`来获取变量值，如果未指定 `outputVar` ，则直接存储到`event.data`。
+http 请求动作执行结束后，后面的动作可以通过 `event.data.responseResult.responseStatus`或`event.data.{{outputVar}}.responseStatus`、`event.data.responseResult.responseData`或`event.data.{{outputVar}}.responseData`、`event.data.responseResult.responseMsg`或`event.data.{{outputVar}}.responseMsg`来获取请求结果的状态、数据、消息。
 
 ```schema
 {
@@ -2250,18 +2321,13 @@ registerAction('my-action', new MyAction());
             {
               actionType: 'ajax',
               args: {
-                api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
-                messages: {
-                  success: '成功了！欧耶',
-                  failed: '失败了呢。。'
-                }
-              },
-              outputVar: 'ajax1'
+                api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm'
+              }
             },
             {
               actionType: 'dialog',
               args: {
-                id: '${event.data.ajax1.id}'
+                id: '${event.data.responseResult.responseData.id}'
               },
               dialog: {
                 type: 'dialog',

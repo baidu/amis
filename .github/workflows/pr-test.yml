@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -25,5 +25,6 @@ jobs:
       - name: test
         run: |
           npm i --legacy-peer-deps
-          npm test
+          npm run build --workspaces
+          npm test --workspaces
           sh deploy-gh-pages.sh

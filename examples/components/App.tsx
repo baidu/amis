@@ -1,26 +1,28 @@
 import React from 'react';
-import NotFound from '../../src/components/404';
-import Layout from '../../src/components/Layout';
-import AsideNav from '../../src/components/AsideNav';
 import {
+  NotFound,
+  Layout,
+  AsideNav,
   AlertComponent,
   Button,
   Drawer,
   Spinner,
-  ToastComponent
-} from '../../src/components/index';
-import {eachTree, mapTree} from '../../src/utils/helper';
-import {Icon} from '../../src/components/icons';
-import '../../src/locale/en-US';
+  ToastComponent,
+  Select,
+  SearchBox,
+  InputBox
+} from 'amis';
+import {eachTree, mapTree} from 'amis-core';
+import 'amis-ui/lib/locale/en-US';
 import {withRouter} from 'react-router';
-import Select from '../../src/components/Select';
-import InputBox from '../../src/components/InputBox';
+// @ts-ignore
 import DocSearch from './DocSearch';
 import Doc from './Doc';
 import DocNavCN from './DocNavCN';
-import Example, {examples} from './Example';
-import CSSDocs, {cssDocs} from './CssDocs';
-import Components, {components} from './Components';
+// @ts-ignore
+import Example from './Example';
+import CSSDocs from './CssDocs';
+import Components from './Components';
 import {
   BrowserRouter as Router,
   Route,
@@ -404,14 +406,17 @@ export class App extends React.PureComponent<{
   renderNavigation() {
     return (
       <div className="Doc-navigation">
-        <InputBox
-          theme={this.state.theme.value}
-          placeholder={'过滤...'}
-          value={this.state.filter || ''}
-          onChange={this.setNavigationFilter}
+        <SearchBox
           className="m-b m-r-md"
-          clearable={false}
+          placeholder="输入组件名称"
+          value={this.state.filter}
+          onSearch={this.setNavigationFilter}
+          onChange={this.setNavigationFilter}
+          clearable={true}
+          mini={false}
+          history={{enable: true}}
         />
+
         {this.renderAsideNav()}
       </div>
     );

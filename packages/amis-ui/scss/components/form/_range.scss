@@ -1,0 +1,275 @@
+.#{$ns}InputRange {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--InputRange-padding) 0;
+  width: 100%;
+
+  &-wrap {
+    position: relative;
+    flex: auto;
+  }
+
+  &-input {
+    width: 20 * 4px;
+    height: 8 * 4px;
+    margin: 0 2 * 4px;
+
+    .#{$ns}Number {
+      overflow: hidden;
+    }
+
+    .#{$ns}Number-handler {
+      transition: 0.3s opacity;
+      color: var(--Number-handler-color);
+
+      &-up-inner,
+      &-down-inner {
+        cursor: pointer;
+        &:hover {
+          color: var(--Number-handler-onHover-color);
+        }
+      }
+    }
+  }
+
+  &-clear {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    svg {
+      height: px2rem(12px);
+      width: px2rem(12px);
+      fill: #999;
+    }
+  }
+
+  // disabled
+  &.is-disabled {
+    .#{$ns}InputRange-track {
+      cursor: not-allowed;
+    }
+
+    .#{$ns}InputRange-track-active {
+      background-color: var(--InputRange-track-onActive-onDisabled-bg);
+      cursor: not-allowed;
+    }
+
+    .#{$ns}InputRange-handle-icon {
+      border-color: var(--InputRange-handle-onDisabled-border-color);
+      cursor: not-allowed;
+
+      &:hover {
+        transform: none;
+      }
+    }
+
+    .#{$ns}Number-handler {
+      cursor: not-allowed;
+
+      &-up-inner,
+      &-down-inner {
+        cursor: not-allowed;
+        &:hover {
+          color: var(--text--muted-color);
+        }
+      }
+    }
+  }
+
+  // hander
+  &-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0 auto calc(var(--InputRange-handle-width) / -2);
+    width: var(--InputRange-handle-width);
+    height: var(--InputRange-handle-height);
+
+    &-icon,
+    &-drage {
+      width: 100%;
+      height: 100%;
+      appearance: none;
+      background-color: var(--InputRange-handle-bg);
+      border: var(--InputRange-handle-border);
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      outline: none;
+      border-radius: 50%;
+      transition: var(--InputRange-handle-transition);
+
+      &:hover {
+        transform: var(--InputRange-handle-onActive-transform);
+        box-shadow: var(--InputRange-handle-onFocus-boxShadow);
+      }
+
+      &:active {
+        transform: var(--InputRange-handle-onActive-transform);
+      }
+
+      &:focus {
+        box-shadow: var(--InputRange-handle-onFocus-boxShadow);
+      }
+    }
+
+    &-drage {
+      transform: var(--InputRange-handle-onActive-transform);
+      box-shadow: var(--InputRange-handle-onFocus-boxShadow);
+      border-width: var(--InputRange-handle-onDrage-border-width);
+    }
+
+    .input-range--disabled & {
+      background: var(--InputRange-slider-onDisabled-bg);
+      border: var(--InputRange-slider-onDisabled-border);
+      box-shadow: none;
+      transform: none;
+    }
+
+    .icon-slider-handle {
+      width: var(--InputRange-handle-icon-width);
+      height: var(--InputRange-handle-icon-height);
+      top: 0;
+    }
+  }
+
+  // track
+  &-track {
+    background: var(--InputRange-track-bg);
+    border-radius: var(--InputRange-track-border-radius);
+    cursor: pointer;
+    display: block;
+    height: var(--InputRange-track-height);
+    position: relative;
+    transition: var(--InputRange-track-transition);
+
+    &.is-active {
+      background: var(--InputRange-track-onActive-bg);
+      transition: 0.3s all;
+    }
+
+    &-dot {
+      width: var(--InputRange-track-dot-height);
+      height: var(--InputRange-track-dot-height);
+      border-radius: 50%;
+      background-color: var(--InputRange-track-dot-bg);
+      position: absolute;
+      transform: translateX(-50%);
+    }
+  }
+
+  &-track--background {
+    left: 0.5rem;
+    margin-top: calc(-0.5 * var(--InputRange-track-height));
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+  }
+
+  &-track-active {
+    background: var(--InputRange-track-onActive-bg);
+    border-radius: var(--InputRange-track-border-radius);
+    position: absolute;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+
+  // label
+  &-label {
+    position: absolute;
+    padding: var(--InputRange-label-padding);
+    background-color: var(--InputRange-label-bg);
+    color: var(--InputRange-label-color);
+    font-size: var(--InputRange-label-font-size);
+    border-radius: var(--InputRange-label-border-radius);
+    visibility: hidden;
+
+    &-visible {
+      visibility: visible;
+    }
+
+    &.pos-top {
+      left: 50%;
+      bottom: var(--InputRange-label-position-bottom);
+      transform: translateX(-50%);
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -4px;
+        border-width: 4px 4px 0 4px;
+        border-style: solid;
+        border-color: #000 transparent transparent transparent;
+      }
+    }
+
+    &.pos-bottom {
+      top: var(--InputRange-label-position-bottom);
+      left: 50%;
+      transform: translateX(-50%);
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: -4px;
+        border-width: 0 4px 4px 4px;
+        border-style: solid;
+        border-color: transparent transparent #000 transparent;
+      }
+    }
+
+    &.pos-left {
+      top: 50%;
+      transform: translateY(-50%) translateX(-100%) translateX(-12px);
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: -4px;
+        border-width: 4px 0 4px 4px;
+        border-style: solid;
+        border-color: transparent transparent transparent #000;
+      }
+    }
+
+    &.pos-right {
+      top: 50%;
+      transform: translateY(-50%) translateX(26px);
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: -4px;
+        border-width: 4px 4px 4px 0;
+        border-style: solid;
+        border-color: transparent #000 transparent transparent;
+      }
+    }
+  }
+
+  // marks
+  &-marks {
+    position: relative;
+    top: 8px;
+    div {
+      position: absolute;
+      top: 0;
+      span {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+}

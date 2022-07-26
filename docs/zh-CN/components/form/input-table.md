@@ -246,16 +246,68 @@ order: 54
       ]
     },
     {
-        "type": "button",
-        "label": "Table新增一行",
-        "target": "table",
-        "actionType": "add"
+      "type": "button",
+      "label": "Table新增一行",
+      "target": "table",
+      "actionType": "add"
     }
   ]
 }
 ```
 
 当表格上配置了`addApi`时，会请求该 `api`，并将返回数据添加到目标表格。
+
+另外还可以配置`payload`，直接将数据添加到目标表格。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+      {
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "a": "a3",
+        "b": "b3"
+      }
+    ]
+  },
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "name": "table",
+      "label": "Table",
+      "columns": [
+        {
+          "label": "A",
+          "name": "a"
+        },
+        {
+          "label": "B",
+          "name": "b"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "label": "Table新增一行",
+      "target": "table",
+      "actionType": "add",
+      "payload": {
+        "a": "a4",
+        "b": "b4"
+      }
+    }
+  ]
+}
+```
 
 ## 可编辑内容
 

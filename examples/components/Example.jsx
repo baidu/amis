@@ -30,6 +30,7 @@ import CustomFormSchema from './Form/Custom';
 import FormLayoutTestSchema from './Form/layoutTest';
 import Definitions from './Form/Definitions';
 import AnchorNav from './Form/AnchorNav';
+import InputKVSSchema from './Form/InputKVS';
 
 import TableCrudSchema from './CRUD/Table';
 import TableAutoFillSchema from './CRUD/TableAutoFill';
@@ -117,9 +118,6 @@ import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 
-import TestComponent from './Test';
-
-import {normalizeLink} from '../../src/utils/normalizeLink';
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
 
@@ -297,6 +295,12 @@ export const examples = [
             label: '锚点导航',
             path: '/examples/form/anchor-nav',
             component: makeSchemaRenderer(AnchorNav)
+          },
+
+          {
+            label: '复杂嵌套数据',
+            path: '/examples/form/input-kvs',
+            component: makeSchemaRenderer(InputKVSSchema)
           }
 
           // {

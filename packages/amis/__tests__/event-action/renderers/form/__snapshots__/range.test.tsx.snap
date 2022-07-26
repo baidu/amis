@@ -1,0 +1,370 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventAction:inputRange 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <div
+              class="cxd-RangeControl cxd-InputRange cxd-Form-control"
+            >
+              <div
+                class="cxd-InputRange-wrap"
+              >
+                <div
+                  class="cxd-InputRange-track cxd-InputRange-track--background"
+                >
+                  <div
+                    class="cxd-InputRange-track-active"
+                    style="width: 0%; left: 0%;"
+                  />
+                  <div
+                    class="cxd-InputRange-handle"
+                    style="left: 0%; z-index: 1; position: relative;"
+                  >
+                    <div
+                      class="cxd-InputRange-handle-icon"
+                    >
+                      <icon-mock
+                        classname="icon icon-slider-handle"
+                        icon="slider-handle"
+                      />
+                    </div>
+                    <div
+                      class="cxd-InputRange-label pos-top cxd-InputRange-label-visible"
+                      style="position: relative;"
+                    >
+                      <span>
+                        0
+                      </span>
+                      <div
+                        class="resize-sensor"
+                        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+  
+                        <div
+                          class="resize-sensor-expand"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+    
+                          <div
+                            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-shrink"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+    
+                          <div
+                            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-appear"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="resize-sensor"
+                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+  
+                      <div
+                        class="resize-sensor-expand"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+    
+                        <div
+                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                        />
+                        
+  
+                      </div>
+                      
+  
+                      <div
+                        class="resize-sensor-shrink"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+    
+                        <div
+                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                        />
+                        
+  
+                      </div>
+                      
+  
+                      <div
+                        class="resize-sensor-appear"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cxd-InputRange-input"
+              >
+                <div
+                  class="cxd-Number cxd-Number--borderFull"
+                >
+                  <div
+                    class="cxd-Number-handler-wrap"
+                  >
+                    <span
+                      aria-disabled="false"
+                      aria-label="Increase Value"
+                      class="cxd-Number-handler cxd-Number-handler-up"
+                      role="button"
+                      unselectable="on"
+                    >
+                      <span
+                        class="cxd-Number-handler-up-inner"
+                        unselectable="on"
+                      />
+                    </span>
+                    <span
+                      aria-disabled="true"
+                      aria-label="Decrease Value"
+                      class="cxd-Number-handler cxd-Number-handler-down cxd-Number-handler-down-disabled"
+                      role="button"
+                      unselectable="on"
+                    >
+                      <span
+                        class="cxd-Number-handler-down-inner"
+                        unselectable="on"
+                      />
+                    </span>
+                  </div>
+                  <div
+                    class="cxd-Number-input-wrap"
+                  >
+                    <input
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="0"
+                      autocomplete="off"
+                      class="cxd-Number-input"
+                      role="spinbutton"
+                      step="1"
+                      value="0"
+                    />
+                  </div>
+                </div>
+              </div>
+              <a
+                class="cxd-InputRange-clear"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
+            </div>
+          </div>
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <pre>
+                  <code
+                    class="cxd-Form--debug"
+                  >
+                    {
+  "rangeValue": "值改变为0了",
+  "rangeEvent": "触发了blur"
+}
+                  </code>
+                </pre>
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal input-text-range-value"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          滑块值
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-control cxd-TextControl is-disabled"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        class=""
+                        disabled=""
+                        name="rangeValue"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="值改变为0了"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal input-text-range-event"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          滑块事件
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-control cxd-TextControl is-disabled"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        class=""
+                        disabled=""
+                        name="rangeEvent"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="触发了blur"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
+                >
+                  <span>
+                    提交
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

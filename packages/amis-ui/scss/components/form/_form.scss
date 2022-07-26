@@ -1,0 +1,621 @@
+@use 'sass:math';
+
+.#{$ns}Form {
+  font-size: var(--Form-fontSize);
+  position: relative;
+
+  // 一般是快速编辑里的最后一个输入框
+  &--quickEdit > div:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &--inline {
+    > .#{$ns}Button {
+      margin-bottom: calc(var(--Form-item-gap) / 2);
+      margin-right: calc(var(--Form-item-gap) / 2);
+    }
+
+    > .#{$ns}PlainField {
+      display: inline-block;
+      padding-top: var(--Form-input-paddingY);
+      // padding-bottom: var(--Form-input-paddingY);
+    }
+  }
+}
+
+.#{$ns}Form-static {
+  min-height: var(--Form-input-height);
+  padding-top: var(--Form-label-paddingTop);
+  padding-bottom: var(--Form-label-paddingTop);
+  margin-bottom: 0;
+
+  .#{$ns}Form-item--inline > .#{$ns}Form-value > & {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  &--borderFull {
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  }
+
+  &--borderHalf {
+    border-bottom: var(--Form-input-borderWidth) solid
+      var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  }
+}
+
+.#{$ns}Form-label {
+  font-weight: var(--fontWeightNormal);
+  margin-bottom: var(--gap-xs);
+  position: relative;
+  font-size: var(--Form-item-fontSize);
+  color: var(--Form-item-fontColor);
+
+  > span {
+    position: relative;
+  }
+}
+
+.#{$ns}Form-star {
+  color: var(--danger);
+  font-size: var(--fontSizeXs);
+  line-height: 1;
+}
+
+.#{$ns}Form-feedback {
+  color: var(--danger);
+  margin: var(--Form-input-marginBottom) 0 0;
+  padding-left: var(--gap-base);
+  font-size: var(--fontSizeSm);
+  position: var(--Form-feedback-position);
+}
+
+.#{$ns}Form-description {
+  display: block;
+  color: var(--Form-description-color);
+  margin: var(--Form-input-marginBottom) 0 0;
+  font-size: var(--Form-description-fontSize);
+}
+
+.#{$ns}Form-hint {
+  display: inline-block;
+  margin-left: var(--gap-sm);
+  padding-top: var(--Form-input-paddingY);
+  vertical-align: top;
+}
+
+.#{$ns}Form-item {
+  margin-bottom: var(--Form-item-gap);
+
+  &:last-child {
+    margin-bottom: 0;
+    .#{$ns}Form-feedback {
+      position: relative;
+    }
+  }
+
+  .#{$ns}Grid-form > &:last-child {
+    margin-bottom: 0;
+  }
+
+  .#{$ns}Form--inline > &--inline {
+    &:last-child {
+      margin-right: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .#{$ns}Form-remark {
+    padding-top: var(--Form-label-paddingTop);
+    vertical-align: top;
+  }
+
+  &--inline {
+    margin-bottom: calc(var(--Form-item-gap) / 2);
+    margin-right: calc(var(--Form-item-gap) / 2);
+  }
+
+  &--horizontal {
+    > .#{$ns}Form-label {
+      text-align: var(--Form--horizontal-label-align);
+      white-space: var(--Form--horizontal-label-whiteSpace);
+
+      &--left {
+        text-align: left;
+      }
+    }
+  }
+
+  &--horizontal-justify {
+    justify-content: space-between;
+
+    > .#{$ns}Form-label {
+      text-align: var(--Form--horizontal-justify-label-align);
+      white-space: var(--Form--horizontal-justify-label-whiteSpace);
+    }
+    > .#{$ns}Form-value {
+      text-align: var(--Form--horizontal-justify-value-align);
+
+      > * {
+        text-align: initial;
+      }
+    }
+  }
+
+  &--normal {
+    > .#{$ns}Form-label {
+      display: block;
+
+      .#{$ns}Form-star {
+        position: absolute;
+        left: px2rem(-6px);
+        top: px2rem(3px);
+      }
+    }
+  }
+
+  &.is-error > .#{$ns}Form-label {
+    color: var(--danger);
+  }
+}
+
+.#{$ns}Form-placeholder {
+  color: var(--Form-input-placeholderColor);
+}
+
+.#{$ns}Form-caption {
+  display: inline-block;
+  line-height: var(--Form-input-height);
+  height: var(--Form-input-height);
+  margin-left: px2rem(10px);
+}
+
+@include media-breakpoint-up(sm) {
+  .#{$ns}Form-label {
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  .#{$ns}Form-control--sizeXs {
+    // min-width: var(--Form-control-widthXs);
+    // width: auto;
+    width: var(--Form-control-widthXs);
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+
+    // 非常难受，number 类型的 input 不能设置size
+    &.#{$ns}NumberControl {
+      width: var(--Form-control-widthXs);
+    }
+  }
+
+  .#{$ns}Form-control--sizeSm {
+    width: var(--Form-control-widthSm);
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+
+    // 非常难受，number 类型的 input 不能设置size
+    &.#{$ns}NumberControl {
+      width: var(--Form-control-widthSm);
+    }
+  }
+
+  .#{$ns}Form-control--sizeMd {
+    width: var(--Form-control-widthMd);
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .#{$ns}Form-control--sizeLg {
+    width: var(--Form-control-widthLg);
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+
+    // 非常难受，number 类型的 input 不能设置size
+    &.#{$ns}NumberControl {
+      width: var(--Form-control-widthLg);
+    }
+  }
+
+  .#{$ns}Form-item {
+    &--horizontal {
+      display: flex;
+      flex-wrap: nowrap;
+      margin-left: calc(var(--Form--horizontal-gutterWidth) / 2 * -1);
+      margin-right: calc(var(--Form--horizontal-gutterWidth) / 2 * -1);
+
+      > * {
+        padding-left: calc(var(--Form--horizontal-gutterWidth) / 2);
+        padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
+      }
+
+      > .#{$ns}Form-value {
+        flex-basis: 0;
+        flex-grow: 1;
+        max-width: 100%;
+        min-width: 0;
+      }
+
+      .#{$ns}Form-itemColumn--xs,
+      .#{$ns}Form-itemColumn--sm,
+      .#{$ns}Form-itemColumn--normal,
+      .#{$ns}Form-itemColumn--auto,
+      .#{$ns}Form-itemColumn--md,
+      .#{$ns}Form-itemColumn--lg {
+        flex-grow: unset;
+        flex-basis: unset;
+      }
+
+      > .#{$ns}Form-label {
+        padding-top: var(--Form-label-paddingTop);
+        margin-bottom: 0;
+        flex-shrink: 0;
+
+        .#{$ns}Form-star {
+          position: absolute;
+          left: px2rem(-6px);
+          top: px2rem(3px);
+        }
+      }
+
+      .#{$ns}Form-itemColumn--xs {
+        width: var(--Form--horizontal-label-widthXs);
+      }
+
+      .#{$ns}Form-itemColumn--sm {
+        width: var(--Form--horizontal-label-widthSm);
+      }
+
+      .#{$ns}Form-itemColumn--normal {
+        width: var(--Form--horizontal-label-widthBase);
+      }
+
+      .#{$ns}Form-itemColumn--md {
+        width: var(--Form--horizontal-label-widthMd);
+      }
+
+      .#{$ns}Form-itemColumn--lg {
+        width: var(--Form--horizontal-label-widthLg);
+      }
+
+      .#{$ns}Form-itemColumn--auto {
+        width: auto;
+      }
+
+      @for $i from (1) through $Form--horizontal-columns {
+        .#{$ns}Form-itemColumn--#{$i} {
+          flex: 0 0 percentage(math.div($i, $Form--horizontal-columns));
+          max-width: percentage(math.div($i, $Form--horizontal-columns));
+          min-height: 1px;
+        }
+      }
+      .#{$ns}Form-itemColumn--align-left {
+        text-align: left;
+      }
+      .#{$ns}Form-itemColumn--align-right {
+        text-align: right;
+      }
+    }
+
+    &--inline {
+      display: inline-block;
+      vertical-align: top;
+
+      > .#{$ns}Form-label {
+        padding-top: var(--Form-label-paddingTop);
+        margin-bottom: 0;
+        margin-right: calc(var(--Form-item-gap) / 2);
+
+        .#{$ns}Form-star {
+          position: absolute;
+          left: px2rem(-6px);
+          top: px2rem(3px);
+        }
+      }
+
+      > .#{$ns}Form-value {
+        display: inline-block;
+        vertical-align: top;
+
+        > .#{$ns}Button--link {
+          padding-top: var(--Form-label-paddingTop);
+        }
+
+        > .#{$ns}Form-control {
+          vertical-align: top;
+          display: inline-block;
+        }
+
+        > .#{$ns}Form-control.#{$ns}InputGroup {
+          display: inline-flex;
+        }
+
+        > .#{$ns}TextControl--withAddOn {
+          display: inline-flex;
+        }
+      }
+    }
+  }
+
+  .#{$ns}Form-row {
+    display: flex;
+    flex-wrap: wrap;
+
+    margin-left: calc(var(--Form-row-gutterWidth) / -2);
+    margin-right: calc(var(--Form-row-gutterWidth) / -2);
+    align-items: flex-start;
+
+    > * {
+      padding-left: calc(var(--Form-row-gutterWidth) / 2);
+      padding-right: calc(var(--Form-row-gutterWidth) / 2);
+    }
+  }
+
+  .#{$ns}Form-col {
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  .#{$ns}Form-rowInner {
+    display: flex;
+    flex-wrap: nowrap;
+
+    > .#{$ns}Form-label {
+      display: inline-block;
+      vertical-align: top;
+      padding-top: var(--Form-label-paddingTop);
+      padding-right: var(--Form-row-gutterWidth);
+    }
+
+    > .#{$ns}Form-control {
+      flex-basis: 0;
+      flex-grow: 1;
+
+      // &:not(.#{$ns}Form-control--withSize) {
+      //   width: var(--Form-control-widthBase);
+      // }
+    }
+  }
+}
+
+.#{$ns}Form--debug {
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.#{$ns}Form--quickEdit {
+  min-width: var(--Form-control-widthSm);
+}
+
+.#{$ns}Form--column {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc(var(--Form-group-gutterWidth) / -2);
+  margin-right: calc(var(--Form-group-gutterWidth) / -2);
+  > .#{$ns}Form-item {
+    flex-shrink: 0;
+    flex-grow: 1;
+    padding-left: calc(var(--Form-group-gutterWidth) / 2);
+    padding-right: calc(var(--Form-group-gutterWidth) / 2);
+  }
+}
+
+.#{$ns}Form--column-2 > .#{$ns}Form-item {
+  width: 50%;
+}
+
+.#{$ns}Form--column-3 > .#{$ns}Form-item {
+  width: 33%;
+}
+
+.#{$ns}Form--column-4 > .#{$ns}Form-item {
+  width: 25%;
+}
+
+.#{$ns}Form--column-5 > .#{$ns}Form-item {
+  width: 20%;
+}
+
+.#{$ns}Form--column-6 > .#{$ns}Form-item {
+  width: 16.6%;
+}
+
+.#{$ns}Form--column-7 > .#{$ns}Form-item {
+  width: 14.2%;
+}
+
+.#{$ns}Form--column-8 > .#{$ns}Form-item {
+  width: 12.5%;
+}
+
+.#{$ns}Form-column-9 > .#{$ns}Form-item {
+  width: 11.1%;
+}
+
+.#{$ns}Form-column-10 > .#{$ns}Form-item {
+  width: 10%;
+}
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Form {
+    &::before {
+      position: absolute;
+      box-sizing: border-box;
+      content: ' ';
+      pointer-events: none;
+      right: 0;
+      top: 0;
+      left: 0;
+      border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+    }
+
+    .#{$ns}Form-item {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+      padding: var(--Form-item-gap) 0;
+      position: relative;
+
+      &::after {
+        position: absolute;
+        box-sizing: border-box;
+        content: ' ';
+        pointer-events: none;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+      }
+
+      .#{$ns}InputGroup-addOn,
+      .#{$ns}TextControl-addOn {
+        border: none;
+      }
+
+      > .#{$ns}Form-label {
+        flex: 0 0 28%;
+        max-width: 28%;
+        min-height: 1px;
+        text-align: left;
+        padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
+        overflow-wrap: break-word;
+        margin-right: 0;
+        margin-bottom: 0;
+        font-size: var(--fontSizeLg);
+      }
+
+      .#{$ns}Form-description {
+        font-size: var(--fontSizeBase);
+      }
+
+      .#{$ns}TextControl-input {
+        font-size: var(--fontSizeLg);
+
+        input {
+          height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
+        }
+      }
+
+      .#{$ns}Form-value,
+      .#{$ns}Form-control {
+        flex: 1;
+        flex-wrap: wrap;
+        font-size: var(--fontSizeLg);
+
+        &.is-disabled > .#{$ns}TextControl-input {
+          background: transparent;
+        }
+      }
+
+      .#{$ns}Form-hint,
+      .#{$ns}Form-remark,
+      .#{$ns}Form-static,
+      .#{$ns}Form-group--hor .#{$ns}Form-item,
+      .#{$ns}SwitchControl,
+      .#{$ns}CheckboxControl,
+      .#{$ns}RadiosControl,
+      .#{$ns}CheckboxesControl {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+
+      .#{$ns}Form-group--horizontal .#{$ns}TextControl-input input {
+        height: var(--Form-input-height);
+      }
+
+      .#{$ns}Form-hint {
+        font-size: var(--fontSizeBase);
+        margin-left: 0;
+        color: var(--text--muted-color);
+      }
+
+      .#{$ns}TextControl-placeholder {
+        top: 0;
+      }
+
+      .#{$ns}Form-static {
+        min-height: 0;
+      }
+
+      .#{$ns}Form-description,
+      .#{$ns}Form-feedback {
+        font-size: var(--fontSizeBase);
+      }
+
+      .#{$ns}InputGroup {
+        .#{$ns}Select,
+        .#{$ns}InputGroup-btn .#{$ns}Button {
+          border: none;
+        }
+
+        > .#{$ns}TextControl-input input {
+          height: var(--Form-input-height);
+        }
+      }
+
+      .#{$ns}ColorPicker {
+        padding: 0;
+        border: none;
+
+        .#{$ns}ColorPicker-arrow {
+          display: none;
+        }
+      }
+
+      .#{$ns}Form-group--hor .#{$ns}Form-item .#{$ns}Button {
+        margin-bottom: var(--gap-xs);
+      }
+
+      .#{$ns}TextareaControl > textarea,
+      .#{$ns}Form-control > .#{$ns}TextControl-input,
+      .#{$ns}TextControl.is-focused > .#{$ns}TextControl-input {
+        border: none;
+        padding: 0 var(--Form-input-paddingX) 0 0;
+        box-shadow: none;
+
+        &:hover,
+        &:focus,
+        &.active {
+          border: none;
+          outline: none;
+          outline-style: none;
+        }
+      }
+
+      .#{$ns}Form-control > .#{$ns}TextControl-input--multiple {
+        padding: 0;
+        min-height: 0;
+      }
+    }
+
+    .#{$ns}Form-groupColumn {
+      margin-bottom: 0;
+    }
+
+    > .#{$ns}Form-item.is-placeholder::after {
+      display: none;
+    }
+
+    .#{$ns}Divider {
+      display: none;
+    }
+
+    .#{$ns}Tabs-pane {
+      padding: 0;
+    }
+
+    .#{$ns}Form-item .#{$ns}Form-groupColumn > .#{$ns}Form-item {
+      padding-bottom: var(--Form-input-paddingX);
+    }
+  }
+}

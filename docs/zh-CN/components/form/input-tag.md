@@ -18,6 +18,7 @@ order: 55
             "type": "input-tag",
             "name": "tag",
             "label": "标签",
+            "placeholder": "请选择标签",
             "options": [
                 "Aaron Rodgers",
                 "Tom Brady",
@@ -65,6 +66,49 @@ order: 55
 }
 ```
 
+## 批量输入
+
+> 2.0.0 及以上版本
+
+可以设置`"enableBatchAdd": true`开启批量输入模式，默认的分隔符为`"-"`，可以使用`"separator"`属性自定义分隔符，注意避免和`"delimiter"`属性冲突。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "type": "input-tag",
+            "name": "tag",
+            "label": "标签",
+            "enableBatchAdd": true
+        }
+    ]
+}
+```
+
+## 数量&文本长度限制
+
+> 2.0.0 及以上版本
+
+可以设置`max`限制输入的标签数量，设置`maxTagLength`限制单个标签的最大文本长度。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "type": "input-tag",
+            "name": "tag",
+            "label": "标签",
+            "options": ["abc", "def", "xyz"],
+            "enableBatchAdd": true,
+            "max": 5,
+            "maxTagLength": 3
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -81,8 +125,12 @@ order: 55
 | extractValue       | `boolean`                                 | `false`                                                                            | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)              |
 | clearable          | `boolean`                                 | `false`                                                                            | 在有值的时候是否显示一个删除图标在右侧。                                                    |
 | resetValue         | `string`                                  | `""`                                                                               | 删除后设置此配置项给定的值。                                                                |
+| max                | `number`                                  |                                                                                    | 允许添加的标签的最大数量                                                                    |
+| maxTagLength       | `number`                                  |                                                                                    | 单个标签的最大文本长度                                                                      |
 | maxTagCount        | `number`                                  |                                                                                    | 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效                  |
 | overflowTagPopover | `TooltipObject`                           | `{"placement": "top", "trigger": "hover", "showArrow": false, "offset": [0, -10]}` | 收纳浮层的配置属性，详细配置参考[Tooltip](../tooltip#属性表)                                |
+| enableBatchAdd     | `boolean`                                 | `false`                                                                            | 是否开启批量添加模式                                                                        |
+| separator          | `string`                                  | `"-"`                                                                              | 开启批量添加后，输入多个标签的分隔符，支持传入多个符号，默认为"-"                           |
 
 ## 事件表
 
