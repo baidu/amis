@@ -135,7 +135,11 @@ export class Progress extends React.Component<ProgressProps, Object> {
         this.getLabel(prefixCls)
       ];
     } else if (type === 'circle' || type === 'dashboard') {
-      const circleWidth = strokeWidth || 6;
+      const circleWidth = strokeWidth || 8;
+      const circleStyle = {
+        width: circleWidth * 10 + 'px',
+        height: circleWidth * 10 + 'px'
+      };
       const gapPos = gapPosition || (type === 'dashboard' && 'bottom') || 'top';
       const getGapDegree = () => {
         if (gapDegree || gapDegree === 0) {
@@ -149,8 +153,9 @@ export class Progress extends React.Component<ProgressProps, Object> {
 
       viewValue = [
         <div
-          className={cx(prefixCls, progressClassName || 'w-ssm')}
+          className={cx(prefixCls, progressClassName)}
           key="circle"
+          style={circleStyle}
         >
           <Circle
             percent={value}
@@ -160,6 +165,7 @@ export class Progress extends React.Component<ProgressProps, Object> {
             prefixCls={isColorClass ? bgColor : ''}
             gapDegree={getGapDegree()}
             gapPosition={gapPos}
+            style={circleStyle}
           />
           {this.getLabel(prefixCls)}
         </div>

@@ -191,7 +191,9 @@ export class Textarea extends React.Component<TextAreaProps, TextAreaState> {
         )}
       >
         <BaseTextArea
-          className={cx(`TextareaControl-input`)}
+          className={cx(`TextareaControl-input`, {
+            'TextareaControl-input--counter': showCounter
+          })}
           autoComplete="off"
           ref={this.inputRef}
           name={name}

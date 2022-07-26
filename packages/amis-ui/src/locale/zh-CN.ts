@@ -46,7 +46,7 @@ register('zh-CN', {
   'CRUD.paginationGoText': '前往',
   'CRUD.paginationPageText': '页',
   'PaginationWrapper.placeholder': '请配置内容',
-  'Pagination.select': '{{count}} 条/页',
+  'Pagination.select': '{{count}}条/页',
   'Pagination.goto': '跳转至',
   'Pagination.go': 'GO',
   'Pagination.totalPage': '共 {{lastPage}} 页',

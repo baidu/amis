@@ -137,13 +137,10 @@
   }
 
   &-body {
-    padding: var(--Modal-body--noHeader-paddingTop) var(--Modal-body-paddingX)
-      var(--Modal-body-paddingY);
+    margin: #{px2rem(16px)} 0 #{px2rem(24px)} 0;
     flex-grow: 1;
-  }
-
-  &-header + &-body {
-    padding-top: var(--Modal-body-paddingY);
+    height: auto;
+    overflow-y: auto;
   }
 
   &-footer {

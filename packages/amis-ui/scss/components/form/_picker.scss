@@ -19,11 +19,14 @@
     position: absolute;
     // margin-top: 2 * var(--Form-input-borderWidth);
     line-height: var(--Form-input-lineHeight);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
   }
 
   &-input {
     min-height: var(--Form-input-height);
     height: auto;
+    padding: 0;
+    flex-wrap: nowrap;
   }
 
   .#{$ns}Picker-values {
@@ -33,6 +36,7 @@
   &-valueWrap {
     flex-grow: 1;
     position: relative;
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
 
     > input {
       width: 1rem;
@@ -80,6 +84,10 @@
   &-btn {
     cursor: pointer;
     color: var(--Picker-iconColor);
+    flex: 30px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
       color: var(--Picker-onHover-iconColor);

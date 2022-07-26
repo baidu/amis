@@ -250,7 +250,7 @@ export default class NestedSelectControl extends React.Component<
                         );
                       })
                     : label}
-                  {!isEnd && '>'}
+                  {!isEnd && ' / '}
                 </span>
               );
             })

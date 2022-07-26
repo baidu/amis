@@ -212,19 +212,51 @@ List 的内容、Card 卡片的内容配置同上
 }
 ```
 
-## 圆形进度条设置线条宽度
+## 设置线条宽度
 
 可设置 strokeWidth 调整线条宽度
 
 ```schema
 {
     "type": "page",
-    "body": {
-        "type": "progress",
-        "value": 60,
-        "mode": "dashboard",
-        "strokeWidth": 3
-    }
+    "body": [
+        {
+            "type": "progress",
+            "value": 60,
+            "mode": "line",
+            "strokeWidth": 4
+        },
+        {
+            "type": "progress",
+            "value": 60,
+            "mode": "line",
+            "strokeWidth": 8
+        },
+        {
+            "type": "progress",
+            "value": 60,
+            "mode": "line",
+            "strokeWidth": 12
+        },
+        {
+            "type": "progress",
+            "value": 60,
+            "mode": "dashboard",
+            "strokeWidth": 4
+        },
+        {
+            "type": "progress",
+            "value": 60,
+            "mode": "dashboard",
+            "strokeWidth": 8
+        },
+        {
+            "type": "progress",
+            "value": 60,
+            "mode": "dashboard",
+            "strokeWidth": 12
+        },
+    ]
 }
 ```
 
