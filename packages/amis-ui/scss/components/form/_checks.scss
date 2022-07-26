@@ -111,9 +111,6 @@
       &:hover {
         & > input + i {
           border-color: var(--Button--primary-onHover-bg);
-          &:before {
-            background: var(--Button--primary-onHover-bg);
-          }
         }
       }
 
