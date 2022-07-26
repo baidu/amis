@@ -15,7 +15,7 @@ import {
   renderCmptSelect,
   SUPPORT_DISABLED_CMPTS
 } from './helper';
-
+import {BaseLabelMark} from '../../component/BaseControl';
 const MSG_TYPES: {[key: string]: string} = {
   info: '提示',
   warning: '警告',
@@ -450,16 +450,10 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                         type: 'checkbox',
                         name: 'silent',
                         option: '静默模式',
-                        remark: {
-                          className: 'ae-BaseRemark',
-                          icon: 'fa fa-question-circle',
-                          trigger: ['hover', 'click'],
-                          placement: 'left',
-                          content: '勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
-                        },
                         mode: 'inline',
                         className: 'm-r-none',
-                        value: false
+                        value: false,
+                        remark: BaseLabelMark('勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。')
                       }
                     ]
                   }

@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import Sortable from 'sortablejs';
-import {DataSchema, FormItem, Icon, TooltipWrapper} from 'amis';
+import {DataSchema, FormItem, Button, Icon, TooltipWrapper} from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   FormControlProps,
@@ -446,7 +446,8 @@ export class EventControl extends React.Component<
     // 收集当前事件已有ajax动作的请求返回结果作为事件变量
     let oldActions = onEvent[activeData.actionData!.eventKey].actions;
     if (activeData.type === 'update') {
-      oldActions = oldActions.slice(0, activeData.actionData!.actionIndex || oldActions?.length);
+      // 编辑的时候只能拿到当前动作前面动作的时间变量
+      oldActions = oldActions.slice(0, activeData.actionData!.actionIndex);
     }
 
     const withOutputVarActions = oldActions?.filter(item => item.outputVar);
@@ -461,8 +462,24 @@ export class EventControl extends React.Component<
       return {
         label: `${item.outputVar ? item.outputVar + `（${actionLabel}结果）` : `${actionLabel}结果`}`,
         tag: 'object',
-        type: 'object',
-        value: `${item.outputVar ? ('event.data.' + item.outputVar) : 'event.data'}`
+        children: [
+          {
+            label: `请求结果数据`,
+            tag: 'object',
+            type: 'object',
+            value: `${item.outputVar ? ('event.data.' + item.outputVar) : 'event.data.responseResult'}.data`
+          },
+          {
+            label: `请求结果状态`,
+            tag: 'number',
+            value: `${item.outputVar ? ('event.data.' + item.outputVar) : 'event.data.responseResult'}.status`
+          },
+          {
+            label: `请求结果消息`,
+            tag: 'string',
+            value: `${item.outputVar ? ('event.data.' + item.outputVar) : 'event.data.responseResult'}.msg`
+          }
+        ]
       };
     });
     const eventVariables: ContextVariables[] = [
