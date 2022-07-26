@@ -22,6 +22,8 @@ export interface ModalProps extends ThemeProps, LocaleProps {
   className?: string;
   contentClassName?: string;
   size?: any;
+  width?: any;
+  height?: any;
   overlay?: boolean;
   onHide: (e: any) => void;
   closeOnEsc?: boolean;
@@ -237,6 +239,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       show,
       size,
       overlay,
+      width,
+      height,
       classnames: cx
     } = this.props;
 
@@ -273,6 +277,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                   contentClassName,
                   fadeStyles[status]
                 )}
+                style={{width, height}}
               >
                 {status === EXITED ? null : children}
               </div>
