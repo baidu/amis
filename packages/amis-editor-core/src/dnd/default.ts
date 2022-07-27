@@ -51,7 +51,7 @@ export class DefaultDNDMode implements DNDModeInterface {
         // .replace(/\bdata\-editor\-id=('|").+?\1/g, '');
         // 上面那个会让 fis 编译的时候把后续的 require 语句都给忽略掉了。
         .replace(/\bdata\-editor\-id=(?:'.+?'|".+?")/g, '');
-
+      // bca-disable-next-line
       ghost.innerHTML = innerHTML;
     } else {
       const manager = this.dnd.manager;

@@ -541,6 +541,7 @@ export function reGenerateID(json: any) {
 
 export function createElementFromHTML(htmlString: string): HTMLElement {
   var div = document.createElement('div');
+  // bca-disable-next-line
   div.innerHTML = htmlString.trim();
 
   // Change this to div.childNodes to support multiple top-level nodes
