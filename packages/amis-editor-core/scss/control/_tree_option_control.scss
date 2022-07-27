@@ -14,8 +14,6 @@
   .ae-TreeOptionControl-content {
     margin: 0;
     padding: 0;
-    max-height: #{px2rem(400px)};
-    overflow-y: auto;
   }
   .ae-TreeOptionControlItem {
     display: flex;
@@ -56,6 +54,9 @@
     }
     &-dropdown {
       margin-right: var(--gap-sm);
+      svg {
+        font-size: var(--Button--sm-fontSize);
+      }
       .m-r-xs {
         margin-right: 2px;
         font-size: #{px2rem(12px)};

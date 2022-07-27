@@ -68,64 +68,6 @@
   // width: $Editor-aside-width;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-
-  .ae-RendererList-tabs-header {
-    padding: 0 12px;
-  }
-
-  .ae-RendererList-tabs-content {
-    position: relative;
-    margin-top: 12px;
-    flex: 1 1 auto;
-    padding: 0 5px;
-    // overflow: auto;
-    height: 100%;
-    // max-height: calc(100% - 50px); // 确保不撑开
-    box-sizing: border-box;
-    // @include minScrollBar();
-
-    .ae-RendererList-tabs-panel {
-      position: relative;
-      padding: 0;
-      height: 100%;
-    }
-  }
-}
-
-.ae-RendererList {
-  height: 100%;
-  padding: 0 0 12px 0;
-  // width: $Editor-aside-width;
-  display: flex;
-  flex-direction: column;
-
-  &.only-base-component {
-    width: $Editor-aside-width;
-
-    .ae-RendererList-groupWrap {
-      margin: 0;
-      padding: 0 0 12px 0;
-    }
-  }
-
-  &.only-base-component {
-    width: $Editor-aside-width;
-
-    .ae-RendererList-groupWrap {
-      margin: 0;
-      padding: 0;
-    }
-  }
-
-  &.only-base-component {
-    width: $Editor-aside-width;
-
-    .ae-RendererList-groupWrap {
-      margin: 0;
-      padding: 0 0 12px 0;
-    }
-  }
 
   &.only-base-component {
     width: $Editor-aside-width;
@@ -154,6 +96,7 @@
     margin: 0 -5px; // 让右侧滚动条靠最右侧
     padding: 0 0 12px 0;
     background: #fff;
+    scrollbar-width: none !important; // 火狐浏览器中不显示滚动条，避免挤压组件列表
 
     .collapse-header {
       padding: 0 12px;

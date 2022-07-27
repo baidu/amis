@@ -416,7 +416,6 @@ export class EditorManager {
 
       triggerEvent && this.trigger('build-panels', context);
       panels = context.data || panels;
-
       if (context.changeLeftPanelKey) {
         // 改变左侧激活面板
         this.store.changeLeftPanelKey(context.changeLeftPanelKey);
@@ -1128,9 +1127,10 @@ export class EditorManager {
     const event = this.trigger('before-move', context);
     if (!event.prevented) {
       store.moveUp(node.id);
-      this.buildToolbars();
+      // this.buildToolbars();
 
       this.trigger('after-move', context);
+      this.trigger('after-update', context);
     }
   }
 
@@ -1159,9 +1159,10 @@ export class EditorManager {
     const event = this.trigger('before-move', context);
     if (!event.prevented) {
       store.moveDown(node.id);
-      this.buildToolbars();
+      // this.buildToolbars();
 
       this.trigger('after-move', context);
+      this.trigger('after-update', context);
     }
   }
 
@@ -1673,8 +1674,10 @@ export class EditorManager {
 
     // 查找最近一层的数据域
     while (!scope && from) {
-      scope = this.dataSchema.hasScope(`${from.id}-${from.type}`)
-        ? this.dataSchema.getScope(`${from.id}-${from.type}`)
+      const nodeId = from.info?.id;
+      const type = from.info?.type;
+      scope = this.dataSchema.hasScope(`${nodeId}-${type}`)
+        ? this.dataSchema.getScope(`${nodeId}-${type}`)
         : undefined;
       from = from.parent;
       if (from?.isRegion) {

@@ -267,6 +267,9 @@
     padding-top: 5px;
     font-size: 12px;
   }
+  .cxd-NestedSelect-popover {
+    font-size: 12px;
+  }
 }
 
 .action-config-panel {
@@ -378,7 +381,7 @@
     .action-desc {
       font-size: 12px;
       margin-left: 16px;
-      color: var(--Form-description-color);
+      color: var(--Form-item-fontColor);
     }
 
     .ae-ApiControl-tabs {
@@ -419,6 +422,15 @@
       .cxd-Form-item--horizontal > .cxd-Form-label {
         text-align: left;
       }
+    }
+
+    .cxd-Checkbox {
+      font-size: 12px;
+    }
+
+    .cxd-Remark {
+      margin-left: 0;
+      margin-top: 5px;
     }
   }
 }

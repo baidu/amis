@@ -174,7 +174,7 @@ export function JSONPipeOut(
     if (
       typeof filterHiddenProps === 'function'
         ? filterHiddenProps(key, prop)
-        : filterHiddenProps && key.substring(0, 2) === '__'
+        : filterHiddenProps !== false && key.substring(0, 2) === '__'
     ) {
       toUpdate[key] = undefined;
       flag = true;
@@ -555,7 +555,7 @@ export function reGenerateID(
 
 export function createElementFromHTML(htmlString: string): HTMLElement {
   var div = document.createElement('div');
-  // bca-disable-line
+  // bca-disable-next-line
   div.innerHTML = htmlString.trim();
 
   // Change this to div.childNodes to support multiple top-level nodes

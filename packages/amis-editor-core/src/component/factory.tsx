@@ -284,11 +284,8 @@ function SchemaFrom({
     schema,
     {
       onFinished: (newValue: any) => {
-        if (newValue && newValue.type) {
-          // 确保type值不为空
           const diffValue = diff(value, newValue);
           onChange(newValue, diffValue);
-        }
       },
       data: value,
       node: node,
@@ -679,7 +676,7 @@ export function renderThumbToGhost(
   schema: any,
   manager: EditorManager
 ) {
-  // bca-disable-line
+  // bca-disable-next-line
   ghost.innerHTML = '';
   let path = '';
   const host = region.host!;
@@ -713,13 +710,15 @@ export function renderThumbToGhost(
     );
   } catch (e) {}
 
+  /* bca-disable */
   const html =
     thumbHost.innerHTML ||
     '<div class="wrapper-sm b-a b-light m-b-sm">拖入占位</div>';
   // bca-disable-line
   ghost.innerHTML = html;
+  /* bca-enable */
 
   unmountComponentAtNode(thumbHost);
-  // bca-disable-line
+  // bca-disable-next-line
   thumbHost.innerHTML = '';
 }
