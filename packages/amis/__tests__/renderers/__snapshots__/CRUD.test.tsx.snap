@@ -2954,6 +2954,17 @@ exports[`Renderer:crud cards 1`] = `
                   </span>
                 </span>
               </div>
+              <div
+                class="cxd-Spinner-overlay in"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay in"
+                data-testid="spinner"
+              >
+                <div
+                  class="cxd-Spinner-icon cxd-Spinner-icon--default"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -3867,6 +3878,17 @@ exports[`Renderer:crud list 1`] = `
                     当前组内, 还没有配置任何权限.
                   </span>
                 </span>
+              </div>
+              <div
+                class="cxd-Spinner-overlay in"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay in"
+                data-testid="spinner"
+              >
+                <div
+                  class="cxd-Spinner-icon cxd-Spinner-icon--default"
+                />
               </div>
             </div>
           </div>
