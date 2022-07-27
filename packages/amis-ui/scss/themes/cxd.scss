@@ -238,7 +238,7 @@
 .#{$ns}Modal {
   box-shadow: var(--boxShadow);
   &-content {
-    padding: #{px2rem(24px)};
+    padding: #{px2rem(24px)} 0;
     border-radius: #{$R4};
   }
 
