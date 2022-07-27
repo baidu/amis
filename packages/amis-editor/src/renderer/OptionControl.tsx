@@ -571,7 +571,7 @@ export default class OptionControl extends React.Component<
         label: '删除',
         onClick: () => this.handleDelete(index)
       }
-    ]
+    ];
 
     // 单选模式，选中时增加取消操作
     if (!closeDefaultCheck && !isMultiple && checked) {
@@ -580,7 +580,7 @@ export default class OptionControl extends React.Component<
         className: 'ae-OptionControlItem-action',
         label: '取消选中',
         onClick: () => this.handleToggleDefaultValue(index, false)
-      })
+      });
     }
 
     return (
@@ -596,7 +596,9 @@ export default class OptionControl extends React.Component<
                   className="ae-OptionControlItem-checkbox"
                   checked={checked}
                   type={isMultiple ? 'checkbox' : 'radio'}
-                  onChange={(newChecked: any, shift?: boolean) => this.handleToggleDefaultValue(index, newChecked, shift)}
+                  onChange={(newChecked: any, shift?: boolean) =>
+                    this.handleToggleDefaultValue(index, newChecked, shift)
+                  }
                 />
               </span>
             )}

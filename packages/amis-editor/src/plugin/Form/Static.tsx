@@ -4,7 +4,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
-import {mockValue, tipedLabel} from 'amis-editor-core';
+import {mockValue} from 'amis-editor-core';
 
 export class StaticControlPlugin extends BasePlugin {
   // 关联渲染器名字

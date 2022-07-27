@@ -2,8 +2,11 @@ import {getSchemaTpl, valuePipeOut} from 'amis-editor-core';
 import {registerEditorPlugin, tipedLabel} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../util';
-import type {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
+import type {
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 export class SwitchControlPlugin extends BasePlugin {
   // 关联渲染器名字

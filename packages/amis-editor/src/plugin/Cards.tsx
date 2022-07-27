@@ -14,7 +14,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
-import {getEventControlConfig} from '../util';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class CardsPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -66,7 +66,7 @@ export class CardsPlugin extends BasePlugin {
 
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = ['crud', 'crud2'].includes(context.schema.type);
-    
+
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -101,15 +101,15 @@ export class CardsPlugin extends BasePlugin {
                 name: 'source',
                 type: 'input-text',
                 label: tipedLabel('数据', '可绑定当前页面数据'),
-                pipeIn: defaultValue('${items}'),
+                pipeIn: defaultValue('${items}')
                 // visible: !isCRUDBody
               },
               {
                 name: 'valueField',
                 type: 'input-text',
-                label: '值字段',
+                label: '值字段'
                 // visible: isInForm && !isCRUDBody
-              },
+              }
             ]
           },
           getSchemaTpl('status', {
@@ -155,10 +155,12 @@ export class CardsPlugin extends BasePlugin {
                 label: '内容'
               }),
               getSchemaTpl('className', {
-                pipeIn: defaultValue('Grid-col--sm6 Grid-col--md4 Grid-col--lg3'),
+                pipeIn: defaultValue(
+                  'Grid-col--sm6 Grid-col--md4 Grid-col--lg3'
+                ),
                 name: 'itemClassName',
                 label: '卡片'
-              }),
+              })
             ]
           })
         ])
@@ -249,26 +251,30 @@ export class CardsPlugin extends BasePlugin {
     let value = Array.isArray(props.value)
       ? props.value
       : typeof props.source === 'string'
-        ? resolveVariable(props.source, data)
-        : resolveVariable('items', data);
-    
-    value = !Array.isArray(value) ? [] : value;
-  
-    if (value.length < 5) {
-      const mockedData: any = value.length ? value[0] : {
-        id: 666,
-        title: '假数据',
-        description: '假数据',
-        a: '假数据',
-        b: '假数据'
-      };
+      ? resolveVariable(props.source, data)
+      : resolveVariable('items', data);
 
-      value = value.concat(repeatArray(mockedData, 3).map((item, index) => ({
-        ...item,
-        id: index + 1
-      })));
+    value = !Array.isArray(value) ? [] : value;
+
+    if (value.length < 5) {
+      const mockedData: any = value.length
+        ? value[0]
+        : {
+            id: 666,
+            title: '假数据',
+            description: '假数据',
+            a: '假数据',
+            b: '假数据'
+          };
+
+      value = value.concat(
+        repeatArray(mockedData, 3).map((item, index) => ({
+          ...item,
+          id: index + 1
+        }))
+      );
     }
-  
+
     value = value.slice(0, 4);
 
     return {
@@ -278,12 +284,7 @@ export class CardsPlugin extends BasePlugin {
   }
 
   overrides = {
-    renderCard(
-      this: any,
-      index: number,
-      card: any,
-      ...rest: any[]
-    ) {  
+    renderCard(this: any, index: number, card: any, ...rest: any[]) {
       return this.super(
         index,
         // 使第一个卡片元素可以选择并编辑schema
@@ -291,7 +292,7 @@ export class CardsPlugin extends BasePlugin {
         ...rest
       );
     }
-  }
+  };
 
   getRendererInfo(
     context: RendererInfoResolveEventContext

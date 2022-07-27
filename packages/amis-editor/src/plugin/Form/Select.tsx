@@ -3,8 +3,11 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../util';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 export class SelectControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -205,7 +208,7 @@ export class SelectControlPlugin extends BasePlugin {
               getSchemaTpl('clearable'),
               getSchemaTpl('searchable'),
               getSchemaTpl('multiple', {
-                popMore: [
+                body: [
                   getSchemaTpl('switch', {
                     label: '单行显示选中值',
                     name: 'valuesNoWrap'
@@ -214,8 +217,7 @@ export class SelectControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('checkAll'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
-                visibleOn: 'this.options && this.options.length > 0'
+                rendererSchema: context?.schema
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),

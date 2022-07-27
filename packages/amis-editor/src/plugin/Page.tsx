@@ -2,7 +2,7 @@ import {ContainerWrapper} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
-import {getEventControlConfig} from '../util';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 import {
   RendererPluginAction,
   RendererPluginEvent

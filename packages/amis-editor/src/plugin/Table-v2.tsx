@@ -21,7 +21,7 @@ import {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
-import {getEventControlConfig} from '../util';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 import {SchemaObject} from 'amis/lib/Schema';
 import {getArgsWrapper} from '../renderer/event-control/helper';
 

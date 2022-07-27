@@ -3,8 +3,11 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../util';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 export class RadiosControlPlugin extends BasePlugin {
   // 关联渲染器名字

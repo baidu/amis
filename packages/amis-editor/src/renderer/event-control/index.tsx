@@ -3,14 +3,22 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import Sortable from 'sortablejs';
 import {DataSchema, FormItem, Icon, TooltipWrapper} from 'amis';
-import {FormControlProps, autobind, render as amisRender} from 'amis-core';
+import cloneDeep from 'lodash/cloneDeep';
+import {
+  FormControlProps,
+  autobind,
+  render as amisRender,
+  findTree
+} from 'amis-core';
 import ActionDialog from './action-config-dialog';
 import {
   findActionNode,
   findSubActionNode,
+  getActionType,
   getEventDesc,
   getEventLabel,
-  getPropOfAcion
+  getPropOfAcion,
+  SELECT_PROPS_CONTAINER
 } from './helper';
 import {
   ActionConfig,
@@ -62,11 +70,12 @@ interface EventControlState {
         pluginActions: PluginActions;
         getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema;
         rawVariables: ContextVariables[];
-        __cmptActionType?: string;
+        groupType?: string;
         __actionDesc?: string;
         __cmptTreeSource?: ComponentInfo[];
         __actionSchema?: any;
         __subActions?: SubRendererPluginAction[];
+        __setValueDs?: any[];
       }
     | undefined;
   type: 'update' | 'add';
@@ -303,10 +312,17 @@ export class EventControl extends React.Component<
    * @param {*} config
    * @memberof EventControl
    */
-  updateValue(event: string, index: number, config: any) {
+  async updateValue(event: string, index: number, config: any) {
     const {onEvent} = this.state;
+    let emptyEventAcion = {...onEvent};
     let onEventConfig = {...onEvent};
 
+    emptyEventAcion[event] = {
+      actions: onEvent[event].actions.map((item, actionIndex) => {
+        return actionIndex === index ? {actionType: ''} : item;
+      }),
+      weight: onEvent[event].weight
+    };
     onEventConfig[event] = {
       actions: onEvent[event].actions.map((item, actionIndex) => {
         return actionIndex === index
@@ -320,11 +336,9 @@ export class EventControl extends React.Component<
       }),
       weight: onEvent[event].weight
     };
-
     this.setState({
       onEvent: onEventConfig
     });
-
     this.props.onChange && this.props.onChange(onEventConfig);
   }
 
@@ -383,7 +397,7 @@ export class EventControl extends React.Component<
         } else {
           parent.appendChild(e.item);
         }
-        let onEventConfig = {...this.state.onEvent};
+        let onEventConfig = cloneDeep(this.state.onEvent);
         const newEvent = onEventConfig[eventKey];
         let options = newEvent?.actions.concat();
         // 从后往前移
@@ -420,6 +434,66 @@ export class EventControl extends React.Component<
     });
   }
 
+  getEventVariables(
+    activeData: Pick<
+      EventControlState,
+      'showAcionDialog' | 'type' | 'actionData'
+    >
+  ) {
+    const {events, onEvent} = this.state;
+    const {actionTree, pluginActions, commonActions} = this.props;
+    // 收集当前事件已有ajax动作的请求返回结果作为事件变量
+    let oldActions = onEvent[activeData.actionData!.eventKey].actions;
+    if (activeData.type === 'update') {
+      oldActions = oldActions.slice(
+        0,
+        activeData.actionData!.actionIndex || oldActions?.length
+      );
+    }
+
+    const withOutputVarActions = oldActions?.filter(item => item.outputVar);
+    const withOutputVarVariables = withOutputVarActions?.map(
+      (item: any, index: number) => {
+        const actionLabel = getPropOfAcion(
+          item,
+          'actionLabel',
+          actionTree,
+          pluginActions,
+          commonActions
+        );
+        return {
+          label: `${
+            item.outputVar
+              ? item.outputVar + `（${actionLabel}结果）`
+              : `${actionLabel}结果`
+          }`,
+          tag: 'object',
+          type: 'object',
+          value: `${
+            item.outputVar ? 'event.data.' + item.outputVar : 'event.data'
+          }`
+        };
+      }
+    );
+    const eventVariables: ContextVariables[] = [
+      {
+        label: '事件变量',
+        children: withOutputVarVariables || []
+      }
+    ];
+    const eventConfig = events.find(
+      item => item.eventName === activeData.actionData!.eventKey
+    );
+    eventConfig?.dataSchema?.forEach((ds: any) => {
+      const dataSchema = new DataSchema(ds || []);
+      eventVariables[0].children = [
+        ...eventVariables[0].children!,
+        ...dataSchema.getDataPropsAsOptions()
+      ];
+    });
+    return eventVariables;
+  }
+
   // 唤起动作配置弹窗
   activeActionDialog(
     data: Pick<EventControlState, 'showAcionDialog' | 'type' | 'actionData'>
@@ -431,27 +505,9 @@ export class EventControl extends React.Component<
       getComponents,
       actionTree
     } = this.props;
-    const {events, rawVariables} = this.state;
-
+    const {rawVariables} = this.state;
     // 收集事件变量
-    let eventVariables: ContextVariables[] = [
-      {
-        label: '事件变量',
-        children: []
-      }
-    ];
-    const eventConfig = events.find(
-      item => item.eventName === data.actionData!.eventKey
-    );
-
-    eventConfig?.dataSchema?.forEach((ds: any) => {
-      const dataSchema = new DataSchema(ds || []);
-      eventVariables[0].children = [
-        ...eventVariables[0].children!,
-        ...dataSchema.getDataPropsAsOptions()
-      ];
-    });
-
+    const eventVariables = this.getEventVariables(data);
     const variables = [...eventVariables, ...rawVariables];
 
     // 编辑操作，需要格式化动作配置
@@ -460,7 +516,23 @@ export class EventControl extends React.Component<
       const actionConfig = actionConfigInitFormatter?.(action);
       const actionNode = findActionNode(actionTree, actionConfig?.actionType!);
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
+      const cmpts = getComponents(actionNode!);
+      const node = findTree(cmpts, item => item.value === action.componentId);
 
+      let setValueDs: any = null;
+      if (actionConfig?.actionType === 'setValue') {
+        const rendererType = node?.type;
+        const rendererName = node?.label;
+        // todo:这里会闪一下，需要从amis查下问题
+        if (SELECT_PROPS_CONTAINER.includes(rendererType || '')) {
+          const curVariable = rawVariables.find(
+            item => item.label === `${rendererName}变量`
+          );
+          setValueDs = curVariable?.children?.filter(
+            item => item.value !== '$$id'
+          );
+        }
+      }
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,
@@ -469,16 +541,24 @@ export class EventControl extends React.Component<
         getContextSchemas,
         rawVariables,
         ...actionConfig,
-        __cmptActionType:
-          hasSubActionNode || action.componentId ? action.actionType : '',
+        groupType: action.actionType,
         __actionDesc: actionNode!.description!, // 树节点描述
         __actionSchema: actionNode!.schema, // 树节点schema
         __subActions: hasSubActionNode?.actions, // 树节点子动作
-        __cmptTreeSource: actionConfig?.componentId ? getComponents?.(actionNode!) ?? [] : []
+        __cmptTreeSource: actionConfig?.componentId
+          ? getComponents?.(actionNode!) ?? []
+          : [],
+        __setValueDs: setValueDs
         // broadcastId: action.actionType === 'broadcast' ? action.eventName : ''
       };
       // 选中项自动滚动至可见位置
-      setTimeout(() => document.querySelector('.action-tree .cxd-Tree-item--isLeaf .is-checked')?.scrollIntoView(), 0);
+      setTimeout(
+        () =>
+          document
+            .querySelector('.action-tree .cxd-Tree-item--isLeaf .is-checked')
+            ?.scrollIntoView(),
+        0
+      );
     } else {
       data.actionData = {
         eventKey: data.actionData!.eventKey,
@@ -494,7 +574,12 @@ export class EventControl extends React.Component<
 
   // 渲染描述信息
   renderDesc(action: ActionConfig) {
-    const {actions: pluginActions, actionTree, commonActions} = this.props;
+    const {
+      actions: pluginActions,
+      actionTree,
+      commonActions,
+      getComponents
+    } = this.props;
     const desc = getPropOfAcion(
       action,
       'descDetail',
@@ -502,9 +587,25 @@ export class EventControl extends React.Component<
       pluginActions,
       commonActions
     );
+    let info = {...action};
+    // 根据子动作类型获取动作树节点的配置
+    const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
+    const actionType = getActionType(action, hasSubActionNode);
+    const actionNode = actionType && findActionNode(actionTree, actionType);
+
+    if (action.componentId && actionNode) {
+      const cmpts = getComponents(actionNode);
+      const node = findTree(cmpts, item => item.value === action.componentId);
+      if (node) {
+        info = {
+          ...info,
+          rendererLabel: node.label
+        };
+      }
+    }
 
     return typeof desc === 'function' ? (
-      <div className="action-control-content">{desc?.(action) || '-'}</div>
+      <div className="action-control-content">{desc?.(info) || '-'}</div>
     ) : null;
   }
 
@@ -527,7 +628,12 @@ export class EventControl extends React.Component<
   }
 
   render() {
-    const {actionTree, actions: pluginActions, commonActions, getComponents} = this.props;
+    const {
+      actionTree,
+      actions: pluginActions,
+      commonActions,
+      getComponents
+    } = this.props;
     const {
       onEvent,
       events,
@@ -536,37 +642,41 @@ export class EventControl extends React.Component<
       type,
       actionData
     } = this.state;
+    const enventSnapshot = cloneDeep(onEvent);
     const {showOldEntry} = this.props;
-    const eventKeys = Object.keys(onEvent);
+    const eventKeys = Object.keys(enventSnapshot);
 
     return (
       <div className="ae-event-control">
-          <header
-            className={cx({
-              'ae-event-control-header': true,
-              'ae-event-control-header-oldentry': showOldEntry,
-              'no-bd-btm': !eventKeys.length
-            })}
-          >
-            {amisRender({
-              type: 'dropdown-button',
-              level: 'enhance',
-              label: '添加事件',
-              disabled: false,
-              className: 'block w-full add-event-dropdown',
-              closeOnClick: true,
-              buttons: events.map(item => ({
-                type: 'button',
-                actionType: '',
-                label: item.eventLabel,
-                onClick: this.addEvent.bind(this, item)
-              }))
-            })}
-          </header>
-        <ul className={cx({
-              'ae-event-control-content': true,
-              'ae-event-control-content-oldentry': showOldEntry
-            })} ref={this.dragRef}>
+        <header
+          className={cx({
+            'ae-event-control-header': true,
+            'ae-event-control-header-oldentry': showOldEntry,
+            'no-bd-btm': !eventKeys.length
+          })}
+        >
+          {amisRender({
+            type: 'dropdown-button',
+            level: 'enhance',
+            label: '添加事件',
+            disabled: false,
+            className: 'block w-full add-event-dropdown',
+            closeOnClick: true,
+            buttons: events.map(item => ({
+              type: 'button',
+              actionType: '',
+              label: item.eventLabel,
+              onClick: this.addEvent.bind(this, item)
+            }))
+          })}
+        </header>
+        <ul
+          className={cx({
+            'ae-event-control-content': true,
+            'ae-event-control-content-oldentry': showOldEntry
+          })}
+          ref={this.dragRef}
+        >
           {eventKeys.length ? (
             eventKeys.map((eventKey, eventIndex) => {
               return (
@@ -575,7 +685,7 @@ export class EventControl extends React.Component<
                     className={cx({
                       'event-item-header': true,
                       'no-bd-btm': !(
-                        onEvent[eventKey].actions?.length &&
+                        enventSnapshot[eventKey].actions?.length &&
                         eventPanelActive[eventKey]
                       )
                     })}
@@ -620,66 +730,74 @@ export class EventControl extends React.Component<
                       </div>
                     </div>
                   </div>
-                  {onEvent[eventKey].actions.length &&
+                  {enventSnapshot[eventKey].actions.length &&
                   eventPanelActive[eventKey] ? (
                     <ul className="item-content">
-                      {onEvent[eventKey].actions.map((action, actionIndex) => {
-                        return (
-                          <li
-                            className="ae-option-control-item"
-                            key={`item-content_${actionIndex}`}
-                          >
-                            <div className="action-control-header">
-                              <div className="action-control-header-left">
-                                <div className="ae-option-control-item-dragBar">
-                                  <Icon
-                                    icon="drag-six-circle-btn"
-                                    className="icon"
-                                  />
-                                </div>
-                                <div className="action-item-actiontype">
-                                  {getPropOfAcion(
-                                    action,
-                                    'actionLabel',
-                                    actionTree,
-                                    pluginActions,
-                                    commonActions
-                                  ) || action.actionType}
-                                </div>
-                              </div>
-                              <div className="action-control-header-right">
-                                <div
-                                  onClick={this.activeActionDialog.bind(this, {
-                                    showAcionDialog: true,
-                                    type: 'update',
-                                    actionData: {
+                      {enventSnapshot[eventKey].actions.map(
+                        (action, actionIndex) => {
+                          return (
+                            <li
+                              className="ae-option-control-item"
+                              key={`item-content_${actionIndex}`}
+                            >
+                              <div className="action-control-header">
+                                <div className="action-control-header-left">
+                                  <div className="ae-option-control-item-dragBar">
+                                    <Icon
+                                      icon="drag-six-circle-btn"
+                                      className="icon"
+                                    />
+                                  </div>
+                                  <div className="action-item-actiontype">
+                                    {getPropOfAcion(
                                       action,
-                                      eventKey,
-                                      actionIndex
-                                    }
-                                  })}
-                                >
-                                  <Icon className="icon" icon="edit-full-btn" />
+                                      'actionLabel',
+                                      actionTree,
+                                      pluginActions,
+                                      commonActions
+                                    ) || action.actionType}
+                                  </div>
                                 </div>
-                                <div
-                                  onClick={this.delAction.bind(
-                                    this,
-                                    eventKey,
-                                    action,
-                                    actionIndex
-                                  )}
-                                >
-                                  <Icon
-                                    className="icon"
-                                    icon="delete-easy-btn"
-                                  />
+                                <div className="action-control-header-right">
+                                  <div
+                                    onClick={this.activeActionDialog.bind(
+                                      this,
+                                      {
+                                        showAcionDialog: true,
+                                        type: 'update',
+                                        actionData: {
+                                          action,
+                                          eventKey,
+                                          actionIndex
+                                        }
+                                      }
+                                    )}
+                                  >
+                                    <Icon
+                                      className="icon"
+                                      icon="edit-full-btn"
+                                    />
+                                  </div>
+                                  <div
+                                    onClick={this.delAction.bind(
+                                      this,
+                                      eventKey,
+                                      action,
+                                      actionIndex
+                                    )}
+                                  >
+                                    <Icon
+                                      className="icon"
+                                      icon="delete-easy-btn"
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            {this.renderDesc(action)}
-                          </li>
-                        );
-                      })}
+                              {this.renderDesc(action)}
+                            </li>
+                          );
+                        }
+                      )}
                     </ul>
                   ) : null}
                 </li>

@@ -18,8 +18,10 @@ import {RegionWrapper as Region} from 'amis-editor-core';
 import {Tab} from 'amis';
 import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../validator';
-import {getEventControlConfig} from '../util';
-import {getArgsWrapper} from '../renderer/event-control/helper';
+import {
+  getArgsWrapper,
+  getEventControlConfig
+} from '../renderer/event-control/helper';
 
 export class TabsPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -153,7 +155,17 @@ export class TabsPlugin extends BasePlugin {
                 ),
                 visibleOn: isNewTabMode,
                 clearValueOnHidden: true
-              })
+              }),
+
+              {
+                label: tipedLabel(
+                  '默认选项卡',
+                  '默认显示某个选项卡，选项卡配置hash时使用hash，否则使用索引值，支持获取变量，如：<code>tab\\${id}</code>、<code>\\${id}</code>'
+                ),
+                type: 'input-text',
+                name: 'activeKey',
+                pipeOut: (data: string) => data === '' || isNaN(Number(data)) ? data : Number(data)
+              },
             ]
           },
           getSchemaTpl('status'),

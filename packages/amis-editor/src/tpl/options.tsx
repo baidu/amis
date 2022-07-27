@@ -128,7 +128,7 @@ setSchemaTpl('multiple', (schema: any = {}) => {
             getSchemaTpl('joinValues'),
             getSchemaTpl('delimiter'),
             getSchemaTpl('extractValue'),
-            ...[schema.body || []]
+            ...(schema?.body || [])
           ]
     }
   };

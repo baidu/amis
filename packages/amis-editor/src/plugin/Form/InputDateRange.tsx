@@ -3,7 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 const DateType: {
@@ -284,17 +284,26 @@ export class DateRangeControlPlugin extends BasePlugin {
                   label: tipedLabel('最大值', tipedLabelText)
                 }),
 
-                getSchemaTpl('formulaControl', {
+                getSchemaTpl('valueFormula', {
                   name: 'minDuration',
-                  label: tipedLabel('最小跨度', '例如 2days'),
-                  placeholder: '请输入最小跨度',
-                  inputClassName: 'is-inline'
+                  rendererSchema: {
+                    ...context?.schema,
+                    value: context?.schema.minDuration,
+                    type: 'input-text'
+                  },
+                  needDeleteProps: ['minDuration'], // 避免自我限制
+                  label: tipedLabel('最小跨度', '例如 2days')
                 }),
-                getSchemaTpl('formulaControl', {
+
+                getSchemaTpl('valueFormula', {
                   name: 'maxDuration',
-                  label: tipedLabel('最大跨度', '例如 1year'),
-                  placeholder: '请输入最大跨度',
-                  inputClassName: 'is-inline'
+                  rendererSchema: {
+                    ...context?.schema,
+                    value: context?.schema.maxDuration,
+                    type: 'input-text'
+                  },
+                  needDeleteProps: ['maxDuration'], // 避免自我限制
+                  label: tipedLabel('最大跨度', '例如 1year')
                 }),
                 getSchemaTpl('dateShortCutControl', {
                   mode: 'normal',
@@ -322,7 +331,7 @@ export class DateRangeControlPlugin extends BasePlugin {
                   type: 'input-text',
                   name: 'endPlaceholder',
                   label: '后占位提示',
-                  pipeIn: defaultValue('选择结束时间')
+                  pipeIn: defaultValue('结束时间')
                 },
                 getSchemaTpl('autoFillApi')
               ]

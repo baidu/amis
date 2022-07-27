@@ -9,7 +9,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
-import {getEventControlConfig} from '../util';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 import {getOldActionSchema} from '../renderer/event-control/helper';
@@ -96,6 +96,7 @@ export class ButtonPlugin extends BasePlugin {
                 type: 'button-group-select',
                 name: 'type',
                 size: 'sm',
+                visibleOn: 'type === "submit" || type === "reset" ',
                 options: [
                   {
                     label: '按钮',

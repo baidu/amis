@@ -1,6 +1,6 @@
 import {Button} from 'amis';
 import React from 'react';
-import {getEventControlConfig} from '../util';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 import {
   getSchemaTpl,

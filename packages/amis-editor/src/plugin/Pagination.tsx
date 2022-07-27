@@ -1,14 +1,10 @@
-import {getEventControlConfig} from '../util';
-import {
-  getSchemaTpl,
-  defaultValue,
-  tipedLabel,
-  BasePlugin,
-  RendererPluginEvent,
-  RegionConfig,
-  BaseEventContext,
-  registerEditorPlugin
-} from 'amis-editor-core';
+import {registerEditorPlugin} from 'amis-editor-core';
+import {BasePlugin, RegionConfig, BaseEventContext, tipedLabel} from 'amis-editor-core';
+import {ValidatorTag} from '../validator';
+import {getEventControlConfig} from '../renderer/event-control/helper';
+import {RendererPluginEvent} from 'amis-editor-core';
+
+import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class PaginationPlugin extends BasePlugin {
   // 关联渲染器名字

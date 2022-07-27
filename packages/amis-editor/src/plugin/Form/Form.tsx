@@ -18,7 +18,7 @@ import {
   jsonToJsonSchema,
   EditorNodeType
 } from 'amis-editor-core';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {FormSchema} from 'amis/lib/Schema';
 import {clone, cloneDeep, flatten} from 'lodash';
 

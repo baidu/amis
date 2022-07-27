@@ -9,7 +9,7 @@ import mapKeys from 'lodash/mapKeys';
 import {FormItem, Switch} from 'amis';
 
 import {autobind, isObject, isEmpty, anyChanged} from 'amis-editor-core';
-import {defaultValue} from 'amis-editor-core';
+import {defaultValue, tipedLabel} from 'amis-editor-core';
 
 import type {FormControlProps} from 'amis-core';
 import type {SchemaExpression} from 'amis/lib/Schema';
@@ -33,7 +33,7 @@ export interface BadgeControlProps extends FormControlProps {
   /**
    * 角标位置，优先级大于position
    */
-  offset?: [number | string, number | string];
+  offset?: [number, number];
 
   /**
    * 角标位置
@@ -87,7 +87,7 @@ interface BadgeForm
       | 'level'
     >
   > {
-  offset: {x: number; y: number};
+  offset: [number, number];
 }
 
 export default class BadgeControl extends React.Component<
@@ -140,12 +140,12 @@ export default class BadgeControl extends React.Component<
     const badge = ctx?.badge ?? {};
     // 避免获取到上层的size
     const size = ctx?.badge?.size;
-    const offset = {x: 0, y: 0};
+    const offset = [0, 0];
 
     // 转换成combo可以识别的格式
     if (Array.isArray(badge?.offset) && badge?.offset.length >= 2) {
-      offset.x = badge?.offset[0];
-      offset.y = badge?.offset[1];
+      offset[0] = badge.offset[0];
+      offset[1] = badge.offset[1];
     }
 
     return {...badge, size, offset};
@@ -153,22 +153,13 @@ export default class BadgeControl extends React.Component<
 
   normalizeBadgeValue(form: BadgeForm) {
     const offset =
-      isObject(form?.offset) && form?.offset?.x && form?.offset?.y
-        ? {offset: [form.offset.x, form.offset.y]}
-        : {};
-    const style =
-      isObject(form?.style) && !isEmpty(form?.style)
-        ? {
-            style: mapKeys(form?.style, (value, key) => {
-              return camelCase(key);
-            })
-          }
+      isObject(form?.offset) && form?.offset?.[0] && form?.offset?.[1]
+        ? {offset: [form.offset[0], form.offset[1]]}
         : {};
 
     return {
       ...form,
-      ...offset,
-      ...style
+      ...offset
     };
   }
 
@@ -213,7 +204,7 @@ export default class BadgeControl extends React.Component<
             label: '类型',
             name: 'mode',
             type: 'button-group-select',
-            size: 'xs',
+            size: 'sm',
             mode: 'row',
             tiled: true,
             className: 'ae-BadgeControl-buttonGroup',
@@ -229,13 +220,18 @@ export default class BadgeControl extends React.Component<
             name: 'text',
             type: 'input-text',
             mode: 'row',
-            visibleOn: "data.mode !== 'dot'"
+            visibleOn: "data.mode !== 'dot'",
+            pipeOut: (value: any) => {
+              return Number.isNaN(Number(value)) || value === ''
+                ? value
+                : Number(value);
+            }
           },
           {
-            label: '角标主题色',
+            label: '角标主题',
             name: 'level',
             type: 'button-group-select',
-            size: 'xs',
+            size: 'sm',
             mode: 'row',
             tiled: true,
             className: 'ae-BadgeControl-buttonGroup',
@@ -251,31 +247,31 @@ export default class BadgeControl extends React.Component<
             label: '角标位置',
             name: 'position',
             type: 'button-group-select',
-            size: 'xs',
+            size: 'sm',
             mode: 'row',
             tiled: true,
             className: 'ae-BadgeControl-buttonGroup',
             options: [
               {
-                label: '左上',
+                label: '',
                 value: 'top-left',
                 icon: 'fa fa-long-arrow-alt-up',
                 className: 'ae-BadgeControl-position--antiClockwise'
               },
               {
-                label: '右上',
+                label: '',
                 value: 'top-right',
                 icon: 'fa fa-long-arrow-alt-up',
                 className: 'ae-BadgeControl-position--clockwise'
               },
               {
-                label: '左下',
+                label: '',
                 value: 'bottom-left',
                 icon: 'fa fa-long-arrow-alt-down',
                 className: 'ae-BadgeControl-position--clockwise'
               },
               {
-                label: '右下',
+                label: '',
                 value: 'bottom-right',
                 icon: 'fa fa-long-arrow-alt-down',
                 className: 'ae-BadgeControl-position--antiClockwise'
@@ -284,22 +280,32 @@ export default class BadgeControl extends React.Component<
             pipeIn: defaultValue('top-right')
           },
           {
-            type: 'group',
-            className: 'ae-BadgeControl-offset',
+            type: 'input-group',
+            mode: 'row',
+            inputClassName: 'inline-flex justify-right flex-row-reverse',
+            label: tipedLabel('偏移量', '角标位置相对”水平“、”垂直“的偏移量'),
             body: [
               {
-                label: '水平偏移量',
-                name: 'offset.x',
                 type: 'input-number',
+                name: 'offset',
                 suffix: 'px',
-                step: 1
+                pipeIn: (value: any) =>
+                  Array.isArray(value) ? value[0] || 0 : 0,
+                pipeOut: (value: any, oldValue: any, data: any) => [
+                  value,
+                  data.offset[1]
+                ]
               },
               {
-                label: '垂直偏移量',
-                name: 'offset.y',
                 type: 'input-number',
+                name: 'offset',
                 suffix: 'px',
-                step: 1
+                pipeIn: (value: any) =>
+                  Array.isArray(value) ? value[1] || 0 : 0,
+                pipeOut: (value: any, oldValue: any, data: any) => [
+                  data.offset[0],
+                  value
+                ]
               }
             ]
           },
@@ -332,7 +338,7 @@ export default class BadgeControl extends React.Component<
             pipeIn: (value: any) => (typeof value === 'number' ? value : 0)
           },
           {
-            label: '封顶数字',
+            label: tipedLabel('封顶数字', '尽在文本内容为数字下生效'),
             name: 'overflowCount',
             type: 'input-number',
             size: 'sm',
@@ -356,13 +362,8 @@ export default class BadgeControl extends React.Component<
   }
 
   render() {
-    const {
-      classPrefix,
-      className,
-      labelClassName,
-      label,
-      disabled
-    } = this.props;
+    const {classPrefix, className, labelClassName, label, disabled} =
+      this.props;
     const {checked} = this.state;
 
     return (

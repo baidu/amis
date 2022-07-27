@@ -7,7 +7,7 @@ import {
   tipedLabel
 } from 'amis-editor-core';
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class ButtonGroupControlPlugin extends BasePlugin {
   // 关联渲染器名字

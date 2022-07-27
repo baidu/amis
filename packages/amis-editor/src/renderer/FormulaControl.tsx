@@ -128,7 +128,7 @@ export default class FormulaControl extends React.Component<
     this.state = {
       variables: this.normalizeVariables(props.variables), // 备注: 待沟通
       variableMode: 'tabs',
-      evalMode: false
+      evalMode: true
     };
   }
 
@@ -335,9 +335,13 @@ export default class FormulaControl extends React.Component<
       if (this.props.needDeleteProps) {
         deleteProps.push(...this.props.needDeleteProps);
       }
-      if (name) {
-        // 剔除自身配置的影响
-        deleteProps.push(name);
+      if (name && name === 'min') {
+        // 避免min影响自身默认值设置
+        deleteProps.push('min');
+      }
+      if (name && name === 'max') {
+        // 避免max影响自身默认值设置
+        deleteProps.push('max');
       }
       curRendererSchema = omit(curRendererSchema, deleteProps);
 
@@ -362,7 +366,7 @@ export default class FormulaControl extends React.Component<
   @autobind
   renderFormulaValue(item: any) {
     const html = {__html: item.html};
-    // bca-disable-line
+    // bca-disable-next-line
     return <span dangerouslySetInnerHTML={html}></span>;
   }
 

@@ -262,6 +262,10 @@ export default class TreeOptionControl extends React.Component<
   }
   @autobind
   addChildOption(pathStr: string) {
+    if (pathStr.split('-').length >= 7) {
+      toast.warning('层级过深，建议使用【接口获取】管理选项', {closeButton: true});
+      return;
+    }
     const options = cloneDeep(this.state.options);
     const {path} = this.getNodePath(pathStr);
     const node = get(options, path) || [];
@@ -337,7 +341,7 @@ export default class TreeOptionControl extends React.Component<
             type: 'dropdown-button',
             className: 'ae-TreeOptionControlItem-dropdown fa-sm',
             btnClassName: 'px-2',
-            icon: 'fa fa-plus',
+            icon: 'add',
             hideCaret: true,
             closeOnClick: true,
             trigger: 'hover',

@@ -30,7 +30,6 @@ export default class CmptActionSelect extends React.Component<RendererProps> {
           ...BASE_ACTION_PROPS,
           'componentId',
           '__rendererName',
-          '__rendererLabel',
           '__cmptTreeSource'
         ].includes(key)
       ) {
@@ -41,7 +40,7 @@ export default class CmptActionSelect extends React.Component<RendererProps> {
     formStore.setValues({
       ...removeKeys,
       args: undefined,
-      __cmptActionType: option.value,
+      groupType: option.value,
       __cmptActionDesc: option.description
     });
 
@@ -54,7 +53,7 @@ export default class CmptActionSelect extends React.Component<RendererProps> {
 
     return (
       <Select
-        value={formStore.data.__cmptActionType}
+        value={formStore.data.groupType}
         className="cmpt-action-select"
         options={actions.map((item: any) => ({
           label: item.actionLabel,

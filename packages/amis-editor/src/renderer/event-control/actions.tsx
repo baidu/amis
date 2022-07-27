@@ -5,10 +5,12 @@ import {
   RendererPluginAction
 } from 'amis-editor-core';
 import React from 'react';
+import {normalizeApi} from 'amis-core';
 import {
   FORMITEM_CMPTS,
   getArgsWrapper,
   IS_DATA_CONTAINER,
+  SHOW_SELECT_PROP,
   renderCmptActionSelect,
   renderCmptSelect,
   SUPPORT_DISABLED_CMPTS
@@ -153,7 +155,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             {
               type: 'radios',
               label: '类型',
-              name: '__cmptActionType',
+              name: 'groupType',
               mode: 'horizontal',
               value: 'dialog',
               required: true,
@@ -180,7 +182,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 body: '<p>对，你刚刚点击了</p>'
               }),
               asFormItem: true,
-              visibleOn: 'data.__cmptActionType === "dialog"',
+              visibleOn: 'data.groupType === "dialog"',
               children: ({value, onChange, data}: any) => (
                 <Button
                   size="sm"
@@ -208,7 +210,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 body: '<p>对，你刚刚点击了</p>'
               }),
               asFormItem: true,
-              visibleOn: 'data.__cmptActionType === "drawer"',
+              visibleOn: 'data.groupType === "drawer"',
               children: ({value, onChange, data}: any) => (
                 <Button
                   size="sm"
@@ -239,7 +241,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               {
                 type: 'radios',
                 label: '类型',
-                name: '__cmptActionType',
+                name: 'groupType',
                 mode: 'horizontal',
                 value: 'closeDialog',
                 required: true,
@@ -286,10 +288,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           descDetail: (info: any) => {
             return (
               <div>
-                <span className="variable-right">
-                  {MSG_TYPES[info?.args?.msgType] || ''}
-                </span>
-                提醒消息：
+                {MSG_TYPES[info?.args?.msgType] || ''}消息：
                 <span className="variable-left">{info?.args?.msg}</span>
               </div>
             );
@@ -409,28 +408,71 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '发送请求',
           actionType: 'ajax',
           description: '配置并发送API请求',
-          innerArgs: ['api'],
+          innerArgs: ['api', 'options'],
           descDetail: (info: any) => {
+            let apiInfo = info?.args?.api;
+            if (typeof apiInfo === 'string'){
+              apiInfo = normalizeApi(apiInfo);
+            }
             return (
               <div>
                 发送
                 <span className="variable-right variable-left">
-                  {info?.args?.api?.method}
+                  {apiInfo?.method}
                 </span>
                 请求：
-                <span className="variable-left">{info?.args?.api?.url}</span>
+                <span className="variable-left">{apiInfo?.url}</span>
               </div>
             );
           },
           schema: {
             type: 'wrapper',
-            style: {padding: '0'},
+            className: "p-none",
             body: [
               getArgsWrapper(
-                getSchemaTpl('apiControl', {
-                  name: 'api'
-                })
-              )
+                [
+                  getSchemaTpl('apiControl', {
+                    name: 'api',
+                    label: '配置请求',
+                    mode: 'horizontal',
+                    size: 'lg',
+                    required: true
+                  }),
+                  {
+                    name: 'options',
+                    type: 'combo',
+                    label: false,
+                    mode: 'horizontal',
+                    items: [
+                      {
+                        type: 'checkbox',
+                        name: 'silent',
+                        option: '静默模式',
+                        remark: {
+                          className: 'ae-BaseRemark',
+                          icon: 'fa fa-question-circle',
+                          trigger: ['hover', 'click'],
+                          placement: 'left',
+                          content: '勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
+                        },
+                        mode: 'inline',
+                        className: 'm-r-none',
+                        value: false
+                      }
+                    ]
+                  }
+                ]
+              ),
+              {
+                name: 'outputVar',
+                type: 'input-text',
+                label: '请求出参',
+                placeholder: '请输入存储请求结果的变量名称',
+                description: '后面的动作可以通过\\${event.data.请求出参名称}来获取本次请求的返回结果',
+                mode: 'horizontal',
+                size: 'lg',
+                required: true
+              }
             ]
           }
         },
@@ -469,7 +511,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     显示
                     <span className="variable-left variable-right">
-                      {info?.__rendererLabel}
+                      {info?.rendererLabel}
                     </span>
                     组件
                   </div>
@@ -483,7 +525,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     隐藏
                     <span className="variable-left variable-right">
-                      {info?.__rendererLabel}
+                      {info?.rendererLabel}
                     </span>
                     组件
                   </div>
@@ -497,7 +539,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             {
               type: 'radios',
               label: '显示/隐藏',
-              name: '__cmptActionType',
+              name: 'groupType',
               mode: 'horizontal',
               value: 'show',
               required: true,
@@ -527,7 +569,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     启用
                     <span className="variable-left variable-right">
-                      {info?.__rendererLabel}
+                      {info?.rendererLabel}
                     </span>
                     组件
                   </div>
@@ -541,7 +583,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     禁用
                     <span className="variable-left variable-right">
-                      {info?.__rendererLabel}
+                      {info?.rendererLabel}
                     </span>
                     组件
                   </div>
@@ -555,7 +597,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             {
               type: 'radios',
               label: '启用/禁用',
-              name: '__cmptActionType',
+              name: 'groupType',
               mode: 'horizontal',
               value: 'enabled',
               required: true,
@@ -582,7 +624,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 刷新
                 <span className="variable-left variable-right">
-                  {info?.__rendererLabel}
+                  {info?.rendererLabel}
                 </span>
                 组件
               </div>
@@ -595,13 +637,13 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '设置组件数据',
           actionType: 'setValue',
           description: '设置数据容器或表单项的数据',
-          innerArgs: ['value', 'valueInput'],
+          innerArgs: ['value', 'index', '__valueInput', '__comboType'],
           descDetail: (info: any) => {
             return (
               <div>
                 设置
                 <span className="variable-left variable-right">
-                  {info?.__rendererLabel}
+                  {info?.rendererLabel}
                 </span>
                 的数据
                 {/* 值为
@@ -615,11 +657,43 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           },
           supportComponents: [],
           schema: [
-            ...renderCmptSelect('选择组件', true),
+            ...renderCmptActionSelect('选择组件', true),
             getArgsWrapper({
               type: 'wrapper',
               className: 'p-none',
               body: [
+                {
+                  type: 'radios',
+                  required: true,
+                  name: '__comboType',
+                  mode: 'horizontal',
+                  label: '赋值方式',
+                  visibleOn: `data.__rendererName && __rendererName === 'combo'`,
+                  options: [
+                    {
+                      label: '全量',
+                      value: 'all'
+                    },
+                    {
+                      label: '指定序号',
+                      value: 'appoint',
+                    }
+                  ],
+                  onChange: (value: string, oldVal: any, data: any, form: any) => {
+                    form.setValueByName('index', undefined);
+                    form.setValueByName('value', []);
+                    form.setValueByName('__valueInput', undefined);
+                  }
+                },
+                {
+                  type: 'input-number',
+                  required: true,
+                  name: 'index',
+                  mode: 'horizontal',
+                  label: '输入序号',
+                  placeholder: '请输入待更新序号',
+                  visibleOn: `data.__comboType && __comboType === 'appoint'`
+                },
                 {
                   type: 'combo',
                   name: 'value',
@@ -634,9 +708,20 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   items: [
                     {
                       name: 'key',
+                      type: 'select',
+                      placeholder: '变量名',
+                      source: '${__setValueDs}',
+                      labelField: 'label',
+                      valueField: 'value',
+                      required: true,
+                      visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`,
+                    },
+                    {
+                      name: 'key',
                       type: 'input-text',
-                      placeholder: '字段名',
-                      required: true
+                      placeholder: '变量名',
+                      required: true,
+                      visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP} && __comboType === 'appoint'`
                     },
                     {
                       name: 'val',
@@ -648,7 +733,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       inputMode: 'input-group'
                     }
                   ],
-                  visibleOn: `data.__rendererName && ${IS_DATA_CONTAINER}`
+                  visibleOn: `data.__rendererName && ${IS_DATA_CONTAINER} || (data.__comboType && __comboType === 'appoint')`
                 },
                 {
                   type: 'combo',
@@ -678,8 +763,19 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       items: [
                         {
                           name: 'key',
+                          type: 'select',
+                          source: '${__setValueDs}',
+                          labelField: 'label',
+                          valueField: 'name',
+                          required: true,
+                          visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`,
+                        },
+                        {
+                          name: 'key',
                           type: 'input-text',
-                          required: true
+                          required: true,
+                          placeholder: '变量名',
+                          visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP}`
                         },
                         {
                           name: 'val',
@@ -692,10 +788,10 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       ]
                     }
                   ],
-                  visibleOn: `data.__rendererName && __rendererName === 'combo'`
+                  visibleOn: `data.__rendererName && __rendererName === 'combo' && data.__comboType && __comboType === 'all'`
                 },
                 {
-                  name: 'valueInput',
+                  name: '__valueInput',
                   type: 'input-formula',
                   variables: '${variables}',
                   evalMode: false,
@@ -714,13 +810,13 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
         {
           actionLabel: '提交表单',
           actionType: 'submit',
-          description: '提交表单数据至数据源',
+          description: '触发表单提交',
           descDetail: (info: any) => {
             return (
               <div>
                 提交
-                <span className="variable-right">
-                  {info?.__rendererLabel}
+                <span className="variable-left variable-right">
+                  {info?.rendererLabel}
                 </span>
                 的数据
               </div>
@@ -737,8 +833,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 清空
-                <span className="variable-right">
-                  {info?.__rendererLabel}
+                <span className="variable-left variable-right">
+                  {info?.rendererLabel}
                 </span>
                 的数据
               </div>
@@ -755,8 +851,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 重置
-                <span className="variable-right">
-                  {info?.__rendererLabel}
+                <span className="variable-left variable-right">
+                  {info?.rendererLabel}
                 </span>
                 的数据
               </div>
@@ -773,8 +869,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 校验
-                <span className="variable-right">
-                  {info?.__rendererLabel}
+                <span className="variable-left variable-right">
+                  {info?.rendererLabel}
                 </span>
                 的数据
               </div>
@@ -788,7 +884,6 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionType: 'component',
           description: '触发所选组件的特性动作',
           supportComponents: '*',
-          actions: [],
           schema: renderCmptActionSelect('选择组件', true)
         }
       ]
@@ -826,6 +921,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 label: '内容模板',
                 mode: 'horizontal',
                 size: 'lg',
+                visibleOn: 'data.actionType === "copy"',
                 required: true
               },
               {
@@ -860,6 +956,18 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             name: 'script',
             label: '自定义JS',
             mode: 'horizontal',
+            options: {
+              automaticLayout: true,
+              lineNumbers: 'off',
+              glyphMargin: false,
+              tabSize: 2,
+              wordWrap: 'on',
+              lineDecorationsWidth: 0,
+              lineNumbersMinChars: 0,
+              selectOnLineNumbers: true,
+              scrollBeyondLastLine: false,
+              folding: true
+            },
             className: 'ae-event-control-action-js-editor',
             value: `/* 自定义JS使用说明：
   * 1.动作执行函数doAction，可以执行所有类型的动作

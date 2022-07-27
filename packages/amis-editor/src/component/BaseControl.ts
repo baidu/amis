@@ -3,13 +3,9 @@
  */
 
 import flatten from 'lodash/flatten';
-import {getEventControlConfig} from '../util';
-import {
-  getSchemaTpl,
-  isObject,
-  BaseEventContext,
-  tipedLabel
-} from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control/helper';
+import {getSchemaTpl, isObject, tipedLabel} from 'amis-editor-core';
+import type {BaseEventContext} from 'amis-editor-core';
 
 // 默认动作
 export const BUTTON_DEFAULT_ACTION = {

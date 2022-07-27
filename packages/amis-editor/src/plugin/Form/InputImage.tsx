@@ -34,7 +34,6 @@ export class ImageControlPlugin extends BasePlugin {
       }
     ]
   };
-  notRenderFormZone = true;
 
   // 事件定义
   events: RendererPluginEvent[] = [

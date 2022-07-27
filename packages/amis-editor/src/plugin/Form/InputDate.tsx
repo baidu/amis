@@ -3,8 +3,11 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext, tipedLabel} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../util';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 const formatX = [
   {

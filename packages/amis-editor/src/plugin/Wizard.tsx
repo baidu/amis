@@ -12,12 +12,11 @@ import {VRenderer} from 'amis-editor-core';
 import {mapReactElement} from 'amis-editor-core';
 import {RegionWrapper as Region} from 'amis-editor-core';
 
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
-import {getEventControlConfig} from '../util';
-import { getArgsWrapper } from '../renderer/event-control/helper';
+  getArgsWrapper,
+  getEventControlConfig
+} from '../renderer/event-control/helper';
 
 export class WizardPlugin extends BasePlugin {
   // 关联渲染器名字

@@ -13,7 +13,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {VRenderer} from 'amis-editor-core';
-import { getEventControlConfig } from '../util';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class ListItemPlugin extends BasePlugin {
   // 关联渲染器名字

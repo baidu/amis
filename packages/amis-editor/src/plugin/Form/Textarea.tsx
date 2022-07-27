@@ -4,8 +4,11 @@ import {BasePlugin, tipedLabel} from 'amis-editor-core';
 
 import type {BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../util';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 export class TextareaControlPlugin extends BasePlugin {
   // 关联渲染器名字

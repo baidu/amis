@@ -12,7 +12,7 @@ import {
   defaultValue
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class ChainedSelectControlPlugin extends BasePlugin {
   // 关联渲染器名字

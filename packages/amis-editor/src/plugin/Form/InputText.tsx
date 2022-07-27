@@ -8,7 +8,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
-import {getEventControlConfig} from '../../util';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 const isText = 'data.type === "input-text"';
 const isPassword = 'data.type === "input-password"';
