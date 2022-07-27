@@ -384,6 +384,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             item =>
               item !== self &&
               self.tmpValue !== undefined &&
+              self.tmpValue !== '' &&
               item.value === self.tmpValue
           )
         ) {
