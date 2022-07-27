@@ -24,7 +24,7 @@ import type {
   VariableItem,
   FuncGroup
 } from 'amis-ui/lib/components/formula/Editor';
-import {FormControlProps, dataMapping} from 'amis-core';
+import {dataMapping, FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
 
@@ -272,7 +272,8 @@ export default class FormulaControl extends React.Component<
 
   handleSimpleInputChange = debounce(
     (value: any) => {
-      this.props?.onChange?.(this.replaceExpression(value));
+      const curValue = this.replaceExpression(value);
+      this.props?.onChange?.(curValue);
     },
     250,
     {
@@ -288,7 +289,7 @@ export default class FormulaControl extends React.Component<
   // 剔除掉一些用不上的属性
   @autobind
   filterCustomRendererProps(rendererSchema: any) {
-    const {data} = this.props;
+    const {data, name} = this.props;
 
     let curRendererSchema: any = null;
     if (rendererSchema) {
@@ -321,14 +322,23 @@ export default class FormulaControl extends React.Component<
         'labelClassName',
         'labelAlign',
         'inputClassName',
-        'autoUpdate'
+        'description',
+        'autoUpdate',
+        'prefix',
+        'suffix',
+        'unitOptions',
+        'keyboard',
+        'kilobitSeparator'
       ];
 
       // 当前组件要剔除的字段
       if (this.props.needDeleteProps) {
         deleteProps.push(...this.props.needDeleteProps);
       }
-
+      if (name) {
+        // 剔除自身配置的影响
+        deleteProps.push(name);
+      }
       curRendererSchema = omit(curRendererSchema, deleteProps);
 
       // 避免没有清空icon
@@ -337,6 +347,13 @@ export default class FormulaControl extends React.Component<
         !curRendererSchema.clearable
       ) {
         curRendererSchema.clearable = true;
+      }
+
+      // 设置统一的占位提示
+      if (curRendererSchema.type === 'select') {
+        curRendererSchema.placeholder = '请选择默认值';
+      } else {
+        curRendererSchema.placeholder = '请输入静态默认值';
       }
     }
     return curRendererSchema;

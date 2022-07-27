@@ -54,25 +54,35 @@ export class LinkPlugin extends BasePlugin {
                 name: 'blank',
                 label: '在新窗口打开'
               }),
-              getSchemaTpl('icon'),
-
               {
                 label: '图标位置',
                 type: 'button-group-select',
                 name: 'position',
+                pipeIn: defaultValue('rightIcon'),
                 size: 'sm',
+                value: 'rightIcon',
                 options: [
                   {
-                    label: '左侧',
-                    value: 'left'
+                  label: '左侧',
+                  value: 'icon'
                   },
 
                   {
-                    label: '右侧',
-                    value: 'right'
+                  label: '右侧',
+                  value: 'rightIcon'
                   }
                 ]
-              }
+              },
+
+              getSchemaTpl('iconLink', {
+                name: 'icon',
+                visibleOn: 'this.position == "icon"'
+              }),
+
+              getSchemaTpl('iconLink', {
+                name: 'rightIcon',
+                visibleOn: 'this.position == "rightIcon"'
+              }),
             ]
           },
           getSchemaTpl('status', {

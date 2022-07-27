@@ -298,3 +298,10 @@ setSchemaTpl('optionControlV2', {
   type: 'ae-optionControl',
   closeDefaultCheck: true // 关闭默认值设置
 });
+
+setSchemaTpl('treeOptionControl', {
+  label: '数据',
+  mode: 'normal',
+  name: 'options',
+  type: 'ae-treeOptionControl'
+});

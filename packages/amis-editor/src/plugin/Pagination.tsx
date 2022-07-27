@@ -37,11 +37,9 @@ export class PaginationPlugin extends BasePlugin {
     total: 1,
     hasNext: false,
     disabled: false,
-    showPerPage: false,
     perPageAvailable: [10, 20, 50, 100],
     perPage: 10,
-    maxButton: 7,
-    showPageInput: false
+    maxButtons: 7
   };
   previewSchema = {
     ...this.scaffold
@@ -193,30 +191,26 @@ export class PaginationPlugin extends BasePlugin {
                 pipeOut: (value: any[]) => {
                   return value.map(v => v.value);
                 }
-              })
-              // {
-              //   name: 'perPage',
-              //   type: 'input-text',
-              //   label: '默认每页条数',
-              //   visibleOn: 'data.mode === "normal"'
-              // },
-              // {
-              //   name: 'maxButton',
-              //   label: tipedLabel('分页按钮数量', '超过此数量，将会隐藏多余按钮'),
-              //   type: 'input-number',
-              //   min: 5,
-              //   max: 20,
-              //   pipeIn: defaultValue(5),
-              //   visibleOn: 'data.mode === "normal"'
-              // }
-              // {
-              //   name: 'showPageInput',
-              //   label: '显示页面跳转',
-              //   mode: 'row',
-              //   inputClassName: 'inline-flex justify-between flex-row-reverse',
-              //   type: 'switch',
-              //   visibleOn: 'data.mode === "normal"'
-              // }
+              }),
+              {
+                name: 'perPage',
+                type: 'input-text',
+                label: '默认每页条数',
+                visibleOn:
+                  'data.mode === "normal" && data.layout?.includes("perPage")'
+              },
+              {
+                name: 'maxButtons',
+                label: tipedLabel(
+                  '最多按钮数',
+                  '最多显示多少个分页按钮，最小为5，最大值为20'
+                ),
+                type: 'input-number',
+                min: 5,
+                max: 20,
+                pipeOut: (value: any) => value || 5,
+                visibleOn: 'data.mode === "normal"'
+              }
             ]
           },
           {

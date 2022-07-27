@@ -322,7 +322,7 @@ export default class OptionControl extends React.Component<
     } else {
       options = options.map((item, itemIndex) => ({
         ...item,
-        checked: itemIndex === index
+        checked: itemIndex === index ? checked : false // 支持重复点击取消选中
       }));
     }
 
@@ -469,7 +469,7 @@ export default class OptionControl extends React.Component<
   }
 
   renderOption(props: any) {
-    const {checked, index, editing, multipleProps} = props;
+    const {checked, index, editing, multipleProps, closeDefaultCheck} = props;
     const ctx: Partial<TextControlSchema> = this.props.data;
     const isMultiple = ctx?.multiple === true || multipleProps;
 
@@ -558,6 +558,31 @@ export default class OptionControl extends React.Component<
       </div>
     ) : null;
 
+    const operationBtn = [
+      {
+        type: 'button',
+        className: 'ae-OptionControlItem-action',
+        label: '编辑',
+        onClick: () => this.toggleEdit(index)
+      },
+      {
+        type: 'button',
+        className: 'ae-OptionControlItem-action',
+        label: '删除',
+        onClick: () => this.handleDelete(index)
+      }
+    ]
+
+    // 单选模式，选中时增加取消操作
+    if (!closeDefaultCheck && !isMultiple && checked) {
+      operationBtn.unshift({
+        type: 'button',
+        className: 'ae-OptionControlItem-action',
+        label: '取消选中',
+        onClick: () => this.handleToggleDefaultValue(index, false)
+      })
+    }
+
     return (
       <li className="ae-OptionControlItem" key={index}>
         <div className="ae-OptionControlItem-Main">
@@ -571,9 +596,7 @@ export default class OptionControl extends React.Component<
                   className="ae-OptionControlItem-checkbox"
                   checked={checked}
                   type={isMultiple ? 'checkbox' : 'radio'}
-                  onChange={(checked: any, shift?: boolean) =>
-                    this.handleToggleDefaultValue(index, checked, shift)
-                  }
+                  onChange={(newChecked: any, shift?: boolean) => this.handleToggleDefaultValue(index, newChecked, shift)}
                 />
               </span>
             )}
@@ -593,20 +616,7 @@ export default class OptionControl extends React.Component<
             closeOnClick: true,
             align: 'right',
             menuClassName: 'ae-OptionControlItem-ulmenu',
-            buttons: [
-              {
-                type: 'button',
-                className: 'ae-OptionControlItem-action',
-                label: '编辑',
-                onClick: () => this.toggleEdit(index)
-              },
-              {
-                type: 'button',
-                className: 'ae-OptionControlItem-action',
-                label: '删除',
-                onClick: () => this.handleDelete(index)
-              }
-            ]
+            buttons: operationBtn
           })}
         </div>
         {editDom}

@@ -20,7 +20,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
   $schema = '/schemas/NestedSelectControlSchema.json';
 
   // 组件名称
-  name = '级联选择框';
+  name = '级联选择器';
   isBaseComponent = true;
   icon = 'fa fa-indent';
   pluginIcon = 'nested-select-plugin';
@@ -29,7 +29,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
   tags = ['表单项'];
   scaffold = {
     type: 'nested-select',
-    label: '级联选择',
+    label: '级联选择器',
     name: 'nestedSelect',
     onlyChildren: true,
     options: [
@@ -43,12 +43,26 @@ export class NestedSelectControlPlugin extends BasePlugin {
         value: 'B',
         children: [
           {
-            label: '选项C',
-            value: 'C'
+            label: '选项b1',
+            value: 'b1'
           },
           {
-            label: '选项D',
-            value: 'D'
+            label: '选项b2',
+            value: 'b2'
+          }
+        ]
+      },
+      {
+        label: '选项C',
+        value: 'C',
+        children: [
+          {
+            label: '选项c1',
+            value: 'c1'
+          },
+          {
+            label: '选项c2',
+            value: 'c2'
           }
         ]
       }
@@ -66,7 +80,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
     ]
   };
 
-  panelTitle = '级联选择框';
+  panelTitle = '级联选择器';
   notRenderFormZone = true;
   panelDefinitions = {
     options: {
@@ -278,6 +292,9 @@ export class NestedSelectControlPlugin extends BasePlugin {
                   ]
                 }
               ],
+              getSchemaTpl('valueFormula', {
+                rendererSchema: context?.schema
+              }),
               getSchemaTpl('hideNodePathLabel'),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
@@ -289,11 +306,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
           {
             title: '选项',
             body: [
-              // getSchemaTpl('optionControl'), // 备注：级联选择框 不适合用这种方式添加选项
-              getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
-                mode: 'vertical' // 改成上下展示模式
-              })
+              getSchemaTpl('treeOptionControl')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

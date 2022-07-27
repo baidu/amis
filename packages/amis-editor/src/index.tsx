@@ -160,6 +160,7 @@ import './renderer/DataMappingControl';
 import './renderer/DataPickerControl';
 import './renderer/FeatureControl';
 import './renderer/event-control/index';
+import './renderer/TreeOptionControl';
 
 export * from './component/BaseControl';
 export * from './icons/index';
