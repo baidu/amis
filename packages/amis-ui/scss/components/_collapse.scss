@@ -3,7 +3,7 @@
   padding: 0;
   line-height: px2rem(20px);
   border-radius: 4px;
-  overflow: hidden;
+  // overflow: hidden;
 
   &-header {
     font-size: var(--Collapse-header-fontSize);
@@ -42,7 +42,7 @@
       width: px2rem(6px);
       height: px2rem(6px);
       top: px2rem(-2px);
-      border-color: #84868C;
+      border-color: #84868c;
       border-style: solid;
       border-width: px2rem(1px) px2rem(1px) 0 0;
       transform: rotate(45deg);
