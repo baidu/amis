@@ -505,7 +505,7 @@ export class EventControl extends React.Component<
       const actionConfig = actionConfigInitFormatter?.(action);
       const actionNode = findActionNode(actionTree, actionConfig?.actionType!);
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
-      const cmpts = getComponents(actionNode);
+      const cmpts = getComponents(actionNode!);
       const node = findTree(cmpts, item => item.value === action.componentId);
 
       let setValueDs: any = null;
