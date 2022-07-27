@@ -97,7 +97,7 @@ export interface TextControlSchema extends FormOptionsSchema {
   inputControlClassName?: string;
 
   /** 原生input标签的CSS类名 */
-  nativeInputClassName: string;
+  nativeInputClassName?: string;
 }
 
 export type InputTextRendererEvent =
