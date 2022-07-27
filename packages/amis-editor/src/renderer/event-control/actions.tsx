@@ -57,7 +57,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   placeholder: 'http://',
                   mode: 'horizontal',
                   size: 'lg',
-                  required: true
+                  required: true,
+                  visibleOn: 'data.actionType === "url"'
                 },
                 {
                   type: 'combo',
@@ -108,7 +109,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 打开
                 <span className="variable-left variable-right">
-                  {info?.args?.__pageName}
+                  {info?.args?.pageName}
                 </span>
                 页面
               </div>
@@ -692,7 +693,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   mode: 'horizontal',
                   label: '输入序号',
                   placeholder: '请输入待更新序号',
-                  visibleOn: `data.__comboType && __comboType === 'appoint'`
+                  visibleOn: `data.__comboType && __comboType === 'appoint' && data.__rendererName && __rendererName === 'combo'`
                 },
                 {
                   type: 'combo',

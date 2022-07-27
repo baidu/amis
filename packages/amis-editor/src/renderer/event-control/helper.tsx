@@ -560,6 +560,7 @@ export const renderCmptActionSelect = (
           if (form.data.actionType === 'setValue') {
             // todo:这里会闪一下，需要从amis查下问题
             form.setValueByName('args.value', []);
+            form.setValueByName('args.__comboType', undefined);
             form.setValueByName('args.__valueInput', undefined);
             if (SELECT_PROPS_CONTAINER.includes(rendererType)) {
               form.setValueByName('__setValueDs', variables.filter(item => item.value !== '$$id'));
