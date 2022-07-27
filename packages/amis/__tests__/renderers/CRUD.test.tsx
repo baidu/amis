@@ -171,8 +171,16 @@ test('Renderer:crud list', async () => {
       makeEnv({fetcher})
     )
   );
+  await waitFor(() => {
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
   await waitFor(() => {
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
     expect(container.querySelectorAll('.cxd-ListItem').length > 5).toBeTruthy();
   });
   expect(container).toMatchSnapshot();
@@ -214,10 +222,18 @@ test('Renderer:crud cards', async () => {
     )
   );
 
+  await waitFor(() => {
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
-  await waitFor(() =>
-    expect(container.querySelector('.cxd-Card-title')).toBeInTheDocument()
-  );
+  await waitFor(() => {
+    expect(
+      container.querySelector('[data-testid="spinner"]')
+    ).not.toBeInTheDocument();
+    expect(container.querySelector('.cxd-Card-title')).toBeInTheDocument();
+  });
   expect(container).toMatchSnapshot();
 });
 
