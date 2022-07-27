@@ -4,17 +4,18 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
+  BasicPanelItem,
   BasicRendererInfo,
   BasicToolbarItem,
   ContextMenuEventContext,
   ContextMenuItem,
   PluginInterface,
-  RendererInfoResolveEventContext,
-  tipedLabel
+  RegionConfig,
+  RendererInfo,
+  RendererInfoResolveEventContext
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class CardsPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -40,17 +41,26 @@ export class CardsPlugin extends BasePlugin {
     },
     columnsCount: 2,
     card: {
-      type: 'card2',
+      type: 'card',
       className: 'm-b-none',
+      header: {
+        title: '标题',
+        subTitle: '副标题'
+      },
       body: [
         {
-          type: 'container',
-          body: [
-            {
-              type: 'tpl',
-              tpl: '这是一个模板'
-            }
-          ]
+          name: 'a',
+          label: 'A'
+        },
+        {
+          name: 'b',
+          label: 'B'
+        }
+      ],
+      actions: [
+        {
+          label: '详情',
+          type: 'button'
         }
       ]
     }
@@ -61,121 +71,116 @@ export class CardsPlugin extends BasePlugin {
   };
 
   panelTitle = '卡片集';
-
-  panelJustify = true;
-
   panelBodyCreator = (context: BaseEventContext) => {
-    const isCRUDBody = ['crud', 'crud2'].includes(context.schema.type);
+    const isCRUDBody = context.schema.type === 'crud';
+    return [
+      getSchemaTpl('tabs', [
+        {
+          title: '常规',
+          body: [
+            {
+              children: (
+                <div className="m-b">
+                  <Button
+                    level="success"
+                    size="sm"
+                    block
+                    onClick={this.editDetail.bind(this, context.id)}
+                  >
+                    配置单项信息
+                  </Button>
+                </div>
+              )
+            },
 
-    return getSchemaTpl('tabs', [
-      {
-        title: '属性',
-        body: getSchemaTpl('collapseGroup', [
-          {
-            title: '基本',
-            body: [
-              getSchemaTpl('switch', {
-                label: '可多选',
-                name: 'multiple',
-                visibleOn: `data.selectable`
-              }),
-              // getSchemaTpl('switch', {
-              //   label: '可全选',
-              //   name: 'checkAll',
-              //   pipeIn: defaultValue(true),
-              //   visibleOn: `data.selectable && data.multiple`
-              // }),
-              {
-                name: 'placeholder',
-                value: '暂无数据',
-                type: 'input-text',
-                label: '占位内容'
-              }
-            ]
-          },
-          {
-            title: '数据',
-            hidden: isCRUDBody,
-            body: [
-              {
-                name: 'source',
-                type: 'input-text',
-                label: tipedLabel('数据', '可绑定当前页面数据'),
-                pipeIn: defaultValue('${items}')
-                // visible: !isCRUDBody
-              },
-              {
-                name: 'valueField',
-                type: 'input-text',
-                label: '值字段'
-                // visible: isInForm && !isCRUDBody
-              }
-            ]
-          },
-          getSchemaTpl('status', {
-            isFormItem: false
-          })
-        ])
-      },
-      {
-        title: '外观',
-        body: getSchemaTpl('collapseGroup', [
-          {
-            title: '布局',
-            body: [
-              {
-                type: 'button-group-select',
-                name: 'masonryLayout',
-                label: '模式',
-                pipeIn: defaultValue(false),
-                options: [
-                  {label: '瀑布', value: true},
-                  {label: '流式', value: false}
-                ]
-              },
-              {
-                name: 'columnsCount',
-                type: 'input-range',
-                pipeIn: defaultValue(4),
-                min: 0,
-                max: 12,
-                step: 1,
-                label: tipedLabel(
-                  '每行显示个数',
-                  '不设置时，由卡片 CSS 类名决定'
-                )
-              }
-            ]
-          },
-          getSchemaTpl('style:classNames', {
-            isFormItem: false,
-            schema: [
-              getSchemaTpl('className', {
-                name: 'itemsClassName',
-                label: '内容'
-              }),
-              getSchemaTpl('className', {
-                pipeIn: defaultValue(
-                  'Grid-col--sm6 Grid-col--md4 Grid-col--lg3'
-                ),
-                name: 'itemClassName',
-                label: '卡片'
-              })
-            ]
-          })
-        ])
-      },
-      {
-        title: '事件',
-        className: 'p-none',
-        body: [
-          getSchemaTpl('eventControl', {
-            name: 'onEvent',
-            ...getEventControlConfig(this.manager, context)
-          })
-        ]
-      }
-    ]);
+            {
+              type: 'divider'
+            },
+            {
+              name: 'title',
+              type: 'input-text',
+              label: '标题'
+            },
+            {
+              name: 'href',
+              type: 'input-text',
+              label: '打开外部链接'
+            },
+            isCRUDBody
+              ? null
+              : {
+                  name: 'source',
+                  type: 'input-text',
+                  label: '数据源',
+                  pipeIn: defaultValue('${items}'),
+                  description: '绑定当前环境变量',
+                  test: !isCRUDBody
+                },
+            {
+              name: 'placeholder',
+              value: '暂无数据',
+              type: 'input-text',
+              label: '无数据提示'
+            }
+          ]
+        },
+        {
+          title: '外观',
+          body: [
+            getSchemaTpl('switch', {
+              name: 'showHeader',
+              label: '是否显示头部',
+              pipeIn: defaultValue(true)
+            }),
+
+            getSchemaTpl('switch', {
+              name: 'showFooter',
+              label: '是否显示底部',
+              pipeIn: defaultValue(true)
+            }),
+
+            getSchemaTpl('className', {
+              label: 'CSS 类名'
+            }),
+            getSchemaTpl('className', {
+              name: 'headerClassName',
+              label: '头部 CSS 类名'
+            }),
+            getSchemaTpl('className', {
+              name: 'footerClassName',
+              label: '底部 CSS 类名'
+            }),
+            getSchemaTpl('className', {
+              name: 'itemsClassName',
+              label: '内容 CSS 类名'
+            }),
+            getSchemaTpl('className', {
+              pipeIn: defaultValue('Grid-col--sm6 Grid-col--md4 Grid-col--lg3'),
+              name: 'itemClassName',
+              label: '卡片 CSS 类名'
+            }),
+            {
+              name: 'columnsCount',
+              type: 'input-range',
+              visibleOn: '!this.leftFixed',
+              min: 0,
+              max: 12,
+              step: 1,
+              label: '每行显示个数',
+              description: '不设置时，由卡片 CSS 类名决定'
+            },
+            getSchemaTpl('switch', {
+              name: 'masonryLayout',
+              label: '启用瀑布流'
+            })
+          ]
+        },
+        {
+          title: '显隐',
+          body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
+        }
+      ])
+    ];
   };
 
   editDetail(id: string) {
@@ -248,51 +253,34 @@ export class CardsPlugin extends BasePlugin {
       ...props.defaultData,
       ...props.data
     };
-    let value = Array.isArray(props.value)
+    const arr = Array.isArray(props.value)
       ? props.value
       : typeof props.source === 'string'
       ? resolveVariable(props.source, data)
       : resolveVariable('items', data);
 
-    value = !Array.isArray(value) ? [] : value;
+    if (!Array.isArray(arr) || !arr.length) {
+      const mockedData: any = {
+        id: 666,
+        title: '假数据',
+        description: '假数据',
+        a: '假数据',
+        b: '假数据'
+      };
 
-    if (value.length < 5) {
-      const mockedData: any = value.length
-        ? value[0]
-        : {
-            id: 666,
-            title: '假数据',
-            description: '假数据',
-            a: '假数据',
-            b: '假数据'
-          };
-
-      value = value.concat(
-        repeatArray(mockedData, 3).map((item, index) => ({
-          ...item,
-          id: index + 1
-        }))
-      );
+      props.value = repeatArray(mockedData, 1).map((item, index) => ({
+        ...item,
+        id: index + 1
+      }));
     }
 
-    value = value.slice(0, 4);
+    const {$schema, ...rest} = props;
 
     return {
-      ...props,
-      value
+      ...JSONPipeOut(rest),
+      $schema
     };
   }
-
-  overrides = {
-    renderCard(this: any, index: number, card: any, ...rest: any[]) {
-      return this.super(
-        index,
-        // 使第一个卡片元素可以选择并编辑schema
-        index > 0 ? JSONPipeOut(card) : card,
-        ...rest
-      );
-    }
-  };
 
   getRendererInfo(
     context: RendererInfoResolveEventContext
@@ -301,7 +289,7 @@ export class CardsPlugin extends BasePlugin {
     const {renderer, schema} = context;
     if (
       !schema.$$id &&
-      ['crud', 'crud2'].includes(schema.$$editor?.renderer.name) &&
+      schema.$$editor?.renderer.name === 'crud' &&
       renderer.name === 'cards'
     ) {
       return {

@@ -13,8 +13,6 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
-import {ListItemSchema} from 'amis/lib/renderers/List';
 
 export class ListPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -57,148 +55,118 @@ export class ListPlugin extends BasePlugin {
   };
 
   panelTitle = '列表';
-  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
-    const isCRUDBody = ['crud', 'crud2'].includes(context.schema.type);
+    const isCRUDBody = context.schema.type === 'crud';
 
     return getSchemaTpl('tabs', [
       {
-        title: '属性',
-        body: getSchemaTpl('collapseGroup', [
+        title: '常规',
+        body: [
           {
-            title: '基本',
-            body: [
-              {
-                name: 'title',
-                type: 'input-text',
-                label: '标题'
-              },
-              isCRUDBody
-                ? null
-                : {
-                    name: 'source',
-                    type: 'input-text',
-                    label: '数据源',
-                    pipeIn: defaultValue('${items}'),
-                    description: '绑定当前环境变量'
-                  },
-              {
-                name: 'placeholder',
-                pipeIn: defaultValue('没有数据'),
-                type: 'input-text',
-                label: '无数据提示'
-              }
-            ]
+            children: (
+              <Button
+                level="danger"
+                size="sm"
+                block
+                onClick={this.editDetail.bind(this, context.id)}
+              >
+                配置成员详情
+              </Button>
+            )
           },
-          getSchemaTpl('status', {
-            isFormItem: false
-          })
-        ])
+          {
+            type: 'divider'
+          },
+          {
+            name: 'title',
+            type: 'input-text',
+            label: '标题'
+          },
+          isCRUDBody
+            ? null
+            : {
+                name: 'source',
+                type: 'input-text',
+                label: '数据源',
+                pipeIn: defaultValue('${items}'),
+                description: '绑定当前环境变量'
+              },
+          {
+            name: 'placeholder',
+            pipeIn: defaultValue('没有数据'),
+            type: 'input-text',
+            label: '无数据提示'
+          }
+        ]
       },
       {
         title: '外观',
-        body: getSchemaTpl('collapseGroup', [
-          {
-            title: '基本',
-            body: [
-              getSchemaTpl('switch', {
-                name: 'showHeader',
-                label: '显示头部',
-                pipeIn: defaultValue(true)
-              }),
-
-              getSchemaTpl('switch', {
-                name: 'showFooter',
-                label: '显示底部',
-                pipeIn: defaultValue(true)
-              })
-            ]
-          },
-          getSchemaTpl('style:classNames', {
-            isFormItem: false,
-            schema: [
-              getSchemaTpl('className', {
-                name: 'listClassName',
-                label: '列表项'
-              }),
-              getSchemaTpl('className', {
-                name: 'headerClassName',
-                label: '头部'
-              }),
-              getSchemaTpl('className', {
-                name: 'footerClassName',
-                label: '底部'
-              })
-            ]
-          })
-        ])
-      },
-      {
-        title: '事件',
-        className: 'p-none',
         body: [
-          getSchemaTpl('eventControl', {
-            name: 'onEvent',
-            ...getEventControlConfig(this.manager, context)
+          getSchemaTpl('switch', {
+            name: 'showHeader',
+            label: '是否显示头部',
+            pipeIn: defaultValue(true)
+          }),
+
+          getSchemaTpl('switch', {
+            name: 'showFooter',
+            label: '是否显示底部',
+            pipeIn: defaultValue(true)
+          }),
+
+          getSchemaTpl('className', {
+            label: 'CSS 类名'
+          }),
+          getSchemaTpl('className', {
+            name: 'listClassName',
+            label: 'List div CSS 类名'
+          }),
+          getSchemaTpl('className', {
+            name: 'headerClassName',
+            label: '头部 CSS 类名'
+          }),
+          getSchemaTpl('className', {
+            name: 'footerClassName',
+            label: '底部 CSS 类名'
           })
         ]
+      },
+      {
+        title: '显隐',
+        body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
       }
     ]);
   };
 
-  overrides = {
-    renderListItem(
-      this: any,
-      index: number,
-      itemTemplace: ListItemSchema | undefined,
-      ...rest: any[]
-    ) {
-      return this.super(
-        index,
-        // 使第一个卡片元素可以选择并编辑schema
-        index > 0 ? JSONPipeOut(itemTemplace) : itemTemplace,
-        ...rest
-      );
-    }
-  };
-
   filterProps(props: any) {
+    if (props.isSlot) {
+      props.value = [props.data];
+      return props;
+    }
+
     const data = {
       ...props.defaultData,
       ...props.data
     };
-    let value = Array.isArray(props.value)
+    let arr = Array.isArray(props.value)
       ? props.value
       : typeof props.source === 'string'
       ? resolveVariable(props.source, data)
       : resolveVariable('items', data);
 
-    value = !Array.isArray(value) ? [] : value;
-
-    if (value.length < 5) {
-      const mockedData = value.length
-        ? value[0]
-        : {
-            id: 666,
-            title: '假数据',
-            description: '假数据',
-            a: '假数据',
-            b: '假数据'
-          };
-
-      value = value.concat(
-        repeatArray(mockedData, 3).map((item, index) => ({
-          ...item,
-          id: index + 1
-        }))
-      );
+    if (!Array.isArray(arr) || !arr.length) {
+      const mockedData: any = this.buildMockData();
+      props.value = repeatArray(mockedData, 1).map((item, index) => ({
+        ...item,
+        id: index + 1
+      }));
     }
 
-    value = value.slice(0, 4);
+    const {$schema, ...rest} = props;
 
     return {
-      ...props,
-      value
+      ...JSONPipeOut(rest),
+      $schema
     };
   }
 
@@ -283,7 +251,7 @@ export class ListPlugin extends BasePlugin {
     const {renderer, schema} = context;
     if (
       !schema.$$id &&
-      ['crud', 'crud2'].includes(schema.$$editor?.renderer.name) &&
+      schema.$$editor?.renderer.name === 'crud' &&
       renderer.name === 'list'
     ) {
       return {

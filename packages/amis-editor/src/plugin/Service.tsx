@@ -1,19 +1,14 @@
 import {Button} from 'amis';
 import React from 'react';
+import {registerEditorPlugin} from 'amis-editor-core';
+import {BaseEventContext, BasePlugin, RegionConfig} from 'amis-editor-core';
+import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
-import {
-  getSchemaTpl,
-  EditorManager,
+import type {
   RendererPluginAction,
-  RendererPluginEvent,
-  registerEditorPlugin,
-  BaseEventContext,
-  BasePlugin,
-  RegionConfig,
-  DSBuilderManager
+  RendererPluginEvent
 } from 'amis-editor-core';
-import {flattenDeep} from 'lodash';
 
 export class ServicePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -26,30 +21,28 @@ export class ServicePlugin extends BasePlugin {
   description =
     '功能性容器，可以用来加载数据或者加载渲染器配置。加载到的数据在容器可以使用。';
   docLink = '/amis/zh-CN/components/service';
-  tags = ['功能', '数据容器'];
+  tags = ['功能'];
   icon = 'fa fa-server';
   pluginIcon = 'service-plugin';
   scaffold = {
     type: 'service',
-    body: []
-  };
-  previewSchema = {
-    type: 'service',
     body: [
       {
         type: 'tpl',
-        tpl: '内容区域',
-        inline: false,
-        className: 'bg-light wrapper'
+        tpl: '内容',
+        inline: false
       }
     ]
+  };
+  previewSchema = {
+    type: 'tpl',
+    tpl: '功能性组件，用于数据拉取。'
   };
 
   regions: Array<RegionConfig> = [
     {
       key: 'body',
-      label: '内容区域',
-      placeholder: '内容区域'
+      label: '内容区'
     }
   ];
 
@@ -86,30 +79,7 @@ export class ServicePlugin extends BasePlugin {
 
   panelTitle = '服务';
 
-  dsBuilderMgr: DSBuilderManager;
-
-  constructor(manager: EditorManager) {
-    super(manager);
-    this.dsBuilderMgr = new DSBuilderManager('service', 'api');
-  }
-
   panelBodyCreator = (context: BaseEventContext) => {
-    const dsTypeSelect = () =>
-      this.dsBuilderMgr.getDSSwitch({
-        onChange: (value: any, oldValue: any, model: any, form: any) => {
-          if (value !== oldValue) {
-            const data = form.data;
-            Object.keys(data).forEach(key => {
-              if (key.endsWith('Fields') || key.toLowerCase().endsWith('api')) {
-                form.deleteValueByName(key);
-              }
-            });
-            form.deleteValueByName('__fields');
-          }
-          return value;
-        }
-      });
-
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -119,57 +89,87 @@ export class ServicePlugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                dsTypeSelect(),
-                ...this.dsBuilderMgr.collectFromBuilders(
-                  (builder, builderFlag) => {
-                    return {
-                      type: 'container',
-                      visibleOn: `this.dsType == null || this.dsType === '${builderFlag}'`,
-                      body: flattenDeep([
-                        builder.makeSourceSettingForm({
-                          name: 'api',
-                          label: '数据源',
-                          feat: 'View',
-                          inScaffold: false,
-                          inCrud: false
-                        })
-                      ])
-                    };
-                  }
-                ),
-                getSchemaTpl('initFetch', {
-                  visibleOn: 'this.api'
-                }),
-                getSchemaTpl('interval', {
-                  visibleOn: 'this.api'
-                }),
-                getSchemaTpl('silentPolling'),
-                getSchemaTpl('stopAutoRefreshWhen')
+                getSchemaTpl('name'),
+                {
+                  children: (
+                    <Button
+                      level="info"
+                      size="sm"
+                      className="m-b-sm"
+                      block
+                      onClick={() => {
+                        // this.manager.showInsertPanel('body', context.id);
+                        this.manager.showRendererPanel('');
+                      }}
+                    >
+                      添加内容
+                    </Button>
+                  )
+                }
               ]
             },
             {
-              title: '状态',
-              body: [getSchemaTpl('visible')]
+              title: '数据接口',
+              body: [
+                getSchemaTpl('apiControl', {
+                  name: 'api',
+                  label: '数据接口',
+                  messageDesc:
+                    '设置 service 默认提示信息，当 service 没有返回 msg 信息时有用，如果 service 返回携带了 msg 值，则还是以 service 返回为主'
+                }),
+                {
+                  name: 'ws',
+                  type: 'input-text',
+                  label: 'WebSocket 实时更新接口'
+                },
+                /** initFetchOn可以通过api的sendOn属性控制 */
+                getSchemaTpl('switch', {
+                  name: 'initFetch',
+                  label: '数据接口初始加载',
+                  visibleOn: 'this.api'
+                }),
+                {
+                  name: 'interval',
+                  label: '定时刷新间隔',
+                  visibleOn: 'this.api',
+                  type: 'input-number',
+                  step: 500,
+                  description: '设置后将自动定时刷新，单位 ms'
+                },
+                getSchemaTpl('switch', {
+                  name: 'silentPolling',
+                  label: '静默加载',
+                  visibleOn: '!!data.interval',
+                  description: '设置自动定时刷新是否显示加载动画'
+                }),
+                {
+                  name: 'stopAutoRefreshWhen',
+                  label: '停止定时刷新检测',
+                  type: 'input-text',
+                  visibleOn: '!!data.interval',
+                  description:
+                    '定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则不刷新了。'
+                }
+              ]
             },
             {
-              title: '高级',
+              title: 'Schema接口',
               body: [
                 getSchemaTpl('apiControl', {
                   name: 'schemaApi',
-                  label: 'Schema数据源'
+                  label: '内容 Schema 接口'
                 }),
-                getSchemaTpl('initFetch', {
+                getSchemaTpl('switch', {
                   name: 'initFetchSchema',
-                  label: '是否Schema初始加载',
+                  label: 'Schema接口初始加载',
                   visibleOn: 'this.schemaApi'
-                }),
-                {
-                  type: 'divider'
-                },
+                })
+              ]
+            },
+            {
+              title: '全局配置',
+              body: [
                 getSchemaTpl('data'),
-                {
-                  type: 'divider'
-                },
                 {
                   type: 'js-editor',
                   allowFullscreen: true,
@@ -178,14 +178,30 @@ export class ServicePlugin extends BasePlugin {
                   description: '将会传递 data 和 setData 两个参数'
                 },
                 {
-                  type: 'divider'
-                },
-                {
-                  name: 'ws',
-                  type: 'input-text',
-                  label: 'WebSocket 实时更新接口'
+                  label: '默认消息信息',
+                  type: 'combo',
+                  name: 'messages',
+                  multiLine: true,
+                  description:
+                    '设置 service 默认提示信息，当 service 没有返回 msg 信息时有用，如果 service 返回携带了 msg 值，则还是以 service 返回为主',
+                  items: [
+                    {
+                      label: '获取成功',
+                      type: 'input-text',
+                      name: 'fetchSuccess'
+                    },
+                    {
+                      label: '获取失败',
+                      type: 'input-text',
+                      name: 'fetchFailed'
+                    }
+                  ]
                 }
               ]
+            },
+            {
+              title: '状态',
+              body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
             }
           ])
         ]

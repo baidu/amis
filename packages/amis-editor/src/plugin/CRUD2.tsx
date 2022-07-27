@@ -1520,7 +1520,6 @@ export class CRUDPlugin extends BasePlugin {
 }
 
 export class TableCRUDPlugin extends CRUDPlugin {
-  disabledRendererPlugin = false;
   // 组件名称
   name = '表格';
   isBaseComponent = true;
@@ -1580,7 +1579,6 @@ export class TableCRUDPlugin extends CRUDPlugin {
 }
 
 export class CardsCRUDPlugin extends CRUDPlugin {
-  disabledRendererPlugin = false;
   // 组件名称
   name = '卡片列表';
   isBaseComponent = true;
@@ -1700,7 +1698,6 @@ export class CardsCRUDPlugin extends CRUDPlugin {
 }
 
 export class ListCRUDPlugin extends CRUDPlugin {
-  disabledRendererPlugin = false;
   // 组件名称
   name = '列表';
   isBaseComponent = true;
