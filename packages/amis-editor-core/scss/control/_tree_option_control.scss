@@ -1,0 +1,65 @@
+.ae-TreeOptionControl {
+  &-header {
+    @include flexBox();
+    width: 100%;
+    height: #{px2rem(24px)};
+    margin-bottom: #{px2rem(12px)};
+  }
+
+  &-footer > * {
+    width: 100%;
+  }
+}
+.ae-TreeOptionControl-Modal {
+  .ae-TreeOptionControl-content {
+    margin: 0;
+    padding: 0;
+    max-height: #{px2rem(400px)};
+    overflow-y: auto;
+  }
+  .ae-TreeOptionControlItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &:not(:first-child) {
+      margin-top: var(--gap-sm);
+    }
+    &-parent {
+      margin-top: var(--gap-sm);
+    }
+    &-son {
+      margin-top: var(--gap-sm);
+      padding-left: #{px2rem(32px)};
+    }
+    &-dragging {
+      height: 0 !important;
+      padding: 0;
+      border-top: 2px solid var(--primary);
+      overflow: hidden;
+      background: #e9effd;
+    }
+    &-dragBar {
+      display: inline-flex;
+      margin-left: 0;
+      margin-right: var(--gap-sm);
+      cursor: move;
+      color: #8c8c8c;
+    }
+    &-btns {
+    }
+    &-input-label {
+      flex: 1;
+      margin-right: var(--gap-sm);
+    }
+    &-input-value {
+      margin-right: var(--gap-sm);
+    }
+    &-dropdown {
+      margin-right: var(--gap-sm);
+      .m-r-xs {
+        margin-right: 2px;
+        font-size: #{px2rem(12px)};
+      }
+    }
+  }
+}

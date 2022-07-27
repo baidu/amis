@@ -285,9 +285,10 @@ $category-2-height: px2rem(32px);
     // 老动作入口
     .old-action-btn {
       position: fixed;
-      left: 10px;
+      left: 12px;
       top: 60px;
-      width: 92%;
+      width: 91%;
+      z-index: 9999;
     }
 
     // tab导航
