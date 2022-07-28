@@ -467,11 +467,12 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               {
                 name: 'outputVar',
                 type: 'input-text',
-                label: '请求出参',
+                label: '存储结果',
                 placeholder: '请输入存储请求结果的变量名称',
-                description: '后面的动作可以通过\\${event.data.请求出参名称}来获取本次请求的返回结果',
+                description: '如需执行多次发送请求，可以修改此变量名用于区分不同请求返回的结果',
                 mode: 'horizontal',
                 size: 'lg',
+                value: 'responseResult',
                 required: true
               }
             ]
