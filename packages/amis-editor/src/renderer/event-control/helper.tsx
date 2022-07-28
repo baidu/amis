@@ -23,6 +23,7 @@ import {
 import CmptActionSelect from './comp-action-select';
 import {Button} from 'amis';
 import ACTION_TYPE_TREE from './actions';
+import { stores } from 'amis-core/lib/factory';
 
 // 数据容器范围
 export const DATA_CONTAINER = [
@@ -957,6 +958,7 @@ export const getEventControlConfig = (
   manager: EditorManager,
   context: BaseEventContext
 ) => {
+  const isSubEditor = manager.store.isSubEditor;
   // 通用动作配置
   const commonActions =
     manager?.config.actionOptions?.customActionGetter?.(manager);
@@ -964,7 +966,49 @@ export const getEventControlConfig = (
   const actionTree = manager?.config.actionOptions?.actionTreeGetter
     ? manager?.config.actionOptions?.actionTreeGetter(ACTION_TYPE_TREE(manager))
     : ACTION_TYPE_TREE(manager);
-
+  const allComponents = mapTree(
+    manager?.store?.outline ?? [],
+    (item: any) => {
+      const schema = manager?.store?.getSchema(item.id);
+      return {
+        id: item.id,
+        label: item.label,
+        value: schema?.id ?? item.id,
+        type: schema?.type ?? item.type,
+        schema,
+        disabled: !!item.region,
+        children: item?.children
+      };
+    },
+    1,
+    true
+  );
+  const checkComponent = (node: any, action: RendererPluginAction) => {
+    const actionType = action.actionType;
+    const actions = manager?.pluginActions[node.type];
+    const haveChild = !!node.children?.length;
+    let isSupport = false;
+    if (typeof action.supportComponents === 'string') {
+      isSupport =
+        action.supportComponents === '*' ||
+        action.supportComponents === node.type;
+    } else if (Array.isArray(action.supportComponents)) {
+      isSupport = action.supportComponents.includes(node.type);
+    }
+    if (['reload', 'setValue'].includes(actionType)) {
+      isSupport = hasActionType(actionType, actions);
+    }
+    if (actionType === 'component' && !actions?.length) {
+      node.disabled = true;
+    }
+    if (isSupport) {
+      return true;
+    } else if (haveChild) {
+      node.disabled = true;
+      return true;
+    }
+    return false;
+  }
   return {
     showOldEntry:
       !!context.schema.actionType ||
@@ -976,6 +1020,7 @@ export const getEventControlConfig = (
     owner: '',
     addBroadcast: manager?.addBroadcast,
     removeBroadcast: manager?.removeBroadcast,
+    allComponents: allComponents,
     getContextSchemas: async (id?: string, withoutSuper?: boolean) => {
       const dataSchema = await manager.getContextSchemas(
         id ?? context!.id,
@@ -988,56 +1033,23 @@ export const getEventControlConfig = (
       return manager.dataSchema;
     },
     getComponents: (action: RendererPluginAction) => {
-      const actionType = action.actionType!;
-      const components = filterTree(
-        mapTree(
-          manager?.store?.outline ?? [],
-          (item: any) => {
-            const schema = manager?.store?.getSchema(item.id);
-            return {
-              id: item.id,
-              label: item.label,
-              value: schema?.id ?? item.id,
-              type: schema?.type ?? item.type,
-              schema,
-              disabled: !!item.region,
-              children: item?.children
-            };
-          },
-          1,
-          true
-        ),
-        node => {
-          const actions = manager?.pluginActions[node.type];
-          let isSupport = false;
-          if (typeof action.supportComponents === 'string') {
-            isSupport =
-              action.supportComponents === '*' ||
-              action.supportComponents === node.type;
-          } else if (Array.isArray(action.supportComponents)) {
-            isSupport = action.supportComponents.includes(node.type);
+      let components = allComponents;
+      if (isSubEditor) {
+        let superTree = manager.store.getSuperEditorData;
+        while(superTree) {
+          if (superTree.__superCmptTreeSource) {
+            components = components.concat(superTree.__superCmptTreeSource);
           }
-          if (['reload', 'setValue'].includes(actionType)) {
-            isSupport = hasActionType(actionType, actions);
-          }
-
-          if (actionType === 'component' && !actions?.length) {
-            node.disabled = true;
-          }
-
-          if (isSupport) {
-            return true;
-          } else if (!isSupport && !!node.children?.length) {
-            node.disabled = true;
-            return true;
-          }
-          return false;
-        },
+          superTree = superTree.__super;
+        }
+      }
+      const result = filterTree(
+        components,
+        (node) => checkComponent(node, action),
         1,
         true
       );
-
-      return components;
+      return result;
     },
     actionConfigInitFormatter: (action: ActionConfig) => {
       let config = {...action};
