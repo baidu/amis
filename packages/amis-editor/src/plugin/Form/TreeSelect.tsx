@@ -401,6 +401,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
         },
         {
           title: '事件',
+          className: 'p-none',
           body: [
             getSchemaTpl('eventControl', {
               name: 'onEvent',
