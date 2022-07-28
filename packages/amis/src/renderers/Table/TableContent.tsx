@@ -150,16 +150,25 @@ export class TableContent extends React.Component<TableContentProps> {
           <thead>
             {columnsGroup.length ? (
               <tr>
-                {columnsGroup.map((item, index) => (
-                  <th
-                    key={index}
-                    data-index={item.index}
-                    colSpan={item.colSpan}
-                    rowSpan={item.rowSpan}
-                  >
-                    {item.label ? render('tpl', item.label) : null}
-                  </th>
-                ))}
+                {columnsGroup.map((item, index) =>
+                  item.has[0].type === '__checkme' ? (
+                    renderHeadCell(item.has[0], {
+                      'data-index': item.has[0].index,
+                      'key': item.has[0].index,
+                      'colSpan': item.colSpan,
+                      'rowSpan': item.rowSpan
+                    })
+                  ) : (
+                    <th
+                      key={index}
+                      data-index={item.index}
+                      colSpan={item.colSpan}
+                      rowSpan={item.rowSpan}
+                    >
+                      {item.label ? render('tpl', item.label) : null}
+                    </th>
+                  )
+                )}
               </tr>
             ) : null}
             <tr className={hideHeader ? 'fake-hide' : ''}>
