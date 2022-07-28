@@ -483,9 +483,9 @@ export default class Editor extends Component<EditorProps> {
       data,
       iframeUrl,
       previewProps,
-      autoFocus
+      autoFocus,
+      isSubEditor
     } = this.props;
-
     return (
       <div
         ref={this.mainRef}
