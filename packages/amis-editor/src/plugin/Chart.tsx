@@ -9,13 +9,13 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, } from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
-import AMisCodeEditor from 'amis-editor-core';
+import {CodeEditor as AmisCodeEditor} from 'amis-editor';
 import {RendererPluginAction} from 'amis-editor-core';
 
 const ChartConfigEditor = ({value, onChange}: any) => {
   return (
     <div className="ae-JsonEditor">
-      <AMisCodeEditor value={value} onChange={onChange} />
+      <AmisCodeEditor value={value} onChange={onChange} />
     </div>
   );
 };
