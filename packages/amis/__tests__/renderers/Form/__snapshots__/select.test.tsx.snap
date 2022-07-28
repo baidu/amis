@@ -76,8 +76,12 @@ exports[`Renderer: chained select 1`] = `
                         >
                           请选择
                         </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      >
                         <span
-                          class="cxd-TransferDropDown-icon"
+                          class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
                             classname="icon icon-right-arrow-bold"
@@ -85,9 +89,6 @@ exports[`Renderer: chained select 1`] = `
                           />
                         </span>
                       </div>
-                      <div
-                        class="cxd-ResultBox-actions"
-                      />
                     </div>
                   </div>
                 </div>
@@ -232,8 +233,12 @@ exports[`Renderer:select associated 1`] = `
                         >
                           请选择
                         </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      >
                         <span
-                          class="cxd-TransferDropDown-icon"
+                          class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
                             classname="icon icon-right-arrow-bold"
@@ -241,9 +246,6 @@ exports[`Renderer:select associated 1`] = `
                           />
                         </span>
                       </div>
-                      <div
-                        class="cxd-ResultBox-actions"
-                      />
                     </div>
                   </div>
                 </div>
@@ -388,8 +390,12 @@ exports[`Renderer:select chained 1`] = `
                         >
                           请选择
                         </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      >
                         <span
-                          class="cxd-TransferDropDown-icon"
+                          class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
                             classname="icon icon-right-arrow-bold"
@@ -397,9 +403,6 @@ exports[`Renderer:select chained 1`] = `
                           />
                         </span>
                       </div>
-                      <div
-                        class="cxd-ResultBox-actions"
-                      />
                     </div>
                   </div>
                 </div>
@@ -544,8 +547,12 @@ exports[`Renderer:select group 1`] = `
                         >
                           请选择
                         </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      >
                         <span
-                          class="cxd-TransferDropDown-icon"
+                          class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
                             classname="icon icon-right-arrow-bold"
@@ -553,9 +560,6 @@ exports[`Renderer:select group 1`] = `
                           />
                         </span>
                       </div>
-                      <div
-                        class="cxd-ResultBox-actions"
-                      />
                     </div>
                   </div>
                 </div>
@@ -857,8 +861,12 @@ exports[`Renderer:select table 1`] = `
                         >
                           请选择
                         </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      >
                         <span
-                          class="cxd-TransferDropDown-icon"
+                          class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
                             classname="icon icon-right-arrow-bold"
@@ -866,9 +874,6 @@ exports[`Renderer:select table 1`] = `
                           />
                         </span>
                       </div>
-                      <div
-                        class="cxd-ResultBox-actions"
-                      />
                     </div>
                   </div>
                 </div>
@@ -990,7 +995,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
             class="cxd-SelectControl cxd-Form-control has-popover"
           >
             <div
-              class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-active is-clickable is-group"
+              class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-opened is-clickable is-group"
               style="position: relative;"
               tabindex="-1"
             >
@@ -1031,8 +1036,12 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                     />
                   </a>
                 </div>
+              </div>
+              <div
+                class="cxd-ResultBox-actions"
+              >
                 <span
-                  class="cxd-TransferDropDown-icon"
+                  class="cxd-ResultBox-pc-arrow"
                 >
                   <icon-mock
                     classname="icon icon-right-arrow-bold"
@@ -1040,9 +1049,6 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                   />
                 </span>
               </div>
-              <div
-                class="cxd-ResultBox-actions"
-              />
               <div
                 class="resize-sensor"
                 style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
@@ -1493,8 +1499,12 @@ exports[`Renderer:select tree 1`] = `
                         >
                           请选择
                         </span>
+                      </div>
+                      <div
+                        class="cxd-ResultBox-actions"
+                      >
                         <span
-                          class="cxd-TransferDropDown-icon"
+                          class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
                             classname="icon icon-right-arrow-bold"
@@ -1502,9 +1512,6 @@ exports[`Renderer:select tree 1`] = `
                           />
                         </span>
                       </div>
-                      <div
-                        class="cxd-ResultBox-actions"
-                      />
                     </div>
                   </div>
                 </div>
