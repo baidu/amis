@@ -500,7 +500,16 @@ export function promisify<T extends Function>(
   return promisified;
 }
 
-export function getScrollParent(node: HTMLElement): HTMLElement | null {
+/**
+ *
+ * @param node 当前元素
+ * @param compute 自定义计算，找到的父元素是否满足特殊场景
+ * @returns 返回控制当前元素滚动的父元素
+ */
+export function getScrollParent(
+  node: HTMLElement,
+  compute: (parent: HTMLElement) => boolean = () => true
+): HTMLElement | null {
   if (node == null) {
     return null;
   }
@@ -516,11 +525,11 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
     style.getPropertyValue('overflow-x') +
     style.getPropertyValue('overflow-y');
 
-  if (/auto|scroll/.test(text) || node.nodeName === 'BODY') {
+  if (node.nodeName === 'BODY' || (/auto|scroll/.test(text) && compute(node))) {
     return node;
   }
 
-  return getScrollParent(node.parentNode as HTMLElement);
+  return getScrollParent(node.parentNode as HTMLElement, compute);
 }
 
 /**

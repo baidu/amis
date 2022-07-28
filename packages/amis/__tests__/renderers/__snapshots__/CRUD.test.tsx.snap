@@ -1195,6 +1195,10 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                 </div>
               </div>
               <div
+                class="cxd-Table-fixedTop-shadow"
+                style=""
+              />
+              <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >
                 <div
@@ -1952,6 +1956,10 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
                   </table>
                 </div>
               </div>
+              <div
+                class="cxd-Table-fixedTop-shadow"
+                style=""
+              />
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >
@@ -2755,6 +2763,10 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                   </table>
                 </div>
               </div>
+              <div
+                class="cxd-Table-fixedTop-shadow"
+                style=""
+              />
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >
@@ -4523,6 +4535,10 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                   </table>
                 </div>
               </div>
+              <div
+                class="cxd-Table-fixedTop-shadow"
+                style=""
+              />
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >

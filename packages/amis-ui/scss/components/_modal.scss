@@ -10,12 +10,19 @@
 @keyframes modalIn {
   from {
     opacity: 0;
+    width: 0;
+    height: 0;
+    bottom: -999px;
   }
 }
 
 @keyframes modalOut {
   to {
     opacity: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    bottom: -999px;
   }
 }
 
@@ -136,6 +143,7 @@
     margin: #{px2rem(16px)} 0 #{px2rem(24px)} 0;
     flex-grow: 1;
     height: auto;
+    overflow-y: auto;
     padding: 0 #{px2rem(24px)};
   }
 

@@ -949,7 +949,7 @@ describe('Renderer:table selectable & itemCheckableOn', () => {
   };
 
   test('radio style', async () => {
-    const {container, debug} = render(amisRender(schema, {}, makeEnv({})));
+    const {container} = render(amisRender(schema, {}, makeEnv({})));
     await waitFor(() => {
       expect(container.querySelector('[type=radio]')).toBeInTheDocument();
     });

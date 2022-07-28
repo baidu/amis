@@ -606,8 +606,25 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   componentDidMount() {
+    const currentNode = findDOMNode(this) as HTMLElement;
     let parent: HTMLElement | Window | null = getScrollParent(
-      findDOMNode(this) as HTMLElement
+      currentNode,
+      parent => {
+        const parentStyle = getComputedStyle(parent);
+        const currentStyle = getComputedStyle(currentNode);
+
+        const parentHeight =
+          parseInt(parentStyle.getPropertyValue('height')) -
+          parseInt(parentStyle.getPropertyValue('padding-top')) -
+          parseInt(parentStyle.getPropertyValue('padding-bottom'));
+        const currentHeight =
+          parseInt(currentStyle.getPropertyValue('height')) +
+          parseInt(currentStyle.getPropertyValue('margin-bottom')) +
+          parseInt(currentStyle.getPropertyValue('margin-top'));
+
+        // 具备 overflow-*:auto 的父元素的高度小于当前元素
+        return parentHeight > 0 && parentHeight < currentHeight;
+      }
     );
 
     if (!parent || parent === document.body) {
@@ -1064,10 +1081,19 @@ export default class Table extends React.Component<TableProps, object> {
       clip.top - headerHeight - headingHeight < offsetY &&
       clip.top + clip.height - 40 > offsetY;
     const affixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
+    const affixedShadowDom = dom.querySelector(
+      `.${ns}Table-fixedTop-shadow`
+    ) as HTMLElement;
+    const affixedDomHeight =
+      getComputedStyle(affixedDom).getPropertyValue('height');
 
     affixedDom.style.cssText += `top: ${offsetY}px;width: ${
       (this.table.parentNode as HTMLElement).offsetWidth
     }px`;
+    affixedShadowDom.style.cssText += `top: ${affixedDomHeight};width: ${
+      (this.table.parentNode as HTMLElement).offsetWidth
+    }px`;
+
     affixed
       ? affixedDom.classList.add('in')
       : affixedDom.classList.remove('in');
@@ -2105,70 +2131,73 @@ export default class Table extends React.Component<TableProps, object> {
     const columnsGroup = store.columnGroup;
 
     return affixHeader ? (
-      <div
-        className={cx('Table-fixedTop', {
-          'is-fakeHide': hideHeader
-        })}
-      >
-        {this.renderHeader(false)}
-        {this.renderHeading()}
-        <div className={cx('Table-fixedLeft')}>
-          {store.leftFixedColumns.length
-            ? this.renderFixedColumns(
-                store.rows,
-                store.leftFixedColumns,
-                true,
-                tableClassName
-              )
-            : null}
-        </div>
-        <div className={cx('Table-fixedRight')}>
-          {store.rightFixedColumns.length
-            ? this.renderFixedColumns(
-                store.rows,
-                store.rightFixedColumns,
-                true,
-                tableClassName
-              )
-            : null}
-        </div>
-        <div className={cx('Table-wrapper')}>
-          <table ref={this.affixedTableRef} className={tableClassName}>
-            <colgroup>
-              {store.filteredColumns.map(column => (
-                <col key={column.index} data-index={column.index} />
-              ))}
-            </colgroup>
-            <thead>
-              {columnsGroup.length ? (
+      <>
+        <div
+          className={cx('Table-fixedTop', {
+            'is-fakeHide': hideHeader
+          })}
+        >
+          {this.renderHeader(false)}
+          {this.renderHeading()}
+          <div className={cx('Table-fixedLeft')}>
+            {store.leftFixedColumns.length
+              ? this.renderFixedColumns(
+                  store.rows,
+                  store.leftFixedColumns,
+                  true,
+                  tableClassName
+                )
+              : null}
+          </div>
+          <div className={cx('Table-fixedRight')}>
+            {store.rightFixedColumns.length
+              ? this.renderFixedColumns(
+                  store.rows,
+                  store.rightFixedColumns,
+                  true,
+                  tableClassName
+                )
+              : null}
+          </div>
+          <div className={cx('Table-wrapper')}>
+            <table ref={this.affixedTableRef} className={tableClassName}>
+              <colgroup>
+                {store.filteredColumns.map(column => (
+                  <col key={column.index} data-index={column.index} />
+                ))}
+              </colgroup>
+              <thead>
+                {columnsGroup.length ? (
+                  <tr>
+                    {columnsGroup.map((item, index) => (
+                      <th
+                        key={index}
+                        data-index={item.index}
+                        colSpan={item.colSpan}
+                        rowSpan={item.rowSpan}
+                      >
+                        {item.label ? render('tpl', item.label) : null}
+                      </th>
+                    ))}
+                  </tr>
+                ) : null}
                 <tr>
-                  {columnsGroup.map((item, index) => (
-                    <th
-                      key={index}
-                      data-index={item.index}
-                      colSpan={item.colSpan}
-                      rowSpan={item.rowSpan}
-                    >
-                      {item.label ? render('tpl', item.label) : null}
-                    </th>
-                  ))}
+                  {store.filteredColumns.map(column =>
+                    columnsGroup.find(group => ~group.has.indexOf(column))
+                      ?.rowSpan === 2
+                      ? null
+                      : this.renderHeadCell(column, {
+                          'key': column.index,
+                          'data-index': column.index
+                        })
+                  )}
                 </tr>
-              ) : null}
-              <tr>
-                {store.filteredColumns.map(column =>
-                  columnsGroup.find(group => ~group.has.indexOf(column))
-                    ?.rowSpan === 2
-                    ? null
-                    : this.renderHeadCell(column, {
-                        'key': column.index,
-                        'data-index': column.index
-                      })
-                )}
-              </tr>
-            </thead>
-          </table>
+              </thead>
+            </table>
+          </div>
         </div>
-      </div>
+        <div className={cx('Table-fixedTop-shadow')}></div>
+      </>
     ) : null;
   }
 
