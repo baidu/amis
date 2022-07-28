@@ -98,8 +98,8 @@ export class SubEditor extends React.Component<SubEditorProps> {
     const {store, manager} = this.props;
     const subEditorContext = store.subEditorContext;
     const config = manager.config;
-    let superEditorData: any = store.superEditorData || null;
-    if (!store.isSubEditor && subEditorContext) {
+    let superEditorData: any = store.superEditorData;
+    if (!!subEditorContext) {
       superEditorData = createObject(store.superEditorData, subEditorContext?.data?.__super);
     }
     return {
