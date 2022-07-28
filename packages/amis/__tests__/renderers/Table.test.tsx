@@ -323,8 +323,7 @@ test('Renderer:table combineNum', () => {
             {
               type: 'table',
               source: '$rows',
-              className: 'm-b-none',
-              combineNum: 3,
+              combineNum: 1,
               columnsTogglable: false,
               columns: [
                 {

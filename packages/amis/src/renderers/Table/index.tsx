@@ -2198,11 +2198,9 @@ export default class Table extends React.Component<TableProps, object> {
     const columnsGroup = store.columnGroup;
     return (
       <table
-        className={cx(
-          'Table-table',
-          store.combineNum > 0 ? 'Table-table--withCombine' : '',
-          tableClassName
-        )}
+        className={cx('Table-table', tableClassName, {
+          'Table-table--withCombine': store.combineNum > 0
+        })}
       >
         <thead>
           {columnsGroup.length ? (
@@ -2249,10 +2247,9 @@ export default class Table extends React.Component<TableProps, object> {
           </tbody>
         ) : (
           <TableBody
-            tableClassName={cx(
-              store.combineNum > 0 ? 'Table-table--withCombine' : '',
-              tableClassName
-            )}
+            tableClassName={cx(tableClassName, {
+              'Table-table--withCombine': store.combineNum > 0
+            })}
             itemAction={itemAction}
             classnames={cx}
             render={render}
@@ -2702,8 +2699,10 @@ export default class Table extends React.Component<TableProps, object> {
       <>
         <TableContent
           tableClassName={cx(
-            store.combineNum > 0 ? 'Table-table--withCombine' : '',
-            {'Table-table--checkOnItemClick': checkOnItemClick},
+            {
+              'Table-table--checkOnItemClick': checkOnItemClick,
+              'Table-table--withCombine': store.combineNum > 0
+            },
             tableClassName
           )}
           className={tableContentClassName}
@@ -2795,11 +2794,9 @@ export default class Table extends React.Component<TableProps, object> {
     const heading = this.renderHeading();
     const header = this.renderHeader();
     const footer = this.renderFooter();
-    const tableClassName = cx(
-      'Table-table',
-      store.combineNum > 0 ? 'Table-table--withCombine' : '',
-      this.props.tableClassName
-    );
+    const tableClassName = cx('Table-table', this.props.tableClassName, {
+      'Table-table--withCombine': store.combineNum > 0
+    });
 
     return (
       <div

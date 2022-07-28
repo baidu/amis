@@ -920,8 +920,7 @@ export const TableStore = iRendererStore
           : 0);
 
       const keys: Array<string> = [];
-      const len = columns.length;
-      for (let i = 0; i < len; i++) {
+      for (let i = 0; i < maxCount; i++) {
         const column = columns[i];
 
         // maxCount 可能比实际配置的 columns 还有多。
