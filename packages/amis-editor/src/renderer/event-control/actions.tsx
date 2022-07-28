@@ -472,6 +472,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 description: '如需执行多次发送请求，可以修改此变量名用于区分不同请求返回的结果',
                 mode: 'horizontal',
                 size: 'lg',
+                value: 'responseResult',
                 required: true
               }
             ]
