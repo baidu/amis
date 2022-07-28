@@ -199,9 +199,6 @@ export function wrapControl<
               combo.bindUniuqueItem(model);
             }
 
-            console.log('store', store);
-            console.log('props', props);
-
             if (propValue !== undefined && propValue !== null) {
               // 同步 value: 优先使用 props 中的 value
               model.changeTmpValue(propValue);
