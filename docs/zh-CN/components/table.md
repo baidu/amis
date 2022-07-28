@@ -1847,34 +1847,35 @@ popOver 的其它配置请参考 [popover](./popover)
 
 ## 属性表
 
-| 属性名           | 类型                                     | 默认值                    | 说明                                                                      |
-| ---------------- | ---------------------------------------- | ------------------------- | ------------------------------------------------------------------------- |
-| type             | `string`                                 |                           | `"type"` 指定为 table 渲染器                                              |
-| title            | `string`                                 |                           | 标题                                                                      |
-| source           | `string`                                 | `${items}`                | 数据源, 绑定当前环境变量                                                  |
-| affixHeader      | `boolean`                                | `true`                    | 是否固定表头                                                              |
-| columnsTogglable | `auto` 或者 `boolean`                    | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启                   |
-| placeholder      | `string` 或者 `SchemaTpl`                | `暂无数据`                | 当没数据的时候的文字提示                                                  |
-| className        | `string`                                 | `panel-default`           | 外层 CSS 类名                                                             |
-| tableClassName   | `string`                                 | `table-db table-striped`  | 表格 CSS 类名                                                             |
-| headerClassName  | `string`                                 | `Action.md-table-header`  | 顶部外层 CSS 类名                                                         |
-| footerClassName  | `string`                                 | `Action.md-table-footer`  | 底部外层 CSS 类名                                                         |
-| toolbarClassName | `string`                                 | `Action.md-table-toolbar` | 工具栏 CSS 类名                                                           |
-| columns          | `Array<Column>`                          |                           | 用来设置列信息                                                            |
-| combineNum       | `number`                                 |                           | 自动合并单元格                                                            |
-| itemActions      | Array<[Action](./action-button)>         |                           | 悬浮行操作按钮组                                                          |
-| itemCheckableOn  | [表达式](../../docs/concepts/expression) |                           | 配置当前行是否可勾选的条件，要用 [表达式](../../docs/concepts/expression) |
-| itemDraggableOn  | [表达式](../../docs/concepts/expression) |                           | 配置当前行是否可拖拽的条件，要用 [表达式](../../docs/concepts/expression) |
-| checkOnItemClick | `boolean`                                | `false`                   | 点击数据行是否可以勾选当前行                                              |
-| rowClassName     | `string`                                 |                           | 给行添加 CSS 类名                                                         |
-| rowClassNameExpr | [模板](../../docs/concepts/template)     |                           | 通过模板给行添加 CSS 类名                                                 |
-| prefixRow        | `Array`                                  |                           | 顶部总结行                                                                |
-| affixRow         | `Array`                                  |                           | 底部总结行                                                                |
-| itemBadge        | [`BadgeSchema`](./badge)                 |                           | 行角标配置                                                                |
-| autoFillHeight   | `boolean`                                |                           | 内容区域自适应高度                                                        |
-| resizable        | `boolean`                                | `true`                    | 列宽度是否支持调整                                                        |
-| selectable       | `boolean`                                | `false`                   | 支持勾选                                                                  |
-| multiple         | `boolean`                                | `false`                   | 勾选icon是否为多选样式`checkbox`，  默认为`radio`                         |
+| 属性名              | 类型                                      | 默认值                     | 说明                                                                      |
+| ------------------ | ---------------------------------------- | ------------------------- | ------------------------------------------------------------------------- |
+| type               | `string`                                 |                           | `"type"` 指定为 table 渲染器                                                |
+| title              | `string`                                 |                           | 标题                                                                       |
+| source             | `string`                                 | `${items}`                | 数据源, 绑定当前环境变量                                                      |
+| affixHeader        | `boolean`                                | `true`                    | 是否固定表头                                                                |
+| columnsTogglable   | `auto` 或者 `boolean`                     | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启                           |
+| placeholder        | `string` 或者 `SchemaTpl`                 | `暂无数据`                 | 当没数据的时候的文字提示                                                      |
+| className          | `string`                                 | `panel-default`           | 外层 CSS 类名                                                              |
+| tableClassName     | `string`                                 | `table-db table-striped`  | 表格 CSS 类名                                                              |
+| headerClassName    | `string`                                 | `Action.md-table-header`  | 顶部外层 CSS 类名                                                           |
+| footerClassName    | `string`                                 | `Action.md-table-footer`  | 底部外层 CSS 类名                                                           |
+| toolbarClassName   | `string`                                 | `Action.md-table-toolbar` | 工具栏 CSS 类名                                                             |
+| columns            | `Array<Column>`                          |                           | 用来设置列信息                                                              |
+| combineNum         | `number`                                 |                           | 自动合并单元格                                                              |
+| itemActions        | Array<[Action](./action-button)>         |                           | 悬浮行操作按钮组                                                            |
+| itemCheckableOn    | [表达式](../../docs/concepts/expression)  |                           | 配置当前行是否可勾选的条件，要用 [表达式](../../docs/concepts/expression)       |
+| itemDraggableOn    | [表达式](../../docs/concepts/expression)  |                           | 配置当前行是否可拖拽的条件，要用 [表达式](../../docs/concepts/expression)       |
+| checkOnItemClick   | `boolean`                                | `false`                   | 点击数据行是否可以勾选当前行                                                  |
+| rowClassName       | `string`                                 |                           | 给行添加 CSS 类名                                                          |
+| rowClassNameExpr   | [模板](../../docs/concepts/template)      |                           | 通过模板给行添加 CSS 类名                                                   |
+| prefixRow          | `Array`                                  |                           | 顶部总结行                                                                 |
+| affixRow           | `Array`                                  |                           | 底部总结行                                                                 |
+| itemBadge          | [`BadgeSchema`](./badge)                 |                           | 行角标配置                                                                 |
+| autoFillHeight     | `boolean`                                |                           | 内容区域自适应高度                                                          |
+| resizable          | `boolean`                                | `true`                    | 列宽度是否支持调整                                                          |
+| selectable         | `boolean`                                | `false`                   | 支持勾选                                                                  |
+| multiple           | `boolean`                                | `false`                   | 勾选icon是否为多选样式`checkbox`，  默认为`radio`                            |
+| canAccessSuperData | `boolean`                                | `false`                   | 指定是否可以自动获取上层的数据并映射到列中                                      |
 
 
 ## 列配置属性表

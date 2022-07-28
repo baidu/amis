@@ -59,6 +59,7 @@ export class TableCell extends React.Component<RendererProps> {
       row,
       showBadge,
       itemBadge,
+      canAccessSuperData,
       ...rest
     } = this.props;
     const schema = {
@@ -78,7 +79,8 @@ export class TableCell extends React.Component<RendererProps> {
           ...omit(rest, Object.keys(schema)),
           inputOnly: true,
           value,
-          data
+          // 是否可获取上层数据，data 是带 __super 的，row是不带的
+          data: canAccessSuperData ? data : row.data
         });
 
     if (width) {
