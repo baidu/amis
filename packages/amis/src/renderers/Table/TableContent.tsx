@@ -226,7 +226,7 @@ export class TableContent extends React.Component<TableContentProps> {
                 dispatchEvent,
                 onEvent
               }}
-            ></TableBody>
+            />
           )}
         </table>
       </div>
