@@ -260,7 +260,14 @@ export class TreeSelectControlPlugin extends BasePlugin {
               mode: 'vertical' // 改成上下展示模式
             }),
 
-            getSchemaTpl('clearable'),
+            getSchemaTpl('clearable', {
+              mode: 'horizontal',
+              horizontal: {
+                justify: true,
+                left: 8
+              },
+              inputClassName: 'is-inline '
+            }),
 
             getSchemaTpl('hideNodePathLabel'),
 
@@ -365,19 +372,25 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 getSchemaTpl('extractValue'),
                 getSchemaTpl('autoFill'),
 
-                getSchemaTpl('creatable'),
+                getSchemaTpl('creatable', {
+                  mode: 'row'
+                }),
                 getSchemaTpl('api', {
                   label: '新增选项接口',
                   name: 'addApi'
                 }),
 
-                getSchemaTpl('editable'),
+                getSchemaTpl('editable', {
+                  mode: 'row'
+                }),
                 getSchemaTpl('api', {
                   label: '编辑选项接口',
                   name: 'editApi'
                 }),
 
-                getSchemaTpl('removable'),
+                getSchemaTpl('removable', {
+                  mode: 'row'
+                }),
                 getSchemaTpl('api', {
                   label: '删除选项接口',
                   name: 'deleteApi'

@@ -106,8 +106,12 @@ export class ItemPlugin extends BasePlugin {
             getSchemaTpl('switch', {
               name: 'disabled',
               label: '禁用',
-              mode: 'inline',
-              className: 'w-full'
+              mode: 'horizontal',
+              horizontal: {
+                justify: true,
+                left: 8
+              },
+              inputClassName: 'is-inline '
             }),
             ignoreValidator ? null : getSchemaTpl('required'),
             getSchemaTpl('description'),
