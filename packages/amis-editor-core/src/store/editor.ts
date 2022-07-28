@@ -496,7 +496,7 @@ export const EditorStore = types
       },
 
       getValueOf(id: string) {
-        return JSONPipeOut(JSONGetById(self.schema, id));
+        return JSONPipeOut(JSONGetById(self.schema, id), false);
       },
 
       get valueWithoutHiddenProps() {
