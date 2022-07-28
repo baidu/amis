@@ -1,16 +1,15 @@
 import {Button} from 'amis';
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
+  registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
-  RegionConfig,
-  RendererInfo
+  RendererPluginAction,
+  diff,
+  defaultValue,
+  getSchemaTpl,
+  CodeEditor as AmisCodeEditor
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl, } from 'amis-editor-core';
-import {diff} from 'amis-editor-core';
-import {CodeEditor as AmisCodeEditor} from 'amis-editor';
-import {RendererPluginAction} from 'amis-editor-core';
 
 const ChartConfigEditor = ({value, onChange}: any) => {
   return (
