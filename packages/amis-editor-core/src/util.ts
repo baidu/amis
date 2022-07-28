@@ -172,9 +172,8 @@ export function JSONPipeOut(
     let prop = obj[key];
 
     if (
-      typeof filterHiddenProps === 'function'
-        ? filterHiddenProps(key, prop)
-        : filterHiddenProps !== false && key.substring(0, 2) === '__'
+      typeof filterHiddenProps === 'function' &&
+      filterHiddenProps(key, prop)
     ) {
       toUpdate[key] = undefined;
       flag = true;
