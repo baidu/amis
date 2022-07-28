@@ -418,44 +418,7 @@ export class FormPlugin extends BasePlugin {
               ? null
               : {
                   title: '数据源',
-                  body: [
-                    {
-                      type: 'radios',
-                      name: '__scene',
-                      label: '场景',
-                      options: Features,
-                      value: 'Insert',
-                      pipeIn(value: any, data: any) {
-                        return value ?? (data.initApi ? 'Edit' : 'Insert');
-                      },
-                      onChange: (
-                        value: any,
-                        oldValue: any,
-                        model: any,
-                        form: any
-                      ) => {
-                        if (value === 'Insert') {
-                          form.setValueByName(`initApi`, undefined);
-                        }
-                      }
-                    },
-                    {
-                      type: 'container',
-                      visibleOn: `__scene === 'Insert'`,
-                      body: builder.makeSourceSettingForm({
-                        name: 'api',
-                        feat: 'Insert'
-                      })
-                    },
-                    {
-                      type: 'container',
-                      visibleOn: `__scene === 'Edit'`,
-                      body: builder.makeSourceSettingForm({
-                        name: 'api',
-                        feat: 'Edit'
-                      })
-                    }
-                  ]
+                  body: builder.makeFormSourceSetting()
                 },
             {
               title: '基本',
