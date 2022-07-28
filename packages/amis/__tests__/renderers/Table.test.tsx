@@ -971,3 +971,58 @@ describe('Renderer:table selectable & itemCheckableOn', () => {
     ).toBeInTheDocument();
   });
 });
+
+
+describe('Renderer:table canAccessSuperData', () => {
+  const generateSchema: any = (canAccessSuperData: boolean = false) => ({
+    type: 'page',
+    data: {
+      testSuperData: 'this_is_test_super_data_text',
+      items: [
+        {
+          engine: 2,
+          version: '2.2.1'
+        }
+      ]
+    },
+    body: [
+      {
+        type: 'table',
+        title: '表格1',
+        canAccessSuperData: canAccessSuperData,
+        source: '${items}',
+        columns: [
+          {
+            name: 'engine',
+            label: 'Engine'
+          },
+          {
+            name: 'version',
+            label: 'Version'
+          },
+          {
+            name: 'testSuperData',
+            label: 'testSuperDataLabel',
+            className: 'superDataCls'
+          }
+        ]
+      }
+    ]
+  });
+
+  test('canAccessSuperData false', async () => {
+    const {container} = render(amisRender(generateSchema(), {}, makeEnv({})));
+
+    expect(
+      (container.querySelector('td.superDataCls .cxd-PlainField') as Element).innerHTML
+    ).toBe('<span class="text-muted">-</span>')
+  });
+
+  test('canAccessSuperData true', async () => {
+    const {container} = render(amisRender(generateSchema(true), {}, makeEnv({})));
+
+    expect(
+      (container.querySelector('td.superDataCls .cxd-PlainField') as Element).innerHTML
+    ).toBe('this_is_test_super_data_text')
+  });
+});
