@@ -132,6 +132,7 @@ function recoverFunctionType(config: object) {
     'min',
     'max',
     'labelFormatter',
+    'valueFormatter',
     'pageFormatter',
     'optionToContent',
     'contentToOption',
