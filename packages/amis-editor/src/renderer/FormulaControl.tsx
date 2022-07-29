@@ -497,7 +497,11 @@ export default class FormulaControl extends React.Component<
                 {...rest}
                 evalMode={evalMode ?? this.state.evalMode}
                 variableMode={rest.variableMode ?? this.state.variableMode}
-                variables={this.state.variables}
+                variables={
+                  this.state.variables?.length
+                    ? this.state.variables
+                    : dataMapping(this.props.variables, this.props.data)
+                }
                 header={header || labelText}
                 value={isString(value) ? value : undefined}
                 onChange={onChange}
