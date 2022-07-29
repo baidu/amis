@@ -173,8 +173,9 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           const controlMode = (control as FormBaseControl)?.mode || formMode;
 
           if (
-            controlMode === 'inline' ||
-            (control && (control as any).type === 'formula')
+            controlMode === 'inline'
+            // hidden 直接渲染，否则会有个空 Form-groupColumn 层
+            || control?.type && ['formula', 'hidden'].includes((control as any).type)
           ) {
             return this.renderControl(control, index, {
               key: index,

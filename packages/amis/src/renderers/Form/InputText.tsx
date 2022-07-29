@@ -297,7 +297,8 @@ export default class TextControl extends React.PureComponent<
 
   @bindRendererEvent<TextProps, InputTextRendererEvent>('click')
   handleClick() {
-    this.focus();
+    // 已经 focus 的就不重复执行，否则总重新定位光标
+    this.state.isFocused || this.focus();
     this.setState({
       isOpen: true
     });

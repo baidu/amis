@@ -5,7 +5,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import ImageControl from './InputImage';
 import {Payload, ApiObject, ApiString, ActionObject} from 'amis-core';
 import {qsstringify, createObject, guid, isEmpty} from 'amis-core';
-import {buildApi, isEffectiveApi, normalizeApi, isApiOutdated} from 'amis-core';
+import {buildApi, isEffectiveApi, normalizeApi, isApiOutdated, isApiOutdatedWithData} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {TooltipWrapper, Button} from 'amis-ui';
 import DropZone from 'react-dropzone';
@@ -978,10 +978,18 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     config: Partial<FileProps> = {},
     onProgress: (progress: number) => void
   ): Promise<Payload> {
+    console.log('params', params);
+    console.log('uploadFile', config);
     const fd = new FormData();
-    const api = buildApi(receiver, createObject(config.data, params), {
+
+
+    let qq = createObject(config.data, params);
+    console.log('to upload', qq);
+    const api = buildApi(receiver, qq, {
       method: 'post'
     });
+
+    console.log('api 22', api);
 
     qsstringify({...api.data, ...params})
       .split('&')
@@ -1278,6 +1286,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   render() {
+    console.log('render file', this.props);
     const {
       btnLabel,
       accept,
@@ -1542,13 +1551,20 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   type: 'input-file',
   sizeMutable: false,
   renderDescription: false,
-  shouldComponentUpdate: (props: any, prevProps: any) =>
-    !!isEffectiveApi(props.receiver, props.data) &&
-    isApiOutdated(
-      props.receiver,
-      prevProps.receiver,
-      props.data,
-      prevProps.data
+  shouldComponentUpdate: (props: any, prevProps: any) => 
+    !!isEffectiveApi(props.receiver, props.data) && (
+      isApiOutdated(
+        props.receiver,
+        prevProps.receiver,
+        props.data,
+        prevProps.data
+      ) ||
+      isApiOutdatedWithData(
+        props.receiver,
+        prevProps.receiver,
+        props.data,
+        prevProps.data
+      )
     )
 })
 export class FileControlRenderer extends FileControl {}

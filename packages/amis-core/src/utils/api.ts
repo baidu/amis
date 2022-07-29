@@ -534,6 +534,29 @@ export function jsonpFetcher(api: ApiObject): Promise<fetcherResult> {
   });
 }
 
+// 避免在 isApiOutdated 中修改，减少影响
+export function isApiOutdatedWithData(
+  prevApi: Api | undefined,
+  nextApi: Api | undefined,
+  prevData: any,
+  nextData: any
+): nextApi is Api {
+  if (!nextApi) {
+    return false;
+  } else if (!prevApi) {
+    return true;
+  }
+
+  return isObjectShallowModified(
+    buildApi(
+      normalizeApi(prevApi) as Api, prevData as object
+    ),
+    buildApi(
+      normalizeApi(nextApi) as Api, nextData as object
+    )
+  )
+}
+
 export function isApiOutdated(
   prevApi: Api | undefined,
   nextApi: Api | undefined,

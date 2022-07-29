@@ -309,7 +309,7 @@ export interface FormProps
   lazyLoad?: boolean;
   simpleMode?: boolean;
   onInit?: (values: object, props: any) => any;
-  onReset?: (values: object) => void;
+  onReset?: (values: object, action?: any) => void;
   onSubmit?: (values: object, action: any) => any;
   onChange?: (values: object, diff: object, props: any) => any;
   onFailed?: (reason: string, errors: any) => any;
@@ -922,6 +922,14 @@ export default class Form extends React.Component<FormProps, object> {
     );
   }
 
+  handleReset(action: any) {
+    const {onReset} = this.props;
+
+    return (data: any) => {
+      onReset && onReset(data, action);
+    }
+  }
+
   async handleAction(
     e: React.UIEvent<any> | void,
     action: ActionObject,
@@ -1002,9 +1010,9 @@ export default class Form extends React.Component<FormProps, object> {
       store.setCurrentAction(action);
 
       if (action.actionType === 'reset-and-submit') {
-        store.reset(onReset);
+        store.reset(this.handleReset(action));
       } else if (action.actionType === 'clear-and-submit') {
-        store.clear(onReset);
+        store.clear(this.handleReset(action));
       }
 
       return this.submit((values): any => {
@@ -1106,8 +1114,8 @@ export default class Form extends React.Component<FormProps, object> {
             return values;
           }
 
-          resetAfterSubmit && store.reset(onReset);
-          clearAfterSubmit && store.clear(onReset);
+          resetAfterSubmit && store.reset(this.handleReset(action));
+          clearAfterSubmit && store.clear(this.handleReset(action));
           clearPersistDataAfterSubmit && store.clearLocalPersistData();
 
           if (action.redirect || redirect) {
@@ -1136,10 +1144,10 @@ export default class Form extends React.Component<FormProps, object> {
         });
     } else if (action.type === 'reset' || action.actionType === 'reset') {
       store.setCurrentAction(action);
-      store.reset(onReset);
+      store.reset(this.handleReset(action));
     } else if (action.actionType === 'clear') {
       store.setCurrentAction(action);
-      store.clear(onReset);
+      store.clear(this.handleReset(action));
     } else if (action.actionType === 'validate') {
       store.setCurrentAction(action);
       this.validate(true);
