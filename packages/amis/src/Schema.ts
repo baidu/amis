@@ -490,7 +490,7 @@ export interface SchemaApiObject {
   /**
    * API 发送类型
    */
-  method?: 'get' | 'post' | 'put' | 'delete' | 'patch' | 'jsonp';
+  method?: 'get' | 'post' | 'put' | 'delete' | 'patch' | 'jsonp' | 'js';
 
   /**
    * API 发送目标地址

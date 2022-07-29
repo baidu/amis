@@ -33,7 +33,7 @@ export interface fetcherResult {
 }
 
 export interface fetchOptions {
-  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp';
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp' | 'js';
   successMessage?: string;
   errorMessage?: string;
   autoAppend?: boolean;
