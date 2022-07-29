@@ -92,9 +92,9 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         'help'
       ],
       toolbar:
-        'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-        'bullist numlist outdent indent | link image | print preview media fullpage | ' +
-        'forecolor backcolor emoticons | help',
+        'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | ' +
+        'bullist numlist outdent indent | link image | preview media | ' +
+        'fontfamily fontsize forecolor backcolor emoticons | print help',
       menu: {
         file: {
           title: 'File',
