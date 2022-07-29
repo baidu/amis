@@ -978,10 +978,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     onProgress: (progress: number) => void
   ): Promise<Payload> {
     const fd = new FormData();
-
-
-    let qq = createObject(config.data, params);
-    const api = buildApi(receiver, qq, {
+    const api = buildApi(receiver, createObject(config.data, params), {
       method: 'post'
     });
 
