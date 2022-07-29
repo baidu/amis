@@ -6,6 +6,8 @@ import tinymce from 'tinymce/tinymce';
 // A theme is also required
 import 'tinymce/icons/default/index';
 import 'tinymce/themes/silver';
+
+import 'tinymce/models/dom/model';
 // import 'tinymce/skins/ui/oxide/skin.css';
 
 // Any plugins you want to use has to be imported
@@ -15,7 +17,6 @@ import 'tinymce/plugins/lists';
 import 'tinymce/plugins/link';
 import 'tinymce/plugins/image';
 import 'tinymce/plugins/charmap';
-import 'tinymce/plugins/print';
 import 'tinymce/plugins/preview';
 import 'tinymce/plugins/anchor';
 import 'tinymce/plugins/searchreplace';
@@ -25,10 +26,8 @@ import 'tinymce/plugins/fullscreen';
 import 'tinymce/plugins/insertdatetime';
 import 'tinymce/plugins/media';
 import 'tinymce/plugins/table';
-import 'tinymce/plugins/paste';
 import 'tinymce/plugins/help';
 import 'tinymce/plugins/wordcount';
-import 'tinymce/plugins/hr';
 import 'tinymce/plugins/pagebreak';
 import 'tinymce/plugins/visualchars';
 import 'tinymce/plugins/template';
@@ -67,10 +66,30 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       content_css: false,
       height: 400,
       language: !locale || locale === 'zh-CN' ? 'zh_CN' : 'en',
+      branding: false,
       plugins: [
-        'advlist autolink link image lists charmap print preview hr anchor pagebreak',
-        'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-        'table emoticons template paste help'
+        'advlist',
+        'autolink',
+        'link',
+        'image',
+        'lists',
+        'charmap',
+        'preview',
+        'anchor',
+        'pagebreak',
+        'searchreplace',
+        'wordcount',
+        'visualblocks',
+        'visualchars',
+        'code',
+        'fullscreen',
+        'insertdatetime',
+        'media',
+        'nonbreaking',
+        'table',
+        'emoticons',
+        'template',
+        'help'
       ],
       toolbar:
         'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
