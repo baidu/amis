@@ -117,7 +117,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         format: {
           title: 'Format',
           items:
-            'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat'
+            'bold italic underline strikethrough superscript subscript codeformat | styles blocks fontsize align | forecolor backcolor | removeformat'
         },
         tools: {
           title: 'Tools',
