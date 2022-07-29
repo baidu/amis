@@ -934,7 +934,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
 
     onChange((this.emitValue = value), undefined, changeImmediately);
-    console.log('onChange', changeImmediately);
     this.syncAutoFill();
   }
 
@@ -978,18 +977,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     config: Partial<FileProps> = {},
     onProgress: (progress: number) => void
   ): Promise<Payload> {
-    console.log('params', params);
-    console.log('uploadFile', config);
     const fd = new FormData();
 
 
     let qq = createObject(config.data, params);
-    console.log('to upload', qq);
     const api = buildApi(receiver, qq, {
       method: 'post'
     });
-
-    console.log('api 22', api);
 
     qsstringify({...api.data, ...params})
       .split('&')
@@ -1286,7 +1280,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   render() {
-    console.log('render file', this.props);
     const {
       btnLabel,
       accept,
@@ -1551,7 +1544,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   type: 'input-file',
   sizeMutable: false,
   renderDescription: false,
-  shouldComponentUpdate: (props: any, prevProps: any) => 
+  shouldComponentUpdate: (props: any, prevProps: any) =>
     !!isEffectiveApi(props.receiver, props.data) && (
       isApiOutdated(
         props.receiver,
