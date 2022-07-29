@@ -479,6 +479,7 @@ export class MonthRangePicker extends React.Component<
     return (
       <div className={`${ns}DateRangePicker-wrap`}>
         {this.renderRanges(ranges)}
+        <div className={cx(`${ns}DateRangePicker-picker-wrap`)}>
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
@@ -515,6 +516,7 @@ export class MonthRangePicker extends React.Component<
           renderMonth={this.renderMonth}
           locale={locale}
         />
+        </div>
 
         {embed ? null : (
           <div key="button" className={cx('DateRangePicker-actions')}>
