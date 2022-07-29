@@ -106,9 +106,14 @@
   padding: 0;
 }
 
+.#{$ns}DateRangePicker-picker-wrap {
+  display: flex;
+}
+
 .#{$ns}DateRangePicker-start,
 .#{$ns}DateRangePicker-end {
-  display: block;
+  display: flex;
+  flex: 1;
 
   .rdtPicker {
     padding: 0;

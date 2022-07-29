@@ -1287,6 +1287,7 @@ export class DateRangePicker extends React.Component<
     return (
       <div className={cx(`${ns}DateRangePicker-wrap`)} ref={this.calendarRef}>
         {this.renderRanges(ranges)}
+        <div className={cx(`${ns}DateRangePicker-picker-wrap`)}>
         {(!isTimeRange || (editState === 'start' && !embed)) && (
           <Calendar
             className={`${ns}DateRangePicker-start`}
@@ -1345,6 +1346,7 @@ export class DateRangePicker extends React.Component<
             timeRangeHeader="结束时间"
           />
         )}
+        </div>
 
         {embed ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
