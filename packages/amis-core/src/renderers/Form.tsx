@@ -1144,10 +1144,10 @@ export default class Form extends React.Component<FormProps, object> {
         });
     } else if (action.type === 'reset' || action.actionType === 'reset') {
       store.setCurrentAction(action);
-      store.reset(this.handleReset(action));
+      store.reset(onReset);
     } else if (action.actionType === 'clear') {
       store.setCurrentAction(action);
-      store.clear(this.handleReset(action));
+      store.clear(onReset);
     } else if (action.actionType === 'validate') {
       store.setCurrentAction(action);
       this.validate(true);
