@@ -3005,7 +3005,6 @@ exports[`Renderer:table combineNum 1`] = `
                       >
                         <td
                           class=""
-                          rowspan="3"
                         >
                           <span
                             class="cxd-PlainField"
@@ -3048,7 +3047,15 @@ exports[`Renderer:table combineNum 1`] = `
                       >
                         <td
                           class=""
-                          rowspan="2"
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            AOL browser (AOL desktop)
+                          </span>
+                        </td>
+                        <td
+                          class=""
                         >
                           <span
                             class="cxd-PlainField"
@@ -3086,6 +3093,24 @@ exports[`Renderer:table combineNum 1`] = `
                           <span
                             class="cxd-PlainField"
                           >
+                            AOL browser (AOL desktop)
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 98
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
                             4
                           </span>
                         </td>
@@ -3116,7 +3141,6 @@ exports[`Renderer:table combineNum 1`] = `
                         </td>
                         <td
                           class=""
-                          rowspan="2"
                         >
                           <span
                             class="cxd-PlainField"
@@ -3126,7 +3150,6 @@ exports[`Renderer:table combineNum 1`] = `
                         </td>
                         <td
                           class=""
-                          rowspan="2"
                         >
                           <span
                             class="cxd-PlainField"
@@ -3164,6 +3187,24 @@ exports[`Renderer:table combineNum 1`] = `
                           <span
                             class="cxd-PlainField"
                           >
+                            Firefox 1.0
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 98+ / OSX.2+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
                             5
                           </span>
                         </td>
@@ -3184,7 +3225,6 @@ exports[`Renderer:table combineNum 1`] = `
                       >
                         <td
                           class=""
-                          rowspan="3"
                         >
                           <span
                             class="cxd-PlainField"
@@ -3194,7 +3234,6 @@ exports[`Renderer:table combineNum 1`] = `
                         </td>
                         <td
                           class=""
-                          rowspan="3"
                         >
                           <span
                             class="cxd-PlainField"
@@ -3204,7 +3243,6 @@ exports[`Renderer:table combineNum 1`] = `
                         </td>
                         <td
                           class=""
-                          rowspan="3"
                         >
                           <span
                             class="cxd-PlainField"
@@ -3233,6 +3271,33 @@ exports[`Renderer:table combineNum 1`] = `
                           <span
                             class="cxd-PlainField"
                           >
+                            Firefox 2.0
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 98+ / OSX.2+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            5
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
                             C
                           </span>
                         </td>
@@ -3242,6 +3307,33 @@ exports[`Renderer:table combineNum 1`] = `
                         data-id="10"
                         data-index="9"
                       >
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Firefox 2.0
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            Win 98+ / OSX.2+
+                          </span>
+                        </td>
+                        <td
+                          class=""
+                        >
+                          <span
+                            class="cxd-PlainField"
+                          >
+                            5
+                          </span>
+                        </td>
                         <td
                           class=""
                         >

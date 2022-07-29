@@ -3,43 +3,126 @@
 exports[`Renderer:tableview 1`] = `
 <div>
   <div
-    class="cxd-Alert cxd-Alert--danger"
+    class="cxd-Page"
   >
     <div
-      class="cxd-Alert-content"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-Alert-desc"
+        class="cxd-Page-main"
       >
-        <h3>
-          TypeError: (0 , amis_core_1.resolveMappingObject) is not a function
-        </h3>
-        <pre>
-          <code>
-            
-    at TableViewRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis/src/renderers/TableView.tsx:86:42)
-    at SchemaRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/SchemaRenderer.js:65:28)
-    at div
-    at ServiceRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis/src/renderers/Service.tsx:634:5)
-    at StoreFactory (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/WithStore.js:34:36)
-    at ScopedComponent (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/Scoped.js:210:32)
-    at SchemaRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/SchemaRenderer.js:65:28)
-    at div
-    at div
-    at div
-    at div
-    at PageRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis/src/renderers/Page.tsx:927:5)
-    at StoreFactory (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/WithStore.js:34:36)
-    at ScopedComponent (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/Scoped.js:210:32)
-    at SchemaRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/SchemaRenderer.js:65:28)
-    at RootRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/RootRenderer.js:33:28)
-    at ImageGallery (/Users/hongyang03/baidu/amis/amis/packages/amis-ui/src/components/ImageGallery.tsx:24:1)
-    at class_1 (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/locale.js:71:36)
-    at class_1 (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/theme.js:94:36)
-    at Root (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/Root.js:33:42)
-    at ScopedComponent (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/Scoped.js:210:32)
-          </code>
-        </pre>
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Service"
+          >
+            <table
+              class="cxd-TableView"
+              style="width: 100%; border-collapse: collapse;"
+            >
+              <tbody>
+                <tr
+                  style="background: rgb(247, 247, 247);"
+                >
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        地区
+                      </span>
+                    </span>
+                  </td>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        城市
+                      </span>
+                    </span>
+                  </td>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        销量
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    rowspan="2"
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        华北
+                      </span>
+                    </span>
+                  </td>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        北京
+                      </span>
+                    </span>
+                  </td>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        20
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        天津
+                      </span>
+                    </span>
+                  </td>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        19
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -49,38 +132,137 @@ exports[`Renderer:tableview 1`] = `
 exports[`Renderer:tableview layout 1`] = `
 <div>
   <div
-    class="cxd-Alert cxd-Alert--danger"
+    class="cxd-Page"
   >
     <div
-      class="cxd-Alert-content"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-Alert-desc"
+        class="cxd-Page-main"
       >
-        <h3>
-          TypeError: (0 , amis_core_1.resolveMappingObject) is not a function
-        </h3>
-        <pre>
-          <code>
-            
-    at TableViewRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis/src/renderers/TableView.tsx:86:42)
-    at SchemaRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/SchemaRenderer.js:65:28)
-    at div
-    at div
-    at div
-    at div
-    at PageRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis/src/renderers/Page.tsx:927:5)
-    at StoreFactory (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/WithStore.js:34:36)
-    at ScopedComponent (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/Scoped.js:210:32)
-    at SchemaRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/SchemaRenderer.js:65:28)
-    at RootRenderer (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/RootRenderer.js:33:28)
-    at ImageGallery (/Users/hongyang03/baidu/amis/amis/packages/amis-ui/src/components/ImageGallery.tsx:24:1)
-    at class_1 (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/locale.js:71:36)
-    at class_1 (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/theme.js:94:36)
-    at Root (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/Root.js:33:42)
-    at ScopedComponent (/Users/hongyang03/baidu/amis/amis/packages/amis-core/lib/Scoped.js:210:32)
-          </code>
-        </pre>
+        <div
+          class="cxd-Page-body"
+        >
+          <table
+            class="cxd-TableView"
+            style="width: 100%; border-collapse: collapse;"
+          >
+            <tbody>
+              <tr
+                style="background: rgb(254, 206, 234);"
+              >
+                <td
+                  align="center"
+                  colspan="2"
+                  style="font-weight: normal; width: auto; text-align: center; vertical-align: center;"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      头部
+                    </span>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  rowspan="2"
+                  style="font-weight: normal; background: rgb(254, 241, 210); width: 200px; text-align: left; vertical-align: center;"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      侧边
+                    </span>
+                  </span>
+                </td>
+                <td
+                  align="center"
+                  style="font-weight: normal; background: rgb(169, 253, 216); width: auto; text-align: center; vertical-align: center;"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      右上
+                    </span>
+                  </span>
+                </td>
+              </tr>
+              <tr
+                style="height: 200px;"
+              >
+                <td
+                  align="center"
+                  style="font-weight: normal; background: rgb(215, 248, 255); width: auto; text-align: center; vertical-align: center;"
+                >
+                  <table
+                    class="cxd-TableView"
+                    style="width: 100%; border-collapse: collapse;"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          align="center"
+                          style="font-weight: normal; width: auto; text-align: center; vertical-align: center;"
+                        >
+                          <span
+                            class="cxd-TplField"
+                          >
+                            <span>
+                              栏目 1
+                            </span>
+                          </span>
+                        </td>
+                        <td
+                          align="center"
+                          style="font-weight: normal; width: auto; text-align: center; vertical-align: center;"
+                        >
+                          <span
+                            class="cxd-TplField"
+                          >
+                            <span>
+                              栏目 2
+                            </span>
+                          </span>
+                        </td>
+                        <td
+                          align="center"
+                          style="font-weight: normal; width: auto; text-align: center; vertical-align: center;"
+                        >
+                          <span
+                            class="cxd-TplField"
+                          >
+                            <span>
+                              栏目 3
+                            </span>
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  align="center"
+                  colspan="2"
+                  style="font-weight: normal; background: rgb(206, 197, 250); width: auto; text-align: center; vertical-align: center;"
+                >
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      底部
+                    </span>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
