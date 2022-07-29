@@ -976,7 +976,7 @@ export const getEventControlConfig = (
     true
   );
   const checkComponent = (node: any, action: RendererPluginAction) => {
-    const actionType = action.actionType;
+    const actionType = action.actionType!;
     const actions = manager?.pluginActions[node.type];
     const haveChild = !!node.children?.length;
     let isSupport = false;

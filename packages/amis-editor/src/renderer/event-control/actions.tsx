@@ -509,7 +509,11 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             body: [
               getArgsWrapper(
                 getSchemaTpl('apiControl', {
-                  name: 'api'
+                  name: 'api',
+                  label: '配置请求',
+                  mode: 'horizontal',
+                  size: 'lg',
+                  required: true
                 })
               )
             ]
