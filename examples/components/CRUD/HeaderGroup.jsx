@@ -120,7 +120,8 @@ export default {
       columns: [
         {
           name: 'grade',
-          label: 'CSS grade'
+          label: 'CSS grade',
+          groupName: 'A'
         },
         {
           name: 'engine',
