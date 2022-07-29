@@ -316,6 +316,10 @@
 
         &:first-child {
           padding-left: px2rem(12px);
+
+          &.#{$ns}Table-checkCell {
+            padding-left: var(--TableCell--edge-paddingX);
+          }
         }
 
         &:last-child {
@@ -559,7 +563,6 @@
 
     > thead > tr > th.#{$ns}Table-checkCell,
     > tbody > tr > td.#{$ns}Table-checkCell {
-      border-right: 0;
       width: px2rem(1px);
       padding-right: var(--TableCell-paddingX);
       white-space: nowrap;
@@ -567,6 +570,10 @@
       .#{$ns}Checkbox {
         margin: 0;
       }
+    }
+
+    > tbody > tr > td.#{$ns}Table-checkCell {
+      border-right: 0;
     }
 
     > thead > tr > th.#{$ns}Table-expandCell,

@@ -499,11 +499,6 @@ export const TableStore = iRendererStore
         }
       ];
 
-      //  如果是勾选栏，让它和下一列合并。
-      if (columns[0].type === '__checkme' && columns[1]) {
-        groups[0].label = columns[1].groupName;
-      }
-
       // 用户是否启用了 groupName
       const hasGroupName = columns.some(column => column.groupName);
 
