@@ -15,7 +15,7 @@ import {
   renderCmptSelect,
   SUPPORT_DISABLED_CMPTS
 } from './helper';
-
+import {BaseLabelMark} from '../../component/BaseControl';
 const MSG_TYPES: {[key: string]: string} = {
   info: '提示',
   warning: '警告',
@@ -450,16 +450,16 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                         type: 'checkbox',
                         name: 'silent',
                         option: '静默模式',
+                        mode: 'inline',
+                        className: 'm-r-none',
+                        value: false,
                         remark: {
                           className: 'ae-BaseRemark',
                           icon: 'fa fa-question-circle',
-                          trigger: ['hover', 'click'],
-                          placement: 'left',
+                          shape: "circle",
+                          placement: "left",
                           content: '勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
-                        },
-                        mode: 'inline',
-                        className: 'm-r-none',
-                        value: false
+                        }
                       }
                     ]
                   }
@@ -477,7 +477,26 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 required: true
               }
             ]
-          }
+          },
+          outputVarDataSchema: [
+            {
+              type: 'object',
+              properties: {
+                'event.data.${outputVar}.responseData': {
+                  type: 'object',
+                  title: '数据'
+                },
+                'event.data.${outputVar}.responseStatus': {
+                  type: 'number',
+                  title: '状态标识'
+                },
+                'event.data.${outputVar}.responseMsg': {
+                  type: 'string',
+                  title: '提示信息'
+                }
+              }
+            }
+          ]
         },
         {
           actionLabel: '下载文件',
@@ -490,7 +509,11 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             body: [
               getArgsWrapper(
                 getSchemaTpl('apiControl', {
-                  name: 'api'
+                  name: 'api',
+                  label: '配置请求',
+                  mode: 'horizontal',
+                  size: 'lg',
+                  required: true
                 })
               )
             ]
