@@ -147,6 +147,11 @@ export default class FormulaControl extends React.Component<
         }
       });
     }
+    if (this.props.data !== prevProps.data) {
+      this.setState({
+        variables: dataMapping(this.props.variables, this.props.data)
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -497,11 +502,7 @@ export default class FormulaControl extends React.Component<
                 {...rest}
                 evalMode={evalMode ?? this.state.evalMode}
                 variableMode={rest.variableMode ?? this.state.variableMode}
-                variables={
-                  this.state.variables?.length
-                    ? this.state.variables
-                    : dataMapping(this.props.variables, this.props.data)
-                }
+                variables={this.state.variables}
                 header={header || labelText}
                 value={isString(value) ? value : undefined}
                 onChange={onChange}
