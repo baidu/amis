@@ -961,7 +961,9 @@
     }
 
     > .#{$ns}Table-fixedTop {
-      display: none;
+      .#{$ns}Table-fixedTop-shadow {
+        display: none;
+      }
     }
 
     > .#{$ns}Table-footToolbar {

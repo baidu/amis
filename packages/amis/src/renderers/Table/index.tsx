@@ -606,6 +606,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   componentDidMount() {
+    const {autoFillHeight, classPrefix: ns} = this.props;
     const currentNode = findDOMNode(this) as HTMLElement;
     let parent: HTMLElement | Window | null = getScrollParent(
       currentNode,
@@ -641,6 +642,11 @@ export default class Table extends React.Component<TableProps, object> {
 
     this.affixDetect();
     parent.addEventListener('scroll', this.affixDetect);
+    if (autoFillHeight) {
+      document
+        .querySelector<HTMLElement>(`.${ns}Table-content`)!
+        .addEventListener('scroll', this.affixDetect);
+    }
     window.addEventListener('resize', this.affixDetect);
     this.updateAutoFillHeight();
     window.addEventListener('resize', this.updateAutoFillHeight);
@@ -815,10 +821,15 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   componentWillUnmount() {
-    const {formItem} = this.props;
+    const {formItem, autoFillHeight, classPrefix: ns} = this.props;
 
     const parent = this.parentNode;
     parent && parent.removeEventListener('scroll', this.affixDetect);
+    if (autoFillHeight) {
+      document
+        .querySelector<HTMLElement>(`.${ns}Table-content`)!
+        .addEventListener('scroll', this.affixDetect);
+    }
     window.removeEventListener('resize', this.affixDetect);
     window.removeEventListener('resize', this.updateAutoFillHeight);
     (this.updateTableInfoLazy as any).cancel();
@@ -1059,44 +1070,74 @@ export default class Table extends React.Component<TableProps, object> {
 
     return store.selectedRows.map(item => item.data);
   }
-
+  /**
+   * 滚动重新定位Table-fixedTop
+   */
   affixDetect() {
-    if (!this.props.affixHeader || !this.table || this.props.autoFillHeight) {
+    const {
+      affixHeader,
+      classPrefix: ns,
+      affixOffsetTop,
+      env,
+      autoFillHeight
+    } = this.props;
+
+    if (!(affixHeader || autoFillHeight) || !this.table) {
+      // if (!this.props.affixHeader || !this.table || this.props.autoFillHeight) {
       return;
     }
 
-    const ns = this.props.classPrefix;
     const dom = findDOMNode(this) as HTMLElement;
-    const clip = (this.table as HTMLElement).getBoundingClientRect();
-    const offsetY =
-      this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
-    const headingHeight =
-      dom.querySelector(`.${ns}Table-heading`)?.getBoundingClientRect()
-        .height || 0;
     const headerHeight =
       dom.querySelector(`.${ns}Table-headToolbar`)?.getBoundingClientRect()
         .height || 0;
-
-    const affixed =
-      clip.top - headerHeight - headingHeight < offsetY &&
-      clip.top + clip.height - 40 > offsetY;
     const affixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
-    const affixedShadowDom = dom.querySelector(
-      `.${ns}Table-fixedTop-shadow`
-    ) as HTMLElement;
     const affixedDomHeight =
       getComputedStyle(affixedDom).getPropertyValue('height');
 
-    affixedDom.style.cssText += `top: ${offsetY}px;width: ${
-      (this.table.parentNode as HTMLElement).offsetWidth
-    }px`;
-    affixedShadowDom.style.cssText += `top: ${affixedDomHeight};width: ${
-      (this.table.parentNode as HTMLElement).offsetWidth
-    }px`;
+    if (autoFillHeight) {
+      //! 解决 sticky 不兼容的问题
+      const tableContentDom = document.querySelector<HTMLElement>(
+        `.${ns}Table-content`
+      )!;
+      const clip = tableContentDom.getBoundingClientRect();
 
-    affixed
-      ? affixedDom.classList.add('in')
-      : affixedDom.classList.remove('in');
+      const tableHeaderClip = affixedDom
+        .querySelector(`.${ns}Table-wrapper`)!
+        .getBoundingClientRect();
+      const offsetHeight =
+        affixedDom.getBoundingClientRect().height - tableHeaderClip.height;
+      const offsetY = clip.top - offsetHeight;
+
+      affixedDom.style.cssText += `top: ${offsetY}px;width: ${clip.width}px`;
+
+      affixedDom.classList.add('in');
+    } else {
+      // 配置了 affixHeader
+      const clip = (this.table as HTMLElement).getBoundingClientRect();
+      const offsetY = affixOffsetTop ?? env.affixOffsetTop ?? 0;
+      const headingHeight =
+        dom.querySelector(`.${ns}Table-heading`)?.getBoundingClientRect()
+          .height || 0;
+      const affixedShadowDom = dom.querySelector(
+        `.${ns}Table-fixedTop-shadow`
+      ) as HTMLElement;
+      const affixed =
+        clip.top - headerHeight - headingHeight < offsetY &&
+        clip.top + clip.height - 40 > offsetY;
+
+      affixedDom.style.cssText += `top: ${offsetY}px;width: ${
+        (this.table.parentNode as HTMLElement).offsetWidth
+      }px`;
+      affixedShadowDom.style.cssText += `top: ${affixedDomHeight};width: ${
+        (this.table.parentNode as HTMLElement).offsetWidth
+      }px`;
+
+      affixed
+        ? affixedDom.classList.add('in')
+        : affixedDom.classList.remove('in');
+    }
+
     // store.markHeaderAffix(clip.top < offsetY && (clip.top + clip.height - 40) > offsetY);
   }
 
