@@ -182,6 +182,9 @@ let amisScoped = amis.embed(
     //
     // 用来实现用户行为跟踪，详细请查看左侧高级中的说明
     // tracker: (eventTracker) => {},
+    //
+    // Toast提示弹出位置，默认为'top-center'
+    // toastPosition: 'top-right' | 'top-center' | 'top-left' | 'bottom-center' | 'bottom-left' | 'bottom-right' | 'center'
   }
 );
 ```
@@ -721,3 +724,12 @@ type, name, mode, target, reload
 ```
 
 如果发现有字段被意外替换了，可以通过设置这个属性来避免
+
+#### toastPosition
+
+Toast 提示弹出位置，默认为`'top-center'`。
+支持的属性值有：
+
+```
+'top-right' | 'top-center' | 'top-left' | 'bottom-center' | 'bottom-left' | 'bottom-right' | 'center'
+```
