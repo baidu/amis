@@ -137,7 +137,6 @@ amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [loda
 }
 ```
 
-
 ```json
 {
   "type": "tpl",

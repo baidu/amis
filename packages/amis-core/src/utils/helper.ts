@@ -1010,6 +1010,44 @@ export function flattenTree<T extends TreeItem, U>(
 }
 
 /**
+ * 将树打平变成一维数组，用法和flattenTree类似，区别是结果仅保留叶节点
+ *
+ * 比如：
+ *
+ * flattenTreeWithLeafNodes([
+ *     {
+ *         id: 1,
+ *         children: [
+ *              { id: 2 },
+ *              { id: 3 },
+ *         ]
+ *     }
+ * ], item => item.id); // 输出为 [2, 3]
+ *
+ * @param tree
+ * @param mapper
+ */
+export function flattenTreeWithLeafNodes<T extends TreeItem>(
+  tree: Array<T>
+): Array<T>;
+export function flattenTreeWithLeafNodes<T extends TreeItem, U>(
+  tree: Array<T>,
+  mapper: (value: T, index: number) => U
+): Array<U>;
+export function flattenTreeWithLeafNodes<T extends TreeItem, U>(
+  tree: Array<T>,
+  mapper?: (value: T, index: number) => U
+): Array<U> {
+  let flattened: Array<any> = [];
+  eachTree(tree, (item, index) => {
+    if (!item.hasOwnProperty('children')) {
+      flattened.push(mapper ? mapper(item, index) : item);
+    }
+  });
+  return flattened;
+}
+
+/**
  * 操作树，遵循 imutable, 每次返回一个新的树。
  * 类似数组的 splice 不同的地方这个方法不修改原始数据，
  * 同时第二个参数不是下标，而是下标数组，分别代表每一层的下标。

@@ -176,20 +176,34 @@ test('Renderer:checkboxes checkall', async () => {
             checkAll: true,
             options: [
               {
-                label: 'OptionA',
-                value: 'a'
+                label: 'GroupA',
+                children: [
+                  {
+                    label: 'OptionA',
+                    value: 'a'
+                  },
+                  {
+                    label: 'OptionB',
+                    value: 'b'
+                  },
+                  {
+                    label: 'OptionC',
+                    value: 'c'
+                  },
+                  {
+                    label: 'OptionD',
+                    value: 'd'
+                  }
+                ]
               },
               {
-                label: 'OptionB',
-                value: 'b'
-              },
-              {
-                label: 'OptionC',
-                value: 'c'
-              },
-              {
-                label: 'OptionD',
-                value: 'd'
+                label: 'GroupB',
+                children: [
+                  {
+                    label: 'OptionE',
+                    value: 'e'
+                  }
+                ]
               }
             ]
           }
@@ -199,6 +213,9 @@ test('Renderer:checkboxes checkall', async () => {
       makeEnv()
     )
   );
+
+  const checkAll = await screen.findByLabelText('全选/不选');
+  expect(checkAll).toBeVisible();
   expect(container).toMatchSnapshot();
 });
 

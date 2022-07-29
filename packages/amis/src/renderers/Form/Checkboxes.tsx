@@ -1,15 +1,15 @@
 import React from 'react';
+import inRange from 'lodash/inRange';
 import {
   OptionsControl,
-  OptionsControlProps,
-  Option,
-  FormOptionsControl
+  createObject,
+  autobind,
+  hasAbility,
+  columnsSplit,
+  flattenTreeWithLeafNodes
 } from 'amis-core';
-import {Checkbox} from 'amis-ui';
-import {Icon} from 'amis-ui';
-import {ActionObject, Api, createObject} from 'amis-core';
-import {autobind, hasAbility} from 'amis-core';
-import {columnsSplit} from 'amis-core';
+import type {ActionObject, Api, OptionsControlProps, Option} from 'amis-core';
+import {Checkbox, Icon} from 'amis-ui';
 import {FormOptionsSchema} from '../../Schema';
 
 /**
@@ -326,12 +326,11 @@ export default class CheckboxesControl extends React.Component<
           className={itemClassName}
           onChange={onToggleAll}
           checked={!!selectedOptions.length}
-          partial={
-            !!(
-              selectedOptions.length &&
-              selectedOptions.length !== options.length
-            )
-          }
+          partial={inRange(
+            selectedOptions.length,
+            0,
+            flattenTreeWithLeafNodes(options).length
+          )}
           disabled={disabled}
           inline={inline}
           labelClassName={labelClassName}
