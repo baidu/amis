@@ -321,6 +321,10 @@ exports[`Renderer:Pagination 1`] = `
             </table>
           </div>
         </div>
+        <div
+          class="cxd-Table-fixedTop-shadow"
+          style=""
+        />
       </div>
     </div>
   </div>

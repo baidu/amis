@@ -10,14 +10,19 @@
 @keyframes modalIn {
   from {
     opacity: 0;
-    transform: translate3d(0, -300px, 0) scale(0.2);
+    width: 0;
+    height: 0;
+    bottom: -999px;
   }
 }
 
 @keyframes modalOut {
   to {
     opacity: 0;
-    transform: translate3d(0, -300px, 0) scale(0.2);
+    opacity: 0;
+    width: 0;
+    height: 0;
+    bottom: -999px;
   }
 }
 
@@ -51,8 +56,6 @@
 
     &.in,
     &.out {
-      // opacity: 1;
-      // transform: translateY(0) scale(1);
       animation-duration: var(--animation-duration);
       animation-fill-mode: both;
     }
