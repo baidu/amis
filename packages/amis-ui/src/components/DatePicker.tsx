@@ -788,7 +788,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           ref={this.inputRef}
           placeholder={__(placeholder)}
           autoComplete="off"
-          value={this.state.inputValue}
+          value={this.state.inputValue || ''}
           disabled={disabled}
         />
 
