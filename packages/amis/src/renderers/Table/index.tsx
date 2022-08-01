@@ -1133,9 +1133,16 @@ export default class Table extends React.Component<TableProps, object> {
         (this.table.parentNode as HTMLElement).offsetWidth
       }px`;
 
+      const preStatus = affixedDom.classList.contains('in');
+
       affixed
         ? affixedDom.classList.add('in')
         : affixedDom.classList.remove('in');
+
+      // 出现affixHeader时重新计算列表宽度
+      if (!preStatus && affixed) {
+        this.updateTableInfoLazy();
+      }
     }
 
     // store.markHeaderAffix(clip.top < offsetY && (clip.top + clip.height - 40) > offsetY);
