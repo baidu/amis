@@ -509,10 +509,11 @@ export const EditorStore = types
         return JSONPipeOut(
           JSONGetById(self.schema, self.activeId),
           getEnv(self).isHiddenProps ||
-            (key =>
+            ((key, props) =>
               (key.substring(0, 2) === '$$' &&
                 key !== '$$comments' &&
                 key !== '$$commonSchema') ||
+              typeof props === 'function' || // pipeIn 和 pipeOut
               key.substring(0, 2) === '__')
         );
       },
@@ -851,7 +852,7 @@ export const EditorStore = types
       },
 
       get getSuperEditorData() {
-        return self.superEditorData || {}
+        return self.superEditorData || {};
       }
     };
   })
