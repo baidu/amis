@@ -143,10 +143,12 @@ export class TagControlPlugin extends BasePlugin {
             getSchemaTpl('delimiter'),
             getSchemaTpl('extractValue'),
             getSchemaTpl('autoFillApi', {
-              visibleOn: '!this.autoFill || this.autoFill.api'
+              visibleOn:
+                '!this.autoFill || this.autoFill.scene && this.autoFill.action'
             }),
             getSchemaTpl('autoFill', {
-              visibleOn: '!this.autoFill || !this.autoFill.api'
+              visibleOn:
+                '!this.autoFill || !this.autoFill.scene && !this.autoFill.action'
             })
           ]
         },

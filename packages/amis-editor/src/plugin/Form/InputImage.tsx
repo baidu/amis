@@ -281,10 +281,12 @@ export class ImageControlPlugin extends BasePlugin {
               ]
             },
             getSchemaTpl('autoFillApi', {
-              visibleOn: '!this.autoFill || this.autoFill.api'
+              visibleOn:
+                '!this.autoFill || this.autoFill.scene && this.autoFill.action'
             }),
             getSchemaTpl('autoFill', {
-              visibleOn: '!this.autoFill || !this.autoFill.api'
+              visibleOn:
+                '!this.autoFill || !this.autoFill.scene && !this.autoFill.action'
             })
           ]
         }
