@@ -12,7 +12,7 @@ import {str2rules, validate as doValidate} from '../utils/validations';
 import {Api, Payload, fetchOptions} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
-import {isEffectiveApi} from '../utils/api';
+import {buildApi, isEffectiveApi} from '../utils/api';
 import findIndex from 'lodash/findIndex';
 import {
   isArrayChildrenModified,
@@ -535,6 +535,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         let result: any = null;
 
         if (!json.ok) {
+          const apiObject = buildApi(api, data);
           setErrorFlag !== false &&
             setError(
               self.__('Form.loadOptionsFailed', {
@@ -543,7 +544,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             );
           getEnv(self).notify(
             'error',
-            self.errors.join('') || `${api}：${json.msg}`,
+            self.errors.join('') || `${apiObject.url}：${json.msg}`,
             json.msgTimeout !== undefined
               ? {
                   closeButton: true,
