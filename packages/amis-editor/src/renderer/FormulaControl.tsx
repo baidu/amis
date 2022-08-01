@@ -352,6 +352,9 @@ export default class FormulaControl extends React.Component<
       } else {
         curRendererSchema.placeholder = '请输入静态默认值';
       }
+
+      // 设置popOverContainer
+      curRendererSchema.popOverContainer = window.document.body;
     }
     return curRendererSchema;
   }
