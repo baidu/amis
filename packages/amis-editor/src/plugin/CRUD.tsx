@@ -85,34 +85,6 @@ export class CRUDPlugin extends BasePlugin {
     }
   ];
 
-  sampleBuilder = (schema: any) => {
-    const data: any = {
-      items: [],
-      total: 0
-    };
-
-    if (Array.isArray(schema?.columns)) {
-      const item = {};
-      schema.columns.forEach((control: any) => {
-        if (control?.name) {
-          setVariable(item, control.name, 'sample');
-        }
-      });
-
-      data.items.push(item);
-    }
-
-    return JSON.stringify(
-      {
-        status: 0,
-        msg: '',
-        data: data
-      },
-      null,
-      2
-    );
-  };
-
   btnSchemas = {
     create: {
       label: '新增',

@@ -279,7 +279,7 @@ export class TreeControlPlugin extends BasePlugin {
                 name: 'options'
               },
               getSchemaTpl('source', {
-                sampleBuilder: (schema: any) =>
+                sampleBuilder: () =>
                   JSON.stringify(
                     {
                       status: 0,

@@ -3,10 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import type {SchemaObject} from 'amis/lib/Schema';
 
 export class PagePlugin extends BasePlugin {
@@ -176,7 +173,7 @@ export class PagePlugin extends BasePlugin {
             getSchemaTpl('api', {
               label: '数据初始化接口',
               name: 'initApi',
-              sampleBuilder: (schema: any) => `{
+              sampleBuilder: () => `{
   "status": 0,
   "msg": "",
 
