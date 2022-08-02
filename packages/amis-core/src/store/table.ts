@@ -484,10 +484,15 @@ export const TableStore = iRendererStore
       }
 
       const groups: Array<{
+        /** Group单元格显示名称，从1开始 */
         label: string;
+        /** Group单元格包含的首列的索引值，范围[1, columns.length] */
         index: number;
+        /** Group单元格包含列数 */
         colSpan: number;
+        /** Group单元格包含行数 */
         rowSpan: number;
+        /** Group单元格包含列信息 */
         has: Array<any>;
       }> = [
         {
@@ -519,7 +524,13 @@ export const TableStore = iRendererStore
           prev.has.push(current);
         } else {
           groups.push({
-            label: current.groupName || current.label || ' ', // 如果中间没有配置groupName，那么样式会错乱，这里设置列的label配置，lable也没有则设置一个空字符串
+            /**
+             * 如果中间没有配置groupName，那么样式会错乱，这里设置列的label配置，lable也没有则设置一个空字符串
+             * 注：内部列需要设置为undefined，保证rowSpan在下面计算为2
+             */
+            label: !!~['__checkme', '__expandme'].indexOf(current.type)
+              ? undefined
+              : current.groupName || current.label || ' ',
             colSpan: 1,
             rowSpan: 1,
             index: current.index,

@@ -1,15 +1,19 @@
 import React from 'react';
-import {ClassNamesFn} from 'amis-core';
-import {ITableStore} from 'amis-core';
-import {SchemaNode, ActionObject} from 'amis-core';
+import {
+  ClassNamesFn,
+  ITableStore,
+  SchemaNode,
+  ActionObject,
+  LocaleProps,
+  OnEventProps
+} from 'amis-core';
 import {TableBody} from './TableBody';
-import {LocaleProps} from 'amis-core';
 import {observer} from 'mobx-react';
 import {ActionSchema} from '../Action';
 import ItemActionsWrapper from './ItemActionsWrapper';
 import {SchemaTpl} from '../../Schema';
 import {Icon} from 'amis-ui';
-import {OnEventProps} from 'amis-core';
+
 import type {IColumn, IRow} from 'amis-core/lib/store/table';
 
 export interface TableContentProps extends LocaleProps {
@@ -151,10 +155,15 @@ export class TableContent extends React.Component<TableContentProps> {
             {columnsGroup.length ? (
               <tr>
                 {columnsGroup.map((item, index) =>
-                  item.has[0].type === '__checkme' ? (
+                  /**
+                   * 勾选列和展开列的表头单独成列
+                   * 如果分组列只有一个元素，也要执行表头合并
+                   */
+                  !!~['__checkme', '__expandme'].indexOf(item.has[0].type) ||
+                  (item.has.length === 1 && !/^__/.test(item.has[0].type)) ? (
                     renderHeadCell(item.has[0], {
                       'data-index': item.has[0].index,
-                      'key': item.has[0].index,
+                      'key': index,
                       'colSpan': item.colSpan,
                       'rowSpan': item.rowSpan
                     })
