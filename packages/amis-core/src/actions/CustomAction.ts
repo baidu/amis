@@ -1,4 +1,6 @@
+import isPlainObject from 'lodash/isPlainObject';
 import {ActionObject} from '../types';
+import {promisify} from '../utils';
 import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
@@ -37,23 +39,24 @@ export class CustomAction implements RendererAction {
     let scriptFunc = action.script;
 
     if (typeof scriptFunc === 'string') {
-      scriptFunc = new Function(
-        'context',
-        'doAction',
-        'event',
-        scriptFunc
-      ) as any;
+      scriptFunc = promisify(
+        new Function('context', 'doAction', 'event', scriptFunc) as any
+      );
     }
 
     // 外部可以直接调用doAction来完成动作调用
     // 可以通过上下文直接编排动作调用，通过event来进行动作干预
-    await (scriptFunc as any)?.call(
+    let result = await (scriptFunc as any)?.call(
       null,
       renderer,
       (action: ListenerAction) => runActions(action, renderer, event),
       event,
       action
     );
+
+    if (isPlainObject(result)) {
+      event.setData({...event.data, ...result});
+    }
   }
 }
 
