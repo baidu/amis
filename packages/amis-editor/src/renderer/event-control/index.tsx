@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import Sortable from 'sortablejs';
-import {DataSchema, FormItem, Icon, TooltipWrapper} from 'amis';
+import {DataSchema, FormItem, Button, Icon, TooltipWrapper} from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   FormControlProps,
@@ -73,6 +73,7 @@ interface EventControlState {
         groupType?: string;
         __actionDesc?: string;
         __cmptTreeSource?: ComponentInfo[];
+        __superCmptTreeSource?: ComponentInfo[];
         __actionSchema?: any;
         __subActions?: SubRendererPluginAction[];
         __setValueDs?: any[];
@@ -445,36 +446,36 @@ export class EventControl extends React.Component<
     // 收集当前事件已有ajax动作的请求返回结果作为事件变量
     let oldActions = onEvent[activeData.actionData!.eventKey].actions;
     if (activeData.type === 'update') {
-      oldActions = oldActions.slice(
-        0,
-        activeData.actionData!.actionIndex || oldActions?.length
-      );
+      // 编辑的时候只能拿到当前动作前面动作的事件变量
+      oldActions = oldActions.slice(0, activeData.actionData!.actionIndex);
     }
 
     const withOutputVarActions = oldActions?.filter(item => item.outputVar);
-    const withOutputVarVariables = withOutputVarActions?.map(
-      (item: any, index: number) => {
-        const actionLabel = getPropOfAcion(
-          item,
-          'actionLabel',
-          actionTree,
-          pluginActions,
-          commonActions
-        );
-        return {
-          label: `${
-            item.outputVar
-              ? item.outputVar + `（${actionLabel}结果）`
-              : `${actionLabel}结果`
-          }`,
-          tag: 'object',
-          type: 'object',
-          value: `${
-            item.outputVar ? 'event.data.' + item.outputVar : 'event.data'
-          }`
-        };
-      }
-    );
+    const withOutputVarVariables = withOutputVarActions?.map((item: any, index: number) => {
+      const actionLabel = getPropOfAcion(
+        item,
+        'actionLabel',
+        actionTree,
+        pluginActions,
+        commonActions
+      );
+      const dataSchemaJson = getPropOfAcion(
+        item,
+        'outputVarDataSchema',
+        actionTree,
+        pluginActions,
+        commonActions
+      );
+      const dataSchema = new DataSchema(dataSchemaJson || []);
+      return {
+        label: `${item.outputVar ? item.outputVar + `（${actionLabel}结果）` : `${actionLabel}结果`}`,
+        tag: 'object',
+        children: dataSchema.getDataPropsAsOptions()?.map(variable => ({
+          ...variable,
+          value: variable.value.replace('${outputVar}', item.outputVar)
+        }))
+      };
+    });
     const eventVariables: ContextVariables[] = [
       {
         label: '事件变量',
@@ -503,13 +504,13 @@ export class EventControl extends React.Component<
       getContextSchemas,
       actionConfigInitFormatter,
       getComponents,
-      actionTree
+      actionTree,
+      allComponents
     } = this.props;
     const {rawVariables} = this.state;
     // 收集事件变量
     const eventVariables = this.getEventVariables(data);
     const variables = [...eventVariables, ...rawVariables];
-
     // 编辑操作，需要格式化动作配置
     if (data.type === 'update') {
       const action = data.actionData!.action!;
@@ -532,7 +533,7 @@ export class EventControl extends React.Component<
             item => item.value !== '$$id'
           );
         }
-      }
+      };
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,
@@ -548,6 +549,8 @@ export class EventControl extends React.Component<
         __cmptTreeSource: actionConfig?.componentId
           ? getComponents?.(actionNode!) ?? []
           : [],
+        __superCmptTreeSource: allComponents,
+        // __supersCmptTreeSource: '',
         __setValueDs: setValueDs
         // broadcastId: action.actionType === 'broadcast' ? action.eventName : ''
       };
@@ -565,10 +568,10 @@ export class EventControl extends React.Component<
         variables,
         pluginActions,
         getContextSchemas,
-        rawVariables
+        rawVariables,
+        __superCmptTreeSource: allComponents
       };
     }
-
     this.setState(data);
   }
 

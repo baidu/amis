@@ -13,7 +13,7 @@ import isString from 'lodash/isString';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import cx from 'classnames';
-import {FormItem, Button, InputBox, Icon, render, ResultBox} from 'amis';
+import {FormItem, Button, InputBox, Icon, ResultBox} from 'amis';
 import {FormulaExec, isExpression} from 'amis';
 import {PickerContainer} from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
@@ -333,7 +333,8 @@ export default class FormulaControl extends React.Component<
         'suffix',
         'unitOptions',
         'keyboard',
-        'kilobitSeparator'
+        'kilobitSeparator',
+        'value'
       ];
 
       // 当前组件要剔除的字段
@@ -364,7 +365,11 @@ export default class FormulaControl extends React.Component<
       } else {
         curRendererSchema.placeholder = '请输入静态默认值';
       }
+
+      // 设置popOverContainer
+      curRendererSchema.popOverContainer = window.document.body;
     }
+
     return curRendererSchema;
   }
 
@@ -399,6 +404,7 @@ export default class FormulaControl extends React.Component<
       rendererWrapper,
       manager,
       useExternalFormData = false,
+      render,
       ...rest
     } = this.props;
 
@@ -454,21 +460,17 @@ export default class FormulaControl extends React.Component<
               rendererWrapper ? 'border-wrapper' : ''
             )}
           >
-            {render(
-              this.filterCustomRendererProps(rendererSchema),
-              {
-                data: useExternalFormData
-                  ? {
-                      ...this.props.data
-                    }
-                  : {},
-                onChange: this.handleSimpleInputChange,
-                manager: manager
-              },
-              {
-                ...(manager?.env || {})
-              }
-            )}
+            {render('left', this.filterCustomRendererProps(rendererSchema), {
+              inputOnly: true,
+              value: value,
+              data: useExternalFormData
+                ? {
+                    ...this.props.data
+                  }
+                : {},
+              onChange: this.handleSimpleInputChange,
+              manager: manager
+            })}
           </div>
         )}
         {!simple && isExpr && (

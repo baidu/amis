@@ -9,7 +9,7 @@ import {Input, PickerContainer, Spinner} from 'amis-ui';
 import {getEnv} from 'mobx-state-tree';
 import {normalizeApi, isEffectiveApi, isApiOutdated} from 'amis-core';
 
-import {isObject, autobind, createObject, tipedLabel} from 'amis-editor-core';
+import {isObject, autobind, createObject, tipedLabel, anyChanged} from 'amis-editor-core';
 
 import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis/lib/Schema';
 import type {Api} from 'amis/lib/types';
@@ -189,13 +189,11 @@ export default class APIControl extends React.Component<
 
   componentDidUpdate(prevProps: APIControlProps) {
     const props = this.props;
-
-    if (!isEqual(prevProps?.value, props?.value)) {
+    if (prevProps.value !== props.value) {
       this.setState({apiStr: this.transformApi2Str(props.value)});
       this.updatePickerOptions();
     }
-
-    if (!isEqual(prevProps?.enablePickerMode, props?.enablePickerMode)) {
+    if (anyChanged(['enablePickerMode', 'pickerSchema'], prevProps, props)) {
       this.setState({schema: props.pickerSchema});
     }
 
@@ -322,7 +320,6 @@ export default class APIControl extends React.Component<
     if (typeof value !== 'string' || typeof values !== 'string') {
       api = merge({}, normalizeApi(values));
     }
-
     onChange?.(api);
   }
 

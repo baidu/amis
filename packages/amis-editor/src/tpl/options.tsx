@@ -277,6 +277,11 @@ setSchemaTpl('hideNodePathLabel', {
   type: 'switch',
   label: tipedLabel('隐藏路径', '隐藏选中节点的祖先节点文本信息'),
   name: 'hideNodePathLabel',
+  mode: 'horizontal',
+  horizontal: {
+    justify: true,
+    left: 8
+  },
   inputClassName: 'is-inline'
 });
 

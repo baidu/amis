@@ -215,6 +215,11 @@ export class DiffEditorControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  filterProps(props: any) {
+    props.disabled = true;
+    return props;
+  }
 }
 
 registerEditorPlugin(DiffEditorControlPlugin);

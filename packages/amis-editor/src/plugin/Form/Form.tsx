@@ -537,7 +537,7 @@ export class FormPlugin extends BasePlugin {
                 getSchemaTpl('api', {
                   label: '保存接口',
                   description: '用来保存表单数据',
-                  sampleBuilder: (schema: any) => `{
+                  sampleBuilder: () => `{
     "status": 0,
     "msg": "",
 
@@ -579,8 +579,9 @@ export class FormPlugin extends BasePlugin {
                   name: 'initApi',
                   label: '初始化接口',
                   description: '用来初始化表单数据',
-                  sampleBuilder: (schema: any) => {
+                  sampleBuilder: () => {
                     const data = {};
+                    const schema = context?.schema;
 
                     if (Array.isArray(schema?.body)) {
                       schema.body.forEach((control: any) => {
