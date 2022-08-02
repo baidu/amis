@@ -4599,43 +4599,67 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                     <thead>
                       <tr>
                         <th
+                          class=""
                           colspan="1"
                           data-index="3"
                           rowspan="1"
                         >
-                          <span
-                            class="cxd-TplField"
+                          <div
+                            class="cxd-TableCell--title"
                           >
-                            <span>
-                              分组1
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                Engine
+                              </span>
                             </span>
-                          </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                          />
                         </th>
                         <th
+                          class=""
                           colspan="1"
                           data-index="4"
                           rowspan="2"
                         >
-                          <span
-                            class="cxd-TplField"
+                          <div
+                            class="cxd-TableCell--title"
                           >
-                            <span>
-                              Grade
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                Grade
+                              </span>
                             </span>
-                          </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                          />
                         </th>
                         <th
+                          class=""
                           colspan="1"
                           data-index="5"
                           rowspan="2"
                         >
-                          <span
-                            class="cxd-TplField"
+                          <div
+                            class="cxd-TableCell--title"
                           >
-                            <span>
-                              Version
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                Version
+                              </span>
                             </span>
-                          </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                          />
                         </th>
                         <th
                           colspan="2"
@@ -5540,43 +5564,67 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                     <thead>
                       <tr>
                         <th
+                          class=""
                           colspan="1"
                           data-index="3"
                           rowspan="2"
                         >
-                          <span
-                            class="cxd-TplField"
+                          <div
+                            class="cxd-TableCell--title"
                           >
-                            <span>
-                              Engine
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                Engine
+                              </span>
                             </span>
-                          </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                          />
                         </th>
                         <th
+                          class=""
                           colspan="1"
                           data-index="4"
                           rowspan="2"
                         >
-                          <span
-                            class="cxd-TplField"
+                          <div
+                            class="cxd-TableCell--title"
                           >
-                            <span>
-                              Grade
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                Grade
+                              </span>
                             </span>
-                          </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                          />
                         </th>
                         <th
+                          class=""
                           colspan="1"
                           data-index="5"
                           rowspan="2"
                         >
-                          <span
-                            class="cxd-TplField"
+                          <div
+                            class="cxd-TableCell--title"
                           >
-                            <span>
-                              Version
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                Version
+                              </span>
                             </span>
-                          </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                          />
                         </th>
                         <th
                           colspan="2"
