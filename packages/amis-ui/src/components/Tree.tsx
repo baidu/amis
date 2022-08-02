@@ -14,7 +14,8 @@ import {
   createObject,
   getTreeParent,
   getTreeAncestors,
-  cloneObject
+  cloneObject,
+  difference
 } from 'amis-core';
 import {Option, Options, value2array} from './Select';
 import {ClassNamesFn, themeable, ThemeProps, highlight} from 'amis-core';
@@ -139,6 +140,14 @@ interface TreeSelectorState {
   dropIndicator?: IDropIndicator;
 }
 
+function generateKey(parentKey: string | undefined, key: string) {
+  if (typeof parentKey === 'undefined') {
+    return key;
+  }
+
+  return `${parentKey}-${key}`;
+}
+
 export class TreeSelector extends React.Component<
   TreeSelectorProps,
   TreeSelectorState
@@ -177,7 +186,7 @@ export class TreeSelector extends React.Component<
     nodePath: []
   };
 
-  unfolded: WeakMap<Object, boolean> = new WeakMap();
+  unfolded: Set<string> = new Set();
   dragNode: Option | null;
   dropInfo: IDropInfo | null;
   startPoint: {
@@ -262,6 +271,7 @@ export class TreeSelector extends React.Component<
   }
 
   syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: number) {
+    const {valueField} = props;
     // 传入默认展开层级需要重新初始化unfolded
     let initFoldedLevel = typeof unfoldedLevel !== 'undefined';
     let expandLevel =
@@ -271,8 +281,11 @@ export class TreeSelector extends React.Component<
     let unfolded = this.unfolded;
     const {foldedField, unfoldedField} = this.props;
 
-    eachTree(props.options, (node: Option, index, level) => {
-      if (unfolded.has(node) && !initFoldedLevel) {
+    eachTree(props.options, (node: Option, index, level, path) => {
+      const itemKey =
+        path?.map(item => item[valueField]).join('-') ||
+        String(node[valueField]);
+      if (unfolded.has(itemKey) && !initFoldedLevel) {
         return;
       }
 
@@ -294,7 +307,7 @@ export class TreeSelector extends React.Component<
             ret = true;
           }
         }
-        unfolded.set(node, ret);
+        ret && unfolded.add(itemKey);
       }
     });
 
@@ -304,22 +317,22 @@ export class TreeSelector extends React.Component<
   }
 
   @autobind
-  toggleUnfolded(node: any) {
+  toggleUnfolded(node: any, itemKey: string | number) {
+    const key = String(itemKey);
     const unfolded = this.unfolded;
     const {onDeferLoad} = this.props;
 
     if (node.defer && !node.loaded) {
+      unfolded.add(key);
       onDeferLoad?.(node);
       return;
     }
-
-    unfolded.set(node, !unfolded.get(node));
+    this.isUnfolded(key) ? this.deleteUnfoldedKey(key) : unfolded.add(key);
     this.forceUpdate();
   }
 
-  isUnfolded(node: any) {
-    const unfolded = this.unfolded;
-    return unfolded.get(node);
+  isUnfolded(itemKey: string | number) {
+    return this.unfolded.has(String(itemKey));
   }
 
   @autobind
@@ -386,13 +399,13 @@ export class TreeSelector extends React.Component<
   }
 
   @autobind
-  handleSelect(node: any, value?: any) {
+  handleSelect(node: any, itemKey: string) {
     const {joinValues, valueField, onChange, enableNodePath, onlyLeaf} =
       this.props;
 
     if (node[valueField as string] === undefined) {
       if (node.defer && !node.loaded) {
-        this.toggleUnfolded(node);
+        this.toggleUnfolded(node, itemKey);
       }
       return;
     }
@@ -723,7 +736,17 @@ export class TreeSelector extends React.Component<
   }
 
   @autobind
-  onDragStart(node: Option) {
+  deleteUnfoldedKey(itemKey: string) {
+    this.unfolded.delete(String(itemKey));
+    this.unfolded.forEach(key => {
+      if (key.startsWith(`${itemKey}-`)) {
+        this.unfolded.delete(key);
+      }
+    });
+  }
+
+  @autobind
+  onDragStart(node: Option, itemKey: string) {
     let draggable = this.props.draggable;
     return (e: React.DragEvent<Element>) => {
       if (draggable) {
@@ -737,7 +760,7 @@ export class TreeSelector extends React.Component<
         };
 
         if (node?.children?.length) {
-          this.unfolded.set(node, false);
+          this.deleteUnfoldedKey(itemKey);
           this.forceUpdate();
         }
       } else {
@@ -780,7 +803,8 @@ export class TreeSelector extends React.Component<
   renderList(
     list: Options,
     value: Option[],
-    uncheckable: boolean
+    uncheckable: boolean,
+    parentKey?: string
   ): {dom: Array<JSX.Element | null>; childrenChecked: number} {
     const {
       itemClassName,
@@ -824,6 +848,7 @@ export class TreeSelector extends React.Component<
       if (!isVisible(item as any, options)) {
         return null;
       }
+      const itemKey = generateKey(parentKey, item[valueField]);
       const checked = !!~value.indexOf(item);
       const selfDisabled = item[disabledField];
       let selfChecked = !!uncheckable || checked;
@@ -837,7 +862,8 @@ export class TreeSelector extends React.Component<
             ? false
             : uncheckable ||
                 (selfDisabledAffectChildren ? selfDisabled : false) ||
-                (multiple && checked)
+                (multiple && checked),
+          itemKey
         );
         selfChildrenChecked = !!childrenItems.childrenChecked;
         if (
@@ -881,7 +907,7 @@ export class TreeSelector extends React.Component<
           size="sm"
           disabled={nodeDisabled}
           checked={checked}
-          onChange={this.handleSelect.bind(this, item)}
+          onChange={this.handleSelect.bind(this, item, itemKey)}
         />
       ) : null;
 
@@ -908,7 +934,7 @@ export class TreeSelector extends React.Component<
                 'is-disabled': nodeDisabled
               })}
               draggable={draggable}
-              onDragStart={this.onDragStart(item)}
+              onDragStart={this.onDragStart(item, itemKey)}
               onDragOver={this.onDragOver(item)}
               onDragEnd={this.onDragEnd(item)}
             >
@@ -927,9 +953,9 @@ export class TreeSelector extends React.Component<
                 />
               ) : !isLeaf || (item.defer && !item.loaded) ? (
                 <div
-                  onClick={() => this.toggleUnfolded(item)}
+                  onClick={() => this.toggleUnfolded(item, itemKey)}
                   className={cx('Tree-itemArrow', {
-                    'is-folded': !this.isUnfolded(item)
+                    'is-folded': !this.isUnfolded(itemKey)
                   })}
                 >
                   <Icon icon="down-arrow-bold" className="icon" />
@@ -940,9 +966,7 @@ export class TreeSelector extends React.Component<
 
               {checkbox}
 
-              <div className={cx(
-                'Tree-itemLabel-item'
-              )}>
+              <div className={cx('Tree-itemLabel-item')}>
                 {showIcon ? (
                   <i
                     className={cx(
@@ -954,7 +978,7 @@ export class TreeSelector extends React.Component<
                       !nodeDisabled &&
                       (multiple
                         ? this.handleCheck(item, !selfChecked)
-                        : this.handleSelect(item))
+                        : this.handleSelect(item, itemKey))
                     }
                   >
                     {getIcon(iconValue) ? (
@@ -973,7 +997,7 @@ export class TreeSelector extends React.Component<
                     !nodeDisabled &&
                     (multiple
                       ? this.handleCheck(item, !selfChecked)
-                      : this.handleSelect(item))
+                      : this.handleSelect(item, itemKey))
                   }
                   title={item[labelField]}
                 >
@@ -1027,14 +1051,10 @@ export class TreeSelector extends React.Component<
                   </div>
                 ) : null}
               </div>
-              
-
-              
-              
             </div>
           )}
           {/* 有children而且为展开状态 或者 添加child时 */}
-          {(childrenItems && this.isUnfolded(item)) ||
+          {(childrenItems && this.isUnfolded(itemKey)) ||
           (isAdding && addingParent === item) ? (
             <ul className={cx('Tree-sublist')}>
               {isAdding && addingParent === item ? (
@@ -1051,7 +1071,7 @@ export class TreeSelector extends React.Component<
               ) : null}
               {childrenItems}
             </ul>
-          ) : !childrenItems && item.placeholder && this.isUnfolded(item) ? (
+          ) : !childrenItems && item.placeholder && this.isUnfolded(itemKey) ? (
             <ul className={cx('Tree-sublist')}>
               <li className={cx('Tree-item')}>
                 <div className={cx('Tree-placeholder')}>{item.placeholder}</div>
