@@ -366,8 +366,8 @@ export class CRUDPlugin extends BasePlugin {
       /** 统一api格式 */
       valueSchema.api =
         typeof valueSchema.api === 'string'
-          ? valueSchema.api
-          : normalizeApi(valueSchema.api);
+          ? normalizeApi(valueSchema.api)
+          : valueSchema.api;
       hasFeatures &&
         features.forEach((item: string) => {
           if (itemBtns.includes(item)) {
