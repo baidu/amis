@@ -1164,7 +1164,9 @@ export class DateRangePicker extends React.Component<
   }
 
   renderDay(props: any, currentDate: moment.Moment) {
-    let {startDate, endDate, endDateOpenedFirst, editState} = this.state;
+    let {startDate, endDate} = this.state;
+    // 剔除掉 DaysView 中传递的参数
+    props.className = props.className.replace('rdtActive', '');
 
     if (
       startDate &&
@@ -1287,64 +1289,66 @@ export class DateRangePicker extends React.Component<
     return (
       <div className={cx(`${ns}DateRangePicker-wrap`)} ref={this.calendarRef}>
         {this.renderRanges(ranges)}
-        {(!isTimeRange || (editState === 'start' && !embed)) && (
-          <Calendar
-            className={`${ns}DateRangePicker-start`}
-            value={startDate}
-            // 区分的原因是 time-range 左侧就只能选起始时间，而其它都能在左侧同时同时选择起始和结束
-            // TODO: 后续得把 time-range 代码拆分出来
-            onChange={
-              isDateTimeRange
-                ? this.handleStartDateChange
-                : viewMode === 'time'
-                ? this.handleTimeStartChange
-                : this.handleDateChange
-            }
-            requiredConfirm={false}
-            dateFormat={dateFormat}
-            inputFormat={inputFormat}
-            timeFormat={timeFormat}
-            isValidDate={this.checkStartIsValidDate}
-            viewMode={viewMode}
-            input={false}
-            onClose={this.close}
-            renderDay={this.renderDay}
-            renderMonth={this.renderMonth}
-            renderQuarter={this.renderQuarter}
-            renderYear={this.renderYear}
-            locale={locale}
-            timeRangeHeader="开始时间"
-          />
-        )}
-        {(!isTimeRange || (editState === 'end' && !embed)) && (
-          <Calendar
-            className={`${ns}DateRangePicker-end`}
-            value={endDate}
-            onChange={
-              isDateTimeRange
-                ? this.handelEndDateChange
-                : viewMode === 'time'
-                ? this.handleTimeEndChange
-                : this.handleDateChange
-            }
-            requiredConfirm={false}
-            dateFormat={dateFormat}
-            inputFormat={inputFormat}
-            timeFormat={timeFormat}
-            viewDate={isDateTimeRange ? this.currentMonth : this.nextMonth}
-            // isEndDate
-            isValidDate={this.checkEndIsValidDate}
-            viewMode={viewMode}
-            input={false}
-            onClose={this.close}
-            renderDay={this.renderDay}
-            renderMonth={this.renderMonth}
-            renderQuarter={this.renderQuarter}
-            renderYear={this.renderYear}
-            locale={locale}
-            timeRangeHeader="结束时间"
-          />
-        )}
+        <div className={cx(`${ns}DateRangePicker-picker-wrap`)}>
+          {(!isTimeRange || (editState === 'start' && !embed)) && (
+            <Calendar
+              className={`${ns}DateRangePicker-start`}
+              value={startDate}
+              // 区分的原因是 time-range 左侧就只能选起始时间，而其它都能在左侧同时同时选择起始和结束
+              // TODO: 后续得把 time-range 代码拆分出来
+              onChange={
+                isDateTimeRange
+                  ? this.handleStartDateChange
+                  : viewMode === 'time'
+                  ? this.handleTimeStartChange
+                  : this.handleDateChange
+              }
+              requiredConfirm={false}
+              dateFormat={dateFormat}
+              inputFormat={inputFormat}
+              timeFormat={timeFormat}
+              isValidDate={this.checkStartIsValidDate}
+              viewMode={viewMode}
+              input={false}
+              onClose={this.close}
+              renderDay={this.renderDay}
+              renderMonth={this.renderMonth}
+              renderQuarter={this.renderQuarter}
+              renderYear={this.renderYear}
+              locale={locale}
+              timeRangeHeader="开始时间"
+            />
+          )}
+          {(!isTimeRange || (editState === 'end' && !embed)) && (
+            <Calendar
+              className={`${ns}DateRangePicker-end`}
+              value={endDate}
+              onChange={
+                isDateTimeRange
+                  ? this.handelEndDateChange
+                  : viewMode === 'time'
+                  ? this.handleTimeEndChange
+                  : this.handleDateChange
+              }
+              requiredConfirm={false}
+              dateFormat={dateFormat}
+              inputFormat={inputFormat}
+              timeFormat={timeFormat}
+              viewDate={isDateTimeRange ? this.currentMonth : this.nextMonth}
+              // isEndDate
+              isValidDate={this.checkEndIsValidDate}
+              viewMode={viewMode}
+              input={false}
+              onClose={this.close}
+              renderDay={this.renderDay}
+              renderMonth={this.renderMonth}
+              renderQuarter={this.renderQuarter}
+              renderYear={this.renderYear}
+              locale={locale}
+              timeRangeHeader="结束时间"
+            />
+          )}
+        </div>
 
         {embed ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
@@ -1505,7 +1509,9 @@ export class DateRangePicker extends React.Component<
           value={this.state.startInputValue || ''}
           disabled={disabled}
         />
-        <span className={cx('DateRangePicker-input-separator')}>-</span>
+        <span className={cx('DateRangePicker-input-separator')}>
+          <span className={cx('DateRangePicker-input-separator-line')}></span>
+        </span>
         <Input
           className={cx('DateRangePicker-input', {
             isActive: this.state.editState === 'end' && isOpened

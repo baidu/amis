@@ -196,7 +196,7 @@ export class Badge extends React.Component<BadgeProps, object> {
     if (mode === 'text') {
       sizeStyle = {
         borderRadius: size / 2,
-        height: size,
+        height: size + 2,
         lineHeight: size + 'px'
       };
       // 当text、overflowCount都为number类型时，进行封顶值处理

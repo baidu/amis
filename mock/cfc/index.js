@@ -37,12 +37,13 @@ function mockResponse(event, context, callback) {
         body: JSON.stringify(json)
       });
     },
-    send(res) {
+    send(res, headers = {}) {
       callback(null, {
         statusCode: 200,
         headers: {
           ...createHeaders(event.headers),
-          'Content-Type': 'text/javascript'
+          'Content-Type': 'text/javascript',
+          ...headers
         },
         json: false,
         body: res

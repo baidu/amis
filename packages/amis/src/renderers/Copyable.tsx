@@ -9,7 +9,7 @@ import {RendererProps} from 'amis-core';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
 import {filter} from 'amis-core';
-import {Icon} from 'amis-ui';
+import {Icon, TooltipWrapper} from 'amis-ui';
 import {SchemaIcon, SchemaTpl} from '../Schema';
 
 export interface SchemaCopyableObject {
@@ -65,14 +65,20 @@ export const HocCopyable =
                 className={cx(`Field--copyable`, className)}
               >
                 <Component {...this.props} wrapperComponent={''} noHoc />
-                <a
-                  key="edit-btn"
-                  data-tooltip={__('Copyable.tip')}
-                  className={cx('Field-copyBtn')}
-                  onClick={this.handleClick.bind(this, content)}
+                <TooltipWrapper
+                  placement="right"
+                  tooltip={'点击复制'}
+                  trigger="hover"
                 >
-                  <Icon icon="copy" className="icon" />
-                </a>
+                  <a
+                    key="edit-btn"
+                    data-tooltip={__('Copyable.tip')}
+                    className={cx('Field-copyBtn')}
+                    onClick={this.handleClick.bind(this, content)}
+                  >
+                    <Icon icon="copy" className="icon" />
+                  </a>
+                </TooltipWrapper>
               </Component>
             );
           }

@@ -61,12 +61,13 @@
     max-height: 100%;
     overflow: auto;
     position: relative; // 貌似不加 relative 会有 bug。
+    padding: 0;
   }
 
   &-select > .#{$ns}ChainedSelection {
     min-height: unset;
     overflow: hidden;
-    
+
     .#{$ns}ChainedSelection-col {
       height: 100%;
       overflow: auto;
@@ -90,10 +91,6 @@
 
   &-select {
     overflow: hidden;
-  }
-
-  &-search + &-selection {
-    border-top: 1px solid var(--borderColor);
   }
 
   &-selection .#{$ns}ListSelection-placeholder {

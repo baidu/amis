@@ -98,7 +98,7 @@ export interface RenderOptions
 
 export interface fetcherConfig {
   url: string;
-  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp';
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp' | 'js';
   data?: any;
   config?: any;
 }

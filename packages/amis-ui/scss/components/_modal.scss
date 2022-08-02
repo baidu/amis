@@ -10,14 +10,19 @@
 @keyframes modalIn {
   from {
     opacity: 0;
-    transform: translate3d(0, -300px, 0) scale(0.2);
+    width: 0;
+    height: 0;
+    bottom: -999px;
   }
 }
 
 @keyframes modalOut {
   to {
     opacity: 0;
-    transform: translate3d(0, -300px, 0) scale(0.2);
+    opacity: 0;
+    width: 0;
+    height: 0;
+    bottom: -999px;
   }
 }
 
@@ -51,8 +56,6 @@
 
     &.in,
     &.out {
-      // opacity: 1;
-      // transform: translateY(0) scale(1);
       animation-duration: var(--animation-duration);
       animation-fill-mode: both;
     }
@@ -88,7 +91,7 @@
   }
 
   &-header {
-    padding: var(--Modal-header-paddingY) var(--Modal-header-paddingX);
+    padding: var(--Modal-header-paddingY) #{px2rem(24px)};
     background: var(--Modal-header-bg);
     @include clearfix();
     border-bottom: var(--Modal-body-borderTop);
@@ -137,21 +140,20 @@
   }
 
   &-body {
-    padding: var(--Modal-body--noHeader-paddingTop) var(--Modal-body-paddingX)
-      var(--Modal-body-paddingY);
+    margin: #{px2rem(16px)} 0 #{px2rem(24px)} 0;
     flex-grow: 1;
-  }
-
-  &-header + &-body {
-    padding-top: var(--Modal-body-paddingY);
+    height: auto;
+    // overflow-y: auto;
+    padding: 0 #{px2rem(24px)};
   }
 
   &-footer {
     // @include clearfix();
+
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: var(--Modal-footer-padding);
+    padding: var(--Modal-footer-padding) #{px2rem(24px)};
     border-top: var(--Modal-body-borderBottom);
     margin: var(--Modal-footer-marginY) var(--Modal-footer-marginX);
     border-bottom-left-radius: var(--Modal-content-borderRadius);

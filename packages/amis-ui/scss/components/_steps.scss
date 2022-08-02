@@ -6,7 +6,7 @@
   .#{$ns}StepsItem {
     flex: 1;
     overflow: hidden;
-    padding: 0 px2rem(20px);
+    padding: 0 px2rem(8px);
     height: auto;
     line-height: px2rem(32px);
     &-container {
@@ -23,6 +23,10 @@
           border-radius: 50%;
           font-size: var(--Steps-icon-fontsize);
           text-align: center;
+          .icon {
+            width: px2rem(9px);
+            height: px2rem(9px);
+          }
         }
       }
       &Wrapper {
@@ -32,7 +36,7 @@
           .#{$ns}StepsItem-title {
             font-size: var(--Steps-title-fontsize);
             color: var(--Steps-title-color);
-            padding-right: px2rem(20px);
+            padding-right: px2rem(8px);
             position: relative;
             display: inline-block;
             > span {
@@ -70,7 +74,11 @@
             max-width: px2rem(140px);
             white-space: nowrap;
             position: relative;
-            bottom: px2rem(10px);
+            bottom: px2rem(20px);
+            >span {
+              color: var(--Steps-description-title-color);
+              font-size: var(--Steps-description-title-fontsize);
+            }
           }
         }
       }
@@ -96,7 +104,7 @@
           content: '';
           position: absolute;
           right: 0;
-          top: px2rem(32px);
+          top: px2rem(36px);
           height: 9999px;
           left: px2rem(11px);
           width: 1px;
@@ -204,17 +212,19 @@
             text-align: center;
             .#{$ns}StepsItem-title {
               padding: 0 px2rem(10px);
+              bottom: px2rem(9px);
               width: 100%;
               > span {
                 display: block;
                 position: relative;
-                left: px2rem(10px);
+                left: px2rem(12px);
               }
               .#{$ns}StepsItem-subTitle {
                 word-break: break-all;
                 padding: 0 px2rem(10px);
                 position: relative;
                 left: px2rem(10px);
+                bottom: px2rem(12px);
               }
             }
             .#{$ns}StepsItem-title:after {
@@ -223,7 +233,8 @@
             .#{$ns}StepsItem-description {
               min-width: px2rem(200px);
               word-break: break-all;
-              padding: 0 px2rem(10px);
+              padding: 0 px2rem(20px);
+              bottom: px2rem(44px);
             }
             .#{$ns}StepsItem-title.is-success {
               &:after {
@@ -307,17 +318,17 @@
       color: var(--Steps-bg);
       border: 1px solid var(--Steps-bg);
     }
+    .#{$ns}StepsItem-title,
+      .#{$ns}StepsItem-subTitle,
+      .#{$ns}StepsItem-description {
+        color: var(--Steps-status-wait);
+      }
   }
   .#{$ns}StepsItem.is-error {
     .#{$ns}StepsItem-icon {
-      background-color: var(--Steps-status-error);
+        background-color: var(--Steps-status-error);
       color: var(--white);
       border: 1px solid var(--Steps-status-error);
-    }
-    .#{$ns}StepsItem-title,
-    .#{$ns}StepsItem-subTitle,
-    .#{$ns}StepsItem-description {
-      color: var(--Steps-status-error);
     }
   }
   .#{$ns}StepsItem.is-finish,

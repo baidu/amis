@@ -75,20 +75,24 @@ export interface ImageSchema extends BaseSchema {
   width?: number;
 
   /**
+   * 外层 css 类名
+   */
+  className?: SchemaClassName;
+
+  /** 组件内层 css 类名 */
+  innerClassName?: SchemaClassName;
+
+  /**
    * 图片 css 类名
    */
   imageClassName?: SchemaClassName;
 
   /**
-   * 外层 css 类名
-   */
-  className?: SchemaClassName;
-
-  /**
-   * 图片缩率图外层 css 类名
+   * 图片缩略图外层 css 类名
    */
   thumbClassName?: SchemaClassName;
 
+  /** 图片说明文字 */
   caption?: SchemaTpl;
 
   /**
@@ -125,7 +129,7 @@ export interface ImageSchema extends BaseSchema {
 export interface ImageThumbProps
   extends LocaleProps,
     ThemeProps,
-    Omit<ImageSchema, 'type' | 'className'> {
+    Omit<ImageSchema, 'type' | 'className' | 'innerClassName'> {
   onEnlarge?: (info: ImageThumbProps) => void;
   index?: number;
   onLoad?: React.EventHandler<any>;
@@ -268,7 +272,9 @@ export const imagePlaceholder = `data:image/svg+xml,%3C%3Fxml version='1.0' stan
 
 export interface ImageFieldProps extends RendererProps {
   className?: string;
+  innerClassName?: string;
   imageClassName?: string;
+  thumbClassName?: string;
   placeholder: string;
   description?: string;
   enlargeTitle?: string;
@@ -338,6 +344,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
   render() {
     const {
       className,
+      innerClassName,
       defaultImage,
       imageCaption,
       title,
@@ -376,6 +383,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       >
         {value ? (
           <ThemedImageThumb
+            className={innerClassName}
             imageClassName={imageClassName}
             thumbClassName={thumbClassName}
             height={height}

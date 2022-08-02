@@ -74,7 +74,16 @@
     background: var(--Table-bg);
     z-index: -1;
     opacity: 0;
-    box-shadow: var(--Table-fixedTop-boxShadow);
+
+    &-shadow {
+      position: absolute;
+      box-shadow: var(--Table-fixedTop-boxShadow);
+      z-index: -1;
+      height: 10px;
+      margin-top: -10px;
+      background-color: transparent;
+      opacity: 0;
+    }
 
     // box-sizing: content-box;
     // padding: var(--gap-base) var(--gap-base) 0 var(--gap-base);
@@ -84,7 +93,8 @@
     //   box-sizing: border-box;
     // }
 
-    &.in {
+    &.in,
+    &.in + .#{$ns}Table-fixedTop-shadow {
       position: fixed;
       opacity: 1;
       z-index: $zindex-affix;
@@ -232,6 +242,7 @@
     user-select: none;
     opacity: 0.5;
     z-index: $zindex-top;
+
     &:hover {
       background: var(--primary);
     }
@@ -263,6 +274,10 @@
     & th.text-right,
     & td.text-right {
       text-align: right;
+    }
+
+    & td .#{$ns}SwitchControl {
+      padding-top: 0;
     }
 
     &--withCombine {
@@ -309,13 +324,19 @@
       > th {
         background: var(--Table-thead-bg);
         padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+        text-align: left;
 
         &:first-child {
-          padding-left: var(--TableCell--edge-paddingX);
+          padding-left: px2rem(12px);
+
+          &.#{$ns}Table-checkCell {
+            padding-left: var(--TableCell--edge-paddingX);
+          }
         }
 
         &:last-child {
-          padding-right: var(--TableCell--edge-paddingX);
+          padding-right: px2rem(12px);
+
           .#{$ns}Table-content-colDragLine {
             // 避免出现横向滚动条
             width: 4px;
@@ -327,6 +348,7 @@
           border-right: var(--Table-thead-borderWidth) solid
             var(--Table-thead-borderColor);
         }
+
         border-bottom: var(--Table-thead-borderWidth) solid
           var(--Table-thead-borderColor);
 
@@ -345,6 +367,14 @@
       }
     }
 
+    > thead > tr > th:first-child {
+      border-top-left-radius: 4px;
+    }
+
+    > thead > tr > th:last-child {
+      border-top-right-radius: 4px;
+    }
+
     > thead > tr + tr {
       border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
     }
@@ -358,6 +388,7 @@
 
       & + tr {
         border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+
         > th {
           border-top: var(--Table-thead-borderWidth) solid
             var(--Table-thead-borderColor);
@@ -408,6 +439,14 @@
         & + tr {
           border-color: var(--Table-onHover-borderColor);
         }
+      }
+
+      &:active {
+        background: transparent;
+      }
+
+      &:hover.#{$ns}Table-placeholder {
+        color: var(--text--muted-color);
       }
 
       &.is-checked {
@@ -539,7 +578,6 @@
 
     > thead > tr > th.#{$ns}Table-checkCell,
     > tbody > tr > td.#{$ns}Table-checkCell {
-      border-right: 0;
       width: px2rem(1px);
       padding-right: var(--TableCell-paddingX);
       white-space: nowrap;
@@ -547,6 +585,10 @@
       .#{$ns}Checkbox {
         margin: 0;
       }
+    }
+
+    > tbody > tr > td.#{$ns}Table-checkCell {
+      border-right: 0;
     }
 
     > thead > tr > th.#{$ns}Table-expandCell,
@@ -562,6 +604,7 @@
       width: px2rem(1px);
       padding-right: 0;
       cursor: move;
+
       > svg {
         vertical-align: middle;
         top: 0;
@@ -653,11 +696,13 @@
     &--default {
       &.is-active {
         color: var(--text--muted-color);
+
         &:hover {
           color: var(--TableCell-searchBtn--onActive-color);
         }
       }
     }
+
     &--up,
     &--down {
       &.is-active {
@@ -675,11 +720,12 @@
       height: 12px;
     }
 
-    &:hover {
-      color: var(--text-color);
-    }
     &.is-active {
       color: var(--TableCell-searchBtn--onActive-color);
+    }
+
+    &.is-opened {
+      color: var(--Button--default-onActive-border);
     }
   }
 
@@ -802,6 +848,10 @@
     color: var(--info);
   }
 
+  &-foot {
+    background: var(--Table-thead-bg);
+  }
+
   &-footTable {
     position: relative;
     width: 100%;
@@ -849,10 +899,11 @@
       width: px2rem(10px);
       height: px2rem(10px);
       top: 0;
+      transform: rotate(90deg);
     }
 
     &.is-active > svg {
-      transform: rotate(90deg);
+      transform: rotate(-90deg);
     }
 
     &:hover {
@@ -871,6 +922,7 @@
       text-decoration: none;
       color: var(--icon-onHover-color);
     }
+
     > svg {
       vertical-align: -2px;
     }
@@ -895,21 +947,41 @@
 
   &--autoFillHeight {
     margin-bottom: 0;
+
     > .#{$ns}Table-contentWrap {
       > .#{$ns}Table-content table {
         border-top: none; // 不然会导致拖动时顶部露出内容
       }
+
       > .#{$ns}Table-content table thead {
         position: sticky; // 简单实现表头吸顶效果，不考虑 IE 11 不然太麻烦
         top: 0;
         z-index: 1; // 由于 badge 导致 tbody 里 tr 的 position: relative 了
       }
     }
+
     > .#{$ns}Table-fixedTop {
-      display: none;
+      .#{$ns}Table-fixedTop-shadow {
+        display: none;
+      }
     }
+
     > .#{$ns}Table-footToolbar {
       margin-bottom: 0;
+    }
+  }
+}
+
+.#{$ns}InputTable {
+  .#{$ns}Field--quickEditable svg {
+    color: var(--primary);
+
+    &:hover {
+      color: var(--primary-onHover);
+    }
+
+    &:active {
+      color: var(--primary-onActive);
     }
   }
 }
@@ -919,6 +991,11 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  .#{$ns}Button {
+    border: none;
+    color: var(--Button--link-color);
+  }
 }
 
 .#{$ns}InputTable-pager {

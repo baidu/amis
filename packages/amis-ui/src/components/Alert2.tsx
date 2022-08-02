@@ -92,7 +92,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     ) : null;
 
     return this.state.show ? (
-      <div className={cx('Alert', level ? `Alert--${level}` : '', className)}>
+      <div className={cx('Alert', level ? `Alert--${level}` : '', title ? 'Alert-has-title' : '', className)}>
         {showIcon && iconNode ? (
           <div className={cx('Alert-icon', iconClassName)}>{iconNode}</div>
         ) : null}

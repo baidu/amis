@@ -118,6 +118,10 @@
     height: 100%;
     color: var(--SearchBox-enhonce-icon-color);
     background: var(--SearchBox-hover-color);
+
+    &:hover {
+      background: var(--Button--primary-onHover-bg);
+    }
   }
 
   &--enhance &-clearable {
