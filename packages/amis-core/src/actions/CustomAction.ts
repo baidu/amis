@@ -54,9 +54,10 @@ export class CustomAction implements RendererAction {
       action
     );
 
-    if (isPlainObject(result)) {
-      event.setData({...event.data, ...result});
-    }
+    // 交给外部处理
+    // if (isPlainObject(result)) {
+    //   event.setData({...event.data, ...result});
+    // }
   }
 }
 
