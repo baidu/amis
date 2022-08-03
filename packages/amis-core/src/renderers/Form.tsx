@@ -927,7 +927,7 @@ export default class Form extends React.Component<FormProps, object> {
 
     return (data: any) => {
       onReset && onReset(data, action);
-    }
+    };
   }
 
   async handleAction(
@@ -1554,13 +1554,12 @@ export default class Form extends React.Component<FormProps, object> {
         {/* 实现回车自动提交 */}
         <input type="submit" style={{display: 'none'}} />
 
-        {debug ? (
-          <pre>
-            <code className={cx('Form--debug')}>
-              {JSON.stringify(store.data, null, 2)}
-            </code>
-          </pre>
-        ) : null}
+        {debug
+          ? render('innner', {
+              type: 'json',
+              value: store.data
+            })
+          : null}
 
         {render(
           'spinner',
