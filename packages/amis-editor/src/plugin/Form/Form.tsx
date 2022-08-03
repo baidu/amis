@@ -761,7 +761,10 @@ export class FormPlugin extends BasePlugin {
     region?: EditorNodeType
   ) {
     // 只有表单项组件可以使用表单组件的数据域
-    if (target.info.renderer.isFormItem) {
+    if (
+      target.info.renderer.isFormItem ||
+      target.sameIdChild?.info.renderer.isFormItem
+    ) {
       if (
         scopeNode.parent?.type === 'crud2' &&
         scopeNode.schemaPath.startsWith('body/0/filter/')
