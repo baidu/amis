@@ -170,20 +170,35 @@ export class PagePlugin extends BasePlugin {
         {
           title: '接口',
           body: [
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               label: '数据初始化接口',
               name: 'initApi',
               sampleBuilder: () => `{
-  "status": 0,
-  "msg": "",
-
-  data: {
-    // 示例数据
-    "id": 1,
-    "a": "sample"
-  }
-}`
+                "status": 0,
+                "msg": "",
+              
+                data: {
+                  // 示例数据
+                  "id": 1,
+                  "a": "sample"
+                }
+              }`
             }),
+
+            //             getSchemaTpl('api', {
+            //               label: '数据初始化接口',
+            //               name: 'initApi',
+            //               sampleBuilder: () => `{
+            //   "status": 0,
+            //   "msg": "",
+
+            //   data: {
+            //     // 示例数据
+            //     "id": 1,
+            //     "a": "sample"
+            //   }
+            // }`
+            //             }),
 
             getSchemaTpl('initFetch'),
 
