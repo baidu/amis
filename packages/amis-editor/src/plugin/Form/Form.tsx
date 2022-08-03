@@ -425,7 +425,7 @@ export class FormPlugin extends BasePlugin {
                 className: 'm-l-xs',
                 trigger: 'click',
                 rootClose: true,
-                content: '设置后无法通过键盘"回车"按进行表单提交',
+                content: '设置后无法通过键盘 “回车” 按键进行表单提交',
                 placement: 'left'
               }
             }),
