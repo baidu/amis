@@ -1499,7 +1499,7 @@ order: 9
                     "actionType": "disabled"
                   },
                   {
-                    "script": "return new Promise((resolve, reject) => {setTimeout(() => {resolve();event.setData({...event.data, pId: '01027359'});}, 3000)})",
+                    "script": "return new Promise((resolve, reject) => {setTimeout(() => {event.setData({...event.data, pId: '01027359'});resolve();}, 3000)})",
                     "actionType": "custom"
                   },
                   {
@@ -1528,7 +1528,7 @@ order: 9
 }
 ```
 
-- 方式二：通过返回 Function 的方式
+- 方式二：通过返回 Thunk 的方式
 
 ```schema
 {
@@ -1555,7 +1555,7 @@ order: 9
                     "actionType": "disabled"
                   },
                   {
-                    "script": "return (callback) => { setTimeout(() => {callback();event.setData({...event.data, pId: '01027359' });}, 3000) };",
+                    "script": "return (callback) => { setTimeout(() => {event.setData({...event.data, pId: '01027359' });callback();}, 3000) };",
                     "actionType": "custom"
                   },
                   {
