@@ -926,16 +926,15 @@ export const TableStore = iRendererStore
           : 0);
 
       const keys: Array<string> = [];
-      for (let i = 0; i < maxCount; i++) {
-        const column = columns[i];
 
-        // maxCount 可能比实际配置的 columns 还有多。
-        if (!column) {
+      for (let i = 0; i < columns.length; i++) {
+        if (keys.length === maxCount) {
           break;
         }
 
+        const column = columns[i];
+
         if ('__' === column.type.substring(0, 2)) {
-          maxCount++;
           continue;
         }
 
@@ -943,15 +942,12 @@ export const TableStore = iRendererStore
         if (!key) {
           break;
         }
-        keys.push(key);
-      }
 
-      while (fromIndex--) {
-        keys.shift();
-      }
-
-      while (keys.length > maxCount) {
-        keys.pop();
+        if (fromIndex > 0) {
+          fromIndex--;
+        } else {
+          keys.push(key);
+        }
       }
 
       return combineCell(arr, keys);

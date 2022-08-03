@@ -308,55 +308,59 @@ test('Renderer:table children', () => {
   expect(container).toMatchSnapshot();
 });
 
-// 合并单元格
-test('Renderer:table combineNum', () => {
-  const {container} = render(
-    amisRender(
-      {
-        type: 'page',
-        body: {
-          type: 'service',
-          data: {
-            rows
-          },
-          body: [
-            {
-              type: 'table',
-              source: '$rows',
-              combineNum: 1,
-              columnsTogglable: false,
-              columns: [
-                {
-                  name: 'engine',
-                  label: 'Rendering engine'
-                },
-                {
-                  name: 'browser',
-                  label: 'Browser'
-                },
-                {
-                  name: 'platform',
-                  label: 'Platform(s)'
-                },
-                {
-                  name: 'version',
-                  label: 'Engine version'
-                },
-                {
-                  name: 'grade',
-                  label: 'CSS grade'
-                }
-              ]
-            }
-          ]
-        }
+describe('Renderer:table combine', () => {
+  const combineSchema: any = {
+    type: 'page',
+    body: {
+      type: 'service',
+      data: {
+        rows
       },
-      {},
-      makeEnv({})
-    )
-  );
+      body: {
+        type: 'table',
+        source: '$rows',
+        combineNum: 3,
+        columnsTogglable: false,
+        columns: [
+          {
+            name: 'engine',
+            label: 'Rendering engine'
+          },
+          {
+            name: 'browser',
+            label: 'Browser'
+          },
+          {
+            name: 'platform',
+            label: 'Platform(s)'
+          },
+          {
+            name: 'version',
+            label: 'Engine version'
+          },
+          {
+            name: 'grade',
+            label: 'CSS grade'
+          }
+        ]
+      }
+    }
+  };
+  // 合并单元格
+  test('Renderer:table combineNum only', () => {
+    const {container} = render(amisRender(combineSchema, {}, makeEnv({})));
 
-  expect(container).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
+  });
+
+  // 合并单元格
+  test('Renderer:table combineNum with fromIndex', () => {
+    combineSchema.body.body.combineNum = 1;
+    combineSchema.body.body.combineFromIndex = 1;
+    const {container} = render(amisRender(combineSchema, {}, makeEnv({})));
+
+    expect(container).toMatchSnapshot();
+  });
 });
 
 // 超级表头

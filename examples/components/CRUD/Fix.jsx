@@ -1,140 +1,142 @@
+const data = [
+  {
+    engine: 'Other browsers',
+    browser: 'All others',
+    platform: '-',
+    version: '-',
+    grade: 'U',
+    progress: 50,
+    status: true,
+    weight: 56,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Other browsers',
+    browser: 'All others',
+    platform: '-',
+    version: '-',
+    grade: 'U',
+    progress: 50,
+    status: true,
+    weight: 56,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Other browsers',
+    browser: 'All others',
+    platform: '-',
+    version: '-',
+    grade: 'U',
+    progress: 50,
+    status: true,
+    weight: 56,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Misc',
+    browser: 'PSP browser',
+    platform: 'PSP',
+    version: '-',
+    grade: 'C',
+    progress: 50,
+    status: true,
+    weight: 55,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  },
+  {
+    engine: 'Other browsers',
+    browser: 'All others',
+    platform: '-',
+    version: '-',
+    grade: 'U',
+    progress: 50,
+    status: true,
+    weight: 56,
+    others: null,
+    createdAt: '2017-11-17T08:47:50.000Z',
+    updatedAt: '2017-11-17T08:47:50.000Z'
+  }
+].map((item, key) => ({
+  ...item,
+  id: key + 1
+}));
+
 const table = {
   type: 'table',
-  data: [
-    {
-      engine: 'Other browsers',
-      browser: 'All others',
-      platform: '-',
-      version: '-',
-      grade: 'U',
-      progress: 50,
-      status: true,
-      weight: 56,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Other browsers',
-      browser: 'All others',
-      platform: '-',
-      version: '-',
-      grade: 'U',
-      progress: 50,
-      status: true,
-      weight: 56,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Other browsers',
-      browser: 'All others',
-      platform: '-',
-      version: '-',
-      grade: 'U',
-      progress: 50,
-      status: true,
-      weight: 56,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Misc',
-      browser: 'PSP browser',
-      platform: 'PSP',
-      version: '-',
-      grade: 'C',
-      progress: 50,
-      status: true,
-      weight: 55,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    },
-    {
-      engine: 'Other browsers',
-      browser: 'All others',
-      platform: '-',
-      version: '-',
-      grade: 'U',
-      progress: 50,
-      status: true,
-      weight: 56,
-      others: null,
-      createdAt: '2017-11-17T08:47:50.000Z',
-      updatedAt: '2017-11-17T08:47:50.000Z'
-    }
-  ].map((item, key) => ({
-    ...item,
-    id: key + 1
-  })),
+  data,
   columns: [
     {
       name: 'id',
@@ -260,6 +262,16 @@ export default {
   remark: 'bla bla bla',
   body: [
     table,
+    {
+      label: '点击弹框',
+      type: 'button',
+      actionType: 'dialog',
+      dialog: {
+        title: '弹框标题',
+        size: 'lg',
+        body: {...table, data: [...data, ...data]}
+      }
+    },
     '<div>分割</div>',
     '<div>分割</div>',
     '<div>分割</div>',
