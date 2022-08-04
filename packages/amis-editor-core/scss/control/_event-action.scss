@@ -344,9 +344,11 @@
               .cxd-Tree-item-icons {
                 display: none;
               }
-
-              .cxd-Tree-itemArrow.is-folded > svg {
+              .cxd-Tree-itemArrow > svg {
                 transform: rotate(180deg);
+              }
+              .cxd-Tree-itemArrow.is-folded > svg {
+                transform: rotate(0);
               }
             }
 
