@@ -1,5 +1,5 @@
 import React = require('react');
-import {fireEvent, render, screen} from '@testing-library/react';
+import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
@@ -8,7 +8,6 @@ const testSchema = {
   type: 'page',
   body: {
     type: 'form',
-    debug: true,
     body: [
       {
         type: 'condition-builder',
@@ -98,8 +97,9 @@ test('Renderer:condition-builder', () => {
 });
 
 test('Renderer:condition-builder add', async () => {
+  const onChange = jest.fn();
   const {container, findByText, findByPlaceholderText} = render(
-    amisRender(testSchema, {}, makeEnv({}))
+    amisRender(testSchema, {onChange}, makeEnv({}))
   );
 
   const andCondition = await findByText('并且');
@@ -132,14 +132,10 @@ test('Renderer:condition-builder add', async () => {
 
   await wait(500);
 
-  const formDebug = JSON.parse(
-    document.querySelector('form pre code')!.innerHTML
-  );
-
-  delete formDebug.conditions.id;
-  delete formDebug.conditions.children[0].id;
-
-  expect(formDebug).toEqual({
+  /** Form的debug区域升级成json组件了，无法直接通过innerHtml获取form data */
+  const formData = onChange.mock.calls[0][0];
+  expect(onChange).toHaveBeenCalled();
+  expect(formData).toMatchObject({
     conditions: {
       conjunction: 'and',
       children: [
@@ -163,7 +159,6 @@ test('Renderer:condition-builder drag order', async () => {
         type: 'page',
         body: {
           type: 'form',
-          debug: true,
           body: [
             {
               type: 'condition-builder',

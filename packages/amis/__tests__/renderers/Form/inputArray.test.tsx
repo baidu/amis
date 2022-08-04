@@ -1,17 +1,19 @@
 import React = require('react');
-import {render, fireEvent, cleanup, screen} from '@testing-library/react';
+import {render, fireEvent, waitFor, screen} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
 
 test('Renderer:inputArray', async () => {
+  const onSubmit = jest.fn();
+  const submitBtnText = 'Submit';
   const {container, findByText} = render(
     amisRender(
       {
         type: 'page',
         body: {
           type: 'form',
-          debug: true,
+          submitText: submitBtnText,
           api: '/api/mock/saveForm?waitSeconds=1',
           mode: 'horizontal',
           body: [
@@ -25,32 +27,32 @@ test('Renderer:inputArray', async () => {
                 clearable: false
               }
             }
-          ],
-          submitText: null,
-          actions: []
+          ]
         }
       },
-      {},
+      {onSubmit},
       makeEnv({})
     )
   );
 
   const addButton = await findByText('新增');
-
   fireEvent.click(addButton);
 
   await wait(500);
-
   const input = container.querySelector('.cxd-TextControl-input input')!;
-
   fireEvent.change(input, {target: {value: 'amis'}});
 
   await wait(500);
-
-  const formDebug = JSON.parse(document.querySelector('pre code')!.innerHTML);
+  const submitBtn = screen.getByRole('button', {name: submitBtnText});
+  await waitFor(() => {
+    expect(submitBtn).toBeInTheDocument();
+  });
+  fireEvent.click(submitBtn);
 
   await wait(500);
-  expect(formDebug).toEqual({
+  const formData = onSubmit.mock.calls[0][0];
+  expect(onSubmit).toHaveBeenCalled();
+  expect(formData).toEqual({
     array: ['amis']
   });
 
