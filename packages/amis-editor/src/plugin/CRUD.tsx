@@ -188,7 +188,7 @@ export class CRUDPlugin extends BasePlugin {
   scaffoldForm: ScaffoldForm = {
     title: '增删改查快速开始-CRUD',
     body: [
-      getSchemaTpl('api', {
+      getSchemaTpl('apiControl', {
         label: '接口地址',
         sampleBuilder: (schema: any) =>
           JSON.stringify(

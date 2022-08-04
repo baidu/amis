@@ -26,7 +26,7 @@ import type {Option} from 'amis';
 import type {FormControlProps} from 'amis-core';
 import {SchemaApi} from 'amis/lib/Schema';
 
-export type OptionControlItem = Option & {checked?: boolean, _key?: string};
+export type OptionControlItem = Option & {checked?: boolean; _key?: string};
 
 export interface OptionControlProps extends FormControlProps {
   className?: string;
@@ -37,14 +37,14 @@ export interface OptionControlState {
   api: SchemaApi;
   labelField: string;
   valueField: string;
-  source: 'custom' | 'api';
-  modalVisible: boolean
+  source: 'custom' | 'api' | 'apicenter';
+  modalVisible: boolean;
 }
 
 const defaultOption: OptionControlItem = {
   label: '',
   value: ''
-}
+};
 
 export default class TreeOptionControl extends React.Component<
   OptionControlProps,
@@ -69,9 +69,11 @@ export default class TreeOptionControl extends React.Component<
   }
 
   transformOptions(props: OptionControlProps) {
-    const {data: {options}} = props;
+    const {
+      data: {options}
+    } = props;
     if (!options || !options.length) {
-      return [{...defaultOption}]
+      return [{...defaultOption}];
     }
     return options;
   }
@@ -87,7 +89,10 @@ export default class TreeOptionControl extends React.Component<
       if (option.children && option.children.length) {
         option.children = this.pretreatOptions(option.children);
       }
-      option.value = option.value == null || option.value === '' ? option.label : option.value;
+      option.value =
+        option.value == null || option.value === ''
+          ? option.label
+          : option.value;
       return option;
     });
   }
@@ -109,7 +114,7 @@ export default class TreeOptionControl extends React.Component<
       data.options = this.pretreatOptions(options);
     }
 
-    if (source === 'api') {
+    if (source === 'api' || source === 'apicenter') {
       const {api, labelField, valueField} = this.state;
       data.source = api;
       data.labelField = labelField;
@@ -123,7 +128,7 @@ export default class TreeOptionControl extends React.Component<
    * 切换选项类型
    */
   @autobind
-  handleSourceChange(source: 'custom' | 'api') {
+  handleSourceChange(source: 'custom' | 'api' | 'apicenter') {
     this.setState({source: source}, this.onChange);
   }
 
@@ -134,23 +139,27 @@ export default class TreeOptionControl extends React.Component<
       labelRemark,
       useMobileUI,
       env,
-      popOverContainer
+      popOverContainer,
+      hasApiCenter
     } = this.props;
     const classPrefix = env?.theme?.classPrefix;
     const {source} = this.state;
-    const optionSourceList = ([
-      {
-        label: '自定义选项',
-        value: 'custom'
-      },
-      {
-        label: '接口获取',
-        value: 'api'
-      }
-    ] as Array<{
-      label: string;
-      value: 'custom' | 'api';
-    }>).map(item => ({
+    const optionSourceList = (
+      [
+        {
+          label: '自定义选项',
+          value: 'custom'
+        },
+        {
+          label: '外部接口',
+          value: 'api'
+        },
+        ...(hasApiCenter ? [{label: 'API中心', value: 'apicenter'}] : [])
+      ] as Array<{
+        label: string;
+        value: 'custom' | 'api' | 'apicenter';
+      }>
+    ).map(item => ({
       ...item,
       onClick: () => this.handleSourceChange(item.value)
     }));
@@ -200,11 +209,11 @@ export default class TreeOptionControl extends React.Component<
     );
   }
 
-  handleEditLabelOrValue (value: string, path: string, key: string) {
-      const options = cloneDeep(this.state.options);
-      const {path: nodePath} = this.getNodePath(path);
-      set(options, `${nodePath}.${key}`, value);
-      this.setState({options}, () => this.rereshBindDrag());
+  handleEditLabelOrValue(value: string, path: string, key: string) {
+    const options = cloneDeep(this.state.options);
+    const {path: nodePath} = this.getNodePath(path);
+    set(options, `${nodePath}.${key}`, value);
+    this.setState({options}, () => this.rereshBindDrag());
   }
   @autobind
   handleDelete(pathStr: string, index: number) {
@@ -216,12 +225,12 @@ export default class TreeOptionControl extends React.Component<
     const path = pathStr.split('-');
     if (path.length === 1) {
       options.splice(index, 1);
-    }
-    else {
+    } else {
       const {parentPath} = this.getNodePath(pathStr);
       const parentNode = get(options, parentPath, {});
       parentNode?.children?.splice(index, 1);
-      if (!parentNode?.children.length) { // 去除僵尸子节点
+      if (!parentNode?.children.length) {
+        // 去除僵尸子节点
         delete parentNode.children;
       }
       set(options, parentPath, parentNode);
@@ -231,7 +240,7 @@ export default class TreeOptionControl extends React.Component<
   @autobind
   getNodePath(pathStr: string) {
     let pathArr = pathStr.split('-');
-    if(pathArr.length === 1) {
+    if (pathArr.length === 1) {
       return {
         path: pathArr,
         parentPath: ''
@@ -251,8 +260,7 @@ export default class TreeOptionControl extends React.Component<
     const path = pathStr.split('-');
     if (path.length === 1) {
       options.splice(+path[0] + 1, 0, {...defaultOption}); // 加在后面一项
-    }
-    else {
+    } else {
       const index = path[path.length - 1];
       const {parentPath} = this.getNodePath(pathStr);
       const parentNode = get(options, parentPath, {});
@@ -264,7 +272,9 @@ export default class TreeOptionControl extends React.Component<
   @autobind
   addChildOption(pathStr: string) {
     if (pathStr.split('-').length >= 7) {
-      toast.warning('层级过深，建议使用【接口获取】管理选项', {closeButton: true});
+      toast.warning('层级过深，建议使用【接口获取】管理选项', {
+        closeButton: true
+      });
       return;
     }
     const options = cloneDeep(this.state.options);
@@ -272,8 +282,7 @@ export default class TreeOptionControl extends React.Component<
     const node = get(options, path) || [];
     if (node.children) {
       node.children.push({...defaultOption});
-    }
-    else {
+    } else {
       node.children = [{...defaultOption}];
     }
     set(options, path, node);
@@ -292,22 +301,26 @@ export default class TreeOptionControl extends React.Component<
     if (option.children && option.children.length) {
       const parent = cloneDeep(option);
       delete parent.children;
-      return <div className={cx('ae-TreeOptionControlItem-parent')} key={`parent${path}${key}${option.label}`}>
-        {this.renderOptions(parent, key, indexes)}
+      return (
         <div
-          className={cx('ae-TreeOptionControlItem-son')}
-          key={`son${path}${key}${option.label}`}
-          data-level={path}
+          className={cx('ae-TreeOptionControlItem-parent')}
+          key={`parent${path}${key}${option.label}`}
         >
-          {
-            option.children.map((option: any, key: number) => {
-              return this.renderOptions(option, key, indexes.concat(key))
-            })
-          }
+          {this.renderOptions(parent, key, indexes)}
+          <div
+            className={cx('ae-TreeOptionControlItem-son')}
+            key={`son${path}${key}${option.label}`}
+            data-level={path}
+          >
+            {option.children.map((option: any, key: number) => {
+              return this.renderOptions(option, key, indexes.concat(key));
+            })}
+          </div>
         </div>
-      </div>
+      );
     }
-    return <div
+    return (
+      <div
         className="ae-TreeOptionControlItem"
         key={`child${path}${key}${option.label}`}
         data-path={path}
@@ -320,7 +333,8 @@ export default class TreeOptionControl extends React.Component<
           value={option.label}
           placeholder="选项名称"
           clearable={false}
-          onBlur={(event: any) => { // 这里使用onBlur替代onChange 减少渲染次数
+          onBlur={(event: any) => {
+            // 这里使用onBlur替代onChange 减少渲染次数
             this.handleEditLabelOrValue(event.target.value, path, 'label');
           }}
         />
@@ -372,7 +386,8 @@ export default class TreeOptionControl extends React.Component<
             <Icon className="icon" icon="delete-bold-btn" />
           </Button>
         </div>
-    </div>
+      </div>
+    );
   }
   @autobind
   dragRef(ref: any) {
@@ -390,28 +405,30 @@ export default class TreeOptionControl extends React.Component<
     }
   }
   initDragging() {
-    const rootSortable = new Sortable(
-      this.drag as HTMLElement,
-      {
-        group: 'TreeOptionControlGroup',
-        animation: 150,
-        handle: '.ae-TreeOptionControlItem-dragBar',
-        ghostClass: 'ae-TreeOptionControlItem-dragging',
-        onEnd: (e: any) => {
-          const options = cloneDeep(this.state.options);
-          const {oldIndex, newIndex} = e;
-          [options[newIndex], options[oldIndex]] = [options[oldIndex], options[newIndex]];
-          this.setState({options}, () => this.rereshBindDrag());
-        },
-        onMove: (e: any) => {
-          const {from, to} = e;
-          // 暂时不支持跨级拖拽
-          return from.dataset.level === to.dataset.level;
-        }
+    const rootSortable = new Sortable(this.drag as HTMLElement, {
+      group: 'TreeOptionControlGroup',
+      animation: 150,
+      handle: '.ae-TreeOptionControlItem-dragBar',
+      ghostClass: 'ae-TreeOptionControlItem-dragging',
+      onEnd: (e: any) => {
+        const options = cloneDeep(this.state.options);
+        const {oldIndex, newIndex} = e;
+        [options[newIndex], options[oldIndex]] = [
+          options[oldIndex],
+          options[newIndex]
+        ];
+        this.setState({options}, () => this.rereshBindDrag());
+      },
+      onMove: (e: any) => {
+        const {from, to} = e;
+        // 暂时不支持跨级拖拽
+        return from.dataset.level === to.dataset.level;
       }
-    );
+    });
     this.sortables.push(rootSortable);
-    const parents = this.drag?.querySelectorAll('.ae-TreeOptionControlItem-son');
+    const parents = this.drag?.querySelectorAll(
+      '.ae-TreeOptionControlItem-son'
+    );
     if (!parents) {
       return;
     }
@@ -432,7 +449,10 @@ export default class TreeOptionControl extends React.Component<
           const {parentPath} = this.getNodePath(nodePath);
           const children = get(options, `${parentPath}.children`) || [];
           if (children) {
-            [children[oldIndex], children[newIndex]] = [children[newIndex], children[oldIndex]];
+            [children[oldIndex], children[newIndex]] = [
+              children[newIndex],
+              children[oldIndex]
+            ];
             set(options, `${parentPath}.children`, children);
             this.setState({options});
           }
@@ -467,32 +487,38 @@ export default class TreeOptionControl extends React.Component<
           this.hideModal();
         }}
       >
-          <Modal.Header
-            onClose={() => {
+        <Modal.Header
+          onClose={() => {
+            this.hideModal();
+          }}
+        >
+          选项管理
+        </Modal.Header>
+        <Modal.Body>
+          <div className="ae-TreeOptionControl-content" ref={this.dragRef}>
+            {options.map((option, key) =>
+              this.renderOptions(option, key, [key])
+            )}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={() => {
               this.hideModal();
             }}
           >
-            选项管理
-          </Modal.Header>
-          <Modal.Body>
-            <div className="ae-TreeOptionControl-content" ref={this.dragRef}>
-              {options.map((option, key) => this.renderOptions(option, key, [key]))}
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              onClick={() => {
-                this.hideModal();
-              }}
-            >取消</Button>
-            <Button
-              level="primary"
-              onClick={() => {
-                this.onChange();
-                this.hideModal(true);
-              }}
-            >确认</Button>
-          </Modal.Footer>
+            取消
+          </Button>
+          <Button
+            level="primary"
+            onClick={() => {
+              this.onChange();
+              this.hideModal(true);
+            }}
+          >
+            确认
+          </Button>
+        </Modal.Footer>
       </Modal>
     );
   }
@@ -515,7 +541,7 @@ export default class TreeOptionControl extends React.Component<
   renderApiPanel() {
     const {render} = this.props;
     const {source, api, labelField, valueField} = this.state;
-    if (source !== 'api') {
+    if (source === 'custom') {
       return null;
     }
 
@@ -528,6 +554,7 @@ export default class TreeOptionControl extends React.Component<
         visibleOn: 'data.autoComplete !== false',
         value: api,
         onChange: this.handleAPIChange,
+        sourceType: source,
         footer: [
           {
             label: tipedLabel(
@@ -569,9 +596,11 @@ export default class TreeOptionControl extends React.Component<
                 onClick={() => {
                   this.setState({
                     modalVisible: true
-                  })
+                  });
                 }}
-              >选项管理</Button>
+              >
+                选项管理
+              </Button>
               {this.renderModal()}
             </div>
           </div>
