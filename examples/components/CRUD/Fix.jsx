@@ -269,7 +269,24 @@ export default {
       dialog: {
         title: '弹框标题',
         size: 'lg',
-        body: {...table, data: [...data, ...data]}
+        body: [
+          {...table, data},
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>',
+          '<div>分割</div>'
+        ]
       }
     },
     '<div>分割</div>',
