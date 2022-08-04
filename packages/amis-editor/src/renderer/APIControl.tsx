@@ -237,43 +237,24 @@ export default class APIControl extends React.Component<
     onPickerClose?.();
   }
 
-  @autobind
   renderHeader() {
-    const {render, label, labelRemark, useMobileUI, popOverContainer, env} =
-      this.props;
-    const classPrefix = env?.theme?.classPrefix;
+    const {render, actions, enablePickerMode} = this.props;
 
-    // const actionsDom =
-    //   Array.isArray(actions) && actions.length > 0
-    //     ? actions.map((action, index) => {
-    //         return render(`action/${index}`, action, {
-    //           key: index,
-    //           onAction: this.handleAction.bind(this, action)
-    //         });
-    //       })
-    //     : null;
+    const actionsDom =
+      Array.isArray(actions) && actions.length > 0
+        ? actions.map((action, index) => {
+            return render(`action/${index}`, action, {
+              key: index,
+              onAction: this.handleAction.bind(this, action)
+            });
+          })
+        : null;
 
-    return (
-      <header className="ApiControl-header" key="header">
-        <label className={cx(`${classPrefix}Form-label`)}>
-          {label || ''}
-          {labelRemark
-            ? render('label-remark', {
-                type: 'remark',
-                icon: labelRemark.icon || 'warning-mark',
-                tooltip: labelRemark,
-                className: cx(`Form-lableRemark`, labelRemark?.className),
-                useMobileUI,
-                container: popOverContainer
-                  ? popOverContainer
-                  : env && env.getModalContainer
-                  ? env.getModalContainer
-                  : undefined
-              })
-            : null}
-        </label>
+    return actionsDom || enablePickerMode ? (
+      <header className="ae-ApiControl-header" key="header">
+        {enablePickerMode ? this.renderPickerSchema() : actionsDom}
       </header>
-    );
+    ) : null;
   }
 
   renderPickerSchema() {
@@ -972,7 +953,6 @@ export default class APIControl extends React.Component<
 }
 
 @FormItem({
-  type: 'ae-apiControl',
-  renderLabel: false
+  type: 'ae-apiControl'
 })
 export class APIControlRenderer extends APIControl {}

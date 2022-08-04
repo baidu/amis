@@ -47,7 +47,7 @@ export interface OptionControlState {
   api: SchemaApi;
   labelField: string;
   valueField: string;
-  source: 'custom' | 'api' | 'apicenter';
+  source: 'custom' | 'api' | 'form';
 }
 
 export default class OptionControl extends React.Component<
@@ -209,7 +209,7 @@ export default class OptionControl extends React.Component<
       data.value = defaultValue || undefined;
     }
 
-    if (source === 'api' || source === 'apicenter') {
+    if (source === 'api') {
       const {api, labelField, valueField} = this.state;
       data.source = api;
       data.labelField = labelField;
@@ -296,7 +296,7 @@ export default class OptionControl extends React.Component<
    * 切换选项类型
    */
   @autobind
-  handleSourceChange(source: 'custom' | 'api' | 'apicenter') {
+  handleSourceChange(source: 'custom' | 'api' | 'form') {
     this.setState({source: source}, this.onChange);
   }
 
@@ -396,15 +396,8 @@ export default class OptionControl extends React.Component<
   }
 
   renderHeader() {
-    const {
-      render,
-      label,
-      labelRemark,
-      useMobileUI,
-      env,
-      popOverContainer,
-      hasApiCenter
-    } = this.props;
+    const {render, label, labelRemark, useMobileUI, env, popOverContainer} =
+      this.props;
     const classPrefix = env?.theme?.classPrefix;
     const {source} = this.state;
     const optionSourceList = (
@@ -414,17 +407,16 @@ export default class OptionControl extends React.Component<
           value: 'custom'
         },
         {
-          label: '外部接口',
+          label: '接口获取',
           value: 'api'
-        },
-        ...(hasApiCenter ? [{label: 'API中心', value: 'apicenter'}] : [])
+        }
         // {
         //   label: '表单实体',
         //   value: 'form'
         // }
       ] as Array<{
         label: string;
-        value: 'custom' | 'api' | 'apicenter';
+        value: 'custom' | 'api' | 'form';
       }>
     ).map(item => ({
       ...item,
@@ -706,7 +698,7 @@ export default class OptionControl extends React.Component<
   renderApiPanel() {
     const {render} = this.props;
     const {source, api, labelField, valueField} = this.state;
-    if (source === 'custom') {
+    if (source !== 'api') {
       return null;
     }
 
@@ -719,7 +711,6 @@ export default class OptionControl extends React.Component<
         visibleOn: 'data.autoComplete !== false',
         value: api,
         onChange: this.handleAPIChange,
-        sourceType: source,
         footer: [
           {
             label: tipedLabel(
