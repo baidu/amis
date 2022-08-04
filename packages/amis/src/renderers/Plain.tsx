@@ -53,10 +53,14 @@ export class Plain extends React.Component<PlainProps, object> {
       tpl,
       inline,
       placeholder,
+      canCellAccessSuperData,
       classnames: cx
     } = this.props;
-
-    const value = getPropValue(this.props);
+    const value = getPropValue(
+      this.props,
+      null,
+      canCellAccessSuperData !== false
+    );
     const Component = wrapperComponent || (inline ? 'span' : 'div');
 
     return (

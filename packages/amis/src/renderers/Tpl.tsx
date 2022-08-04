@@ -80,8 +80,13 @@ export class Tpl extends React.Component<TplProps, object> {
   }
 
   getContent() {
-    const {tpl, html, text, raw, data, placeholder} = this.props;
-    const value = getPropValue(this.props);
+    const {tpl, html, text, raw, data, placeholder, canCellAccessSuperData} =
+      this.props;
+    const value = getPropValue(
+      this.props,
+      null,
+      canCellAccessSuperData !== false
+    );
 
     if (raw) {
       return raw;

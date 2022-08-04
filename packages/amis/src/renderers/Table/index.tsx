@@ -165,6 +165,11 @@ export type TableColumnObject = {
    * 是否唯一, 只有在 inputTable 里面才有用
    */
   unique?: boolean;
+
+  /**
+   * 表格的单元格是否可以获取父级数据域值，默认为true，该配置对当前列内单元格生效，优先级高于表格中配置
+   */
+  canCellAccessSuperData?: boolean;
 };
 
 export type TableColumnWithType = SchemaObject & TableColumnObject;
@@ -293,6 +298,11 @@ export interface TableSchema extends BaseSchema {
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
    */
   autoGenerateFilter?: boolean;
+
+  /**
+   * 表格的单元格是否可以获取父级数据域值，默认为true，该配置对表格内所有单元格生效
+   */
+  canCellAccessSuperData?: boolean;
 }
 
 export interface TableProps extends RendererProps {
@@ -359,6 +369,7 @@ export interface TableProps extends RendererProps {
   rowClassNameExpr?: string;
   popOverContainer?: any;
   canAccessSuperData?: boolean;
+  canCellAccessSuperData?: boolean;
   reUseRow?: boolean;
   itemBadge?: BadgeObject;
   loading?: boolean;
@@ -454,6 +465,7 @@ export default class Table extends React.Component<TableProps, object> {
     itemDraggableOn: '',
     hideCheckToggler: false,
     canAccessSuperData: false,
+    canCellAccessSuperData: true,
     resizable: true
   };
 
@@ -2059,6 +2071,7 @@ export default class Table extends React.Component<TableProps, object> {
       checkOnItemClick,
       popOverContainer,
       canAccessSuperData,
+      canCellAccessSuperData,
       itemBadge
     } = this.props;
 
@@ -2153,6 +2166,7 @@ export default class Table extends React.Component<TableProps, object> {
       prefix,
       onImageEnlarge: this.handleImageEnlarge,
       canAccessSuperData,
+      canCellAccessSuperData: canCellAccessSuperData !== false,
       row: item,
       itemBadge,
       showBadge:
