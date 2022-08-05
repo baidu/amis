@@ -608,23 +608,14 @@ export default class Table extends React.Component<TableProps, object> {
   componentDidMount() {
     const {autoFillHeight, classPrefix: ns} = this.props;
     const currentNode = findDOMNode(this) as HTMLElement;
+    // 获取小于所有子元素高度之和的父元素
     let parent: HTMLElement | Window | null = getScrollParent(
       currentNode,
       parent => {
-        const parentStyle = getComputedStyle(parent);
-        const currentStyle = getComputedStyle(currentNode);
-
-        const parentHeight =
-          parseInt(parentStyle.getPropertyValue('height')) -
-          parseInt(parentStyle.getPropertyValue('padding-top')) -
-          parseInt(parentStyle.getPropertyValue('padding-bottom'));
-        const currentHeight =
-          parseInt(currentStyle.getPropertyValue('height')) +
-          parseInt(currentStyle.getPropertyValue('margin-bottom')) +
-          parseInt(currentStyle.getPropertyValue('margin-top'));
-
         // 具备 overflow-*:auto 的父元素的高度小于当前元素
-        return parentHeight > 0 && parentHeight < currentHeight;
+        return (
+          parent.offsetHeight > 0 && parent.offsetHeight < parent.scrollHeight
+        );
       }
     );
 
