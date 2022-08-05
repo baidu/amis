@@ -18,8 +18,8 @@
       button {
         top: 44px;
         width: 100%;
-        color: #2468F2;
-        border: #{px2rem(1px)} solid #2468F2;
+        color: #2468f2;
+        border: #{px2rem(1px)} solid #2468f2;
         border-radius: #{px2rem(4px)};
         span {
           display: none;
@@ -46,7 +46,7 @@
       width: #{px2rem(16px)};
       height: #{px2rem(16px)};
       &:hover {
-        color: #2468F2;
+        color: #2468f2;
       }
     }
     .event-item {
@@ -56,8 +56,8 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        background: #F2F2F4;
-        border: #{px2rem(1px)} solid #d4D6D9;
+        background: #f2f2f4;
+        border: #{px2rem(1px)} solid #d4d6d9;
         border-left: none;
         border-right: none;
         padding: 0 12px;
@@ -69,7 +69,7 @@
           align-items: center;
           & > div {
             margin-right: #{px2rem(12px)};
-            &:last-child{
+            &:last-child {
               margin-right: 0;
             }
           }
@@ -77,7 +77,7 @@
       }
       &:last-child {
         .event-item-header {
-          border-bottom: #{px2rem(1px)} solid #d4D6D9;
+          border-bottom: #{px2rem(1px)} solid #d4d6d9;
         }
       }
       .no-bd-btm {
@@ -91,25 +91,26 @@
         background: #ffffff;
         list-style-type: none;
         .ae-option-control-item {
-          background: #F7F7F9;
+          background: #f7f7f9;
           width: 100%;
           padding: #{px2rem(8px)};
           margin-bottom: #{px2rem(12px)};
           border-radius: #{px2rem(4px)};
           border: #{px2rem(1px)} solid transparent;
           &:hover {
-            border: #{px2rem(1px)} solid #2468F2;
+            border: #{px2rem(1px)} solid #2468f2;
           }
           .action-control-header {
             @include flexBox(row, space-between);
-            &-left, &-right {
+            &-left,
+            &-right {
               color: #303540;
               display: flex;
               align-items: center;
-              .icon{
-                color: #84868C;
+              .icon {
+                color: #84868c;
                 &:hover {
-                  color: #2468F2;
+                  color: #2468f2;
                 }
               }
               .action-item-actiontype {
@@ -122,14 +123,14 @@
             &-right {
               & > div {
                 margin-right: #{px2rem(8px)};
-                &:last-child{
+                &:last-child {
                   margin-right: 0;
                 }
               }
             }
           }
           .action-control-content {
-            color: #84868C;
+            color: #84868c;
             letter-spacing: 0;
             line-height: #{px2rem(20px)};
             font-weight: 400;
@@ -140,11 +141,11 @@
             white-space: nowrap;
             text-overflow: ellipsis;
             .variable-left {
-              color: #2468F2;
+              color: #2468f2;
               margin-left: #{px2rem(4px)};
             }
             .variable-right {
-              color: #2468F2;
+              color: #2468f2;
               margin-right: #{px2rem(4px)};
             }
           }
@@ -202,7 +203,7 @@
     border-bottom: none;
   }
   &-placeholder {
-    color: #84868C;
+    color: #84868c;
     line-height: #{px2rem(24px)};
     background: url('../static/empty.png');
     text-align: center;
@@ -223,7 +224,7 @@
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    color: #84868C;
+    color: #84868c;
     line-height: #{px2rem(24px)};
 
     &.no-settings {
@@ -246,7 +247,8 @@
 }
 
 .action-config-dialog {
-  .antd-Modal-content, .cxd-Modal-content {
+  .antd-Modal-content,
+  .cxd-Modal-content {
     width: 800px;
   }
 
@@ -254,7 +256,7 @@
     font-size: 12px;
     .cxd-Tree-itemArrow {
       .icon-right-arrow-bold {
-        color: #888A90;
+        color: #888a90;
       }
     }
   }
@@ -273,8 +275,8 @@
 }
 
 .action-config-panel {
-  background: #FFFFFF;
-  border: 1px solid #E8E9EB;
+  background: #ffffff;
+  border: 1px solid #e8e9eb;
   border-radius: 4px;
   height: #{px2rem(420px)};
   max-height: #{px2rem(420px)};
@@ -305,11 +307,11 @@
   .left-panel {
     height: 100%;
     padding-right: 0px;
-    border-right: 1px solid #E8E9EB;
+    border-right: 1px solid #e8e9eb;
     max-width: #{px2rem(200px)};
     .action-tree {
       height: calc(100% - 88px);
-      border-top: 1px solid #E8E9EB;
+      border-top: 1px solid #e8e9eb;
       .action-tree-control {
         height: 100%;
         max-height: 100%;
@@ -334,10 +336,10 @@
               line-height: 32px;
 
               .cxd-Tree-itemText {
-                color: #151A26;
+                color: #151a26;
 
                 .is-matched {
-                  color: #2468F2;
+                  color: #2468f2;
                 }
               }
 
@@ -403,14 +405,15 @@
         padding-bottom: 0;
       }
     }
-    .cmpt-action-select, .action-btn-width {
+    .cmpt-action-select,
+    .action-btn-width {
       width: auto;
-      min-width: #{px2rem(320px)};;
+      min-width: #{px2rem(320px)};
     }
 
     &-container {
       max-height: calc(100% - 46px);
-      margin: 0px  16px 16px;
+      margin: 0px 16px 16px;
       .action-panel-title {
         margin-left: 0;
       }
@@ -421,6 +424,10 @@
 
       .cxd-Form-item--horizontal > .cxd-Form-label {
         text-align: left;
+      }
+
+      .action-apiControl .cxd-Form-row {
+        align-items: center;
       }
     }
 
