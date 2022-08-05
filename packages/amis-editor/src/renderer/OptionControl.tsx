@@ -20,7 +20,7 @@ import {value2array} from 'amis-ui/lib/components/Select';
 
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import type {FormControlProps} from 'amis-core';
@@ -615,7 +615,7 @@ export default class OptionControl extends React.Component<
             value={label}
             placeholder="请输入文本/值"
             clearable={false}
-            onChange={value => this.handleEditLabel(index, value)}
+            onChange={(value: string) => this.handleEditLabel(index, value)}
           />
           {amisRender({
             type: 'dropdown-button',
@@ -715,6 +715,7 @@ export default class OptionControl extends React.Component<
       getSchemaTpl('apiControl', {
         label: '接口',
         name: 'source',
+        mode: 'normal',
         className: 'ae-ExtendMore',
         visibleOn: 'data.autoComplete !== false',
         value: api,

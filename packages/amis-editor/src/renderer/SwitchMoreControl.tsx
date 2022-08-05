@@ -169,7 +169,7 @@ export default class SwitchMore extends React.Component<
 
   @autobind
   handleSwitchChange(checked: boolean) {
-    const {onBulkChange, onChange, bulk, defaultData, name} = this.props;
+    const {onBulkChange, onChange, bulk, defaultData, name, pipeOut} = this.props;
 
     this.setState({checked});
 
@@ -179,19 +179,30 @@ export default class SwitchMore extends React.Component<
       if (checked) {
         let data = defaultData ? {...defaultData} : {};
         name && (data[name] = true);
+        if (pipeOut) {
+          data = pipeOut(data);
+        }
         onBulkChange && onBulkChange(data);
       }
       // 取消选中后，讲所有字段重置
       else {
-        const values = fromPairs(
+        let values = fromPairs(
           this.getFormItemNames().map(i => [i, undefined])
         );
         name && (values[name] = false);
+        if (pipeOut) {
+          values = pipeOut(values);
+        }
         onBulkChange && onBulkChange(values);
       }
       return;
     }
-    onChange(checked ? defaultData || true : undefined);
+
+    let data = checked ? defaultData || true : undefined;
+    if (pipeOut) {
+      data = pipeOut(data);
+    }
+    onChange(data);
   }
 
   @autobind

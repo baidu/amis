@@ -40,11 +40,9 @@ export class TableCellPlugin extends BasePlugin {
               type: 'input-text'
             },
 
-            {
-              name: 'name',
-              type: 'input-text',
+            getSchemaTpl('formItemName', {
               label: '绑定字段名'
-            },
+            }),
 
             {
               name: 'remark',

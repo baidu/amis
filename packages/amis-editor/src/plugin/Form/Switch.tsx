@@ -1,7 +1,6 @@
 import {getSchemaTpl, valuePipeOut} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, tipedLabel} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import type {
@@ -97,7 +96,7 @@ export class SwitchControlPlugin extends BasePlugin {
               },
 
               {
-                type: 'ae-Switch-More',
+                type: 'ae-switch-more',
                 bulk: true,
                 mode: 'normal',
                 label: '填充文本',
@@ -120,7 +119,7 @@ export class SwitchControlPlugin extends BasePlugin {
               },
 
               {
-                type: 'ae-Switch-More',
+                type: 'ae-switch-more',
                 bulk: true,
                 mode: 'normal',
                 label: tipedLabel(
@@ -199,7 +198,8 @@ export class SwitchControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

@@ -8,7 +8,7 @@ import {render, Button, Switch} from 'amis';
 
 import {autobind} from 'amis-editor-core';
 import {Validator} from '../validator';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {SchemaCollection} from 'amis/lib/Schema';
 
 export type ValidatorData = {

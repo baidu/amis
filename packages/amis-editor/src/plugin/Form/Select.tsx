@@ -1,9 +1,7 @@
 import {getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import isArray from 'lodash/isArray';
 
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {
@@ -224,7 +222,8 @@ export class SelectControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           {
@@ -262,7 +261,7 @@ export class SelectControlPlugin extends BasePlugin {
                 }
               }),
               getSchemaTpl('editable', {
-                type: 'ae-Switch-More',
+                type: 'ae-switch-more',
                 formType: 'extend',
                 hiddenOnDefault: true,
                 form: {
@@ -270,7 +269,7 @@ export class SelectControlPlugin extends BasePlugin {
                 }
               }),
               getSchemaTpl('removable', {
-                type: 'ae-Switch-More',
+                type: 'ae-switch-more',
                 formType: 'extend',
                 hiddenOnDefault: true,
                 form: {

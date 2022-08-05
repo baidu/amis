@@ -6,10 +6,11 @@ import {
   BasePlugin,
   BasicPanelItem,
   BasicToolbarItem,
-  BuildPanelEventContext,
+  BuildPanelEventContext
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
+import {SchemaCollection} from 'amis/lib/Schema';
 
 export class ActionPlugin extends BasePlugin {
   panelTitle = '按钮';
@@ -350,7 +351,7 @@ export class ActionPlugin extends BasePlugin {
         className: 'p-3',
         body: schema
       }
-    ];
+    ] as SchemaCollection;
   };
 
   buildEditorPanel(

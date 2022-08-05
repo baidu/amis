@@ -140,7 +140,8 @@ export class CodeEditorControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

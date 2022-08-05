@@ -3,10 +3,7 @@ import {getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class TabsTransferPlugin extends BasePlugin {
@@ -338,7 +335,14 @@ export class TabsTransferPlugin extends BasePlugin {
               getSchemaTpl('joinValues'),
               getSchemaTpl('delimiter'),
               getSchemaTpl('extractValue'),
-              getSchemaTpl('autoFill')
+              getSchemaTpl('autoFillApi', {
+                visibleOn:
+                  '!this.autoFill || this.autoFill.scene && this.autoFill.action'
+              }),
+              getSchemaTpl('autoFill', {
+                visibleOn:
+                  '!this.autoFill || !this.autoFill.scene && !this.autoFill.action'
+              })
             ]
           })
         ])

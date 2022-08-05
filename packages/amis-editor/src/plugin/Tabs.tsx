@@ -16,7 +16,7 @@ import {VRenderer} from 'amis-editor-core';
 import findIndex from 'lodash/findIndex';
 import {RegionWrapper as Region} from 'amis-editor-core';
 import {Tab} from 'amis';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../validator';
 import {
   getArgsWrapper,

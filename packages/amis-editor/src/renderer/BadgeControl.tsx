@@ -9,11 +9,10 @@ import mapKeys from 'lodash/mapKeys';
 import {FormItem, Switch} from 'amis';
 
 import {autobind, isObject, isEmpty, anyChanged} from 'amis-editor-core';
-import {defaultValue} from 'amis-editor-core';
+import {defaultValue, tipedLabel} from 'amis-editor-core';
 
 import type {FormControlProps} from 'amis-core';
 import type {SchemaExpression} from 'amis/lib/Schema';
-import { tipedLabel } from '../component/BaseControl';
 
 export interface BadgeControlProps extends FormControlProps {
   /**
@@ -223,7 +222,9 @@ export default class BadgeControl extends React.Component<
             mode: 'row',
             visibleOn: "data.mode !== 'dot'",
             pipeOut: (value: any) => {
-              return Number.isNaN(Number(value)) || value === '' ? value : Number(value);
+              return Number.isNaN(Number(value)) || value === ''
+                ? value
+                : Number(value);
             }
           },
           {
@@ -282,10 +283,7 @@ export default class BadgeControl extends React.Component<
             type: 'input-group',
             mode: 'row',
             inputClassName: 'inline-flex justify-right flex-row-reverse',
-            label: tipedLabel(
-              '偏移量',
-              '角标位置相对”水平“、”垂直“的偏移量'
-            ),
+            label: tipedLabel('偏移量', '角标位置相对”水平“、”垂直“的偏移量'),
             body: [
               {
                 type: 'input-number',
@@ -364,13 +362,8 @@ export default class BadgeControl extends React.Component<
   }
 
   render() {
-    const {
-      classPrefix,
-      className,
-      labelClassName,
-      label,
-      disabled
-    } = this.props;
+    const {classPrefix, className, labelClassName, label, disabled} =
+      this.props;
     const {checked} = this.state;
 
     return (

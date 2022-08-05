@@ -1,7 +1,4 @@
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import flatten from 'lodash/flatten';
 import {ContainerWrapper} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
@@ -13,8 +10,7 @@ import {
   SubRendererInfo,
   BaseEventContext
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
@@ -244,7 +240,8 @@ export class NumberControlPlugin extends BasePlugin {
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
                 getSchemaTpl('placeholder'),
-                getSchemaTpl('description')
+                getSchemaTpl('description'),
+                getSchemaTpl('autoFillApi')
               ]
             },
             getSchemaTpl('status', {isFormItem: true}),

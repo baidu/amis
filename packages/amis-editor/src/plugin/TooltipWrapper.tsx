@@ -5,7 +5,7 @@
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 
 export class TooltipWrapperPlugin extends BasePlugin {
   rendererName = 'tooltip-wrapper';

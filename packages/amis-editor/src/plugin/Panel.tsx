@@ -85,7 +85,8 @@ export class PanelPlugin extends BasePlugin {
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
-    const isForm = /(?:^|\/)form$/.test(context.path) || context?.schema?.type === 'form';
+    const isForm =
+      /(?:^|\/)form$/.test(context.path) || context?.schema?.type === 'form';
 
     return [
       getSchemaTpl('tabs', [
@@ -102,7 +103,7 @@ export class PanelPlugin extends BasePlugin {
                     name: 'title',
                     type: 'input-text'
                   },
-      
+
                   isForm
                     ? null
                     : {
@@ -124,7 +125,7 @@ export class PanelPlugin extends BasePlugin {
                 ]
               },
               getSchemaTpl('status')
-            ]),
+            ])
           ]
         },
         {
@@ -140,7 +141,7 @@ export class PanelPlugin extends BasePlugin {
                     label: '固定底部',
                     value: false
                   }),
-      
+
                   getSchemaTpl('horizontal', {
                     visibleOn:
                       '(data.mode || data.$$formMode) == "horizontal" && data.$$mode == "form"'
@@ -152,7 +153,9 @@ export class PanelPlugin extends BasePlugin {
                 title: '内容区域展示',
                 body: [
                   getSchemaTpl('subFormItemMode', {label: '表单展示模式'}),
-                  getSchemaTpl('subFormHorizontalMode', {label: '表单水平占比'}),
+                  getSchemaTpl('subFormHorizontalMode', {
+                    label: '表单水平占比'
+                  }),
                   getSchemaTpl('subFormHorizontal')
                 ]
               },
@@ -211,28 +214,28 @@ export class PanelPlugin extends BasePlugin {
                     name: isForm ? 'panelClassName' : 'className',
                     pipeIn: defaultValue('Panel--default')
                   }),
-      
+
                   getSchemaTpl('className', {
                     name: 'headerClassName',
                     label: '头部区域'
                   }),
-      
+
                   getSchemaTpl('className', {
                     name: 'bodyClassName',
                     label: '内容区域'
                   }),
-      
+
                   getSchemaTpl('className', {
                     name: 'footerClassName',
                     label: '底部区域'
                   }),
-      
+
                   getSchemaTpl('className', {
                     name: 'actionsClassName',
                     label: '按钮外层'
                   })
-                ],
-              },
+                ]
+              }
             ])
           ]
         }
@@ -251,9 +254,10 @@ export class PanelPlugin extends BasePlugin {
     if (
       context.info.renderer.name === 'form' &&
       schema.wrapWithPanel !== false &&
-      !context.selections.length
+      !context.selections.length &&
+      false
     ) {
-
+      /** Panel相关的配置融合到From中了 */
       panels.push({
         key: 'panel',
         icon: 'fa fa-list-alt',

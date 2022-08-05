@@ -1,20 +1,18 @@
 import {Button} from 'amis';
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
   BasicToolbarItem,
   ContextMenuEventContext,
-  ContextMenuItem
+  ContextMenuItem,
+  registerEditorPlugin,
+  tipedLabel,
+  defaultValue,
+  getSchemaTpl,
+  diff
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {diff} from 'amis-editor-core';
-import {
-  BUTTON_DEFAULT_ACTION,
-  formItemControl,
-  tipedLabel
-} from '../component/BaseControl';
+import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
 export class DropDownButtonPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'dropdown-button';

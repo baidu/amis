@@ -2,10 +2,8 @@ import {getSchemaTpl, valuePipeOut} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {formItemControl} from '../../component/BaseControl';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+
 export class ImageControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'input-image';
@@ -114,8 +112,6 @@ export class ImageControlPlugin extends BasePlugin {
               value: '/api/upload',
               __isUpload: true
             }),
-
-            getSchemaTpl('autoFill'),
 
             {
               type: 'input-text',
@@ -283,7 +279,15 @@ export class ImageControlPlugin extends BasePlugin {
                     '当宽高比没有满足条件时，此描述将作为提示信息显示'
                 }
               ]
-            }
+            },
+            getSchemaTpl('autoFillApi', {
+              visibleOn:
+                '!this.autoFill || this.autoFill.scene && this.autoFill.action'
+            }),
+            getSchemaTpl('autoFill', {
+              visibleOn:
+                '!this.autoFill || !this.autoFill.scene && !this.autoFill.action'
+            })
           ]
         }
       },

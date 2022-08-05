@@ -5,7 +5,7 @@ import {
   getSchemaTpl
 } from 'amis-editor-core';
 import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 
 // 需要一个示例，不然默认的没有高度都无法选中
 class WebComponentDemo extends HTMLElement {
@@ -67,7 +67,7 @@ export class WebComponentPlugin extends BasePlugin {
                   mode: 'normal',
                   name: 'props',
                   label: '属性'
-                }),
+                })
               ]
             }
           ])

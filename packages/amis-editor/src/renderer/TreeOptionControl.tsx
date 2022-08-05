@@ -19,8 +19,7 @@ import {
 } from 'amis';
 
 import {autobind} from 'amis-editor-core';
-import {getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import type {FormControlProps} from 'amis-core';

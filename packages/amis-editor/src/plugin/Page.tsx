@@ -174,9 +174,9 @@ export class PagePlugin extends BasePlugin {
               label: '数据初始化接口',
               name: 'initApi',
               sampleBuilder: () => `{
-                "status": 0,
-                "msg": "",
-              
+  "status": 0,
+  "msg": "",
+
                 data: {
                   // 示例数据
                   "id": 1,
