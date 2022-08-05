@@ -73,7 +73,7 @@ export class AnchorNavPlugin extends BasePlugin {
         title: '属性',
         body: getSchemaTpl('collapseGroup', [
           {
-            title: '常用',
+            title: '基本',
             body: [
               getSchemaTpl('combo-container', {
                 type: 'combo',

@@ -1,14 +1,16 @@
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
+  registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
   RegionConfig,
-  RendererInfo
+  RendererInfo,
+  getSchemaTpl,
+  noop
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {noop} from 'amis-editor-core';
+import {cloneDeep, assign} from 'lodash';
 import {getEventControlConfig} from '../renderer/event-control/helper';
+import {tipedLabel} from '../component/BaseControl';
 
 export class DialogPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -83,108 +85,152 @@ export class DialogPlugin extends BasePlugin {
   ];
 
   panelTitle = '弹框';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     return getSchemaTpl('tabs', [
       {
-        title: '常规',
-        body: [
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
           {
-            label: '标题',
-            type: 'input-text',
-            name: 'title'
-          },
-
-          getSchemaTpl('switch', {
-            label: '数据映射',
-            name: 'data',
-            className: 'block m-b-xs',
-            pipeIn: (value: any) => !!value,
-            pipeOut: (value: any) => (value ? {'&': '$$'} : null)
-          }),
-
-          {
-            type: 'tpl',
-            visibleOn: '!this.data',
-            tpl:
-              '<p class="text-sm text-muted">当没开启数据映射时，弹框中默认会拥有触发打开弹框按钮所在环境的所有数据。</p>'
-          },
-
-          {
-            type: 'input-kv',
-            syncDefaultValue: false,
-            name: 'data',
-            visibleOn: 'this.data',
-            descriptionClassName: 'help-block text-xs m-b-none',
-            description:
-              '<p>当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：<code>{"a": "\\${a}", "b": 2}</code></p><p>如果希望在默认的基础上定制，请先添加一个 Key 为 `&` Value 为 `\\$$` 作为第一行。</p><div>当值为 <code>__undefined</code>时，表示删除对应的字段，可以结合<code>{"&": "\\$$"}</code>来达到黑名单效果。</div>',
-            messages: {
-              validateFailed: '数据映射中存在错误，请仔细检查'
-            }
-          },
-
-          getSchemaTpl('switch', {
-            label: '按 Esc 关闭弹框',
-            name: 'closeOnEsc',
-            value: false
-          }),
-
-          getSchemaTpl('switch', {
-            label: '点击弹框外区域关闭弹框',
-            name: 'closeOnOutside',
-            value: false
-          })
-        ]
+            title: '基本',
+            body: [
+              {
+                label: '标题',
+                type: 'input-text',
+                name: 'title'
+              },
+              {
+                label: '尺寸',
+                type: 'button-group-select',
+                value: 'md',
+                name: 'size',
+                size: 'sm',
+                options: [
+                  {
+                    label: '小',
+                    value: 'sm'
+                  },
+                  {
+                    label: '中',
+                    value: 'md'
+                  },
+                  {
+                    label: '大',
+                    value: 'lg'
+                  },
+                  {
+                    label: '超大',
+                    value: 'xl'
+                  }
+                ]
+              },
+              getSchemaTpl('switch', {
+                label: '展示关闭按钮',
+                name: 'showCloseButton',
+                value: true
+              }),
+              getSchemaTpl('switch', {
+                label: '可按 Esc 关闭',
+                name: 'closeOnEsc',
+                value: false
+              }),
+              getSchemaTpl('switch', {
+                label: '左下角展示报错消息',
+                name: 'showErrorMsg',
+                value: true
+              }),
+              getSchemaTpl('switch', {
+                label: '左下角展示loading动画',
+                name: 'showLoading',
+                value: true
+              }),
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '数据映射',
+                  '<div> 当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：{"a": "${a}", "b": 2}。</div>'
+                  + '<div>当值为 __undefined时，表示删除对应的字段，可以结合{"&": "$$"}来达到黑名单效果。</div>'
+                ),
+                name: 'dataMapSwitch',
+                value: false,
+                className: 'm-b-xs',
+                onChange: (value: any, oldValue: any, model: any, form: any) => {
+                  const newDataValue = value ? {} : null;
+                  form.setValues({
+                    __dataMap: newDataValue,
+                    data: newDataValue
+                  });
+                }
+              }),
+              {
+                type: 'alert',
+                level: 'info',
+                visibleOn: 'this.dataMapSwitch',
+                className: 'relative',
+                body: [
+                  {
+                    type: 'tpl',
+                    tpl: '${data["&"] ? "已开启定制参数功能，可点击关闭该功能。" : "如果需要在默认数据的基础上定制参数，请配置开启参数定制再定义key和value。"}'
+                  },
+                  {
+                    type: 'button',
+                    label: '${data["&"] ? "立即关闭" : "立即开启"}',
+                    level: 'link',
+                    className: 'absolute bottom-3 right-10',
+                    onClick: (e: any, props: any) => {
+                      const newData = props.data.data?.['&'] === '$$' ? {} : {'&': '$$'};
+                      // 用onBulkChange保证代码视图和编辑区域数据保持同步
+                      props.onBulkChange({
+                        data: newData,
+                        __dataMap: {}
+                      });
+                    }
+                  }
+                ],
+                showCloseButton: true
+              },
+              getSchemaTpl('combo-container', {
+                type: 'input-kv',
+                syncDefaultValue: false,
+                name: '__dataMap',
+                value: null,
+                visibleOn: 'this.dataMapSwitch',
+                className: 'block -mt-5',
+                deleteBtn: {
+                  icon: 'fa fa-trash'
+                },
+                onChange: (value: any, oldValue: any, model: any, form: any) => {
+                  // 用assign保证'&'第一个被遍历到
+                  const newDataMap = form.data.data?.['&'] ?
+                    assign({'&': '$$'}, value) : cloneDeep(value);
+                  form.setValues({
+                    data: newDataMap
+                  });
+                  form.setValues({
+                    data: newDataMap
+                  });
+                }
+              }),
+            ]
+          }
+        ])
       },
       {
         title: '外观',
-        body: [
+        body: getSchemaTpl('collapseGroup', [
           {
-            label: '尺寸',
-            type: 'button-group-select',
-            name: 'size',
-            size: 'sm',
-            className: 'block',
-            pipeIn: defaultValue(''),
-            options: [
-              {
-                label: '小',
-                value: 'sm'
-              },
-              {
-                label: '默认',
-                value: ''
-              },
-              {
-                label: '中',
-                value: 'md'
-              },
-              {
-                label: '大',
-                value: 'lg'
-              },
-              {
-                label: '超大',
-                value: 'xl'
-              }
+            title: 'CSS类名',
+            body: [
+              getSchemaTpl('className', {
+                name: 'className',
+                label: '外层'
+              }),
+              getSchemaTpl('className', {
+                name: 'bodyClassName',
+                label: '内容区域'
+              })
             ]
-          },
-
-          getSchemaTpl('switch', {
-            label: '是否显示关闭按钮',
-            name: 'showCloseButton',
-            value: true
-          }),
-
-          getSchemaTpl('className', {
-            name: 'headerClassName',
-            label: '顶部 CSS 类名'
-          }),
-
-          getSchemaTpl('className', {
-            name: 'bodyClassName',
-            label: '内容 CSS 类名'
-          })
-        ]
+          }
+        ])
       },
       {
         title: '事件',
