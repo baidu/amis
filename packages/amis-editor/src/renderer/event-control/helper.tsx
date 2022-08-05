@@ -135,11 +135,15 @@ export const SUPPORT_DISABLED_CMPTS = [
   // 'card2'
 ];
 
-export const getArgsWrapper = (items: any, patch = {}) => ({
+export const getArgsWrapper = (
+  items: any,
+  multiple: boolean = false,
+  patch = {}
+) => ({
   type: 'combo',
   name: 'args',
   // label: '动作参数',
-  multiple: false,
+  multiple,
   strictMode: false,
   ...patch,
   items: Array.isArray(items) ? items : [items]
