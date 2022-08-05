@@ -23,7 +23,7 @@ import {
 import CmptActionSelect from './comp-action-select';
 import {Button} from 'amis';
 import ACTION_TYPE_TREE from './actions';
-import { stores } from 'amis-core/lib/factory';
+import {stores} from 'amis-core/lib/factory';
 
 // 数据容器范围
 export const DATA_CONTAINER = [
@@ -135,12 +135,13 @@ export const SUPPORT_DISABLED_CMPTS = [
   // 'card2'
 ];
 
-export const getArgsWrapper = (items: any, multiple: boolean = false) => ({
+export const getArgsWrapper = (items: any, patch = {}) => ({
   type: 'combo',
   name: 'args',
   // label: '动作参数',
-  multiple,
+  multiple: false,
   strictMode: false,
+  ...patch,
   items: Array.isArray(items) ? items : [items]
 });
 
@@ -1008,7 +1009,7 @@ export const getEventControlConfig = (
       return true;
     }
     return false;
-  }
+  };
   return {
     showOldEntry:
       !!context.schema.actionType ||
@@ -1036,7 +1037,7 @@ export const getEventControlConfig = (
       let components = allComponents;
       if (isSubEditor) {
         let superTree = manager.store.getSuperEditorData;
-        while(superTree) {
+        while (superTree) {
           if (superTree.__superCmptTreeSource) {
             components = components.concat(superTree.__superCmptTreeSource);
           }
@@ -1045,7 +1046,7 @@ export const getEventControlConfig = (
       }
       const result = filterTree(
         components,
-        (node) => checkComponent(node, action),
+        node => checkComponent(node, action),
         1,
         true
       );

@@ -739,7 +739,7 @@ export class CRUDPlugin extends BasePlugin {
       {
         title: '接口',
         body: [
-          getSchemaTpl('api', {
+          getSchemaTpl('apiControl', {
             label: '数据拉取接口',
             sampleBuilder: () => {
               const data: any = {
@@ -865,7 +865,7 @@ export class CRUDPlugin extends BasePlugin {
             label: '是否可拖拽排序'
           }),
 
-          getSchemaTpl('api', {
+          getSchemaTpl('apiControl', {
             label: '顺序保存接口',
             name: 'saveOrderApi',
             visibleOn: 'data.draggable'
@@ -875,7 +875,7 @@ export class CRUDPlugin extends BasePlugin {
             type: 'divider'
           },
 
-          getSchemaTpl('api', {
+          getSchemaTpl('apiControl', {
             label: '快速保存接口',
             name: 'quickSaveApi',
             description:
@@ -886,7 +886,7 @@ export class CRUDPlugin extends BasePlugin {
             type: 'divider'
           },
 
-          getSchemaTpl('api', {
+          getSchemaTpl('apiControl', {
             label: '快速保存单条接口',
             name: 'quickSaveItemApi',
             description:
