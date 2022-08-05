@@ -20,6 +20,8 @@ export * from './manager';
 export * from './plugin';
 export * from './icons/index';
 export * from './mocker';
+export * from './builder/DSBuilder';
+import './builder/ApiBuilder';
 import {BasicEditor, RendererEditor} from './compat';
 import MiniEditor from './component/MiniEditor';
 import CodeEditor from './component/Panel/AMisCodeEditor';

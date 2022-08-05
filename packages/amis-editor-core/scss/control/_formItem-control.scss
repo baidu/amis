@@ -130,4 +130,9 @@
     width: 100%;
     height: px2rem(32px);
   }
+
+}
+
+.form-item-gap {
+  margin-bottom: var(--Form-item-gap);
 }

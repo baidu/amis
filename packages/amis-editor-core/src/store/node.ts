@@ -523,6 +523,18 @@ export const EditorNode = types
       self.h = height;
     }
 
+    function getClosestParentByType(type: string): EditorNodeType | void {
+      let node = self;
+      while(node = node.parent) {
+        if (node.schema.type === type) {
+          return node as EditorNodeType;
+        }
+        if (node.id === 'root') {
+          return;
+        }
+      }
+    }
+
     // 放到props会变成 frozen 的。
     let component: any;
 
@@ -531,6 +543,7 @@ export const EditorNode = types
     }
 
     return {
+      getClosestParentByType,
       updateIsCommonConfig,
       addChild(props: {
         id: string;

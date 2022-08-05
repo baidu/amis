@@ -1,0 +1,64 @@
+.ae-FeatureControl {
+  &-features {
+    margin: 0;
+    padding: 0;
+  }
+
+  &Item {
+    display: flex;
+    height: 30px;
+    margin-bottom: 12px;
+
+    :not(:last-child) {
+      margin-right: px2rem(8px);
+    }
+
+    &-go {
+      flex-grow: 1;
+    }
+
+    &-label {
+      flex-grow: 1;
+      height: px2rem(32px);
+      display: block;
+      line-height: px2rem(32px);
+      padding: 0 px2rem(8px);
+      border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+      border-radius: var(--Form-input-borderRadius);
+      text-align: center;
+    }
+
+    &-action {
+      padding: 0 6px;
+      svg {
+        width: px2rem(16px);
+        height: px2rem(16px);
+        fill: #000;
+      }
+
+      &:hover {
+        svg {
+          fill: $Editor-theme;
+        }
+      }
+    }
+  }
+
+  &-action {
+    display: block;
+    width: 100%;
+
+    &--btn {
+      width: 100%;
+      border-color: $Editor-theme;
+      color: $Editor-theme;
+    }
+
+    &--menus {
+      width: calc(100% - 12px);
+      margin-left: 6px;
+      text-align: center;
+    }
+  }
+
+}
