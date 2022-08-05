@@ -531,7 +531,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             perPageField,
             loadDataMode,
             syncResponse2Query,
-            columns: store.columns ?? columns
+            columns: store.columns ?? columns,
+            isTableV2: true
           })
           .then(value => {
             interval &&
