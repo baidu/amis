@@ -1,8 +1,11 @@
 import React from 'react';
 import {getEventControlConfig} from '../util';
 import {tipedLabel} from '../component/BaseControl';
-import {registerEditorPlugin, getSchemaTpl} from 'amis-editor-core';
-import { RendererAction, RendererEvent } from 'amis-editor-comp/dist/renderers/event-action';
+import {
+  registerEditorPlugin,
+  getSchemaTpl
+} from 'amis-editor-core';
+import { RendererEvent } from 'amis-editor-comp/dist/renderers/event-action';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 export class TimelinePlugin extends BasePlugin {
@@ -29,24 +32,8 @@ export class TimelinePlugin extends BasePlugin {
     ...this.scaffold
   };
 
-  // 事件定义
-  events: RendererEvent[] = [
-    // {
-    //   eventName: 'add',
-    //   eventLabel: '新增选项',
-    //   description: '新增选项'
-    // },
-    // {
-    //   eventName: 'edit',
-    //   eventLabel: '编辑选项',
-    //   description: '编辑选项'
-    // },
-    // {
-    //   eventName: 'delete',
-    //   eventLabel: '删除选项',
-    //   description: '删除选项'
-    // }
-  ];
+  // TODO 事件定义
+  events: RendererEvent[] = [];
 
   panelTitle = '时间轴';
   panelJustify = true;
@@ -86,7 +73,7 @@ export class TimelinePlugin extends BasePlugin {
               },
               {
                 label: tipedLabel(
-                  '文字方向',
+                  '文字位置',
                   '文字相对时间轴位置'
                   ),
                 name: 'mode',
@@ -94,9 +81,9 @@ export class TimelinePlugin extends BasePlugin {
                 type: 'button-group-select',
                 visibleOn: 'data.direction === "vertical"',
                 options: [
-                  {label: '偏左', value: 'right'},
-                  {label: '偏右', value: 'left'},
-                  {label: '左右交替', value: 'alternate'},
+                  {label: '左侧', value: 'right'},
+                  {label: '右侧', value: 'left'},
+                  {label: '两侧交替', value: 'alternate'},
                 ]
               }
             ]
