@@ -1,11 +1,16 @@
-import {getSchemaTpl, valuePipeOut} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {formItemControl} from '../../component/BaseControl';
 import {
+  getSchemaTpl,
+  valuePipeOut,
   RendererPluginAction,
-  RendererPluginEvent
+  RendererPluginEvent,
+  BasePlugin,
+  BaseEventContext,
+  registerEditorPlugin
 } from 'amis-editor-core';
+import {tipedLabel} from '../../component/BaseControl';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {ValidatorTag} from '../../validator';
+
 export class ImageControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'input-image';
@@ -43,22 +48,70 @@ export class ImageControlPlugin extends BasePlugin {
     {
       eventName: 'change',
       eventLabel: '值变化',
-      description: '文件值变化'
+      description: '上传文件值变化时触发（上传失败同样会触发）',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'object',
+              title: '上传的文件'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'remove',
       eventLabel: '移除文件',
-      description: '移除文件'
+      description: '移除文件时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'object',
+              title: '被移除的文件'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'success',
       eventLabel: '上传成功',
-      description: '上传成功'
+      description: '上传文件成功时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'object',
+              title: '远程上传请求成功后返回的结果数据'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'fail',
       eventLabel: '上传失败',
-      description: '上传失败'
+      description: '上传文件失败时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.file': {
+              type: 'object',
+              title: '上传的文件'
+            },
+            'event.data.error': {
+              type: 'object',
+              title: '远程上传请求失败后返回的错误信息'
+            }
+          }
+        }
+      ]
     }
   ];
 
@@ -72,224 +125,279 @@ export class ImageControlPlugin extends BasePlugin {
   ];
 
   panelTitle = '图片上传';
+  panelJustify = true;
+
   panelBodyCreator = (context: BaseEventContext) => {
-    return formItemControl(
+    return getSchemaTpl('tabs', [
       {
-        common: {
-          replace: true,
-          body: [
-            getSchemaTpl('switchDefaultValue'),
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              getSchemaTpl('formItemName', {
+                required: true
+              }),
+              getSchemaTpl('label'),
 
-            {
-              type: 'input-text',
-              name: 'value',
-              label: '默认值',
-              visibleOn: 'typeof this.value !== "undefined"'
-            },
+              {
+                type: 'input-text',
+                name: 'value',
+                label: '默认值',
+                visibleOn: 'typeof this.value !== "undefined"'
+              },
 
-            getSchemaTpl('multiple', {
-              value: false,
-              visibleOn: '!data.crop',
-              description: '开启后，不能同时开启裁剪功能'
-            }),
-            getSchemaTpl('joinValues'),
-            getSchemaTpl('delimiter'),
-            getSchemaTpl('extractValue'),
-            {
-              name: 'maxSize',
-              type: 'input-number',
-              label: '图片最大体积',
-              description: '超出大小不允许上传，单位字节'
-            },
-            {
-              name: 'maxLength',
-              type: 'input-number',
-              label: '图片最大数量',
-              visibleOn: 'data.multiple',
-              description: '超出数量不允许上传'
-            },
-            getSchemaTpl('api', {
-              label: '文件接收接口',
-              name: 'receiver',
-              description: '文件接收接口，默认不填则上传到 hiphoto',
-              value: '/api/upload',
-              __isUpload: true
-            }),
+              {
+                type: 'input-text',
+                value: '.jpeg, .jpg, .png, .gif',
+                name: 'accept',
+                label: tipedLabel(
+                  '图片类型',
+                  '请填入图片的后缀或 <code>MimeType</code>，多个类型用<code>,</code>隔开'
+                )
+              },
 
-            getSchemaTpl('autoFill'),
+              {
+                type: 'input-text',
+                name: 'defaultImage',
+                label: '占位图片地址'
+              },
 
-            {
-              type: 'input-text',
-              value: '.jpeg, .jpg, .png, .gif',
-              name: 'accept',
-              label: '图片类型',
-              description:
-                '请填入图片的后缀或 <code>MimeType</code>，多个类型用<code>,</code>隔开'
-            },
+              getSchemaTpl('uploadType', {
+                visibleOn: 'data.submitType === "asUpload" || !data.submitType',
+                pipeIn: (value: any, form: any) => value || 'fileReceptor',
+                pipeOut: (value: any, form: any) => value || 'fileReceptor'
+              }),
 
-            {
-              type: 'input-text',
-              name: 'defaultImage',
-              label: '占位图片地址'
-            },
+              getSchemaTpl('apiControl', {
+                name: 'receiver',
+                label: tipedLabel(
+                  '文件接收器',
+                  '文件接收接口，默认不填则上传到 hiphoto'
+                ),
+                visibleOn:
+                'data.uploadType === "fileReceptor"',
+                value: '/api/upload',
+                __isUpload: true
+              }),
 
-            getSchemaTpl('switch', {
-              name: 'fixedSize',
-              label: '是否开启固定尺寸',
-              value: false
-            }),
+              getSchemaTpl('bos', {
+                visibleOn: 'data.uploadType === "bos"'
+              }),
 
-            getSchemaTpl('switch', {
-              name: 'hideUploadButton',
-              label: '隐藏上传按钮',
-              value: false
-            }),
+              getSchemaTpl('proxy', {
+                value: false
+              }),
+              // getSchemaTpl('autoFill'),
 
-            getSchemaTpl('switch', {
-              name: 'autoUpload',
-              label: '自动上传',
-              value: false
-            }),
-
-            getSchemaTpl('switch', {
-              name: 'compress',
-              label: '开启压缩',
-              value: true,
-              description: '由 hiphoto 实现，自定义接口将无效'
-            }),
-
-            {
-              type: 'combo',
-              name: 'compressOptions',
-              multiLine: true,
-              label: '压缩配置',
-              visibleOn: 'data.compress',
-              items: [
-                {
-                  type: 'input-number',
-                  label: '最大宽度',
-                  name: 'maxWidth'
+              getSchemaTpl('multiple', {
+                patch: {
+                  value: false,
+                  visibleOn: '!data.crop',
+                  label: tipedLabel('可多选', '开启后，不能同时开启裁剪功能')
                 },
+                body: [
+                  {
+                    name: 'maxLength',
+                    label: '最大数量',
+                    type: 'input-number'
+                  }
+                ]
+              }),
 
-                {
-                  type: 'input-number',
-                  label: '最大高度',
-                  name: 'maxHeight'
-                }
-              ]
-            },
+              getSchemaTpl('switch', {
+                name: 'fixedSize',
+                label: '固定尺寸',
+                value: false
+              }),
 
-            getSchemaTpl('switch', {
-              name: 'showCompressOptions',
-              label: '是否显示压缩选项'
-            }),
+              getSchemaTpl('switch', {
+                name: 'hideUploadButton',
+                label: '隐藏上传按钮',
+                value: false
+              }),
 
-            getSchemaTpl('switch', {
-              name: 'crop',
-              label: '是否开启裁剪',
-              visibleOn: '!data.multiple',
-              description: '开启后，不能同时开启多选模式',
-              pipeIn: (value: any) => !!value
-            }),
+              getSchemaTpl('switch', {
+                name: 'autoUpload',
+                label: '自动上传',
+                value: false
+              }),
 
-            {
-              name: 'crop.aspectRatio',
-              type: 'input-text',
-              label: '裁剪比率',
-              visibleOn: 'data.crop',
-              pipeOut: valuePipeOut
-            },
+              getSchemaTpl('switch', {
+                name: 'compress',
+                value: true,
+                label: tipedLabel(
+                  '开启压缩',
+                  '由 hiphoto 实现，自定义接口将无效'
+                )
+              }),
+              {
+                type: 'container',
+                className: 'ae-ExtendMore mb-3',
+                visibleOn: 'data.compress',
+                name: 'compressOptions',
+                body: [
+                  {
+                    type: 'input-number',
+                    label: '最大宽度',
+                    name: 'maxWidth'
+                  },
 
-            getSchemaTpl('switch', {
-              name: 'crop.rotatable',
-              label: '裁剪时是否可旋转',
-              visibleOn: 'data.crop',
-              pipeOut: valuePipeOut
-            }),
+                  {
+                    type: 'input-number',
+                    label: '最大高度',
+                    name: 'maxHeight'
+                  }
+                ]
+              },
 
-            getSchemaTpl('switch', {
-              name: 'crop.scalable',
-              label: '裁剪时否可缩放',
-              visibleOn: 'data.crop',
-              pipeOut: valuePipeOut
-            }),
+              getSchemaTpl('switch', {
+                name: 'showCompressOptions',
+                label: '显示压缩选项'
+              }),
 
-            {
-              name: 'crop.viewMode',
-              type: 'select',
-              label: '裁剪区域限制',
-              value: 1,
-              options: [
-                {label: '无限制', value: 0},
-                {label: '绘图区域', value: 1}
-              ],
-              visibleOn: 'data.crop',
-              pipeOut: valuePipeOut
-            },
+              getSchemaTpl('switch', {
+                name: 'crop',
+                visibleOn: '!data.multiple',
+                label: tipedLabel('开启裁剪', '开启后，不能同时开启多选模式'),
+                pipeIn: (value: any) => !!value
+              }),
 
-            {
-              type: 'fieldSet',
-              title: '图片限制',
-              collapsed: true,
-              collapsable: true,
-              className: 'fieldset',
-              body: [
-                {
-                  type: 'input-number',
-                  name: 'limit.width',
-                  label: '限制宽度'
-                },
+              {
+                type: 'container',
+                className: 'ae-ExtendMore mb-3',
+                visibleOn: 'data.crop',
+                body: [
+                  {
+                    name: 'crop.aspectRatio',
+                    type: 'input-text',
+                    label: '裁剪比率',
+                    pipeOut: valuePipeOut
+                  },
 
-                {
-                  type: 'input-number',
-                  name: 'limit.height',
-                  label: '限制高度'
-                },
+                  getSchemaTpl('switch', {
+                    name: 'crop.rotatable',
+                    label: '裁剪时可旋转',
+                    pipeOut: valuePipeOut
+                  }),
 
-                {
-                  type: 'input-number',
-                  name: 'limit.maxWidth',
-                  label: '限制最大宽度'
-                },
+                  getSchemaTpl('switch', {
+                    name: 'crop.scalable',
+                    label: '裁剪时可缩放',
+                    pipeOut: valuePipeOut
+                  }),
 
-                {
-                  type: 'input-number',
-                  name: 'limit.maxHeight',
-                  label: '限制最大高度'
-                },
+                  {
+                    name: 'crop.viewMode',
+                    type: 'select',
+                    label: '裁剪区域',
+                    value: 1,
+                    options: [
+                      {label: '无限制', value: 0},
+                      {label: '绘图区域', value: 1}
+                    ],
+                    pipeOut: valuePipeOut
+                  }
+                ]
+              },
 
-                {
-                  type: 'input-number',
-                  name: 'limit.minWidth',
-                  label: '限制最小宽度'
-                },
+              getSchemaTpl('switch', {
+                name: 'limit',
+                label: '图片限制',
+                pipeIn: (value: any) => !!value
+              }),
 
-                {
-                  type: 'input-number',
-                  name: 'limit.minHeight',
-                  label: '限制最小高度'
-                },
+              {
+                type: 'container',
+                className: 'ae-ExtendMore mb-3',
+                visibleOn: 'data.limit',
+                body: [
+                  {
+                    name: 'maxSize',
+                    type: 'input-number',
+                    label: tipedLabel(
+                      '最大体积',
+                      '超出大小不允许上传，单位字节'
+                    )
+                  },
+                  {
+                    type: 'input-number',
+                    name: 'limit.width',
+                    label: '宽度'
+                  },
 
-                {
-                  type: 'input-number',
-                  name: 'limit.aspectRatio',
-                  label: '限制宽高比率'
-                },
+                  {
+                    type: 'input-number',
+                    name: 'limit.height',
+                    label: '高度'
+                  },
 
-                {
-                  type: 'input-text',
-                  name: 'limit.限制最小高度',
-                  label: '宽高比描述',
-                  description:
-                    '当宽高比没有满足条件时，此描述将作为提示信息显示'
-                }
-              ]
-            }
-          ]
-        }
+                  {
+                    type: 'input-number',
+                    name: 'limit.maxWidth',
+                    label: '最大宽度'
+                  },
+
+                  {
+                    type: 'input-number',
+                    name: 'limit.maxHeight',
+                    label: '最大高度'
+                  },
+
+                  {
+                    type: 'input-number',
+                    name: 'limit.minWidth',
+                    label: '最小宽度'
+                  },
+
+                  {
+                    type: 'input-number',
+                    name: 'limit.minHeight',
+                    label: '最小高度'
+                  },
+
+                  {
+                    type: 'input-number',
+                    name: 'limit.aspectRatio',
+                    label: '宽高比率'
+                  },
+
+                  {
+                    type: 'input-text',
+                    name: 'limit.限制最小高度',
+                    label: tipedLabel(
+                      '宽高比描述',
+                      '当宽高比没有满足条件时，此描述将作为提示信息显示'
+                    )
+                  }
+                ]
+              }
+            ]
+          },
+          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('validation', {tag: ValidatorTag.File})
+        ])
       },
-      context
-    );
+      {
+        title: '外观',
+        body: getSchemaTpl('collapseGroup', [
+          getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+          getSchemaTpl('style:classNames', {
+            schema: []
+          })
+        ])
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
+      }
+    ]);
   };
 }
 
