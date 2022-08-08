@@ -214,16 +214,12 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       columns,
       types,
       pickerValue: currentDate.toArray(),
-      uniqueTag: 0
+      uniqueTag: new Date().valueOf()
     };
 
     if (this.props.timeConstraints) {
       this.timeConstraints = merge(this.timeConstraints, props.timeConstraints);
     }
-  }
-
-  componentWillMount() {
-    this.setState({uniqueTag: new Date().valueOf()});
   }
 
   componentDidMount() {
@@ -738,13 +734,19 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                   className="rdtPrev"
                   onClick={this.props.subtractTime(1, 'years')}
                 >
-                  <Icon icon="right-double-arrow" className="icon date-icon-arrow-left" />
+                  <Icon
+                    icon="right-double-arrow"
+                    className="icon date-icon-arrow-left"
+                  />
                 </a>
                 <a
                   className="rdtPrev"
                   onClick={this.props.subtractTime(1, 'months')}
                 >
-                  <Icon icon="right-arrow" className="icon date-icon-arrow-left" />
+                  <Icon
+                    icon="right-arrow"
+                    className="icon date-icon-arrow-left"
+                  />
                 </a>
 
                 <div className="rdtCenter">
@@ -769,10 +771,13 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                   <Icon icon="right-arrow" className="icon date-icon-arrow" />
                 </a>
                 <a className="rdtNext" onClick={this.props.addTime(1, 'years')}>
-                  <Icon icon="right-double-arrow" className="icon date-icon-arrow" />
+                  <Icon
+                    icon="right-double-arrow"
+                    className="icon date-icon-arrow"
+                  />
                 </a>
               </div>
-              <div className='header-line'></div>
+              <div className="header-line"></div>
             </th>
           </tr>
           <tr>
