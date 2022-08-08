@@ -1184,6 +1184,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         disabled,
         data,
         deleteApi,
+        onDelete,
         env,
         formItem: model,
         source,
@@ -1220,24 +1221,30 @@ export function registerOptionsControl(config: OptionsConfig) {
           if (!result.ok) {
             env.notify('error', result.msg || __('deleteFailed'));
             return;
-          } else if (source) {
-            this.reload();
-            return;
           }
         }
 
-        const options = model.options.concat();
-        const indexes = findTreeIndex(
-          options,
-          item => item[valueField || 'value'] == value[valueField || 'value']
-        );
+        // 由外部代码实现删除逻辑
+        if (onDelete) {
+          onDelete(ctx);
+        }
 
-        if (indexes) {
-          model.setOptions(
-            spliceTree(options, indexes, 1),
-            this.changeOptionValue,
-            data
+        if (source) {
+          this.reload();
+        } else {
+          const options = model.options.concat();
+          const indexes = findTreeIndex(
+            options,
+            item => item[valueField || 'value'] == value[valueField || 'value']
           );
+
+          if (indexes) {
+            model.setOptions(
+              spliceTree(options, indexes, 1),
+              this.changeOptionValue,
+              data
+            );
+          }
         }
       } catch (e) {
         console.error(e);
