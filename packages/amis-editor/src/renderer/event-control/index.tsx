@@ -517,8 +517,8 @@ export class EventControl extends React.Component<
       const actionConfig = actionConfigInitFormatter?.(action);
       const actionNode = findActionNode(actionTree, actionConfig?.actionType!);
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
-      const cmpts = getComponents(actionNode!);
-      const node = findTree(cmpts, item => item.value === action.componentId);
+      const supportComponents = getComponents(actionNode!);
+      const node = findTree(supportComponents, item => item.value === action.componentId);
 
       let setValueDs: any = null;
       if (actionConfig?.actionType === 'setValue') {
@@ -546,9 +546,7 @@ export class EventControl extends React.Component<
         __actionDesc: actionNode!.description!, // 树节点描述
         __actionSchema: actionNode!.schema, // 树节点schema
         __subActions: hasSubActionNode?.actions, // 树节点子动作
-        __cmptTreeSource: actionConfig?.componentId
-          ? getComponents?.(actionNode!) ?? []
-          : [],
+        __cmptTreeSource: supportComponents ?? [],
         __superCmptTreeSource: allComponents,
         // __supersCmptTreeSource: '',
         __setValueDs: setValueDs
@@ -597,8 +595,8 @@ export class EventControl extends React.Component<
     const actionNode = actionType && findActionNode(actionTree, actionType);
 
     if (action.componentId && actionNode) {
-      const cmpts = getComponents(actionNode);
-      const node = findTree(cmpts, item => item.value === action.componentId);
+      const supportComponents = getComponents(actionNode);
+      const node = findTree(supportComponents, item => item.value === action.componentId);
       if (node) {
         info = {
           ...info,
