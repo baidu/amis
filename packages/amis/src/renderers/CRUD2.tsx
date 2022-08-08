@@ -183,7 +183,7 @@ export type CRUD2ListSchema = CRUD2CommonSchema & {
 } & Omit<ListSchema, 'type'>;
 
 export type CRUD2TableSchema = CRUD2CommonSchema & {
-  mode?: 'table';
+  mode?: 'table-v2';
 } & Omit<TableSchema, 'type'>;
 
 export type CRUD2Schema = CRUD2CardsSchema | CRUD2ListSchema | CRUD2TableSchema;
