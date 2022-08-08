@@ -997,12 +997,14 @@ export const getEventControlConfig = (
       isSupport =
         action.supportComponents === '*' ||
         action.supportComponents === node.type;
+        // 内置逻辑
+      if (action.supportComponents === 'byComponent') {
+        isSupport = hasActionType(actionType, actions);
+      }
     } else if (Array.isArray(action.supportComponents)) {
       isSupport = action.supportComponents.includes(node.type);
     }
-    if (['reload', 'setValue'].includes(actionType)) {
-      isSupport = hasActionType(actionType, actions);
-    }
+
     if (actionType === 'component' && !actions?.length) {
       node.disabled = true;
     }

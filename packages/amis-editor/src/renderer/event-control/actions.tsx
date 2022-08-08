@@ -656,7 +656,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
-          supportComponents: [],
+          supportComponents: 'byComponent',
           schema: renderCmptSelect('选择组件', true)
         },
         {
@@ -681,7 +681,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
-          supportComponents: [],
+          supportComponents: 'byComponent',
           schema: [
             ...renderCmptActionSelect('选择组件', true),
             getArgsWrapper({
