@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, fireEvent} from '@testing-library/react';
+import {render, fireEvent, screen, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
@@ -233,13 +233,15 @@ test('Renderer:range with tooltipVisible & tooltipPlacement', async () => {
 });
 
 test('Renderer:range with min & max & step & joinValues', async () => {
+  const onSubmit = jest.fn();
+  const submitBtnText = 'Submit';
   const {container} = render(
     amisRender(
       {
         type: 'form',
-        debug: true,
-        api: '/api/xxx',
-        controls: [
+        submitText: submitBtnText,
+        api: '/api/mock/saveForm?waitSeconds=1',
+        body: [
           {
             type: 'input-range',
             name: 'range',
@@ -250,11 +252,9 @@ test('Renderer:range with min & max & step & joinValues', async () => {
             showInput: true,
             joinValues: false
           }
-        ],
-        title: 'The form',
-        actions: []
+        ]
       },
-      {},
+      {onSubmit},
       makeEnv({})
     )
   );
@@ -280,13 +280,23 @@ test('Renderer:range with min & max & step & joinValues', async () => {
     ).getAttribute('style')
   ).toContain('width: 60%; left: 20%;');
 
-  expect((container.querySelector('.cxd-Form--debug') as Element).innerHTML)
-    .toBe(`{
-  "range": {
-    "min": 0.2,
-    "max": 0.8
-  }
-}`);
+  await wait(500);
+  const submitBtn = screen.getByRole('button', {name: submitBtnText});
+
+  await waitFor(() => {
+    expect(submitBtn).toBeInTheDocument();
+  });
+  fireEvent.click(submitBtn);
+
+  await wait(500);
+  const formData = onSubmit.mock.calls[0][0];
+  expect(onSubmit).toHaveBeenCalled();
+  expect(formData).toEqual({
+    range: {
+      min: 0.2,
+      max: 0.8
+    }
+  });
 
   expect(container).toMatchSnapshot();
 });
