@@ -5,6 +5,13 @@
 import React from 'react';
 import {ClassNamesFn} from '../theme';
 
+import {isObject} from 'lodash';
+
+export interface IconCheckedSchema {
+  id: string;
+  name?: string;
+}
+
 /**
  * 判断字符串来生成 i 或 img
  * @param icon icon 设置
@@ -13,20 +20,28 @@ import {ClassNamesFn} from '../theme';
  */
 export const generateIcon = (
   cx: ClassNamesFn,
-  icon?: string,
+  icon?: string | IconCheckedSchema,
   className?: string,
   classNameProp?: string
 ) => {
-  if (React.isValidElement(icon)) {
-    return icon;
+  if (typeof icon !== 'string') {
+    if (
+      isObject(icon) &&
+      typeof icon.id === 'string' &&
+      icon.id.startsWith('svg-')
+    ) {
+      return (
+        <svg className={cx('icon', className, classNameProp)}>
+          <use xlinkHref={`#${icon.id.replace(/^svg-/, '')}`}></use>
+        </svg>
+      );
+    }
+
+    return;
   }
 
-  if (icon && typeof icon === 'string' && icon.startsWith('svg-')) {
-    return (
-      <svg className={cx('icon', className, classNameProp)}>
-        <use xlinkHref={`#${icon.replace(/^svg-/, '')}`}></use>
-      </svg>
-    )
+  if (React.isValidElement(icon)) {
+    return icon;
   }
 
   const isURLIcon = icon?.indexOf('.') !== -1;

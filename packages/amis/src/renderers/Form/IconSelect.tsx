@@ -1,19 +1,13 @@
 import React from 'react';
 import cx from 'classnames';
 import {matchSorter} from 'match-sorter';
-import {
-  FormItem,
-  FormControlProps,
-  autobind
-} from 'amis-core';
+import {FormItem, FormControlProps, autobind} from 'amis-core';
 import {Modal, Button, Spinner, SearchBox} from 'amis-ui';
 
 import debounce from 'lodash/debounce';
 import {FormBaseControlSchema} from '../../Schema';
 
 import * as IconSelectStore from './IconSelectStore';
-
-
 export interface IconSelectControlSchema extends FormBaseControlSchema {
   type: 'icon-select';
 }
@@ -24,9 +18,14 @@ export interface IconSelectProps extends FormControlProps {
   noDataTip?: string;
 }
 
+export interface IconChecked {
+  id: string;
+  name?: string;
+}
+
 export interface IconSelectState {
   showModal: boolean;
-  tmpCheckIconId: string;
+  tmpCheckIconId: IconChecked | null;
   searchValue: string;
   activeTypeIndex: string | number;
   isRefreshLoading?: boolean;
@@ -41,17 +40,14 @@ export default class IconSelectControl extends React.PureComponent<
 > {
   input?: HTMLInputElement;
 
-  static defaultProps: Pick<
-    IconSelectProps,
-    'noDataTip'
-  > = {
+  static defaultProps: Pick<IconSelectProps, 'noDataTip'> = {
     noDataTip: 'placeholder.noData'
   };
 
   state: IconSelectState = {
     activeTypeIndex: 0,
     showModal: false,
-    tmpCheckIconId: '',
+    tmpCheckIconId: null,
     searchValue: '',
     isRefreshLoading: false
   };
@@ -59,11 +55,14 @@ export default class IconSelectControl extends React.PureComponent<
   constructor(props: IconSelectProps) {
     super(props);
 
-    this.handleSearchValueChange = debounce(this.handleSearchValueChange.bind(this), 300);
+    this.handleSearchValueChange = debounce(
+      this.handleSearchValueChange.bind(this),
+      300
+    );
   }
 
   @autobind
-  handleClick(){
+  handleClick() {
     if (this.props.disabled) {
       return;
     }
@@ -75,28 +74,31 @@ export default class IconSelectControl extends React.PureComponent<
   renderInputArea() {
     const {classPrefix: ns, disabled, value, placeholder} = this.props;
 
-    const pureValue = value && String(value).replace(/^svg-/, '') || '';
+    const pureValue =
+      (value?.id && String(value.id).replace(/^svg-/, '')) || '';
+    const iconName = value?.name || pureValue;
 
     return (
       <div className={cx(`${ns}IconSelectControl-input-area`)}>
-        {
-          pureValue && (
-            <div className={cx(`${ns}IconSelectControl-input-icon-show`)}>
-              <svg>
-                  <use xlinkHref={`#${pureValue}`}></use>
-              </svg>
-            </div>
-          )
-        }
-        <span className={cx(`${ns}IconSelectControl-input-icon-id`)}>{value}</span>
+        {pureValue && (
+          <div className={cx(`${ns}IconSelectControl-input-icon-show`)}>
+            <svg>
+              <use xlinkHref={`#${pureValue}`}></use>
+            </svg>
+          </div>
+        )}
+        <span className={cx(`${ns}IconSelectControl-input-icon-id`)}>
+          {iconName}
+        </span>
 
-        {
-          !value && !value && placeholder && (
-            <span className={cx(`${ns}IconSelectControl-input-icon-placeholder`)}>{placeholder}</span>
-          ) || null
-        }
+        {(!value && placeholder && (
+          <span className={cx(`${ns}IconSelectControl-input-icon-placeholder`)}>
+            {placeholder}
+          </span>
+        )) ||
+          null}
       </div>
-    )
+    );
   }
 
   @autobind
@@ -111,45 +113,48 @@ export default class IconSelectControl extends React.PureComponent<
     const {classPrefix: ns} = this.props;
 
     const types = IconSelectStore.svgIcons.map(item => ({
-      id: item.typeId,
+      id: item.groupId,
       label: item.name
     }));
 
     return (
       <ul className={cx(`${ns}IconSelectControl-type-list`)}>
-        {
-          types.map((item, index) => (
-            <li
-              key={item.id}
-              onClick={() => this.handleIconTypeClick(item, index)}
-              className={cx({
-                'active': index === this.state.activeTypeIndex
-              })}
-            >{item.label}</li>
-          ))
-        }
+        {types.map((item, index) => (
+          <li
+            key={item.id}
+            onClick={() => this.handleIconTypeClick(item, index)}
+            className={cx({
+              active: index === this.state.activeTypeIndex
+            })}
+          >
+            {item.label}
+          </li>
+        ))}
       </ul>
-    )
+    );
   }
 
   @autobind
   handleConfirm() {
-    const iconId = this.state.tmpCheckIconId;
-    this.props.onChange && this.props.onChange(
-      iconId ? 'svg-' + iconId : ''
-    );
+    const checkedIcon = this.state.tmpCheckIconId;
+    this.props.onChange &&
+      this.props.onChange(
+        checkedIcon && checkedIcon.id
+          ? {...checkedIcon, id: 'svg-' + checkedIcon.id}
+          : ''
+      );
 
     this.toggleModel(false);
   }
 
-  handleClickIconInModal(iconId: string) {
+  handleClickIconInModal(icon: IconChecked) {
     this.setState({
-      tmpCheckIconId: iconId === this.state.tmpCheckIconId ? '' : iconId
+      tmpCheckIconId: icon?.id === this.state.tmpCheckIconId?.id ? null : icon
     });
   }
 
   @autobind
-  renderIconList(icons: any[]) {
+  renderIconList(icons: IconSelectStore.SvgIcon[]) {
     const {classPrefix: ns, noDataTip, translate: __} = this.props;
 
     if (!icons || !icons.length) {
@@ -157,34 +162,37 @@ export default class IconSelectControl extends React.PureComponent<
         <p className={cx(`${ns}IconSelectControl-icon-list-empty`)}>
           {__(noDataTip)}
         </p>
-      )
+      );
     }
 
     return (
       <ul className={cx(`${ns}IconSelectControl-icon-list`)}>
-        {
-          icons.map((item, index) => (
-            <li key={item.id}>
-              <div
-                className={cx(`${ns}IconSelectControl-icon-list-item`, {
-                  active: this.state.tmpCheckIconId === item.id
-                })}
-                onClick={() => this.handleClickIconInModal(item.id)}
-              >
-                <svg>
-                    <use xlinkHref={`#${item.id}`}></use>
-                </svg>
+        {icons.map((item, index) => (
+          <li key={item.id}>
+            <div
+              className={cx(`${ns}IconSelectControl-icon-list-item`, {
+                active: this.state.tmpCheckIconId?.id === item.id
+              })}
+              onClick={() => this.handleClickIconInModal(item)}
+            >
+              <svg>
+                <use xlinkHref={`#${item.id}`}></use>
+              </svg>
 
-                <div className={cx(`${ns}IconSelectControl-icon-list-item-info`)}>
-                  <p className={cx(`${ns}IconSelectControl-icon-list-item-info-name`)}>{item.name}</p>
-                  <p className={cx(`${ns}IconSelectControl-icon-list-item-info-id`)}>{item.id}</p>
-                </div>
-                </div>
-            </li>
-          ))
-        }
+              <div className={cx(`${ns}IconSelectControl-icon-list-item-info`)}>
+                <p
+                  className={cx(
+                    `${ns}IconSelectControl-icon-list-item-info-name`
+                  )}
+                >
+                  {item.name}
+                </p>
+              </div>
+            </div>
+          </li>
+        ))}
       </ul>
-    )
+    );
   }
 
   handleSearchValueChange(e: string) {
@@ -203,16 +211,13 @@ export default class IconSelectControl extends React.PureComponent<
           isRefreshLoading: true
         });
         await Promise.resolve(refreshIconList());
-      }
-      catch (e) {
+      } catch (e) {
         console.error(e);
-      }
-      finally {
+      } finally {
         this.setState({
           isRefreshLoading: false
         });
       }
-
     }
   }
 
@@ -225,8 +230,8 @@ export default class IconSelectControl extends React.PureComponent<
     const inputValue = this.state.searchValue;
 
     const filteredIcons = inputValue
-                            ? matchSorter(icons, inputValue, {keys: ['name', 'id']})
-                            : icons;
+      ? matchSorter(icons, inputValue, {keys: ['name']})
+      : icons;
     return (
       <>
         <SearchBox
@@ -236,22 +241,27 @@ export default class IconSelectControl extends React.PureComponent<
           onChange={this.handleSearchValueChange}
         />
 
-        {
-          IconSelectStore.refreshIconList && render('refresh',
+        {(IconSelectStore.refreshIconList &&
+          render(
+            'refresh-btn',
             {
-              type: "button",
-              icon: "fa fa-refresh",
+              type: 'button',
+              icon: 'fa fa-refresh'
             },
             {
               className: cx(`${ns}IconSelectControl-Modal-refresh`),
               onClick: this.handleRefreshIconList
             }
-          ) || null
-        }
+          )) ||
+          null}
 
         <div className={cx(`${ns}IconSelectControl-Modal-content`)}>
-
-          <Spinner size="lg" overlay key="info" show={this.state.isRefreshLoading} />
+          <Spinner
+            size="lg"
+            overlay
+            key="info"
+            show={this.state.isRefreshLoading}
+          />
           <div className={cx(`${ns}IconSelectControl-Modal-content-aside`)}>
             {this.renderIconTypes()}
           </div>
@@ -261,12 +271,17 @@ export default class IconSelectControl extends React.PureComponent<
           </div>
         </div>
       </>
-    )
+    );
   }
 
   @autobind
   getIconsByType() {
-    return IconSelectStore?.svgIcons.length && IconSelectStore.svgIcons[this.state.activeTypeIndex as number].icons || [];
+    return (
+      (IconSelectStore?.svgIcons.length &&
+        IconSelectStore.svgIcons[this.state.activeTypeIndex as number]
+          .children) ||
+      []
+    );
   }
 
   @autobind
@@ -283,13 +298,17 @@ export default class IconSelectControl extends React.PureComponent<
 
     this.setState({
       showModal: isShow,
-      tmpCheckIconId: isShow ? String(value).replace('svg-', '') : '',
+      // tmpCheckIconId: isShow ? String(value).replace('svg-', '') : '',
+      tmpCheckIconId:
+        isShow && value?.id
+          ? {...value, id: String(value.id).replace(/^svg-/, '')}
+          : null,
       searchValue: ''
     });
   }
 
   render() {
-    const {className, classPrefix: ns, disabled} = this.props;
+    const {className, classPrefix: ns, disabled, translate: __} = this.props;
 
     return (
       <div
@@ -313,17 +332,23 @@ export default class IconSelectControl extends React.PureComponent<
           overlay
           onHide={() => this.toggleModel(false)}
         >
-          <Modal.Header
-            onClose={() => this.toggleModel(false)}
-          >图标选择</Modal.Header>
+          <Modal.Header onClose={() => this.toggleModel(false)}>
+            {__('IconSelect.choice')}
+          </Modal.Header>
 
-          <Modal.Body>
-            {this.renderModalContent()}
-          </Modal.Body>
+          <Modal.Body>{this.renderModalContent()}</Modal.Body>
 
           <Modal.Footer>
-            <Button type="button" className="m-l" onClick={() => this.toggleModel(false)}>取消</Button>
-            <Button type="button" level="primary" onClick={this.handleConfirm}>确定</Button>
+            <Button
+              type="button"
+              className="m-l"
+              onClick={() => this.toggleModel(false)}
+            >
+              {__('cancel')}
+            </Button>
+            <Button type="button" level="primary" onClick={this.handleConfirm}>
+              {__('confirm')}
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>

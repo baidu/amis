@@ -1,8 +1,9 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, IconCheckedSchema} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {getIcon} from 'amis-ui/lib/components/icons';
+import {isObject} from 'lodash';
 
 /**
  * Icon 图表渲染器
@@ -14,7 +15,7 @@ export interface IconSchema extends BaseSchema {
   /**
    * 按钮类型
    */
-  icon: string;
+  icon: string | IconCheckedSchema;
 
   vendor?: 'iconfont' | 'fa' | '';
 
@@ -37,18 +38,25 @@ export class Icon extends React.Component<IconProps, object> {
   render() {
     const {icon, vendor, classnames: cx, className} = this.props;
 
+    if (typeof icon !== 'string') {
+      if (
+        isObject(icon) &&
+        typeof icon.id === 'string' &&
+        icon.id.startsWith('svg-')
+      ) {
+        return (
+          <svg className={cx('icon', className)}>
+            <use xlinkHref={`#${icon.id.replace(/^svg-/, '')}`}></use>
+          </svg>
+        );
+      }
+
+      return;
+    }
+
     let CustomIcon = getIcon(icon);
     if (CustomIcon) {
       return <CustomIcon className={cx(className, `icon-${icon}`)} />;
-    }
-
-    // 是否是 svg 管理的 icon
-    if (icon && typeof icon === 'string' && icon.startsWith('svg-')) {
-      return (
-        <svg className={cx('icon', className)}>
-          <use xlinkHref={`#${icon.replace(/^svg-/, '')}`}></use>
-        </svg>
-      )
     }
 
     const isURLIcon = icon?.indexOf('.') !== -1;
