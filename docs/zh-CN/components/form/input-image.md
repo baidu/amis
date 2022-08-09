@@ -386,6 +386,8 @@ app.listen(8080, function () {});
 | fixedSize          | `boolean`                       |                        | 是否开启固定尺寸,若开启，需同时设置 fixedSizeClassName                                                                                           |
 | fixedSizeClassName | `string`                        |                        | 开启固定尺寸时，根据此值控制展示尺寸。例如`h-30`,即图片框高为 h-30,AMIS 将自动缩放比率设置默认图所占位置的宽度，最终上传图片根据此尺寸对应缩放。 |
 | initAutoFill       | `boolean`                       | `false`                | 表单反显时是否执行 autoFill                                                                                                                      |
+| dropCrop           | `boolean`                       | `true`                 | 图片上传后是否进入裁剪模式                                                                                                                       |
+| initCrop           | `boolean`                       | `false`                | 图片选择器初始化后是否立即进入裁剪模式                                                                                                           |
 
 ### Limit 属性表
 
