@@ -10,7 +10,11 @@ afterEach(() => {
   clearStoresCache();
 });
 
-const setup = async (inputOptions: any = {}, formOptions: any = {}, formItems: any[] = [{}]) => {
+const setup = async (
+  inputOptions: any = {},
+  formOptions: any = {},
+  formItems: any[] = [{}]
+) => {
   const utils = render(
     amisRender(
       {
@@ -119,9 +123,7 @@ test('Renderer:text type is password', async () => {
   fireEvent.change(input, {target: {value: 'abcd'}});
   await wait(300);
 
-  expect(
-    input.getAttribute('type')
-  ).toBe('password');
+  expect(input.getAttribute('type')).toBe('password');
   expect(container).toMatchSnapshot('password invisible');
 
   const revealPasswordBtn = container.querySelector(
@@ -132,9 +134,7 @@ test('Renderer:text type is password', async () => {
 
   await wait(300);
 
-  expect(
-    input.getAttribute('type')
-  ).toBe('text');
+  expect(input.getAttribute('type')).toBe('text');
   expect(container).toMatchSnapshot('password visible');
 });
 
@@ -395,22 +395,28 @@ test('Renderer:text with transform upperCase', async () => {
  * 配置 resetValue and trimContents
  */
 test('Renderer:text with resetValue and trimContents', async () => {
-  const {container, input, submitBtn} = await setup({
-    resetValue: 'reset-value',
-    value: 'text-value',
-    trimContents: true
-  }, {}, [
+  const {container, input, submitBtn} = await setup(
     {
-      type: 'action',
-      actionType: 'reset',
-      target: 'text',
-      className: 'reset-button'
-    }
-  ]);
-  
-  fireEvent.click(
-    container.querySelector('.cxd-Button.reset-button')
+      resetValue: 'reset-value',
+      value: 'text-value',
+      trimContents: true
+    },
+    {},
+    [
+      {
+        type: 'action',
+        actionType: 'reset',
+        target: 'text',
+        className: 'reset-button'
+      }
+    ]
   );
+
+  const resetBtn = container.querySelector('.cxd-Button.reset-button');
+  await waitFor(() => {
+    expect(resetBtn).toBeInTheDocument();
+  });
+  fireEvent.click(resetBtn!);
 
   await wait(500);
 
@@ -431,19 +437,21 @@ test('Renderer:text with resetValue and trimContents', async () => {
   expect(input.value).toBe('abcde');
 });
 
-
 /**
  * 配置 minLength、borderMode and className
  */
 test('Renderer:text with minLength', async () => {
-  const {container, input, submitBtn} = await setup({
-    minLength: 5,
-    maxLength: 8,
-    borderMode: 'half',
-    inputControlClassName: 'test-text-class-one',
-    nativeInputClassName: 'test-text-class-two'
-  }, {});
-  
+  const {container, input, submitBtn} = await setup(
+    {
+      minLength: 5,
+      maxLength: 8,
+      borderMode: 'half',
+      inputControlClassName: 'test-text-class-one',
+      nativeInputClassName: 'test-text-class-two'
+    },
+    {}
+  );
+
   const textControl = container.querySelector(
     '.cxd-TextControl-input'
   ) as HTMLElement;
