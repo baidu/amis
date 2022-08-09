@@ -1,14 +1,22 @@
 import {Evaluator, parse} from 'amis-formula';
 import {getVariable} from './getVariable';
 
-export function resolveVariable(path?: string, data: any = {}): any {
+export function resolveVariable(
+  path?: string,
+  data: any = {},
+  canAccessSuper?: boolean
+): any {
   if (path === '&' || path == '$$') {
     return data;
   } else if (!path || typeof path !== 'string') {
     return undefined;
   } else if (!~path.indexOf(':')) {
     // 简单用法直接用 getVariable
-    return getVariable(data, path[0] === '$' ? path.substring(1) : path);
+    return getVariable(
+      data,
+      path[0] === '$' ? path.substring(1) : path,
+      canAccessSuper
+    );
   }
 
   // window:xxx  ls:xxx.xxx

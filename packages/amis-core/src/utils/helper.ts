@@ -1472,10 +1472,14 @@ export function getScrollbarWidth() {
 }
 
 // 后续改用 FormulaExec['formula']
-function resolveValueByName(data: any, name?: string) {
+function resolveValueByName(
+  data: any,
+  name?: string,
+  canAccessSuper?: boolean
+) {
   return isPureVariable(name)
     ? resolveVariableAndFilter(name, data)
-    : resolveVariable(name, data);
+    : resolveVariable(name, data, canAccessSuper);
 }
 
 // 统一的获取 value 值方法
@@ -1486,10 +1490,13 @@ export function getPropValue<
     data?: any;
     defaultValue?: any;
   }
->(props: T, getter?: (props: T) => any) {
+>(props: T, getter?: (props: T) => any, canAccessSuper?: boolean) {
   const {name, value, data, defaultValue} = props;
   return (
-    value ?? getter?.(props) ?? resolveValueByName(data, name) ?? defaultValue
+    value ??
+    getter?.(props) ??
+    resolveValueByName(data, name, canAccessSuper) ??
+    defaultValue
   );
 }
 
