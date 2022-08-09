@@ -1,4 +1,5 @@
 import React from 'react';
+import extend from 'lodash/extend';
 import {Renderer, RendererProps} from '../factory';
 import {FormStore, IFormStore} from '../store/form';
 import {
@@ -84,6 +85,41 @@ export interface FormSchemaBase {
    * 是否开启调试，开启后会在顶部实时显示表单项数据。
    */
   debug?: boolean;
+
+  /**
+   * Debug面板配置
+   */
+  debugConfig?: {
+    /**
+     * 默认展开的级别
+     */
+    levelExpand?: number;
+
+    /**
+     * 是否可复制
+     */
+    enableClipboard?: boolean;
+
+    /**
+     * 图标风格
+     */
+    iconStyle?: 'square' | 'circle' | 'triangle';
+
+    /**
+     * 是否显示键的引号
+     */
+    quotesOnKeys?: boolean;
+
+    /**
+     * 是否为键排序
+     */
+    sortKeys?: boolean;
+
+    /**
+     * 设置字符串的最大展示长度，超出长度阈值的字符串将被截断，点击value可切换字符串展示方式，默认为120
+     */
+    ellipsisThreshold?: number | false;
+  };
 
   /**
    * 用来初始化表单数据
@@ -927,7 +963,7 @@ export default class Form extends React.Component<FormProps, object> {
 
     return (data: any) => {
       onReset && onReset(data, action);
-    }
+    };
   }
 
   async handleAction(
@@ -1516,6 +1552,7 @@ export default class Form extends React.Component<FormProps, object> {
       className,
       classnames: cx,
       debug,
+      debugConfig,
       $path,
       store,
       columnCount,
@@ -1554,13 +1591,21 @@ export default class Form extends React.Component<FormProps, object> {
         {/* 实现回车自动提交 */}
         <input type="submit" style={{display: 'none'}} />
 
-        {debug ? (
-          <pre>
-            <code className={cx('Form--debug')}>
-              {JSON.stringify(store.data, null, 2)}
-            </code>
-          </pre>
-        ) : null}
+        {debug
+          ? render(
+              'form-debug-json',
+              extend(
+                {
+                  type: 'json',
+                  value: store.data,
+                  ellipsisThreshold: 120,
+                  className: cx('Form--debug')
+                },
+                /** 定制debug输出格式 */
+                isObject(debugConfig) ? debugConfig : {}
+              )
+            )
+          : null}
 
         {render(
           'spinner',

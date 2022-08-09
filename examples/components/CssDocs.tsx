@@ -128,7 +128,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Flex Direction',
-        path: '/zh-CN/style/flexbox/direction',
+        path: '/zh-CN/style/flex/direction',
         component: React.lazy(() =>
           import('amis-ui/scss/helper/flex/_direction.scss').then(wrapDoc)
         )
@@ -136,7 +136,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Wrap',
-        path: '/zh-CN/style/flexbox/wrap',
+        path: '/zh-CN/style/flex/wrap',
         component: React.lazy(() =>
           import('amis-ui/scss/helper/flex/_wrap.scss').then(wrapDoc)
         )
@@ -144,7 +144,7 @@ export const cssDocs = [
 
       {
         label: 'Flex',
-        path: '/zh-CN/style/flexbox/flex',
+        path: '/zh-CN/style/flex/flex',
         component: React.lazy(() =>
           import('amis-ui/scss/helper/flex/_flex.scss').then(wrapDoc)
         )
@@ -152,7 +152,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Grow',
-        path: '/zh-CN/style/flexbox/grow',
+        path: '/zh-CN/style/flex/grow',
         component: React.lazy(() =>
           import('amis-ui/scss/helper/flex/_grow.scss').then(wrapDoc)
         )
@@ -160,7 +160,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Shrink',
-        path: '/zh-CN/style/flexbox/shrink',
+        path: '/zh-CN/style/flex/shrink',
         component: React.lazy(() =>
           import('amis-ui/scss/helper/flex/_shrink.scss').then(wrapDoc)
         )
@@ -168,7 +168,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Order',
-        path: '/zh-CN/style/flexbox/order',
+        path: '/zh-CN/style/flex/order',
         component: React.lazy(() =>
           import('amis-ui/scss/helper/flex/_order.scss').then(wrapDoc)
         )

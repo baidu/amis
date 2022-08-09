@@ -36,7 +36,8 @@
 
   // box-shadow
   $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
-  0px 1px 10px 0px rgba(8, 14, 26, 0.05), 0px 2px 4px -1px rgba(8, 14, 26, 0.04);
+    0px 1px 10px 0px rgba(8, 14, 26, 0.05),
+    0px 2px 4px -1px rgba(8, 14, 26, 0.04);
 
   --fontSizeBase: #{px2rem(14px)};
   --fontSizeMd: #{px2rem(14px)};
@@ -1378,7 +1379,7 @@
   --Table-thead-color: var(--text--loud-color);
   --Table-thead-fontSize: var(--fontSizeBase);
   --Table-thead-iconColor: var(--icon-color);
-  --Table-toolbar-marginX: 0;
+  --Table-toolbar-marginX: var(--gap-xs);
   --Table-toolbar-marginY: var(--gap-base);
   --Table-tree-borderColor: var(--Table-borderColor);
   --Table-searchableForm-backgroundColor: #f6f7f8;
