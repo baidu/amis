@@ -1831,7 +1831,7 @@ export class Evaluator {
    *
    * 示例：
    *
-   * JOIN(['a', 'b', 'c'], '~') 得到 'a~b~c'
+   * JOIN(['a', 'b', 'c'], '=') 得到 'a=b=c'
    *
    * @param {Array<any>} arr 数组
    * @param { String} separator 分隔符
