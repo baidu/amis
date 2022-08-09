@@ -629,7 +629,7 @@ export default {
         {
           type: 'select',
           name: 'type',
-          label: '单选',
+          label: '下拉单选',
           inline: true,
           options: [
             {
@@ -639,6 +639,10 @@ export default {
             {
               label: '选项2',
               value: 2
+            },
+            {
+              label: '内容很长很长的选项，内容很长很长的选项',
+              value: 3
             }
           ]
         },
@@ -648,7 +652,7 @@ export default {
         {
           type: 'select',
           name: 'type',
-          label: '单选禁用',
+          label: '下拉单选禁用',
           disabled: true,
           inline: true,
           options: [

@@ -1111,6 +1111,56 @@ order: 2
 >
 > 如果同时配置了`source`和`addApi`，添加选项成功后会重新获取请求`source`接口
 
+### 配置新增弹框其它属性
+
+> 2.2.0 及以上版本
+
+通过 `addDialog` 来控制弹框属性，比如通过 `size` 来调大，其它属性请参考 [dialog](../dialog) 的属性表
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "label": "选项",
+            "type": "select",
+            "name": "select",
+            "creatable": true,
+            "addDialog": {
+                "size": "lg"
+            },
+            "addControls": [
+                {
+                    "type": "text",
+                    "name": "label",
+                    "label": "选项标题"
+                },
+                {
+                    "type": "text",
+                    "name": "value",
+                    "label": "选项值"
+                }
+            ],
+            "options": [
+                {
+                    "label":"A",
+                    "value":"a"
+                },
+                {
+                    "label":"B",
+                    "value":"b"
+                },
+                {
+                    "label":"C",
+                    "value":"c"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 编辑选项
 
 部分选择器组件支持在前端编辑选项
@@ -1258,17 +1308,92 @@ order: 2
 >
 > 如果同时配置了`source`和`editApi`，添加选项成功后会重新获取请求`source`接口
 
+### 配置编辑弹框其它属性
+
+> 2.2.0 及以上版本
+
+通过 `editDialog` 来控制弹框属性，比如通过 `size` 来调大，其它属性请参考 [dialog](../dialog) 的属性表
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "label": "选项",
+            "type": "select",
+            "name": "select",
+            "editable": true,
+            "editDialog": {
+                "size": "lg"
+            },
+            "editControls": [
+                {
+                    "type": "text",
+                    "name": "label",
+                    "label": "选项标题"
+                },
+                {
+                    "type": "text",
+                    "name": "value",
+                    "label": "选项值"
+                }
+            ],
+            "options": [
+                {
+                    "label":"A",
+                    "value":"a"
+                },
+                {
+                    "label":"B",
+                    "value":"b"
+                },
+                {
+                    "label":"C",
+                    "value":"c"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 删除选项
 
-部分选择器组件，支持在前端进行编辑选项操作
+配置 `removable: true` 支持删除选项，支持该功能的组件有：CheckBoxes、Select、Tree、Table-formitem
 
-支持该功能的组件有：CheckBoxes、Select、Tree、Table-formitem
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "label": "选项",
+            "type": "select",
+            "name": "select",
+            "removable": true,
+            "options": [
+                {
+                    "label":"A",
+                    "value":"a"
+                },
+                {
+                    "label":"B",
+                    "value":"b"
+                },
+                {
+                    "label":"C",
+                    "value":"c"
+                }
+            ]
+        }
+    ]
+}
+```
 
 ### 配置删除接口 deleteApi
 
-删除选项不支持在前端级别删除，我们认为是没有意义的，必须要配置`deleteApi`使用接口进行删除
-
-配置`"removable": true`和`deleteApi`，支持在前端删除选项。
+配置 `deleteApi`使用接口进行删除
 
 ```schema: scope="body"
 {

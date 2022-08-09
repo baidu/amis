@@ -136,6 +136,11 @@ export interface FormOptionsControl extends FormBaseControl {
   addControls?: Array<PlainObject>;
 
   /**
+   * 控制新增弹框设置项
+   */
+  addDialog?: PlainObject;
+
+  /**
    * 是否可以新增
    */
   creatable?: boolean;
@@ -159,6 +164,12 @@ export interface FormOptionsControl extends FormBaseControl {
    * 选项修改的表单项
    */
   editControls?: Array<PlainObject>;
+
+  /**
+   * 控制编辑弹框设置项
+   */
+
+  editDialog?: PlainObject;
 
   /**
    * 是否可删除
@@ -923,6 +934,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     ) {
       let {
         addControls,
+        addDialog,
         disabled,
         labelField,
         onOpenDialog,
@@ -974,6 +986,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             {
               type: 'dialog',
               title: createBtnLabel || `新增${optionLabel || '选项'}`,
+              ...addDialog,
               body: {
                 type: 'form',
                 api: addApi,
@@ -1065,6 +1078,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     ) {
       let {
         editControls,
+        editDialog,
         disabled,
         labelField,
         onOpenDialog,
@@ -1100,6 +1114,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               title: __('Options.editLabel', {
                 label: optionLabel || __('Options.label')
               }),
+              ...editDialog,
               body: {
                 type: 'form',
                 api: editApi,
@@ -1169,6 +1184,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         disabled,
         data,
         deleteApi,
+        onDelete,
         env,
         formItem: model,
         source,
@@ -1198,17 +1214,22 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       // 通过 deleteApi 删除。
       try {
-        if (!deleteApi) {
-          throw new Error(__('Options.deleteAPI'));
+        if (deleteApi) {
+          const result = await env.fetcher(deleteApi!, ctx, {
+            method: 'delete'
+          });
+          if (!result.ok) {
+            env.notify('error', result.msg || __('deleteFailed'));
+            return;
+          }
         }
 
-        const result = await env.fetcher(deleteApi!, ctx, {
-          method: 'delete'
-        });
+        // 由外部代码实现删除逻辑
+        if (onDelete) {
+          onDelete(ctx);
+        }
 
-        if (!result.ok) {
-          env.notify('error', result.msg || __('deleteFailed'));
-        } else if (source) {
+        if (source) {
           this.reload();
         } else {
           const options = model.options.concat();
