@@ -10,6 +10,12 @@ import {FormBaseControlSchema} from '../../Schema';
 import * as IconSelectStore from './IconSelectStore';
 export interface IconSelectControlSchema extends FormBaseControlSchema {
   type: 'icon-select';
+
+  placeholder?: string;
+
+  disabled?: boolean;
+
+  noDataTip?: string;
 }
 
 export interface IconSelectProps extends FormControlProps {
@@ -27,7 +33,7 @@ export interface IconSelectState {
   showModal: boolean;
   tmpCheckIconId: IconChecked | null;
   searchValue: string;
-  activeTypeIndex: string | number;
+  activeTypeIndex: number;
   isRefreshLoading?: boolean;
 }
 
@@ -274,7 +280,6 @@ export default class IconSelectControl extends React.PureComponent<
     );
   }
 
-  @autobind
   getIconsByType() {
     return (
       (IconSelectStore?.svgIcons.length &&
