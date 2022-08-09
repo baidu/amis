@@ -63,7 +63,8 @@ import FormItem, {
   FormControlProps,
   FormItemWrap,
   FormItemProps,
-  registerFormItem
+  registerFormItem,
+  getFormItemByName
 } from './renderers/Item';
 import {
   FormOptionsControl,
@@ -115,6 +116,7 @@ export {
   unRegisterRenderer,
   getRenderers,
   registerFormItem,
+  getFormItemByName,
   registerOptionsControl,
   resolveRenderer,
   filterSchema,

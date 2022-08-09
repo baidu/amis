@@ -4,6 +4,7 @@ import {IFormItemStore, IFormStore} from '../store/form';
 import {reaction} from 'mobx';
 
 import {
+  renderersMap,
   RendererProps,
   registerRenderer,
   TestFunc,
@@ -1619,6 +1620,10 @@ export function FormItem(config: FormItemBasicConfig) {
 
     return renderer.component as any;
   };
+}
+
+export function getFormItemByName(name: string) {
+  return renderersMap[name];
 }
 
 export default FormItem;
