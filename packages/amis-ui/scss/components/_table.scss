@@ -190,7 +190,7 @@
   &-toolbar {
     @include clearfix();
     display: flex;
-    margin: 0 var(--Table-toolbar-marginX) var(--Table-toolbar-marginY);
+    padding: var(--Table-toolbar-marginY) var(--Table-toolbar-marginX);
     flex-wrap: wrap;
 
     .#{$ns}DropDown {

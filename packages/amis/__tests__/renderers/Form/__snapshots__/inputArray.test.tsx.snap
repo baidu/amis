@@ -44,17 +44,6 @@ exports[`Renderer:inputArray 1`] = `
                   style="display: none;"
                   type="submit"
                 />
-                <pre>
-                  <code
-                    class="cxd-Form--debug"
-                  >
-                    {
-  "array": [
-    "amis"
-  ]
-}
-                  </code>
-                </pre>
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"
                   data-role="form-item"
@@ -167,6 +156,22 @@ exports[`Renderer:inputArray 1`] = `
                   </div>
                 </div>
               </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
+                >
+                  <span>
+                    Submit
+                  </span>
+                </button>
+              </div>
             </div>
             <div
               class="resize-sensor"

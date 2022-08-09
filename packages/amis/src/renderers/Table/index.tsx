@@ -2130,6 +2130,8 @@ export default class Table extends React.Component<TableProps, object> {
 
     const subProps: any = {
       ...props,
+      // 操作列不下发loading，否则会导致操作栏里面的所有按钮都出现loading
+      loading: column.type === 'operation' ? false : props.loading,
       btnDisabled: store.dragging,
       data: item.locals,
       value: column.name
