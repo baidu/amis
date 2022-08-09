@@ -121,7 +121,7 @@ export default class CheckboxesControl extends React.Component<
     window.addEventListener('resize', this.updateBorderStyle);
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     window.removeEventListener('resize', this.updateBorderStyle);
   }
 

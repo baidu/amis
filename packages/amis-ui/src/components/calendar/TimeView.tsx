@@ -107,7 +107,7 @@ export class CustomTimeView extends React.Component<
     super(props);
     this.state = {
       ...this.calculateState(this.props),
-      uniqueTag: 0
+      uniqueTag: new Date().valueOf()
     };
 
     if (this.props.timeConstraints) {
@@ -116,10 +116,6 @@ export class CustomTimeView extends React.Component<
         this.props.timeConstraints
       );
     }
-  }
-
-  componentWillMount() {
-    this.setState({uniqueTag: new Date().valueOf()});
   }
 
   componentDidMount() {
