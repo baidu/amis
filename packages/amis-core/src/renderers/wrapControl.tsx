@@ -152,6 +152,18 @@ export function wrapControl<
             this.handleBlur = this.handleBlur.bind(this);
 
             if (!name) {
+              // 一般情况下这些表单项都是需要 name 的，提示一下
+              if (
+                typeof type === 'string' &&
+                (type.startsWith('input-') ||
+                  type.endsWith('select') ||
+                  type === 'switch' ||
+                  type === 'textarea' ||
+                  type === 'radios')
+              ) {
+                console.warn('name is required', this.props.$schema);
+              }
+
               return;
             }
 
@@ -367,10 +379,7 @@ export function wrapControl<
             } else if (model) {
               const valueByName = getVariable(props.data, model.name);
 
-              if (
-                valueByName !== undefined &&
-                isEqual(props.defaultValue, prevProps.defaultValue)
-              ) {
+              if (isEqual(props.defaultValue, prevProps.defaultValue)) {
                 // value 非公式表达式时，name 值优先，若 defaultValue 主动变动时，则使用 defaultValue
                 if (
                   // 然后才是查看关联的 name 属性值是否变化

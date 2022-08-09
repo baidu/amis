@@ -558,14 +558,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               ctx,
               !!(autoFill.api as BaseApiObject)?.silent
             );
-            if (!result) return;
-
-            this.lastSearchTerm = getVariable(result, itemName) ?? term;
+            this.lastSearchTerm =
+              (result && getVariable(result, itemName)) ?? term;
 
             if (autoFill?.fillMapping) {
               result = dataMapping(autoFill.fillMapping, result);
             }
-
             result && onBulkChange?.(result);
           }
         }

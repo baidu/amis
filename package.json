@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@types/jest": "^28.1.0",
+    "echarts": "5.3.3",
     "fis-optimizer-terser": "^1.0.1",
     "fis-parser-sass": "^1.1.1",
     "fis-parser-svgr": "^1.0.0",
@@ -47,7 +48,10 @@
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
     "lerna": "^5.0.0",
-    "ts-jest": "^28.0.3"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "ts-jest": "^28.0.3",
+    "zrender": "^5.3.2"
   },
   "jest": {
     "verbose": true,

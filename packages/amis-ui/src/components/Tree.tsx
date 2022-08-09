@@ -940,86 +940,97 @@ export class TreeSelector extends React.Component<
 
               {checkbox}
 
-              {showIcon ? (
-                <i
-                  className={cx(
-                    `Tree-itemIcon ${
-                      childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon'
-                    }`
-                  )}
+              <div className={cx(
+                'Tree-itemLabel-item'
+              )}>
+                {showIcon ? (
+                  <i
+                    className={cx(
+                      `Tree-itemIcon ${
+                        childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon'
+                      }`
+                    )}
+                    onClick={() =>
+                      !nodeDisabled &&
+                      (multiple
+                        ? this.handleCheck(item, !selfChecked)
+                        : this.handleSelect(item))
+                    }
+                  >
+                    {getIcon(iconValue) ? (
+                      <Icon icon={iconValue} className="icon" />
+                    ) : React.isValidElement(iconValue) ? (
+                      iconValue
+                    ) : (
+                      <i className={iconValue}></i>
+                    )}
+                  </i>
+                ) : null}
+
+                <span
+                  className={cx('Tree-itemText')}
                   onClick={() =>
                     !nodeDisabled &&
                     (multiple
                       ? this.handleCheck(item, !selfChecked)
                       : this.handleSelect(item))
                   }
+                  title={item[labelField]}
                 >
-                  {getIcon(iconValue) ? (
-                    <Icon icon={iconValue} className="icon" />
-                  ) : (
-                    <i className={iconValue}></i>
-                  )}
-                </i>
-              ) : null}
+                  {highlightTxt
+                    ? highlight(`${item[labelField]}`, highlightTxt)
+                    : itemRender
+                    ? itemRender(item, {
+                        index: key,
+                        multiple: multiple,
+                        checked: checked,
+                        onChange: () => this.handleCheck(item, !selfChecked),
+                        disabled: disabled || item.disabled
+                      })
+                    : `${item[labelField]}`}
+                </span>
 
-              <span
-                className={cx('Tree-itemText')}
-                onClick={() =>
-                  !nodeDisabled &&
-                  (multiple
-                    ? this.handleCheck(item, !selfChecked)
-                    : this.handleSelect(item))
-                }
-              >
-                {highlightTxt
-                  ? highlight(`${item[labelField]}`, highlightTxt)
-                  : itemRender
-                  ? itemRender(item, {
-                      index: key,
-                      multiple: multiple,
-                      checked: checked,
-                      onChange: () => this.handleCheck(item, !selfChecked),
-                      disabled: disabled || item.disabled
-                    })
-                  : `${item[labelField]}`}
-              </span>
+                {!nodeDisabled &&
+                !isAdding &&
+                !isEditing &&
+                !(item.defer && !item.loaded) ? (
+                  <div className={cx('Tree-item-icons')}>
+                    {creatable && hasAbility(item, 'creatable') ? (
+                      <a
+                        onClick={this.handleAdd.bind(this, item)}
+                        data-tooltip={__(createTip)}
+                        data-position="left"
+                      >
+                        <Icon icon="plus" className="icon" />
+                      </a>
+                    ) : null}
 
-              {!nodeDisabled &&
-              !isAdding &&
-              !isEditing &&
-              !(item.defer && !item.loaded) ? (
-                <div className={cx('Tree-item-icons')}>
-                  {creatable && hasAbility(item, 'creatable') ? (
-                    <a
-                      onClick={this.handleAdd.bind(this, item)}
-                      data-tooltip={__(createTip)}
-                      data-position="left"
-                    >
-                      <Icon icon="plus" className="icon" />
-                    </a>
-                  ) : null}
+                    {removable && hasAbility(item, 'removable') ? (
+                      <a
+                        onClick={this.handleRemove.bind(this, item)}
+                        data-tooltip={__(removeTip)}
+                        data-position="left"
+                      >
+                        <Icon icon="minus" className="icon" />
+                      </a>
+                    ) : null}
 
-                  {removable && hasAbility(item, 'removable') ? (
-                    <a
-                      onClick={this.handleRemove.bind(this, item)}
-                      data-tooltip={__(removeTip)}
-                      data-position="left"
-                    >
-                      <Icon icon="minus" className="icon" />
-                    </a>
-                  ) : null}
+                    {editable && hasAbility(item, 'editable') ? (
+                      <a
+                        onClick={this.handleEdit.bind(this, item)}
+                        data-tooltip={__(editTip)}
+                        data-position="left"
+                      >
+                        <Icon icon="new-edit" className="icon" />
+                      </a>
+                    ) : null}
+                  </div>
+                ) : null}
+              </div>
+              
 
-                  {editable && hasAbility(item, 'editable') ? (
-                    <a
-                      onClick={this.handleEdit.bind(this, item)}
-                      data-tooltip={__(editTip)}
-                      data-position="left"
-                    >
-                      <Icon icon="pencil" className="icon" />
-                    </a>
-                  ) : null}
-                </div>
-              ) : null}
+              
+              
             </div>
           )}
           {/* 有children而且为展开状态 或者 添加child时 */}

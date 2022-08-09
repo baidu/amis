@@ -5,7 +5,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import ImageControl from './InputImage';
 import {Payload, ApiObject, ApiString, ActionObject} from 'amis-core';
 import {qsstringify, createObject, guid, isEmpty} from 'amis-core';
-import {buildApi, isEffectiveApi, normalizeApi, isApiOutdated} from 'amis-core';
+import {buildApi, isEffectiveApi, normalizeApi, isApiOutdated, isApiOutdatedWithData} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {TooltipWrapper, Button} from 'amis-ui';
 import DropZone from 'react-dropzone';
@@ -934,7 +934,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
 
     onChange((this.emitValue = value), undefined, changeImmediately);
-    console.log('onChange', changeImmediately);
     this.syncAutoFill();
   }
 
@@ -1543,12 +1542,19 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   sizeMutable: false,
   renderDescription: false,
   shouldComponentUpdate: (props: any, prevProps: any) =>
-    !!isEffectiveApi(props.receiver, props.data) &&
-    isApiOutdated(
-      props.receiver,
-      prevProps.receiver,
-      props.data,
-      prevProps.data
+    !!isEffectiveApi(props.receiver, props.data) && (
+      isApiOutdated(
+        props.receiver,
+        prevProps.receiver,
+        props.data,
+        prevProps.data
+      ) ||
+      isApiOutdatedWithData(
+        props.receiver,
+        prevProps.receiver,
+        props.data,
+        prevProps.data
+      )
     )
 })
 export class FileControlRenderer extends FileControl {}

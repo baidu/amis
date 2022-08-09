@@ -26,16 +26,16 @@ exports[`Renderer:status 1`] = `
             class="cxd-StatusField cxd-StatusField--1"
           >
             <icon-mock
-              classname="cxd-Status-icon icon icon icon-success"
-              icon="success"
+              classname="cxd-Status-icon icon icon icon-check-circle"
+              icon="check-circle"
             />
           </span>
           <span
             class="cxd-StatusField cxd-StatusField--success"
           >
             <icon-mock
-              classname="cxd-Status-icon icon icon icon-success"
-              icon="success"
+              classname="cxd-Status-icon icon icon icon-check-circle"
+              icon="check-circle"
             />
             <span
               class="cxd-StatusField-label"

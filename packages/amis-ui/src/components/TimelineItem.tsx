@@ -81,7 +81,7 @@ export function TimelineItem(props: TimelineItem) {
               `${detailVisible && 'TimelineItem-detail-arrow-top'}`
             )}
           >
-            <Icon icon="tree-down" />
+            <Icon icon="down-arrow-bold" />
           </div>
         </div>
         <div
@@ -108,7 +108,7 @@ export function TimelineItem(props: TimelineItem) {
   return (
     <div className={cx('TimelineItem')} key={key}>
       <div className={cx('TimelineItem-axle')}>
-        <div className={cx('TimelineItem-line')}></div>
+        <div className={cx('TimelineItem-line', icon ? 'TimelineItem-line-icon' : '')}></div>
         {icon ? (
           <div className={cx('TimelineItem-icon')}>
             <Icon icon={icon} className="icon" />

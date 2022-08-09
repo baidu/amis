@@ -51,7 +51,7 @@ const result = async (req, res) => {
       ? data
       : data.filter(function (item) {
           return browser ? ~item.browser.indexOf(browser) : false;
-        })[0] || data[0]
+        })[0]
   });
 };
 

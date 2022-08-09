@@ -500,7 +500,16 @@ export function promisify<T extends Function>(
   return promisified;
 }
 
-export function getScrollParent(node: HTMLElement): HTMLElement | null {
+/**
+ *
+ * @param node 当前元素
+ * @param compute 自定义计算，找到的父元素是否满足特殊场景
+ * @returns 返回控制当前元素滚动的父元素
+ */
+export function getScrollParent(
+  node: HTMLElement,
+  compute: (parent: HTMLElement) => boolean = () => true
+): HTMLElement | null {
   if (node == null) {
     return null;
   }
@@ -516,11 +525,11 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
     style.getPropertyValue('overflow-x') +
     style.getPropertyValue('overflow-y');
 
-  if (/auto|scroll/.test(text) || node.nodeName === 'BODY') {
+  if (node.nodeName === 'BODY' || (/auto|scroll/.test(text) && compute(node))) {
     return node;
   }
 
-  return getScrollParent(node.parentNode as HTMLElement);
+  return getScrollParent(node.parentNode as HTMLElement, compute);
 }
 
 /**
@@ -1006,6 +1015,44 @@ export function flattenTree<T extends TreeItem, U>(
   eachTree(tree, (item, index) =>
     flattened.push(mapper ? mapper(item, index) : item)
   );
+  return flattened;
+}
+
+/**
+ * 将树打平变成一维数组，用法和flattenTree类似，区别是结果仅保留叶节点
+ *
+ * 比如：
+ *
+ * flattenTreeWithLeafNodes([
+ *     {
+ *         id: 1,
+ *         children: [
+ *              { id: 2 },
+ *              { id: 3 },
+ *         ]
+ *     }
+ * ], item => item.id); // 输出为 [2, 3]
+ *
+ * @param tree
+ * @param mapper
+ */
+export function flattenTreeWithLeafNodes<T extends TreeItem>(
+  tree: Array<T>
+): Array<T>;
+export function flattenTreeWithLeafNodes<T extends TreeItem, U>(
+  tree: Array<T>,
+  mapper: (value: T, index: number) => U
+): Array<U>;
+export function flattenTreeWithLeafNodes<T extends TreeItem, U>(
+  tree: Array<T>,
+  mapper?: (value: T, index: number) => U
+): Array<U> {
+  let flattened: Array<any> = [];
+  eachTree(tree, (item, index) => {
+    if (!item.hasOwnProperty('children')) {
+      flattened.push(mapper ? mapper(item, index) : item);
+    }
+  });
   return flattened;
 }
 

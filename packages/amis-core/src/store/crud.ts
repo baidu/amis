@@ -134,6 +134,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
         columns?: Array<any>;
+        isTableV2?: Boolean; // 是否是 CRUD2
       }
     ) => Promise<any> = flow(function* getInitData(
       api: Api,
@@ -336,7 +337,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
           if (Array.isArray(columns)) {
             self.columns = columns.concat();
-          } else {
+          } else if (rest.isTableV2) {
             self.columns = options.columns;
           }
 
@@ -572,7 +573,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     const updateColumns = (columns: Array<any>) => {
       self.columns = columns;
-    }
+    };
 
     return {
       getData,

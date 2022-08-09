@@ -284,6 +284,7 @@ export default class Page extends React.Component<PageProps> {
     bulkBindFunctions<Page /*为毛 this 的类型自动识别不出来？*/>(this, [
       'handleAction',
       'handleChange',
+      'handleBulkChange',
       'handleQuery',
       'handleDialogConfirm',
       'handleDialogClose',
@@ -690,6 +691,10 @@ export default class Page extends React.Component<PageProps> {
     onChange?.apply(null, arguments);
   }
 
+  handleBulkChange(values: Object) {
+    this.props.store?.updateData?.(values);
+  }
+
   renderHeader() {
     const {
       title,
@@ -789,6 +794,7 @@ export default class Page extends React.Component<PageProps> {
       onAction: this.handleAction,
       onQuery: initApi ? this.handleQuery : undefined,
       onChange: this.handleChange,
+      onBulkChange: this.handleBulkChange,
       pageLoading: store.loading
     };
 

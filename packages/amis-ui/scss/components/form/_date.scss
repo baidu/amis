@@ -24,6 +24,9 @@
       outline: none;
       box-sizing: none;
     }
+    &::placeholder {
+      color: #{$G6};
+    }
   }
 
   .#{$ns}DatePicker-clear {
@@ -47,11 +50,11 @@
         display: none;
       }
     }
-  }
 
-  &.is-focused {
-    border-color: var(--DatePicker-onFocused-borderColor);
-    box-shadow: var(--Form-input-boxShadow);
+    &.is-focused {
+      border-color: var(--DatePicker-onFocused-borderColor);
+      box-shadow: var(--Form-input-boxShadow);
+    }
   }
 
   &.is-disabled {
@@ -254,8 +257,14 @@
     .rdtTimeToggle {
       background: var(--Calendar-cell-bg);
 
-      &:hover {
+      &:hover span {
         background: var(--Calendar-cell-onHover-bg);
+      }
+    }
+
+    td.rdtToday {
+      &:hover span {
+        background: transparent;
       }
     }
 
@@ -289,12 +298,10 @@
     .rdtActive.rdtToday {
       color: #151b26;
       > span {
-        background: transparent;
         border-color: #144bcc;
       }
     }
 
-    td.rdtDisabled,
     td.rdtDisabled:hover {
       > span {
         background: var(--Calendar-cell-onDisabled-bg);
@@ -334,12 +341,21 @@
   }
 }
 
+.#{$ns}CalendarTimesWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .#{$ns}CalendarInputsWrapper {
+    height: #{px2rem(248px)};
+  }
+}
+
 .#{$ns}CalendarInputWrapper {
   display: inline-block;
   position: relative;
   // padding-top: #{px2rem(4px)};
   width: #{px2rem(64px)};
-  height: #{px2rem(224px)};
+  height: #{px2rem(248px)};
   overflow: auto;
   .#{$ns}CalendarInput-sugs {
     list-style: none;
@@ -350,23 +366,30 @@
     top: 100%;
     z-index: 10;
     &Hours {
-      height: #{px2rem(868px)};
+      height: #{px2rem(892px)};
     }
     &Times {
-      height: #{px2rem(1876px)};
+      height: #{px2rem(1900px)};
       border-left: 1px solid var(--Calendar-input-borderColor);
     }
     &Item {
       text-align: center;
       height: 28px;
       line-height: 28px;
-      &.is-highlight,
-      &:hover {
+      &.is-highlight {
         color: var(--Form-select-menu-onHover-color);
         background: var(--Form-select-menu-onHover-bg);
       }
+      &:hover {
+        color: var(--Form-select-menu-onHover-color);
+        background: #F7F7F9;
+      }
     }
   }
+}
+
+.#{$ns}TimeContentWrapper {
+  display: flex;
 }
 
 .#{$ns}TimeRangeHeaderWrapper {
@@ -382,6 +405,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 12px;
+  border-top: 1px solid var(--Calendar-input-borderColor);
 
   .#{$ns}Button {
     height: 24px;
@@ -565,7 +589,6 @@
   display: table;
   table-layout: fixed;
   border-collapse: separate;
-  border-bottom: 1px solid var(--Calendar-input-borderColor);
   height: 40px;
   width: 100%;
   margin-top: -8px;
@@ -579,6 +602,28 @@
   .rdtSwitch + .rdtSwitch {
     margin-left: var(--gap-xs);
   }
+
+  .date-icon-arrow-left,
+  .date-icon-arrow {
+    width: #{px2rem(10px)};
+    height: #{px2rem(10px)};
+    top: 0;
+  }
+
+  .date-icon-arrow-left {
+    transform: rotate(180deg);
+    transform-origin: 50% 50%;
+  }
+}
+
+.header-line {
+  display: block;
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 40px;
+  height: 1px;
+  background: var(--Calendar-input-borderColor);
 }
 
 td.rdtMonth,
@@ -592,7 +637,15 @@ td.rdtQuarter {
     background: var(--Calendar-cell-onBetween-bg);
   }
 
-  &:hover,
+  &:hover {
+    background: transparent;
+
+    > span {
+      color: var(--Form-select-menu-onHover-color);
+      background: #F7F7F9;
+    }
+  }
+
   &.rdtActive,
   &.rdtActive:hover {
     background: transparent;
@@ -610,28 +663,39 @@ td.rdtQuarter {
   }
 }
 
-.#{$ns}DateRangePicker-start {
-  .rdtPicker .rdtActive.rdtBetween {
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      transparent 50%,
-      var(--Calendar-cell-onBetween-bg) 51%,
-      var(--Calendar-cell-onBetween-bg) 100%
-    );
+.rdtPicker .rdtActive.rdtBetween.rdtStartDay {
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 50%,
+    var(--Calendar-cell-onBetween-bg) 51%,
+    var(--Calendar-cell-onBetween-bg) 100%
+  );
+}
+
+.rdt .rdtPicker td.is-disabled {
+  cursor: not-allowed !important;
+  background: var(--Calendar-cell-onDisabled-bg);
+  color: var(--text--muted-color);
+
+  &:hover {
+    background: var(--Calendar-cell-onDisabled-bg);
+    color: var(--text--muted-color);
+    & > span {
+      background: inherit !important;
+      color: inherit !important;
+    }
   }
 }
 
-.#{$ns}DateRangePicker-end {
-  .rdtPicker .rdtActive.rdtBetween {
-    background: linear-gradient(
-      to right,
-      var(--Calendar-cell-onBetween-bg) 0%,
-      var(--Calendar-cell-onBetween-bg) 50%,
-      transparent 51%,
-      transparent 100%
-    );
-  }
+.rdtPicker .rdtActive.rdtBetween.rdtEndDay {
+  background: linear-gradient(
+    to right,
+    var(--Calendar-cell-onBetween-bg) 0%,
+    var(--Calendar-cell-onBetween-bg) 50%,
+    transparent 51%,
+    transparent 100%
+  );
 }
 
 .#{$ns}DateCalendar {

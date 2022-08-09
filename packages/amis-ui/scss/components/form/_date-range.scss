@@ -4,7 +4,7 @@
   flex-wrap: nowrap;
   border: var(--DatePicker-borderWidth) solid var(--DatePicker-borderColor);
   font-size: var(--DatePicker-fontSize);
-  padding: var(--DatePicker-paddingY) var(--DatePicker-paddingX);
+  padding: 0 var(--DatePicker-paddingX);
   height: var(--DatePicker-height);
   outline: none;
   border-radius: var(--DatePicker-borderRadius);
@@ -17,8 +17,6 @@
   }
 
   &:not(.is-disabled) {
-    cursor: pointer;
-
     &:hover {
       background: var(--DatePicker-onHover-bg);
       border-color: var(--DatePicker-onHover-borderColor);
@@ -31,29 +29,42 @@
         display: none;
       }
     }
-  }
 
-  &.is-focused {
-    border-color: var(--DatePicker-onFocused-borderColor);
-    box-shadow: var(--Form-input-boxShadow);
+    &.is-focused {
+      border-color: var(--DatePicker-onFocused-borderColor);
+      box-shadow: var(--Form-input-boxShadow);
+    }
   }
 
   .#{$ns}DateRangePicker-input {
     border: none;
-    border-bottom: 1px solid transparent;
+    border-bottom: 2px solid transparent;
     outline: none;
     padding: 0;
     background: 0;
     flex: 1;
     width: 50%;
+    line-height: px2rem(30px);
+
+    &::placeholder {
+      color: #{$G6};
+    }
   }
 
   .#{$ns}DateRangePicker-input.isActive {
-    border-bottom: 1px solid var(--DatePicker-onFocused-borderColor);
+    border-bottom: 2px solid var(--Form-input-onHover-borderColor);
   }
 
   .#{$ns}DateRangePicker-input-separator {
     margin: 0 var(--gap-sm);
+    display: flex;
+    align-items: center;
+
+    &-line {
+      width: var(--gap-sm);
+      height: 1px;
+      background: #B8BABF;
+    }
   }
 
   &.is-disabled {
@@ -95,10 +106,14 @@
   padding: 0;
 }
 
+.#{$ns}DateRangePicker-picker-wrap {
+  display: flex;
+}
+
 .#{$ns}DateRangePicker-start,
 .#{$ns}DateRangePicker-end {
-  display: inline-block;
-  vertical-align: top;
+  display: flex;
+  flex: 1;
 
   .rdtPicker {
     padding: 0;

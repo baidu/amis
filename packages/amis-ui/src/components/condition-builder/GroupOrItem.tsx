@@ -99,7 +99,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
               onMouseOver={this.handlerHoverIn}
               onMouseOut={this.handlerHoverOut}
             >
-              {draggable ? (
+              {draggable && !disabled ? (
                 <a
                   draggable
                   onDragStart={onDragStart}
@@ -126,7 +126,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
             </div>
           ) : (
             <div className={cx('CBGroupOrItem-body-item')}>
-              {draggable ? (
+              {draggable && !disabled ? (
                 <a
                   draggable
                   onDragStart={onDragStart}
@@ -152,6 +152,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
               <Button
                 className={cx('CBDelete')}
                 onClick={this.handleItemRemove}
+                disabled={disabled}
               >
                 <Icon icon="remove" className="icon" />
               </Button>

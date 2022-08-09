@@ -40,6 +40,10 @@
 
   &:hover {
     border-color: var(--Form-input-onFocused-borderColor);
+
+    .#{$ns}Number-handler-wrap {
+      display: block;
+    }
   }
 
   &-disabled:hover {
@@ -104,6 +108,7 @@
 
   @if $Number-handler-mode==vertical {
     &-handler-wrap {
+      display: none;
       float: right;
       border-left: px2rem(1px) solid var(--Form-input-borderColor);
       width: var(--Number-handler-width);
@@ -220,13 +225,13 @@
     color: var(--Form-input-color);
     background: var(--Form-input-bg);
     &:hover {
-        cursor: pointer;
-        background: var(--Form-input-bg);
-        color: var(--Form-input-onHover-borderColor);
+      cursor: pointer;
+      background: var(--Form-input-bg);
+      color: var(--Form-input-onHover-borderColor);
     }
     &-focused {
-        background: var(--Form-input-bg);
-        color: var(--Form-input-onFocused-borderColor);
+      background: var(--Form-input-bg);
+      color: var(--Form-input-onFocused-borderColor);
     }
     & > svg {
       width: var(--fontSizeSm);
@@ -258,13 +263,13 @@
     border-color: var(--Form-input-onFocused-borderColor);
   }
   .#{$ns}Number--enhance-border-min,
-  .#{$ns}Number--enhance-border-max{
+  .#{$ns}Number--enhance-border-max {
     background: var(--Number-handler-onDisabled-bg);
     pointer-events: none;
     color: var(--Number-handler-onDisabled-color);
     &:hover {
-        background: var(--Number-handler-onDisabled-bg);
-        color: var(--Number-handler-onDisabled-color);
+      background: var(--Number-handler-onDisabled-bg);
+      color: var(--Number-handler-onDisabled-color);
     }
   }
   .#{$ns}Number--enhance-border-disabled {
@@ -272,15 +277,15 @@
     color: var(--Form-inputNumber-strong-disabled-color);
     cursor: not-allowed;
     &:hover {
-        cursor: not-allowed;
-        background: var(--Form-input-onDisabled-bg);
-        color: var(--Form-inputNumber-strong-disabled-color);
+      cursor: not-allowed;
+      background: var(--Form-input-onDisabled-bg);
+      color: var(--Form-inputNumber-strong-disabled-color);
     }
   }
   .#{$ns}Number--enhance-border-readOnly,
   .#{$ns}Number--enhance-border-readOnly {
     &:hover {
-      color: var(--Number-handler-onHover-color);;
+      color: var(--Number-handler-onHover-color);
     }
   }
 }
@@ -296,7 +301,7 @@
   }
 }
 
-.#{$ns}Number--enhance-disabled{
+.#{$ns}Number--enhance-disabled {
   border-color: var(--Form-input-onDisabled-borderColor);
   .#{$ns}Number--enhance-input {
     border-color: var(--Form-input-onDisabled-borderColor);

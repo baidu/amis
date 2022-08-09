@@ -19,7 +19,8 @@ import isPlainObject from 'lodash/isPlainObject';
 import {debug, warning} from './debug';
 import {evaluate, parse} from 'amis-formula';
 
-const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp):/i;
+const rSchema =
+  /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp|js):/i;
 
 interface ApiCacheConfig extends ApiObject {
   cachedPromise: Promise<any>;
@@ -178,7 +179,7 @@ export function buildApi(
   }
 
   // get 类请求，把 data 附带到 url 上。
-  if (api.method === 'get' || api.method === 'jsonp') {
+  if (api.method === 'get' || api.method === 'jsonp' || api.method === 'js') {
     if (
       !api.data &&
       ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
@@ -424,6 +425,10 @@ export function wrapFetcher(
       return wrapAdaptor(jsonpFetcher(api), api);
     }
 
+    if (api.method?.toLocaleLowerCase() === 'js') {
+      return wrapAdaptor(jsFetcher(fn, api), api);
+    }
+
     if (typeof api.cache === 'number' && api.cache > 0) {
       const apiCache = getApiCache(api);
       return wrapAdaptor(
@@ -467,6 +472,37 @@ export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
         })
         .then(ret => responseAdaptor(ret, api))
     : promise.then(ret => responseAdaptor(ret, api));
+}
+
+/**
+ * 请求远程 js 文件然后 new Function 执行，用于 schemaApi 支持 JavaScript
+ * @param api
+ * @returns
+ */
+export function jsFetcher(
+  fetcher: (config: fetcherConfig) => Promise<fetcherResult>,
+  api: ApiObject
+): Promise<fetcherResult> {
+  return new Promise((resolve, reject) => {
+    // 大概也不会有人用 post
+    api.method = 'get';
+    fetcher(api).then((response: fetcherResult) => {
+      if (typeof response.data === 'string') {
+        const result = new Function('api', response.data)(api);
+        resolve({
+          status: 200,
+          headers: {},
+          data: {
+            status: 0,
+            msg: '',
+            data: result
+          }
+        });
+      } else {
+        reject('must return string: ' + response.data);
+      }
+    });
+  });
 }
 
 export function jsonpFetcher(api: ApiObject): Promise<fetcherResult> {
@@ -532,6 +568,29 @@ export function jsonpFetcher(api: ApiObject): Promise<fetcherResult> {
     script.src = src;
     document.head.appendChild(script);
   });
+}
+
+// 避免在 isApiOutdated 中修改，减少影响
+export function isApiOutdatedWithData(
+  prevApi: Api | undefined,
+  nextApi: Api | undefined,
+  prevData: any,
+  nextData: any
+): nextApi is Api {
+  if (!nextApi) {
+    return false;
+  } else if (!prevApi) {
+    return true;
+  }
+
+  return isObjectShallowModified(
+    buildApi(
+      normalizeApi(prevApi) as Api, prevData as object
+    ),
+    buildApi(
+      normalizeApi(nextApi) as Api, nextData as object
+    )
+  )
 }
 
 export function isApiOutdated(

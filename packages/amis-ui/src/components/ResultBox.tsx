@@ -263,8 +263,11 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               value={value || ''}
               onChange={this.handleChange}
               placeholder={__(
-                Array.isArray(result) && result.length
-                  ? inputPlaceholder
+                /** 数组模式下输入内容后将不再展示placeholder */
+                Array.isArray(result)
+                  ? result.length > 0
+                    ? inputPlaceholder
+                    : placeholder
                   : result
                   ? ''
                   : placeholder

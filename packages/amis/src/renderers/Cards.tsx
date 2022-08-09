@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
-import {Button} from 'amis-ui';
+import {Button, Spinner} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
 import {Action} from '../types';
 import {
@@ -152,6 +152,7 @@ export interface GridProps
   multiple?: boolean;
   valueField?: string;
   draggable?: boolean;
+  dragIcon?: SVGAElement;
   onSelect: (
     selectedItems: Array<object>,
     unSelectedItems: Array<object>
@@ -617,6 +618,7 @@ export default class Cards extends React.Component<GridProps, object> {
 
   destroyDragging() {
     this.sortable && this.sortable.destroy();
+    this.sortable = undefined;
   }
 
   renderActions(region: string) {
@@ -848,7 +850,14 @@ export default class Cards extends React.Component<GridProps, object> {
   }
 
   renderDragToggler() {
-    const {store, multiple, selectable, env, translate: __} = this.props;
+    const {
+      store,
+      multiple,
+      selectable,
+      env,
+      translate: __,
+      dragIcon
+    } = this.props;
 
     if (!store.draggable || store.items.length < 2) {
       return null;
@@ -868,9 +877,14 @@ export default class Cards extends React.Component<GridProps, object> {
           e.preventDefault();
           store.toggleDragging();
           store.dragging && store.clear();
+          store.dragging ? this.initDragging() : undefined;
         }}
       >
-        <Icon icon="exchange" className="icon r90" />
+        {React.isValidElement(dragIcon) ? (
+          dragIcon
+        ) : (
+          <Icon icon="exchange" className="icon r90" />
+        )}
       </Button>
     );
   }
@@ -904,9 +918,11 @@ export default class Cards extends React.Component<GridProps, object> {
       className: cx((card && card.className) || '', {
         'is-checked': item.checked,
         'is-modified': item.modified,
-        'is-moved': item.moved
+        'is-moved': item.moved,
+        'is-dragging': store.dragging
       }),
       item,
+      key: index,
       itemIndex: item.index,
       multiple,
       selectable: store.selectable,
@@ -961,7 +977,8 @@ export default class Cards extends React.Component<GridProps, object> {
       masonryLayout,
       itemsClassName,
       classnames: cx,
-      translate: __
+      translate: __,
+      loading = false
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -1020,6 +1037,7 @@ export default class Cards extends React.Component<GridProps, object> {
         )}
 
         {footer}
+        <Spinner overlay show={loading} />
       </div>
     );
   }

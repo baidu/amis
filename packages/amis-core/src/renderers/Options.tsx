@@ -24,7 +24,9 @@ import {
   normalizeNodePath,
   mapTree,
   getTreeDepth,
-  flattenTree
+  flattenTree,
+  keyToPath,
+  getVariable
 } from '../utils/helper';
 import {reaction} from 'mobx';
 import {
@@ -49,7 +51,6 @@ import {filter} from '../utils/tpl';
 import findIndex from 'lodash/findIndex';
 
 import isPlainObject from 'lodash/isPlainObject';
-import merge from 'lodash/merge';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import {Option} from '../types';
@@ -529,9 +530,17 @@ export function registerOptionsControl(config: OptionsConfig) {
               )
         );
 
-        Object.keys(toSync).forEach(key => {
-          if (isPlainObject(toSync[key]) && isPlainObject(data[key])) {
-            toSync[key] = merge({}, data[key], toSync[key]);
+        Object.keys(autoFill).forEach(key => {
+          const keys = keyToPath(key);
+
+          // 如果左边的 key 是一个路径
+          // 这里不希望直接把原始对象都给覆盖没了
+          // 而是保留原始的对象，只修改指定的属性
+          if (keys.length > 1 && isPlainObject(data[keys[0]])) {
+            const obj = {...data[keys[0]]};
+            const value = getVariable(toSync, key);
+            toSync[keys[0]] = obj;
+            setVariable(toSync, key, value);
           }
         });
 

@@ -391,7 +391,135 @@ exports[`Renderer:text type is email: validate success 1`] = `
 </div>
 `;
 
-exports[`Renderer:text type is password 1`] = `
+exports[`Renderer:text type is password with revealPassword 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  text
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class=""
+                name="text"
+                placeholder=""
+                size="10"
+                type="password"
+                value="abcd"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:text type is password: password invisible 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -461,6 +589,142 @@ exports[`Renderer:text type is password 1`] = `
                 <icon-mock
                   classname="icon icon-invisible"
                   icon="invisible"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:text type is password: password visible 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  text
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                class="cxd-TextControl-input-password"
+                name="text"
+                placeholder=""
+                size="10"
+                type="text"
+                value="abcd"
+              />
+              <a
+                class="cxd-TextControl-revealPassword"
+              >
+                <icon-mock
+                  classname="icon icon-view"
+                  icon="view"
                 />
               </a>
             </div>
@@ -1598,6 +1862,141 @@ exports[`Renderer:text with counter and maxLength 2`] = `
 </div>
 `;
 
+exports[`Renderer:text with minLength 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal is-error has-error--maxLength"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  text
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control is-error has-error--maxLength cxd-TextControl"
+          >
+            <div
+              class="cxd-TextControl-input cxd-TextControl-input--borderHalf test-text-class-one"
+            >
+              <input
+                autocomplete="off"
+                class="test-text-class-two"
+                name="text"
+                placeholder=""
+                size="10"
+                type="text"
+                value="123456789"
+              />
+            </div>
+          </div>
+          <ul
+            class="cxd-Form-feedback"
+          >
+            <li>
+              请控制内容长度, 不要输入 8 个以上字符
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:text with options 1`] = `
 <div>
   <div
@@ -1630,13 +2029,81 @@ exports[`Renderer:text with options 1`] = `
           style="display: none;"
           type="submit"
         />
-        <pre>
-          <code
-            class="cxd-Form--debug"
+        <div
+          class="cxd-JsonField cxd-Form--debug"
+        >
+          <div
+            class="react-json-view"
+            style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
           >
-            {}
-          </code>
-        </pre>
+            <div
+              class="pretty-json-container object-container"
+            >
+              <div
+                class="object-content"
+              >
+                <div
+                  class="object-key-val"
+                >
+                  <span>
+                    <span
+                      style="display: inline-block; cursor: pointer;"
+                    >
+                      <div
+                        class="icon-container"
+                        style="display: inline-block; width: 17px;"
+                      >
+                        <span
+                          class="collapsed-icon"
+                        >
+                          <svg
+                            fill="#2aa198"
+                            height="1em"
+                            style="vertical-align: middle; color: rgb(42, 161, 152); height: 1em; width: 1em;"
+                            viewBox="0 0 1792 1792"
+                            width="1em"
+                          >
+                            <path
+                              d="M1344 800v64q0 14-9 23t-23 9h-352v352q0 14-9 23t-23 9h-64q-14 0-23-9t-9-23v-352h-352q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h352v-352q0-14 9-23t23-9h64q14 0 23 9t9 23v352h352q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <span />
+                      <span
+                        style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                      >
+                        {
+                      </span>
+                    </span>
+                  </span>
+                  <span
+                    class="brace-row"
+                  >
+                    <span
+                      style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 0px;"
+                    >
+                      }
+                    </span>
+                    <div
+                      class="object-meta-data"
+                      style="display: inline-block; padding: 0px 0px 0px 10px;"
+                    >
+                      <span
+                        class="object-size"
+                        style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                      >
+                        0
+                         item
+                        s
+                      </span>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -1739,7 +2206,7 @@ exports[`Renderer:text with options 1`] = `
 </div>
 `;
 
-exports[`Renderer:text with options and multiple: first option selected 1`] = `
+exports[`Renderer:text with options and multiple and delimiter: first option selected 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1771,15 +2238,138 @@ exports[`Renderer:text with options and multiple: first option selected 1`] = `
           style="display: none;"
           type="submit"
         />
-        <pre>
-          <code
-            class="cxd-Form--debug"
+        <div
+          class="cxd-JsonField cxd-Form--debug"
+        >
+          <div
+            class="react-json-view"
+            style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
           >
-            {
-  "text": "a"
-}
-          </code>
-        </pre>
+            <div
+              class="pretty-json-container object-container"
+            >
+              <div
+                class="object-content"
+              >
+                <div
+                  class="object-key-val"
+                >
+                  <span>
+                    <span
+                      style="display: inline-block; cursor: pointer;"
+                    >
+                      <div
+                        class="icon-container"
+                        style="display: inline-block; width: 17px;"
+                      >
+                        <span
+                          class="expanded-icon"
+                        >
+                          <svg
+                            fill="#586e75"
+                            height="1em"
+                            style="vertical-align: middle; color: rgb(88, 110, 117); height: 1em; width: 1em;"
+                            viewBox="0 0 1792 1792"
+                            width="1em"
+                          >
+                            <path
+                              d="M1344 800v64q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h832q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <span />
+                      <span
+                        style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                      >
+                        {
+                      </span>
+                    </span>
+                    <div
+                      class="object-meta-data"
+                      style="display: inline-block; padding: 0px 0px 0px 10px;"
+                    >
+                      <span
+                        class="object-size"
+                        style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                      >
+                        1
+                         item
+                      </span>
+                    </div>
+                  </span>
+                  <div
+                    class="pushed-content object-container"
+                  >
+                    <div
+                      class="object-content"
+                      style="margin-left: 6px;"
+                    >
+                      <div
+                        class="variable-row"
+                        style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
+                      >
+                        <span>
+                          <span
+                            class="object-key"
+                            style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
+                          >
+                            <span
+                              style="vertical-align: top;"
+                            >
+                              "
+                            </span>
+                            <span
+                              style="display: inline-block;"
+                            >
+                              text
+                            </span>
+                            <span
+                              style="vertical-align: top;"
+                            >
+                              "
+                            </span>
+                          </span>
+                          <span
+                            style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
+                          >
+                            :
+                          </span>
+                        </span>
+                        <div
+                          class="variable-value"
+                          style="display: inline-block; padding-right: 6px; position: relative; cursor: default;"
+                        >
+                          <div
+                            style="display: inline-block; color: rgb(203, 75, 22);"
+                          >
+                            <span
+                              class="string-value"
+                              style="cursor: default;"
+                            >
+                              "
+                              a
+                              "
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="brace-row"
+                  >
+                    <span
+                      style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 3px;"
+                    >
+                      }
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -1870,6 +2460,24 @@ exports[`Renderer:text with options and multiple: first option selected 1`] = `
             </div>
           </div>
         </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                a
+              </span>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
     <div
@@ -1931,7 +2539,7 @@ exports[`Renderer:text with options and multiple: first option selected 1`] = `
 </div>
 `;
 
-exports[`Renderer:text with options and multiple: options is opened 1`] = `
+exports[`Renderer:text with options and multiple and delimiter: options is opened 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1963,13 +2571,81 @@ exports[`Renderer:text with options and multiple: options is opened 1`] = `
           style="display: none;"
           type="submit"
         />
-        <pre>
-          <code
-            class="cxd-Form--debug"
+        <div
+          class="cxd-JsonField cxd-Form--debug"
+        >
+          <div
+            class="react-json-view"
+            style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
           >
-            {}
-          </code>
-        </pre>
+            <div
+              class="pretty-json-container object-container"
+            >
+              <div
+                class="object-content"
+              >
+                <div
+                  class="object-key-val"
+                >
+                  <span>
+                    <span
+                      style="display: inline-block; cursor: pointer;"
+                    >
+                      <div
+                        class="icon-container"
+                        style="display: inline-block; width: 17px;"
+                      >
+                        <span
+                          class="collapsed-icon"
+                        >
+                          <svg
+                            fill="#2aa198"
+                            height="1em"
+                            style="vertical-align: middle; color: rgb(42, 161, 152); height: 1em; width: 1em;"
+                            viewBox="0 0 1792 1792"
+                            width="1em"
+                          >
+                            <path
+                              d="M1344 800v64q0 14-9 23t-23 9h-352v352q0 14-9 23t-23 9h-64q-14 0-23-9t-9-23v-352h-352q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h352v-352q0-14 9-23t23-9h64q14 0 23 9t9 23v352h352q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <span />
+                      <span
+                        style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                      >
+                        {
+                      </span>
+                    </span>
+                  </span>
+                  <span
+                    class="brace-row"
+                  >
+                    <span
+                      style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 0px;"
+                    >
+                      }
+                    </span>
+                    <div
+                      class="object-meta-data"
+                      style="display: inline-block; padding: 0px 0px 0px 10px;"
+                    >
+                      <span
+                        class="object-size"
+                        style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                      >
+                        0
+                         item
+                        s
+                      </span>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -2057,6 +2733,28 @@ exports[`Renderer:text with options and multiple: options is opened 1`] = `
             </div>
           </div>
         </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                <span
+                  class="text-muted"
+                >
+                  -
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
     <div
@@ -2118,7 +2816,7 @@ exports[`Renderer:text with options and multiple: options is opened 1`] = `
 </div>
 `;
 
-exports[`Renderer:text with options and multiple: options is opened again, and first option already selected 1`] = `
+exports[`Renderer:text with options and multiple and delimiter: options is opened again, and first option already selected 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -2150,15 +2848,138 @@ exports[`Renderer:text with options and multiple: options is opened again, and f
           style="display: none;"
           type="submit"
         />
-        <pre>
-          <code
-            class="cxd-Form--debug"
+        <div
+          class="cxd-JsonField cxd-Form--debug"
+        >
+          <div
+            class="react-json-view"
+            style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
           >
-            {
-  "text": "a"
-}
-          </code>
-        </pre>
+            <div
+              class="pretty-json-container object-container"
+            >
+              <div
+                class="object-content"
+              >
+                <div
+                  class="object-key-val"
+                >
+                  <span>
+                    <span
+                      style="display: inline-block; cursor: pointer;"
+                    >
+                      <div
+                        class="icon-container"
+                        style="display: inline-block; width: 17px;"
+                      >
+                        <span
+                          class="expanded-icon"
+                        >
+                          <svg
+                            fill="#586e75"
+                            height="1em"
+                            style="vertical-align: middle; color: rgb(88, 110, 117); height: 1em; width: 1em;"
+                            viewBox="0 0 1792 1792"
+                            width="1em"
+                          >
+                            <path
+                              d="M1344 800v64q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h832q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <span />
+                      <span
+                        style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                      >
+                        {
+                      </span>
+                    </span>
+                    <div
+                      class="object-meta-data"
+                      style="display: inline-block; padding: 0px 0px 0px 10px;"
+                    >
+                      <span
+                        class="object-size"
+                        style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                      >
+                        1
+                         item
+                      </span>
+                    </div>
+                  </span>
+                  <div
+                    class="pushed-content object-container"
+                  >
+                    <div
+                      class="object-content"
+                      style="margin-left: 6px;"
+                    >
+                      <div
+                        class="variable-row"
+                        style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
+                      >
+                        <span>
+                          <span
+                            class="object-key"
+                            style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
+                          >
+                            <span
+                              style="vertical-align: top;"
+                            >
+                              "
+                            </span>
+                            <span
+                              style="display: inline-block;"
+                            >
+                              text
+                            </span>
+                            <span
+                              style="vertical-align: top;"
+                            >
+                              "
+                            </span>
+                          </span>
+                          <span
+                            style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
+                          >
+                            :
+                          </span>
+                        </span>
+                        <div
+                          class="variable-value"
+                          style="display: inline-block; padding-right: 6px; position: relative; cursor: default;"
+                        >
+                          <div
+                            style="display: inline-block; color: rgb(203, 75, 22);"
+                          >
+                            <span
+                              class="string-value"
+                              style="cursor: default;"
+                            >
+                              "
+                              a
+                              "
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="brace-row"
+                  >
+                    <span
+                      style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 3px;"
+                    >
+                      }
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -2249,6 +3070,24 @@ exports[`Renderer:text with options and multiple: options is opened again, and f
             </div>
           </div>
         </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                a
+              </span>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
     <div
@@ -2310,7 +3149,7 @@ exports[`Renderer:text with options and multiple: options is opened again, and f
 </div>
 `;
 
-exports[`Renderer:text with options and multiple: second option selected 1`] = `
+exports[`Renderer:text with options and multiple and delimiter: second option selected 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -2342,15 +3181,138 @@ exports[`Renderer:text with options and multiple: second option selected 1`] = `
           style="display: none;"
           type="submit"
         />
-        <pre>
-          <code
-            class="cxd-Form--debug"
+        <div
+          class="cxd-JsonField cxd-Form--debug"
+        >
+          <div
+            class="react-json-view"
+            style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
           >
-            {
-  "text": "a,b"
-}
-          </code>
-        </pre>
+            <div
+              class="pretty-json-container object-container"
+            >
+              <div
+                class="object-content"
+              >
+                <div
+                  class="object-key-val"
+                >
+                  <span>
+                    <span
+                      style="display: inline-block; cursor: pointer;"
+                    >
+                      <div
+                        class="icon-container"
+                        style="display: inline-block; width: 17px;"
+                      >
+                        <span
+                          class="expanded-icon"
+                        >
+                          <svg
+                            fill="#586e75"
+                            height="1em"
+                            style="vertical-align: middle; color: rgb(88, 110, 117); height: 1em; width: 1em;"
+                            viewBox="0 0 1792 1792"
+                            width="1em"
+                          >
+                            <path
+                              d="M1344 800v64q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h832q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <span />
+                      <span
+                        style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                      >
+                        {
+                      </span>
+                    </span>
+                    <div
+                      class="object-meta-data"
+                      style="display: inline-block; padding: 0px 0px 0px 10px;"
+                    >
+                      <span
+                        class="object-size"
+                        style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                      >
+                        1
+                         item
+                      </span>
+                    </div>
+                  </span>
+                  <div
+                    class="pushed-content object-container"
+                  >
+                    <div
+                      class="object-content"
+                      style="margin-left: 6px;"
+                    >
+                      <div
+                        class="variable-row"
+                        style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
+                      >
+                        <span>
+                          <span
+                            class="object-key"
+                            style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
+                          >
+                            <span
+                              style="vertical-align: top;"
+                            >
+                              "
+                            </span>
+                            <span
+                              style="display: inline-block;"
+                            >
+                              text
+                            </span>
+                            <span
+                              style="vertical-align: top;"
+                            >
+                              "
+                            </span>
+                          </span>
+                          <span
+                            style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
+                          >
+                            :
+                          </span>
+                        </span>
+                        <div
+                          class="variable-value"
+                          style="display: inline-block; padding-right: 6px; position: relative; cursor: default;"
+                        >
+                          <div
+                            style="display: inline-block; color: rgb(203, 75, 22);"
+                          >
+                            <span
+                              class="string-value"
+                              style="cursor: default;"
+                            >
+                              "
+                              a-b
+                              "
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="brace-row"
+                  >
+                    <span
+                      style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 3px;"
+                    >
+                      }
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -2441,6 +3403,347 @@ exports[`Renderer:text with options and multiple: second option selected 1`] = `
                   </span>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                a-b
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:text with options and multiple and delimiter: thrid option create 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-JsonField cxd-Form--debug"
+        >
+          <div
+            class="react-json-view"
+            style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
+          >
+            <div
+              class="pretty-json-container object-container"
+            >
+              <div
+                class="object-content"
+              >
+                <div
+                  class="object-key-val"
+                >
+                  <span>
+                    <span
+                      style="display: inline-block; cursor: pointer;"
+                    >
+                      <div
+                        class="icon-container"
+                        style="display: inline-block; width: 17px;"
+                      >
+                        <span
+                          class="expanded-icon"
+                        >
+                          <svg
+                            fill="#586e75"
+                            height="1em"
+                            style="vertical-align: middle; color: rgb(88, 110, 117); height: 1em; width: 1em;"
+                            viewBox="0 0 1792 1792"
+                            width="1em"
+                          >
+                            <path
+                              d="M1344 800v64q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h832q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <span />
+                      <span
+                        style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                      >
+                        {
+                      </span>
+                    </span>
+                    <div
+                      class="object-meta-data"
+                      style="display: inline-block; padding: 0px 0px 0px 10px;"
+                    >
+                      <span
+                        class="object-size"
+                        style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                      >
+                        1
+                         item
+                      </span>
+                    </div>
+                  </span>
+                  <div
+                    class="pushed-content object-container"
+                  >
+                    <div
+                      class="object-content"
+                      style="margin-left: 6px;"
+                    >
+                      <div
+                        class="variable-row"
+                        style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
+                      >
+                        <span>
+                          <span
+                            class="object-key"
+                            style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
+                          >
+                            <span
+                              style="vertical-align: top;"
+                            >
+                              "
+                            </span>
+                            <span
+                              style="display: inline-block;"
+                            >
+                              text
+                            </span>
+                            <span
+                              style="vertical-align: top;"
+                            >
+                              "
+                            </span>
+                          </span>
+                          <span
+                            style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
+                          >
+                            :
+                          </span>
+                        </span>
+                        <div
+                          class="variable-value"
+                          style="display: inline-block; padding-right: 6px; position: relative; cursor: default;"
+                        >
+                          <div
+                            style="display: inline-block; color: rgb(203, 75, 22);"
+                          >
+                            <span
+                              class="string-value"
+                              style="cursor: default;"
+                            >
+                              "
+                              a-b-AbCd
+                              "
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="brace-row"
+                  >
+                    <span
+                      style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 3px;"
+                    >
+                      }
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  text
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-control cxd-TextControl is-focused"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-1-label"
+              class="cxd-TextControl-input cxd-TextControl-input--withAC cxd-TextControl-input--multiple"
+              role="combobox"
+            >
+              <div
+                class="cxd-TextControl-value"
+              >
+                <span
+                  class="cxd-TextControl-valueLabel"
+                >
+                  OptionA
+                </span>
+                <icon-mock
+                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  icon="close"
+                />
+              </div>
+              <div
+                class="cxd-TextControl-value"
+              >
+                <span
+                  class="cxd-TextControl-valueLabel"
+                >
+                  OptionB
+                </span>
+                <icon-mock
+                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  icon="close"
+                />
+              </div>
+              <div
+                class="cxd-TextControl-value"
+              >
+                <span
+                  class="cxd-TextControl-valueLabel"
+                >
+                  AbCd
+                </span>
+                <icon-mock
+                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  icon="close"
+                />
+              </div>
+              <input
+                aria-autocomplete="list"
+                aria-labelledby="downshift-1-label"
+                autocomplete="off"
+                class=""
+                id="downshift-1-input"
+                name="text"
+                size="10"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                a-b-AbCd
+              </span>
             </div>
           </div>
         </div>
@@ -2537,13 +3840,81 @@ exports[`Renderer:text with options: options is open 1`] = `
           style="display: none;"
           type="submit"
         />
-        <pre>
-          <code
-            class="cxd-Form--debug"
+        <div
+          class="cxd-JsonField cxd-Form--debug"
+        >
+          <div
+            class="react-json-view"
+            style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
           >
-            {}
-          </code>
-        </pre>
+            <div
+              class="pretty-json-container object-container"
+            >
+              <div
+                class="object-content"
+              >
+                <div
+                  class="object-key-val"
+                >
+                  <span>
+                    <span
+                      style="display: inline-block; cursor: pointer;"
+                    >
+                      <div
+                        class="icon-container"
+                        style="display: inline-block; width: 17px;"
+                      >
+                        <span
+                          class="collapsed-icon"
+                        >
+                          <svg
+                            fill="#2aa198"
+                            height="1em"
+                            style="vertical-align: middle; color: rgb(42, 161, 152); height: 1em; width: 1em;"
+                            viewBox="0 0 1792 1792"
+                            width="1em"
+                          >
+                            <path
+                              d="M1344 800v64q0 14-9 23t-23 9h-352v352q0 14-9 23t-23 9h-64q-14 0-23-9t-9-23v-352h-352q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h352v-352q0-14 9-23t23-9h64q14 0 23 9t9 23v352h352q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <span />
+                      <span
+                        style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                      >
+                        {
+                      </span>
+                    </span>
+                  </span>
+                  <span
+                    class="brace-row"
+                  >
+                    <span
+                      style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 0px;"
+                    >
+                      }
+                    </span>
+                    <div
+                      class="object-meta-data"
+                      style="display: inline-block; padding: 0px 0px 0px 10px;"
+                    >
+                      <span
+                        class="object-size"
+                        style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                      >
+                        0
+                         item
+                        s
+                      </span>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -2704,15 +4075,138 @@ exports[`Renderer:text with options: select first option 1`] = `
           style="display: none;"
           type="submit"
         />
-        <pre>
-          <code
-            class="cxd-Form--debug"
+        <div
+          class="cxd-JsonField cxd-Form--debug"
+        >
+          <div
+            class="react-json-view"
+            style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
           >
-            {
-  "text": "a"
-}
-          </code>
-        </pre>
+            <div
+              class="pretty-json-container object-container"
+            >
+              <div
+                class="object-content"
+              >
+                <div
+                  class="object-key-val"
+                >
+                  <span>
+                    <span
+                      style="display: inline-block; cursor: pointer;"
+                    >
+                      <div
+                        class="icon-container"
+                        style="display: inline-block; width: 17px;"
+                      >
+                        <span
+                          class="expanded-icon"
+                        >
+                          <svg
+                            fill="#586e75"
+                            height="1em"
+                            style="vertical-align: middle; color: rgb(88, 110, 117); height: 1em; width: 1em;"
+                            viewBox="0 0 1792 1792"
+                            width="1em"
+                          >
+                            <path
+                              d="M1344 800v64q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h832q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <span />
+                      <span
+                        style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                      >
+                        {
+                      </span>
+                    </span>
+                    <div
+                      class="object-meta-data"
+                      style="display: inline-block; padding: 0px 0px 0px 10px;"
+                    >
+                      <span
+                        class="object-size"
+                        style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                      >
+                        1
+                         item
+                      </span>
+                    </div>
+                  </span>
+                  <div
+                    class="pushed-content object-container"
+                  >
+                    <div
+                      class="object-content"
+                      style="margin-left: 6px;"
+                    >
+                      <div
+                        class="variable-row"
+                        style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
+                      >
+                        <span>
+                          <span
+                            class="object-key"
+                            style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
+                          >
+                            <span
+                              style="vertical-align: top;"
+                            >
+                              "
+                            </span>
+                            <span
+                              style="display: inline-block;"
+                            >
+                              text
+                            </span>
+                            <span
+                              style="vertical-align: top;"
+                            >
+                              "
+                            </span>
+                          </span>
+                          <span
+                            style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
+                          >
+                            :
+                          </span>
+                        </span>
+                        <div
+                          class="variable-value"
+                          style="display: inline-block; padding-right: 6px; position: relative; cursor: default;"
+                        >
+                          <div
+                            style="display: inline-block; color: rgb(203, 75, 22);"
+                          >
+                            <span
+                              class="string-value"
+                              style="cursor: default;"
+                            >
+                              "
+                              a
+                              "
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="brace-row"
+                  >
+                    <span
+                      style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 3px;"
+                    >
+                      }
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"

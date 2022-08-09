@@ -58,33 +58,55 @@ export class AjaxAction implements RendererAction {
         omit(action.args ?? {}, ['api', 'options', 'messages']),
         action.args?.options ?? {}
       );
+      const responseData =
+        !isEmpty(result.data) || result.ok
+          ? normalizeApiResponseData(result.data)
+          : null;
 
-      if (!isEmpty(result.data) || result.ok) {
-        const responseData = normalizeApiResponseData(result.data);
-        // 记录请求返回的数据
-        event.setData(
-          createObject(
-            event.data,
-            action.outputVar
-              ? {
-                  [`${action.outputVar}`]: responseData
-                }
-              : responseData
-          )
-        );
+      // 记录请求返回的数据
+      event.setData(
+        createObject(event.data, {
+          ...responseData, // 兼容历史配置
+          responseData: responseData,
+          [action.outputVar || 'responseResult']: {
+            ...responseData,
+            responseData,
+            responseStatus: result.status,
+            responseMsg: result.msg
+          }
+        })
+      );
+
+      if (!action.args?.options?.silent) {
+        if (!result.ok) {
+          throw new ServerError(
+            action.args?.messages?.failed ?? result.msg,
+            result
+          );
+        } else {
+          const msg = action.args?.messages?.success ?? result.msg;
+          msg &&
+            env.notify(
+              'success',
+              msg,
+              result.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: result.msgTimeout
+                  }
+                : undefined
+            );
+        }
       }
 
-      if (!result.ok) {
-        throw new ServerError(
-          action.args?.messages?.failed ?? result.msg,
-          result
-        );
-      } else {
-        const msg = action.args?.messages?.success ?? result.msg;
-        msg &&
+      return result.data;
+    } catch (e) {
+      if (!action.args?.options?.silent) {
+        if (e.type === 'ServerError') {
+          const result = (e as ServerError).response;
           env.notify(
-            'success',
-            msg,
+            'error',
+            e.message,
             result.msgTimeout !== undefined
               ? {
                   closeButton: true,
@@ -92,24 +114,9 @@ export class AjaxAction implements RendererAction {
                 }
               : undefined
           );
-      }
-
-      return result.data;
-    } catch (e) {
-      if (e.type === 'ServerError') {
-        const result = (e as ServerError).response;
-        env.notify(
-          'error',
-          e.message,
-          result.msgTimeout !== undefined
-            ? {
-                closeButton: true,
-                timeout: result.msgTimeout
-              }
-            : undefined
-        );
-      } else {
-        env.notify('error', e.message);
+        } else {
+          env.notify('error', e.message);
+        }
       }
 
       // 不阻塞后面执行

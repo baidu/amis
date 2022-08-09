@@ -1,24 +1,36 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
   createObject,
   getTree,
   getVariable,
   setVariable,
-  spliceTree
+  spliceTree,
+  filterDate,
+  isEffectiveApi,
+  filter,
+  dataMapping,
+  SimpleMap,
+  RendererData,
+  ActionObject,
+  Api,
+  Payload,
+  ApiObject,
+  autobind,
+  isExpression
 } from 'amis-core';
-import {Button} from 'amis-ui';
-import {RendererData, ActionObject, Api, Payload, ApiObject} from 'amis-core';
-import {isEffectiveApi} from 'amis-core';
-import {filter} from 'amis-core';
+import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
-import {dataMapping} from 'amis-core';
 import findIndex from 'lodash/findIndex';
-import {SimpleMap} from 'amis-core';
-import {Icon} from 'amis-ui';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
+import inRange from 'lodash/inRange';
 import {TableSchema} from '../Table';
 import {SchemaApi} from '../../Schema';
 import find from 'lodash/find';
+import moment from 'moment';
 
 export interface TableControlSchema
   extends FormBaseControl,
@@ -338,6 +350,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   emitValue() {
     const items = this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
+
     onChange?.(items);
   }
 
@@ -466,7 +479,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   addItem(index: number) {
-    const {needConfirm, scaffold, columns} = this.props;
+    const {needConfirm, scaffold, columns, data} = this.props;
     const items = this.state.items.concat();
     let value: any = {
       __isPlaceholder: true
@@ -478,7 +491,29 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           typeof column.value !== 'undefined' &&
           typeof column.name === 'string'
         ) {
-          setVariable(value, column.name, column.value);
+          if (
+            'type' in column &&
+            (column.type === 'input-date' ||
+              column.type === 'input-datetime' ||
+              column.type === 'input-time' ||
+              column.type === 'input-month' ||
+              column.type === 'input-quarter' ||
+              column.type === 'input-year')
+          ) {
+            const date = filterDate(column.value, data, column.format || 'X');
+            setVariable(
+              value,
+              column.name,
+              (column.utc ? moment.utc(date) : date).format(
+                column.format || 'X'
+              )
+            );
+          } else {
+            /** 如果value值设置为表达式，则忽略 */
+            if (!isExpression(column.value)) {
+              setVariable(value, column.name, column.value);
+            }
+          }
         }
       });
     }
@@ -1048,6 +1083,37 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.setState({page});
   }
 
+  /**
+   * Table Row中数据更新到InputTable中
+   * 解决columns形如[{name: 'a'}, {name: 'c', value: '${a}'}]时，使用默认值的列数据无法更新到数据域的问题
+   *
+   * @param data 行数据
+   * @param rowIndex 行索引值
+   */
+  @autobind
+  handlePristineChange(data: Record<string, any>, rowIndex: string) {
+    this.setState(
+      prevState => {
+        const items = cloneDeep(prevState.items);
+        const index = Number(rowIndex);
+
+        if (
+          Number.isInteger(index) &&
+          inRange(index, 0, items.length) &&
+          !isEqual(items[index], data)
+        ) {
+          items.splice(index, 1, data);
+
+          return {items};
+        }
+        return null;
+      },
+      () => {
+        this.emitValue();
+      }
+    );
+  }
+
   removeEntry(entry: any) {
     if (this.entries.has(entry)) {
       this.entries.delete(entry);
@@ -1142,7 +1208,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             reUseRow: false,
             offset,
             rowClassName,
-            rowClassNameExpr
+            rowClassNameExpr,
+            onPristineChange: this.handlePristineChange
           }
         )}
         {(addable && showAddBtn !== false) || showPager ? (

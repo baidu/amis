@@ -165,6 +165,7 @@ order: 60
 {
   "type": "page",
   "data": {
+    "title": "title1",
     "items": [
       {
         "label": "cpu",
@@ -196,6 +197,7 @@ order: 60
   },
   "body": {
     "type": "property",
+    "title": "${title}",
     "source": "${items}"
   }
 }
@@ -372,6 +374,8 @@ items 里的属性还支持 `visibleOn` 和 `hiddenOn` 表达式，能隐藏部�
 | column            | `number`                                 | 3       | 每行几列                               |
 | mode              | `string`                                 | 'table' | 显示模式，目前只有 'table' 和 'simple' |
 | separator         | `string`                                 | ','     | 'simple' 模式下属性名和值之间的分隔符  |
+| title             | `string`                                 |         | 标题                                   |
+| source            | `string`                                 |         | 数据源                                 |
 | items[].label     | `SchemaTpl`                              |         | 属性名                                 |
 | items[].content   | `SchemaTpl`                              |         | 属性值                                 |
 | items[].span      | `SchemaTpl`                              |         | 属性值跨几列                           |

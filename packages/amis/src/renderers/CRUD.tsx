@@ -775,7 +775,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       }
     };
 
-    if (action.confirmText && env.confirm) {
+    // Action如果配了事件动作也会处理二次确认，这里需要处理一下忽略
+    if (!action.ignoreConfirm && action.confirmText && env.confirm) {
       env
         .confirm(filter(action.confirmText, ctx))
         .then((confirmed: boolean) => confirmed && fn());
@@ -818,7 +819,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       });
   }
 
-  handleFilterReset(values: object) {
+  handleFilterReset(values: object, action: any) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
     store.updateQuery(
@@ -831,6 +832,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       true
     );
     this.lastQuery = store.query;
+
+    // 对于带 submit 的 reset(包括 actionType 为 reset-and-submit clear-and-submit 和 form 的 resetAfterSubmit 属性)
+    // 不执行 search，否则会多次触发接口请求
+    if (action?.actionType && ['reset-and-submit', 'clear-and-submit', 'submit'].includes(action.actionType)) {
+      return;
+    }
+
     this.search();
   }
 
@@ -1574,7 +1582,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     let bulkBtns: Array<ActionSchema> = [];
     let itemBtns: Array<ActionSchema> = [];
 
-    const ctx = store.mergedData;
+    const ctx = createObject(store.mergedData, {
+      selectedItems: selectedItems.concat(),
+      unSelectedItems: unSelectedItems.concat()
+    });
 
     // const ctx = createObject(store.data, {
     //     ...store.query,

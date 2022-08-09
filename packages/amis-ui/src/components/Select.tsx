@@ -332,6 +332,7 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   inline: boolean;
   disabled: boolean;
   popOverContainer?: any;
+  popOverContainerSelector?: string;
   overlayPlacement?: string;
   onChange: (value: void | string | Option | Array<Option>) => void;
   onFocus?: Function;
@@ -682,7 +683,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   @autobind
   handleKeyPress(e: React.KeyboardEvent) {
-    if (this.props.multiple && e.key === ' ') {
+    /**
+     * 考虑到label/value中有空格的case
+     * 这里使用组合键关闭 win：shift + space，mac：shift + space
+     */
+    if (e.key === ' ' && e.shiftKey) {
       this.toggle();
       e.preventDefault();
     }
@@ -933,6 +938,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       valuesNoWrap,
       classnames: cx,
       popoverClassName,
+      popOverContainerSelector,
       checkAll,
       checkAllLabel,
       checkAllBySearch,
@@ -1201,6 +1207,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     ) : (
       <Overlay
         container={popOverContainer || this.getTarget}
+        containerSelector={popOverContainerSelector}
         target={this.getTarget}
         placement={overlayPlacement}
         show

@@ -57,6 +57,9 @@ npm start
 # 安装依赖
 npm i --legacy-peer-deps
 
+# 执行构建
+npm run build
+
 # 执行测试用例
 npm test --workspaces
 
@@ -72,6 +75,9 @@ npm run update-snapshot
 ```bash
 # 先通过一下命令设置版本号
 npm run version
+
+# 如果是 beta 版本使用如下命令
+# npm run version -- 2.0.1-beta.0 --no-git-tag-version
 
 # 发布内部 registry
 npm run publish-to-internal
