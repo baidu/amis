@@ -547,7 +547,21 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       }
 
       import('papaparse').then((papaparse: any) => {
-        const csvText = papaparse.unparse(items);
+        // 将数据里的对象转成 json 字符串，不然输出的 csv 没法显示
+        const csvData = [];
+        for (const row of items) {
+          const rowData = {} as {[key: string]: any};
+          for (const key in row) {
+            const value = row[key];
+            if (typeof value === 'object') {
+              rowData[key] = JSON.stringify(value);
+            } else {
+              rowData[key] = value;
+            }
+          }
+          csvData.push(rowData);
+        }
+        const csvText = papaparse.unparse(csvData);
         if (csvText) {
           const blob = new Blob(
             // 加上 BOM 这样 Excel 打开的时候就不会乱码
