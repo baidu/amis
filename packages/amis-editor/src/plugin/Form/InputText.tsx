@@ -208,14 +208,10 @@ export class TextControlPlugin extends BasePlugin {
                     form.changeValue('validationErrors', {...validationErrors});
                   }
                 }),
-                // getSchemaTpl('value'),
                 getSchemaTpl('valueFormula', {
                   rendererSchema: context?.schema
                 }),
                 getSchemaTpl('clearable'),
-                // getSchemaTpl('multiple',{
-                //   visibleOn: `${isText} || ${isUrl}`
-                // }),
                 getSchemaTpl('showCounter', {
                   visibleOn: `${isText} || ${isPassword}`
                 }),
@@ -269,38 +265,61 @@ export class TextControlPlugin extends BasePlugin {
                     ]
                   }
                 },
-
-                // {
-                //   type: 'ae-Switch-More',
-                //   mode: 'normal',
-                //   label: tipedLabel(
-                //     '自动补全',
-                //     '根据输入内容，调用接口提供选项。当前输入值可用${term}变量'
-                //     ),
-                //   visibleOn: isText,
-                //   formType: 'extend',
-                //   defaultData: {
-                //     autoComplete: {
-                //       method: 'get',
-                //       url: ''
-                //     }
-                //   },
-                //   form: {
-                //     body: [
-                //       getSchemaTpl('apiControl', {
-                //         name: 'autoComplete',
-                //         label: '接口',
-                //         description: '',
-                //         visibleOn: 'data.autoComplete !== false',
-                //         footer: []
-                //       })
-                //     ]
-                //   }
-                // },
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
                 getSchemaTpl('placeholder'),
                 getSchemaTpl('description')
+              ]
+            },
+            {
+              title: '选项',
+              visibleOn: `${isText} && (data.options  || data.autoComplete || data.source)`,
+              body:[
+                getSchemaTpl('optionControlV2'),
+                getSchemaTpl('multiple',{
+                  visibleOn: `${isText} || ${isUrl}`
+                }),
+                {
+                  type: 'ae-Switch-More',
+                  mode: 'normal',
+                  label: tipedLabel(
+                    '自动补全',
+                    '根据输入内容，调用接口提供选项。当前输入值可用${term}变量'
+                    ),
+                  visibleOn: isText,
+                  formType: 'extend',
+                  defaultData: {
+                    autoComplete: {
+                      method: 'get',
+                      url: ''
+                    }
+                  },
+                  form: {
+                    body: [
+                      getSchemaTpl('apiControl', {
+                        name: 'autoComplete',
+                        label: '接口',
+                        description: '',
+                        visibleOn: 'data.autoComplete !== false'
+                      }),
+                      {
+                        label: tipedLabel(
+                          '显示字段',
+                          '选项文本对应的数据字段，多字段合并请通过模板配置'
+                        ),
+                        type: 'input-text',
+                        name: 'labelField',
+                        placeholder: '选项文本对应的字段',
+                      },
+                      {
+                        label: '值字段',
+                        type: 'input-text',
+                        name: 'valueField',
+                        placeholder: '值对应的字段'
+                      }
+                    ]
+                  }
+                },
               ]
             },
             getSchemaTpl('status', {
