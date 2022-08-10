@@ -372,6 +372,7 @@ export interface TableProps extends RendererProps {
   reUseRow?: boolean;
   itemBadge?: BadgeObject;
   loading?: boolean;
+  autoFillHeight?: boolean;
 }
 
 export type ExportExcelToolbar = SchemaNode & {
@@ -1075,6 +1076,7 @@ export default class Table extends React.Component<TableProps, object> {
    * 滚动重新定位Table-fixedTop
    */
   affixDetect() {
+    // TODO: 滚动比较卡顿，使用滚动条组件
     const {
       affixHeader,
       classPrefix: ns,
@@ -2177,11 +2179,17 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderAffixHeader(tableClassName: string) {
-    const {store, affixHeader, render, classnames: cx} = this.props;
+    const {
+      store,
+      affixHeader,
+      autoFillHeight,
+      render,
+      classnames: cx
+    } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
     const columnsGroup = store.columnGroup;
 
-    return affixHeader ? (
+    return affixHeader || autoFillHeight ? (
       <>
         <div
           className={cx('Table-fixedTop', {
@@ -2764,7 +2772,6 @@ export default class Table extends React.Component<TableProps, object> {
       affixRowClassName,
       prefixRowClassNameExpr,
       prefixRowClassName,
-      autoFillHeight,
       itemActions,
       dispatchEvent,
       onEvent,
@@ -2866,7 +2873,6 @@ export default class Table extends React.Component<TableProps, object> {
       store,
       classnames: cx,
       affixColumns,
-      autoFillHeight,
       autoGenerateFilter
     } = this.props;
 
@@ -2881,8 +2887,7 @@ export default class Table extends React.Component<TableProps, object> {
     return (
       <div
         className={cx('Table', className, {
-          'Table--unsaved': !!store.modified || !!store.moved,
-          'Table--autoFillHeight': autoFillHeight
+          'Table--unsaved': !!store.modified || !!store.moved
         })}
       >
         {autoGenerateFilter ? this.renderAutoFilterForm() : null}
@@ -2893,9 +2898,7 @@ export default class Table extends React.Component<TableProps, object> {
           onMouseLeave={this.handleMouseLeave}
         >
           <div
-            className={cx('Table-fixedLeft', {
-              'Table-fixedLeft--autoFillHeight': autoFillHeight
-            })}
+            className={cx('Table-fixedLeft')}
             onMouseMove={this.handleMouseMove}
             onScroll={this.handleFixedColumnsScroll}
           >
@@ -2909,9 +2912,7 @@ export default class Table extends React.Component<TableProps, object> {
               : null}
           </div>
           <div
-            className={cx('Table-fixedRight', {
-              'Table-fixedLeft--autoFillHeight': autoFillHeight
-            })}
+            className={cx('Table-fixedRight')}
             onMouseMove={this.handleMouseMove}
             onScroll={this.handleFixedColumnsScroll}
           >
