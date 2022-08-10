@@ -359,9 +359,7 @@ export default class FormulaControl extends React.Component<
   @autobind
   renderFormulaValue(item: any) {
     const html = {__html: item.html};
-    {
-      /* bca-disable-next-line */
-    }
+    // bca-disable-next-line
     return <span dangerouslySetInnerHTML={html}></span>;
   }
 
