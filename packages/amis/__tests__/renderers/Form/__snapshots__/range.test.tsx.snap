@@ -277,7 +277,7 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
           class="cxd-TplField"
         >
           <span>
-            The form
+            表单
           </span>
         </span>
       </h3>
@@ -293,18 +293,6 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
           style="display: none;"
           type="submit"
         />
-        <pre>
-          <code
-            class="cxd-Form--debug"
-          >
-            {
-  "range": {
-    "min": 0.2,
-    "max": 0.8
-  }
-}
-          </code>
-        </pre>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -633,6 +621,22 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
           </div>
         </div>
       </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            Submit
+          </span>
+        </button>
+      </div>
     </div>
     <div
       class="resize-sensor"
