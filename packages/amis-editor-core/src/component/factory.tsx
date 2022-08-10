@@ -673,6 +673,7 @@ export function renderThumbToGhost(
   schema: any,
   manager: EditorManager
 ) {
+  // bca-disable-next-line
   ghost.innerHTML = '';
   let path = '';
   const host = region.host!;
@@ -706,11 +707,14 @@ export function renderThumbToGhost(
     );
   } catch (e) {}
 
+  /* bca-disable */
   const html =
     thumbHost.innerHTML ||
     '<div class="wrapper-sm b-a b-light m-b-sm">拖入占位</div>';
   ghost.innerHTML = html;
+  /* bca-enable */
 
   unmountComponentAtNode(thumbHost);
+  // bca-disable-next-line
   thumbHost.innerHTML = '';
 }
