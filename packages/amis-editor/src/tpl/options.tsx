@@ -121,6 +121,7 @@ setSchemaTpl('multiple', (schema: any = {}) => {
     value: false,
     hiddenOnDefault: true,
     formType: 'extend',
+    ...(schema.patch || {}),
     form: {
       body: schema.replace
         ? schema.body
@@ -128,7 +129,7 @@ setSchemaTpl('multiple', (schema: any = {}) => {
             getSchemaTpl('joinValues'),
             getSchemaTpl('delimiter'),
             getSchemaTpl('extractValue'),
-            ...[schema.body || []]
+            ...(schema.body || [])
           ]
     }
   };
