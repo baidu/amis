@@ -165,6 +165,11 @@ export type TableColumnObject = {
    * 是否唯一, 只有在 inputTable 里面才有用
    */
   unique?: boolean;
+
+  /**
+   * 表格列单元格是否可以获取父级数据域值，默认为true，该配置对当前列内单元格生效
+   */
+  canAccessSuperData?: boolean;
 };
 
 export type TableColumnWithType = SchemaObject & TableColumnObject;
@@ -293,6 +298,11 @@ export interface TableSchema extends BaseSchema {
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
    */
   autoGenerateFilter?: boolean;
+
+  /**
+   * 表格是否可以获取父级数据域值，默认为false
+   */
+  canAccessSuperData?: boolean;
 }
 
 export interface TableProps extends RendererProps {
