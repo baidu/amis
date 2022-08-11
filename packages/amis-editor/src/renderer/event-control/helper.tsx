@@ -1149,7 +1149,7 @@ export const getEventControlConfig = (
           'id'
         );
         const dataSchema: any = await manager.getContextSchemas(
-          schema.$$id,
+          schema?.$$id,
           true
         );
         const dataSchemaIns = new DataSchema(dataSchema || []);
