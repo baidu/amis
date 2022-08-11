@@ -148,7 +148,7 @@ setSchemaTpl('labelHide', () =>
     pipeIn: (value: any) => value === false,
     pipeOut: (value: any) => (value === true ? false : ''),
     visibleOn:
-      '__props__.formMode === "horizontal" || data.mode === "horizontal" || data.label === false'
+      'this.__props__ && this.__props__.formMode === "horizontal" || data.mode === "horizontal" || data.label === false'
   })
 );
 

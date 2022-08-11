@@ -5,6 +5,7 @@ import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import type {SchemaObject} from 'amis/lib/Schema';
+import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 
 export class PagePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -388,6 +389,19 @@ export class PagePlugin extends BasePlugin {
       ])
     ];
   };
+
+  rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
+    if (e === 'inited') {
+      const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+      const jsonschema: any = {
+        $id: 'pageInitedData',
+        ...jsonToJsonSchema(data)
+      };
+
+      scope?.removeSchema(jsonschema.$id);
+      scope?.addSchema(jsonschema);
+    }
+  }
 }
 
 registerEditorPlugin(PagePlugin);
