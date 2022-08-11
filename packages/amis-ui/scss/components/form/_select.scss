@@ -229,6 +229,7 @@
     max-height: px2rem(300px);
     padding-top: px2rem(4px);
     padding-bottom: px2rem(4px);
+    overflow: auto;
     user-select: none;
     .#{$ns}Checkbox--sm > i {
       margin-top: px2rem(-3px);
