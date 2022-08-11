@@ -734,7 +734,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   items: [
                     {
                       name: 'key',
-                      type: 'select',
+                      type: 'input-text',
                       placeholder: '变量名',
                       source: '${__setValueDs}',
                       labelField: 'label',
@@ -789,10 +789,10 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       items: [
                         {
                           name: 'key',
-                          type: 'select',
+                          type: 'input-text',
                           source: '${__setValueDs}',
                           labelField: 'label',
-                          valueField: 'name',
+                          valueField: 'value',
                           required: true,
                           visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`,
                         },

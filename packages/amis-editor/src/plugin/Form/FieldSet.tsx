@@ -8,7 +8,6 @@ export class FieldSetControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'fieldset';
   $schema = '/schemas/FieldSetControlSchema.json';
-  disabledRendererPlugin = true; // 组件面板不显示
 
   // 组件名称
   name = '字段集';

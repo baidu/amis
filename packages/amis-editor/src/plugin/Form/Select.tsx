@@ -214,7 +214,12 @@ export class SelectControlPlugin extends BasePlugin {
                   getSchemaTpl('switch', {
                     label: '单行显示选中值',
                     name: 'valuesNoWrap'
-                  })
+                  }),
+                  {
+                    type: 'input-number',
+                    name: 'maxTagCount',
+                    label: tipedLabel('标签展示数','标签的最大展示数量，超出数量后以收纳浮层的方式展示，默认全展示'),
+                  }
                 ]
               }),
               getSchemaTpl('checkAll'),
@@ -276,6 +281,15 @@ export class SelectControlPlugin extends BasePlugin {
                 form: {
                   body: [getSchemaTpl('deleteApi')]
                 }
+              })
+            ]
+          },
+          {
+            title: '高级',
+            body: [
+              getSchemaTpl('switch', {
+                label: tipedLabel('选项值检查', '开启后，当选项值未匹配到当前options中的选项时，选项文本飘红'),
+                name: 'showInvalidMatch'
               })
             ]
           },
