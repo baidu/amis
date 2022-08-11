@@ -361,8 +361,8 @@ export const EditorStore = types
         return this.getNodeById(self.activeId)?.info;
       },
 
-      getSchema(id?: string) {
-        return id ? JSONGetById(self.schema, id) : self.schema;
+      getSchema(id?: string, idKey?: string) {
+        return id ? JSONGetById(self.schema, id, idKey) : self.schema;
       },
 
       getSchemaParentById(id: string) {
