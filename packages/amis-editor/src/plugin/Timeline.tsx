@@ -1,11 +1,10 @@
 import React from 'react';
-import {getEventControlConfig} from '../util';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 import {tipedLabel} from '../component/BaseControl';
 import {
   registerEditorPlugin,
   getSchemaTpl
 } from 'amis-editor-core';
-import { RendererEvent } from 'amis-editor-comp/dist/renderers/event-action';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 export class TimelinePlugin extends BasePlugin {
@@ -33,7 +32,7 @@ export class TimelinePlugin extends BasePlugin {
   };
 
   // TODO 事件定义
-  events: RendererEvent[] = [];
+  // events = [];
 
   panelTitle = '时间轴';
   panelJustify = true;

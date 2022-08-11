@@ -41,6 +41,7 @@ export class ImageControlPlugin extends BasePlugin {
       }
     ]
   };
+  notRenderFormZone = true;
 
   // 事件定义
   events: RendererPluginEvent[] = [
@@ -123,7 +124,7 @@ export class ImageControlPlugin extends BasePlugin {
     }
   ];
 
-  panelTitle = '图片上传';
+
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
