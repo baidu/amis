@@ -302,7 +302,7 @@ export default class Page extends React.Component<PageProps> {
     this.updateStyle();
 
     this.varStyle = document.createElement('style');
-    this.style.setAttribute('data-vars', '');
+    this.varStyle.setAttribute('data-vars', '');
     document.getElementsByTagName('head')[0].appendChild(this.varStyle);
     this.updateVarStyle();
   }
@@ -420,18 +420,17 @@ export default class Page extends React.Component<PageProps> {
             errorMessage: messages && messages.fetchFailed
           })
           .then(this.initInterval);
-    } else if (
+    }
+    if (
       JSON.stringify(props.css) !== JSON.stringify(prevProps.css) ||
       JSON.stringify(props.mobileCSS) !== JSON.stringify(prevProps.mobileCSS)
     ) {
       this.updateStyle();
-    } else if (
-      JSON.stringify(props.cssVars) !== JSON.stringify(prevProps.cssVars)
-    ) {
+    }
+    if (JSON.stringify(props.cssVars) !== JSON.stringify(prevProps.cssVars)) {
       this.updateVarStyle();
-    } else if (
-      isObjectShallowModified(prevProps.defaultData, props.defaultData)
-    ) {
+    }
+    if (isObjectShallowModified(prevProps.defaultData, props.defaultData)) {
       store.reInitData(props.defaultData);
     }
   }
