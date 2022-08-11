@@ -155,6 +155,7 @@ import './renderer/DataMappingControl';
 import './renderer/DataPickerControl';
 import './renderer/event-control/index';
 import './renderer/TreeOptionControl';
+import './renderer/TransferTableControl';
 
 export * from './component/BaseControl';
 export * from './icons/index';
