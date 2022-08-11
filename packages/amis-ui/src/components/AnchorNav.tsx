@@ -83,15 +83,10 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
       this.contentDom && (this.contentDom.current as HTMLElement);
 
     this.updateSectionOffset(sectionRootDom, false);
-    this.observer = new MutationObserver((mutations: MutationRecord[]) => {
-      const ModDetected = mutations.some(record =>
-        record.target.parentNode?.isSameNode(sectionRootDom)
-      );
-
-      if (ModDetected) {
-        this.updateSectionOffset(sectionRootDom, true);
-      }
-    });
+    this.observer = new MutationObserver(() =>
+      // TODO: 牺牲性能
+      this.updateSectionOffset(sectionRootDom, true)
+    );
     this.observer.observe(sectionRootDom, {childList: true, subtree: true});
   }
 
@@ -138,7 +133,10 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
     }
 
     // 获取滚动的scrollTop
-    const scrollTop: number = (e.target as HTMLElement).scrollTop;
+    const {scrollTop, scrollHeight, clientHeight} = e.target as HTMLElement;
+
+    // 是否到达最底部，以防最后一个因为高度不够无法高亮
+    const isReachBottom = scrollTop + clientHeight >= scrollHeight;
 
     // 判断scrollTop所在区域
     const offsetArr = this.state.offsetArr;
@@ -152,7 +150,7 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
       this.fireSelect(firstSection.key);
     }
     // 最后一层
-    else if (offset >= lastSection.offsetTop) {
+    else if (isReachBottom || offset >= lastSection.offsetTop) {
       this.fireSelect(lastSection.key);
     } else {
       // 段落区间判断
