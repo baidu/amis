@@ -84,6 +84,9 @@ export class AnchorNavPlugin extends BasePlugin {
                 draggable: true,
                 minLength: 1,
                 addButtonText: '添加锚点',
+                deleteBtn: {
+                  icon: 'fa fa-trash'
+                },
                 items: [
                   {
                     type: 'input-text',
@@ -150,7 +153,8 @@ export class AnchorNavPlugin extends BasePlugin {
                 value: '1'
               }
             ]
-          }
+          },
+          getSchemaTpl('status')
         ])
       },
       {
