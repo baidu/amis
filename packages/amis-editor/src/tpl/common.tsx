@@ -1008,3 +1008,16 @@ setSchemaTpl(
     };
   }
 );
+
+setSchemaTpl('iconLink', (schema: {name: 'icon' | 'rightIcon', visibleOn: boolean}) => {
+  const {name, visibleOn} = schema;
+  return {
+    name: name,
+    visibleOn,
+    label: '图标',
+    type: 'icon-picker',
+    placeholder: '点击选择图标',
+    clearable: true,
+    description: ''
+  }
+});

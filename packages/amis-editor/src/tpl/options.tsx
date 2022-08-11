@@ -305,6 +305,15 @@ setSchemaTpl('optionControlV2', {
   closeDefaultCheck: true // 关闭默认值设置
 });
 
+/**
+ * 时间轴组件选项控件
+ */
+ setSchemaTpl('timelineItemControl', {
+  label: '数据',
+  model: 'normal',
+  type: 'ae-timelineItemControl'
+});
+
 setSchemaTpl('treeOptionControl', {
   label: '数据',
   mode: 'normal',

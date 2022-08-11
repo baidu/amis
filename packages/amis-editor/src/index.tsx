@@ -122,6 +122,7 @@ import './plugin/Table';
 import './plugin/Tabs';
 import './plugin/Tasks';
 import './plugin/Time';
+import './plugin/Timeline';
 import './plugin/Tpl';
 import './plugin/AnchorNav';
 import './plugin/Video';
@@ -135,6 +136,7 @@ import './plugin/WebComponent';
 import {GridPlugin} from './plugin/Grid';
 
 import './renderer/OptionControl';
+import './renderer/TimelineItemControl';
 import './renderer/APIControl';
 import './renderer/ValidationControl';
 import './renderer/ValidationItem';
