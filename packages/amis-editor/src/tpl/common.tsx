@@ -717,6 +717,13 @@ setSchemaTpl('backgroundImageUrl', {
   label: '图片路径'
 });
 
+setSchemaTpl('audioUrl', {
+  type: 'input-text',
+  label: '音频地址',
+  name: 'src',
+  description: '支持获取变量如：<code>\\${audioSrc}</code>'
+});
+
 setSchemaTpl('fileUrl', {
   type: 'input-text',
   label: '文件'
