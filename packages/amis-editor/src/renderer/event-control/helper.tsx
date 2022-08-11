@@ -23,7 +23,7 @@ import {
 import CmptActionSelect from './comp-action-select';
 import {Button} from 'amis';
 import ACTION_TYPE_TREE from './actions';
-import { stores } from 'amis-core/lib/factory';
+import {stores} from 'amis-core/lib/factory';
 
 // 数据容器范围
 export const DATA_CONTAINER = [
@@ -992,7 +992,7 @@ export const getEventControlConfig = (
       isSupport =
         action.supportComponents === '*' ||
         action.supportComponents === node.type;
-        // 内置逻辑
+      // 内置逻辑
       if (action.supportComponents === 'byComponent') {
         isSupport = hasActionType(actionType, actions);
       }
@@ -1010,7 +1010,8 @@ export const getEventControlConfig = (
       return true;
     }
     return false;
-  }
+  };
+
   return {
     showOldEntry:
       !!context.schema.actionType ||
@@ -1038,7 +1039,7 @@ export const getEventControlConfig = (
       let components = allComponents;
       if (isSubEditor) {
         let superTree = manager.store.getSuperEditorData;
-        while(superTree) {
+        while (superTree) {
           if (superTree.__superCmptTreeSource) {
             components = components.concat(superTree.__superCmptTreeSource);
           }
@@ -1047,13 +1048,19 @@ export const getEventControlConfig = (
       }
       const result = filterTree(
         components,
-        (node) => checkComponent(node, action),
+        node => checkComponent(node, action),
         1,
         true
       );
       return result;
     },
-    actionConfigInitFormatter: (action: ActionConfig) => {
+    actionConfigInitFormatter: async (
+      action: ActionConfig,
+      variables: {
+        eventVariables: ContextVariables[];
+        rawVariables: ContextVariables[];
+      }
+    ) => {
       let config = {...action};
 
       if (['setValue', 'url'].includes(action.actionType) && action.args) {
@@ -1134,10 +1141,37 @@ export const getEventControlConfig = (
 
       // 获取左侧命中的动作节点
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
+      // 如果args配置中存在组件id，则自动获取一次该组件的上下文
+      let datasource = [];
+      if (action.args?.componentId) {
+        const schema = manager?.store?.getSchema(
+          action.args?.componentId,
+          'id'
+        );
+        const dataSchema: any = await manager.getContextSchemas(
+          schema.$$id,
+          true
+        );
+        const dataSchemaIns = new DataSchema(dataSchema || []);
+        datasource = dataSchemaIns?.getDataPropsAsOptions() || [];
+      }
 
       return {
         ...config,
-        actionType: getActionType(action, hasSubActionNode)
+        actionType: getActionType(action, hasSubActionNode),
+        args: {
+          ...config.args,
+          __dataContainerVariables: datasource?.length
+            ? [
+                ...variables.eventVariables,
+                {
+                  label: `数据来源变量`,
+                  children: datasource
+                },
+                ...variables.rawVariables
+              ]
+            : [...variables.eventVariables, ...variables.rawVariables]
+        }
       };
     },
     actionConfigSubmitFormatter: (config: ActionConfig) => {

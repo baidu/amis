@@ -512,7 +512,7 @@ export class TablePlugin extends BasePlugin {
         title: '显隐',
         body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
       },
-      {
+      isCRUDBody ? null : {
         title: '事件',
         className: 'p-none',
         body: [

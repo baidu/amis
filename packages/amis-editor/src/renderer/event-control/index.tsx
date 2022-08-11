@@ -49,7 +49,10 @@ interface EventControlProps extends FormControlProps {
   removeBroadcast?: (eventName: string) => void;
   getComponents: (action: RendererPluginAction) => ComponentInfo[]; // 当前页面组件树
   getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema; // 获取上下文
-  actionConfigInitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置初始化时格式化
+  actionConfigInitFormatter?: (actionConfig: ActionConfig, variables: {
+    eventVariables: ContextVariables[], // 当前事件变量
+    rawVariables: ContextVariables[] // 绑定事件的组件上下文
+  }) => ActionConfig; // 动作配置初始化时格式化
   actionConfigSubmitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置提交时格式化
   owner?: string; // 组件标识
 }
@@ -496,7 +499,7 @@ export class EventControl extends React.Component<
   }
 
   // 唤起动作配置弹窗
-  activeActionDialog(
+  async activeActionDialog(
     data: Pick<EventControlState, 'showAcionDialog' | 'type' | 'actionData'>
   ) {
     const {
@@ -514,7 +517,7 @@ export class EventControl extends React.Component<
     // 编辑操作，需要格式化动作配置
     if (data.type === 'update') {
       const action = data.actionData!.action!;
-      const actionConfig = actionConfigInitFormatter?.(action);
+      const actionConfig = await actionConfigInitFormatter?.(action, {eventVariables, rawVariables});
       const actionNode = findActionNode(actionTree, actionConfig?.actionType!);
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
       const supportComponents = getComponents(actionNode!);
