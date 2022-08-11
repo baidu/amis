@@ -2,10 +2,7 @@ import {ContainerWrapper} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin, getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import type {SchemaObject} from 'amis/lib/Schema';
 import { tipedLabel } from '../component/BaseControl';
 
@@ -359,4 +356,3 @@ export class PagePlugin extends BasePlugin {
 }
 
 registerEditorPlugin(PagePlugin);
-

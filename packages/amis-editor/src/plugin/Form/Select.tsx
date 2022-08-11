@@ -210,7 +210,7 @@ export class SelectControlPlugin extends BasePlugin {
               getSchemaTpl('clearable'),
               getSchemaTpl('searchable'),
               getSchemaTpl('multiple', {
-                popMore: [
+                body: [
                   getSchemaTpl('switch', {
                     label: '单行显示选中值',
                     name: 'valuesNoWrap'
@@ -219,8 +219,7 @@ export class SelectControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('checkAll'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
-                visibleOn: 'this.options && this.options.length > 0'
+                rendererSchema: context?.schema
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),

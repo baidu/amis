@@ -129,11 +129,9 @@ export default class APIControl extends React.Component<
 
   componentDidUpdate(prevProps: APIControlProps) {
     const props = this.props;
-
     if (prevProps.value !== props.value) {
       this.setState({apiStr: this.transformApi2Str(props.value)});
     }
-
     if (anyChanged(['enablePickerMode', 'pickerSchema'], prevProps, props)) {
       this.setState({schema: props.pickerSchema});
     }
@@ -198,7 +196,6 @@ export default class APIControl extends React.Component<
     if (typeof value !== 'string' || typeof values !== 'string') {
       api = merge({}, normalizeApi(values));
     }
-
     onChange?.(api);
   }
 

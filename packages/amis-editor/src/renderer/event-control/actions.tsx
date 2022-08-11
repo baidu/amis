@@ -5,6 +5,7 @@ import {
   RendererPluginAction
 } from 'amis-editor-core';
 import React from 'react';
+import {normalizeApi} from 'amis-core';
 import {
   FORMITEM_CMPTS,
   getArgsWrapper,
@@ -14,7 +15,7 @@ import {
   renderCmptSelect,
   SUPPORT_DISABLED_CMPTS
 } from './helper';
-
+import {BaseLabelMark} from '../../component/BaseControl';
 const MSG_TYPES: {[key: string]: string} = {
   info: '提示',
   warning: '警告',
@@ -56,7 +57,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   placeholder: 'http://',
                   mode: 'horizontal',
                   size: 'lg',
-                  required: true
+                  required: true,
+                  visibleOn: 'data.actionType === "url"'
                 },
                 {
                   type: 'combo',
@@ -107,7 +109,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 打开
                 <span className="variable-left variable-right">
-                  {info?.args?.__pageName}
+                  {info?.args?.pageName}
                 </span>
                 页面
               </div>
@@ -190,6 +192,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     manager.openSubEditor({
                       title: '配置弹框内容',
                       value: {type: 'dialog', ...value},
+                      data,
                       onChange: (value: any) => onChange(value)
                     })
                   }
@@ -407,16 +410,20 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '发送请求',
           actionType: 'ajax',
           description: '配置并发送API请求',
-          innerArgs: ['api'],
+          innerArgs: ['api', 'options'],
           descDetail: (info: any) => {
+            let apiInfo = info?.args?.api;
+            if (typeof apiInfo === 'string'){
+              apiInfo = normalizeApi(apiInfo);
+            }
             return (
               <div>
                 发送
                 <span className="variable-right variable-left">
-                  {info?.args?.api?.method}
+                  {apiInfo?.method}
                 </span>
                 请求：
-                <span className="variable-left">{info?.args?.api?.url}</span>
+                <span className="variable-left">{apiInfo?.url}</span>
               </div>
             );
           },
@@ -425,26 +432,71 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             className: "p-none",
             body: [
               getArgsWrapper(
-                getSchemaTpl('apiControl', {
-                  name: 'api',
-                  label: '配置请求',
-                  mode: 'horizontal',
-                  size: 'lg',
-                  required: true
-                })
+                [
+                  getSchemaTpl('apiControl', {
+                    name: 'api',
+                    label: '配置请求',
+                    mode: 'horizontal',
+                    size: 'lg',
+                    required: true
+                  }),
+                  {
+                    name: 'options',
+                    type: 'combo',
+                    label: false,
+                    mode: 'horizontal',
+                    items: [
+                      {
+                        type: 'checkbox',
+                        name: 'silent',
+                        option: '静默模式',
+                        mode: 'inline',
+                        className: 'm-r-none',
+                        value: false,
+                        remark: {
+                          className: 'ae-BaseRemark',
+                          icon: 'fa fa-question-circle',
+                          shape: "circle",
+                          placement: "left",
+                          content: '勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
+                        }
+                      }
+                    ]
+                  }
+                ]
               ),
               {
                 name: 'outputVar',
                 type: 'input-text',
-                label: '请求出参',
+                label: '存储结果',
                 placeholder: '请输入存储请求结果的变量名称',
-                description: '后面的动作可以通过\\${event.data.请求出参名称}来获取本次请求的返回结果',
+                description: '如需执行多次发送请求，可以修改此变量名用于区分不同请求返回的结果',
                 mode: 'horizontal',
                 size: 'lg',
+                value: 'responseResult',
                 required: true
               }
             ]
-          }
+          },
+          outputVarDataSchema: [
+            {
+              type: 'object',
+              properties: {
+                'event.data.${outputVar}.responseData': {
+                  type: 'object',
+                  title: '数据'
+                },
+                'event.data.${outputVar}.responseStatus': {
+                  type: 'number',
+                  title: '状态标识'
+                },
+                'event.data.${outputVar}.responseMsg': {
+                  type: 'string',
+                  title: '提示信息'
+                }
+              }
+            }
+          ]
         },
         {
           actionLabel: '下载文件',
@@ -457,7 +509,11 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             body: [
               getArgsWrapper(
                 getSchemaTpl('apiControl', {
-                  name: 'api'
+                  name: 'api',
+                  label: '配置请求',
+                  mode: 'horizontal',
+                  size: 'lg',
+                  required: true
                 })
               )
             ]
@@ -600,7 +656,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
-          supportComponents: [],
+          supportComponents: 'byComponent',
           schema: renderCmptSelect('选择组件', true)
         },
         {
@@ -625,7 +681,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
-          supportComponents: [],
+          supportComponents: 'byComponent',
           schema: [
             ...renderCmptActionSelect('选择组件', true),
             getArgsWrapper({
@@ -662,7 +718,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   mode: 'horizontal',
                   label: '输入序号',
                   placeholder: '请输入待更新序号',
-                  visibleOn: `data.__comboType && __comboType === 'appoint'`
+                  visibleOn: `data.__comboType && __comboType === 'appoint' && data.__rendererName && __rendererName === 'combo'`
                 },
                 {
                   type: 'combo',
@@ -891,6 +947,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 label: '内容模板',
                 mode: 'horizontal',
                 size: 'lg',
+                visibleOn: 'data.actionType === "copy"',
                 required: true
               },
               {

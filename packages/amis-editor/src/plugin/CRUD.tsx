@@ -85,34 +85,6 @@ export class CRUDPlugin extends BasePlugin {
     }
   ];
 
-  sampleBuilder = (schema: any) => {
-    const data: any = {
-      items: [],
-      total: 0
-    };
-
-    if (Array.isArray(schema?.columns)) {
-      const item = {};
-      schema.columns.forEach((control: any) => {
-        if (control?.name) {
-          setVariable(item, control.name, 'sample');
-        }
-      });
-
-      data.items.push(item);
-    }
-
-    return JSON.stringify(
-      {
-        status: 0,
-        msg: '',
-        data: data
-      },
-      null,
-      2
-    );
-  };
-
   btnSchemas = {
     create: {
       label: '新增',
@@ -392,7 +364,10 @@ export class CRUDPlugin extends BasePlugin {
 
       valueSchema.bulkActions = [];
       /** 统一api格式 */
-      valueSchema.api = normalizeApi(valueSchema.api);
+      valueSchema.api =
+        typeof valueSchema.api === 'string'
+          ? normalizeApi(valueSchema.api)
+          : valueSchema.api;
       hasFeatures &&
         features.forEach((item: string) => {
           if (itemBtns.includes(item)) {
@@ -418,7 +393,7 @@ export class CRUDPlugin extends BasePlugin {
               );
             } else if (item === 'delete') {
               schema = cloneDeep(this.btnSchemas.delete);
-              schema.api = valueSchema.api?.method.match(/^(post|delete)$/i)
+              schema.api = valueSchema.api?.method?.match(/^(post|delete)$/i)
                 ? valueSchema.api
                 : {...valueSchema.api, method: 'post'};
             }
@@ -446,7 +421,7 @@ export class CRUDPlugin extends BasePlugin {
               const createSchemaBase = this.btnSchemas.create;
               createSchemaBase.dialog.body = {
                 type: 'form',
-                api: valueSchema.api?.method.match(/^(post|put)$/i)
+                api: valueSchema.api?.method?.match(/^(post|put)$/i)
                   ? valueSchema.api
                   : {...valueSchema.api, method: 'post'},
                 body: valueSchema.columns.map((column: ColumnItem) => {

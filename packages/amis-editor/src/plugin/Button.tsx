@@ -285,9 +285,8 @@ export class ButtonPlugin extends BasePlugin {
         title: '事件',
         className: 'p-none',
         body:
-          this.manager?.config.actionOptions?.showOldEntry !== false &&
-          (!!context.schema.actionType ||
-            ['submit', 'reset'].includes(context.schema.type))
+          !!context.schema.actionType ||
+          ['submit', 'reset'].includes(context.schema.type)
             ? [
                 getSchemaTpl('eventControl', {
                   name: 'onEvent',

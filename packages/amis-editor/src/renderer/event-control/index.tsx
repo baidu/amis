@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import Sortable from 'sortablejs';
-import {DataSchema, FormItem, Icon, TooltipWrapper} from 'amis';
+import {DataSchema, FormItem, Button, Icon, TooltipWrapper} from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   FormControlProps,
@@ -49,7 +49,10 @@ interface EventControlProps extends FormControlProps {
   removeBroadcast?: (eventName: string) => void;
   getComponents: (action: RendererPluginAction) => ComponentInfo[]; // 当前页面组件树
   getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema; // 获取上下文
-  actionConfigInitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置初始化时格式化
+  actionConfigInitFormatter?: (actionConfig: ActionConfig, variables: {
+    eventVariables: ContextVariables[], // 当前事件变量
+    rawVariables: ContextVariables[] // 绑定事件的组件上下文
+  }) => ActionConfig; // 动作配置初始化时格式化
   actionConfigSubmitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置提交时格式化
   owner?: string; // 组件标识
 }
@@ -73,6 +76,7 @@ interface EventControlState {
         groupType?: string;
         __actionDesc?: string;
         __cmptTreeSource?: ComponentInfo[];
+        __superCmptTreeSource?: ComponentInfo[];
         __actionSchema?: any;
         __subActions?: SubRendererPluginAction[];
         __setValueDs?: any[];
@@ -441,24 +445,44 @@ export class EventControl extends React.Component<
     >
   ) {
     const {events, onEvent} = this.state;
+    const {actionTree, pluginActions, commonActions} = this.props;
     // 收集当前事件已有ajax动作的请求返回结果作为事件变量
     let oldActions = onEvent[activeData.actionData!.eventKey].actions;
     if (activeData.type === 'update') {
-      oldActions = oldActions.slice(0, activeData.actionData!.actionIndex || oldActions?.length);
+      // 编辑的时候只能拿到当前动作前面动作的事件变量
+      oldActions = oldActions.slice(0, activeData.actionData!.actionIndex);
     }
-    const ajaxActions = oldActions?.filter(item => item.actionType === 'ajax');
-    const ajaxVariables = ajaxActions?.map((item: any, index: number) => {
+
+    const withOutputVarActions = oldActions?.filter(item => item.outputVar);
+    const withOutputVarVariables = withOutputVarActions?.map((item: any, index: number) => {
+      const actionLabel = getPropOfAcion(
+        item,
+        'actionLabel',
+        actionTree,
+        pluginActions,
+        commonActions
+      );
+      const dataSchemaJson = getPropOfAcion(
+        item,
+        'outputVarDataSchema',
+        actionTree,
+        pluginActions,
+        commonActions
+      );
+      const dataSchema = new DataSchema(dataSchemaJson || []);
       return {
-        label: `${item.outputVar ? item.outputVar + '（请求返回结果）' : '请求返回结果'}`,
+        label: `${item.outputVar ? item.outputVar + `（${actionLabel}结果）` : `${actionLabel}结果`}`,
         tag: 'object',
-        type: 'object',
-        value: `${item.outputVar ? ('event.data.' + item.outputVar) : 'event.data'}`
+        children: dataSchema.getDataPropsAsOptions()?.map(variable => ({
+          ...variable,
+          value: variable.value.replace('${outputVar}', item.outputVar)
+        }))
       };
     });
     const eventVariables: ContextVariables[] = [
       {
         label: '事件变量',
-        children: ajaxVariables || []
+        children: withOutputVarVariables || []
       }
     ];
     const eventConfig = events.find(
@@ -475,7 +499,7 @@ export class EventControl extends React.Component<
   }
 
   // 唤起动作配置弹窗
-  activeActionDialog(
+  async activeActionDialog(
     data: Pick<EventControlState, 'showAcionDialog' | 'type' | 'actionData'>
   ) {
     const {
@@ -483,21 +507,21 @@ export class EventControl extends React.Component<
       getContextSchemas,
       actionConfigInitFormatter,
       getComponents,
-      actionTree
+      actionTree,
+      allComponents
     } = this.props;
     const {rawVariables} = this.state;
     // 收集事件变量
     const eventVariables = this.getEventVariables(data);
     const variables = [...eventVariables, ...rawVariables];
-
     // 编辑操作，需要格式化动作配置
     if (data.type === 'update') {
       const action = data.actionData!.action!;
-      const actionConfig = actionConfigInitFormatter?.(action);
+      const actionConfig = await actionConfigInitFormatter?.(action, {eventVariables, rawVariables});
       const actionNode = findActionNode(actionTree, actionConfig?.actionType!);
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
-      const cmpts = getComponents(actionNode);
-      const node = findTree(cmpts, item => item.value === action.componentId);
+      const supportComponents = getComponents(actionNode!);
+      const node = findTree(supportComponents, item => item.value === action.componentId);
 
       let setValueDs: any = null;
       if (actionConfig?.actionType === 'setValue') {
@@ -512,7 +536,7 @@ export class EventControl extends React.Component<
             item => item.value !== '$$id'
           );
         }
-      }
+      };
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,
@@ -525,9 +549,9 @@ export class EventControl extends React.Component<
         __actionDesc: actionNode!.description!, // 树节点描述
         __actionSchema: actionNode!.schema, // 树节点schema
         __subActions: hasSubActionNode?.actions, // 树节点子动作
-        __cmptTreeSource: actionConfig?.componentId
-          ? getComponents?.(actionNode!) ?? []
-          : [],
+        __cmptTreeSource: supportComponents ?? [],
+        __superCmptTreeSource: allComponents,
+        // __supersCmptTreeSource: '',
         __setValueDs: setValueDs
         // broadcastId: action.actionType === 'broadcast' ? action.eventName : ''
       };
@@ -545,10 +569,10 @@ export class EventControl extends React.Component<
         variables,
         pluginActions,
         getContextSchemas,
-        rawVariables
+        rawVariables,
+        __superCmptTreeSource: allComponents
       };
     }
-
     this.setState(data);
   }
 
@@ -574,8 +598,8 @@ export class EventControl extends React.Component<
     const actionNode = actionType && findActionNode(actionTree, actionType);
 
     if (action.componentId && actionNode) {
-      const cmpts = getComponents(actionNode);
-      const node = findTree(cmpts, item => item.value === action.componentId);
+      const supportComponents = getComponents(actionNode);
+      const node = findTree(supportComponents, item => item.value === action.componentId);
       if (node) {
         info = {
           ...info,

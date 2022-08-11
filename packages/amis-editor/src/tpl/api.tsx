@@ -17,7 +17,7 @@ setSchemaTpl('api', (patch: any = {}) => {
               label: '示例',
               title: '接口返回示例',
               tooltipClassName: 'ae-ApiSample-tooltip',
-              render: (data: any) => (
+              children: (data: any) => (
                 <Html
                   className="ae-ApiSample"
                   inline={false}
@@ -314,7 +314,7 @@ setSchemaTpl('source', (patch: any = {}) => {
     name: 'source',
     label: '获取选项接口',
     description: '可以通过接口获取动态选项，一次拉取全部。',
-    sampleBuilder: (schema: any) =>
+    sampleBuilder: () =>
       JSON.stringify(
         {
           status: 0,
@@ -423,7 +423,7 @@ setSchemaTpl('apiControl', (patch: any = {}) => {
           label: '示例',
           title: '接口返回示例',
           tooltipClassName: 'ae-ApiSample-tooltip',
-          render: (data: any) => (
+          children: (data: any) => (
             <Html
               className="ae-ApiSample"
               inline={false}
@@ -460,7 +460,7 @@ setSchemaTpl('actionApiControl', (patch: any = {}) => {
           label: '示例',
           title: '接口返回示例',
           tooltipClassName: 'ae-ApiSample-tooltip',
-          render: (data: any) => (
+          children: (data: any) => (
             <Html
               className="ae-ApiSample"
               inline={false}

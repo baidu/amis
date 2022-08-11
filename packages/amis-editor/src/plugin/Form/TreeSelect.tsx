@@ -1,7 +1,4 @@
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
@@ -260,7 +257,14 @@ export class TreeSelectControlPlugin extends BasePlugin {
               mode: 'vertical' // 改成上下展示模式
             }),
 
-            getSchemaTpl('clearable'),
+            getSchemaTpl('clearable', {
+              mode: 'horizontal',
+              horizontal: {
+                justify: true,
+                left: 8
+              },
+              inputClassName: 'is-inline '
+            }),
 
             getSchemaTpl('hideNodePathLabel'),
 
@@ -273,7 +277,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 },
 
                 getSchemaTpl('source', {
-                  sampleBuilder: (schema: any) =>
+                  sampleBuilder: () =>
                     JSON.stringify(
                       {
                         status: 0,
@@ -365,19 +369,25 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 getSchemaTpl('extractValue'),
                 getSchemaTpl('autoFill'),
 
-                getSchemaTpl('creatable'),
+                getSchemaTpl('creatable', {
+                  mode: 'row'
+                }),
                 getSchemaTpl('api', {
                   label: '新增选项接口',
                   name: 'addApi'
                 }),
 
-                getSchemaTpl('editable'),
+                getSchemaTpl('editable', {
+                  mode: 'row'
+                }),
                 getSchemaTpl('api', {
                   label: '编辑选项接口',
                   name: 'editApi'
                 }),
 
-                getSchemaTpl('removable'),
+                getSchemaTpl('removable', {
+                  mode: 'row'
+                }),
                 getSchemaTpl('api', {
                   label: '删除选项接口',
                   name: 'deleteApi'
@@ -388,6 +398,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
         },
         {
           title: '事件',
+          className: 'p-none',
           body: [
             getSchemaTpl('eventControl', {
               name: 'onEvent',

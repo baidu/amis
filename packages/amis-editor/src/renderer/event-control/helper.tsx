@@ -13,10 +13,17 @@ import {
   SubRendererPluginAction
 } from 'amis-editor-core';
 import {ActionConfig, ContextVariables} from './types';
-import {DataSchema, filterTree, findTree, mapTree} from 'amis-core';
+import {
+  DataSchema,
+  filterTree,
+  findTree,
+  mapTree,
+  normalizeApi
+} from 'amis-core';
 import CmptActionSelect from './comp-action-select';
 import {Button} from 'amis';
 import ACTION_TYPE_TREE from './actions';
+import {stores} from 'amis-core/lib/factory';
 
 // 数据容器范围
 export const DATA_CONTAINER = [
@@ -31,9 +38,7 @@ export const DATA_CONTAINER = [
 ];
 
 // 下拉展示可赋值属性范围
-export const SELECT_PROPS_CONTAINER = [
-  'form',
-];
+export const SELECT_PROPS_CONTAINER = ['form'];
 
 // 是否数据容器
 export const IS_DATA_CONTAINER = `${JSON.stringify(
@@ -44,7 +49,6 @@ export const IS_DATA_CONTAINER = `${JSON.stringify(
 export const SHOW_SELECT_PROP = `${JSON.stringify(
   SELECT_PROPS_CONTAINER
 )}.includes(__rendererName)`;
-
 
 // 表单项组件
 export const FORMITEM_CMPTS = [
@@ -129,7 +133,7 @@ export const SUPPORT_DISABLED_CMPTS = [
   'nav',
   'wizard'
   // 'card2'
-]
+];
 
 export const getArgsWrapper = (items: any, multiple: boolean = false) => ({
   type: 'combo',
@@ -191,7 +195,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               labelField: 'label',
               valueField: 'value',
               required: true,
-              visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`,
+              visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`
             },
             {
               name: 'key',
@@ -316,7 +320,9 @@ export const COMMON_ACTION_SCHEMA_MAP: {
       return (
         <div>
           提交
-          <span className="variable-left variable-right">{info?.rendererLabel}</span>
+          <span className="variable-left variable-right">
+            {info?.rendererLabel}
+          </span>
           {info?.__rendererName === 'wizard' ? '全部数据' : '数据'}
         </div>
       );
@@ -536,7 +542,7 @@ export const renderCmptActionSelect = (
       true,
       async (value: string, oldVal: any, data: any, form: any) => {
         // 获取组件上下文.
-        const rendererType = form.data.__rendererName
+        const rendererType = form.data.__rendererName;
         if (form.data.__nodeId) {
           const dataSchema: any = await form.data.getContextSchemas?.(
             form.data.__nodeId,
@@ -560,9 +566,13 @@ export const renderCmptActionSelect = (
           if (form.data.actionType === 'setValue') {
             // todo:这里会闪一下，需要从amis查下问题
             form.setValueByName('args.value', []);
+            form.setValueByName('args.__comboType', undefined);
             form.setValueByName('args.__valueInput', undefined);
             if (SELECT_PROPS_CONTAINER.includes(rendererType)) {
-              form.setValueByName('__setValueDs', variables.filter(item => item.value !== '$$id'));
+              form.setValueByName(
+                '__setValueDs',
+                variables.filter(item => item.value !== '$$id')
+              );
             } else {
               form.setValueByName('__setValueDs', []);
             }
@@ -591,345 +601,353 @@ export const getOldActionSchema = (
 ) => {
   const isInDialog = /(?:\/|^)dialog\/.+$/.test(context.path);
   return {
-    type: 'button',
-    label: '配置动作(旧版)',
-    className: 'block old-action-btn',
-    tooltip:
+    type: 'tooltip-wrapper',
+    content:
       '温馨提示：添加下方事件动作后，下方事件动作将先于旧版动作执行，建议统一迁移至事件动作机制，帮助您实现更灵活的交互设计',
-    tooltipPlacement: 'left',
-    actionType: 'dialog',
-    dialog: {
-      type: 'dialog',
-      title: '动作',
-      body: {
-        type: 'form',
-        body: [
-          {
-            label: '按钮行为',
-            type: 'select',
-            name: 'actionType',
-            pipeIn: defaultValue(''),
-            options: [
+    inline: true,
+    tooltipTheme: 'dark',
+    body: [
+      {
+        type: 'button',
+        label: '配置动作(旧版)',
+        className: 'block old-action-btn',
+        actionType: 'dialog',
+        dialog: {
+          type: 'dialog',
+          title: '动作',
+          body: {
+            type: 'form',
+            body: [
               {
-                label: '默认',
-                value: ''
-              },
-              {
-                label: '弹框',
-                value: 'dialog'
+                label: '按钮行为',
+                type: 'select',
+                name: 'actionType',
+                pipeIn: defaultValue(''),
+                options: [
+                  {
+                    label: '默认',
+                    value: ''
+                  },
+                  {
+                    label: '弹框',
+                    value: 'dialog'
+                  },
+
+                  {
+                    label: '抽出式弹框（Drawer）',
+                    value: 'drawer'
+                  },
+
+                  {
+                    label: '发送请求',
+                    value: 'ajax'
+                  },
+
+                  {
+                    label: '下载文件',
+                    value: 'download'
+                  },
+
+                  {
+                    label: '页面跳转(单页模式)',
+                    value: 'link'
+                  },
+
+                  {
+                    label: '页面跳转',
+                    value: 'url'
+                  },
+
+                  {
+                    label: '刷新目标',
+                    value: 'reload'
+                  },
+
+                  {
+                    label: '复制内容',
+                    value: 'copy'
+                  },
+
+                  {
+                    label: '提交',
+                    value: 'submit'
+                  },
+
+                  {
+                    label: '重置',
+                    value: 'reset'
+                  },
+
+                  {
+                    label: '重置并提交',
+                    value: 'reset-and-submit'
+                  },
+
+                  {
+                    label: '确认',
+                    value: 'confirm'
+                  },
+
+                  {
+                    label: '取消',
+                    value: 'cancel'
+                  },
+
+                  {
+                    label: '跳转下一条',
+                    value: 'next'
+                  },
+
+                  {
+                    label: '跳转上一条',
+                    value: 'prev'
+                  }
+                ]
               },
 
               {
-                label: '抽出式弹框（Drawer）',
-                value: 'drawer'
+                type: 'input-text',
+                name: 'content',
+                visibleOn: 'data.actionType == "copy"',
+                label: '复制内容模板'
               },
 
               {
-                label: '发送请求',
-                value: 'ajax'
+                type: 'select',
+                name: 'copyFormat',
+                options: [
+                  {
+                    label: '纯文本',
+                    value: 'text/plain'
+                  },
+                  {
+                    label: '富文本',
+                    value: 'text/html'
+                  }
+                ],
+                visibleOn: 'data.actionType == "copy"',
+                label: '复制格式'
               },
 
               {
-                label: '下载文件',
-                value: 'download'
+                type: 'input-text',
+                name: 'target',
+                visibleOn: 'data.actionType == "reload"',
+                label: '指定刷新目标',
+                required: true
               },
 
               {
-                label: '页面跳转(单页模式)',
-                value: 'link'
+                name: 'dialog',
+                pipeIn: defaultValue({
+                  title: '弹框标题',
+                  body: '<p>对，你刚刚点击了</p>'
+                }),
+                asFormItem: true,
+                children: ({value, onChange, data}: any) =>
+                  data.actionType === 'dialog' ? (
+                    <Button
+                      size="sm"
+                      level="danger"
+                      className="m-b"
+                      onClick={() =>
+                        manager.openSubEditor({
+                          title: '配置弹框内容',
+                          value: {type: 'dialog', ...value},
+                          onChange: value => onChange(value)
+                        })
+                      }
+                      block
+                    >
+                      配置弹框内容
+                    </Button>
+                  ) : null
               },
 
               {
-                label: '页面跳转',
-                value: 'url'
+                visibleOn: 'data.actionType == "drawer"',
+                name: 'drawer',
+                pipeIn: defaultValue({
+                  title: '弹框标题',
+                  body: '<p>对，你刚刚点击了</p>'
+                }),
+                asFormItem: true,
+                children: ({value, onChange, data}: any) =>
+                  data.actionType == 'drawer' ? (
+                    <Button
+                      size="sm"
+                      level="danger"
+                      className="m-b"
+                      onClick={() =>
+                        manager.openSubEditor({
+                          title: '配置抽出式弹框内容',
+                          value: {type: 'drawer', ...value},
+                          onChange: value => onChange(value)
+                        })
+                      }
+                      block
+                    >
+                      配置抽出式弹框内容
+                    </Button>
+                  ) : null
+              },
+
+              getSchemaTpl('api', {
+                label: '目标API',
+                visibleOn: 'data.actionType == "ajax"'
+              }),
+
+              {
+                name: 'feedback',
+                pipeIn: defaultValue({
+                  title: '弹框标题',
+                  body: '<p>内容</p>'
+                }),
+                asFormItem: true,
+                children: ({onChange, value, data}: any) =>
+                  data.actionType == 'ajax' ? (
+                    <div className="m-b">
+                      <Button
+                        size="sm"
+                        level={value ? 'danger' : 'info'}
+                        onClick={() =>
+                          manager.openSubEditor({
+                            title: '配置反馈弹框详情',
+                            value: {type: 'dialog', ...value},
+                            onChange: value => onChange(value)
+                          })
+                        }
+                      >
+                        配置反馈弹框内容
+                      </Button>
+
+                      {value ? (
+                        <Button
+                          size="sm"
+                          level="link"
+                          className="m-l"
+                          onClick={() => onChange('')}
+                        >
+                          清空设置
+                        </Button>
+                      ) : null}
+                    </div>
+                  ) : null
               },
 
               {
-                label: '刷新目标',
-                value: 'reload'
+                name: 'feedback.visibleOn',
+                label: '是否弹出表达式',
+                type: 'input-text',
+                visibleOn: 'this.feedback',
+                autoComplete: false,
+                description: '请使用 JS 表达式如：`this.xxx == 1`'
               },
 
               {
-                label: '复制内容',
-                value: 'copy'
+                name: 'feedback.skipRestOnCancel',
+                label: '弹框取消是否中断后续操作',
+                type: 'switch',
+                mode: 'inline',
+                className: 'block',
+                visibleOn: 'this.feedback'
               },
 
               {
-                label: '提交',
-                value: 'submit'
+                name: 'feedback.skipRestOnConfirm',
+                label: '弹框确认是否中断后续操作',
+                type: 'switch',
+                mode: 'inline',
+                className: 'block',
+                visibleOn: 'this.feedback'
               },
 
               {
-                label: '重置',
-                value: 'reset'
+                type: 'input-text',
+                label: '目标地址',
+                name: 'link',
+                visibleOn: 'data.actionType == "link"'
               },
 
               {
-                label: '重置并提交',
-                value: 'reset-and-submit'
+                type: 'input-text',
+                label: '目标地址',
+                name: 'url',
+                visibleOn: 'data.actionType == "url"',
+                placeholder: 'http://'
               },
 
               {
-                label: '确认',
-                value: 'confirm'
+                type: 'switch',
+                name: 'blank',
+                visibleOn: 'data.actionType == "url"',
+                mode: 'inline',
+                className: 'w-full',
+                label: '是否用新窗口打开',
+                pipeIn: defaultValue(true)
+              },
+
+              isInDialog
+                ? {
+                    visibleOn:
+                      'data.actionType == "submit" || data.type == "submit"',
+                    name: 'close',
+                    type: 'switch',
+                    mode: 'inline',
+                    className: 'w-full',
+                    pipeIn: defaultValue(true),
+                    label: '是否关闭当前弹框'
+                  }
+                : {},
+
+              {
+                name: 'confirmText',
+                type: 'textarea',
+                label: '确认文案',
+                description:
+                  '点击后会弹出此内容，等用户确认后才进行相应的操作。'
               },
 
               {
-                label: '取消',
-                value: 'cancel'
+                type: 'input-text',
+                name: 'reload',
+                label: '刷新目标组件',
+                visibleOn:
+                  'data.actionType != "link" && data.actionType != "url"',
+                description:
+                  '当前动作完成后，指定目标组件刷新。支持传递数据如：<code>xxx?a=\\${a}&b=\\${b}</code>，多个目标请用英文逗号隔开。'
               },
 
               {
-                label: '跳转下一条',
-                value: 'next'
+                type: 'input-text',
+                name: 'target',
+                visibleOn: 'data.actionType != "reload"',
+                label: '指定响应组件',
+                description:
+                  '指定动作执行者，默认为当前组件所在的功能性性组件，如果指定则转交给目标组件来处理。'
               },
 
               {
-                label: '跳转上一条',
-                value: 'prev'
+                type: 'js-editor',
+                allowFullscreen: true,
+                name: 'onClick',
+                label: '自定义点击事件',
+                description: '将会传递 event 和 props 两个参数'
+              },
+
+              {
+                type: 'input-text',
+                name: 'hotKey',
+                label: '键盘快捷键'
               }
             ]
           },
-
-          {
-            type: 'input-text',
-            name: 'content',
-            visibleOn: 'data.actionType == "copy"',
-            label: '复制内容模板'
-          },
-
-          {
-            type: 'select',
-            name: 'copyFormat',
-            options: [
-              {
-                label: '纯文本',
-                value: 'text/plain'
-              },
-              {
-                label: '富文本',
-                value: 'text/html'
-              }
-            ],
-            visibleOn: 'data.actionType == "copy"',
-            label: '复制格式'
-          },
-
-          {
-            type: 'input-text',
-            name: 'target',
-            visibleOn: 'data.actionType == "reload"',
-            label: '指定刷新目标',
-            required: true
-          },
-
-          {
-            name: 'dialog',
-            pipeIn: defaultValue({
-              title: '弹框标题',
-              body: '<p>对，你刚刚点击了</p>'
-            }),
-            asFormItem: true,
-            children: ({value, onChange, data}: any) =>
-              data.actionType === 'dialog' ? (
-                <Button
-                  size="sm"
-                  level="danger"
-                  className="m-b"
-                  onClick={() =>
-                    manager.openSubEditor({
-                      title: '配置弹框内容',
-                      value: {type: 'dialog', ...value},
-                      onChange: value => onChange(value)
-                    })
-                  }
-                  block
-                >
-                  配置弹框内容
-                </Button>
-              ) : null
-          },
-
-          {
-            visibleOn: 'data.actionType == "drawer"',
-            name: 'drawer',
-            pipeIn: defaultValue({
-              title: '弹框标题',
-              body: '<p>对，你刚刚点击了</p>'
-            }),
-            asFormItem: true,
-            children: ({value, onChange, data}: any) =>
-              data.actionType == 'drawer' ? (
-                <Button
-                  size="sm"
-                  level="danger"
-                  className="m-b"
-                  onClick={() =>
-                    manager.openSubEditor({
-                      title: '配置抽出式弹框内容',
-                      value: {type: 'drawer', ...value},
-                      onChange: value => onChange(value)
-                    })
-                  }
-                  block
-                >
-                  配置抽出式弹框内容
-                </Button>
-              ) : null
-          },
-
-          getSchemaTpl('api', {
-            label: '目标API',
-            visibleOn: 'data.actionType == "ajax"'
-          }),
-
-          {
-            name: 'feedback',
-            pipeIn: defaultValue({
-              title: '弹框标题',
-              body: '<p>内容</p>'
-            }),
-            asFormItem: true,
-            children: ({onChange, value, data}: any) =>
-              data.actionType == 'ajax' ? (
-                <div className="m-b">
-                  <Button
-                    size="sm"
-                    level={value ? 'danger' : 'info'}
-                    onClick={() =>
-                      manager.openSubEditor({
-                        title: '配置反馈弹框详情',
-                        value: {type: 'dialog', ...value},
-                        onChange: value => onChange(value)
-                      })
-                    }
-                  >
-                    配置反馈弹框内容
-                  </Button>
-
-                  {value ? (
-                    <Button
-                      size="sm"
-                      level="link"
-                      className="m-l"
-                      onClick={() => onChange('')}
-                    >
-                      清空设置
-                    </Button>
-                  ) : null}
-                </div>
-              ) : null
-          },
-
-          {
-            name: 'feedback.visibleOn',
-            label: '是否弹出表达式',
-            type: 'input-text',
-            visibleOn: 'this.feedback',
-            autoComplete: false,
-            description: '请使用 JS 表达式如：`this.xxx == 1`'
-          },
-
-          {
-            name: 'feedback.skipRestOnCancel',
-            label: '弹框取消是否中断后续操作',
-            type: 'switch',
-            mode: 'inline',
-            className: 'block',
-            visibleOn: 'this.feedback'
-          },
-
-          {
-            name: 'feedback.skipRestOnConfirm',
-            label: '弹框确认是否中断后续操作',
-            type: 'switch',
-            mode: 'inline',
-            className: 'block',
-            visibleOn: 'this.feedback'
-          },
-
-          {
-            type: 'input-text',
-            label: '目标地址',
-            name: 'link',
-            visibleOn: 'data.actionType == "link"'
-          },
-
-          {
-            type: 'input-text',
-            label: '目标地址',
-            name: 'url',
-            visibleOn: 'data.actionType == "url"',
-            placeholder: 'http://'
-          },
-
-          {
-            type: 'switch',
-            name: 'blank',
-            visibleOn: 'data.actionType == "url"',
-            mode: 'inline',
-            className: 'w-full',
-            label: '是否用新窗口打开',
-            pipeIn: defaultValue(true)
-          },
-
-          isInDialog
-            ? {
-                visibleOn:
-                  'data.actionType == "submit" || data.type == "submit"',
-                name: 'close',
-                type: 'switch',
-                mode: 'inline',
-                className: 'w-full',
-                pipeIn: defaultValue(true),
-                label: '是否关闭当前弹框'
-              }
-            : {},
-
-          {
-            name: 'confirmText',
-            type: 'textarea',
-            label: '确认文案',
-            description: '点击后会弹出此内容，等用户确认后才进行相应的操作。'
-          },
-
-          {
-            type: 'input-text',
-            name: 'reload',
-            label: '刷新目标组件',
-            visibleOn: 'data.actionType != "link" && data.actionType != "url"',
-            description:
-              '当前动作完成后，指定目标组件刷新。支持传递数据如：<code>xxx?a=\\${a}&b=\\${b}</code>，多个目标请用英文逗号隔开。'
-          },
-
-          {
-            type: 'input-text',
-            name: 'target',
-            visibleOn: 'data.actionType != "reload"',
-            label: '指定响应组件',
-            description:
-              '指定动作执行者，默认为当前组件所在的功能性性组件，如果指定则转交给目标组件来处理。'
-          },
-
-          {
-            type: 'js-editor',
-            allowFullscreen: true,
-            name: 'onClick',
-            label: '自定义点击事件',
-            description: '将会传递 event 和 props 两个参数'
-          },
-
-          {
-            type: 'input-text',
-            name: 'hotKey',
-            label: '键盘快捷键'
+          onConfirm: (values: any[]) => {
+            manager.panelChangeValue(values[0]);
           }
-        ]
-      },
-      onConfirm: (values: any[]) => {
-        manager.panelChangeValue(values[0]);
+        }
       }
-    }
+    ]
   };
 };
 
@@ -940,6 +958,7 @@ export const getEventControlConfig = (
   manager: EditorManager,
   context: BaseEventContext
 ) => {
+  const isSubEditor = manager.store.isSubEditor;
   // 通用动作配置
   const commonActions =
     manager?.config.actionOptions?.customActionGetter?.(manager);
@@ -947,11 +966,56 @@ export const getEventControlConfig = (
   const actionTree = manager?.config.actionOptions?.actionTreeGetter
     ? manager?.config.actionOptions?.actionTreeGetter(ACTION_TYPE_TREE(manager))
     : ACTION_TYPE_TREE(manager);
+  const allComponents = mapTree(
+    manager?.store?.outline ?? [],
+    (item: any) => {
+      const schema = manager?.store?.getSchema(item.id);
+      return {
+        id: item.id,
+        label: item.label,
+        value: schema?.id ?? item.id,
+        type: schema?.type ?? item.type,
+        schema,
+        disabled: !!item.region,
+        children: item?.children
+      };
+    },
+    1,
+    true
+  );
+  const checkComponent = (node: any, action: RendererPluginAction) => {
+    const actionType = action.actionType!;
+    const actions = manager?.pluginActions[node.type];
+    const haveChild = !!node.children?.length;
+    let isSupport = false;
+    if (typeof action.supportComponents === 'string') {
+      isSupport =
+        action.supportComponents === '*' ||
+        action.supportComponents === node.type;
+      // 内置逻辑
+      if (action.supportComponents === 'byComponent') {
+        isSupport = hasActionType(actionType, actions);
+      }
+    } else if (Array.isArray(action.supportComponents)) {
+      isSupport = action.supportComponents.includes(node.type);
+    }
+
+    if (actionType === 'component' && !actions?.length) {
+      node.disabled = true;
+    }
+    if (isSupport) {
+      return true;
+    } else if (haveChild) {
+      node.disabled = true;
+      return true;
+    }
+    return false;
+  };
 
   return {
-    showOldEntry: manager?.config.actionOptions?.showOldEntry !== false &&
-    (!!context.schema.actionType ||
-      ['submit', 'reset'].includes(context.schema.type)),
+    showOldEntry:
+      !!context.schema.actionType ||
+      ['submit', 'reset'].includes(context.schema.type),
     actions: manager?.pluginActions,
     events: manager?.pluginEvents,
     actionTree,
@@ -959,6 +1023,7 @@ export const getEventControlConfig = (
     owner: '',
     addBroadcast: manager?.addBroadcast,
     removeBroadcast: manager?.removeBroadcast,
+    allComponents: allComponents,
     getContextSchemas: async (id?: string, withoutSuper?: boolean) => {
       const dataSchema = await manager.getContextSchemas(
         id ?? context!.id,
@@ -971,64 +1036,34 @@ export const getEventControlConfig = (
       return manager.dataSchema;
     },
     getComponents: (action: RendererPluginAction) => {
-      const actionType = action.actionType!;
-      const components = filterTree(
-        mapTree(
-          manager?.store?.outline ?? [],
-          (item: any) => {
-            const schema = manager?.store?.getSchema(item.id);
-            return {
-              id: item.id,
-              label: item.label,
-              value: schema?.id ?? item.id,
-              type: schema?.type ?? item.type,
-              schema,
-              disabled: !!item.region,
-              children: item?.children
-            };
-          },
-          1,
-          true
-        ),
-        node => {
-          const actions = manager?.pluginActions[node.type];
-          let isSupport = false;
-          if (typeof action.supportComponents === 'string') {
-            isSupport =
-              action.supportComponents === '*' ||
-              action.supportComponents === node.type;
-          } else if (Array.isArray(action.supportComponents)) {
-            isSupport = action.supportComponents.includes(node.type);
+      let components = allComponents;
+      if (isSubEditor) {
+        let superTree = manager.store.getSuperEditorData;
+        while (superTree) {
+          if (superTree.__superCmptTreeSource) {
+            components = components.concat(superTree.__superCmptTreeSource);
           }
-          if (['reload', 'setValue'].includes(actionType)) {
-            isSupport = hasActionType(actionType, actions);
-          }
-
-          if (actionType === 'component' && !actions?.length) {
-            node.disabled = true;
-          }
-
-          if (isSupport) {
-            return true;
-          } else if (!isSupport && !!node.children?.length) {
-            node.disabled = true;
-            return true;
-          }
-          return false;
-        },
+          superTree = superTree.__super;
+        }
+      }
+      const result = filterTree(
+        components,
+        node => checkComponent(node, action),
         1,
         true
       );
-
-      return components;
+      return result;
     },
-    actionConfigInitFormatter: (action: ActionConfig) => {
+    actionConfigInitFormatter: async (
+      action: ActionConfig,
+      variables: {
+        eventVariables: ContextVariables[];
+        rawVariables: ContextVariables[];
+      }
+    ) => {
       let config = {...action};
 
-      if (
-        ['setValue', 'url'].includes(action.actionType) &&
-        action.args
-      ) {
+      if (['setValue', 'url'].includes(action.actionType) && action.args) {
         const prop = action.actionType === 'setValue' ? 'value' : 'params';
         !config.args && (config.args = {});
         if (Array.isArray(action.args[prop])) {
@@ -1064,7 +1099,12 @@ export const getEventControlConfig = (
           delete config.args?.value;
         }
       }
-
+      if (
+        action.actionType === 'ajax' &&
+        typeof action?.args?.api === 'string'
+      ) {
+        action.args.api = normalizeApi(action?.args?.api);
+      }
       // 获取动作专有配置参数
       const innerArgs: any = getPropOfAcion(
         action,
@@ -1101,10 +1141,37 @@ export const getEventControlConfig = (
 
       // 获取左侧命中的动作节点
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
+      // 如果args配置中存在组件id，则自动获取一次该组件的上下文
+      let datasource = [];
+      if (action.args?.componentId) {
+        const schema = manager?.store?.getSchema(
+          action.args?.componentId,
+          'id'
+        );
+        const dataSchema: any = await manager.getContextSchemas(
+          schema.$$id,
+          true
+        );
+        const dataSchemaIns = new DataSchema(dataSchema || []);
+        datasource = dataSchemaIns?.getDataPropsAsOptions() || [];
+      }
 
       return {
         ...config,
-        actionType: getActionType(action, hasSubActionNode)
+        actionType: getActionType(action, hasSubActionNode),
+        args: {
+          ...config.args,
+          __dataContainerVariables: datasource?.length
+            ? [
+                ...variables.eventVariables,
+                {
+                  label: `数据来源变量`,
+                  children: datasource
+                },
+                ...variables.rawVariables
+              ]
+            : [...variables.eventVariables, ...variables.rawVariables]
+        }
       };
     },
     actionConfigSubmitFormatter: (config: ActionConfig) => {
@@ -1120,10 +1187,7 @@ export const getEventControlConfig = (
         // 标记一下组件特性动作
         action.groupType = config.actionType;
       }
-      const hasSubActionNode = findSubActionNode(
-        actionTree,
-        config.groupType
-      );
+      const hasSubActionNode = findSubActionNode(actionTree, config.groupType);
       if (hasSubActionNode) {
         // 修正动作
         action.actionType = config.groupType;
@@ -1143,13 +1207,19 @@ export const getEventControlConfig = (
       // 转换下格式
       if (['setValue', 'url'].includes(action.actionType)) {
         const propName = action.actionType === 'setValue' ? 'value' : 'params';
-        if (action.actionType === 'setValue' && config.args?.__valueInput !== undefined) {
+        if (
+          action.actionType === 'setValue' &&
+          config.args?.__valueInput !== undefined
+        ) {
           action.args = {
             value: config.args?.__valueInput
           };
         } else if (Array.isArray(config.args?.[propName])) {
           action.args = action.args ?? {};
-          if (action.__rendererName === 'combo' && action.args?.index === undefined) {
+          if (
+            action.__rendererName === 'combo' &&
+            action.args?.index === undefined
+          ) {
             // combo特殊处理
             let tempArr: any = [];
             config.args?.[propName].forEach((valueItem: any, index: number) => {

@@ -286,17 +286,26 @@ export class DateRangeControlPlugin extends BasePlugin {
                 label: tipedLabel('最大值', tipedLabelText)
               }),
 
-              getSchemaTpl('formulaControl', {
+              getSchemaTpl('valueFormula', {
                 name: 'minDuration',
+                rendererSchema: {
+                  ...context?.schema,
+                  value: context?.schema.minDuration,
+                  type: 'input-text'
+                },
+                needDeleteProps: ['minDuration'], // 避免自我限制
                 label: tipedLabel('最小跨度', '例如 2days'),
-                placeholder: '请输入最小跨度',
-                inputClassName: 'is-inline'
               }),
-              getSchemaTpl('formulaControl', {
+
+              getSchemaTpl('valueFormula', {
                 name: 'maxDuration',
+                rendererSchema: {
+                  ...context?.schema,
+                  value: context?.schema.maxDuration,
+                  type: 'input-text'
+                },
+                needDeleteProps: ['maxDuration'], // 避免自我限制
                 label: tipedLabel('最大跨度', '例如 1year'),
-                placeholder: '请输入最大跨度',
-                inputClassName: 'is-inline'
               }),
               getSchemaTpl('dateShortCutControl', {
                 mode: 'normal',

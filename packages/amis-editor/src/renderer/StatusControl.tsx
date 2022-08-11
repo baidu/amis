@@ -15,7 +15,7 @@ import type {FormSchema} from 'amis/lib/schema';
 
 export interface StatusControlProps extends FormControlProps {
   name: string;
-  expressioName: string;
+  expressionName: string;
   trueValue?: boolean;
   falseValue?: boolean;
   options?: Option[];
@@ -23,8 +23,15 @@ export interface StatusControlProps extends FormControlProps {
   messages?: Pick<FormSchema, 'messages'>;
 }
 
+
+type StatusFormData = {
+  statusType: number;
+  expression: string;
+};
+
 interface StatusControlState {
   checked: boolean;
+  formData: StatusFormData;
 }
 
 export class StatusControl extends React.Component<
@@ -42,9 +49,19 @@ export class StatusControl extends React.Component<
   }
 
   initState() {
-    const {data: ctx = {}, expressioName, name, trueValue} = this.props;
+    const {data: ctx = {}, expressionName, name, trueValue} = this.props;
+    const formData: StatusFormData = {
+      statusType: 1,
+      expression: '',
+    };
+    if (ctx[expressionName] || ctx[expressionName]=== "") {
+        formData.statusType = 2;
+        formData.expression = ctx[expressionName];
+    }
     return {
-      checked: ctx[name] == trueValue || typeof ctx[expressioName] === 'string'
+      checked:
+        ctx[name] == trueValue || typeof ctx[expressionName] === 'string',
+      formData
     };
   }
 
@@ -59,34 +76,40 @@ export class StatusControl extends React.Component<
   handleSwitch(value: boolean) {
     const {trueValue, falseValue} = this.props;
     this.setState({checked: value == trueValue ? true : false}, () => {
-      const {onBulkChange, expressioName, name} = this.props;
-      onBulkChange &&
-        onBulkChange({
-          [name]: value == trueValue ? trueValue : falseValue,
-          [expressioName]: undefined
-        });
+
+      const {onBulkChange, expressionName, name} = this.props;
+        onBulkChange &&
+          onBulkChange({
+            [name]: value == trueValue ? trueValue : falseValue,
+            [expressionName]: undefined,
+          });
     });
+
   }
 
   @autobind
-  handleSubmit(values: any) {
-    const {onBulkChange, name, expressioName} = this.props;
-    values[name] = !values[name] ? undefined : values[name];
-    values[expressioName] = !values[expressioName]
-      ? undefined
-      : values[expressioName];
-    onBulkChange && onBulkChange(values);
+  handleFormSubmit(
+    values: StatusFormData
+  ) {
+    const {onBulkChange, name, expressionName} = this.props;
+    const data: Record<string, any> = {
+      [name]: undefined,
+      [expressionName]: undefined
+    };
+
+    this.setState({formData: values});
+
+    switch (values.statusType) {
+      case 1:
+        data[name] = true;
+        break;
+      case 2:
+        data[expressionName] = values.expression;
+        break;
+    }
+    onBulkChange && onBulkChange(data);
   }
 
-  @autobind
-  handleSelect(value: true | '') {
-    const {onBulkChange, name, expressioName} = this.props;
-    onBulkChange &&
-      onBulkChange({
-        [value ? expressioName : name]: undefined,
-        [(!value && expressioName) || '']: ''
-      });
-  }
 
   render() {
     const {className, data: ctx = {}, trueValue, falseValue, env} = this.props;
@@ -117,11 +140,12 @@ export class StatusControl extends React.Component<
       label,
       data: ctx = {},
       name,
-      expressioName,
+      expressionName,
       options,
       children,
       messages
     } = this.props;
+    const {formData} = this.state;
 
     return (
       <div className="ae-StatusControl-content">
@@ -149,8 +173,7 @@ export class StatusControl extends React.Component<
               {
                 type: 'select',
                 label: '条件',
-                name: name,
-                valueOn: `typeof this.${expressioName} === "string" ? 2 : 1`,
+                name: 'statusType',
                 options: options || [
                   {
                     label: '静态',
@@ -160,26 +183,20 @@ export class StatusControl extends React.Component<
                     label: '表达式',
                     value: 2
                   }
-                ],
-                pipeIn: (value: any) => (typeof value === 'boolean' ? 1 : 2),
-                pipeOut: (value: any) => (value === 1 ? true : ''),
-                onChange: this.handleSelect
+                ]
               },
-              ...(Array.isArray(children)
-                ? children
-                : [
-                    children || {
-                      type: 'ae-formulaControl',
-                      name: expressioName,
-                      label: '表达式',
-                      placeholder: `请输入${label}条件`,
-                      visibleOn: `typeof this.${name} !== "boolean"`
-                    }
-                  ])
+              {
+                type: 'ae-formulaControl',
+                name: 'expression',
+                label: '表达式',
+                placeholder: `请输入${label}条件`,
+                visibleOn: 'this.statusType === 2'
+              },
             ]
           },
           {
-            onSubmit: this.handleSubmit
+            data: formData,
+            onSubmit: this.handleFormSubmit
           }
         )}
       </div>
