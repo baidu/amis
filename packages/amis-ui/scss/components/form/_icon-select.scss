@@ -1,6 +1,11 @@
 .#{$ns}IconSelectControl {
   @include input-text();
 
+  &-clear {
+    position: absolute;
+    right: var(--Form-input-paddingX);
+  }
+
   &-Modal {
     &-search.#{$ns}SearchBox {
       width: var(--IconSelect-searchBox-width);
@@ -99,11 +104,11 @@
 
       &:hover,
       &.active {
-        color: var(--IconSelect-active-bg-color);;
+        color: var(--IconSelect-active-bg-color);
       }
 
       &.active {
-        background-color: #E6F0FF;;
+        background-color: #e6f0ff;
       }
     }
   }
@@ -150,19 +155,19 @@
 
       &.active {
         &::before {
-          content: "";
+          content: '';
           display: block;
           position: absolute;
           right: 0;
           top: 0;
           width: var(--IconSelect-type-font-size);
           height: var(--IconSelect-type-font-size);
-          border-bottom-left-radius: var(--IconSelect-base-border-radius);;
+          border-bottom-left-radius: var(--IconSelect-base-border-radius);
           background-color: var(--IconSelect-active-bg-color);
         }
 
         &::after {
-          content: "";
+          content: '';
           display: block;
           position: absolute;
           right: 2px;
@@ -182,7 +187,7 @@
       }
 
       &-info {
-        margin-left: var(--IconSelect-base-margin);;
+        margin-left: var(--IconSelect-base-margin);
         overflow: hidden;
         flex: 1;
 

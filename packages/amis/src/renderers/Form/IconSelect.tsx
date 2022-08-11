@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import {matchSorter} from 'match-sorter';
 import {FormItem, FormControlProps, autobind} from 'amis-core';
-import {Modal, Button, Spinner, SearchBox} from 'amis-ui';
+import {Modal, Button, Spinner, SearchBox, Icon} from 'amis-ui';
 
 import debounce from 'lodash/debounce';
 import {FormBaseControlSchema} from '../../Schema';
@@ -16,6 +16,8 @@ export interface IconSelectControlSchema extends FormBaseControlSchema {
   disabled?: boolean;
 
   noDataTip?: string;
+
+  clearable?: boolean;
 }
 
 export interface IconSelectProps extends FormControlProps {
@@ -46,8 +48,9 @@ export default class IconSelectControl extends React.PureComponent<
 > {
   input?: HTMLInputElement;
 
-  static defaultProps: Pick<IconSelectProps, 'noDataTip'> = {
-    noDataTip: 'placeholder.noData'
+  static defaultProps: Pick<IconSelectProps, 'noDataTip' | 'clearable'> = {
+    noDataTip: 'placeholder.noData',
+    clearable: true
   };
 
   state: IconSelectState = {
@@ -77,8 +80,21 @@ export default class IconSelectControl extends React.PureComponent<
   }
 
   @autobind
+  handleClear(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.onChange && this.props.onChange('');
+  }
+
+  @autobind
   renderInputArea() {
-    const {classPrefix: ns, disabled, value, placeholder} = this.props;
+    const {
+      classPrefix: ns,
+      disabled,
+      value,
+      placeholder,
+      clearable
+    } = this.props;
 
     const pureValue =
       (value?.id && String(value.id).replace(/^svg-/, '')) || '';
@@ -96,6 +112,15 @@ export default class IconSelectControl extends React.PureComponent<
         <span className={cx(`${ns}IconSelectControl-input-icon-id`)}>
           {iconName}
         </span>
+
+        {clearable && !disabled && pureValue ? (
+          <a
+            onClick={this.handleClear}
+            className={cx(`${ns}IconSelectControl-clear`)}
+          >
+            <Icon icon="input-clear" className="icon" />
+          </a>
+        ) : null}
 
         {(!value && placeholder && (
           <span className={cx(`${ns}IconSelectControl-input-icon-placeholder`)}>
