@@ -94,7 +94,7 @@ const docVersions = [
   {
     label: '主干版本',
     value: '',
-    url: '/zh-CN/docs/index'
+    url: '/amis/zh-CN/docs/index'
   },
   {
     label: '1.1.x 文档',
