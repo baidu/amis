@@ -329,6 +329,8 @@ export class FileControlPlugin extends BasePlugin {
                   '文件接收器',
                   '默认不填写将上传到 bos，可以在系统配置中设置为自己的 bos 地址。'
                 ),
+                className: 'inputFile-apiControl',
+                renderLabel: true,
                 value: '/api/upload/file',
                 __isUpload: true,
                 visibleOn:
