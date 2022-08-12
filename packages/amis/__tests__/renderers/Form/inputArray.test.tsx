@@ -7,6 +7,7 @@
  * 4. 是否可拖拽排序 draggable 与 可拖拽的提示文字 draggableTip
  */
 
+import React from 'react';
 import {render, fireEvent, waitFor, screen} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';

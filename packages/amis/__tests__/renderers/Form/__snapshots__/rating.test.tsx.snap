@@ -55,9 +55,7 @@ exports[`Renderer:rating with allowClear 1`] = `
             <div
               class="cxd-Rating"
             >
-              <ul
-                style="color: rgb(103, 143, 141);"
-              >
+              <ul>
                 <li
                   class="cxd-Rating-star"
                   style=""
@@ -273,9 +271,7 @@ exports[`Renderer:rating with char & charClassName 1`] = `
             <div
               class="cxd-Rating"
             >
-              <ul
-                style="color: rgb(103, 143, 141);"
-              >
+              <ul>
                 <li
                   class="cxd-Rating-star test-rating-char is-active"
                   style="color: rgb(171, 173, 177);"
@@ -423,9 +419,7 @@ exports[`Renderer:rating with colors & inactiveColor 1`] = `
             <div
               class="cxd-Rating"
             >
-              <ul
-                style="color: rgb(103, 143, 141);"
-              >
+              <ul>
                 <li
                   class="cxd-Rating-star is-active"
                   style="color: rgb(119, 168, 141);"
@@ -657,9 +651,7 @@ exports[`Renderer:rating with count & half 1`] = `
             <div
               class="cxd-Rating"
             >
-              <ul
-                style="color: rgb(103, 143, 141);"
-              >
+              <ul>
                 <li
                   class="cxd-Rating-star is-active"
                   style="color: rgb(255, 169, 0);"
@@ -832,9 +824,7 @@ exports[`Renderer:rating with readOnly 1`] = `
             <div
               class="cxd-Rating"
             >
-              <ul
-                style="color: rgb(103, 143, 141);"
-              >
+              <ul>
                 <li
                   class="cxd-Rating-star is-active is-disabled"
                   style="color: rgb(255, 169, 0);"
@@ -1058,9 +1048,7 @@ exports[`Renderer:rating with texts & textPosition & textClassName 1`] = `
               >
                 非常优秀
               </span>
-              <ul
-                style="color: rgb(103, 143, 141);"
-              >
+              <ul>
                 <li
                   class="cxd-Rating-star is-active"
                   style="color: rgb(255, 169, 0);"

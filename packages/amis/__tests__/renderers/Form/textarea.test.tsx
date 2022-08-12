@@ -7,6 +7,7 @@
  * 4. 是否只读 readOnly
  */
 
+import React from 'react';
 import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
@@ -138,12 +139,13 @@ test('Renderer:textarea with maxLength & clearable & resetValue', async () => {
   ).toBe('3/9');
 
   fireEvent.click(container.querySelector('.cxd-TextareaControl-clear')!);
-  await wait(500);
-  expect(textarea.innerHTML).toBe('i am reset value');
-  expect(
-    (container.querySelector('.cxd-TextareaControl-counter') as Element)
-      .innerHTML
-  ).toBe('16/9');
+  await waitFor(() => {
+    expect(textarea.innerHTML).toBe('i am reset value');
+    expect(
+      (container.querySelector('.cxd-TextareaControl-counter') as Element)
+        .innerHTML
+    ).toBe('16/9');
+  });
 
   const submitBtn = container.querySelector(
     'button[type="submit"]'
@@ -151,12 +153,13 @@ test('Renderer:textarea with maxLength & clearable & resetValue', async () => {
 
   fireEvent.click(submitBtn);
 
-  await wait(500);
-  expect(
-    container.querySelector(
-      '.cxd-TextareaControl.is-error.has-error--maxLength'
-    )
-  ).toBeInTheDocument();
+  await waitFor(() => {
+    expect(
+      container.querySelector(
+        '.cxd-TextareaControl.is-error.has-error--maxLength'
+      )
+    ).toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
 });

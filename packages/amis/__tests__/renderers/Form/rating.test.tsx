@@ -9,6 +9,7 @@
  * 6. 是否只读 readOnly
  */
 
+import React from 'react';
 import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
