@@ -370,7 +370,7 @@
               }
             }
             .cxd-Tree-itemLabel.is-checked {
-              background: var(--Tree-item-onChekced-bg);;
+              background: var(--Tree-item-onChekced-bg);
             }
             .cxd-Tree-itemLabel.is-checked::before {
               content: '';
@@ -444,7 +444,7 @@
         }
 
         .ApiControl {
-          display: relative;
+          position: relative;
 
           &-header {
             position: absolute;
