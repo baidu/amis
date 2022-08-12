@@ -83,7 +83,6 @@ interface EventControlState {
       }
     | undefined;
   type: 'update' | 'add';
-  rawVariables: ContextVariables[]; // 外部获取的上下文变量
 }
 
 export class EventControl extends React.Component<
@@ -95,7 +94,6 @@ export class EventControl extends React.Component<
     [prop: string]: Sortable;
   } = {};
   drag?: HTMLElement | null;
-  isUnmount: boolean;
 
   constructor(props: EventControlProps) {
     super(props);
@@ -110,21 +108,14 @@ export class EventControl extends React.Component<
       eventPanelActive[event.eventName] = true;
     });
 
-    this.isUnmount = false;
-
     this.state = {
       onEvent: value ?? this.generateEmptyDefault(pluginEvents),
       events: pluginEvents,
       eventPanelActive,
       showAcionDialog: false,
       actionData: undefined,
-      rawVariables: [],
       type: 'add'
     };
-  }
-
-  componentDidMount() {
-    this.loadContextVariables();
   }
 
   componentDidUpdate(
@@ -139,26 +130,6 @@ export class EventControl extends React.Component<
 
     if (prevState.onEvent !== this.state.onEvent) {
       onChange && onChange(this.state.onEvent);
-    }
-  }
-
-  componentWillUnmount() {
-    this.isUnmount = true;
-  }
-
-  /**
-   * 获取上下文变量
-   */
-  async loadContextVariables() {
-    const {getContextSchemas} = this.props;
-
-    // 获取上下文变量
-    if (getContextSchemas) {
-      const dataSchemaIns = await getContextSchemas();
-      const variables = dataSchemaIns?.getDataPropsAsOptions();
-      if (!this.isUnmount) {
-        this.setState({rawVariables: variables});
-      }
     }
   }
 
@@ -510,7 +481,14 @@ export class EventControl extends React.Component<
       actionTree,
       allComponents
     } = this.props;
-    const {rawVariables} = this.state;
+
+    let rawVariables = [];
+    // 获取绑定事件的组件上下文变量
+    if (getContextSchemas) {
+      const dataSchemaIns = await getContextSchemas();
+      rawVariables = dataSchemaIns?.getDataPropsAsOptions();
+    }
+
     // 收集事件变量
     const eventVariables = this.getEventVariables(data);
     const variables = [...eventVariables, ...rawVariables];
@@ -533,7 +511,7 @@ export class EventControl extends React.Component<
             item => item.label === `${rendererName}变量`
           );
           setValueDs = curVariable?.children?.filter(
-            item => item.value !== '$$id'
+            (item: ContextVariables) => item.value !== '$$id'
           );
         }
       };

@@ -901,8 +901,8 @@ export class FormPlugin extends BasePlugin {
         ...jsonToJsonSchema(data)
       };
 
-      scope.removeSchema(jsonschema.$id);
-      scope.addSchema(jsonschema);
+      scope?.removeSchema(jsonschema.$id);
+      scope?.addSchema(jsonschema);
     }
   }
 }

@@ -39,12 +39,12 @@ export class AudioPlugin extends BasePlugin {
                   tpl: '<p>当前为字段内容节点配置，选择上层还有更多的配置。</p>'
                 }
               : null,
-            {
+            getSchemaTpl('audioUrl',{
               name: 'src',
               type: 'input-text',
               label: '音频地址',
               description: '支持获取变量如：<code>\\${audioSrc}</code>'
-            },
+            }),
             {
               type: 'select',
               name: 'rates',
