@@ -673,7 +673,9 @@ export const TableStoreV2 = ServiceStore.named('TableStoreV2')
           );
           throw new ServerError(self.msg);
         } else {
-          self.updateMessage(json.msg ?? options.successMessage);
+          self.updateMessage(
+            json.msg ?? options.successMessage ?? json.defaultMsg
+          );
           self.msg &&
             getEnv(self).notify(
               'success',

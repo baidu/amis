@@ -361,7 +361,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             self.hasNext = !!hasNext;
           }
 
-          self.updateMessage(json.msg ?? options.successMessage);
+          self.updateMessage(
+            json.msg ?? options.successMessage ?? json.defaultMsg
+          );
 
           // 配置了获取成功提示后提示，默认是空不会提示。
           options &&
@@ -446,7 +448,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           );
           throw new ServerError(self.msg);
         } else {
-          self.updateMessage(json.msg ?? options.successMessage);
+          self.updateMessage(
+            json.msg ?? options.successMessage ?? json.defaultMsg
+          );
           self.msg &&
             getEnv(self).notify(
               'success',
