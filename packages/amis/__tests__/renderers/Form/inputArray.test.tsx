@@ -13,7 +13,7 @@ import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
 
-const setup = (items: any[] = []) => {
+const setup = async (items: any[] = []) => {
   const onSubmit = jest.fn();
   const utils = render(
     amisRender(
@@ -77,29 +77,30 @@ test('Renderer:inputArray', async () => {
   const addButton = await findByText('新增');
   fireEvent.click(addButton);
 
-  await wait(500);
-  const input = container.querySelector('.cxd-TextControl-input input')!;
-  fireEvent.change(input, {target: {value: 'amis'}});
+  await waitFor(() => {
+    const input = container.querySelector('.cxd-TextControl-input input')!;
+    fireEvent.change(input, {target: {value: 'amis'}});
+  });
 
-  await wait(500);
   const submitBtn = screen.getByRole('button', {name: submitBtnText});
   await waitFor(() => {
     expect(submitBtn).toBeInTheDocument();
   });
   fireEvent.click(submitBtn);
 
-  await wait(500);
-  const formData = onSubmit.mock.calls[0][0];
-  expect(onSubmit).toHaveBeenCalled();
-  expect(formData).toEqual({
-    array: ['amis']
+  await waitFor(() => {
+    const formData = onSubmit.mock.calls[0][0];
+    expect(onSubmit).toHaveBeenCalled();
+    expect(formData).toEqual({
+      array: ['amis']
+    });
   });
 
   expect(container).toMatchSnapshot();
 });
 
 test('Renderer:inputArray with removable & addable & addButtonText', async () => {
-  const {container: containerOne} = setup([
+  const {container: containerOne} = await setup([
     {
       name: 'array',
       label: '颜色集合',
@@ -113,18 +114,19 @@ test('Renderer:inputArray with removable & addable & addButtonText', async () =>
       value: ['red', 'blue']
     }
   ]);
+  await wait(300);
 
-  await wait(500);
+  await waitFor(() => {
+    expect(
+      containerOne.querySelector('.cxd-Combo-delBtn')
+    ).not.toBeInTheDocument();
+    expect(
+      containerOne.querySelector('.cxd-Combo-addBtn')
+    ).not.toBeInTheDocument();
+    expect(containerOne).toMatchSnapshot('false');
+  });
 
-  expect(
-    containerOne.querySelector('.cxd-Combo-delBtn')
-  ).not.toBeInTheDocument();
-  expect(
-    containerOne.querySelector('.cxd-Combo-addBtn')
-  ).not.toBeInTheDocument();
-  expect(containerOne).toMatchSnapshot('false');
-
-  const {container, onSubmit, submitBtn} = setup([
+  const {container, onSubmit, submitBtn} = await setup([
     {
       name: 'array',
       label: '颜色集合',
@@ -139,7 +141,8 @@ test('Renderer:inputArray with removable & addable & addButtonText', async () =>
       addButtonText: '我是增加按钮'
     }
   ]);
-  await wait(500);
+  await wait(300);
+
   const delButton = container.querySelector('a.cxd-Combo-delBtn');
   expect(container.querySelectorAll('a.cxd-Combo-delBtn').length).toBe(2);
   const addButton = container.querySelector('.cxd-Combo-addBtn')!;
@@ -152,22 +155,23 @@ test('Renderer:inputArray with removable & addable & addButtonText', async () =>
 
   fireEvent.click(delButton!);
 
-  await wait(500);
+  await wait(300);
 
   fireEvent.click(submitBtn);
 
-  await wait(500);
-  const formData = onSubmit.mock.calls[0][0];
-  expect(onSubmit).toHaveBeenCalled();
-  expect(formData).toEqual({
-    array: ['blue']
+  await waitFor(() => {
+    const formData = onSubmit.mock.calls[0][0];
+    expect(onSubmit).toHaveBeenCalled();
+    expect(formData).toEqual({
+      array: ['blue']
+    });
   });
 
   expect(container).toMatchSnapshot('false');
 });
 
 test('Renderer:inputArray with minLength & maxLength', async () => {
-  const {container} = setup([
+  const {container} = await setup([
     {
       name: 'array',
       label: '颜色集合',
@@ -183,29 +187,35 @@ test('Renderer:inputArray with minLength & maxLength', async () => {
       value: ['red', 'blue', 'green']
     }
   ]);
-  await wait(500);
+  await wait(300);
 
   // 范围内的，增删都在
   expect(container.querySelector('a.cxd-Combo-delBtn')).toBeInTheDocument();
   expect(container.querySelector('.cxd-Combo-addBtn')).toBeInTheDocument();
   // 最大值
   fireEvent.click(container.querySelector('.cxd-Combo-addBtn')!);
-  await wait(500);
-  expect(container.querySelector('a.cxd-Combo-delBtn')).toBeInTheDocument();
-  expect(container.querySelector('.cxd-Combo-addBtn')).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(container.querySelector('a.cxd-Combo-delBtn')).toBeInTheDocument();
+    expect(
+      container.querySelector('.cxd-Combo-addBtn')
+    ).not.toBeInTheDocument();
+  });
   // 最小值
   fireEvent.click(container.querySelector('a.cxd-Combo-delBtn')!);
-  await wait(500);
+  await wait(300);
   fireEvent.click(container.querySelector('a.cxd-Combo-delBtn')!);
-  await wait(500);
-  expect(container.querySelector('a.cxd-Combo-delBtn')).not.toBeInTheDocument();
-  expect(container.querySelector('.cxd-Combo-addBtn')).toBeInTheDocument();
+  await waitFor(() => {
+    expect(
+      container.querySelector('a.cxd-Combo-delBtn')
+    ).not.toBeInTheDocument();
+    expect(container.querySelector('.cxd-Combo-addBtn')).toBeInTheDocument();
+  });
 
   expect(container).toMatchSnapshot();
 });
 
 test('Renderer:inputArray with draggable & draggableTip', async () => {
-  const {container, onSubmit, submitBtn} = setup([
+  const {container, onSubmit, submitBtn} = await setup([
     {
       name: 'array',
       label: '颜色集合',
