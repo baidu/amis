@@ -544,6 +544,8 @@ export const FormStore = ServiceStore.named('FormStore')
         // 验证过，或者是 unique 的表单项，或者强制验证，或者有远端校验api
         if (
           !item.validated ||
+          item.rules.equals ||
+          item.rules.equalsField ||
           item.unique ||
           forceValidate ||
           !!item.validateApi
