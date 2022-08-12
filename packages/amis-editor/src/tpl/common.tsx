@@ -478,9 +478,8 @@ setSchemaTpl('expression', {
 
 setSchemaTpl('icon', {
   label: '图标',
-  type: 'icon-picker',
+  type: 'icon-select',
   name: 'icon',
-  className: 'fix-icon-picker-overflow',
   placeholder: '点击选择图标',
   clearable: true,
   description: ''
@@ -642,15 +641,15 @@ setSchemaTpl('visible', {
   expressionName: 'visibleOn'
 });
 
-
 // 新版配置面板兼容 [可见] 状态
 setSchemaTpl('newVisible', {
-    type: 'ae-StatusControl',
-    label: '可见',
-    mode: 'normal',
-    name: 'visible',
-    expressionName: 'visibleOn',
-    visibleOn:"data.visible || data.visible === false || data.visibleOn !== undefined"
+  type: 'ae-StatusControl',
+  label: '可见',
+  mode: 'normal',
+  name: 'visible',
+  expressionName: 'visibleOn',
+  visibleOn:
+    'data.visible || data.visible === false || data.visibleOn !== undefined'
 });
 
 setSchemaTpl('hidden', {
@@ -996,7 +995,7 @@ setSchemaTpl('app-page-args', {
   type: 'ae-DataMappingControl',
   name: 'params',
   label: '页面参数',
-  schema: {"type": "object", "properties":{}},
+  schema: {type: 'object', properties: {}},
   mode: 'horizontal'
 });
 
@@ -1004,14 +1003,13 @@ setSchemaTpl(
   'iconLink',
   (schema: {name: 'icon' | 'rightIcon'; visibleOn: boolean}) => {
     const {name, visibleOn} = schema;
-    return {
+    return getSchemaTpl('icon', {
       name: name,
       visibleOn,
       label: '图标',
-      type: 'icon-picker',
       placeholder: '点击选择图标',
       clearable: true,
       description: ''
-    };
+    });
   }
 );

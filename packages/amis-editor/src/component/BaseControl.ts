@@ -482,12 +482,10 @@ export function remarkTpl(config: {
                   }
                 ]
               },
-              {
+              getSchemaTpl('icon', {
                 name: 'icon',
-                label: '图标',
-                type: 'icon-picker',
-                className: 'fix-icon-picker-overflow'
-              },
+                label: '图标'
+              }),
               {
                 name: 'className',
                 label: 'CSS 类名',
