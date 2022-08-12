@@ -23,12 +23,13 @@ import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import type {FormControlProps} from 'amis-core';
-import {SchemaApi} from 'amis/lib/Schema';
+import {SchemaApi, SchemaObject} from 'amis/lib/Schema';
 
 export type OptionControlItem = Option & {checked?: boolean; _key?: string};
 
 export interface OptionControlProps extends FormControlProps {
   className?: string;
+  otherApiFooter?: Array<SchemaObject>
 }
 
 export interface OptionControlState {
@@ -538,7 +539,7 @@ export default class TreeOptionControl extends React.Component<
   }
 
   renderApiPanel() {
-    const {render} = this.props;
+    const {render, otherApiFooter = []} = this.props;
     const {source, api, labelField, valueField} = this.state;
     if (source === 'custom') {
       return null;
@@ -573,7 +574,8 @@ export default class TreeOptionControl extends React.Component<
             value: valueField,
             placeholder: '值对应的字段',
             onChange: this.handleValueFieldChange
-          }
+          },
+          ...otherApiFooter
         ]
       })
     );

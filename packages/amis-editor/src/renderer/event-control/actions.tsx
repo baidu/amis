@@ -673,7 +673,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
-          supportComponents: [],
+          supportComponents: 'byComponent',
           schema: renderCmptSelect('选择组件', true)
         },
         {
@@ -698,7 +698,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               </div>
             );
           },
-          supportComponents: [],
+          supportComponents: 'byComponent',
           schema: [
             ...renderCmptActionSelect('选择组件', true),
             getArgsWrapper({
@@ -811,10 +811,10 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       items: [
                         {
                           name: 'key',
-                          type: 'select',
+                          type: 'input-text',
                           source: '${__setValueDs}',
                           labelField: 'label',
-                          valueField: 'name',
+                          valueField: 'value',
                           required: true,
                           visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`
                         },
@@ -848,7 +848,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   label: '赋值',
                   size: 'lg',
                   mode: 'horizontal',
-                  visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && __rendererName !== 'combo'`,
+                  visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && !${SHOW_SELECT_PROP} && __rendererName !== 'combo'`,
                   required: true
                 }
               ]

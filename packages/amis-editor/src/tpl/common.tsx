@@ -191,7 +191,7 @@ setSchemaTpl('labelHide', () =>
     pipeIn: (value: any) => value === false,
     pipeOut: (value: any) => (value === true ? false : ''),
     visibleOn:
-      '__props__.formMode === "horizontal" || data.mode === "horizontal" || data.label === false'
+      'this.__props__ && this.__props__.formMode === "horizontal" || data.mode === "horizontal" || data.label === false'
   })
 );
 
@@ -761,6 +761,13 @@ setSchemaTpl('backgroundImageUrl', {
   label: '图片路径'
 });
 
+setSchemaTpl('audioUrl', {
+  type: 'input-text',
+  label: '音频地址',
+  name: 'src',
+  description: '支持获取变量如：<code>\\${audioSrc}</code>'
+});
+
 setSchemaTpl('fileUrl', {
   type: 'input-text',
   label: '文件'
@@ -1052,3 +1059,16 @@ setSchemaTpl(
     };
   }
 );
+
+setSchemaTpl('iconLink', (schema: {name: 'icon' | 'rightIcon', visibleOn: boolean}) => {
+  const {name, visibleOn} = schema;
+  return {
+    name: name,
+    visibleOn,
+    label: '图标',
+    type: 'icon-picker',
+    placeholder: '点击选择图标',
+    clearable: true,
+    description: ''
+  }
+});

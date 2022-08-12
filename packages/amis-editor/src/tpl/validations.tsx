@@ -503,6 +503,12 @@ setSchemaTpl('submitOnChange', {
   type: 'switch',
   label: '修改即提交',
   name: 'submitOnChange',
+  mode: 'horizontal',
+  horizontal: {
+    justify: true,
+    left: 8
+  },
+  inputClassName: 'is-inline ',
   labelRemark: {
     trigger: 'click',
     className: 'm-l-xs',

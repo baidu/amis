@@ -416,6 +416,18 @@ export class FormPlugin extends BasePlugin {
             getSchemaTpl('submitOnChange'),
 
             getSchemaTpl('switch', {
+              label: '禁用回车提交表单',
+              name: 'preventEnterSubmit',
+              labelRemark: {
+                className: 'm-l-xs',
+                trigger: 'click',
+                rootClose: true,
+                content: '设置后无法通过键盘 “回车” 按键进行表单提交',
+                placement: 'left'
+              }
+            }),
+
+            getSchemaTpl('switch', {
               label: '提交完后重置表单',
               name: 'resetAfterSubmit',
               labelRemark: {
@@ -889,8 +901,8 @@ export class FormPlugin extends BasePlugin {
         ...jsonToJsonSchema(data)
       };
 
-      scope.removeSchema(jsonschema.$id);
-      scope.addSchema(jsonschema);
+      scope?.removeSchema(jsonschema.$id);
+      scope?.addSchema(jsonschema);
     }
   }
 }

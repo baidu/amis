@@ -215,6 +215,10 @@ export class TabsTransferPlugin extends BasePlugin {
     }
   ];
 
+  notRenderFormZone = true;
+
+  panelJustify = true;
+
   panelDefinitions = {
     options: {
       label: '选项 Options',
@@ -266,65 +270,64 @@ export class TabsTransferPlugin extends BasePlugin {
       {
         title: '属性',
         body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('switchDefaultValue'),
-
           {
-            type: 'select',
-            name: 'value',
-            label: '默认值',
-            source: '${options}',
-            multiple: true,
-            visibleOn: 'typeof this.value !== "undefined"'
-          },
+            title: '基本',
+            body: [
+              getSchemaTpl('formItemName', {
+                required: true
+              }),
+              getSchemaTpl('label'),
 
-          getSchemaTpl('searchable'),
-
-          getSchemaTpl('api', {
-            label: '检索接口',
-            name: 'searchApi'
-          }),
-
-          {
-            label: '查询时勾选展示模式',
-            name: 'searchResultMode',
-            type: 'select',
-            mode: 'inline',
-            className: 'w-full',
-            options: [
+              getSchemaTpl('searchable'),
+          
+              getSchemaTpl('api', {
+                label: '检索接口',
+                name: 'searchApi'
+              }),
+          
               {
-                label: '列表形式',
-                value: 'list'
+                label: '查询时勾选展示模式',
+                name: 'searchResultMode',
+                type: 'select',
+                mode: 'normal',
+                options: [
+                  {
+                    label: '列表形式',
+                    value: 'list'
+                  },
+                  {
+                    label: '表格形式',
+                    value: 'table'
+                  },
+                  {
+                    label: '树形选择形式',
+                    value: 'tree'
+                  },
+                  {
+                    label: '级联选择形式',
+                    value: 'chained'
+                  }
+                ]
               },
-              {
-                label: '表格形式',
-                value: 'table'
-              },
-              {
-                label: '树形选择形式',
-                value: 'tree'
-              },
-              {
-                label: '级联选择形式',
-                value: 'chained'
-              }
+          
+              getSchemaTpl('sortable'),
+          
+              getSchemaTpl('formulaControl', {
+                label: '左侧选项标题',
+                name: 'selectTitle',
+                type: 'input-text',
+                inputClassName: 'is-inline '
+              }),
+          
+              getSchemaTpl('formulaControl', {
+                label: '右侧结果标题',
+                name: 'resultTitle',
+                type: 'input-text',
+                inputClassName: 'is-inline '
+              })
             ]
           },
-
-          getSchemaTpl('sortable'),
-
           {
-            label: '左侧的标题文字',
-            name: 'selectTitle',
-            type: 'input-text'
-          },
-
-          {
-            label: '右侧结果的标题文字',
-            name: 'resultTitle',
-            type: 'input-text'
-          },
-
-          getSchemaTpl('fieldSet', {
             title: '选项',
             body: [
               {
@@ -344,7 +347,8 @@ export class TabsTransferPlugin extends BasePlugin {
                   '!this.autoFill || !this.autoFill.scene && !this.autoFill.action'
               })
             ]
-          })
+          },
+          getSchemaTpl('status', {isFormItem: true})
         ])
       },
       {

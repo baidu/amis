@@ -125,6 +125,7 @@ import './plugin/TableCell-v2';
 import './plugin/Tabs';
 import './plugin/Tasks';
 import './plugin/Time';
+import './plugin/Timeline';
 import './plugin/Tpl';
 import './plugin/AnchorNav';
 import './plugin/Video';
@@ -140,6 +141,7 @@ import './plugin/ColumnToggler';
 import {GridPlugin} from './plugin/Grid';
 
 import './renderer/OptionControl';
+import './renderer/TimelineItemControl';
 import './renderer/APIControl';
 import './renderer/ValidationControl';
 import './renderer/ValidationItem';
@@ -161,6 +163,7 @@ import './renderer/DataPickerControl';
 import './renderer/FeatureControl';
 import './renderer/event-control/index';
 import './renderer/TreeOptionControl';
+import './renderer/TransferTableControl';
 
 export * from './component/BaseControl';
 export * from './icons/index';

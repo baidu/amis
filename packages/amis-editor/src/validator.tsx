@@ -118,7 +118,8 @@ export enum ValidatorTag {
   Number = '7',
   File = '8',
   Date = '9',
-  Code = '10'
+  Code = '10',
+  Tree = '11'
 }
 
 registerValidator(
@@ -133,7 +134,8 @@ registerValidator(
       [ValidatorTag.Code]: ValidTagMatchType.isDefault,
       [ValidatorTag.Email]: ValidTagMatchType.isDefault,
       [ValidatorTag.Password]: ValidTagMatchType.isDefault,
-      [ValidatorTag.URL]: ValidTagMatchType.isDefault
+      [ValidatorTag.URL]: ValidTagMatchType.isDefault,
+      [ValidatorTag.Tree]: ValidTagMatchType.isDefault,
     }
   },
   {

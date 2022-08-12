@@ -35,8 +35,8 @@ export interface SwitchMoreProps extends FormControlProps {
   overlay?: boolean;
   container?: React.ReactNode | Function;
   target?: React.ReactNode | Function;
-  trueValue?: any;
-  falseValue?: any;
+  trueValue?: any; // 开关开启时匹配的 value， 默认 true
+  falseValue?: any; // 开关关闭时匹配的 value， 默认 flase
   // editable?: boolean;
   removable?: boolean; // 是否可删除此项配置
   hiddenOnDefault?: boolean; // bulk且不配置时 默认收起
@@ -100,7 +100,8 @@ export default class SwitchMore extends React.Component<
   }
 
   initState() {
-    const {data, value, name, bulk, hiddenOnDefault} = this.props;
+    const {data, value, trueValue, falseValue, name, bulk, hiddenOnDefault} =
+      this.props;
     let checked = false;
     let show = false;
 
@@ -112,10 +113,10 @@ export default class SwitchMore extends React.Component<
         checked = some(formNames, key => data[key] !== undefined);
         show = checked;
       } else {
-        checked = value != null;
+        checked = value === trueValue;
       }
     } else {
-      checked = !!value;
+      checked = !!value === trueValue;
     }
 
     // 开关有属性对应
@@ -169,7 +170,15 @@ export default class SwitchMore extends React.Component<
 
   @autobind
   handleSwitchChange(checked: boolean) {
-    const {onBulkChange, onChange, bulk, defaultData, name, pipeOut} = this.props;
+    const {
+      onBulkChange,
+      onChange,
+      bulk,
+      defaultData,
+      name,
+      trueValue,
+      falseValue
+    } = this.props;
 
     this.setState({checked});
 
@@ -178,31 +187,20 @@ export default class SwitchMore extends React.Component<
       // 选中后，给一个默认 {} 或 配置的默认值
       if (checked) {
         let data = defaultData ? {...defaultData} : {};
-        name && (data[name] = true);
-        if (pipeOut) {
-          data = pipeOut(data);
-        }
+        name && (data[name] = trueValue);
         onBulkChange && onBulkChange(data);
       }
       // 取消选中后，讲所有字段重置
       else {
-        let values = fromPairs(
+        const values = fromPairs(
           this.getFormItemNames().map(i => [i, undefined])
         );
-        name && (values[name] = false);
-        if (pipeOut) {
-          values = pipeOut(values);
-        }
+        name && (values[name] = falseValue);
         onBulkChange && onBulkChange(values);
       }
       return;
     }
-
-    let data = checked ? defaultData || true : undefined;
-    if (pipeOut) {
-      data = pipeOut(data);
-    }
-    onChange(data);
+    onChange(checked ? defaultData || true : undefined);
   }
 
   @autobind
@@ -233,15 +231,8 @@ export default class SwitchMore extends React.Component<
   }
 
   renderActions() {
-    const {
-      render,
-      removable,
-      disabled,
-      form,
-      formType,
-      hiddenOnDefault,
-      bulk
-    } = this.props;
+    const {render, removable, disabled, form, formType, hiddenOnDefault, bulk} =
+      this.props;
     const {checked, show} = this.state;
 
     if (!form || !checked || disabled) {

@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {EditorNodeType, jsonToJsonSchema, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -939,6 +939,19 @@ export class WizardPlugin extends BasePlugin {
       );
     }
   };
+
+  rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
+    if (e === 'inited') {
+      const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+      const jsonschema: any = {
+        $id: 'wizardInitedData',
+        ...jsonToJsonSchema(data)
+      };
+
+      scope?.removeSchema(jsonschema.$id);
+      scope?.addSchema(jsonschema);
+    }
+  }
 }
 
 registerEditorPlugin(WizardPlugin);

@@ -121,6 +121,7 @@ setSchemaTpl('multiple', (schema: any = {}) => {
     value: false,
     hiddenOnDefault: true,
     formType: 'extend',
+    ...(schema.patch || {}),
     form: {
       body: schema.replace
         ? schema.body
@@ -302,6 +303,15 @@ setSchemaTpl('optionControlV2', {
   name: 'options',
   type: 'ae-optionControl',
   closeDefaultCheck: true // 关闭默认值设置
+});
+
+/**
+ * 时间轴组件选项控件
+ */
+ setSchemaTpl('timelineItemControl', {
+  label: '数据',
+  model: 'normal',
+  type: 'ae-timelineItemControl'
 });
 
 setSchemaTpl('treeOptionControl', {

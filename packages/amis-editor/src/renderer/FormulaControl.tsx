@@ -362,6 +362,7 @@ export default class FormulaControl extends React.Component<
       // 设置统一的占位提示
       if (curRendererSchema.type === 'select') {
         curRendererSchema.placeholder = '请选择默认值';
+        curRendererSchema.inputClassName= 'ae-editor-FormulaControl-select-style'
       } else {
         curRendererSchema.placeholder = '请输入静态默认值';
       }

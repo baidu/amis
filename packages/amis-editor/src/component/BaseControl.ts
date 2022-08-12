@@ -4,8 +4,9 @@
 
 import flatten from 'lodash/flatten';
 import {getEventControlConfig} from '../renderer/event-control/helper';
-import {getSchemaTpl, isObject, tipedLabel} from 'amis-editor-core';
+import {getSchemaTpl, isObject} from 'amis-editor-core';
 import type {BaseEventContext} from 'amis-editor-core';
+import {SchemaObject} from 'amis/lib/Schema';
 
 // 默认动作
 export const BUTTON_DEFAULT_ACTION = {
@@ -368,6 +369,25 @@ export const formItemControl: (
     }
   ];
 };
+
+export function tipedLabel(
+  body: string | Array<SchemaObject>,
+  tip: string,
+  style?: React.CSSProperties
+) {
+  return {
+    type: 'tooltip-wrapper',
+    tooltip: tip,
+    tooltipTheme: 'dark',
+    placement: 'top',
+    tooltipStyle: {
+      fontSize: '12px',
+      ...(style || {})
+    },
+    className: 'ae-formItemControl-label-tip',
+    body
+  };
+}
 
 /**
  * 信息提示组件模版

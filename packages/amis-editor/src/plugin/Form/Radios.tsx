@@ -139,9 +139,7 @@ export class RadiosControlPlugin extends BasePlugin {
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
-          getSchemaTpl('validation', {
-            tag: ValidatorTag.All
-          })
+          getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
         ])
       },
       {

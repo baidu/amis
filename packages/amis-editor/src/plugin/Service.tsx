@@ -1,6 +1,6 @@
 import {Button} from 'amis';
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {EditorNodeType, jsonToJsonSchema, registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin, RegionConfig} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
@@ -222,6 +222,19 @@ export class ServicePlugin extends BasePlugin {
       }
     ]);
   };
+
+  rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
+    if (e === 'fetchInited') {
+      const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+      const jsonschema: any = {
+        $id: 'serviceFetchInitedData',
+        ...jsonToJsonSchema(data)
+      };
+
+      scope?.removeSchema(jsonschema.$id);
+      scope?.addSchema(jsonschema);
+    }
+  }
 }
 
 registerEditorPlugin(ServicePlugin);
