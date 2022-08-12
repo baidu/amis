@@ -740,14 +740,6 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       labelField: 'label',
                       valueField: 'value',
                       required: true,
-                      visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`,
-                    },
-                    {
-                      name: 'key',
-                      type: 'input-text',
-                      placeholder: '变量名',
-                      required: true,
-                      visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP} && __comboType === 'appoint'`
                     },
                     {
                       name: 'val',
@@ -826,7 +818,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   label: '赋值',
                   size: 'lg',
                   mode: 'horizontal',
-                  visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && __rendererName !== 'combo'`,
+                  visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && !${SHOW_SELECT_PROP} && __rendererName !== 'combo'`,
                   required: true
                 }
               ]
