@@ -16,7 +16,7 @@ const locales: {
 } = {};
 
 export function register(name: string, config: LocaleConfig) {
-  locales[name] = config;
+  locales[name] = locales[name] ? Object.assign(locales[name], config) : config;
 }
 
 export function extendLocale(name: string, config: LocaleConfig) {
