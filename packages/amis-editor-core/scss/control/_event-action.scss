@@ -39,7 +39,7 @@
   }
   &-content {
     padding: 0;
-    margin-top: 52px;
+    margin-top: #{px2rem(56px)};
     .icon {
       cursor: pointer;
       color: #30343f;
@@ -346,9 +346,11 @@
               .cxd-Tree-item-icons {
                 display: none;
               }
-
-              .cxd-Tree-itemArrow.is-folded > svg {
+              .cxd-Tree-itemArrow > svg {
                 transform: rotate(180deg);
+              }
+              .cxd-Tree-itemArrow.is-folded > svg {
+                transform: rotate(0);
               }
             }
 
@@ -362,6 +364,14 @@
           }
 
           .cxd-Tree-item--isLeaf {
+            .cxd-Tree-itemLabel {
+              &:hover {
+                background-color: var(--Tree-item-onHover-bg-pure);
+              }
+            }
+            .cxd-Tree-itemLabel.is-checked {
+              background: var(--Tree-item-onChekced-bg);;
+            }
             .cxd-Tree-itemLabel.is-checked::before {
               content: '';
               background: url('../static/check.svg') no-repeat center center;

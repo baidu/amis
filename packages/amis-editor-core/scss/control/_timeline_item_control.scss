@@ -1,0 +1,78 @@
+.ae-TimelineItemControl {
+    &-header {
+        @include flexBox();
+        width: 100%;
+        height: #{px2rem(24px)};
+        margin-bottom: #{px2rem(12px)};
+    }
+
+    &-content {
+        @include flexBox(column, flex-start);
+        margin: 0;
+        padding: 0;
+
+        .ae-TimelineItemControlItem {
+            display: block;
+            width: 100%;
+
+            &-input-title {
+                flex: 1;
+                margin-left: #{px2rem(20px)};
+                margin-right: #{px2rem(44px)};
+            }
+            &-input {
+                flex: 1;
+                margin: 0;
+                margin-right: #{px2rem(12px)};
+            }
+
+            &-Main {
+                @include flexBox();
+                width: 100%;
+                background: #fff;
+                padding-bottom: px2rem(12px);
+              }
+
+
+              &--dragging {
+                height: 0 !important;
+                padding: 0;
+                border-top: 2px solid var(--primary);
+                overflow: hidden;
+                background: #e9effd;
+              }
+
+              &-dragBar {
+                display: inline-flex;
+                margin-left: 0;
+                margin-right: var(--gap-sm);
+                cursor: move;
+                color: #8c8c8c;
+              }
+
+              &-dropdown i {
+                margin-right: 0px;
+              }
+        }
+
+        .ae-TimelineItemControlItem-inputDate {
+            margin-bottom: 0;
+        }
+    }
+
+    &-border {
+        background-color: #e5e5e5;
+        width: 100%;
+        height: 1px;
+        margin-top: 12px;
+        margin-bottom: 12px;
+    }
+
+    &-footer > * {
+        width: calc(50% - #{px2rem(6px)});
+
+        &:first-child {
+            margin-right: px2rem(12px);
+        }
+    }
+}

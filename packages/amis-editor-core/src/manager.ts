@@ -45,6 +45,7 @@ import {
   reGenerateID,
   isString,
   isObject,
+  JSONPipeOut,
   generateNodeId,
   JSONTraverse
 } from './util';
@@ -1778,7 +1779,11 @@ export class EditorManager {
         component.props.$$id,
         component.props.type
       );
-      node?.info?.plugin?.rendererBeforeDispatchEvent?.(node, e, data);
+      node?.info?.plugin?.rendererBeforeDispatchEvent?.(
+        node,
+        e,
+        JSONPipeOut(data)
+      );
     }
   }
 
