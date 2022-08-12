@@ -1,4 +1,12 @@
-import React = require('react');
+/**
+ * 组件名称：Textarea 多行文本输入框
+ * 单测内容：
+ * 1. 修改组件内容 value
+ * 2. 去除收尾空白 trimContents 与 是否显示计数器 showCounter
+ * 3. 最大输入长度 maxLength、是否可清除 clearable 与 重置值 resetValue
+ * 4. 是否只读 readOnly
+ */
+
 import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
@@ -153,7 +161,7 @@ test('Renderer:textarea with maxLength & clearable & resetValue', async () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:textarea with  readOnly', async () => {
+test('Renderer:textarea with readOnly', async () => {
   const {container, textarea} = await setup([
     {
       type: 'textarea',
