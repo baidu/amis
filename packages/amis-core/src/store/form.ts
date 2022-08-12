@@ -545,6 +545,7 @@ export const FormStore = ServiceStore.named('FormStore')
         if (
           !item.validated ||
           item.rules.equals ||
+          item.rules.equalsField ||
           item.unique ||
           forceValidate ||
           !!item.validateApi
