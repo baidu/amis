@@ -426,8 +426,26 @@
         text-align: left;
       }
 
-      .action-apiControl .cxd-Form-row {
-        align-items: center;
+      .action-apiControl {
+        margin-top: 25px;
+
+        .cxd-Service {
+          margin-bottom: 0;
+        }
+
+        .ApiControl {
+          display: relative;
+
+          &-header {
+            position: absolute;
+            right: 0;
+            top: -25px;
+          }
+        }
+
+        .cxd-Form-row {
+          align-items: center;
+        }
       }
     }
 

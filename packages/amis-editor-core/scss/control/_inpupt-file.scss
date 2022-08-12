@@ -1,0 +1,14 @@
+.inputFile-apiControl {
+  margin-top: 30px;
+
+  .ApiControl {
+    display: relative;
+    margin-bottom: 0;
+
+    &-header {
+      position: absolute;
+      right: 0;
+      top: -25px;
+    }
+  }
+}
