@@ -6,9 +6,8 @@ import typescript from '@rollup/plugin-typescript';
 import {terser} from 'rollup-plugin-terser';
 import license from 'rollup-plugin-license';
 import {name, version, main, author, dependencies} from './package.json';
-import path from 'path';
 
-const isForLib = process.env.NODE_ENV === 'lib';
+const isForLib = process.env.IS_LIB || false;
 
 const settings = {
   globals: {}
@@ -55,12 +54,16 @@ export default {
       sourceMap: false,
       outputToFilesystem: true
     }),
-    commonjs({
-      include: 'node_modules/**',
-      extensions: ['.js'],
-      ignoreGlobal: false,
-      sourceMap: false
-    }),
+    commonjs(
+      isForLib
+        ? {}
+        : {
+            include: 'node_modules/**',
+            extensions: ['.js'],
+            ignoreGlobal: false,
+            sourceMap: false
+          }
+    ),
     license({
       banner: `
         ${name} v${version}

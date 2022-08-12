@@ -1903,7 +1903,7 @@ function parseJson(str: string, defaultValue?: any) {
 }
 
 function stripNumber(number: number) {
-  if (typeof number === 'number') {
+  if (typeof number === 'number' && !Number.isInteger(number)) {
     return parseFloat(number.toPrecision(12));
   } else {
     return number;
