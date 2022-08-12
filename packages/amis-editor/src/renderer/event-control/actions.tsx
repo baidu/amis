@@ -520,6 +520,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   name: 'api',
                   label: '配置请求',
                   mode: 'horizontal',
+                  inputClassName: 'm-b-none',
                   size: 'lg',
                   renderLabel: true,
                   required: true
