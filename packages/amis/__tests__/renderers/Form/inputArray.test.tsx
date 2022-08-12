@@ -1,3 +1,12 @@
+/**
+ * 组件名称：InputArray 数组输入框
+ * 单测内容：
+ * 1. 修改组件内容 value
+ * 2. 是否可删除 removable、是否可新增 addable 与 新增按钮文字 addButtonText
+ * 3. 输入最小长度 minLength 与 最大长度 maxLength
+ * 4. 是否可拖拽排序 draggable 与 可拖拽的提示文字 draggableTip
+ */
+
 import {render, fireEvent, waitFor, screen} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
