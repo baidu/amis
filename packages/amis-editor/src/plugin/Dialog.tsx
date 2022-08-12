@@ -10,7 +10,7 @@ import {
 } from 'amis-editor-core';
 import {cloneDeep, assign} from 'lodash';
 import {getEventControlConfig} from '../renderer/event-control/helper';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 
 export class DialogPlugin extends BasePlugin {
   // 关联渲染器名字

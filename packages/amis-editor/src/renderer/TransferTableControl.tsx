@@ -8,7 +8,7 @@ import { omit } from 'lodash';
 import { SchemaApi } from 'amis/lib/Schema';
 import { autobind, getSchemaTpl } from 'amis-editor-core';
 import cx from 'classnames';
-import { tipedLabel } from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 
 import type { FormControlProps } from 'amis-core';
 import type { Option } from 'amis';

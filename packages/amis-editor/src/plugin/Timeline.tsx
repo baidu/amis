@@ -1,6 +1,6 @@
 import React from 'react';
 import {getEventControlConfig} from '../renderer/event-control/helper';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {
   registerEditorPlugin,
   getSchemaTpl

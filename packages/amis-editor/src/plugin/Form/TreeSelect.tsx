@@ -4,7 +4,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
-import {tipedLabel} from '../../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 
 export class TreeSelectControlPlugin extends BasePlugin {
   // 关联渲染器名字

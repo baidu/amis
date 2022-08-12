@@ -7,7 +7,7 @@ import {
   getArgsWrapper,
   getEventControlConfig
 } from '../../renderer/event-control/helper';
-import {tipedLabel} from '../../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 
 export class TreeControlPlugin extends BasePlugin {

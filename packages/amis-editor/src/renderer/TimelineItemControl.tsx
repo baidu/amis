@@ -7,7 +7,7 @@ import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import Sortable from 'sortablejs';
 import {render as amisRender, FormItem, Icon, InputBox} from 'amis';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';

@@ -7,7 +7,7 @@ import {
   BaseEventContext,
   registerEditorPlugin
 } from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
 

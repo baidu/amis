@@ -5,7 +5,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
-import {tipedLabel} from '../../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 
 export class TransferPlugin extends BasePlugin {
   // 关联渲染器名字

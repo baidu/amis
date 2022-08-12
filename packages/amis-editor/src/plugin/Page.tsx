@@ -9,7 +9,7 @@ import {
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import type {SchemaObject} from 'amis/lib/Schema';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 
 export class PagePlugin extends BasePlugin {
