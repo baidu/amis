@@ -1,15 +1,27 @@
 .#{$ns}CollapseGroup {
-
   .#{$ns}Collapse {
     border-radius: 0;
   }
 
   .#{$ns}Collapse:first-child {
     border-radius: 4px 4px 0 0;
+    & > .#{$ns}Collapse-header {
+      border-radius: 4px 4px 0 0;
+    }
   }
 
   .#{$ns}Collapse:last-child {
     border-radius: 0 0 4px 4px;
+    & > .#{$ns}Collapse-header {
+      border-radius: 0 0 4px 4px;
+    }
+  }
+
+  .#{$ns}Collapse:first-child:nth-last-child(1) {
+    border-radius: 4px;
+    & > .#{$ns}Collapse-header {
+      border-radius: 4px;
+    }
   }
 
   .#{$ns}Collapse:not(:last-child) {

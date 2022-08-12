@@ -500,7 +500,16 @@ export function promisify<T extends Function>(
   return promisified;
 }
 
-export function getScrollParent(node: HTMLElement): HTMLElement | null {
+/**
+ *
+ * @param node 当前元素
+ * @param compute 自定义计算，找到的父元素是否满足特殊场景
+ * @returns 返回控制当前元素滚动的父元素
+ */
+export function getScrollParent(
+  node: HTMLElement,
+  compute: (parent: HTMLElement) => boolean = () => true
+): HTMLElement | null {
   if (node == null) {
     return null;
   }
@@ -516,11 +525,11 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
     style.getPropertyValue('overflow-x') +
     style.getPropertyValue('overflow-y');
 
-  if (/auto|scroll/.test(text) || node.nodeName === 'BODY') {
+  if (node.nodeName === 'BODY' || (/auto|scroll/.test(text) && compute(node))) {
     return node;
   }
 
-  return getScrollParent(node.parentNode as HTMLElement);
+  return getScrollParent(node.parentNode as HTMLElement, compute);
 }
 
 /**
@@ -1010,6 +1019,44 @@ export function flattenTree<T extends TreeItem, U>(
 }
 
 /**
+ * 将树打平变成一维数组，用法和flattenTree类似，区别是结果仅保留叶节点
+ *
+ * 比如：
+ *
+ * flattenTreeWithLeafNodes([
+ *     {
+ *         id: 1,
+ *         children: [
+ *              { id: 2 },
+ *              { id: 3 },
+ *         ]
+ *     }
+ * ], item => item.id); // 输出为 [2, 3]
+ *
+ * @param tree
+ * @param mapper
+ */
+export function flattenTreeWithLeafNodes<T extends TreeItem>(
+  tree: Array<T>
+): Array<T>;
+export function flattenTreeWithLeafNodes<T extends TreeItem, U>(
+  tree: Array<T>,
+  mapper: (value: T, index: number) => U
+): Array<U>;
+export function flattenTreeWithLeafNodes<T extends TreeItem, U>(
+  tree: Array<T>,
+  mapper?: (value: T, index: number) => U
+): Array<U> {
+  let flattened: Array<any> = [];
+  eachTree(tree, (item, index) => {
+    if (!item.hasOwnProperty('children')) {
+      flattened.push(mapper ? mapper(item, index) : item);
+    }
+  });
+  return flattened;
+}
+
+/**
  * 操作树，遵循 imutable, 每次返回一个新的树。
  * 类似数组的 splice 不同的地方这个方法不修改原始数据，
  * 同时第二个参数不是下标，而是下标数组，分别代表每一层的下标。
@@ -1425,10 +1472,14 @@ export function getScrollbarWidth() {
 }
 
 // 后续改用 FormulaExec['formula']
-function resolveValueByName(data: any, name?: string) {
+function resolveValueByName(
+  data: any,
+  name?: string,
+  canAccessSuper?: boolean
+) {
   return isPureVariable(name)
     ? resolveVariableAndFilter(name, data)
-    : resolveVariable(name, data);
+    : resolveVariable(name, data, canAccessSuper);
 }
 
 // 统一的获取 value 值方法
@@ -1439,10 +1490,13 @@ export function getPropValue<
     data?: any;
     defaultValue?: any;
   }
->(props: T, getter?: (props: T) => any) {
+>(props: T, getter?: (props: T) => any, canAccessSuper?: boolean) {
   const {name, value, data, defaultValue} = props;
   return (
-    value ?? getter?.(props) ?? resolveValueByName(data, name) ?? defaultValue
+    value ??
+    getter?.(props) ??
+    resolveValueByName(data, name, canAccessSuper) ??
+    defaultValue
   );
 }
 

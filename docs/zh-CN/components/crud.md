@@ -534,60 +534,85 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 ## 查询条件表单
 
-大部分表格展示有对数据进行检索的需求，CRUD 自身支持通过配置`filter`，实现查询条件过滤表单
+大部分表格展示有对数据进行检索的需求，CRUD 自身支持通过配置`filter`，实现查询条件过滤表单。`filter` 配置实际上同 [Form](./form/index) 组件，因此支持绝大部分`form`的功能。
 
-`filter` 配置实际上同 [Form](./form/index) 组件，因此支持绝大部分`form`的功能。
+在条件搜索区的 `Engine` 输入框中输入任意值查询会发现结果中 `ID` 为 1 - 3 的 `Rendering engine` 列因为返回值中没有对应字段值，被错误填入了与 `filter` 中相同 `name` 的字段值，这是因为表格 Cell 通过[数据链](../../docs/concepts/datascope-and-datachain)获取到了上层数据域 `filter` 中相同字段的数据值。这种情况可以在 CRUD `columns` 对应列配置`"canAccessSuperData": false`禁止访问父级数据域（比如: `Platform`列）。
 
 ```schema: scope="body"
 {
     "type": "crud",
     "name": "crud",
     "syncLocation": false,
-    "api": "/api/mock2/sample",
-     "filter": {
+    "api": "/api/mock2/crud/table4",
+    "filter": {
+        "debug": true,
         "title": "条件搜索",
         "body": [
             {
-                "type": "flex",
-                "justify": "space-between",
-                "alignItems": "center",
-                "items": [
+                "type": "group",
+                "body": [
                     {
                         "type": "input-text",
                         "name": "keywords",
+                        "label": "关键字",
+                        "clearable": true,
                         "placeholder": "通过关键字搜索",
                         "size": "sm"
                     },
                     {
-                        "type": "button",
-                        "actionType": "drawer",
-                        "icon": "fa fa-plus",
-                        "label": "创建记录",
-                        "target": "crud",
-                        "closeOnOutside": true,
-                        "drawer": {
-                            "title": "创建记录",
-                            "body": {
-                                "type": "form",
-                                "api": "post:/api/mock2/sample",
-                                "body": [
-                                    {
-                                        "type": "input-text",
-                                        "name": "engine",
-                                        "label": "Engine"
-                                    },
-                                    {
-                                        "type": "input-text",
-                                        "name": "browser",
-                                        "label": "Browser"
-                                    }
-                                ]
-                            }
-                        }
+                        "type": "input-text",
+                        "name": "engine",
+                        "label": "Engine",
+                        "clearable": true,
+                        "size": "sm"
+                    },
+                    {
+                        "type": "input-text",
+                        "name": "platform",
+                        "label": "Platform",
+                        "clearable": true,
+                        "size": "sm"
                     }
                 ]
             }
-
+        ],
+        actions: [
+            {
+                "type": "button",
+                "actionType": "drawer",
+                "icon": "fa fa-plus",
+                "label": "创建记录",
+                "target": "crud",
+                "closeOnOutside": true,
+                "drawer": {
+                    "title": "创建记录",
+                    "body": {
+                        "type": "form",
+                        "api": "post:/api/mock2/sample",
+                        "body": [
+                            {
+                                "type": "input-text",
+                                "name": "engine",
+                                "label": "Engine"
+                            },
+                            {
+                                "type": "input-text",
+                                "name": "browser",
+                                "label": "Browser"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "reset",
+                "label": "重置"
+            },
+            {
+                "type": "submit",
+                "level": "primary",
+                "label": "查询"
+            }
         ]
     },
     "columns": [
@@ -605,7 +630,8 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
         },
         {
             "name": "platform",
-            "label": "Platform(s)"
+            "label": "Platform(s)",
+            "canAccessSuperData": false
         },
         {
             "name": "version",

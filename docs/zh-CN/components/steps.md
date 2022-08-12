@@ -22,6 +22,7 @@ order: 68
       "steps": [
         {
           "title": "First",
+          "subTitle": "this is subTitle",
           "description": "this is description"
         },
         {
@@ -51,6 +52,7 @@ order: 68
       },
       {
         "title": "Second",
+        "subTitle": "this is subTitle",
         "description": "this is description"
       },
       {
@@ -73,14 +75,17 @@ order: 68
     "steps": [
       {
         "title": "First",
+        "subTitle": "this is subTitle",
         "description": "this is description"
       },
       {
         "title": "Second",
+        "subTitle": "this is subTitle",
         "description": "this is description"
       },
       {
         "title": "Last",
+        "subTitle": "this is subTitle",
         "description": "this is description"
       }
     ]
@@ -100,14 +105,17 @@ order: 68
     "steps": [
       {
         "title": "First",
+        "subTitle": "this is subTitle",
         "description": "this is description"
       },
       {
         "title": "Second",
+        "subTitle": "this is subTitle",
         "description": "this is description"
       },
       {
         "title": "Last",
+        "subTitle": "this is subTitle",
         "description": "this is description"
       }
     ]
@@ -127,14 +135,17 @@ order: 68
     "steps": [
       {
         "title": "First",
+        "subTitle": "this is subTitle",
         "description": "this is description"
       },
       {
         "title": "Second",
+        "subTitle": "this is subTitle",
         "description": "this is description"
       },
       {
         "title": "Last",
+        "subTitle": "this is subTitle",
         "description": "this is description"
       }
     ]
@@ -162,6 +173,7 @@ order: 68
       "steps": [
         {
           "title": "First",
+          "subTitle": "this is subTitle",
           "description": "this is description"
         },
         {
@@ -192,6 +204,7 @@ order: 68
       "steps": [
         {
           "title": "First",
+          "subTitle": "this is subTitle",
           "description": "this is description"
         },
         {
@@ -257,6 +270,7 @@ order: 68
     "steps": [
       {
         "title": "First",
+        "subTitle": "this is sub title",
         "value": "first"
       },
       {
@@ -284,6 +298,7 @@ order: 68
     "steps": [
       {
         "title": "First",
+        "subTitle": "this is subTitle",
         "description": "this is description"
       },
       {
@@ -324,6 +339,7 @@ order: 68
       },
       {
         "title": "Second",
+        "subTitle": "this is subTitle",
         "description": "this is description",
         "value": "b"
       },
@@ -356,6 +372,7 @@ order: 68
 | 属性名      | 类型                                                  | 默认值 | 说明                                    |
 | ----------- | ----------------------------------------------------- | ------ | --------------------------------------- |
 | title       | `string` \| [SchemaNode](../../docs/types/schemanode) |        | 标题                                    |
+| subTitle    | `string` \| [SchemaNode](../../docs/types/schemanode) |        | 子标题                                  |
 | description | `string` \| [SchemaNode](../../docs/types/schemanode) |        | 详细描述                                |
 | icon        | `string`                                              |        | icon 名，支持 fontawesome v4 或使用 url |
 | value       | `string`                                              |        | value                                   |

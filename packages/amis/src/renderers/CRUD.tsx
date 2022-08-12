@@ -819,7 +819,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       });
   }
 
-  handleFilterReset(values: object) {
+  handleFilterReset(values: object, action: any) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
     store.updateQuery(
@@ -832,6 +832,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       true
     );
     this.lastQuery = store.query;
+
+    // 对于带 submit 的 reset(包括 actionType 为 reset-and-submit clear-and-submit 和 form 的 resetAfterSubmit 属性)
+    // 不执行 search，否则会多次触发接口请求
+    if (action?.actionType && ['reset-and-submit', 'clear-and-submit', 'submit'].includes(action.actionType)) {
+      return;
+    }
+
     this.search();
   }
 

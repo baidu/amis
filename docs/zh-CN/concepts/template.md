@@ -103,7 +103,7 @@ amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [loda
         },
         {
             "type": "tpl",
-            "tpl": "<% if (data.items && data.items.length) { %>Array: <% data.items.forEach(function(item) { %> <span class='label label-default'><%= item %></span> <% }); %><% } %>"
+            "tpl": "<% if (data.items && data.items.length) { %>Array: <% data.items.forEach(function(item) { %> <span class='label label-default'><%= item %></span> <% });} %>"
         }
     ]
 }
@@ -136,7 +136,6 @@ amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [loda
   "tpl": "${data.xxx === 'a'}" //错误！
 }
 ```
-
 
 ```json
 {

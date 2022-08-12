@@ -24,6 +24,10 @@ a {
     color: var(--link-onHover-color);
     text-decoration: var(--link-onHover-decoration);
   }
+
+  &:active {
+    color: var(--link-onClick-color);
+  }
 }
 
 label {

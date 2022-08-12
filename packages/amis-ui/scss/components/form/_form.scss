@@ -161,6 +161,13 @@
   &.is-error > .#{$ns}Form-label {
     color: var(--danger);
   }
+
+  .#{$ns}Form-control--withSize {
+    > .#{$ns}ResultBox {
+      // 兼容 @media (min-width: 576px) .cxd-Form-control--sizeLg
+      display: flex;
+    }
+  }
 }
 
 .#{$ns}Form-placeholder {
@@ -388,8 +395,11 @@
 }
 
 .#{$ns}Form--debug {
-  word-break: break-all;
-  white-space: pre-wrap;
+  padding: var(--gap-sm);
+  margin-bottom: var(--gap-sm);
+  background-color: rgb(250, 250, 250);
+  border-radius: var(--borderRadius);
+  position: relative;
 }
 
 .#{$ns}Form--quickEdit {

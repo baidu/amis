@@ -1195,6 +1195,10 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                 </div>
               </div>
               <div
+                class="cxd-Table-fixedTop-shadow"
+                style=""
+              />
+              <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >
                 <div
@@ -1952,6 +1956,10 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
                   </table>
                 </div>
               </div>
+              <div
+                class="cxd-Table-fixedTop-shadow"
+                style=""
+              />
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >
@@ -2756,6 +2764,10 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                 </div>
               </div>
               <div
+                class="cxd-Table-fixedTop-shadow"
+                style=""
+              />
+              <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >
                 <div
@@ -2953,6 +2965,17 @@ exports[`Renderer:crud cards 1`] = `
                     没有用户信息
                   </span>
                 </span>
+              </div>
+              <div
+                class="cxd-Spinner-overlay in"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay in"
+                data-testid="spinner"
+              >
+                <div
+                  class="cxd-Spinner-icon cxd-Spinner-icon--default"
+                />
               </div>
             </div>
           </div>
@@ -3868,6 +3891,17 @@ exports[`Renderer:crud list 1`] = `
                   </span>
                 </span>
               </div>
+              <div
+                class="cxd-Spinner-overlay in"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay in"
+                data-testid="spinner"
+              >
+                <div
+                  class="cxd-Spinner-icon cxd-Spinner-icon--default"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -4523,6 +4557,10 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                   </table>
                 </div>
               </div>
+              <div
+                class="cxd-Table-fixedTop-shadow"
+                style=""
+              />
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
               >

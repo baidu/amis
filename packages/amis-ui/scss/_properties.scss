@@ -34,6 +34,11 @@
     Roboto, 'Hiragino Sans GB', 'Arial', 'microsoft yahei ui', 'Microsoft YaHei',
     SimSun, sans-serif;
 
+  // box-shadow
+  $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
+    0px 1px 10px 0px rgba(8, 14, 26, 0.05),
+    0px 2px 4px -1px rgba(8, 14, 26, 0.04);
+
   --fontSizeBase: #{px2rem(14px)};
   --fontSizeMd: #{px2rem(14px)};
   --fontSizeLg: #{px2rem(16px)};
@@ -81,7 +86,8 @@
   --pre-background: var(--background);
   --link-color: var(--info);
   --link-decoration: none;
-  --link-onHover-color: var(--info-onHover);
+  --link-onHover-color: #{$B5};
+  --link-onClick-color: #{$B7};
   --link-onHover-decoration: underline;
 
   --body-bg: var(--light);
@@ -133,6 +139,9 @@
   --Alert-marginBottom: var(--gap-md);
   --Alert-paddingX: var(--gap-md);
   --Alert-paddingY: var(--gap-xs);
+  --Alert-fontColor: #151b26;
+  --Alert-title-fontColor: #151b26;
+  --Alert-height: #{px2rem(40px)};
 
   --Audio-border: #{px2rem(1px)} solid #dee2e6;
   --Audio-height: #{px2rem(50px)};
@@ -293,6 +302,15 @@
   --Button--success-onHover-bg: var(--success-onHover);
   --Button--success-onHover-border: var(--success-onActive);
   --Button--success-onHover-color: var(--Button--success-color);
+  --Button--emphasize-bg: #ffffff;
+  --Button--emphasize-color: var(--primary);
+  --Button--emphasize-onHover-bg: #ffffff;
+  --Button--emphasize-onHover-border: var(--primary);
+  --Button--emphasize-onHover-color: #528eff;
+  --Button--emphasize-onActive-bg: #ffffff;
+  --Button--emphasize-onActive-border: #144bcc;
+  --Button--emphasize-onActive-color: #144bcc;
+
   --Button--enhance-border: var(--primary);
   --Button--enhance-color: var(--primary);
   --Button--enhance-onActive-bg: var(--white);
@@ -355,6 +373,8 @@
 
   --ButtonGroup--primary-isActive-color: var(--white);
   --ButtonGroup--primary-isActive-bg: var(--primary);
+  --ButtonGroup-divider-width: #{px2rem(1px)};
+  --ButtonGroup-divider-color: #fff;
 
   --Breadcrumb-item-fontSize: var(--fontSizeMd);
   --Breadcrumb-item-default-color: #83868c;
@@ -370,6 +390,7 @@
   --BreadcrumbDropdown-item-paddingY: calc(
     (var(--BreadcrumbDropdown-item-height) - var(--fontSizeSm)) / 2
   );
+  --Breadcrumb-item-disabled-color: #b8babf;
 
   --Calendar-btn-bg: var(--info);
   --Calendar-btn-border: var(--Calendar-btn-bg);
@@ -586,6 +607,7 @@
     --Collapse-header-collapsed-border
   );
   --Collapse-header-wrapper-direction: row;
+  --Collapse-header-bg-disabled-color: #f7f7f9;
   --Collapse-content-padding: #{px2rem(18px)} 0;
   --Collapse-content-color: var(--body-color);
   --Collapse-content-fontSize: var(--body-size);
@@ -607,9 +629,11 @@
   --DatePicker-height: var(--Form-input-height);
   --DatePicker-iconColor: var(--icon-color);
   --DatePicker-lineHeight: var(--Form-input-lineHeight);
-  --DatePicker-onFocused-borderColor: #144BCC;
+  --DatePicker-onFocused-borderColor: #144bcc;
   --DatePicker-onHover-bg: var(--DatePicker-bg);
   --DatePicker-onHover-borderColor: var(--Form-input-onFocused-borderColor);
+  --DatePicker-onDisabled-bg: #f5f5f5;
+  --DatePicker-onDisabled-color: #999;
   --DatePicker-onHover-iconColor: var(--icon-onHover-color);
   --DatePicker-paddingX: #{px2rem(12px)};
   --DatePicker-paddingY: calc(
@@ -634,7 +658,7 @@
 
   --Drawer-bg: var(--background);
   --Drawer-body-padding: var(--gap-base);
-  --Drawer-close-color: var(--text--muted-color);
+  --Drawer-close-color: #{$G2};
   --Drawer-close-onHover-color: var(--text-color);
   --Drawer-close-size: #{px2rem(12px)};
   --Drawer-content-borderColor: var(--borderColor);
@@ -646,7 +670,7 @@
   --Drawer-header-borderColor: #{lighten($borderColor, 5%)};
   --Drawer-header-padding: var(--gap-base);
   --Drawer-overlay-bg: rgba(0, 0, 0, 0.6);
-  --Drawer-title-fontColor: var(--text--loud-color);
+  --Drawer-title-fontColor: #{$G2};
   --Drawer-title-fontSize: var(--fontSizeMd);
   --Drawer-widthBase: 80%;
   --Drawer-widthLg: #{px2rem(800px)};
@@ -777,6 +801,7 @@
   --Form-select-borderWidth: var(--Form-input-borderWidth);
   --Form-select-caret-iconColor: var(--icon-color);
   --Form-select-caret-onHover-iconColor: var(--icon-onHover-color);
+  --Form-select-caret-fontSize: #{px2rem(12px)};
   --Form-select-checkall-bottomBorder: #eceff8;
   --Form-select-color: var(--text-color);
   --Form-select-input-fontSize: var(--fontSizeSm);
@@ -796,6 +821,7 @@
   --Form-select-onHover-bg: #{darken($white, 5%)};
   --Form-select-onHover-borderColor: var(--Form-input-borderColor);
   --Form-select-outer-borderWidth: #{px2rem(1px)};
+  --Form-select-outer-top: #{px2rem(32px)};
   --Form-select-outer-boxShadow: none;
   --Form-select-paddingX: var(--Form-input-paddingX);
   --Form-select-placeholderColor: var(--Form-input-placeholderColor);
@@ -807,6 +833,7 @@
   --Form-select-valueIcon-color: var(--Form-select-valueIcon-color);
   --Form-select-valueIcon-color--dark: #e9e9e9;
   --Form-select-valueIcon-onHover-color: var(--Form-select-color);
+  --Form-select-multiple-bgColor: #{$G10};
   --Form-selectOption-height: var(--Form-input-height);
   --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
   --Form-selectValue-onHover-bgColor: var(--Form-select-borderColor);
@@ -952,6 +979,8 @@
   --Layout-asideLink-color: #b4b6bd;
   --Layout-asideLink-fontSize: var(--fontSizeBase);
   --Layout-asideLink-fontSize: var(--fontSizeBase);
+  --Layout-asideLink-arrowFontSize: #{px2rem(12px)};
+  --Layout-asideLink-arrowColor: #8d99b0;
   --Layout-asideLink-iconColor: inherit;
   --Layout-asideLink-onActive-arrowColor: var(
     --Layout-asideLink-onActive-color
@@ -1063,7 +1092,7 @@
   --Modal-body-paddingX: var(--gap-md);
   --Modal-body-paddingY: var(--gap-md);
   --Modal-close-color: var(--text--muted-color);
-  --Modal-close-width: #{px2rem(12px)};
+  --Modal-close-width: #{px2rem(16px)};
   --Modal-content-borderColor: var(--borderColor);
   --Modal-content-borderRadius: var(--borderRadius);
   --Modal-content-borderWidth: var(--borderWidth);
@@ -1286,6 +1315,8 @@
   --Switch-onDisabled-circle-BackgroundColor: var(--white);
   --Switch-onDisabled-color: #fff;
   --Switch-onHover-bgColor: var(--Switch-bgColor);
+  --Switch-checked-onHover-bgColor: #144bcc;
+  --Switch-checked-onActive-bgColor: #144bcc;
   --Switch-valueColor: var(--white);
   --Switch-width: #{px2rem(50px)};
   --Switch-slider-margin: #{px2rem(1px)};
@@ -1326,6 +1357,9 @@
   --Table-onChecked-bg: #d9f3fb;
   --Table-onChecked-borderColor: #{darken(#d9f3fb, 10%)};
   --Table-onChecked-color: #{darken(#d9f3fb, 40%)};
+  --Table-onChecked-onHover-bg: #f5f5f5;
+  --Table-onChecked-onHover-borderColor: #eceff8;
+  --Table-onChecked-onHover-color: #666;
   --Table-onDragging-opacity: 0.1;
   // 背景用到了 rgba，所以必须再提供这种写法，搜一下这个变量就知道为什么了
   --Table-onHover-bg-rgb: 243, 246, 246;
@@ -1345,12 +1379,15 @@
   --Table-thead-color: var(--text--loud-color);
   --Table-thead-fontSize: var(--fontSizeBase);
   --Table-thead-iconColor: var(--icon-color);
-  --Table-toolbar-marginX: 0;
+  --Table-toolbar-marginX: var(--gap-xs);
   --Table-toolbar-marginY: var(--gap-base);
   --Table-tree-borderColor: var(--Table-borderColor);
   --Table-searchableForm-backgroundColor: #f6f7f8;
   --Table-searchableForm-borderRadius: #{px2rem(4px)};
   --Table-empty-icon-size: #{px2rem(74px)};
+
+  --TableRow-onDisabled-bg: #f7f7f9;
+  --TableRow-onDisabled-color: #b8babf;
 
   --TableCell--edge-paddingX: var(--gap-md);
   --TableCell--edge-paddingX-default: var(--gap-base);
@@ -1427,7 +1464,10 @@
   --Tabs--simple-split-width: #{px2rem(1px)};
   --Tabs--strong-add-size: #{px2rem(32px)};
   --Tabs--strong-arrow-size: #{px2rem(24px)};
-  --Tabs--active-color: 
+
+  --Tabs-link-disabled-color: #b8babf;
+  --Tabs--simple-split-size: var(--gap-xs) var(--gap-md);
+  --Tabs--sidebar-iconColor: #2468f2;
 
   --Tabs-borderColor: var(--borderColor);
   --Tabs--simple-split-color: var(--Tabs-borderColor);
@@ -1514,7 +1554,7 @@
 
   --Toast-border-width: 0;
   --Toast-borderRadius: #{px2rem(2px)};
-  --Toast-box-shadow: var(--boxShadow);
+  --Toast-box-shadow: #{$L1};
   --Toast-close-color: var(--icon-color);
   --Toast-close--onHover-color: var(--Toast-close-color);
 
@@ -1527,6 +1567,8 @@
   --Toast-paddingY: var(--gap-xs);
   --Toast-title-display: block;
   --Toast-width: #{px2rem(400px)};
+
+  --Toast--info-paddingL: 0;
 
   --Tooltip--attr-bg: rgba(0, 0, 0, 0.7);
   --Tooltip--attr-borderColor: var(--borderColor);
@@ -1572,6 +1614,9 @@
 
   --Transfer-title-bg: #f6f8f8;
   --Transfer-selection-maxHeight: #{px2rem(350px)};
+  --TransferSelect--table-heading-bg: var(--background);
+  --TransferSelect--normal-heading-bg: #f6f7fb;
+  --TransferSelect-heading-borderBottom: 0;
 
   --TabsTransfer-title-bg: #f7f7f9;
   --TabsTransfer-border-color: #e8e9eb;
@@ -1589,7 +1634,9 @@
   --Tree-item-text-max-height: #{px2rem(250px)};
   --Tree-item-text-top: #{px2rem(4px)};
   --Tree-item-arrow-padding-left: #{px2rem(4px)};
-  --Tree-item-arrow-color: #84868C;
+  --Tree-item-arrow-color: #84868c;
+  --Tree-item-onChekced-bg: var(--Form-select-menu-onHover-bg);
+  --Tree-item-onChekced-bg-borderRadius: #{px2rem(2px)};
 
   --Wizard-badge-bg: #{$gray400};
   --Wizard-badge-border: 0;
@@ -1621,14 +1668,14 @@
   --Steps-bg: var(--borderColorDarken);
   --Steps-status-success: var(--info);
   --Steps-status-error: var(--Tag-error-color);
-  --Steps-status-wait: #84868C;
+  --Steps-status-wait: #84868c;
   --Steps-icon-fontsize: var(--fontSizeLg);
   --Steps-title-fontsize: var(--fontSizeMd);
-  --Steps-title-color: #151B26;
+  --Steps-title-color: #151b26;
   --Steps-sub-title-fontsize: var(--fontSizeBase);
   --Steps-sub-title-color: var(--text-color);
   --Steps-description-title-fontsize: var(--fontSizeSm);
-  --Steps-description-title-color: #84868C;
+  --Steps-description-title-color: #84868c;
   --Steps-line-bg: var(--Steps-bg);
   --Steps-line-success-bg: var(--Steps-status-success);
 
@@ -1716,12 +1763,12 @@
   --Tag-fontColor: #151a26;
 
   --Tag-default-color: #f2f2f4;
-  --Tag-inactive-color: #B8BABF;
-  --Tag-active-color: #2468F2;
-  --Tag-processing-color: #528EFF;
-  --Tag-success-color: #30BF13;
-  --Tag-error-color: #F33E3E;
-  --Tag-warning-color: #FF9326;
+  --Tag-inactive-color: #b8babf;
+  --Tag-active-color: #2468f2;
+  --Tag-processing-color: #528eff;
+  --Tag-success-color: #30bf13;
+  --Tag-error-color: #f33e3e;
+  --Tag-warning-color: #ff9326;
 
   --Tag-checkable-bgColor: #f2f2f4;
   --Tag-checkable-bgColor-onDisable: #e6e6e8;
@@ -1753,4 +1800,15 @@
   --SearchBox-width: #{px2rem(150px)};
   --SearchBox-history-dropdown-maxWidth: calc(var(--SearchBox-width) * 2);
   --SearchBox-history-dropdown-maxHeight: #{px2rem(200px)};
+  --SearchBox-hover-color: #2468f2;
+  --SearchBox-focus-color: #144bcc;
+  --SearchBox-search-icon-color: #84868c;
+  --SearchBox-enhonce-icon-color: #ffffff;
+  --SearchBox-clearable-icon-color: #d4d6d9;
+  --SearchBox-clearable-icon-size: #{px2rem(16px)};
+  --SearchBox-height: #{px2rem(30px)};
+  --SearchBox-disabled-color: #f7f7f9;
+  --SearchBox-enhonce-disabled-color: #f2f2f4;
+  --SearchBox-enhonce-disabled-search-color: #b8babf;
+  --SearchBox-enhonce-clearable-gap: #{px2rem(6px)};
 }

@@ -17,11 +17,16 @@ import {
   ActionObject,
   Api,
   Payload,
-  ApiObject
+  ApiObject,
+  autobind,
+  isExpression
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
+import inRange from 'lodash/inRange';
 import {TableSchema} from '../Table';
 import {SchemaApi} from '../../Schema';
 import find from 'lodash/find';
@@ -345,6 +350,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   emitValue() {
     const items = this.state.items.filter(item => !item.__isPlaceholder);
     const {onChange} = this.props;
+
     onChange?.(items);
   }
 
@@ -503,7 +509,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               )
             );
           } else {
-            setVariable(value, column.name, column.value);
+            /** 如果value值设置为表达式，则忽略 */
+            if (!isExpression(column.value)) {
+              setVariable(value, column.name, column.value);
+            }
           }
         }
       });
@@ -1074,6 +1083,43 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.setState({page});
   }
 
+  /**
+   * Table Row中数据更新到InputTable中
+   * 解决columns形如[{name: 'a'}, {name: 'c', value: '${a}'}]时，使用默认值的列数据无法更新到数据域的问题
+   *
+   * @param data 行数据
+   * @param rowIndex 行索引值
+   */
+  @autobind
+  handlePristineChange(data: Record<string, any>, rowIndex: string) {
+    const {needConfirm} = this.props;
+    const index = Number(rowIndex);
+
+    this.setState(
+      prevState => {
+        const items = cloneDeep(prevState.items);
+
+        if (
+          Number.isInteger(index) &&
+          inRange(index, 0, items.length) &&
+          !isEqual(items[index], data)
+        ) {
+          items.splice(index, 1, data);
+
+          return {items};
+        }
+        return null;
+      },
+      () => {
+        if (needConfirm === false) {
+          this.emitValue();
+        } else {
+          Number.isInteger(index) && this.startEdit(index, true);
+        }
+      }
+    );
+  }
+
   removeEntry(entry: any) {
     if (this.entries.has(entry)) {
       this.entries.delete(entry);
@@ -1168,7 +1214,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             reUseRow: false,
             offset,
             rowClassName,
-            rowClassNameExpr
+            rowClassNameExpr,
+            onPristineChange: this.handlePristineChange
           }
         )}
         {(addable && showAddBtn !== false) || showPager ? (

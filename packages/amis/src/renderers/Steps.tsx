@@ -3,10 +3,16 @@ import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
 import {Steps} from 'amis-ui';
 import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
-import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
+import {
+  isPureVariable,
+  resolveVariable,
+  resolveVariableAndFilter
+} from 'amis-core';
 import {filter} from 'amis-core';
 import {getPropValue} from 'amis-core';
 import {StepStatus} from 'amis-ui';
+
+import type {SchemaExpression} from 'amis-core';
 
 export type StepSchema = {
   /**
@@ -62,7 +68,8 @@ export interface StepsSchema extends BaseSchema {
     | StepStatus
     | {
         [propName: string]: StepStatus;
-      };
+      }
+    | SchemaExpression;
 
   /**
    * 展示模式
@@ -98,18 +105,21 @@ export function StepsCmpt(props: StepsProps) {
     render,
     useMobileUI
   } = props;
-
   let sourceResult: Array<StepSchema> = resolveVariableAndFilter(
     source,
     data,
     '| raw'
   ) as Array<StepSchema>;
-
+  /** 步骤数据源 */
   const stepsRow: Array<StepSchema> =
     (Array.isArray(sourceResult) ? sourceResult : undefined) ||
     config ||
     steps ||
     [];
+  /** 状态数据源 */
+  const statusValue = isPureVariable(status)
+    ? resolveVariableAndFilter(status, data, '| raw')
+    : status;
 
   const resolveRender = (val?: string | SchemaCollection) =>
     typeof val === 'string' ? filter(val, data) : val && render('inner', val);
@@ -136,14 +146,13 @@ export function StepsCmpt(props: StepsProps) {
   function getStepStatus(step: StepSchema, i: number): StepStatus {
     let stepStatus;
 
-    if (typeof status === 'string') {
+    if (typeof statusValue === 'string') {
       if (i === currentValue) {
-        const resolveStatus = resolveVariable(status, data);
-        stepStatus = resolveStatus || status || StepStatus.process;
+        stepStatus = statusValue || status || StepStatus.process;
       }
-    } else if (typeof status === 'object') {
+    } else if (typeof statusValue === 'object') {
       const key = step.value;
-      key && status[key] && (stepStatus = status[key]);
+      key && statusValue[key] && (stepStatus = statusValue[key]);
     }
 
     return stepStatus;
@@ -154,7 +163,7 @@ export function StepsCmpt(props: StepsProps) {
       current={currentValue}
       steps={resolveSteps}
       className={className}
-      status={status}
+      status={statusValue}
       mode={mode}
       progressDot={progressDot}
       labelPlacement={labelPlacement}

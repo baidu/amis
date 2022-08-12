@@ -46,3 +46,30 @@ test('Renderer:Pagination', () => {
 
   expect(container).toMatchSnapshot();
 });
+
+test('Renderer:Pagination', () => {
+  const schema = {
+    type: 'service',
+    data: {
+      rows
+    },
+    body: [
+      {
+        type: 'pagination',
+        layout: 'total,perPage,pager,go',
+        mode: 'normal',
+        activePage: 2,
+        lastPage: 99999,
+        total: 999,
+        perPage: 10,
+        maxButtons: 4,
+        showPerPage: true,
+        perPageAvailable: [10, 20, 50, 100],
+        showPageInput: true,
+        disabled: false
+      }
+    ]
+  };
+  const {container} = render(amisRender(schema, {}, makeEnv({})));
+  expect(container).toMatchSnapshot();
+});

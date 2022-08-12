@@ -4,7 +4,7 @@ import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {filter} from 'amis-core';
 import cx from 'classnames';
-import {Button} from 'amis-ui';
+import {Button, Spinner} from 'amis-ui';
 import {Checkbox} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
 import {observer} from 'mobx-react';
@@ -915,7 +915,12 @@ export default class List extends React.Component<ListProps, object> {
   }
 
   // editor重写该方法，不要改名或参数
-  renderListItem(index: number, template: ListItemSchema | undefined, item: IItem, itemClassName: string) {
+  renderListItem(
+    index: number,
+    template: ListItemSchema | undefined,
+    item: IItem,
+    itemClassName: string
+  ) {
     const {
       render,
       multiple,
@@ -976,7 +981,8 @@ export default class List extends React.Component<ListProps, object> {
       affixHeader,
       classnames: cx,
       size,
-      translate: __
+      translate: __,
+      loading = false
     } = this.props;
 
     this.renderedToolbars = [];
@@ -1013,6 +1019,7 @@ export default class List extends React.Component<ListProps, object> {
         )}
 
         {this.renderFooter()}
+        <Spinner overlay show={loading} />
       </div>
     );
   }

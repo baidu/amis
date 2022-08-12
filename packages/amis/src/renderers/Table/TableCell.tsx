@@ -66,6 +66,7 @@ export class TableCell extends React.Component<RendererProps> {
       className: innerClassName,
       type: (column && column.type) || 'plain'
     };
+    const canAccessSuperData = schema?.canAccessSuperData !== false;
 
     // 如果本来就是 type 为 button，不要删除，其他情况下都应该删除。
     if (schema.type !== 'button' && schema.type !== 'dropdown-button') {
@@ -77,7 +78,8 @@ export class TableCell extends React.Component<RendererProps> {
       : render('field', schema, {
           ...omit(rest, Object.keys(schema)),
           inputOnly: true,
-          value,
+          /** value没有返回值时设置默认值，避免错误获取到父级数据域的值 */
+          value: canAccessSuperData ? value : value ?? '',
           data
         });
 
