@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const nodeExternals = require('webpack-node-externals');
 const path = require('path');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const i18nConfig = require('./i18nConfig');
 
 module.exports = {
   mode: 'production', // development production
@@ -24,13 +25,22 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
-        options: {
-          compilerOptions: {
-            declaration: true,
-            outDir: './lib'
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              compilerOptions: {
+                declaration: true,
+                outDir: './lib'
+              }
+            }
+          },
+          {
+            loader: 'webpack-react-i18n',
+            options: i18nConfig
           }
-        }
+        ]
+
       },
       {
         test: /\.scss$/i,
