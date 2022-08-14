@@ -16,6 +16,9 @@ import {
 import path from 'path';
 import svgr from '@svgr/rollup';
 import fs from 'fs';
+import i18nPlugin from 'plugin-react-i18n';
+
+const i18nConfig = require('./i18nConfig');
 
 const settings = {
   globals: {}
@@ -97,6 +100,7 @@ function getPlugins(format = 'esm') {
   };
 
   return [
+    i18nPlugin(i18nConfig),
     typescript(typeScriptOptions),
     svgr({
       svgProps: {

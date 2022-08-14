@@ -8,7 +8,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
-    "clean-dist": "rimraf lib/* esm/*"
+    "clean-dist": "rimraf lib/* esm/*",
+    "i18n:update": "npx i18n update --config=./i18nConfig.js",
+    "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US"
   },
   "keywords": [
     "amis",
@@ -27,7 +29,8 @@
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "amis-editor-core": "*",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "i18n-runtime": "0.0.0-alpha.11"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
