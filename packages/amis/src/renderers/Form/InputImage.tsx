@@ -243,6 +243,16 @@ export interface ImageControlSchema extends FormBaseControlSchema {
   initAutoFill?: boolean;
 
   /**
+   * 初始化时是否打开裁剪模式
+   */
+   initCrop?: boolean;
+
+   /**
+    * 图片上传完毕是否进入裁剪模式
+    */
+    dropCrop?: boolean;
+
+  /**
    * 默认占位图图片地址
    */
   frameImage?: SchemaUrlPath;
@@ -327,7 +337,8 @@ export default class ImageControl extends React.Component<
     extractValue: false,
     delimiter: ',',
     autoUpload: true,
-    multiple: false
+    multiple: false,
+    dropCrop: true
   };
 
   static formatFileSize(
@@ -453,6 +464,10 @@ export default class ImageControl extends React.Component<
       formInited || !addHook
         ? this.syncAutoFill()
         : addHook(this.syncAutoFill, 'init');
+    }
+
+    if (this.props.initCrop && this.files.length){
+      this.editImage(0);
     }
   }
 
@@ -873,9 +888,9 @@ export default class ImageControl extends React.Component<
   }
 
   handleDrop(files: Array<FileX>) {
-    const {multiple, crop} = this.props;
+    const {multiple, crop, dropCrop} = this.props;
 
-    if (crop && !multiple) {
+    if (crop && !multiple && dropCrop) {
       const file = files[0] as any;
       if (!file.preview || !file.url) {
         file.preview = window.URL.createObjectURL(file);
