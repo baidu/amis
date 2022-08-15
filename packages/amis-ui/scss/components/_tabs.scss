@@ -257,12 +257,13 @@
       position: relative;
 
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         width: 100%;
         left: 0;
         bottom: 0;
-        border-bottom: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
+        border-bottom: var(--Tabs-borderWidth) solid
+          var(--Tabs--simple-split-color);
       }
 
       &--toolbar {
@@ -320,8 +321,8 @@
           }
 
           > a:first-child:hover:active {
-            color: #144BCC;
-            border-color: #144BCC;
+            color: #144bcc;
+            border-color: #144bcc;
           }
         }
 
@@ -787,7 +788,7 @@
           }
         }
 
-        &:after {
+        &:not(:last-child):after {
           content: '';
           width: 1px;
           height: calc(100% - var(--Tabs--chrome-radius-size) * 2);
@@ -902,8 +903,8 @@
               }
 
               > a:first-child:hover:active {
-                color: #144BCC;
-                border-color: #144BCC;
+                color: #144bcc;
+                border-color: #144bcc;
               }
             }
 
@@ -1026,8 +1027,8 @@
             }
 
             > a:first-child:hover:active {
-              color: #144BCC;
-              border-color: #144BCC;
+              color: #144bcc;
+              border-color: #144bcc;
             }
           }
 

@@ -126,6 +126,7 @@ export interface TabsProps extends ThemeProps {
   onEdit?: (index: number, text: string) => void;
   sidePosition?: 'left' | 'right';
   addBtnText?: string;
+  collapseOnExceed?: number;
 }
 
 export interface IDragInfo {
@@ -514,11 +515,13 @@ export class Tabs extends React.Component<TabsProps, any> {
             {icon ? (
               iconPosition === 'right' ? (
                 <>
-                  {title}{iconElement}
+                  {title}
+                  {iconElement}
                 </>
               ) : (
                 <>
-                  {iconElement}{title}
+                  {iconElement}
+                  {title}
                 </>
               )
             ) : (
@@ -630,6 +633,18 @@ export class Tabs extends React.Component<TabsProps, any> {
     onAdd && onAdd();
   }
 
+  renderNavs() {
+    const {children} = this.props;
+
+    if (Array.isArray(children)) {
+      return null;
+    }
+
+    return (children as Array<any>).map((tab, index) =>
+      this.renderNav(tab, index, false)
+    );
+  }
+
   render() {
     const {
       classnames: cx,
@@ -701,9 +716,7 @@ export class Tabs extends React.Component<TabsProps, any> {
                   role="tablist"
                   ref={this.navMain}
                 >
-                  {children.map((tab, index) =>
-                    this.renderNav(tab, index, true)
-                  )}
+                  {this.renderNavs()}
                   {additionBtns}
                   {!isOverflow && toolButtons}
                 </ul>
@@ -715,7 +728,7 @@ export class Tabs extends React.Component<TabsProps, any> {
         ) : (
           <div className={cx('Tabs-linksWrapper')}>
             <ul className={cx('Tabs-links', linksClassName)} role="tablist">
-              {children.map((tab, index) => this.renderNav(tab, index, false))}
+              {this.renderNavs()}
               {additionBtns}
               {toolbar}
             </ul>

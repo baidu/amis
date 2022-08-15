@@ -197,6 +197,11 @@ export interface TabsSchema extends BaseSchema {
    * 默认激活的选项卡，hash值或索引值，支持使用表达式
    */
   activeKey?: SchemaExpression;
+
+  /**
+   * 超过多少个时折叠按钮
+   */
+  collapseOnExceed?: number;
 }
 
 export interface TabsProps
@@ -714,7 +719,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       editable,
       sidePosition,
       translate: __,
-      addBtnText
+      addBtnText,
+      collapseOnExceed
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -820,6 +826,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         editable={editable}
         onEdit={this.handleEdit}
         sidePosition={sidePosition}
+        collapseOnExceed={collapseOnExceed}
       >
         {children}
       </CTabs>

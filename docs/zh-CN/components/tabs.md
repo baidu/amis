@@ -549,6 +549,45 @@ order: 68
 }
 ```
 
+## 配置超出折叠
+
+通过 icon 可以设置 tab 的图标，可以是 fontawesome 或 URL 地址。
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "tabsMode": "tiled",
+    "tabs": [
+        {
+            "title": "Tab 1",
+            "tab": "Content 1",
+        },
+
+        {
+            "title": "Tab 2",
+            "tab": "Content 2"
+        },
+
+        {
+            "title": "Tab 3",
+            "tab": "Content 3",
+        },
+
+        {
+            "title": "Tab 4",
+            "tab": "Content 4"
+        },
+
+        {
+            "title": "Tab 5",
+            "tab": "Content 5"
+        }
+    ],
+
+    "collapseOnExceed": 3
+}
+```
+
 ## mountOnEnter
 
 只有在点击卡片的时候才会渲染，在内容较多的时候可以提升性能，但第一次点击的时候会有卡顿。
