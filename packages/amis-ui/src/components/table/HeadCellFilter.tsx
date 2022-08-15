@@ -7,8 +7,13 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import isEqual from 'lodash/isEqual';
 
-import {themeable, ThemeProps} from 'amis-core';
-import {LocaleProps, localeable} from 'amis-core';
+import {
+  themeable,
+  ThemeProps,
+  ClassNamesFn,
+  LocaleProps,
+  localeable
+} from 'amis-core';
 import HeadCellDropDown, {
   FilterDropdownProps,
   FilterPayload
@@ -23,6 +28,8 @@ export interface Props extends ThemeProps, LocaleProps {
   filteredValue?: Array<string>;
   filterMultiple?: boolean;
   popOverContainer?: () => Element | Text | null;
+  classnames: ClassNamesFn;
+  classPrefix: string;
 }
 
 export interface OptionProps {
@@ -111,7 +118,7 @@ export class HeadCellFilter extends React.Component<Props, State> {
                   <li key={index}>
                     <CheckBox
                       classPrefix={ns}
-                      onChange={e =>
+                      onChange={(e: any) =>
                         this.handleCheck(
                           confirm,
                           setSelectedKeys,
@@ -177,11 +184,11 @@ export class HeadCellFilter extends React.Component<Props, State> {
     selectedKeys?: Array<string>
   ) {
     const {onFilter, column} = this.props;
-    const payload = {[column.key]: selectedKeys};
+    const payload = {[column.name]: selectedKeys};
 
     if (onFilter) {
       const prevented = await onFilter({
-        filterName: column.key,
+        filterName: column.name,
         filterValue: selectedKeys?.join(',')
       });
       if (prevented) {
@@ -215,7 +222,7 @@ export class HeadCellFilter extends React.Component<Props, State> {
 
   handleConfirmClick(confirm: (payload?: FilterPayload) => void) {
     const {onFilter, column} = this.props;
-    onFilter && onFilter({[column.key]: this.state.filteredValue});
+    onFilter && onFilter({[column.name]: this.state.filteredValue});
     confirm();
   }
 

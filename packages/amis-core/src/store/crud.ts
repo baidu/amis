@@ -134,7 +134,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
         columns?: Array<any>;
-        isTableV2?: Boolean; // 是否是 CRUD2
+        isTable2?: Boolean; // 是否是 CRUD2
       }
     ) => Promise<any> = flow(function* getInitData(
       api: Api,
@@ -165,8 +165,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           if (Array.isArray(options.columns)) {
             options.columns.forEach((column: any) => {
               let value: any;
-              // 兼容新老版本的name和key
-              const key = column.name || column.key;
+              const key = column.name;
               if (
                 column.searchable &&
                 key &&
@@ -311,7 +310,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             if (Array.isArray(options.columns)) {
               options.columns.forEach((column: any) => {
                 let value: any;
-                const key = column.name || column.key;
+                const key = column.name;
                 if (
                   column.searchable &&
                   key &&
@@ -337,7 +336,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
           if (Array.isArray(columns)) {
             self.columns = columns.concat();
-          } else if (rest.isTableV2) {
+          } else if (rest.isTable2) {
             self.columns = options.columns;
           }
 
