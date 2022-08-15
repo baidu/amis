@@ -365,7 +365,9 @@ export const FormStore = ServiceStore.named('FormStore')
           }
           self.markSaving(false);
           self.updateMessage(
-            json.msg ?? self.__(options && options.successMessage)
+            json.msg ?? options.successMessage === 'saveSuccess'
+              ? json.defaultMsg
+              : self.__(options && options.successMessage) ?? json.defaultMsg
           );
           if (!ret?.dispatcher?.prevented) {
             self.msg &&
@@ -542,6 +544,8 @@ export const FormStore = ServiceStore.named('FormStore')
         // 验证过，或者是 unique 的表单项，或者强制验证，或者有远端校验api
         if (
           !item.validated ||
+          item.rules.equals ||
+          item.rules.equalsField ||
           item.unique ||
           forceValidate ||
           !!item.validateApi

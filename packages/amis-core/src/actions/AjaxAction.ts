@@ -84,7 +84,8 @@ export class AjaxAction implements RendererAction {
             result
           );
         } else {
-          const msg = action.args?.messages?.success ?? result.msg;
+          const msg =
+            action.args?.messages?.success ?? result.msg ?? result.defaultMsg;
           msg &&
             env.notify(
               'success',

@@ -455,15 +455,7 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
     if (onlyLeaf && selectedOptions.length && selectedOptions[0].children) {
       return;
     }
-    onChange(
-      joinValues
-        ? selectedOptions
-            .map(item => item[valueField as string])
-            .join(delimiter)
-        : extractValue
-        ? selectedOptions.map(item => item[valueField as string])
-        : selectedOptions
-    );
+    onChange(selectedOptions);
     onClose && onClose();
   }
 
