@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:rating 1`] = `
+exports[`Renderer:rating with allowClear 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -44,7 +44,7 @@ exports[`Renderer:rating 1`] = `
                 class="cxd-TplField"
               >
                 <span>
-                  rating
+                  评分
                 </span>
               </span>
             </span>
@@ -57,8 +57,8 @@ exports[`Renderer:rating 1`] = `
             >
               <ul>
                 <li
-                  class="cxd-Rating-star is-active"
-                  style="color: rgb(120, 123, 129);"
+                  class="cxd-Rating-star"
+                  style=""
                 >
                   <icon-mock
                     classname="icon icon-star"
@@ -66,8 +66,8 @@ exports[`Renderer:rating 1`] = `
                   />
                 </li>
                 <li
-                  class="cxd-Rating-star is-active"
-                  style="color: rgb(120, 123, 129);"
+                  class="cxd-Rating-star"
+                  style=""
                 >
                   <icon-mock
                     classname="icon icon-star"
@@ -75,8 +75,7 @@ exports[`Renderer:rating 1`] = `
                   />
                 </li>
                 <li
-                  class="cxd-Rating-star is-active"
-                  style="color: rgb(120, 123, 129);"
+                  class="cxd-Rating-star"
                 >
                   <icon-mock
                     classname="icon icon-star"
@@ -103,7 +102,1085 @@ exports[`Renderer:rating 1`] = `
             </div>
           </div>
         </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="0"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  role="spinbutton"
+                  step="1"
+                  value="0"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:rating with char & charClassName 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  评分
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-RatingControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Rating"
+            >
+              <ul>
+                <li
+                  class="cxd-Rating-star test-rating-char is-active"
+                  style="color: rgb(171, 173, 177);"
+                >
+                  X
+                </li>
+                <li
+                  class="cxd-Rating-star test-rating-char is-active"
+                  style="color: rgb(171, 173, 177);"
+                >
+                  X
+                </li>
+                <li
+                  class="cxd-Rating-star test-rating-char"
+                >
+                  X
+                </li>
+                <li
+                  class="cxd-Rating-star test-rating-char"
+                >
+                  X
+                </li>
+                <li
+                  class="cxd-Rating-star test-rating-char"
+                >
+                  X
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:rating with colors & inactiveColor 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  评分
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-RatingControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Rating"
+            >
+              <ul>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(119, 168, 141);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(119, 168, 141);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(119, 168, 141);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star"
+                  style="color: yellow;"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star"
+                  style="color: yellow;"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  选中数量
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="3"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  role="spinbutton"
+                  step="1"
+                  value="3"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:rating with count & half 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  评分
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-RatingControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Rating"
+            >
+              <ul>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-half"
+                >
+                  <div
+                    class="cxd-Rating-star-half"
+                    style="color: rgb(255, 169, 0);"
+                  >
+                    <icon-mock
+                      classname="icon icon-star"
+                      icon="star"
+                    />
+                  </div>
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:rating with readOnly 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  评分
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-RatingControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Rating"
+            >
+              <ul>
+                <li
+                  class="cxd-Rating-star is-active is-disabled"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active is-disabled"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active is-disabled"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active is-disabled"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active is-disabled"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="5"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  role="spinbutton"
+                  step="1"
+                  value="5"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:rating with texts & textPosition & textClassName 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  评分
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-RatingControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Rating"
+            >
+              <span
+                class="cxd-Rating-text test-rating-class cxd-Rating-text--left"
+              >
+                非常优秀
+              </span>
+              <ul>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(255, 169, 0);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  选中数量
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="5"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  role="spinbutton"
+                  step="1"
+                  value="5"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
     </div>
     <div
       class="resize-sensor"
