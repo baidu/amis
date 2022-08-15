@@ -1,6 +1,6 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
-import {BaseSchema} from '../Schema';
+import {Renderer, RendererProps, filter} from 'amis-core';
+import {BaseSchema, SchemaTpl} from '../Schema';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {getIcon} from 'amis-ui/lib/components/icons';
 
@@ -14,7 +14,7 @@ export interface IconSchema extends BaseSchema {
   /**
    * 按钮类型
    */
-  icon: string;
+  icon: SchemaTpl;
 
   vendor?: 'iconfont' | 'fa' | '';
 
@@ -35,7 +35,10 @@ export class Icon extends React.Component<IconProps, object> {
   };
 
   render() {
-    const {icon, vendor, classnames: cx, className} = this.props;
+    const {vendor, classnames: cx, className, data} = this.props;
+    let icon = this.props.icon;
+
+    icon = filter(icon, data);
 
     let CustomIcon = getIcon(icon);
     if (CustomIcon) {
