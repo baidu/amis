@@ -230,8 +230,9 @@ export default class Dialog extends React.Component<DialogProps> {
   }
 
   handleSelfClose(e?: any, confirmed?: boolean) {
-    const {onClose, store} = this.props;
+    const {onClose, store, dispatchEvent} = this.props;
 
+    dispatchEvent('cancel');
     // clear error
     store.updateMessage();
     onClose(confirmed);
