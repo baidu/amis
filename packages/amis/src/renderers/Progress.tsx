@@ -136,6 +136,7 @@ export class ProgressField extends React.Component<ProgressProps, object> {
     } = this.props;
 
     let value = getPropValue(this.props);
+    value = typeof value === 'number' ? value : filter(value, data);
 
     if (/^\d*\.?\d+$/.test(value)) {
       value = parseFloat(value);
