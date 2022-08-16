@@ -547,7 +547,7 @@
   --Combo--vertical-item-paddingY: #{px2rem(10px)};
 
   --Combo-addBtn-bg: var(--Button--info-bg);
-  --Combo-addBtn-border: var(--Button--info-border);
+  --Combo-addBtn-border: var(--colors-neutral-11);
   --Combo-addBtn-borderRadius: var(--Button-borderRadius);
   --Combo-addBtn-color: var(--Button--info-color);
   --Combo-addBtn-fontSize: var(--Button--sm-fontSize);
@@ -1151,8 +1151,8 @@
   --Pagination-onActive-backgroundColor: var(--primary);
   --Pagination-onActive-border: 0;
   --Pagination-onActive-color: var(--white);
-  --Pagination-onDisabled-color: var(--text--muted-color);
-  --Pagination-onDisabled-backgroundColor: var(--colors-neutral-6);
+  --Pagination-onDisabled-color: var(--colors-neutral-6);
+  --Pagination-onDisabled-backgroundColor: var(--colors-neutral-10);
   --Pagination-padding: 0 #{px2rem(8px)};
   --Pagination-light-color: #84868c;
 
@@ -1427,7 +1427,7 @@
   --Tabs--strong-add-size: #{px2rem(32px)};
   --Tabs--strong-arrow-size: #{px2rem(24px)};
 
-  --Tabs-borderColor: var(--borderColor);
+  --Tabs-borderColor: var(--colors-neutral-8);
   --Tabs--simple-split-color: var(--Tabs-borderColor);
   --Tabs-borderRadius: var(--borderRadius);
   --Tabs-borderWidth: var(--borderWidth);
@@ -1438,9 +1438,9 @@
   --Tabs-linkPadding: var(--gap-sm) var(--gap-base);
   --Tabs-onActive-bg: var(--background);
   --Tabs-onActive-borderColor: var(--borderColor);
-  --Tabs-onActive-color: var(--colors-neutral-8);
+  --Tabs-onActive-color: var(--colors-neutral-2);
   --Tabs-onDisabled-color: var(--colors-neutral-7);
-  --Tabs-onHover-borderColor: var(--colors-neutral-6);
+  --Tabs-onHover-borderColor: var(--colors-neutral-8);
   --Tabs-add-icon-size: #{px2rem(15px)};
   --Tabs-add-icon-padding: #{px2rem(1px)};
   --Tabs-add-icon-margin: var(--gap-xs);
@@ -1468,7 +1468,7 @@
   --Tabs--chrome-onHover-bg: #f6f7f8;
   --Tabs--chrome-bg: #e7eaed;
   --Tabs--chrome-radius-size: #{px2rem(8px)};
-  --Tabs--chrome-right-border-color: var(--borderColorDarken);
+  --Tabs--chrome-right-border-color: var(--colors-neutral-5);
 
   --TagControl-sugBtn-bg: var(--Button--default-bg);
   --TagControl-sugBtn-border: var(--Button--default-border);
