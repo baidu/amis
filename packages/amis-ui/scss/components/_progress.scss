@@ -6,6 +6,19 @@
   &-line {
     display: inline-block;
     width: 100%;
+    position: relative;
+    &-threshold {
+      position: absolute;
+      height: 100%;
+      border-left: 1px solid #007bff;
+      &-text {
+        position: absolute;
+        font-size: 12px;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
 
     &-inter {
       height: 100%;

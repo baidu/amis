@@ -6,7 +6,10 @@ import {autobind, getPropValue, createObject} from 'amis-core';
 import {filter} from 'amis-core';
 
 import {Progress} from 'amis-ui';
-import type {ColorMapType} from 'amis-ui/lib/components/Progress';
+import type {
+  ColorMapType,
+  ThresholdProps
+} from 'amis-ui/lib/components/Progress';
 
 /**
  * 进度展示控件。
@@ -79,6 +82,16 @@ export interface ProgressSchema extends BaseSchema {
    * 内容的模板函数
    */
   valueTpl?: string;
+
+  /**
+   * 阈值
+   */
+  threshold: ThresholdProps | ThresholdProps[];
+
+  /**
+   * 是否显示阈值数值
+   */
+  showThresholdText: boolean;
 }
 
 export interface ProgressProps
@@ -118,7 +131,9 @@ export class ProgressField extends React.Component<ProgressProps, object> {
       strokeWidth,
       gapDegree,
       gapPosition,
-      classnames: cx
+      classnames: cx,
+      threshold,
+      showThresholdText
     } = this.props;
 
     let value = getPropValue(this.props);
@@ -141,6 +156,8 @@ export class ProgressField extends React.Component<ProgressProps, object> {
         gapPosition={gapPosition}
         className={className}
         progressClassName={progressClassName}
+        threshold={threshold}
+        showThresholdText={showThresholdText}
       />
     );
   }
