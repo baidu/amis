@@ -12,11 +12,6 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
 
 :root {
-  --colors-brand-main: #2468f2;
-  --colors-brand-default: #2468f2;
-  --colors-brand-active: #144bcc;
-  --colors-brand-hover: #528eff;
-  --colors-brand-bg: #e6f0ff;
   --colors-brand-1: #001259;
   --colors-brand-2: #001e80;
   --colors-brand-3: #0832a6;
@@ -27,14 +22,6 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --colors-brand-8: #a8caff;
   --colors-brand-9: #d4e5ff;
   --colors-brand-10: #e6f0ff;
-  --colors-neutral-strong: #151b26;
-  --colors-neutral-lessStrong: #5c5f66;
-  --colors-neutral-info: #84878c;
-  --colors-neutral-disabledInfo: #b8babf;
-  --colors-neutral-border: #e8e9eb;
-  --colors-neutral-bg: #f7f8fa;
-  --colors-neutral-cardBg: #ffffff;
-  --colors-neutral-none: transparent;
   --colors-neutral-1: #070c14;
   --colors-neutral-2: #151b26;
   --colors-neutral-3: #303540;
@@ -46,11 +33,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --colors-neutral-9: #f2f3f5;
   --colors-neutral-10: #f7f8fa;
   --colors-neutral-11: #ffffff;
-  --colors-error-main: #f23d3d;
-  --colors-error-default: #f23d3d;
-  --colors-error-active: #cc292e;
-  --colors-error-hover: #ff6966;
-  --colors-error-bg: #ffe8e6;
+
   --colors-error-1: #590410;
   --colors-error-2: #800d18;
   --colors-error-3: #a61922;
@@ -61,11 +44,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --colors-error-8: #ffb6b3;
   --colors-error-9: #ffdbd9;
   --colors-error-10: #ffe8e6;
-  --colors-warning-main: #ff9326;
-  --colors-warning-default: #ff9326;
-  --colors-warning-active: #d97116;
-  --colors-warning-hover: #ffab52;
-  --colors-warning-bg: #fff4e6;
+  
   --colors-warning-1: #662500;
   --colors-warning-2: #8c3800;
   --colors-warning-3: #b35209;
@@ -76,11 +55,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --colors-warning-8: #ffd8a8;
   --colors-warning-9: #ffecd4;
   --colors-warning-10: #fff4e6;
-  --colors-success-main: #30bf13;
-  --colors-success-default: #30bf13;
-  --colors-success-active: #1b9908;
-  --colors-success-hover: #54cc39;
-  --colors-success-bg: #ecffe6;
+
   --colors-success-1: #012600;
   --colors-success-2: #054d00;
   --colors-success-3: #0b7300;
@@ -91,6 +66,40 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --colors-success-8: #a5e693;
   --colors-success-9: #d1f2c7;
   --colors-success-10: #ecffe6;
+
+  --colors-brand-main: var(--colors-brand-5);
+  --colors-brand-default: var(--colors-brand-5);
+  --colors-brand-active: var(--colors-brand-4);
+  --colors-brand-hover: var(--colors-brand-6);
+  --colors-brand-bg: var(--colors-brand-10);
+
+  --colors-neutral-strong: var(--colors-neutral-2);
+  --colors-neutral-lessStrong: var(--colors-neutral-4);
+  --colors-neutral-info: var(--colors-neutral-5);
+  --colors-neutral-disabledInfo: var(--colors-neutral-6);
+  --colors-neutral-border: var(--colors-neutral-8);
+  --colors-neutral-bg: var(--colors-neutral-10);
+  --colors-neutral-cardBg: var(--colors-neutral-11);
+  --colors-neutral-none: transparent;
+
+  --colors-error-main: var(--colors-error-5);
+  --colors-error-default: var(--colors-error-5);
+  --colors-error-active: var(--colors-error-4);
+  --colors-error-hover: var(--colors-error-6);
+  --colors-error-bg: var(--colors-error-10);
+
+  --colors-warning-main: var(--colors-warning-5);
+  --colors-warning-default: var(--colors-warning-5);
+  --colors-warning-active: var(--colors-warning-4);
+  --colors-warning-hover: var(--colors-warning-6);
+  --colors-warning-bg: var(--colors-warning-10);
+
+  --colors-success-main: var(--colors-success-5);
+  --colors-success-default: var(--colors-success-5);
+  --colors-success-active: var(--colors-success-4);
+  --colors-success-hover: var(--colors-success-6);
+  --colors-success-bg: var(--colors-success-10);
+
   --fonts-base-size: 14px;
   --fonts-base-weight: 400;
   --fonts-base-lineHeight: 1.5;
@@ -222,6 +231,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --shadows-shadow-xl-boxShadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1),
     0px 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadows-shadow-2xl-boxShadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+  // 全局
   --button-default-default-shadow: 0px 0px 0px 0px transparent;
   --button-default-default-font-color: #151b26;
   --button-default-default-bg-color: transparent;
