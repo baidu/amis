@@ -1872,6 +1872,8 @@ popOver 的其它配置请参考 [popover](./popover)
 | affixRow         | `Array`                                  |                           | 底部总结行                                                                |
 | itemBadge        | [`BadgeSchema`](./badge)                 |                           | 行角标配置                                                                |
 | autoFillHeight   | `boolean`                                |                           | 内容区域自适应高度                                                        |
+| height           | `number`                                 |                           | 只在`autoFillHeight`为`true` 时生效，设置 table 高度                      |
+
 | resizable        | `boolean`                                | `true`                    | 列宽度是否支持调整                                                        |
 | selectable       | `boolean`                                | `false`                   | 支持勾选                                                                  |
 | multiple         | `boolean`                                | `false`                   | 勾选icon是否为多选样式`checkbox`，  默认为`radio`                         |

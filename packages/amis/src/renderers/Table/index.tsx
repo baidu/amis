@@ -262,7 +262,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 合并单元格配置，配置数字表示从左到右的多少列自动合并单元格。
    */
-  combineNum?: number;
+  combineNum?: number | string;
 
   /**
    * 合并单元格配置，配置从第几列开始合并。
@@ -303,34 +303,42 @@ export interface TableSchema extends BaseSchema {
    * 表格是否可以获取父级数据域值，默认为false
    */
   canAccessSuperData?: boolean;
+
+  /**
+   * 表格自动计算高度
+   */
+  autoFillHeight?: boolean;
+
+  /**
+   * autoFillHeight 时，手动设置个高度
+   */
+  height?: number;
 }
 
-export interface TableProps extends RendererProps {
-  title?: string; // 标题
+export interface TableProps extends RendererProps, TableSchema {
   header?: SchemaNode;
   footer?: SchemaNode;
   actions?: ActionObject[];
   className?: string;
-  headerClassName?: string;
-  footerClassName?: string;
+  // headerClassName?: string;
+  // footerClassName?: string;
   store: ITableStore;
-  columns?: Array<any>;
+  // columns?: Array<any>;
   headingClassName?: string;
-  toolbarClassName?: string;
+  // toolbarClassName?: string;
   headerToolbarClassName?: string;
   footerToolbarClassName?: string;
-  tableClassName?: string;
-  source?: string;
+  // tableClassName?: string;
+  // source?: string;
   selectable?: boolean;
   selected?: Array<any>;
   maxKeepItemSelectionLength?: number;
   valueField?: string;
   draggable?: boolean;
-  columnsTogglable?: boolean | 'auto';
-  affixHeader?: boolean;
+  // columnsTogglable?: boolean | 'auto';
+  // affixHeader?: boolean;
   affixColumns?: boolean;
-  combineNum?: number | string;
-  combineFromIndex?: number;
+  // combineFromIndex?: number;
   footable?:
     | boolean
     | {
@@ -366,13 +374,12 @@ export interface TableProps extends RendererProps {
   checkOnItemClick?: boolean;
   hideCheckToggler?: boolean;
   rowClassName?: string;
-  rowClassNameExpr?: string;
+  // rowClassNameExpr?: string;
   popOverContainer?: any;
-  canAccessSuperData?: boolean;
+  // canAccessSuperData?: boolean;
   reUseRow?: boolean;
-  itemBadge?: BadgeObject;
+  // itemBadge?: BadgeObject;
   loading?: boolean;
-  autoFillHeight?: boolean;
 }
 
 export type ExportExcelToolbar = SchemaNode & {
@@ -675,7 +682,7 @@ export default class Table extends React.Component<TableProps, object> {
    * 用 css 实现有点麻烦，要改很多结构，所以先用 dom hack 了，避免对之前的功能有影响
    */
   updateAutoFillHeight() {
-    const {autoFillHeight, footerToolbar, classPrefix: ns} = this.props;
+    const {autoFillHeight, footerToolbar, classPrefix: ns, height} = this.props;
     if (!autoFillHeight) {
       return;
     }
@@ -728,13 +735,15 @@ export default class Table extends React.Component<TableProps, object> {
       parentNode = parentNode.parentElement;
     }
 
-    const tableContentHeight = `${
-      viewportHeight -
-      tableContentTop -
-      tableContentWrapMarginButtom -
-      footToolbarHeight -
-      allParentPaddingButtom
-    }px`;
+    const tableContentHeight = height
+      ? `${height}px`
+      : `${
+          viewportHeight -
+          tableContentTop -
+          tableContentWrapMarginButtom -
+          footToolbarHeight -
+          allParentPaddingButtom
+        }px`;
 
     tableContent.style.height = tableContentHeight;
     /**autoFillHeight开启后固定列会溢出Table高度，需要同步一下 */
