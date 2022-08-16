@@ -1036,7 +1036,14 @@ export class EditorManager {
     }
 
     store.changeValue(value, diff);
-    this.trigger('after-update', context);
+
+    // value 变了需要重新构建一下 context
+    const context2: ChangeEventContext = {
+      ...this.buildEventContext(store.activeId),
+      value,
+      diff
+    };
+    this.trigger('after-update', context2);
   }
 
   /**
