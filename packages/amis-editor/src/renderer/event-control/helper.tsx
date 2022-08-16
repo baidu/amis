@@ -962,9 +962,16 @@ export const getEventControlConfig = (
     manager?.store?.outline ?? [],
     (item: any) => {
       const schema = manager?.store?.getSchema(item.id);
+      let cmptLabel = '';
+      if (item?.region) {
+        cmptLabel = item?.label;
+      } else {
+        cmptLabel = schema?.label ?? schema?.title;
+      }
+      cmptLabel = cmptLabel ?? item.label;
       return {
         id: item.id,
-        label: item.label,
+        label: cmptLabel,
         value: schema?.id ?? item.id,
         type: schema?.type ?? item.type,
         schema,
