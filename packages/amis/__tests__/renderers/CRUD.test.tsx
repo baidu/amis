@@ -584,7 +584,8 @@ test('Renderer: crud sortable & orderBy & orderDir & orderField', async () => {
             {
               name: '__id',
               label: 'ID',
-              sortable: true
+              sortable: true,
+              searchable: true
             },
             {
               name: 'engine',

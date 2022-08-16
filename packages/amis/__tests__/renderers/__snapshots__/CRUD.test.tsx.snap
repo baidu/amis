@@ -1401,7 +1401,7 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
                         class=""
                       >
                         <th
-                          class="cxd-TableCell--sortable"
+                          class="cxd-TableCell--sortable cxd-TableCell--searchable"
                           data-index="3"
                         >
                           <div
@@ -1415,6 +1415,16 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
                               </span>
                             </span>
                           </div>
+                          <span
+                            class="cxd-TableCell-searchBtn"
+                          >
+                            <span>
+                              <icon-mock
+                                classname="icon icon-search"
+                                icon="search"
+                              />
+                            </span>
+                          </span>
                           <span
                             class="cxd-TableCell-sortBtn"
                           >
@@ -1884,7 +1894,7 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
                     <thead>
                       <tr>
                         <th
-                          class="cxd-TableCell--sortable"
+                          class="cxd-TableCell--sortable cxd-TableCell--searchable"
                           data-index="3"
                           style="width: 0px; height: 0px;"
                         >
@@ -1899,6 +1909,16 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
                               </span>
                             </span>
                           </div>
+                          <span
+                            class="cxd-TableCell-searchBtn"
+                          >
+                            <span>
+                              <icon-mock
+                                classname="icon icon-search"
+                                icon="search"
+                              />
+                            </span>
+                          </span>
                           <span
                             class="cxd-TableCell-sortBtn"
                           >

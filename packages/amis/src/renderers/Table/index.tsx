@@ -1851,24 +1851,8 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     let affix = null;
-
-    if (column.searchable && column.name && !autoGenerateFilter) {
-      affix = (
-        <HeadCellSearchDropDown
-          {...this.props}
-          onQuery={onQuery}
-          name={column.name}
-          searchable={column.searchable}
-          sortable={column.sortable}
-          type={column.type}
-          data={query}
-          orderBy={store.orderBy}
-          orderDir={store.orderDir}
-          popOverContainer={this.getPopOverContainer}
-        />
-      );
-    } else if (column.sortable && column.name) {
-      affix = (
+    const sortAffix =
+      column.sortable && column.name ? (
         <span
           className={cx('TableCell-sortBtn')}
           onClick={async () => {
@@ -1935,6 +1919,22 @@ export default class Table extends React.Component<TableProps, object> {
             <Icon icon="sort-default" className="icon" />
           </i>
         </span>
+      ) : null;
+
+    if (column.searchable && column.name && !autoGenerateFilter) {
+      affix = (
+        <HeadCellSearchDropDown
+          {...this.props}
+          onQuery={onQuery}
+          name={column.name}
+          searchable={column.searchable}
+          sortable={column.sortable}
+          type={column.type}
+          data={query}
+          orderBy={store.orderBy}
+          orderDir={store.orderDir}
+          popOverContainer={this.getPopOverContainer}
+        />
       );
     } else if (column.filterable && column.name) {
       affix = (
@@ -2001,6 +2001,7 @@ export default class Table extends React.Component<TableProps, object> {
         </div>
 
         {affix}
+        {sortAffix}
         {resizable === false ? null : resizeLine}
       </th>
     );
