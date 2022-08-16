@@ -862,7 +862,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   async handleCheck(item: IRow, value: boolean, shift?: boolean) {
-    const {store, data, dispatchEvent} = this.props;
+    const {store, data, dispatchEvent, valueField} = this.props;
 
     const selectedItems = value
       ? [...store.selectedRows.map(row => row.data), item.data]
@@ -888,7 +888,8 @@ export default class Table extends React.Component<TableProps, object> {
     } else {
       item.toggle();
     }
-
+    // 将 valueField 相同的行都选中
+    store.updateSelected(selectedItems, valueField);
     this.syncSelected();
   }
 
