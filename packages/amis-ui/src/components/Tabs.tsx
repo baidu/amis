@@ -638,7 +638,7 @@ export class Tabs extends React.Component<TabsProps, any> {
     onAdd && onAdd();
   }
 
-  renderNavs() {
+  renderNavs(showClose = false) {
     const {
       children,
       collapseOnExceed,
@@ -653,7 +653,7 @@ export class Tabs extends React.Component<TabsProps, any> {
     }
 
     let doms: Array<any> = (children as Array<any>).map((tab, index) =>
-      this.renderNav(tab, index, false)
+      this.renderNav(tab, index, showClose)
     );
 
     if (
@@ -778,7 +778,7 @@ export class Tabs extends React.Component<TabsProps, any> {
                   role="tablist"
                   ref={this.navMain}
                 >
-                  {this.renderNavs()}
+                  {this.renderNavs(true)}
                   {additionBtns}
                   {!isOverflow && toolButtons}
                 </ul>
