@@ -9,7 +9,7 @@ interface ColorProps {
 }
 
 export interface ThresholdProps {
-  value: number | string;
+  value: string;
   color?: string;
 }
 
@@ -133,6 +133,7 @@ export class Progress extends React.Component<ProgressProps, Object> {
               borderColor: color || 'var(--text-color)'
             }}
             className={cx(`${prefixCls}-threshold`)}
+            key={text}
           >
             {showThresholdText ? (
               <span className={cx(`${prefixCls}-threshold-text`)}>{text}</span>
@@ -141,15 +142,11 @@ export class Progress extends React.Component<ProgressProps, Object> {
         );
         if (Array.isArray(threshold)) {
           thresholdDom = threshold.map(item => {
-            const text =
-              typeof item.value === 'string' ? item.value : item.value + '%';
+            const text = parseFloat(item.value) + '%';
             return temp(text, item.color);
           });
         } else {
-          const text =
-            typeof threshold.value === 'string'
-              ? threshold.value
-              : threshold.value + '%';
+          const text = parseFloat(threshold.value) + '%';
           thresholdDom = temp(text, threshold.color);
         }
       }

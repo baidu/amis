@@ -1,15 +1,11 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, filter} from 'amis-core';
 import cx from 'classnames';
-import {BaseSchema, SchemaClassName} from '../Schema';
+import {BaseSchema, SchemaClassName, SchemaTpl} from '../Schema';
 import {autobind, getPropValue, createObject} from 'amis-core';
-import {filter} from 'amis-core';
 
 import {Progress} from 'amis-ui';
-import type {
-  ColorMapType,
-  ThresholdProps
-} from 'amis-ui/lib/components/Progress';
+import type {ColorMapType} from 'amis-ui/lib/components/Progress';
 
 /**
  * 进度展示控件。
@@ -86,12 +82,14 @@ export interface ProgressSchema extends BaseSchema {
   /**
    * 阈值
    */
-  threshold: ThresholdProps | ThresholdProps[];
+  threshold?:
+    | {value: SchemaTpl; color?: string}
+    | {value: SchemaTpl; color?: string}[];
 
   /**
    * 是否显示阈值数值
    */
-  showThresholdText: boolean;
+  showThresholdText?: boolean;
 }
 
 export interface ProgressProps
@@ -120,6 +118,7 @@ export class ProgressField extends React.Component<ProgressProps, object> {
 
   render() {
     const {
+      data,
       mode,
       className,
       placeholder,
@@ -141,6 +140,22 @@ export class ProgressField extends React.Component<ProgressProps, object> {
     if (/^\d*\.?\d+$/.test(value)) {
       value = parseFloat(value);
     }
+
+    if (threshold) {
+      if (Array.isArray(threshold)) {
+        threshold.forEach(item => {
+          item.value =
+            typeof item.value === 'string'
+              ? filter(item.value, data)
+              : item.value;
+          item.color && (item.color = filter(item.color, data));
+        });
+      } else {
+        threshold.value = filter(threshold.value, data);
+        threshold.color && (threshold.color = filter(threshold.color, data));
+      }
+    }
+
     return (
       <Progress
         value={value}
