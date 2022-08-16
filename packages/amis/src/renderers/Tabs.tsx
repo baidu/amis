@@ -202,6 +202,11 @@ export interface TabsSchema extends BaseSchema {
    * 超过多少个时折叠按钮
    */
   collapseOnExceed?: number;
+
+  /**
+   * 折叠按钮文字
+   */
+  collapseBtnLabel?: string;
 }
 
 export interface TabsProps
@@ -720,7 +725,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       sidePosition,
       translate: __,
       addBtnText,
-      collapseOnExceed
+      collapseOnExceed,
+      collapseBtnLabel
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -827,6 +833,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         onEdit={this.handleEdit}
         sidePosition={sidePosition}
         collapseOnExceed={collapseOnExceed}
+        collapseBtnLabel={collapseBtnLabel}
       >
         {children}
       </CTabs>

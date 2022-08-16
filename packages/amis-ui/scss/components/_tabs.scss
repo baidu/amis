@@ -190,6 +190,10 @@
         }
       }
 
+      > a.#{$ns}Tabs-togglor {
+        display: flex;
+      }
+
       > .#{$ns}Combo-toolbarBtn {
         position: absolute;
         right: -10px;
@@ -228,6 +232,45 @@
         border-bottom-color: transparent;
       }
     }
+  }
+
+  .#{$ns}Tabs-togglor {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    cursor: pointer;
+
+    &-arrow {
+      width: var(--gap-md);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transform: rotate(90deg);
+
+      > svg {
+        transition: transform var(--animation-duration);
+        display: inline-block;
+        color: var(--Form-select-caret-iconColor);
+        width: 10px;
+        height: 10px;
+        top: 0;
+      }
+    }
+
+    &.is-opened {
+      color: var(--Tabs-onActive-color);
+
+      .#{$ns}Tabs-togglor-arrow > svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &-PopOver.#{$ns}PopOver {
+    border: 0;
+    border-radius: 0;
   }
 
   &-content {

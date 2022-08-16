@@ -19,6 +19,7 @@ register('de-DE', {
   'Time': 'Zeit',
   'Content': 'Inhalt',
   'cancel': 'Abbrechen',
+  'more': 'mehr',
   'Card.dragTip': 'Obere Schaltfläche zum Sortieren ziehen',
   'Card.toggleDrag': 'Zum Sortieren umschalten',
   'City.street': 'Straße eingeben',

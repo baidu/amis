@@ -19,6 +19,7 @@ register('zh-CN', {
   'Time': '时间',
   'Content': '内容',
   'cancel': '取消',
+  'more': '更多',
   'Card.dragTip': '请拖动顶部的按钮进行排序',
   'Card.toggleDrag': '对卡片进行排序操作',
   'City.street': '请输入街道信息',

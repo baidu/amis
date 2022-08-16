@@ -653,6 +653,8 @@ order: 68
 | editable              | `boolean`                         | false                               | 收否可编辑标签名                                                                                           |
 | scrollable            | `boolean`                         | true                                | 是否导航支持内容溢出滚动。（属性废弃）                                                                     |
 | sidePosition          | `left` / `right`                  | `left`                              | `sidebar` 模式下，标签栏位置                                                                               |
+| collapseOnExceed      | `number`                          |                                     | 当 tabs 超出多少个时开始折叠                                                                               |
+| collapseBtnLabel      | `string`                          | `more`                              | 用来设置折叠按钮的文字                                                                                     |
 
 ## 事件表
 
