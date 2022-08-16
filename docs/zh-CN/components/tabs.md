@@ -551,7 +551,7 @@ order: 68
 
 ## 配置超出折叠
 
-通过 icon 可以设置 tab 的图标，可以是 fontawesome 或 URL 地址。
+通过配置 `collapseOnExceed` 可以用来实现超出折叠，额外还能通过 `collapseBtnLabel` 配置折叠按钮的文字
 
 ```schema: scope="body"
 {
