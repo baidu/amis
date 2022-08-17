@@ -7,7 +7,7 @@ import forEach from 'lodash/forEach';
 import {evalExpression, filter} from 'amis-core';
 import {BadgeObject, Checkbox, Spinner} from 'amis-ui';
 import {Button} from 'amis-ui';
-import {TableStore, ITableStore} from 'amis-core';
+import {TableStore, ITableStore, padArr} from 'amis-core';
 import {
   anyChanged,
   getScrollParent,
@@ -1621,30 +1621,48 @@ export default class Table extends React.Component<TableProps, object> {
       return null;
     }
 
-    const groupedSearchableColumns: Array<Record<string, any>> = [
-      {body: [], md: 4},
-      {body: [], md: 4},
-      {body: [], md: 4}
-    ];
+    const body: Array<any> = [];
 
-    activedSearchableColumns.forEach((column, index) => {
-      groupedSearchableColumns[index % 3].body.push({
-        ...(column.searchable === true
-          ? {
-              type: 'input-text',
-              name: column.name,
-              label: column.label
-            }
-          : {
-              type: 'input-text',
-              name: column.name,
-              ...column.searchable
-            }),
-        name: column.searchable?.name ?? column.name,
-        label: column.searchable?.label ?? column.label,
-        mode: 'horizontal'
+    padArr(activedSearchableColumns, 3, true).forEach(group => {
+      const children: Array<any> = [];
+
+      group.forEach(column => {
+        children.push(
+          column
+            ? {
+                ...(column.searchable === true
+                  ? {
+                      type: 'input-text',
+                      name: column.name,
+                      label: column.label
+                    }
+                  : {
+                      type: 'input-text',
+                      name: column.name,
+                      ...column.searchable
+                    }),
+                name: column.searchable?.name ?? column.name,
+                label: column.searchable?.label ?? column.label
+              }
+            : {
+                type: 'tpl',
+                tpl: ''
+              }
+        );
+      });
+
+      body.push({
+        type: 'group',
+        body: children
       });
     });
+
+    let showExpander = body.length > 1;
+
+    // todo 以后做动画
+    if (!store.searchFormExpanded) {
+      body.splice(1, body.length - 1);
+    }
 
     return render(
       'searchable-form',
@@ -1652,14 +1670,9 @@ export default class Table extends React.Component<TableProps, object> {
         type: 'form',
         api: null,
         title: '',
-        mode: 'normal',
+        mode: 'horizontal',
         submitText: __('search'),
-        body: [
-          {
-            type: 'grid',
-            columns: groupedSearchableColumns
-          }
-        ],
+        body: body,
         actions: [
           {
             type: 'dropdown-button',
@@ -1685,6 +1698,7 @@ export default class Table extends React.Component<TableProps, object> {
                 },
                 onChange: (value: boolean) => {
                   column.setEnableSearch(value);
+                  store.setSearchFormExpanded(true);
                 }
               };
             })
@@ -1699,8 +1713,27 @@ export default class Table extends React.Component<TableProps, object> {
             type: 'reset',
             label: __('reset'),
             className: 'w-18'
-          }
-        ]
+          },
+
+          showExpander
+            ? {
+                children: () => (
+                  <a
+                    className={cx(
+                      'Table-SFToggler',
+                      store.searchFormExpanded ? 'is-expanded' : ''
+                    )}
+                    onClick={store.toggleSearchFormExpanded}
+                  >
+                    {__(store.searchFormExpanded ? 'collapse' : 'expand')}
+                    <span className={cx('Table-SFToggler-arrow')}>
+                      <Icon icon="right-arrow-bold" className="icon" />
+                    </span>
+                  </a>
+                )
+              }
+            : null
+        ].filter(item => item)
       },
       {
         key: 'searchable-form',

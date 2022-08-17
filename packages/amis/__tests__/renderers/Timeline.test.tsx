@@ -132,8 +132,8 @@ test('Renderer:timeline items', async () => {
   );
   expect(container).toMatchSnapshot();
 
-  fireEvent.click(getByText('detailCollapsedText'));
-  expect(getByText('detailExpandedText')).toBeInTheDocument();
+  fireEvent.click(getByText('detailExpandedText'));
+  expect(getByText('detailCollapsedText')).toBeInTheDocument();
 });
 
 test('Renderer:timeline source', async () => {
