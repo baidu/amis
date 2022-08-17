@@ -478,7 +478,7 @@ export class Transfer<
         }
         joinValues={false}
         showIcon={false}
-        multiple={true}
+        multiple={multiple}
         cascade={true}
         onlyChildren={!isTreeDeferLoad}
         itemRender={optionItemRender}
@@ -557,7 +557,7 @@ export class Transfer<
         onDeferLoad={onDeferLoad}
         joinValues={false}
         showIcon={false}
-        multiple={true}
+        multiple={multiple}
         cascade={true}
       />
     ) : selectMode === 'chained' ? (
