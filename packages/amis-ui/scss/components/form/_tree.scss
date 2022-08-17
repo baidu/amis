@@ -101,12 +101,15 @@
     }
     &-item {
       padding-left: var(--Tree-item-arrow-padding-left);
-      display: inline-block;
+      display: inline-flex;
       width: 100%;
+      align-items: center;
+      overflow: hidden;
+      height: px2rem(32px);
     }
-  
+
     &:hover {
-      .#{$ns}Tree{
+      .#{$ns}Tree {
         &-itemLabel-item {
           background-color: var(--Tree-item-onHover-bg-pure);
         }
@@ -120,7 +123,7 @@
   &-item {
     .is-checked {
       border-radius: var(--Tree-item-onChekced-bg-borderRadius);
-      .#{$ns}Tree{
+      .#{$ns}Tree {
         &-itemLabel-item {
           background-color: var(--Tree-item-onChekced-bg);
         }
@@ -290,20 +293,16 @@
       height: px2rem(14px);
     }
   }
-    
 
   &-itemText {
     cursor: pointer;
     flex: 1 auto;
     display: inline-block;
     color: var(--Form-input-color);
-    line-height: var(--lineHeightBase);
-    max-width: var(--Tree-item-text-max-height);
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    position: relative;
-    top: var(--Tree-item-text-top);
   }
   .is-disabled &-itemText {
     color: var(--text--muted-color);
