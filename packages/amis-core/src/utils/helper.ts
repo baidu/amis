@@ -1354,10 +1354,32 @@ export function chainEvents(props: any, schema: any) {
   return ret;
 }
 
-export function mapObject(value: any, fn: Function): any {
+export function mapObject(
+  value: any,
+  fn: Function,
+  skipFn?: (value: any) => boolean
+): any {
+  // 如果value值满足skipFn条件则不做map操作
+  skipFn =
+    skipFn && typeof skipFn === 'function'
+      ? skipFn
+      : (value: any): boolean => {
+          // File类型处理之后会变成plain object
+          if (value instanceof File) {
+            return true;
+          }
+
+          return false;
+        };
+
+  if (!!skipFn(value)) {
+    return value;
+  }
+
   if (Array.isArray(value)) {
     return value.map(item => mapObject(item, fn));
   }
+
   if (isObject(value)) {
     let tmpValue = {...value};
     Object.keys(tmpValue).forEach(key => {

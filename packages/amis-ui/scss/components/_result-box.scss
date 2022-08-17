@@ -77,7 +77,6 @@
   }
 
   &-singleValue {
-    padding: 0 calc(var(--Form-input-paddingX) - #{px2rem(3px)});
     flex-grow: 1;
     display: inline-block;
     max-width: 100%;

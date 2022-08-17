@@ -322,6 +322,8 @@ register('en-US', {
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Unfold',
   'Timeline.expandText': 'Fold',
+  'collapse': 'Collapse',
+  'expand': 'Expand',
   'FormulaEditor.btnLabel': 'Formula Edit',
   'FormulaEditor.title': 'Formula Editor',
   'FormulaEditor.variable': 'Variable',
