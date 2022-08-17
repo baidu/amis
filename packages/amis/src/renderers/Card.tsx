@@ -1,6 +1,6 @@
 import React from 'react';
 import omit from 'lodash/omit';
-import merge from 'lodash/merge';
+import extend from 'lodash/extend';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
@@ -498,7 +498,8 @@ export class CardRenderer extends React.Component<CardProps> {
   }
 
   renderFeild(region: string, field: Schema, key: any, props: any) {
-    const {render, classnames: cx, itemIndex, useCardLabel} = props;
+    const {render, classnames: cx, itemIndex} = props;
+    const useCardLabel = props?.useCardLabel !== false;
     const data = this.props.data;
     if (!field || !isVisible(field, data)) {
       return;
@@ -517,18 +518,14 @@ export class CardRenderer extends React.Component<CardProps> {
         {
           render(
             region,
-            merge(
-              {
-                ...field,
-                field: field,
-                $$id,
-                type: 'card-item-field'
-              },
-              useCardLabel
-                ? {label: false, field: {...field, label: false}}
-                : {}
-            ),
             {
+              ...field,
+              field: field,
+              $$id,
+              type: 'card-item-field'
+            },
+            {
+              useCardLabel,
               className: cx('Card-fieldValue', field.className),
               rowIndex: itemIndex,
               colIndex: key,
@@ -805,9 +802,9 @@ export class CardItemFieldRenderer extends TableCell {
       tabIndex,
       onKeyUp,
       field,
+      useCardLabel,
       ...rest
     } = this.props;
-
     const schema = {
       ...field,
       className: innerClassName,
@@ -819,7 +816,12 @@ export class CardItemFieldRenderer extends TableCell {
       : render('field', schema, {
           ...omit(rest, Object.keys(schema)),
           value,
-          data
+          data,
+          /** 表单项默认隐藏label，否则会显示两个label */
+          ...(useCardLabel &&
+          !~['tpl', 'html', 'plain', 'text'].indexOf(schema?.type)
+            ? {label: false}
+            : {})
         });
 
     if (width) {
