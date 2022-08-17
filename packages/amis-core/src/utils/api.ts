@@ -299,7 +299,11 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
       if (api.responseType === 'blob') {
         throw new Error('Should have "Content-Disposition" in Header');
       } else if (!contentType.includes('markdown')) {
-        throw new Error(`Content type is wrong "${contentType}"`);
+        throw new Error(
+          `Content is wrong content-type:"${contentType}" content: ${escapeHtml(
+            (data as string).substring(0, 100)
+          )}`
+        );
       }
     }
   }
