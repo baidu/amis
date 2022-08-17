@@ -227,6 +227,10 @@
           a {
             display: inline-block;
           }
+
+          button:not(:last-child) {
+            margin-right: var(--gap-sm);
+          }
         }
 
         &:last-child {
