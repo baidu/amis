@@ -157,7 +157,6 @@ export default {
       {
         name: 'id',
         label: 'ID',
-        width: 20,
         sortable: true,
         type: 'text',
         toggled: true,

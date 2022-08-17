@@ -578,12 +578,16 @@ export function difference<
   return changes(object, base);
 }
 
-export const padArr = (arr: Array<any>, size = 4): Array<Array<any>> => {
-  const ret: Array<Array<any>> = [];
+export const padArr = (
+  arr: Array<any>,
+  size = 4,
+  fillUndefined = false
+): Array<Array<any>> => {
+  const ret: Array<Array<any>> = [[]];
   const pool: Array<any> = arr.concat();
   let from = 0;
 
-  while (pool.length) {
+  while (pool.length || (fillUndefined && ret[ret.length - 1].length < size)) {
     let host: Array<any> = ret[from] || (ret[from] = []);
 
     if (host.length >= size) {
