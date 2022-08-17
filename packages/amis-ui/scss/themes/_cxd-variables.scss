@@ -32,8 +32,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --colors-neutral-7: #d4d6d9;
   --colors-neutral-8: #e8e9eb;
   --colors-neutral-9: #f2f3f5;
-  --colors-neutral-10: #f7f8fa;
+  --colors-neutral-10: #f7f7f9;
   --colors-neutral-11: #ffffff;
+  --colors-neutral-12: #d1d5db;
 
   --colors-error-1: #590410;
   --colors-error-2: #800d18;
@@ -1544,7 +1545,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Alert--success-borderColor: var(--colors-neutral-none);
 
   --Alert--warning-color: var(--colors-neutral-lessStrong);
-  --Alert--warning-bg: var(--colors-warning-bg)
+  --Alert--warning-bg: var(--colors-warning-bg);
   --Alert--warning-borderColor: var(--colors-neutral-none);
 
   // Toast size

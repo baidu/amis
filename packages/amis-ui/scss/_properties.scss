@@ -58,7 +58,7 @@
 
   --borderColor: var(--colors-neutral-8);
   --borderColorLight:  var(--colors-neutral-10);
-  --borderColorDarken: var(--colors-neutral-6:);
+  --borderColorDarken: var(--colors-neutral-8);
   --borderRadius: 0.142rem;
   --borderRadiusMd: 0.285rem;
   --borderRadiusLg: 0.428rem;
@@ -170,7 +170,7 @@
   --Audio-volume-lineHeight: #{px2rem(50px)};
   --Audio-volume-width: var(--gap-md);
   --Audio-volumeControl-width: #{px2rem(110px)};
-  --Avatar-bg: var(--colors-neutral-5);
+  --Avatar-bg: var(--colors-neutral-12);
   --Avatar-width: #{px2rem(40px)};
   --Avatar-size-large: #{px2rem(48px)};
   // 兼容旧的size大小写法
@@ -1344,7 +1344,7 @@
   --Table-thead-color: var(--text--loud-color);
   --Table-thead-fontSize: var(--fontSizeBase);
   --Table-thead-iconColor: var(--icon-color);
-  --Table-toolbar-marginX: 0;
+  --Table-toolbar-marginX: .25rem;
   --Table-toolbar-marginY: var(--gap-base);
   --Table-tree-borderColor: var(--Table-borderColor);
   --Table-searchableForm-backgroundColor: #f6f7f8;
@@ -1700,10 +1700,10 @@
   --Tag-default-color: #f2f2f4;
   --Tag-inactive-color: #b4b6ba;
   --Tag-active-color: #2468f2;
-  --Tag-processing-color: #1ac5ff;
-  --Tag-success-color: #0bc286;
-  --Tag-error-color: #e8684a;
-  --Tag-warning-color: #ffb200;
+  --Tag-processing-color: #528eff;
+  --Tag-success-color: #30BF13;
+  --Tag-error-color: #f33e3e;
+  --Tag-warning-color: #ff9326;
 
   --Tag-checkable-bgColor: #f2f2f4;
   --Tag-checkable-bgColor-onDisable: #e6e6e8;
