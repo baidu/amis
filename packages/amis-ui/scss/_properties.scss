@@ -58,7 +58,7 @@
 
   --borderColor: var(--colors-neutral-8);
   --borderColorLight: var(--colors-neutral-10);
-  --borderColorDarken: var(--colors-neutral-6: );
+  --borderColorDarken: var(--colors-neutral-6);
   --borderRadius: 0.142rem;
   --borderRadiusMd: 0.285rem;
   --borderRadiusLg: 0.428rem;
@@ -1058,9 +1058,9 @@
   --Modal-bg: var(--background);
   --Modal-body--noHeader-paddingTop: var(--gap-base);
   --Modal-body-borderBottom: var(--Modal-content-borderWidth) solid
-    var(-colors-neutral-10);
+    var(--colors-neutral-10);
   --Modal-body-borderTop: var(--Modal-content-borderWidth) solid
-    var(-colors-neutral-10);
+    var(--colors-neutral-10);
   --Modal-body-paddingX: var(--gap-md);
   --Modal-body-paddingY: var(--gap-md);
   --Modal-close-color: var(--text--muted-color);
@@ -1480,7 +1480,7 @@
   --TagControl-sugBtn-fontSize: var(--Button--sm-fontSize);
   --TagControl-sugBtn-height: var(--Button--sm-height);
   --TagControl-sugBtn-lineHeight: var(--Button--sm-lineHeight);
-  --TagControl-sugBtn-onActive-bg: var(--colors-neutral-8: );
+  --TagControl-sugBtn-onActive-bg: var(--colors-neutral-8);
   --TagControl-sugBtn-onActive-border: var(--colors-neutral-5);
   --TagControl-sugBtn-onActive-color: var(--TagControl-sugBtn-color);
   --TagControl-sugBtn-onHover-bg: var(--colors-neutral-8);
