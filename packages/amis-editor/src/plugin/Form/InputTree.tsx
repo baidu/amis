@@ -269,49 +269,50 @@ export class TreeControlPlugin extends BasePlugin {
               getSchemaTpl('label'),
               getSchemaTpl('multiple', {
                 body: [
-                  getSchemaTpl('switch', {
-                    label: tipedLabel(
-                      '子节点自动选',
-                      '当选中父节点时级联选择子节点'
-                    ),
-                    name: 'autoCheckChildren',
-                    value: true
-                  }),
-                  getSchemaTpl('switch', {
-                    label: tipedLabel(
-                      '子节点可反选',
-                      '子节点可反选，值包含父子节点'
-                    ),
-                    name: 'cascade',
-                    hiddenOn: '!data.autoCheckChildren'
-                  }),
-                  getSchemaTpl('switch', {
-                    label: tipedLabel(
-                      '值包含父节点',
-                      '选中父节点时，值里面将包含父子节点的值，否则只会保留父节点的值'
-                    ),
-                    name: 'withChildren',
-                    hiddenOn: '!data.autoCheckChildren && data.cascade'
-                  }),
-                  getSchemaTpl('switch', {
-                    label: tipedLabel(
-                      '值只含子节点',
-                      'ui 行为级联选中子节点，子节点可反选，值只包含子节点的值'
-                    ),
-                    name: 'onlyChildren',
-                    hiddenOn: '!data.autoCheckChildren'
-                  }),
                   {
                     type: 'input-number',
-                    label: '节点最小数',
+                    label: tipedLabel('节点最小数','表单校验最少选中的节点数'),
                     name: 'minLength'
                   },
                   {
                     type: 'input-number',
-                    label: '节点最大数',
+                    label: tipedLabel('节点最大数','表单校验最多选中的节点数'),
                     name: 'maxLength'
                   }
                 ]
+              }),
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '子节点自动选',
+                  '当选中父节点时级联选择子节点'
+                ),
+                name: 'autoCheckChildren',
+                hiddenOn:'!data.multiple',
+                value: true
+              }),
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '子节点可反选',
+                  '子节点可反选，值包含父子节点'
+                ),
+                name: 'cascade',
+                hiddenOn: '!data.multiple || !data.autoCheckChildren'
+              }),
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '值包含父节点',
+                  '选中父节点时，值里面将包含父子节点的值，否则只会保留父节点的值'
+                ),
+                name: 'withChildren',
+                hiddenOn: '!data.multiple || !data.autoCheckChildren && data.cascade'
+              }),
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '值只含子节点',
+                  'ui 行为级联选中子节点，子节点可反选，值只包含子节点的值'
+                ),
+                name: 'onlyChildren',
+                hiddenOn: '!data.multiple || !data.autoCheckChildren'
               }),
               getSchemaTpl('valueFormula', {
                 rendererSchema: {
