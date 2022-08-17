@@ -750,29 +750,31 @@ export default class TextControl extends React.PureComponent<
               {isOpen && filtedOptions.length ? (
                 <div className={cx('TextControl-sugs')}>
                   {filtedOptions.map((option: any) => {
+                    const label = option[labelField || 'label'];
+                    const value = option[valueField || 'value'];
+
                     return (
                       <div
                         {...getItemProps({
-                          item: option.value,
+                          item: value,
                           disabled: option.disabled,
                           className: cx(`TextControl-sugItem`, {
-                            'is-highlight':
-                              highlightedIndex === indices[option.value],
+                            'is-highlight': highlightedIndex === indices[value],
                             'is-disabled': option.disabled
                           })
                         })}
-                        key={option.value}
+                        key={value}
                       >
                         {option.isNew ? (
                           <span>
-                            {__('Text.add', {label: option.label})}
+                            {__('Text.add', {label: label})}
                             <Icon icon="enter" className="icon" />
                           </span>
                         ) : (
                           <span>
                             {option.disabled
-                              ? option.label
-                              : highlight(option.label, inputValue as string)}
+                              ? label
+                              : highlight(label, inputValue as string)}
                             {option.tip}
                           </span>
                         )}
