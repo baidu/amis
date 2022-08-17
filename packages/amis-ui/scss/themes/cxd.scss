@@ -390,7 +390,8 @@
 
 //FieldSet Form + Collapse
 .#{$ns}Form {
-  .icon-position-right .#{$ns}Collapse-header {
+  .icon-position-right .#{$ns}Collapse-header,
+  .#{$ns}Collapse--title-bottom .#{$ns}Collapse-header {
     display: block;
   }
   .#{$ns}Collapse {
