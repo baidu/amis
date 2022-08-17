@@ -1344,7 +1344,7 @@
   --Table-thead-color: var(--text--loud-color);
   --Table-thead-fontSize: var(--fontSizeBase);
   --Table-thead-iconColor: var(--icon-color);
-  --Table-toolbar-marginX: .25rem;
+  --Table-toolbar-marginX: #{px2rem(4px)};
   --Table-toolbar-marginY: var(--gap-base);
   --Table-tree-borderColor: var(--Table-borderColor);
   --Table-searchableForm-backgroundColor: #f6f7f8;
