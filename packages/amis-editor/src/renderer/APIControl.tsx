@@ -369,8 +369,9 @@ export default class APIControl extends React.Component<
 
   @autobind
   renderHeader() {
-    const {render, label, labelRemark, useMobileUI, popOverContainer, env} =
+    const {render, labelRemark, useMobileUI, popOverContainer, env} =
       this.props;
+    const label: any = this.props.label;
     const classPrefix = env?.theme?.classPrefix;
 
     // const actionsDom =
@@ -386,7 +387,7 @@ export default class APIControl extends React.Component<
     return (
       <header className="ApiControl-header" key="header">
         <label className={cx(`${classPrefix}Form-label`)}>
-          {label || ''}
+          {label?.type ? render('label', label) : label || ''}
           {labelRemark
             ? render('label-remark', {
                 type: 'remark',
