@@ -20,6 +20,7 @@ register('en-US', {
   'Card.toggleDrag': 'Toggle drag to sort',
   'City.street': 'Enter street info',
   'clear': 'Clear',
+  'more': 'More',
   'ColorPicker.placeholder': 'Select color',
   'SubForm.add': 'New',
   'add': 'New',
