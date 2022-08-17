@@ -161,7 +161,8 @@ test('Renderer:number with unitOptions', async () => {
   await wait(300);
   expect(staticDom.innerHTML).toBe('99px');
 
-  fireEvent.click(container.querySelector('.cxd-Select') as Element);
+  fireEvent.click(container.querySelector('.cxd-ResultBox') as Element);
+  await waitFor(() => getByText(/em/));
   fireEvent.click(getByText(/em/));
   await wait(300);
   expect(staticDom.innerHTML).toBe('99em');

@@ -350,25 +350,33 @@ exports[`Renderer:Pagination 2`] = `
         aria-labelledby="downshift-0-label"
         class="cxd-Select cxd-Pagination-perpage cxd-Pagination-item"
         role="combobox"
-        tabindex="0"
       >
         <div
-          class="cxd-Select-valueWrap"
+          class="cxd-ResultBox is-clickable"
+          tabindex="-1"
         >
           <div
-            class="cxd-Select-value"
+            class="cxd-ResultBox-value-wrap"
           >
-            10条/页
+            <span
+              class="cxd-ResultBox-singleValue"
+            >
+              10条/页
+            </span>
+          </div>
+          <div
+            class="cxd-ResultBox-actions"
+          >
+            <span
+              class="cxd-ResultBox-pc-arrow"
+            >
+              <icon-mock
+                classname="icon icon-right-arrow-bold"
+                icon="right-arrow-bold"
+              />
+            </span>
           </div>
         </div>
-        <span
-          class="cxd-Select-arrow"
-        >
-          <icon-mock
-            classname="icon icon-right-arrow-bold"
-            icon="right-arrow-bold"
-          />
-        </span>
       </div>
       <ul
         class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
