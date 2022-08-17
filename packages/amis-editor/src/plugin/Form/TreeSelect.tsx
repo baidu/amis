@@ -338,14 +338,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
             body: [
               getSchemaTpl('treeOptionControl', {
                 label: '数据',
-                otherApiFooter: [
-                  {
-                    type: 'input-text',
-                    label: '图标字段',
-                    name: 'iconField',
-                    value: 'icon'
-                  }
-                ]
+                showIconField: true
               }),
               getSchemaTpl('switch', {
                 label: '只可选择叶子节点',
