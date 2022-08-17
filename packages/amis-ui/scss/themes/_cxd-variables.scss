@@ -250,16 +250,16 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --button-default-hover-shadow: 0px 0px 0px 0px transparent;
   --button-default-hover-font-color: #2468f2;
   --button-default-hover-bg-color: transparent;
-  --button-default-hover-top-border-color: #2468f2;
+  --button-default-hover-top-border-color: var(--colors-brand-5);
   --button-default-hover-top-border-style: solid;
   --button-default-hover-top-border-width: 1px;
-  --button-default-hover-right-border-color: #2468f2;
+  --button-default-hover-right-border-color: var(--colors-brand-5);
   --button-default-hover-right-border-style: solid;
   --button-default-hover-right-border-width: 1px;
-  --button-default-hover-bottom-border-color: #2468f2;
+  --button-default-hover-bottom-border-color: var(--colors-brand-5);
   --button-default-hover-bottom-border-style: solid;
   --button-default-hover-bottom-border-width: 1px;
-  --button-default-hover-left-border-color: #2468f2;
+  --button-default-hover-left-border-color: var(--colors-brand-5);
   --button-default-hover-left-border-style: solid;
   --button-default-hover-left-border-width: 1px;
   --button-default-active-shadow: 0px 0px 0px 0px transparent;
@@ -1169,9 +1169,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   // --Form-input-lineHeight: #{px2rem(32px)};
   --Form-input-borderColor: var(--borderColor);
   --Form-input-borderRadius: var(--borders-radius-3-radius);
-  --Form-input-onHover-borderColor: var(--colors-brand-default);
+  --Form-input-onHover-borderColor: var(--colors-brand-5);
   --Form-input-onFocused-bg: var(--colors-neutral-cardBg);
-  --Form-input-onFocused-borderColor: var(--colors-brand-active);
+  --Form-input-onFocused-borderColor: var(--colors-brand-5);
   --Form-input-onError-borderColor: var(--colors-error-5);
   --Form-input-onError-bg: var(--colors-neutral-cardBg);
   --Form-input-onDisabled-bg: var(--colors-neutral-10);
@@ -1200,7 +1200,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-select-borderRadius: var(--borders-radius-3-radius);
   --Form-select-bg: var(--colors-neutral-11);
   --Form-select-onHover-bg: var(--colors-neutral-11);
-  --Form-select-onHover-borderColor: var(--colors-brand-default);
+  --Form-select-onHover-borderColor: var(--colors-brand-5);
   --Form-select-placeholderColor: #999;
   --Form-select-color: var(--colors-neutral-strong);
   --Form-select-caret-iconColor: var(--colors-neutral-5);
@@ -1266,7 +1266,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Switch-width: #{px2rem(44px)};
   --Switch-valueColor: var(--colors-neutral-11);
   --Switch-bgColor: var(--colors-neutral-7);
-  --Switch-onActive-bgColor: var(--colors-neutral-6);
+  --Switch-onActive-bgColor: var(--colors-brand-5);
   --Switch-onHover-bgColor: var(--colors-neutral-6);
   --Switch-checked-bgColor: var(--colors-brand-default);
   --Switch-checked-onHover-bgColor: var(--colors-brand-active);
@@ -1321,7 +1321,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --DatePicker-onDisabled-color: #999;
   --DatePicker-iconColor: #666;
   --DatePicker-onHover-iconColor: var(--colors-brand-default);
-  --DatePicker-onHover-borderColor: var(--colors-brand-default);
+  --DatePicker-onHover-borderColor: var(--colors-brand-5);
 
   --LocationPicker-borderRadius: var(--borders-radius-3-radius);
 
@@ -1384,12 +1384,12 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   --ListControl-item-onHover-color: var(--colors-brand-default);
   --ListControl-item-onHover-bg: var(--Button--default-onHover-bg);
-  --ListControl-item-onHover-borderColor: var(--colors-brand-default);
+  --ListControl-item-onHover-borderColor: var(--colors-brand-5);
 
   --ListControl-item-onActive-bg: var(--colors-neutral-cardBg);
   --ListControl-item-onActive-onHover-bg: var(--colors-neutral-cardBg);
-  --ListControl-item-onActive-color: var(--colors-brand-active);
-  --ListControl-item-onActive-borderColor: var(--colors-brand-active);
+  --ListControl-item-onActive-color: var(--colors-brand-5);
+  --ListControl-item-onActive-borderColor: var(--colors-brand-5);
   --ListControl-item-onActive-before-bg: var(--colors-brand-active);
   --ListControl-item-onActive-after-borderColor: var(--colors-neutral-cardBg);
 
@@ -1404,10 +1404,10 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --ImageControl-addBtn-borderRadius: var(--borders-radius-3-radius);
   --ImageControl-addBtn-color: #84868c;
   --ImageControl-addBtn-onHover-bg: var(--ImageControl-addBtn-bg);
-  --ImageControl-addBtn-onHover-border: var(--colors-brand-default);
+  --ImageControl-addBtn-onHover-border: var(--colors-brand-5);
   --ImageControl-addBtn-onHover-color: var(--colors-brand-default);
   --ImageControl-addBtn-onActive-bg: #f3f9fe;
-  --ImageControl-addBtn-onActive-border: var(--colors-brand-default);
+  --ImageControl-addBtn-onActive-border: var(--colors-brand-4);
   --ImageControl-addBtn-onActive-color: var(--colors-brand-default);
   --ImageControl-addBtn-onDisabled-bg: #f5f5f5;
   --ImageControl-addBtn-onDisabled-border: #ebebeb;

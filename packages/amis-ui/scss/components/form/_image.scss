@@ -30,6 +30,16 @@
       var(--ImageControl-addBtn-onActive-color)
     );
 
+    border: 1px solid var(--ImageControl-addBtn-color);
+
+    &:hover {
+      border: 1px solid var(--ImageControl-addBtn-onHover-border);
+    }
+
+    &:active {
+      border: 1px solid var(--ImageControl-addBtn-onActive-border);
+    }
+
     > svg {
       width: px2rem(24px);
       height: px2rem(24px);

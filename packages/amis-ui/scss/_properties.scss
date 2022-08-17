@@ -25,12 +25,12 @@
   --warning-onHover: var(--colors-warning-6);
   --warning-onActive: var(--colors-warning-4);
 
-  --danger:  var(--colors-error-5);
-  --danger-onHover:var(--colors-error-6);
-  --danger-onActive:  var(--colors-error-4);
+  --danger: var(--colors-error-5);
+  --danger-onHover: var(--colors-error-6);
+  --danger-onActive: var(--colors-error-4);
 
   --light: var(--colors-neutral-10);
-  --dark: #{$dark}; 
+  --dark: #{$dark};
 
   --fontFamilyMonospace: SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', 'Courier New', monospace;
@@ -57,8 +57,8 @@
   --pre-color: var(--text-color);
 
   --borderColor: var(--colors-neutral-8);
-  --borderColorLight:  var(--colors-neutral-10);
-  --borderColorDarken: var(--colors-neutral-6:);
+  --borderColorLight: var(--colors-neutral-10);
+  --borderColorDarken: var(--colors-neutral-6: );
   --borderRadius: 0.142rem;
   --borderRadiusMd: 0.285rem;
   --borderRadiusLg: 0.428rem;
@@ -273,7 +273,7 @@
   --Button--secondary-border: var(--Button--secondary-bg);
   --Button--secondary-color: var(--button-color);
   --Button--secondary-onActive-bg: var(--secondary-onActive);
-  --Button--secondary-onActive-border:  var(--colors-neutral-2);
+  --Button--secondary-onActive-border: var(--colors-neutral-2);
   --Button--secondary-onActive-color: var(--Button--secondary-color);
   --Button--secondary-onHover-bg: var(--secondary-onHover);
   --Button--secondary-onHover-border: var(--secondary-onActive);
@@ -408,7 +408,7 @@
   --Calendar-btnCancel-onHover-color: var(--Button--default-onHover-color);
   --Calendar-cell-bg: var(--white);
   --Calendar-cell-onActive-bg: var(--info);
-  --Calendar-cell-onBetween-bg:#{rgba($info, 0.1)};
+  --Calendar-cell-onBetween-bg: #{rgba($info, 0.1)};
   --Calendar-cell-onDisabled-bg: #f7f7f9;
   --Calendar-cell-onHover-bg: #f7f7f9;
   --Calendar-color: #151b26;
@@ -521,7 +521,7 @@
   --ColorPicker-fontSize: var(--Form-input-fontSize);
   --ColorPicker-height: var(--Form-input-height);
   --ColorPicker-lineHeight: var(--Form-input-lineHeight);
-  --ColorPicker-onDisabled-bg: var(-colors-neutral-8);
+  --ColorPicker-onDisabled-bg: var(--colors-neutral-8);
   --ColorPicker-onDisabled-color: var(--text--muted-color);
   --ColorPicker-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
   --ColorPicker-onHover-bg: var(--colors-neutral-9);
@@ -556,7 +556,7 @@
   --Combo-addBtn-onActive-bg: var(--colors-brand-4);
   --Combo-addBtn-onActive-border: var(-colors-neutral-4);
   --Combo-addBtn-onActive-color: var(--Combo-addBtn-color);
-  --Combo-addBtn-onHover-bg:  var(--colors-brand-6);
+  --Combo-addBtn-onHover-bg: var(--colors-brand-6);
   --Combo-addBtn-onHover-border: var(--colors-neutral-6);
   --Combo-addBtn-onHover-color: var(--Combo-addBtn-color);
   --Combo-addBtn-paddingX: var(--Button--sm-paddingX);
@@ -1057,8 +1057,10 @@
 
   --Modal-bg: var(--background);
   --Modal-body--noHeader-paddingTop: var(--gap-base);
-  --Modal-body-borderBottom: var(--Modal-content-borderWidth) solid var(-colors-neutral-10);
-  --Modal-body-borderTop: var(--Modal-content-borderWidth) solid var(-colors-neutral-10);
+  --Modal-body-borderBottom: var(--Modal-content-borderWidth) solid
+    var(-colors-neutral-10);
+  --Modal-body-borderTop: var(--Modal-content-borderWidth) solid
+    var(-colors-neutral-10);
   --Modal-body-paddingX: var(--gap-md);
   --Modal-body-paddingY: var(--gap-md);
   --Modal-close-color: var(--text--muted-color);
@@ -1478,7 +1480,7 @@
   --TagControl-sugBtn-fontSize: var(--Button--sm-fontSize);
   --TagControl-sugBtn-height: var(--Button--sm-height);
   --TagControl-sugBtn-lineHeight: var(--Button--sm-lineHeight);
-  --TagControl-sugBtn-onActive-bg: var(--colors-neutral-8:);
+  --TagControl-sugBtn-onActive-bg: var(--colors-neutral-8: );
   --TagControl-sugBtn-onActive-border: var(--colors-neutral-5);
   --TagControl-sugBtn-onActive-color: var(--TagControl-sugBtn-color);
   --TagControl-sugBtn-onHover-bg: var(--colors-neutral-8);
