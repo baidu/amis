@@ -171,8 +171,9 @@
     }
 
     &-checkbox {
-      & > div > .#{$ns}CheckboxControl {
-        padding-top: 0;
+      &-inner {
+        /* 消除checkbox自身的padding top */
+        padding-top: 0 !important;
       }
     }
   }
