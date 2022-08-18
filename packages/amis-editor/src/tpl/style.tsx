@@ -191,11 +191,42 @@ setSchemaTpl('style:common', (
         }
       ]
     }
-  ].filter(item => 
+  ].filter(item =>
     include.length
       ? ~include.indexOf(item.key)
       : !~exclude.indexOf(item.key)
   );
+});
+
+/**
+ * 宽高配置控件
+ * @param {object | undefined} options witdthSchema(宽度控件配置) heightSchema(高度控件配置)
+ */
+setSchemaTpl('style:widthHeight', (option: any = {}) => {
+  const {widthSchema = {}, heightSchema = {}} = option;
+  return {
+    type: 'container',
+    body: [
+      {
+        type: 'input-number',
+        name: 'width',
+        label: '宽度',
+        unitOptions: [
+          'px', '%', 'rem', 'em', 'vw'
+        ],
+        ...widthSchema
+      },
+      {
+        type: 'input-number',
+        name: 'height',
+        label: '高度',
+        unitOptions: [
+          'px', '%', 'rem', 'em', 'vh'
+        ],
+        ...heightSchema
+      },
+    ]
+  };
 });
 
 /**

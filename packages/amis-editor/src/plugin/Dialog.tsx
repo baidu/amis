@@ -6,7 +6,8 @@ import {
   RegionConfig,
   RendererInfo,
   getSchemaTpl,
-  noop
+  noop,
+  defaultValue
 } from 'amis-editor-core';
 import {cloneDeep, assign} from 'lodash';
 import {getEventControlConfig} from '../renderer/event-control/helper';
@@ -99,31 +100,6 @@ export class DialogPlugin extends BasePlugin {
                 type: 'input-text',
                 name: 'title'
               },
-              {
-                label: '尺寸',
-                type: 'button-group-select',
-                value: 'md',
-                name: 'size',
-                size: 'sm',
-                options: [
-                  {
-                    label: '小',
-                    value: 'sm'
-                  },
-                  {
-                    label: '中',
-                    value: 'md'
-                  },
-                  {
-                    label: '大',
-                    value: 'lg'
-                  },
-                  {
-                    label: '超大',
-                    value: 'xl'
-                  }
-                ]
-              },
               getSchemaTpl('switch', {
                 label: '展示关闭按钮',
                 name: 'showCloseButton',
@@ -152,6 +128,36 @@ export class DialogPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              {
+                label: '尺寸',
+                type: 'button-group-select',
+                name: 'size',
+                size: 'sm',
+                options: [
+                  {
+                    label: '小',
+                    value: 'sm'
+                  },
+                  {
+                    label: '中',
+                    value: 'md'
+                  },
+                  {
+                    label: '大',
+                    value: 'lg'
+                  },
+                  {
+                    label: '超大',
+                    value: 'xl'
+                  }
+                ],
+                pipeIn: defaultValue('md')
+              }
+            ]
+          },
           {
             title: 'CSS类名',
             body: [

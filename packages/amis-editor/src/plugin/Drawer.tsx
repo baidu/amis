@@ -8,7 +8,6 @@ import {
   getSchemaTpl,
   noop
 } from 'amis-editor-core';
-import {assign, cloneDeep} from 'lodash';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {InlineModal} from './Dialog';
 import {tipedLabel} from '../component/BaseControl';
@@ -104,7 +103,6 @@ export class DrawerPlugin extends BasePlugin {
                 type: 'button-group-select',
                 name: 'position',
                 label: '位置',
-                value: 'right',
                 mode: 'horizontal',
                 options: [
                   {
@@ -123,37 +121,8 @@ export class DrawerPlugin extends BasePlugin {
                     label: '下',
                     value: 'bottom'
                   }
-                ]
-              },
-              {
-                type: 'button-group-select',
-                name: 'size',
-                label: '尺寸',
-                value: 'md',
-                size: 'sm',
-                mode: 'horizontal',
-                options: [
-                  {
-                    label: '超小',
-                    value: 'xs'
-                  },
-                  {
-                    label: '小',
-                    value: 'sm'
-                  },
-                  {
-                    label: '中',
-                    value: 'md'
-                  },
-                  {
-                    label: '大',
-                    value: 'lg'
-                  },
-                  {
-                    label: '超大',
-                    value: 'xl'
-                  }
-                ]
+                ],
+                pipeIn: defaultValue('right')
               },
               getSchemaTpl('switch', {
                 name: 'overlay',
@@ -190,24 +159,51 @@ export class DrawerPlugin extends BasePlugin {
             title: '基本',
             body: [
               {
-                type: 'input-text',
-                name: 'width',
-                label: tipedLabel(
-                  '宽度',
-                  '位置为 "左" 或 "右" 时生效。 默认宽度为"尺寸"字段配置的宽度，值单位默认为 px，也支持百分比等单位 ，如：100%'
-                ),
-                disabledOn: 'this.position === "top" || this.position === "bottom"',
-                tooltip: '位置为 为 "左" 或 "右" 时生效'
+                type: 'button-group-select',
+                name: 'size',
+                label: '尺寸',
+                size: 'sm',
+                mode: 'horizontal',
+                options: [
+                  {
+                    label: '超小',
+                    value: 'xs'
+                  },
+                  {
+                    label: '小',
+                    value: 'sm'
+                  },
+                  {
+                    label: '中',
+                    value: 'md'
+                  },
+                  {
+                    label: '大',
+                    value: 'lg'
+                  },
+                  {
+                    label: '超大',
+                    value: 'xl'
+                  }
+                ],
+                pipeIn: defaultValue('md')
               },
-              {
-                type: 'input-text',
-                name: 'height',
-                label: tipedLabel(
-                  '高度',
-                  '位置为 "上" 或 "下" 时生效。 默认宽度为"尺寸"字段配置的高度，值单位默认为 px，也支持百分比等单位 ，如：100%'
-                ),
-                disabledOn: 'this.position === "left" || this.position === "right"'
-              }
+              getSchemaTpl('style:widthHeight', {
+                widthSchema: {
+                  label: tipedLabel(
+                    '宽度',
+                    '位置为 "左" 或 "右" 时生效。 默认宽度为"尺寸"字段配置的宽度，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                  ),
+                  disabledOn: 'this.position === "top" || this.position === "bottom"'
+                },
+                heightSchema: {
+                  label: tipedLabel(
+                    '高度',
+                    '位置为 "上" 或 "下" 时生效。 默认宽度为"尺寸"字段配置的高度，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                  ),
+                  disabledOn: 'this.position === "left" || this.position === "right"'
+                }
+              })
             ]
           },
           {
