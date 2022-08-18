@@ -55,7 +55,6 @@ import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import {Option} from '../types';
 import {isEqual} from 'lodash';
-import {debug} from '../utils';
 
 export {Option};
 
@@ -403,11 +402,6 @@ export function registerOptionsControl(config: OptionsConfig) {
     componentDidUpdate(prevProps: OptionsProps) {
       const props = this.props;
       const formItem = props.formItem as IFormItemStore;
-
-      console.log('componentDidUpdate pre', prevProps.value);
-      console.log('componentDidUpdate', props.value);
-
-      console.log('ini', props.formInited);
 
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(
