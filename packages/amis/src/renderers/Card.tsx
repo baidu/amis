@@ -819,7 +819,15 @@ export class CardItemFieldRenderer extends TableCell {
           data,
           /** 表单项默认隐藏label，否则会显示两个label */
           ...(useCardLabel &&
-          !~['tpl', 'html', 'plain', 'text'].indexOf(schema?.type)
+          !~[
+            'tpl',
+            'html',
+            'plain',
+            'text',
+            'submit',
+            'button',
+            'reset'
+          ].indexOf(schema?.type)
             ? {label: false}
             : {})
         });
