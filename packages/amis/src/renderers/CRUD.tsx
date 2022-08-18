@@ -1915,8 +1915,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                   key={index}
                   className={cx(
                     'Crud-toolbar-item',
-                    align ? `Crud-toolbar-item--${align}` : '',
-                    toolbar.className
+                    align ? `Crud-toolbar-item--${align}` : ''
+                    // toolbar.className
                   )}
                 >
                   {child}
