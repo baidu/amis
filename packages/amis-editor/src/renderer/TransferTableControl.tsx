@@ -300,7 +300,7 @@ const renderInput = (
 export default class TransferTableOption extends React.Component<OptionControlProps, {}> {
 
     addColumns() {
-        const { columns = [{ type: 'text' }] } = this.props.data;
+        const { columns = [{ type: 'text', name: 'label' }] } = this.props.data;
         return {
             type: 'action',
             actionType: 'dialog',

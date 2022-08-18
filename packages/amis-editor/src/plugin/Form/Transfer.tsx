@@ -35,24 +35,9 @@ export class TransferPlugin extends BasePlugin {
       {
         label: '曹操',
         value: 'caocao'
-      },
-      {
-        label: '钟无艳',
-        value: 'zhongwuyan'
-      },
-      {
-        label: '李白',
-        value: 'libai'
-      },
-      {
-        label: '韩信',
-        value: 'hanxin'
-      },
-      {
-        label: '云中君',
-        value: 'yunzhongjun'
       }
-    ]
+    ],
+    selectMode: 'list'
   };
   previewSchema: any = {
     type: 'form',
@@ -187,6 +172,14 @@ export class TransferPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
+              getSchemaTpl('valueFormula', {
+                rendererSchema: {
+                  ...context?.schema,
+                  type: 'select',
+                  multiple: true
+                },
+                visibleOn: 'data.options.length > 0',
+              }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
@@ -221,6 +214,7 @@ export class TransferPlugin extends BasePlugin {
                 ],
                 onChange: (value: any, origin: any, item: any, form: any) => {
                   form.setValueByName('options', undefined);
+                  form.setValueByName('value', "");
                 }
               },
 
