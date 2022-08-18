@@ -1521,8 +1521,12 @@ export class Evaluator {
   }
 
   normalizeDate(raw: any): Date {
+    if (typeof raw === 'number' || !isNaN(raw)) {
+      return new Date(Number(raw));
+    }
+
     if (typeof raw === 'string') {
-      const formats = ['', 'YYYY-MM-DD HH:mm:ss'];
+      const formats = ['', 'YYYY-MM-DD HH:mm:ss', 'X'];
 
       while (formats.length) {
         const format = formats.shift()!;
@@ -1532,8 +1536,6 @@ export class Evaluator {
           return date.toDate();
         }
       }
-    } else if (typeof raw === 'number') {
-      return new Date(raw);
     }
 
     return raw;
