@@ -89,6 +89,7 @@ interface BaseDatePickerProps {
     color?: string;
   }>;
   largeMode?: boolean;
+  todayActiveStyle?: React.CSSProperties;
   onScheduleClick?: (scheduleData: any) => void;
   hideHeader?: boolean;
   updateOn?: string;
@@ -410,6 +411,7 @@ class BaseDatePicker extends React.Component<
       'maxDate',
       'schedules',
       'largeMode',
+      'todayActiveStyle',
       'onScheduleClick',
       'hideHeader',
       'updateOn',
@@ -693,7 +695,9 @@ class BaseDatePicker extends React.Component<
               : dateFormat && !timeFormat
               ? 'rdtPickerDate'
               : '',
-            viewMode === 'months' || viewMode === 'years' || viewMode === 'quarters'
+            viewMode === 'months' ||
+              viewMode === 'years' ||
+              viewMode === 'quarters'
               ? 'rdtPickerNotDays'
               : ''
           )}

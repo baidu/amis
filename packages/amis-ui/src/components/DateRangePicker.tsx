@@ -6,6 +6,7 @@
 
 import React from 'react';
 import moment from 'moment';
+import omit from 'lodash/omit';
 import {findDOMNode} from 'react-dom';
 import {Icon} from './icons';
 import {Overlay} from 'amis-core';
@@ -1166,6 +1167,7 @@ export class DateRangePicker extends React.Component<
   renderDay(props: any, currentDate: moment.Moment) {
     let {startDate, endDate} = this.state;
     // 剔除掉 DaysView 中传递的参数
+    props = omit(props, ['todayActiveStyle']);
     props.className = props.className.replace('rdtActive', '');
 
     if (

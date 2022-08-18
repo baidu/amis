@@ -2,6 +2,7 @@ import React from 'react';
 import {Renderer} from 'amis-core';
 import {SchemaObject, BaseSchema} from '../Schema';
 import {DateControlRenderer} from './Form/InputDate';
+import type {SchemaClassName} from 'amis-core';
 
 interface scheduleItem {
   startTime: string;
@@ -30,6 +31,18 @@ export interface CalendarSchema extends BaseSchema {
    * 日程点击展示
    */
   scheduleAction?: SchemaObject;
+
+  /**
+   * 是否开启放大模式
+   */
+  largeMode?: boolean;
+
+  /**
+   * 今日激活时的自定义样式
+   */
+  todayActiveStyle?: {
+    [propName: string]: any;
+  };
 }
 
 @Renderer({
