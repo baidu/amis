@@ -93,12 +93,38 @@
     overflow: hidden;
   }
 
-  &-selection .#{$ns}ListSelection-placeholder {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
+  &-selection {
+    .#{$ns}ListSelection-placeholder {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+    }
+
+    &.#{$ns}Tree,
+    &.#{$ns}AssociatedSelection {
+      .#{$ns}Tree-itemLabel.is-checked:hover,
+      .#{$ns}Tree-itemLabel:hover {
+        .#{$ns}Tree-itemLabel-item > .#{$ns}Tree-itemText {
+          background-color: unset;
+          &:active {
+            background-color: unset;
+          }
+        }
+      }
+
+      .#{$ns}Tree-itemLabel-item {
+        display: flex;
+        align-items: center;
+
+        > .#{$ns}Tree-itemText {
+          max-width: unset;
+          line-height: unset;
+          top: unset;
+        }
+      }
+    }
   }
 
   &-search {
