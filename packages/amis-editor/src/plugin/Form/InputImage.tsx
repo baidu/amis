@@ -159,7 +159,7 @@ export class ImageControlPlugin extends BasePlugin {
 
               {
                 type: 'input-text',
-                name: 'defaultImage',
+                name: 'frameImage',
                 label: '占位图片地址'
               },
 
