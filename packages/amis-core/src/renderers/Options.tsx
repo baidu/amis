@@ -54,6 +54,8 @@ import isPlainObject from 'lodash/isPlainObject';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import {Option} from '../types';
+import {isEqual} from 'lodash';
+import {debug} from '../utils';
 
 export {Option};
 
@@ -402,6 +404,11 @@ export function registerOptionsControl(config: OptionsConfig) {
       const props = this.props;
       const formItem = props.formItem as IFormItemStore;
 
+      console.log('componentDidUpdate pre', prevProps.value);
+      console.log('componentDidUpdate', props.value);
+
+      console.log('ini', props.formInited);
+
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(
           normalizeOptions(props.options || [], undefined, props.valueField),
@@ -459,6 +466,8 @@ export function registerOptionsControl(config: OptionsConfig) {
             )
             .then(() => this.normalizeValue());
         }
+      } else if (!isEqual(props.value, prevProps.value) && props.formInited) {
+        this.normalizeValue();
       }
 
       if (prevProps.value !== props.value || formItem?.expressionsInOptions) {
@@ -568,16 +577,36 @@ export function registerOptionsControl(config: OptionsConfig) {
         multiple,
         formItem,
         valueField,
+        delimiter,
         enableNodePath,
         pathSeparator,
         onChange
       } = this.props;
 
-      if (!formItem || joinValues !== false || !formItem.options.length) {
+      if (!formItem || !formItem.options.length) {
         return;
       }
 
-      if (
+      if (joinValues === true) {
+        if (typeof value === 'string') return;
+
+        const selectedOptions = formItem.getSelectedOptions(value);
+
+        onChange?.(
+          (multiple
+            ? selectedOptions.concat()
+            : selectedOptions.length
+            ? [selectedOptions[0]]
+            : []
+          )
+            .map((selectedOption: Option) => {
+              return typeof selectedOption === 'string'
+                ? selectedOption
+                : selectedOption[valueField || 'value'];
+            })
+            .join(delimiter || ',')
+        );
+      } else if (
         extractValue === false &&
         (typeof value === 'string' || typeof value === 'number')
       ) {
@@ -587,12 +616,13 @@ export function registerOptionsControl(config: OptionsConfig) {
         extractValue === true &&
         value &&
         !(
-          (Array.isArray(value) &&
+          (multiple &&
+            Array.isArray(value) &&
             value.every(
               val => typeof val === 'string' || typeof val === 'number'
             )) ||
-          typeof value === 'string' ||
-          typeof value === 'number'
+          (!multiple &&
+            (typeof value === 'string' || typeof value === 'number'))
         )
       ) {
         const selectedOptions = formItem
