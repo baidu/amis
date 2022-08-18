@@ -178,69 +178,7 @@ export class DrawerPlugin extends BasePlugin {
                 label: '可拖拽抽屉大小',
                 value: false
               }),
-              getSchemaTpl('switch', {
-                label: tipedLabel(
-                  '数据映射',
-                  '<div> 当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：{"a": "${a}", "b": 2}。</div>'
-                  + '<div>当值为 __undefined时，表示删除对应的字段，可以结合{"&": "$$"}来达到黑名单效果。</div>'
-                ),
-                name: 'dataMapSwitch',
-                value: false,
-                className: 'm-b-xs',
-                onChange: (value: any, oldValue: any, model: any, form: any) => {
-                  const newDataValue = value ? {} : null;
-                  form.setValues({
-                    __dataMap: newDataValue,
-                    data: newDataValue
-                  });
-                }
-              }),
-              {
-                type: 'alert',
-                level: 'info',
-                visibleOn: 'this.dataMapSwitch',
-                className: 'relative',
-                body: [
-                  {
-                    type: 'tpl',
-                    tpl: '${data["&"] ? "已开启定制参数功能，可点击关闭该功能。" : "如果需要在默认数据的基础上定制参数，请配置开启参数定制再定义key和value。"}'
-                  },
-                  {
-                    type: 'button',
-                    label: '${data["&"] ? "立即关闭" : "立即开启"}',
-                    level: 'link',
-                    className: 'absolute bottom-3 right-10',
-                    onClick: (e: any, props: any) => {
-                      const newData = props.data.data?.['&'] === '$$' ? {} : {'&': '$$'};
-                      // 用onBulkChange保证代码视图和编辑区域数据保持同步
-                      props.onBulkChange({
-                        data: newData,
-                        __dataMap: {}
-                      });
-                    }
-                  }
-                ],
-                showCloseButton: true
-              },
-              getSchemaTpl('combo-container', {
-                type: 'input-kv',
-                syncDefaultValue: false,
-                name: '__dataMap',
-                value: null,
-                visibleOn: 'this.dataMapSwitch',
-                className: 'block -mt-5',
-                deleteBtn: {
-                  icon: 'fa fa-trash'
-                },
-                onChange: (value: any, oldValue: any, model: any, form: any) => {
-                  // 用assign保证'&'第一个被遍历到
-                  const newDataMap = form.data.data?.['&'] ?
-                    assign({'&': '$$'}, value) : cloneDeep(value);
-                  form.setValues({
-                    data: newDataMap
-                  });
-                }
-              })
+              getSchemaTpl('dataMap')
             ]
           }
         ])
