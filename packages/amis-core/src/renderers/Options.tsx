@@ -594,7 +594,8 @@ export function registerOptionsControl(config: OptionsConfig) {
             : []
           )
             .map((selectedOption: Option) => {
-              return typeof selectedOption === 'string'
+              return typeof selectedOption === 'string' ||
+                typeof selectedOption === 'number'
                 ? selectedOption
                 : selectedOption[valueField || 'value'];
             })
