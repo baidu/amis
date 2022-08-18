@@ -22,6 +22,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
   tags = ['表单项', '按钮'];
   scaffold = {
     type: 'button-toolbar',
+    label: '按钮工具栏',
     buttons: [
       {
         type: 'button',
@@ -40,8 +41,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
     wrapWithPanel: false,
     mode: 'horizontal',
     body: {
-      ...this.scaffold,
-      label: '按钮工具栏'
+      ...this.scaffold
     }
   };
 
@@ -70,15 +70,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                getSchemaTpl('formItemName', {
-                  required: true
-                }),
                 getSchemaTpl('label'),
-                getSchemaTpl('valueFormula', {
-                  rendererSchema: {
-                    type: 'input-text'
-                  }
-                }),
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
                 getSchemaTpl('description'),
@@ -108,9 +100,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
                 }),
               ]
             },
-            getSchemaTpl('status', {
-              isFormItem: true,
-            })
+            getSchemaTpl('status')
           ]),
         ]
       },
