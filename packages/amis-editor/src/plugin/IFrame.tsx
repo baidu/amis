@@ -57,25 +57,22 @@ export class IFramePlugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                {
-                  name: 'width',
-                  label: tipedLabel(
-                    '宽度',
-                    '默认宽度为父容器宽度，值单位默认为 px，也支持百分比等单位 ，如：100%'
-                  ),
-                  type: 'input-text',
-                  pipeIn: defaultValue('100%'),
-                  pipeOut: valuePipeOut
-                },
-                {
-                  name: 'height',
-                  label: tipedLabel(
-                    '高度',
-                    '默认高度为父容器高度，值单位默认为 px，也支持百分比等单位 ，如：100%'
-                  ),
-                  type: 'input-text',
-                  pipeOut: valuePipeOut
-                }
+                getSchemaTpl('style:widthHeight', {
+                  widthSchema: {
+                    label: tipedLabel(
+                      '宽度',
+                      '默认宽度为父容器宽度，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                    ),
+                    pipeIn: defaultValue('100%'),
+                  },
+                  heightSchema: {
+                    label: tipedLabel(
+                      '高度',
+                      '默认高度为父容器高度，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                    ),
+                    pipeIn: defaultValue('100%'),
+                  }
+                }),
               ]
             },
             getSchemaTpl('style:classNames', {
