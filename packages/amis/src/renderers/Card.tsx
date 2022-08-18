@@ -807,6 +807,8 @@ export class CardItemFieldRenderer extends TableCell {
     } = this.props;
     const schema = {
       ...field,
+      /** 针对带有label的表单项组件，默认不渲染组件自带的label，否则会出现重复的label */
+      renderLabel: !useCardLabel,
       className: innerClassName,
       type: (field && field.type) || 'plain'
     };
@@ -816,12 +818,7 @@ export class CardItemFieldRenderer extends TableCell {
       : render('field', schema, {
           ...omit(rest, Object.keys(schema)),
           value,
-          data,
-          /** 表单项默认隐藏label，否则会显示两个label */
-          ...(useCardLabel &&
-          !~['tpl', 'html', 'plain', 'text'].indexOf(schema?.type)
-            ? {label: false}
-            : {})
+          data
         });
 
     if (width) {
