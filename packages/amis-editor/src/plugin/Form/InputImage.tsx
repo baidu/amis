@@ -28,7 +28,11 @@ export class ImageControlPlugin extends BasePlugin {
     type: 'input-image',
     label: '图片上传',
     name: 'image',
-    imageClassName: 'r w-full'
+    imageClassName: 'r w-full',
+    receiver: {
+      url: 'object-upload://default',
+      method: 'post'
+    }
   };
   previewSchema: any = {
     type: 'form',
