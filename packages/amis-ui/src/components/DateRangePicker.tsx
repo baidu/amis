@@ -1107,7 +1107,7 @@ export class DateRangePicker extends React.Component<
         ? maxDate.isBefore(endDate)
           ? maxDate
           : endDate
-        : undefined;
+        : maxDate || endDate;
 
     if (minDate && currentDate.isBefore(minDate, precision)) {
       return false;
@@ -1141,7 +1141,7 @@ export class DateRangePicker extends React.Component<
         ? minDate.isAfter(startDate)
           ? minDate
           : startDate
-        : undefined;
+        : minDate || startDate;
 
     if (minDate && currentDate.isBefore(minDate, precision)) {
       return false;
@@ -1277,8 +1277,7 @@ export class DateRangePicker extends React.Component<
       locale,
       embed,
       type,
-      viewMode = 'days',
-      useMobileUI
+      viewMode = 'days'
     } = this.props;
     const __ = this.props.translate;
 
