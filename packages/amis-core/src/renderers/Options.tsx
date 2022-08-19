@@ -581,7 +581,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      if (joinValues === true) {
+      if (joinValues !== false) {
         if (typeof value === 'string' || typeof value === 'number') return;
 
         const selectedOptions = formItem.getSelectedOptions(value);
