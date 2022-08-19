@@ -1138,7 +1138,7 @@ export default class Table extends React.Component<TableProps, object> {
       [propName: string]: number;
     } = (this.widths2 = {});
     let heights: {
-      [propName: string]: number;
+      [propName: string]: number | string;
     } = (this.heights = {});
 
     heights.header = table
@@ -1166,8 +1166,13 @@ export default class Table extends React.Component<TableProps, object> {
 
     forEach(
       table.querySelectorAll('tbody>tr>*:last-child'),
+      /**
+       * ! 弹窗中的特殊说明
+       * ! 在弹窗中，modal 有一个 scale 的动画，导致 getBoundingClientRect 获取的高度不准确
+       * ! width 准确是因为 table-layout: auto 导致
+       */
       (item: HTMLElement, index: number) =>
-        (heights[index] = item.getBoundingClientRect().height)
+        (heights[index] = getComputedStyle(item).height)
     );
 
     // 让 react 去更新非常慢，还是手动更新吧。
@@ -1206,7 +1211,7 @@ export default class Table extends React.Component<TableProps, object> {
         forEach(
           table.querySelectorAll('tbody>tr'),
           (item: HTMLElement, index) => {
-            item.style.cssText += `height: ${heights[index]}px`;
+            item.style.cssText += `height: ${heights[index]}`;
           }
         );
 
