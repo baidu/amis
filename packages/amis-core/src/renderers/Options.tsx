@@ -460,7 +460,11 @@ export function registerOptionsControl(config: OptionsConfig) {
             )
             .then(() => this.normalizeValue());
         }
-      } else if (!isEqual(props.value, prevProps.value) && props.formInited) {
+      } else if (
+        !isEqual(props.value, prevProps.value) &&
+        !this.whetherValueNormal() &&
+        props.formInited
+      ) {
         this.normalizeValue();
       }
 
@@ -560,6 +564,30 @@ export function registerOptionsControl(config: OptionsConfig) {
 
         onBulkChange(toSync);
       }
+    }
+
+    // 判断当前值是否符合预期的格式
+    whetherValueNormal() {
+      const {value, joinValues, extractValue, multiple} = this.props;
+
+      if (joinValues !== false || (!multiple && extractValue === true)) {
+        return typeof value === 'string' || typeof value === 'number';
+      }
+
+      if (multiple) {
+        if (!Array.isArray(value)) return false;
+
+        if (
+          extractValue === true &&
+          !value.every(
+            val => typeof val === 'string' || typeof val === 'number'
+          )
+        ) {
+          return false;
+        }
+      }
+
+      return true;
     }
 
     // 当前值，跟设置预期的值格式不一致时自动转换。
