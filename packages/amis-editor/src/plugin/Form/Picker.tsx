@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from 'amis';
 import omit from 'lodash/omit';
-import {getSchemaTpl} from 'amis-editor-core';
+import {getSchemaTpl, RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
@@ -11,6 +11,7 @@ import {
   ContextMenuItem
 } from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class PickerControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -53,24 +54,51 @@ export class PickerControlPlugin extends BasePlugin {
     ]
   };
 
+  // 事件定义
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'change',
+      eventLabel: '值变化',
+      description: '选中状态变化时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '选中值'
+            },
+            'event.data.option': {
+              type: 'string',
+              title: '选中的行数据'
+            }
+          }
+        }
+      ]
+    }
+  ];
+
   panelTitle = '列表选取';
   panelBodyCreator = (context: BaseEventContext) => {
-    return [
-      getSchemaTpl('switch', {
-        name: 'embed',
-        label: '开启内嵌模式'
-      }),
-
-      getSchemaTpl('switchDefaultValue'),
-
+    return getSchemaTpl('tabs', [
       {
-        type: 'input-text',
-        name: 'value',
-        label: '默认值',
-        visibleOn: 'typeof this.value !== "undefined"'
-      },
+        title: '属性',
+        body: [
+          getSchemaTpl('switch', {
+            name: 'embed',
+            label: '开启内嵌模式'
+          }),
 
-      getSchemaTpl('fieldSet', {
+          getSchemaTpl('switchDefaultValue'),
+
+          {
+            type: 'input-text',
+            name: 'value',
+            label: '默认值',
+            visibleOn: 'typeof this.value !== "undefined"'
+          },
+
+          getSchemaTpl('fieldSet', {
         title: '选项',
         body: [
           getSchemaTpl('options'),
@@ -128,7 +156,19 @@ export class PickerControlPlugin extends BasePlugin {
           getSchemaTpl('autoFill')
         ]
       })
-    ];
+        ]
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
+      }
+    ]);
   };
 
   buildEditorToolbar(
