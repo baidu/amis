@@ -1454,6 +1454,9 @@ div.ae-DragImage {
   height: auto;
   width: 100%;
   border: 1px solid $borderColor;
+  .cxd-Drawer-body {
+    flex-basis: auto;
+  }
 }
 
 .ae-EditableRenderers {
