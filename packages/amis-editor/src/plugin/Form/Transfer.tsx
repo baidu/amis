@@ -37,7 +37,8 @@ export class TransferPlugin extends BasePlugin {
         value: 'caocao'
       }
     ],
-    selectMode: 'list'
+    selectMode: 'list',
+    resultListModeFollowSelect: false
   };
   previewSchema: any = {
     type: 'form',
@@ -213,8 +214,19 @@ export class TransferPlugin extends BasePlugin {
                   }
                 ],
                 onChange: (value: any, origin: any, item: any, form: any) => {
-                  form.setValueByName('options', undefined);
-                  form.setValueByName('value', "");
+                  form.setValues({
+                    options: undefined,
+                    columns: undefined,
+                    value: '',
+                    valueTpl: ''
+                  });
+                  // 主要解决直接设置value、valueTpl为undefined配置面板不生效问题，所以先设置''，后使用setTimout设置为undefined
+                  setTimeout(() => {
+                    form.setValues({
+                      value: undefined,
+                      valueTpl: undefined
+                    });
+                  }, 100);
                 }
               },
 
@@ -225,10 +237,26 @@ export class TransferPlugin extends BasePlugin {
 
               {
                 type: 'ae-transferTableControl',
-                name: 'options',
                 label: '数据',
                 visibleOn: 'data.selectMode === "table"',
-                mode: 'normal'
+                mode: 'normal',
+                // 自定义change函数
+                onValueChange: (
+                  type: 'options' | 'columns',
+                  data: any,
+                  onBulkChange: Function
+                ) => {
+                  if (type === 'options') {
+                    onBulkChange(data);
+                  }
+                  else if (type === 'columns') {
+                    const columns = data.columns;
+                    if (data.columns.length > 0) {
+                      data.valueTpl = `\${${columns[0].name}}`;
+                    }
+                    onBulkChange(data);
+                  }
+                }
               },
 
               getSchemaTpl('treeOptionControl', {
@@ -241,7 +269,8 @@ export class TransferPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('menuTpl', {
-                label: tipedLabel('模板', '左侧选项渲染模板，支持JSX，变量使用\\${xx}')
+                label: tipedLabel('模板', '左侧选项渲染模板，支持JSX，变量使用\\${xx}'),
+                visibleOn: 'data.selectMode !== "table"',
               }),
 
               getSchemaTpl('formulaControl', {
@@ -262,10 +291,9 @@ export class TransferPlugin extends BasePlugin {
                 inputClassName: 'items-center',
                 options: [
                   {label: '列表形式', value: false},
-                  {label: '跟随左侧', value: true},
+                  {label: '跟随左侧', value: true}
                 ],
               },
-
               getSchemaTpl('switch', {
                 label: tipedLabel(
                   '可检索',
@@ -273,7 +301,6 @@ export class TransferPlugin extends BasePlugin {
                 ),
                 name: 'resultSearchable'
               }),
-          
               getSchemaTpl('sortable', {
                 label: '支持排序',
                 mode: 'horizontal',
@@ -287,7 +314,8 @@ export class TransferPlugin extends BasePlugin {
 
               getSchemaTpl('menuTpl', {
                 name: 'valueTpl',
-                label: tipedLabel('模板', '结果选项渲染模板，支持JSX，变量使用\\${xx}')
+                label: tipedLabel('模板', '结果选项渲染模板，支持JSX，变量使用\\${xx}'),
+                visibleOn: '!(data.selectMode === "table" && data.resultListModeFollowSelect)',
               }),
 
               getSchemaTpl('formulaControl', {

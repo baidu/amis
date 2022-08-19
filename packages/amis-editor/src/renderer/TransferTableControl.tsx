@@ -300,7 +300,7 @@ const renderInput = (
 export default class TransferTableOption extends React.Component<OptionControlProps, {}> {
 
     addColumns() {
-        const { columns = [{ type: 'text', name: 'label' }] } = this.props.data;
+        const { columns = [{ type: 'text' }] } = this.props.data;
         return {
             type: 'action',
             actionType: 'dialog',
@@ -312,6 +312,7 @@ export default class TransferTableOption extends React.Component<OptionControlPr
                 closeOnEsc: true,
                 closeOnOutside: false,
                 showCloseButton: true,
+                onConfirm: (...args: Array<any>) => this.handleChange(args[2].columns, 'columns'),
                 body: [
                     {
                         name: 'columns',
@@ -322,7 +323,6 @@ export default class TransferTableOption extends React.Component<OptionControlPr
                         addButtonText: '新增一列',
                         draggable: false,
                         value: columns,
-                        onChange: (value: Array<Option>) => this.handleColumnsChange(value),
                         items: [
                             {
                                 type: 'input-text',
@@ -406,6 +406,7 @@ export default class TransferTableOption extends React.Component<OptionControlPr
                     closeOnOutside: false,
                     showCloseButton: true,
                     size: columns.length >= 6 ? 'md' : '',
+                    onConfirm: (...args: Array<any>) => this.handleChange(args[2].options, 'options'),
                     body: [{
                         name: 'options',
                         type: 'combo',
@@ -413,7 +414,6 @@ export default class TransferTableOption extends React.Component<OptionControlPr
                         draggable: true,
                         addButtonText: '新增',
                         value: options,
-                        onChange: (value: Array<Option>) => this.handleRowsChange(value),
                         items: [
                             ...columns.map((item: Option) => renderInput(item.name, item.label ?? '')),
                             renderInput('value', '值', true)
@@ -425,19 +425,11 @@ export default class TransferTableOption extends React.Component<OptionControlPr
     }
 
     @autobind
-    handleColumnsChange(value: Array<Option>) {
+    handleChange(value: Array<Option>, type: 'options' | 'columns') {
         const { data } = this.props;
-        const { onBulkChange } = this.props;
-        data.columns = value.map(item => omit(item, 'id'));
-        onBulkChange && onBulkChange(data);
-    }
-
-    @autobind
-    handleRowsChange(value: Array<Option>) {
-        const { data } = this.props;
-        const { onBulkChange } = this.props;
-        data.options = value;
-        onBulkChange && onBulkChange(data);
+        const { onBulkChange, onValueChange } = this.props;
+        data[type] = value;
+        onValueChange && onValueChange(type, data, onBulkChange);
     }
 
     render() {
