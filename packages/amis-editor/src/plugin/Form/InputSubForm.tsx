@@ -165,6 +165,7 @@ export class SubFormControlPlugin extends BasePlugin {
       type: 'dialog',
       body: {
         type: 'form',
+        className: 'h-full pl-4 pr-4',
         ...rest
       }
     };
@@ -174,10 +175,29 @@ export class SubFormControlPlugin extends BasePlugin {
       value: schema,
       memberImmutable: ['body'],
       onChange: newValue => {
-        const form = newValue.body[0];
+        const {
+          title,
+          actions,
+          name,
+          size,
+          closeOnEsc,
+          showCloseButton,
+          bodyClassName,
+          body
+        } = newValue;
+
         newValue = {
           ...value,
-          form
+          form: {
+            title,
+            actions,
+            name,
+            size,
+            closeOnEsc,
+            showCloseButton,
+            bodyClassName,
+            ...body[0]
+          }
         };
         // delete newValue.form.body;
         delete newValue.form.type;
