@@ -164,6 +164,7 @@
   &-searchableForm {
     background: var(--Table-searchableForm-backgroundColor);
     border-radius: var(--Table-searchableForm-borderRadius);
+    margin-bottom: 0;
 
     &-footer {
       padding: var(--Panel-footerPadding);
@@ -171,8 +172,9 @@
     }
 
     &-checkbox {
-      & > div > .#{$ns}CheckboxControl {
-        padding-top: 0;
+      &-inner {
+        /* 消除checkbox自身的padding top */
+        padding-top: 0 !important;
       }
     }
   }
@@ -966,6 +968,41 @@
 
     > .#{$ns}Table-footToolbar {
       margin-bottom: 0;
+    }
+  }
+
+  &-SFToggler {
+    color: var(--text-color);
+    font-size: var(--Button--sm-fontSize);
+    margin-left: var(--gap-sm);
+    display: inline-flex;
+    cursor: pointer;
+
+    &-arrow {
+      width: var(--gap-md);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transform: rotate(90deg);
+
+      > svg {
+        transition: transform var(--animation-duration);
+        display: inline-block;
+        color: var(--Form-select-caret-iconColor);
+        width: 10px;
+        height: 10px;
+        top: 0;
+      }
+    }
+
+    &.is-expanded {
+      color: var(--Tabs-onActive-color);
+
+      .#{$ns}Table-SFToggler-arrow > svg {
+        transform: rotate(180deg);
+      }
     }
   }
 }

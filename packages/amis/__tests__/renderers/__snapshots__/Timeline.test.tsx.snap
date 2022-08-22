@@ -42,7 +42,7 @@ exports[`Renderer:timeline items 1`] = `
           <div
             class="cxd-TimelineItem-detail-button"
           >
-            detailCollapsedText
+            detailExpandedText
             <div
               class="cxd-TimelineItem-detail-arrow false"
             >

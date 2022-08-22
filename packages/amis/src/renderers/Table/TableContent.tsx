@@ -157,10 +157,12 @@ export class TableContent extends React.Component<TableContentProps> {
                 {columnsGroup.map((item, index) =>
                   /**
                    * 勾选列和展开列的表头单独成列
-                   * 如果分组列只有一个元素，也要执行表头合并
+                   * 如果分组列只有一个元素且未分组时，也要执行表头合并
                    */
                   !!~['__checkme', '__expandme'].indexOf(item.has[0].type) ||
-                  (item.has.length === 1 && !/^__/.test(item.has[0].type)) ? (
+                  (item.has.length === 1 &&
+                    !/^__/.test(item.has[0].type) &&
+                    !item.has[0].groupName) ? (
                     renderHeadCell(item.has[0], {
                       'data-index': item.has[0].index,
                       'key': index,

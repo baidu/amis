@@ -212,9 +212,15 @@ export default class CheckboxesControl extends React.Component<
       return null;
     }
 
+    const children = option.children.map((option, index) =>
+      this.renderItem(option, index)
+    );
+
+    const body = this.columnsSplit(children);
+
     return (
       <div
-        key={index}
+        key={'group-' + index}
         className={cx('CheckboxesControl-group', option.className)}
       >
         <label
@@ -223,7 +229,7 @@ export default class CheckboxesControl extends React.Component<
           {option[labelField || 'label']}
         </label>
 
-        {option.children.map((option, index) => this.renderItem(option, index))}
+        {body}
       </div>
     );
   }
@@ -291,6 +297,31 @@ export default class CheckboxesControl extends React.Component<
     );
   }
 
+  columnsSplit(body: React.ReactNode[]) {
+    const {columnsCount, classnames: cx} = this.props;
+
+    const result: Array<any> = [];
+    let tmp: Array<React.ReactPortal> = [];
+    body.forEach((node: React.ReactPortal) => {
+      // 如果有分组，组内单独分列
+      if (node && node.key && String(node.key).startsWith('group')) {
+        // 夹杂在分组间的无分组选项，分别成块
+        if (tmp.length) {
+          result.push(columnsSplit(tmp, cx, columnsCount));
+          tmp = [];
+        }
+
+        result.push(node);
+      } else {
+        tmp.push(node);
+      }
+    });
+    // 收尾
+    tmp.length && result.push(columnsSplit(tmp, cx, columnsCount));
+
+    return result;
+  }
+
   render() {
     const {
       className,
@@ -340,7 +371,7 @@ export default class CheckboxesControl extends React.Component<
       );
     }
 
-    body = columnsSplit(body, cx, columnsCount);
+    body = this.columnsSplit(body);
 
     return (
       <div className={cx(`CheckboxesControl`, className)} ref="checkboxRef">

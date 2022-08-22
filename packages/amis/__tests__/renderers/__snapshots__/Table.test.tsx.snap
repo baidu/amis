@@ -2172,7 +2172,6 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="1"
               data-index="0"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -2188,7 +2187,6 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="2"
               data-index="1"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -2204,7 +2202,6 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="3"
               data-index="2"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -2220,7 +2217,6 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="4"
               data-index="3"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -2236,7 +2232,6 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="5"
               data-index="4"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -2252,7 +2247,6 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="6"
               data-index="5"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -2268,7 +2262,6 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="7"
               data-index="6"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -2284,7 +2277,6 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="8"
               data-index="7"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -2300,7 +2292,6 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="9"
               data-index="8"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -2316,7 +2307,6 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="10"
               data-index="9"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -3800,6 +3790,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                         <td
                           class=""
+                          rowspan="2"
                         >
                           <span
                             class="cxd-PlainField"
@@ -3838,15 +3829,6 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-PlainField"
                           >
                             Trident
-                          </span>
-                        </td>
-                        <td
-                          class=""
-                        >
-                          <span
-                            class="cxd-PlainField"
-                          >
-                            Win 98
                           </span>
                         </td>
                         <td
@@ -3894,6 +3876,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                         <td
                           class=""
+                          rowspan="2"
                         >
                           <span
                             class="cxd-PlainField"
@@ -3932,15 +3915,6 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-PlainField"
                           >
                             Gecko
-                          </span>
-                        </td>
-                        <td
-                          class=""
-                        >
-                          <span
-                            class="cxd-PlainField"
-                          >
-                            Win 98+ / OSX.2+
                           </span>
                         </td>
                         <td
@@ -3988,6 +3962,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                         <td
                           class=""
+                          rowspan="3"
                         >
                           <span
                             class="cxd-PlainField"
@@ -4034,15 +4009,6 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                           <span
                             class="cxd-PlainField"
                           >
-                            Win 98+ / OSX.2+
-                          </span>
-                        </td>
-                        <td
-                          class=""
-                        >
-                          <span
-                            class="cxd-PlainField"
-                          >
                             5
                           </span>
                         </td>
@@ -4068,15 +4034,6 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                             class="cxd-PlainField"
                           >
                             Gecko
-                          </span>
-                        </td>
-                        <td
-                          class=""
-                        >
-                          <span
-                            class="cxd-PlainField"
-                          >
-                            Win 98+ / OSX.2+
                           </span>
                         </td>
                         <td
@@ -5333,25 +5290,17 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                     <thead>
                       <tr>
                         <th
-                          class=""
                           colspan="1"
                           data-index="3"
                           rowspan="1"
                         >
-                          <div
-                            class="cxd-TableCell--title"
+                          <span
+                            class="cxd-TplField"
                           >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Engine
-                              </span>
+                            <span>
+                              分组1
                             </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
+                          </span>
                         </th>
                         <th
                           class=""
@@ -8176,7 +8125,6 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="1"
               data-index="0"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -8192,7 +8140,6 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="2"
               data-index="1"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -8208,7 +8155,6 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="3"
               data-index="2"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -8224,7 +8170,6 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="4"
               data-index="3"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -8240,7 +8185,6 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="5"
               data-index="4"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -8256,7 +8200,6 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="6"
               data-index="5"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -8272,7 +8215,6 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="7"
               data-index="6"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -8288,7 +8230,6 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="8"
               data-index="7"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -8304,7 +8245,6 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="9"
               data-index="8"
-              style="height: 0px;"
             >
               <td
                 class=""
@@ -8320,7 +8260,6 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="10"
               data-index="9"
-              style="height: 0px;"
             >
               <td
                 class=""

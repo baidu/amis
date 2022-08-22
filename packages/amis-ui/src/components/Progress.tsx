@@ -8,6 +8,11 @@ interface ColorProps {
   color: string;
 }
 
+export interface ThresholdProps {
+  value: string;
+  color?: string;
+}
+
 export type ColorMapType = Array<string> | Array<ColorProps> | string;
 
 interface ProgressProps extends ThemeProps {
@@ -24,6 +29,8 @@ interface ProgressProps extends ThemeProps {
   strokeWidth?: number;
   progressClassName?: ClassName;
   classnames: ClassNamesFn;
+  threshold: ThresholdProps | ThresholdProps[];
+  showThresholdText: boolean;
 }
 export class Progress extends React.Component<ProgressProps, Object> {
   static defaultProps: Partial<ProgressProps> = {
@@ -98,7 +105,9 @@ export class Progress extends React.Component<ProgressProps, Object> {
       gapDegree,
       gapPosition,
       strokeWidth,
-      classnames: cx
+      classnames: cx,
+      threshold,
+      showThresholdText
     } = this.props;
 
     const isLineType = type === 'line';
@@ -115,9 +124,36 @@ export class Progress extends React.Component<ProgressProps, Object> {
       };
       strokeWidth && (barStyle.height = strokeWidth);
       !isColorClass && (barStyle.backgroundColor = bgColor);
+      let thresholdDom = null;
+      if (threshold) {
+        const temp = (text: string, color?: string) => (
+          <div
+            style={{
+              left: text,
+              borderColor: color || 'var(--text-color)'
+            }}
+            className={cx(`${prefixCls}-threshold`)}
+            key={text}
+          >
+            {showThresholdText ? (
+              <span className={cx(`${prefixCls}-threshold-text`)}>{text}</span>
+            ) : null}
+          </div>
+        );
+        if (Array.isArray(threshold)) {
+          thresholdDom = threshold.map(item => {
+            const text = parseFloat(item.value) + '%';
+            return temp(text, item.color);
+          });
+        } else {
+          const text = parseFloat(threshold.value) + '%';
+          thresholdDom = temp(text, threshold.color);
+        }
+      }
 
       viewValue = [
         <div key="progress" className={cx(prefixCls, progressClassName)}>
+          {thresholdDom}
           <div className={cx(`${prefixCls}-inter`)}>
             <div
               className={cx(

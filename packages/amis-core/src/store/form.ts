@@ -365,9 +365,11 @@ export const FormStore = ServiceStore.named('FormStore')
           }
           self.markSaving(false);
           self.updateMessage(
-            json.msg ?? options.successMessage === 'saveSuccess'
-              ? json.defaultMsg
-              : self.__(options && options.successMessage) ?? json.defaultMsg
+            json.msg ??
+              (options.successMessage === 'saveSuccess'
+                ? json.defaultMsg
+                : self.__(options && options.successMessage)) ??
+              json.defaultMsg
           );
           if (!ret?.dispatcher?.prevented) {
             self.msg &&

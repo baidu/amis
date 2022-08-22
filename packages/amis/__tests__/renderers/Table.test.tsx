@@ -309,7 +309,7 @@ test('Renderer:table children', () => {
 });
 
 describe('Renderer:table combine', () => {
-  const combineSchema: any = {
+  const generateCombineSchema = (tableConfig: Record<string, any> = {}) => ({
     type: 'page',
     body: {
       type: 'service',
@@ -342,22 +342,29 @@ describe('Renderer:table combine', () => {
             name: 'grade',
             label: 'CSS grade'
           }
-        ]
+        ],
+        ...tableConfig
       }
     }
-  };
+  });
   // 合并单元格
   test('Renderer:table combineNum only', () => {
-    const {container} = render(amisRender(combineSchema, {}, makeEnv({})));
+    const {container} = render(
+      amisRender(generateCombineSchema(), {}, makeEnv({}))
+    );
 
     expect(container).toMatchSnapshot();
   });
 
   // 合并单元格
   test('Renderer:table combineNum with fromIndex', () => {
-    combineSchema.body.body.combineNum = 1;
-    combineSchema.body.body.combineFromIndex = 1;
-    const {container} = render(amisRender(combineSchema, {}, makeEnv({})));
+    const {container} = render(
+      amisRender(
+        generateCombineSchema({combineNum: 2, combineFromIndex: 1}),
+        {},
+        makeEnv({})
+      )
+    );
 
     expect(container).toMatchSnapshot();
   });

@@ -1214,8 +1214,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             reUseRow: false,
             offset,
             rowClassName,
-            rowClassNameExpr,
-            onPristineChange: this.handlePristineChange
+            rowClassNameExpr
+            // TODO: 这里是为了处理columns里使用value变量添加的，目前会影响初始化数据加载后的组件行为，先回滚
+            // onPristineChange: this.handlePristineChange
           }
         )}
         {(addable && showAddBtn !== false) || showPager ? (

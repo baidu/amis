@@ -1,9 +1,8 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, filter} from 'amis-core';
 import cx from 'classnames';
-import {BaseSchema, SchemaClassName} from '../Schema';
+import {BaseSchema, SchemaClassName, SchemaTpl} from '../Schema';
 import {autobind, getPropValue, createObject} from 'amis-core';
-import {filter} from 'amis-core';
 
 import {Progress} from 'amis-ui';
 import type {ColorMapType} from 'amis-ui/lib/components/Progress';
@@ -79,6 +78,18 @@ export interface ProgressSchema extends BaseSchema {
    * 内容的模板函数
    */
   valueTpl?: string;
+
+  /**
+   * 阈值
+   */
+  threshold?:
+    | {value: SchemaTpl; color?: string}
+    | {value: SchemaTpl; color?: string}[];
+
+  /**
+   * 是否显示阈值数值
+   */
+  showThresholdText?: boolean;
 }
 
 export interface ProgressProps
@@ -107,6 +118,7 @@ export class ProgressField extends React.Component<ProgressProps, object> {
 
   render() {
     const {
+      data,
       mode,
       className,
       placeholder,
@@ -118,14 +130,33 @@ export class ProgressField extends React.Component<ProgressProps, object> {
       strokeWidth,
       gapDegree,
       gapPosition,
-      classnames: cx
+      classnames: cx,
+      threshold,
+      showThresholdText
     } = this.props;
 
     let value = getPropValue(this.props);
+    value = typeof value === 'number' ? value : filter(value, data);
 
     if (/^\d*\.?\d+$/.test(value)) {
       value = parseFloat(value);
     }
+
+    if (threshold) {
+      if (Array.isArray(threshold)) {
+        threshold.forEach(item => {
+          item.value =
+            typeof item.value === 'string'
+              ? filter(item.value, data)
+              : item.value;
+          item.color && (item.color = filter(item.color, data));
+        });
+      } else {
+        threshold.value = filter(threshold.value, data);
+        threshold.color && (threshold.color = filter(threshold.color, data));
+      }
+    }
+
     return (
       <Progress
         value={value}
@@ -141,6 +172,8 @@ export class ProgressField extends React.Component<ProgressProps, object> {
         gapPosition={gapPosition}
         className={className}
         progressClassName={progressClassName}
+        threshold={threshold}
+        showThresholdText={showThresholdText}
       />
     );
   }
