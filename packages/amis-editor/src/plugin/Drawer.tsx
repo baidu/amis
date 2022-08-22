@@ -122,7 +122,8 @@ export class DrawerPlugin extends BasePlugin {
                     value: 'bottom'
                   }
                 ],
-                pipeIn: defaultValue('right')
+                pipeIn: defaultValue('right'),
+                pipeOut: (value: any) => value ? value : 'right'
               },
               getSchemaTpl('switch', {
                 name: 'overlay',
@@ -166,8 +167,8 @@ export class DrawerPlugin extends BasePlugin {
                 mode: 'horizontal',
                 options: [
                   {
-                    label: '超小',
-                    value: 'xs'
+                    label: '标准',
+                    value: ''
                   },
                   {
                     label: '小',
@@ -186,7 +187,8 @@ export class DrawerPlugin extends BasePlugin {
                     value: 'xl'
                   }
                 ],
-                pipeIn: defaultValue('md')
+                pipeIn: defaultValue(''),
+                pipeOut: (value: string) => value ? value : undefined
               },
               getSchemaTpl('style:widthHeight', {
                 widthSchema: {
@@ -201,7 +203,7 @@ export class DrawerPlugin extends BasePlugin {
                     '高度',
                     '位置为 "上" 或 "下" 时生效。 默认宽度为"尺寸"字段配置的高度，值单位默认为 px，也支持百分比等单位 ，如：100%'
                   ),
-                  disabledOn: 'this.position === "left" || this.position === "right"'
+                  disabledOn: 'this.position === "left" || this.position === "right" || !this.position'
                 }
               })
             ]

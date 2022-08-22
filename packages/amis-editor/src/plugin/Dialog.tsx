@@ -136,6 +136,10 @@ export class DialogPlugin extends BasePlugin {
                 size: 'sm',
                 options: [
                   {
+                    label: '标准',
+                    value: ''
+                  },
+                  {
                     label: '小',
                     value: 'sm'
                   },
@@ -152,7 +156,8 @@ export class DialogPlugin extends BasePlugin {
                     value: 'xl'
                   }
                 ],
-                pipeIn: defaultValue('md')
+                pipeIn: defaultValue(''),
+                pipeOut: (value: string) => value ? value : undefined
               }
             ]
           },
