@@ -189,20 +189,12 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           items: [
             {
               name: 'key',
-              type: 'select',
+              type: 'input-text',
               placeholder: '变量名',
               source: '${__setValueDs}',
               labelField: 'label',
               valueField: 'value',
               required: true,
-              visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`
-            },
-            {
-              name: 'key',
-              type: 'input-text',
-              placeholder: '变量名',
-              required: true,
-              visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP}`
             },
             {
               name: 'val',
