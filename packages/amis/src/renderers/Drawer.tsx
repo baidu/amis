@@ -270,14 +270,18 @@ export default class Drawer extends React.Component<DrawerProps> {
     return ret;
   }
 
-  handleSelfClose() {
-    const {onClose, store} = this.props;
+  async handleSelfClose() {
+    const {onClose, store, dispatchEvent} = this.props;
 
     // 如果有子弹框，那么就先不隐藏自己
     if (store.dialogOpen !== false || store.drawerOpen !== false) {
       return;
     }
 
+    const rendererEvent = await dispatchEvent('cancel', this.props.data);
+    if (rendererEvent?.prevented) {
+      return;
+    }
     // clear error
     store.updateMessage();
     onClose();
