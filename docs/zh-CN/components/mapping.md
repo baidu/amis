@@ -45,6 +45,33 @@ order: 57
 }
 ```
 
+## 渲染其它组件
+
+映射的值也可以是 amis schema，渲染其它组件
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "mapping",
+        "value": "1",
+        "map": {
+            "1":  {
+                "type": "tag",
+                "label": "#4096ff",
+                "displayMode": "rounded",
+                "color": "#4096ff"
+            },
+            "2":  {
+                "type": "tpl",
+                "tpl": "2"
+            },
+            "*": "其他"
+        }
+    }
+}
+```
+
 ## 支持数组
 
 > 1.5.0 及以上版本
@@ -263,9 +290,9 @@ List 的内容、Card 卡片的内容配置同上
 
 ## 属性表
 
-| 属性名      | 类型              | 默认值 | 说明                                                                                   |
-| ----------- | ----------------- | ------ | -------------------------------------------------------------------------------------- |
-| className   | `string`          |        | 外层 CSS 类名                                                                          |
-| placeholder | `string`          |        | 占位文本                                                                               |
-| map         | `object`          |        | 映射配置                                                                               |
-| source      | `string` or `API` |        | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping)      |
+| 属性名      | 类型              | 默认值 | 说明                                                                              |
+| ----------- | ----------------- | ------ | --------------------------------------------------------------------------------- |
+| className   | `string`          |        | 外层 CSS 类名                                                                     |
+| placeholder | `string`          |        | 占位文本                                                                          |
+| map         | `object`          |        | 映射配置                                                                          |
+| source      | `string` or `API` |        | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |

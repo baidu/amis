@@ -67,12 +67,9 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
+    padding-left: px2rem(5px);
 
     > * {
-      &:first-child {
-        margin-left: px2rem(5px);
-      }
-
       &:not(:last-child) {
         margin-right: px2rem(5px);
       }
@@ -95,10 +92,11 @@
     align-items: center;
     transition: transform var(--animation-duration) ease;
     transform: rotate(90deg);
+
     > svg {
       width: px2rem(10px);
       height: px2rem(10px);
-      top: 0.125em;
+      top: 0;
       color: var(--default-icon-color);
     }
   }
@@ -155,6 +153,7 @@
       cursor: pointer;
       margin-left: px2rem(10px);
       color: var(--ResultBox-icon-color);
+
       &:hover {
         color: var(--ResultBox-icon--onHover-color);
       }
@@ -162,6 +161,7 @@
       > svg {
         width: px2rem(10px);
         height: px2rem(10px);
+
         &.icon {
           top: 0;
         }

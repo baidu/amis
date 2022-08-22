@@ -12,6 +12,21 @@
   justify-content: space-between;
   align-items: flex-start;
 
+  &-has-title {
+    padding: var(--Alert-paddingX);
+
+    .#{$ns}Alert-content {
+
+      .#{$ns}Alert-title {
+        line-height: #{px2rem(22px)};
+      }
+
+      .#{$ns}Alert-desc {
+        line-height: #{px2rem(20px)};
+      }
+    }
+  }
+
   &-icon {
     margin-right: var(--gap-sm);
     font-size: var(--fontSizeLg);

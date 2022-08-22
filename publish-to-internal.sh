@@ -6,6 +6,10 @@ npm run build --workspaces
 rm -rf npm
 mkdir npm
 
+# 如果有问题可以注释掉这两行，不知道为啥会导致 cp -rf 挂掉
+# rm -rf packages/amis/node_modules/.bin
+# rm -rf packages/amis-ui/node_modules/.bin
+
 cp -rf packages npm
 cp package.json npm
 

@@ -24,7 +24,9 @@ import {
   normalizeNodePath,
   mapTree,
   getTreeDepth,
-  flattenTree
+  flattenTree,
+  keyToPath,
+  getVariable
 } from '../utils/helper';
 import {reaction} from 'mobx';
 import {
@@ -49,7 +51,6 @@ import {filter} from '../utils/tpl';
 import findIndex from 'lodash/findIndex';
 
 import isPlainObject from 'lodash/isPlainObject';
-import merge from 'lodash/merge';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import {Option} from '../types';
@@ -135,6 +136,11 @@ export interface FormOptionsControl extends FormBaseControl {
   addControls?: Array<PlainObject>;
 
   /**
+   * 控制新增弹框设置项
+   */
+  addDialog?: PlainObject;
+
+  /**
    * 是否可以新增
    */
   creatable?: boolean;
@@ -158,6 +164,12 @@ export interface FormOptionsControl extends FormBaseControl {
    * 选项修改的表单项
    */
   editControls?: Array<PlainObject>;
+
+  /**
+   * 控制编辑弹框设置项
+   */
+
+  editDialog?: PlainObject;
 
   /**
    * 是否可删除
@@ -529,9 +541,17 @@ export function registerOptionsControl(config: OptionsConfig) {
               )
         );
 
-        Object.keys(toSync).forEach(key => {
-          if (isPlainObject(toSync[key]) && isPlainObject(data[key])) {
-            toSync[key] = merge({}, data[key], toSync[key]);
+        Object.keys(autoFill).forEach(key => {
+          const keys = keyToPath(key);
+
+          // 如果左边的 key 是一个路径
+          // 这里不希望直接把原始对象都给覆盖没了
+          // 而是保留原始的对象，只修改指定的属性
+          if (keys.length > 1 && isPlainObject(data[keys[0]])) {
+            const obj = {...data[keys[0]]};
+            const value = getVariable(toSync, key);
+            toSync[keys[0]] = obj;
+            setVariable(toSync, key, value);
           }
         });
 
@@ -914,6 +934,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     ) {
       let {
         addControls,
+        addDialog,
         disabled,
         labelField,
         onOpenDialog,
@@ -965,6 +986,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             {
               type: 'dialog',
               title: createBtnLabel || `新增${optionLabel || '选项'}`,
+              ...addDialog,
               body: {
                 type: 'form',
                 api: addApi,
@@ -1056,6 +1078,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     ) {
       let {
         editControls,
+        editDialog,
         disabled,
         labelField,
         onOpenDialog,
@@ -1091,6 +1114,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               title: __('Options.editLabel', {
                 label: optionLabel || __('Options.label')
               }),
+              ...editDialog,
               body: {
                 type: 'form',
                 api: editApi,
@@ -1160,6 +1184,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         disabled,
         data,
         deleteApi,
+        onDelete,
         env,
         formItem: model,
         source,
@@ -1189,17 +1214,22 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       // 通过 deleteApi 删除。
       try {
-        if (!deleteApi) {
-          throw new Error(__('Options.deleteAPI'));
+        if (deleteApi) {
+          const result = await env.fetcher(deleteApi!, ctx, {
+            method: 'delete'
+          });
+          if (!result.ok) {
+            env.notify('error', result.msg || __('deleteFailed'));
+            return;
+          }
         }
 
-        const result = await env.fetcher(deleteApi!, ctx, {
-          method: 'delete'
-        });
+        // 由外部代码实现删除逻辑
+        if (onDelete) {
+          onDelete(ctx);
+        }
 
-        if (!result.ok) {
-          env.notify('error', result.msg || __('deleteFailed'));
-        } else if (source) {
+        if (source) {
           this.reload();
         } else {
           const options = model.options.concat();

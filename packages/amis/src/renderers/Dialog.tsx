@@ -67,6 +67,16 @@ export interface DialogSchema extends BaseSchema {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
   /**
+   * Dialog 高度
+   */
+  height?: string;
+
+  /**
+   * Dialog 宽度
+   */
+  width?: string;
+
+  /**
    * 请通过配置 title 设置标题
    */
   title?: SchemaCollection;
@@ -475,6 +485,8 @@ export default class Dialog extends React.Component<DialogProps> {
     const {
       className,
       size,
+      height,
+      width,
       closeOnEsc,
       closeOnOutside,
       title,
@@ -503,6 +515,8 @@ export default class Dialog extends React.Component<DialogProps> {
         classPrefix={classPrefix}
         className={cx(className)}
         size={size}
+        height={height}
+        width={width}
         backdrop="static"
         onHide={this.handleSelfClose}
         keyboard={closeOnEsc && !store.loading}

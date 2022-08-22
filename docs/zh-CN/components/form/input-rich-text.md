@@ -69,7 +69,9 @@ order: 47
 
 ## tinymce 自定义配置
 
-可以设置 options 属性来自定义编辑器的展现，详细配置项请参考[官方文档](https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/)。
+可以设置 options 属性来自定义编辑器的展现，详细配置项请参考[官方文档](https://www.tiny.cloud/docs/tinymce/6/basic-setup/)。
+
+> amis 2.1.0 版本升级到了 tinymce 6，导致 plugins 的写法有变化
 
 注意在下面的编辑器里修改 JSON 配置后不会实时生效。
 
@@ -85,9 +87,7 @@ order: 47
                 "menubar": false,
                 "height": 200,
                 "plugins": [
-                    "advlist autolink lists link image charmap print preview anchor",
-                    "searchreplace visualblocks code fullscreen",
-                    "insertdatetime media table paste code help wordcount"
+                    "advlist", "autolink", "link", "image", "lists", "charmap", "preview", "anchor", "pagebreak", "searchreplace", "wordcount", "visualblocks", "visualchars", "code", "fullscreen", "insertdatetime", "media", "nonbreaking", "table", "emoticons", "template", "help"
                 ],
                 "toolbar": "undo redo | formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help"
             }
@@ -102,11 +102,11 @@ order: 47
 
 ```json
 {
-    "type": "input-rich-text",
-    "name": "rich",
-    "options": {
-        "content_css": "/xxx.css"
-    }
+  "type": "input-rich-text",
+  "name": "rich",
+  "options": {
+    "content_css": "/xxx.css"
+  }
 }
 ```
 
@@ -114,14 +114,15 @@ order: 47
 
 ```css
 .mce-item-table th {
-	font-weight: bold;
+  font-weight: bold;
 }
-.mce-item-table th, .mce-item-table td {
-    padding: 6px 13px;
-	border: 1px solid #ddd;
+.mce-item-table th,
+.mce-item-table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
 }
 .mce-item-table tr {
-	border-top: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
 ```
 
@@ -129,14 +130,15 @@ order: 47
 
 ```css
 table th {
-	font-weight: bold;
+  font-weight: bold;
 }
-table th, table td {
-    padding: 6px 13px;
-	border: 1px solid #ddd;
+table th,
+table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
 }
 table tr {
-	border-top: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
 ```
 

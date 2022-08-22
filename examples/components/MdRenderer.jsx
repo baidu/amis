@@ -225,6 +225,69 @@ export default function (doc) {
       document.title = this.originTitle;
     }
 
+    pathJoin(...parts) {
+      const separator = '/';
+      const normalizedParts = parts
+        .filter(
+          part =>
+            part != null &&
+            (typeof part === 'string' || typeof part === 'number')
+        )
+        .map((item, index, arr) => {
+          let part = `${item}`;
+
+          // 去除首个元素之外的"/"前缀
+          if (index > 0) {
+            part = part.replace(/^[\/]+/, '');
+          }
+
+          // 去除中间元素的"/"后缀，最后一个元素的多个"/"后缀改为1个
+          return index < arr.length - 1
+            ? part.replace(/[\/]+$/, '')
+            : part.replace(/[\/]+$/, '/');
+        });
+
+      return normalizedParts.join(separator);
+    }
+
+    getDocEditLink() {
+      const {ContextPath} = this.props;
+      const basePath = 'https://github.com/baidu/amis/edit/master';
+
+      try {
+        const [urlPath, locale, moduleName, relativePath] = location.pathname
+          .replace(ContextPath, '')
+          .match(/^\/(zh-CN)\/(docs|components|style|)(([\/]?[\w-]+)*)/);
+
+        if (moduleName === 'docs') {
+          return this.pathJoin(
+            basePath,
+            `/docs/${locale}/`,
+            `${relativePath}.md`
+          );
+        } else if (
+          moduleName === 'style' &&
+          !/style\/(index|css-vars|responsive-design|state)$/.test(urlPath)
+        ) {
+          const fileName = location.pathname.split('/')?.slice(-1)?.[0];
+
+          return this.pathJoin(
+            basePath,
+            `/packages/amis-ui/scss/helper`,
+            relativePath.replace(fileName, `/_${fileName}.scss`)
+          );
+        } else {
+          return this.pathJoin(
+            basePath,
+            `/docs/${locale}/${moduleName}`,
+            `/${relativePath}.md`
+          );
+        }
+      } catch (error) {
+        return this.pathJoin(basePath, 'docs');
+      }
+    }
+
     render() {
       const {prevDoc, nextDoc, ContextPath} = this.props;
 
@@ -296,10 +359,8 @@ export default function (doc) {
               <div className="Doc-footer-fixme">
                 文档有误？
                 <a
-                  href={`https://github.com/baidu/amis/blob/master${location.pathname
-                    .replace(ContextPath, '')
-                    .replace(/(zh-CN)\/(docs|components|style)/, '$2/$1')}.md`}
-                  rel="noopener"
+                  href={this.getDocEditLink()}
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   在 Github 上编辑此页！

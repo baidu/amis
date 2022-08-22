@@ -137,7 +137,7 @@
     align-items: stretch;
 
     > .#{$ns}Page-content,
-    .#{$ns}PullRefresh {
+    > .#{$ns}PullRefresh {
       width: 0;
       flex-grow: 1;
     }

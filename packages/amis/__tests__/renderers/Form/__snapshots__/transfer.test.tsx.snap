@@ -725,22 +725,27 @@ exports[`Renderer:transfer left tree 1`] = `
                                         icon="down-arrow-bold"
                                       />
                                     </div>
-                                    <i
-                                      class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                                    >
-                                      <icon-mock
-                                        classname="icon icon-folder"
-                                        icon="folder"
-                                      />
-                                    </i>
-                                    <span
-                                      class="cxd-Tree-itemText"
-                                    >
-                                      法师
-                                    </span>
                                     <div
-                                      class="cxd-Tree-item-icons"
-                                    />
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <i
+                                        class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                      >
+                                        <icon-mock
+                                          classname="icon icon-folder"
+                                          icon="folder"
+                                        />
+                                      </i>
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="法师"
+                                      >
+                                        法师
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
                                   </div>
                                   <ul
                                     class="cxd-Tree-sublist"
@@ -754,22 +759,27 @@ exports[`Renderer:transfer left tree 1`] = `
                                         <span
                                           class="cxd-Tree-itemArrowPlaceholder"
                                         />
-                                        <i
-                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                        >
-                                          <icon-mock
-                                            classname="icon icon-file"
-                                            icon="file"
-                                          />
-                                        </i>
-                                        <span
-                                          class="cxd-Tree-itemText"
-                                        >
-                                          诸葛亮
-                                        </span>
                                         <div
-                                          class="cxd-Tree-item-icons"
-                                        />
+                                          class="cxd-Tree-itemLabel-item"
+                                        >
+                                          <i
+                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                          >
+                                            <icon-mock
+                                              classname="icon icon-file"
+                                              icon="file"
+                                            />
+                                          </i>
+                                          <span
+                                            class="cxd-Tree-itemText"
+                                            title="诸葛亮"
+                                          >
+                                            诸葛亮
+                                          </span>
+                                          <div
+                                            class="cxd-Tree-item-icons"
+                                          />
+                                        </div>
                                       </div>
                                     </li>
                                   </ul>
@@ -788,22 +798,27 @@ exports[`Renderer:transfer left tree 1`] = `
                                         icon="down-arrow-bold"
                                       />
                                     </div>
-                                    <i
-                                      class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                                    >
-                                      <icon-mock
-                                        classname="icon icon-folder"
-                                        icon="folder"
-                                      />
-                                    </i>
-                                    <span
-                                      class="cxd-Tree-itemText"
-                                    >
-                                      战士
-                                    </span>
                                     <div
-                                      class="cxd-Tree-item-icons"
-                                    />
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <i
+                                        class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                      >
+                                        <icon-mock
+                                          classname="icon icon-folder"
+                                          icon="folder"
+                                        />
+                                      </i>
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="战士"
+                                      >
+                                        战士
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
                                   </div>
                                   <ul
                                     class="cxd-Tree-sublist"
@@ -817,22 +832,27 @@ exports[`Renderer:transfer left tree 1`] = `
                                         <span
                                           class="cxd-Tree-itemArrowPlaceholder"
                                         />
-                                        <i
-                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                        >
-                                          <icon-mock
-                                            classname="icon icon-file"
-                                            icon="file"
-                                          />
-                                        </i>
-                                        <span
-                                          class="cxd-Tree-itemText"
-                                        >
-                                          曹操
-                                        </span>
                                         <div
-                                          class="cxd-Tree-item-icons"
-                                        />
+                                          class="cxd-Tree-itemLabel-item"
+                                        >
+                                          <i
+                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                          >
+                                            <icon-mock
+                                              classname="icon icon-file"
+                                              icon="file"
+                                            />
+                                          </i>
+                                          <span
+                                            class="cxd-Tree-itemText"
+                                            title="曹操"
+                                          >
+                                            曹操
+                                          </span>
+                                          <div
+                                            class="cxd-Tree-item-icons"
+                                          />
+                                        </div>
                                       </div>
                                     </li>
                                     <li
@@ -844,22 +864,27 @@ exports[`Renderer:transfer left tree 1`] = `
                                         <span
                                           class="cxd-Tree-itemArrowPlaceholder"
                                         />
-                                        <i
-                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                        >
-                                          <icon-mock
-                                            classname="icon icon-file"
-                                            icon="file"
-                                          />
-                                        </i>
-                                        <span
-                                          class="cxd-Tree-itemText"
-                                        >
-                                          钟无艳
-                                        </span>
                                         <div
-                                          class="cxd-Tree-item-icons"
-                                        />
+                                          class="cxd-Tree-itemLabel-item"
+                                        >
+                                          <i
+                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                          >
+                                            <icon-mock
+                                              classname="icon icon-file"
+                                              icon="file"
+                                            />
+                                          </i>
+                                          <span
+                                            class="cxd-Tree-itemText"
+                                            title="钟无艳"
+                                          >
+                                            钟无艳
+                                          </span>
+                                          <div
+                                            class="cxd-Tree-item-icons"
+                                          />
+                                        </div>
                                       </div>
                                     </li>
                                   </ul>
@@ -878,22 +903,27 @@ exports[`Renderer:transfer left tree 1`] = `
                                         icon="down-arrow-bold"
                                       />
                                     </div>
-                                    <i
-                                      class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                                    >
-                                      <icon-mock
-                                        classname="icon icon-folder"
-                                        icon="folder"
-                                      />
-                                    </i>
-                                    <span
-                                      class="cxd-Tree-itemText"
-                                    >
-                                      打野
-                                    </span>
                                     <div
-                                      class="cxd-Tree-item-icons"
-                                    />
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <i
+                                        class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                      >
+                                        <icon-mock
+                                          classname="icon icon-folder"
+                                          icon="folder"
+                                        />
+                                      </i>
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="打野"
+                                      >
+                                        打野
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
                                   </div>
                                   <ul
                                     class="cxd-Tree-sublist"
@@ -907,22 +937,27 @@ exports[`Renderer:transfer left tree 1`] = `
                                         <span
                                           class="cxd-Tree-itemArrowPlaceholder"
                                         />
-                                        <i
-                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                        >
-                                          <icon-mock
-                                            classname="icon icon-file"
-                                            icon="file"
-                                          />
-                                        </i>
-                                        <span
-                                          class="cxd-Tree-itemText"
-                                        >
-                                          李白
-                                        </span>
                                         <div
-                                          class="cxd-Tree-item-icons"
-                                        />
+                                          class="cxd-Tree-itemLabel-item"
+                                        >
+                                          <i
+                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                          >
+                                            <icon-mock
+                                              classname="icon icon-file"
+                                              icon="file"
+                                            />
+                                          </i>
+                                          <span
+                                            class="cxd-Tree-itemText"
+                                            title="李白"
+                                          >
+                                            李白
+                                          </span>
+                                          <div
+                                            class="cxd-Tree-item-icons"
+                                          />
+                                        </div>
                                       </div>
                                     </li>
                                     <li
@@ -934,22 +969,27 @@ exports[`Renderer:transfer left tree 1`] = `
                                         <span
                                           class="cxd-Tree-itemArrowPlaceholder"
                                         />
-                                        <i
-                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                        >
-                                          <icon-mock
-                                            classname="icon icon-file"
-                                            icon="file"
-                                          />
-                                        </i>
-                                        <span
-                                          class="cxd-Tree-itemText"
-                                        >
-                                          韩信
-                                        </span>
                                         <div
-                                          class="cxd-Tree-item-icons"
-                                        />
+                                          class="cxd-Tree-itemLabel-item"
+                                        >
+                                          <i
+                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                          >
+                                            <icon-mock
+                                              classname="icon icon-file"
+                                              icon="file"
+                                            />
+                                          </i>
+                                          <span
+                                            class="cxd-Tree-itemText"
+                                            title="韩信"
+                                          >
+                                            韩信
+                                          </span>
+                                          <div
+                                            class="cxd-Tree-item-icons"
+                                          />
+                                        </div>
                                       </div>
                                     </li>
                                     <li
@@ -961,22 +1001,27 @@ exports[`Renderer:transfer left tree 1`] = `
                                         <span
                                           class="cxd-Tree-itemArrowPlaceholder"
                                         />
-                                        <i
-                                          class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                        >
-                                          <icon-mock
-                                            classname="icon icon-file"
-                                            icon="file"
-                                          />
-                                        </i>
-                                        <span
-                                          class="cxd-Tree-itemText"
-                                        >
-                                          云中君
-                                        </span>
                                         <div
-                                          class="cxd-Tree-item-icons"
-                                        />
+                                          class="cxd-Tree-itemLabel-item"
+                                        >
+                                          <i
+                                            class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                                          >
+                                            <icon-mock
+                                              classname="icon icon-file"
+                                              icon="file"
+                                            />
+                                          </i>
+                                          <span
+                                            class="cxd-Tree-itemText"
+                                            title="云中君"
+                                          >
+                                            云中君
+                                          </span>
+                                          <div
+                                            class="cxd-Tree-item-icons"
+                                          />
+                                        </div>
                                       </div>
                                     </li>
                                   </ul>
@@ -1645,16 +1690,21 @@ exports[`Renderer:transfer tree 1`] = `
                                     class=""
                                   />
                                 </label>
-                                <span
-                                  class="cxd-Tree-itemText"
-                                >
-                                  <span>
-                                    法师
-                                  </span>
-                                </span>
                                 <div
-                                  class="cxd-Tree-item-icons"
-                                />
+                                  class="cxd-Tree-itemLabel-item"
+                                >
+                                  <span
+                                    class="cxd-Tree-itemText"
+                                    title="法师"
+                                  >
+                                    <span>
+                                      法师
+                                    </span>
+                                  </span>
+                                  <div
+                                    class="cxd-Tree-item-icons"
+                                  />
+                                </div>
                               </div>
                               <ul
                                 class="cxd-Tree-sublist"
@@ -1679,16 +1729,21 @@ exports[`Renderer:transfer tree 1`] = `
                                         class=""
                                       />
                                     </label>
-                                    <span
-                                      class="cxd-Tree-itemText"
-                                    >
-                                      <span>
-                                        诸葛亮
-                                      </span>
-                                    </span>
                                     <div
-                                      class="cxd-Tree-item-icons"
-                                    />
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="诸葛亮"
+                                      >
+                                        <span>
+                                          诸葛亮
+                                        </span>
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
                                   </div>
                                 </li>
                               </ul>
@@ -1718,16 +1773,21 @@ exports[`Renderer:transfer tree 1`] = `
                                     class=""
                                   />
                                 </label>
-                                <span
-                                  class="cxd-Tree-itemText"
-                                >
-                                  <span>
-                                    战士
-                                  </span>
-                                </span>
                                 <div
-                                  class="cxd-Tree-item-icons"
-                                />
+                                  class="cxd-Tree-itemLabel-item"
+                                >
+                                  <span
+                                    class="cxd-Tree-itemText"
+                                    title="战士"
+                                  >
+                                    <span>
+                                      战士
+                                    </span>
+                                  </span>
+                                  <div
+                                    class="cxd-Tree-item-icons"
+                                  />
+                                </div>
                               </div>
                               <ul
                                 class="cxd-Tree-sublist"
@@ -1752,16 +1812,21 @@ exports[`Renderer:transfer tree 1`] = `
                                         class=""
                                       />
                                     </label>
-                                    <span
-                                      class="cxd-Tree-itemText"
-                                    >
-                                      <span>
-                                        曹操
-                                      </span>
-                                    </span>
                                     <div
-                                      class="cxd-Tree-item-icons"
-                                    />
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="曹操"
+                                      >
+                                        <span>
+                                          曹操
+                                        </span>
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
                                   </div>
                                 </li>
                                 <li
@@ -1784,16 +1849,21 @@ exports[`Renderer:transfer tree 1`] = `
                                         class=""
                                       />
                                     </label>
-                                    <span
-                                      class="cxd-Tree-itemText"
-                                    >
-                                      <span>
-                                        钟无艳
-                                      </span>
-                                    </span>
                                     <div
-                                      class="cxd-Tree-item-icons"
-                                    />
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="钟无艳"
+                                      >
+                                        <span>
+                                          钟无艳
+                                        </span>
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
                                   </div>
                                 </li>
                               </ul>
@@ -1823,16 +1893,21 @@ exports[`Renderer:transfer tree 1`] = `
                                     class=""
                                   />
                                 </label>
-                                <span
-                                  class="cxd-Tree-itemText"
-                                >
-                                  <span>
-                                    打野
-                                  </span>
-                                </span>
                                 <div
-                                  class="cxd-Tree-item-icons"
-                                />
+                                  class="cxd-Tree-itemLabel-item"
+                                >
+                                  <span
+                                    class="cxd-Tree-itemText"
+                                    title="打野"
+                                  >
+                                    <span>
+                                      打野
+                                    </span>
+                                  </span>
+                                  <div
+                                    class="cxd-Tree-item-icons"
+                                  />
+                                </div>
                               </div>
                               <ul
                                 class="cxd-Tree-sublist"
@@ -1857,16 +1932,21 @@ exports[`Renderer:transfer tree 1`] = `
                                         class=""
                                       />
                                     </label>
-                                    <span
-                                      class="cxd-Tree-itemText"
-                                    >
-                                      <span>
-                                        李白
-                                      </span>
-                                    </span>
                                     <div
-                                      class="cxd-Tree-item-icons"
-                                    />
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="李白"
+                                      >
+                                        <span>
+                                          李白
+                                        </span>
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
                                   </div>
                                 </li>
                                 <li
@@ -1889,16 +1969,21 @@ exports[`Renderer:transfer tree 1`] = `
                                         class=""
                                       />
                                     </label>
-                                    <span
-                                      class="cxd-Tree-itemText"
-                                    >
-                                      <span>
-                                        韩信
-                                      </span>
-                                    </span>
                                     <div
-                                      class="cxd-Tree-item-icons"
-                                    />
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="韩信"
+                                      >
+                                        <span>
+                                          韩信
+                                        </span>
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
                                   </div>
                                 </li>
                                 <li
@@ -1921,16 +2006,21 @@ exports[`Renderer:transfer tree 1`] = `
                                         class=""
                                       />
                                     </label>
-                                    <span
-                                      class="cxd-Tree-itemText"
-                                    >
-                                      <span>
-                                        云中君
-                                      </span>
-                                    </span>
                                     <div
-                                      class="cxd-Tree-item-icons"
-                                    />
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="云中君"
+                                      >
+                                        <span>
+                                          云中君
+                                        </span>
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
                                   </div>
                                 </li>
                               </ul>

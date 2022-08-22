@@ -44,13 +44,6 @@ exports[`Renderer:condition-builder 1`] = `
                   style="display: none;"
                   type="submit"
                 />
-                <pre>
-                  <code
-                    class="cxd-Form--debug"
-                  >
-                    {}
-                  </code>
-                </pre>
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"

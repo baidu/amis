@@ -250,7 +250,7 @@ export default class NestedSelectControl extends React.Component<
                         );
                       })
                     : label}
-                  {!isEnd && '>'}
+                  {!isEnd && ' / '}
                 </span>
               );
             })
@@ -889,6 +889,7 @@ export default class NestedSelectControl extends React.Component<
           disabled={disabled}
           ref={this.domRef}
           placeholder={__(placeholder ?? 'placeholder.empty')}
+          inputPlaceholder={''}
           className={cx(`NestedSelect`, {
             'NestedSelect--inline': inline,
             'NestedSelect--single': !multiple,
@@ -918,7 +919,6 @@ export default class NestedSelectControl extends React.Component<
           clearable={clearable}
           hasDropDownArrow={true}
           allowInput={searchable}
-          inputPlaceholder={''}
         >
           {loading ? <Spinner size="sm" /> : undefined}
         </ResultBox>

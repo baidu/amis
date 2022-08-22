@@ -1,7 +1,7 @@
 .#{$ns}Pagination {
   display: inline-block;
   padding: 0;
-  margin: 0 0 px2rem(-10px);
+  margin: 0 0 px2rem(-8px);
   border-radius: px2rem(4px);
 
   > li {
@@ -126,7 +126,7 @@
         border: var(--borderWidth) solid var(--borderColor);
         border-radius: var(--borderRadius) 0 0 var(--borderRadius);
         padding: var(--Pagination-padding);
-        margin-left: px2rem(10px);
+        margin-left: px2rem(8px);
         text-align: center;
 
         &:focus,
@@ -151,6 +151,7 @@
           color: var(--primary);
           border-color: var(--primary);
           border-left: var(--borderWidth) solid var(--primary);
+          margin-left: -1px;
         }
       }
   }
@@ -160,7 +161,7 @@
   line-height: px2rem(30px);
 
   .#{$ns}Pagination-item {
-    margin-left: px2rem(10px);
+    margin-left: px2rem(8px);
     &:nth-child(1) {
       margin-left: 0;
     }

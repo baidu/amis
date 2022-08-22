@@ -1495,3 +1495,50 @@ test('Renderer:Wizard dialog', async () => {
 
   expect(container).toMatchSnapshot();
 });
+
+test('Renderer:Wizard mode', async () => {
+  const {getByText, container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'wizard',
+            mode: 'vertical',
+            startStep: '2',
+            steps: [
+              {
+                title: 'Step 1',
+                body: ['第一步']
+              },
+              {
+                title: 'Step 2',
+                mode: 'inline',
+                body: [
+                  {
+                    name: 'website',
+                    label: '网址',
+                    type: 'input-url',
+                    required: true
+                  },
+                  {
+                    name: 'email',
+                    label: '邮箱',
+                    type: 'input-email',
+                    required: true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv()
+    )
+  );
+  const steps = container.querySelectorAll('li');
+
+  expect(steps[0].className).toBe('is-complete');
+  expect(steps[1].className).toBe('is-active');
+});

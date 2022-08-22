@@ -183,7 +183,7 @@ export type CRUD2ListSchema = CRUD2CommonSchema & {
 } & Omit<ListSchema, 'type'>;
 
 export type CRUD2TableSchema = CRUD2CommonSchema & {
-  mode?: 'table';
+  mode?: 'table-v2';
 } & Omit<TableSchema, 'type'>;
 
 export type CRUD2Schema = CRUD2CardsSchema | CRUD2ListSchema | CRUD2TableSchema;
@@ -531,7 +531,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             perPageField,
             loadDataMode,
             syncResponse2Query,
-            columns: store.columns ?? columns
+            columns: store.columns ?? columns,
+            isTableV2: true
           })
           .then(value => {
             interval &&
