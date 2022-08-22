@@ -841,8 +841,14 @@ export class Action extends React.Component<ActionProps, ActionState> {
         disabled={disabled}
         componentClass={isMenuItem ? 'a' : componentClass}
         overrideClassName={isMenuItem}
-        tooltip={tooltip}
-        disabledTip={disabledTip}
+        tooltip={
+          typeof tooltip === 'string' ? filterContents(tooltip, data) : tooltip
+        }
+        disabledTip={
+          typeof disabledTip === 'string'
+            ? filterContents(disabledTip, data)
+            : disabledTip
+        }
         tooltipPlacement={tooltipPlacement}
         tooltipContainer={tooltipContainer}
         tooltipTrigger={tooltipTrigger}
