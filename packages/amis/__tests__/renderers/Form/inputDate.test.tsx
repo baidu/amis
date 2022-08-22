@@ -356,11 +356,11 @@ test('Renderer:inputDate with clearable', async () => {
 });
 
 test('Renderer:inputDate with utc', async () => {
-  const midnight = moment('2022-08-22 00:00:00').unix();
+  const midnight = moment('2022-08-22 00:00:00').format('YYYY-MM-DD HH:mm:ss');
   const utcOneSecondBeforeTomorrow = moment(midnight)
     .add(moment().utcOffset(), 'm')
     .add(-1, 's')
-    .unix();
+    .format('YYYY-MM-DD HH:mm:ss');
 
   const {container} = await setup([
     {
@@ -368,11 +368,72 @@ test('Renderer:inputDate with utc', async () => {
       name: 'date',
       label: '日期',
       format: 'YYYY-MM-DD',
-      value: '2022-08-19'
+      value: midnight
     },
     {
-      type: 'static',
-      name: 'date'
+      type: 'input-date',
+      name: 'date-utc',
+      label: '日期',
+      format: 'YYYY-MM-DD',
+      utc: true,
+      value: utcOneSecondBeforeTomorrow
     }
   ]);
+
+  const inputs = container.querySelectorAll(
+    '.cxd-DatePicker-input'
+  )! as unknown as HTMLInputElement[];
+
+  expect(inputs[0].value).toBe('2022-08-22');
+  // 北京时间的 2022-08-22 07:59:59 为 utc 时间的 2022-08-21 23:59:59, 所以为前一天
+  expect(inputs[1].value).toBe('2022-08-21');
+});
+
+test('Renderer:inputDate with closeOnSelect', async () => {
+  const {container} = await setup([
+    {
+      type: 'input-date',
+      name: 'date',
+      label: '日期',
+      format: 'YYYY-MM-DD',
+      value: '2022-08-22'
+    }
+  ]);
+
+  // 打开弹框
+  fireEvent.click(container.querySelector('.cxd-DatePicker') as HTMLElement);
+  // 点击选择
+  fireEvent.click(
+    container.querySelector(
+      '.cxd-DatePicker-popover tr td[data-value="1"]'
+    ) as HTMLElement
+  );
+
+  expect(
+    container.querySelector('.cxd-PopOver.cxd-DatePicker-popover')
+  ).not.toBeInTheDocument();
+
+  const {container: conDontClose} = await setup([
+    {
+      type: 'input-date',
+      name: 'date',
+      label: '日期',
+      format: 'YYYY-MM-DD',
+      value: '2022-08-22',
+      closeOnSelect: false
+    }
+  ]);
+
+  // 打开弹框
+  fireEvent.click(conDontClose.querySelector('.cxd-DatePicker') as HTMLElement);
+  // 点击选择
+  fireEvent.click(
+    conDontClose.querySelector(
+      '.cxd-DatePicker-popover tr td[data-value="1"]'
+    ) as HTMLElement
+  );
+
+  expect(
+    conDontClose.querySelector('.cxd-PopOver.cxd-DatePicker-popover')
+  ).toBeInTheDocument();
 });
