@@ -85,6 +85,7 @@
 
   &-itemLabel {
     display: flex;
+    flex-direction: row;
     align-items: center;
     position: relative;
     user-select: none;
@@ -98,16 +99,35 @@
       display: inline-flex;
       align-self: center;
     }
+    &-item {
+      padding-left: var(--Tree-item-arrow-padding-left);
+      display: inline-block;
+      width: 100%;
+    }
   
     &:hover {
-      background: var(--Tree-item-onHover-bg-pure);
+      .#{$ns}Tree{
+        &-itemLabel-item {
+          background-color: var(--Tree-item-onHover-bg-pure);
+        }
+        &-item-icons {
+          visibility: visible;
+        }
+      }
     }
   }
 
   &-item {
     .is-checked {
-      background: var(--Tree-item-onChekced-bg);
       border-radius: var(--Tree-item-onChekced-bg-borderRadius);
+      .#{$ns}Tree{
+        &-itemLabel-item {
+          background-color: var(--Tree-item-onChekced-bg);
+        }
+        &-item-icons {
+          visibility: visible;
+        }
+      }
     }
     .is-disabled {
       color: var(--text--muted-color);
@@ -136,7 +156,6 @@
       vertical-align: middle;
       margin-left: var(--Tree-icon-gap);
       cursor: pointer;
-
       > svg {
         $svgSize: px2rem(12px);
         width: $svgSize;
@@ -235,6 +254,7 @@
       display: block;
       transition: transform var(--animation-duration);
       top: 0;
+      color: var(--Tree-item-arrow-color);
     }
 
     &.is-folded > svg {
@@ -258,7 +278,7 @@
 
   &-itemIcon {
     display: inline-flex;
-    margin-right: var(--Tree-icon-gap);
+    margin-right: var(--Tree-icon-margin-right);
   }
 
   &-rootIcon,
@@ -275,8 +295,15 @@
   &-itemText {
     cursor: pointer;
     flex: 1 auto;
+    display: inline-block;
     color: var(--Form-input-color);
     line-height: var(--lineHeightBase);
+    max-width: var(--Tree-item-text-max-height);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    top: var(--Tree-item-text-top);
   }
   .is-disabled &-itemText {
     color: var(--text--muted-color);

@@ -125,7 +125,8 @@ export class UserSelect extends React.Component<
     }
     if (
       JSON.stringify(value) !== JSON.stringify(prevProps.value) ||
-      JSON.stringify(options) !== JSON.stringify(prevProps.options)
+      (JSON.stringify(options) !== JSON.stringify(prevProps.options) &&
+        prevProps.options?.length)
     ) {
       const selection: Array<Option> = value2array(value, this.props);
       this.setState({

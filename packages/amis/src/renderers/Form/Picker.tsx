@@ -353,6 +353,7 @@ export default class PickerControl extends React.PureComponent<
   @autobind
   handleClick() {
     this.input.current && this.input.current.focus();
+    this.open();
   }
 
   @autobind
@@ -385,7 +386,10 @@ export default class PickerControl extends React.PureComponent<
               data-tooltip={__('delete')}
               data-position="bottom"
               className={`${ns}Picker-valueIcon`}
-              onClick={this.removeItem.bind(this, index)}
+              onClick={e => {
+                e.stopPropagation();
+                this.removeItem(index);
+              }}
             >
               ×
             </span>

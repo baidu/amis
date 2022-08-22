@@ -109,8 +109,8 @@
 
     &.#{$ns}Checkbox {
       &:hover {
-        & > i:before {
-          background: var(--Button--primary-onHover-bg);
+        & > input + i {
+          border-color: var(--Button--primary-onHover-bg);
         }
       }
 
@@ -130,6 +130,7 @@
     &:hover {
       input:checked + i {
         background: var(--Button--primary-onHover-bg);
+        border-color: transparent;
 
         &:before {
           background: var(--Button--primary-onHover-bg);
@@ -253,6 +254,10 @@
     &:hover:not(:disabled) {
       color: var(--Checkbox-onHover-color);
       border-color: var(--Checkbox-onHover-color);
+      box-shadow: -1px 0 0 0 var(--Checkbox-onHover-color);
+      &:first-child {
+        box-shadow: none;
+      }
     }
 
     &:hover {
@@ -333,14 +338,20 @@
   &--button--checked.#{$ns}Checkbox--checkbox.#{$ns}Checkbox--button {
     border-color: var(--Checkbox-onHover-color);
     color: var(--Checkbox-onHover-color);
+    box-shadow: -1px 0 0 0 var(--Checkbox-onHover-color);
+    &:first-child {
+      box-shadow: none;
+    }
 
     &:hover {
       border-color: var(--menu-active-color);
       color: var(--menu-active-color);
+      box-shadow: -1px 0 0 0 var(--menu-active-color);
     }
     &:active {
       border-color: var(--Switch-checked-onHover-bgColor);
       color: var(--Switch-checked-onHover-bgColor);
+      box-shadow: -1px 0 0 0 var(--Switch-checked-onHover-bgColor);
     }
   }
   &--button--disabled--unchecked.#{$ns}Checkbox--checkbox {

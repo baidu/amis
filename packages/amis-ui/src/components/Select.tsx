@@ -683,7 +683,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   @autobind
   handleKeyPress(e: React.KeyboardEvent) {
-    if (this.props.multiple && e.key === ' ') {
+    /**
+     * 考虑到label/value中有空格的case
+     * 这里使用组合键关闭 win：shift + space，mac：shift + space
+     */
+    if (e.key === ' ' && e.shiftKey) {
       this.toggle();
       e.preventDefault();
     }

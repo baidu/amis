@@ -308,56 +308,59 @@ test('Renderer:table children', () => {
   expect(container).toMatchSnapshot();
 });
 
-// 合并单元格
-test('Renderer:table combineNum', () => {
-  const {container} = render(
-    amisRender(
-      {
-        type: 'page',
-        body: {
-          type: 'service',
-          data: {
-            rows
-          },
-          body: [
-            {
-              type: 'table',
-              source: '$rows',
-              className: 'm-b-none',
-              combineNum: 3,
-              columnsTogglable: false,
-              columns: [
-                {
-                  name: 'engine',
-                  label: 'Rendering engine'
-                },
-                {
-                  name: 'browser',
-                  label: 'Browser'
-                },
-                {
-                  name: 'platform',
-                  label: 'Platform(s)'
-                },
-                {
-                  name: 'version',
-                  label: 'Engine version'
-                },
-                {
-                  name: 'grade',
-                  label: 'CSS grade'
-                }
-              ]
-            }
-          ]
-        }
+describe('Renderer:table combine', () => {
+  const combineSchema: any = {
+    type: 'page',
+    body: {
+      type: 'service',
+      data: {
+        rows
       },
-      {},
-      makeEnv({})
-    )
-  );
+      body: {
+        type: 'table',
+        source: '$rows',
+        combineNum: 3,
+        columnsTogglable: false,
+        columns: [
+          {
+            name: 'engine',
+            label: 'Rendering engine'
+          },
+          {
+            name: 'browser',
+            label: 'Browser'
+          },
+          {
+            name: 'platform',
+            label: 'Platform(s)'
+          },
+          {
+            name: 'version',
+            label: 'Engine version'
+          },
+          {
+            name: 'grade',
+            label: 'CSS grade'
+          }
+        ]
+      }
+    }
+  };
+  // 合并单元格
+  test('Renderer:table combineNum only', () => {
+    const {container} = render(amisRender(combineSchema, {}, makeEnv({})));
 
-  expect(container).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
+  });
+
+  // 合并单元格
+  test('Renderer:table combineNum with fromIndex', () => {
+    combineSchema.body.body.combineNum = 1;
+    combineSchema.body.body.combineFromIndex = 1;
+    const {container} = render(amisRender(combineSchema, {}, makeEnv({})));
+
+    expect(container).toMatchSnapshot();
+  });
 });
 
 // 超级表头
@@ -927,11 +930,12 @@ test('Renderer:table list', () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:table selectable', async () => {
+describe('Renderer:table selectable & itemCheckableOn', () => {
   const schema: any = {
     type: 'table',
     title: '表格1',
     selectable: true,
+    itemCheckableOn: '${__id != 1}',
     data: {
       items: rows
     },
@@ -947,19 +951,26 @@ test('Renderer:table selectable', async () => {
     ]
   };
 
-  const {container, rerender} = render(amisRender(schema, {}, makeEnv({})));
+  test('radio style', async () => {
+    const {container} = render(amisRender(schema, {}, makeEnv({})));
+    await waitFor(() => {
+      expect(container.querySelector('[type=radio]')).toBeInTheDocument();
+    });
 
-  await waitFor(() => {
-    expect(container.querySelector('[type=radio]')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-id="1"] [type=radio][disabled=""]')!
+    ).toBeInTheDocument();
   });
 
-  schema.multiple = true;
-  const {container: multipleContainer} = render(
-    amisRender(schema, {}, makeEnv({}))
-  );
-  await waitFor(() => {
+  test('checkbox style', async () => {
+    schema.multiple = true;
+    const {container} = render(amisRender(schema, {}, makeEnv({})));
+    await waitFor(() => {
+      expect(container.querySelector('[type=checkbox]')).toBeInTheDocument();
+    });
+
     expect(
-      multipleContainer.querySelector('[type=checkbox]')
+      container.querySelector('[data-id="1"] [type=checkbox][disabled=""]')!
     ).toBeInTheDocument();
   });
 });

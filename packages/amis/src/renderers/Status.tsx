@@ -65,8 +65,8 @@ export class StatusField extends React.Component<StatusProps, object> {
     placeholder: '-',
     map: {
       0: 'svg-fail',
-      1: 'svg-success',
-      success: 'svg-success',
+      1: 'svg-check-circle',
+      success: 'svg-check-circle',
       pending: 'rolling',
       fail: 'svg-fail',
       queue: 'svg-warning',

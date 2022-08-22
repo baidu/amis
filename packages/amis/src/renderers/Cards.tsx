@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
-import {Button} from 'amis-ui';
+import {Button, Spinner} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
 import {Action} from '../types';
 import {
@@ -977,7 +977,8 @@ export default class Cards extends React.Component<GridProps, object> {
       masonryLayout,
       itemsClassName,
       classnames: cx,
-      translate: __
+      translate: __,
+      loading = false
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -1036,6 +1037,7 @@ export default class Cards extends React.Component<GridProps, object> {
         )}
 
         {footer}
+        <Spinner overlay show={loading} />
       </div>
     );
   }

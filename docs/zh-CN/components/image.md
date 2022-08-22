@@ -294,7 +294,8 @@ List 的内容、Card 卡片的内容配置同上
         {
             "type": "static-image",
             "name": "image",
-            "label": "颜色"
+            "label": "颜色",
+            "innerClassName": "no-border"
         }
     ]
 }
@@ -327,6 +328,7 @@ List 的内容、Card 卡片的内容配置同上
 | -------------- | ------------------------------------ | --------- | -------------------------------------------------------------------------------------- |
 | type           | `string`                             |           | 如果在 Table、Card 和 List 中，为`"image"`；在 Form 中用作静态展示，为`"static-image"` |
 | className      | `string`                             |           | 外层 CSS 类名                                                                          |
+| innerClassName | `string`                             |           | 组件内层 CSS 类名                                                                      |
 | imageClassName | `string`                             |           | 图片 CSS 类名                                                                          |
 | thumbClassName | `string`                             |           | 图片缩率图 CSS 类名                                                                    |
 | height         | `string`                             |           | 图片缩率高度                                                                           |

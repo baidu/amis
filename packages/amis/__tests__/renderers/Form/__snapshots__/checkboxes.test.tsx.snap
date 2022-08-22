@@ -421,7 +421,7 @@ exports[`Renderer:checkboxes checkall 1`] = `
             class="cxd-CheckboxesControl cxd-Form-control is-inline"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox"
             >
               <input
                 type="checkbox"
@@ -433,58 +433,89 @@ exports[`Renderer:checkboxes checkall 1`] = `
                 全选/不选
               </span>
             </label>
-            <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+            <div
+              class="cxd-CheckboxesControl-group"
             >
-              <input
-                type="checkbox"
-              />
-              <i />
-              <span
-                class=""
+              <label
+                class="cxd-CheckboxesControl-groupLabel"
               >
-                OptionA
-              </span>
-            </label>
-            <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+                GroupA
+              </label>
+              <label
+                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              >
+                <input
+                  type="checkbox"
+                />
+                <i />
+                <span
+                  class=""
+                >
+                  OptionA
+                </span>
+              </label>
+              <label
+                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              >
+                <input
+                  type="checkbox"
+                />
+                <i />
+                <span
+                  class=""
+                >
+                  OptionB
+                </span>
+              </label>
+              <label
+                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              >
+                <input
+                  type="checkbox"
+                />
+                <i />
+                <span
+                  class=""
+                >
+                  OptionC
+                </span>
+              </label>
+              <label
+                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
+              >
+                <input
+                  type="checkbox"
+                />
+                <i />
+                <span
+                  class=""
+                >
+                  OptionD
+                </span>
+              </label>
+            </div>
+            <div
+              class="cxd-CheckboxesControl-group"
             >
-              <input
-                type="checkbox"
-              />
-              <i />
-              <span
-                class=""
+              <label
+                class="cxd-CheckboxesControl-groupLabel"
               >
-                OptionB
-              </span>
-            </label>
-            <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-            >
-              <input
-                type="checkbox"
-              />
-              <i />
-              <span
-                class=""
+                GroupB
+              </label>
+              <label
+                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
               >
-                OptionC
-              </span>
-            </label>
-            <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-            >
-              <input
-                type="checkbox"
-              />
-              <i />
-              <span
-                class=""
-              >
-                OptionD
-              </span>
-            </label>
+                <input
+                  type="checkbox"
+                />
+                <i />
+                <span
+                  class=""
+                >
+                  OptionE
+                </span>
+              </label>
+            </div>
           </div>
         </div>
       </form>
