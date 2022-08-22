@@ -354,3 +354,25 @@ test('Renderer:inputDate with clearable', async () => {
 
   expect(noClearableCon).toMatchSnapshot('clearable false');
 });
+
+test('Renderer:inputDate with utc', async () => {
+  const midnight = moment('2022-08-22 00:00:00').unix();
+  const utcOneSecondBeforeTomorrow = moment(midnight)
+    .add(moment().utcOffset(), 'm')
+    .add(-1, 's')
+    .unix();
+
+  const {container} = await setup([
+    {
+      type: 'input-date',
+      name: 'date',
+      label: '日期',
+      format: 'YYYY-MM-DD',
+      value: '2022-08-19'
+    },
+    {
+      type: 'static',
+      name: 'date'
+    }
+  ]);
+});
