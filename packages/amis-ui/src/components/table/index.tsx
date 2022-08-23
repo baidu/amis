@@ -12,9 +12,17 @@ import filter from 'lodash/filter';
 import intersection from 'lodash/intersection';
 import Sortable from 'sortablejs';
 
-import {themeable, ClassNamesFn, ThemeProps} from 'amis-core';
-import {localeable, LocaleProps} from 'amis-core';
-import {isObject, isBreakpoint, guid, autobind} from 'amis-core';
+import {
+  themeable,
+  ClassNamesFn,
+  ThemeProps,
+  localeable,
+  LocaleProps,
+  isObject,
+  isBreakpoint,
+  guid,
+  autobind
+} from 'amis-core';
 import {Icon} from '../icons';
 import CheckBox from '../Checkbox';
 import Spinner from '../Spinner';
@@ -27,7 +35,7 @@ import Cell from './Cell';
 
 export interface ColumnProps {
   title: string | React.ReactNode | Function;
-  key: string;
+  name: string;
   className?: Function;
   children?: Array<ColumnProps>;
   render: Function;
@@ -1055,13 +1063,13 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
                 // th的最后一行才可调整列宽
                 // 分组情况下 最后一行才和列配置个数对应
-                // 就可以根据index找到col 不依赖key
+                // 就可以根据index找到col 不依赖name
                 const noChildren = !item.children?.length;
                 let cIndex = -1;
                 if (noChildren) {
-                  // 根据key去tdColumns匹配出index
-                  // 没设置key的 那一定不是要绑定数据的列 一般都是分组的上层 也不会出现调整列宽
-                  cIndex = tdColumns.findIndex(c => c.key === item.key);
+                  // 根据name去tdColumns匹配出index
+                  // 没设置name的 那一定不是要绑定数据的列 一般都是分组的上层 也不会出现调整列宽
+                  cIndex = tdColumns.findIndex(c => c.name === item.name);
                 }
                 const children = !item.children?.length ? (
                   <span>
@@ -1390,7 +1398,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const cells = tdColumns.map((item, i) => {
       const render =
         item.render && typeof item.render === 'function'
-          ? item.render(data[item.key], data, rowIndex, i)
+          ? item.render(data[item.name], data, rowIndex, i)
           : null;
       let props = {rowSpan: 1, colSpan: 1};
       let children = render;
@@ -1430,7 +1438,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             {i === 0 && hasChildrenRow
               ? this.getExpandedIcons(isExpanded, data)
               : null}
-            {render ? children : data[item.key]}
+            {render ? children : data[item.name]}
           </div>
         </Cell>
       );
@@ -1516,7 +1524,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
               type={rowSelection.type || 'checkbox'}
               partial={!isRadio && hasChildrenChecked && !isChecked}
               checked={isRadio ? isChecked : hasChildrenChecked || isChecked}
-              onChange={(value, shift) => {
+              onChange={(value: boolean) => {
                 if (!(rowSelection && rowSelection.rowClick)) {
                   this.selectedSingleRow(value, data);
                 }
@@ -1944,7 +1952,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     return (
       <div
         ref={this.tableDom}
-        className={cx('Table-v2', className, {
+        className={cx('Table2', className, {
           [cx('Table-scroll-horizontal')]: hasScrollX,
           [cx(`Table-${size}`)]: size,
           [cx('Table-bordered')]: bordered,

@@ -6,9 +6,17 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 
-import {themeable, ThemeProps} from 'amis-core';
-import {LocaleProps, localeable} from 'amis-core';
-import HeadCellDropDown, {FilterPayload} from './HeadCellDropDown';
+import {
+  themeable,
+  ThemeProps,
+  ClassNamesFn,
+  LocaleProps,
+  localeable
+} from 'amis-core';
+import HeadCellDropDown, {
+  FilterPayload,
+  FilterDropdownProps
+} from './HeadCellDropDown';
 import {RowSelectionOptionProps} from './index';
 import {Icon} from '../icons';
 
@@ -16,6 +24,8 @@ export interface Props extends ThemeProps, LocaleProps {
   selections: Array<RowSelectionOptionProps>;
   keys: Array<string | number> | string;
   popOverContainer?: () => Element | Text | null;
+  classnames: ClassNamesFn;
+  classPrefix: string;
 }
 
 export interface State {
@@ -58,7 +68,7 @@ export class HeadCellSelect extends React.Component<Props, State> {
           selectedKeys,
           confirm,
           clearFilters
-        }) => {
+        }: FilterDropdownProps) => {
           return (
             <ul className={cx('DropDown-menu')}>
               {selections.map((item, index) => (
@@ -75,7 +85,9 @@ export class HeadCellSelect extends React.Component<Props, State> {
             </ul>
           );
         }}
-        setSelectedKeys={keys => this.setState({key: keys})}
+        setSelectedKeys={(keys: Array<string | number> | string) =>
+          this.setState({key: keys})
+        }
         selectedKeys={this.state.key}
       ></HeadCellDropDown>
     );

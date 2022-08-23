@@ -5,13 +5,20 @@
 
 import React from 'react';
 
-import {themeable, ThemeProps} from 'amis-core';
-import {LocaleProps, localeable} from 'amis-core';
+import {
+  themeable,
+  ThemeProps,
+  ClassNamesFn,
+  LocaleProps,
+  localeable
+} from 'amis-core';
 import {Icon} from '../icons';
+import {ColumnProps} from './index';
 
 export interface Props extends ThemeProps, LocaleProps {
-  column: any;
+  column: ColumnProps;
   onSort?: Function;
+  classnames: ClassNamesFn;
 }
 
 export interface State {
@@ -37,7 +44,7 @@ export class HeadCellSort extends React.Component<Props, State> {
         className={cx('TableCell-sortBtn')}
         onClick={async () => {
           let sortPayload = {};
-          if (column.key === this.state.orderBy) {
+          if (column.name === this.state.orderBy) {
             if (this.state.order === 'descend') {
               // 降序改为取消
               sortPayload = {orderBy: '', order: 'ascend'};
@@ -47,7 +54,7 @@ export class HeadCellSort extends React.Component<Props, State> {
             }
           } else {
             // 默认先升序
-            sortPayload = {orderBy: column.key, order: 'ascend'};
+            sortPayload = {orderBy: column.name, order: 'ascend'};
           }
 
           if (onSort) {
@@ -66,7 +73,7 @@ export class HeadCellSort extends React.Component<Props, State> {
         <i
           className={cx(
             'TableCell-sortBtn--down',
-            this.state.orderBy === column.key && this.state.order === 'descend'
+            this.state.orderBy === column.name && this.state.order === 'descend'
               ? 'is-active'
               : ''
           )}
@@ -76,7 +83,7 @@ export class HeadCellSort extends React.Component<Props, State> {
         <i
           className={cx(
             'TableCell-sortBtn--up',
-            this.state.orderBy === column.key && this.state.order === 'ascend'
+            this.state.orderBy === column.name && this.state.order === 'ascend'
               ? 'is-active'
               : ''
           )}
@@ -86,7 +93,7 @@ export class HeadCellSort extends React.Component<Props, State> {
         <i
           className={cx(
             'TableCell-sortBtn--default',
-            this.state.orderBy === column.key ? '' : 'is-active'
+            this.state.orderBy === column.name ? '' : 'is-active'
           )}
         >
           <Icon icon="sort-default" className="icon" />

@@ -791,10 +791,10 @@ export const components = [
         )
       },
       // {
-      //   label: 'Table v2 表格',
-      //   path: '/zh-CN/components/table-v2',
+      //   label: 'Table2 表格',
+      //   path: '/zh-CN/components/table2',
       //   component: React.lazy(() =>
-      //     import('../../docs/zh-CN/components/table-v2.md').then(wrapDoc)
+      //     import('../../docs/zh-CN/components/table2.md').then(wrapDoc)
       //   )
       // },
       {
