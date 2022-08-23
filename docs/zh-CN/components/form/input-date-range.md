@@ -24,6 +24,50 @@ order: 15
 }
 ```
 
+## 默认值
+
+通过 value 设置默认值，除了实际值，比如
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "date",
+            "label": "日期范围",
+            "value": "1659283200,1661961599"
+        }
+    ]
+}
+```
+
+还可以是相对值，比如最近一周内
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "date",
+            "label": "日期范围",
+            "value": "today,+1weeks"
+        }
+    ]
+}
+```
+
+支持的相对值关键字有：
+
+- today: 当前日期
+- day 或 days: 天
+- week 或 weeks: 周
+- month 或 months: 月
+- year 或 years: 年
+
 ## 快捷键
 
 `ranges`属性支持自定义快捷选择日期范围快捷键
