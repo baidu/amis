@@ -58,6 +58,12 @@ test('formula:expression2', () => {
   expect(evalFormual('a[c ? 1 : 2]', {a: [1, 2, 3], b: 1})).toBe(3);
 });
 
+test('formula:expression3', () => {
+  expect(evalFormual('${a} === "b"', {a: 'b'})).toBe(true);
+  expect(evalFormual('b === "b"')).toBe(false);
+  expect(evalFormual('${a}', {a: 'b'})).toBe('b');
+});
+
 test('formula:if', () => {
   expect(evalFormual('IF(true, 2, 3)')).toBe(2);
   expect(evalFormual('IF(false, 2, 3)')).toBe(3);
