@@ -10,7 +10,6 @@ $ns: 'cxd-';
 $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   0px 1px 10px 0px rgba(8, 14, 26, 0.05), 0px 2px 4px -1px rgba(8, 14, 26, 0.04);
 
-
 :root {
   --colors-brand-1: #001259;
   --colors-brand-2: #001e80;
@@ -46,7 +45,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --colors-error-8: #ffb6b3;
   --colors-error-9: #ffdbd9;
   --colors-error-10: #ffe8e6;
-  
+
   --colors-warning-1: #662500;
   --colors-warning-2: #8c3800;
   --colors-warning-3: #b35209;
@@ -1267,7 +1266,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Switch-width: #{px2rem(44px)};
   --Switch-valueColor: var(--colors-neutral-11);
   --Switch-bgColor: var(--colors-neutral-7);
-  --Switch-onActive-bgColor: var(--colors-neutral-6);
+  --Switch-onActive-bgColor: var(--colors-brand-5);
   --Switch-onHover-bgColor: var(--colors-neutral-6);
   --Switch-checked-bgColor: var(--colors-brand-default);
   --Switch-checked-onHover-bgColor: var(--colors-brand-active);
@@ -1432,14 +1431,14 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Modal-title-fontWeight: 500;
   --Modal-overlay-bg: rgba(0, 0, 0, 0.7);
   --Modal-content-borderWidth: var(--borders-line-1-width);
-  --Modal-content-borderRadius: var(--borders-radius-1-radius);
+  --Modal-content-borderRadius: var(--borders-radius-4-radius);
   --Modal-content-minHeight: #{px2rem(193px)};
   --Modal-header-bg: var(--colors-neutral-cardBg);
   --Modal-header-paddingY: var(--sizes-size-0-size);
   --Modal-header-paddingX: var(--sizes-size-0-size);
   --Modal-title-color: #333;
-  --Modal-body-paddingY: var(--sizes-size-9-size);
-  --Modal-body-paddingX: var(--sizes-size-9-size);
+  --Modal-body-paddingY: var(--sizes-size-13-size);
+  --Modal-body-paddingX: var(--sizes-size-0-size);
   --Modal-body-borderTop: var(--borders-line-1-style);
   --Modal-body-borderBottom: var(--borders-line-1-style);
   --Modal-footer-marginX: var(--sizes-size-0-size);
@@ -1479,7 +1478,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Wizard-badge-onActive-backgroundColor: #333333;
   --Wizard-badge-onComplete-backgroundColor: #333333;
   --Wizard-badge-fontSize: var(--fonts-base-size);
-  --Wizard-badge-border: var(--borders-line-2-width) var(--borders-line-2-style) #999999;
+  --Wizard-badge-border: var(--borders-line-2-width) var(--borders-line-2-style)
+    #999999;
   --Wizard-badge-borderRadius: var(--borders-radius-7-radius);
   --Wizard-badge-bg: var(--colors-neutral-cardBg);
   --Wizard-badge-marginRight: var(--sizes-size-4-size);
@@ -1500,8 +1500,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Pagination-fontSize: var(--fonts-other-sm-size);
   --Pagination-onActive-backgroundColor: var(--colors-neutral-11);
   --Pagination-onActive-color: var(--colors-brand-default);
-  --Pagination-onActive-border: var(--borders-line-2-width) var(--borders-line-2-style)
-    var(--colors-brand-default);
+  --Pagination-onActive-border: var(--borders-line-2-width)
+    var(--borders-line-2-style) var(--colors-brand-default);
 
   // Panel
   --Panel-borderRadius: var(--borders-radius-3-radius);
@@ -1513,7 +1513,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Nav-item-borderRadius: var(--borders-radius-1-radius);
   --Nav-item-onActive-bg: #f6f7fb;
   --Nav-item-onActive-color: var(--colors-brand-default);
-  --Nav-item-onActive-borderLeft: var(--borders-line-4-width) var(--borders-line-4-style) var(--colors-brand-default);
+  --Nav-item-onActive-borderLeft: var(--borders-line-4-width)
+    var(--borders-line-4-style) var(--colors-brand-default);
   --Nav-subItem-fontSize: var(--fonts-other-sm-size);
   --Nav-subItem-onActiveBeforeBg: var(--colors-brand-default);
 
@@ -1649,7 +1650,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --SearchBox-disabled-color: var(--colors-neutral-10);
   --SearchBox-enhonce-disabled-color: var(--colors-neutral-9);
   --SearchBox-enhonce-disabled-search-color: var(--colors-neutral-6);
-  --SearchBox-enhonce-clearable-gap: var(--borders-radius-4-radius)
+  --SearchBox-enhonce-clearable-gap: var(--borders-radius-4-radius);
 }
 
 @media (max-width: 767px) {

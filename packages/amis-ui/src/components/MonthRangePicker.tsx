@@ -480,53 +480,66 @@ export class MonthRangePicker extends React.Component<
       <div className={`${ns}DateRangePicker-wrap`}>
         {this.renderRanges(ranges)}
         <div className={cx(`${ns}DateRangePicker-picker-wrap`)}>
-        <Calendar
-          className={`${ns}DateRangePicker-start`}
-          value={startDate}
-          onChange={this.handleStartChange}
-          requiredConfirm={false}
-          dateFormat={dateFormat}
-          inputFormat={inputFormat}
-          timeFormat={timeFormat}
-          isValidDate={this.checkStartIsValidDate}
-          viewMode={viewMode}
-          input={false}
-          onClose={this.close}
-          renderMonth={this.renderMonth}
-          locale={locale}
-        />
+          <Calendar
+            className={`${ns}DateRangePicker-start`}
+            value={startDate}
+            onChange={this.handleStartChange}
+            requiredConfirm={false}
+            dateFormat={dateFormat}
+            inputFormat={inputFormat}
+            timeFormat={timeFormat}
+            isValidDate={this.checkStartIsValidDate}
+            viewMode={viewMode}
+            input={false}
+            onClose={this.close}
+            renderMonth={this.renderMonth}
+            locale={locale}
+          />
 
-        <Calendar
-          className={`${ns}DateRangePicker-end`}
-          value={
-            // 因为如果最后一天，切换月份的时候会切不了,有的月份有 31 号，有的没有。
-            endDate?.clone().startOf('month')
-          }
-          onChange={this.handleEndChange}
-          requiredConfirm={false}
-          dateFormat={dateFormat}
-          inputFormat={inputFormat}
-          timeFormat={timeFormat}
-          viewDate={this.nextMonth}
-          isEndDate
-          isValidDate={this.checkEndIsValidDate}
-          viewMode={viewMode}
-          input={false}
-          onClose={this.close}
-          renderMonth={this.renderMonth}
-          locale={locale}
-        />
+          <Calendar
+            className={`${ns}DateRangePicker-end`}
+            value={
+              // 因为如果最后一天，切换月份的时候会切不了,有的月份有 31 号，有的没有。
+              endDate?.clone().startOf('month')
+            }
+            onChange={this.handleEndChange}
+            requiredConfirm={false}
+            dateFormat={dateFormat}
+            inputFormat={inputFormat}
+            timeFormat={timeFormat}
+            viewDate={this.nextMonth}
+            isEndDate
+            isValidDate={this.checkEndIsValidDate}
+            viewMode={viewMode}
+            input={false}
+            onClose={this.close}
+            renderMonth={this.renderMonth}
+            locale={locale}
+          />
         </div>
 
         {embed ? null : (
           <div key="button" className={cx('DateRangePicker-actions')}>
-            <a className={cx('Button', 'Button--default')} onClick={this.close}>
+            <a
+              className={cx(
+                'Button',
+                'Button--default',
+                'Button--size-default'
+              )}
+              onClick={this.close}
+            >
               {__('cancel')}
             </a>
             <a
-              className={cx('Button', 'Button--primary', 'm-l-sm', {
-                'is-disabled': !this.state.startDate || !this.state.endDate
-              })}
+              className={cx(
+                'Button',
+                'Button--primary',
+                'Button--size-default',
+                'm-l-sm',
+                {
+                  'is-disabled': !this.state.startDate || !this.state.endDate
+                }
+              )}
               onClick={this.confirm}
             >
               {__('confirm')}

@@ -217,7 +217,6 @@
       height: #{px2rem(43px)};
       padding-top: #{px2rem(11px)};
       margin-left: #{px2rem(2px)};
-      border-bottom: 1px solid var(--Calendar-input-borderColor);
     }
   }
 
@@ -382,7 +381,7 @@
       }
       &:hover {
         color: var(--Form-select-menu-onHover-color);
-        background: #F7F7F9;
+        background: #f7f7f9;
       }
     }
   }
@@ -642,7 +641,7 @@ td.rdtQuarter {
 
     > span {
       color: var(--Form-select-menu-onHover-color);
-      background: #F7F7F9;
+      background: #f7f7f9;
     }
   }
 

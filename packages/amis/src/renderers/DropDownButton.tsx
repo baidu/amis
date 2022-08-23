@@ -320,7 +320,7 @@ export default class DropDownButton extends React.Component<
       disabled,
       btnDisabled,
       btnClassName,
-      size,
+      size = 'default',
       label,
       level,
       primary,
@@ -375,16 +375,20 @@ export default class DropDownButton extends React.Component<
                 'Button--primary': primary,
                 'Button--iconOnly': iconOnly
               },
-              size ? `Button--${size}` : ''
+              `Button--size-${size}`
             )}
           >
-            {hasIcon(icon)
-              ? <Icon icon={icon} className="icon" />
-              : generateIcon(cx, icon, 'm-r-xs')}
+            {hasIcon(icon) ? (
+              <Icon icon={icon} className="icon" />
+            ) : (
+              generateIcon(cx, icon, 'm-r-xs')
+            )}
             {typeof label === 'string' ? filter(label, data) : label}
-            {rightIcon && hasIcon(rightIcon)
-              ? <Icon icon={icon} className="icon" />
-              : generateIcon(cx, rightIcon, 'm-l-xs')}
+            {rightIcon && hasIcon(rightIcon) ? (
+              <Icon icon={icon} className="icon" />
+            ) : (
+              generateIcon(cx, rightIcon, 'm-l-xs')
+            )}
             {!hideCaret ? (
               <span className={cx('DropDown-caret')}>
                 <Icon icon="caret" className="icon" />
