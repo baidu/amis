@@ -168,6 +168,7 @@ export default class Dialog extends React.Component<DialogProps> {
     props.store.setEntered(!!props.show);
     this.handleSelfClose = this.handleSelfClose.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.handleActionSensor = this.handleActionSensor.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
     this.handleDrawerConfirm = this.handleDrawerConfirm.bind(this);
@@ -239,6 +240,24 @@ export default class Dialog extends React.Component<DialogProps> {
     // clear error
     store.updateMessage();
     onClose(confirmed);
+  }
+
+  handleActionSensor(p: Promise<any>) {
+    const {store} = this.props;
+
+    store.markBusying(true);
+    // clear error
+    store.updateMessage();
+
+    p.then(() => {
+      store.markBusying(false);
+    }).catch(e => {
+      if (this.isDead) {
+        return;
+      }
+      store.updateMessage(e.message, true);
+      store.markBusying(false);
+    });
   }
 
   handleAction(e: React.UIEvent<any>, action: ActionObject, data: object) {
@@ -423,6 +442,7 @@ export default class Dialog extends React.Component<DialogProps> {
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
       onSaved: this.handleFormSaved,
+      onActionSensor: this.handleActionSensor,
       syncLocation: false // 弹框中的 crud 一般不需要同步地址栏
     };
 
@@ -709,9 +729,6 @@ export class DialogRenderer extends Dialog {
     }
 
     if (targets.length) {
-      store.markBusying(true);
-      store.updateMessage();
-
       Promise.all(
         targets.map(target =>
           target.doAction(
@@ -723,29 +740,20 @@ export class DialogRenderer extends Dialog {
             true
           )
         )
-      )
-        .then(values => {
-          if (
-            (action.type === 'submit' ||
-              action.actionType === 'submit' ||
-              action.actionType === 'confirm') &&
-            action.close !== false
-          ) {
-            onConfirm && onConfirm(values, rawAction || action, ctx, targets);
-          } else if (action.close) {
-            action.close === true
-              ? this.handleSelfClose()
-              : this.closeTarget(action.close);
-          }
-          store.markBusying(false);
-        })
-        .catch(reason => {
-          if (this.isDead) {
-            return;
-          }
-          store.updateMessage(reason.message, true);
-          store.markBusying(false);
-        });
+      ).then(values => {
+        if (
+          (action.type === 'submit' ||
+            action.actionType === 'submit' ||
+            action.actionType === 'confirm') &&
+          action.close !== false
+        ) {
+          onConfirm && onConfirm(values, rawAction || action, ctx, targets);
+        } else if (action.close) {
+          action.close === true
+            ? this.handleSelfClose()
+            : this.closeTarget(action.close);
+        }
+      });
 
       return true;
     }

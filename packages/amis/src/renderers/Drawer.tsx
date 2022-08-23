@@ -212,6 +212,7 @@ export default class Drawer extends React.Component<DrawerProps> {
     props.store.setEntered(!!props.show);
     this.handleSelfClose = this.handleSelfClose.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.handleActionSensor = this.handleActionSensor.bind(this);
     this.handleDrawerConfirm = this.handleDrawerConfirm.bind(this);
     this.handleDrawerClose = this.handleDrawerClose.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
@@ -281,6 +282,21 @@ export default class Drawer extends React.Component<DrawerProps> {
     // clear error
     store.updateMessage();
     onClose();
+  }
+
+  handleActionSensor(p: Promise<any>) {
+    const {store} = this.props;
+
+    store.markBusying(true);
+    // clear error
+    store.updateMessage();
+
+    p.then(() => {
+      store.markBusying(false);
+    }).catch(e => {
+      store.updateMessage(e.message, true);
+      store.markBusying(false);
+    });
   }
 
   handleAction(e: React.UIEvent<any>, action: ActionObject, data: object) {
@@ -441,6 +457,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
       onSaved: this.handleFormSaved,
+      onActionSensor: this.handleActionSensor,
       syncLocation: false
     };
 
@@ -713,9 +730,6 @@ export class DrawerRenderer extends Drawer {
     }
 
     if (targets.length) {
-      store.markBusying(true);
-      store.updateMessage();
-
       Promise.all(
         targets.map(target =>
           target.doAction(
@@ -727,26 +741,20 @@ export class DrawerRenderer extends Drawer {
             true
           )
         )
-      )
-        .then(values => {
-          if (
-            (action.type === 'submit' ||
-              action.actionType === 'submit' ||
-              action.actionType === 'confirm') &&
-            action.close !== false
-          ) {
-            onConfirm && onConfirm(values, rawAction || action, ctx, targets);
-          } else if (action.close) {
-            action.close === true
-              ? this.handleSelfClose()
-              : this.closeTarget(action.close);
-          }
-          store.markBusying(false);
-        })
-        .catch(reason => {
-          store.updateMessage(reason.message, true);
-          store.markBusying(false);
-        });
+      ).then(values => {
+        if (
+          (action.type === 'submit' ||
+            action.actionType === 'submit' ||
+            action.actionType === 'confirm') &&
+          action.close !== false
+        ) {
+          onConfirm && onConfirm(values, rawAction || action, ctx, targets);
+        } else if (action.close) {
+          action.close === true
+            ? this.handleSelfClose()
+            : this.closeTarget(action.close);
+        }
+      });
 
       return true;
     }
