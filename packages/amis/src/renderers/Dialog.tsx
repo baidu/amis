@@ -889,7 +889,12 @@ export class DialogRenderer extends Dialog {
     const scoped = this.context as IScopedContext;
     const components = scoped
       .getComponents()
-      .filter((item: any) => !~['drawer', 'dialog'].indexOf(item.props.type));
+      .filter(
+        (item: any) =>
+          !~['drawer', 'dialog', 'action', 'button', 'submit', 'reset'].indexOf(
+            item.props.type
+          )
+      );
     const onConfirm = this.props.onConfirm;
     const onClose = this.props.onClose;
 
