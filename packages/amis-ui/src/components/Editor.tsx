@@ -85,6 +85,7 @@ export interface EditorProps extends LocaleProps {
   context?: any;
   style?: any;
   isDiffEditor?: boolean;
+  placeholder?: string;
   onFocus?: () => void;
   onBlur?: () => void;
   editorDidMount?: (editor: any, monaco: any) => void;
@@ -93,7 +94,13 @@ export interface EditorProps extends LocaleProps {
   editorFactory?: (conatainer: HTMLElement, monaco: any, options: any) => any;
 }
 
-export class Editor extends React.Component<EditorProps, any> {
+export interface EditorState {
+  isFullscreen?: boolean;
+  innerWidth?: any;
+  innerHeight?: any;
+}
+
+export class Editor extends React.Component<EditorProps, EditorState> {
   static defaultProps = {
     language: 'javascript',
     editorTheme: 'vs',
@@ -294,10 +301,12 @@ export class Editor extends React.Component<EditorProps, any> {
   render() {
     const {
       className,
-      classPrefix: ns,
       width,
       height,
-      translate: __
+      translate: __,
+      placeholder,
+      classnames: cx,
+      value
     } = this.props;
     let style = {...(this.props.style || {})};
 
@@ -307,17 +316,20 @@ export class Editor extends React.Component<EditorProps, any> {
     return (
       <div
         className={cx(
-          `${ns}MonacoEditor`,
+          `MonacoEditor`,
           {'is-fullscreen': this.state.isFullscreen},
           className
         )}
         style={style}
         ref={this.wrapperRef}
       >
+        {this.editor && placeholder && !value ? (
+          <span className={cx('MonacoEditor-placeholder')}>{placeholder}</span>
+        ) : null}
         {this.editor && this.props.allowFullscreen ? (
-          <div className={cx(`${ns}MonacoEditor-header`)}>
+          <div className={cx(`MonacoEditor-header`)}>
             <a
-              className={cx('Modal-close', `${ns}MonacoEditor-fullscreen`)}
+              className={cx('Modal-close', `MonacoEditor-fullscreen`)}
               data-tooltip={
                 this.state.isFullscreen
                   ? __('Editor.exitFullscreen')
