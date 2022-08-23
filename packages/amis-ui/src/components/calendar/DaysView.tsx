@@ -380,11 +380,14 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     if (this.props.schedules) {
       let schedule: any[] = [];
       this.props.schedules.forEach((item: any) => {
+        /** 时间全部统一到当天的00:00:00再做比较 */
+        const currentDateBegin = currentDate.startOf('day');
+        const startTime = moment(item.startTime).startOf('day');
+        const endTime = moment(item.endTime).startOf('day');
+
         if (
-          currentDate.isSameOrAfter(
-            moment(item.startTime).subtract(1, 'days')
-          ) &&
-          currentDate.isSameOrBefore(item.endTime)
+          currentDateBegin.isSameOrAfter(startTime) &&
+          currentDateBegin.isSameOrBefore(endTime)
         ) {
           schedule.push(item);
         }
@@ -460,12 +463,23 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
           // 最多展示3个
           showSchedule = showSchedule.slice(0, 3);
           const scheduleDiv = showSchedule.map((item: any, index: number) => {
+            let diffDays = moment(item.endTime).diff(
+              moment(item.startTime),
+              'days'
+            );
+            /* 存在天数跨度小于1，但是横跨2天的case */
+            if (diffDays <= 0) {
+              diffDays = moment(item.endTime)
+                .endOf('day')
+                .diff(moment(item.startTime).startOf('day'), 'days');
+            }
+            /* 前面的计算结果是闭区间，所以最终结果要补足1 */
+            diffDays += 1;
+
             const width =
               item.width ||
-              Math.min(
-                moment(item.endTime).diff(moment(item.startTime), 'days') + 1,
-                7 - moment(item.startTime).weekday()
-              );
+              Math.min(diffDays, 7 - moment(item.startTime).weekday());
+
             return (
               <div
                 key={injectedProps.key + 'content' + index}

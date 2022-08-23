@@ -386,6 +386,7 @@ export default class DateControl extends React.PureComponent<
       dialog: {
         title: __('Schedule'),
         actions: [],
+        closeOnEsc: true,
         body: {
           type: 'table',
           columns: [
