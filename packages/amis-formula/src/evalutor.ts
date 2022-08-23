@@ -690,7 +690,7 @@ export class Evaluator {
    *
    * @returns {number} 传入数值四舍五入后的结果
    */
-  fnROUND(a: number, b: number) {
+  fnROUND(a: number, b: number = 2) {
     a = this.formatNumber(a);
     b = this.formatNumber(b);
     const bResult = Math.round(b);
@@ -713,7 +713,7 @@ export class Evaluator {
    *
    * @returns {number} 传入数值向下取整后的结果
    */
-  fnFLOOR(a: number, b: number) {
+  fnFLOOR(a: number, b: number = 2) {
     a = this.formatNumber(a);
     b = this.formatNumber(b);
     const bResult = Math.round(b);
@@ -736,7 +736,7 @@ export class Evaluator {
    *
    * @returns {number} 传入数值向上取整后的结果
    */
-  fnCEIL(a: number, b: number) {
+  fnCEIL(a: number, b: number = 2) {
     a = this.formatNumber(a);
     b = this.formatNumber(b);
     const bResult = Math.round(b);
