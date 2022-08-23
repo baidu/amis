@@ -68,17 +68,14 @@ export function filterContents(
   if (typeof tooltip === 'string') {
     return filter(tooltip, data);
   } else if (tooltip) {
-    return tooltip.title
+    const {title, content, body, ...rest} = tooltip;
+    return title || content || body
       ? {
-          children: tooltip?.children,
-          title: filter(tooltip.title, data),
+          ...rest,
+          title: filter(title, data),
           content:
-            tooltip.content || tooltip.body
-              ? filter(tooltip.content || tooltip.body || '', data)
-              : undefined
+            content || body ? filter(content || body || '', data) : undefined
         }
-      : tooltip.content || tooltip.body
-      ? filter(tooltip.content || tooltip.body || '', data)
       : undefined;
   }
   return tooltip;
