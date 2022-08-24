@@ -34,22 +34,19 @@
 
   --fontFamilyMonospace: SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', 'Courier New', monospace;
-  --fontFamilyBase: -apple-system, BlinkMacSystemFont, 'SF Pro SC',
-    'SF Pro Text', 'Helvetica Neue', Helvetica, 'PingFang SC', 'Segoe UI',
-    Roboto, 'Hiragino Sans GB', 'Arial', 'microsoft yahei ui', 'Microsoft YaHei',
-    SimSun, sans-serif;
+  --fontFamilyBase: var(--fonts-base-family);
 
   // box-shadow
   $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
     0px 1px 10px 0px rgba(8, 14, 26, 0.05),
     0px 2px 4px -1px rgba(8, 14, 26, 0.04);
 
-  --fontSizeBase: #{px2rem(14px)};
-  --fontSizeMd: #{px2rem(14px)};
-  --fontSizeLg: #{px2rem(16px)};
-  --fontSizeXl: #{px2rem(20px)};
-  --fontSizeSm: #{px2rem(12px)};
-  --fontSizeXs: #{px2rem(11px)};
+  --fontSizeBase: var(--fonts-base-size);
+  --fontSizeMd: var(--fonts-other-1lh-size);
+  --fontSizeLg: var(--fonts-other-lg-size);
+  --fontSizeXl: var(--fonts-other-xl-size);
+  --fontSizeSm: var(--fonts-other-sm-size);
+  --fontSizeXs: var(--fonts-other-xs-size);
 
   --text-color: var(--colors-neutral-2);
   --button-color: var(--colors-neutral-11);
@@ -73,7 +70,7 @@
   --boxTooltipShadow: 0 4px 6px 1px rgb(8 14 26 / 6%),
     0 1px 10px 0 rgb(8 14 26 / 5%), 0 2px 4px -1px rgb(8 14 26 / 4%);
 
-  --lineHeightBase: 1.5;
+  --lineHeightBase: var(--fonts-other-lg-lineHeight);
 
   --body-lineHeight: var(--lineHeightBase);
 
@@ -91,8 +88,8 @@
   --pre-background: var(--background);
   --link-color: var(--info);
   --link-decoration: none;
-  --link-onHover-color: #{$B5};
-  --link-onClick-color: #{$B7};
+  --link-onHover-color: var(--colors-brand-5);
+  --link-onClick-color: var(--colors-brand-4);
   --link-onHover-decoration: underline;
 
   --body-bg: var(--light);
@@ -100,12 +97,12 @@
   --body-color: var(--text-color);
   --body-weight: var(--fontWeightBase);
 
-  --gap-xs: #{px2rem(4px)};
-  --gap-sm: #{px2rem(8px)};
-  --gap-base: #{px2rem(12px)};
-  --gap-md: #{px2rem(16px)};
-  --gap-lg: #{px2rem(20px)};
-  --gap-xl: #{px2rem(24px)};
+  --gap-xs: var(--sizes-size-3-size);
+  --gap-sm: var(--sizes-size-5-size);
+  --gap-base: var(--sizes-size-7-size);
+  --gap-md: var(--sizes-size-9-size);
+  --gap-lg: var(--sizes-size-11-size);
+  --gap-xl: var(--sizes-size-13-size);
 
   --icon-color: var(--colors-neutral-5);
   --icon-onHover-color: var(--colors-brand-5);
