@@ -476,7 +476,8 @@ export default class Dialog extends React.Component<DialogProps> {
       render,
       classnames: cx,
       showErrorMsg,
-      showLoading
+      showLoading,
+      show
     } = this.props;
 
     return (
@@ -497,7 +498,7 @@ export default class Dialog extends React.Component<DialogProps> {
             data: store.formData,
             onAction: this.handleAction,
             key,
-            disabled: action.disabled || store.loading
+            disabled: action.disabled || store.loading || !show
           })
         )}
       </div>
