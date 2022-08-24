@@ -143,7 +143,7 @@ export class Pagination extends React.Component<
     if (disabled) {
       return;
     }
-    onPageChange?.(page, perPage);
+    onPageChange?.(isNaN(Number(page)) || Number(page) < 1 ? 1 : page, perPage);
   }
 
   /**
