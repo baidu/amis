@@ -304,6 +304,11 @@ export interface CRUDCommonSchema extends BaseSchema {
    * 内容区域占满屏幕剩余空间
    */
   autoFillHeight?: boolean;
+
+  /**
+   * 单条数据执行 ajax 操作后是否回到第一页
+   */
+  resetPageAfterAjaxItemAction?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -401,7 +406,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     filterDefaultVisible: true,
     loadDataOnce: false,
     loadDataOnceFetchOnFilter: true,
-    autoFillHeight: false
+    autoFillHeight: false,
+    resetPageAfterAjaxItemAction: false
   };
 
   control: any;
@@ -616,7 +622,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       env,
       pageField,
-      stopAutoRefreshWhenModalIsOpen
+      stopAutoRefreshWhenModalIsOpen,
+      resetPageAfterAjaxItemAction
     } = this.props;
 
     if (action.actionType === 'dialog') {
@@ -662,7 +669,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             ? this.reloadTarget(action.reload, data)
             : redirect
             ? null
-            : this.search(undefined, undefined, true, true);
+            : this.search(
+                resetPageAfterAjaxItemAction === true
+                  ? {[pageField || 'page']: 1}
+                  : undefined,
+                undefined,
+                true,
+                true
+              );
           action.close && this.closeTarget(action.close);
         })
         .catch(e => {
@@ -1107,6 +1121,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             columns: store.columns ?? columns
           })
           .then(value => {
+            const {page, lastPage} = store;
+            // 空列表 且 页数已经非法超出，则跳转到最后的合法页数
+            if (!store.data.items.length && page > 1 && lastPage < page) {
+              this.search(
+                {
+                  ...store.query,
+                  [pageField || 'page']: lastPage
+                },
+                false,
+                undefined
+              );
+            }
+
             interval &&
               this.mounted &&
               (!stopAutoRefreshWhen ||
