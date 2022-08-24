@@ -729,7 +729,7 @@ order: 9
 
 > 1.8.0 及以上版本
 
-通过配置`actionType: 'goPage'`实现浏览器页面的前进/后退。
+通过配置`actionType: 'goPage'`实现浏览器页面的前进/后退。只有当历史记录中存在目标页面时才会生效。
 
 ```schema
 {
@@ -745,7 +745,9 @@ order: 9
           actions: [
             {
               actionType: 'goPage',
-              delta: -2
+              args: {
+                delta: -2
+              }
             }
           ]
         }
