@@ -1,4 +1,15 @@
-import React = require('react');
+/**
+ * 组件名称：InputNumber 数字输入框
+ * 单测内容：
+ * 1. 默认值，输入数字
+ * 2. 最小值 & 最大值
+ * 3. 前后缀 &千分分隔
+ * 4. 单位
+ * 5. 默认值的精度
+ * 6. 加强版输入框
+ * 7. 边框模式：无边框 & 半边框
+ */
+
 import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
@@ -166,6 +177,17 @@ test('Renderer:number with unitOptions', async () => {
   await wait(300);
   expect(staticDom.innerHTML).toBe('99em');
 
+  expect(container).toMatchSnapshot();
+});
+
+test('Renderer:number with precision and default value', async () => {
+  const {input, wrap, container, getByText} = await setup({
+    precision: 2,
+    step: 0.01,
+    value: 2.98786
+  });
+
+  expect(input.value).toBe('2.99');
   expect(container).toMatchSnapshot();
 });
 
