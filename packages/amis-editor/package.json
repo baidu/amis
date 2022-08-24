@@ -105,6 +105,7 @@
     "amis": "*",
     "amis-core": "*",
     "amis-formula": "*",
-    "amis-ui": "*"
+    "amis-ui": "*",
+    "i18n-runtime": "*"
   }
 }
