@@ -745,20 +745,25 @@ export class DrawerRenderer extends Drawer {
             true
           )
         )
-      ).then(values => {
-        if (
-          (action.type === 'submit' ||
-            action.actionType === 'submit' ||
-            action.actionType === 'confirm') &&
-          action.close !== false
-        ) {
-          onConfirm && onConfirm(values, rawAction || action, ctx, targets);
-        } else if (action.close) {
-          action.close === true
-            ? this.handleSelfClose()
-            : this.closeTarget(action.close);
-        }
-      });
+      )
+        .then(values => {
+          if (
+            (action.type === 'submit' ||
+              action.actionType === 'submit' ||
+              action.actionType === 'confirm') &&
+            action.close !== false
+          ) {
+            onConfirm && onConfirm(values, rawAction || action, ctx, targets);
+          } else if (action.close) {
+            action.close === true
+              ? this.handleSelfClose()
+              : this.closeTarget(action.close);
+          }
+        })
+        .catch(reason => {
+          store.updateMessage(reason.message, true);
+          throw reason;
+        });
 
       return true;
     }
