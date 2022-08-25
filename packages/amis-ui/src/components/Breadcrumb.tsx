@@ -277,7 +277,7 @@ export class BreadcrumbItem extends React.Component<
         )}
         {dropdown ? (
           <span onClick={this.toogle} className={cx('Breadcrumb-item-caret')}>
-            <Icon icon="caret" className="icon" />
+            <Icon icon="down" className="icon" />
           </span>
         ) : null}
         {dropdown && this.state.isOpened

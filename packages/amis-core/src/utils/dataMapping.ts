@@ -17,6 +17,20 @@ export function resolveMapping(
     : value;
 }
 
+/**
+ * 遍历对象，对每个字符串 key 进行数据映射
+ * @param value 要映射的对象
+ * @param data 数据上下文
+ */
+export function resolveMappingObject(value: PlainObject, data: PlainObject) {
+  for (const key of Object.keys(value)) {
+    if (typeof value[key] === 'string') {
+      value[key] = resolveMapping(value[key], data);
+    }
+  }
+  return value;
+}
+
 export function dataMapping(
   to: any,
   from: PlainObject = {},

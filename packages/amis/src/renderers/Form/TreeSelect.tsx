@@ -226,21 +226,15 @@ export default class TreeSelectControl extends React.Component<
   }
 
   validate(): any {
-    const {value, minLength, maxLength, delimiter, translate: __} = this.props;
+    const {value, minLength, maxLength, delimiter} = this.props;
 
     let curValue = Array.isArray(value)
       ? value
       : (value ? String(value) : '').split(delimiter || ',');
     if (minLength && curValue.length < minLength) {
-      return __(
-        '已选择数量低于设定的最小个数${minLength}，请选择更多的选项。',
-        {minLength}
-      );
+      return `已选择数量低于设定的最小个数${minLength}，请选择更多的选项。`;
     } else if (maxLength && curValue.length > maxLength) {
-      return __(
-        '已选择数量超出设定的最大个数{{maxLength}}，请取消选择超出的选项。',
-        {maxLength}
-      );
+      return `已选择数量超出设定的最大个数${maxLength}，请取消选择超出的选项。`;
     }
   }
 
@@ -284,14 +278,12 @@ export default class TreeSelectControl extends React.Component<
       this.close();
     }
 
-    multiple || !this.state.inputValue
-      ? this.resultChangeEvent(value)
-      : this.setState(
-          {
-            inputValue: ''
-          },
-          () => this.resultChangeEvent(value)
-        );
+    this.setState(
+      {
+        inputValue: ''
+      },
+      () => this.resultChangeEvent(value)
+    );
   }
 
   handleInputChange(value: string) {
@@ -631,7 +623,8 @@ export default class TreeSelectControl extends React.Component<
         <ResultBox
           disabled={disabled}
           ref={this.targetRef}
-          placeholder={__(placeholder || 'placeholder.empty')}
+          placeholder={__(placeholder ?? 'placeholder.empty')}
+          inputPlaceholder={''}
           className={cx(`TreeSelect`, {
             'TreeSelect--inline': inline,
             'TreeSelect--single': !multiple,
@@ -659,7 +652,6 @@ export default class TreeSelectControl extends React.Component<
           onKeyDown={this.handleInputKeyDown}
           clearable={clearable}
           allowInput={searchable || isEffectiveApi(autoComplete)}
-          inputPlaceholder={''}
         >
           {loading ? <Spinner size="sm" /> : undefined}
         </ResultBox>

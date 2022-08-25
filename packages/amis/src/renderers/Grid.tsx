@@ -10,6 +10,7 @@ import {
 } from '../Schema';
 
 import {ucFirst} from 'amis-core';
+import {Spinner} from 'amis-ui';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
@@ -194,7 +195,8 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       classnames: cx,
       gap,
       valign: vAlign,
-      align: hAlign
+      align: hAlign,
+      loading = false
     } = this.props;
     return (
       <div
@@ -209,6 +211,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
         )}
       >
         {this.renderColumns(this.props.columns)}
+        <Spinner overlay show={loading} />
       </div>
     );
   }

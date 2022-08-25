@@ -4,7 +4,7 @@ import {
   fireEvent,
   findByText,
   waitFor,
-  act
+  screen
 } from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
@@ -69,13 +69,15 @@ test('Renderer:combo', () => {
 });
 
 test('Renderer:combo multiple', async () => {
+  const onSubmit = jest.fn();
+  const submitBtnText = 'Submit';
   const {container, getByText} = render(
     amisRender(
       {
         type: 'form',
         mode: 'horizontal',
+        submitText: submitBtnText,
         api: '/api/mock2/form/saveForm',
-        debug: true,
         body: [
           {
             type: 'combo',
@@ -98,7 +100,7 @@ test('Renderer:combo multiple', async () => {
           }
         ]
       },
-      {},
+      {onSubmit},
       makeEnv({})
     )
   );
@@ -130,12 +132,20 @@ test('Renderer:combo multiple', async () => {
   });
 
   fireEvent.click(getByText('aOptions'));
-  await wait(300);
 
-  const formDebug = JSON.parse(container.querySelector('pre code')!.innerHTML);
+  await wait(500);
 
-  await wait(300);
-  expect(formDebug).toEqual({
+  const submitBtn = screen.getByRole('button', {name: submitBtnText});
+  await waitFor(() => {
+    expect(submitBtn).toBeInTheDocument();
+  });
+  fireEvent.click(submitBtn);
+
+  await wait(500);
+
+  const formData = onSubmit.mock.calls[0][0];
+  expect(onSubmit).toHaveBeenCalled();
+  expect(formData).toEqual({
     combo: [
       {
         select: 'aOptions',

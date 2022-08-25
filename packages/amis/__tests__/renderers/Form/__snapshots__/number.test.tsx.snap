@@ -142,3 +142,860 @@ exports[`Renderer:number 1`] = `
   </div>
 </div>
 `;
+
+exports[`Renderer:number with borderMode 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  number
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderNone"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  role="spinbutton"
+                  step="1"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:number with borderMode 2`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  number
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderHalf"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  role="spinbutton"
+                  step="1"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:number with prefix & suffix & kilobitSeparator 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  number
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="123456"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  role="spinbutton"
+                  step="1"
+                  value="$123,456%"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  number
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Number--enhance cxd-Number--enhance-borderFull"
+            >
+              <div
+                class="cxd-Number--enhance-left-icon"
+              >
+                <icon-mock
+                  classname="icon icon-minus"
+                  icon="minus"
+                />
+              </div>
+              <div
+                class="cxd-Number cxd-Number--enhance-input cxd-Number--borderFull"
+              >
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuenow="14.111"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="3"
+                    value="14.111"
+                  />
+                </div>
+              </div>
+              <div
+                class="cxd-Number--enhance-right-icon"
+              >
+                <icon-mock
+                  classname="icon  icon-plus"
+                  icon="plus"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:number with unitOptions 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  number
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-NumberControl cxd-NumberControl--withUnit cxd-Form-control"
+          >
+            <div
+              class="cxd-Number cxd-Number--borderFull"
+            >
+              <div
+                class="cxd-Number-handler-wrap"
+              >
+                <span
+                  aria-disabled="false"
+                  aria-label="Increase Value"
+                  class="cxd-Number-handler cxd-Number-handler-up"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-up-inner"
+                    unselectable="on"
+                  />
+                </span>
+                <span
+                  aria-disabled="false"
+                  aria-label="Decrease Value"
+                  class="cxd-Number-handler cxd-Number-handler-down"
+                  role="button"
+                  unselectable="on"
+                >
+                  <span
+                    class="cxd-Number-handler-down-inner"
+                    unselectable="on"
+                  />
+                </span>
+              </div>
+              <div
+                class="cxd-Number-input-wrap"
+              >
+                <input
+                  aria-valuenow="99"
+                  autocomplete="off"
+                  class="cxd-Number-input"
+                  role="spinbutton"
+                  step="1"
+                  value="99"
+                />
+              </div>
+            </div>
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-0-label"
+              class="cxd-Select"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="cxd-Select-valueWrap"
+              >
+                <div
+                  class="cxd-Select-value"
+                >
+                  em
+                </div>
+              </div>
+              <span
+                class="cxd-Select-arrow"
+              >
+                <icon-mock
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="cxd-Form-static"
+          >
+            <div
+              class="cxd-Form-control"
+            >
+              <span
+                class="cxd-PlainField"
+              >
+                99em
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;

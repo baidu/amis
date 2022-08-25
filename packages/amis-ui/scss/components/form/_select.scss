@@ -62,11 +62,15 @@
 
   &:hover {
     background: var(--Form-select-onHover-bg);
-    border-color: var(--Form-select-onHover-borderColor);
+    border-color: var(--Form-input-onHover-borderColor);
 
     .#{$ns}Select-arrow:before {
       color: var(--Form-select-caret-onHover-iconColor);
     }
+  }
+
+  &:active {
+    border-color: var(--Button--default-onActive-border);
   }
 
   &.is-disabled {
@@ -80,9 +84,8 @@
   }
 
   .#{$ns}PopOver.#{$ns}Select-popover {
+    margin-top: px2rem(4px);
     .#{$ns}Select-menu {
-      overflow-x: hidden;
-
       .#{$ns}Select-option {
         height: px2rem(32px);
         line-height: px2rem(22px);
@@ -313,6 +316,7 @@
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
+          width: 100%;
         }
       }
     }
@@ -505,6 +509,33 @@
   &.is-error > .#{$ns}Select {
     border-color: var(--Form-input-onError-borderColor);
     background: var(--Form-input-onError-bg);
+  }
+
+  .#{$ns}TransferDropDown-popover {
+    border: none;
+
+    .#{$ns}Tree-list {
+      .#{$ns}Tree-item {
+        .#{$ns}Tree-itemLabel,
+        .#{$ns}Tree-item--isLeaf {
+          &:hover {
+            background-color: transparent;
+            .#{$ns}Tree-itemText {
+              background: var(--Transfer-title-bg);
+            }
+          }
+          &:active {
+            background-color: transparent;
+            .#{$ns}Tree-itemText {
+              background: var(--Tree-item-onChekced-bg);
+            }
+          }
+          &.is-checked {
+            background-color: transparent;
+          }
+        }
+      }
+    }
   }
 }
 

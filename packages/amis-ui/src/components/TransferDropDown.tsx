@@ -105,7 +105,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             className={cx(
               'TransferDropDown',
               className,
-              isOpened ? 'is-active' : ''
+              isOpened ? 'is-opened' : ''
             )}
             borderMode={borderMode}
             allowInput={false}
@@ -120,15 +120,8 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             ref={ref}
             itemRender={itemRender}
             useMobileUI={useMobileUI}
-          >
-            {!mobileUI ? (
-              <span className={cx('TransferDropDown-icon')}>
-                <Icon icon="right-arrow-bold" className="icon" />
-              </span>
-            ) : (
-              <></>
-            )}
-          </ResultBox>
+            hasDropDownArrow={!mobileUI}
+          />
         )}
       </PopOverContainer>
     );

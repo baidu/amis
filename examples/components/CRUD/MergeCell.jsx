@@ -77,7 +77,8 @@ export default {
         }
       ]
     },
-    combineNum: 3, // 配置自动合并单元格的列数。
+    combineNum: 1, // 配置自动合并单元格的列数。
+    combineFromIndex: 1,
     columns: [
       {
         name: 'engine',

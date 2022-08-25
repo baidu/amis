@@ -76,7 +76,7 @@ export interface BaseApiObject {
   /**
    * API 发送类型
    */
-  method?: 'get' | 'post' | 'put' | 'delete' | 'patch' | 'jsonp';
+  method?: 'get' | 'post' | 'put' | 'delete' | 'patch' | 'jsonp' | 'js';
 
   /**
    * API 发送目标地址
@@ -230,7 +230,7 @@ export interface fetcherResult {
 }
 
 export interface fetchOptions {
-  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp';
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp' | 'js';
   successMessage?: string;
   errorMessage?: string;
   autoAppend?: boolean;

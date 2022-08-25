@@ -3,9 +3,7 @@
  */
 
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
-import {Api, SchemaNode, Schema, ActionObject} from 'amis-core';
-import {isVisible} from 'amis-core';
+import {Renderer, RendererProps, resolveMappingObject} from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 
 // 为了方便编辑器，目前考虑不区分 th 和 td，但因为可以控制展现，所以能实现一样的效果，同时后续这个组件还承担复杂布局的功能，不适合用 th
@@ -190,7 +188,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
           width: td.width || 'auto',
           textAlign: td.align || 'left',
           verticalAlign: td.valign || 'center',
-          ...style
+          ...td.style
         }}
         align={td.align}
         valign={td.valign}
@@ -209,7 +207,10 @@ export default class TableView extends React.Component<TableViewProps, object> {
   }
 
   renderTds(tds: TdObject[], rowIndex: number) {
-    return tds.map((td, colIndex) => this.renderTd(td, colIndex, rowIndex));
+    const {data} = this.props;
+    return tds.map((td, colIndex) =>
+      this.renderTd(resolveMappingObject(td, data), colIndex, rowIndex)
+    );
   }
 
   renderTr(tr: TrObject, rowIndex: number) {
@@ -225,14 +226,18 @@ export default class TableView extends React.Component<TableViewProps, object> {
   }
 
   renderTrs(trs: TrObject[]) {
-    const tr = trs.map((tr, rowIndex) => this.renderTr(tr, rowIndex));
+    const {data} = this.props;
+    const tr = trs.map((tr, rowIndex) =>
+      this.renderTr(resolveMappingObject(tr, data) as TrObject, rowIndex)
+    );
     return tr;
   }
 
   renderCols() {
-    const {cols} = this.props;
+    const {cols, data} = this.props;
     if (cols) {
       const colsElement = cols.map(col => {
+        col = resolveMappingObject(col, data);
         return <col span={col.span} style={col.style}></col>;
       });
       return <colgroup>{colsElement}</colgroup>;
@@ -256,22 +261,12 @@ export default class TableView extends React.Component<TableViewProps, object> {
   }
 
   render() {
-    const {
-      width,
-      border,
-      borderColor,
-      trs,
-      classnames: cx,
-      className
-    } = this.props;
-    let styleBorder;
-    if (border) {
-      styleBorder = `1px solid ${borderColor}`;
-    }
+    const {width, trs, classnames: cx, className} = this.props;
+
     return (
       <table
         className={cx('TableView', className)}
-        style={{width: width, border: styleBorder, borderCollapse: 'collapse'}}
+        style={{width: width, borderCollapse: 'collapse'}}
       >
         {this.renderCaption()}
         {this.renderCols()}
@@ -282,6 +277,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
 }
 
 @Renderer({
-  type: 'table-view'
+  type: 'table-view',
+  autoVar: true
 })
 export class TableViewRenderer extends TableView {}

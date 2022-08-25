@@ -47,6 +47,7 @@
   padding: var(--gap-xs) 0;
 
   &-group > &-itemLabel {
+    height: px2rem(32px);
     padding: var(--gap-xs) var(--gap-base);
     color: var(--FileControl-icon-color);
   }

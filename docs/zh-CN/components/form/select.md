@@ -1036,6 +1036,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | overflowTagPopover       | `TooltipObject`                                                                   | `{"placement": "top", "trigger": "hover", "showArrow": false, "offset": [0, -10]}` | 收纳浮层的配置属性，详细配置参考[Tooltip](../tooltip#属性表)                                                                                                                                                 |
 | optionClassName          | `string`                                                                          |                                                                                    | 选项 CSS 类名                                                                                                                                                                                                |
 | popOverContainerSelector | `string`                                                                          |                                                                                    | 弹层挂载位置选择器，会通过`querySelector`获取                                                                                                                                                                |
+| clearable                | `boolean`                                                                         | 是否展示清空图标    ｜                                                             |
 
 ## 事件表
 
