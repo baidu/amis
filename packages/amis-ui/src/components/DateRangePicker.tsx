@@ -1166,9 +1166,6 @@ export class DateRangePicker extends React.Component<
 
   renderDay(props: any, currentDate: moment.Moment) {
     let {startDate, endDate} = this.state;
-    // 剔除掉 DaysView 中传递的参数
-    props = omit(props, ['todayActiveStyle']);
-    props.className = props.className.replace('rdtActive', '');
 
     if (
       startDate &&
@@ -1355,7 +1352,7 @@ export class DateRangePicker extends React.Component<
           <div key="button" className={`${ns}DateRangePicker-actions`}>
             <a
               className={cx('Button', 'Button--default')}
-              onClick={() => this.close()}
+              onClick={() => this.close}
             >
               {__('cancel')}
             </a>
@@ -1366,8 +1363,7 @@ export class DateRangePicker extends React.Component<
                     isTimeRange &&
                     editState === 'start') ||
                   (!this.state.endDate && isTimeRange && editState === 'end') ||
-                  (this.state.startDate &&
-                    this.state.endDate?.isBefore(this.state.startDate))
+                  this.state.endDate?.isBefore(this.state.startDate)
               })}
               onClick={this.confirm}
             >

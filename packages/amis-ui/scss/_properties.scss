@@ -2,63 +2,65 @@
 @import './themes/cxd-colors';
 
 :root {
-  --black: #{$black};
-  --white: #{$white};
+  --black: #{$black}; // 不确定颜色
+  --white: var(--colors-neutral-11);
   // 因为运行不支持颜色计算，所以用 css 变量的方式需要多定义几个变量
-  --primary: #{$primary};
-  --primary-onHover: #4f86f4;
-  --primary-onActive: #1c53c1;
-  --secondary: #{$secondary};
-  --secondary-onHover: #{darken($secondary, 7.5%)};
-  --secondary-onActive: #{darken($secondary, 10%)};
-  --success: #{$success};
-  --success-onHover: #{darken($success, 7.5%)};
-  --success-onActive: #{darken($success, 10%)};
-  --info: #{$info};
-  --info-onHover: #{darken($info, 7.5%)};
-  --info-onActive: #{darken($info, 10%)};
-  --warning: #{$warning};
-  --warning-onHover: #{darken($warning, 7.5%)};
-  --warning-onActive: #{darken($warning, 10%)};
-  --danger: #{$danger};
-  --danger-onHover: #{darken($danger, 7.5%)};
-  --danger-onActive: #{darken($danger, 10%)};
+  --primary: var(--colors-brand-5);
+  --primary-onHover: var(--colors-brand-6);
+  --primary-onActive: var(--colors-brand-4);
 
-  --light: #{$light};
+  --secondary: var(--colors-neutral-4); // secondary 颜色需进一步确认
+  --secondary-onHover: var(--colors-neutral-6);
+  --secondary-onActive: var(--colors-neutral-4);
+
+  --success: var(--colors-success-5);
+  --success-onHover: var(--colors-success-6);
+  --success-onActive: var(--colors-success-4);
+
+  --info: var(--colors-brand-5);
+  --info-onHover: var(--colors-brand-6);
+  --info-onActive: var(--colors-brand-4);
+
+  --warning: var(--colors-warning-5);
+  --warning-onHover: var(--colors-warning-6);
+  --warning-onActive: var(--colors-warning-4);
+
+  --danger: var(--colors-error-5);
+  --danger-onHover: var(--colors-error-6);
+  --danger-onActive: var(--colors-error-4);
+
+  --light: var(--colors-neutral-10);
   --dark: #{$dark};
 
   --fontFamilyMonospace: SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', 'Courier New', monospace;
-  --fontFamilyBase: -apple-system, BlinkMacSystemFont, 'SF Pro SC',
-    'SF Pro Text', 'Helvetica Neue', Helvetica, 'PingFang SC', 'Segoe UI',
-    Roboto, 'Hiragino Sans GB', 'Arial', 'microsoft yahei ui', 'Microsoft YaHei',
-    SimSun, sans-serif;
+  --fontFamilyBase: var(--fonts-base-family);
 
   // box-shadow
   $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
     0px 1px 10px 0px rgba(8, 14, 26, 0.05),
     0px 2px 4px -1px rgba(8, 14, 26, 0.04);
 
-  --fontSizeBase: #{px2rem(14px)};
-  --fontSizeMd: #{px2rem(14px)};
-  --fontSizeLg: #{px2rem(16px)};
-  --fontSizeXl: #{px2rem(20px)};
-  --fontSizeSm: #{px2rem(12px)};
-  --fontSizeXs: #{px2rem(11px)};
+  --fontSizeBase: var(--fonts-base-size);
+  --fontSizeMd: var(--fonts-other-1lh-size);
+  --fontSizeLg: var(--fonts-other-lg-size);
+  --fontSizeXl: var(--fonts-other-xl-size);
+  --fontSizeSm: var(--fonts-other-sm-size);
+  --fontSizeXs: var(--fonts-other-xs-size);
 
-  --text-color: #{$text-color};
-  --button-color: #{$white};
+  --text-color: var(--colors-neutral-2);
+  --button-color: var(--colors-neutral-11);
 
   --animation-duration: 0.2s;
 
-  --text--muted-color: #{lighten($text-color, 25%)};
-  --text--loud-color: #{darken($text-color, 10%)};
+  --text--muted-color: var(--colors-neutral-6);
+  --text--loud-color: var(--colors-neutral-2);
 
   --pre-color: var(--text-color);
 
-  --borderColor: #{$borderColor};
-  --borderColorLight: #{lighten($borderColor, 5%)};
-  --borderColorDarken: #{darken($borderColor, 10%)};
+  --borderColor: var(--colors-neutral-8);
+  --borderColorLight: var(--colors-neutral-10);
+  --borderColorDarken: var(--colors-neutral-8);
   --borderRadius: 0.142rem;
   --borderRadiusMd: 0.285rem;
   --borderRadiusLg: 0.428rem;
@@ -68,7 +70,7 @@
   --boxTooltipShadow: 0 4px 6px 1px rgb(8 14 26 / 6%),
     0 1px 10px 0 rgb(8 14 26 / 5%), 0 2px 4px -1px rgb(8 14 26 / 4%);
 
-  --lineHeightBase: 1.5;
+  --lineHeightBase: var(--fonts-other-lg-lineHeight);
 
   --body-lineHeight: var(--lineHeightBase);
 
@@ -86,8 +88,9 @@
   --pre-background: var(--background);
   --link-color: var(--info);
   --link-decoration: none;
-  --link-onHover-color: #{$B5};
-  --link-onClick-color: #{$B7};
+
+  --link-onHover-color: var(--colors-brand-5);
+  --link-onClick-color: var(--colors-brand-4);
   --link-onHover-decoration: underline;
 
   --body-bg: var(--light);
@@ -95,26 +98,26 @@
   --body-color: var(--text-color);
   --body-weight: var(--fontWeightBase);
 
-  --gap-xs: #{px2rem(4px)};
-  --gap-sm: #{px2rem(8px)};
-  --gap-base: #{px2rem(12px)};
-  --gap-md: #{px2rem(16px)};
-  --gap-lg: #{px2rem(20px)};
-  --gap-xl: #{px2rem(24px)};
+  --gap-xs: var(--sizes-size-3-size);
+  --gap-sm: var(--sizes-size-5-size);
+  --gap-base: var(--sizes-size-7-size);
+  --gap-md: var(--sizes-size-9-size);
+  --gap-lg: var(--sizes-size-11-size);
+  --gap-xl: var(--sizes-size-13-size);
 
-  --icon-color: #{$gray600};
-  --icon-onHover-color: #{$gray900};
-  --icon-onDisabled-color: #{$gray500};
+  --icon-color: var(--colors-neutral-5);
+  --icon-onHover-color: var(--colors-brand-5);
+  --icon-onDisabled-color: var(--colors-neutral-10);
 
-  --label--default-bg: #{$gray700};
+  --label--default-bg: var(--colors-neutral-3);
   --label--primary-bg: var(--primary);
   --label--success-bg: var(--success);
   --label--info-bg: var(--info);
   --label--warning-bg: var(--warning);
   --label--danger-bg: var(--danger);
 
-  --label-color: #fff;
-  --label-link--hover-color: #fff;
+  --label-color: var(--colors-neutral-11);
+  --label-link--hover-color: var(--colors-neutral-11);
 
   --scrollbar-width: #{px2rem(17px)};
 
@@ -123,7 +126,7 @@
   --Alert--danger-borderColor: #{darken(adjust-hue(#f2dede, -10), 5%)};
   --Alert--danger-color: #a94442;
   --Alert--info-bg: #d9edf7;
-  --Alert--info-borderColor: #{darken(adjust-hue($info, -10), 5%)};
+  --Alert--info-borderColor: var(--colors-success-10);
   --Alert--info-color: #31708f;
   --Alert--success-bg: #dff0d8;
   --Alert--success-borderColor: #{darken(adjust-hue(#dff0d8, -10), 5%)};
@@ -174,7 +177,7 @@
   --Audio-volume-lineHeight: #{px2rem(50px)};
   --Audio-volume-width: var(--gap-md);
   --Audio-volumeControl-width: #{px2rem(110px)};
-  --Avatar-bg: #{$gray300};
+  --Avatar-bg: var(--colors-neutral-12);
   --Avatar-width: #{px2rem(40px)};
   --Avatar-size-large: #{px2rem(48px)};
   // 兼容旧的size大小写法
@@ -196,7 +199,7 @@
   --Button--danger-border: var(--Button--danger-bg);
   --Button--danger-color: var(--button-color);
   --Button--danger-onActive-bg: var(--danger-onActive);
-  --Button--danger-onActive-border: #{darken($danger, 12.5%)};
+  --Button--danger-onActive-border: var(--colors-error-6);
   --Button--danger-onActive-color: var(--Button--danger-color);
   --Button--danger-onHover-bg: var(--danger-onHover);
   --Button--danger-onHover-border: var(--danger-onActive);
@@ -204,7 +207,7 @@
   --Button--dark-bg: var(--dark);
   --Button--dark-border: var(--Button--dark-bg);
   --Button--dark-color: var(--button-color);
-  --Button--dark-onActive-bg: #{darken($dark, 10%)};
+  --Button--dark-onActive-bg: #{darken($dark, 10%)}; // dark暂不确定
   --Button--dark-onActive-border: #{darken($dark, 12.5%)};
   --Button--dark-onActive-color: var(--Button--dark-color);
   --Button--dark-onHover-bg: #{darken($dark, 7.5%)};
@@ -224,7 +227,7 @@
   --Button--info-border: var(--Button--info-bg);
   --Button--info-color: var(--button-color);
   --Button--info-onActive-bg: var(--info-onActive);
-  --Button--info-onActive-border: #{darken($info, 12.5%)};
+  --Button--info-onActive-border: var(--colors-brand-6);
   --Button--info-onActive-color: var(--Button--info-color);
   --Button--info-onHover-bg: var(--info-onHover);
   --Button--info-onHover-border: var(--info-onActive);
@@ -243,14 +246,14 @@
   --Button--light-bg: var(--light);
   --Button--light-border: var(--borderColor);
   --Button--light-color: var(--text-color);
-  --Button--light-onActive-bg: #{darken($light, 10%)};
+  --Button--light-onActive-bg: #{darken($light, 10%)}; // light不确定
   --Button--light-onActive-border: #{darken($light, 12.5%)};
   --Button--light-onActive-color: var(--Button--light-color);
   --Button--light-onHover-bg: #{darken($light, 7.5%)};
   --Button--light-onHover-border: #{darken($light, 10%)};
   --Button--light-onHover-color: var(--Button--light-color);
   --Button--link-color: var(--primary);
-  --Button--link-onDisabled-color: #{$gray600};
+  --Button--link-onDisabled-color: var(--colors-neutral-7);
   --Button--link-onDisabled-backgroundColor: transparent;
   --Button--link-onHover-color: var(--primary-onHover);
   --Button--link-onActive-color: var(--primary-onActive);
@@ -277,7 +280,7 @@
   --Button--secondary-border: var(--Button--secondary-bg);
   --Button--secondary-color: var(--button-color);
   --Button--secondary-onActive-bg: var(--secondary-onActive);
-  --Button--secondary-onActive-border: #{darken($secondary, 12.5%)};
+  --Button--secondary-onActive-border: var(--colors-neutral-2);
   --Button--secondary-onActive-color: var(--Button--secondary-color);
   --Button--secondary-onHover-bg: var(--secondary-onHover);
   --Button--secondary-onHover-border: var(--secondary-onActive);
@@ -297,7 +300,7 @@
   --Button--success-border: var(--Button--success-bg);
   --Button--success-color: var(--button-color);
   --Button--success-onActive-bg: var(--success-onActive);
-  --Button--success-onActive-border: #{darken($success, 12.5%)};
+  --Button--success-onActive-border: var(--colors-success-6);
   --Button--success-onActive-color: var(--Button--success-color);
   --Button--success-onHover-bg: var(--success-onHover);
   --Button--success-onHover-border: var(--success-onActive);
@@ -323,7 +326,7 @@
   --Button--warning-border: var(--Button--warning-bg);
   --Button--warning-color: var(--button-color);
   --Button--warning-onActive-bg: var(--warning-onActive);
-  --Button--warning-onActive-border: #{darken($warning, 12.5%)};
+  --Button--warning-onActive-border: var(--colors-warning-6);
   --Button--warning-onActive-color: var(--Button--warning-color);
   --Button--warning-onHover-bg: var(--warning-onHover);
   --Button--warning-onHover-border: var(--warning-onActive);
@@ -399,11 +402,11 @@
   --Calendar-btn-fontSize: var(--fontSizeSm);
   --Calendar-btn-height: #{px2rem(30px)};
   --Calendar-btn-lineHeight: var(--lineHeightBase);
-  --Calendar-btn-onActive-bg: #{darken($info, 10%)};
-  --Calendar-btn-onActive-border: #{darken($info, 12.5%)};
+  --Calendar-btn-onActive-bg: var(--colors-brand-4);
+  --Calendar-btn-onActive-border: var(--colors-brand-3);
   --Calendar-btn-onActive-color: var(--Calendar-btn-color);
-  --Calendar-btn-onHover-bg: #{darken($info, 7.5%)};
-  --Calendar-btn-onHover-border: #{darken($info, 10%)};
+  --Calendar-btn-onHover-bg: var(--colors-brand-4);
+  --Calendar-btn-onHover-border: var(--colors-brand-3);
   --Calendar-btn-onHover-color: var(--Calendar-btn-color);
   --Calendar-btn-paddingX: #{px2rem(10px)};
   --Calendar-btn-paddingY: calc(
@@ -445,7 +448,7 @@
   );
   --Calendar-shortcut-color: #151b26;
   --Calendar-shortcut-decoration: none;
-  --Calendar-shortcut-onHover-color: #{darken($info, 15%)};
+  --Calendar-shortcut-onHover-color: var(--colors-brand-6);
   --Calendar-shortcut-onHover-decoration: none;
   --Calendar-shortcuts-bg: transparent;
   --Calendar-shortcuts-height: #{px2rem(30px)};
@@ -458,14 +461,14 @@
   --Calendar-rdt-day: #{px2rem(100px)};
   --Calendar-schedule-content-padding: 0 #{px2rem(4px)};
   --Calendar-schedule-content-height: #{px2rem(20px)};
-  --Calendar-schedule-content-color: #{$white};
+  --Calendar-schedule-content-color: var(--white);
 
-  --Card-actions-borderColor: #{lighten($borderColor, 5%)};
+  --Card-actions-borderColor: var(--colors-neutral-10);
   --Card-actions-fontSize: var(--fontSizeBase);
   --Card-actions-onChecked-onHover-bg: #{darken(#d9f3fb, 5%)};
   --Card-actions-onChecked-onHover-color: #{darken(darken(#d9f3fb, 40%), 10%)};
   --Card-actions-onHover-bg: #{darken($white, 5%)};
-  --Card-actions-onHover-color: #{darken($gray900, 5%)};
+  --Card-actions-onHover-color: var(--colors-neutral-1);
   --Card-bg: var(--white);
   --Card-borderColor: var(--borderColor);
   --Card-borderRadius: var(--borderRadius);
@@ -479,7 +482,7 @@
   --Card-onModified-bg: #e8f0fe;
   --Card-onModified-borderColor: #{darken(#e8f0fe, 10%)};
   --Card-onModified-color: #4285f4;
-  --Card-onModified-fieldLabel-color: #{lighten(#4285f4, 20%)};
+  --Card-onModified-fieldLabel-color: var(--colors-brand-8);
   --Card-onModified-onHover-bg: #{darken(#e8f0fe, 5%)};
   --Card-onModified-onHover-color: #{darken(#4285f4, 10%)};
   --Cards--unsaved-heading-bg: #e8f0fe;
@@ -537,10 +540,10 @@
   --ColorPicker-fontSize: var(--Form-input-fontSize);
   --ColorPicker-height: var(--Form-input-height);
   --ColorPicker-lineHeight: var(--Form-input-lineHeight);
-  --ColorPicker-onDisabled-bg: #{$gray200};
+  --ColorPicker-onDisabled-bg: var(-colors-neutral-8);
   --ColorPicker-onDisabled-color: var(--text--muted-color);
   --ColorPicker-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
-  --ColorPicker-onHover-bg: #{darken($white, 5%)};
+  --ColorPicker-onHover-bg: var(--colors-neutral-9);
   --ColorPicker-onHover-borderColor: var(--borderColor);
   --ColorPicker-paddingX: #{px2rem(12px)};
   --ColorPicker-paddingY: calc(
@@ -563,17 +566,17 @@
   --Combo--vertical-item-paddingY: #{px2rem(10px)};
 
   --Combo-addBtn-bg: var(--Button--info-bg);
-  --Combo-addBtn-border: var(--Button--info-border);
+  --Combo-addBtn-border: var(--colors-neutral-11);
   --Combo-addBtn-borderRadius: var(--Button-borderRadius);
   --Combo-addBtn-color: var(--Button--info-color);
   --Combo-addBtn-fontSize: var(--Button--sm-fontSize);
   --Combo-addBtn-height: #{px2rem(26px)};
   --Combo-addBtn-lineHeight: var(--Button--sm-lineHeight);
-  --Combo-addBtn-onActive-bg: #{darken($info, 10%)};
-  --Combo-addBtn-onActive-border: #{darken($borderColor, 12.5%)};
+  --Combo-addBtn-onActive-bg: var(--colors-brand-4);
+  --Combo-addBtn-onActive-border: var(-colors-neutral-4);
   --Combo-addBtn-onActive-color: var(--Combo-addBtn-color);
-  --Combo-addBtn-onHover-bg: #{darken($info, 7.5%)};
-  --Combo-addBtn-onHover-border: #{darken($borderColor, 10%)};
+  --Combo-addBtn-onHover-bg: var(--colors-brand-6);
+  --Combo-addBtn-onHover-border: var(--colors-neutral-6);
   --Combo-addBtn-onHover-color: var(--Combo-addBtn-color);
   --Combo-addBtn-paddingX: var(--Button--sm-paddingX);
   --Combo-addBtn-paddingY: calc(
@@ -586,7 +589,7 @@
   --Combo-toolbarBtn-color: var(--icon-color);
   --Combo-toolbarBtn-height: var(--gap-md);
   --Combo-toolbarBtn-lineHeight: 1;
-  --Combo-toolbarBtn-onHover-color: #{darken($gray600, 10%)};
+  --Combo-toolbarBtn-onHover-color: var(--colors-neutral-4);
   --Combo-toolbarBtn-paddingX: var(--gap-xs);
   --Combo-toolbarBtn-paddingY: #{px2rem(2px)};
 
@@ -622,7 +625,7 @@
   --DatePicker-borderRadius: var(--Form-input-borderRadius);
   --DatePicker-borderWidth: var(--Form-input-borderWidth);
   --DatePicker-color: #151b26;
-  --DatePicker-header-onHover-color: #{darken($info, 15%)};
+  --DatePicker-header-onHover-color: var(--colors-brand-6);
   --DatePicker-arrow-color: #84868c;
   --DatePicker-fontSize: var(--fontSizeSm);
   --DatePicker-header-select-borderColor: #fff;
@@ -664,10 +667,10 @@
   --Drawer-content-borderColor: var(--borderColor);
   --Drawer-content-borderRadius: 0;
   --Drawer-content-borderWidth: var(--borderWidth);
-  --Drawer-footer-borderColor: #{lighten($borderColor, 5%)};
+  --Drawer-footer-borderColor: var(--colors-neutral-10);
   --Drawer-footer-padding: var(--gap-base);
   --Drawer-header-bg: #{darken($white, 2.5%)};
-  --Drawer-header-borderColor: #{lighten($borderColor, 5%)};
+  --Drawer-header-borderColor: var(--colors-neutral-10);
   --Drawer-header-padding: var(--gap-base);
   --Drawer-overlay-bg: rgba(0, 0, 0, 0.6);
   --Drawer-title-fontColor: #{$G2};
@@ -721,7 +724,7 @@
   --Form-control-widthSm: #{px2rem(160px)};
   --Form-control-widthXs: #{px2rem(80px)};
 
-  --Form-description-color: #{lighten($text-color, 10%)};
+  --Form-description-color: var(-colors-neutral-3);
   --Form-description-fontSize: var(--fontSizeSm);
 
   --Form-fontSize: var(--fontSizeBase);
@@ -749,7 +752,7 @@
   --Form-input-lineHeight: 1.4285714286;
   --Form-input-marginBottom: #{px2rem(6px)};
   --Form-input-onActive-color: var(--info);
-  --Form-input-onDisabled-bg: #{$gray200};
+  --Form-input-onDisabled-bg: var(--colors-neutral-9);
   --Form-input-onDisabled-borderColor: var(--Form-input-borderColor);
   --Form-input-onError-bg: var(--Form-input-bg);
   --Form-input-onError-borderColor: var(--danger);
@@ -757,7 +760,7 @@
   $Form-input-onFocused-bg: $white !default;
   --Form-input-onFocused-bg: var(--Form-input-bg);
   --Form-input-onFocused-borderColor: var(--info);
-  --Form-input-onHover-iconColor: #{darken($gray600, 20%)};
+  --Form-input-onHover-iconColor: var(--colors-neutral-4);
   --Form-input-onHover-bg: #{rgba($white, 0.6)};
   --Form-input-onHover-borderColor: var(--Form-input-onFocused-borderColor);
   --Form-input-paddingX: #{px2rem(8px)};
@@ -837,7 +840,7 @@
   --Form-selectOption-height: var(--Form-input-height);
   --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
   --Form-selectValue-onHover-bgColor: var(--Form-select-borderColor);
-  --Form-selectValue-borderColor: #{saturate(lighten($info, 30%), 2.5%)};
+  --Form-selectValue-borderColor: var(--colors-brand-7);
   --Form-selectValue-color: var(--info);
   --Form-selectValue-fontSize: var(--fontSizeSm);
   --Form-selectValue-onDisable-bg: #{lighten(
@@ -869,16 +872,16 @@
   --ImageControl-addBtn-border: var(--Button--default-border);
   --ImageControl-addBtn-borderRadius: 0;
   --ImageControl-addBtn-color: var(--Button--default-color);
-  --ImageControl-addBtn-onActive-bg: #{darken($white, 10%)};
-  --ImageControl-addBtn-onActive-border: #{darken($borderColor, 12.5%)};
+  --ImageControl-addBtn-onActive-bg: var(--colors-neutral-8);
+  --ImageControl-addBtn-onActive-border: var(--colors-neutral-5);
   --ImageControl-addBtn-onActive-color: var(--ImageControl-addBtn-color);
   --ImageControl-addBtn-onDisabled-bg: var(--Form-input-onDisabled-bg);
   --ImageControl-addBtn-onDisabled-border: var(
     --Form-input-onDisabled-borderColor
   );
   --ImageControl-addBtn-onDisabled-color: var(--text--muted-color);
-  --ImageControl-addBtn-onHover-bg: #{darken($white, 7.5%)};
-  --ImageControl-addBtn-onHover-border: #{darken($borderColor, 10%)};
+  --ImageControl-addBtn-onHover-bg: var(--colors-neutral-8);
+  --ImageControl-addBtn-onHover-border: var(--colors-neutral-6);
   --ImageControl-addBtn-onHover-color: var(--Button--default-color);
   --ImageControl-addBtn-upload-color: var(--Button--default-color);
   --ImageControl-progress-borderRadius: 0;
@@ -925,10 +928,10 @@
   --InputRange-onDisabled-color: var(--light);
   --InputRange-primaryColor: var(--primary);
   --InputRange-track-height: #{px2rem(6px)};
-  --InputRange-track-bg: #{$gray100};
+  --InputRange-track-bg: var(--colors-neutral-8);
   --InputRange-track-onDisabled-bg: var(--InputRange-onDisabled-color);
   --InputRange-track-onActive-bg: var(--InputRange-primaryColor);
-  --InputRange-track-onActive-onDisabled-bg: #{$gray200};
+  --InputRange-track-onActive-onDisabled-bg: var(--colors-neutral-6);
   --InputRange-track-onActive-transition: transform var(--animation-duration)
     ease-out left;
   --InputRange-track-border-radius: #{px2rem(4px)};
@@ -965,7 +968,7 @@
   --Layout-aside--lg-width: #{px2rem(300px)};
   --Layout-aside--md-width: #{px2rem(250px)};
   --Layout-aside--sm-width: #{px2rem(150px)};
-  --Layout-aside-bg: #{$dark};
+  --Layout-aside-bg: #{$dark}; // dark 不确定
   --Layout-aside-color: #{desaturate(lighten($dark, 40%), 10%)};
   --Layout-aside-onAcitve-bg: #{saturate(darken($dark, 5%), 2.5%)};
   --Layout-aside-onHover-bg: #{saturate(darken($dark, 3%), 2.5%)};
@@ -1027,22 +1030,22 @@
   --ListControl-item-onActive-after-borderColor: var(--primary);
   --ListControl-item-onActive-before-bg: var(--white);
   --ListControl-item-onActive-bg: var(--primary);
-  --ListControl-item-onActive-borderColor: #{darken($primary, 10%)};
+  --ListControl-item-onActive-borderColor: var(--colors-brand-4);
   --ListControl-item-onActive-color: var(--white);
   --ListControl-item-onActive-onHover-bg: var(--primary);
   --ListControl-item-onDisabled-bg: var(--ListControl-item-bg);
-  --ListControl-item-onDisabled-borderColor: #{lighten($borderColor, 5%)};
+  --ListControl-item-onDisabled-borderColor: var(--colors-neutral-10);
   --ListControl-item-onDisabled-color: var(--ListControl-item-color);
   --ListControl-item-onDisabled-opacity: 0.6;
-  --ListControl-item-onHover-bg: #{darken($white, 7.5%)};
-  --ListControl-item-onHover-borderColor: #{darken($borderColor, 10%)};
+  --ListControl-item-onHover-bg: var(--colors-neutral-6);
+  --ListControl-item-onHover-borderColor: var(--colors-neutral-6);
   --ListControl-item-onHover-color: var(--ListControl-item-color);
   --ListControl-item-paddingX: #{px2rem(12px)};
   --ListControl-item-paddingY: #{px2rem(6px)};
   --ListControl-item-transition: none;
 
   --ListItem--strip-bg: #f6f8f8;
-  --ListItem-borderColor: #{lighten($borderColor, 5%)};
+  --ListItem-borderColor: var(--colors-neutral-10);
   --ListItem-borderWidth: var(--List-borderWidth);
   --ListItem-onChecked-bg: #d9f3fb;
   --ListItem-onChecked-borderColor: #{darken(#d9f3fb, 10%)};
@@ -1081,14 +1084,10 @@
 
   --Modal-bg: var(--background);
   --Modal-body--noHeader-paddingTop: var(--gap-base);
-  --Modal-body-borderBottom: var(--Modal-content-borderWidth) solid #{lighten(
-      $borderColor,
-      5%
-    )};
-  --Modal-body-borderTop: var(--Modal-content-borderWidth) solid #{lighten(
-      $borderColor,
-      5%
-    )};
+  --Modal-body-borderBottom: var(--Modal-content-borderWidth) solid
+    var(-colors-neutral-10);
+  --Modal-body-borderTop: var(--Modal-content-borderWidth) solid
+    var(-colors-neutral-10);
   --Modal-body-paddingX: var(--gap-md);
   --Modal-body-paddingY: var(--gap-md);
   --Modal-close-color: var(--text--muted-color);
@@ -1103,7 +1102,7 @@
   --Modal-footer-marginX: 0;
   --Modal-footer-marginY: 0;
   --Modal-footer-padding: var(--gap-sm);
-  --Modal-header-bg: #{darken($white, 2.5%)};
+  --Modal-header-bg: var(--colors-neutral-10);
   --Modal-header-height: #{px2rem(40px)};
   --Modal-header-paddingX: var(--gap-md);
   --Modal-header-paddingY: calc(
@@ -1155,7 +1154,7 @@
   --Number-handler-onActive-bg: var(--Number-handler-onHover-bg);
   --Number-handler-onDisabled-bg: var(--Form-input-onDisabled-bg);
   --Number-handler-onDisabled-color: var(--text--muted-color);
-  --Number-handler-onHover-bg: #{darken($white, 5%)};
+  --Number-handler-onHover-bg: var(--colors-neutral-9);
   --Number-handler-onHover-color: var(--text-color);
   --Number-handler-width: var(--gap-lg);
   --Number-onDisabled-bg: var(--Form-input-bg);
@@ -1181,8 +1180,8 @@
   --Pagination-onActive-backgroundColor: var(--primary);
   --Pagination-onActive-border: 0;
   --Pagination-onActive-color: var(--white);
-  --Pagination-onDisabled-color: var(--text--muted-color);
-  --Pagination-onDisabled-backgroundColor: #{$gray200};
+  --Pagination-onDisabled-color: var(--colors-neutral-6);
+  --Pagination-onDisabled-backgroundColor: var(--colors-neutral-10);
   --Pagination-padding: 0 #{px2rem(8px)};
   --Pagination-light-color: #84868c;
 
@@ -1306,8 +1305,8 @@
   --Spinner-width: #{px2rem(32px)};
   --Spinner-color: #2468f2;
 
-  --Switch-bgColor: #{$gray600};
-  --Switch-borderColor: #{darken($gray600, 10%)};
+  --Switch-bgColor: var(--colors-neutral-7);
+  --Switch-borderColor: var(--colors-neutral-6);
   --Switch-gap: var(--gap-sm);
   --Switch-height: #{px2rem(22px)};
   --Switch-onActive-bgColor: var(--info);
@@ -1372,14 +1371,14 @@
   --Table-onModified-color: #4285f4;
   --Table-placeholder-height: #{px2rem(200px)};
   --Table-strip-bg: #{$Table-strip-bg};
-  --Table-tbody-borderTopColor: #{lighten($borderColor, 2.5%)};
+  --Table-tbody-borderTopColor: var(--colors-neutral-9);
   --Table-thead-bg: #f6f8f8;
   --Table-thead-borderColor: var(--Table-borderColor);
   --Table-thead-borderWidth: var(--Table-borderWidth);
   --Table-thead-color: var(--text--loud-color);
   --Table-thead-fontSize: var(--fontSizeBase);
   --Table-thead-iconColor: var(--icon-color);
-  --Table-toolbar-marginX: var(--gap-xs);
+  --Table-toolbar-marginX: #{px2rem(4px)};
   --Table-toolbar-marginY: var(--gap-base);
   --Table-tree-borderColor: var(--Table-borderColor);
   --Table-searchableForm-backgroundColor: #f6f7f8;
@@ -1465,11 +1464,11 @@
   --Tabs--strong-add-size: #{px2rem(32px)};
   --Tabs--strong-arrow-size: #{px2rem(24px)};
 
+  --Tabs-borderColor: var(--colors-neutral-8);
   --Tabs-link-disabled-color: #b8babf;
   --Tabs--simple-split-size: var(--gap-xs) var(--gap-md);
   --Tabs--sidebar-iconColor: #2468f2;
 
-  --Tabs-borderColor: var(--borderColor);
   --Tabs--simple-split-color: var(--Tabs-borderColor);
   --Tabs-borderRadius: var(--borderRadius);
   --Tabs-borderWidth: var(--borderWidth);
@@ -1480,9 +1479,9 @@
   --Tabs-linkPadding: var(--gap-sm) var(--gap-base);
   --Tabs-onActive-bg: var(--background);
   --Tabs-onActive-borderColor: var(--borderColor);
-  --Tabs-onActive-color: #{$gray700};
-  --Tabs-onDisabled-color: #{$gray600};
-  --Tabs-onHover-borderColor: #{$gray200};
+  --Tabs-onActive-color: var(--colors-neutral-2);
+  --Tabs-onDisabled-color: var(--colors-neutral-7);
+  --Tabs-onHover-borderColor: var(--colors-neutral-8);
   --Tabs-add-icon-size: #{px2rem(15px)};
   --Tabs-add-icon-padding: #{px2rem(1px)};
   --Tabs-add-icon-margin: var(--gap-xs);
@@ -1512,7 +1511,7 @@
   --Tabs--chrome-onHover-bg: #f6f7f8;
   --Tabs--chrome-bg: #e7eaed;
   --Tabs--chrome-radius-size: #{px2rem(8px)};
-  --Tabs--chrome-right-boder-color: var(--borderColorDarken);
+  --Tabs--chrome-right-border-color: var(--colors-neutral-5);
 
   --TagControl-sugBtn-bg: var(--Button--default-bg);
   --TagControl-sugBtn-border: var(--Button--default-border);
@@ -1522,11 +1521,11 @@
   --TagControl-sugBtn-fontSize: var(--Button--sm-fontSize);
   --TagControl-sugBtn-height: var(--Button--sm-height);
   --TagControl-sugBtn-lineHeight: var(--Button--sm-lineHeight);
-  --TagControl-sugBtn-onActive-bg: #{darken($white, 10%)};
-  --TagControl-sugBtn-onActive-border: #{darken($borderColor, 12.5%)};
+  --TagControl-sugBtn-onActive-bg: var(--colors-neutral-8);
+  --TagControl-sugBtn-onActive-border: var(--colors-neutral-5);
   --TagControl-sugBtn-onActive-color: var(--TagControl-sugBtn-color);
-  --TagControl-sugBtn-onHover-bg: #{darken($white, 7.5%)};
-  --TagControl-sugBtn-onHover-border: #{darken($borderColor, 10%)};
+  --TagControl-sugBtn-onHover-bg: var(--colors-neutral-8);
+  --TagControl-sugBtn-onHover-border: var(--colors-neutral-6);
   --TagControl-sugBtn-onHover-color: var(--Button--default-color);
   --TagControl-sugBtn-paddingX: var(--Button--sm-paddingX);
   --TagControl-sugBtn-paddingY: calc(
@@ -1638,7 +1637,7 @@
   --Tree-item-onChekced-bg: var(--Form-select-menu-onHover-bg);
   --Tree-item-onChekced-bg-borderRadius: #{px2rem(2px)};
 
-  --Wizard-badge-bg: #{$gray400};
+  --Wizard-badge-bg: var(--colors-neutral-5);
   --Wizard-badge-border: 0;
   --Wizard-badge-borderRadius: #{px2rem(10px)};
   --Wizard-badge-color: var(--white);
@@ -1648,7 +1647,7 @@
   --Wizard-badge-onComplete-backgroundColor: var(--info);
   --Wizard-badge-size: var(--gap-md);
   --Wizard-steps-bg--isComplete: #f1f5f9;
-  --Wizard-steps-bg: #{$gray100};
+  --Wizard-steps-bg: var(--colors-neutral-8);
   --Wizard-steps-borderWidth: #{px2rem(1px)};
   --Wizard-steps-height: #{px2rem(40px)};
   --Wizard-steps-li-onActive-arrow-bg: #fff;
