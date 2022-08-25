@@ -526,6 +526,9 @@
           background: transparent;
         }
       }
+      .#{$ns}SelectControl.#{$ns}Form-control {
+        overflow: hidden;
+      }
 
       .#{$ns}Form-hint,
       .#{$ns}Form-remark,
