@@ -10,6 +10,8 @@ import {themeable, ThemeProps} from 'amis-core';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {Icon, hasIcon} from './icons';
 import {generateIcon} from 'amis-core';
+import {types} from 'mobx-state-tree';
+import {observable, reaction} from 'mobx';
 
 const fadeStyles: {
   [propName: string]: string;
@@ -35,6 +37,55 @@ export interface SpinnerProps extends ThemeProps {
   overlay?: boolean; // 是否显示遮罩层，有children属性才生效
 }
 
+const SpinnerSharedStore = types
+  .model('SpinnerSharedStore', {})
+  .volatile(self => {
+    return {
+      // 保存所有可以进入 loading 状态（props.show = true）的 Spinner 的父级容器
+      spinnerContainers: observable.set([] as HTMLElement[], {
+        deep: false
+      })
+    };
+  })
+  .actions(self => {
+    return {
+      push: (spinnerContainer: HTMLElement) => {
+        if (self.spinnerContainers.has(spinnerContainer)) {
+          return;
+        }
+        self.spinnerContainers.add(spinnerContainer);
+      },
+      remove: (spinnerContainer: HTMLElement) => {
+        self.spinnerContainers.delete(spinnerContainer);
+      },
+      /**
+       *  判断当前 Spinner 是否可以进入 loading 状态
+       * @param spinnerContainerWillCheck 待检查的 Spinner 父容器
+       * @returns {boolean} 是否可以进入 loading
+       */
+      checkLoading: (spinnerContainerWillCheck: HTMLElement | null) => {
+        if (self.spinnerContainers.has(spinnerContainerWillCheck)) {
+          let loading = true;
+
+          self.spinnerContainers.forEach(container => {
+            if (
+              container.contains(spinnerContainerWillCheck) &&
+              container !== spinnerContainerWillCheck
+            ) {
+              loading = false;
+            }
+          });
+
+          return loading;
+        }
+
+        return false;
+      }
+    };
+  });
+
+const store = SpinnerSharedStore.create({});
+
 export class Spinner extends React.Component<SpinnerProps> {
   static defaultProps = {
     show: true,
@@ -48,10 +99,52 @@ export class Spinner extends React.Component<SpinnerProps> {
     overlay: false
   };
 
+  state = {
+    spinning: false
+  };
+
+  parent: HTMLElement | null = null;
+
+  spinnerRef = (dom: HTMLElement) => {
+    if (dom) {
+      this.parent = dom.parentNode as HTMLElement;
+    }
+  };
+
+  componentDidUpdate(prev: SpinnerProps) {
+    if (!prev.show && this.props.show) {
+      // 先根据 props.show 触发一次 loading，否则元素没有渲染，无法找到 parent
+      this.setState({spinning: true});
+    }
+
+    if (this.parent) {
+      if (this.props.show) {
+        store.push(this.parent);
+      } else {
+        store.remove(this.parent);
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    // 卸载 reaction
+    this.loadingChecker();
+    // 删除 当前 parent 元素
+    store.remove(this.parent!);
+  }
+
+  loadingChecker = reaction(
+    () => store.spinnerContainers.size,
+    () => {
+      this.setState({
+        spinning: store.checkLoading(this.parent)
+      });
+    }
+  );
+
   render() {
     const {
       classnames: cx,
-      show,
       className,
       spinnerClassName,
       size = '',
@@ -65,7 +158,12 @@ export class Spinner extends React.Component<SpinnerProps> {
     const timeout = {enter: delay, exit: 0};
 
     return (
-      <Transition mountOnEnter unmountOnExit in={show} timeout={timeout}>
+      <Transition
+        mountOnEnter
+        unmountOnExit
+        in={this.state.spinning}
+        timeout={timeout}
+      >
         {(status: string) => {
           return (
             <>
@@ -76,6 +174,7 @@ export class Spinner extends React.Component<SpinnerProps> {
 
               {/* spinner图标和文案 */}
               <div
+                ref={this.spinnerRef as any}
                 data-testid="spinner"
                 className={cx(
                   `Spinner`,
