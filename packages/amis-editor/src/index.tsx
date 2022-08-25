@@ -1,5 +1,5 @@
 import 'amis';
-import './local/index';
+import './locale/index';
 export * from 'amis-editor-core';
 import './tpl/index';
 
