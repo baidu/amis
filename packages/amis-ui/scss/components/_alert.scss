@@ -72,7 +72,7 @@
   }
 
   &--danger {
-    color: var(--Alert--danger-color);
+    color: var(--Alert--info-color);
     background: var(--Alert--danger-bg);
     border-color: var(--Alert--danger-borderColor);
   }
@@ -84,13 +84,13 @@
   }
 
   &--success {
-    color: var(--Alert--success-color);
+    color: var(--Alert--info-color);
     background: var(--Alert--success-bg);
     border-color: var(--Alert--success-borderColor);
   }
 
   &--warning {
-    color: var(--Alert--warning-color);
+    color: var(--Alert--info-color);
     background: var(--Alert--warning-bg);
     border-color: var(--Alert--warning-borderColor);
   }

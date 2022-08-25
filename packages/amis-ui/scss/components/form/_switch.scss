@@ -67,6 +67,19 @@
       color: var(--white);
       margin: 0 var(--Switch-text-marginLeft) 0 var(--Switch-text-marginRight);
     }
+
+    &:hover {
+      background: var(--Switch-checked-onHover-bgColor);
+    }
+
+    &:active {
+      background: var(--Switch-checked-onActive-bgColor);
+      .slider::before {
+        left: calc(
+          100% - (var(--Switch-height) + #{px2rem(2px)}) - #{px2rem(2px)}
+        );
+      }
+    }
   }
 
   &.is-checked.is-disabled {

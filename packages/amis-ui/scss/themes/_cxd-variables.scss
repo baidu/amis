@@ -1449,7 +1449,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Drawer-header-padding: var(--sizes-size-9-size) var(--sizes-size-13-size);
   --Drawer-widthBase: #{px2rem(400px)};
   --Drawer-header-bg: var(--colors-neutral-cardBg);
-  --Drawer-body-padding: #var(--sizes-size-13-size);
+  --Drawer-body-padding: var(--sizes-size-13-size);
 
   // Remark
   --Remark-icon-fontSize: var(--fonts-other-sm-size);
@@ -1537,7 +1537,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Alert--danger-bg: var(--colors-error-bg);
   --Alert--danger-borderColor: var(--colors-neutral-none);
 
-  --Alert--info-color: var(--colors-neutral-lessStrong);
+  --Alert--info-color: var(--colors-neutral-2);
   --Alert--info-bg: var(--colors-brand-bg);
   --Alert--info-borderColor: var(--colors-neutral-none);
 

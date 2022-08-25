@@ -51,6 +51,7 @@
 
   &-title {
     font-size: var(--Drawer-title-fontSize);
+    font-weight: 500;
     color: var(--Drawer-title-fontColor);
   }
 
@@ -173,7 +174,6 @@
 }
 
 .#{$ns}Drawer--top {
-
   .#{$ns}Drawer-close {
     top: var(--gap-base);
     right: var(--gap-base);
@@ -253,7 +253,6 @@
 }
 
 .#{$ns}Drawer--bottom {
-
   .#{$ns}Drawer-close {
     top: var(--gap-base);
     right: var(--gap-base);
@@ -283,7 +282,6 @@
 }
 
 .#{$ns}Drawer--left {
-
   .#{$ns}Drawer-close {
     left: auto;
     right: var(--gap-base);
