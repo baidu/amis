@@ -1337,8 +1337,10 @@ export const TableStore = iRendererStore
       localStorage.setItem(
         key,
         JSON.stringify({
-          // 可显示列index
-          toggledColumnIndex: self.activeToggaleColumns.map(item => item.index),
+          // 可显示列index, 原始配置中存在 toggled: false 的列不持久化
+          toggledColumnIndex: self.activeToggaleColumns
+            .filter(item => !(item.pristine?.toggled === false))
+            .map(item => item.index),
           // 列排序，name，label可能不存在
           columnOrder: self.columnsData.map(
             item => item.name || item.label || item.rawIndex
