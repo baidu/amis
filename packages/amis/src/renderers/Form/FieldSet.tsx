@@ -1,6 +1,6 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaCollection, SchemaTpl} from '../../Schema';
+import {SchemaCollection, SchemaTpl, SchemaExpression} from '../../Schema';
 import Collapse, {CollapseSchema} from '../Collapse';
 import {FormBaseControl} from 'amis-core';
 import type {FormHorizontal} from 'amis-core';
@@ -51,6 +51,11 @@ export interface FieldSetControlSchema
    * 点开时才加载内容
    */
   mountOnEnter?: boolean;
+
+  /**
+   * 是否显示表达式
+   */
+   visibleOn?: SchemaExpression;
 
   /**
    * 卡片隐藏就销毁内容。

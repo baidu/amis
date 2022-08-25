@@ -192,3 +192,4 @@ fieldSet 的另一种标题展现样式，不同的是展开的时候收起文�
 | collapsable      | `boolean`                                    | `false` | 是否可折叠                                                                 |
 | collapsed        | `booelan`                                    | `false` | 默认是否折叠                                                               |
 | collapseTitle    | [SchemaNode](../../../docs/types/schemanode) | `收起`  | 收起的标题                                                                 |
+| visibleOn        | [SchemaNode](../../../docs/types/schemanode) |         | 显示隐藏题                                                                 |
