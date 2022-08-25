@@ -560,6 +560,7 @@ export const renderCmptActionSelect = (
             form.setValueByName('args.value', []);
             form.setValueByName('args.__comboType', undefined);
             form.setValueByName('args.__valueInput', undefined);
+            form.setValueByName('args.__containerType', undefined);
             if (SELECT_PROPS_CONTAINER.includes(rendererType)) {
               form.setValueByName(
                 '__setValueDs',
@@ -1086,6 +1087,7 @@ export const getEventControlConfig = (
             key,
             val: action.args?.[prop][key]
           }));
+          config.args['__containerType'] = 'appoint';
           // 如果有index，认为是给指定序号的combo赋值，所以认为是指定序号的赋值方式
           if (action.args.index !== undefined) {
             config.args['__comboType'] = 'appoint';
@@ -1094,6 +1096,7 @@ export const getEventControlConfig = (
           action.actionType === 'setValue' &&
           typeof action.args[prop] === 'string'
         ) {
+          config.args['__containerType'] = 'all';
           config.args['__valueInput'] = config.args['value'];
           delete config.args?.value;
         }
