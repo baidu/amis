@@ -30,7 +30,7 @@ export interface IFrameSchema extends BaseSchema {
   width?: number | string;
   height?: number | string;
 
-  alloow?: string;
+  allow?: string;
 
   name?: string;
 

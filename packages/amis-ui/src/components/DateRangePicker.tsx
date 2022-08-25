@@ -6,6 +6,7 @@
 
 import React from 'react';
 import moment from 'moment';
+import omit from 'lodash/omit';
 import {findDOMNode} from 'react-dom';
 import {Icon} from './icons';
 import {Overlay} from 'amis-core';
@@ -1106,7 +1107,7 @@ export class DateRangePicker extends React.Component<
         ? maxDate.isBefore(endDate)
           ? maxDate
           : endDate
-        : undefined;
+        : maxDate || endDate;
 
     if (minDate && currentDate.isBefore(minDate, precision)) {
       return false;
@@ -1140,7 +1141,7 @@ export class DateRangePicker extends React.Component<
         ? minDate.isAfter(startDate)
           ? minDate
           : startDate
-        : undefined;
+        : minDate || startDate;
 
     if (minDate && currentDate.isBefore(minDate, precision)) {
       return false;
@@ -1165,8 +1166,6 @@ export class DateRangePicker extends React.Component<
 
   renderDay(props: any, currentDate: moment.Moment) {
     let {startDate, endDate} = this.state;
-    // 剔除掉 DaysView 中传递的参数
-    props.className = props.className.replace('rdtActive', '');
 
     if (
       startDate &&
@@ -1275,8 +1274,7 @@ export class DateRangePicker extends React.Component<
       locale,
       embed,
       type,
-      viewMode = 'days',
-      useMobileUI
+      viewMode = 'days'
     } = this.props;
     const __ = this.props.translate;
 
@@ -1353,33 +1351,20 @@ export class DateRangePicker extends React.Component<
         {embed ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
             <a
-              className={cx(
-                'Button',
-                'Button--default',
-                'Button--size-default'
-              )}
-              onClick={() => this.close()}
+              className={cx('Button', 'Button--default')}
+              onClick={() => this.close}
             >
               {__('cancel')}
             </a>
             <a
-              className={cx(
-                'Button',
-                'Button--primary',
-                'Button--size-default',
-                'm-l-sm',
-                {
-                  'is-disabled':
-                    (!this.state.startDate &&
-                      isTimeRange &&
-                      editState === 'start') ||
-                    (!this.state.endDate &&
-                      isTimeRange &&
-                      editState === 'end') ||
-                    (this.state.startDate &&
-                      this.state.endDate?.isBefore(this.state.startDate))
-                }
-              )}
+              className={cx('Button', 'Button--primary', 'm-l-sm', {
+                'is-disabled':
+                  (!this.state.startDate &&
+                    isTimeRange &&
+                    editState === 'start') ||
+                  (!this.state.endDate && isTimeRange && editState === 'end') ||
+                  this.state.endDate?.isBefore(this.state.startDate)
+              })}
               onClick={this.confirm}
             >
               {__('confirm')}

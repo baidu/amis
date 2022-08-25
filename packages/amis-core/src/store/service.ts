@@ -110,7 +110,9 @@ export const ServiceStore = iRendererStore
             }
           }
 
-          updateMessage(json.msg ?? (options && options.successMessage));
+          updateMessage(
+            json.msg ?? (options && options.successMessage) ?? json.defaultMsg
+          );
 
           // 配置了获取成功提示后提示，默认是空不会提示。
           options &&

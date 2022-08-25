@@ -168,6 +168,7 @@ export default class Dialog extends React.Component<DialogProps> {
     props.store.setEntered(!!props.show);
     this.handleSelfClose = this.handleSelfClose.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.handleActionSensor = this.handleActionSensor.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
     this.handleDrawerConfirm = this.handleDrawerConfirm.bind(this);
@@ -229,12 +230,34 @@ export default class Dialog extends React.Component<DialogProps> {
     return ret;
   }
 
-  handleSelfClose(e?: any, confirmed?: boolean) {
-    const {onClose, store} = this.props;
+  async handleSelfClose(e?: any, confirmed?: boolean) {
+    const {onClose, store, dispatchEvent} = this.props;
 
+    const rendererEvent = await dispatchEvent('cancel', this.props.data);
+    if (rendererEvent?.prevented) {
+      return;
+    }
     // clear error
     store.updateMessage();
     onClose(confirmed);
+  }
+
+  handleActionSensor(p: Promise<any>) {
+    const {store} = this.props;
+
+    store.markBusying(true);
+    // clear error
+    store.updateMessage();
+
+    p.then(() => {
+      store.markBusying(false);
+    }).catch(e => {
+      if (this.isDead) {
+        return;
+      }
+      store.updateMessage(e.message, true);
+      store.markBusying(false);
+    });
   }
 
   handleAction(e: React.UIEvent<any>, action: ActionObject, data: object) {
@@ -419,6 +442,7 @@ export default class Dialog extends React.Component<DialogProps> {
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
       onSaved: this.handleFormSaved,
+      onActionSensor: this.handleActionSensor,
       syncLocation: false // 弹框中的 crud 一般不需要同步地址栏
     };
 
@@ -452,7 +476,8 @@ export default class Dialog extends React.Component<DialogProps> {
       render,
       classnames: cx,
       showErrorMsg,
-      showLoading
+      showLoading,
+      show
     } = this.props;
 
     return (
@@ -473,7 +498,7 @@ export default class Dialog extends React.Component<DialogProps> {
             data: store.formData,
             onAction: this.handleAction,
             key,
-            disabled: action.disabled || store.loading
+            disabled: action.disabled || store.loading || !show
           })
         )}
       </div>
@@ -705,9 +730,6 @@ export class DialogRenderer extends Dialog {
     }
 
     if (targets.length) {
-      store.markBusying(true);
-      store.updateMessage();
-
       Promise.all(
         targets.map(target =>
           target.doAction(
@@ -719,29 +741,20 @@ export class DialogRenderer extends Dialog {
             true
           )
         )
-      )
-        .then(values => {
-          if (
-            (action.type === 'submit' ||
-              action.actionType === 'submit' ||
-              action.actionType === 'confirm') &&
-            action.close !== false
-          ) {
-            onConfirm && onConfirm(values, rawAction || action, ctx, targets);
-          } else if (action.close) {
-            action.close === true
-              ? this.handleSelfClose()
-              : this.closeTarget(action.close);
-          }
-          store.markBusying(false);
-        })
-        .catch(reason => {
-          if (this.isDead) {
-            return;
-          }
-          store.updateMessage(reason.message, true);
-          store.markBusying(false);
-        });
+      ).then(values => {
+        if (
+          (action.type === 'submit' ||
+            action.actionType === 'submit' ||
+            action.actionType === 'confirm') &&
+          action.close !== false
+        ) {
+          onConfirm && onConfirm(values, rawAction || action, ctx, targets);
+        } else if (action.close) {
+          action.close === true
+            ? this.handleSelfClose()
+            : this.closeTarget(action.close);
+        }
+      });
 
       return true;
     }
@@ -885,7 +898,12 @@ export class DialogRenderer extends Dialog {
     const scoped = this.context as IScopedContext;
     const components = scoped
       .getComponents()
-      .filter((item: any) => !~['drawer', 'dialog'].indexOf(item.props.type));
+      .filter(
+        (item: any) =>
+          !~['drawer', 'dialog', 'action', 'button', 'submit', 'reset'].indexOf(
+            item.props.type
+          )
+      );
     const onConfirm = this.props.onConfirm;
     const onClose = this.props.onClose;
 

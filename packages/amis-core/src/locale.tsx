@@ -16,7 +16,8 @@ const locales: {
 } = {};
 
 export function register(name: string, config: LocaleConfig) {
-  locales[name] = config;
+  // 修改为扩展，防止已注册的语料被覆盖
+  extendLocale(name, config);
 }
 
 export function extendLocale(name: string, config: LocaleConfig) {

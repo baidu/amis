@@ -578,12 +578,16 @@ export function difference<
   return changes(object, base);
 }
 
-export const padArr = (arr: Array<any>, size = 4): Array<Array<any>> => {
-  const ret: Array<Array<any>> = [];
+export const padArr = (
+  arr: Array<any>,
+  size = 4,
+  fillUndefined = false
+): Array<Array<any>> => {
+  const ret: Array<Array<any>> = [[]];
   const pool: Array<any> = arr.concat();
   let from = 0;
 
-  while (pool.length) {
+  while (pool.length || (fillUndefined && ret[ret.length - 1].length < size)) {
     let host: Array<any> = ret[from] || (ret[from] = []);
 
     if (host.length >= size) {
@@ -1350,10 +1354,32 @@ export function chainEvents(props: any, schema: any) {
   return ret;
 }
 
-export function mapObject(value: any, fn: Function): any {
+export function mapObject(
+  value: any,
+  fn: Function,
+  skipFn?: (value: any) => boolean
+): any {
+  // 如果value值满足skipFn条件则不做map操作
+  skipFn =
+    skipFn && typeof skipFn === 'function'
+      ? skipFn
+      : (value: any): boolean => {
+          // File类型处理之后会变成plain object
+          if (value instanceof File) {
+            return true;
+          }
+
+          return false;
+        };
+
+  if (!!skipFn(value)) {
+    return value;
+  }
+
   if (Array.isArray(value)) {
     return value.map(item => mapObject(item, fn));
   }
+
   if (isObject(value)) {
     let tmpValue = {...value};
     Object.keys(tmpValue).forEach(key => {

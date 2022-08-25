@@ -12,7 +12,7 @@ import {ComboStore, IComboStore} from './combo';
 import {FormStore, IFormStore} from './form';
 import {CRUDStore, ICRUDStore} from './crud';
 import {IColumn, IRow, ITableStore, TableStore} from './table';
-import {IColumnV2, IRowV2, ITableStoreV2, TableStoreV2} from './table-v2';
+import {IColumn2, IRow2, ITableStore2, TableStore2} from './table2';
 import {IListStore, ListStore} from './list';
 import {IModalStore, ModalStore} from './modal';
 import {TranslateFn} from '../locale';
@@ -34,7 +34,7 @@ const allowedStoreList = [
   ComboStore,
   CRUDStore,
   TableStore,
-  TableStoreV2,
+  TableStore2,
   ListStore,
   ModalStore,
   FormItemStore,
@@ -115,10 +115,10 @@ export {
   IColumn,
   IRow,
   ITableStore,
-  TableStoreV2,
-  ITableStoreV2,
-  IColumnV2,
-  IRowV2,
+  TableStore2,
+  ITableStore2,
+  IColumn2,
+  IRow2,
   ListStore,
   IListStore,
   ModalStore,

@@ -690,7 +690,7 @@ export class Evaluator {
    *
    * @returns {number} 传入数值四舍五入后的结果
    */
-  fnROUND(a: number, b: number) {
+  fnROUND(a: number, b: number = 2) {
     a = this.formatNumber(a);
     b = this.formatNumber(b);
     const bResult = Math.round(b);
@@ -713,7 +713,7 @@ export class Evaluator {
    *
    * @returns {number} 传入数值向下取整后的结果
    */
-  fnFLOOR(a: number, b: number) {
+  fnFLOOR(a: number, b: number = 2) {
     a = this.formatNumber(a);
     b = this.formatNumber(b);
     const bResult = Math.round(b);
@@ -736,7 +736,7 @@ export class Evaluator {
    *
    * @returns {number} 传入数值向上取整后的结果
    */
-  fnCEIL(a: number, b: number) {
+  fnCEIL(a: number, b: number = 2) {
     a = this.formatNumber(a);
     b = this.formatNumber(b);
     const bResult = Math.round(b);
@@ -1521,8 +1521,12 @@ export class Evaluator {
   }
 
   normalizeDate(raw: any): Date {
+    if (typeof raw === 'number' || !isNaN(raw)) {
+      return new Date(Number(raw));
+    }
+
     if (typeof raw === 'string') {
-      const formats = ['', 'YYYY-MM-DD HH:mm:ss'];
+      const formats = ['', 'YYYY-MM-DD HH:mm:ss', 'X'];
 
       while (formats.length) {
         const format = formats.shift()!;
@@ -1532,8 +1536,6 @@ export class Evaluator {
           return date.toDate();
         }
       }
-    } else if (typeof raw === 'number') {
-      return new Date(raw);
     }
 
     return raw;
@@ -1903,7 +1905,7 @@ function parseJson(str: string, defaultValue?: any) {
 }
 
 function stripNumber(number: number) {
-  if (typeof number === 'number') {
+  if (typeof number === 'number' && !Number.isInteger(number)) {
     return parseFloat(number.toPrecision(12));
   } else {
     return number;

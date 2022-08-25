@@ -7,7 +7,7 @@ import forEach from 'lodash/forEach';
 import {evalExpression, filter} from 'amis-core';
 import {BadgeObject, Checkbox, Spinner} from 'amis-ui';
 import {Button} from 'amis-ui';
-import {TableStore, ITableStore} from 'amis-core';
+import {TableStore, ITableStore, padArr} from 'amis-core';
 import {
   anyChanged,
   getScrollParent,
@@ -372,6 +372,7 @@ export interface TableProps extends RendererProps {
   reUseRow?: boolean;
   itemBadge?: BadgeObject;
   loading?: boolean;
+  autoFillHeight?: boolean;
 }
 
 export type ExportExcelToolbar = SchemaNode & {
@@ -621,7 +622,16 @@ export default class Table extends React.Component<TableProps, object> {
     let parent: HTMLElement | Window | null = getScrollParent(
       currentNode,
       parent => {
-        // 具备 overflow-*:auto 的父元素的高度小于当前元素
+        if (parent.getAttribute('role') === 'dialog') {
+          /**
+           *
+           * * 兼容在 Dialog 中的场景,
+           * ! 有时 dialog 内容并没有撑出滚动条，这里需要做一下特殊处理
+           * TODO 有没有一种更好的方式来判断
+           */
+          return true;
+        }
+        // * 具备 overflow-*:auto 的父元素的高度小于当前元素
         return (
           parent.offsetHeight > 0 && parent.offsetHeight < parent.scrollHeight
         );
@@ -1128,7 +1138,7 @@ export default class Table extends React.Component<TableProps, object> {
       [propName: string]: number;
     } = (this.widths2 = {});
     let heights: {
-      [propName: string]: number;
+      [propName: string]: number | string;
     } = (this.heights = {});
 
     heights.header = table
@@ -1156,8 +1166,13 @@ export default class Table extends React.Component<TableProps, object> {
 
     forEach(
       table.querySelectorAll('tbody>tr>*:last-child'),
+      /**
+       * ! 弹窗中的特殊说明
+       * ! 在弹窗中，modal 有一个 scale 的动画，导致 getBoundingClientRect 获取的高度不准确
+       * ! width 准确是因为 table-layout: auto 导致
+       */
       (item: HTMLElement, index: number) =>
-        (heights[index] = item.getBoundingClientRect().height)
+        (heights[index] = getComputedStyle(item).height)
     );
 
     // 让 react 去更新非常慢，还是手动更新吧。
@@ -1196,7 +1211,7 @@ export default class Table extends React.Component<TableProps, object> {
         forEach(
           table.querySelectorAll('tbody>tr'),
           (item: HTMLElement, index) => {
-            item.style.cssText += `height: ${heights[index]}px`;
+            item.style.cssText += `height: ${heights[index]}`;
           }
         );
 
@@ -1611,30 +1626,48 @@ export default class Table extends React.Component<TableProps, object> {
       return null;
     }
 
-    const groupedSearchableColumns: Array<Record<string, any>> = [
-      {body: [], md: 4},
-      {body: [], md: 4},
-      {body: [], md: 4}
-    ];
+    const body: Array<any> = [];
 
-    activedSearchableColumns.forEach((column, index) => {
-      groupedSearchableColumns[index % 3].body.push({
-        ...(column.searchable === true
-          ? {
-              type: 'input-text',
-              name: column.name,
-              label: column.label
-            }
-          : {
-              type: 'input-text',
-              name: column.name,
-              ...column.searchable
-            }),
-        name: column.searchable?.name ?? column.name,
-        label: column.searchable?.label ?? column.label,
-        mode: 'horizontal'
+    padArr(activedSearchableColumns, 3, true).forEach(group => {
+      const children: Array<any> = [];
+
+      group.forEach(column => {
+        children.push(
+          column
+            ? {
+                ...(column.searchable === true
+                  ? {
+                      type: 'input-text',
+                      name: column.name,
+                      label: column.label
+                    }
+                  : {
+                      type: 'input-text',
+                      name: column.name,
+                      ...column.searchable
+                    }),
+                name: column.searchable?.name ?? column.name,
+                label: column.searchable?.label ?? column.label
+              }
+            : {
+                type: 'tpl',
+                tpl: ''
+              }
+        );
+      });
+
+      body.push({
+        type: 'group',
+        body: children
       });
     });
+
+    let showExpander = body.length > 1;
+
+    // todo 以后做动画
+    if (!store.searchFormExpanded) {
+      body.splice(1, body.length - 1);
+    }
 
     return render(
       'searchable-form',
@@ -1642,14 +1675,9 @@ export default class Table extends React.Component<TableProps, object> {
         type: 'form',
         api: null,
         title: '',
-        mode: 'normal',
+        mode: 'horizontal',
         submitText: __('search'),
-        body: [
-          {
-            type: 'grid',
-            columns: groupedSearchableColumns
-          }
-        ],
+        body: body,
         actions: [
           {
             type: 'dropdown-button',
@@ -1663,6 +1691,7 @@ export default class Table extends React.Component<TableProps, object> {
               return {
                 type: 'checkbox',
                 className: cx('Table-searchableForm-checkbox'),
+                inputClassName: cx('Table-searchableForm-checkbox-inner'),
                 name: `__search_${column.searchable?.name ?? column.name}`,
                 option: column.searchable?.label ?? column.label,
                 value: column.enableSearch,
@@ -1674,6 +1703,7 @@ export default class Table extends React.Component<TableProps, object> {
                 },
                 onChange: (value: boolean) => {
                   column.setEnableSearch(value);
+                  store.setSearchFormExpanded(true);
                 }
               };
             })
@@ -1688,8 +1718,27 @@ export default class Table extends React.Component<TableProps, object> {
             type: 'reset',
             label: __('reset'),
             className: 'w-18'
-          }
-        ]
+          },
+
+          showExpander
+            ? {
+                children: () => (
+                  <a
+                    className={cx(
+                      'Table-SFToggler',
+                      store.searchFormExpanded ? 'is-expanded' : ''
+                    )}
+                    onClick={store.toggleSearchFormExpanded}
+                  >
+                    {__(store.searchFormExpanded ? 'collapse' : 'expand')}
+                    <span className={cx('Table-SFToggler-arrow')}>
+                      <Icon icon="right-arrow-bold" className="icon" />
+                    </span>
+                  </a>
+                )
+              }
+            : null
+        ].filter(item => item)
       },
       {
         key: 'searchable-form',

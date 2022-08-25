@@ -244,6 +244,7 @@ export interface fetchOptions {
 export interface Payload {
   ok: boolean;
   msg: string;
+  defaultMsg?: string;
   msgTimeout?: number;
   data: any;
   status: number;

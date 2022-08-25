@@ -1123,6 +1123,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --text-color: var(--colors-neutral-strong);
 
   --text--muted-color: var(--colors-neutral-disabledInfo);
+
   --text--loud-color: #333;
   --link-onHover-decoration: none;
 
@@ -1168,6 +1169,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-height: var(--sizes-size-17-size);
   // --Form-input-lineHeight: #{px2rem(32px)};
   --Form-input-borderColor: var(--borderColor);
+
   --Form-input-borderRadius: var(--borders-radius-3-radius);
   --Form-input-onHover-borderColor: var(--colors-brand-default);
   --Form-input-onFocused-bg: var(--colors-neutral-cardBg);
@@ -1179,6 +1181,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-onDisabled-color: var(--colors-neutral-5);
   --Form-input-iconColor: var(--colors-neutral-5);
   --Form-input-paddingX: var(--sizes-size-6-size);
+
   --Form-description-color: #999;
   --Form--horizontal-label-whiteSpace: normal;
   --Form--horizontal-label-widthXs: #{px2rem(50px)};
@@ -1524,6 +1527,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --TransferSelect-heading-borderBottom: var(--borders-line-1-width);
 
   // Alert
+
   --Alert-fontColor: var(--colors-neutral-lessStrong);
   --Alert-title-fontColor: var(--colors-neutral-strong);
 

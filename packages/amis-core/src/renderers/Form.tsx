@@ -942,20 +942,32 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   handleFormSubmit(e: React.UIEvent<any>) {
-    const {preventEnterSubmit} = this.props;
+    const {preventEnterSubmit, onActionSensor} = this.props;
 
     e.preventDefault();
     if (preventEnterSubmit) {
       return false;
     }
 
-    return this.handleAction(
+    const sensor: any = this.handleAction(
       e,
       {
         type: 'submit'
       },
       this.props.store.data
     );
+
+    // 让外层可以监控这个动作执行结果
+    onActionSensor?.(sensor);
+    return sensor;
+  }
+
+  handleReset(action: any) {
+    const {onReset} = this.props;
+
+    return (data: any) => {
+      onReset && onReset(data, action);
+    };
   }
 
   handleReset(action: any) {

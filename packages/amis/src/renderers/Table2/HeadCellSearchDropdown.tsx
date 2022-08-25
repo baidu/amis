@@ -1,12 +1,15 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 
-import {RendererProps} from 'amis-core';
-import {ActionObject} from 'amis-core';
-import {Icon} from 'amis-ui';
-import {setVariable, createObject} from 'amis-core';
-import {ITableStoreV2} from 'amis-core';
-import {HeadCellDropDown} from 'amis-ui';
+import {
+  RendererProps,
+  ActionObject,
+  setVariable,
+  createObject,
+  ITableStore2,
+  ClassNamesFn
+} from 'amis-core';
+import {Icon, HeadCellDropDown} from 'amis-ui';
 import type {FilterDropdownProps} from 'amis-ui/lib/components/table/HeadCellDropDown';
 
 export interface QuickSearchConfig {
@@ -20,10 +23,16 @@ export interface QuickSearchConfig {
 export interface HeadCellSearchProps extends RendererProps {
   name: string;
   searchable: boolean | QuickSearchConfig;
-  classPrefix: string;
   onSearch?: (values: object) => void;
   onAction?: Function;
-  store: ITableStoreV2;
+  store: ITableStore2;
+  sortable: boolean;
+  label: string;
+  orderBy: string;
+  orderDir: string;
+  popOverContainer?: any;
+  classnames: ClassNamesFn;
+  classPrefix: string;
 }
 
 export class HeadCellSearchDropDown extends React.Component<
@@ -273,9 +282,7 @@ export class HeadCellSearchDropDown extends React.Component<
               ...data,
               orderBy,
               order:
-                orderBy && orderBy === name
-                  ? (store as ITableStoreV2).order
-                  : ''
+                orderBy && orderBy === name ? (store as ITableStore2).order : ''
             },
             onSubmit: (values: object) => this.handleSubmit(values, confirm),
             onAction: (e: any, action: ActionObject, ctx: object) => {

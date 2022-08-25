@@ -421,7 +421,7 @@ Access-Control-Expose-Headers:  Content-Disposition
     "type": "button",
     "level": "info",
     "actionType": "link",
-    "link": "../index"
+    "link": "../docs/index"
 }
 
 ```

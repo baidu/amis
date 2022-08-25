@@ -128,6 +128,7 @@
 
     &-header {
       width: 100%;
+      padding: 0 px2rem(24px);
       @include flex-layout();
 
       a,
@@ -145,7 +146,7 @@
     }
 
     &-content {
-      padding: 0;
+      padding: 0 px2rem(24px);
       width: 100%;
       list-style: none;
       margin: px2rem(8px) 0;
@@ -205,6 +206,7 @@
 
     &-footer {
       width: 100%;
+      padding: 0 px2rem(24px);
       @include flex-layout();
 
       .#{$ns}ColumnToggler-modeSelect {
@@ -224,6 +226,10 @@
 
           a {
             display: inline-block;
+          }
+
+          button:not(:last-child) {
+            margin-right: var(--gap-sm);
           }
         }
 

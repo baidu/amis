@@ -49,6 +49,7 @@ export * from './tpl-builtin';
 export * from './tpl';
 export * from './uncontrollable';
 export * from './validations';
+export * from './toNumber';
 
 import animation from './Animation';
 

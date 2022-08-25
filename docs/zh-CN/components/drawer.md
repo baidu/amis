@@ -17,7 +17,23 @@ order: 43
     "actionType": "drawer",
     "drawer": {
       "title": "抽屉标题",
-      "body": "这是一个抽屉"
+      "body": {
+            "label": "第二层",
+            "type": "button",
+            "actionType": "drawer",
+            "drawer": {
+                "title": "抽屉标题",
+                "body": {
+                    "label": "第三层",
+                    "type": "button",
+                    "actionType": "drawer",
+                    "drawer": {
+                        "title": "抽屉标题",
+                        "body": "这是第三层抽屉"
+                    }
+                }
+            }
+      }
     }
 }
 ```

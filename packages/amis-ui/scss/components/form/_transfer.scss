@@ -23,8 +23,14 @@
     font-size: var(--transfer-base-title-font-size);
     font-weight: var(--transfer-base-title-font-weight);
     font-family: var(--transfer-base-title-font-family);
-    padding: var(--transfer-base-header-paddingTop) var(--transfer-base-header-paddingRight) var(--transfer-base-header-paddingBottom) var(--transfer-base-header-paddingLeft);
-    margin: var(--transfer-base-header-marginTop) var(--transfer-base-header-marginRight) var(--transfer-base-header-marginBottom) var(--transfer-base-header-marginLeft);
+    padding: var(--transfer-base-header-paddingTop)
+      var(--transfer-base-header-paddingRight)
+      var(--transfer-base-header-paddingBottom)
+      var(--transfer-base-header-paddingLeft);
+    margin: var(--transfer-base-header-marginTop)
+      var(--transfer-base-header-marginRight)
+      var(--transfer-base-header-marginBottom)
+      var(--transfer-base-header-marginLeft);
     flex-direction: row;
 
     &--light {
@@ -45,10 +51,22 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    border-width: var(--transfer-base-top-border-width) var(--transfer-base-right-border-width) var(--transfer-base-bottom-border-width) var(--transfer-base-left-border-width);
-    border-style: var(--transfer-base-top-border-style) var(--transfer-base-right-border-style) var(--transfer-base-bottom-border-style) var(--transfer-base-left-border-style);
-    border-color: var(--transfer-base-top-border-color) var(--transfer-base-right-border-color) var(--transfer-base-bottom-border-color) var(--transfer-base-left-border-color);
-    border-radius: var(--transfer-base-top-left-border-radius) var(--transfer-base-top-right-border-radius) var(--transfer-base-bottom-right-border-radius) var(--transfer-base-bottom-left-border-radius);
+    border-width: var(--transfer-base-top-border-width)
+      var(--transfer-base-right-border-width)
+      var(--transfer-base-bottom-border-width)
+      var(--transfer-base-left-border-width);
+    border-style: var(--transfer-base-top-border-style)
+      var(--transfer-base-right-border-style)
+      var(--transfer-base-bottom-border-style)
+      var(--transfer-base-left-border-style);
+    border-color: var(--transfer-base-top-border-color)
+      var(--transfer-base-right-border-color)
+      var(--transfer-base-bottom-border-color)
+      var(--transfer-base-left-border-color);
+    border-radius: var(--transfer-base-top-left-border-radius)
+      var(--transfer-base-top-right-border-radius)
+      var(--transfer-base-bottom-right-border-radius)
+      var(--transfer-base-bottom-left-border-radius);
   }
 
   &-select > &-selection,
@@ -57,14 +75,26 @@
     max-height: 100%;
     overflow: auto;
     position: relative; // 貌似不加 relative 会有 bug。
-    padding: var(--transfer-base-body-paddingTop) var(--transfer-base-body-paddingRight) var(--transfer-base-body-paddingBottom) var(--transfer-base-body-paddingLeft);
-    margin: var(--transfer-base-body-marginTop) var(--transfer-base-body-marginRight) var(--transfer-base-body-marginBottom) var(--transfer-base-body-marginLeft);
+    padding: var(--transfer-base-body-paddingTop)
+      var(--transfer-base-body-paddingRight)
+      var(--transfer-base-body-paddingBottom)
+      var(--transfer-base-body-paddingLeft);
+    margin: var(--transfer-base-body-marginTop)
+      var(--transfer-base-body-marginRight)
+      var(--transfer-base-body-marginBottom)
+      var(--transfer-base-body-marginLeft);
   }
 
   .#{$ns}GroupedSelection-item,
   .#{$ns}Selections-item {
-    padding: var(--transfer-base-option-paddingTop) var(--transfer-base-option-paddingRight) var(--transfer-base-option-paddingBottom) var(--transfer-base-option-paddingLeft);
-    margin: var(--transfer-base-option-marginTop) var(--transfer-base-option-marginRight) var(--transfer-base-option-marginBottom) var(--transfer-base-option-marginLeft);
+    padding: var(--transfer-base-option-paddingTop)
+      var(--transfer-base-option-paddingRight)
+      var(--transfer-base-option-paddingBottom)
+      var(--transfer-base-option-paddingLeft);
+    margin: var(--transfer-base-option-marginTop)
+      var(--transfer-base-option-marginRight)
+      var(--transfer-base-option-marginBottom)
+      var(--transfer-base-option-marginLeft);
     line-height: var(--transfer-base-content-font-lineHeight);
     font-size: var(--transfer-base-content-font-size);
     font-weight: var(--transfer-base-content-font-weight);
@@ -73,8 +103,12 @@
   }
 
   .#{$ns}ChainedSelection-item {
-    padding: var(--transfer-chained-paddingTop) var(--transfer-chained-paddingRight) var(--transfer-chained-paddingBottom) var(--transfer-chained-paddingLeft);
-    margin: var(--transfer-chained-marginTop) var(--transfer-chained-marginRight) var(--transfer-chained-marginBottom) var(--transfer-chained-marginLeft);
+    padding: var(--transfer-chained-paddingTop)
+      var(--transfer-chained-paddingRight) var(--transfer-chained-paddingBottom)
+      var(--transfer-chained-paddingLeft);
+    margin: var(--transfer-chained-marginTop)
+      var(--transfer-chained-marginRight) var(--transfer-chained-marginBottom)
+      var(--transfer-chained-marginLeft);
     line-height: var(--transfer-base-content-font-lineHeight);
     font-size: var(--transfer-base-content-font-size);
     font-weight: var(--transfer-base-content-font-weight);
@@ -119,17 +153,46 @@
     overflow: hidden;
   }
 
-  &-selection .#{$ns}ListSelection-placeholder {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
+  &-selection {
+    .#{$ns}ListSelection-placeholder {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+    }
+
+    &.#{$ns}Tree,
+    &.#{$ns}AssociatedSelection {
+      .#{$ns}Tree-itemLabel.is-checked:hover,
+      .#{$ns}Tree-itemLabel:hover {
+        .#{$ns}Tree-itemLabel-item > .#{$ns}Tree-itemText {
+          background-color: unset;
+          &:active {
+            background-color: unset;
+          }
+        }
+      }
+
+      .#{$ns}Tree-itemLabel-item {
+        display: flex;
+        align-items: center;
+
+        > .#{$ns}Tree-itemText {
+          max-width: unset;
+          line-height: unset;
+          top: unset;
+        }
+      }
+    }
   }
 
   &-search {
-    padding: var(--transfer-search-paddingTop) var(--transfer-search-paddingRight) var(--transfer-search-paddingBottom) var(--transfer-search-paddingLeft);
-    margin: var(--transfer-search-marginTop) var(--transfer-search-marginRight) var(--transfer-search-marginBottom) var(--transfer-search-marginLeft);
+    padding: var(--transfer-search-paddingTop)
+      var(--transfer-search-paddingRight) var(--transfer-search-paddingBottom)
+      var(--transfer-search-paddingLeft);
+    margin: var(--transfer-search-marginTop) var(--transfer-search-marginRight)
+      var(--transfer-search-marginBottom) var(--transfer-search-marginLeft);
 
     .#{$ns}InputBox {
       font-size: var(--transfer-search-font-size);
@@ -137,13 +200,31 @@
       line-height: var(--transfer-search-font-lineHeight);
       font-family: var(--transfer-search-font-family);
       color: var(--transfer-search-font-color);
-      border-width: var(--transfer-search-top-border-width) var(--transfer-search-right-border-width) var(--transfer-search-bottom-border-width) var(--transfer-search-left-border-width);
-      border-style: var(--transfer-search-top-border-style) var(--transfer-search-right-border-style) var(--transfer-search-bottom-border-style) var(--transfer-search-left-border-style);
-      border-color: var(--transfer-search-top-border-color) var(--transfer-search-right-border-color) var(--transfer-search-bottom-border-color) var(--transfer-search-left-border-color);
-      border-radius: var(--transfer-search-top-left-border-radius) var(--transfer-search-top-right-border-radius)  var(--transfer-search-bottom-right-border-radius) var(--transfer-search-bottom-left-border-radius);
+      border-width: var(--transfer-search-top-border-width)
+        var(--transfer-search-right-border-width)
+        var(--transfer-search-bottom-border-width)
+        var(--transfer-search-left-border-width);
+      border-style: var(--transfer-search-top-border-style)
+        var(--transfer-search-right-border-style)
+        var(--transfer-search-bottom-border-style)
+        var(--transfer-search-left-border-style);
+      border-color: var(--transfer-search-top-border-color)
+        var(--transfer-search-right-border-color)
+        var(--transfer-search-bottom-border-color)
+        var(--transfer-search-left-border-color);
+      border-radius: var(--transfer-search-top-left-border-radius)
+        var(--transfer-search-top-right-border-radius)
+        var(--transfer-search-bottom-right-border-radius)
+        var(--transfer-search-bottom-left-border-radius);
       box-shadow: var(--transfer-search-shadow);
-      padding: var(--transfer-search-input-paddingTop) var(--transfer-search-input-paddingRight) var(--transfer-search-input-paddingBottom) var(--transfer-search-input-paddingLeft);
-      margin: var(--transfer-search-input-marginTop) var(--transfer-search-input-marginRight) var(--transfer-search-input-marginBottom) var(--transfer-search-input-marginLeft);
+      padding: var(--transfer-search-input-paddingTop)
+        var(--transfer-search-input-paddingRight)
+        var(--transfer-search-input-paddingBottom)
+        var(--transfer-search-input-paddingLeft);
+      margin: var(--transfer-search-input-marginTop)
+        var(--transfer-search-input-marginRight)
+        var(--transfer-search-input-marginBottom)
+        var(--transfer-search-input-marginLeft);
 
       &:hover {
         border-color: var(--transfer-search-border-hover-color);
@@ -204,17 +285,28 @@
   }
 
   .#{$ns}Tree {
-    padding: var(--transfer-tree-paddingTop) var(--transfer-tree-paddingRight) var(--transfer-tree-paddingBottom) var(--transfer-tree-paddingLeft);
-    margin: var(--transfer-tree-marginTop) var(--transfer-tree-marginLeft) var(--transfer-tree-marginBottom) var(--transfer-tree-marginRight);
+    padding: var(--transfer-tree-paddingTop) var(--transfer-tree-paddingRight)
+      var(--transfer-tree-paddingBottom) var(--transfer-tree-paddingLeft);
+    margin: var(--transfer-tree-marginTop) var(--transfer-tree-marginLeft)
+      var(--transfer-tree-marginBottom) var(--transfer-tree-marginRight);
 
     &-itemLabel:hover::after {
       left: 0;
     }
 
     &-itemLabel {
-      padding: var(--transfer-tree-option-paddingTop) var(--transfer-tree-option-paddingRight) var(--transfer-tree-option-paddingBottom) var(--transfer-tree-option-paddingLeft);
-      margin: var(--transfer-tree-option-marginTop) var(--transfer-tree-option-marginLeft) var(--transfer-tree-option-marginBottom) var(--transfer-tree-option-marginRight);
-      border-radius: var(--transfer-tree-top-left-border-radius) var(--transfer-tree-top-right-border-radius) var(--transfer-tree-bottom-right-border-radius) var(--transfer-tree-bottom-left-border-radius);
+      padding: var(--transfer-tree-option-paddingTop)
+        var(--transfer-tree-option-paddingRight)
+        var(--transfer-tree-option-paddingBottom)
+        var(--transfer-tree-option-paddingLeft);
+      margin: var(--transfer-tree-option-marginTop)
+        var(--transfer-tree-option-marginLeft)
+        var(--transfer-tree-option-marginBottom)
+        var(--transfer-tree-option-marginRight);
+      border-radius: var(--transfer-tree-top-left-border-radius)
+        var(--transfer-tree-top-right-border-radius)
+        var(--transfer-tree-bottom-right-border-radius)
+        var(--transfer-tree-bottom-left-border-radius);
 
       &:hover {
         background: var(--transfer-tree-bg-hover-color);
@@ -236,7 +328,10 @@
 
   .#{$ns}Table-content {
     .#{$ns}Table-table > thead > tr > th {
-      padding: var(--transfer-table-header-paddingTop) var(--transfer-table-header-paddingRight) var(--transfer-table-header-paddingBottom) var(--transfer-table-header-paddingLeft);
+      padding: var(--transfer-table-header-paddingTop)
+        var(--transfer-table-header-paddingRight)
+        var(--transfer-table-header-paddingBottom)
+        var(--transfer-table-header-paddingLeft);
       background: var(--transfer-base-title-bg);
       color: var(--transfer-base-title-font-color);
       line-height: var(--transfer-base-title-font-lineHeight);
@@ -249,7 +344,10 @@
       }
     }
     .#{$ns}Table-table > tbody > tr > td {
-      padding: var(--transfer-table-option-paddingTop) var(--transfer-table-option-paddingRight) var(--transfer-table-option-paddingBottom) var(--transfer-table-option-paddingLeft);
+      padding: var(--transfer-table-option-paddingTop)
+        var(--transfer-table-option-paddingRight)
+        var(--transfer-table-option-paddingBottom)
+        var(--transfer-table-option-paddingLeft);
       line-height: var(--transfer-base-content-font-lineHeight);
       font-size: var(--transfer-base-content-font-size);
       font-weight: var(--transfer-base-content-font-weight);
@@ -421,7 +519,6 @@
   }
 }
 .#{$ns}TransferDropDown-content {
-  min-height: px2rem(200px);
   min-width: px2rem(400px);
   display: flex;
   flex-direction: column;

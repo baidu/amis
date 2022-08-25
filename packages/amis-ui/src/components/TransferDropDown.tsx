@@ -38,6 +38,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       borderMode,
       useMobileUI,
       popOverContainer,
+      placeholder,
       maxTagCount,
       overflowTagPopover
     } = this.props;
@@ -60,7 +61,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
                 <InputBox
                   value={inputValue}
                   onChange={this.handleSearch}
-                  placeholder={__('Transfer.searchKeyword')}
+                  placeholder={placeholder ?? __('Transfer.searchKeyword')}
                   clearable={false}
                   onKeyDown={this.handleSearchKeyDown}
                 >
@@ -112,7 +113,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             result={multiple ? value : value?.[0] ? value?.[0] : null}
             onResultChange={onChange}
             onResultClick={onClick}
-            placeholder={__('Select.placeholder')}
+            placeholder={placeholder ?? __('Select.placeholder')}
             disabled={disabled}
             clearable={clearable}
             maxTagCount={maxTagCount}

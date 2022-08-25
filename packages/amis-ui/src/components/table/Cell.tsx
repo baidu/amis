@@ -5,7 +5,13 @@
 
 import React from 'react';
 
-import {themeable, ThemeProps, LocaleProps, localeable} from 'amis-core';
+import {
+  themeable,
+  ThemeProps,
+  LocaleProps,
+  localeable,
+  ClassNamesFn
+} from 'amis-core';
 import {ColumnProps} from './index';
 
 const zIndex = 1;
@@ -23,6 +29,7 @@ export interface Props extends ThemeProps, LocaleProps {
   wrapperComponent: any;
   groupId?: string; // 表头分组随机生成的id
   depth?: number; // 表头分组
+  classnames: ClassNamesFn;
 }
 
 export class BodyCell extends React.Component<Props> {

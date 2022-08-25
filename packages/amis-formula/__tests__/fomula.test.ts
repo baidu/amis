@@ -58,6 +58,12 @@ test('formula:expression2', () => {
   expect(evalFormual('a[c ? 1 : 2]', {a: [1, 2, 3], b: 1})).toBe(3);
 });
 
+test('formula:expression3', () => {
+  expect(evalFormual('${a} === "b"', {a: 'b'})).toBe(true);
+  expect(evalFormual('b === "b"')).toBe(false);
+  expect(evalFormual('${a}', {a: 'b'})).toBe('b');
+});
+
 test('formula:if', () => {
   expect(evalFormual('IF(true, 2, 3)')).toBe(2);
   expect(evalFormual('IF(false, 2, 3)')).toBe(3);
@@ -88,7 +94,10 @@ test('formula:ifs', () => {
   expect(!!evalFormual('IFS(0, 1, 2)')).toBe(true);
   expect(!!evalFormual('IFS(0, 1, 2, 2, 3)')).toBe(true);
   expect(!!evalFormual('IFS(0, 1, 0, 2, 0)')).toBe(false);
+  expect(evalFormual('IFS(0, 1, 2, 2)')).toBe(2);
+  expect(evalFormual('IFS(0, 1, 0, 2)')).toBe(undefined);
 });
+
 test('formula:math', () => {
   expect(evalFormual('ABS(1)')).toBe(1);
   expect(evalFormual('ABS(-1)')).toBe(1);
@@ -101,12 +110,12 @@ test('formula:math', () => {
 
   expect(evalFormual('PI()')).toBe(Math.PI);
 
-  expect(evalFormual('ROUND(3.5)')).toBe(4);
-  expect(evalFormual('ROUND(3.4)')).toBe(3);
+  expect(evalFormual('ROUND(3.55)')).toBe(3.55);
+  expect(evalFormual('ROUND(3.45)')).toBe(3.45);
 
   expect(evalFormual('ROUND(3.456789, 2)')).toBe(3.46);
-  expect(evalFormual('CEIL(3.456789)')).toBe(4);
-  expect(evalFormual('FLOOR(3.456789)')).toBe(3);
+  expect(evalFormual('CEIL(3.456789)')).toBe(3.46);
+  expect(evalFormual('FLOOR(3.456789)')).toBe(3.45);
 
   expect(evalFormual('SQRT(4)')).toBe(2);
   expect(evalFormual('AVG(4, 6, 10, 10, 10)')).toBe(8);
@@ -128,6 +137,7 @@ test('formula:math', () => {
   expect(evalFormual('"3" + "3"')).toBe(6);
   expect(evalFormual('"3" - "3"')).toBe(0);
   expect(evalFormual('AVG(4, "6", "10", 10, 10)')).toBe(8);
+  expect(evalFormual('MAX(4, "6", "10", 2, 3)')).toBe(10);
 });
 
 test('formula:text', () => {
