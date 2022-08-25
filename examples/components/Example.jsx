@@ -118,6 +118,7 @@ import DynamicTabSchema from './Tabs/Dynamic';
 import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
+import Loading from './Loading';
 
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
@@ -820,6 +821,13 @@ export const examples = [
         icon: 'fa fa-rocket',
         path: '/examples/sdk',
         component: SdkTest
+      },
+
+      {
+        label: '多 loading',
+        icon: 'fa fa-spinner',
+        path: '/examples/loading',
+        component: makeSchemaRenderer(Loading)
       },
 
       {

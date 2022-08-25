@@ -545,7 +545,7 @@ export class Navigation extends React.Component<
 
     return (
       <>
-        <Spinner show={!!loading} overlay icon="reload" />
+        <Spinner show={!!loading} overlay />
 
         <Overflow<Link>
           className={cx('Nav-list--tabs', className)}
@@ -661,7 +661,7 @@ export class Navigation extends React.Component<
                 ? links.map((item, index) => this.renderItem(item, index))
                 : null}
 
-              <Spinner show={!!loading} overlay icon="reload" />
+              <Spinner show={!!loading} overlay />
             </ul>
             {dropIndicator ? (
               <div className={cx('Nav-dropIndicator')} style={dropIndicator} />
