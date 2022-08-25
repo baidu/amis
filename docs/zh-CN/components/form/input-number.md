@@ -24,6 +24,37 @@ order: 32
 }
 ```
 
+## 设置精度
+
+`precision` 设置数字的显示精度，一般需要配合`step`属性使用，以实现细粒度调整。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "data": {
+        "number2": 3.1234
+    },
+    "body": [
+        {
+            "type": "input-number",
+            "name": "number1",
+            "label": "数字",
+            "precision": 2,
+            "step": 0.01,
+            "value": 2.98786
+        },
+        {
+            "type": "input-number",
+            "name": "number2",
+            "label": "数字2",
+            "precision": 3,
+            "step": 0.001
+        }
+    ]
+}
+```
+
 ## 前后缀、千分分隔
 
 ```schema: scope="body"
