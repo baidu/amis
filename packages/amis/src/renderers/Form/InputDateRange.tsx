@@ -87,6 +87,11 @@ export interface DateRangeControlSchema extends FormBaseControlSchema {
    * 日期范围结束时间-占位符
    */
   endPlaceholder?: string;
+
+  /**
+   * 是否启用游标动画，默认开启
+   */
+  animation?: boolean;
 }
 
 export interface DateRangeProps
@@ -104,7 +109,8 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   static defaultProps = {
     format: 'X',
     joinValues: true,
-    delimiter: ','
+    delimiter: ',',
+    animation: true
   };
 
   dateRef?: any;
