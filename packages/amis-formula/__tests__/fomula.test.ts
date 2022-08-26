@@ -138,6 +138,8 @@ test('formula:math', () => {
   expect(evalFormual('"3" - "3"')).toBe(0);
   expect(evalFormual('AVG(4, "6", "10", 10, 10)')).toBe(8);
   expect(evalFormual('MAX(4, "6", "10", 2, 3)')).toBe(10);
+
+  expect(evalFormual('"a" + "b"')).toBe('ab');
 });
 
 test('formula:text', () => {
