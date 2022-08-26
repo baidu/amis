@@ -6,25 +6,25 @@ module.exports = {
     test: /.*(ts|tsx|js|jsx)$/
   },
   ignore: {
-    list: ['src/local']
+    list: ['src/locale']
   },
   importInfo: {
     source: 'i18n-runtime',
     imported: 'i18n',
     local: '_i18n'
   },
-  i18nModule: 'amis-core',
+  i18nModule: 'i18n-runtime',
   languages: [
     {
       name: 'en-US',
-      path: './src/local'
+      path: './src/locale'
     },
     {
       name: 'zh-CN',
-      path: './src/local'
+      path: './src/locale'
     }
   ],
-  init: {
+  output: {
     fileName: 'eidtor-core-i18n',
     fileExtension: 'xlsx',
     path: './'
