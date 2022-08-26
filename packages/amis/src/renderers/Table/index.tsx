@@ -1782,7 +1782,7 @@ export default class Table extends React.Component<TableProps, object> {
               })}
               <button
                 type="button"
-                className={cx('Button Button--xs Button--success m-l-sm')}
+                className={cx('Button Button--size-xs Button--success m-l-sm')}
                 onClick={this.handleSave}
               >
                 <Icon icon="check" className="icon m-r-xs" />
@@ -1790,7 +1790,7 @@ export default class Table extends React.Component<TableProps, object> {
               </button>
               <button
                 type="button"
-                className={cx('Button Button--xs Button--danger m-l-sm')}
+                className={cx('Button Button--size-xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
                 <Icon icon="close" className="icon m-r-xs" />
