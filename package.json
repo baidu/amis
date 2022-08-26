@@ -22,8 +22,10 @@
     "publish-to-internal": "sh ./publish-to-internal.sh"
   },
   "dependencies": {
+    "concurrently": "^7.3.0",
     "marked": "^4.0.16",
     "postcss": "^8.4.14",
+    "postcss-custom-properties": "^12.1.8",
     "prismjs": "^1.28.0",
     "qs": "6.9.7"
   },
