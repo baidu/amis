@@ -799,7 +799,7 @@
   --Form-row-gutterWidth: #{px2rem(10px)};
 
   --Form-select-bg: var(--white);
-  --Form-select-height: #{px2rem(32px)};
+  --Form-select-height: var(--Form-select-outer-top);
   --Form-select-borderColor: var(--Form-input-borderColor);
   --Form-select-borderRadius: var(--Form-input-borderRadius);
   --Form-select-borderWidth: var(--Form-input-borderWidth);
