@@ -273,6 +273,23 @@ register('zh-CN', {
   'validate.minimum': '当前输入值低于最小值 $1',
   'validate.minLength': '请输入更多的内容，至少输入 $1 个字符。',
   'validate.notEmptyString': '请不要全输入空白字符',
+  'validate.isDateTimeSame': '当前日期值不合法，请输入和 $1 相同的日期值',
+  'validate.isDateTimeBefore': '当前日期值不合法，请输入 $1 之前的日期值',
+  'validate.isDateTimeAfter': '当前日期值不合法，请输入 $1 之后的日期值',
+  'validate.isDateTimeSameOrBefore':
+    '当前日期值不合法，请输入和 $1 相同或之前的日期值',
+  'validate.isDateTimeSameOrAfter':
+    '当前日期值不合法，请输入和 $1 相同或之后的日期值',
+  'validate.isDateTimeBetween':
+    '当前日期值不合法，请输入 $1 和 $2 之间的日期值',
+  'validate.isTimeSame': '当前时间值不合法，请输入和 $1 相同的时间值',
+  'validate.isTimeBefore': '当前时间值不合法，请输入 $1 之前的时间值',
+  'validate.isTimeAfter': '当前时间值不合法，请输入 $1 之后的时间值',
+  'validate.isTimeSameOrBefore':
+    '当前时间值不合法，请输入和 $1 相同或之前的时间值',
+  'validate.isTimeSameOrAfter':
+    '当前时间值不合法，请输入和 $1 相同或之后的时间值',
+  'validate.isTimeBetween': '当前时间值不合法，请输入 $1 和 $2 之间的时间值',
   'validateFailed': '表单验证失败',
   'Wizard.configError': '配置错误',
   'Wizard.finish': '完成',
