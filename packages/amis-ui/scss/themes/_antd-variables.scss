@@ -1037,8 +1037,8 @@ $ns: 'antd-';
   --transfer-table-option-marginLeft: 0px;
   --transfer-table-option-marginRight: 0px;
   --transfer-table-last-paddingRight: 16px;
-  --transfer-tree-bg-hover-color: #f7f9fa;
-  --transfer-tree-bg-active-color: #e6f5ff;
+  --transfer-tree-bg-hover-color: var(--colors-neutral-11);
+  --transfer-tree-bg-active-color: var(--colors-neutral-11);
   --transfer-tree-top-right-border-radius: 2px;
   --transfer-tree-top-left-border-radius: 2px;
   --transfer-tree-bottom-right-border-radius: 2px;
@@ -1145,6 +1145,10 @@ $ns: 'antd-';
 
   --Modal-header-bg: #fff;
   --Modal-title-fontWeight: 500;
+  --Modal-body-paddingY: var(--sizes-size-0-size);
+  --Modal-body-paddingX: var(--sizes-size-0-size);
+  --Modal-body-borderTop: 1px var(--colors-neutral-7) solid;
+  --Modal-body-borderBottom: 1px var(--colors-neutral-7) solid;
 
   --Form-item-fontSize: var(--fontSizeBase);
   --Form-item-fontColor: var(--body-color);
@@ -1207,4 +1211,10 @@ $ns: 'antd-';
   --Tree-item-onChekced-bg-borderRadius: #{px2rem(2px)};
   --Tree-itemHeight: #{px2rem(24px)};
   --Tree-icon-gap: var(--gap-sm);
+
+  // steps
+  --Steps-line-bg: var(--colors-neutral-7);
+
+  // Avatar
+  --Avatar-bg: var(--colors-neutral-7);
 }

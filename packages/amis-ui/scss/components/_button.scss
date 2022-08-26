@@ -8,6 +8,7 @@
   transition: var(--Button-transition);
   white-space: nowrap;
   min-width: auto;
+  padding: var(--Button-paddingY) var(--Button-paddingX);
 
   &--primary {
     @include button-variant(
