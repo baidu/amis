@@ -6,25 +6,25 @@ module.exports = {
     test: /.*(ts|tsx|js|jsx)$/
   },
   ignore: {
-    list: ['src/icons', 'src/local']
+    list: ['src/icons', 'src/locale']
   },
   importInfo: {
     source: 'i18n-runtime',
     imported: 'i18n',
     local: '_i18n'
   },
-  i18nModule: 'amis-core',
+  i18nModule: 'i18n-runtime',
   languages: [
     {
       name: 'en-US',
-      path: './src/local'
+      path: './src/locale'
     },
     {
       name: 'zh-CN',
-      path: './src/local'
+      path: './src/locale'
     }
   ],
-  init: {
+  output: {
     fileName: 'editor-i18n',
     fileExtension: 'xlsx',
     path: './'
