@@ -23,7 +23,8 @@
   ],
   "lint-staged": {
     "{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}": [
-      "prettier --write"
+      "prettier --write",
+      "stylelint"
     ]
   },
   "dependencies": {
@@ -90,6 +91,7 @@
     "sass": "^1.49.7",
     "sass-loader": "^12.5.0",
     "style-loader": "^3.2.1",
+    "stylelint": "^14.11.0",
     "ts-jest": "^28.0.3",
     "ts-json-schema-generator": "0.96.0",
     "ts-loader": "^9.2.5",
