@@ -2,7 +2,7 @@
  * @file 总入口
  */
 import 'amis';
-import './local/index';
+import './locale/index';
 import Editor from './component/Editor';
 import './component/ClassNameControl';
 

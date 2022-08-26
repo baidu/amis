@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "deep-diff": "1.0.2",
-    "i18n-runtime": "0.0.0-alpha.11",
+    "i18n-runtime": "0.0.2",
     "json-ast-comments": "^1.1.0",
     "lodash": "^4.17.15",
     "mobx": "^4.5.0",
@@ -96,12 +96,13 @@
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.8.0",
     "webpack-node-externals": "^3.0.0",
-    "webpack-react-i18n": "^0.0.0-alpha.11"
+    "webpack-react-i18n": "0.0.2"
   },
   "peerDependencies": {
     "amis": "*",
     "amis-core": "*",
     "amis-formula": "*",
-    "amis-ui": "*"
+    "amis-ui": "*",
+    "i18n-runtime": "*"
   }
 }
