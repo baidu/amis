@@ -162,6 +162,64 @@
     width: var(--Drawer-widthXl);
     height: var(--Drawer-widthXl);
   }
+
+  // 从第二层弹框开始左右弹框的每层宽度或高度递减
+  @for $i from 2 through 6 {
+    $space-diff: 20;
+    .#{$ns}Drawer--right.#{$ns}Modal--#{$i}th,
+    .#{$ns}Drawer--left.#{$ns}Modal--#{$i}th {
+      &.#{$ns}Drawer .#{$ns}Drawer-content {
+        width: calc(var(--Drawer-widthBase) - #{($i - 1) * $space-diff}px);
+      }
+
+      &.#{$ns}Drawer--xs .#{$ns}Drawer-content {
+        width: calc(var(--Drawer-widthXs) - #{($i - 1) * $space-diff}px);
+      }
+
+      &.#{$ns}Drawer--sm .#{$ns}Drawer-content {
+        width: calc(var(--Drawer-widthSm) - #{($i - 1) * $space-diff}px);
+      }
+
+      &.#{$ns}Drawer--md .#{$ns}Drawer-content {
+        width: calc(var(--Drawer-widthMd) - #{($i - 1) * $space-diff}px);
+      }
+
+      &.#{$ns}Drawer--lg .#{$ns}Drawer-content {
+        width: calc(var(--Drawer-widthLg) - #{($i - 1) * $space-diff}px);
+      }
+
+      &.#{$ns}Drawer--xl .#{$ns}Drawer-content {
+        width: calc(var(--Drawer-widthXl) - #{($i - 1) * $space-diff}px);
+      }
+    }
+
+    .#{$ns}Drawer--top.#{$ns}Modal--#{$i}th,
+    .#{$ns}Drawer--bottom.#{$ns}Modal--#{$i}th {
+      &.#{$ns}Drawer .#{$ns}Drawer-content {
+        height: calc(var(--Drawer-widthBase) - #{($i - 1) * $space-diff}px);
+      }
+
+      &.#{$ns}Drawer--xs .#{$ns}Drawer-content {
+        height: calc(var(--Drawer-widthXs) - #{($i - 1) * $space-diff}px);
+      }
+
+      &.#{$ns}Drawer--sm .#{$ns}Drawer-content {
+        height: calc(var(--Drawer-widthSm) - #{($i - 1) * $space-diff}px);
+      }
+
+      &.#{$ns}Drawer--md .#{$ns}Drawer-content {
+        height: calc(var(--Drawer-widthMd) - #{($i - 1) * $space-diff}px);
+      }
+
+      &.#{$ns}Drawer--lg .#{$ns}Drawer-content {
+        height: calc(var(--Drawer-widthLg) - #{($i - 1) * $space-diff}px);
+      }
+
+      &.#{$ns}Drawer--xl .#{$ns}Drawer-content {
+        height: calc(var(--Drawer-widthXl) - #{($i - 1) * $space-diff}px);
+      }
+    }
+  }
 }
 
 // positons
@@ -173,7 +231,6 @@
 }
 
 .#{$ns}Drawer--top {
-
   .#{$ns}Drawer-close {
     top: var(--gap-base);
     right: var(--gap-base);
@@ -232,9 +289,7 @@
     .#{$ns}Drawer-info {
       flex-basis: 0;
       flex-grow: 1;
-      order: 10;
       align-self: center;
-      text-align: right;
     }
 
     .#{$ns}Drawer-error {
@@ -253,7 +308,6 @@
 }
 
 .#{$ns}Drawer--bottom {
-
   .#{$ns}Drawer-close {
     top: var(--gap-base);
     right: var(--gap-base);
@@ -283,7 +337,6 @@
 }
 
 .#{$ns}Drawer--left {
-
   .#{$ns}Drawer-close {
     left: auto;
     right: var(--gap-base);

@@ -1,5 +1,5 @@
 ---
-title: InputPassword 密码输框
+title: InputPassword 密码输入框
 description:
 type: 0
 group: null

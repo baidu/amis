@@ -104,7 +104,7 @@ export interface fetcherConfig {
 }
 
 const renderers: Array<RendererConfig> = [];
-const renderersMap: {
+export const renderersMap: {
   [propName: string]: boolean;
 } = {};
 const schemaFilters: Array<RenderSchemaFilter> = [];

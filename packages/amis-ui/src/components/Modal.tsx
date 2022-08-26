@@ -42,6 +42,13 @@ const fadeStyles: {
   [ENTERED]: 'in',
   [EXITING]: 'out'
 };
+const contentFadeStyles: {
+  [propName: string]: string;
+} = {
+  [ENTERING]: 'in',
+  [ENTERED]: '',
+  [EXITING]: 'out'
+};
 export class Modal extends React.Component<ModalProps, ModalState> {
   static defaultProps = {
     container: document.body,
@@ -275,7 +282,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 className={cx(
                   `Modal-content`,
                   contentClassName,
-                  fadeStyles[status]
+                  contentFadeStyles[status]
                 )}
                 style={{width, height}}
               >

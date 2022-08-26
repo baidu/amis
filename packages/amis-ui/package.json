@@ -3,7 +3,7 @@
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
-  "version": "2.1.1-beta.2",
+  "version": "2.1.1-beta.3",
   "description": "",
   "scripts": {
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
@@ -33,7 +33,7 @@
     }
   },
   "dependencies": {
-    "amis-core": "^2.1.1-beta.2",
+    "amis-core": "^2.1.1-beta.3",
     "amis-formula": "^2.1.0",
     "classnames": "2.3.1",
     "codemirror": "^5.63.0",
@@ -68,10 +68,10 @@
     "uncontrollable": "7.2.1"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-typescript": "^8.3.2",
+    "@rollup/plugin-typescript": "^8.3.4",
     "@svgr/rollup": "^6.2.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@types/babel__core": "^7.1.19",
@@ -97,7 +97,9 @@
   },
   "peerDependencies": {
     "react": ">=16.8.6",
-    "react-dom": ">=16.8.6"
+    "react-dom": ">=16.8.6",
+    "amis-core": "*",
+    "amis-formula": "*"
   },
   "jest": {
     "testEnvironment": "jsdom",

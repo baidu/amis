@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import type {ClassName, Schema} from 'amis-core';
+import {ClassName, localeable, LocaleProps, Schema} from 'amis-core';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {themeable, ThemeProps} from 'amis-core';
 import {uncontrollable} from 'amis-core';
@@ -16,6 +16,7 @@ import debounce from 'lodash/debounce';
 import {findDOMNode} from 'react-dom';
 import TooltipWrapper from './TooltipWrapper';
 import {resizeSensor} from 'amis-core';
+import PopOverContainer from './PopOverContainer';
 
 import Sortable from 'sortablejs';
 
@@ -101,7 +102,7 @@ class TabComponent extends React.PureComponent<TabProps> {
 
 export const Tab = themeable(TabComponent);
 
-export interface TabsProps extends ThemeProps {
+export interface TabsProps extends ThemeProps, LocaleProps {
   mode: TabsMode;
   tabsMode?: TabsMode;
   additionBtns?: React.ReactNode;
@@ -126,6 +127,9 @@ export interface TabsProps extends ThemeProps {
   onEdit?: (index: number, text: string) => void;
   sidePosition?: 'left' | 'right';
   addBtnText?: string;
+  collapseOnExceed?: number;
+  collapseBtnLabel?: string;
+  popOverContainer?: any;
 }
 
 export interface IDragInfo {
@@ -141,13 +145,15 @@ export class Tabs extends React.Component<TabsProps, any> {
     | 'showTipClassName'
     | 'sidePosition'
     | 'addBtnText'
+    | 'collapseBtnLabel'
   > = {
     mode: '',
     contentClassName: '',
     showTip: false,
     showTipClassName: '',
     sidePosition: 'left',
-    addBtnText: '新增' // 由于组件用的地方比较多，这里暂时不好改翻译
+    addBtnText: '新增', // 由于组件用的地方比较多，这里暂时不好改翻译
+    collapseBtnLabel: 'more'
   };
 
   static Tab = Tab;
@@ -514,11 +520,13 @@ export class Tabs extends React.Component<TabsProps, any> {
             {icon ? (
               iconPosition === 'right' ? (
                 <>
-                  {title}{iconElement}
+                  {title}
+                  {iconElement}
                 </>
               ) : (
                 <>
-                  {iconElement}{title}
+                  {iconElement}
+                  {title}
                 </>
               )
             ) : (
@@ -630,6 +638,75 @@ export class Tabs extends React.Component<TabsProps, any> {
     onAdd && onAdd();
   }
 
+  renderNavs(showClose = false) {
+    const {
+      children,
+      collapseOnExceed,
+      translate: __,
+      classnames: cx,
+      popOverContainer,
+      collapseBtnLabel
+    } = this.props;
+
+    if (!Array.isArray(children)) {
+      return null;
+    }
+
+    let doms: Array<any> = (children as Array<any>).map((tab, index) =>
+      this.renderNav(tab, index, showClose)
+    );
+
+    if (
+      typeof collapseOnExceed == 'number' &&
+      collapseOnExceed &&
+      doms.length > collapseOnExceed
+    ) {
+      const rest = doms.splice(
+        collapseOnExceed - 1,
+        doms.length + 1 - collapseOnExceed
+      );
+      doms.push(
+        <PopOverContainer
+          key="togglor"
+          placement="center-bottom-center-top center-top-center-bottom"
+          popOverClassName={cx('Tabs-PopOver')}
+          popOverContainer={popOverContainer || (() => findDOMNode(this))}
+          popOverRender={({onClose}) => (
+            <ul
+              className={cx('Tabs-PopOverList', 'DropDown-menu')}
+              onClick={onClose}
+            >
+              {rest}
+            </ul>
+          )}
+        >
+          {({onClick, ref, isOpened}) => (
+            <li
+              className={cx(
+                'Tabs-link',
+                rest.some(item => ~item.props.className.indexOf('is-active'))
+                  ? 'is-active'
+                  : ''
+              )}
+            >
+              <a
+                className={cx('Tabs-togglor', isOpened ? 'is-opened' : '')}
+                onClick={onClick}
+              >
+                <span>{__(collapseBtnLabel || 'more')}</span>
+                <span className={cx('Tabs-togglor-arrow')}>
+                  <Icon icon="right-arrow-bold" className="icon" />
+                </span>
+              </a>
+            </li>
+          )}
+        </PopOverContainer>
+      );
+    }
+
+    return doms;
+  }
+
   render() {
     const {
       classnames: cx,
@@ -701,9 +778,7 @@ export class Tabs extends React.Component<TabsProps, any> {
                   role="tablist"
                   ref={this.navMain}
                 >
-                  {children.map((tab, index) =>
-                    this.renderNav(tab, index, true)
-                  )}
+                  {this.renderNavs(true)}
                   {additionBtns}
                   {!isOverflow && toolButtons}
                 </ul>
@@ -715,7 +790,7 @@ export class Tabs extends React.Component<TabsProps, any> {
         ) : (
           <div className={cx('Tabs-linksWrapper')}>
             <ul className={cx('Tabs-links', linksClassName)} role="tablist">
-              {children.map((tab, index) => this.renderNav(tab, index, false))}
+              {this.renderNavs()}
               {additionBtns}
               {toolbar}
             </ul>
@@ -735,10 +810,12 @@ export class Tabs extends React.Component<TabsProps, any> {
   }
 }
 
-const ThemedTabs = themeable(
-  uncontrollable(Tabs, {
-    activeKey: 'onSelect'
-  })
+const ThemedTabs = localeable(
+  themeable(
+    uncontrollable(Tabs, {
+      activeKey: 'onSelect'
+    })
+  )
 );
 
 export default ThemedTabs as typeof ThemedTabs & {

@@ -299,7 +299,11 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
       if (api.responseType === 'blob') {
         throw new Error('Should have "Content-Disposition" in Header');
       } else if (!contentType.includes('markdown')) {
-        throw new Error(`Content type is wrong "${contentType}"`);
+        throw new Error(
+          `Content is wrong content-type:"${contentType}" content: ${escapeHtml(
+            (data as string).substring(0, 100)
+          )}`
+        );
       }
     }
   }
@@ -335,6 +339,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     ok: hasStatusField === false || data.status == 0,
     status: hasStatusField === false ? 0 : data.status,
     msg: data.msg || data.message,
+    defaultMsg: data.defaultMsg,
     msgTimeout: data.msgTimeout,
     data: !data.data && !hasStatusField ? data : data.data // 兼容直接返回数据的情况
   };
@@ -584,13 +589,9 @@ export function isApiOutdatedWithData(
   }
 
   return isObjectShallowModified(
-    buildApi(
-      normalizeApi(prevApi) as Api, prevData as object
-    ),
-    buildApi(
-      normalizeApi(nextApi) as Api, nextData as object
-    )
-  )
+    buildApi(normalizeApi(prevApi) as Api, prevData as object),
+    buildApi(normalizeApi(nextApi) as Api, nextData as object)
+  );
 }
 
 export function isApiOutdated(

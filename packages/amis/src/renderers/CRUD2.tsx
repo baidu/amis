@@ -35,7 +35,7 @@ import {
 } from '../Schema';
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
-import {TableSchema} from './Table';
+import {TableSchema2} from './Table2';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {SchemaCollection} from '../Schema';
 import {upperFirst} from 'lodash';
@@ -51,7 +51,7 @@ export interface CRUD2CommonSchema extends BaseSchema {
   /**
    * 指定内容区的展示模式。
    */
-  mode?: 'table' | 'grid' | 'cards' | /* grid 的别名*/ 'list' | 'table-v2';
+  mode?: 'table' | 'grid' | 'cards' | /* grid 的别名*/ 'list' | 'table2';
 
   /**
    * 初始化数据 API
@@ -183,8 +183,8 @@ export type CRUD2ListSchema = CRUD2CommonSchema & {
 } & Omit<ListSchema, 'type'>;
 
 export type CRUD2TableSchema = CRUD2CommonSchema & {
-  mode?: 'table-v2';
-} & Omit<TableSchema, 'type'>;
+  mode?: 'table2';
+} & Omit<TableSchema2, 'type'>;
 
 export type CRUD2Schema = CRUD2CardsSchema | CRUD2ListSchema | CRUD2TableSchema;
 
@@ -281,7 +281,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     // 自定义列需要用store里的数据同步显示列
     // 所以需要先初始化一下
     const {mode, columns} = props;
-    if (mode === 'table-v2' && columns) {
+    if (mode === 'table2' && columns) {
       store.updateColumns(columns);
     }
   }
@@ -308,7 +308,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   componentDidUpdate(prevProps: CRUD2Props) {
     const props = this.props;
     const store = prevProps.store;
-
+    if (prevProps.columns !== props.columns) {
+      store.updateColumns(props.columns);
+    }
     // picker外部引起的值变化处理
     let val: any;
     if (
@@ -532,7 +534,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             loadDataMode,
             syncResponse2Query,
             columns: store.columns ?? columns,
-            isTableV2: true
+            isTable2: true
           })
           .then(value => {
             interval &&
@@ -1085,7 +1087,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       filter,
       render,
       store,
-      mode = 'table-v2',
+      mode = 'table2',
       syncLocation,
       children,
       bulkActions,

@@ -83,6 +83,29 @@ order: 60
 }
 ```
 
+## 阈值（刻度）
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "progress",
+        "value": 60,
+        "threshold": [
+            {
+                "value": "30%",
+                "color": "red"
+            },
+            {
+                "value": "90%",
+                "color": "blue"
+            }
+        ],
+        "showThresholdText": true
+    }
+}
+```
+
 ## 用作 Field 时
 
 当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的 Static-XXX 中时，可以设置`name`属性，映射同名变量
@@ -276,18 +299,20 @@ List 的内容、Card 卡片的内容配置同上
 
 ## 属性表
 
-| 属性名      | 类型                                                             | 默认值                                                               | 说明                                              |
-| ----------- | ---------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------- |
-| type        | `string`                                                         |                                                                      | 如果在 Form 中用作静态展示，为`"static-progress"` |
-| mode        | `string`                                                         | `line`                                                               | 进度「条」的类型，可选`line circle dashboard`     |
-| className   | `string`                                                         |                                                                      | 外层 CSS 类名                                     |
-| value       | `string`                                                         |                                                                      | 进度值                                            |
-| placeholder | `string`                                                         | `-`                                                                  | 占位文本                                          |
-| showLabel   | `boolean`                                                        | `true`                                                               | 是否展示进度文本                                  |
-| stripe      | `boolean`                                                        | `false`                                                              | 背景是否显示条纹                                  |
-| animate     | `boolean`                                                        | `false`                                                              | type 为 line，可支持动画                          |
-| map         | `string \| Array<string> \| Array<{value:number, color:string}>` | `['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success']` | 进度颜色映射                                      |
-| valueTpl    | `string`                                                         | `${value}%`                                                          | 自定义格式化内容                                  |
-| strokeWidth | `number`                                                         | line 类型为`10`，circle、dashboard 类型为`6`                         | 进度条线宽度                                      |
-| gapDegree   | `number`                                                         | `75`                                                                 | 仪表盘缺角角度，可取值 0 ~ 295                    |
-| gapPosition | `string`                                                         | `bottom`                                                             | 仪表盘进度条缺口位置，可选`top bottom left right` |
+| 属性名            | 类型                                                                                                                                                                                          | 默认值                                                               | 说明                                              |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------- |
+| type              | `string`                                                                                                                                                                                      |                                                                      | 如果在 Form 中用作静态展示，为`"static-progress"` |
+| mode              | `string`                                                                                                                                                                                      | `line`                                                               | 进度「条」的类型，可选`line circle dashboard`     |
+| className         | `string`                                                                                                                                                                                      |                                                                      | 外层 CSS 类名                                     |
+| value             | [模板](../../docs/concepts/template)                                                                                                                                                          |                                                                      | 进度值                                            |
+| placeholder       | `string`                                                                                                                                                                                      | `-`                                                                  | 占位文本                                          |
+| showLabel         | `boolean`                                                                                                                                                                                     | `true`                                                               | 是否展示进度文本                                  |
+| stripe            | `boolean`                                                                                                                                                                                     | `false`                                                              | 背景是否显示条纹                                  |
+| animate           | `boolean`                                                                                                                                                                                     | `false`                                                              | type 为 line，可支持动画                          |
+| map               | `string \| Array<string> \| Array<{value:number, color:string}>`                                                                                                                              | `['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success']` | 进度颜色映射                                      |
+| threshold         | {value:[模板](../../docs/concepts/template), color?:[模板](../../docs/concepts/template)} \| Array<{value:[模板](../../docs/concepts/template), color?:[模板](../../docs/concepts/template)}> | `-`                                                                  | 阈值（刻度）                                      |
+| showThresholdText | `boolean`                                                                                                                                                                                     | `false`                                                              | 是否显示阈值（刻度）数值                          |
+| valueTpl          | `string`                                                                                                                                                                                      | `${value}%`                                                          | 自定义格式化内容                                  |
+| strokeWidth       | `number`                                                                                                                                                                                      | line 类型为`10`，circle、dashboard 类型为`6`                         | 进度条线宽度                                      |
+| gapDegree         | `number`                                                                                                                                                                                      | `75`                                                                 | 仪表盘缺角角度，可取值 0 ~ 295                    |
+| gapPosition       | `string`                                                                                                                                                                                      | `bottom`                                                             | 仪表盘进度条缺口位置，可选`top bottom left right` |

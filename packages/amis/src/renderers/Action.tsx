@@ -568,6 +568,8 @@ export interface ActionProps
     e: React.MouseEvent<any> | void | null,
     action: ActionSchema
   ) => void;
+  // 可以用来监控这个动作的执行结果，包括成功与失败。
+  onActionSensor?: (promise?: Promise<any>) => void;
   isCurrentUrl?: (link: string) => boolean;
   onClick?:
     | ((e: React.MouseEvent<any>, props: any) => void)
@@ -629,7 +631,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
   @autobind
   async handleAction(e: React.MouseEvent<any>) {
-    const {onAction, disabled, countDown, env} = this.props;
+    const {onAction, onActionSensor, disabled, countDown, env} = this.props;
     // https://reactjs.org/docs/legacy-event-pooling.html
     e.persist(); // 等 react 17之后去掉 event pooling 了，这个应该就没用了
     let onClick = this.props.onClick;
@@ -677,7 +679,12 @@ export class Action extends React.Component<ActionProps, ActionState> {
       (action as AjaxActionSchema).api = api;
     }
 
-    await onAction(e, action);
+    const sensor: any = onAction(e, action);
+    if (sensor?.then) {
+      onActionSensor?.(sensor);
+      await sensor;
+    }
+
     if (countDown) {
       const countDownEnd = Date.now() + countDown * 1000;
       this.setState({
@@ -841,8 +848,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
         disabled={disabled}
         componentClass={isMenuItem ? 'a' : componentClass}
         overrideClassName={isMenuItem}
-        tooltip={tooltip}
-        disabledTip={disabledTip}
+        tooltip={filterContents(tooltip, data)}
+        disabledTip={filterContents(disabledTip, data)}
         tooltipPlacement={tooltipPlacement}
         tooltipContainer={tooltipContainer}
         tooltipTrigger={tooltipTrigger}

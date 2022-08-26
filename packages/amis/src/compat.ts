@@ -233,33 +233,6 @@ addSchemaFilter(function (scheam: Schema, renderer) {
   return scheam;
 });
 
-// FieldSet  className 定制样式方式改成 size 来配置
-addSchemaFilter(function (scheam: Schema, renderer) {
-  if (renderer.component !== FieldSetRenderer) {
-    return scheam;
-  }
-
-  if (
-    scheam.className &&
-    !scheam.size &&
-    /\bfieldset(?:\-(xs|sm|md|lg))?\b/.test(scheam.className)
-  ) {
-    scheam = {
-      ...scheam,
-      size: RegExp.$1 || 'base',
-      className: scheam.className.replace(
-        /\bfieldset(?:\-(xs|sm|md|lg))?\b/,
-        ''
-      )
-    };
-
-    delete scheam.btnClassName;
-    delete scheam.btnActiveClassName;
-  }
-
-  return scheam;
-});
-
 // 原 reciever 错别字改为 receiver
 addSchemaFilter(function (scheam: Schema, renderer) {
   if (

@@ -208,14 +208,13 @@ order: 2
 }
 ```
 
-远程拉取接口时，返回的数据结构除了需要满足 [amis 接口要求的基本数据结构](../../../docs/types/api#%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E6%A0%BC%E5%BC%8F-%E9%87%8D%E8%A6%81-) 以外，必须用`"options"`作为选项组的`key`值，如下
+远程拉取接口时，返回的数据结构除了需要满足 [amis 接口要求的基本数据结构](../../../docs/types/api#%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E6%A0%BC%E5%BC%8F-%E9%87%8D%E8%A6%81-) 以外，用`"options"`作为选项组的`key`值，如下
 
 ```json
 {
   "status": 0,
   "msg": "",
   "data": {
-    // 必须用 options 作为选项组的 key 值
     "options": [
       {
         "label": "A",
@@ -231,6 +230,29 @@ order: 2
       }
     ]
   }
+}
+```
+
+或者直接返回内容
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": [
+    {
+      "label": "A",
+      "value": "a"
+    },
+    {
+      "label": "B",
+      "value": "b"
+    },
+    {
+      "label": "C",
+      "value": "c"
+    }
+  ]
 }
 ```
 

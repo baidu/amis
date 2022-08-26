@@ -19,6 +19,7 @@ register('de-DE', {
   'Time': 'Zeit',
   'Content': 'Inhalt',
   'cancel': 'Abbrechen',
+  'more': 'mehr',
   'Card.dragTip': 'Obere Schaltfläche zum Sortieren ziehen',
   'Card.toggleDrag': 'Zum Sortieren umschalten',
   'City.street': 'Straße eingeben',
@@ -170,8 +171,8 @@ register('de-DE', {
   'Log.mustHaveSource': 'Quelle muss in der Konfiguration vorhanden sein',
   'Log.showLineNumber': 'Zeilennummer anzeigen',
   'Log.notShowLineNumber': 'Zeilennummer ausblenden',
-  'Log.expand': 'Erweitern',
-  'Log.collapse': 'Zusammenbruch',
+  'Log.expand': 'Entfalten',
+  'Log.collapse': 'Falten',
   'link': 'Link',
   'loading': 'Wird geladen...',
   'LocationPicker.placeholder': 'Wählen Sie einen Ort',
@@ -280,6 +281,30 @@ register('de-DE', {
   'validate.minimum': 'Der Eingabewert ist kleiner als der Mindestwert von $1.',
   'validate.minLength': 'Geben Sie weitere Zeichen ein, mindestens $1.',
   'validate.notEmptyString': 'Geben Sie nicht nur Leerzeichen ein.',
+  'validate.isDateTimeSame':
+    'Der aktuelle Datumswert ist ungültig, bitte geben Sie denselben Datumswert wie $1 ein',
+  'validate.isDateTimeBefore':
+    'Der aktuelle Datumswert ist ungültig, bitte geben Sie einen Datumswert vor $1 ein',
+  'validate.isDateTimeAfter':
+    'Der aktuelle Datumswert ist ungültig, bitte geben Sie nach $1 einen Datumswert ein',
+  'validate.isDateTimeSameOrBefore':
+    'Der aktuelle Datumswert ist ungültig. Bitte geben Sie einen Datumswert ein, der gleich oder älter als $1 ist',
+  'validate.isDateTimeSameOrAfter':
+    'Der aktuelle Datumswert ist ungültig. Bitte geben Sie einen Datumswert ein, der gleich oder nach $1 ist',
+  'validate.isDateTimeBetween':
+    'Der aktuelle Datumswert ist ungültig, bitte geben Sie einen Datumswert zwischen $1 und $2 ein',
+  'validate.isTimeSame':
+    'Der aktuelle Zeitwert ist ungültig, bitte geben Sie denselben Zeitwert wie 1 $ ein',
+  'validate.isTimeBefore':
+    'Der aktuelle Zeitwert ist ungültig, bitte geben Sie einen Zeitwert vor $1 ein',
+  'validate.isTimeAfter':
+    'Der aktuelle Zeitwert ist ungültig, bitte geben Sie nach $1 einen Zeitwert ein',
+  'validate.isTimeSameOrBefore':
+    'Der aktuelle Zeitwert ist ungültig. Bitte geben Sie einen Zeitwert ein, der gleich oder älter als $1 ist',
+  'validate.isTimeSameOrAfter':
+    'Der aktuelle Zeitwert ist ungültig. Bitte geben Sie einen Zeitwert ein, der gleich oder nach $1 ist',
+  'validate.isTimeBetween':
+    'Der aktuelle Zeitwert ist ungültig, bitte geben Sie einen Zeitwert zwischen $1 und $2 ein',
   'validateFailed': 'Fehler bei der Überprüfung',
   'Wizard.configError': 'Konfigurationsfehler',
   'Wizard.finish': 'Ende',
@@ -329,8 +354,10 @@ register('de-DE', {
   'Condition.formula_placeholder': 'Bitte geben Sie eine Formel ein',
   'Condition.fun_error': 'Funktion ist undefiniert',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
-  'Timeline.collapseText': 'Entfalten',
-  'Timeline.expandText': 'Falten',
+  'Timeline.collapseText': 'Falten',
+  'Timeline.expandText': 'Entfalten',
+  'collapse': 'Falten',
+  'expand': 'Entfalten',
   'FormulaEditor.btnLabel': 'Formel Bearbeiten',
   'FormulaEditor.title': 'Formel Editor',
   'FormulaEditor.variable': 'Variable',

@@ -4,7 +4,11 @@ import moment from 'moment';
 import React from 'react';
 import Downshift from 'downshift';
 import findIndex from 'lodash/findIndex';
+import extend from 'lodash/extend';
 import merge from 'lodash/merge';
+import omit from 'lodash/omit';
+import each from 'lodash/each';
+import kebabCase from 'lodash/kebabCase';
 import {
   LocaleProps,
   localeable,
@@ -70,6 +74,7 @@ interface CustomDaysViewProps extends LocaleProps {
     className?: string;
   }>;
   largeMode?: boolean;
+  todayActiveStyle?: React.CSSProperties;
   onScheduleClick?: (scheduleData: any) => void;
   hideHeader?: boolean;
   getColumns: (types: DateType[], dateBoundary: void) => any;
@@ -138,6 +143,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       isDisabled,
       dayProps,
       currentDate;
+    const {todayActiveStyle = {}} = this.props;
 
     // Go to the last week of the previous month
     prevMonth.date(prevMonth.daysInMonth()).startOf('week');
@@ -168,11 +174,14 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       isDisabled = !isValid(currentDate, selected);
       if (isDisabled) classes += ' rdtDisabled';
 
-      dayProps = {
-        'key': prevMonth.format('M_D'),
-        'data-value': prevMonth.date(),
-        'className': classes
-      };
+      dayProps = extend(
+        {
+          'key': prevMonth.format('M_D'),
+          'data-value': prevMonth.date(),
+          'className': classes
+        },
+        classes.includes('rdtToday') ? {todayActiveStyle} : {}
+      );
 
       if (!isDisabled) (dayProps as any).onClick = this.updateSelectedDate;
 
@@ -348,21 +357,42 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
   };
 
   renderDay = (props: any, currentDate: moment.Moment) => {
+    const {todayActiveStyle} = props; /** 只有today才会传入这个属性 */
+    const {classnames: cx, translate: __} = this.props;
+    const injectedProps = omit(props, ['todayActiveStyle']);
+    /** 某些情况下需要用inline style覆盖动态class，需要hack important的样式 */
+    const todayDomRef = (node: HTMLSpanElement | null) => {
+      if (todayActiveStyle && node) {
+        each(todayActiveStyle, (value, key) => {
+          if (typeof value === 'string' && !!~value.indexOf('!important')) {
+            node?.style?.setProperty?.(
+              kebabCase(key),
+              String(value)
+                .replace(/\!important/, '')
+                .trim(),
+              'important'
+            );
+          }
+        });
+      }
+    };
+
     if (this.props.schedules) {
       let schedule: any[] = [];
       this.props.schedules.forEach((item: any) => {
+        /** 时间全部统一到当天的00:00:00再做比较 */
+        const currentDateBegin = currentDate.startOf('day');
+        const startTime = moment(item.startTime).startOf('day');
+        const endTime = moment(item.endTime).startOf('day');
+
         if (
-          currentDate.isSameOrAfter(
-            moment(item.startTime).subtract(1, 'days')
-          ) &&
-          currentDate.isSameOrBefore(item.endTime)
+          currentDateBegin.isSameOrAfter(startTime) &&
+          currentDateBegin.isSameOrBefore(endTime)
         ) {
           schedule.push(item);
         }
       });
       if (schedule.length > 0) {
-        const cx = this.props.classnames;
-        const __ = this.props.translate;
         // 日程数据
         const scheduleData = {
           scheduleData: schedule.map((item: any) => {
@@ -433,15 +463,26 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
           // 最多展示3个
           showSchedule = showSchedule.slice(0, 3);
           const scheduleDiv = showSchedule.map((item: any, index: number) => {
+            let diffDays = moment(item.endTime).diff(
+              moment(item.startTime),
+              'days'
+            );
+            /* 存在天数跨度小于1，但是横跨2天的case */
+            if (diffDays <= 0) {
+              diffDays = moment(item.endTime)
+                .endOf('day')
+                .diff(moment(item.startTime).startOf('day'), 'days');
+            }
+            /* 前面的计算结果是闭区间，所以最终结果要补足1 */
+            diffDays += 1;
+
             const width =
               item.width ||
-              Math.min(
-                moment(item.endTime).diff(moment(item.startTime), 'days') + 1,
-                7 - moment(item.startTime).weekday()
-              );
+              Math.min(diffDays, 7 - moment(item.startTime).weekday());
+
             return (
               <div
-                key={props.key + 'content' + index}
+                key={injectedProps.key + 'content' + index}
                 className={cx(
                   'ScheduleCalendar-large-schedule-content',
                   item.className
@@ -459,7 +500,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
             );
           });
           return (
-            <td {...props}>
+            <td {...injectedProps}>
               <div className={cx('ScheduleCalendar-large-day-wrap')}>
                 <div className={cx('ScheduleCalendar-large-schedule-header')}>
                   <span>{currentDate.date()}</span>
@@ -486,8 +527,8 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
           ></span>
         );
         return (
-          <td {...props}>
-            <span>
+          <td {...injectedProps}>
+            <span style={todayActiveStyle} ref={todayDomRef}>
               {currentDate.date()}
               {ScheduleIcon}
             </span>
@@ -495,9 +536,12 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
         );
       }
     }
+
     return (
-      <td {...props}>
-        <span>{currentDate.date()}</span>
+      <td {...injectedProps}>
+        <span style={todayActiveStyle} ref={todayDomRef}>
+          {currentDate.date()}
+        </span>
       </td>
     );
   };

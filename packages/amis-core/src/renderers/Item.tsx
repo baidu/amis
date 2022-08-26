@@ -4,6 +4,7 @@ import {IFormItemStore, IFormStore} from '../store/form';
 import {reaction} from 'mobx';
 
 import {
+  renderersMap,
   RendererProps,
   registerRenderer,
   TestFunc,
@@ -173,7 +174,18 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
     maximum?: string;
     minLength?: string;
     minimum?: string;
-
+    isDateTimeSame?: string;
+    isDateTimeBefore?: string;
+    isDateTimeAfter?: string;
+    isDateTimeSameOrBefore?: string;
+    isDateTimeSameOrAfter?: string;
+    isDateTimeBetween?: string;
+    isTimeSame?: string;
+    isTimeBefore?: string;
+    isTimeAfter?: string;
+    isTimeSameOrBefore?: string;
+    isTimeSameOrAfter?: string;
+    isTimeBetween?: string;
     [propName: string]: any;
   };
 
@@ -274,6 +286,78 @@ export interface FormBaseControl extends BaseSchemaWithoutType {
          * 最小值为指定值
          */
         minimum?: number;
+
+        /**
+         * 和目标日期相同，支持指定粒度，默认到毫秒
+         * @version 2.2.0
+         */
+        isDateTimeSame?: string | string[];
+
+        /**
+         * 早于目标日期，支持指定粒度，默认到毫秒
+         * @version 2.2.0
+         */
+        isDateTimeBefore?: string | string[];
+
+        /**
+         * 晚于目标日期，支持指定粒度，默认到毫秒
+         * @version 2.2.0
+         */
+        isDateTimeAfter?: string | string[];
+
+        /**
+         * 早于目标日期或和目标日期相同，支持指定粒度，默认到毫秒
+         * @version 2.2.0
+         */
+        isDateTimeSameOrBefore?: string | string[];
+
+        /**
+         * 晚于目标日期或和目标日期相同，支持指定粒度，默认到毫秒
+         * @version 2.2.0
+         */
+        isDateTimeSameOrAfter?: string | string[];
+
+        /**
+         * 日期处于目标日期范围，支持指定粒度和区间的开闭形式，默认到毫秒, 左右开区间
+         * @version 2.2.0
+         */
+        isDateTimeBetween?: string | string[];
+
+        /**
+         * 和目标时间相同，支持指定粒度，默认到毫秒
+         * @version 2.2.0
+         */
+        isTimeSame?: string | string[];
+
+        /**
+         * 早于目标时间，支持指定粒度，默认到毫秒
+         * @version 2.2.0
+         */
+        isTimeBefore?: string | string[];
+
+        /**
+         * 晚于目标时间，支持指定粒度，默认到毫秒
+         * @version 2.2.0
+         */
+        isTimeAfter?: string | string[];
+
+        /**
+         * 早于目标时间或和目标时间相同，支持指定粒度，默认到毫秒
+         * @version 2.2.0
+         */
+        isTimeSameOrBefore?: string | string[];
+
+        /**
+         * 晚于目标时间或和目标时间相同，支持指定粒度，默认到毫秒
+         * @version 2.2.0
+         */
+        isTimeSameOrAfter?: string | string[];
+
+        /**
+         * 时间处于目标时间范围，支持指定粒度和区间的开闭形式，默认到毫秒, 左右开区间
+         * @version 2.2.0
+         */
+        isTimeBetween?: string | string[];
 
         [propName: string]: any;
       };
@@ -1619,6 +1703,10 @@ export function FormItem(config: FormItemBasicConfig) {
 
     return renderer.component as any;
   };
+}
+
+export function getFormItemByName(name: string) {
+  return renderersMap[name];
 }
 
 export default FormItem;

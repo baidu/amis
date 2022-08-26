@@ -57,6 +57,17 @@
         }
       }
     }
+
+    &-placeholder {
+      pointer-events: none;
+      top: 0;
+      position: absolute;
+      left: px2rem(65px);
+      right: px2rem(16px);
+      white-space: break-spaces;
+      line-break: anywhere;
+      color: var(--Form-input-placeholderColor);
+    }
   }
 
   &--sm {

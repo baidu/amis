@@ -712,7 +712,11 @@ export class CustomTimeView extends React.Component<
     });
     inputs.length && inputs.pop();
 
-    const quickLists = [<a onClick={this.selectNowTime}>{__('TimeNow')}</a>];
+    const quickLists = [
+      <a key="select-now" onClick={this.selectNowTime}>
+        {__('TimeNow')}
+      </a>
+    ];
     return (
       <>
         <div className={cx(timeRangeHeader ? 'TimeRangeHeaderWrapper' : null)}>

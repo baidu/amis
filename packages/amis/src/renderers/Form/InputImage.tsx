@@ -3,7 +3,7 @@ import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
 import DropZone from 'react-dropzone';
-import {FileRejection} from 'react-dropzone';
+import {FileRejection, DropEvent} from 'react-dropzone';
 import 'blueimp-canvastoblob';
 import find from 'lodash/find';
 import {Payload, ActionObject} from 'amis-core';
@@ -243,6 +243,16 @@ export interface ImageControlSchema extends FormBaseControlSchema {
   initAutoFill?: boolean;
 
   /**
+   * 初始化时是否打开裁剪模式
+   */
+  initCrop?: boolean;
+
+  /**
+   * 图片上传完毕是否进入裁剪模式
+   */
+  dropCrop?: boolean;
+
+  /**
    * 默认占位图图片地址
    */
   frameImage?: SchemaUrlPath;
@@ -327,7 +337,8 @@ export default class ImageControl extends React.Component<
     extractValue: false,
     delimiter: ',',
     autoUpload: true,
-    multiple: false
+    multiple: false,
+    dropCrop: true
   };
 
   static formatFileSize(
@@ -395,6 +406,8 @@ export default class ImageControl extends React.Component<
   emitValue: any;
   unmounted = false;
   initAutoFill: boolean;
+  // 文件重新上传的位置标记，用以定位替换
+  reuploadIndex: undefined | number = undefined;
 
   constructor(props: ImageProps) {
     super(props);
@@ -445,6 +458,7 @@ export default class ImageControl extends React.Component<
     this.handleSelect = this.handleSelect.bind(this);
     this.handlePaste = this.handlePaste.bind(this);
     this.syncAutoFill = this.syncAutoFill.bind(this);
+    this.handleReSelect = this.handleReSelect.bind(this);
   }
 
   componentDidMount() {
@@ -453,6 +467,10 @@ export default class ImageControl extends React.Component<
       formInited || !addHook
         ? this.syncAutoFill()
         : addHook(this.syncAutoFill, 'init');
+    }
+
+    if (this.props.initCrop && this.files.length) {
+      this.editImage(0);
     }
   }
 
@@ -850,6 +868,8 @@ export default class ImageControl extends React.Component<
   }
 
   handleSelect() {
+    // 清除标记，以免影响正常上传
+    this.reuploadIndex = undefined;
     this.dropzone.current && this.dropzone.current.open();
   }
 
@@ -872,10 +892,10 @@ export default class ImageControl extends React.Component<
     );
   }
 
-  handleDrop(files: Array<FileX>) {
-    const {multiple, crop} = this.props;
+  handleDrop(files: Array<FileX>, e?: any, event?: DropEvent) {
+    const {multiple, crop, dropCrop} = this.props;
 
-    if (crop && !multiple) {
+    if (crop && !multiple && dropCrop) {
       const file = files[0] as any;
       if (!file.preview || !file.url) {
         file.preview = window.URL.createObjectURL(file);
@@ -887,6 +907,10 @@ export default class ImageControl extends React.Component<
       });
     }
 
+    // 拖拽的情况，没有比他更靠前的方法，只能在这里判断
+    if (event && event.type === 'drop' && this.reuploadIndex !== undefined) {
+      this.reuploadIndex = undefined;
+    }
     this.addFiles(files);
   }
 
@@ -911,6 +935,8 @@ export default class ImageControl extends React.Component<
       files.push(blob);
     });
 
+    // 清除标记，以免影响正常上传
+    this.reuploadIndex = undefined;
     this.handleDrop(files);
   }
 
@@ -990,10 +1016,21 @@ export default class ImageControl extends React.Component<
       return;
     }
 
+    let finalFiles: Array<FileValue | FileX> = [];
+    // 替换
+    if (this.reuploadIndex !== undefined) {
+      finalFiles = currentFiles.concat();
+      // 因为单个文件重新上传也能选择多个，都插到一起
+      finalFiles.splice(this.reuploadIndex, 1, ...inputFiles);
+      this.reuploadIndex = undefined;
+    } else {
+      finalFiles = currentFiles.concat(inputFiles);
+    }
+
     this.setState(
       {
         error: undefined,
-        files: (this.files = currentFiles.concat(inputFiles)),
+        files: (this.files = finalFiles),
         locked: true
       },
       () => {
@@ -1279,6 +1316,12 @@ export default class ImageControl extends React.Component<
       this.files = [];
       onChange('');
     }
+  }
+
+  // 重新上传
+  handleReSelect(index: number) {
+    this.reuploadIndex = index;
+    this.dropzone.current && this.dropzone.current.open();
   }
 
   render() {
@@ -1567,7 +1610,9 @@ export default class ImageControl extends React.Component<
                                         <a
                                           data-tooltip={__('Select.upload')}
                                           data-position="bottom"
-                                          onClick={this.handleSelect}
+                                          onClick={() =>
+                                            this.handleReSelect(key)
+                                          }
                                         >
                                           <Icon
                                             icon="upload"

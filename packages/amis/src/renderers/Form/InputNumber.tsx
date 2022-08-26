@@ -1,12 +1,19 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {toFixed} from 'rc-input-number/lib/utils/MiniDecimal';
+import {FormItem, FormControlProps} from 'amis-core';
 import cx from 'classnames';
-import {filter} from 'amis-core';
 import {NumberInput, Select} from 'amis-ui';
-import {autobind, createObject} from 'amis-core';
-import {normalizeOptions, Option} from 'amis-core';
-import {PlainObject, ActionObject} from 'amis-core';
-import {BaseSchema, FormBaseControlSchema} from '../../Schema';
+import {
+  filter,
+  autobind,
+  createObject,
+  normalizeOptions,
+  Option,
+  PlainObject,
+  ActionObject
+} from 'amis-core';
+import {FormBaseControlSchema} from '../../Schema';
+
 /**
  * 数字输入框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/number
@@ -131,10 +138,25 @@ export default class NumberControl extends React.Component<
 
   constructor(props: NumberProps) {
     super(props);
+
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeUnit = this.handleChangeUnit.bind(this);
     const unit = this.getUnit();
     const unitOptions = normalizeOptions(props.unitOptions);
+    const {formItem, setPrinstineValue, precision, value} = props;
+    const normalizedPrecision = this.filterNum(precision);
+
+    /** 如果设置了precision需要处理入参value的精度 */
+    if (formItem && value != null && normalizedPrecision != null) {
+      const normalizedValue = toFixed(
+        value.toString(),
+        '.',
+        normalizedPrecision
+      );
+
+      setPrinstineValue(parseFloat(normalizedValue));
+    }
+
     this.state = {unit, unitOptions};
   }
 
@@ -282,9 +304,7 @@ export default class NumberControl extends React.Component<
       keyboard,
       displayMode
     } = this.props;
-
     let precisionProps: any = {};
-
     const finalPrecision = this.filterNum(precision);
     if (typeof finalPrecision === 'number') {
       precisionProps.precision = finalPrecision;

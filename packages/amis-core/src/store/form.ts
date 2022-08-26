@@ -1,5 +1,6 @@
 import {types, getEnv, flow, isAlive, Instance} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
+import toPairs from 'lodash/toPairs';
 import {ServiceStore} from './service';
 import type {IFormItemStore} from './formItem';
 import {Api, ApiObject, fetchOptions, Payload} from '../types';
@@ -13,12 +14,14 @@ import {
   difference,
   isEmpty,
   mapObject,
-  keyToPath
+  keyToPath,
+  isObject
 } from '../utils/helper';
 import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
 import find from 'lodash/find';
 import {filter} from '../utils/tpl';
+import {isPureVariable} from '../utils/tpl-builtin';
 import {normalizeApiResponseData} from '../utils/api';
 
 export const FormStore = ServiceStore.named('FormStore')
@@ -365,7 +368,11 @@ export const FormStore = ServiceStore.named('FormStore')
           }
           self.markSaving(false);
           self.updateMessage(
-            json.msg ?? self.__(options && options.successMessage)
+            json.msg ??
+              (options.successMessage === 'saveSuccess'
+                ? json.defaultMsg
+                : self.__(options && options.successMessage)) ??
+              json.defaultMsg
           );
           if (!ret?.dispatcher?.prevented) {
             self.msg &&
@@ -539,9 +546,26 @@ export const FormStore = ServiceStore.named('FormStore')
         // 先清除组合校验的错误
         item.clearError('rules');
 
+        /* 日期类校验存在表单项联动的情况，需要在提交前重置校验状态，避免变量更新后联动校验结果未更新 */
+        if (
+          item.validated &&
+          isObject(item.rules) &&
+          toPairs(item.rules)
+            .filter(([key, value]) => /^is(Date)?Time/.test(key))
+            .some(([key, value]) =>
+              Array.isArray(value)
+                ? value.some(item => isPureVariable(item))
+                : isPureVariable(value)
+            )
+        ) {
+          item.resetValidationStatus();
+        }
+
         // 验证过，或者是 unique 的表单项，或者强制验证，或者有远端校验api
         if (
           !item.validated ||
+          item.rules.equals ||
+          item.rules.equalsField ||
           item.unique ||
           forceValidate ||
           !!item.validateApi

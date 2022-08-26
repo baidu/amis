@@ -304,7 +304,8 @@ export const TableStore = iRendererStore
     combineFromIndex: 0,
     formsRef: types.optional(types.array(types.frozen()), []),
     maxKeepItemSelectionLength: 0,
-    keepItemSelectionOnPageChange: false
+    keepItemSelectionOnPageChange: false,
+    searchFormExpanded: false // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
   })
   .views(self => {
     function getColumnsExceptBuiltinTypes() {
@@ -1336,8 +1337,10 @@ export const TableStore = iRendererStore
       localStorage.setItem(
         key,
         JSON.stringify({
-          // 可显示列index
-          toggledColumnIndex: self.activeToggaleColumns.map(item => item.index),
+          // 可显示列index, 原始配置中存在 toggled: false 的列不持久化
+          toggledColumnIndex: self.activeToggaleColumns
+            .filter(item => !(item.pristine?.toggled === false))
+            .map(item => item.index),
           // 列排序，name，label可能不存在
           columnOrder: self.columnsData.map(
             item => item.name || item.label || item.rawIndex
@@ -1383,6 +1386,13 @@ export const TableStore = iRendererStore
       );
     }
 
+    function setSearchFormExpanded(value: any) {
+      self.searchFormExpanded = !!value;
+    }
+    function toggleSearchFormExpanded() {
+      self.searchFormExpanded = !self.searchFormExpanded;
+    }
+
     return {
       update,
       updateColumns,
@@ -1404,6 +1414,8 @@ export const TableStore = iRendererStore
       addForm,
       toggleAllColumns,
       persistSaveToggledColumns,
+      setSearchFormExpanded,
+      toggleSearchFormExpanded,
 
       // events
       afterCreate() {

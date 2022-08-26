@@ -104,7 +104,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
     }
     const target = getMiniDecimal(val).add(stepDecimal.toString());
     const getPrecision = (numStr: string) => {
-      if (precision! >= 0) {
+      if (precision != null && precision >= 0) {
         return precision;
       }
       return Math.max(

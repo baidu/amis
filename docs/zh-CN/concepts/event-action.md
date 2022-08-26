@@ -278,7 +278,7 @@ order: 9
 | 属性名     | 类型                    | 默认值   | 说明                                       |
 | ---------- | ----------------------- | -------- | ------------------------------------------ |
 | actionType | `string`                | `dialog` | 点击后显示一个弹出框                       |
-| dialog     | `string`/`DialogObject` | -        | 指定弹框内容，格式可参考[Dialog](./dialog) |
+| dialog     | `string`/`DialogObject` | -        | 指定弹框内容，格式可参考[Dialog](../../components/dialog) |
 
 ### 关闭弹窗（模态）
 
@@ -433,7 +433,7 @@ order: 9
 | 属性名     | 类型                    | 默认值   | 说明                                       |
 | ---------- | ----------------------- | -------- | ------------------------------------------ |
 | actionType | `string`                | `drawer` | 点击后显示一个侧边栏                       |
-| drawer     | `string`/`DrawerObject` | -        | 指定弹框内容，格式可参考[Drawer](./drawer) |
+| drawer     | `string`/`DrawerObject` | -        | 指定弹框内容，格式可参考[Drawer](../../components/drawer) |
 
 ### 关闭抽屉（模态）
 
@@ -729,7 +729,7 @@ order: 9
 
 > 1.8.0 及以上版本
 
-通过配置`actionType: 'goPage'`实现浏览器页面的前进/后退。
+通过配置`actionType: 'goPage'`实现浏览器页面的前进/后退。只有当历史记录中存在目标页面时才会生效。
 
 ```schema
 {
@@ -745,7 +745,9 @@ order: 9
           actions: [
             {
               actionType: 'goPage',
-              delta: -2
+              args: {
+                delta: -2
+              }
             }
           ]
         }

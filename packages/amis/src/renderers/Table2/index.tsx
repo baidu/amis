@@ -4,38 +4,53 @@ import {isAlive} from 'mobx-state-tree';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 
-import {ScopedContext, IScopedContext} from 'amis-core';
-import {Renderer, RendererProps} from 'amis-core';
-import {ActionObject} from 'amis-core';
-import {Icon, Table, Spinner} from 'amis-ui';
-import {BaseSchema, SchemaObject, SchemaTokenizeableString} from '../../Schema';
 import {
+  ScopedContext,
+  IScopedContext,
+  Renderer,
+  RendererProps,
+  ActionObject,
   isObject,
   anyChanged,
   difference,
   createObject,
-  autobind
-} from 'amis-core';
-import {
+  autobind,
   resolveVariableAndFilter,
   isPureVariable,
-  resolveVariable
+  resolveVariable,
+  evalExpression,
+  filter,
+  isEffectiveApi,
+  TableStore2,
+  ITableStore2,
+  IRow2,
+  ClassNamesFn
 } from 'amis-core';
-import {evalExpression, filter} from 'amis-core';
-import {isEffectiveApi} from 'amis-core';
-import {Checkbox} from 'amis-ui';
-import {BadgeObject} from 'amis-ui';
-import {TableStoreV2, ITableStoreV2, IColumnV2, IRowV2} from 'amis-core';
-
+import {Icon, Table, Spinner, BadgeObject} from 'amis-ui';
+import type {
+  SortProps,
+  ColumnProps,
+  RowSelectionProps,
+  ExpandableProps,
+  OnRowProps,
+  SummaryProps
+} from 'amis-ui/lib/components/table';
+import {
+  BaseSchema,
+  SchemaObject,
+  SchemaTokenizeableString,
+  SchemaApi,
+  SchemaMessage
+} from '../../Schema';
+import {ActionSchema} from '../Action';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import './TableCell';
 import './ColumnToggler';
-import type {SortProps} from 'amis-ui/lib/components/table';
 import {Action} from '../../types';
 
 /**
- * Table 表格v2渲染器。
- * 文档：https://baidu.gitee.io/amis/docs/components/table-v2
+ * Table 表格2渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/table2
  */
 
 export interface CellSpan {
@@ -54,7 +69,7 @@ export interface ColumnSchema {
   /**
    * 指定列唯一标识
    */
-  key: string;
+  name: string;
 
   /**
    * 指定列标题
@@ -218,11 +233,11 @@ export interface ExpandableSchema {
   expandedRowKeysExpr: string;
 }
 
-export interface TableSchemaV2 extends BaseSchema {
+export interface TableSchema2 extends BaseSchema {
   /**
    * 指定为表格类型
    */
-  type: 'table-v2';
+  type: 'table2';
 
   /**
    * 表格标题
@@ -265,9 +280,14 @@ export interface TableSchemaV2 extends BaseSchema {
   loading?: boolean | string | SchemaObject;
 
   /**
-   * 行角标
+   * 行角标内容
    */
   itemBadge?: BadgeObject;
+
+  /**
+   * 是否展示行角标
+   */
+  showBadge?: boolean;
 
   /**
    * 指定挂载dom
@@ -313,9 +333,39 @@ export interface TableSchemaV2 extends BaseSchema {
    * 指定表尾
    */
   footer?: string | SchemaObject | Array<SchemaObject>;
+
+  /**
+   * 快速编辑后用来批量保存的 API
+   */
+  quickSaveApi?: SchemaApi;
+
+  /**
+   * 快速编辑配置成及时保存时使用的 API
+   */
+  quickSaveItemApi?: SchemaApi;
+
+  /**
+   * 快速编辑关键字段
+   */
+  primaryField?: string;
+
+  /**
+   * 接口报错信息配置
+   */
+  messages?: SchemaMessage;
+
+  /**
+   * 重新加载的组件名称
+   */
+  reload?: string;
+
+  /**
+   * 操作列配置
+   */
+  actions?: Array<ActionSchema>;
 }
 
-export type TableV2RendererEvent =
+export type Table2RendererEvent =
   | 'selected'
   | 'columnSort'
   | 'columnFilter'
@@ -323,22 +373,39 @@ export type TableV2RendererEvent =
   | 'columnToggled'
   | 'dragOver';
 
-export type TableV2RendererAction = 'selectAll' | 'clearAll' | 'select';
+export type Table2RendererAction = 'selectAll' | 'clearAll' | 'select';
 
-export interface TableV2Props extends RendererProps {
+export interface Table2Props extends RendererProps, Omit<TableSchema2, 'type'> {
   title?: string;
-  source?: string;
-  store: ITableStoreV2;
-  togglable: boolean;
+  columns: Array<ColumnSchema | ColumnProps>;
+  onSelect?: Function;
+  reUseRow?: boolean;
+  getEntryId?: Function;
+  store: ITableStore2;
+  rowSelection?: RowSelectionSchema | RowSelectionProps;
+  expandable?: ExpandableSchema | ExpandableProps;
+  classnames: ClassNamesFn;
+  onSave?: Function;
+  onSaveOrder?: Function;
+  onPristineChange?: Function;
+  onAction?: Function;
+  onSort?: Function;
+  onFilter?: Function;
+  onRow?: OnRowProps;
+  placeholder?: string | SchemaObject;
+  itemActions?: Array<ActionObject>;
+  headSummary?: Array<SummaryProps | Array<SummaryProps>>;
+  footSummary?: Array<SummaryProps | Array<SummaryProps>>;
+  headingClassName?: string;
 }
 
-export default class TableV2 extends React.Component<TableV2Props, object> {
+export default class Table2 extends React.Component<Table2Props, object> {
   static contextType = ScopedContext;
 
   renderedToolbars: Array<string> = [];
   control: any;
 
-  constructor(props: TableV2Props, context: IScopedContext) {
+  constructor(props: Table2Props, context: IScopedContext) {
     super(props);
 
     const scoped = context;
@@ -347,7 +414,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
     const {store, columnsTogglable, columns} = props;
 
     store.update({columnsTogglable, columns});
-    TableV2.syncRows(store, props, undefined) && this.syncSelected();
+    Table2.syncRows(store, props, undefined) && this.syncSelected();
   }
 
   componentWillUnmount() {
@@ -370,15 +437,15 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
 
     onSelect &&
       onSelect(
-        store.selectedRows.map(item => item.data),
-        store.unSelectedRows.map(item => item.data)
+        store.selectedRows.map((item: IRow2) => item.data),
+        store.unSelectedRows.map((item: IRow2) => item.data)
       );
   }
 
   static syncRows(
-    store: ITableStoreV2,
-    props: TableV2Props,
-    prevProps?: TableV2Props
+    store: ITableStore2,
+    props: Table2Props,
+    prevProps?: Table2Props
   ) {
     const source = props.source;
     const value = props.value || props.items;
@@ -454,7 +521,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
     return updateRows;
   }
 
-  componentDidUpdate(prevProps: TableV2Props) {
+  componentDidUpdate(prevProps: Table2Props) {
     const props = this.props;
     const store = props.store;
 
@@ -471,7 +538,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
         (props.data !== prevProps.data ||
           (typeof props.source === 'string' && isPureVariable(props.source))))
     ) {
-      TableV2.syncRows(store, props, prevProps) && this.syncSelected();
+      Table2.syncRows(store, props, prevProps) && this.syncSelected();
     }
 
     if (!isEqual(prevProps.columns, props.columns)) {
@@ -493,7 +560,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
     if (schema && isObject(schema)) {
       // 在TableCell里会根据width设置div的width
       // 原来的table td/th是最外层标签 设置width没问题
-      // v2的拆开了 就不需要再设置div的width了
+      // table2的拆开了 就不需要再设置div的width了
       // 否则加上padding 就超出单元格的区域了
       // children属性在schema里是一个关键字 在渲染器schema中 自定义的children没有用 去掉
       const {width, children, ...rest} = schema;
@@ -504,7 +571,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
           type: 'cell-field',
           column: rest,
           data: props.data,
-          name: schema.key
+          name: schema.name
         },
         props
       );
@@ -616,12 +683,12 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
               const obj = {
                 children: this.renderCellSchema(column, {
                   data: item.locals,
-                  value: column.key
+                  value: column.name
                     ? resolveVariable(
-                        column.key,
+                        column.name,
                         canAccessSuperData ? item.locals : item.data
                       )
-                    : column.key,
+                    : column.name,
                   popOverContainer:
                     popOverContainer || this.getPopOverContainer,
                   onQuickChange: (
@@ -709,7 +776,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
             <HeadCellSearchDropDown
               {...this.props}
               popOverContainer={this.getPopOverContainer}
-              name={column.key}
+              name={column.name}
               searchable={column.searchable}
               orderBy={store.orderBy}
               orderDir={store.order}
@@ -730,7 +797,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
     return cols;
   }
 
-  buildSummary(key: string, summary: Array<any>) {
+  buildSummary(key: string, summary?: Array<any>) {
     const result: Array<any> = [];
     if (Array.isArray(summary)) {
       summary.forEach((s, index) => {
@@ -790,7 +857,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
 
     if (Array.isArray(rows)) {
       if (!isEffectiveApi(quickSaveApi)) {
-        env && env.alert('TableV2 quickSaveApi is required');
+        env && env.alert('Table2 quickSaveApi is required');
         return;
       }
 
@@ -822,7 +889,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
         .catch(() => {});
     } else {
       if (!isEffectiveApi(quickSaveItemApi)) {
-        env && env.alert('TableV2 quickSaveItemApi is required!');
+        env && env.alert('Table2 quickSaveItemApi is required!');
         return;
       }
 
@@ -846,7 +913,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
 
   @autobind
   handleQuickChange(
-    item: IRowV2,
+    item: IRow2,
     values: object,
     saveImmediately?: boolean | any,
     savePristine?: boolean,
@@ -870,14 +937,15 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
     }
 
     if (saveImmediately && saveImmediately.api) {
-      this.props.onAction(
-        null,
-        {
-          actionType: 'ajax',
-          api: saveImmediately.api
-        },
-        values
-      );
+      this.props.onAction &&
+        this.props.onAction(
+          null,
+          {
+            actionType: 'ajax',
+            api: saveImmediately.api
+          },
+          values
+        );
       return;
     }
 
@@ -905,7 +973,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
     const {onAction} = this.props;
 
     // todo
-    onAction(e, action, ctx);
+    onAction && onAction(e, action, ctx);
   }
 
   renderActions(region: string) {
@@ -923,6 +991,7 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
     const isInCrud = /(?:\/|^)crud2\//.test($path as string);
 
     actions = Array.isArray(actions) ? actions.concat() : [];
+    const config = isObject(columnsTogglable) ? columnsTogglable : {};
 
     // 现在默认从crud里传进来的columnsTogglable是boolean类型
     // table单独配置的是SchemaNode类型
@@ -937,11 +1006,11 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
         children: render(
           'column-toggler',
           {
-            ...(isObject(columnsTogglable) ? columnsTogglable : {}),
+            ...config,
             type: 'column-toggler'
           },
           {
-            cols: store.columnsData.map(item => item.pristine),
+            cols: store.columnsData,
             toggleAllColumns: () => store.toggleAllColumns(),
             toggleToggle: (toggled: boolean, index: number) => {
               const column = store.columnsData[index];
@@ -1067,8 +1136,10 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
   async handleSaveOrder() {
     const {store, onSaveOrder, data, dispatchEvent} = this.props;
 
-    const movedItems = store.movedRows.map(item => item.data);
-    const items = store.rows.map(item => item.getDataWithModifiedChilden());
+    const movedItems = store.movedRows.map((item: IRow2) => item.data);
+    const items = store.rows.map((item: IRow2) =>
+      item.getDataWithModifiedChilden()
+    );
 
     const rendererEvent = await dispatchEvent(
       'orderChange',
@@ -1133,7 +1204,6 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
       rowSelection,
       columns,
       expandable,
-      expandableBody,
       footSummary,
       headSummary,
       loading,
@@ -1363,12 +1433,12 @@ export default class TableV2 extends React.Component<TableV2Props, object> {
 }
 
 @Renderer({
-  type: 'table-v2',
-  storeType: TableStoreV2.name,
-  name: 'table-v2',
+  type: 'table2',
+  storeType: TableStore2.name,
+  name: 'table2',
   isolateScope: true
 })
-export class TableRenderer extends TableV2 {
+export class TableRenderer extends Table2 {
   receive(values: any, subPath?: string) {
     const scoped = this.context as IScopedContext;
     const parents = scoped?.parent?.getComponents();

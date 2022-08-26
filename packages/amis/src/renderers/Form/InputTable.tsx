@@ -1092,10 +1092,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
    */
   @autobind
   handlePristineChange(data: Record<string, any>, rowIndex: string) {
+    const {needConfirm} = this.props;
+    const index = Number(rowIndex);
+
     this.setState(
       prevState => {
         const items = cloneDeep(prevState.items);
-        const index = Number(rowIndex);
 
         if (
           Number.isInteger(index) &&
@@ -1109,7 +1111,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         return null;
       },
       () => {
-        this.emitValue();
+        if (needConfirm === false) {
+          this.emitValue();
+        } else {
+          Number.isInteger(index) && this.startEdit(index, true);
+        }
       }
     );
   }
@@ -1208,8 +1214,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             reUseRow: false,
             offset,
             rowClassName,
-            rowClassNameExpr,
-            onPristineChange: this.handlePristineChange
+            rowClassNameExpr
+            // TODO: 这里是为了处理columns里使用value变量添加的，目前会影响初始化数据加载后的组件行为，先回滚
+            // onPristineChange: this.handlePristineChange
           }
         )}
         {(addable && showAddBtn !== false) || showPager ? (

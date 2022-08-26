@@ -212,6 +212,7 @@ export default class Drawer extends React.Component<DrawerProps> {
     props.store.setEntered(!!props.show);
     this.handleSelfClose = this.handleSelfClose.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.handleActionSensor = this.handleActionSensor.bind(this);
     this.handleDrawerConfirm = this.handleDrawerConfirm.bind(this);
     this.handleDrawerClose = this.handleDrawerClose.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
@@ -270,17 +271,36 @@ export default class Drawer extends React.Component<DrawerProps> {
     return ret;
   }
 
-  handleSelfClose() {
-    const {onClose, store} = this.props;
+  async handleSelfClose() {
+    const {onClose, store, dispatchEvent} = this.props;
 
     // 如果有子弹框，那么就先不隐藏自己
     if (store.dialogOpen !== false || store.drawerOpen !== false) {
       return;
     }
 
+    const rendererEvent = await dispatchEvent('cancel', this.props.data);
+    if (rendererEvent?.prevented) {
+      return;
+    }
     // clear error
     store.updateMessage();
     onClose();
+  }
+
+  handleActionSensor(p: Promise<any>) {
+    const {store} = this.props;
+
+    store.markBusying(true);
+    // clear error
+    store.updateMessage();
+
+    p.then(() => {
+      store.markBusying(false);
+    }).catch(e => {
+      store.updateMessage(e.message, true);
+      store.markBusying(false);
+    });
   }
 
   handleAction(e: React.UIEvent<any>, action: ActionObject, data: object) {
@@ -441,6 +461,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
       onSaved: this.handleFormSaved,
+      onActionSensor: this.handleActionSensor,
       syncLocation: false
     };
 
@@ -713,9 +734,6 @@ export class DrawerRenderer extends Drawer {
     }
 
     if (targets.length) {
-      store.markBusying(true);
-      store.updateMessage();
-
       Promise.all(
         targets.map(target =>
           target.doAction(
@@ -741,11 +759,10 @@ export class DrawerRenderer extends Drawer {
               ? this.handleSelfClose()
               : this.closeTarget(action.close);
           }
-          store.markBusying(false);
         })
         .catch(reason => {
           store.updateMessage(reason.message, true);
-          store.markBusying(false);
+          throw reason;
         });
 
       return true;
@@ -860,7 +877,12 @@ export class DrawerRenderer extends Drawer {
     const scoped = this.context as IScopedContext;
     const components = scoped
       .getComponents()
-      .filter((item: any) => !~['drawer', 'dialog'].indexOf(item.props.type));
+      .filter(
+        (item: any) =>
+          !~['drawer', 'dialog', 'action', 'button', 'submit', 'reset'].indexOf(
+            item.props.type
+          )
+      );
     const onConfirm = this.props.onConfirm;
 
     if (

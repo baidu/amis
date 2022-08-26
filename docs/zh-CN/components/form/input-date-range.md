@@ -13,6 +13,7 @@ order: 15
 ```schema: scope="body"
 {
     "type": "form",
+    "debug": true,
     "api": "/api/mock2/form/saveForm",
     "body": [
         {
@@ -23,6 +24,50 @@ order: 15
     ]
 }
 ```
+
+## 默认值
+
+通过 value 设置默认值，除了实际值，比如
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "date",
+            "label": "日期范围",
+            "value": "1659283200,1661961599"
+        }
+    ]
+}
+```
+
+还可以是相对值，比如最近一周内
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "date",
+            "label": "日期范围",
+            "value": "today,+1weeks"
+        }
+    ]
+}
+```
+
+支持的相对值关键字有：
+
+- today: 当前日期
+- day 或 days: 天
+- week 或 weeks: 周
+- month 或 months: 月
+- year 或 years: 年
 
 ## 快捷键
 
@@ -97,8 +142,8 @@ order: 15
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名      | 类型                      | 默认值                                                          | 说明                                                                         |
-| ----------- | ------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 属性名      | 类型                      | 默认值                                                          | 说明                                                                         | 版本    |
+| ----------- | ------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------- |
 | format      | `string`                  | `X`                                                             | [日期选择器值格式](./date#%E5%80%BC%E6%A0%BC%E5%BC%8F)                       |
 | inputFormat | `string`                  | `YYYY-MM-DD`                                                    | [日期选择器显示格式](./date#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F)            |
 | placeholder | `string`                  | `"请选择日期范围"`                                              | 占位文本                                                                     |
@@ -110,6 +155,7 @@ order: 15
 | utc         | `boolean`                 | `false`                                                         | [保存 UTC 值](./date#utc)                                                    |
 | clearable   | `boolean`                 | `true`                                                          | 是否可清除                                                                   |
 | embed       | `boolean`                 | `false`                                                         | 是否内联模式                                                                 |
+| animation   | `boolean`                 | `true`                                                          | 是否启用游标动画                                                             | `2.2.0` |
 
 ## 事件表
 

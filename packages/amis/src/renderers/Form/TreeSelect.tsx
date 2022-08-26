@@ -162,7 +162,10 @@ export default class TreeSelectControl extends React.Component<
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleInputChange = debouce(this.handleInputChange.bind(this), 150, {
+      trailing: true,
+      leading: false
+    });
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
 
     this.loadRemote = debouce(this.loadRemote.bind(this), 250, {

@@ -146,6 +146,16 @@ export class FormulaPicker extends React.Component<
     isError: false
   };
 
+  componentDidUpdate(prevProps: FormulaPickerProps) {
+    const value = this.props.value;
+    if (typeof value !== 'undefined' && value !== prevProps.value) {
+      this.setState({
+        value,
+        editorValue: value
+      });
+    }
+  }
+
   @autobind
   handleConfirm() {
     const value = this.state.value;
