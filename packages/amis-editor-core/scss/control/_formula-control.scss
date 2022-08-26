@@ -47,7 +47,7 @@
   }
 
   &-custom-renderer {
-    width: calc( 100% - 36px);
+    width: calc(100% - 36px);
     flex: 1 1 auto;
     margin-right: 3px;
     border: none;
@@ -56,11 +56,6 @@
     &.border-wrapper {
       padding: 2px 4px;
       border: 1px dashed #e8e9eb;
-    }
-  }
-  &-select-style {
-    .cxd-Select-valueWrap {
-      overflow: hidden;
     }
   }
 
@@ -75,7 +70,8 @@
       > div:first-child {
         max-width: calc(100% - 20px); // 避免表达式内容太长撑开面板
 
-        > div,span {
+        > div,
+        span {
           padding-right: 0; // 覆盖 amis 默认样式
         }
       }

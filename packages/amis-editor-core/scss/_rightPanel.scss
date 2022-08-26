@@ -21,20 +21,8 @@ $category-2-height: px2rem(32px);
 
   .ae-Settings-content {
     padding: var(--gap-base);
-    [data-tooltip][data-position=bottom]:hover:after {
+    [data-tooltip][data-position='bottom']:hover:after {
       margin-left: 15px;
-    }
-  }
-
-  // FIXME: icon-picker临时修复超出内容显示滚动条问题，后amis中修复后可删除 fix-icon-picker-overflow 类
-  .fix-icon-picker-overflow {
-    .cxd-IconPickerControl-valueWrap {
-      > div {
-        display: block;
-      }
-      > a {
-        display: inline-block;
-      }
     }
   }
 
@@ -362,8 +350,8 @@ $category-2-height: px2rem(32px);
 
     // tab内容
     &-cont {
-      height: calc( 100% - 45px);
-      position:absolute;
+      height: calc(100% - 45px);
+      position: absolute;
       width: 100%;
       padding: 0;
       overflow-y: overlay;
