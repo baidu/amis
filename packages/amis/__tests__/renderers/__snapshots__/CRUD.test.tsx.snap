@@ -2947,60 +2947,6 @@ exports[`Renderer:crud cards 1`] = `
           class="cxd-Page-body"
         >
           <div
-            class="cxd-Crud is-loading"
-          >
-            <div
-              class="cxd-Cards cxd-Crud-body"
-            >
-              <div
-                class="cxd-Cards-fixedTop"
-              />
-              <div
-                class="cxd-Cards-placeholder"
-              >
-                <span
-                  class="cxd-TplField"
-                >
-                  <span>
-                    没有用户信息
-                  </span>
-                </span>
-              </div>
-              <div
-                class="cxd-Spinner-overlay in"
-              />
-              <div
-                class="cxd-Spinner cxd-Spinner--overlay in"
-                data-testid="spinner"
-              >
-                <div
-                  class="cxd-Spinner-icon cxd-Spinner-icon--default"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:crud cards 2`] = `
-<div>
-  <div
-    class="cxd-Page"
-  >
-    <div
-      class="cxd-Page-content"
-    >
-      <div
-        class="cxd-Page-main"
-      >
-        <div
-          class="cxd-Page-body"
-        >
-          <div
             class="cxd-Crud"
           >
             <div
@@ -3846,56 +3792,11 @@ exports[`Renderer:crud cards 2`] = `
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:crud list 1`] = `
-<div>
-  <div
-    class="cxd-Page"
-  >
-    <div
-      class="cxd-Page-content"
-    >
-      <div
-        class="cxd-Page-main"
-      >
-        <div
-          class="cxd-Page-body"
-        >
-          <div
-            class="cxd-Crud is-loading"
-          >
-            <div
-              class="cxd-List cxd-Crud-body"
-            >
               <div
-                class="cxd-List-heading"
-              >
-                list title
-              </div>
-              <div
-                class="cxd-List-placeholder"
-              >
-                <span
-                  class="cxd-TplField"
-                >
-                  <span>
-                    当前组内, 还没有配置任何权限.
-                  </span>
-                </span>
-              </div>
-              <div
-                class="cxd-Spinner-overlay in"
+                class="cxd-Spinner-overlay"
               />
               <div
-                class="cxd-Spinner cxd-Spinner--overlay in"
+                class="cxd-Spinner cxd-Spinner--overlay"
                 data-testid="spinner"
               >
                 <div
@@ -3911,7 +3812,7 @@ exports[`Renderer:crud list 1`] = `
 </div>
 `;
 
-exports[`Renderer:crud list 2`] = `
+exports[`Renderer:crud list 1`] = `
 <div>
   <div
     class="cxd-Page"
@@ -4292,6 +4193,17 @@ exports[`Renderer:crud list 2`] = `
                     </div>
                   </div>
                 </div>
+              </div>
+              <div
+                class="cxd-Spinner-overlay"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay"
+                data-testid="spinner"
+              >
+                <div
+                  class="cxd-Spinner-icon cxd-Spinner-icon--default"
+                />
               </div>
             </div>
           </div>
