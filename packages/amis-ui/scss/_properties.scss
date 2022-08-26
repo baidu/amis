@@ -799,6 +799,7 @@
   --Form-row-gutterWidth: #{px2rem(10px)};
 
   --Form-select-bg: var(--white);
+  --Form-select-height: var(--Form-select-outer-top);
   --Form-select-borderColor: var(--Form-input-borderColor);
   --Form-select-borderRadius: var(--Form-input-borderRadius);
   --Form-select-borderWidth: var(--Form-input-borderWidth);
@@ -837,7 +838,7 @@
   --Form-select-valueIcon-color--dark: #e9e9e9;
   --Form-select-valueIcon-onHover-color: var(--Form-select-color);
   --Form-select-multiple-bgColor: #{$G10};
-  --Form-selectOption-height: var(--Form-input-height);
+  --Form-selectOption-height: var(--Form-select-height);
   --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
   --Form-selectValue-onHover-bgColor: var(--Form-select-borderColor);
   --Form-selectValue-borderColor: var(--colors-brand-7);
