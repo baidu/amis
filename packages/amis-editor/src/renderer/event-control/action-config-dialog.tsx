@@ -77,6 +77,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
       labelField: 'actionLabel',
       valueField: 'actionType',
       inputClassName: 'no-border action-tree-control',
+      placeholder: '未匹配到数据',
       onChange: (value: string, oldVal: any, data: any, form: any) => {
         // 因为不知道动作都有哪些字段，这里只保留基础配置
         let removeKeys: {
@@ -163,11 +164,12 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
         title: '动作配置',
         headerClassName: 'font-bold',
         className: 'action-config-dialog',
+        bodyClassName: "action-config-dialog-body",
         closeOnEsc: true,
         closeOnOutside: false,
         show,
         showCloseButton: true,
-        size: 'lg',
+        size: "md",
         body: [
           {
             type: 'form',
@@ -200,6 +202,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                         type: 'input-text',
                         name: '__keywords',
                         className: 'action-tree-search',
+                        inputClassName: 'action-tree-search-input',
                         placeholder: '请搜索执行动作',
                         clearable: true,
                         onChange: (
