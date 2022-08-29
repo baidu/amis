@@ -54,6 +54,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import {Option} from '../types';
+import {isEqual} from 'lodash';
 
 export {Option};
 
@@ -459,6 +460,12 @@ export function registerOptionsControl(config: OptionsConfig) {
             )
             .then(() => this.normalizeValue());
         }
+      } else if (
+        !isEqual(props.value, prevProps.value) &&
+        !this.whetherValueNormal() &&
+        props.formInited
+      ) {
+        this.normalizeValue();
       }
 
       if (prevProps.value !== props.value || formItem?.expressionsInOptions) {
@@ -559,6 +566,30 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
     }
 
+    // 判断当前值是否符合预期的格式
+    whetherValueNormal() {
+      const {value, joinValues, extractValue, multiple} = this.props;
+
+      if (joinValues !== false || (!multiple && extractValue === true)) {
+        return typeof value === 'string' || typeof value === 'number';
+      }
+
+      if (multiple) {
+        if (!Array.isArray(value)) return false;
+
+        if (
+          extractValue === true &&
+          !value.every(
+            val => typeof val === 'string' || typeof val === 'number'
+          )
+        ) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
     // 当前值，跟设置预期的值格式不一致时自动转换。
     normalizeValue() {
       const {
@@ -568,16 +599,37 @@ export function registerOptionsControl(config: OptionsConfig) {
         multiple,
         formItem,
         valueField,
+        delimiter,
         enableNodePath,
         pathSeparator,
         onChange
       } = this.props;
 
-      if (!formItem || joinValues !== false || !formItem.options.length) {
+      if (!formItem || !formItem.options.length) {
         return;
       }
 
-      if (
+      if (joinValues !== false) {
+        if (typeof value === 'string' || typeof value === 'number') return;
+
+        const selectedOptions = formItem.getSelectedOptions(value);
+
+        onChange?.(
+          (multiple
+            ? selectedOptions.concat()
+            : selectedOptions.length
+            ? [selectedOptions[0]]
+            : []
+          )
+            .map((selectedOption: Option) => {
+              return typeof selectedOption === 'string' ||
+                typeof selectedOption === 'number'
+                ? selectedOption
+                : selectedOption[valueField || 'value'];
+            })
+            .join(delimiter || ',')
+        );
+      } else if (
         extractValue === false &&
         (typeof value === 'string' || typeof value === 'number')
       ) {
@@ -587,12 +639,13 @@ export function registerOptionsControl(config: OptionsConfig) {
         extractValue === true &&
         value &&
         !(
-          (Array.isArray(value) &&
+          (multiple &&
+            Array.isArray(value) &&
             value.every(
               val => typeof val === 'string' || typeof val === 'number'
             )) ||
-          typeof value === 'string' ||
-          typeof value === 'number'
+          (!multiple &&
+            (typeof value === 'string' || typeof value === 'number'))
         )
       ) {
         const selectedOptions = formItem
