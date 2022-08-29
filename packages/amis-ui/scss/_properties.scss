@@ -61,9 +61,9 @@
   --borderColor: var(--colors-neutral-8);
   --borderColorLight: var(--colors-neutral-10);
   --borderColorDarken: var(--colors-neutral-8);
-  --borderRadius: 0.142rem;
-  --borderRadiusMd: 0.285rem;
-  --borderRadiusLg: 0.428rem;
+  --borderRadius: var(--borders-radius-2-radius);
+  --borderRadiusMd: var(--borders-radius-3-radius);
+  --borderRadiusLg: var(--borders-radius-4-radius);
 
   --boxShadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   --boxShadowSm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
