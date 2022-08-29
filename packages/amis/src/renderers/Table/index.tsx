@@ -357,7 +357,10 @@ export interface TableProps extends RendererProps {
     rowIndexes: Array<string> | string,
     unModifiedItems?: Array<object>,
     rowOrigins?: Array<object> | object,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
   onQuery: (values: object) => void;
@@ -918,7 +921,10 @@ export default class Table extends React.Component<TableProps, object> {
     values: object,
     saveImmediately?: boolean | any,
     savePristine?: boolean,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     if (!isAlive(item)) {
       return;
@@ -948,7 +954,8 @@ export default class Table extends React.Component<TableProps, object> {
         null,
         {
           actionType: 'ajax',
-          api: saveImmediately.api
+          api: saveImmediately.api,
+          reload: options?.reload
         },
         values
       );
@@ -965,7 +972,7 @@ export default class Table extends React.Component<TableProps, object> {
       item.path,
       undefined,
       item.pristine,
-      resetOnFailed
+      options
     );
   }
 

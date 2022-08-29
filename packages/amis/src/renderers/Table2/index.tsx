@@ -695,14 +695,17 @@ export default class Table2 extends React.Component<Table2Props, object> {
                     values: object,
                     saveImmediately?: boolean,
                     savePristine?: boolean,
-                    resetOnFailed?: boolean
+                    options?: {
+                      resetOnFailed?: boolean;
+                      reload?: string;
+                    }
                   ) => {
                     this.handleQuickChange(
                       item,
                       values,
                       saveImmediately,
                       savePristine,
-                      resetOnFailed
+                      options
                     );
                   },
                   row: item,
@@ -843,7 +846,10 @@ export default class Table2 extends React.Component<Table2Props, object> {
     indexes: Array<string>,
     unModifiedItems?: Array<any>,
     rowsOrigin?: Array<object> | object,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     const {
       store,
@@ -906,7 +912,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
           reload && this.reloadTarget(reload, data);
         })
         .catch(() => {
-          resetOnFailed && this.control.reset();
+          options?.resetOnFailed && this.control.reset();
         });
     }
   }
@@ -917,7 +923,10 @@ export default class Table2 extends React.Component<Table2Props, object> {
     values: object,
     saveImmediately?: boolean | any,
     savePristine?: boolean,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     if (!isAlive(item)) {
       return;
@@ -942,7 +951,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
           null,
           {
             actionType: 'ajax',
-            api: saveImmediately.api
+            api: saveImmediately.api,
+            reload: options?.reload
           },
           values
         );
@@ -952,19 +962,19 @@ export default class Table2 extends React.Component<Table2Props, object> {
     onSave
       ? onSave(
           item.data,
-          difference(item.data, item.pristine, ['id', primaryField]),
+          difference(item.data, item.pristine, ['id', primaryField!]),
           item.path,
           undefined,
           item.pristine,
-          resetOnFailed
+          options
         )
       : this.handleSave(
           quickSaveItemApi ? item.data : [item.data],
-          difference(item.data, item.pristine, ['id', primaryField]),
+          difference(item.data, item.pristine, ['id', primaryField!]),
           [item.path],
           undefined,
           item.pristine,
-          resetOnFailed
+          options
         );
   }
 

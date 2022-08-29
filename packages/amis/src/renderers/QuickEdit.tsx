@@ -30,6 +30,12 @@ export type SchemaQuickEditObject =
       resetOnFailed?: boolean;
 
       /**
+       * 配置刷新目标，默认就会刷新所属 crud 组件，
+       * 如果不需要，请配置为 "none"
+       */
+      reload?: string;
+
+      /**
        * 是否直接内嵌
        */
       mode?: 'inline';
@@ -50,6 +56,12 @@ export type SchemaQuickEditObject =
       resetOnFailed?: boolean;
 
       /**
+       * 配置刷新目标，默认就会刷新所属 crud 组件，
+       * 如果不需要，请配置为 "none"
+       */
+      reload?: string;
+
+      /**
        * 是否直接内嵌
        */
       mode?: 'inline';
@@ -62,6 +74,7 @@ export type SchemaQuickEdit = boolean | SchemaQuickEditObject;
 export interface QuickEditConfig {
   saveImmediately?: boolean;
   resetOnFailed?: boolean;
+  reload?: string;
   mode?: 'inline' | 'dialog' | 'popOver' | 'append';
   type?: string;
   body?: any;
@@ -300,7 +313,7 @@ export const HocQuickEdit =
           values,
           (quickEdit as QuickEditConfig).saveImmediately,
           false,
-          (quickEdit as QuickEditConfig).resetOnFailed
+          quickEdit as QuickEditConfig
         );
 
         return false;
@@ -318,7 +331,7 @@ export const HocQuickEdit =
           values,
           (quickEdit as QuickEditConfig).saveImmediately,
           false,
-          (quickEdit as QuickEditConfig).resetOnFailed
+          quickEdit as QuickEditConfig
         );
       }
 

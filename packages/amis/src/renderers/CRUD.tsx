@@ -1180,7 +1180,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     indexes: Array<string>,
     unModifiedItems?: Array<any>,
     rowsOrigin?: Array<object> | object,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     const {
       store,
@@ -1221,8 +1224,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
-          reload && this.reloadTarget(reload, data);
-          this.search(undefined, undefined, true, true);
+          const finalReload = options?.reload ?? reload;
+          finalReload
+            ? this.reloadTarget(finalReload, data)
+            : this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
     } else {
@@ -1241,11 +1246,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
-          reload && this.reloadTarget(reload, data);
-          this.search(undefined, undefined, true, true);
+          const finalReload = options?.reload ?? reload;
+          finalReload
+            ? this.reloadTarget(finalReload, data)
+            : this.search(undefined, undefined, true, true);
         })
         .catch(() => {
-          resetOnFailed && this.control.reset();
+          options?.resetOnFailed && this.control.reset();
         });
     }
   }

@@ -246,7 +246,10 @@ export interface ListProps
     rowIndexes: Array<number> | number,
     unModifiedItems?: Array<object>,
     rowOrigins?: Array<object> | object,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
   onQuery: (values: object) => void;
@@ -492,7 +495,10 @@ export default class List extends React.Component<ListProps, object> {
     values: object,
     saveImmediately?: boolean | any,
     savePristine?: boolean,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     item.change(values, savePristine);
 
@@ -505,7 +511,8 @@ export default class List extends React.Component<ListProps, object> {
         null,
         {
           actionType: 'ajax',
-          api: saveImmediately.api
+          api: saveImmediately.api,
+          reload: options?.reload
         },
         values
       );
@@ -524,7 +531,7 @@ export default class List extends React.Component<ListProps, object> {
       item.index,
       undefined,
       item.pristine,
-      resetOnFailed
+      options
     );
   }
 
@@ -1101,11 +1108,14 @@ export class ListItem extends React.Component<ListItemProps> {
     values: object,
     saveImmediately?: boolean,
     savePristine?: boolean,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     const {onQuickChange, item} = this.props;
     onQuickChange &&
-      onQuickChange(item, values, saveImmediately, savePristine, resetOnFailed);
+      onQuickChange(item, values, saveImmediately, savePristine, options);
   }
 
   renderLeft() {

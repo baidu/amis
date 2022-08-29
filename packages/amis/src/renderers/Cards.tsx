@@ -163,7 +163,10 @@ export interface GridProps
     rowIndexes: Array<number> | number,
     unModifiedItems?: Array<object>,
     rowOrigins?: Array<object> | object,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
   onQuery: (values: object) => void;
@@ -481,12 +484,15 @@ export default class Cards extends React.Component<GridProps, object> {
     item: IItem,
     values: object,
     saveImmediately?: boolean | any,
-    saveSilent?: boolean,
-    resetOnFailed?: boolean
+    savePristine?: boolean,
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
-    item.change(values, saveSilent);
+    item.change(values, savePristine);
 
-    if (!saveImmediately || saveSilent) {
+    if (!saveImmediately || savePristine) {
       return;
     }
 
@@ -495,7 +501,8 @@ export default class Cards extends React.Component<GridProps, object> {
         null,
         {
           actionType: 'ajax',
-          api: saveImmediately.api
+          api: saveImmediately.api,
+          reload: options?.reload
         },
         values
       );
@@ -514,7 +521,7 @@ export default class Cards extends React.Component<GridProps, object> {
       item.index,
       undefined,
       item.pristine,
-      resetOnFailed
+      options
     );
   }
 
