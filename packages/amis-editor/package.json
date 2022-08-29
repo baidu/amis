@@ -31,7 +31,7 @@
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "amis-editor-core": "*",
     "lodash": "^4.17.15",
-    "i18n-runtime": "0.0.2"
+    "i18n-runtime": "0.0.3"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
