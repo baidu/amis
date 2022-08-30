@@ -152,7 +152,9 @@ export class BaseSelection<
     } else if (intersectOptions.length < availableOptions.length) {
       valueArray = Array.from(new Set([...value, ...availableOptions]));
     } else {
-      valueArray = value.filter(item => !availableOptions.includes(item));
+      valueArray = value.filter(
+        (item: Option) => !availableOptions.includes(item)
+      );
     }
 
     let newValue: string | Array<Option> = option2value

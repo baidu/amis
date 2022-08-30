@@ -383,13 +383,13 @@ export class ToastMessage extends React.Component<
                 {typeof title === 'string' ? (
                   <span className={cx(`Toast-title`)}>{title}</span>
                 ) : React.isValidElement(title) ? (
-                  React.cloneElement(title, {
+                  React.cloneElement(title as React.ReactElement, {
                     className: cx(`Toast-title`, title?.props?.className ?? '')
                   })
                 ) : null}
 
                 {React.isValidElement(body) ? (
-                  React.cloneElement(body, {
+                  React.cloneElement(body as React.ReactElement, {
                     className: cx(`Toast-body`, body?.props?.className ?? '')
                   })
                 ) : typeof body === 'string' || typeof body === 'object' ? (

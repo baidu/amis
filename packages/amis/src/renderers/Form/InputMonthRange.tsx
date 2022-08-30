@@ -61,6 +61,7 @@ export class MonthRangeControlRenderer extends MonthRangeControl {
     joinValues: true,
     delimiter: ',',
     timeFormat: '',
-    ranges: 'thismonth,prevmonth'
+    ranges: 'thismonth,prevmonth',
+    animation: true
   };
 }
