@@ -131,6 +131,27 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 }
 ```
 
+如果想要通过接口控制当前所处在第几页，可以返回字段 `page`（或自定义字段 `pageField` 的值）。
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "items": [
+      {
+        // 每一行的数据
+        "id": 1,
+        "xxx": "xxxx"
+      }
+    ],
+
+    "total": 200,
+    "page": 20
+  }
+}
+```
+
 如果无法知道数据总数，只能知道是否有下一页，请返回如下格式，amis 会简单生成一个简单版本的分页控件。
 
 ```json
@@ -2830,6 +2851,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | alwaysShowPagination                  | `boolean`                   | `false`                         | 是否总是显示分页                                                                                                      |
 | affixHeader                           | `boolean`                   | `true`                          | 是否固定表头(table 下)                                                                                                |
 | autoGenerateFilter                    | `boolean`                   | `false`                         | 是否开启查询区域，开启后会根据列元素的 `searchable` 属性值，自动生成查询条件表单                                      |
+| resetPageAfterAjaxItemAction          | `boolean`                   | `false`                         | 单条数据 ajax 操作后是否重置页码为第一页                                                                              |
 
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 
