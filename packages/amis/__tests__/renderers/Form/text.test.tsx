@@ -192,21 +192,18 @@ test('Renderer:text with clearable', async () => {
  * 选择器模式
  */
 test('Renderer:text with options', async () => {
-  const {container, input} = await setup(
-    {
-      options: [
-        {
-          label: 'Option A',
-          value: 'a'
-        },
-        {
-          label: 'Option B',
-          value: 'b'
-        }
-      ]
-    },
-    {debug: true}
-  );
+  const {container, input} = await setup({
+    options: [
+      {
+        label: 'Option A',
+        value: 'a'
+      },
+      {
+        label: 'Option B',
+        value: 'b'
+      }
+    ]
+  });
   expect(container).toMatchSnapshot();
 
   // 展开 options
@@ -256,9 +253,7 @@ test('Renderer:text with options and multiple and delimiter', async () => {
       joinValues: true,
       creatable: true
     },
-    {
-      debug: true
-    },
+    {},
     [
       {
         type: 'static',

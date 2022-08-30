@@ -28,6 +28,7 @@
   padding-top: var(--Form-label-paddingTop);
   padding-bottom: var(--Form-label-paddingTop);
   margin-bottom: 0;
+  word-break: break-word;
 
   .#{$ns}Form-item--inline > .#{$ns}Form-value > & {
     display: inline-block;
