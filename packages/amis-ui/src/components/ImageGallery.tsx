@@ -195,7 +195,7 @@ export class ImageGallery extends React.Component<
               data-position="top"
             >
               {React.isValidElement(action.icon) ? (
-                React.cloneElement(action.icon, {
+                React.cloneElement(action.icon as React.ReactElement, {
                   className: cx('icon', action.iconClassName)
                 })
               ) : (
