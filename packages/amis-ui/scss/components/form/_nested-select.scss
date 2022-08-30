@@ -54,7 +54,8 @@
     box-shadow: var(--Form-select-outer-boxShadow);
     overflow-y: auto;
     overflow-x: hidden;
-
+    white-space: nowrap;
+    text-overflow: ellipsis;
     &:not(:first-child) {
       border-left: 0;
     }
@@ -106,6 +107,7 @@
       }
     }
   }
+
   &-popup {
     height: px2rem(460px);
   }

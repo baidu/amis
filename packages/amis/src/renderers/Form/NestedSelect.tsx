@@ -587,6 +587,15 @@ export default class NestedSelectControl extends React.Component<
     isPrevented || onChange(newValue);
   }
 
+  renderMenu(option: Option, state: any) {
+    const {menuTpl, data, render} = this.props;
+    const temp = render(`menu/${state.index}`, menuTpl, {
+      showNativeTitle: true,
+      data: createObject(createObject(data, state), option)
+    });
+    return temp;
+  }
+
   renderOptions() {
     const {
       multiple,
@@ -600,7 +609,8 @@ export default class NestedSelectControl extends React.Component<
       labelField,
       menuClassName,
       cascade,
-      onlyChildren
+      onlyChildren,
+      menuTpl
     } = this.props;
     const valueField = this.props.valueField || 'value';
 
@@ -677,14 +687,21 @@ export default class NestedSelectControl extends React.Component<
                     className={cx('NestedSelect-optionLabel', {
                       'is-disabled': nodeDisabled
                     })}
-                    onClick={() =>
+                    onMouseUp={() =>
                       !nodeDisabled &&
                       (multiple
                         ? this.handleCheck(option, index)
                         : this.handleOptionClick(option))
                     }
                   >
-                    {option[labelField || 'label']}
+                    {menuTpl
+                      ? this.renderMenu(option, {
+                          index: index + '-' + idx,
+                          checked:
+                            !nodeDisabled &&
+                            (selfChecked || (!cascade && selfChildrenChecked))
+                        })
+                      : option[labelField || 'label']}
                   </div>
 
                   {option.children && option.children.length ? (

@@ -52,6 +52,54 @@ order: 31
 }
 ```
 
+## 自定义菜单
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "nested-select",
+        "name": "nestedSelect",
+        "label": "级联选择器",
+        "menuTpl": "<span>${label}值：${value}, 当前是否选中: ${checked}</span>",
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b",
+            "children": [
+              {
+                "label": "B-1",
+                "value": "b-1"
+              },
+              {
+                "label": "B-2",
+                "value": "b-2"
+              },
+              {
+                "label": "B-3",
+                "value": "b-3"
+              }
+            ]
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## 动态选项
 
 通过 source 可以从上下文或 api 中获取选项信息，比如
