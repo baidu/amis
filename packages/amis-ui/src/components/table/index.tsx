@@ -74,7 +74,7 @@ export interface RowSelectionOptionProps {
 
 export interface RowSelectionProps {
   type: string;
-  rowClick: boolean; // 点击复选框选中还是点击整行选中
+  rowClick?: boolean; // 点击复选框选中还是点击整行选中
   fixed: boolean; // 只能固定在左边
   selectedRowKeys: Array<string | number>;
   keyField?: string; // 默认是key，可自定义

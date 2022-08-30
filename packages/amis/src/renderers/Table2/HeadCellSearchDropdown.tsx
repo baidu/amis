@@ -26,8 +26,8 @@ export interface HeadCellSearchProps extends RendererProps {
   onSearch?: (values: object) => void;
   onAction?: Function;
   store: ITableStore2;
-  sortable: boolean;
-  label: string;
+  sortable?: boolean;
+  label?: string;
   orderBy: string;
   orderDir: string;
   popOverContainer?: any;
