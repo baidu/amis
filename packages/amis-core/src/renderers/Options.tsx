@@ -570,6 +570,10 @@ export function registerOptionsControl(config: OptionsConfig) {
     whetherValueNormal() {
       const {value, joinValues, extractValue, multiple} = this.props;
 
+      if (value === undefined) {
+        return true;
+      }
+
       if (joinValues !== false || (!multiple && extractValue === true)) {
         return typeof value === 'string' || typeof value === 'number';
       }
@@ -610,7 +614,8 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       if (joinValues !== false) {
-        if (typeof value === 'string' || typeof value === 'number') return;
+        if (!value || typeof value === 'string' || typeof value === 'number')
+          return;
 
         const selectedOptions = formItem.getSelectedOptions(value);
 
