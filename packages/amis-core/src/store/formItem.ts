@@ -26,6 +26,7 @@ import {
 import {flattenTree} from '../utils/helper';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
+import isObject from 'lodash/isObject';
 import {SimpleMap} from '../utils/SimpleMap';
 import {StoreNode} from './node';
 import {getStoreById} from './manager';
@@ -615,10 +616,17 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       options = normalizeOptions(options as any, undefined, self.valueField);
 
       if (config?.extendsOptions && self.selectedOptions.length > 0) {
+        const valueField = self.valueField || 'value';
         self.selectedOptions.forEach((item: any) => {
           const exited = findTree(
             options as any,
-            optionValueCompare(item, self.valueField || 'value')
+            optionValueCompare(
+              // item 可能为对象，为对象时候需取其值。否则无法查重造成选项重复
+              isObject(item) && (item as any)[valueField] !== undefined
+                ? (item as any)[valueField]
+                : item,
+              valueField
+            )
           );
 
           if (!exited) {
