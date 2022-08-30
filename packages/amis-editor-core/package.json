@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "deep-diff": "1.0.2",
-    "i18n-runtime": "0.0.2",
+    "i18n-runtime": "0.0.4",
     "json-ast-comments": "^1.1.0",
     "lodash": "^4.17.15",
     "mobx": "^4.5.0",
