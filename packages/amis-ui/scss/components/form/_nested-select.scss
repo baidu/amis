@@ -13,7 +13,7 @@
   @include input-border();
   &-optionArrowRight {
     display: inline-block;
-    padding-right: px2rem(10px);
+    padding-right: var(--Form-select-icon-rigin);
 
     svg {
       width: px2rem(12px);
