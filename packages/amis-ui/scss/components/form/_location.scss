@@ -72,6 +72,10 @@
 .#{$ns}LocationControl {
   position: relative;
   width: 100%;
+  .#{$ns}PopOver {
+      border: none;
+      box-shadow: var(--boxShadow);
+    }
 }
 
 .#{$ns}LocationControl:not(.is-inline) > .#{$ns}LocationPicker {
