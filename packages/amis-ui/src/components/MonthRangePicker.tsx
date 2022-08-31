@@ -522,8 +522,7 @@ export class MonthRangePicker extends React.Component<
               className={cx(
                 'Button',
                 'Button--default',
-                'Button--size-default',
-                'Button--size-sm',
+                'Button--size-default'
               )}
               onClick={this.close}
             >
@@ -533,7 +532,6 @@ export class MonthRangePicker extends React.Component<
               className={cx(
                 'Button',
                 'Button--primary',
-                'Button--size-sm',
                 'Button--size-default',
                 'm-l-sm',
                 {
