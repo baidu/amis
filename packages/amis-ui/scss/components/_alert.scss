@@ -16,7 +16,6 @@
     padding: var(--Alert-paddingX);
 
     .#{$ns}Alert-content {
-
       .#{$ns}Alert-title {
         line-height: #{px2rem(22px)};
       }
@@ -72,7 +71,7 @@
   }
 
   &--danger {
-    color: var(--Alert--info-color);
+    color: var(--Alert--danger-color);
     background: var(--Alert--danger-bg);
     border-color: var(--Alert--danger-borderColor);
   }
@@ -84,13 +83,13 @@
   }
 
   &--success {
-    color: var(--Alert--info-color);
+    color: var(--Alert--success-color);
     background: var(--Alert--success-bg);
     border-color: var(--Alert--success-borderColor);
   }
 
   &--warning {
-    color: var(--Alert--info-color);
+    color: var(--Alert--warning-color);
     background: var(--Alert--warning-bg);
     border-color: var(--Alert--warning-borderColor);
   }
