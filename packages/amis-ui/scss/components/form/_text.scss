@@ -169,8 +169,8 @@
     position: absolute;
     background: var(--Form-select-menu-bg);
     color: var(--Form-select-menu-color);
-    border: var(--Form-input-borderWidth) solid
-      var(--Form-input-onFocused-borderColor);
+    border-radius: px2rem(2px);
+    box-shadow: var(--menu-box-shadow);
     left: px2rem(-1px);
     right: px2rem(-1px);
     top: calc(100% + #{px2rem(4px)});
