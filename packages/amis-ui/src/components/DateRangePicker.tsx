@@ -1351,13 +1351,13 @@ export class DateRangePicker extends React.Component<
         {embed ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
             <a
-              className={cx('Button', 'Button--default')}
+              className={cx('Button', 'Button--default', 'Button--size-sm')}
               onClick={() => this.close}
             >
               {__('cancel')}
             </a>
             <a
-              className={cx('Button', 'Button--primary', 'm-l-sm', {
+              className={cx('Button', 'Button--primary', 'Button--size-sm', 'm-l-sm', {
                 'is-disabled':
                   (!this.state.startDate &&
                     isTimeRange &&
