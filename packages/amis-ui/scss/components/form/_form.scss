@@ -21,10 +21,6 @@
       // padding-bottom: var(--Form-input-paddingY);
     }
   }
-
-  .#{$ns}TextControl-button {
-    overflow: hidden;
-  }
 }
 
 .#{$ns}Form-static {
@@ -159,6 +155,10 @@
         left: px2rem(-6px);
         top: px2rem(3px);
       }
+    }
+
+    > .#{$ns}TextControl--withAddOn > .#{$ns}TextControl-button {
+      overflow: hidden;
     }
   }
 
@@ -351,6 +351,10 @@
 
         > .#{$ns}TextControl--withAddOn {
           display: inline-flex;
+
+          .#{$ns}TextControl-button {
+            overflow: hidden;
+          }
         }
       }
     }
