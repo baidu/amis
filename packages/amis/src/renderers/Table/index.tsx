@@ -175,6 +175,10 @@ export type TableColumnObject = {
 export type TableColumnWithType = SchemaObject & TableColumnObject;
 export type TableColumn = TableColumnWithType | TableColumnObject;
 
+interface AutoFillHeightObject {
+  height: number;
+}
+
 /**
  * Table 表格渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/table
@@ -307,7 +311,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 表格自动计算高度
    */
-  autoFillHeight?: boolean | {height: number};
+  autoFillHeight?: boolean | AutoFillHeightObject;
 }
 
 export interface TableProps extends RendererProps {
@@ -380,7 +384,7 @@ export interface TableProps extends RendererProps {
   reUseRow?: boolean;
   itemBadge?: BadgeObject;
   loading?: boolean;
-  autoFillHeight?: boolean | {height: number};
+  autoFillHeight?: boolean | AutoFillHeightObject;
 }
 
 export type ExportExcelToolbar = SchemaNode & {
@@ -736,7 +740,9 @@ export default class Table extends React.Component<TableProps, object> {
       parentNode = parentNode.parentElement;
     }
 
-    const height = isObject(autoFillHeight) ? autoFillHeight.height : 0;
+    const height = isObject(autoFillHeight)
+      ? (autoFillHeight as AutoFillHeightObject).height
+      : 0;
 
     const tableContentHeight = height
       ? `${height}px`
