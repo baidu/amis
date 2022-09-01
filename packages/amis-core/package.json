@@ -1,6 +1,6 @@
 {
   "name": "amis-core",
-  "version": "2.1.1-beta.3",
+  "version": "2.2.0",
   "description": "amis-core",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -61,9 +61,9 @@
     "uncontrollable": "7.2.1"
   },
   "peerDependencies": {
+    "amis-formula": "*",
     "react": ">=16.8.6",
-    "react-dom": ">=16.8.6",
-    "amis-formula": "*"
+    "react-dom": ">=16.8.6"
   },
   "jest": {
     "testEnvironment": "jsdom",
