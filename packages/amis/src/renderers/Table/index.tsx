@@ -1,6 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {ScopedContext, IScopedContext} from 'amis-core';
+import {ScopedContext, IScopedContext, SchemaExpression} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
 import forEach from 'lodash/forEach';
@@ -262,7 +262,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 合并单元格配置，配置数字表示从左到右的多少列自动合并单元格。
    */
-  combineNum?: number;
+  combineNum?: number | SchemaExpression;
 
   /**
    * 合并单元格配置，配置从第几列开始合并。
@@ -303,6 +303,11 @@ export interface TableSchema extends BaseSchema {
    * 表格是否可以获取父级数据域值，默认为false
    */
   canAccessSuperData?: boolean;
+
+  /**
+   * 表格自动计算高度
+   */
+  autoFillHeight?: boolean | {height: number};
 }
 
 export interface TableProps extends RendererProps {
@@ -329,7 +334,7 @@ export interface TableProps extends RendererProps {
   columnsTogglable?: boolean | 'auto';
   affixHeader?: boolean;
   affixColumns?: boolean;
-  combineNum?: number | string;
+  combineNum?: number | SchemaExpression;
   combineFromIndex?: number;
   footable?:
     | boolean
@@ -375,7 +380,7 @@ export interface TableProps extends RendererProps {
   reUseRow?: boolean;
   itemBadge?: BadgeObject;
   loading?: boolean;
-  autoFillHeight?: boolean;
+  autoFillHeight?: boolean | {height: number};
 }
 
 export type ExportExcelToolbar = SchemaNode & {
@@ -731,13 +736,17 @@ export default class Table extends React.Component<TableProps, object> {
       parentNode = parentNode.parentElement;
     }
 
-    const tableContentHeight = `${
-      viewportHeight -
-      tableContentTop -
-      tableContentWrapMarginButtom -
-      footToolbarHeight -
-      allParentPaddingButtom
-    }px`;
+    const height = isObject(autoFillHeight) ? autoFillHeight.height : 0;
+
+    const tableContentHeight = height
+      ? `${height}px`
+      : `${
+          viewportHeight -
+          tableContentTop -
+          tableContentWrapMarginButtom -
+          footToolbarHeight -
+          allParentPaddingButtom
+        }px`;
 
     tableContent.style.height = tableContentHeight;
     /**autoFillHeight开启后固定列会溢出Table高度，需要同步一下 */

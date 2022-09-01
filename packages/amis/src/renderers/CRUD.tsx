@@ -303,7 +303,7 @@ export interface CRUDCommonSchema extends BaseSchema {
   /**
    * 内容区域占满屏幕剩余空间
    */
-  autoFillHeight?: boolean;
+  autoFillHeight?: TableSchema['autoFillHeight'];
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
