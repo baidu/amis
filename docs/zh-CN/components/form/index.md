@@ -1303,7 +1303,7 @@ Form 支持轮询初始化接口，步骤如下：
 | formItemValidateSucc  | `event.data: object` 当前表单数据                            | 表单项校验成功时触发         |
 | formItemValidateError | `event.data: object` 当前表单数据                            | 表单项校验失败时触发         |
 | validateSucc          | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
-| validateError         | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
+| validateError         | `event.data: object` 当前表单数据                            | 表单校验失败时触发           |
 | submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据 | 提交成功时触发               |
 | submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息  | 提交失败时触发               |
 
