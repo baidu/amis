@@ -25,7 +25,7 @@
       box-sizing: none;
     }
     &::placeholder {
-      color: #{$G6};
+      color: var(--colors-neutral-6);
     }
   }
 

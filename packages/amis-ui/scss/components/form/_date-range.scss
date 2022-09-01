@@ -47,7 +47,7 @@
     line-height: px2rem(30px);
 
     &::placeholder {
-      color: #{$G6};
+      color: var(--colors-neutral-6);
     }
   }
 
@@ -63,7 +63,7 @@
     &-line {
       width: var(--gap-sm);
       height: 1px;
-      background: #B8BABF;
+      background: #b8babf;
     }
   }
 
