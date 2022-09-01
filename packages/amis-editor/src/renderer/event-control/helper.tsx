@@ -13,11 +13,17 @@ import {
   SubRendererPluginAction
 } from 'amis-editor-core';
 import {ActionConfig, ContextVariables} from './types';
-import {DataSchema, filterTree, findTree, mapTree, normalizeApi} from 'amis-core';
+import {
+  DataSchema,
+  filterTree,
+  findTree,
+  mapTree,
+  normalizeApi
+} from 'amis-core';
 import CmptActionSelect from './comp-action-select';
 import {Button} from 'amis';
 import ACTION_TYPE_TREE from './actions';
-import { stores } from 'amis-core/lib/factory';
+import {stores} from 'amis-core/lib/factory';
 
 // 数据容器范围
 export const DATA_CONTAINER = [
@@ -32,9 +38,7 @@ export const DATA_CONTAINER = [
 ];
 
 // 下拉展示可赋值属性范围
-export const SELECT_PROPS_CONTAINER = [
-  'form',
-];
+export const SELECT_PROPS_CONTAINER = ['form'];
 
 // 是否数据容器
 export const IS_DATA_CONTAINER = `${JSON.stringify(
@@ -45,7 +49,6 @@ export const IS_DATA_CONTAINER = `${JSON.stringify(
 export const SHOW_SELECT_PROP = `${JSON.stringify(
   SELECT_PROPS_CONTAINER
 )}.includes(__rendererName)`;
-
 
 // 表单项组件
 export const FORMITEM_CMPTS = [
@@ -130,7 +133,7 @@ export const SUPPORT_DISABLED_CMPTS = [
   'nav',
   'wizard'
   // 'card2'
-]
+];
 
 export const getArgsWrapper = (items: any, multiple: boolean = false) => ({
   type: 'combo',
@@ -186,20 +189,12 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           items: [
             {
               name: 'key',
-              type: 'select',
+              type: 'input-text',
               placeholder: '变量名',
               source: '${__setValueDs}',
               labelField: 'label',
               valueField: 'value',
               required: true,
-              visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`,
-            },
-            {
-              name: 'key',
-              type: 'input-text',
-              placeholder: '变量名',
-              required: true,
-              visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP}`
             },
             {
               name: 'val',
@@ -317,7 +312,9 @@ export const COMMON_ACTION_SCHEMA_MAP: {
       return (
         <div>
           提交
-          <span className="variable-left variable-right">{info?.rendererLabel}</span>
+          <span className="variable-left variable-right">
+            {info?.rendererLabel}
+          </span>
           {info?.__rendererName === 'wizard' ? '全部数据' : '数据'}
         </div>
       );
@@ -537,7 +534,7 @@ export const renderCmptActionSelect = (
       true,
       async (value: string, oldVal: any, data: any, form: any) => {
         // 获取组件上下文.
-        const rendererType = form.data.__rendererName
+        const rendererType = form.data.__rendererName;
         if (form.data.__nodeId) {
           const dataSchema: any = await form.data.getContextSchemas?.(
             form.data.__nodeId,
@@ -564,7 +561,10 @@ export const renderCmptActionSelect = (
             form.setValueByName('args.__comboType', undefined);
             form.setValueByName('args.__valueInput', undefined);
             if (SELECT_PROPS_CONTAINER.includes(rendererType)) {
-              form.setValueByName('__setValueDs', variables.filter(item => item.value !== '$$id'));
+              form.setValueByName(
+                '__setValueDs',
+                variables.filter(item => item.value !== '$$id')
+              );
             } else {
               form.setValueByName('__setValueDs', []);
             }
@@ -597,7 +597,7 @@ export const getOldActionSchema = (
     content:
       '温馨提示：添加下方事件动作后，下方事件动作将先于旧版动作执行，建议统一迁移至事件动作机制，帮助您实现更灵活的交互设计',
     inline: true,
-    tooltipTheme: "dark",
+    tooltipTheme: 'dark',
     body: [
       {
         type: 'button',
@@ -984,12 +984,14 @@ export const getEventControlConfig = (
       isSupport =
         action.supportComponents === '*' ||
         action.supportComponents === node.type;
+      // 内置逻辑
+      if (action.supportComponents === 'byComponent') {
+        isSupport = hasActionType(actionType, actions);
+      }
     } else if (Array.isArray(action.supportComponents)) {
       isSupport = action.supportComponents.includes(node.type);
     }
-    if (['reload', 'setValue'].includes(actionType)) {
-      isSupport = hasActionType(actionType, actions);
-    }
+
     if (actionType === 'component' && !actions?.length) {
       node.disabled = true;
     }
@@ -1000,11 +1002,12 @@ export const getEventControlConfig = (
       return true;
     }
     return false;
-  }
+  };
+
   return {
-    showOldEntry: manager?.config.actionOptions?.showOldEntry !== false &&
-    (!!context.schema.actionType ||
-      ['submit', 'reset'].includes(context.schema.type)),
+    showOldEntry:
+      !!context.schema.actionType ||
+      ['submit', 'reset'].includes(context.schema.type),
     actions: manager?.pluginActions,
     events: manager?.pluginEvents,
     actionTree,
@@ -1028,7 +1031,7 @@ export const getEventControlConfig = (
       let components = allComponents;
       if (isSubEditor) {
         let superTree = manager.store.getSuperEditorData;
-        while(superTree) {
+        while (superTree) {
           if (superTree.__superCmptTreeSource) {
             components = components.concat(superTree.__superCmptTreeSource);
           }
@@ -1037,19 +1040,22 @@ export const getEventControlConfig = (
       }
       const result = filterTree(
         components,
-        (node) => checkComponent(node, action),
+        node => checkComponent(node, action),
         1,
         true
       );
       return result;
     },
-    actionConfigInitFormatter: (action: ActionConfig) => {
+    actionConfigInitFormatter: async (
+      action: ActionConfig,
+      variables: {
+        eventVariables: ContextVariables[];
+        rawVariables: ContextVariables[];
+      }
+    ) => {
       let config = {...action};
 
-      if (
-        ['setValue', 'url'].includes(action.actionType) &&
-        action.args
-      ) {
+      if (['setValue', 'url'].includes(action.actionType) && action.args) {
         const prop = action.actionType === 'setValue' ? 'value' : 'params';
         !config.args && (config.args = {});
         if (Array.isArray(action.args[prop])) {
@@ -1085,7 +1091,10 @@ export const getEventControlConfig = (
           delete config.args?.value;
         }
       }
-      if (action.actionType === 'ajax' && typeof action?.args?.api === 'string') {
+      if (
+        action.actionType === 'ajax' &&
+        typeof action?.args?.api === 'string'
+      ) {
         action.args.api = normalizeApi(action?.args?.api);
       }
       // 获取动作专有配置参数
@@ -1124,10 +1133,37 @@ export const getEventControlConfig = (
 
       // 获取左侧命中的动作节点
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
+      // 如果args配置中存在组件id，则自动获取一次该组件的上下文
+      let datasource = [];
+      if (action.args?.componentId) {
+        const schema = manager?.store?.getSchema(
+          action.args?.componentId,
+          'id'
+        );
+        const dataSchema: any = await manager.getContextSchemas(
+          schema?.$$id,
+          true
+        );
+        const dataSchemaIns = new DataSchema(dataSchema || []);
+        datasource = dataSchemaIns?.getDataPropsAsOptions() || [];
+      }
 
       return {
         ...config,
-        actionType: getActionType(action, hasSubActionNode)
+        actionType: getActionType(action, hasSubActionNode),
+        args: {
+          ...config.args,
+          __dataContainerVariables: datasource?.length
+            ? [
+                ...variables.eventVariables,
+                {
+                  label: `数据来源变量`,
+                  children: datasource
+                },
+                ...variables.rawVariables
+              ]
+            : [...variables.eventVariables, ...variables.rawVariables]
+        }
       };
     },
     actionConfigSubmitFormatter: (config: ActionConfig) => {
@@ -1143,10 +1179,7 @@ export const getEventControlConfig = (
         // 标记一下组件特性动作
         action.groupType = config.actionType;
       }
-      const hasSubActionNode = findSubActionNode(
-        actionTree,
-        config.groupType
-      );
+      const hasSubActionNode = findSubActionNode(actionTree, config.groupType);
       if (hasSubActionNode) {
         // 修正动作
         action.actionType = config.groupType;
@@ -1166,13 +1199,19 @@ export const getEventControlConfig = (
       // 转换下格式
       if (['setValue', 'url'].includes(action.actionType)) {
         const propName = action.actionType === 'setValue' ? 'value' : 'params';
-        if (action.actionType === 'setValue' && config.args?.__valueInput !== undefined) {
+        if (
+          action.actionType === 'setValue' &&
+          config.args?.__valueInput !== undefined
+        ) {
           action.args = {
             value: config.args?.__valueInput
           };
         } else if (Array.isArray(config.args?.[propName])) {
           action.args = action.args ?? {};
-          if (action.__rendererName === 'combo' && action.args?.index === undefined) {
+          if (
+            action.__rendererName === 'combo' &&
+            action.args?.index === undefined
+          ) {
             // combo特殊处理
             let tempArr: any = [];
             config.args?.[propName].forEach((valueItem: any, index: number) => {

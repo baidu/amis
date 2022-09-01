@@ -148,7 +148,7 @@ setSchemaTpl('labelHide', () =>
     pipeIn: (value: any) => value === false,
     pipeOut: (value: any) => (value === true ? false : ''),
     visibleOn:
-      '__props__.formMode === "horizontal" || data.mode === "horizontal" || data.label === false'
+      'this.__props__ && this.__props__.formMode === "horizontal" || data.mode === "horizontal" || data.label === false'
   })
 );
 
@@ -715,6 +715,13 @@ setSchemaTpl('imageUrl', {
 setSchemaTpl('backgroundImageUrl', {
   type: 'input-text',
   label: '图片路径'
+});
+
+setSchemaTpl('audioUrl', {
+  type: 'input-text',
+  label: '音频地址',
+  name: 'src',
+  description: '支持获取变量如：<code>\\${audioSrc}</code>'
 });
 
 setSchemaTpl('fileUrl', {
