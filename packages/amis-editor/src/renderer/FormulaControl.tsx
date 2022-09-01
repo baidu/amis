@@ -288,7 +288,7 @@ export default class FormulaControl extends React.Component<
     if (rendererSchema) {
       curRendererSchema = Object.assign({}, rendererSchema, data, {
         type: rendererSchema.type ?? data.type,
-        value: this.props.value ?? rendererSchema.value ?? data.value
+        value: this.props.value ?? rendererSchema.value
       });
 
       // 默认要剔除的字段
@@ -349,7 +349,8 @@ export default class FormulaControl extends React.Component<
       // 设置统一的占位提示
       if (curRendererSchema.type === 'select') {
         curRendererSchema.placeholder = '请选择默认值';
-        curRendererSchema.inputClassName= 'ae-editor-FormulaControl-select-style'
+        curRendererSchema.inputClassName =
+          'ae-editor-FormulaControl-select-style';
       } else {
         curRendererSchema.placeholder = '请输入静态默认值';
       }
