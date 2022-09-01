@@ -3,11 +3,9 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import type {SchemaObject} from 'amis/lib/Schema';
+import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 
 export class PagePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -176,7 +174,7 @@ export class PagePlugin extends BasePlugin {
             getSchemaTpl('api', {
               label: '数据初始化接口',
               name: 'initApi',
-              sampleBuilder: (schema: any) => `{
+              sampleBuilder: () => `{
   "status": 0,
   "msg": "",
 
@@ -391,6 +389,19 @@ export class PagePlugin extends BasePlugin {
       ])
     ];
   };
+
+  rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
+    if (e === 'inited') {
+      const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+      const jsonschema: any = {
+        $id: 'pageInitedData',
+        ...jsonToJsonSchema(data)
+      };
+
+      scope?.removeSchema(jsonschema.$id);
+      scope?.addSchema(jsonschema);
+    }
+  }
 }
 
 registerEditorPlugin(PagePlugin);

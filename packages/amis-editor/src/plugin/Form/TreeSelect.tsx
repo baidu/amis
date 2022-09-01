@@ -1,7 +1,4 @@
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
@@ -280,7 +277,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 },
 
                 getSchemaTpl('source', {
-                  sampleBuilder: (schema: any) =>
+                  sampleBuilder: () =>
                     JSON.stringify(
                       {
                         status: 0,
