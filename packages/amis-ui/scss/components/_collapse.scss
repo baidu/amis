@@ -119,3 +119,20 @@
     font-weight: var(--Collapse-content-fontWeight);
   }
 }
+
+//FieldSet Form + Collapse
+.#{$ns}Form {
+  .#{$ns}Collapse {
+    border: none;
+    &-header {
+      background-color: var(--white);
+      display: inline-flex;
+      justify-content: flex-end;
+      flex-direction: row-reverse;
+      border-radius: 0;
+    }
+    &-content {
+      padding: 0;
+    }
+  }
+}

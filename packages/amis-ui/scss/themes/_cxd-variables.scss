@@ -1109,7 +1109,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --transfer-chained-marginBottom: 0px;
   --transfer-chained-marginLeft: 0px;
   --transfer-chained-marginRight: 0px;
+}
 
+:root {
   --fontSizeXs: var(--fonts-other-xs-size);
   --fontSizeSm: var(--fonts-other-sm-size);
   --fontSizeMd: var(--fonts-base-size);
@@ -1124,11 +1126,12 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   --text--muted-color: var(--colors-neutral-disabledInfo);
 
-  --text--loud-color: #333;
+  --text--loud-color: var(--colors-neutral-2);
   --link-onHover-decoration: none;
 
-  --icon-color: #999;
+  --icon-color: var(--colors-neutral-5);
   --icon-onHover-color: var(--colors-brand-hover);
+  --icon-onDisabled-color: var(--colors-neutral-10);
 
   --Layout-header-boxShadow: none;
   --Layout-header-bg: #f5f5f5;
@@ -1311,7 +1314,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Collapse-header-wrapper-direction: row-reverse;
   --Collapse-content-padding: var(--sizes-size-9-size);
   --Collapse-content-color: var(--colors-neutral-4);
-  --Collapse-content-fontSize: var(-fonts-other-sm-size);
+  --Collapse-content-fontSize: var(--fonts-other-sm-size);
   --Collapse-content-fontWeight: var(--fonts-base-weight);
 
   --DatePicker-borderWidth: var(--borders-line-2-width);
@@ -1533,7 +1536,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   --Alert-height: var(--sizes-size-21-size);
   --Alert-paddingX: var(--sizes-size-9-size);
-  --Alert-fontSize: var(-fonts-other-sm-size);
+  --Alert-fontSize: var(--fonts-other-sm-size);
   --Alert-borderRadius: var(--borders-radius-3-radius);
   --Alert-marginBottom: var(--sizes-size-9-size);
 
@@ -1626,7 +1629,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Progress-borderRadius: 16px;
 
   --Rating-inactive-color: var(--colors-neutral-9);
-  --Rating-text-color: #{$G2};
+  --Rating-text-color: var(--colors-neutral-2);
 
   // tree
   --Tree-item-onHover-bg-pure: var(--colors-neutral-10);

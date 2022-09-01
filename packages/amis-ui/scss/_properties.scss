@@ -1,10 +1,5 @@
-// 这里放 css 自定义变量
-@import './themes/cxd-colors';
-
 :root {
-  --black: #{$black}; // 不确定颜色
   --white: var(--colors-neutral-11);
-  // 因为运行不支持颜色计算，所以用 css 变量的方式需要多定义几个变量
   --primary: var(--colors-brand-5);
   --primary-onHover: var(--colors-brand-6);
   --primary-onActive: var(--colors-brand-4);
@@ -36,11 +31,6 @@
     'Liberation Mono', 'Courier New', monospace;
   --fontFamilyBase: var(--fonts-base-family);
 
-  // box-shadow
-  $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
-    0px 1px 10px 0px rgba(8, 14, 26, 0.05),
-    0px 2px 4px -1px rgba(8, 14, 26, 0.04);
-
   --fontSizeBase: var(--fonts-base-size);
   --fontSizeMd: var(--fonts-other-1lh-size);
   --fontSizeLg: var(--fonts-other-lg-size);
@@ -70,7 +60,7 @@
   --boxTooltipShadow: 0 4px 6px 1px rgb(8 14 26 / 6%),
     0 1px 10px 0 rgb(8 14 26 / 5%), 0 2px 4px -1px rgb(8 14 26 / 4%);
 
-  --lineHeightBase: var(--fonts-other-lg-lineHeight);
+  --lineHeightBase: var(--fonts-base-lineHeight);
 
   --body-lineHeight: var(--lineHeightBase);
 
@@ -195,180 +185,6 @@
   --Badge--warning-bg: var(--warning);
   --Badge--danger-bg: var(--danger);
 
-  --Button--danger-bg: var(--danger);
-  --Button--danger-border: var(--Button--danger-bg);
-  --Button--danger-color: var(--button-color);
-  --Button--danger-onActive-bg: var(--danger-onActive);
-  --Button--danger-onActive-border: var(--colors-error-6);
-  --Button--danger-onActive-color: var(--Button--danger-color);
-  --Button--danger-onHover-bg: var(--danger-onHover);
-  --Button--danger-onHover-border: var(--danger-onActive);
-  --Button--danger-onHover-color: var(--Button--danger-color);
-  --Button--dark-bg: var(--dark);
-  --Button--dark-border: var(--Button--dark-bg);
-  --Button--dark-color: var(--button-color);
-  --Button--dark-onActive-bg: #{darken($dark, 10%)}; // dark暂不确定
-  --Button--dark-onActive-border: #{darken($dark, 12.5%)};
-  --Button--dark-onActive-color: var(--Button--dark-color);
-  --Button--dark-onHover-bg: #{darken($dark, 7.5%)};
-  --Button--dark-onHover-border: #{darken($dark, 10%)};
-  --Button--dark-onHover-color: var(--Button--dark-color);
-  --Button--default-bg: var(--white);
-  --Button--default-border: var(--borderColor);
-  --Button--default-color: var(--text-color);
-  --Button--default-onActive-bg: var(--white);
-  --Button--default-onActive-border: var(--primary-onActive);
-  --Button--default-onActive-color: var(--primary-onActive);
-  --Button--default-onHover-bg: var(--white);
-  --Button--default-onHover-border: var(--primary);
-  --Button--default-onHover-color: var(--primary);
-  --Button--iconOnly-minWidthRate: 4 / 3;
-  --Button--info-bg: var(--info);
-  --Button--info-border: var(--Button--info-bg);
-  --Button--info-color: var(--button-color);
-  --Button--info-onActive-bg: var(--info-onActive);
-  --Button--info-onActive-border: var(--colors-brand-6);
-  --Button--info-onActive-color: var(--Button--info-color);
-  --Button--info-onHover-bg: var(--info-onHover);
-  --Button--info-onHover-border: var(--info-onActive);
-  --Button--info-onHover-color: var(--Button--info-color);
-  --Button--lg-borderRadius: var(--borderRadius);
-  --Button--lg-fontSize: var(--fontSizeLg);
-  --Button--lg-height: #{px2rem(46px)};
-  --Button--lg-lineHeight: 24 / 20;
-  --Button--lg-paddingX: #{px2rem(16px)};
-  --Button--lg-paddingY: calc(
-    (
-        var(--Button--lg-height) - var(--Button-borderWidth) * 2 -
-          var(--Button--lg-lineHeight) * var(--Button--lg-fontSize)
-      ) / 2
-  );
-  --Button--light-bg: var(--light);
-  --Button--light-border: var(--borderColor);
-  --Button--light-color: var(--text-color);
-  --Button--light-onActive-bg: #{darken($light, 10%)}; // light不确定
-  --Button--light-onActive-border: #{darken($light, 12.5%)};
-  --Button--light-onActive-color: var(--Button--light-color);
-  --Button--light-onHover-bg: #{darken($light, 7.5%)};
-  --Button--light-onHover-border: #{darken($light, 10%)};
-  --Button--light-onHover-color: var(--Button--light-color);
-  --Button--link-color: var(--primary);
-  --Button--link-onDisabled-color: var(--colors-neutral-7);
-  --Button--link-onDisabled-backgroundColor: transparent;
-  --Button--link-onHover-color: var(--primary-onHover);
-  --Button--link-onActive-color: var(--primary-onActive);
-  --Button--md-fontSize: var(--Button-fontSize);
-  --Button--md-height: var(--Button-height);
-  --Button--md-lineHeight: var(--Button-lineHeight);
-  --Button--md-paddingX: var(--Button-paddingX);
-  --Button--md-paddingY: calc(
-    (
-        var(--Button--md-height) - var(--Button-borderWidth) * 2 -
-          var(--Button--md-lineHeight) * var(--Button--md-fontSize)
-      ) / 2
-  );
-  --Button--primary-bg: var(--primary);
-  --Button--primary-border: var(--Button--primary-bg);
-  --Button--primary-color: var(--button-color);
-  --Button--primary-onActive-bg: var(--primary-onActive);
-  --Button--primary-onActive-border: var(--primary-onActive);
-  --Button--primary-onActive-color: var(--Button--primary-color);
-  --Button--primary-onHover-bg: var(--primary-onHover);
-  --Button--primary-onHover-border: var(--primary-onHover);
-  --Button--primary-onHover-color: var(--Button--primary-color);
-  --Button--secondary-bg: var(--secondary);
-  --Button--secondary-border: var(--Button--secondary-bg);
-  --Button--secondary-color: var(--button-color);
-  --Button--secondary-onActive-bg: var(--secondary-onActive);
-  --Button--secondary-onActive-border: var(--colors-neutral-2);
-  --Button--secondary-onActive-color: var(--Button--secondary-color);
-  --Button--secondary-onHover-bg: var(--secondary-onHover);
-  --Button--secondary-onHover-border: var(--secondary-onActive);
-  --Button--secondary-onHover-color: var(--Button--secondary-color);
-  --Button--sm-borderRadius: var(--borderRadius);
-  --Button--sm-fontSize: var(--fontSizeSm);
-  --Button--sm-height: #{px2rem(30px)};
-  --Button--sm-lineHeight: 18 / 12;
-  --Button--sm-paddingX: #{px2rem(8px)};
-  --Button--sm-paddingY: calc(
-    (
-        var(--Button--sm-height) - var(--Button-borderWidth) * 2 -
-          var(--Button--sm-lineHeight) * var(--Button--sm-fontSize)
-      ) / 2
-  );
-  --Button--success-bg: var(--success);
-  --Button--success-border: var(--Button--success-bg);
-  --Button--success-color: var(--button-color);
-  --Button--success-onActive-bg: var(--success-onActive);
-  --Button--success-onActive-border: var(--colors-success-6);
-  --Button--success-onActive-color: var(--Button--success-color);
-  --Button--success-onHover-bg: var(--success-onHover);
-  --Button--success-onHover-border: var(--success-onActive);
-  --Button--success-onHover-color: var(--Button--success-color);
-  --Button--emphasize-bg: #ffffff;
-  --Button--emphasize-color: var(--primary);
-  --Button--emphasize-onHover-bg: #ffffff;
-  --Button--emphasize-onHover-border: var(--primary);
-  --Button--emphasize-onHover-color: #528eff;
-  --Button--emphasize-onActive-bg: #ffffff;
-  --Button--emphasize-onActive-border: #144bcc;
-  --Button--emphasize-onActive-color: #144bcc;
-
-  --Button--enhance-border: var(--primary);
-  --Button--enhance-color: var(--primary);
-  --Button--enhance-onActive-bg: var(--white);
-  --Button--enhance-onActive-border: var(--primary-onActive);
-  --Button--enhance-onActive-color: var(--primary-onActive);
-  --Button--enhance-onHover-bg: var(--white);
-  --Button--enhance-onHover-border: var(--primary-onHover);
-  --Button--enhance-onHover-color: var(--primary-onHover);
-  --Button--warning-bg: var(--warning);
-  --Button--warning-border: var(--Button--warning-bg);
-  --Button--warning-color: var(--button-color);
-  --Button--warning-onActive-bg: var(--warning-onActive);
-  --Button--warning-onActive-border: var(--colors-warning-6);
-  --Button--warning-onActive-color: var(--Button--warning-color);
-  --Button--warning-onHover-bg: var(--warning-onHover);
-  --Button--warning-onHover-border: var(--warning-onActive);
-  --Button--warning-onHover-color: var(--Button--warning-color);
-  --Button--xs-fontSize: var(--fontSizeXs);
-  --Button--xs-height: #{px2rem(22px)};
-  --Button--xs-lineHeight: 18 / 11;
-  --Button--xs-paddingX: var(--gap-xs);
-  --Button--xs-paddingY: calc(
-    (
-        var(--Button--xs-height) - var(--Button-borderWidth) * 2 -
-          var(--Button--xs-lineHeight) * var(--Button--xs-fontSize)
-      ) / 2
-  );
-  --Button-borderRadius: var(--borderRadius);
-  --Button-borderWidth: var(--Form-input-borderWidth);
-  --Button-boxShadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    0 1px 1px rgba(0, 0, 0, 0.075);
-  --Button-textShadow: none;
-  --Button-fontSize: var(--Form-input-fontSize);
-  --Button-fontWeight: var(--fontWeightNormal);
-  --Button-height: var(--Form-input-height);
-  --Button-lineHeight: var(--Form-input-lineHeight);
-  --Button-mimWidth: auto;
-  --Button-onActive-boxShadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  --Button-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  --Button-animation-spin: spin 1s infinite linear;
-  --Button-onActive-color: var(--primary);
-  --Button-onActive-border: var(--primary);
-  --Button-onDisabled-borderColor: #dee2e6;
-  --Button-onDisabled-opacity: 0.65;
-  --Button-onDisabled-bg: #f2f3f3;
-  --Button-onFocus-boxShadow: none;
-  --Button-paddingX: #{px2rem(12px)};
-  --Button-icon-rightMargin: #{px2rem(4px)};
-  --Button-paddingX-right: #{px2rem(10px)};
-  --Button-paddingY: calc(
-    (
-        var(--Button-height) - var(--Button-borderWidth) * 2 -
-          var(--Button-lineHeight) * var(--Button-fontSize)
-      ) / 2
-  );
   --Button-transition: color var(--animation-duration) ease-in-out,
     background-color var(--animation-duration) ease-in-out,
     border-color var(--animation-duration) ease-in-out,
@@ -540,7 +356,7 @@
   --ColorPicker-fontSize: var(--Form-input-fontSize);
   --ColorPicker-height: var(--Form-input-height);
   --ColorPicker-lineHeight: var(--Form-input-lineHeight);
-  --ColorPicker-onDisabled-bg: var(-colors-neutral-8);
+  --ColorPicker-onDisabled-bg: var(--colors-neutral-8);
   --ColorPicker-onDisabled-color: var(--text--muted-color);
   --ColorPicker-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
   --ColorPicker-onHover-bg: var(--colors-neutral-9);
@@ -573,7 +389,7 @@
   --Combo-addBtn-height: #{px2rem(26px)};
   --Combo-addBtn-lineHeight: var(--Button--sm-lineHeight);
   --Combo-addBtn-onActive-bg: var(--colors-brand-4);
-  --Combo-addBtn-onActive-border: var(-colors-neutral-4);
+  --Combo-addBtn-onActive-border: var(--colors-neutral-4);
   --Combo-addBtn-onActive-color: var(--Combo-addBtn-color);
   --Combo-addBtn-onHover-bg: var(--colors-brand-6);
   --Combo-addBtn-onHover-border: var(--colors-neutral-6);
@@ -661,7 +477,7 @@
 
   --Drawer-bg: var(--background);
   --Drawer-body-padding: var(--gap-base);
-  --Drawer-close-color: #{$G2};
+  --Drawer-close-color: var(--colors-neutral-2);
   --Drawer-close-onHover-color: var(--text-color);
   --Drawer-close-size: #{px2rem(12px)};
   --Drawer-content-borderColor: var(--borderColor);
@@ -673,7 +489,7 @@
   --Drawer-header-borderColor: var(--colors-neutral-10);
   --Drawer-header-padding: var(--gap-base);
   --Drawer-overlay-bg: rgba(0, 0, 0, 0.6);
-  --Drawer-title-fontColor: #{$G2};
+  --Drawer-title-fontColor: var(--colors-neutral-2);
   --Drawer-title-fontSize: var(--fontSizeMd);
   --Drawer-widthBase: 80%;
   --Drawer-widthLg: #{px2rem(800px)};
@@ -724,7 +540,7 @@
   --Form-control-widthSm: #{px2rem(160px)};
   --Form-control-widthXs: #{px2rem(80px)};
 
-  --Form-description-color: var(-colors-neutral-3);
+  --Form-description-color: var(--colors-neutral-3);
   --Form-description-fontSize: var(--fontSizeSm);
 
   --Form-fontSize: var(--fontSizeBase);
@@ -766,7 +582,7 @@
   --Form-input-paddingX: #{px2rem(8px)};
 
   --Form-input-password-icon-size: #{px2rem(16px)};
-  --Form-input-password-icon-color: #{$G5};
+  --Form-input-password-icon-color: var(--colors-neutral-5);
 
   --Form-inputNumber-paddingX: #{px2rem(12px)};
   --Form-inputNumber-base-width: #{px2rem(24px)};
@@ -838,7 +654,7 @@
   --Form-select-valueIcon-color: var(--Form-select-valueIcon-color);
   --Form-select-valueIcon-color--dark: #e9e9e9;
   --Form-select-valueIcon-onHover-color: var(--Form-select-color);
-  --Form-select-multiple-bgColor: #{$G10};
+  --Form-select-multiple-bgColor: var(--colors-neutral-10);
   --Form-selectOption-height: var(--Form-select-height);
   --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
   --Form-selectValue-onHover-bgColor: var(--Form-select-borderColor);
@@ -1087,9 +903,9 @@
   --Modal-bg: var(--background);
   --Modal-body--noHeader-paddingTop: var(--gap-base);
   --Modal-body-borderBottom: var(--Modal-content-borderWidth) solid
-    var(-colors-neutral-10);
+    var(--colors-neutral-10);
   --Modal-body-borderTop: var(--Modal-content-borderWidth) solid
-    var(-colors-neutral-10);
+    var(--colors-neutral-10);
   --Modal-body-paddingX: var(--gap-md);
   --Modal-body-paddingY: var(--gap-md);
   --Modal-close-color: var(--text--muted-color);
@@ -1555,7 +1371,9 @@
 
   --Toast-border-width: 0;
   --Toast-borderRadius: #{px2rem(2px)};
-  --Toast-box-shadow: #{$L1};
+  --Toast-box-shadow: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
+    0px 1px 10px 0px rgba(8, 14, 26, 0.05),
+    0px 2px 4px -1px rgba(8, 14, 26, 0.04);
   --Toast-close-color: var(--icon-color);
   --Toast-close--onHover-color: var(--Toast-close-color);
 
