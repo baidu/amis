@@ -575,7 +575,11 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       if (joinValues !== false || (!multiple && extractValue === true)) {
-        return typeof value === 'string' || typeof value === 'number';
+        return (
+          typeof value === 'boolean' ||
+          typeof value === 'string' ||
+          typeof value === 'number'
+        );
       }
 
       if (multiple) {
@@ -614,7 +618,12 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       if (joinValues !== false) {
-        if (!value || typeof value === 'string' || typeof value === 'number')
+        if (
+          !value ||
+          typeof value === 'boolean' ||
+          typeof value === 'string' ||
+          typeof value === 'number'
+        )
           return;
 
         const selectedOptions = formItem.getSelectedOptions(value);
