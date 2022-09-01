@@ -210,7 +210,7 @@ export function JSONGetByPath(
   return target;
 }
 
-export function JSONGetPathById(json: any, id: string): Array<string> | null {
+export function JSONGetPathById(json: any, id: string, idKey: string = '$$id'): Array<string> | null {
   let paths: Array<string> = [];
   let resolved: boolean = false;
   let stack: Array<any> = [
@@ -225,7 +225,7 @@ export function JSONGetPathById(json: any, id: string): Array<string> | null {
     let data = cur.data;
     let path = cur.path;
 
-    if (data.$$id === id) {
+    if (data[idKey] === id) {
       resolved = true;
       paths = path.split('.').filter((item: any) => item);
       break;
@@ -255,8 +255,8 @@ export function JSONGetPathById(json: any, id: string): Array<string> | null {
   return resolved ? paths : null;
 }
 
-export function JSONGetById(json: any, id: string): any {
-  let paths = JSONGetPathById(json, id);
+export function JSONGetById(json: any, id: string, idKey?: string): any {
+  let paths = JSONGetPathById(json, id, idKey);
   if (paths === null) {
     return null;
   }

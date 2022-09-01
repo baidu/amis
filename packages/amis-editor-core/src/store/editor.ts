@@ -361,8 +361,8 @@ export const EditorStore = types
         return this.getNodeById(self.activeId)?.info;
       },
 
-      getSchema(id?: string) {
-        return id ? JSONGetById(self.schema, id) : self.schema;
+      getSchema(id?: string, idKey?: string) {
+        return id ? JSONGetById(self.schema, id, idKey) : self.schema;
       },
 
       getSchemaParentById(id: string) {
@@ -498,7 +498,7 @@ export const EditorStore = types
       },
 
       getValueOf(id: string) {
-        return JSONPipeOut(JSONGetById(self.schema, id));
+        return JSONPipeOut(JSONGetById(self.schema, id), false);
       },
 
       get valueWithoutHiddenProps() {
@@ -509,10 +509,11 @@ export const EditorStore = types
         return JSONPipeOut(
           JSONGetById(self.schema, self.activeId),
           getEnv(self).isHiddenProps ||
-            (key =>
+            ((key, props) =>
               (key.substring(0, 2) === '$$' &&
                 key !== '$$comments' &&
                 key !== '$$commonSchema') ||
+              typeof props === 'function' || // pipeIn 和 pipeOut
               key.substring(0, 2) === '__')
         );
       },
@@ -851,7 +852,7 @@ export const EditorStore = types
       },
 
       get getSuperEditorData() {
-        return self.superEditorData || {}
+        return self.superEditorData || {};
       }
     };
   })

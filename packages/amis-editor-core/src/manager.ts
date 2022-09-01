@@ -44,7 +44,8 @@ import {
   reactionWithOldValue,
   reGenerateID,
   isString,
-  isObject
+  isObject,
+  JSONPipeOut
 } from './util';
 import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
@@ -285,6 +286,13 @@ export class EditorManager {
       this.plugins.push(newPlugin);
       // 重新排序
       this.plugins.sort((a, b) => a.order! - b.order!); // 按order排序【升序】
+
+      // 记录动作定义
+      if (newPlugin.rendererName) {
+        this.pluginEvents[newPlugin.rendererName] = newPlugin.events || [];
+        this.pluginActions[newPlugin.rendererName] = newPlugin.actions || [];
+      }
+
       this.buildRenderers();
     }
   }
@@ -1717,7 +1725,7 @@ export class EditorManager {
         component.props.$$id,
         component.props.type
       );
-      node?.info?.plugin?.rendererBeforeDispatchEvent?.(node, e, data);
+      node?.info?.plugin?.rendererBeforeDispatchEvent?.(node, e, JSONPipeOut(data));
     }
   }
 
