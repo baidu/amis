@@ -21,6 +21,10 @@
       // padding-bottom: var(--Form-input-paddingY);
     }
   }
+
+  .#{$ns}TextControl-button {
+    overflow: hidden;
+  }
 }
 
 .#{$ns}Form-static {

@@ -9,6 +9,9 @@
   transition: var(--Button-transition);
   white-space: nowrap;
   min-width: var(--Button-mimWidth);
+  max-width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
   &--primary {
     @include button-variant(
