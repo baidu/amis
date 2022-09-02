@@ -432,10 +432,10 @@ export default class PickerControl extends React.PureComponent<
       popOverContainer
     }) as JSX.Element;
   }
-
   render() {
     const {
       className,
+      modalClassName,
       classnames: cx,
       disabled,
       render,
@@ -452,6 +452,7 @@ export default class PickerControl extends React.PureComponent<
       translate: __,
       popOverContainer
     } = this.props;
+    debugger;
     return (
       <div className={cx(`PickerControl`, className)}>
         {embed ? (
@@ -504,6 +505,7 @@ export default class PickerControl extends React.PureComponent<
                 title: __('Select.placeholder'),
                 size: size,
                 type: modalMode,
+                className: modalClassName,
                 body: {
                   children: this.renderBody
                 }
