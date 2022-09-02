@@ -687,7 +687,7 @@ export default class NestedSelectControl extends React.Component<
                     className={cx('NestedSelect-optionLabel', {
                       'is-disabled': nodeDisabled
                     })}
-                    onMouseUp={() =>
+                    onClick={() =>
                       !nodeDisabled &&
                       (multiple
                         ? this.handleCheck(option, index)
