@@ -26,7 +26,7 @@
     "{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}": [
       "prettier --write"
     ],
-    "{src,scss,examples}/**/**/*.{scss}": [
+    "{src,scss,examples}/**/**/*.scss": [
       "stylelint"
     ]
   },
