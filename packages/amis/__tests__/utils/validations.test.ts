@@ -907,3 +907,435 @@ test('validation:multiplestr2rules:noSlash', () => {
     matchRegexp2: ['123$']
   });
 });
+
+/** ============================ 日期时间相关 ============================= */
+describe('validation:DateTime', () => {
+  describe('validation: isDateTimeSame', () => {
+    const targetDate = '2022-10-01 00:00:00';
+
+    test('validation: isDateTimeSame:valid', () => {
+      expect(
+        validate(
+          targetDate,
+          {},
+          {
+            isDateTimeSame: targetDate
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isDateTimeSame:inValid', () => {
+      expect(
+        validate(
+          '2022-10-01 12:00:00',
+          {},
+          {
+            isDateTimeSame: targetDate
+          }
+        )
+      ).toMatchObject([
+        {msg: 'validate.isDateTimeSame', rule: 'isDateTimeSame'}
+      ]);
+    });
+  });
+
+  describe('validation: isDateTimeBefore', () => {
+    const targetDate = '2022-10-01 00:00:00';
+
+    test('validation: isDateTimeBefore:valid', () => {
+      expect(
+        validate(
+          '2022-08-25 10:00:00',
+          {},
+          {
+            isDateTimeBefore: targetDate
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isDateTimeBefore:inValid', () => {
+      expect(
+        validate(
+          '2022-10-01 00:00:30',
+          {},
+          {
+            isDateTimeBefore: targetDate
+          }
+        )
+      ).toMatchObject([
+        {msg: 'validate.isDateTimeBefore', rule: 'isDateTimeBefore'}
+      ]);
+    });
+  });
+
+  describe('validation: isDateTimeAfter', () => {
+    const targetDate = '2022-10-01 00:00:00';
+
+    test('validation: isDateTimeAfter:valid', () => {
+      expect(
+        validate(
+          '2022-10-01 00:00:01',
+          {},
+          {
+            isDateTimeAfter: targetDate
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isDateTimeAfter:inValid', () => {
+      expect(
+        validate(
+          '2022-09-30 23:59:59',
+          {},
+          {
+            isDateTimeAfter: targetDate
+          }
+        )
+      ).toMatchObject([
+        {msg: 'validate.isDateTimeAfter', rule: 'isDateTimeAfter'}
+      ]);
+    });
+  });
+
+  describe('validation: isDateTimeSameOrBefore', () => {
+    const targetDate = '2022-10-01 00:00:00';
+
+    test('validation: isDateTimeSameOrBefore:same valid', () => {
+      expect(
+        validate(
+          targetDate,
+          {},
+          {
+            isDateTimeSameOrBefore: targetDate
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isDateTimeSameOrBefore:before valid', () => {
+      expect(
+        validate(
+          '2022-09-30 23:59:59',
+          {},
+          {
+            isDateTimeSameOrBefore: targetDate
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isDateTimeSameOrBefore:inValid', () => {
+      expect(
+        validate(
+          '2022-10-01 00:00:10',
+          {},
+          {
+            isDateTimeSameOrBefore: targetDate
+          }
+        )
+      ).toMatchObject([
+        {msg: 'validate.isDateTimeSameOrBefore', rule: 'isDateTimeSameOrBefore'}
+      ]);
+    });
+  });
+
+  describe('validation: isDateTimeSameOrAfter', () => {
+    const targetDate = '2022-10-01 00:00:00';
+
+    test('validation: isDateTimeSameOrAfter:same valid', () => {
+      expect(
+        validate(
+          targetDate,
+          {},
+          {
+            isDateTimeSameOrAfter: targetDate
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isDateTimeSameOrAfter:after valid', () => {
+      expect(
+        validate(
+          '2022-10-01 00:10:00',
+          {},
+          {
+            isDateTimeSameOrAfter: targetDate
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isDateTimeSameOrAfter:inValid', () => {
+      expect(
+        validate(
+          '2022-09-30 23:59:59',
+          {},
+          {
+            isDateTimeSameOrAfter: targetDate
+          }
+        )
+      ).toMatchObject([
+        {msg: 'validate.isDateTimeSameOrAfter', rule: 'isDateTimeSameOrAfter'}
+      ]);
+    });
+  });
+
+  describe('validation: isDateTimeBetween', () => {
+    const lhs = '2022-10-01 00:00:00';
+    const rhs = '2022-10-03 00:00:00';
+
+    test('validation: isDateTimeBetween:default valid', () => {
+      expect(
+        validate(
+          '2022-10-01 00:00:01',
+          {},
+          {
+            isDateTimeBetween: [lhs, rhs]
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isDateTimeBetween:inclusivity with () endpoints of the interval', () => {
+      expect(
+        validate(
+          '2022-10-01 00:00:00',
+          {},
+          {
+            isDateTimeBetween: [lhs, rhs, 'millisecond', '()']
+          }
+        )
+      ).toMatchObject([
+        {msg: 'validate.isDateTimeBetween', rule: 'isDateTimeBetween'}
+      ]);
+    });
+
+    test('validation: isDateTimeBetween:inclusivity with [] endpoints of the interval', () => {
+      expect(
+        validate(
+          '2022-10-01 00:00:00',
+          {},
+          {
+            isDateTimeBetween: [lhs, rhs, 'millisecond', '[]']
+          }
+        )
+      ).toMatchObject([]);
+    });
+  });
+});
+
+/** ============================ 时间相关 ============================= */
+describe('validation:Time', () => {
+  describe('validation: isTimeSame', () => {
+    const targetTime = '00:00:00';
+
+    test('validation: isTimeSame:valid', () => {
+      expect(
+        validate(
+          targetTime,
+          {},
+          {
+            isTimeSame: targetTime
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isTimeSame:inValid', () => {
+      expect(
+        validate(
+          '12:00:00',
+          {},
+          {
+            isTimeSame: targetTime
+          }
+        )
+      ).toMatchObject([{msg: 'validate.isTimeSame', rule: 'isTimeSame'}]);
+    });
+  });
+
+  describe('validation: isTimeBefore', () => {
+    const targetTime = '15:00:00';
+
+    test('validation: isTimeBefore:valid', () => {
+      expect(
+        validate(
+          '10:00:00',
+          {},
+          {
+            isTimeBefore: targetTime
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isTimeBefore:inValid', () => {
+      expect(
+        validate(
+          '15:00:30',
+          {},
+          {
+            isTimeBefore: targetTime
+          }
+        )
+      ).toMatchObject([{msg: 'validate.isTimeBefore', rule: 'isTimeBefore'}]);
+    });
+  });
+
+  describe('validation: isTimeAfter', () => {
+    const targetTime = '15:00:00';
+
+    test('validation: isTimeAfter:valid', () => {
+      expect(
+        validate(
+          '15:30:01',
+          {},
+          {
+            isTimeAfter: targetTime
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isTimeAfter:inValid', () => {
+      expect(
+        validate(
+          '12:40:01',
+          {},
+          {
+            isTimeAfter: targetTime
+          }
+        )
+      ).toMatchObject([{msg: 'validate.isTimeAfter', rule: 'isTimeAfter'}]);
+    });
+  });
+
+  describe('validation: isTimeSameOrBefore', () => {
+    const targetTime = '12:00:00';
+
+    test('validation: isTimeSameOrBefore:same valid', () => {
+      expect(
+        validate(
+          targetTime,
+          {},
+          {
+            isTimeSameOrBefore: targetTime
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isTimeSameOrBefore:before valid', () => {
+      expect(
+        validate(
+          '11:59:59',
+          {},
+          {
+            isTimeSameOrBefore: targetTime
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isTimeSameOrBefore:inValid', () => {
+      expect(
+        validate(
+          '12:00:01',
+          {},
+          {
+            isTimeSameOrBefore: targetTime
+          }
+        )
+      ).toMatchObject([
+        {msg: 'validate.isTimeSameOrBefore', rule: 'isTimeSameOrBefore'}
+      ]);
+    });
+  });
+
+  describe('validation: isTimeSameOrAfter', () => {
+    const targetTime = '12:00:00';
+
+    test('validation: isTimeSameOrAfter:same valid', () => {
+      expect(
+        validate(
+          targetTime,
+          {},
+          {
+            isTimeSameOrAfter: targetTime
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isTimeSameOrAfter:after valid', () => {
+      expect(
+        validate(
+          '23:00:00',
+          {},
+          {
+            isTimeSameOrAfter: targetTime
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isTimeSameOrAfter:inValid', () => {
+      expect(
+        validate(
+          '08:00:00',
+          {},
+          {
+            isTimeSameOrAfter: targetTime
+          }
+        )
+      ).toMatchObject([
+        {msg: 'validate.isTimeSameOrAfter', rule: 'isTimeSameOrAfter'}
+      ]);
+    });
+  });
+
+  describe('validation: isTimeBetween', () => {
+    const lhs = '06:00:00';
+    const rhs = '18:00:00';
+
+    test('validation: isTimeBetween:default valid', () => {
+      expect(
+        validate(
+          '12:00:00',
+          {},
+          {
+            isTimeBetween: [lhs, rhs]
+          }
+        )
+      ).toMatchObject([]);
+    });
+
+    test('validation: isTimeBetween:inclusivity with () endpoints of the interval', () => {
+      expect(
+        validate(
+          '06:00:00',
+          {},
+          {
+            isTimeBetween: [lhs, rhs, 'millisecond', '()']
+          }
+        )
+      ).toMatchObject([{msg: 'validate.isTimeBetween', rule: 'isTimeBetween'}]);
+    });
+
+    test('validation: isTimeBetween:inclusivity with [] endpoints of the interval', () => {
+      expect(
+        validate(
+          '18:00:00',
+          {},
+          {
+            isTimeBetween: [lhs, rhs, 'millisecond', '[]']
+          }
+        )
+      ).toMatchObject([]);
+    });
+  });
+});

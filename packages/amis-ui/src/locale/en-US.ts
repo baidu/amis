@@ -271,6 +271,30 @@ register('en-US', {
   'validate.minimum': 'The input value is lower than the minimum value of $1',
   'validate.minLength': 'Please enter more, at least $1 characters.',
   'validate.notEmptyString': 'Please do not enter all blank characters',
+  'validate.isDateTimeSame':
+    'The current date value is invalid, please enter the same date value as $1',
+  'validate.isDateTimeBefore':
+    'The current date value is invalid, please enter a date value before $1',
+  'validate.isDateTimeAfter':
+    'The current date value is invalid, please enter a date value after $1',
+  'validate.isDateTimeSameOrBefore':
+    'The current date value is invalid, please enter a date value that is the same as or before $1',
+  'validate.isDateTimeSameOrAfter':
+    'The current date value is invalid, please enter a date value that is the same as or after $1',
+  'validate.isDateTimeBetween':
+    'The current date value is invalid, please enter a date value between $1 and $2',
+  'validate.isTimeSame':
+    'The current time value is invalid, please enter the same time value as $1',
+  'validate.isTimeBefore':
+    'The current time value is invalid, please enter a time value before $1',
+  'validate.isTimeAfter':
+    'The current time value is invalid, please enter a time value after $1',
+  'validate.isTimeSameOrBefore':
+    'The current time value is invalid, please enter a time value that is the same as or before $1',
+  'validate.isTimeSameOrAfter':
+    'The current time value is invalid, please enter a time value that is the same as or after $1',
+  'validate.isTimeBetween':
+    'The current time value is invalid, please enter a time value between $1 and $2',
   'validateFailed': 'Validate failed',
   'Wizard.configError': 'Config error',
   'Wizard.finish': 'Finish',

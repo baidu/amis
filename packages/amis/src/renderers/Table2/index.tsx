@@ -30,8 +30,6 @@ import {Icon, Table, Spinner, BadgeObject} from 'amis-ui';
 import type {
   SortProps,
   ColumnProps,
-  RowSelectionProps,
-  ExpandableProps,
   OnRowProps,
   SummaryProps
 } from 'amis-ui/lib/components/table';
@@ -252,7 +250,7 @@ export interface TableSchema2 extends BaseSchema {
   /**
    * 表格可自定义列
    */
-  columnsTogglable?: boolean | string | SchemaObject;
+  columnsTogglable?: 'auto' | boolean | SchemaObject;
 
   /**
    * 表格列配置
@@ -325,11 +323,6 @@ export interface TableSchema2 extends BaseSchema {
   showHeader?: boolean;
 
   /**
-   * 自定义表格样式
-   */
-  className?: string;
-
-  /**
    * 指定表尾
    */
   footer?: string | SchemaObject | Array<SchemaObject>;
@@ -375,15 +368,15 @@ export type Table2RendererEvent =
 
 export type Table2RendererAction = 'selectAll' | 'clearAll' | 'select';
 
-export interface Table2Props extends RendererProps, Omit<TableSchema2, 'type'> {
+export interface Table2Props extends RendererProps {
   title?: string;
   columns: Array<ColumnSchema | ColumnProps>;
   onSelect?: Function;
   reUseRow?: boolean;
-  getEntryId?: Function;
+  getEntryId?: (entry: any, index: number) => string;
   store: ITableStore2;
-  rowSelection?: RowSelectionSchema | RowSelectionProps;
-  expandable?: ExpandableSchema | ExpandableProps;
+  rowSelection?: RowSelectionSchema;
+  expandable?: ExpandableSchema;
   classnames: ClassNamesFn;
   onSave?: Function;
   onSaveOrder?: Function;
@@ -483,10 +476,13 @@ export default class Table2 extends React.Component<Table2Props, object> {
     // selectedRowKeysExpr比selectedRowKeys优先级高
     if (props.rowSelection && props.rowSelection.selectedRowKeysExpr) {
       rows.forEach((row: any, index: number) => {
-        const flag = evalExpression(props.rowSelection.selectedRowKeysExpr, {
-          record: row,
-          rowIndex: index
-        });
+        const flag = evalExpression(
+          props.rowSelection?.selectedRowKeysExpr || '',
+          {
+            record: row,
+            rowIndex: index
+          }
+        );
         if (flag) {
           selectedRowKeys.push(row[props?.rowSelection?.keyField || 'key']);
         }
@@ -496,16 +492,19 @@ export default class Table2 extends React.Component<Table2Props, object> {
     }
 
     if (updateRows && selectedRowKeys.length > 0) {
-      store.updateSelected(selectedRowKeys, props.rowSelection.keyField);
+      store.updateSelected(selectedRowKeys, props.rowSelection?.keyField);
     }
 
     let expandedRowKeys: Array<string | number> = [];
     if (props.expandable && props.expandable.expandedRowKeysExpr) {
       rows.forEach((row: any, index: number) => {
-        const flag = evalExpression(props.expandable.expandedRowKeysExpr, {
-          record: row,
-          rowIndex: index
-        });
+        const flag = evalExpression(
+          props.expandable?.expandedRowKeysExpr || '',
+          {
+            record: row,
+            rowIndex: index
+          }
+        );
         if (flag) {
           expandedRowKeys.push(row[props?.expandable?.keyField || 'key']);
         }
@@ -515,7 +514,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     }
 
     if (updateRows && expandedRowKeys.length > 0) {
-      store.updateExpanded(expandedRowKeys, props.expandable.keyField);
+      store.updateExpanded(expandedRowKeys, props.expandable?.keyField);
     }
 
     return updateRows;
@@ -695,14 +694,17 @@ export default class Table2 extends React.Component<Table2Props, object> {
                     values: object,
                     saveImmediately?: boolean,
                     savePristine?: boolean,
-                    resetOnFailed?: boolean
+                    options?: {
+                      resetOnFailed?: boolean;
+                      reload?: string;
+                    }
                   ) => {
                     this.handleQuickChange(
                       item,
                       values,
                       saveImmediately,
                       savePristine,
-                      resetOnFailed
+                      options
                     );
                   },
                   row: item,
@@ -843,7 +845,10 @@ export default class Table2 extends React.Component<Table2Props, object> {
     indexes: Array<string>,
     unModifiedItems?: Array<any>,
     rowsOrigin?: Array<object> | object,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     const {
       store,
@@ -906,7 +911,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
           reload && this.reloadTarget(reload, data);
         })
         .catch(() => {
-          resetOnFailed && this.control.reset();
+          options?.resetOnFailed && this.control.reset();
         });
     }
   }
@@ -917,7 +922,10 @@ export default class Table2 extends React.Component<Table2Props, object> {
     values: object,
     saveImmediately?: boolean | any,
     savePristine?: boolean,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     if (!isAlive(item)) {
       return;
@@ -942,7 +950,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
           null,
           {
             actionType: 'ajax',
-            api: saveImmediately.api
+            api: saveImmediately.api,
+            reload: options?.reload
           },
           values
         );
@@ -952,19 +961,19 @@ export default class Table2 extends React.Component<Table2Props, object> {
     onSave
       ? onSave(
           item.data,
-          difference(item.data, item.pristine, ['id', primaryField]),
+          difference(item.data, item.pristine, ['id', primaryField!]),
           item.path,
           undefined,
           item.pristine,
-          resetOnFailed
+          options
         )
       : this.handleSave(
           quickSaveItemApi ? item.data : [item.data],
-          difference(item.data, item.pristine, ['id', primaryField]),
+          difference(item.data, item.pristine, ['id', primaryField!]),
           [item.path],
           undefined,
           item.pristine,
-          resetOnFailed
+          options
         );
   }
 
@@ -1061,7 +1070,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       return rendererEvent?.prevented;
     }
 
-    store.updateSelected(selectedRowKeys, rowSelection.keyField);
+    store.updateSelected(selectedRowKeys, rowSelection?.keyField);
     onSelect && onSelect(selectedRows, unSelectedRows);
   }
 
@@ -1185,7 +1194,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
             record: item,
             rowIndex
           });
-          if (flag) {
+          if (flag && keyField) {
             selected.push(item[keyField]);
           }
         });

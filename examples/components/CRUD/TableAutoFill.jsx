@@ -154,6 +154,7 @@ export default {
       {
         name: 'browser',
         label: 'Browser',
+        width: 500,
         searchable: {
           type: 'select',
           name: 'browser',
@@ -178,7 +179,7 @@ export default {
       {
         name: 'platform',
         label: 'Platform(s)',
-        searchable: true
+        width: 500
       },
       {
         name: 'version',

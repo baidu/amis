@@ -230,6 +230,10 @@ export class Evaluator {
   add(ast: {left: any; right: any}) {
     const left = this.evalute(ast.left);
     const right = this.evalute(ast.right);
+    // 如果有一个不是数字就变成字符串拼接
+    if (isNaN(left) || isNaN(right)) {
+      return left + right;
+    }
     return stripNumber(this.formatNumber(left) + this.formatNumber(right));
   }
 

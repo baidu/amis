@@ -65,7 +65,6 @@ test('Renderer:radios', async () => {
   expect(container).toMatchSnapshot();
 });
 
-
 test('Renderer:radios source & autoFill', async () => {
   const {getByText, container} = render(
     amisRender(
@@ -104,7 +103,7 @@ test('Renderer:radios source & autoFill', async () => {
             valueField: 'id',
             optionClassName: 'class-a',
             autoFill: {
-              fillFromRadios: "${fill}"
+              fillFromRadios: '${fill}'
             }
           },
           {
@@ -135,9 +134,61 @@ test('Renderer:radios source & autoFill', async () => {
   fireEvent.click(getByText(/C/));
   await waitFor(() => {
     expect(
-      (container.querySelector('.cxd-TplField.autoFillClass span') as Element).innerHTML
+      (container.querySelector('.cxd-TplField.autoFillClass span') as Element)
+        .innerHTML
     ).toBe('13');
   });
 
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:radios with boolean value', async () => {
+  const onSubmit = jest.fn();
+  const {getByText, container} = render(
+    amisRender(
+      {
+        type: 'form',
+        title: 'The form',
+        body: [
+          {
+            name: 'radios',
+            type: 'radios',
+            label: 'radios',
+            options: [
+              {
+                label: 'Option True',
+                value: true
+              },
+              {
+                label: 'Option False',
+                value: false
+              }
+            ]
+          }
+        ],
+        submitText: 'Submit'
+      },
+      {onSubmit},
+      makeEnv()
+    )
+  );
+
+  await wait(200);
+  fireEvent.click(getByText(/Option True/));
+  await wait(200);
+  fireEvent.click(getByText(/Submit/));
+  await waitFor(() => {
+    expect(onSubmit).toBeCalled();
+  });
+  expect(onSubmit.mock.calls[0][0]).toMatchObject({
+    radios: true
+  });
+
+  fireEvent.click(getByText(/Option False/));
+  await wait(200);
+  fireEvent.click(getByText(/Submit/));
+  await waitFor(() => {
+    expect(onSubmit).toBeCalledTimes(2);
+  });
+  expect(onSubmit.mock.calls[1][0].radios).toEqual(false);
 });

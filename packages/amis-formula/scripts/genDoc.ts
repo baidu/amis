@@ -1,6 +1,6 @@
-import path = require('path');
-import fs = require('fs');
-import doctrine = require('doctrine');
+import path from 'path';
+import fs from 'fs';
+import doctrine from 'doctrine';
 
 const workDir = path.resolve(path.dirname(__dirname));
 const jsFile = path.join(workDir, 'src/evalutor.ts');

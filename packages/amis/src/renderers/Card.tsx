@@ -337,11 +337,14 @@ export class CardRenderer extends React.Component<CardProps> {
     values: object,
     saveImmediately?: boolean,
     savePristine?: boolean,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     const {onQuickChange, item} = this.props;
     onQuickChange &&
-      onQuickChange(item, values, saveImmediately, savePristine, resetOnFailed);
+      onQuickChange(item, values, saveImmediately, savePristine, options);
   }
 
   renderToolbar() {

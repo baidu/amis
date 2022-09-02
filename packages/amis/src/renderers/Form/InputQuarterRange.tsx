@@ -59,6 +59,7 @@ export class QuarterRangeControlRenderer extends QuarterRangeControl {
     joinValues: true,
     delimiter: ',',
     timeFormat: '',
-    ranges: 'thisquarter,prevquarter'
+    ranges: 'thisquarter,prevquarter',
+    animation: true
   };
 }
