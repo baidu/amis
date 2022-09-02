@@ -121,7 +121,6 @@ export class RateControlPlugin extends BasePlugin {
                 name: 'min',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.min,
                   type: 'input-number'
                 },
                 needDeleteProps: ['min'], // 避免自我限制
@@ -136,7 +135,6 @@ export class RateControlPlugin extends BasePlugin {
                 name: 'max',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.max,
                   type: 'input-number'
                 },
                 needDeleteProps: ['max'], // 避免自我限制

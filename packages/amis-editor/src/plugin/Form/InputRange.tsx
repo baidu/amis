@@ -153,20 +153,20 @@ export class RangeControlPlugin extends BasePlugin {
                 name: 'value',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.min || 0,
                   type: 'input-number'
                 },
                 valueType: 'number', // 期望数值类型
-                visibleOn: '!data.multiple'
+                visibleOn: '!data.multiple',
+                pipeIn: defaultValue(0)
               }),
 
               getSchemaTpl('valueFormula', {
                 name: 'min',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.min || 0,
                   type: 'input-number'
                 },
+                pipeIn: defaultValue(0),
                 needDeleteProps: ['min'], // 避免自我限制
                 label: tipedLabel(
                   '最小值',
@@ -179,9 +179,9 @@ export class RangeControlPlugin extends BasePlugin {
                 name: 'max',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.max || 100,
                   type: 'input-number'
                 },
+                pipeIn: defaultValue(100),
                 needDeleteProps: ['max'], // 避免自我限制
                 label: tipedLabel(
                   '最大值',

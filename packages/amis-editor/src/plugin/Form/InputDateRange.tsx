@@ -269,7 +269,6 @@ export class DateRangeControlPlugin extends BasePlugin {
                 name: 'minDate',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.minDate,
                   type: 'input-date'
                 },
                 needDeleteProps: ['minDate'], // 避免自我限制
@@ -279,7 +278,6 @@ export class DateRangeControlPlugin extends BasePlugin {
                 name: 'maxDate',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.maxDate,
                   type: 'input-date'
                 },
                 needDeleteProps: ['maxDate'], // 避免自我限制
@@ -290,7 +288,6 @@ export class DateRangeControlPlugin extends BasePlugin {
                 name: 'minDuration',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.minDuration,
                   type: 'input-text'
                 },
                 needDeleteProps: ['minDuration'], // 避免自我限制
@@ -301,7 +298,6 @@ export class DateRangeControlPlugin extends BasePlugin {
                 name: 'maxDuration',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.maxDuration,
                   type: 'input-text'
                 },
                 needDeleteProps: ['maxDuration'], // 避免自我限制

@@ -13,7 +13,7 @@ import isString from 'lodash/isString';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import cx from 'classnames';
-import {FormItem, Button, InputBox, Icon, ResultBox, render} from 'amis';
+import {FormItem, Button, InputBox, Icon, ResultBox} from 'amis';
 import {FormulaExec, isExpression} from 'amis';
 import {PickerContainer} from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
@@ -288,8 +288,6 @@ export default class FormulaControl extends React.Component<
     if (rendererSchema) {
       curRendererSchema = Object.assign({}, rendererSchema, data, {
         type: rendererSchema.type ?? data.type,
-        // 说明: props.value 最后会同步到 rendererSchema.value 中
-        value: rendererSchema.value // this.props.value ?? rendererSchema.value ?? data.value
       });
 
       // 默认要剔除的字段
@@ -323,7 +321,7 @@ export default class FormulaControl extends React.Component<
         'unitOptions',
         'keyboard',
         'kilobitSeparator',
-        // 'value'
+        'value'
       ];
 
       // 当前组件要剔除的字段
@@ -395,7 +393,7 @@ export default class FormulaControl extends React.Component<
       rendererWrapper,
       manager,
       useExternalFormData = false,
-      // render,
+      render,
       ...rest
     } = this.props;
 
@@ -451,7 +449,7 @@ export default class FormulaControl extends React.Component<
               rendererWrapper ? 'border-wrapper' : ''
             )}
           >
-            {render(this.filterCustomRendererProps(rendererSchema), {
+            {render('inner', this.filterCustomRendererProps(rendererSchema), {
               inputOnly: true,
               value: value,
               data: useExternalFormData

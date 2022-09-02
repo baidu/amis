@@ -323,7 +323,6 @@ export class DateControlPlugin extends BasePlugin {
                 name: 'minDate',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.minDate
                 },
                 needDeleteProps: ['minDate'], // 避免自我限制
                 label: tipedLabel('最小值', tipedLabelText)
@@ -332,7 +331,6 @@ export class DateControlPlugin extends BasePlugin {
                 name: 'maxDate',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.maxDate
                 },
                 needDeleteProps: ['maxDate'], // 避免自我限制
                 label: tipedLabel('最大值', tipedLabelText)

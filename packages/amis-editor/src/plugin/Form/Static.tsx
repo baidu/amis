@@ -61,7 +61,7 @@ export class StaticControlPlugin extends BasePlugin {
                 rendererSchema: {
                   ...context?.schema,
                   type: 'textarea', // 改用多行文本编辑
-                  value: context?.schema.tpl, // 避免默认值丢失
+                  
                 },
                 mode: 'vertical', // 改成上下展示模式
                 name: 'tpl'
