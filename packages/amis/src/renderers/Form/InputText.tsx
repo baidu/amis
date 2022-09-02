@@ -916,13 +916,13 @@ export default class TextControl extends React.PureComponent<
         : addOnRaw;
 
     let input =
-      autoComplete !== false && (source || options.length || autoComplete)
+      autoComplete !== false && (source || options?.length || autoComplete)
         ? this.renderSugestMode()
         : this.renderNormal();
 
     const iconElement = generateIcon(cx, addOn?.icon, 'Icon');
 
-    let addOnDom = addOn ? (
+    let addOnDom = addOn && !this.props.static ? (
       addOn.actionType ||
       ~['button', 'submit', 'reset', 'action'].indexOf(addOn.type) ? (
         <div className={cx(`${ns}TextControl-button`, addOn.className)}>

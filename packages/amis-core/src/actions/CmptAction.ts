@@ -9,6 +9,8 @@ import {
 export interface ICmptAction extends ListenerAction {
   actionType:
     | 'setValue'
+    | 'static'
+    | 'nonstatic'
     | 'show'
     | 'hidden'
     | 'enabled'
@@ -47,6 +49,11 @@ export class CmptAction implements RendererAction {
       return renderer.props.topStore.setVisible(
         action.componentId,
         action.actionType === 'show'
+      );
+    } else if (['static', 'nonstatic'].includes(action.actionType)) {
+      return renderer.props.topStore.setStatic(
+        action.componentId,
+        action.actionType === 'static'
       );
     } else if (['enabled', 'disabled'].includes(action.actionType)) {
       return renderer.props.topStore.setDisable(
