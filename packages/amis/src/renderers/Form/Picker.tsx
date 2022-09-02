@@ -452,7 +452,6 @@ export default class PickerControl extends React.PureComponent<
       translate: __,
       popOverContainer
     } = this.props;
-    debugger;
     return (
       <div className={cx(`PickerControl`, className)}>
         {embed ? (

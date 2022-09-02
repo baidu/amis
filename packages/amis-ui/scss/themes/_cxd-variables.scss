@@ -1216,7 +1216,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-select-outer-top: var(--sizes-size-17-size);
   --Form-select-outer-boxShadow: #{px2rem(2px)} #{px2rem(4px)} #{px2rem(8px)} rgba(0, 0, 0, 0.2);
   --Form-select-menu-color: var(--colors-neutral-strong);
-  --Form-select-menu-onHover-color: var(--colors-neutral-strong);
+  --Form-select-menu-onHover-color: var(--colors-brand-5);
   --Form-select-menu-onHover-bg: var(--colors-brand-bg);
   --Form-select-menu-onActive-color: var(--colors-brand-default);
   --Form-select-menu-height: var(--sizes-size-13-size);
@@ -1285,6 +1285,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Calendar-icon-width: var(--sizes-size-6-size);
   --Calendar-icon-height: var(--sizes-size-6-size);
   --Calendar-borderWidth: var(--borders-line-2-width);
+  --Calendar-borderColor: var(--colors-brand-5);
   --Calendar-rdt-day: #{px2rem(100px)};
   --Calendar-schedule-content-padding: 0 var(--sizes-size-3-size);
   --Calendar-schedule-content-height: var(--sizes-size-11-size);
@@ -1321,6 +1322,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --DatePicker-borderRadius: var(--borders-radius-3-radius);
   --DatePicker-bg: var(--colors-neutral-cardBg);
   --DatePicker-onHover-bg: var(--colors-neutral-cardBg);
+  --DatePicker-onFocused-borderColor: var(--colors-brand-4);
   --DatePicker-color: var(--colors-neutral-strong);
   --DatePicker-placeholderColor: #999;
   --DatePicker-onDisabled-bg: #f5f5f5;
@@ -1607,7 +1609,16 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Card-actions-fontSize: var(--fonts-other-sm-size);
 
   // Combo
+  --Combo-addBtn-height: #{px2rem(26px)};
   --Combo--horizontal-dragger-top: var(--sizes-size-3-size);
+  --Combo-addBtn-fontSize: var(--fonts-heading-4-size);
+  --Combo-addBtn-paddingX: var(--Button--sm-paddingX);
+  --Combo-addBtn-paddingY: calc(
+    (
+        var(--Combo-addBtn-height) - var(--Button-borderWidth) * 2 -
+          var(--Combo-addBtn-lineHeight) * var(--Combo-addBtn-fontSize)
+      ) / 2
+  );
 
   // ListMenu
   --ListMenu-borderWidth: var(--borders-line-1-width);
@@ -1617,10 +1628,10 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --ListMenu-item--onHover-color: var(--colors-neutral-strong);
   --ListMenu-item--onHover-bg: #eaf6fe;
   --ListItem--strip-bg: #f6f6f6;
-  --ListItem-onChecked-color: #0052cc;
-  --ListItem-onChecked-bg: #f0f6ff;
-  --ListItem-onChecked-borderColor: #0052cc;
-  --ListItem-onChecked-fieldLabel-color: #0052cc;
+  --ListItem-onChecked-color: var(--colors-brand-4);
+  --ListItem-onChecked-bg: var(--colors-brand-bg);
+  --ListItem-onChecked-borderColor: var(--colors-brand-4);
+  --ListItem-onChecked-fieldLabel-color: var(--colors-brand-4);
 
   --Transfer-title-bg: #f7f7f9;
 
