@@ -248,6 +248,7 @@ export interface OptionsProps
   creatable?: boolean;
   addApi?: Api;
   addControls?: Array<any>;
+  editInitApi?: Api;
   editApi?: Api;
   editControls?: Array<any>;
   deleteApi?: Api;
@@ -1110,6 +1111,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         labelField,
         onOpenDialog,
         editApi,
+        editInitApi,
         env,
         source,
         data,
@@ -1144,6 +1146,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               ...editDialog,
               body: {
                 type: 'form',
+                initApi: editInitApi,
                 api: editApi,
                 controls: editControls
               }
