@@ -31,6 +31,7 @@ import {StoreNode} from './node';
 import {getStoreById} from './manager';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
+import {dataMapping} from '../utils/dataMapping';
 
 interface IOption {
   value?: string | number | null;
@@ -1179,13 +1180,14 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       clearError();
     }
 
-    function openDialog(
-      schema: any,
-      data: any,
-      callback?: (ret?: any) => void
-    ) {
+    function openDialog(schema: any, ctx: any, callback?: (ret?: any) => void) {
+      if (schema.data) {
+        self.dialogData = dataMapping(schema.data, ctx);
+      } else {
+        self.dialogData = ctx;
+      }
+
       self.dialogSchema = schema;
-      self.dialogData = data;
       self.dialogOpen = true;
       callback && dialogCallbacks.set(self.dialogData, callback);
     }
