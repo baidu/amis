@@ -51,6 +51,22 @@ export default [
     ],
     external,
     plugins: getPlugins('cjs')
+  },
+  {
+    input,
+
+    output: [
+      {
+        ...settings,
+        dir: path.dirname(module),
+        format: 'esm',
+        exports: 'named',
+        preserveModulesRoot: './src',
+        preserveModules: true // Keep directory structure and files
+      }
+    ],
+    external,
+    plugins: getPlugins('esm')
   }
 ];
 

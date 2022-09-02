@@ -288,7 +288,7 @@ export default class FormulaControl extends React.Component<
     if (rendererSchema) {
       curRendererSchema = Object.assign({}, rendererSchema, data, {
         type: rendererSchema.type ?? data.type,
-        value: this.props.value ?? rendererSchema.value
+        value: this.props.value ?? rendererSchema.value ?? data.value
       });
 
       // 默认要剔除的字段
