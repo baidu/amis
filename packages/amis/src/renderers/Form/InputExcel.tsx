@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import Dropzone from 'react-dropzone';
-import {autobind, createObject} from 'amis-core';
+import {autobind, createObject, resolveEventData} from 'amis-core';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 
@@ -73,7 +73,7 @@ export default class ExcelControl extends React.PureComponent<
 
   @autobind
   handleDrop(files: File[]) {
-    const {allSheets, onChange, dispatchEvent, data} = this.props;
+    const {allSheets, onChange, dispatchEvent} = this.props;
     const excel = files[0];
     const reader = new FileReader();
     reader.readAsArrayBuffer(excel);
@@ -110,9 +110,7 @@ export default class ExcelControl extends React.PureComponent<
     const {dispatchEvent, data} = this.props;
     return await dispatchEvent(
       eventName,
-      createObject(data, {
-        value: eventData
-      })
+      resolveEventData(this.props, {value: eventData}, 'value')
     );
   }
   /**

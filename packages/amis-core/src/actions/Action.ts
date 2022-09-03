@@ -118,17 +118,16 @@ export const runAction = async (
   // 需要保持渲染器数据链完整
   const mergeData = renderer.props.data.__super
     ? createObject(
-        createObject(renderer.props.data.__super, {
-          event
-        }),
-        renderer.props.data
+        renderer.props.data.__super,
+        createObject(renderer.props.data, {
+          event, // 兼容历史
+          ...event.data
+        })
       )
-    : createObject(
-        {
-          event
-        },
-        renderer.props.data
-      );
+    : createObject(renderer.props.data, {
+        event, // 兼容历史
+        ...event.data
+      });
 
   // 兼容一下1.9.0之前的版本
   const expression = actionConfig.expression ?? actionConfig.execOn;

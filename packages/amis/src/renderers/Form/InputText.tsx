@@ -3,7 +3,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   highlight,
-  FormOptionsControl
+  FormOptionsControl,
+  resolveEventData
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -19,7 +20,6 @@ import {Spinner} from 'amis-ui';
 import {ActionSchema} from '../Action';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {generateIcon} from 'amis-core';
-import {rendererEventDispatcher, bindRendererEvent} from 'amis-core';
 
 import type {Option} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
@@ -295,8 +295,22 @@ export default class TextControl extends React.PureComponent<
     onChange(this.normalizeValue(newValue));
   }
 
-  @bindRendererEvent<TextProps, InputTextRendererEvent>('click')
-  handleClick() {
+  async handleClick() {
+    const {dispatchEvent, value} = this.props;
+    const rendererEvent = await dispatchEvent(
+      'click',
+      resolveEventData(
+        this.props,
+        {
+          value
+        },
+        'value'
+      )
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
     // 已经 focus 的就不重复执行，否则总重新定位光标
     this.state.isFocused || this.focus();
     this.setState({
@@ -304,19 +318,33 @@ export default class TextControl extends React.PureComponent<
     });
   }
 
-  @bindRendererEvent<TextProps, InputTextRendererEvent>('focus')
-  handleFocus(e: any) {
+  async handleFocus(e: any) {
+    const {dispatchEvent, onFocus, value} = this.props;
     this.setState({
       isOpen: true,
       isFocused: true
     });
 
-    this.props.onFocus && this.props.onFocus(e);
+    const rendererEvent = await dispatchEvent(
+      'focus',
+      resolveEventData(
+        this.props,
+        {
+          value
+        },
+        'value'
+      )
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onFocus?.(e);
   }
 
-  @bindRendererEvent<TextProps, InputTextRendererEvent>('blur')
-  handleBlur(e: any) {
-    const {onBlur, trimContents, value, onChange} = this.props;
+  async handleBlur(e: any) {
+    const {onBlur, trimContents, value, onChange, dispatchEvent} = this.props;
 
     this.setState(
       {
@@ -329,18 +357,33 @@ export default class TextControl extends React.PureComponent<
       }
     );
 
+    const rendererEvent = await dispatchEvent(
+      'blur',
+      resolveEventData(
+        this.props,
+        {
+          value
+        },
+        'value'
+      )
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     onBlur && onBlur(e);
   }
 
   async handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
     let value = this.transformValue(evt.currentTarget.value);
-    const {creatable, multiple, onChange} = this.props;
-    const dispatcher = await rendererEventDispatcher<
-      TextProps,
-      InputTextRendererEvent
-    >(this.props, 'change', {value});
+    const {creatable, multiple, onChange, dispatchEvent} = this.props;
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {value}, 'value')
+    );
 
-    if (dispatcher?.prevented) {
+    if (rendererEvent?.prevented) {
       return;
     }
 
@@ -359,7 +402,8 @@ export default class TextControl extends React.PureComponent<
   }
 
   async handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
-    const {selectedOptions, onChange, multiple, creatable} = this.props;
+    const {selectedOptions, onChange, multiple, creatable, dispatchEvent} =
+      this.props;
 
     if (selectedOptions.length && !this.state.inputValue && evt.keyCode === 8) {
       evt.preventDefault();
@@ -397,12 +441,12 @@ export default class TextControl extends React.PureComponent<
         value = this.normalizeValue(newValue).concat();
       }
 
-      const dispatcher = await rendererEventDispatcher<
-        TextProps,
-        InputTextRendererEvent
-      >(this.props, 'enter', {value});
+      const rendererEvent = await dispatchEvent(
+        'enter',
+        resolveEventData(this.props, {value}, 'value')
+      );
 
-      if (dispatcher?.prevented) {
+      if (rendererEvent?.prevented) {
         return;
       }
 
@@ -500,14 +544,15 @@ export default class TextControl extends React.PureComponent<
 
   @autobind
   async handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange} = this.props;
+    const {onChange, dispatchEvent} = this.props;
     let value = e.currentTarget.value;
-    const dispatcher = await rendererEventDispatcher<
-      TextProps,
-      InputTextRendererEvent
-    >(this.props, 'change', {value: this.transformValue(value)});
 
-    if (dispatcher?.prevented) {
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {value: this.transformValue(value)}, 'value')
+    );
+
+    if (rendererEvent?.prevented) {
       return;
     }
 

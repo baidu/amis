@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import {Switch} from 'amis-ui';
 import {createObject, autobind, isObject} from 'amis-core';
 import {generateIcon} from 'amis-core';
@@ -64,12 +69,10 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
 
   @autobind
   async handleChange(checked: string | number | boolean) {
-    const {dispatchEvent, data, onChange} = this.props;
+    const {dispatchEvent, onChange} = this.props;
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: checked
-      })
+      resolveEventData(this.props, {value: checked}, 'value')
     );
     if (rendererEvent?.prevented) {
       return;

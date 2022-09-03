@@ -3,7 +3,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  resolveEventData
 } from 'amis-core';
 import cx from 'classnames';
 
@@ -285,7 +286,11 @@ export default class PickerControl extends React.PureComponent<
     additionalOptions.length && setOptions(options.concat(additionalOptions));
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {value, option: items[0]})
+      resolveEventData(
+        this.props,
+        {value, option: multiple ? items : items[0]},
+        'value'
+      )
     );
     if (rendererEvent?.prevented) {
       return;

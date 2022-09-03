@@ -1,5 +1,10 @@
 import React, {Suspense} from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
 import DropZone from 'react-dropzone';
@@ -1306,7 +1311,10 @@ export default class ImageControl extends React.Component<
     const value = data
       ? getEventData(data)
       : this.files.map(item => getEventData(item));
-    return dispatchEvent(e, createObject(this.props.data, {file: value}));
+    return dispatchEvent(
+      e,
+      resolveEventData(this.props, {...data, file: value}, 'file')
+    );
   }
 
   // 动作

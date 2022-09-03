@@ -34,6 +34,181 @@ order: 9
 
 ```schema
 {
+  "type": "page",
+  "title": "修改开关的数据",
+  "body": [
+    {
+      "type": "form",
+      "title": "表单",
+      "body": [
+        {
+          "label": "age",
+          "type": "input-text",
+          "name": "age",
+        },
+        {
+          "label": "name",
+          "type": "input-text",
+          "name": "name",
+          onEvent: {
+            change: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msg: '${name}${age}'
+                  }
+                },
+                {
+                  actionType: 'toast',
+                  args: {
+                    msg: '${event.data|json}'
+                  }
+                }
+              ]
+            },
+            blur: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msg: '${name}${age}'
+                  }
+                }
+              ]
+            },
+            focus: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msg: '${name}${age}'
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "apiFromAPICenter": false,
+      "initApiFromAPICenter": false,
+      "debug": true
+    }
+  ],
+  "data": {
+    "kg": true
+  }
+}
+```
+
+```schema
+{
+  "type": "page",
+  "title": "修改开关的数据",
+  "regions": [
+    "body",
+    "toolbar",
+    "header"
+  ],
+  "body": [
+    {
+      "type": "button",
+      "label": "按钮",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:113e4960ab7f",
+              "args": {
+                "value": "${kg === true}"
+              },
+              "actionType": "setValue"
+            }
+          ]
+        }
+      },
+      "id": "u:755416276ed0"
+    },
+    {
+      "type": "button",
+      "label": "按钮",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:113e4960ab7f",
+              "args": {
+                "value": "${kg === false}"
+              },
+              "actionType": "setValue"
+            }
+          ]
+        }
+      },
+      "id": "u:d4d9c83d714a"
+    },
+    {
+      "type": "button",
+      "label": "按钮",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:113e4960ab7f",
+              "args": {
+                "value": "true"
+              },
+              "actionType": "setValue"
+            }
+          ]
+        }
+      },
+      "id": "u:03fbe47f5041"
+    },
+    {
+      "type": "button",
+      "label": "按钮",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:113e4960ab7f",
+              "args": {
+                "value": "false"
+              },
+              "actionType": "setValue"
+            }
+          ]
+        }
+      },
+      "id": "u:7c83939b329b"
+    },
+    {
+      "type": "form",
+      "title": "表单",
+      "body": [
+        {
+          "label": "switch",
+          "type": "switch",
+          "name": "switch",
+          "id": "u:113e4960ab7f"
+        }
+      ],
+      "apiFromAPICenter": false,
+      "id": "u:2aaf002193c1",
+      "initApiFromAPICenter": false,
+      "debug": true
+    }
+  ],
+  "id": "u:e179508bab68",
+  "data": {
+    "kg": true
+  }
+}
+```
+
+```schema
+{
   type: 'page',
   body: [
     {
@@ -275,9 +450,9 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型                    | 默认值   | 说明                                       |
-| ---------- | ----------------------- | -------- | ------------------------------------------ |
-| actionType | `string`                | `dialog` | 点击后显示一个弹出框                       |
+| 属性名     | 类型                    | 默认值   | 说明                                                      |
+| ---------- | ----------------------- | -------- | --------------------------------------------------------- |
+| actionType | `string`                | `dialog` | 点击后显示一个弹出框                                      |
 | dialog     | `string`/`DialogObject` | -        | 指定弹框内容，格式可参考[Dialog](../../components/dialog) |
 
 ### 关闭弹窗（模态）
@@ -430,9 +605,9 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型                    | 默认值   | 说明                                       |
-| ---------- | ----------------------- | -------- | ------------------------------------------ |
-| actionType | `string`                | `drawer` | 点击后显示一个侧边栏                       |
+| 属性名     | 类型                    | 默认值   | 说明                                                      |
+| ---------- | ----------------------- | -------- | --------------------------------------------------------- |
+| actionType | `string`                | `drawer` | 点击后显示一个侧边栏                                      |
 | drawer     | `string`/`DrawerObject` | -        | 指定弹框内容，格式可参考[Drawer](../../components/drawer) |
 
 ### 关闭抽屉（模态）

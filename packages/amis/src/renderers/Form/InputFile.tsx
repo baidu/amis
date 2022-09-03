@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 import ImageControl from './InputImage';
@@ -1293,9 +1298,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       : this.state.files.map(item => getEventData(item));
     return dispatchEvent(
       e,
-      createObject(this.props.data, {
-        file: value
-      })
+      resolveEventData(this.props, {...data, file: value}, 'file')
     );
   }
 

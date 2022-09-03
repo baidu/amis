@@ -4,7 +4,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  resolveEventData
 } from 'amis-core';
 import {normalizeOptions} from 'amis-core';
 import find from 'lodash/find';
@@ -251,12 +252,16 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       eventName,
-      createObject(data, {
-        options,
-        value: ['onEdit', 'onDelete'].includes(event)
-          ? eventData
-          : eventData && eventData.value
-      })
+      resolveEventData(
+        this.props,
+        {
+          options,
+          value: ['onEdit', 'onDelete'].includes(event)
+            ? eventData
+            : eventData && eventData.value
+        },
+        'value'
+      )
     );
     if (rendererEvent?.prevented) {
       return;
@@ -275,10 +280,14 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: newValue,
-        options
-      })
+      resolveEventData(
+        this.props,
+        {
+          value: newValue,
+          options
+        },
+        'value'
+      )
     );
     if (rendererEvent?.prevented) {
       return;

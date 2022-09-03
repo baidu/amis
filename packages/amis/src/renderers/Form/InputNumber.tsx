@@ -1,6 +1,15 @@
 import React from 'react';
+<<<<<<< Updated upstream
 import {toFixed} from 'rc-input-number/lib/utils/MiniDecimal';
 import {FormItem, FormControlProps} from 'amis-core';
+=======
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
+>>>>>>> Stashed changes
 import cx from 'classnames';
 import {NumberInput, Select} from 'amis-ui';
 import {
@@ -226,25 +235,18 @@ export default class NumberControl extends React.Component<
   // 派发有event的事件
   @autobind
   async dispatchEvent(eventName: string) {
-    const {dispatchEvent, data, value} = this.props;
+    const {dispatchEvent, value} = this.props;
 
-    dispatchEvent(
-      eventName,
-      createObject(data, {
-        value
-      })
-    );
+    dispatchEvent(eventName, resolveEventData(this.props, {value}, 'value'));
   }
 
   async handleChange(inputValue: any) {
-    const {onChange, data, dispatchEvent} = this.props;
+    const {onChange, dispatchEvent} = this.props;
     const value = this.getValue(inputValue);
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value
-      })
+      resolveEventData(this.props, {value}, 'value')
     );
     if (rendererEvent?.prevented) {
       return;

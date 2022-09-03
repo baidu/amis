@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {Select} from 'amis-ui';
@@ -476,13 +481,11 @@ export class LocationControl extends React.Component<LocationControlProps> {
 
   @autobind
   async handleChange(value: number | string) {
-    const {dispatchEvent, data, onChange} = this.props;
+    const {dispatchEvent, onChange} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value
-      })
+      resolveEventData(this.props, {value}, 'value')
     );
 
     if (rendererEvent?.prevented) {

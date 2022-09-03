@@ -311,17 +311,19 @@ order: 60
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.0 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称     | 事件参数                                                                              | 说明                         |
-| ------------ | ------------------------------------------------------------------------------------- | ---------------------------- |
-| change       | `event.data.value: string` 选中节点的值                                               | 选中值变化时触发             |
-| add          | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 新增的节点信息 | 新增节点提交时触发           |
-| edit         | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 编辑的节点信息 | 编辑节点提交时触发           |
-| delete       | `event.data.options: Option[]` 选项集合<br/>`event.data.value: Option` 编辑的节点信息 | 编辑节点提交时触发           |
-| loadFinished | `event.data.value: object` deferApi 懒加载远程请求成功后返回的数据                    | 懒加载接口远程请求成功时触发 |
-| blur         | `event.data.value: string` 选中值                                                     | 输入框失去焦点时触发         |
-| focus        | `event.data.value: string` 选中值                                                     | 输入框获取焦点时触发         |
+> `[name]`表示当前组件绑定的名称，即`name`属性。
+
+| 事件名称     | 事件参数                                                         | 说明                         |
+| ------------ | ---------------------------------------------------------------- | ---------------------------- |
+| change       | `[name]: string` 组件的值                                        | 选中值变化时触发             |
+| blur         | `[name]: string` 组件的值                                        | 输入框失去焦点时触发         |
+| focus        | `[name]: string` 组件的值                                        | 输入框获取焦点时触发         |
+| add          | `[name]: Option` 新增的节点信息<br/>`options: Option[]` 选项集合 | 新增节点提交时触发           |
+| edit         | `[name]: Option` 编辑的节点信息<br/>`options: Option[]` 选项集合 | 编辑节点提交时触发           |
+| delete       | `[name]: Option` 编辑的节点信息<br/>`options: Option[]` 选项集合 | 编辑节点提交时触发           |
+| loadFinished | `[name]: object` deferApi 懒加载远程请求成功后返回的数据         | 懒加载接口远程请求成功时触发 |
 
 ## 动作表
 

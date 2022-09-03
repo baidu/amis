@@ -280,13 +280,15 @@ order: 38
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.0 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称 | 事件参数                                                                 | 说明                                              |
-| -------- | ------------------------------------------------------------------------ | ------------------------------------------------- |
-| change   | `event.data.value: number \| string \|{min: number, max: number}` 当前值 | 当值变化时触发的事件                              |
-| blur     | `event.data.value: number \| string \|{min: number, max: number}` 当前值 | 当设置 showInput 为 true 时，输入框失去焦点时触发 |
-| focus    | `event.data.value: number \| string \|{min: number, max: number}` 当前值 | 当设置 showInput 为 true 时，输入框获取焦点时触发 |
+> `[name]`表示当前组件绑定的名称，即`name`属性。
+
+| 事件名称 | 事件参数                                                         | 说明                                              |
+| -------- | ---------------------------------------------------------------- | ------------------------------------------------- |
+| change   | `[name]: number \| string \|{min: number, max: number}` 组件的值 | 当值变化时触发的事件                              |
+| blur     | `[name]: number \| string \|{min: number, max: number}` 组件的值 | 当设置 showInput 为 true 时，输入框失去焦点时触发 |
+| focus    | `[name]: number \| string \|{min: number, max: number}` 组件的值 | 当设置 showInput 为 true 时，输入框获取焦点时触发 |
 
 ## 动作表
 

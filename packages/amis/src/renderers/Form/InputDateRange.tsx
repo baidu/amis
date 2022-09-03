@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import cx from 'classnames';
 import {filterDate, parseDuration} from 'amis-core';
 import 'moment/locale/zh-cn';
@@ -196,12 +201,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   dispatchEvent(eventName: string) {
     const {dispatchEvent, data, value} = this.props;
 
-    dispatchEvent(
-      eventName,
-      createObject(data, {
-        value
-      })
-    );
+    dispatchEvent(eventName, resolveEventData(this.props, {value}, 'value'));
   }
 
   // 动作
@@ -224,7 +224,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     const {dispatchEvent, data} = this.props;
     const dispatcher = dispatchEvent(
       'change',
-      createObject(data, {value: nextValue})
+      resolveEventData(this.props, {value: nextValue}, 'value')
     );
     if (dispatcher?.prevented) {
       return;

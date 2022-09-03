@@ -1,4 +1,4 @@
-import {OptionsControlProps, OptionsControl} from 'amis-core';
+import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
 import React from 'react';
 import {Spinner} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
@@ -41,8 +41,8 @@ export interface TabsTransferProps
 export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferProps> {
   @autobind
   dispatchEvent(name: string) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(name, data);
+    const {dispatchEvent, value} = this.props;
+    dispatchEvent(name, resolveEventData(this.props, {value}, 'value'));
   }
 
   // 动作

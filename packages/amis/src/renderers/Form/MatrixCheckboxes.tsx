@@ -4,7 +4,12 @@
  */
 
 import React from 'react';
-import {FormBaseControl, FormControlProps, FormItem} from 'amis-core';
+import {
+  FormBaseControl,
+  FormControlProps,
+  FormItem,
+  resolveEventData
+} from 'amis-core';
 import {buildApi, isValidApi, isEffectiveApi} from 'amis-core';
 import {Checkbox, Spinner} from 'amis-ui';
 import {autobind, setVariable, createObject} from 'amis-core';
@@ -275,9 +280,7 @@ export default class MatrixCheckbox extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: value.concat()
-      })
+      resolveEventData(this.props, {value: value.concat()}, 'value')
     );
     if (rendererEvent?.prevented) {
       return;

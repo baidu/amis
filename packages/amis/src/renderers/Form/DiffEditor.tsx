@@ -1,10 +1,14 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import {LazyComponent} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {FormBaseControlSchema, SchemaTokenizeableString} from '../../Schema';
 import {autobind} from 'amis-core';
-import {bindRendererEvent} from 'amis-core';
 
 import type {Position} from 'monaco-editor';
 import type {ListenerAction} from 'amis-core';
@@ -130,18 +134,42 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     this.editor?.setPosition(position);
   }
 
-  @bindRendererEvent<DiffEditorProps, DiffEditorRendererEvent>('focus')
-  handleFocus() {
+  async handleFocus(e: any) {
+    const {dispatchEvent, value, onFocus} = this.props;
+
     this.setState({
       focused: true
     });
+
+    const rendererEvent = await dispatchEvent(
+      'focus',
+      resolveEventData(this.props, {value}, 'value')
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onFocus?.(e);
   }
 
-  @bindRendererEvent<DiffEditorProps, DiffEditorRendererEvent>('blur')
-  handleBlur() {
+  async handleBlur(e: any) {
+    const {dispatchEvent, value, onBlur} = this.props;
+
     this.setState({
       focused: false
     });
+
+    const rendererEvent = await dispatchEvent(
+      'blur',
+      resolveEventData(this.props, {value}, 'value')
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onBlur?.(e);
   }
 
   componentDidUpdate(prevProps: any) {
@@ -225,9 +253,20 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     });
   }
 
-  handleModifiedEditorChange() {
-    const {onChange} = this.props;
-    onChange && onChange(this.modifiedEditor.getModel().getValue());
+  async handleModifiedEditorChange() {
+    const {onChange, dispatchEvent} = this.props;
+    const value = this.modifiedEditor.getModel().getValue();
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {value}, 'value')
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onChange && onChange(value);
   }
 
   prevHeight = 0;

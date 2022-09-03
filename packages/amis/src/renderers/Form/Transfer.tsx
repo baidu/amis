@@ -4,7 +4,8 @@ import find from 'lodash/find';
 import {
   OptionsControlProps,
   OptionsControl,
-  FormOptionsControl
+  FormOptionsControl,
+  resolveEventData
 } from 'amis-core';
 import {Transfer} from 'amis-ui';
 import type {Option} from 'amis-core';
@@ -208,10 +209,17 @@ export class BaseTransferRenderer<
       setOptions(newOptions, true);
 
     // 触发渲染器事件
-    const rendererEvent = await dispatchEvent('change', {
-      value: newValue,
-      options
-    });
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(
+        this.props,
+        {
+          value: newValue,
+          options
+        },
+        'value'
+      )
+    );
     if (rendererEvent?.prevented) {
       return;
     }
@@ -362,12 +370,6 @@ export class BaseTransferRenderer<
     this.tranferRef = ref;
   }
 
-  @autobind
-  onSelectAll(options: Option[]) {
-    const {dispatchEvent} = this.props;
-    dispatchEvent('selectAll', options);
-  }
-
   // 动作
   doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
@@ -456,7 +458,6 @@ export class BaseTransferRenderer<
           resultSearchPlaceholder={resultSearchPlaceholder}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
-          onSelectAll={this.onSelectAll}
           onRef={this.getRef}
         />
 
