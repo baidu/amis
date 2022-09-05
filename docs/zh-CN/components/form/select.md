@@ -1042,16 +1042,16 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.0 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-> `[name]`表示当前组件绑定的名称，即`name`属性。
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 
-| 事件名称 | 事件参数                                                     | 说明                 |
-| -------- | ------------------------------------------------------------ | -------------------- |
-| change   | `[name]: string` 组件的值<br/>`options: Option[]` 选项集合   | 选中值变化时触发     |
-| blur     | `[name]: string` 组件的值<br/>`options: Option[]` 选项集合   | 输入框失去焦点时触发 |
-| focus    | `[name]: string` 组件的值<br/>`options: Option[]` 选项集合   | 输入框获取焦点时触发 |
-| add      | `[name]: Option` 新增的选项<br/>`options: Option[]` 选项集合 | 新增选项提交时触发   |
-| edit     | `[name]: Option` 编辑的选项<br/>`options: Option[]` 选项集合 | 编辑选项提交时触发   |
-| delete   | `[name]: Option` 删除的选项<br/>`options: Option[]` 选项集合 | 删除选项提交时触发   |
+| 事件名称 | 事件参数                                                                                     | 说明                 |
+| -------- | -------------------------------------------------------------------------------------------- | -------------------- |
+| change   | `[name]: string` 组件的值<br/>`items: Option[]` 选项集合（< 2.3.0 及以下版本 为`options`）   | 选中值变化时触发     |
+| blur     | `[name]: string` 组件的值<br/>`items: Option[]` 选项集合（< 2.3.0 及以下版本 为`options`）   | 输入框失去焦点时触发 |
+| focus    | `[name]: string` 组件的值<br/>`items: Option[]` 选项集合（< 2.3.0 及以下版本 为`options`）   | 输入框获取焦点时触发 |
+| add      | `[name]: Option` 新增的选项<br/>`items: Option[]` 选项集合（< 2.3.0 及以下版本 为`options`） | 新增选项提交时触发   |
+| edit     | `[name]: Option` 编辑的选项<br/>`items: Option[]` 选项集合（< 2.3.0 及以下版本 为`options`） | 编辑选项提交时触发   |
+| delete   | `[name]: Option` 删除的选项<br/>`items: Option[]` 选项集合（< 2.3.0 及以下版本 为`options`） | 删除选项提交时触发   |
 
 ## 动作表
 

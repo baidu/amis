@@ -482,7 +482,11 @@ export function registerOptionsControl(config: OptionsConfig) {
       const {dispatchEvent, options} = this.props;
       const rendererEvent = await dispatchEvent(
         eventName,
-        resolveEventData(this.props, {value: eventData, options}, 'value')
+        resolveEventData(
+          this.props,
+          {value: eventData, options, items: options}, // 为了保持名字统一
+          'value'
+        )
       );
       // 返回阻塞标识
       return !!rendererEvent?.prevented;

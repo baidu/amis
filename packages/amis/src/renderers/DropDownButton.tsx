@@ -180,7 +180,9 @@ export default class DropDownButton extends React.Component<
   }
 
   async open() {
-    await this.props.dispatchEvent('mouseenter', {data: this.props.buttons});
+    await this.props.dispatchEvent('mouseenter', {
+      items: this.props.buttons // 为了保持名字统一
+    });
     this.setState({
       isOpened: true
     });
@@ -188,7 +190,7 @@ export default class DropDownButton extends React.Component<
 
   close() {
     this.timer = setTimeout(() => {
-      this.props.dispatchEvent('mouseleave', {data: this.props.buttons});
+      this.props.dispatchEvent('mouseleave', {items: this.props.buttons});
       this.setState({
         isOpened: false
       });
@@ -378,13 +380,17 @@ export default class DropDownButton extends React.Component<
               size ? `Button--${size}` : ''
             )}
           >
-            {hasIcon(icon)
-              ? <Icon icon={icon} className="icon" />
-              : generateIcon(cx, icon, 'm-r-xs')}
+            {hasIcon(icon) ? (
+              <Icon icon={icon} className="icon" />
+            ) : (
+              generateIcon(cx, icon, 'm-r-xs')
+            )}
             {typeof label === 'string' ? filter(label, data) : label}
-            {rightIcon && hasIcon(rightIcon)
-              ? <Icon icon={icon} className="icon" />
-              : generateIcon(cx, rightIcon, 'm-l-xs')}
+            {rightIcon && hasIcon(rightIcon) ? (
+              <Icon icon={icon} className="icon" />
+            ) : (
+              generateIcon(cx, rightIcon, 'm-l-xs')
+            )}
             {!hideCaret ? (
               <span className={cx('DropDown-caret')}>
                 <Icon icon="caret" className="icon" />

@@ -145,13 +145,14 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   async dispatchEvent(eventName: string, eventData: any = {}) {
-    const {dispatchEvent, options, data} = this.props;
+    const {dispatchEvent, options} = this.props;
     const rendererEvent = await dispatchEvent(
       eventName,
       resolveEventData(
         this.props,
         {
           options,
+          items: options, // 为了保持名字统一
           ...eventData
         },
         'value'

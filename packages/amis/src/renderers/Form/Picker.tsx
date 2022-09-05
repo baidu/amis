@@ -284,11 +284,12 @@ export default class PickerControl extends React.PureComponent<
     });
 
     additionalOptions.length && setOptions(options.concat(additionalOptions));
+    const option = multiple ? items : items[0];
     const rendererEvent = await dispatchEvent(
       'change',
       resolveEventData(
         this.props,
-        {value, option: multiple ? items : items[0]},
+        {value, option, selectedItems: option},
         'value'
       )
     );

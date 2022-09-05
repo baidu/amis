@@ -256,6 +256,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         this.props,
         {
           options,
+          items: options, // 为了保持名字统一
           value: ['onEdit', 'onDelete'].includes(event)
             ? eventData
             : eventData && eventData.value
@@ -284,7 +285,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         this.props,
         {
           value: newValue,
-          options
+          options,
+          items: options // 为了保持名字统一
         },
         'value'
       )

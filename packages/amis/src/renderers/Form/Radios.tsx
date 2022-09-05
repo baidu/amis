@@ -75,7 +75,8 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         this.props,
         {
           value: option,
-          options
+          options,
+          items: options // 为了保持名字统一
         },
         'value'
       )

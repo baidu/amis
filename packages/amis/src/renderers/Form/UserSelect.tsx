@@ -192,7 +192,8 @@ export default class UserSelectControl extends React.Component<
         this.props,
         {
           value: newValue,
-          options
+          options,
+          items: options // 为了保持名字统一
         },
         'value'
       )

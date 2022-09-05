@@ -743,7 +743,10 @@ export default class ImageControl extends React.Component<
 
   async removeFile(file: FileValue, index: number) {
     const files = this.files.concat();
-    const dispatcher = await this.dispatchEvent('remove', file);
+    const dispatcher = await this.dispatchEvent('remove', {
+      ...file, // 保留历史结构
+      item: file
+    });
     if (dispatcher?.prevented) {
       return;
     }
@@ -1097,7 +1100,10 @@ export default class ImageControl extends React.Component<
 
       if (error) {
         file.state = 'invalid';
-        const dispatcher = await this.dispatchEvent('fail', {file, error});
+        const dispatcher = await this.dispatchEvent('fail', {
+          item: file,
+          error
+        });
         if (dispatcher?.prevented) {
           return;
         }
@@ -1128,9 +1134,9 @@ export default class ImageControl extends React.Component<
         obj.value = obj.value || obj.url;
 
         const dispatcher = await this.dispatchEvent('success', {
-          ...file,
-          value: obj.value,
-          state: 'uploaded'
+          ...file, // 保留历史结构
+          item: file,
+          value: obj.value
         });
         if (dispatcher?.prevented) {
           return;
@@ -1139,7 +1145,7 @@ export default class ImageControl extends React.Component<
       })
       .catch(async error => {
         const dispatcher = await this.dispatchEvent('fail', {
-          file,
+          item: file,
           error
         });
         if (dispatcher?.prevented) {
@@ -1301,19 +1307,23 @@ export default class ImageControl extends React.Component<
   }
 
   async dispatchEvent(e: string, data?: Record<string, any>) {
-    const {dispatchEvent} = this.props;
+    const {dispatchEvent, multiple} = this.props;
     const getEventData = (item: Record<string, any>) => ({
       name: item.path || item.name,
       value: item.value,
       state: item.state,
       error: item.error
     });
-    const value = data
+    const value: any = data
       ? getEventData(data)
       : this.files.map(item => getEventData(item));
     return dispatchEvent(
       e,
-      resolveEventData(this.props, {...data, file: value}, 'file')
+      resolveEventData(
+        this.props,
+        {...data, file: multiple ? value : value?.[0]},
+        'file'
+      )
     );
   }
 

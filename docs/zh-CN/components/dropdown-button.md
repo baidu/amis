@@ -281,10 +281,10 @@ order: 44
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.0 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称   | 事件参数                       | 说明                                    |
-| ---------- | ------------------------------ | --------------------------------------- |
-| mouseenter | options: Array<DropdownButton> | 触发方式为 hover 模式下，鼠标移入时触发 |
-| mouseleave | options: Array<DropdownButton> | 触发方式为 hover 模式下，鼠标移出时触发 |
+| 事件名称   | 事件参数                     | 说明                                    |
+| ---------- | ---------------------------- | --------------------------------------- |
+| mouseenter | items: Array<DropdownButton> | 触发方式为 hover 模式下，鼠标移入时触发 |
+| mouseleave | items: Array<DropdownButton> | 触发方式为 hover 模式下，鼠标移出时触发 |
 
 ## 动作表
 

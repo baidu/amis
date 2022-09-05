@@ -215,7 +215,8 @@ export class BaseTransferRenderer<
         this.props,
         {
           value: newValue,
-          options
+          options,
+          items: options // 为了保持名字统一
         },
         'value'
       )
