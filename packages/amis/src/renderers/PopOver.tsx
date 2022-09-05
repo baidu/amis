@@ -199,6 +199,18 @@ export const HocPopOver =
         clearTimeout(this.timer);
       }
 
+      getOffset() {
+        const {popOver} = this.props;
+        if (typeof popOver === 'boolean' || !popOver.offset) {
+          return undefined;
+        }
+
+        return {
+          x: popOver.offset.left,
+          y: popOver.offset.top
+        };
+      }
+
       buildSchema() {
         const {popOver, name, label, translate: __} = this.props;
 
@@ -311,7 +323,7 @@ export const HocPopOver =
                 'PopOverAble-popover',
                 (popOver as SchemaPopOverObject).popOverClassName
               )}
-              offset={(popOver as SchemaPopOverObject).offset}
+              offset={this.getOffset()}
               onMouseLeave={
                 (popOver as SchemaPopOverObject)?.trigger === 'hover'
                   ? this.closePopOver

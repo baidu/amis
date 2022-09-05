@@ -151,6 +151,9 @@ class Position extends React.Component<any, any> {
     delete props.container;
     delete props.containerPadding;
     delete props.shouldUpdatePosition;
+    if (typeof props.offset === 'undefined') {
+      delete props.offset;
+    }
 
     const child = React.Children.only(children);
     return cloneElement(child, {
