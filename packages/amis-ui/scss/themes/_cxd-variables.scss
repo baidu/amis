@@ -9,6 +9,8 @@ $ns: 'cxd-';
 // yunshe4.0 box-shadow
 $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   0px 1px 10px 0px rgba(8, 14, 26, 0.05), 0px 2px 4px -1px rgba(8, 14, 26, 0.04);
+// css 变量似乎没法用 !important，所以这里用 sass 变量
+$Wizard-steps-liAfterBorder: none !important;
 
 :root {
   --colors-brand-1: #001259;
@@ -232,6 +234,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --shadows-shadow-xl-boxShadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1),
     0px 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadows-shadow-2xl-boxShadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --Button--sm-paddingX: #{px2rem(8px)};
   --button-default-default-shadow: 0px 0px 0px 0px transparent;
   --button-default-default-font-color: #151b26;
   --button-default-default-bg-color: transparent;
@@ -1216,7 +1219,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-select-outer-top: var(--sizes-size-17-size);
   --Form-select-outer-boxShadow: #{px2rem(2px)} #{px2rem(4px)} #{px2rem(8px)} rgba(0, 0, 0, 0.2);
   --Form-select-menu-color: var(--colors-neutral-strong);
-  --Form-select-menu-onHover-color: var(--colors-brand-5);
+  --Form-select-menu-onHover-color: var(--colors-neutral-strong);
   --Form-select-menu-onHover-bg: var(--colors-brand-bg);
   --Form-select-menu-onActive-color: var(--colors-brand-default);
   --Form-select-menu-height: var(--sizes-size-13-size);
@@ -1458,6 +1461,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Drawer-widthBase: #{px2rem(400px)};
   --Drawer-header-bg: var(--colors-neutral-cardBg);
   --Drawer-body-padding: var(--sizes-size-13-size);
+  --Drawer-footer-margin: var(--sizes-size-9-size);
 
   // Remark
   --Remark-icon-fontSize: var(--fonts-other-sm-size);
@@ -1610,9 +1614,11 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   // Combo
   --Combo-addBtn-height: #{px2rem(26px)};
+  --Combo-addBtn-bg: var(--colors-brand-5);
   --Combo--horizontal-dragger-top: var(--sizes-size-3-size);
-  --Combo-addBtn-fontSize: var(--fonts-heading-4-size);
-  --Combo-addBtn-paddingX: var(--Button--sm-paddingX);
+  --Combo-addBtn-fontSize: var(--fonts-other-sm-size);
+  --Combo-addBtn-borderRadius: var(--borderRadius);
+  --Combo-addBtn-color: var(--colors-neutral-11);
   --Combo-addBtn-paddingY: calc(
     (
         var(--Combo-addBtn-height) - var(--Button-borderWidth) * 2 -

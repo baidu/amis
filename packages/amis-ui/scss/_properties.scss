@@ -185,6 +185,10 @@
   --Badge--warning-bg: var(--warning);
   --Badge--danger-bg: var(--danger);
 
+  --Button--sm-paddingX: #{px2rem(8px)};
+  --Button-borderWidth: #{px2rem(1px)};
+  --Button--sm-lineHeight: 18 / 12;
+  --Button--sm-fontSize: var(--fontSizeSm);
   --Button-transition: color var(--animation-duration) ease-in-out,
     background-color var(--animation-duration) ease-in-out,
     border-color var(--animation-duration) ease-in-out,
@@ -392,7 +396,6 @@
   --Combo-addBtn-onActive-border: var(--colors-neutral-4);
   --Combo-addBtn-onActive-color: var(--Combo-addBtn-color);
   --Combo-addBtn-onHover-bg: var(--colors-brand-6);
-  --Combo-addBtn-onHover-border: var(--colors-neutral-6);
   --Combo-addBtn-onHover-color: var(--Combo-addBtn-color);
   --Combo-addBtn-paddingX: var(--Button--sm-paddingX);
   --Combo-addBtn-paddingY: calc(
