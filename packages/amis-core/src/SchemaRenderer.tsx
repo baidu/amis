@@ -396,8 +396,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     let props = {
       ...theme.getRendererConfig(renderer.name),
       ...restSchema,
-      ...exprProps,
       ...chainEvents(rest, restSchema),
+      ...exprProps,
       // value: defaultValue, // 备注: 此处并没有将value传递给渲染器
       defaultData: restSchema.defaultData ?? defaultData,
       defaultValue: restSchema.defaultValue ?? defaultValue,
