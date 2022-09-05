@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
 import cloneDeep from 'lodash/cloneDeep';
-import {RendererProps} from 'amis-core';
+import {isVisible, RendererProps} from 'amis-core';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {Modal} from 'amis-ui';
@@ -367,10 +367,16 @@ export default class ColumnToggler extends React.Component<
       draggable,
       overlay,
       translate: __,
-      footerBtnSize
+      footerBtnSize,
+      data
     } = this.props;
 
-    const {enableSorting, tempColumns} = this.state;
+    let {enableSorting, tempColumns} = this.state;
+
+    tempColumns = tempColumns.filter(
+      (item: any) =>
+        isVisible(item.pristine || item, data) && item.toggable !== false
+    );
 
     return (
       <>
