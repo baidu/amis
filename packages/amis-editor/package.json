@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "5.2.0-beta.55",
+  "version": "5.2.0-beta.56",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -32,8 +32,8 @@
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "amis-editor-core": "*",
-    "lodash": "^4.17.15",
-    "i18n-runtime": "0.0.4"
+    "i18n-runtime": "0.0.4",
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
