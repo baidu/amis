@@ -333,7 +333,7 @@ exports[`EventAction:inputRange 1`] = `
                                       style="cursor: default;"
                                     >
                                       "
-                                      值改变为0了
+                                      值为0
                                       "
                                     </span>
                                   </div>
@@ -435,7 +435,7 @@ exports[`EventAction:inputRange 1`] = `
                         placeholder=""
                         size="10"
                         type="text"
-                        value="值改变为0了"
+                        value="值为0"
                       />
                     </div>
                   </div>

@@ -1,15 +1,11 @@
 import React from 'react';
-<<<<<<< Updated upstream
 import {toFixed} from 'rc-input-number/lib/utils/MiniDecimal';
-import {FormItem, FormControlProps} from 'amis-core';
-=======
 import {
   FormItem,
   FormControlProps,
   FormBaseControl,
   resolveEventData
 } from 'amis-core';
->>>>>>> Stashed changes
 import cx from 'classnames';
 import {NumberInput, Select} from 'amis-ui';
 import {

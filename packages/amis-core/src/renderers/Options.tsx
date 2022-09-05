@@ -55,11 +55,8 @@ import isPlainObject from 'lodash/isPlainObject';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import {Option} from '../types';
-<<<<<<< Updated upstream
-import {isEqual} from 'lodash';
-=======
+import isEqual from 'lodash/isEqual';
 import {resolveEventData} from '../utils';
->>>>>>> Stashed changes
 
 export {Option};
 

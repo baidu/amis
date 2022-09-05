@@ -399,7 +399,7 @@ export class Input extends React.Component<RangeItemProps, any> {
       )
     );
 
-    if (rendererEvent.prevented) {
+    if (rendererEvent?.prevented) {
       return;
     }
 
@@ -424,7 +424,7 @@ export class Input extends React.Component<RangeItemProps, any> {
       )
     );
 
-    if (rendererEvent.prevented) {
+    if (rendererEvent?.prevented) {
       return;
     }
 
