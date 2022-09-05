@@ -537,7 +537,7 @@ export class EventControl extends React.Component<
       setTimeout(
         () =>
           document
-            .querySelector('.action-tree .cxd-Tree-item--isLeaf .is-checked')
+            .querySelector('.action-tree li .is-checked')
             ?.scrollIntoView(),
         0
       );
