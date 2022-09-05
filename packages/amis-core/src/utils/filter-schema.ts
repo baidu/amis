@@ -52,7 +52,7 @@ export function getExprProperties(
         }
 
         if (parts[2] === 'On') {
-          value = props[key] || evalExpression(value, ctx || data);
+          value = props?.[key] || evalExpression(value, ctx || data);
         } else {
           value = filter(value, ctx || data);
         }
