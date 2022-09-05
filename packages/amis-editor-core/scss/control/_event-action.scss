@@ -294,7 +294,7 @@
           max-height: 100%;
           padding: 0;
           font-size: 12px;
-          .cxd-Tree-placeholder {
+          & > div > div {
             margin-top: 82px;
             height: 64px;
             background: url('../static/empty.png') center/contain no-repeat;
@@ -311,17 +311,8 @@
                 padding-left: 16px;
                 height: 32px;
                 line-height: 32px;
-
-                .cxd-Tree-itemText {
-                  color: #151a26;
-
-                  .is-matched {
-                    color: #2468f2;
-                  }
-                }
-
-                .cxd-Tree-item-icons {
-                  display: none;
+                span .is-matched {
+                  color: #2468f2;
                 }
                 svg {
                   transform: rotate(180deg);
