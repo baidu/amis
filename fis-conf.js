@@ -507,11 +507,11 @@ if (fis.project.currentMedia() === 'publish') {
         '!monaco-editor/**.css',
         '!src/components/RichText.tsx',
         '!src/components/Tinymce.tsx',
-        '!src/components/ColorPicker.tsx',
-        '!react-color/**',
-        '!material-colors/**',
-        '!reactcss/**',
-        '!tinycolor2/**',
+        // '!src/components/ColorPicker.tsx',
+        // '!react-color/**',
+        // '!material-colors/**',
+        // '!reactcss/**',
+        // '!tinycolor2/**',
         '!cropperjs/**',
         '!react-cropper/**',
         '!jsbarcode/**',
@@ -551,13 +551,13 @@ if (fis.project.currentMedia() === 'publish') {
         'punycode/**'
       ],
 
-      'color-picker.js': [
-        'src/components/ColorPicker.tsx',
-        'react-color/**',
-        'material-colors/**',
-        'reactcss/**',
-        'tinycolor2/**'
-      ],
+      // 'color-picker.js': [
+      //   'src/components/ColorPicker.tsx',
+      //   'react-color/**',
+      //   'material-colors/**',
+      //   'reactcss/**',
+      //   'tinycolor2/**'
+      // ],
 
       'cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
 
@@ -621,13 +621,13 @@ if (fis.project.currentMedia() === 'publish') {
           /function\sfilterUrl\(url\)\s\{\s*return\s*url;/m,
           function () {
             return `var _path = '';
-    try {
-      throw new Error()
-    } catch (e) {
-      _path = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
-    }
-    function filterUrl(url) {
-      return _path + url.substring(1);`;
+            try {
+              throw new Error()
+            } catch (e) {
+              _path = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
+            }
+            function filterUrl(url) {
+              return _path + url.substring(1);`;
           }
         );
 
@@ -792,11 +792,11 @@ if (fis.project.currentMedia() === 'publish') {
         '!monaco-editor/**.css',
         '!src/components/RichText.tsx',
         '!src/components/Tinymce.tsx',
-        '!src/components/ColorPicker.tsx',
-        '!react-color/**',
-        '!material-colors/**',
-        '!reactcss/**',
-        '!tinycolor2/**',
+        // '!src/components/ColorPicker.tsx',
+        // '!react-color/**',
+        // '!material-colors/**',
+        // '!reactcss/**',
+        // '!tinycolor2/**',
         '!cropperjs/**',
         '!react-cropper/**',
         '!jsbarcode/**',
@@ -839,13 +839,13 @@ if (fis.project.currentMedia() === 'publish') {
         'punycode/**'
       ],
 
-      'pkg/color-picker.js': [
-        'src/components/ColorPicker.tsx',
-        'react-color/**',
-        'material-colors/**',
-        'reactcss/**',
-        'tinycolor2/**'
-      ],
+      // 'pkg/color-picker.js': [
+      //   'src/components/ColorPicker.tsx',
+      //   'react-color/**',
+      //   'material-colors/**',
+      //   'reactcss/**',
+      //   'tinycolor2/**'
+      // ],
 
       'pkg/cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
 
