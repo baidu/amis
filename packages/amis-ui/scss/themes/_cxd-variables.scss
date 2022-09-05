@@ -9,6 +9,8 @@ $ns: 'cxd-';
 // yunshe4.0 box-shadow
 $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   0px 1px 10px 0px rgba(8, 14, 26, 0.05), 0px 2px 4px -1px rgba(8, 14, 26, 0.04);
+// css 变量似乎没法用 !important，所以这里用 sass 变量
+$Wizard-steps-liAfterBorder: none !important;
 
 :root {
   --colors-brand-1: #001259;
@@ -232,6 +234,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --shadows-shadow-xl-boxShadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1),
     0px 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadows-shadow-2xl-boxShadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --Button--sm-paddingX: #{px2rem(8px)};
   --button-default-default-shadow: 0px 0px 0px 0px transparent;
   --button-default-default-font-color: #151b26;
   --button-default-default-bg-color: transparent;
@@ -1285,6 +1288,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Calendar-icon-width: var(--sizes-size-6-size);
   --Calendar-icon-height: var(--sizes-size-6-size);
   --Calendar-borderWidth: var(--borders-line-2-width);
+  --Calendar-borderColor: var(--colors-brand-5);
   --Calendar-rdt-day: #{px2rem(100px)};
   --Calendar-schedule-content-padding: 0 var(--sizes-size-3-size);
   --Calendar-schedule-content-height: var(--sizes-size-11-size);
@@ -1321,6 +1325,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --DatePicker-borderRadius: var(--borders-radius-3-radius);
   --DatePicker-bg: var(--colors-neutral-cardBg);
   --DatePicker-onHover-bg: var(--colors-neutral-cardBg);
+  --DatePicker-onFocused-borderColor: var(--colors-brand-4);
   --DatePicker-color: var(--colors-neutral-strong);
   --DatePicker-placeholderColor: #999;
   --DatePicker-onDisabled-bg: #f5f5f5;
@@ -1456,6 +1461,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Drawer-widthBase: #{px2rem(400px)};
   --Drawer-header-bg: var(--colors-neutral-cardBg);
   --Drawer-body-padding: var(--sizes-size-13-size);
+  --Drawer-footer-margin: var(--sizes-size-9-size);
 
   // Remark
   --Remark-icon-fontSize: var(--fonts-other-sm-size);
@@ -1607,7 +1613,18 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Card-actions-fontSize: var(--fonts-other-sm-size);
 
   // Combo
+  --Combo-addBtn-height: #{px2rem(26px)};
+  --Combo-addBtn-bg: var(--colors-brand-5);
   --Combo--horizontal-dragger-top: var(--sizes-size-3-size);
+  --Combo-addBtn-fontSize: var(--fonts-other-sm-size);
+  --Combo-addBtn-borderRadius: var(--borderRadius);
+  --Combo-addBtn-color: var(--colors-neutral-11);
+  --Combo-addBtn-paddingY: calc(
+    (
+        var(--Combo-addBtn-height) - var(--Button-borderWidth) * 2 -
+          var(--Combo-addBtn-lineHeight) * var(--Combo-addBtn-fontSize)
+      ) / 2
+  );
 
   // ListMenu
   --ListMenu-borderWidth: var(--borders-line-1-width);
@@ -1617,10 +1634,10 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --ListMenu-item--onHover-color: var(--colors-neutral-strong);
   --ListMenu-item--onHover-bg: #eaf6fe;
   --ListItem--strip-bg: #f6f6f6;
-  --ListItem-onChecked-color: #0052cc;
-  --ListItem-onChecked-bg: #f0f6ff;
-  --ListItem-onChecked-borderColor: #0052cc;
-  --ListItem-onChecked-fieldLabel-color: #0052cc;
+  --ListItem-onChecked-color: var(--colors-brand-4);
+  --ListItem-onChecked-bg: var(--colors-brand-bg);
+  --ListItem-onChecked-borderColor: var(--colors-brand-4);
+  --ListItem-onChecked-fieldLabel-color: var(--colors-brand-4);
 
   --Transfer-title-bg: #f7f7f9;
 

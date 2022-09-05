@@ -262,6 +262,9 @@
     }
 
     td.rdtToday {
+      > span {
+        border: 1px solid var(--Calendar-borderColor);
+      }
       &:hover span {
         background: transparent;
       }
