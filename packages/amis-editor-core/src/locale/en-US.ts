@@ -1,4 +1,4 @@
-import {extendLocale} from 'amis-core';
+import {extendLocale} from 'i18n-runtime';
 
 extendLocale('en-US', {
   '4e7f76261f8c4c6d78998f85fc1f4c6e': 'Margin ',
