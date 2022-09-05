@@ -267,6 +267,15 @@ export const HocPopOver =
           popOverContainer = () => findDOMNode(this);
         }
 
+        // PopOver 组件接收的 offset 格式为 { x: number, y: number }
+        const offset = (popOver as SchemaPopOverObject).offset;
+        const popOverOffset = offset
+          ? {
+              x: offset?.left || 0,
+              y: offset?.top || 0
+            }
+          : undefined;
+
         const position =
           (popOver && (popOver as SchemaPopOverObject).position) || '';
         const isFixed = /^fixed\-/.test(position);
@@ -311,7 +320,7 @@ export const HocPopOver =
                 'PopOverAble-popover',
                 (popOver as SchemaPopOverObject).popOverClassName
               )}
-              offset={(popOver as SchemaPopOverObject).offset}
+              offset={popOverOffset}
               onMouseLeave={
                 (popOver as SchemaPopOverObject)?.trigger === 'hover'
                   ? this.closePopOver
