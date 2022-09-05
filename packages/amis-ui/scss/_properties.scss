@@ -185,9 +185,9 @@
   --Badge--warning-bg: var(--warning);
   --Badge--danger-bg: var(--danger);
 
-  --Button--sm-paddingX: #{px2rem(8px)};
-  --Button-borderWidth: #{px2rem(1px)};
-  --Button--sm-lineHeight: 18 / 12;
+  --Button--sm-paddingX: var(--sizes-size-5-size);
+  --Button-borderWidth: var(--borders-line-2-width);
+  --Button--sm-lineHeight: var(--fonts-base-lineHeight);
   --Button--sm-fontSize: var(--fontSizeSm);
   --Button-transition: color var(--animation-duration) ease-in-out,
     background-color var(--animation-duration) ease-in-out,
