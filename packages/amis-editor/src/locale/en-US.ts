@@ -1,4 +1,4 @@
-import {extendLocale} from 'amis-core';
+import {extendLocale} from 'i18n-runtime';
 
 extendLocale('en-US', {
   'f7e68bde2caa2cb5696d6a37fe4a23a4': 'Commonly used',
@@ -2859,5 +2859,7 @@ extendLocale('en-US', {
     'Please enter more content, at least $1 characters',
   'e93275245d529c486018e47136bfae2e': 'Please check the JSON format',
   '2c8c25bb51dfd9ddfc74fd75a8a380a1': 'Value content',
-  '859102d8ced9928cc71bb225961171bf': 'Please enter JS regular'
+  '859102d8ced9928cc71bb225961171bf': 'Please enter JS regular',
+  'db1cac8e2f6206e8f179b1ff47a676df': '',
+  'c0a8088f2bbc993500c5a01b0f0a1887': ''
 });

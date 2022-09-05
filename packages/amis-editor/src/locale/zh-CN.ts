@@ -1,4 +1,4 @@
-import {extendLocale} from 'amis-core';
+import {extendLocale} from 'i18n-runtime';
 
 extendLocale('zh-CN', {
   'f7e68bde2caa2cb5696d6a37fe4a23a4': '常用',
@@ -2251,6 +2251,7 @@ extendLocale('zh-CN', {
   'd7a169e81b60ee08c82b5d9de473e362': '错误提示',
   '9d9cf35ff82a6d960538ecd650e09945': '系统默认提示：{{@1}}',
   '5ef6ce89f52b4331b080a0f3019414f3': '默认使用系统定义提示',
+  'db1cac8e2f6206e8f179b1ff47a676df': '未匹配到数据',
   'e9908cdf79e965f6907ce9f291cdfcf8': '动作配置',
   'be5fbbe34ce9979bfb6576d9eddc5612': '保存',
   'd1d9049139d870edd490215530d90458': '执行动作',
@@ -2369,6 +2370,7 @@ extendLocale('zh-CN', {
   '88f7a3aef4888dd507482aedc02bb808': '配置动作(旧版)',
   'c500cfabdec9b2761fe9f1aa543933eb': '动作',
   'fa476b76ccbd4ac9316f0fd80257b77a': '重置并提交',
+  'c0a8088f2bbc993500c5a01b0f0a1887': '数据来源变量',
   '71448f8c10c79b32312b7e3abe9104ef': '（{{@1}}结果）',
   'f4381cd48d8cb4307bc140613ea57d48': '{{@1}}结果',
   '0b446df580ad309e7c26e5242eddafac': '事件变量',
