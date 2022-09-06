@@ -27,6 +27,11 @@
     box-sizing: border-box;
     padding: var(--InputGroup-paddingY) var(--InputGroup-paddingX);
 
+    svg {
+      width: px2rem(12px);
+      height: px2rem(12px);
+    }
+
     &:not(:last-child) {
       border-right: 0;
     }
