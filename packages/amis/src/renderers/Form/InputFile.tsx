@@ -5,7 +5,13 @@ import isPlainObject from 'lodash/isPlainObject';
 import ImageControl from './InputImage';
 import {Payload, ApiObject, ApiString, ActionObject} from 'amis-core';
 import {qsstringify, createObject, guid, isEmpty} from 'amis-core';
-import {buildApi, isEffectiveApi, normalizeApi, isApiOutdated, isApiOutdatedWithData} from 'amis-core';
+import {
+  buildApi,
+  isEffectiveApi,
+  normalizeApi,
+  isApiOutdated,
+  isApiOutdatedWithData
+} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {TooltipWrapper, Button} from 'amis-ui';
 import DropZone from 'react-dropzone';
@@ -1148,8 +1154,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           fd.append(config.fieldName || 'file', blob, file.name);
 
           return self
-            ._send(file, api, fd, {}, progress =>
-              updateProgress(task.partNumber, progress)
+            ._send(
+              file,
+              api,
+              fd,
+              {},
+              progress => updateProgress(task.partNumber, progress),
+              3
             )
             .then(ret => {
               state.loaded++;
@@ -1188,35 +1199,57 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     });
   }
 
-  _send(
+  async _send(
     file: FileX,
     api: ApiObject | ApiString,
     data?: any,
     options?: object,
-    onProgress?: (progress: number) => void
+    onProgress?: (progress: number) => void,
+    maxRetryLimit = 0
   ): Promise<Payload> {
     const env = this.props.env;
+    const __ = this.props.translate;
 
     if (!env || !env.fetcher) {
       throw new Error('fetcher is required');
     }
 
-    return env.fetcher(api, data, {
-      method: 'post',
-      ...options,
-      withCredentials: true,
-      cancelExecutor: (cancelExecutor: () => void) => {
-        // 记录取消器，取消的时候要调用
-        this.fileUploadCancelExecutors.push({
-          file: file,
-          executor: cancelExecutor
-        });
-      },
-      onUploadProgress: onProgress
-        ? (event: {loaded: number; total: number}) =>
-            onProgress(event.loaded / event.total)
-        : undefined
-    });
+    try {
+      const result = await env.fetcher(api, data, {
+        method: 'post',
+        ...options,
+        withCredentials: true,
+        cancelExecutor: (cancelExecutor: () => void) => {
+          // 记录取消器，取消的时候要调用
+          this.fileUploadCancelExecutors.push({
+            file: file,
+            executor: cancelExecutor
+          });
+        },
+        onUploadProgress: onProgress
+          ? (event: {loaded: number; total: number}) =>
+              onProgress(event.loaded / event.total)
+          : undefined
+      });
+
+      if (!result.ok) {
+        throw new Error(result.msg || __('File.errorRetry'));
+      }
+
+      return result;
+    } catch (error) {
+      if (maxRetryLimit > 0) {
+        return this._send(
+          file,
+          api,
+          data,
+          options,
+          onProgress,
+          maxRetryLimit - 1
+        );
+      }
+      throw error;
+    }
   }
 
   removeFileCanelExecutor(file: any, execute = false) {
@@ -1542,19 +1575,18 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   sizeMutable: false,
   renderDescription: false,
   shouldComponentUpdate: (props: any, prevProps: any) =>
-    !!isEffectiveApi(props.receiver, props.data) && (
-      isApiOutdated(
-        props.receiver,
-        prevProps.receiver,
-        props.data,
-        prevProps.data
-      ) ||
+    !!isEffectiveApi(props.receiver, props.data) &&
+    (isApiOutdated(
+      props.receiver,
+      prevProps.receiver,
+      props.data,
+      prevProps.data
+    ) ||
       isApiOutdatedWithData(
         props.receiver,
         prevProps.receiver,
         props.data,
         prevProps.data
-      )
-    )
+      ))
 })
 export class FileControlRenderer extends FileControl {}

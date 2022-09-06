@@ -286,7 +286,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       rules = {
         ...rules,
-        isRequired: self.required
+        isRequired: self.required || rules?.isRequired
       };
 
       // todo 这个弄个配置由渲染器自己来决定
@@ -1174,6 +1174,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       !keepErrors && clearError();
     }
 
+    function resetValidationStatus(tag?: string) {
+      self.validated = false;
+      clearError();
+    }
+
     function openDialog(
       schema: any,
       data: any,
@@ -1232,6 +1237,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       setSubStore,
       getSubStore,
       reset,
+      resetValidationStatus,
       openDialog,
       closeDialog,
       changeTmpValue,

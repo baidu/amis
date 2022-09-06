@@ -60,6 +60,7 @@ export class YearRangeControlRenderer extends YearRangeControl {
     joinValues: true,
     delimiter: ',',
     timeFormat: '',
-    ranges: 'thisyear,prevyear'
+    ranges: 'thisyear,prevyear',
+    animation: true
   };
 }

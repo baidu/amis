@@ -602,7 +602,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     indexes: Array<string>,
     unModifiedItems?: Array<any>,
     rowsOrigin?: Array<object> | object,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     const {
       store,
@@ -667,7 +670,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           this.getData(undefined, undefined, true, true);
         })
         .catch(() => {
-          resetOnFailed && this.control.reset();
+          options?.resetOnFailed && this.control.reset();
         });
     }
   }

@@ -291,15 +291,16 @@ export default class Drawer extends React.Component<DrawerProps> {
   handleActionSensor(p: Promise<any>) {
     const {store} = this.props;
 
+    const origin = store.busying;
     store.markBusying(true);
     // clear error
     store.updateMessage();
 
     p.then(() => {
-      store.markBusying(false);
+      store.markBusying(origin);
     }).catch(e => {
       store.updateMessage(e.message, true);
-      store.markBusying(false);
+      store.markBusying(origin);
     });
   }
 
@@ -734,6 +735,9 @@ export class DrawerRenderer extends Drawer {
     }
 
     if (targets.length) {
+      store.markBusying(true);
+      store.updateMessage();
+
       Promise.all(
         targets.map(target =>
           target.doAction(
@@ -745,20 +749,26 @@ export class DrawerRenderer extends Drawer {
             true
           )
         )
-      ).then(values => {
-        if (
-          (action.type === 'submit' ||
-            action.actionType === 'submit' ||
-            action.actionType === 'confirm') &&
-          action.close !== false
-        ) {
-          onConfirm && onConfirm(values, rawAction || action, ctx, targets);
-        } else if (action.close) {
-          action.close === true
-            ? this.handleSelfClose()
-            : this.closeTarget(action.close);
-        }
-      });
+      )
+        .then(values => {
+          if (
+            (action.type === 'submit' ||
+              action.actionType === 'submit' ||
+              action.actionType === 'confirm') &&
+            action.close !== false
+          ) {
+            onConfirm && onConfirm(values, rawAction || action, ctx, targets);
+          } else if (action.close) {
+            action.close === true
+              ? this.handleSelfClose()
+              : this.closeTarget(action.close);
+          }
+          store.markBusying(false);
+        })
+        .catch(reason => {
+          store.updateMessage(reason.message, true);
+          store.markBusying(false);
+        });
 
       return true;
     }
