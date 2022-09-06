@@ -161,6 +161,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               value: 'dialog',
               required: true,
               pipeIn: defaultValue('dialog'),
+              inputClassName: 'event-action-radio',
               options: [
                 {
                   label: '弹窗',
