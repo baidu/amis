@@ -18,9 +18,7 @@
   "author": "@fex",
   "license": "ISC",
   "files": [
-    "lib",
-    "static",
-    "scss"
+    "lib"
   ],
   "lint-staged": {
     "{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}": [
