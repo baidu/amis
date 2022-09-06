@@ -13,6 +13,18 @@ mkdir npm
 cp -rf packages npm
 cp package.json npm
 
+# 记录last commit，便于区分内网版本包之间的差异
+REVISION=revision.json
+npm run revision -- $REVISION
+
+if [ -f "$REVISION" ]; then
+  for dir in $(find ./npm/packages -mindepth 1 -maxdepth 1 -type d); do
+    [ -d "$dir" ] && cp $REVISION "$dir/$REVISION";
+  done;
+else
+  echo "$REVISION not exists."
+fi
+
 cd npm
 
 # package.json 里面把包名称换了
