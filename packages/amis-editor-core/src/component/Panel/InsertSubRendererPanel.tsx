@@ -71,7 +71,7 @@ export class InsertSubRendererPanel extends React.Component<PanelProps> {
           <div className="ae-InsertPanel-title">更改组件类型</div>
         ) : (
           <div className="ae-InsertPanel-title">
-            选中组件插入到&nbsp;
+            <span>选中组件插入到</span>&nbsp;
             <code>
               {info.name} &gt; {regionLabel}
             </code>
@@ -139,7 +139,7 @@ export class InsertSubRendererPanel extends React.Component<PanelProps> {
                             target="_blank"
                             href={store.amisDocHost + item.docLink}
                           >
-                            &nbsp;详情&nbsp;
+                            &nbsp;<span>详情</span>&nbsp;
                           </a>
                         ) : null}
                       </div>

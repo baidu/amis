@@ -75,11 +75,8 @@ extendLocale('en-US', {
   '06e004ef21414c06d3e4ff2cefaf6a04': 'code',
   '7f7c624a843b0d539a4ea59a696702f9': 'Batch operation',
   'b80ed82d124c6fd9242dcacdda2a2f8b': 'Change component type',
-  '35b5a48a773a81f0b67b3058e7231569':
-    'The selected component is inserted into & nbsp;',
   'd87481b371771b4f150da76e311bbbef': 'Enter keywords to filter components',
   'becdc848350872592201e31bab03892a': 'Cannot Preview',
-  'f3430f4fdd8b9643daa74f4a5716dd15': '&nbsp; Details & nbsp;',
   '751dfe6f476903c21381c9acf88332e2':
     'There are no components available. Maybe you should try switching containers.',
   'e22c9a05b424b761efce11f17726fdd7': 'replace',
@@ -191,5 +188,7 @@ extendLocale('en-US', {
   'eadc8c8d4a8776893672330598babca0':
     'Location error, target location not found',
   'f3c057f37fb9a4e7dd44b04919c12578':
-    'Please click add new element from the left component panel.'
+    'Please click add new element from the left component panel.',
+  '41150516bf0d90646edc5239593366e9': 'The selected component is inserted into',
+  'f26225bde6a250894a04db4c53ea03d0': 'Details'
 });
