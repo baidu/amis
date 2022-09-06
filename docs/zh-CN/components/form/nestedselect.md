@@ -663,6 +663,7 @@ order: 31
 | multiple          | `boolean`                                 | `false`              | 可否多选                                                                                    |
 | hideNodePathLabel | `boolean`                                 | `false`              | 是否隐藏选择框中已选择节点的路径 label 信息                                                 |
 | onlyLeaf          | `boolean`                                 | `false`              | 只允许选择叶子节点                                                                          |
+| menuTpl           | `string`                                  |                      | 支持配置自定义菜单                                                                          |
 
 ## 事件表
 
