@@ -272,8 +272,8 @@ order: 9
 
 通过配置`actionType: 'ajax'`和`api`实现 http 请求发送，该动作需实现 `env.fetcher` 请求器。
 
-- 请求结果缓存在`event.data.responseResult`或`event.data.{{outputVar}}`。
-- 请求结果的状态、数据、消息分别默认缓存在：`event.data.{{outputVar}}.responseStatus`、`event.data.{{outputVar}}.responseData`、`event.data.{{outputVar}}.responseMsg`。
+- 请求结果缓存在`event.data.responseResult`或`event.data.{outputVar}`。
+- 请求结果的状态、数据、消息分别默认缓存在：`event.data.{outputVar}.responseStatus`、`event.data.{{outputVar}}.responseData`、`event.data.{outputVar}.responseMsg`。
 
 < 2.0.3 及以下版本，请求返回数据默认缓存在 `event.data`。`outputVar` 配置用于解决串行或者并行发送多个 http 请求的场景。
 
@@ -309,9 +309,9 @@ order: 9
             },
             {
               actionType: 'toast',
-              expression: '${event.data.responseResult.responseStatus === 0}',
+              expression: '${responseResult.responseStatus === 0}',
               args: {
-                msg: '${event.data|json}'
+                msg: '${responseResult|json}'
               }
             }
           ]
@@ -347,9 +347,9 @@ order: 9
             },
             {
               actionType: 'toast',
-              expression: '${event.data.responseResult.responseStatus === 0}',
+              expression: '${responseResult.responseStatus === 0}',
               args: {
-                msg: '${event.data|json}'
+                msg: '${responseResult|json}'
               }
             }
           ]
@@ -1619,7 +1619,7 @@ order: 9
 
 - context，渲染器上下文
 - doAction() 动作执行方法，用于调用任何 actionType 指定的动作
-- event，事件对象，可以获取事件上下文，以及可以调用 setData()、stopPropagation()、preventDefault()分别实现事件上下文设置、动作干预、事件干预
+- event，事件对象，可以调用 setData()、stopPropagation()、preventDefault()分别实现事件上下文设置、动作干预、事件干预，可以通过 event.data 获取事件上下文
 
 ```schema
 {
@@ -1682,7 +1682,7 @@ order: 9
                   {
                     "componentId": "u:e47e2c8e6be8",
                     "args": {
-                      "value": "${event.data.pId}"
+                      "value": "${pId}"
                     },
                     "actionType": "setValue"
                   },
@@ -1738,7 +1738,7 @@ order: 9
                   {
                     "componentId": "u:e47e2c8e6be7",
                     "args": {
-                      "value": "${event.data.pId}"
+                      "value": "${pId}"
                     },
                     "actionType": "setValue"
                   },
@@ -1886,7 +1886,7 @@ order: 9
             {
               actionType: 'reload',
               args: {
-                myname: '${event.data.value}', // 从事件数据中取
+                myname: '${myrole}', // 从事件数据中取
               }
             },
             {
@@ -1928,8 +1928,8 @@ order: 9
             {
               actionType: 'reload',
               args: {
-                myrole: '${event.data.value}',
-                age: '${event.data.age}'
+                myrole: '${myrole}',
+                age: '${age}'
               }
             },
             {
@@ -1966,7 +1966,7 @@ order: 9
             {
               actionType: 'reload',
               args: {
-                job: '${event.data.value}'
+                job: '${myrole}'
               }
             },
             {
@@ -2469,6 +2469,10 @@ registerAction('my-action', new MyAction());
   body: {
     type: 'form',
     wrapWithPanel: false,
+    data: {
+      name: 'lvxj',
+      age: 'kkkk'
+    },
     body: [
       {
         type: 'button',
@@ -2507,13 +2511,27 @@ registerAction('my-action', new MyAction());
                       }
                     },
                     outputVar: 'var2'
+                  },
+                  {
+                    actionType: 'ajax',
+                    args: {
+                      api: {
+                        url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?name=${name}',
+                        method: 'get'
+                      },
+                      messages: {
+                        success: '请求3成功了！欧耶',
+                        failed: '失败了呢。。'
+                      }
+                    },
+                    outputVar: 'var3'
                   }
                 ]
               },
               {
                 actionType: 'toast',
                 args: {
-                  msg: 'var1:${event.data.var1|json}, var2:${event.data.var2|json}'
+                  msg: 'var1:${event.data.var1|json}, var2:${var2|json}, var3:${var3|json}'
                 }
               }
             ]
@@ -2591,7 +2609,8 @@ registerAction('my-action', new MyAction());
             {
               actionType: 'reload',
               args: {
-                age: '${event.data.age}'
+                age: '${age}',
+                name: '${name}'
               }
             }
           ]
@@ -2604,7 +2623,7 @@ registerAction('my-action', new MyAction());
 
 **引用 http 请求动作返回的数据**
 
-http 请求动作执行结束后，后面的动作可以通过 `event.data.responseResult.responseStatus`或`event.data.{{outputVar}}.responseStatus`、`event.data.responseResult.responseData`或`event.data.{{outputVar}}.responseData`、`event.data.responseResult.responseMsg`或`event.data.{{outputVar}}.responseMsg`来获取请求结果的状态、数据、消息。
+http 请求动作执行结束后，后面的动作可以通过 `event.data.responseResult.responseStatus`或`event.data.{outputVar}.responseStatus`、`event.data.responseResult.responseData`或`event.data.{outputVar}.responseData`、`event.data.responseResult.responseMsg`或`event.data.{outputVar}.responseMsg`来获取请求结果的状态、数据、消息。
 
 ```schema
 {
@@ -2626,7 +2645,7 @@ http 请求动作执行结束后，后面的动作可以通过 `event.data.respo
             {
               actionType: 'dialog',
               args: {
-                id: '${event.data.responseResult.responseData.id}'
+                id: '${responseResult.responseData.id}'
               },
               dialog: {
                 type: 'dialog',
@@ -2706,7 +2725,7 @@ http 请求动作执行结束后，后面的动作可以通过 `event.data.respo
                         args: {
                           msg: '不关闭'
                         },
-                        preventDefault: 'event.data.command === "Do not close"'
+                        preventDefault: 'command === "Do not close"'
                       }
                     ]
                   }
