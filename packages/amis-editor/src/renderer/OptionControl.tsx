@@ -462,8 +462,8 @@ export default class OptionControl extends React.Component<
   }
 
   renderOption(props: any) {
-    const {checked, index, editing, multipleProps, closeDefaultCheck, render} =
-      props;
+    const {checked, index, editing, multipleProps, closeDefaultCheck} = props;
+    const render = this.props.render;
     const ctx: Partial<TextControlSchema> = this.props.data;
     const isMultiple = ctx?.multiple === true || multipleProps;
 
