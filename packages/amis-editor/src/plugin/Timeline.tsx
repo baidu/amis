@@ -102,18 +102,9 @@ export class TimelinePlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          {
-            title: '样式',
-            body: [
-              {
-                name: 'className',
-                label: '外层',
-                type: 'input-text',
-                placeholder: '请输入className'
-              },
-
-            ]
-          }
+          getSchemaTpl('style:classNames', {
+            isFormItem: false
+          })
         ])
       },
       {
