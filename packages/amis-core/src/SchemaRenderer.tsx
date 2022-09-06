@@ -263,7 +263,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const detectData =
       schema &&
       (schema.detectField === '&' ? rest : rest[schema.detectField || 'data']);
-    const exprProps: any = detectData
+    let exprProps: any = detectData
       ? getExprProperties(schema, detectData, undefined, rest)
       : {};
 
@@ -391,13 +391,19 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       return null;
     }
 
+    // withStore 里面会处理，而且会实时处理
+    // 这里处理反而导致了问题
+    if (renderer.storeType) {
+      exprProps = {};
+    }
+
     const isClassComponent = Component.prototype?.isReactComponent;
     const $schema = {...schema, ...exprProps};
     let props = {
       ...theme.getRendererConfig(renderer.name),
       ...restSchema,
-      ...exprProps,
       ...chainEvents(rest, restSchema),
+      ...exprProps,
       // value: defaultValue, // 备注: 此处并没有将value传递给渲染器
       defaultData: restSchema.defaultData ?? defaultData,
       defaultValue: restSchema.defaultValue ?? defaultValue,
