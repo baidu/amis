@@ -269,7 +269,7 @@ export default class TreeOptionControl extends React.Component<
   }
   @autobind
   addChildOption(pathStr: string) {
-    if (pathStr.split('-').length >= 7) {
+    if (pathStr.split('-').length >= 6) {
       toast.warning('层级过深，建议使用【接口获取】管理选项', {closeButton: true});
       return;
     }
