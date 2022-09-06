@@ -281,7 +281,7 @@ export default {
       type: 'form',
       debug: true,
       api: '/api/mock2/form/saveForm',
-      title: "表单：配置pureSubmit事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置",
+      title: "表单：配置submit事件后，点击提交按钮或者触发表单提交动作时将不会触发表单校验、提交到api或者target等行为，所有行为需要自己配置",
       body: [
         {
           type: 'input-text',
@@ -302,7 +302,7 @@ export default {
         }
       ],
       onEvent: {
-        pureSubmit: {
+        submit: {
           actions: [
             {
               actionType: 'toast',
