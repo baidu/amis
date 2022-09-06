@@ -651,7 +651,7 @@ export default class Page extends React.Component<PageProps> {
     const {interval, silentPolling, stopAutoRefreshWhen, data, dispatchEvent} =
       this.props;
 
-    if (value.data) {
+    if (value?.data) {
       dispatchEvent('inited', createObject(data, value.data));
     }
 

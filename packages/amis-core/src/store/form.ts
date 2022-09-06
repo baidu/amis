@@ -1,6 +1,7 @@
 import {types, getEnv, flow, isAlive, Instance} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
 import toPairs from 'lodash/toPairs';
+import pick from 'lodash/pick';
 import {ServiceStore} from './service';
 import type {IFormItemStore} from './formItem';
 import {Api, ApiObject, fetchOptions, Payload} from '../types';
@@ -648,8 +649,16 @@ export const FormStore = ServiceStore.named('FormStore')
       self.persistData = value;
     }
 
-    const setLocalPersistData = () => {
-      localStorage.setItem(self.persistKey, JSON.stringify(self.data));
+    /**
+     * 将表单数据存入本地
+     * @param keys 指定只存储某些 key
+     */
+    const setLocalPersistData = (keys?: string[]) => {
+      let data = self.data;
+      if (keys && keys.length) {
+        data = pick(data, keys);
+      }
+      localStorage.setItem(self.persistKey, JSON.stringify(data));
     };
 
     function getLocalPersistData() {

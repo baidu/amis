@@ -314,7 +314,7 @@ export class Transfer<
 
     const newArr: Array<Option> = [];
     Array.isArray(value) &&
-      value.forEach(item => {
+      value.forEach((item: Option) => {
         if (!unuseArr.find(v => v.value === item.value)) {
           newArr.push(item);
         }

@@ -309,7 +309,15 @@ export const TableStore = iRendererStore
   })
   .views(self => {
     function getColumnsExceptBuiltinTypes() {
-      return self.columns.filter(item => !/^__/.test(item.type));
+      return self.columns.filter(
+        item =>
+          /** 排除掉内置的列和不可见的列 */
+          !/^__/.test(item.type) &&
+          isVisible(
+            item.pristine,
+            hasVisibleExpression(item.pristine) ? self.data : {}
+          )
+      );
     }
 
     function getForms() {

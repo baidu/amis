@@ -146,15 +146,23 @@ export default class NumberControl extends React.Component<
     const {formItem, setPrinstineValue, precision, value} = props;
     const normalizedPrecision = this.filterNum(precision);
 
-    /** 如果设置了precision需要处理入参value的精度 */
-    if (formItem && value != null && normalizedPrecision != null) {
-      const normalizedValue = toFixed(
-        value.toString(),
-        '.',
-        normalizedPrecision
+    /**
+     * 如果设置了precision需要处理入参value的精度
+     * 如果是带有单位的输入，则不支持精度处理
+     */
+    if (
+      formItem &&
+      value != null &&
+      normalizedPrecision != null &&
+      (!unit || unitOptions.length === 0)
+    ) {
+      const normalizedValue = parseFloat(
+        toFixed(value.toString(), '.', normalizedPrecision)
       );
 
-      setPrinstineValue(parseFloat(normalizedValue));
+      if (!isNaN(normalizedValue)) {
+        setPrinstineValue(normalizedValue);
+      }
     }
 
     this.state = {unit, unitOptions};
@@ -265,10 +273,15 @@ export default class NumberControl extends React.Component<
   }
 
   componentDidUpdate(prevProps: NumberProps) {
-    if (this.props.value !== prevProps.value) {
+    if (
+      !isNaN(this.props.value) &&
+      !isNaN(prevProps.value) &&
+      this.props.value !== prevProps.value
+    ) {
       const unit = this.getUnit();
       this.setState({unit: unit});
     }
+
     if (this.props.unitOptions !== prevProps.unitOptions) {
       this.setState({unitOptions: normalizeOptions(this.props.unitOptions)});
     }

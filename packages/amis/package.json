@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "2.1.1-beta.3",
+  "version": "2.2.0",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -40,8 +40,8 @@
     ]
   },
   "dependencies": {
-    "amis-core": "^2.1.1-beta.3",
-    "amis-ui": "^2.1.1-beta.3",
+    "amis-core": "^2.2.0",
+    "amis-ui": "^2.2.0",
     "ansi-to-react": "^6.1.6",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
@@ -218,10 +218,10 @@
     }
   },
   "peerDependencies": {
-    "react": ">=16.8.6",
-    "react-dom": ">=16.8.6",
     "amis-core": "*",
-    "amis-ui": "*"
+    "amis-ui": "*",
+    "react": ">=16.8.6",
+    "react-dom": ">=16.8.6"
   },
   "gitHead": "37d23b4a8eb1c663bc38e8dd9040889ea1526ec4"
 }

@@ -1215,6 +1215,12 @@ Form 支持轮询初始化接口，步骤如下：
 
 如果想提交成功后，清空该缓存，则配置`"clearPersistDataAfterSubmit": true`
 
+### 限制只存储某些 key
+
+> 2.3.0 及以上版本
+
+如果只想存储部分 key，可以配置 `"persistDataKeys": ["key1", "key2"]`，这样就只有 name 为 key1 和 key2 的表单项数据会持久化
+
 ## 禁用回车提交
 
 表单默认情况下回车就会提交，如果想阻止这个行为，可以加上 `preventEnterSubmit` 配置项。
@@ -1285,6 +1291,7 @@ Form 支持轮询初始化接口，步骤如下：
 | autoFocus                   | `boolean`                                                                 | `false`                                                                | 是否自动聚焦。                                                                                                                                                                                                                                                                                                                                               |
 | canAccessSuperData          | `boolean`                                                                 | `true`                                                                 | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                                                                                                                                                                                                               |
 | persistData                 | `string`                                                                  | `""`                                                                   | 指定一个唯一的 key，来配置当前表单是否开启本地缓存                                                                                                                                                                                                                                                                                                           |
+| persistDataKeys             | `string[]`                                                                | `""`                                                                   | 指指定只有哪些 key 缓存                                                                                                                                                                                                                                                                                                                                      |
 | clearPersistDataAfterSubmit | `boolean`                                                                 | `true`                                                                 | 指定表单提交成功后是否清除本地缓存                                                                                                                                                                                                                                                                                                                           |
 | preventEnterSubmit          | `boolean`                                                                 | `false`                                                                | 禁用回车提交表单                                                                                                                                                                                                                                                                                                                                             |
 | trimValues                  | `boolean`                                                                 | `false`                                                                | trim 当前表单项的每一个值                                                                                                                                                                                                                                                                                                                                    |
@@ -1303,7 +1310,7 @@ Form 支持轮询初始化接口，步骤如下：
 | formItemValidateSucc  | `event.data: object` 当前表单数据                            | 表单项校验成功时触发         |
 | formItemValidateError | `event.data: object` 当前表单数据                            | 表单项校验失败时触发         |
 | validateSucc          | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
-| validateError         | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
+| validateError         | `event.data: object` 当前表单数据                            | 表单校验失败时触发           |
 | submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据 | 提交成功时触发               |
 | submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息  | 提交失败时触发               |
 

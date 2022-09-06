@@ -1,6 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {ScopedContext, IScopedContext} from 'amis-core';
+import {ScopedContext, IScopedContext, SchemaExpression} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
 import forEach from 'lodash/forEach';
@@ -175,6 +175,10 @@ export type TableColumnObject = {
 export type TableColumnWithType = SchemaObject & TableColumnObject;
 export type TableColumn = TableColumnWithType | TableColumnObject;
 
+interface AutoFillHeightObject {
+  height: number;
+}
+
 /**
  * Table 表格渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/table
@@ -262,7 +266,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 合并单元格配置，配置数字表示从左到右的多少列自动合并单元格。
    */
-  combineNum?: number;
+  combineNum?: number | SchemaExpression;
 
   /**
    * 合并单元格配置，配置从第几列开始合并。
@@ -303,6 +307,11 @@ export interface TableSchema extends BaseSchema {
    * 表格是否可以获取父级数据域值，默认为false
    */
   canAccessSuperData?: boolean;
+
+  /**
+   * 表格自动计算高度
+   */
+  autoFillHeight?: boolean | AutoFillHeightObject;
 }
 
 export interface TableProps extends RendererProps {
@@ -329,7 +338,7 @@ export interface TableProps extends RendererProps {
   columnsTogglable?: boolean | 'auto';
   affixHeader?: boolean;
   affixColumns?: boolean;
-  combineNum?: number | string;
+  combineNum?: number | SchemaExpression;
   combineFromIndex?: number;
   footable?:
     | boolean
@@ -357,7 +366,10 @@ export interface TableProps extends RendererProps {
     rowIndexes: Array<string> | string,
     unModifiedItems?: Array<object>,
     rowOrigins?: Array<object> | object,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
   onQuery: (values: object) => void;
@@ -372,7 +384,7 @@ export interface TableProps extends RendererProps {
   reUseRow?: boolean;
   itemBadge?: BadgeObject;
   loading?: boolean;
-  autoFillHeight?: boolean;
+  autoFillHeight?: boolean | AutoFillHeightObject;
 }
 
 export type ExportExcelToolbar = SchemaNode & {
@@ -728,13 +740,19 @@ export default class Table extends React.Component<TableProps, object> {
       parentNode = parentNode.parentElement;
     }
 
-    const tableContentHeight = `${
-      viewportHeight -
-      tableContentTop -
-      tableContentWrapMarginButtom -
-      footToolbarHeight -
-      allParentPaddingButtom
-    }px`;
+    const height = isObject(autoFillHeight)
+      ? (autoFillHeight as AutoFillHeightObject).height
+      : 0;
+
+    const tableContentHeight = height
+      ? `${height}px`
+      : `${
+          viewportHeight -
+          tableContentTop -
+          tableContentWrapMarginButtom -
+          footToolbarHeight -
+          allParentPaddingButtom
+        }px`;
 
     tableContent.style.height = tableContentHeight;
     /**autoFillHeight开启后固定列会溢出Table高度，需要同步一下 */
@@ -918,7 +936,10 @@ export default class Table extends React.Component<TableProps, object> {
     values: object,
     saveImmediately?: boolean | any,
     savePristine?: boolean,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     if (!isAlive(item)) {
       return;
@@ -948,7 +969,8 @@ export default class Table extends React.Component<TableProps, object> {
         null,
         {
           actionType: 'ajax',
-          api: saveImmediately.api
+          api: saveImmediately.api,
+          reload: options?.reload
         },
         values
       );
@@ -965,7 +987,7 @@ export default class Table extends React.Component<TableProps, object> {
       item.path,
       undefined,
       item.pristine,
-      resetOnFailed
+      options
     );
   }
 

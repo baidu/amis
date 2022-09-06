@@ -26,11 +26,12 @@ order: 32
 
 ## 设置精度
 
-`precision` 设置数字的显示精度，一般需要配合`step`属性使用，以实现细粒度调整。
+`precision` 设置数字的显示精度，一般需要配合`step`属性使用，以实现细粒度调整。注意带有单位的输入不支持配置精度属性。
 
 ```schema: scope="body"
 {
     "type": "form",
+    "debug": true,
     "api": "/api/mock2/form/saveForm",
     "data": {
         "number2": 3.1234

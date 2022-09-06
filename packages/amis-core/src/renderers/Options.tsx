@@ -26,7 +26,8 @@ import {
   getTreeDepth,
   flattenTree,
   keyToPath,
-  getVariable
+  getVariable,
+  isObject
 } from '../utils/helper';
 import {reaction} from 'mobx';
 import {
@@ -247,6 +248,7 @@ export interface OptionsProps
   creatable?: boolean;
   addApi?: Api;
   addControls?: Array<any>;
+  editInitApi?: Api;
   editApi?: Api;
   editControls?: Array<any>;
   deleteApi?: Api;
@@ -460,11 +462,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             )
             .then(() => this.normalizeValue());
         }
-      } else if (
-        !isEqual(props.value, prevProps.value) &&
-        !this.whetherValueNormal() &&
-        props.formInited
-      ) {
+      } else if (!isEqual(props.value, prevProps.value) && props.formInited) {
         this.normalizeValue();
       }
 
@@ -566,34 +564,6 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
     }
 
-    // 判断当前值是否符合预期的格式
-    whetherValueNormal() {
-      const {value, joinValues, extractValue, multiple} = this.props;
-
-      if (value === undefined) {
-        return true;
-      }
-
-      if (joinValues !== false || (!multiple && extractValue === true)) {
-        return typeof value === 'string' || typeof value === 'number';
-      }
-
-      if (multiple) {
-        if (!Array.isArray(value)) return false;
-
-        if (
-          extractValue === true &&
-          !value.every(
-            val => typeof val === 'string' || typeof val === 'number'
-          )
-        ) {
-          return false;
-        }
-      }
-
-      return true;
-    }
-
     // 当前值，跟设置预期的值格式不一致时自动转换。
     normalizeValue() {
       const {
@@ -614,8 +584,8 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       if (joinValues !== false) {
-        if (!value || typeof value === 'string' || typeof value === 'number')
-          return;
+        // 只处理多选且值为 array 的情况，因为理应为分隔符隔开的字符串
+        if (!(multiple && Array.isArray(value))) return;
 
         const selectedOptions = formItem.getSelectedOptions(value);
 
@@ -1141,6 +1111,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         labelField,
         onOpenDialog,
         editApi,
+        editInitApi,
         env,
         source,
         data,
@@ -1175,6 +1146,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               ...editDialog,
               body: {
                 type: 'form',
+                initApi: editInitApi,
                 api: editApi,
                 controls: editControls
               }

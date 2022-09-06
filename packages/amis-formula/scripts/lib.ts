@@ -3,7 +3,7 @@ import moment from 'moment';
 
 // 来自 https://vanillajstoolkit.com/polyfills/arrayfind/
 if (!Array.prototype.find) {
-  Array.prototype.find = function (callback) {
+  Array.prototype.find = function (callback: any) {
     // 1. Let O be ? ToObject(this value).
     if (this == null) {
       throw new TypeError('"this" is null or not defined');
