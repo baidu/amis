@@ -4,12 +4,7 @@ import cx from 'classnames';
 import Sortable from 'sortablejs';
 import {DataSchema, FormItem, Button, Icon, TooltipWrapper} from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
-import {
-  FormControlProps,
-  autobind,
-  render as amisRender,
-  findTree
-} from 'amis-core';
+import {FormControlProps, autobind, findTree} from 'amis-core';
 import ActionDialog from './action-config-dialog';
 import {
   findActionNode,
@@ -49,10 +44,13 @@ interface EventControlProps extends FormControlProps {
   removeBroadcast?: (eventName: string) => void;
   getComponents: (action: RendererPluginAction) => ComponentInfo[]; // 当前页面组件树
   getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema; // 获取上下文
-  actionConfigInitFormatter?: (actionConfig: ActionConfig, variables: {
-    eventVariables: ContextVariables[], // 当前事件变量
-    rawVariables: ContextVariables[] // 绑定事件的组件上下文
-  }) => ActionConfig; // 动作配置初始化时格式化
+  actionConfigInitFormatter?: (
+    actionConfig: ActionConfig,
+    variables: {
+      eventVariables: ContextVariables[]; // 当前事件变量
+      rawVariables: ContextVariables[]; // 绑定事件的组件上下文
+    }
+  ) => ActionConfig; // 动作配置初始化时格式化
   actionConfigSubmitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置提交时格式化
   owner?: string; // 组件标识
 }
@@ -425,31 +423,37 @@ export class EventControl extends React.Component<
     }
 
     const withOutputVarActions = oldActions?.filter(item => item.outputVar);
-    const withOutputVarVariables = withOutputVarActions?.map((item: any, index: number) => {
-      const actionLabel = getPropOfAcion(
-        item,
-        'actionLabel',
-        actionTree,
-        pluginActions,
-        commonActions
-      );
-      const dataSchemaJson = getPropOfAcion(
-        item,
-        'outputVarDataSchema',
-        actionTree,
-        pluginActions,
-        commonActions
-      );
-      const dataSchema = new DataSchema(dataSchemaJson || []);
-      return {
-        label: `${item.outputVar ? item.outputVar + `（${actionLabel}结果）` : `${actionLabel}结果`}`,
-        tag: 'object',
-        children: dataSchema.getDataPropsAsOptions()?.map(variable => ({
-          ...variable,
-          value: variable.value.replace('${outputVar}', item.outputVar)
-        }))
-      };
-    });
+    const withOutputVarVariables = withOutputVarActions?.map(
+      (item: any, index: number) => {
+        const actionLabel = getPropOfAcion(
+          item,
+          'actionLabel',
+          actionTree,
+          pluginActions,
+          commonActions
+        );
+        const dataSchemaJson = getPropOfAcion(
+          item,
+          'outputVarDataSchema',
+          actionTree,
+          pluginActions,
+          commonActions
+        );
+        const dataSchema = new DataSchema(dataSchemaJson || []);
+        return {
+          label: `${
+            item.outputVar
+              ? item.outputVar + `（${actionLabel}结果）`
+              : `${actionLabel}结果`
+          }`,
+          tag: 'object',
+          children: dataSchema.getDataPropsAsOptions()?.map(variable => ({
+            ...variable,
+            value: variable.value.replace('${outputVar}', item.outputVar)
+          }))
+        };
+      }
+    );
     const eventVariables: ContextVariables[] = [
       {
         label: '事件变量',
@@ -495,11 +499,17 @@ export class EventControl extends React.Component<
     // 编辑操作，需要格式化动作配置
     if (data.type === 'update') {
       const action = data.actionData!.action!;
-      const actionConfig = await actionConfigInitFormatter?.(action, {eventVariables, rawVariables});
+      const actionConfig = await actionConfigInitFormatter?.(action, {
+        eventVariables,
+        rawVariables
+      });
       const actionNode = findActionNode(actionTree, actionConfig?.actionType!);
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
       const supportComponents = getComponents(actionNode!);
-      const node = findTree(supportComponents, item => item.value === action.componentId);
+      const node = findTree(
+        supportComponents,
+        item => item.value === action.componentId
+      );
 
       let setValueDs: any = null;
       if (actionConfig?.actionType === 'setValue') {
@@ -514,7 +524,7 @@ export class EventControl extends React.Component<
             (item: ContextVariables) => item.value !== '$$id'
           );
         }
-      };
+      }
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,
@@ -577,7 +587,10 @@ export class EventControl extends React.Component<
 
     if (action.componentId && actionNode) {
       const supportComponents = getComponents(actionNode);
-      const node = findTree(supportComponents, item => item.value === action.componentId);
+      const node = findTree(
+        supportComponents,
+        item => item.value === action.componentId
+      );
       if (node) {
         info = {
           ...info,
@@ -614,7 +627,8 @@ export class EventControl extends React.Component<
       actionTree,
       actions: pluginActions,
       commonActions,
-      getComponents
+      getComponents,
+      render
     } = this.props;
     const {
       onEvent,
@@ -637,7 +651,7 @@ export class EventControl extends React.Component<
             'no-bd-btm': !eventKeys.length
           })}
         >
-          {amisRender({
+          {render('dropdown', {
             type: 'dropdown-button',
             level: 'enhance',
             label: '添加事件',
@@ -801,6 +815,7 @@ export class EventControl extends React.Component<
           data={actionData}
           onSubmit={this.onSubmit}
           onClose={this.onClose}
+          render={this.props.render}
         />
       </div>
     );

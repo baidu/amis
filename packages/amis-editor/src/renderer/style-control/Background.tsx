@@ -9,7 +9,7 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import React, {useState, useEffect} from 'react';
 
-import {render as amisRender, FormItem} from 'amis';
+import {FormItem} from 'amis';
 
 import type {FormControlProps} from 'amis-core';
 import type {PlainObject} from './types';
@@ -23,7 +23,7 @@ interface BackgroundProps extends FormControlProps {
 const Background: React.FC<BackgroundProps> = props => {
   const [tabIndex, setTabIndex] = useState<number>(0);
 
-  const {noImage} = props;
+  const {noImage, render} = props;
 
   const tabList = noImage
     ? ['pure', 'gradient', 'noset']
@@ -395,7 +395,8 @@ const Background: React.FC<BackgroundProps> = props => {
           {/* 纯色 */}
           {currentItem === 'pure' && (
             <div className="ae-Background_setting">
-              {amisRender(
+              {render(
+                'backgroundColor',
                 {
                   type: 'input-color',
                   label: '背景色',
@@ -416,7 +417,8 @@ const Background: React.FC<BackgroundProps> = props => {
             <div className="ae-Background_setting">
               <div className="ae-Background_setting-item">
                 <div className="ae-Background_setting-item_color">
-                  {amisRender(
+                  {render(
+                    'prev',
                     {
                       type: 'input-color',
                       label: '开始颜色',
@@ -432,7 +434,8 @@ const Background: React.FC<BackgroundProps> = props => {
                 </div>
                 <div className="ae-Background_setting-item_pic"></div>
                 <div className="ae-Background_setting-item_color">
-                  {amisRender(
+                  {render(
+                    'next',
                     {
                       type: 'input-color',
                       label: '结束颜色',
@@ -448,7 +451,8 @@ const Background: React.FC<BackgroundProps> = props => {
                 </div>
               </div>
               <div className="ae-Background_setting-item">
-                {amisRender(
+                {render(
+                  'gradient',
                   {
                     type: 'input-number',
                     label: '渐变角度',
@@ -469,7 +473,7 @@ const Background: React.FC<BackgroundProps> = props => {
           {/* 图片 */}
           {currentItem === 'image' && (
             <div className="ae-Background_setting">
-              {amisRender({
+              {render('image', {
                 type: 'group',
                 mode: 'horizontal',
                 body: [
@@ -528,7 +532,8 @@ const Background: React.FC<BackgroundProps> = props => {
                 ]
               })}
 
-              {amisRender(
+              {render(
+                'size',
                 {
                   type: 'select',
                   label: '图片尺寸',

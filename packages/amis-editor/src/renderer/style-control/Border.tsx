@@ -7,10 +7,10 @@ import cx from 'classnames';
 import React, {useEffect, useState} from 'react';
 import camelCase from 'lodash/camelCase';
 import {observer} from 'mobx-react';
-import {render as amisRender, FormItem, Select, NumberInput} from 'amis';
+import {FormItem, Select, NumberInput} from 'amis';
 
 import type {PlainObject} from './types';
-import type {FormControlProps} from 'amis-core';
+import type {FormControlProps, RendererProps, SchemaNode} from 'amis-core';
 
 const borderItems = [
   {
@@ -72,13 +72,14 @@ function BoxBorder({
   disableBorder = false,
   disableRadius = false,
   onChange,
-  value = {}
+  value = {},
+  render
 }: {
   disableBorder?: boolean;
   disableRadius?: boolean;
   onChange: (value: PlainObject) => void;
   value?: PlainObject;
-}) {
+} & RendererProps) {
   const [borderItem, setBorderItem] = useState<string>('all');
   const [radiusItem, setRadiusItem] = useState<string>('all');
 
@@ -229,7 +230,8 @@ function BoxBorder({
 
           <div className="flex items-center">
             <label>颜色</label>
-            {amisRender(
+            {render(
+              'color',
               {
                 type: 'input-color',
                 placeholder: '边框颜色',

@@ -4,7 +4,7 @@
 
 import React from 'react';
 import cx from 'classnames';
-import {render as amisRender, FormItem, NumberInput} from 'amis';
+import {FormItem, NumberInput} from 'amis';
 import type {FormControlProps} from 'amis-core';
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
@@ -69,7 +69,7 @@ const getPartsSource = (parts: number | number[], showSteps?: boolean) => {
     return PartsSourceEnum.STEPS;
   }
   return PartsSourceEnum.NO_BLOCK;
-}
+};
 
 /**
  * 分块
@@ -152,7 +152,7 @@ export class PartsControl extends React.Component<
   }
 
   renderHeader() {
-    const {env} = this.props;
+    const {env, render} = this.props;
     const {source} = this.state;
     const classPrefix = env?.theme?.classPrefix;
 
@@ -173,7 +173,7 @@ export class PartsControl extends React.Component<
           分块
         </label>
         <div className={cx(`${classPrefix}Form-value`)}>
-          {amisRender({
+          {render('header', {
             type: 'select',
             name: 'optionSourceList',
             options: PartsSourceOptions,
@@ -186,7 +186,7 @@ export class PartsControl extends React.Component<
   }
 
   renderContent(source: string) {
-    const {classPrefix} = this.props;
+    const {classPrefix, render} = this.props;
     const {parts, options} = this.state;
 
     if (source === PartsSourceEnum.AVERAGE) {
@@ -215,7 +215,8 @@ export class PartsControl extends React.Component<
     } else if (source === PartsSourceEnum.CUSTOM) {
       return (
         <div className="ae-OptionControl-wrapper">
-          {amisRender(
+          {render(
+            'content',
             getSchemaTpl('combo-container', {
               type: 'combo',
               label: false,
@@ -271,7 +272,9 @@ export class MarksControl extends React.Component<
     const {marks = {}} = props.data;
     this.state = {
       options: this.transformOptionValue(marks),
-      source: !Object.keys(marks).length ? MarksSourceEnum.PARKS : MarksSourceEnum.CUSTOM
+      source: !Object.keys(marks).length
+        ? MarksSourceEnum.PARKS
+        : MarksSourceEnum.CUSTOM
     };
   }
 
@@ -383,7 +386,7 @@ export class MarksControl extends React.Component<
   }
 
   renderHeader() {
-    const {env} = this.props;
+    const {env, render} = this.props;
     const {source} = this.state;
     const classPrefix = env?.theme?.classPrefix;
     return (
@@ -403,7 +406,7 @@ export class MarksControl extends React.Component<
           下标
         </label>
         <div className={cx(`${classPrefix}Form-value`)}>
-          {amisRender({
+          {render('header', {
             type: 'select',
             name: 'optionSourceList',
             options: MarksSourceOptions,
@@ -416,13 +419,14 @@ export class MarksControl extends React.Component<
   }
 
   render() {
-    const {className} = this.props;
+    const {className, render} = this.props;
     const {source, options} = this.state;
     return (
       <div className={cx('ae-OptionControl', className)}>
         {this.renderHeader()}
         {source === MarksSourceEnum.CUSTOM &&
-          amisRender(
+          render(
+            'inner',
             getSchemaTpl('combo-container', {
               type: 'combo',
               label: false,

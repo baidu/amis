@@ -8,14 +8,7 @@ import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import omit from 'lodash/omit';
 import Sortable from 'sortablejs';
-import {
-  render as amisRender,
-  FormItem,
-  Button,
-  Checkbox,
-  Icon,
-  InputBox
-} from 'amis';
+import {FormItem, Button, Checkbox, Icon, InputBox} from 'amis';
 import {value2array} from 'amis-ui/lib/components/Select';
 
 import {autobind} from 'amis-editor-core';
@@ -469,7 +462,8 @@ export default class OptionControl extends React.Component<
   }
 
   renderOption(props: any) {
-    const {checked, index, editing, multipleProps, closeDefaultCheck} = props;
+    const {checked, index, editing, multipleProps, closeDefaultCheck, render} =
+      props;
     const ctx: Partial<TextControlSchema> = this.props.data;
     const isMultiple = ctx?.multiple === true || multipleProps;
 
@@ -479,7 +473,7 @@ export default class OptionControl extends React.Component<
 
     const editDom = editing ? (
       <div className="ae-OptionControlItem-extendMore">
-        {amisRender({
+        {render('option', {
           type: 'container',
           className: 'ae-ExtendMore right mb-2',
           body: [
@@ -609,7 +603,7 @@ export default class OptionControl extends React.Component<
             clearable={false}
             onChange={value => this.handleEditLabel(index, value)}
           />
-          {amisRender({
+          {render('dropdown', {
             type: 'dropdown-button',
             className: 'ae-OptionControlItem-dropdown',
             btnClassName: 'px-2',
@@ -764,7 +758,7 @@ export default class OptionControl extends React.Component<
                 添加选项
               </Button>
               {/* {render('option-control-batchAdd', this.buildBatchAddSchema())} */}
-              {amisRender(this.buildBatchAddSchema(), {
+              {render('inner', this.buildBatchAddSchema(), {
                 onSubmit: this.handleBatchAdd
               })}
             </div>
