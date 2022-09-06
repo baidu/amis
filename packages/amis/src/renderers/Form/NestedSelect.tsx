@@ -211,7 +211,10 @@ export default class NestedSelectControl extends React.Component<
       labelField,
       valueField,
       options,
-      hideNodePathLabel
+      hideNodePathLabel,
+      menuTpl,
+      searchable,
+      multiple
     } = this.props;
     const inputValue = this.state.inputValue;
     const regexp = string2regExp(inputValue || '');
@@ -234,7 +237,15 @@ export default class NestedSelectControl extends React.Component<
               let pointer = 0;
               return (
                 <span key={index}>
-                  {regexp.test(label)
+                  {menuTpl
+                    ? this.renderMenu(item, {
+                        checked: true,
+                        index,
+                        searchable,
+                        multiple,
+                        inputValue: inputValue || ''
+                      })
+                    : regexp.test(label)
                     ? unmatchText.map((text: string, textIndex: number) => {
                         const current = pointer;
                         pointer += text.length || inputValue?.length || 0;
@@ -253,6 +264,13 @@ export default class NestedSelectControl extends React.Component<
                   {!isEnd && ' / '}
                 </span>
               );
+            })
+          : menuTpl
+          ? this.renderMenu(option, {
+              checked: true,
+              searchable,
+              multiple,
+              inputValue: inputValue || ''
             })
           : option[labelField || 'label']}
       </span>
@@ -610,7 +628,9 @@ export default class NestedSelectControl extends React.Component<
       menuClassName,
       cascade,
       onlyChildren,
-      menuTpl
+      menuTpl,
+      inputValue,
+      searchable
     } = this.props;
     const valueField = this.props.valueField || 'value';
 
@@ -696,10 +716,13 @@ export default class NestedSelectControl extends React.Component<
                   >
                     {menuTpl
                       ? this.renderMenu(option, {
-                          index: index + '-' + idx,
+                          index: index + '/' + idx,
                           checked:
                             !nodeDisabled &&
-                            (selfChecked || (!cascade && selfChildrenChecked))
+                            (selfChecked || (!cascade && selfChildrenChecked)),
+                          searchable,
+                          multiple,
+                          inputValue: inputValue || ''
                         })
                       : option[labelField || 'label']}
                   </div>

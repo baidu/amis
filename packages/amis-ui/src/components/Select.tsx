@@ -745,6 +745,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       maxTagCount,
       overflowTagPopover,
       showInvalidMatch,
+      renderMenu,
+      searchable,
       translate: __
     } = this.props;
     const selection = this.state.selection;
@@ -877,7 +879,16 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
             key={index}
           >
-            {item[labelField || 'label']}
+            {renderMenu
+              ? renderMenu(item, {
+                  multiple,
+                  checked: true,
+                  onChange: () => this.handleChange(item),
+                  inputValue: inputValue || '',
+                  searchable,
+                  index
+                })
+              : item[labelField || 'label']}
           </div>
         );
       }
