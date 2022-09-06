@@ -19,6 +19,12 @@
                 flex: 1;
                 margin-left: #{px2rem(20px)};
                 margin-right: #{px2rem(44px)};
+                input {
+                    width: 100%;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
             }
             &-input {
                 flex: 1;
