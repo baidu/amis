@@ -276,6 +276,43 @@ export default {
           ]
         }
       }
+    },
+    {
+      type: 'form',
+      debug: true,
+      api: '/api/mock2/form/saveForm',
+      title: "表单：配置pureSubmit事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置",
+      body: [
+        {
+          type: 'input-text',
+          name: 'name',
+          label: '姓名',
+          required: true,
+          validateOnChange: true
+        },
+        {
+          type: 'input-text',
+          name: 'email',
+          label: '邮箱',
+          required: true,
+          validateOnChange: true,
+          validations: {
+            isEmail: true
+          }
+        }
+      ],
+      onEvent: {
+        pureSubmit: {
+          actions: [
+            {
+              actionType: 'toast',
+              args: {
+                msg: '提交成功：${event.data|json}'
+              }
+            }
+          ]
+        },
+      }
     }
   ]
 };

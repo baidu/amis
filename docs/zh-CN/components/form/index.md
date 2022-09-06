@@ -1458,6 +1458,7 @@ Form 支持轮询初始化接口，步骤如下：
 | formItemValidateError | `event.data: object` 当前表单数据                            | 表单项校验失败时触发         |
 | validateSucc          | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
 | validateError         | `event.data: object` 当前表单数据                            | 表单校验失败时触发           |
+| pureSubmit         | `event.data: object` 当前表单数据                            | 表单提交后触发，配置了该事件将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置           |
 | submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据 | 提交成功时触发               |
 | submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息  | 提交失败时触发               |
 

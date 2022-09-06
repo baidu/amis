@@ -1014,7 +1014,8 @@ export default class Form extends React.Component<FormProps, object> {
       clearPersistDataAfterSubmit,
       trimValues,
       dispatchEvent,
-      translate: __
+      translate: __,
+      $schema
     } = this.props;
 
     // 做动作之前，先把数据同步一下。
@@ -1822,7 +1823,7 @@ export class FormRenderer extends Form {
     return this.handleAction(undefined, action, data, throwErrors);
   }
 
-  handleAction(
+  async handleAction(
     e: React.UIEvent<any> | undefined,
     action: ActionObject,
     ctx: object,
@@ -1833,6 +1834,17 @@ export class FormRenderer extends Form {
     // if (this.props.disabled) {
     //   return;
     // }
+
+    // 配了pureSubmit事件的表示将提交逻辑全部托管给事件
+    const {dispatchEvent, $schema} = this.props;
+    const pureSubmitEvent = $schema?.onEvent?.pureSubmit;
+    const dispatcher = await dispatchEvent(
+      'pureSubmit',
+      this.props.data
+    );
+    if (dispatcher?.prevented || pureSubmitEvent) {
+      return;
+    }
     if (action.target && action.actionType !== 'reload') {
       const scoped = this.context as IScopedContext;
 
