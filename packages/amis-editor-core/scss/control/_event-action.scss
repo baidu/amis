@@ -75,6 +75,14 @@
           }
         }
       }
+      &-desc {
+        margin: #{px2rem(12px)};
+        color: #84868c;
+        button > svg {
+          width: #{px2rem(12px)};
+          height: #{px2rem(12px)};
+        }
+      }
       &:last-child {
         .event-item-header {
           border-bottom: #{px2rem(1px)} solid #d4d6d9;
@@ -87,7 +95,7 @@
         @include flexBox(column, flex-start);
         @include minScrollBar();
         margin: 0;
-        padding: #{px2rem(13px)} #{px2rem(8px)} 0;
+        padding: 0 #{px2rem(12px)};
         background: #ffffff;
         list-style-type: none;
         .ae-option-control-item {
