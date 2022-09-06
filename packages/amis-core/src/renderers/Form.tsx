@@ -1014,8 +1014,7 @@ export default class Form extends React.Component<FormProps, object> {
       clearPersistDataAfterSubmit,
       trimValues,
       dispatchEvent,
-      translate: __,
-      $schema
+      translate: __
     } = this.props;
 
     // 做动作之前，先把数据同步一下。
