@@ -96,17 +96,34 @@ export default class SearchPanel extends React.Component<
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
-    const externalKeyword = nextProps.externalKeyword;
+    const {externalKeyword, allResult} = nextProps;
     // 当externalKeyword在外部发现变动，则将其值同步给curKeyword，并执行一次搜索
     if (externalKeyword !== this.state.curKeyword) {
       this.setState(
         {
-          curKeyword: externalKeyword
+          curKeyword: externalKeyword,
         },
         () => {
           this.groupedResultByKeyword(externalKeyword);
         }
       );
+    }
+    // 外部搜索数据变更时
+    if (allResult !== this.props.allResult) {
+      let curResultTags: string[] = [];
+      let curResultByTag: {
+        [propName: string]: any[];
+      } = {};
+      if (allResult && allResult.length > 0) {
+        // 获取分类信息
+        const curResultTagsObj = this.getResultTags(allResult);
+        curResultTags = curResultTagsObj.curResultTags;
+        curResultByTag = curResultTagsObj.curResultByTag;
+      }
+      this.setState({
+        resultTags: curResultTags,
+        resultByTag: curResultByTag,
+      });
     }
   }
 
