@@ -1407,7 +1407,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   </div>
                   {maxSize ? (
                     <div className={cx('FileControl-sizeTip')}>
-                      {__('File.sizeLimit', {maxSize: prettyBytes(maxSize)})}
+                      {__('File.sizeLimit', {
+                        maxSize: prettyBytes(maxSize, 1024)
+                      })}
                     </div>
                   ) : null}
                 </div>
