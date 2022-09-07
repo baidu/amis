@@ -128,13 +128,13 @@ register('en-US', {
   'File.invalidType': '{{files}} does not match type `{{accept}}`',
   'File.maxLength': 'The maximum limit is {{maxLength}}',
   'File.maxSize':
-    '{{filename}} you selected exceeds the maximum limit of {{maxsize}} (in bytes)',
+    '{{filename}} you selected exceeds the maximum limit of {{maxSize}}',
   'File.pause': 'Pause uplaod',
   'File.repick': 'Repick',
   'File.result':
     'Successfully uploaded {{uploaded}} files, failed to upload {{failed}} files',
   'File.retry': 'Retry',
-  'File.sizeLimit': 'The maximum file size is {{maxSize}} B',
+  'File.sizeLimit': 'The maximum file size is {{maxSize}}',
   'File.start': 'Start upload',
   'File.upload': 'Upload',
   'Image.upload': 'Upload image',

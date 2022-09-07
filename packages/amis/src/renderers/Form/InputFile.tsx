@@ -1,8 +1,7 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {FormItem, FormControlProps, prettyBytes} from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
-import ImageControl from './InputImage';
 import {Payload, ApiObject, ApiString, ActionObject} from 'amis-core';
 import {qsstringify, createObject, guid, isEmpty} from 'amis-core';
 import {
@@ -21,8 +20,7 @@ import {
   FormBaseControlSchema,
   SchemaApi,
   SchemaClassName,
-  SchemaTokenizeableString,
-  SchemaUrlPath
+  SchemaTokenizeableString
 } from '../../Schema';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
@@ -515,8 +513,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         // this.props.env.alert(
         //   __('File.maxSize', {
         //     filename: file[nameField as keyof typeof file] || file.name,
-        //     actualSize: ImageControl.formatFileSize(file.size),
-        //     maxSize: ImageControl.formatFileSize(maxSize)
+        //     actualSize: prettyBytes(file.size),
+        //     maxSize: prettyBytes(maxSize)
         //   })
         // );
         file.state = 'invalid';
@@ -1409,7 +1407,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   </div>
                   {maxSize ? (
                     <div className={cx('FileControl-sizeTip')}>
-                      {__('File.sizeLimit', {maxSize})}
+                      {__('File.sizeLimit', {maxSize: prettyBytes(maxSize)})}
                     </div>
                   ) : null}
                 </div>
@@ -1456,7 +1454,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
         {maxSize && !drag ? (
           <div className={cx('FileControl-sizeTip')}>
-            {__('File.sizeLimit', {maxSize})}
+            {__('File.sizeLimit', {maxSize: prettyBytes(maxSize, 1024)})}
           </div>
         ) : null}
 
@@ -1478,10 +1476,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                           (maxSize && file.size > maxSize
                             ? __('File.maxSize', {
                                 filename: file.name,
-                                actualSize: ImageControl.formatFileSize(
-                                  file.size
-                                ),
-                                maxSize: ImageControl.formatFileSize(maxSize)
+                                actualSize: prettyBytes(file.size, 1024),
+                                maxSize: prettyBytes(maxSize, 1024)
                               })
                             : '')
                         : ''
