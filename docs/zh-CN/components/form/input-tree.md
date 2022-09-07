@@ -1010,10 +1010,10 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置                 | 说明                                                   |
-| -------- | ------------------------ | ------------------------------------------------------ |
-| expand   | openLevel: `number`      | 展开指定层级                                           |
-| collapse | -                        | 收起                                                   |
-| clear    | -                        | 清空                                                   |
-| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
-| setValue | `value: string` 更新的值 | 更新数据，开启`multiple`，多值用`,`分隔                |
+| 动作名称 | 动作配置                               | 说明                                                                                    |
+| -------- | -------------------------------------- | --------------------------------------------------------------------------------------- |
+| expand   | openLevel: `number`                    | 展开指定层级                                                                            |
+| collapse | -                                      | 收起                                                                                    |
+| clear    | -                                      | 清空                                                                                    |
+| reset    | -                                      | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                  |
+| setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组 |
