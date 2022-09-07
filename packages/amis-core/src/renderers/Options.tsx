@@ -609,7 +609,14 @@ export function registerOptionsControl(config: OptionsConfig) {
         (typeof value === 'string' || typeof value === 'number')
       ) {
         const selectedOptions = formItem.getSelectedOptions(value);
-        onChange?.(multiple ? selectedOptions.concat() : selectedOptions[0]);
+        // 防止 selectedOptions 为空导致返回 undefined 问题
+        onChange?.(
+          multiple
+            ? selectedOptions.concat()
+            : selectedOptions.length
+            ? selectedOptions[0]
+            : ''
+        );
       } else if (
         extractValue === true &&
         value &&
@@ -628,7 +635,14 @@ export function registerOptionsControl(config: OptionsConfig) {
           .map(
             (selectedOption: Option) => selectedOption[valueField || 'value']
           );
-        onChange?.(multiple ? selectedOptions.concat() : selectedOptions[0]);
+
+        onChange?.(
+          multiple
+            ? selectedOptions.concat()
+            : selectedOptions.length
+            ? selectedOptions[0]
+            : ''
+        );
       }
     }
 

@@ -306,3 +306,159 @@ test('options:autoFill-merge', async () => {
     select: 1
   });
 });
+
+describe('Renderer: Options with clearable', () => {
+  async function setup(config: any = {}) {
+    const onSubmit = jest.fn();
+    const {container, getByText, ...reset} = render(
+      amisRender(
+        {
+          type: 'form',
+          submitText: 'Submit',
+          body: [
+            {
+              label: '选项',
+              type: 'select',
+              name: 'select',
+              clearable: true,
+              options: [
+                {
+                  label: 'Option A',
+                  value: 'a'
+                },
+                {
+                  label: 'Option B',
+                  value: 'b'
+                },
+                {
+                  label: 'Option C',
+                  value: 'c'
+                }
+              ],
+              ...config
+            }
+          ]
+        },
+        {onSubmit},
+        makeEnv({})
+      )
+    );
+
+    const submit = async () => {
+      fireEvent.click(getByText('Submit'));
+      await wait(200);
+      return onSubmit.mock.calls;
+    };
+
+    const select = async (label: string | RegExp, toOpen: boolean = true) => {
+      if (toOpen) {
+        fireEvent.click(container.querySelector('.cxd-Select')!);
+        await wait(200);
+      }
+      fireEvent.click(getByText(label));
+      await wait(200);
+    };
+
+    const clear = async () => {
+      fireEvent.click(container.querySelector('.cxd-Select-clear')!);
+      await wait(200);
+    };
+
+    return {
+      ...reset,
+      container,
+      getByText,
+      submit,
+      select,
+      clear
+    };
+  }
+
+  test('joinValues: true', async () => {
+    const {submit, select, clear} = await setup({
+      joinValues: true
+    });
+
+    await select(/Option A/);
+    expect((await submit())[0][0].select).toBe('a');
+    await clear();
+    expect((await submit())[1][0].select).toBe('');
+  });
+
+  test('joinValues: false', async () => {
+    const {submit, select, clear} = await setup({
+      joinValues: false
+    });
+
+    await select(/Option B/);
+    expect((await submit())[0][0].select).toEqual({
+      label: 'Option B',
+      value: 'b'
+    });
+    await clear();
+    expect((await submit())[1][0].select).toBe('');
+  });
+
+  test('joinValues: false, extractValue: true', async () => {
+    const {submit, select, clear} = await setup({
+      joinValues: false,
+      extractValue: true
+    });
+
+    await select(/Option C/);
+    expect((await submit())[0][0].select).toEqual('c');
+    await clear();
+    expect((await submit())[1][0].select).toBe('');
+  });
+
+  // multiple: true
+
+  test('joinValues: true, multiple: true', async () => {
+    const {submit, select, clear} = await setup({
+      joinValues: true,
+      multiple: true
+    });
+
+    await select(/Option A/);
+    await select(/Option B/, false);
+    expect((await submit())[0][0].select).toBe('a,b');
+    await clear();
+    expect((await submit())[1][0].select).toBe('');
+  });
+
+  test('joinValues: false, multiple: true', async () => {
+    const {submit, select, clear} = await setup({
+      joinValues: false,
+      multiple: true
+    });
+
+    await select(/Option A/);
+    await select(/Option C/, false);
+    expect((await submit())[0][0].select).toEqual([
+      {
+        label: 'Option A',
+        value: 'a'
+      },
+      {
+        label: 'Option C',
+        value: 'c'
+      }
+    ]);
+    await clear();
+    expect((await submit())[1][0].select).toEqual([]);
+  });
+
+  test('joinValues: false, extractValue: true, multiple: true', async () => {
+    const {submit, select, clear} = await setup({
+      joinValues: false,
+      extractValue: true,
+      multiple: true
+    });
+
+    await select(/Option B/);
+    await select(/Option C/, false);
+    expect((await submit())[0][0].select).toEqual(['b', 'c']);
+    await clear();
+    expect((await submit())[1][0].select).toEqual([]);
+  });
+});
