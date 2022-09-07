@@ -213,7 +213,11 @@ export default class NumberControl extends React.Component<
   getValue(inputValue: any) {
     const {resetValue, unitOptions} = this.props;
 
-    if (inputValue && typeof inputValue !== 'number') {
+    if (
+      inputValue &&
+      typeof inputValue !== 'number' &&
+      typeof inputValue !== 'string'
+    ) {
       return;
     }
 
@@ -253,6 +257,9 @@ export default class NumberControl extends React.Component<
   }
 
   filterNum(value: number | string | undefined) {
+    if (typeof value === 'undefined') {
+      return undefined;
+    }
     if (typeof value !== 'number') {
       value = filter(value, this.props.data);
       value = /^[-]?\d+/.test(value) ? +value : undefined;
