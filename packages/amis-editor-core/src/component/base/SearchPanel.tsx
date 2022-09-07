@@ -154,10 +154,10 @@ export default class SearchPanel extends React.Component<
 
     allResult.forEach(item => {
       if (!isString(item) && item[curTagKey]) {
-        const tags = Array.isArray(item.tags)
-          ? item.tags.concat()
-          : item.tags
-          ? [item.tags]
+        const tags = Array.isArray(item[curTagKey])
+          ? item[curTagKey].concat()
+          : item[curTagKey]
+          ? [item[curTagKey]]
           : ['其他'];
         tags.forEach((tag: string) => {
           if (curResultTags.indexOf(tag) < 0) {
@@ -184,13 +184,14 @@ export default class SearchPanel extends React.Component<
    */
   groupedResultByKeyword(keywords?: string) {
     const {allResult} = this.props;
-    let curSearchResult: Array<any> = [];
+    let curSearchResult: any[] = [];
     let curSearchResultByTag: {
-      [propName: string]: Array<any>;
+      [propName: string]: any[];
     } = {};
     const curKeyword = keywords ? keywords : this.state.curKeyword;
+    const curTagKey = this.props.tagKey || 'tags';
     const grouped: {
-      [propName: string]: Array<any>;
+      [propName: string]: any[];
     } = {};
     const regular = curKeyword ? new RegExp(curKeyword, 'i') : null;
 
@@ -198,23 +199,25 @@ export default class SearchPanel extends React.Component<
       if (isString(item) && regular && regular.test(item)) {
         // 兼容字符串类型
         curSearchResult.push(item);
-      } else if (
-        !keywords ||
-        ['name', 'description', 'scaffold.type'].some(
+      }
+      else if (
+        !keywords
+        || ['name', 'description', 'scaffold.type'].some(
           key => item[key] && regular && regular.test(item[key])
         )
       ) {
-        if (item.tags) {
-          const tags = Array.isArray(item.tags)
-            ? item.tags.concat()
-            : item.tags
-            ? [item.tags]
-            : ['其他'];
+        if (item[curTagKey]) {
+          const tags = Array.isArray(item[curTagKey])
+            ? item[curTagKey].concat()
+            : item[curTagKey]
+              ? [item[curTagKey]]
+              : ['其他'];
           tags.forEach((tag: string) => {
             curSearchResultByTag[tag] = grouped[tag] || [];
             curSearchResultByTag[tag].push(item);
           });
-        } else {
+        }
+        else {
           curSearchResult.push(item);
         }
       }
@@ -223,7 +226,7 @@ export default class SearchPanel extends React.Component<
     // 更新当前搜索结果数据（备注: 附带重置功能）
     this.setState({
       searchResult: curSearchResult,
-      searchResultByTag: curSearchResultByTag
+      searchResultByTag: curSearchResultByTag,
     });
   }
 
