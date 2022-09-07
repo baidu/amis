@@ -49,7 +49,12 @@ export class BaseSelection<
   S = any
 > extends React.Component<T, S> {
   static itemRender(option: Option, states: ItemRenderStates) {
-    return <span>{option.label}</span>;
+    return (
+      <span>
+        {option.label}
+        {option.tip || ''}
+      </span>
+    );
   }
 
   static defaultProps = {

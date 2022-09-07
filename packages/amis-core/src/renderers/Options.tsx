@@ -1296,7 +1296,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         pathSeparator,
         delimiter = ',',
         labelField = 'label',
-        valueField = 'value'
+        valueField = 'value',
+        translate: __
       } = this.props;
 
       const {nodePathArray, nodeValueArray} = normalizeNodePath(
@@ -1311,6 +1312,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       return (
         <Control
           {...this.props}
+          placeholder={__(this.props.placeholder)}
           ref={this.inputRef}
           options={formItem ? formItem.filteredOptions : []}
           onToggle={this.handleToggle}
