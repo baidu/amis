@@ -354,7 +354,7 @@ $category-2-height: px2rem(32px);
       position: absolute;
       width: 100%;
       padding: 0;
-      overflow-y: overlay;
+      overflow-y: overlay !important;
       @include minScrollBar();
     }
 

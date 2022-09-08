@@ -1,4 +1,4 @@
-.ae-event-control {
+ae-event-control {
   font-size: #{px2rem(12px)};
   &-header-oldentry {
     height: 100px;
@@ -333,13 +333,13 @@
                 }
                 li .is-checked > div {
                   background: var(--Tree-item-onChekced-bg);
-                  &:hover{
+                  &:hover {
                     background-color: var(--Tree-item-onChekced-bg) !important;
                   }
                 }
               }
             }
-          
+
             li .is-checked::before {
               content: '';
               background: url('../static/check.svg') no-repeat center center;
