@@ -865,3 +865,50 @@ test('Renderer:crud group', async () => {
     ).getAttribute('rowSpan')
   ).toBe('2');
 });
+
+test('Renderer: crud searchable sortable filterable', async () => {
+  const mockFetcher = jest.fn(fetcher);
+  const {container, debug, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'crud',
+          api: '/api/mock2/sample',
+          syncLocation: false,
+          columns: [
+            {
+              name: '__id',
+              label: 'ID'
+            },
+            {
+              name: 'engine',
+              label: 'Rendering engine',
+              quickEdit: true,
+              sortable: true,
+              searchable: true,
+              options: ['1', '2', '3']
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({fetcher: mockFetcher})
+    )
+  );
+
+  await waitFor(() => {
+    expect(container.querySelectorAll('tbody>tr').length > 5).toBeTruthy();
+  });
+
+  expect(container.querySelector('[icon="filter"]')).not.toBeInTheDocument();
+
+  fireEvent.click(container.querySelector('[icon="search"]')!);
+
+  await waitFor(() => {
+    expect(container.querySelector('.cxd-PopOver')).toBeInTheDocument();
+  });
+
+  // 弹窗中没有 排序
+  expect(container.querySelectorAll('[data-role="form-item"]').length).toBe(1);
+});
