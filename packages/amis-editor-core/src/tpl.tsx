@@ -1,3 +1,5 @@
+import { SchemaObject } from "amis/lib/Schema";
+
 /**
  * @file amis schema 配置模板，主要很多地方都要全部配置的化，
  * 会有很多份，而且改起来很麻烦，复用率高的放在这管理。
@@ -65,4 +67,26 @@ export function defaultValue(defaultValue: any, strictMode: boolean = true) {
   return strictMode
     ? (value: any) => (typeof value === 'undefined' ? defaultValue : value)
     : (value: any) => value || defaultValue;
+}
+
+/**
+ * 配置面板带提示信息的label
+ */
+export function tipedLabel(
+  body: string | Array<SchemaObject>,
+  tip: string,
+  style?: React.CSSProperties
+) {
+  return {
+    type: 'tooltip-wrapper',
+    tooltip: tip,
+    tooltipTheme: 'dark',
+    placement: 'top',
+    tooltipStyle: {
+      fontSize: '12px',
+      ...(style || {})
+    },
+    className: 'ae-formItemControl-label-tip',
+    body
+  };
 }

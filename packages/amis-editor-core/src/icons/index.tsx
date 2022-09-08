@@ -10,7 +10,8 @@ import DisplayInlineBlock from './display-inline-block.svg';
 import DisplayFlex from './display-flex.svg';
 import Harmmer from './hammer.svg';
 import Dialog from './dialog.svg';
-import API from './api.svg';
+import Setting from './setting.svg';
+import PickerIcon from './picker-icon.svg';
 
 registerIcon('arrow-to-right', ArrowToRight);
 registerIcon('left-arrow-to-left', LeftArrowToleft);
@@ -19,7 +20,8 @@ registerIcon('arrow-to-bottom', ArrowToBottom);
 registerIcon('collapse-open', CollapseOpen);
 registerIcon('harmmer', Harmmer);
 registerIcon('dialog', Dialog);
-registerIcon('api', API);
+registerIcon('setting', Setting);
+registerIcon('picker-icon', PickerIcon);
 
 // 「页面设计器改版」设计侧提供的icon（组件头部工具栏icon）
 import CopyBtn from './copy-btn.svg';
