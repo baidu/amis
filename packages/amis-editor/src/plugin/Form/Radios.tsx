@@ -122,7 +122,8 @@ export class RadiosControlPlugin extends BasePlugin {
               }),
               // getSchemaTpl('autoFill')
               getSchemaTpl('labelRemark'),
-              getSchemaTpl('remark')
+              getSchemaTpl('remark'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           {

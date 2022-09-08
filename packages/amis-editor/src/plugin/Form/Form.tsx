@@ -138,7 +138,7 @@ export class FormPlugin extends BasePlugin {
   scaffoldForm: ScaffoldForm = {
     title: '快速创建表单',
     body: [
-      getSchemaTpl('api', {
+      getSchemaTpl('apiControl', {
         label: '提交地址'
       }),
       {
@@ -546,7 +546,7 @@ export class FormPlugin extends BasePlugin {
           : {
               title: '接口',
               body: [
-                getSchemaTpl('api', {
+                getSchemaTpl('apiControl', {
                   label: '保存接口',
                   description: '用来保存表单数据',
                   sampleBuilder: () => `{
@@ -575,7 +575,7 @@ export class FormPlugin extends BasePlugin {
                   pipeOut: (value: any) => (value ? '' : undefined)
                 }),
 
-                getSchemaTpl('api', {
+                getSchemaTpl('apiControl', {
                   name: 'asyncApi',
                   label: '异步检测接口',
                   visibleOn: 'data.asyncApi != null',
@@ -587,7 +587,7 @@ export class FormPlugin extends BasePlugin {
                   type: 'divider'
                 },
 
-                getSchemaTpl('api', {
+                getSchemaTpl('apiControl', {
                   name: 'initApi',
                   label: '初始化接口',
                   description: '用来初始化表单数据',
@@ -669,7 +669,7 @@ export class FormPlugin extends BasePlugin {
                   pipeOut: (value: any) => (value ? '' : undefined)
                 }),
 
-                getSchemaTpl('api', {
+                getSchemaTpl('apiControl', {
                   name: 'initAsyncApi',
                   label: '异步检测接口',
                   visibleOn: 'data.initAsyncApi != null',

@@ -147,6 +147,11 @@ export default class FormulaControl extends React.Component<
         }
       });
     }
+    if (this.props.data !== prevProps.data) {
+      this.setState({
+        variables: dataMapping(this.props.variables, this.props.data)
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -255,7 +260,14 @@ export default class FormulaControl extends React.Component<
     const {node, manager} = this.props.formProps || this.props;
     await manager?.getContextSchemas(node);
     const dataPropsAsOptions = manager?.dataSchema?.getDataPropsAsOptions();
-    return dataPropsAsOptions || [];
+
+    if (dataPropsAsOptions) {
+      return dataPropsAsOptions.map((item: any) => ({
+        selectMode: 'tree',
+        ...item
+      }));
+    }
+    return [];
   }
 
   @autobind
@@ -481,7 +493,13 @@ export default class FormulaControl extends React.Component<
         )}
         <PickerContainer
           showTitle={false}
-          bodyRender={({onClose, value, onChange}) => {
+          bodyRender={({
+            value,
+            onChange
+          }: {
+            onChange: (value: any) => void;
+            value: any;
+          }) => {
             return (
               <FormulaEditor
                 {...rest}
@@ -499,7 +517,7 @@ export default class FormulaControl extends React.Component<
           onConfirm={this.handleConfirm}
           size="md"
         >
-          {({onClick, isOpened}) => (
+          {({onClick}: {onClick: (e: React.MouseEvent) => void}) => (
             <Button
               size="sm"
               tooltip={'点击配置表达式'}

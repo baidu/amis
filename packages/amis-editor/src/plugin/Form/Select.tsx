@@ -1,15 +1,11 @@
 import {getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import isArray from 'lodash/isArray';
 
-import {tipedLabel} from '../../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class SelectControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -218,7 +214,10 @@ export class SelectControlPlugin extends BasePlugin {
                   {
                     type: 'input-number',
                     name: 'maxTagCount',
-                    label: tipedLabel('标签展示数','标签的最大展示数量，超出数量后以收纳浮层的方式展示，默认全展示'),
+                    label: tipedLabel(
+                      '标签展示数',
+                      '标签的最大展示数量，超出数量后以收纳浮层的方式展示，默认全展示'
+                    )
                   }
                 ]
               }),
@@ -288,7 +287,10 @@ export class SelectControlPlugin extends BasePlugin {
             title: '高级',
             body: [
               getSchemaTpl('switch', {
-                label: tipedLabel('选项值检查', '开启后，当选项值未匹配到当前options中的选项时，选项文本飘红'),
+                label: tipedLabel(
+                  '选项值检查',
+                  '开启后，当选项值未匹配到当前options中的选项时，选项文本飘红'
+                ),
                 name: 'showInvalidMatch'
               })
             ]

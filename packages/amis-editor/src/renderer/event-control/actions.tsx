@@ -415,7 +415,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           innerArgs: ['api', 'options'],
           descDetail: (info: any) => {
             let apiInfo = info?.args?.api;
-            if (typeof apiInfo === 'string'){
+            if (typeof apiInfo === 'string') {
               apiInfo = normalizeApi(apiInfo);
             }
             return (
@@ -431,7 +431,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           },
           schema: {
             type: 'wrapper',
-            className: "p-none",
+            className: 'p-none',
             body: [
               getArgsWrapper(
                 [
@@ -440,6 +440,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     label: '配置请求',
                     mode: 'horizontal',
                     size: 'lg',
+                    inputClassName: 'm-b-none',
+                    renderLabel: true,
                     required: true
                   }),
                   {
@@ -458,21 +460,27 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                         remark: {
                           className: 'ae-BaseRemark',
                           icon: 'fa fa-question-circle',
-                          shape: "circle",
-                          placement: "left",
-                          content: '勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
+                          shape: 'circle',
+                          placement: 'left',
+                          content:
+                            '勾选后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
                         }
                       }
                     ]
                   }
-                ]
+                ],
+                false,
+                {
+                  className: 'action-apiControl'
+                }
               ),
               {
                 name: 'outputVar',
                 type: 'input-text',
                 label: '存储结果',
                 placeholder: '请输入存储请求结果的变量名称',
-                description: '如需执行多次发送请求，可以修改此变量名用于区分不同请求返回的结果',
+                description:
+                  '如需执行多次发送请求，可以修改此变量名用于区分不同请求返回的结果',
                 mode: 'horizontal',
                 size: 'lg',
                 value: 'responseResult',
@@ -514,9 +522,15 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   name: 'api',
                   label: '配置请求',
                   mode: 'horizontal',
+                  inputClassName: 'm-b-none',
                   size: 'lg',
+                  renderLabel: true,
                   required: true
-                })
+                }),
+                false,
+                {
+                  className: 'action-apiControl'
+                }
               )
             ]
           }
@@ -620,7 +634,11 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               }
             }
           ],
-          supportComponents: ['form', ...FORMITEM_CMPTS, ...SUPPORT_DISABLED_CMPTS],
+          supportComponents: [
+            'form',
+            ...FORMITEM_CMPTS,
+            ...SUPPORT_DISABLED_CMPTS
+          ],
           schema: [
             ...renderCmptSelect('选择组件', true),
             {
@@ -707,10 +725,15 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     },
                     {
                       label: '指定序号',
-                      value: 'appoint',
+                      value: 'appoint'
                     }
                   ],
-                  onChange: (value: string, oldVal: any, data: any, form: any) => {
+                  onChange: (
+                    value: string,
+                    oldVal: any,
+                    data: any,
+                    form: any
+                  ) => {
                     form.setValueByName('index', undefined);
                     form.setValueByName('value', []);
                     form.setValueByName('__valueInput', undefined);
@@ -739,12 +762,20 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   items: [
                     {
                       name: 'key',
-                      type: 'input-text',
+                      type: 'select',
                       placeholder: '变量名',
                       source: '${__setValueDs}',
                       labelField: 'label',
                       valueField: 'value',
                       required: true,
+                      visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`
+                    },
+                    {
+                      name: 'key',
+                      type: 'input-text',
+                      placeholder: '变量名',
+                      required: true,
+                      visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP} && __comboType === 'appoint'`
                     },
                     {
                       name: 'val',
@@ -791,7 +822,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                           labelField: 'label',
                           valueField: 'value',
                           required: true,
-                          visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`,
+                          visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`
                         },
                         {
                           name: 'key',
@@ -924,9 +955,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 复制内容：
-                <span className="variable-left">
-                  {info?.args?.content}
-                </span>
+                <span className="variable-left">{info?.args?.content}</span>
               </div>
             );
           },

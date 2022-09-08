@@ -1,9 +1,8 @@
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin} from 'amis-editor-core';
+import {BasePlugin, tipedLabel} from 'amis-editor-core';
 
 import type {BaseEventContext} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {
@@ -142,7 +141,8 @@ export class TextareaControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           getSchemaTpl('status', {

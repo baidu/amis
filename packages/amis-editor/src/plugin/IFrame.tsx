@@ -3,10 +3,10 @@ import {
   BasePlugin,
   RegionConfig,
   RendererInfo,
-  BaseEventContext
+  BaseEventContext,
+  tipedLabel
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, valuePipeOut} from 'amis-editor-core';
-import {formItemControl, tipedLabel} from '../component/BaseControl';
 
 export class IFramePlugin extends BasePlugin {
   // 关联渲染器名字

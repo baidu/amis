@@ -48,7 +48,7 @@ export class ItemPlugin extends BasePlugin {
         render: this.manager.makeSchemaFormRender({
           body: this.panelBodyCreator(context),
           panelById: store.activeId,
-          formKey: 'form-item',
+          formKey: 'form-item'
         }),
         order: -200
       });
@@ -84,7 +84,6 @@ export class ItemPlugin extends BasePlugin {
     ].indexOf(context.schema.type);
     /** 不支持配置校验属性的组件 */
     const ignoreValidator = !!~['input-group'].indexOf(context.schema.type);
-    const autoFillApi = context.schema.autoFillApi;
     const renderer: any = context.info.renderer;
     return [
       getSchemaTpl('tabs', [
@@ -116,9 +115,14 @@ export class ItemPlugin extends BasePlugin {
             ignoreValidator ? null : getSchemaTpl('required'),
             getSchemaTpl('description'),
             getSchemaTpl('placeholder'),
-            getSchemaTpl('remark'),
-            renderer.renderLabel !== false ? getSchemaTpl('labelRemark') : null,
-            autoFillApi ? getSchemaTpl('autoFillApi') : null
+            getSchemaTpl('remark', {
+              mode: 'row'
+            }),
+            renderer.renderLabel !== false
+              ? getSchemaTpl('labelRemark', {
+                  mode: 'row'
+                })
+              : null
           ]
         },
 

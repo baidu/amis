@@ -11,17 +11,17 @@ import Sortable from 'sortablejs';
 import {FormItem, Button, Icon, InputBox, Modal, toast} from 'amis';
 
 import {autobind} from 'amis-editor-core';
-import {getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import type {FormControlProps} from 'amis-core';
-import {SchemaApi} from 'amis/lib/Schema';
+import {SchemaApi, SchemaObject} from 'amis/lib/Schema';
 
 export type OptionControlItem = Option & {checked?: boolean; _key?: string};
 
 export interface OptionControlProps extends FormControlProps {
   className?: string;
+  otherApiFooter?: Array<SchemaObject>;
 }
 
 export interface OptionControlState {
@@ -29,7 +29,7 @@ export interface OptionControlState {
   api: SchemaApi;
   labelField: string;
   valueField: string;
-  source: 'custom' | 'api';
+  source: 'custom' | 'api' | 'apicenter';
   modalVisible: boolean;
 }
 
@@ -106,7 +106,7 @@ export default class TreeOptionControl extends React.Component<
       data.options = this.pretreatOptions(options);
     }
 
-    if (source === 'api') {
+    if (source === 'api' || source === 'apicenter') {
       const {api, labelField, valueField} = this.state;
       data.source = api;
       data.labelField = labelField;
@@ -120,13 +120,20 @@ export default class TreeOptionControl extends React.Component<
    * 切换选项类型
    */
   @autobind
-  handleSourceChange(source: 'custom' | 'api') {
+  handleSourceChange(source: 'custom' | 'api' | 'apicenter') {
     this.setState({source: source}, this.onChange);
   }
 
   renderHeader() {
-    const {render, label, labelRemark, useMobileUI, env, popOverContainer} =
-      this.props;
+    const {
+      render,
+      label,
+      labelRemark,
+      useMobileUI,
+      env,
+      popOverContainer,
+      hasApiCenter
+    } = this.props;
     const classPrefix = env?.theme?.classPrefix;
     const {source} = this.state;
     const optionSourceList = (
@@ -136,12 +143,13 @@ export default class TreeOptionControl extends React.Component<
           value: 'custom'
         },
         {
-          label: '接口获取',
+          label: '外部接口',
           value: 'api'
-        }
+        },
+        ...(hasApiCenter ? [{label: 'API中心', value: 'apicenter'}] : [])
       ] as Array<{
         label: string;
-        value: 'custom' | 'api';
+        value: 'custom' | 'api' | 'apicenter';
       }>
     ).map(item => ({
       ...item,
@@ -524,9 +532,9 @@ export default class TreeOptionControl extends React.Component<
   }
 
   renderApiPanel() {
-    const {render} = this.props;
+    const {render, otherApiFooter = []} = this.props;
     const {source, api, labelField, valueField} = this.state;
-    if (source !== 'api') {
+    if (source === 'custom') {
       return null;
     }
 
@@ -539,6 +547,7 @@ export default class TreeOptionControl extends React.Component<
         visibleOn: 'data.autoComplete !== false',
         value: api,
         onChange: this.handleAPIChange,
+        sourceType: source,
         footer: [
           {
             label: tipedLabel(
@@ -558,7 +567,8 @@ export default class TreeOptionControl extends React.Component<
             value: valueField,
             placeholder: '值对应的字段',
             onChange: this.handleValueFieldChange
-          }
+          },
+          ...otherApiFooter
         ]
       })
     );

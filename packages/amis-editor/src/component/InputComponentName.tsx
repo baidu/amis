@@ -7,7 +7,7 @@ interface InputComponentNameProps extends RendererProps {
 }
 
 export function InputComponentName(props: InputComponentNameProps) {
-  const {value, onChange, render, name, node} = props;
+  const {value, onChange, render, name, node, placeholder} = props;
   const [options, setOptions] = useState<Array<any>>([]);
 
   useEffect(() => {
@@ -37,7 +37,8 @@ export function InputComponentName(props: InputComponentNameProps) {
     'inner',
     {
       type: 'input-text',
-      name
+      name,
+      placeholder
     },
     {
       value,

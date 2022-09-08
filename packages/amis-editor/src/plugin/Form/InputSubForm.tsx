@@ -1,4 +1,5 @@
 import {Button} from 'amis';
+import { SchemaCollection } from 'amis/lib/Schema';
 import React from 'react';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
@@ -94,7 +95,7 @@ export class SubFormControlPlugin extends BasePlugin {
         label: '允许最多个数',
         type: 'input-number'
       }
-    ];
+    ] as SchemaCollection;
   };
 
   filterProps(props: any) {

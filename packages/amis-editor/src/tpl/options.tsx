@@ -1,5 +1,5 @@
 import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 
 setSchemaTpl('options', {
@@ -114,13 +114,14 @@ setSchemaTpl('tree', {
 
 setSchemaTpl('multiple', (schema: any = {}) => {
   return {
-    type: 'ae-Switch-More',
+    type: 'ae-switch-more',
     mode: 'normal',
     name: 'multiple',
     label: '可多选',
     value: false,
     hiddenOnDefault: true,
     formType: 'extend',
+    ...(schema.patch || {}),
     form: {
       body: schema.replace
         ? schema.body
@@ -302,6 +303,15 @@ setSchemaTpl('optionControlV2', {
   name: 'options',
   type: 'ae-optionControl',
   closeDefaultCheck: true // 关闭默认值设置
+});
+
+/**
+ * 时间轴组件选项控件
+ */
+ setSchemaTpl('timelineItemControl', {
+  label: '数据',
+  model: 'normal',
+  type: 'ae-timelineItemControl'
 });
 
 setSchemaTpl('treeOptionControl', {

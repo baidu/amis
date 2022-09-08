@@ -135,12 +135,17 @@ export const SUPPORT_DISABLED_CMPTS = [
   // 'card2'
 ];
 
-export const getArgsWrapper = (items: any, multiple: boolean = false) => ({
+export const getArgsWrapper = (
+  items: any,
+  multiple: boolean = false,
+  patch = {}
+) => ({
   type: 'combo',
   name: 'args',
   // label: '动作参数',
   multiple,
   strictMode: false,
+  ...patch,
   items: Array.isArray(items) ? items : [items]
 });
 
@@ -194,7 +199,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               source: '${__setValueDs}',
               labelField: 'label',
               valueField: 'value',
-              required: true,
+              required: true
             },
             {
               name: 'val',

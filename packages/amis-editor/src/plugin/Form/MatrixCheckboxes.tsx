@@ -5,9 +5,9 @@ import {
   BasicSubRenderInfo,
   RendererEventContext,
   SubRendererInfo,
-  BaseEventContext
+  BaseEventContext,
+  tipedLabel
 } from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {
@@ -151,7 +151,8 @@ export class MatrixControlPlugin extends BasePlugin {
                   }
                 ],
                 pipeIn: defaultValue('column')
-              }
+              },
+              getSchemaTpl('autoFillApi')
             ]
           },
           {

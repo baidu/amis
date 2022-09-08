@@ -1,7 +1,6 @@
 import {defaultValue, getSchemaTpl, valuePipeOut} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, tipedLabel} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
@@ -330,6 +329,8 @@ export class FileControlPlugin extends BasePlugin {
                   '文件接收器',
                   '默认不填写将上传到 bos，可以在系统配置中设置为自己的 bos 地址。'
                 ),
+                className: 'inputFile-apiControl',
+                renderLabel: true,
                 value: '/api/upload/file',
                 __isUpload: true,
                 visibleOn:
@@ -358,8 +359,15 @@ export class FileControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('remark'),
               getSchemaTpl('labelRemark'),
-              getSchemaTpl('description')
-              // getSchemaTpl('autoFill')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi', {
+                visibleOn:
+                  '!this.autoFill || this.autoFill.scene && this.autoFill.action'
+              }),
+              getSchemaTpl('autoFill', {
+                visibleOn:
+                  '!this.autoFill || !this.autoFill.scene && !this.autoFill.action'
+              })
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

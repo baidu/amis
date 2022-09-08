@@ -78,7 +78,7 @@ export class AlertPlugin extends BasePlugin {
                 name: 'showCloseButton'
               }),
               {
-                type: 'ae-Switch-More',
+                type: 'ae-switch-more',
                 mode: 'normal',
                 name: 'showIcon',
                 label: '图标',
