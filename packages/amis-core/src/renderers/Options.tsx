@@ -462,8 +462,6 @@ export function registerOptionsControl(config: OptionsConfig) {
             )
             .then(() => this.normalizeValue());
         }
-      } else if (!isEqual(props.value, prevProps.value) && props.formInited) {
-        this.normalizeValue();
       }
 
       if (prevProps.value !== props.value || formItem?.expressionsInOptions) {
@@ -573,61 +571,31 @@ export function registerOptionsControl(config: OptionsConfig) {
         multiple,
         formItem,
         valueField,
-        delimiter,
         enableNodePath,
         pathSeparator,
         onChange
       } = this.props;
 
-      if (!formItem || !formItem.options.length) {
+      if (!formItem || joinValues !== false || !formItem.options.length) {
         return;
       }
 
-      if (joinValues !== false) {
-        // 只处理多选且值为 array 的情况，因为理应为分隔符隔开的字符串
-        if (!(multiple && Array.isArray(value))) return;
-
-        const selectedOptions = formItem.getSelectedOptions(value);
-
-        onChange?.(
-          (multiple
-            ? selectedOptions.concat()
-            : selectedOptions.length
-            ? [selectedOptions[0]]
-            : []
-          )
-            .map((selectedOption: Option) => {
-              return typeof selectedOption === 'string' ||
-                typeof selectedOption === 'number'
-                ? selectedOption
-                : selectedOption[valueField || 'value'];
-            })
-            .join(delimiter || ',')
-        );
-      } else if (
+      if (
         extractValue === false &&
         (typeof value === 'string' || typeof value === 'number')
       ) {
         const selectedOptions = formItem.getSelectedOptions(value);
-        // 防止 selectedOptions 为空导致返回 undefined 问题
-        onChange?.(
-          multiple
-            ? selectedOptions.concat()
-            : selectedOptions.length
-            ? selectedOptions[0]
-            : ''
-        );
+        onChange?.(multiple ? selectedOptions.concat() : selectedOptions[0]);
       } else if (
         extractValue === true &&
         value &&
         !(
-          (multiple &&
-            Array.isArray(value) &&
+          (Array.isArray(value) &&
             value.every(
               val => typeof val === 'string' || typeof val === 'number'
             )) ||
-          (!multiple &&
-            (typeof value === 'string' || typeof value === 'number'))
+          typeof value === 'string' ||
+          typeof value === 'number'
         )
       ) {
         const selectedOptions = formItem
@@ -635,14 +603,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           .map(
             (selectedOption: Option) => selectedOption[valueField || 'value']
           );
-
-        onChange?.(
-          multiple
-            ? selectedOptions.concat()
-            : selectedOptions.length
-            ? selectedOptions[0]
-            : ''
-        );
+        onChange?.(multiple ? selectedOptions.concat() : selectedOptions[0]);
       }
     }
 
