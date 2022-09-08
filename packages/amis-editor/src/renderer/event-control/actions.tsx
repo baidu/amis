@@ -237,32 +237,32 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '关闭弹窗',
           actionType: 'closeDialog',
           description: '关闭当前弹窗', // 或者关闭指定弹窗
-          schema: getArgsWrapper({
-            type: 'wrapper',
-            className: 'p-none',
-            body: [
-              {
-                type: 'radios',
-                label: '类型',
-                name: 'groupType',
-                mode: 'horizontal',
-                value: 'closeDialog',
-                required: true,
-                pipeIn: defaultValue('closeDialog'),
-                options: [
-                  {
-                    label: '弹窗',
-                    value: 'closeDialog'
-                  },
-                  {
-                    label: '抽屉',
-                    value: 'closeDrawer'
-                  }
-                ],
-                visibleOn: 'data.actionType === "closeDialog"'
-              }
-            ]
-          })
+          // schema: getArgsWrapper({
+          //   type: 'wrapper',
+          //   className: 'p-none',
+          //   body: [
+          //     {
+          //       type: 'radios',
+          //       label: '类型',
+          //       name: 'groupType',
+          //       mode: 'horizontal',
+          //       value: 'closeDialog',
+          //       required: true,
+          //       pipeIn: defaultValue('closeDialog'),
+          //       options: [
+          //         {
+          //           label: '弹窗',
+          //           value: 'closeDialog'
+          //         },
+          //         {
+          //           label: '抽屉',
+          //           value: 'closeDrawer'
+          //         }
+          //       ],
+          //       visibleOn: 'data.actionType === "closeDialog"'
+          //     }
+          //   ]
+          // })
         },
         // 暂时下掉，看后面具体设计
         // {

@@ -115,16 +115,6 @@ export class TimelinePlugin extends BasePlugin {
             ]
           }
         ])
-      },
-      {
-        title: '事件',
-        className: 'p-none',
-        body: [
-          getSchemaTpl('eventControl',{
-            name: 'onEvent',
-            ...getEventControlConfig(this.manager, context)
-          })
-        ]
       }
     ]);
 }
