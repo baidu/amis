@@ -200,8 +200,9 @@ export class RangeControlPlugin extends BasePlugin {
                     value: 0
                   },
                   {
-                    type: 'tpl',
-                    tpl: '-'
+                    type: 'html',
+                    html: '-',
+                    className: 'inputGroup-split-line'
                   },
                   {
                     type: 'input-number',

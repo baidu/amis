@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "5.2.0-beta.50",
+  "version": "5.2.0-beta.62",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -8,7 +8,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
-    "clean-dist": "rimraf lib/* esm/*"
+    "clean-dist": "rimraf lib/* esm/*",
+    "i18n:update": "npx i18n update --config=./i18nConfig.js",
+    "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US"
   },
   "keywords": [
     "amis",
@@ -22,12 +24,16 @@
   "lint-staged": {
     "{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}": [
       "prettier --write"
+    ],
+    "{src,scss,examples}/**/**/*.scss": [
+      "stylelint"
     ]
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "amis-editor-core": "*",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "i18n-runtime": "0.0.4"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
@@ -87,6 +93,7 @@
     "sass": "^1.49.7",
     "sass-loader": "^12.5.0",
     "style-loader": "^3.2.1",
+    "stylelint": "^14.11.0",
     "ts-jest": "^28.0.3",
     "ts-json-schema-generator": "0.96.0",
     "ts-loader": "^9.2.5",
@@ -102,6 +109,7 @@
     "amis": "*",
     "amis-core": "*",
     "amis-formula": "*",
-    "amis-ui": "*"
+    "amis-ui": "*",
+    "i18n-runtime": "*"
   }
 }

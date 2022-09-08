@@ -161,6 +161,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               value: 'dialog',
               required: true,
               pipeIn: defaultValue('dialog'),
+              inputClassName: 'event-action-radio',
               options: [
                 {
                   label: '弹窗',
@@ -248,6 +249,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 value: 'closeDialog',
                 required: true,
                 pipeIn: defaultValue('closeDialog'),
+                inputClassName: 'event-action-radio',
                 options: [
                   {
                     label: '弹窗',
@@ -584,6 +586,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               value: 'show',
               required: true,
               pipeIn: defaultValue('show'),
+              inputClassName: 'event-action-radio',
               options: [
                 {
                   label: '显示',
@@ -643,6 +646,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               label: '启用/禁用',
               name: 'groupType',
               mode: 'horizontal',
+              inputClassName: 'event-action-radio',
               value: 'enabled',
               required: true,
               pipeIn: defaultValue('enabled'),
@@ -710,6 +714,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   type: 'radios',
                   required: true,
                   name: '__comboType',
+                  inputClassName: 'event-action-radio',
                   mode: 'horizontal',
                   label: '赋值方式',
                   visibleOn: `data.__rendererName && __rendererName === 'combo'`,

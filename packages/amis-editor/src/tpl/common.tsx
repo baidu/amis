@@ -1053,6 +1053,7 @@ setSchemaTpl(
       visibleOn,
       label: '图标',
       type: 'icon-picker',
+      className: 'fix-icon-picker-overflow',
       placeholder: '点击选择图标',
       clearable: true,
       description: ''
