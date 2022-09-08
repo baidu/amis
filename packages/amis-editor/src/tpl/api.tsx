@@ -223,8 +223,7 @@ setSchemaTpl('api', (patch: any = {}) => {
             label: '数据格式',
             type: 'button-group-select',
             name: 'dataType',
-            description:
-              '发送体格式为：<%= data.dataType === "json" ? "application/json" : (data.dataType === "form-data" ? "multipart/form-data" : (data.dataType === "form" ? "application/x-www-form-urlencoded" : "")) %>，当发送内容中存在文件时会自动使用 form-data 格式。',
+            description: `${'发送体格式为'}：<%= data.dataType === "json" ? "application/json" : (data.dataType === "form-data" ? "multipart/form-data" : (data.dataType === "form" ? "application/x-www-form-urlencoded" : "")) %>，${'当发送内容中存在文件时会自动使用 form-data 格式。'}`,
             size: 'sm',
             className: 'block',
             mode: 'inline',

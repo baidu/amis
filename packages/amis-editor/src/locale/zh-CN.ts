@@ -174,8 +174,6 @@ extendLocale('zh-CN', {
   '2e28645c67c5742e473888a27aab7bd6':
     '使按钮组宽度占满父容器，各按钮宽度自适应',
   '66774850742a81e8b2393195290b7330': '按钮管理',
-  'fd179c2844536ce198290441c38c814e':
-    '<span class=label label-default><% if (data.type === button-group) { %> 按钮组 <% } else { %><%= data.label %><% if (data.icon) { %><i class=<%= data.icon %>/><% }%><% } %></span>',
   'f9f2b9cc91cd332db6b2b732c3869233': '新增按钮',
   '40f3bc0a4f4d0f4230fc7fa6f4fcec92': '子按钮',
   'f05dd80af77a441216ef940e7887a8db': '按钮工具栏',
@@ -1522,8 +1520,7 @@ extendLocale('zh-CN', {
   'b6f2fcb279241fe5ff9a8052a444266a':
     '<span class=label label-default>列${index | plus}</span>',
   'cb2f68c9c24e85d21e6b090b6e5657d8': '列',
-  '372097f745fe808e301d2e3d9a859e7a':
-    '<% if (this.width && this.width !== auto) {%>请按住高亮框右侧方块拖动调整宽度<%}%>',
+  '92e2c6523449dfad4350f58908260266': '请按住高亮框右侧方块拖动调整宽度',
   '129b16a89a82c6d5e03ab075633b3892': '列 CSS 类名',
   'd34cc10492e80595a901a292d0c16bb8':
     '可以添加宽度类样式调整宽度，默认宽度为平均分配。',
@@ -2156,8 +2153,9 @@ extendLocale('zh-CN', {
   '8dc91bca9bc83efea73150e3478657fc': '发送条件',
   'd811d2650a17fb7cac710e9376645287': '如：this.type == 123',
   '91ee84292a5bf5e59d3b6309f948f2f1': '用表达式来设置该请求的发送条件',
-  'd9c62bc61e1ca3987e449508c5f69193':
-    '发送体格式为：<%= data.dataType === json ? application/json : data.dataType === form-data ? multipart/form-data : data.dataType === form ? application/x-www-form-urlencoded :  %>，当发送内容中存在文件时会自动使用 form-data 格式。',
+  '55409342e28d37db86fb23efbd84a025': '发送体格式为',
+  'e06a14abe7ef66a8ead143db4ae9786e':
+    '当发送内容中存在文件时会自动使用 form-data 格式。',
   '773a0e8384fd6f784088b829d7cc2f68': '是否设置缓存',
   'c1b110f13431df9662299f26def71df1': '设置该请求缓存有效时间，单位 ms',
   'a18ea11244325dd3d20c5988bc7f6e39': '文件下载',

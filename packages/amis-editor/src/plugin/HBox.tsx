@@ -179,8 +179,7 @@ export class HBoxPlugin extends BasePlugin {
             items: [
               {
                 type: 'tpl',
-                tpl:
-                  '<span class="label label-default">列${index | plus}</span>',
+                tpl: `<span class="label label-default">${'列'}\${index | plus}</span>`,
                 columnClassName: 'no-grow v-middle'
               },
               getSchemaTpl('className', {
@@ -378,8 +377,7 @@ export class HBoxPlugin extends BasePlugin {
                         label: '手动'
                       }
                     ],
-                    description:
-                      '<% if (this.width && this.width !== "auto") {%>请按住高亮框右侧方块拖动调整宽度<%}%>'
+                    description: `<% if (this.width && this.width !== "auto") {%>${'请按住高亮框右侧方块拖动调整宽度'}<%}%>`
                   }
                 ]
               }),

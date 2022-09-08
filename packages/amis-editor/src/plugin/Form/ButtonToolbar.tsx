@@ -93,8 +93,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
                 {
                   type: 'tpl',
                   inline: false,
-                  tpl:
-                    '<span class="label label-default"><% if (data.type === "button-group") { %> 按钮组 <% } else { %><%= data.label %><% if (data.icon) { %><i class="<%= data.icon %>"/><% }%><% } %></span>'
+                  tpl: `<span class="label label-default"><% if (data.type === "button-group") { %> ${'按钮组'} <% } else { %><%= data.label %><% if (data.icon) { %><i class="<%= data.icon %>"/><% }%><% } %></span>`
                 }
               ],
               addButtonText: '新增按钮',
