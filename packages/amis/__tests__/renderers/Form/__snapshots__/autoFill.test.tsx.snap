@@ -3,9 +3,15 @@
 exports[`Form:options:autoFill:data 1`] = `
 Object {
   "a": "a",
-  "aId": 233,
-  "aLabel": "OptionA",
-  "aValue": "a",
+  "aIds": Array [
+    233,
+  ],
+  "aLabels": Array [
+    "OptionA",
+  ],
+  "aValues": Array [
+    "a",
+  ],
 }
 `;
 
@@ -21,15 +27,9 @@ Object {
 exports[`Form:options:autoFill:multiple:data 1`] = `
 Object {
   "a": "a",
-  "aIds": Array [
-    233,
-  ],
-  "aLabels": Array [
-    "OptionA",
-  ],
-  "aValues": Array [
-    "a",
-  ],
+  "aId": 233,
+  "aLabel": "OptionA",
+  "aValue": "a",
 }
 `;
 

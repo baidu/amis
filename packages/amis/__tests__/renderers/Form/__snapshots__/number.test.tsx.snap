@@ -104,36 +104,36 @@ exports[`Renderer:number 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-      
-  
+
+
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -262,36 +262,36 @@ exports[`Renderer:number with borderMode 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-      
-  
+
+
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -420,36 +420,36 @@ exports[`Renderer:number with borderMode 2`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-      
-  
+
+
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -579,36 +579,36 @@ exports[`Renderer:number with precision and default value 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-      
-  
+
+
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -738,36 +738,36 @@ exports[`Renderer:number with prefix & suffix & kilobitSeparator 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-      
-  
+
+
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -917,36 +917,36 @@ exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-      
-  
+
+
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -1120,36 +1120,36 @@ exports[`Renderer:number with unitOptions 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-      
-  
+
+
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-        
-    
+
+
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-        
-  
+
+
       </div>
-      
-  
+
+
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"

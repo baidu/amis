@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`options:autoFill 1`] = `<div />`;
+
 exports[`options:linkage 1`] = `
 <div>
   <form
