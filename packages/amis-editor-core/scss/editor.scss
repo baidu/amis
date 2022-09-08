@@ -69,6 +69,7 @@
   // 覆盖amis默认top值，避免导致未垂直居中
   .ae-Editor-toolbar svg.icon {
     top: 0 !important;
+    font-size: 14px;
   }
 
   &.is-fixed {

@@ -1,13 +1,15 @@
 {
   "name": "amis-editor-core",
-  "version": "5.2.0-beta.50",
+  "version": "5.2.0-beta.62",
   "description": "amis 可视化编辑器",
   "main": "lib/index.min.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run clean-dist && webpack",
-    "clean-dist": "rimraf lib/* esm/*"
+    "clean-dist": "rimraf lib/* esm/*",
+    "i18n:update": "npx i18n update --config=./i18nConfig.js",
+    "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US"
   },
   "keywords": [
     "amis",
@@ -23,10 +25,14 @@
   "lint-staged": {
     "{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}": [
       "prettier --write"
+    ],
+    "{src,scss,examples}/**/**/*.scss": [
+      "stylelint"
     ]
   },
   "dependencies": {
     "deep-diff": "1.0.2",
+    "i18n-runtime": "0.0.4",
     "json-ast-comments": "^1.1.0",
     "lodash": "^4.17.15",
     "mobx": "^4.5.0",
@@ -84,18 +90,21 @@
     "sass": "^1.49.7",
     "sass-loader": "^12.5.0",
     "style-loader": "^3.2.1",
+    "stylelint": "^14.11.0",
     "ts-loader": "^9.2.5",
     "tslib": "^2.3.1",
     "typescript": "^4.4.2",
     "webpack": "^5.52.1",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.8.0",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-node-externals": "^3.0.0",
+    "webpack-react-i18n": "0.0.2"
   },
   "peerDependencies": {
     "amis": "*",
     "amis-core": "*",
     "amis-formula": "*",
-    "amis-ui": "*"
+    "amis-ui": "*",
+    "i18n-runtime": "*"
   }
 }

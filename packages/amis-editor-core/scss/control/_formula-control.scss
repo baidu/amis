@@ -47,7 +47,7 @@
   }
 
   &-custom-renderer {
-    width: calc( 100% - 36px);
+    width: calc(100% - 36px);
     flex: 1 1 auto;
     margin-right: 3px;
     border: none;
@@ -56,11 +56,6 @@
     &.border-wrapper {
       padding: 2px 4px;
       border: 1px dashed #e8e9eb;
-    }
-  }
-  &-select-style {
-    .cxd-Select-valueWrap {
-      overflow: hidden;
     }
   }
 

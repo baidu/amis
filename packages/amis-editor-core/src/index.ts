@@ -1,6 +1,8 @@
 /**
  * @file 总入口
  */
+import 'amis';
+import './locale/index';
 import Editor from './component/Editor';
 import './component/ClassNameControl';
 
