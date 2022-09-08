@@ -12,7 +12,7 @@ extendLocale('en-US', {
   '31e3752986d64c8b36897c8641c8628d': 'Right margin',
   'eabe91d9426b6446f707cea3e7ab2418': 'margin-bottom ',
   '2e46d251ee6188bb1b3ff20656276572': 'left ',
-  '3dc4038d0f0a2d2b3c2b2e29a5ec6dde': 'None',
+  '3dc4038d0f0a2d2b3c2b2e29a5ec6dde': 'Set none',
   'a8b0c20416853bda54120bf19477ad11': 'whole',
   'af767b7e4ae069d54f9ea839858d4c6d': 'upper',
   '4d9c32c23df5d234e629c922c58d8e12': 'right',
@@ -36,49 +36,50 @@ extendLocale('en-US', {
   '8456bc40d48da5af833f1c63385e9879': 'typeface',
   'b3b2682579133673d3fe08c156d565dc': 'fine',
   '56dce5d1cbb97439d291c458e50107e0': 'crude',
-  '49a79f4047b81186c069ed1c9c151c66': 'Pale',
+  '49a79f4047b81186c069ed1c9c151c66': 'Light color',
   '8e1b944f4389bdaab6f11d5bc83190c8': 'background',
   'c28479019e24e0e4745f4948e9e97ee7': 'width',
   'f72ce9ad683cc82e0eab557ffc9c67a0': 'Extremely small',
   'b95c462d7697958c25861193fc89ae07': 'enlarge',
-  '3386da5f56fac758ed0f18e024ecb943': 'Extra large',
+  '3386da5f56fac758ed0f18e024ecb943': 'Extraordinarily large',
   'ffaa96ef7232cb6d8ee4d7e673dbf4ac': 'completely fill',
   '47eac1ac32a8aa9081dffbdc4d374318': 'Please enter the CSS class name',
   '939d5345ad4345dbaabe14798f6ac0f1': 'Submit',
   '55c56d01a7747ffe0346d42145b62d97':
-    '[Amis editor] respond to the event of dynamically adding plug-ins:',
-  'd6f73c6f3b92be5a64f7ea0163501284': 'Region nodes are not allowed to be cut.',
+    '[Amis editor] respond to the event of dynamically adding a plug-in:',
+  'd6f73c6f3b92be5a64f7ea0163501284': 'Area nodes are not allowed to be cut.',
   '4fda4f585214d469c04466e2fc98b796': 'The root node does not allow cutting.',
   '657bbe06d3922b23552817df7fa8268e':
-    'The current element does not allow cutting.',
+    'The current element is not allowed to be cut.',
   '416445a316595bdeb44b661c7de875a8': 'The current element cannot be moved up',
   '6ac88d87b2fd118ba7beab8c17880470':
     'The current element cannot be moved down',
   'fdb3cba60407b2f1aea0230cca644573': 'Area nodes cannot be deleted directly.',
-  '8a4b4e2e3b0382007e0c69ed1fe6fe71':
-    'The root node is not allowed to be deleted.',
+  '8a4b4e2e3b0382007e0c69ed1fe6fe71': 'Root node cannot be deleted.',
   '22f031f3de2e55c430a818d8c588f7a1': 'The current element cannot be deleted.',
-  '3b6d5995e9f2ecd3df059b3f1bea201e': 'Call error or cross domain exists.',
+  '3b6d5995e9f2ecd3df059b3f1bea201e': 'Call error or cross domain.',
   '09f33be5ec04eb48b3102e4e31af5b38': 'Call error',
   '283c2a52955ad87574fd6c0cc932c443': 'Can only be called in iframe',
   'a71002967924a83e32b38a80705290fb': 'System error',
   '058ebdf2884474ebff2977ba2f0e275e': 'System message',
   '88f000a0fdc38ce3808cef072b00893c': 'Rendering',
-  '279321f97f11da7bc90facca156b3444': 'Code error, the error is: \\ n {{@1}}',
+  '279321f97f11da7bc90facca156b3444': 'Code error, the error is \\ n {{@1}}',
   '7e4b38ba0ab9cbfcabd9dd859e36b601':
     'Some of the changed data has not been saved due to incorrect format. Are you sure you want to discard these changes?',
   'af86ad9dd8a221f931dcdc5a63382b6f': 'View changes',
   '43d586cd6cf1a512c0bcb85ed9efde51': 'Please confirm',
   'bb79667f37035e9562ec6bcffd6cf8ef': 'assembly',
   '5cb297585d4c81bb8fdbd31210a30d6f': 'System components',
-  '6fce1c9aa3654ae2f0eedcc068a7e189': 'Custom components',
+  '6fce1c9aa3654ae2f0eedcc068a7e189': 'Custom component',
   '06e004ef21414c06d3e4ff2cefaf6a04': 'code',
   '7f7c624a843b0d539a4ea59a696702f9': 'Batch operation',
   'b80ed82d124c6fd9242dcacdda2a2f8b': 'Change component type',
+  '41150516bf0d90646edc5239593366e9': 'Select component to insert into',
   'd87481b371771b4f150da76e311bbbef': 'Enter keywords to filter components',
   'becdc848350872592201e31bab03892a': 'Cannot Preview',
+  'f26225bde6a250894a04db4c53ea03d0': 'details',
   '751dfe6f476903c21381c9acf88332e2':
-    'There are no components available. Maybe you should try switching containers.',
+    'There are no available components. Maybe you should try switching containers.',
   'e22c9a05b424b761efce11f17726fdd7': 'replace',
   '9bdb07e72d3a9a6084201a7398523f5a': 'insert',
   '625fb26b4b3340f7872b411f401e754c': 'cancel',
@@ -88,14 +89,15 @@ extendLocale('en-US', {
   '93383ef1ab4a433df97a56a73e571b9f': 'outline',
   '962d43ff8d39c381d8e2c73838412111': 'Query page elements',
   '0c95d1856ffdeeade7cebe0ef928f361':
-    'You can switch containers by dragging a target into a node in the navigation',
+    'Drag the target into the node in the navigation to switch containers',
   'c482df2a3ac8e014febd8a5fc9cadaea': 'Loading, please wait',
   'c44c6c179c44e794b103053886847dc4': 'No preview',
   'e4cefe7df36e92da1d7e875b92655507': 'Click expand',
-  '7ae451de83aa6f5f140e941904377391': 'Click collapse',
+  '7ae451de83aa6f5f140e941904377391': 'Click fold',
   '84c8f0087acfc9b9862371d0bd59b830': 'Click to add "{{@1}}"',
+  'f3430f4fdd8b9643daa74f4a5716dd15': '&nbsp; Details & nbsp;',
   'b797a8992ef41320919e45a069f2b459':
-    'There are no available components found. You can continue searching with another keyword.',
+    'No available components were found. You can change the keyword to continue searching.',
   '0bd36c8db19e3a93506f39ebc8ff0ab9':
     'When components such as forms and lists have names, they will appear here for easy selection',
   'bb28ec819520ced0ffb4c3da01f112e2': 'Click to clear the current area',
@@ -107,9 +109,9 @@ extendLocale('en-US', {
   '2168c5735883bd040eaf09909d0911b8': 'Input keyword query component',
   'e9c38f88375807704270aa3572454976': 'Search history',
   '288f0c404c4e546aa3683ff5054e85e2': 'empty',
-  '4b9bc9abf2a2beb3772d903a3d01d1de': 'Click delete this search record',
+  '4b9bc9abf2a2beb3772d903a3d01d1de': 'Click to delete this search record',
   '9d3128a1675de32cdd290b31140a7290':
-    'The search result is empty. You can continue to search with another keyword.',
+    'The search result is empty. You can change a keyword to continue searching.',
   'accb901a02b1415b40d95cdd31b8da1d': 'Component classification',
   '79d3abe929f67f0644a78bf32adb3a89': 'copy',
   'b7d817611230d382f6ef92b41848a342': 'Copy the currently selected element',
@@ -118,7 +120,7 @@ extendLocale('en-US', {
     'Inserts the copied element into the currently selected node',
   '43fc77886b7fbcd658f0ccdba36bd5a0': 'shear',
   'a6be4ad12e9612811963c44466af3218': 'Cut the currently selected element',
-  '58887132871b71b015c3a391e7755815': 'Redo the last undone operation',
+  '58887132871b71b015c3a391e7755815': 'Restore the last undone operation',
   'be5fbbe34ce9979bfb6576d9eddc5612': 'preservation',
   '1f81fd4598e9151538f29c41b8aa0020': 'Save all current operations',
   '645dbc5504e722a30896486085a06b32': 'preview',
@@ -131,7 +133,7 @@ extendLocale('en-US', {
   '6348dc0e83d6ab391a8816f67d0e5ceb': 'Move the current node down',
   'fbec96e028142496df88ed2c63b44512':
     'Click to view the currently available shortcut keys',
-  '9c3f1278ffa822835bb3a677f02bca27': 'Currently available shortcut keys',
+  '9c3f1278ffa822835bb3a677f02bca27': 'Currently available shortcuts',
   '4e98a5dcd3defffb23629fce3add04f6': 'No shortcut key',
   '186733ed7ec817040b8f9cbc610ba49a': 'Program error',
   'e777eb796f8a02e97a891fde43d10ce4': '{{@1}} variable',
@@ -142,23 +144,22 @@ extendLocale('en-US', {
   '966e23b5c1efe8e18fc4f0c326d47314':
     '）An error occurred in rendering. Please check the console output for detailed error information.',
   '44e049d9ecbe2c474100a3424021570e':
-    '< div class = wrapper SM B-A B-light m-b-sm > drag in space < / div >',
+    '< div class = wrapper SM (B-A, B-light, m-b-sm >) drag into the occupied position < / div >',
   '245897371cda2055f5c17c6cf298ed48':
     'Warm prompt: skipping is prohibited in preview mode',
   'e1b7255934e3189b1f5d440fc1aa0230':
-    'Registered plug-in exception, plug-in with the same name already exists:',
+    'Registered plug-in exception, a plug-in with the same name already exists:',
   '979a50681e278dcc0be18f68459e8217': 'System variable',
   '75c142934800d6ee31fcf3fdff9e5d53':
     '[Amis editor] currently has {{@1}} plug-in',
   '0e24e1bbc19612a350f81296d9fb7802':
     'Please select an element as the insertion position first.',
   'bd690facb536d759814ee64f2760fecb':
-    'The current node is not allowed to append new components.',
+    'The current node does not allow adding new components.',
   '02f180cd26ff0951ddfda490080ee5ea': 'Configuration item copied',
-  '1ff035555ac8a68dc5b0ea2d0af55f00': 'Clipboard content is empty',
+  '1ff035555ac8a68dc5b0ea2d0af55f00': 'The content of the clipboard is empty',
   '6cb01692eea2fa7066d20fe2b6ccaea3': 'False data',
-  '7f2f0461a58c43667d7245ce92bb2e77':
-    'Press and hold drag to adjust the position',
+  '7f2f0461a58c43667d7245ce92bb2e77': 'Press and drag to adjust the position',
   '78c1c38b91c672da1113fa2564c14ea6': 'Insert components forward',
   '87f48bbadfbef5ef4554e06b7e141d37': 'Insert component backward',
   '95b351c86267f3aedf89520959bce689': 'edit',
@@ -180,7 +181,7 @@ extendLocale('en-US', {
   'aa920263020f14211a44ea172efc7253': 'Context data',
   '48ac479789304b37afa2f1b06642f4da': 'current',
   '9bc16c658ab8a8c4eddc5e24d85bef20': 'upper strata',
-  '004d4be2ba8e6b8eed9333d15bc80a88': 'Upper {{@1}} level',
+  '004d4be2ba8e6b8eed9333d15bc80a88': 'Up {{@1}} level',
   'e366ccf1556c0672dcecba135ed5472e': 'set up',
   '0cbec43d00e491a663ff0525ffe31868': 'Quickly build "{{@1}}"',
   '1dd554cdfc1ddf7dce13453805523c16': 'change',
@@ -188,7 +189,5 @@ extendLocale('en-US', {
   'eadc8c8d4a8776893672330598babca0':
     'Location error, target location not found',
   'f3c057f37fb9a4e7dd44b04919c12578':
-    'Please click add new element from the left component panel.',
-  '41150516bf0d90646edc5239593366e9': 'The selected component is inserted into',
-  'f26225bde6a250894a04db4c53ea03d0': 'Details'
+    'Please click add new element from the component panel on the left.'
 });
