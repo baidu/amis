@@ -152,6 +152,10 @@ export default class ValidationItem extends React.Component<
           '错误提示',
           `系统默认提示：${this.validator.message}`
         ),
+        pipeIn: (value: string, data: any) => {
+          // value中 $1 会被运算，导致无法正确回显$1。此处从this.props.data中获取该校验项的错误提示
+          return this.props.data.message;
+        },
         placeholder: '默认使用系统定义提示'
       });
     }
