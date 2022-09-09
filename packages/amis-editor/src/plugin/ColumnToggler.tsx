@@ -16,8 +16,8 @@ export class ColumnToggler extends BasePlugin {
   // 组件名称
   name = '自定义显示列';
   isBaseComponent = true;
-  description =
-    '用来展示表格的自定义显示列按钮，你可以配置不同的展示样式。';
+  disabledRendererPlugin = true;
+  description = '用来展示表格的自定义显示列按钮，你可以配置不同的展示样式。';
 
   tags = ['自定义显示列'];
   icon = 'fa fa-square';
@@ -73,11 +73,11 @@ export class ColumnToggler extends BasePlugin {
                 name: 'className',
                 label: '显示列样式'
               }),
-    
+
               getSchemaTpl('className', {
                 name: 'btnClassName',
                 label: '按钮样式'
-              }),
+              })
             ]
           }
         ])
