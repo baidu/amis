@@ -270,7 +270,8 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 justify: true,
                 left: 8
               },
-              inputClassName: 'is-inline '
+              inputClassName: 'is-inline ',
+              value: true
             }),
               getSchemaTpl('searchable'),
               getSchemaTpl('multiple', {
