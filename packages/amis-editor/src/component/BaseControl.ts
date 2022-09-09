@@ -426,7 +426,7 @@ export function remarkTpl(config: {
     },
     form: {
       size: 'md',
-      className: 'mb-8',
+      className: 'mb-8 ae-remark-form',
       mode: 'horizontal',
       horizontal: {
         left: 4,
