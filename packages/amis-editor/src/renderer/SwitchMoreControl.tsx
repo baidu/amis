@@ -222,15 +222,8 @@ export default class SwitchMore extends React.Component<
   }
 
   renderActions() {
-    const {
-      render,
-      removable,
-      disabled,
-      form,
-      formType,
-      hiddenOnDefault,
-      bulk
-    } = this.props;
+    const {render, removable, disabled, form, formType, hiddenOnDefault, bulk} =
+      this.props;
     const {checked, show} = this.state;
 
     if (!form || !checked || disabled) {
@@ -379,7 +372,6 @@ export default class SwitchMore extends React.Component<
       type: 'form',
       wrapWithPanel: false,
       panelClassName: 'border-none shadow-none mb-0',
-      bodyClassName: 'p-none',
       actionsClassName: 'border-none mt-2.5',
       wrapperComponent: 'div',
       mode: 'horizontal',
