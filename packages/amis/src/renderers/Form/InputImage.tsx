@@ -1,5 +1,10 @@
 import React, {Suspense} from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  prettyBytes
+} from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
 import DropZone from 'react-dropzone';
@@ -340,20 +345,6 @@ export default class ImageControl extends React.Component<
     multiple: false,
     dropCrop: true
   };
-
-  static formatFileSize(
-    size: number | string,
-    units = [' B', ' KB', ' M', ' G']
-  ) {
-    size = parseInt(size as string, 10) || 0;
-
-    while (size > 1024 && units.length > 1) {
-      size /= 1024;
-      units.shift();
-    }
-
-    return size.toFixed(2) + units[0];
-  }
 
   static valueToFile(
     value: string | object,
@@ -997,8 +988,8 @@ export default class ImageControl extends React.Component<
         this.props.env.alert(
           __('File.maxSize', {
             filename: file.name,
-            actualSize: ImageControl.formatFileSize(file.size),
-            maxSize: ImageControl.formatFileSize(maxSize)
+            actualSize: prettyBytes(file.size, 1024),
+            maxSize: prettyBytes(maxSize, 1024)
           })
         );
         return;
@@ -1563,9 +1554,9 @@ export default class ImageControl extends React.Component<
                                           </div>,
                                           file.info.len ? (
                                             <div key="size">
-                                              {ImageControl.formatFileSize(
+                                              {prettyBytes(
                                                 file.info.len
-                                              )}
+                                              , 1024)}
                                             </div>
                                           ) : null
                                         ]

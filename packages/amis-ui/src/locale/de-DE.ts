@@ -130,12 +130,13 @@ register('de-DE', {
   'File.failed': 'Fehlerhafte Dateien',
   'File.invalidType': '{{files}} entspricht nicht Typ `{{accept}}`',
   'File.maxSize':
-    '{{filename}} überschreitet die maximale Größe von {{maxsize}} (in Byte)',
+    '{{filename}} überschreitet die maximale Größe von {{maxSize}}',
   'File.pause': 'Hochladen anhalten',
   'File.repick': 'Erneut suswählen',
   'File.result':
     'Erfolgreich hochgeladene Dateien: {{uploaded}}, nicht hochgeladene Dateien: {{failed}}',
   'File.retry': 'Wiederholen',
+  'File.sizeLimit': 'Die maximale Dateigröße ist {{maxSize}}',
   'File.start': 'Hochladen beginnen',
   'File.upload': 'Hochladen',
   'Image.upload': 'Hochladen',
