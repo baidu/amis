@@ -12,7 +12,7 @@
     &-btn {
       color: #141a25;
       background: transparent !important;
-      border: none!important;
+      border: none !important;
     }
   }
 
@@ -63,6 +63,7 @@
         .ae-ValidationControl-item-action {
           position: relative;
           top: #{px2rem(2px)};
+          right: 5px;
 
           i {
             color: #83868c;
