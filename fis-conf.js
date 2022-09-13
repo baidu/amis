@@ -12,7 +12,8 @@ fis.set('project.ignore', [
   'scripts/**',
   'npm/**',
   'gh-pages/**',
-  '.*/**'
+  '.*/**',
+  'node_modules/**'
 ]);
 // 配置只编译哪些文件。
 

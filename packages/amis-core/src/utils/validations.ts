@@ -170,6 +170,11 @@ export const validations: {
     return validations.matchRegexp(values, value, /^[A-Z\s\u00C0-\u017F]+$/i);
   },
   isLength: function (values, value, length) {
+    // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
+    if (typeof value === 'number') {
+      value = String(value);
+    }
+
     return !isExisty(value) || isEmpty(value) || value.length === length;
   },
   equals: function (values, value, eql) {
@@ -186,6 +191,10 @@ export const validations: {
     return !isExisty(value) || value.length <= length;
   },
   minLength: function (values, value, length) {
+    // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
+    if (typeof value === 'number') {
+      value = String(value);
+    }
     return !isExisty(value) || isEmpty(value) || value.length >= length;
   },
   isUrlPath: function (values, value, regexp) {
