@@ -202,12 +202,12 @@ export class PagePlugin extends BasePlugin {
               {
                 title: '数据',
                 body: [
-                  // getSchemaTpl('combo-container', {
-                  //   type: 'input-kv',
-                  //   mode: 'normal',
-                  //   name: 'data',
-                  //   label: '初始化静态数据'
-                  // }),
+                  getSchemaTpl('combo-container', {
+                    type: 'input-kv',
+                    mode: 'normal',
+                    name: 'data',
+                    label: '初始化静态数据'
+                  }),
                   getSchemaTpl('apiControl', {
                     name: 'initApi',
                     labelClassName: 'none',

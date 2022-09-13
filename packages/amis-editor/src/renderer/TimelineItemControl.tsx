@@ -154,28 +154,6 @@ export default class TimelineItemControl extends React.Component<
         value: props?.['title']
       },
       {
-        type: 'textarea',
-        maxRows: 2,
-        label: '描述',
-        name: 'detail',
-        value: props?.['detail'],
-        placeholder: '请输入内容'
-      },
-      {
-        type: 'input-text',
-        name: 'detailCollapsedText',
-        value: props?.['detailCollapsedText'],
-        placeholder: '请输入',
-        label: tipedLabel('折叠前文案', '无配置情况，默认显示标题')
-      },
-      {
-        type: 'input-text',
-        name: 'detailExpandedText',
-        value: props?.['detailExpandedText'],
-        placeholder: '请输入',
-        label: tipedLabel('折叠后文案', '无配置情况，默认显示标题')
-      },
-      {
         type: 'input-color',
         name: 'color',
         value: props?.['color'],

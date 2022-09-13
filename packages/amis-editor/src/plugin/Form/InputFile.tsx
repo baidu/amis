@@ -167,54 +167,47 @@ export class FileControlPlugin extends BasePlugin {
                   }
                 ]
               },
-              {
-                label: '提交方式',
-                name: 'submitType',
-                type: 'select',
-                tiled: true,
-                value: 'asUpload',
+              getSchemaTpl('uploadType', {
                 options: [
                   {
                     label: '随表单提交',
                     value: 'asForm'
                   },
-
                   {
-                    label: '独立上传',
-                    value: 'asUpload'
+                    label: '文件接收器',
+                    value: 'fileReceptor'
+                  },
+                  {
+                    label: '对象存储',
+                    value: 'bos'
                   }
                 ],
-                pipeIn: (value: any, form: any) => value || 'asUpload',
-                pipeOut: (value: any, form: any) => value || 'asUpload',
+                pipeIn: (value: any, form: any) => value || 'fileReceptor',
+                pipeOut: (value: any, form: any) => value || 'fileReceptor',
                 onChange: (
                   value: any,
                   oldValue: boolean,
                   model: any,
                   form: any
                 ) => {
-                  if (value === 'asUpload') {
-                    form.setValueByName('asBase64', false);
-                    form.setValueByName('asBlob', false);
-                  } else if (value === 'asForm') {
+                  if (value === 'asForm') {
                     // 作为表单数据，自动上传开启
                     form.setValueByName('autoUpload', true);
                     const formType =
                       form.getValueByName('formType') || 'asBlob';
                     form.setValueByName(formType, true);
+                  } else {
+                    form.setValueByName('asBase64', false);
+                    form.setValueByName('asBlob', false);
                   }
                 }
-              },
-              getSchemaTpl('uploadType', {
-                visibleOn: 'data.submitType === "asUpload" || !data.submitType',
-                pipeIn: (value: any, form: any) => value || 'fileReceptor',
-                pipeOut: (value: any, form: any) => value || 'fileReceptor'
               }),
 
               {
                 name: 'formType',
                 type: 'select',
                 tiled: true,
-                visibleOn: 'data.submitType === "asForm"',
+                visibleOn: 'data.uploadType === "asForm"',
                 value: 'asBlob',
                 label: tipedLabel(
                   '数据格式',
@@ -243,20 +236,19 @@ export class FileControlPlugin extends BasePlugin {
               },
 
               getSchemaTpl('bos', {
-                visibleOn:
-                  '(data.submitType === "asUpload" || !data.submitType) && data.uploadType === "bos"'
+                visibleOn: 'data.uploadType === "bos"'
               }),
 
               getSchemaTpl('proxy', {
                 value: false,
-                visibleOn: 'data.submitType === "asUpload" || !data.submitType'
+                visibleOn: 'data.uploadType !== "asForm" || !data.uploadType'
               }),
 
               getSchemaTpl('switch', {
                 name: 'autoUpload',
                 label: '自动上传',
                 value: true,
-                visibleOn: 'data.submitType === "asUpload"'
+                visibleOn: 'data.uploadType !== "asForm"'
               }),
 
               getSchemaTpl('switch', {
@@ -264,14 +256,14 @@ export class FileControlPlugin extends BasePlugin {
                 label: '开启分块',
                 value: false,
                 pipeIn: (value: any, form: any) => !!value, // 兼容auto
-                visibleOn: 'data.submitType == "asUpload"'
+                visibleOn: 'data.uploadType !== "asForm"'
               }),
 
               {
                 type: 'container',
                 className: 'ae-ExtendMore mb-3',
                 visibleOn:
-                  'data.submitType === "asUpload" && data.useChunk != false',
+                  'data.uploadType !== "asForm" && data.useChunk != false',
                 body: [
                   {
                     type: 'input-group',
@@ -292,7 +284,7 @@ export class FileControlPlugin extends BasePlugin {
                   {
                     type: 'Container',
                     visibleOn:
-                      'data.submitType === "asUpload" && data.uploadType == "fileReceptor" && data.useChunk != false',
+                      'data.uploadType == "fileReceptor" && data.useChunk != false',
                     body: [
                       getSchemaTpl('apiControl', {
                         name: 'startChunkApi',
@@ -334,7 +326,7 @@ export class FileControlPlugin extends BasePlugin {
                 value: '/api/upload/file',
                 __isUpload: true,
                 visibleOn:
-                  'data.submitType === "asUpload" && data.uploadType === "fileReceptor" && !data.useChunk'
+                  'data.uploadType === "fileReceptor" && !data.useChunk'
               }),
               {
                 type: 'input-text',

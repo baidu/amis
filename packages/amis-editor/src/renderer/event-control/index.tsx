@@ -28,6 +28,7 @@ import {
   RendererPluginEvent,
   SubRendererPluginAction
 } from 'amis-editor-core';
+export * from './helper';
 
 interface EventControlProps extends FormControlProps {
   actions: PluginActions; // 组件的动作列表
@@ -147,13 +148,12 @@ export class EventControl extends React.Component<
     return Object.keys(onEvent).length ? onEvent : {};
   }
 
-  addEvent(event: RendererPluginEvent) {
+  addEvent(event: RendererPluginEvent, disabled: boolean) {
     const {onChange} = this.props;
     let onEvent = {
       ...this.state.onEvent
     };
-
-    if (onEvent[`${event.eventName}`]) {
+    if (disabled) {
       return;
     }
     onEvent[`${event.eventName}`] = {
@@ -641,7 +641,6 @@ export class EventControl extends React.Component<
     const enventSnapshot = cloneDeep(onEvent);
     const {showOldEntry} = this.props;
     const eventKeys = Object.keys(enventSnapshot);
-
     return (
       <div className="ae-event-control">
         <header
@@ -660,9 +659,16 @@ export class EventControl extends React.Component<
             closeOnClick: true,
             buttons: events.map(item => ({
               type: 'button',
+              disabledTip: '您已添加该事件',
+              tooltipPlacement: 'left',
+              disabled: Object.keys(onEvent).includes(item.eventName),
               actionType: '',
               label: item.eventLabel,
-              onClick: this.addEvent.bind(this, item)
+              onClick: this.addEvent.bind(
+                this,
+                item,
+                Object.keys(onEvent).includes(item.eventName)
+              )
             }))
           })}
         </header>

@@ -1,10 +1,7 @@
 import React from 'react';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {tipedLabel} from 'amis-editor-core';
-import {
-  registerEditorPlugin,
-  getSchemaTpl
-} from 'amis-editor-core';
+import {registerEditorPlugin, getSchemaTpl} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 export class TimelinePlugin extends BasePlugin {
@@ -68,13 +65,10 @@ export class TimelinePlugin extends BasePlugin {
                 options: [
                   {label: '垂直', value: 'vertical'},
                   {label: '水平', value: 'horizontal'}
-                ],
+                ]
               },
               {
-                label: tipedLabel(
-                  '文字位置',
-                  '文字相对时间轴位置'
-                  ),
+                label: tipedLabel('文字位置', '文字相对时间轴位置'),
                 name: 'mode',
                 value: 'right',
                 type: 'button-group-select',
@@ -82,7 +76,7 @@ export class TimelinePlugin extends BasePlugin {
                 options: [
                   {label: '左侧', value: 'right'},
                   {label: '右侧', value: 'left'},
-                  {label: '两侧交替', value: 'alternate'},
+                  {label: '两侧交替', value: 'alternate'}
                 ]
               }
             ]
@@ -92,8 +86,8 @@ export class TimelinePlugin extends BasePlugin {
             body: [
               getSchemaTpl('timelineItemControl', {
                 name: 'items',
-                mode: 'normal',
-              }),
+                mode: 'normal'
+              })
             ]
           },
           getSchemaTpl('status')
@@ -102,29 +96,10 @@ export class TimelinePlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          {
-            title: '样式',
-            body: [
-              {
-                name: 'className',
-                label: '外层',
-                type: 'input-text',
-                placeholder: '请输入className'
-              },
-
-            ]
-          }
-        ])
-      },
-      {
-        title: '事件',
-        className: 'p-none',
-        body: [
-          getSchemaTpl('eventControl',{
-            name: 'onEvent',
-            ...getEventControlConfig(this.manager, context)
+          getSchemaTpl('style:classNames', {
+            isFormItem: false
           })
-        ]
+        ])
       }
     ]);
 }

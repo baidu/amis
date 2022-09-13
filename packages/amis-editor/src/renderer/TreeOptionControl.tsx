@@ -21,7 +21,7 @@ export type OptionControlItem = Option & {checked?: boolean; _key?: string};
 
 export interface OptionControlProps extends FormControlProps {
   className?: string;
-  otherApiFooter?: Array<SchemaObject>;
+  showIconField?: boolean; // 是否有图标字段
 }
 
 export interface OptionControlState {
@@ -29,6 +29,7 @@ export interface OptionControlState {
   api: SchemaApi;
   labelField: string;
   valueField: string;
+  iconField: string;
   source: 'custom' | 'api' | 'apicenter';
   modalVisible: boolean;
 }
@@ -49,12 +50,15 @@ export default class TreeOptionControl extends React.Component<
 
   constructor(props: OptionControlProps) {
     super(props);
+    const {source, labelField, valueField, showIconField, iconField} =
+      props.data || {};
     this.state = {
       options: this.transformOptions(props),
-      api: props.data.source,
-      labelField: props.data.labelField,
-      valueField: props.data.valueField,
-      source: props.data.source ? 'api' : 'custom',
+      api: source,
+      labelField: labelField,
+      valueField: valueField,
+      iconField: showIconField ? iconField : undefined,
+      source: source ? 'api' : 'custom',
       modalVisible: false
     };
     this.sortables = [];
@@ -99,7 +103,8 @@ export default class TreeOptionControl extends React.Component<
       source: undefined,
       options: undefined,
       labelField: undefined,
-      valueField: undefined
+      valueField: undefined,
+      iconField: undefined
     };
     if (source === 'custom') {
       const options = this.state.options.concat();
@@ -107,10 +112,11 @@ export default class TreeOptionControl extends React.Component<
     }
 
     if (source === 'api' || source === 'apicenter') {
-      const {api, labelField, valueField} = this.state;
+      const {api, labelField, valueField, iconField} = this.state;
       data.source = api;
       data.labelField = labelField;
       data.valueField = valueField;
+      data.iconField = iconField;
     }
     onBulkChange && onBulkChange(data);
     return;
@@ -263,7 +269,7 @@ export default class TreeOptionControl extends React.Component<
   }
   @autobind
   addChildOption(pathStr: string) {
-    if (pathStr.split('-').length >= 7) {
+    if (pathStr.split('-').length >= 6) {
       toast.warning('层级过深，建议使用【接口获取】管理选项', {
         closeButton: true
       });
@@ -527,13 +533,17 @@ export default class TreeOptionControl extends React.Component<
   }
 
   @autobind
-  handleValueFieldChange(valueField: string) {
+  handleValueFieldChange(valueField: string, ...a: any) {
     this.setState({valueField}, this.onChange);
+  }
+  @autobind
+  handleIconFieldChange(iconField: string) {
+    this.setState({iconField}, this.onChange);
   }
 
   renderApiPanel() {
-    const {render, otherApiFooter = []} = this.props;
-    const {source, api, labelField, valueField} = this.state;
+    const {render, showIconField = false} = this.props;
+    const {source, api, labelField, valueField, iconField} = this.state;
     if (source === 'custom') {
       return null;
     }
@@ -568,7 +578,15 @@ export default class TreeOptionControl extends React.Component<
             placeholder: '值对应的字段',
             onChange: this.handleValueFieldChange
           },
-          ...otherApiFooter
+          {
+            type: 'input-text',
+            label: '图标字段',
+            name: 'iconField',
+            value: iconField,
+            placeholder: '图标对应的字段',
+            visible: showIconField, // 存在此配置可展示图标字段
+            onChange: this.handleIconFieldChange
+          }
         ]
       })
     );

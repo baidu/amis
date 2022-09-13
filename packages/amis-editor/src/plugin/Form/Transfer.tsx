@@ -32,24 +32,10 @@ export class TransferPlugin extends BasePlugin {
       {
         label: '曹操',
         value: 'caocao'
-      },
-      {
-        label: '钟无艳',
-        value: 'zhongwuyan'
-      },
-      {
-        label: '李白',
-        value: 'libai'
-      },
-      {
-        label: '韩信',
-        value: 'hanxin'
-      },
-      {
-        label: '云中君',
-        value: 'yunzhongjun'
       }
-    ]
+    ],
+    selectMode: 'list',
+    resultListModeFollowSelect: false
   };
   previewSchema: any = {
     type: 'form',
@@ -184,6 +170,14 @@ export class TransferPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
+              getSchemaTpl('valueFormula', {
+                rendererSchema: {
+                  ...context?.schema,
+                  type: 'select',
+                  multiple: true
+                },
+                visibleOn: 'data.options.length > 0'
+              }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
@@ -216,7 +210,19 @@ export class TransferPlugin extends BasePlugin {
                   }
                 ],
                 onChange: (value: any, origin: any, item: any, form: any) => {
-                  form.setValueByName('options', undefined);
+                  form.setValues({
+                    options: undefined,
+                    columns: undefined,
+                    value: '',
+                    valueTpl: ''
+                  });
+                  // 主要解决直接设置value、valueTpl为undefined配置面板不生效问题，所以先设置''，后使用setTimout设置为undefined
+                  setTimeout(() => {
+                    form.setValues({
+                      value: undefined,
+                      valueTpl: undefined
+                    });
+                  }, 100);
                 }
               },
 
@@ -227,10 +233,25 @@ export class TransferPlugin extends BasePlugin {
 
               {
                 type: 'ae-transferTableControl',
-                name: 'options',
                 label: '数据',
                 visibleOn: 'data.selectMode === "table"',
-                mode: 'normal'
+                mode: 'normal',
+                // 自定义change函数
+                onValueChange: (
+                  type: 'options' | 'columns',
+                  data: any,
+                  onBulkChange: Function
+                ) => {
+                  if (type === 'options') {
+                    onBulkChange(data);
+                  } else if (type === 'columns') {
+                    const columns = data.columns;
+                    if (data.columns.length > 0) {
+                      data.valueTpl = `\${${columns[0].name}}`;
+                    }
+                    onBulkChange(data);
+                  }
+                }
               },
 
               getSchemaTpl('treeOptionControl', {
@@ -246,7 +267,8 @@ export class TransferPlugin extends BasePlugin {
                 label: tipedLabel(
                   '模板',
                   '左侧选项渲染模板，支持JSX，变量使用\\${xx}'
-                )
+                ),
+                visibleOn: 'data.selectMode !== "table"'
               }),
 
               getSchemaTpl('formulaControl', {
@@ -270,7 +292,6 @@ export class TransferPlugin extends BasePlugin {
                   {label: '跟随左侧', value: true}
                 ]
               },
-
               getSchemaTpl('switch', {
                 label: tipedLabel(
                   '可检索',
@@ -278,7 +299,6 @@ export class TransferPlugin extends BasePlugin {
                 ),
                 name: 'resultSearchable'
               }),
-
               getSchemaTpl('sortable', {
                 label: '支持排序',
                 mode: 'horizontal',
@@ -296,7 +316,9 @@ export class TransferPlugin extends BasePlugin {
                 label: tipedLabel(
                   '模板',
                   '结果选项渲染模板，支持JSX，变量使用\\${xx}'
-                )
+                ),
+                visibleOn:
+                  '!(data.selectMode === "table" && data.resultListModeFollowSelect)'
               }),
 
               getSchemaTpl('formulaControl', {
