@@ -69,7 +69,7 @@
 
     &.is-clearable {
       > div:first-child {
-        max-width: calc(100% - 20px); // 避免表达式内容太长撑开面板
+        max-width: calc(100% - 24px); // 避免表达式内容太长撑开面板
 
         > div,
         span {
