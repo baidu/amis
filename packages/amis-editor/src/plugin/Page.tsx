@@ -1,10 +1,15 @@
 import {ContainerWrapper} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BaseEventContext, BasePlugin, getSchemaTpl, defaultValue} from 'amis-editor-core';
+import {
+  BaseEventContext,
+  BasePlugin,
+  getSchemaTpl,
+  defaultValue
+} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import type {SchemaObject} from 'amis/lib/Schema';
-import { tipedLabel } from '../component/BaseControl';
+import {tipedLabel} from '../component/BaseControl';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 
 export class PagePlugin extends BasePlugin {
@@ -24,9 +29,7 @@ export class PagePlugin extends BasePlugin {
   // pluginIcon = 'page-plugin'; // 暂无新 icon
   scaffold: SchemaObject = {
     type: 'page',
-    regions: [
-      "body"
-    ],
+    regions: ['body'],
     body: [
       {
         type: 'tpl',
@@ -112,9 +115,9 @@ export class PagePlugin extends BasePlugin {
                         ? value
                         : ['body', 'toolbar', 'aside', 'header'],
                     pipeOut: (value: any) => {
-                      return Array.isArray(value) && value.length ?
-                      value
-                      : ['body', 'toolbar', 'aside', 'header'];
+                      return Array.isArray(value) && value.length
+                        ? value
+                        : ['body', 'toolbar', 'aside', 'header'];
                     },
                     joinValues: false,
                     extractValue: true,
@@ -122,19 +125,19 @@ export class PagePlugin extends BasePlugin {
                     options: [
                       {
                         label: '内容区',
-                        value: 'body',
+                        value: 'body'
                       },
                       {
                         label: '标题栏',
-                        value: 'header',
+                        value: 'header'
                       },
                       {
                         label: '工具栏',
-                        value: 'toolbar',
+                        value: 'toolbar'
                       },
                       {
                         label: '边栏',
-                        value: 'aside',
+                        value: 'aside'
                       }
                     ]
                   },
@@ -150,7 +153,8 @@ export class PagePlugin extends BasePlugin {
                   },
                   getSchemaTpl('remark', {
                     label: '标题提示',
-                    hiddenOn: 'data.regions && !data.regions.includes("header") || !data.title'
+                    hiddenOn:
+                      'data.regions && !data.regions.includes("header") || !data.title'
                   }),
                   {
                     type: 'ae-Switch-More',
@@ -169,15 +173,15 @@ export class PagePlugin extends BasePlugin {
                           min: 0,
                           name: 'asideMinWidth',
                           pipeIn: defaultValue(160),
-                          pipeOut: (value:any) => value || 0
+                          pipeOut: (value: any) => value || 0
                         },
                         {
                           type: 'input-number',
                           label: '最大宽度',
-                          min:0,
+                          min: 0,
                           name: 'asideMaxWidth',
                           pipeIn: defaultValue(350),
-                          pipeOut: (value:any) => value || 0
+                          pipeOut: (value: any) => value || 0
                         }
                       ]
                     }
@@ -198,7 +202,12 @@ export class PagePlugin extends BasePlugin {
               {
                 title: '数据',
                 body: [
-                  getSchemaTpl('dataMap'),
+                  getSchemaTpl('combo-container', {
+                    type: 'input-kv',
+                    mode: 'normal',
+                    name: 'data',
+                    label: '初始化静态数据'
+                  }),
                   getSchemaTpl('apiControl', {
                     name: 'initApi',
                     label: tipedLabel(
