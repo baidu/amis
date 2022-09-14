@@ -82,6 +82,8 @@ export function makeWrapper(
             closestScope = manager.dataSchema.getScope(
               `${from.id}-${from.type}`
             );
+          } else if (!from.parent) {
+            closestScope = manager.dataSchema.getScope('root');
           }
 
           from = from.parent;
