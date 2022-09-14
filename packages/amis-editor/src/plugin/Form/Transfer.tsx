@@ -180,7 +180,6 @@ export class TransferPlugin extends BasePlugin {
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
-              getSchemaTpl('placeholder'),
               getSchemaTpl('description'),
               getSchemaTpl('switch', {
                 label: '统计数据',
@@ -290,7 +289,10 @@ export class TransferPlugin extends BasePlugin {
                 options: [
                   {label: '列表形式', value: false},
                   {label: '跟随左侧', value: true}
-                ]
+                ],
+                onChange: (value: any, origin: any, item: any, form: any) => {
+                  form.setValueByName('sortable', !value ? true : undefined);
+                }
               },
               getSchemaTpl('switch', {
                 label: tipedLabel(
