@@ -34,7 +34,7 @@
     "fis-optimizer-terser": "^1.0.1",
     "fis-parser-sass": "^1.2.0",
     "fis-parser-svgr": "^1.0.0",
-    "fis3": "^3.4.41",
+    "fis3": "^3.5.0-beta.2",
     "fis3-deploy-skip-packed": "0.0.5",
     "fis3-hook-commonjs": "^0.1.31",
     "fis3-hook-node_modules": "^2.3.1",
