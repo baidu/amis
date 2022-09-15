@@ -195,7 +195,7 @@ export class BaseResultTableSelection extends BaseSelection<
             }}
           />
         ) : (
-          <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>
+          <div className={cx('Selections-placeholder')}>{__('Transfer.selectFromLeft')}</div>
         )}
       </div>
     );

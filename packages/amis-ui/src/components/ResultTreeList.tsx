@@ -254,7 +254,6 @@ export class BaseResultTreeList extends React.Component<
       className,
       classnames: cx,
       value,
-      placeholder,
       valueField,
       itemRender,
       translate: __
@@ -277,7 +276,7 @@ export class BaseResultTreeList extends React.Component<
             onDelete={(option: Option) => this.deleteTreeChecked(option)}
           />
         ) : (
-          <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>
+          <div className={cx('Selections-placeholder')}>{__('Transfer.selectFromLeft')}</div>
         )}
       </div>
     );

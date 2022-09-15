@@ -117,11 +117,12 @@ export class Transfer<
 > extends React.Component<T, TransferState> {
   static defaultProps: Pick<
     TransferProps,
-    'multiple' | 'resultListModeFollowSelect' | 'selectMode'
+    'multiple' | 'resultListModeFollowSelect' | 'selectMode' | 'statistics'
   > = {
     multiple: true,
     resultListModeFollowSelect: false,
-    selectMode: 'list'
+    selectMode: 'list',
+    statistics: true
   };
 
   state: TransferState = {

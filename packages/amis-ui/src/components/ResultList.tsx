@@ -215,7 +215,6 @@ export class ResultList extends React.Component<
   renderNormalList(value?: Options) {
     const {
       classnames: cx,
-      placeholder,
       itemRender,
       disabled,
       itemClassName,
@@ -266,7 +265,7 @@ export class ResultList extends React.Component<
             ))}
           </div>
         ) : (
-          <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>
+          <div className={cx('Selections-placeholder')}>{__('Transfer.selectFromLeft')}</div>
         )}
       </>
     );

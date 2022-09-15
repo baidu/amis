@@ -413,7 +413,7 @@ export class BaseTransferRenderer<
       resultListModeFollowSelect = false,
       resultSearchPlaceholder,
       resultSearchable = false,
-      statistics = true
+      statistics
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
