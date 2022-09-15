@@ -11,6 +11,7 @@ import {
   findSubActionNode,
   getActionType,
   getEventDesc,
+  getEventStrongDesc,
   getEventLabel,
   getPropOfAcion,
   SELECT_PROPS_CONTAINER
@@ -689,7 +690,7 @@ export class EventControl extends React.Component<
                       'no-bd-btm': !(
                         enventSnapshot[eventKey].actions?.length &&
                         eventPanelActive[eventKey]
-                      )
+                      ) && !getEventStrongDesc(events, eventKey)
                     })}
                   >
                     <TooltipWrapper
@@ -699,7 +700,7 @@ export class EventControl extends React.Component<
                       tooltip={{
                         children: () => (
                           <div>
-                            {getEventDesc(events, eventKey) || eventKey}
+                            {getEventDesc(events, eventKey) || getEventStrongDesc(events, eventKey) || eventKey}
                           </div>
                         )
                       }}
@@ -732,6 +733,18 @@ export class EventControl extends React.Component<
                       </div>
                     </div>
                   </div>
+                  {
+                    getEventStrongDesc(events, eventKey)
+                    ? amisRender({
+                      type: "alert",
+                      body:  '温馨提示：' + getEventStrongDesc(events, eventKey),
+                      level: "info",
+                      showCloseButton: true,
+                      showIcon: true,
+                      className: "event-item-desc"
+                    })
+                    : null
+                  }
                   {enventSnapshot[eventKey].actions.length &&
                   eventPanelActive[eventKey] ? (
                     <ul className="item-content">
