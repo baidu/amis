@@ -626,7 +626,7 @@ export class Transfer<
     const searchable = !isTreeDeferLoad && resultSearchable;
 
     const placeholder =
-      resultSearchPlaceholder || __('Transfer.selectFromLeft');
+      resultSearchPlaceholder || __('Transfer.searchKeyword');
 
     switch (resultSelectMode) {
       case 'table':
