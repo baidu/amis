@@ -7,7 +7,9 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  isPureVariable,
+  resolveVariableAndFilter
 } from 'amis-core';
 
 import {Tree as TreeSelector} from 'amis-ui';
@@ -95,6 +97,11 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
    * 是否显示展开线
    */
   showOutline?: boolean;
+
+  /**
+   * 需要高亮的字符串
+   */
+   highlightTxt?: string;
 }
 
 export interface TreeSelectProps extends OptionsControlProps {
@@ -536,8 +543,14 @@ export default class TreeSelectControl extends React.Component<
       expandTreeOptions,
       selfDisabledAffectChildren,
       showOutline,
-      autoCheckChildren
+      autoCheckChildren,
+      data
     } = this.props;
+
+    let {highlightTxt} = this.props;
+    if (isPureVariable(highlightTxt)) {
+      highlightTxt = resolveVariableAndFilter(highlightTxt, data);
+    }
 
     let filtedOptions =
       !isEffectiveApi(autoComplete) && searchable && this.state.inputValue
@@ -559,7 +572,7 @@ export default class TreeSelectControl extends React.Component<
         delimiter={delimiter}
         placeholder={__(optionsPlaceholder)}
         options={filtedOptions}
-        highlightTxt={this.state.inputValue}
+        highlightTxt={this.state.inputValue || highlightTxt}
         multiple={multiple}
         initiallyOpen={initiallyOpen}
         unfoldedLevel={unfoldedLevel}
