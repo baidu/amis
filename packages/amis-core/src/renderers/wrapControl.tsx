@@ -354,12 +354,8 @@ export function wrapControl<
               // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
               if (
                 !isEqual(props.defaultValue, prevProps.defaultValue) ||
-                (isNeedFormula(
-                  props.defaultValue,
-                  props.data,
-                  prevProps.data
-                ) &&
-                  props.data !== prevProps.data)
+                (props.data !== prevProps.data &&
+                  isNeedFormula(props.defaultValue, props.data, prevProps.data))
               ) {
                 const curResult = FormulaExec['formula'](
                   props.defaultValue,
