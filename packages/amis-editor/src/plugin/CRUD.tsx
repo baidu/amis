@@ -527,6 +527,7 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'filter',
             label: '启用查询条件',
+            visibleOn: 'data.api && data.api.url',
             pipeIn: (value: any) => !!value,
             pipeOut: (value: any, originValue: any) => {
               if (value) {
@@ -552,7 +553,8 @@ export class CRUDPlugin extends BasePlugin {
           }),
 
           {
-            type: 'divider'
+            type: 'divider',
+            visibleOn: 'data.api && data.api.url'
           },
 
           {
