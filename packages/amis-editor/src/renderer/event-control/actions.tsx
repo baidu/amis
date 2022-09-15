@@ -103,7 +103,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '打开页面',
           actionType: 'link',
           description: '打开指定页面',
-          innerArgs: ['link', 'params'],
+          innerArgs: ['link', 'params', 'pageName', '__pageInputSchema'],
           descDetail: (info: any) => {
             return (
               <div>

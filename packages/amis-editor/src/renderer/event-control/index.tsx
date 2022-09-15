@@ -628,7 +628,6 @@ export class EventControl extends React.Component<
     const enventSnapshot = cloneDeep(onEvent);
     const {showOldEntry} = this.props;
     const eventKeys = Object.keys(enventSnapshot);
-    console.log(this.props);
     return (
       <div className="ae-event-control">
         <header
