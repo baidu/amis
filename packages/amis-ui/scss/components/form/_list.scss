@@ -120,3 +120,15 @@
     color: var(--Form-input-placeholderColor);
   }
 }
+
+.#{$ns}Form-static {
+  .#{$ns}ListControl-item.is-disabled {
+    opacity: 1;
+    background: var(--ListControl-item-onActive-bg);
+    border-color: var(--ListControl-item-onDisabled-borderColor);
+    color: var(--ListControl-item-color);
+    &::before, &::before {
+      display: none;
+    }
+  }
+}

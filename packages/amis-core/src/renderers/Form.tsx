@@ -330,6 +330,11 @@ export interface FormSchemaBase {
    * label自定义宽度，默认单位为px
    */
   labelWidth?: number | string;
+
+  /**
+   * 展示态时的className
+   */
+  staticClassName?: string;
 }
 
 export type FormGroup = FormSchemaBase & {
@@ -1506,7 +1511,8 @@ export default class Form extends React.Component<FormProps, object> {
       formLazyChange,
       dispatchEvent,
       labelAlign,
-      labelWidth
+      labelWidth,
+      static: isStatic = false
     } = props;
 
     const subProps = {
@@ -1523,6 +1529,7 @@ export default class Form extends React.Component<FormProps, object> {
       formLabelWidth: labelWidth,
       controlWidth,
       disabled: disabled || (control as Schema).disabled || form.loading,
+      static: (control as Schema).static ?? isStatic,
       btnDisabled: disabled || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
@@ -1565,7 +1572,9 @@ export default class Form extends React.Component<FormProps, object> {
       $path,
       store,
       columnCount,
-      render
+      render,
+      staticClassName,
+      static: isStatic = false
     } = this.props;
 
     const {restError} = store;
@@ -1592,7 +1601,9 @@ export default class Form extends React.Component<FormProps, object> {
           `Form`,
           `Form--${mode || 'normal'}`,
           columnCount ? `Form--column Form--column-${columnCount}` : null,
-          className
+          className,
+          isStatic ? 'Form--isStatic' : null,
+          staticClassName && isStatic ? staticClassName : null
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
@@ -1694,6 +1705,7 @@ export default class Form extends React.Component<FormProps, object> {
       lazyLoad,
       translate: __,
       footer,
+      static: isStatic = false,
       formStore
     } = this.props;
 
