@@ -209,10 +209,7 @@ export class ImageControlPlugin extends BasePlugin {
 
               getSchemaTpl('switch', {
                 name: 'fixedSize',
-                label: tipedLabel(
-                  '固定尺寸',
-                  '开启后需同时设置 fixedSizeClassName'
-                ),
+                label: tipedLabel('固定尺寸', '开启后需同时设置CSS类'),
                 value: false
               }),
 
