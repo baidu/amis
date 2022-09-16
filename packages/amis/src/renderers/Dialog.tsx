@@ -125,8 +125,7 @@ export interface DialogProps
   lazyRender?: boolean;
   lazySchema?: (props: DialogProps) => SchemaCollection;
   wrapperComponent: React.ElementType;
-  level?: '' | 'info' | 'warning' | 'success' | 'danger',
-  icon?: string | React.ReactNode
+  dialogType?: '' | 'info' | 'warning' | 'success' | 'danger'
 }
 
 export default class Dialog extends React.Component<DialogProps> {
@@ -147,8 +146,7 @@ export default class Dialog extends React.Component<DialogProps> {
     'showErrorMsg',
     'actions',
     'popOverContainer',
-    'level',
-    'icon'
+    'dialogType'
   ];
   static defaultProps = {
     title: 'Dialog.title',
@@ -209,14 +207,14 @@ export default class Dialog extends React.Component<DialogProps> {
   }
 
   buildActions(): Array<ActionSchema> {
-    const {actions, confirm, translate: __, level} = this.props;
+    const {actions, confirm, translate: __, dialogType} = this.props;
 
-    if (level) {
+    if (dialogType) {
       return [{
         type: 'button',
         primary: true,
-        actionType: (level === 'success' || level === 'info') ? 'cancel' : 'confirm',
-        label: __('confirm')
+        actionType: (dialogType === 'success' || dialogType === 'info') ? 'cancel' : 'confirm',
+        label: (dialogType === 'success' || dialogType === 'info') ? __('Dialog.close') : __('retry')
       }]
     }
 
@@ -543,8 +541,7 @@ export default class Dialog extends React.Component<DialogProps> {
       classnames: cx,
       classPrefix,
       translate: __,
-      level,
-      icon
+      dialogType
     } = {
       ...this.props,
       ...store.schema
@@ -552,23 +549,143 @@ export default class Dialog extends React.Component<DialogProps> {
 
     const Wrapper = wrapperComponent || Modal;
 
-    const isOpenDialogBox = level && ['success', 'info', 'warning', 'danger'].find(item => item === level);
-    const iconNode = isOpenDialogBox
-      ? icon
-      ? (
-          typeof icon === 'string'
-          ? <Icon icon={icon} className={cx(`Alert-icon icon`)} />
-          : React.isValidElement(icon)
-          ? (
-              React.cloneElement(icon, {
-                className: cx(`Alert-icon`, icon.props?.className)
-              })
-            )
-          : <Icon icon={`alert-${level}`} className={cx(`Modal-icon icon`)} />
-        )
-      : <Icon icon={`alert-${level}`} className={cx(`Modal-icon icon`)} />
+    const isOpenDialogBox = dialogType && ['success', 'info', 'warning', 'danger'].find(item => item === dialogType);
+    const iconNode = isOpenDialogBox ? (
+      <Icon icon={`alert-${dialogType}`} className={cx(`Modal-icon icon`)} />
+    ) : null;
+
+    const TITLE = title && typeof title === 'string' ? (
+        <div className={cx('Modal-header', headerClassName)}>
+          {showCloseButton !== false && !store.loading ? (
+            <a
+              data-tooltip={__('Dialog.close')}
+              data-position="left"
+              onClick={this.handleSelfClose}
+              className={cx('Modal-close')}
+            >
+              <Icon icon="close" className="icon" />
+            </a>
+          ) : null}
+          <div className={cx('Modal-title')}>
+            {filter(__(title), store.formData)}
+          </div>
+        </div>
+      ) : title ? (
+        <div className={cx('Modal-header', headerClassName)}>
+          {showCloseButton !== false && !store.loading ? (
+            <a
+              data-tooltip={__('Dialog.close')}
+              onClick={this.handleSelfClose}
+              className={cx('Modal-close')}
+            >
+              <Icon icon="close" className="icon" />
+            </a>
+          ) : null}
+          {render('title', title, {
+            data: store.formData
+          })}
+        </div>
+      ) : showCloseButton !== false && !store.loading ? (
+        <a
+          data-tooltip={__('Dialog.close')}
+          onClick={this.handleSelfClose}
+          className={cx('Modal-close')}
+        >
+          <Icon icon="close" className="icon" />
+        </a>
+      ) : null;
+    const HEADER = header
+      ? render('header', header, {
+          data: store.formData
+        })
       : null;
-    const bodyPaddingLeft = isOpenDialogBox ? 'body-paddingLeft' : '';
+    const BODY = (!store.entered && lazyRender) || (lazySchema && !body) ? (
+        <div className={cx('Modal-body', bodyClassName)}>
+          <Spinner overlay show size="lg" />
+        </div>
+      ) : body ? (
+        <div className={cx('Modal-body', bodyClassName)}>
+          {this.renderBody(body, 'body')}
+        </div>
+      ) : null;
+    const FOOTER = this.renderFooter();
+    const BODYRENDERDRAWER = body
+      ? render(
+          'drawer',
+          {
+            // 支持嵌套
+            ...((store.action as Action) &&
+              ((store.action as Action).drawer as object)),
+            type: 'drawer'
+          },
+          {
+            key: 'drawer',
+            data: store.drawerData,
+            onConfirm: this.handleDrawerConfirm,
+            onClose: this.handleDrawerClose,
+            show: store.drawerOpen,
+            onAction: this.handleAction
+          }
+        )
+      : null;
+    const BODYRENDERDIALOG = body
+      ? render(
+          'dialog',
+          {
+            // 支持嵌套
+            ...((store.action as Action) &&
+              ((store.action as Action).dialog as object)),
+            type: 'dialog'
+          },
+          {
+            key: 'dialog',
+            data: store.dialogData,
+            onConfirm: this.handleDialogConfirm,
+            onClose: this.handleDialogClose,
+            show: store.dialogOpen,
+            onAction: this.handleAction
+          }
+        )
+      : null;
+
+
+    if (isOpenDialogBox) {
+      return (
+        <Wrapper
+          classPrefix={classPrefix}
+          className={cx(className)}
+          size={size}
+          backdrop="static"
+          onHide={this.handleSelfClose}
+          keyboard={closeOnEsc && !store.loading}
+          closeOnEsc={closeOnEsc}
+          closeOnOutside={!store.dialogOpen && closeOnOutside}
+          show={show}
+          onEntered={this.handleEntered}
+          onExited={this.handleExited}
+          container={
+            env && env.getModalContainer ? env.getModalContainer : undefined
+          }
+          enforceFocus={false}
+          disabled={store.loading}
+        >
+          <div className={cx('Alert')}>
+            {iconNode ? (
+              <div className={cx('Alert-icon')}>{iconNode}</div>
+            ) : null}
+
+            <div className={cx('Alert-content')}>
+              {TITLE}
+              {HEADER}
+              {BODY}
+              {FOOTER}
+              {BODYRENDERDRAWER}
+              {BODYRENDERDIALOG}
+            </div>
+          </div>
+        </Wrapper>
+      );
+    }
 
     return (
       <Wrapper
