@@ -495,6 +495,139 @@ type Value = ValueGroup;
 }
 ```
 
+## 字段选项类型
+
+> 2.3.0 及以上版本
+
+通过 selectMode 配置组合条件左侧选项类型，可配置项为`list`、`tree`，默认为`list`。两者数据格式相同，只是下拉框展示方式不同，当存在多层 children 嵌套时，建议使用`tree`。
+
+selectMode 为`list`时
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "name": "conditions",
+          "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+          "fields": [
+            {
+              "label": "文本",
+              "type": "text",
+              "name": "text"
+            },
+            {
+              "label": "数字",
+              "type": "number",
+              "name": "number"
+            },
+            {
+              "label": "布尔",
+              "type": "boolean",
+              "name": "boolean"
+            },
+            {
+              "label": "选项",
+              "type": "select",
+              "name": "select",
+              "options": [
+                {
+                  "label": "A",
+                  "value": "a"
+                },
+                {
+                  "label": "B",
+                  "value": "b"
+                },
+                {
+                  "label": "C",
+                  "value": "c"
+                },
+                {
+                  "label": "D",
+                  "value": "d"
+                },
+                {
+                  "label": "E",
+                  "value": "e"
+                }
+              ]
+            }
+          ]
+        }
+    ]
+}
+```
+
+selectMode 为`tree`时
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "name": "conditions",
+          "selectMode": "tree",
+          "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+          "fields": [
+            {
+              "label": "文本",
+              "type": "text",
+              "name": "text"
+            },
+            {
+              "label": "数字",
+              "type": "number",
+              "name": "number"
+            },
+            {
+              "label": "布尔",
+              "type": "boolean",
+              "name": "boolean"
+            },
+            {
+              "label": "树形结构",
+              "type": "tree",
+              "name": "tree",
+              children: [
+                {
+                  "label": "Folder A",
+                  "value": 1,
+                  "children": [
+                    {
+                      "label": "file A",
+                      "value": 2
+                    },
+                    {
+                      "label": "Folder B",
+                      "value": 3,
+                      "children": [
+                        {
+                          "label": "file b1",
+                          "value": 3.1
+                        },
+                        {
+                          "label": "file b2",
+                          "value": 3.2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+    ]
+}
+```
+
 ## 简易模式
 
 通过 builderMode 配置为简易模式，在这个模式下将不开启树形分组功能，输出结果只有一层，方便后端实现简单的 SQL 生成。
@@ -768,14 +901,15 @@ type Value = ValueGroup;
 
 ## 属性表
 
-| 属性名         | 类型      | 默认值 | 说明                           |
-| -------------- | --------- | ------ | ------------------------------ |
-| className      | `string`  |        | 外层 dom 类名                  |
-| fieldClassName | `string`  |        | 输入字段的类名                 |
-| source         | `string`  |        | 通过远程拉取配置项             |
-| embed          | `boolean` | true   | 内嵌展示                       |
-| title          | `string`  |        | 弹窗配置的顶部标题             |
-| fields         |           |        | 字段配置                       |
-| showANDOR      | `boolean` |        | 用于 simple 模式下显示切换按钮 |
-| showNot        | `boolean` |        | 是否显示「非」按钮             |
-| searchable     | `boolean` |        | 字段是否可搜索                 |
+| 属性名         | 类型               | 默认值   | 说明                           |
+| -------------- | ------------------ | -------- | ------------------------------ |
+| className      | `string`           |          | 外层 dom 类名                  |
+| fieldClassName | `string`           |          | 输入字段的类名                 |
+| source         | `string`           |          | 通过远程拉取配置项             |
+| embed          | `boolean`          | true     | 内嵌展示                       |
+| title          | `string`           |          | 弹窗配置的顶部标题             |
+| fields         |                    |          | 字段配置                       |
+| showANDOR      | `boolean`          |          | 用于 simple 模式下显示切换按钮 |
+| showNot        | `boolean`          |          | 是否显示「非」按钮             |
+| searchable     | `boolean`          |          | 字段是否可搜索                 |
+| selectMode     | `'list'`、`'tree'` | `'list'` | 组合条件左侧选项类型           |

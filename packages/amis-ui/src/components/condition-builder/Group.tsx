@@ -38,6 +38,7 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
+  selectMode?: 'list' | 'tree';
 }
 
 export class ConditionGroup extends React.Component<ConditionGroupProps> {
@@ -148,6 +149,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       translate: __,
       formula,
       popOverContainer,
+      selectMode,
       renderEtrValue
     } = this.props;
     return (
@@ -205,6 +207,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 formula={formula}
                 popOverContainer={popOverContainer}
                 renderEtrValue={renderEtrValue}
+                selectMode={selectMode}
               />
             ))
           ) : (

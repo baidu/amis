@@ -45,6 +45,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
+  selectMode?: 'list' | 'tree';
 }
 
 export interface ConditionBuilderState {
@@ -251,7 +252,8 @@ export class QueryBuilder extends React.Component<
       searchable,
       builderMode,
       formula,
-      renderEtrValue
+      renderEtrValue,
+      selectMode
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -290,6 +292,7 @@ export class QueryBuilder extends React.Component<
         formula={formula}
         renderEtrValue={renderEtrValue}
         popOverContainer={popOverContainer}
+        selectMode={selectMode}
       />
     );
   }

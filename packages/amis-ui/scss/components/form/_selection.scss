@@ -173,8 +173,13 @@
     bottom: 0;
   }
 
-  &-item.is-disabled {
+  &-item.is-disabled > .#{$ns}TreeSelection-itemInner {
+    cursor: not-allowed;
     color: var(--text--muted-color);
+  }
+
+  &-item .#{$ns}TreeSelection-itemLabel {
+    white-space: nowrap;
   }
 
   &-itemInner {
