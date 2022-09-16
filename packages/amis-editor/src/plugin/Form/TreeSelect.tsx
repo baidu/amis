@@ -389,11 +389,6 @@ export class TreeSelectControlPlugin extends BasePlugin {
           {
             title: '高级',
             body: [
-              getSchemaTpl('valueFormula', {
-                name: 'highlightTxt',
-                label: '高亮节点字符',
-                type: 'input-text'
-              }),
               {
                 type: 'ae-Switch-More',
                 mode: 'normal',
