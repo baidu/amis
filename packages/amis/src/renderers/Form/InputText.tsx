@@ -20,6 +20,7 @@ import {Spinner} from 'amis-ui';
 import {ActionSchema} from '../Action';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {generateIcon} from 'amis-core';
+import renderStaticHoc from './StaticHoc';
 
 import type {Option} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
@@ -950,6 +951,19 @@ export default class TextControl extends React.PureComponent<
     );
   }
 
+  @renderStaticHoc()
+  renderStatic(displayValue = '-'): JSX.Element {
+    return (
+      <>
+        {
+          this.props.type === 'input-password'
+          ? '********'
+          : displayValue
+        }
+      </>
+    );
+  }
+
   render(): JSX.Element {
     const {
       classnames: cx,
@@ -962,7 +976,8 @@ export default class TextControl extends React.PureComponent<
       render,
       data,
       disabled,
-      inputOnly
+      inputOnly,
+      static: isStatic
     } = this.props;
 
     const addOn: any =
@@ -973,14 +988,15 @@ export default class TextControl extends React.PureComponent<
           }
         : addOnRaw;
 
-    let input =
-      autoComplete !== false && (source || options.length || autoComplete)
+    let input = isStatic
+      ? this.renderStatic()
+      : autoComplete !== false && (source || options?.length || autoComplete)
         ? this.renderSugestMode()
         : this.renderNormal();
 
     const iconElement = generateIcon(cx, addOn?.icon, 'Icon');
 
-    let addOnDom = addOn ? (
+    let addOnDom = addOn && !isStatic ? (
       addOn.actionType ||
       ~['button', 'submit', 'reset', 'action'].indexOf(addOn.type) ? (
         <div className={cx(`${ns}TextControl-button`, addOn.className)}>

@@ -10,6 +10,7 @@ import {createObject, autobind, isObject} from 'amis-core';
 import {generateIcon} from 'amis-core';
 import {IconSchema} from '../Icon';
 import {FormBaseControlSchema} from '../../Schema';
+import renderStaticHoc from './StaticHoc';
 
 /**
  * Switch
@@ -81,6 +82,19 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
     onChange && onChange(checked);
   }
 
+  @renderStaticHoc({
+    staticNoPaddingY: true
+  })
+  renderStatic() {
+    const {
+      value,
+      trueValue,
+      on = '开',
+      off = '关'
+    } = this.props;
+    return <>{value === trueValue ? on : off}</>;
+  }
+
   render() {
     const {
       size,
@@ -95,7 +109,8 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
       option,
       onChange,
       disabled,
-      optionAtLeft
+      optionAtLeft,
+      static: isStatic
     } = this.props;
 
     const on = isObject(onText)
@@ -111,17 +126,21 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
           <span className={cx('Switch-option')}>{option}</span>
         ) : null}
 
-        <Switch
-          classPrefix={ns}
-          value={value}
-          trueValue={trueValue}
-          falseValue={falseValue}
-          onText={on}
-          offText={off}
-          disabled={disabled}
-          onChange={this.handleChange}
-          size={size as any}
-        />
+        {
+          isStatic
+            ? this.renderStatic()
+            : <Switch
+                classPrefix={ns}
+                value={value}
+                trueValue={trueValue}
+                falseValue={falseValue}
+                onText={on}
+                offText={off}
+                disabled={disabled}
+                onChange={this.handleChange}
+                size={size as any}
+              />
+        }
 
         {optionAtLeft ? null : (
           <span className={cx('Switch-option')}>{option}</span>
