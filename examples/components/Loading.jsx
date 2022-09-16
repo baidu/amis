@@ -40,6 +40,24 @@ const loadingBody = {
         ]
       },
       {
+        type: 'button',
+        label: 'OpenDialog',
+        actionType: 'drawer',
+        reload: 'thepage',
+        drawer: {
+          body: {
+            type: 'form',
+            controls: [
+              {
+                type: 'text',
+                name: 'a',
+                value: '3'
+              }
+            ]
+          }
+        }
+      },
+      {
         type: 'page',
         body: {
           type: 'crud',
