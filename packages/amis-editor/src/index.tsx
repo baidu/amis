@@ -73,7 +73,6 @@ import './plugin/Audio';
 import './plugin/Avatar';
 import './plugin/Button';
 import './plugin/ButtonGroup';
-import './plugin/ButtonToolbar';
 import './plugin/Breadcrumb';
 import './plugin/Card';
 import './plugin/Card2';
