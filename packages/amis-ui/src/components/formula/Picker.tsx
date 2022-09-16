@@ -237,9 +237,12 @@ export class FormulaPicker extends React.Component<
     const validate = this.validate(value);
 
     if (validate === true) {
-      this.setState({value: mixedMode ? `\${${value}}` : value}, () => {
-        this.close(undefined, () => this.handleConfirm());
-      });
+      this.setState(
+        {value: mixedMode && value ? `\${${value}}` : value},
+        () => {
+          this.close(undefined, () => this.handleConfirm());
+        }
+      );
     } else {
       this.setState({isError: validate});
     }
