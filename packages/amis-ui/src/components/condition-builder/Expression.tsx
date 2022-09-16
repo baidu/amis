@@ -54,6 +54,7 @@ export interface ExpressionProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
+  selectMode?: 'list' | 'tree';
 }
 
 const fieldMap = {
@@ -150,6 +151,7 @@ export class Expression extends React.Component<ExpressionProps> {
       searchable,
       formula,
       popOverContainer,
+      selectMode,
       renderEtrValue
     } = this.props;
     const inputType =
@@ -194,6 +196,7 @@ export class Expression extends React.Component<ExpressionProps> {
             disabled={disabled}
             searchable={searchable}
             popOverContainer={popOverContainer}
+            selectMode={selectMode}
             options={
               valueField
                 ? filterTree(
