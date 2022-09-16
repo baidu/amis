@@ -58,6 +58,12 @@
         flex: 1;
         margin: 0;
         margin-right: #{px2rem(12px)};
+
+        input {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       }
 
       &-dropdown i {
