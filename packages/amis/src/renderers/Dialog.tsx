@@ -125,7 +125,6 @@ export interface DialogProps
   lazyRender?: boolean;
   lazySchema?: (props: DialogProps) => SchemaCollection;
   wrapperComponent: React.ElementType;
-  dialogType?: '' | 'info' | 'warning' | 'success' | 'danger'
 }
 
 export default class Dialog extends React.Component<DialogProps> {
@@ -145,8 +144,7 @@ export default class Dialog extends React.Component<DialogProps> {
     'showCloseButton',
     'showErrorMsg',
     'actions',
-    'popOverContainer',
-    'dialogType'
+    'popOverContainer'
   ];
   static defaultProps = {
     title: 'Dialog.title',
@@ -207,16 +205,7 @@ export default class Dialog extends React.Component<DialogProps> {
   }
 
   buildActions(): Array<ActionSchema> {
-    const {actions, confirm, translate: __, dialogType} = this.props;
-
-    if (dialogType) {
-      return [{
-        type: 'button',
-        primary: true,
-        actionType: (dialogType === 'success' || dialogType === 'info') ? 'cancel' : 'confirm',
-        label: (dialogType === 'success' || dialogType === 'info') ? __('Dialog.close') : __('retry')
-      }]
-    }
+    const {actions, confirm, translate: __} = this.props;
 
     if (typeof actions !== 'undefined') {
       return actions;
@@ -540,153 +529,13 @@ export default class Dialog extends React.Component<DialogProps> {
       env,
       classnames: cx,
       classPrefix,
-      translate: __,
-      dialogType
+      translate: __
     } = {
       ...this.props,
       ...store.schema
     } as any;
 
     const Wrapper = wrapperComponent || Modal;
-
-    const isOpenDialogBox = dialogType && ['success', 'info', 'warning', 'danger'].find(item => item === dialogType);
-    const iconNode = isOpenDialogBox ? (
-      <Icon icon={`alert-${dialogType}`} className={cx(`Modal-icon icon`)} />
-    ) : null;
-
-    const TITLE = title && typeof title === 'string' ? (
-        <div className={cx('Modal-header', headerClassName)}>
-          {showCloseButton !== false && !store.loading ? (
-            <a
-              data-tooltip={__('Dialog.close')}
-              data-position="left"
-              onClick={this.handleSelfClose}
-              className={cx('Modal-close')}
-            >
-              <Icon icon="close" className="icon" />
-            </a>
-          ) : null}
-          <div className={cx('Modal-title')}>
-            {filter(__(title), store.formData)}
-          </div>
-        </div>
-      ) : title ? (
-        <div className={cx('Modal-header', headerClassName)}>
-          {showCloseButton !== false && !store.loading ? (
-            <a
-              data-tooltip={__('Dialog.close')}
-              onClick={this.handleSelfClose}
-              className={cx('Modal-close')}
-            >
-              <Icon icon="close" className="icon" />
-            </a>
-          ) : null}
-          {render('title', title, {
-            data: store.formData
-          })}
-        </div>
-      ) : showCloseButton !== false && !store.loading ? (
-        <a
-          data-tooltip={__('Dialog.close')}
-          onClick={this.handleSelfClose}
-          className={cx('Modal-close')}
-        >
-          <Icon icon="close" className="icon" />
-        </a>
-      ) : null;
-    const HEADER = header
-      ? render('header', header, {
-          data: store.formData
-        })
-      : null;
-    const BODY = (!store.entered && lazyRender) || (lazySchema && !body) ? (
-        <div className={cx('Modal-body', bodyClassName)}>
-          <Spinner overlay show size="lg" />
-        </div>
-      ) : body ? (
-        <div className={cx('Modal-body', bodyClassName)}>
-          {this.renderBody(body, 'body')}
-        </div>
-      ) : null;
-    const FOOTER = this.renderFooter();
-    const BODYRENDERDRAWER = body
-      ? render(
-          'drawer',
-          {
-            // 支持嵌套
-            ...((store.action as Action) &&
-              ((store.action as Action).drawer as object)),
-            type: 'drawer'
-          },
-          {
-            key: 'drawer',
-            data: store.drawerData,
-            onConfirm: this.handleDrawerConfirm,
-            onClose: this.handleDrawerClose,
-            show: store.drawerOpen,
-            onAction: this.handleAction
-          }
-        )
-      : null;
-    const BODYRENDERDIALOG = body
-      ? render(
-          'dialog',
-          {
-            // 支持嵌套
-            ...((store.action as Action) &&
-              ((store.action as Action).dialog as object)),
-            type: 'dialog'
-          },
-          {
-            key: 'dialog',
-            data: store.dialogData,
-            onConfirm: this.handleDialogConfirm,
-            onClose: this.handleDialogClose,
-            show: store.dialogOpen,
-            onAction: this.handleAction
-          }
-        )
-      : null;
-
-
-    if (isOpenDialogBox) {
-      return (
-        <Wrapper
-          classPrefix={classPrefix}
-          className={cx(className)}
-          size={size}
-          backdrop="static"
-          onHide={this.handleSelfClose}
-          keyboard={closeOnEsc && !store.loading}
-          closeOnEsc={closeOnEsc}
-          closeOnOutside={!store.dialogOpen && closeOnOutside}
-          show={show}
-          onEntered={this.handleEntered}
-          onExited={this.handleExited}
-          container={
-            env && env.getModalContainer ? env.getModalContainer : undefined
-          }
-          enforceFocus={false}
-          disabled={store.loading}
-        >
-          <div className={cx('Alert')}>
-            {iconNode ? (
-              <div className={cx('Alert-icon')}>{iconNode}</div>
-            ) : null}
-
-            <div className={cx('Alert-content')}>
-              {TITLE}
-              {HEADER}
-              {BODY}
-              {FOOTER}
-              {BODYRENDERDRAWER}
-              {BODYRENDERDIALOG}
-            </div>
-          </div>
-        </Wrapper>
-      );
-    }
-
     return (
       <Wrapper
         classPrefix={classPrefix}
