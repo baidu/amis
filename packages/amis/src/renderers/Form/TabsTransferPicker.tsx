@@ -8,6 +8,7 @@ import {autobind, createObject} from 'amis-core';
 import {Selection as BaseSelection} from 'amis-ui';
 import {ActionObject} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import {supportStatic} from './StaticHoc';
 
 /**
  * TabsTransferPicker 穿梭器的弹框形态
@@ -80,6 +81,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
     }
   }
 
+  @supportStatic()
   render() {
     const {
       className,

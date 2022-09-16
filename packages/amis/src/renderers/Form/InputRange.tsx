@@ -13,6 +13,7 @@ import {autobind, createObject} from 'amis-core';
 import {filter} from 'amis-core';
 import {FormBaseControlSchema, SchemaObject} from '../../Schema';
 import {ActionObject} from 'amis-core';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Range
@@ -599,6 +600,7 @@ export default class RangeControl extends React.PureComponent<
       : value;
   }
 
+  @supportStatic()
   render() {
     const {value} = this.state;
     const props: RangeItemProps = {

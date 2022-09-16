@@ -163,6 +163,7 @@ export type SchemaType =
   | 'static-time' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'month'
   | 'static-month' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
+  | 'date-range'
   | 'dialog'
   | 'spinner'
   | 'divider'
@@ -347,6 +348,10 @@ export type SchemaType =
   | 'grid-nav'
   | 'users-select'
   | 'tag'
+  | 'tags'
+  | 'words'
+  | 'password'
+  | 'multiline-text'
 
   // 原生 input 类型
   | 'native-date'

@@ -20,6 +20,7 @@ import {TransferDropDown} from 'amis-ui';
 
 import type {SchemaClassName} from '../../Schema';
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Select 下拉选择框。
@@ -398,6 +399,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     }
   }
 
+  @supportStatic()
   render() {
     let {
       autoComplete,

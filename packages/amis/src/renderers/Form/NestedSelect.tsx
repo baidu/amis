@@ -30,6 +30,7 @@ import {RootClose} from 'amis-core';
 import {Cascader} from 'amis-ui';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Nested Select
@@ -862,6 +863,7 @@ export default class NestedSelectControl extends React.Component<
     );
   }
 
+  @supportStatic()
   render() {
     const {
       className,

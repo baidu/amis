@@ -5,6 +5,7 @@ import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TransferPicker} from 'amis-ui';
 import {autobind} from 'amis-core';
 import {ActionObject} from 'amis-core';
+import {supportStatic} from './StaticHoc';
 
 /**
  * TransferPicker 穿梭器的弹框形态
@@ -58,6 +59,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
     }
   }
 
+  @supportStatic()
   render() {
     const {
       className,

@@ -8,6 +8,7 @@ import {DatePicker} from 'amis-ui';
 import {FormBaseControlSchema, SchemaObject} from '../../Schema';
 import {createObject, anyChanged, isMobile, autobind} from 'amis-core';
 import {ActionObject} from 'amis-core';
+import {supportStatic} from './StaticHoc';
 
 export interface InputDateBaseControlSchema extends FormBaseControlSchema {
   /**
@@ -455,6 +456,7 @@ export default class DateControl extends React.PureComponent<
     this.props.onChange(nextValue);
   }
 
+  @supportStatic()
   render() {
     let {
       className,

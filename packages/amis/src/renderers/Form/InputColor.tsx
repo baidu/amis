@@ -5,7 +5,7 @@ import {FormItem, FormControlProps} from 'amis-core';
 import type {PresetColor} from 'amis-ui';
 import {isMobile} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
-import renderStaticHoc from './StaticHoc';
+import {supportStatic} from './StaticHoc';
 
 // todo amis-ui 里面组件直接改成按需加载
 export const ColorPicker = React.lazy(
@@ -71,15 +71,7 @@ export default class ColorControl extends React.PureComponent<
     open: false
   };
 
-  @renderStaticHoc()
-  renderStatic() {
-    return this.props.render(
-      'static-color',
-      {type: 'color'},
-      this.props
-    );
-  }
-
+  @supportStatic()
   render() {
     const {
       className,
@@ -93,25 +85,21 @@ export default class ColorControl extends React.PureComponent<
     const mobileUI = useMobileUI && isMobile();
     return (
       <div className={cx(`${ns}ColorControl`, className)}>
-        {
-          isStatic
-            ? this.renderStatic()
-            : <Suspense fallback={<div>...</div>}>
-                <ColorPicker
-                  classPrefix={ns}
-                  {...rest}
-                  useMobileUI={useMobileUI}
-                  popOverContainer={
-                    mobileUI && env && env.getModalContainer
-                      ? env.getModalContainer
-                      : mobileUI
-                      ? undefined
-                      : rest.popOverContainer
-                  }
-                  value={value || ''}
-                />
-              </Suspense>
-        }
+        <Suspense fallback={<div>...</div>}>
+          <ColorPicker
+            classPrefix={ns}
+            {...rest}
+            useMobileUI={useMobileUI}
+            popOverContainer={
+              mobileUI && env && env.getModalContainer
+                ? env.getModalContainer
+                : mobileUI
+                ? undefined
+                : rest.popOverContainer
+            }
+            value={value || ''}
+          />
+        </Suspense>
       </div>
     );
   }
