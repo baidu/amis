@@ -1386,7 +1386,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       onSelect
     } = this.props;
-
     let newItems = items;
     let newUnSelectedItems = unSelectedItems;
 
@@ -1444,8 +1443,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         } else {
           oldUnselectedItems.push(item);
         }
-
-        ~idx2 && oldItems.splice(idx2, 1);
+        !~idx && ~idx2 && oldItems.splice(idx2, 1);
       });
 
       newItems = oldItems;
@@ -1471,7 +1469,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
     onSelect && onSelect(newItems);
