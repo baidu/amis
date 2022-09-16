@@ -209,9 +209,28 @@ export class ImageControlPlugin extends BasePlugin {
 
               getSchemaTpl('switch', {
                 name: 'fixedSize',
-                label: '固定尺寸',
+                label: tipedLabel(
+                  '固定尺寸',
+                  '开启后需同时设置 fixedSizeClassName'
+                ),
                 value: false
               }),
+
+              {
+                type: 'container',
+                className: 'ae-ExtendMore mb-3',
+                visibleOn: 'data.fixedSize',
+                body: [
+                  {
+                    type: 'input-text',
+                    name: 'fixedSizeClassName',
+                    label: tipedLabel(
+                      'CSS类名',
+                      '开启固定尺寸时，根据此值控制展示尺寸'
+                    )
+                  }
+                ]
+              },
 
               getSchemaTpl('switch', {
                 name: 'hideUploadButton',
@@ -225,38 +244,38 @@ export class ImageControlPlugin extends BasePlugin {
                 value: false
               }),
 
-              getSchemaTpl('switch', {
-                name: 'compress',
-                value: true,
-                label: tipedLabel(
-                  '开启压缩',
-                  '由 hiphoto 实现，自定义接口将无效'
-                )
-              }),
-              {
-                type: 'container',
-                className: 'ae-ExtendMore mb-3',
-                visibleOn: 'data.compress',
-                name: 'compressOptions',
-                body: [
-                  {
-                    type: 'input-number',
-                    label: '最大宽度',
-                    name: 'maxWidth'
-                  },
+              // getSchemaTpl('switch', {
+              //   name: 'compress',
+              //   value: true,
+              //   label: tipedLabel(
+              //     '开启压缩',
+              //     '由 hiphoto 实现，自定义接口将无效'
+              //   )
+              // }),
+              // {
+              //   type: 'container',
+              //   className: 'ae-ExtendMore mb-3',
+              //   visibleOn: 'data.compress',
+              //   name: 'compressOptions',
+              //   body: [
+              //     {
+              //       type: 'input-number',
+              //       label: '最大宽度',
+              //       name: 'compressOptions.maxWidth'
+              //     },
 
-                  {
-                    type: 'input-number',
-                    label: '最大高度',
-                    name: 'maxHeight'
-                  }
-                ]
-              },
+              //     {
+              //       type: 'input-number',
+              //       label: '最大高度',
+              //       name: 'compressOptions.maxHeight'
+              //     }
+              //   ]
+              // },
 
-              getSchemaTpl('switch', {
-                name: 'showCompressOptions',
-                label: '是否显示压缩选项'
-              }),
+              // getSchemaTpl('switch', {
+              //   name: 'showCompressOptions',
+              //   label: '显示压缩选项'
+              // }),
 
               getSchemaTpl('switch', {
                 name: 'crop',
@@ -325,13 +344,19 @@ export class ImageControlPlugin extends BasePlugin {
                   {
                     type: 'input-number',
                     name: 'limit.width',
-                    label: '宽度'
+                    label: tipedLabel(
+                      '宽度',
+                      '校验优先级比最大宽度和最大宽度高'
+                    )
                   },
 
                   {
                     type: 'input-number',
                     name: 'limit.height',
-                    label: '高度'
+                    label: tipedLabel(
+                      '高度',
+                      '校验优先级比最大高度和最大高度高'
+                    )
                   },
 
                   {
@@ -366,7 +391,7 @@ export class ImageControlPlugin extends BasePlugin {
 
                   {
                     type: 'input-text',
-                    name: 'limit.限制最小高度',
+                    name: 'limit.aspectRatioLabel',
                     label: tipedLabel(
                       '宽高比描述',
                       '当宽高比没有满足条件时，此描述将作为提示信息显示'
