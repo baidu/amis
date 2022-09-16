@@ -1,23 +1,71 @@
 import React from "react";
-import {getPropValue, FormControlProps} from "amis-core";
+import {getPropValue, FormControlProps, Option, getTreeAncestors} from "amis-core";
 
-export interface renderStaticHocProps {
-  /**
-   * 展示态时，是否去掉paddingY
-   * 大多数都需要，个别表单项不需要
-   */
-  staticNoPaddingY?: boolean;
+function renderCommonStatic(props: any, defaultValue: string) {
+  const {
+    type,
+    render,
+    staticSchema
+  } = props;
+  const staticProps = {
+    ...props,
+    ...staticSchema
+  };
+
+  switch(type) {
+    case 'select':
+    case 'checkboxes':
+    case 'button-group-select':
+    case 'input-tree':
+    case 'tree-select':
+    case 'nested-select':
+    case 'cascader-select':
+    case 'radios':
+    case 'multi-select':
+    case 'transfer':
+    case 'transfer-picker':
+    case 'tabs-transfer':
+    case 'tabs-transfer-picker':
+      return render('static-select', {type: 'words'}, staticProps);
+
+    case 'input-date':
+    case 'input-datetime':
+    case 'input-time':
+    case 'input-month':
+    case 'input-quarter':
+    case 'input-year':
+      return renderStaticDateTypes(staticProps);
+
+    case 'input-date-range':
+    case 'input-datetime-range':
+    case 'input-time-range':
+    case 'input-month-range':
+    case 'input-quarter-range':
+    case 'input-year-range':
+      return render('static-input-date-range', {type: 'date-range'}, {
+        ...props,
+        valueFormat: props.format,
+        format: props.inputFormat,
+        ...staticSchema
+      });
+
+    case 'input-password':
+      return render('static-input-password', {type: 'password'}, staticProps);
+
+    case 'input-color':
+      return render('static-color', {type: 'color'}, staticProps);
+
+    case 'input-tag':
+      return render('static-input-tag', {type: 'tags'}, staticProps);
+    default:
+      return defaultValue;
+  }
 }
 
 /**
- * 表单项目类成员展示态装饰器
+ * 表单项类成员render支持静态展示装饰器
  */
-export default function renderStaticHoc<T extends FormControlProps>(
-  hocProps:renderStaticHocProps = {
-    staticNoPaddingY: false
-  }
-) {
-  const {staticNoPaddingY} = hocProps;
+export function supportStatic<T extends FormControlProps>() {
   return function (
     target: any,
     name: string,
@@ -26,27 +74,56 @@ export default function renderStaticHoc<T extends FormControlProps>(
     const original = descriptor.value;
     descriptor.value = function (...args: any[]) {
       const props = (this as TypedPropertyDescriptor<any> & {props: T}).props;
-      const {
-        staticSchema,
-        render,
-        classPrefix: ns,
-        classnames: cx,
-        staticPlaceholder = '-'
-      } = props;
+      if (props.static) {
+        const {
+          render,
+          staticSchema,
+          classPrefix: ns,
+          classnames: cx,
+          className,
+          staticPlaceholder = '-'
+        } = props;
+        
+        let body;
 
-      const displayValue = getPropValue(props) || staticPlaceholder;
-      const body = staticSchema
-        // 外部传入自定义展示态schema
-        ? render('form-static-schema', staticSchema, props)
-        // 预置展示态
-        : original.apply(this, [...args, displayValue]);
+        const displayValue = getPropValue(props);
+        if (!displayValue) {
+          body = staticPlaceholder;
+        }
 
-      return <div className={cx(`${ns}Form-static`, {
-        'is-noPaddingY-static': staticNoPaddingY
-      })}>
-        {body}
-      </div>
+        else {
+          // 自定义了schema并且有type
+          if (staticSchema && staticSchema.type) {
+            body = render('form-static-schema', staticSchema, props);
+          }
+          // 特殊组件
+          else if (target.renderStatic) {
+            body = target.renderStatic.apply(this, [...args, displayValue]);
+          }
+          // 可复用组件
+          else {
+            body = renderCommonStatic(props, displayValue);
+          }
+        }
+
+        return <div className={cx(`${ns}Form-static`, className)}>{body}</div>
+      }
+
+      return original.apply(this, args);
     }
     return descriptor;
   }
+}
+
+function renderStaticDateTypes(props: any) {
+  const {render, type, inputFormat, timeFormat, format, value} = props;
+  return render(
+    'static-input-date',
+    {
+      type: 'date',
+      value,
+      format: type === 'time' && timeFormat ? timeFormat : inputFormat,
+      valueFormat: format
+    }
+  );
 }

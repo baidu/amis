@@ -10,7 +10,7 @@ import {createObject, autobind, isObject} from 'amis-core';
 import {generateIcon} from 'amis-core';
 import {IconSchema} from '../Icon';
 import {FormBaseControlSchema} from '../../Schema';
-import renderStaticHoc from './StaticHoc';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Switch
@@ -82,19 +82,50 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
     onChange && onChange(checked);
   }
 
-  @renderStaticHoc({
-    staticNoPaddingY: true
-  })
+  getResult() {
+    const {
+      classnames: cx,
+      onText,
+      offText,
+    } = this.props;
+    const on = isObject(onText)
+      ? generateIcon(cx, onText.icon, 'Switch-icon')
+      : onText;
+    const off = isObject(offText)
+      ? generateIcon(cx, offText.icon, 'Switch-icon')
+      : offText;
+    return {on, off};
+  }
+
+  renderBody(children: any) {
+    const {
+      classnames: cx,
+      option,
+      optionAtLeft
+    } = this.props;
+
+    const Option = <span className={cx('Switch-option')}>{option}</span>;
+    return (
+      <>
+        {optionAtLeft ? Option : null}
+        {children}
+        {optionAtLeft ? null : Option}
+      </>
+    );
+  }
+
   renderStatic() {
     const {
       value,
       trueValue,
-      on = '开',
-      off = '关'
     } = this.props;
-    return <>{value === trueValue ? on : off}</>;
+    
+    const {on = '开', off = '关'} = this.getResult();
+    const body = <span>{value === trueValue ? on : off}</span>;
+    return this.renderBody(body);
   }
 
+  @supportStatic()
   render() {
     const {
       size,
@@ -104,46 +135,26 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
       value,
       trueValue,
       falseValue,
-      onText,
-      offText,
-      option,
       onChange,
       disabled,
-      optionAtLeft,
-      static: isStatic
     } = this.props;
 
-    const on = isObject(onText)
-      ? generateIcon(cx, onText.icon, 'Switch-icon')
-      : onText;
-    const off = isObject(offText)
-      ? generateIcon(cx, offText.icon, 'Switch-icon')
-      : offText;
+    const {on, off} = this.getResult();
 
     return (
       <div className={cx(`SwitchControl`, className)}>
-        {optionAtLeft ? (
-          <span className={cx('Switch-option')}>{option}</span>
-        ) : null}
-
-        {
-          isStatic
-            ? this.renderStatic()
-            : <Switch
-                classPrefix={ns}
-                value={value}
-                trueValue={trueValue}
-                falseValue={falseValue}
-                onText={on}
-                offText={off}
-                disabled={disabled}
-                onChange={this.handleChange}
-                size={size as any}
-              />
-        }
-
-        {optionAtLeft ? null : (
-          <span className={cx('Switch-option')}>{option}</span>
+        {this.renderBody(
+          <Switch
+            classPrefix={ns}
+            value={value}
+            trueValue={trueValue}
+            falseValue={falseValue}
+            onText={on}
+            offText={off}
+            disabled={disabled}
+            onChange={this.handleChange}
+            size={size as any}
+          />
         )}
       </div>
     );

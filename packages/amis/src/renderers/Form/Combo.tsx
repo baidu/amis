@@ -1056,6 +1056,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       conditions,
       changeImmediately,
       addBtnText,
+      static: isStatic,
       translate: __
     } = this.props;
 
@@ -1211,6 +1212,10 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   renderDelBtn(value: any, index: number) {
+    if (this.props.static) {
+      return null;
+    }
+
     const {
       classPrefix: ns,
       classnames: cx,
@@ -1304,6 +1309,10 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   renderAddBtn() {
+    if (this.props.static) {
+      return null;
+    }
+
     const {
       classPrefix: ns,
       classnames: cx,
@@ -1402,7 +1411,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       placeholder,
       translate: __,
       itemClassName,
-      itemsWrapperClassName
+      itemsWrapperClassName,
+      static: isStatic
     } = this.props;
 
     let items = this.props.items;
@@ -1419,7 +1429,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           multiLine ? `Combo--ver` : `Combo--hor`,
           noBorder ? `Combo--noBorder` : '',
           disabled ? 'is-disabled' : '',
-          !disabled && draggable && Array.isArray(value) && value.length > 1
+          !isStatic && !disabled && draggable && Array.isArray(value) && value.length > 1
             ? 'is-draggable'
             : ''
         )}
@@ -1452,7 +1462,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   className={cx(`Combo-item`, itemClassName)}
                   key={this.keys[index] || (this.keys[index] = guid())}
                 >
-                  {!disabled && draggable && thelist.length > 1 ? (
+                  {!isStatic && !disabled && draggable && thelist.length > 1 ? (
                     <div className={cx('Combo-itemDrager')}>
                       <a
                         key="drag"
@@ -1526,7 +1536,7 @@ export default class ComboControl extends React.Component<ComboProps> {
             <div className={cx(`Combo-placeholder`)}>{__(placeholder)}</div>
           ) : null}
         </div>
-        {!disabled ? (
+        {!isStatic && !disabled ? (
           <div className={cx(`Combo-toolbar`)}>
             {this.renderAddBtn()}
             {draggable ? (
@@ -1631,15 +1641,38 @@ export default class ComboControl extends React.Component<ComboProps> {
     );
   }
 
+  renderStatic(displayValue = '-') {
+    // 如有 staticSchema 会被拦截渲染schema, 不会走到这里
+    return this.props.render(
+      'static-input-kv',
+      {
+        type: 'json'
+      },
+      this.props
+    );
+  }
+
   render() {
     const {
+      type,
       formInited,
       multiple,
       className,
       classPrefix: ns,
       classnames: cx,
-      disabled
+      static: isStatic,
+      staticSchema
     } = this.props;
+
+    // 静态展示时
+    // 当有staticSchema 或 type = input-kv | input-kvs
+    // 才拦截处理，其他情况交给子表单项处理即可
+    if (
+      isStatic
+      && (staticSchema || ['input-kv', 'input-kvs'].includes(type))
+    ) {
+      return this.renderStatic();
+    }
 
     return formInited || typeof formInited === 'undefined' ? (
       <div className={cx(`ComboControl`, className)}>

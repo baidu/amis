@@ -11,6 +11,7 @@ import {withBadge, BadgeObject} from 'amis-ui';
 import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {BaseSchema, FormBaseControlSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 export interface SchemaMap {
   checkbox: CheckboxControlSchema;
@@ -92,6 +93,37 @@ export default class CheckboxControl extends React.Component<
     onChange && onChange(eventData);
   }
 
+  renderStatic() {
+    const {
+      value,
+      trueValue,
+      falseValue,
+      option,
+      render,
+      partial,
+      optionType,
+      checked,
+      labelClassName
+    } = this.props;
+
+    return (
+      <Checkbox
+        inline
+        value={value || ''}
+        trueValue={trueValue}
+        falseValue={falseValue}
+        disabled={true}
+        partial={partial}
+        optionType={optionType}
+        checked={checked}
+        labelClassName={labelClassName}
+      >
+        {option ? render('option', option) : null}
+      </Checkbox>
+    );
+  }
+
+  @supportStatic()
   render() {
     const {
       className,

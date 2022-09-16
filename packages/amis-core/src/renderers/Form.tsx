@@ -9,7 +9,9 @@ import {
   ActionObject,
   Payload,
   ClassName,
-  BaseApiObject
+  BaseApiObject,
+  SchemaExpression,
+  SchemaClassName
 } from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import getExprProperties from '../utils/filter-schema';
@@ -334,7 +336,9 @@ export interface FormSchemaBase {
   /**
    * 展示态时的className
    */
-  staticClassName?: string;
+  static?: boolean;
+  staticOn?: SchemaExpression;
+  staticClassName?: SchemaClassName;
 }
 
 export type FormGroup = FormSchemaBase & {
@@ -980,14 +984,6 @@ export default class Form extends React.Component<FormProps, object> {
     };
   }
 
-  handleReset(action: any) {
-    const {onReset} = this.props;
-
-    return (data: any) => {
-      onReset && onReset(data, action);
-    };
-  }
-
   async handleAction(
     e: React.UIEvent<any> | void,
     action: ActionObject,
@@ -1616,9 +1612,8 @@ export default class Form extends React.Component<FormProps, object> {
           `Form`,
           `Form--${mode || 'normal'}`,
           columnCount ? `Form--column Form--column-${columnCount}` : null,
-          className,
-          isStatic ? 'Form--isStatic' : null,
-          staticClassName && isStatic ? staticClassName : null
+          staticClassName && isStatic ? staticClassName : className,
+          isStatic ? 'Form--isStatic' : null
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
@@ -1719,9 +1714,7 @@ export default class Form extends React.Component<FormProps, object> {
       affixFooter,
       lazyLoad,
       translate: __,
-      footer,
-      static: isStatic = false,
-      formStore
+      footer
     } = this.props;
 
     let body: JSX.Element = this.renderBody();

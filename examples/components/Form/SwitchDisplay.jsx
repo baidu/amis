@@ -1,5 +1,13 @@
+const renderOptions = (
+  count = 3,
+  render = (index) => ({label: `选项${index}`, value: index})
+) => [...Array(count)].map((item, index) => render(index));
+
+const renderSelectValues = (count) =>
+  [...Array(count)].map((item, index) => index).join(',');
+
 export default {
-  "title": "表单及表单项切换编辑态展示态",
+  "title": "表单及表单项切换输入态展示态",
   "data": {
     "id": 1
   },
@@ -10,6 +18,9 @@ export default {
       "mode": "horizontal",
       "labelWidth": 150,
       "id": "allFormSwitch",
+      "data": {
+        "isStatic": false
+      },
       "body": [
         {
           "type": "input-text",
@@ -27,61 +38,46 @@ export default {
           "type": "switch",
           "name": "switch",
           "label": "开关",
+          "option": "开关说明",
           "value": true
         },
         {
-          "type": "checkboxes",
+          "type": "select",
           "name": "checkboxes",
           "label": "多选框",
-          "value": "1,2",
+          "value": renderSelectValues(12),
           "multiple": true,
-          "options": [
-            {
-              "label": "选项1",
-              "value": 1
-            },
-            {
-              "label": "选项2",
-              "value": 2
-            },
-            {
-              "label": "选项3",
-              "value": 3
-            }
-          ]
+          "options": renderOptions(12)
         },
         {
-          "type": "select",
-          "name": "type",
-          "label": "下拉单选",
+          "type": "input-tag",
+          "name": "select11",
+          "label": "标签选择",
           "inline": true,
-          "value": 1,
-          "options": [
-            {
-              "label": "选项1",
-              "value": 1
-            },
-            {
-              "label": "选项2",
-              "value": 2
-            },
-            {
-              "label": "内容很长很长的选项，内容很长很长的选项",
-              "value": 3
-            }
-          ]
+          "value": renderSelectValues(12),
+          "options": renderOptions(12)
         },
         {
-          type: 'button-toolbar',
-          name: 'button-toolbar',
-          buttons: [
+          "type": 'button-toolbar',
+          "name": 'button-toolbar',
+          "buttons": [
             {
               "type": "button",
               "label": "提交",
               "level": "primary",
+              "visibleOn": "${!isStatic}",
               "onEvent": {
                 "click": {
                   "actions": [
+                    {
+                      "actionType": "setValue",
+                      "componentId": "allFormSwitch",
+                      "args": {
+                        "value": {
+                          "isStatic": true
+                        }
+                      }
+                    },
                     {
                       "actionType": "static",
                       "componentId": "allFormSwitch"
@@ -94,9 +90,19 @@ export default {
               "type": "button",
               "label": "编辑",
               "level": "primary",
+              "visibleOn": "${isStatic}",
               "onEvent": {
                 "click": {
                   "actions": [
+                    {
+                      "actionType": "setValue",
+                      "componentId": "allFormSwitch",
+                      "args": {
+                        "value": {
+                          "isStatic": false
+                        }
+                      }
+                    },
                     {
                       "actionType": "nonstatic",
                       "componentId": "allFormSwitch"
@@ -106,7 +112,7 @@ export default {
               }
             }
           ],
-          className: 'show'
+          "className": 'show'
         },
       ],
       "actions": []
@@ -126,12 +132,12 @@ export default {
           "value": "text"
         },
         {
-          type: 'button-toolbar',
-          name: 'button-toolbar',
-          buttons: [
+          "type": 'button-toolbar',
+          "name": 'button-toolbar',
+          "buttons": [
             {
               "type": "button",
-              "label": "编辑态",
+              "label": "输入态",
               "level": "primary",
               "onEvent": {
                 "click": {
@@ -160,7 +166,7 @@ export default {
               }
             }
           ],
-          className: 'show'
+          "className": 'show'
         },
       ],
       "actions": []
@@ -175,7 +181,7 @@ export default {
           "type": "input-text",
           "id": "formItemInputText",
           "name": "var1",
-          "label": "编辑态<br />不设置<br />或static: false",
+          "label": "输入态<br />不设置<br />或static: false",
           "value": "text",
           "static": false,
           "desc": "使用staticOn 支持表达式控制，用法类似"
@@ -201,7 +207,6 @@ export default {
           "name": "var3",
           "label": "自定义展示态schema",
           "value": "表单项value",
-          "desc": "通过\\${name}可获取到当前值",
           "static": true,
           "staticSchema": [
             "自定义前缀 | ",
@@ -223,7 +228,7 @@ export default {
       "autoFocus": true,
       "panel": false,
       "debug": false,
-      "title": "目前支持编辑态展示态切换的表单项",
+      "title": "目前支持输入态展示态切换的表单项",
       "labelWidth": 150,
       "staticClassName": "now-is-static",
       "body": [
@@ -233,7 +238,7 @@ export default {
           "buttons": [
             {
               "type": "button",
-              "label": "切换为编辑态",
+              "label": "切换为输入态",
               "level": "primary",
               "visibleOn": "${static}",
               "onEvent": {
@@ -471,21 +476,8 @@ export default {
           "label": "List",
           "desc": "可多选",
           "multiple": true,
-          "value": "1,2",
-          "options": [
-            {
-              "label": "选项 A",
-              "value": 1
-            },
-            {
-              "label": "选项 B",
-              "value": 2
-            },
-            {
-              "label": "选项 C",
-              "value": 3
-            }
-          ]
+          "value": renderSelectValues(2),
+          "options": renderOptions(3)
         },
         {
           "type": "divider"
@@ -496,24 +488,12 @@ export default {
           "label": "List",
           "imageClassName": "thumb-lg",
           "desc": "支持放张图片",
-          "value": 1,
-          "options": [
-            {
-              "image": "/examples/static/photo/3893101144.jpg",
-              "value": 1,
-              "label": "图片1"
-            },
-            {
-              "image": "/examples/static/photo/3893101144.jpg",
-              "value": 2,
-              "label": "图片2"
-            },
-            {
-              "image": "/examples/static/photo/3893101144.jpg",
-              "value": 3,
-              "label": "图片3"
-            }
-          ]
+          "value": renderSelectValues(2),
+          "options": renderOptions(3, (index) => ({
+            "image": "/examples/static/photo/3893101144.jpg",
+            "value": index,
+            "label": `图片${index}`
+          }))
         },
         {
           "type": "divider"
@@ -523,22 +503,12 @@ export default {
           "name": "list5",
           "label": "List",
           "desc": "支持文字排版",
+          "multiple": true,
           "value": 1,
-          "options": [
-            {
-              "value": 1,
-              "body": "<div class=\"m-l-sm m-r-sm m-b-sm m-t-xs\">\n                                  <div class=\"text-md p-b-xs b-inherit b-b m-b-xs\">套餐：C01</div>\n                                  <div class=\"text-sm\">CPU：22核</div>\n                                  <div class=\"text-sm\">内存：10GB</div>\n                                  <div class=\"text-sm\">SSD盘：1024GB</div>\n                              </div>"
-            },
-            {
-              "value": 2,
-              "body": "<div class=\"m-l-sm m-r-sm  m-b-sm m-t-xs\">\n                              <div class=\"text-md p-b-xs b-inherit b-b m-b-xs\">套餐：C02</div>\n                              <div class=\"text-sm\">CPU：23核</div>\n                              <div class=\"text-sm\">内存：11GB</div>\n                              <div class=\"text-sm\">SSD盘：1025GB</div>\n                              </div>"
-            },
-            {
-              "value": 3,
-              "disabled": true,
-              "body": "<div class=\"m-l-sm m-r-sm  m-b-sm m-t-xs\">\n                              <div class=\"text-md p-b-xs b-inherit b-b m-b-xs\">套餐：C03</div>\n                              <div class=\"text-sm\">CPU：24核</div>\n                              <div class=\"text-sm\">内存：12GB</div>\n                              <div class=\"text-sm\">SSD盘：1026GB</div>\n                              </div>"
-            }
-          ]
+          "options": renderOptions(3, (index) => ({
+            "value": index,
+            "body": "<div class=\"m-l-sm m-r-sm m-b-sm m-t-xs\">\n                                  <div class=\"text-md p-b-xs b-inherit b-b m-b-xs\">套餐：C01</div>\n                                  <div class=\"text-sm\">CPU：22核</div>\n                                  <div class=\"text-sm\">内存：10GB</div>\n                                  <div class=\"text-sm\">SSD盘：1024GB</div>\n                              </div>"
+          }))
         },
         {
           "type": "divider"
@@ -589,7 +559,7 @@ export default {
           "type": "checkbox",
           "name": "checkbox",
           "label": "勾选框",
-          "options": "勾选说明",
+          "option": "同意协议",
           "value": true
         },
         {
@@ -756,9 +726,6 @@ export default {
           ]
         },
         {
-          "type": "divider"
-        },
-        {
           "type": "input-group",
           "label": "各种组合",
           "inline": true,
@@ -819,7 +786,10 @@ export default {
           "type": "textarea",
           "name": "textarea",
           "label": "多行文本",
-          "value": "这是一段多行文本文字\n第二行内容"
+          "value": "这是一段多行文本文字\n第二行内容\n2222\n333",
+          "staticSchema": {
+            "limit": 3
+          }
         },
         {
           "type": "divider"
@@ -835,6 +805,332 @@ export default {
           "sortable": true,
           "inline": true,
           "value": "A,B,C"
+        },
+        {
+          "label": '组合穿梭器',
+          "type": 'tabs-transfer',
+          "name": 'tabs-transfer',
+          "sortable": true,
+          "selectMode": 'tree',
+          "id": 'tab-transfer-receiver',
+          "resetValue": 'zhugeliang',
+          "value": "zhugeliang,caocao",
+          "enableNodePath": true,
+          "options": [
+            {
+              "label": '成员',
+              "selectMode": 'tree',
+              "searchable": true,
+              "children": [
+                {
+                  "label": '法师',
+                  "children": [
+                    {
+                      "label": '诸葛亮',
+                      "value": 'zhugeliang'
+                    }
+                  ]
+                },
+                {
+                  "label": '战士',
+                  "children": [
+                    {
+                      "label": '曹操',
+                      "value": 'caocao'
+                    },
+                    {
+                      "label": '钟无艳',
+                      "value": 'zhongwuyan'
+                    }
+                  ]
+                },
+                {
+                  "label": '打野',
+                  "children": [
+                    {
+                      "label": '李白',
+                      "value": 'libai'
+                    },
+                    {
+                      "label": '韩信',
+                      "value": 'hanxin'
+                    },
+                    {
+                      "label": '云中君',
+                      "value": 'yunzhongjun'
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": '用户',
+              "selectMode": 'chained',
+              "children": [
+                {
+                  "label": '法师',
+                  "children": [
+                    {
+                      "label": '诸葛亮',
+                      "value": 'zhugeliang2'
+                    }
+                  ]
+                },
+                {
+                  "label": '战士',
+                  "children": [
+                    {
+                      "label": '曹操',
+                      "value": 'caocao2'
+                    },
+                    {
+                      "label": '钟无艳',
+                      "value": 'zhongwuyan2'
+                    }
+                  ]
+                },
+                {
+                  "label": '打野',
+                  "children": [
+                    {
+                      "label": '李白',
+                      "value": 'libai2'
+                    },
+                    {
+                      "label": '韩信',
+                      "value": 'hanxin2'
+                    },
+                    {
+                      "label": '云中君',
+                      "value": 'yunzhongjun2'
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "onEvent": {
+            "change": {
+              "actions": [
+                {
+                  "actionType": 'toast',
+                  "args": {
+                    "msgType": 'info',
+                    "msg": '${event.data.value|json}'
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": '穿梭器picker',
+          "type": 'transfer-picker',
+          "name": 'transfer-picker',
+          "id": 'transfer-picker-receiver',
+          "resetValue": 'zhugeliang',
+          "sortable": true,
+          "selectMode": 'tree',
+          "searchable": true,
+          "value": "zhugeliang,zhongwuyan",
+          "enableNodePath": true,
+          "options": [
+            {
+              "label": '法师',
+              "children": [
+                {
+                  "label": '诸葛亮',
+                  "value": 'zhugeliang'
+                }
+              ]
+            },
+            {
+              "label": '战士',
+              "children": [
+                {
+                  "label": '曹操',
+                  "value": 'caocao'
+                },
+                {
+                  "label": '钟无艳',
+                  "value": 'zhongwuyan'
+                }
+              ]
+            },
+            {
+              "label": '打野',
+              "children": [
+                {
+                  "label": '李白',
+                  "value": 'libai'
+                },
+                {
+                  "label": '韩信',
+                  "value": 'hanxin'
+                },
+                {
+                  "label": '云中君',
+                  "value": 'yunzhongjun'
+                }
+              ]
+            }
+          ],
+          "onEvent": {
+            "change": {
+              "actions": [
+                {
+                  "actionType": 'toast',
+                  "args": {
+                    "msgType": 'info',
+                    "msg": '${event.data.value|json}'
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": '组合穿梭器picker',
+          "type": 'tabs-transfer-picker',
+          "name": 'tabs-transfer-picker',
+          "id": 'tabs-transfer-picker-receiver',
+          "resetValue": 'zhugeliang',
+          "value": "caocao,zhongwuyan",
+          "sortable": true,
+          "selectMode": 'tree',
+          "pickerSize": 'md',
+          "menuTpl":
+            "<div class='flex justify-between'><span>${label}</span>${email ? `<div class='text-muted m-r-xs text-sm text-right'>${email}<br />${phone}</div>`: ''}</div>",
+          "valueTpl": '${label}(${value})',
+          "options": [
+            {
+              "label": '成员',
+              "selectMode": 'tree',
+              "searchable": true,
+              "children": [
+                {
+                  "label": '法师',
+                  "children": [
+                    {
+                      "label": '诸葛亮',
+                      "value": 'zhugeliang',
+                      "email": 'zhugeliang@timi.com',
+                      "phone": 13111111111
+                    }
+                  ]
+                },
+                {
+                  "label": '战士',
+                  "children": [
+                    {
+                      "label": '曹操',
+                      "value": 'caocao',
+                      "email": 'caocao@timi.com',
+                      "phone": 13111111111
+                    },
+                    {
+                      "label": '钟无艳',
+                      "value": 'zhongwuyan',
+                      "email": 'zhongwuyan@timi.com',
+                      "phone": 13111111111
+                    }
+                  ]
+                },
+                {
+                  "label": '打野',
+                  "children": [
+                    {
+                      "label": '李白',
+                      "value": 'libai',
+                      "email": 'libai@timi.com',
+                      "phone": 13111111111
+                    },
+                    {
+                      "label": '韩信',
+                      "value": 'hanxin',
+                      "email": 'hanxin@timi.com',
+                      "phone": 13111111111
+                    },
+                    {
+                      "label": '云中君',
+                      "value": 'yunzhongjun',
+                      "email": 'yunzhongjun@timi.com',
+                      "phone": 13111111111
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": '角色',
+              "selectMode": 'list',
+              "children": [
+                {
+                  "label": '角色 1',
+                  "value": 'role1'
+                },
+                {
+                  "label": '角色 2',
+                  "value": 'role2'
+                },
+                {
+                  "label": '角色 3',
+                  "value": 'role3'
+                },
+                {
+                  "label": '角色 4',
+                  "value": 'role4'
+                }
+              ]
+            },
+            {
+              "label": '部门',
+              "selectMode": 'tree',
+              "children": [
+                {
+                  "label": '总部',
+                  "value": 'dep0',
+                  "children": [
+                    {
+                      "label": '部门 1',
+                      "value": 'dep1',
+                      "children": [
+                        {
+                          "label": '部门 4',
+                          "value": 'dep4'
+                        },
+                        {
+                          "label": '部门 5',
+                          "value": 'dep5'
+                        }
+                      ]
+                    },
+                    {
+                      "label": '部门 2',
+                      "value": 'dep2'
+                    },
+                    {
+                      "label": '部门 3',
+                      "value": 'dep3'
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "onEvent": {
+            "change": {
+              "actions": [
+                {
+                  "actionType": 'toast',
+                  "args": {
+                    "msgType": 'info',
+                    "msg": '${event.data.value|json}'
+                  }
+                }
+              ]
+            }
+          }
         },
         {
           "type": "divider"
@@ -873,9 +1169,6 @@ export default {
           ]
         },
         {
-          "type": "divider"
-        },
-        {
           "type": "input-tree",
           "name": "trees",
           "label": "树多选",
@@ -905,9 +1198,6 @@ export default {
               "value": 5
             }
           ]
-        },
-        {
-          "type": "divider"
         },
         {
           "type": "tree-select",
@@ -940,12 +1230,10 @@ export default {
           ]
         },
         {
-          "type": "divider"
-        },
-        {
           "type": "tree-select",
           "name": "selecttrees",
           "label": "树多选选择器",
+          "enableNodePath": true,
           "multiple": true,
           "value": "1-2,5",
           "options": [
@@ -972,6 +1260,9 @@ export default {
               "value": 5
             }
           ]
+        },
+        {
+          "type": "divider"
         },
         {
           "type": "nested-select",
@@ -1268,7 +1559,11 @@ export default {
           ]
         },
         {
-          "type": "divider"
+          "name": "select3",
+          "type": "chained-select",
+          "label": "链式下拉选择器",
+          "source": "/api/mock2/options/chainedOptions?waitSeconds=1&parentId=$parentId&level=$level&maxLevel=4",
+          "value": "a,b"
         },
         {
           "type": "divider"
@@ -1488,7 +1783,56 @@ export default {
           "type": "input-range",
           "name": "range",
           "label": "范围",
-          "value": "50"
+          "value": 50
+        },
+        {
+          "name": "city",
+          "type": "input-city",
+          "label": "城市",
+          "searchable": true,
+          "value": 210727
+        },
+        {
+          "type": "location-picker",
+          "label": "地理位置",
+          "name": "location",
+          "ak": "LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7",
+          "label": "地址"
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "chart-radios",
+          "label": "图表单选框",
+          "name": "main",
+          "chartValueField": "num",
+          "value": "a",
+          "options": [
+            {
+              "label": "A",
+              "num": 100,
+              "value": "a"
+            },
+            {
+              "label": "B",
+              "num": 120,
+              "value": "b"
+            },
+            {
+              "label": "C",
+              "num": 30,
+              "value": "c"
+            },
+            {
+              "label": "D",
+              "num": 40,
+              "value": "d"
+            }
+          ]
+        },
+        {
+          "type": "divider"
         },
         {
           "type": "button-toolbar",
@@ -1496,7 +1840,7 @@ export default {
           "buttons": [
             {
               "type": "button",
-              "label": "切换为编辑态",
+              "label": "切换为输入态",
               "level": "primary",
               "visibleOn": "${static}",
               "onEvent": {
@@ -1520,6 +1864,20 @@ export default {
                   "actions": [
                     {
                       "actionType": "static",
+                      "componentId": "myform"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "button",
+              "label": "清空",
+              "onEvent": {
+                "click": {
+                  "actions": [
+                    {
+                      "actionType": "clear",
                       "componentId": "myform"
                     }
                   ]
