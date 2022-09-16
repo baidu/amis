@@ -497,6 +497,8 @@ type Value = ValueGroup;
 
 ## 字段选项类型
 
+> 2.3.0 及以上版本
+
 通过 selectMode 配置组合条件左侧选项类型，可配置项为`list`、`tree`，默认为`list`。两者数据格式相同，只是下拉框展示方式不同，当存在多层 children 嵌套时，建议使用`tree`。
 
 selectMode 为`list`时
