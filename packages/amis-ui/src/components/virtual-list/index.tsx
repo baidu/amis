@@ -297,6 +297,8 @@ export default class VirtualList extends React.PureComponent<Props, State> {
   recomputeSizes(startIndex = 0) {
     this.styleCache = {};
     this.sizeAndPositionManager.resetItem(startIndex);
+    // 长度发生变化时，有时不会渲染
+    this.forceUpdate();
   }
 
   render() {
