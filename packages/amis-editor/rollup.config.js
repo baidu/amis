@@ -116,7 +116,7 @@ function getPlugins(format = 'esm') {
   };
 
   return [
-    i18nPlugin(i18nConfig),
+    // i18nPlugin(i18nConfig),
     typescript(typeScriptOptions),
     svgr({
       svgProps: {
