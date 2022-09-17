@@ -445,7 +445,8 @@ export class Transfer<
       option2value,
       optionItemRender,
       cellRender,
-      multiple
+      multiple,
+      labelField
     } = props;
     const {isTreeDeferLoad, searchResult} = this.state;
     const options = searchResult ?? [];
@@ -483,6 +484,7 @@ export class Transfer<
         cascade={true}
         onlyChildren={!isTreeDeferLoad}
         itemRender={optionItemRender}
+        labelField={labelField}
       />
     ) : mode === 'chained' ? (
       <ChainedSelection
@@ -495,6 +497,7 @@ export class Transfer<
         option2value={option2value}
         itemRender={optionItemRender}
         multiple={multiple}
+        labelField={labelField}
       />
     ) : (
       <GroupedSelection
@@ -507,6 +510,7 @@ export class Transfer<
         option2value={option2value}
         itemRender={optionItemRender}
         multiple={multiple}
+        labelField={labelField}
       />
     );
   }
@@ -529,7 +533,8 @@ export class Transfer<
       leftDefaultValue,
       optionItemRender,
       multiple,
-      noResultsText
+      noResultsText,
+      labelField
     } = props;
 
     return selectMode === 'table' ? (
@@ -560,6 +565,7 @@ export class Transfer<
         showIcon={false}
         multiple={multiple}
         cascade={true}
+        labelField={labelField}
       />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
@@ -572,6 +578,7 @@ export class Transfer<
         onDeferLoad={onDeferLoad}
         itemRender={optionItemRender}
         multiple={multiple}
+        labelField={labelField}
       />
     ) : selectMode === 'associated' ? (
       <AssociatedSelection
@@ -589,6 +596,7 @@ export class Transfer<
         leftDefaultValue={leftDefaultValue}
         itemRender={optionItemRender}
         multiple={multiple}
+        labelField={labelField}
       />
     ) : (
       <GroupedSelection
@@ -601,6 +609,7 @@ export class Transfer<
         onDeferLoad={onDeferLoad}
         itemRender={optionItemRender}
         multiple={multiple}
+        labelField={labelField}
       />
     );
   }
@@ -620,6 +629,7 @@ export class Transfer<
       resultSearchPlaceholder,
       onResultSearch,
       sortable,
+      labelField,
       translate: __
     } = this.props;
 
@@ -660,6 +670,7 @@ export class Transfer<
             searchable={searchable}
             placeholder={placeholder}
             onSearch={onResultSearch}
+            labelField={labelField}
           />
         );
       default:
@@ -674,6 +685,7 @@ export class Transfer<
             itemRender={resultItemRender}
             searchable={searchable}
             onSearch={onResultSearch}
+            labelField={labelField}
           />
         );
     }

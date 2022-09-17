@@ -27,11 +27,13 @@ export interface ResultListProps extends ThemeProps, LocaleProps {
   searchable?: boolean;
   onSearch?: Function;
   valueField?: string;
+  labelField?: string
 }
 
 export interface ItemRenderStates {
   index: number;
   disabled?: boolean;
+  labelField?: string;
   onChange: (value: any, name: string) => void;
 }
 
@@ -43,7 +45,10 @@ export class ResultList extends React.Component<
   ResultListProps,
   ResultListState
 > {
-  static itemRender(option: any) {
+  static itemRender(option: Option, states: ItemRenderStates) {
+    if (states?.labelField) {
+      return <span>{option[states.labelField || 'label']}</span>;
+    }
     return <span>{`${option.scopeLabel || ''}${option.label}`}</span>;
   }
 
@@ -219,6 +224,7 @@ export class ResultList extends React.Component<
       disabled,
       itemClassName,
       sortable,
+      labelField,
       translate: __
     } = this.props;
 
@@ -246,7 +252,8 @@ export class ResultList extends React.Component<
                   {itemRender(option, {
                     index,
                     disabled,
-                    onChange: this.handleValueChange.bind(this, index)
+                    onChange: this.handleValueChange.bind(this, index),
+                    labelField
                   })}
                 </label>
 

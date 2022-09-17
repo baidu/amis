@@ -23,6 +23,7 @@ export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   value?: any | Array<any>;
   multiple?: boolean;
   clearable?: boolean;
+  labelField?: string;
   onChange?: (value: Array<any> | any) => void;
   onDeferLoad?: (option: Option) => void;
   onLeftDeferLoad?: (option: Option, leftOptions: Option) => void;
@@ -38,6 +39,7 @@ export interface BaseSelectionProps extends ThemeProps, LocaleProps {
 
 export interface ItemRenderStates {
   index: number;
+  labelField?: string;
   multiple?: boolean;
   checked: boolean;
   onChange: () => void;
@@ -49,6 +51,9 @@ export class BaseSelection<
   S = any
 > extends React.Component<T, S> {
   static itemRender(option: Option, states: ItemRenderStates) {
+    if (states?.labelField) {
+      return <span>{option[states.labelField || 'label']}</span>
+    }
     return (
       <span>
         {option.label}
@@ -183,6 +188,7 @@ export class BaseSelection<
       itemClassName,
       itemRender,
       multiple,
+      labelField,
       onClick
     } = this.props;
 
@@ -208,6 +214,7 @@ export class BaseSelection<
             multiple: multiple,
             checked: !!~valueArray.indexOf(option),
             onChange: () => this.toggleOption(option),
+            labelField,
             disabled: disabled || option.disabled
           })}
         </Checkbox>
