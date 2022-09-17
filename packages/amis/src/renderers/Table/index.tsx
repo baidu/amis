@@ -1893,16 +1893,16 @@ export default class Table extends React.Component<TableProps, object> {
       );
     }
 
-    let affix = null;
+    let affix = [];
 
     if (column.searchable && column.name && !autoGenerateFilter) {
-      affix = (
+      affix.push(
         <HeadCellSearchDropDown
           {...this.props}
           onQuery={onQuery}
           name={column.name}
           searchable={column.searchable}
-          sortable={column.sortable}
+          sortable={false}
           type={column.type}
           data={query}
           orderBy={store.orderBy}
@@ -1910,8 +1910,9 @@ export default class Table extends React.Component<TableProps, object> {
           popOverContainer={this.getPopOverContainer}
         />
       );
-    } else if (column.sortable && column.name) {
-      affix = (
+    }
+    if (column.sortable && column.name) {
+      affix.push(
         <span
           className={cx('TableCell-sortBtn')}
           onClick={async () => {
@@ -1979,8 +1980,9 @@ export default class Table extends React.Component<TableProps, object> {
           </i>
         </span>
       );
-    } else if (column.filterable && column.name) {
-      affix = (
+    }
+    if (!column.searchable && column.filterable && column.name) {
+      affix.push(
         <HeadCellFilterDropDown
           {...this.props}
           onQuery={onQuery}

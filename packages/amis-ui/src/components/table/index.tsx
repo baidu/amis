@@ -82,6 +82,7 @@ export interface RowSelectionProps {
   selections?: Array<RowSelectionOptionProps>;
   onChange?: Function;
   getCheckboxProps: Function;
+  maxSelectedLength?: number;
 }
 
 export interface ExpandableProps {
@@ -934,14 +935,17 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
     let allRowKeys: Array<string> = [];
     let allRows: Array<any> = [];
+    const maxSelectedLength = rowSelection?.maxSelectedLength;
     dataList.forEach(data => {
-      allRowKeys.push(data[keyField]);
-      allRows.push(data);
-      if (!expandable && this.hasChildrenRow(data)) {
-        allRowKeys = [...allRowKeys, ...this.getDataChildrenKeys(data)];
-        data[this.getChildrenColumnName()].forEach((item: any) =>
-          allRows.push(item)
-        );
+      if (!!maxSelectedLength && allRows.length < maxSelectedLength) {
+        allRowKeys.push(data[keyField]);
+        allRows.push(data);
+        if (!expandable && this.hasChildrenRow(data)) {
+          allRowKeys = [...allRowKeys, ...this.getDataChildrenKeys(data)];
+          data[this.getChildrenColumnName()].forEach((item: any) =>
+            allRows.push(item)
+          );
+        }
       }
     });
 
@@ -988,8 +992,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                             if (onSelectAll) {
                               const prevented = await onSelectAll(
                                 selectedRows,
-                                value ? [] : selectedRows,
-                                changeRows
+                                value ? selectedRowKeys : [],
+                                value ? [] : selectedRows
                               );
                               if (prevented) {
                                 return;
@@ -1489,6 +1493,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       this.state.selectedRowKeys,
       key => key === data[defaultKey]
     );
+
     const hasChildrenChecked = this.hasCheckedChildrenRows(data);
     const isRadio = rowSelection && rowSelection.type === 'radio';
 

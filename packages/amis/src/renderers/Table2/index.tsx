@@ -356,6 +356,16 @@ export interface TableSchema2 extends BaseSchema {
    * 操作列配置
    */
   actions?: Array<ActionSchema>;
+
+  /**
+   * 批量操作最大限制数
+   */
+  maxKeepItemSelectionLength?: number;
+
+  /**
+   * 翻页是否保存数据
+   */
+  keepItemSelectionOnPageChange?: boolean;
 }
 
 export type Table2RendererEvent =
@@ -390,6 +400,8 @@ export interface Table2Props extends RendererProps {
   headSummary?: Array<SummaryProps | Array<SummaryProps>>;
   footSummary?: Array<SummaryProps | Array<SummaryProps>>;
   headingClassName?: string;
+  keepItemSelectionOnPageChange?: boolean;
+  maxKeepItemSelectionLength?: number;
 }
 
 export default class Table2 extends React.Component<Table2Props, object> {
@@ -404,9 +416,20 @@ export default class Table2 extends React.Component<Table2Props, object> {
     const scoped = context;
     scoped.registerComponent(this);
 
-    const {store, columnsTogglable, columns} = props;
+    const {
+      store,
+      columnsTogglable,
+      columns,
+      keepItemSelectionOnPageChange,
+      maxKeepItemSelectionLength
+    } = props;
 
-    store.update({columnsTogglable, columns});
+    store.update({
+      columnsTogglable,
+      columns,
+      keepItemSelectionOnPageChange,
+      maxKeepItemSelectionLength
+    });
     Table2.syncRows(store, props, undefined) && this.syncSelected();
   }
 
@@ -1057,7 +1080,9 @@ export default class Table2 extends React.Component<Table2Props, object> {
     selectedRowKeys: Array<string | number>,
     unSelectedRows: Array<string | number>
   ) {
-    const {dispatchEvent, data, rowSelection, onSelect, store} = this.props;
+    const {dispatchEvent, data, rowSelection, onSelect, store, keyField} =
+      this.props;
+
     const rendererEvent = await dispatchEvent(
       'selectedChange',
       createObject(data, {
@@ -1070,7 +1095,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       return rendererEvent?.prevented;
     }
 
-    store.updateSelected(selectedRowKeys, rowSelection?.keyField);
+    store.updateSelected(selectedRowKeys, rowSelection?.keyField || keyField);
     onSelect && onSelect(selectedRows, unSelectedRows);
   }
 
@@ -1220,6 +1245,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       placeholder,
       rowClassNameExpr,
       itemActions,
+      keyField,
       onRow,
       store,
       ...rest
@@ -1259,21 +1285,27 @@ export default class Table2 extends React.Component<Table2Props, object> {
       const {selectedRowKeys, selections, ...rest} = rowSelection;
       rowSelectionConfig = {
         selectedRowKeys: store.currentSelectedRowKeys,
+        maxSelectedLength: store.maxKeepItemSelectionLength,
         ...rest
       };
 
-      if (rowSelection.disableOn) {
-        const disableOn = rowSelection.disableOn;
+      const disableOn = rowSelection.disableOn;
+      rowSelectionConfig.getCheckboxProps = (record: any, rowIndex: number) => {
+        return {
+          disabled:
+            (disableOn
+              ? evalExpression(disableOn, {record, rowIndex})
+              : false) ||
+            (store.maxKeepItemSelectionLength &&
+              store.currentSelectedRowKeys.length >=
+                store.maxKeepItemSelectionLength &&
+              !store.currentSelectedRowKeys.includes(
+                record[rowSelection.keyField || keyField || 'key']
+              ))
+        };
+      };
 
-        rowSelectionConfig.getCheckboxProps = (
-          record: any,
-          rowIndex: number
-        ) => ({
-          disabled: evalExpression(disableOn, {record, rowIndex})
-        });
-
-        delete rowSelectionConfig.disableOn;
-      }
+      disableOn && delete rowSelectionConfig.disableOn;
 
       if (selections && Array.isArray(selections)) {
         rowSelectionConfig.selections = [];
