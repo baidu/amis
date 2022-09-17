@@ -17,6 +17,12 @@
   }
 
   div[data-role='form-item'] {
+    &.ae-ExtendMore {
+      > label {
+        flex: 0;
+        padding: 0;
+      }
+    }
     > label {
       line-height: 32px;
       margin: 0;
