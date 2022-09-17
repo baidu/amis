@@ -21,6 +21,7 @@ export interface ResultListProps extends ThemeProps, LocaleProps {
   sortable?: boolean;
   disabled?: boolean;
   title?: string;
+  searchPlaceholder?: string;
   placeholder: string;
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   itemClassName?: string;
@@ -225,7 +226,8 @@ export class ResultList extends React.Component<
       itemClassName,
       sortable,
       labelField,
-      translate: __
+      translate: __,
+      placeholder
     } = this.props;
 
     return (
@@ -272,7 +274,7 @@ export class ResultList extends React.Component<
             ))}
           </div>
         ) : (
-          <div className={cx('Selections-placeholder')}>{__('Transfer.selectFromLeft')}</div>
+          <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>
         )}
       </>
     );
@@ -286,7 +288,7 @@ export class ResultList extends React.Component<
       searchable,
       value,
       translate: __,
-      placeholder = __('Transfer.searchKeyword')
+      searchPlaceholder
     } = this.props;
 
     const {searchResult} = this.state;
@@ -296,7 +298,7 @@ export class ResultList extends React.Component<
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
-            placeholder={placeholder}
+            placeholder={searchPlaceholder}
             onSearch={this.search}
             onCancelSearch={this.clearSearch}
           />

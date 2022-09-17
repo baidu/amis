@@ -2,7 +2,7 @@
  * 结果树(暂时不支持结果排序)
  */
 import React from 'react';
-import {cloneDeep, isEqual, omit} from 'lodash';
+import _, {cloneDeep, isEqual, omit} from 'lodash';
 
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from 'amis-core';
@@ -24,6 +24,7 @@ export interface ResultTreeListProps
   onSearch?: Function;
   onChange: (value: Array<Option>, optionModified?: boolean) => void;
   placeholder: string;
+  searchPlaceholder?: string;
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   itemClassName?: string;
   cellRender?: (
@@ -256,7 +257,8 @@ export class BaseResultTreeList extends React.Component<
       value,
       valueField,
       itemRender,
-      translate: __
+      translate: __,
+      placeholder
     } = this.props;
 
     const {treeOptions, searching, searchTreeOptions} = this.state;
@@ -276,7 +278,7 @@ export class BaseResultTreeList extends React.Component<
             onDelete={(option: Option) => this.deleteTreeChecked(option)}
           />
         ) : (
-          <div className={cx('Selections-placeholder')}>{__('Transfer.selectFromLeft')}</div>
+          <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>
         )}
       </div>
     );
@@ -289,7 +291,7 @@ export class BaseResultTreeList extends React.Component<
       title,
       searchable,
       translate: __,
-      placeholder = __('Transfer.searchKeyword')
+      searchPlaceholder
     } = this.props;
 
     return (
@@ -297,7 +299,7 @@ export class BaseResultTreeList extends React.Component<
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
-            placeholder={placeholder}
+            placeholder={searchPlaceholder}
             onSearch={this.search}
             onCancelSearch={this.clearSearch}
           />

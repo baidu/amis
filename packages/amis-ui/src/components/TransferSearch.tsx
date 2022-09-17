@@ -35,10 +35,6 @@ export class TransferSearch extends React.Component<
     return <span>{`${option.scopeLabel || ''}${option.label}`}</span>;
   }
 
-  static defaultProps: Pick<TransferSearchProps, 'placeholder'> = {
-    placeholder: 'placeholder.selectData'
-  };
-
   state: TransferSearchState = {
     inputValue: ''
   };

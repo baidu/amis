@@ -630,14 +630,12 @@ export class Transfer<
       onResultSearch,
       sortable,
       labelField,
-      translate: __
+      translate: __,
+      placeholder = __('Transfer.selectFromLeft')
     } = this.props;
 
     const {resultSelectMode, isTreeDeferLoad} = this.state;
     const searchable = !isTreeDeferLoad && resultSearchable;
-
-    const placeholder =
-      resultSearchPlaceholder || __('Transfer.searchKeyword');
 
     switch (resultSelectMode) {
       case 'table':
@@ -654,6 +652,7 @@ export class Transfer<
             multiple={false}
             searchable={searchable}
             placeholder={placeholder}
+            searchPlaceholder={resultSearchPlaceholder}
             onSearch={onResultSearch}
           />
         );
@@ -669,6 +668,7 @@ export class Transfer<
             itemRender={resultItemRender}
             searchable={searchable}
             placeholder={placeholder}
+            searchPlaceholder={resultSearchPlaceholder}
             onSearch={onResultSearch}
             labelField={labelField}
           />
@@ -682,6 +682,7 @@ export class Transfer<
             value={value}
             onChange={onChange}
             placeholder={placeholder}
+            searchPlaceholder={resultSearchPlaceholder}
             itemRender={resultItemRender}
             searchable={searchable}
             onSearch={onResultSearch}
