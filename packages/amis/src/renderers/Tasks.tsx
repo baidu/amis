@@ -64,6 +64,9 @@ export interface TasksSchema extends BaseSchema {
      * 5：有错误，且可以重试。
      */
     status?: 0 | 1 | 2 | 3 | 4 | 5;
+
+    // 控制组件是否展示 loading
+    loading: boolean;
   }>;
 
   name?: SchemaName;
@@ -181,7 +184,8 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     errorStatusCode: 3,
     finishStatusCode: 4,
     canRetryStatusCode: 5,
-    interval: 3000
+    interval: 3000,
+    loading: true
   };
 
   timer: any;
@@ -368,7 +372,8 @@ export default class Task extends React.Component<TaskProps, TaskState> {
       loadingStatusCode,
       canRetryStatusCode,
       translate: __,
-      render
+      render,
+      loading
     } = this.props;
     const items = this.state.items;
     const error = this.state.error;
@@ -396,7 +401,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                 <tr key={key}>
                   <td>{item.label}</td>
                   <td>
-                    {item.status == loadingStatusCode ? (
+                    {loading && item.status == loadingStatusCode ? (
                       <Spinner
                         show
                         icon="reload"

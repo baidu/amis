@@ -54,6 +54,9 @@ export const FormStore = ServiceStore.named('FormStore')
 
     return {
       get loading() {
+        if (!self.loadingVisible) {
+          return false;
+        }
         return self.saving || self.fetching;
       },
 

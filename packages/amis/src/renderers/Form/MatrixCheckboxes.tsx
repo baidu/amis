@@ -67,6 +67,7 @@ export interface MatrixProps extends FormControlProps {
   columns: Array<Column>;
   rows: Array<Row>;
   multiple: boolean;
+  loading: boolean;
 }
 
 export interface MatrixState {
@@ -85,7 +86,8 @@ export default class MatrixCheckbox extends React.Component<
     columns: [],
     rows: [],
     multiple: true,
-    singleSelectMode: 'column' // multiple 为 false 时有效。
+    singleSelectMode: 'column', // multiple 为 false 时有效。
+    loading: true
   };
 
   state: MatrixState;
@@ -341,7 +343,12 @@ export default class MatrixCheckbox extends React.Component<
   }
 
   render() {
-    const {className, render, classnames: cx} = this.props;
+    const {
+      className,
+      render,
+      classnames: cx,
+      loading: loadingVisible
+    } = this.props;
 
     const {error, loading} = this.state;
 
@@ -355,7 +362,12 @@ export default class MatrixCheckbox extends React.Component<
           this.renderInput()
         )}
 
-        <Spinner size="lg" overlay key="info" show={loading} />
+        <Spinner
+          size="lg"
+          overlay
+          key="info"
+          show={loading && loadingVisible}
+        />
       </div>
     );
   }

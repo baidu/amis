@@ -56,12 +56,12 @@ export function HocStoreFactory(renderer: {
         const rootStore = context;
         this.renderChild = this.renderChild.bind(this);
         this.refFn = this.refFn.bind(this);
-
         const store = rootStore.addStore({
           id: guid(),
           path: this.props.$path,
           storeType: renderer.storeType,
-          parentId: this.props.store ? this.props.store.id : ''
+          parentId: this.props.store ? this.props.store.id : '',
+          loadingVisible: this.props.$schema.loading !== false
         }) as IIRendererStore;
         this.store = store;
 

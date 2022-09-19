@@ -7,7 +7,6 @@ const loadingBody = {
       '/api/mock2/sample?orderBy=id&orderDir=desc&perPage=10&waitSeconds=10',
     body: [
       {
-        loading: false,
         type: 'nav',
         stacked: true,
         className: 'w-md',

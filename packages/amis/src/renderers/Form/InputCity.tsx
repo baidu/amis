@@ -54,6 +54,11 @@ export interface InputCityControlSchema extends FormBaseControlSchema {
    * 是否显示搜索框
    */
   searchable?: boolean;
+
+  /**
+   * 控制 loading
+   */
+  loading: boolean;
 }
 
 export interface CityPickerProps
@@ -107,7 +112,8 @@ export class CityPicker extends React.Component<
     delimiter: ',',
     allowCity: true,
     allowDistrict: true,
-    allowStreet: false
+    allowStreet: false,
+    loading: true
   };
 
   state: CityPickerState = {
@@ -371,12 +377,13 @@ export class CityPicker extends React.Component<
       allowDistrict,
       allowStreet,
       searchable,
-      translate: __
+      translate: __,
+      loading
     } = this.props;
 
     const {provinceCode, cityCode, districtCode, street, db} = this.state;
 
-    return db ? (
+    return db && !loading ? (
       <div className={cx('CityPicker', className)}>
         <Select
           searchable={searchable}

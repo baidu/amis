@@ -17,10 +17,14 @@ export const ServiceStore = iRendererStore
     checking: false,
     initializing: false,
     schema: types.optional(types.frozen(), null),
-    schemaKey: ''
+    schemaKey: '',
+    loadingVisible: true
   })
   .views(self => ({
     get loading() {
+      if (!self.loadingVisible) {
+        return false;
+      }
       return self.fetching || self.saving || self.busying || self.initializing;
     }
   }))
