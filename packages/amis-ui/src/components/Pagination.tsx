@@ -478,7 +478,6 @@ export class Pagination extends React.Component<
       <Select
         key="perpage"
         className={cx('Pagination-perpage', 'Pagination-item')}
-        overlayPlacement="right-bottom-right-top"
         clearable={false}
         disabled={disabled}
         value={perPage}
