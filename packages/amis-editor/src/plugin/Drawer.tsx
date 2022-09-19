@@ -123,7 +123,19 @@ export class DrawerPlugin extends BasePlugin {
                   }
                 ],
                 pipeIn: defaultValue('right'),
-                pipeOut: (value: any) => (value ? value : 'right')
+                pipeOut: (value: any) => (value ? value : 'right'),
+                onChange: (
+                  value: string,
+                  oldValue: string,
+                  model: any,
+                  form: any
+                ) => {
+                  if(value === 'left' || value === 'right') {
+                    form.deleteValueByName('height');
+                  } else if (value === 'top' || value === 'bottom') {
+                    form.deleteValueByName('width');
+                  }
+                }
               },
               getSchemaTpl('switch', {
                 name: 'overlay',
@@ -196,16 +208,14 @@ export class DrawerPlugin extends BasePlugin {
                     '宽度',
                     '位置为 "左" 或 "右" 时生效。 默认宽度为"尺寸"字段配置的宽度，值单位默认为 px，也支持百分比等单位 ，如：100%'
                   ),
-                  disabledOn:
-                    'this.position === "top" || this.position === "bottom"'
+                  disabledOn: 'this.position === "top" || this.position === "bottom"'
                 },
                 heightSchema: {
                   label: tipedLabel(
                     '高度',
                     '位置为 "上" 或 "下" 时生效。 默认宽度为"尺寸"字段配置的高度，值单位默认为 px，也支持百分比等单位 ，如：100%'
                   ),
-                  disabledOn:
-                    'this.position === "left" || this.position === "right" || !this.position'
+                  disabledOn: 'this.position === "left" || this.position === "right" || !this.position'
                 }
               })
             ]
