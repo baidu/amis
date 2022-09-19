@@ -35,6 +35,7 @@ export const FormStore = ServiceStore.named('FormStore')
     // items: types.optional(types.array(types.late(() => FormItemStore)), []),
     canAccessSuperData: true,
     persistData: types.optional(types.union(types.string, types.boolean), ''),
+    loadingVisible: types.optional(types.boolean, true),
     restError: types.optional(types.array(types.string), []) // 没有映射到表达项上的 errors
   })
   .views(self => {
@@ -58,6 +59,9 @@ export const FormStore = ServiceStore.named('FormStore')
 
     return {
       get loading() {
+        if (!self.loadingVisible) {
+          return false;
+        }
         return self.saving || self.fetching;
       },
 
