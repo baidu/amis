@@ -8,6 +8,7 @@ import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper';
 import {pickEventsProps} from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {Icon} from './icons';
+import Spinner from './Spinner';
 interface ButtonProps extends React.DOMAttributes<HTMLButtonElement> {
   id?: string;
   className?: string;
@@ -103,18 +104,19 @@ export class Button extends React.Component<ButtonProps> {
         title={title}
         disabled={disabled}
       >
-        {loading && !disabled ? (
-          <span
+        {loading && !disabled && (
+          <Spinner
+            size="sm"
+            show
+            icon="loading-outline"
             className={cx(
               overrideClassName
                 ? ''
                 : {[`Button--loading Button--loading--${level}`]: level},
               loadingClassName
             )}
-          >
-            <Icon icon="loading-outline" className="icon" />
-          </span>
-        ) : null}
+          />
+        )}
         {children}
       </Comp>
     );

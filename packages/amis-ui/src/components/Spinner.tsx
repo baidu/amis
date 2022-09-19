@@ -65,8 +65,13 @@ const SpinnerSharedStore = types
        */
       checkLoading: (spinnerContainerWillCheck: HTMLElement | null) => {
         if (self.spinnerContainers.has(spinnerContainerWillCheck)) {
+          if (!self.spinnerContainers.size) {
+            return false;
+          }
+
           let loading = true;
 
+          // 检查缓存的容器中是否有当前容器的父级元素
           self.spinnerContainers.forEach(container => {
             if (
               container.contains(spinnerContainerWillCheck) &&
@@ -120,8 +125,20 @@ export class Spinner extends React.Component<SpinnerProps> {
     if (this.parent) {
       if (this.props.show) {
         store.push(this.parent);
-      } else {
+      } else if (this.state.spinning) {
         store.remove(this.parent);
+      }
+    }
+  }
+
+  componentDidMount(): void {
+    // 对于 通过 条件语句控制 Spinner 是否展示的情况，需要在这里处理 ： show && <Spinner show overlay />
+    if (this.props.show) {
+      // 先根据 props.show 触发一次 loading，否则元素没有渲染，无法找到 parent
+      this.setState({spinning: true});
+
+      if (this.parent) {
+        store.push(this.parent);
       }
     }
   }
