@@ -59,7 +59,7 @@ export class TooltipWrapperPlugin extends BasePlugin {
           body: [
             getSchemaTpl('collapseGroup', [
               {
-                title: '常用',
+                title: '基本',
                 body: [
                   {
                     type: 'input-text',

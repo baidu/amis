@@ -54,7 +54,7 @@ export class AvatarPlugin extends BasePlugin {
           getSchemaTpl('collapseGroup', [
             {
               className: 'p-none',
-              title: '常用',
+              title: '基本',
               body: [
                 // 如果同时存在 src、text 和 icon，会优先用 src、接着 text、最后 icon
                 {

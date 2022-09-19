@@ -39,7 +39,7 @@ export class WrapperPlugin extends BasePlugin {
         body: [
           getSchemaTpl('collapseGroup', [
             {
-              title: '常用',
+              title: '基本',
               body: [
                 {
                   label: '内间距',
@@ -95,8 +95,7 @@ export class WrapperPlugin extends BasePlugin {
                   items: [
                     {
                       type: 'tpl',
-                      tpl:
-                        '<span class="label label-default">子节点${index | plus}</span>'
+                      tpl: '<span class="label label-default">子节点${index | plus}</span>'
                     }
                   ]
                 }

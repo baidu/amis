@@ -143,7 +143,7 @@ const normalizeBodySchema = (
  * @param {Object=} panels
  * @param {string=} key
  * `property` 属性
- *     `common` 常用
+ *     `common` 基本
  *     `status` 状态
  *     `validation` 校验
  * `style` 样式
@@ -215,7 +215,7 @@ export const formItemControl: (
     : [
         {
           ...collapseProps,
-          header: '常用',
+          header: '基本',
           key: 'common',
           body: normalizeBodySchema(
             [
