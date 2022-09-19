@@ -290,7 +290,10 @@ export default class OptionControl extends React.Component<
    */
   @autobind
   handleSourceChange(source: 'custom' | 'api' | 'apicenter') {
-    this.setState({source: source}, this.onChange);
+    const {name, onChange} = this.props;
+    this.setState({source}, () => {
+      name && onChange?.(undefined);
+    });
   }
 
   /**
