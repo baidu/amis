@@ -208,28 +208,6 @@ export class ImageControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('switch', {
-                name: 'fixedSize',
-                label: tipedLabel('固定尺寸', '开启后需同时设置CSS类'),
-                value: false
-              }),
-
-              {
-                type: 'container',
-                className: 'ae-ExtendMore mb-3',
-                visibleOn: 'data.fixedSize',
-                body: [
-                  {
-                    type: 'input-text',
-                    name: 'fixedSizeClassName',
-                    label: tipedLabel(
-                      'CSS类名',
-                      '开启固定尺寸时，根据此值控制展示尺寸'
-                    )
-                  }
-                ]
-              },
-
-              getSchemaTpl('switch', {
                 name: 'hideUploadButton',
                 label: '隐藏上传按钮',
                 value: false
@@ -406,6 +384,31 @@ export class ImageControlPlugin extends BasePlugin {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
           getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+          {
+            title: '尺寸',
+            body: [
+              getSchemaTpl('switch', {
+                name: 'fixedSize',
+                label: tipedLabel('固定尺寸', '开启后需同时设置CSS类'),
+                value: false
+              }),
+              {
+                type: 'container',
+                className: 'ae-ExtendMore mb-3',
+                visibleOn: 'data.fixedSize',
+                body: [
+                  {
+                    type: 'input-text',
+                    name: 'fixedSizeClassName',
+                    label: tipedLabel(
+                      'CSS类名',
+                      '开启固定尺寸时，根据此值控制展示尺寸'
+                    )
+                  }
+                ]
+              }
+            ]
+          },
           getSchemaTpl('style:classNames', {
             schema: []
           })
