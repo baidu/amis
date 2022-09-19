@@ -348,7 +348,6 @@ export class UserSelect extends React.Component<
     const {onChange, multiple} = this.props;
     const {selection} = this.state;
     const value = multiple ? selection : selection?.[0];
-
     onChange(value);
     this.handleBack();
   }
