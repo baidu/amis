@@ -89,6 +89,28 @@ export const FormStore = ServiceStore.named('FormStore')
         return formItems;
       },
 
+      /** 获取InputGroup的子元素 */
+      get inputGroupItems() {
+        const formItems: Record<string, IFormItemStore[]> = {};
+        const children = self.children.concat();
+
+        while (children.length) {
+          const current = children.shift();
+
+          if (current.inputGroupControl && current.inputGroupControl?.name) {
+            const controlName = current.inputGroupControl?.name as string;
+
+            if (formItems.hasOwnProperty(controlName)) {
+              formItems[controlName].push(current);
+            } else {
+              formItems[controlName] = [current];
+            }
+          }
+        }
+
+        return formItems;
+      },
+
       get errors() {
         let errors: {
           [propName: string]: Array<string>;
