@@ -294,7 +294,10 @@ export function lexer(input: string, options?: LexerOptions) {
   }
 
   function openScript() {
-    if (mainState === mainStates.Template) {
+    if (
+      mainState === mainStates.Template ||
+      mainState === mainStates.EXPRESSION
+    ) {
       return null;
     }
 

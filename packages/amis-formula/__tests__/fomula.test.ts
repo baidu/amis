@@ -59,9 +59,9 @@ test('formula:expression2', () => {
 });
 
 test('formula:expression3', () => {
-  expect(evalFormual('${a} === "b"', {a: 'b'})).toBe(true);
+  // expect(evalFormual('${a} === "b"', {a: 'b'})).toBe(true);
   expect(evalFormual('b === "b"')).toBe(false);
-  expect(evalFormual('${a}', {a: 'b'})).toBe('b');
+  // expect(evalFormual('${a}', {a: 'b'})).toBe('b');
 });
 
 test('formula:if', () => {
