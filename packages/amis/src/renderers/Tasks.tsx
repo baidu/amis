@@ -64,6 +64,9 @@ export interface TasksSchema extends BaseSchema {
      * 5：有错误，且可以重试。
      */
     status?: 0 | 1 | 2 | 3 | 4 | 5;
+
+    // 控制组件是否展示 loading
+    loading: boolean;
   }>;
 
   name?: SchemaName;
@@ -140,7 +143,7 @@ export interface TasksSchema extends BaseSchema {
 
 export interface TaskProps
   extends RendererProps,
-    Omit<TasksSchema, 'className'> {}
+    Omit<TasksSchema, 'className' | 'loading'> {}
 
 export interface TaskItem {
   label?: string;
@@ -372,6 +375,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     } = this.props;
     const items = this.state.items;
     const error = this.state.error;
+    const loadingVisible = this.props.$schema.loading !== false;
 
     return (
       <div className={cx('Table-content', className)}>
@@ -396,7 +400,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                 <tr key={key}>
                   <td>{item.label}</td>
                   <td>
-                    {item.status == loadingStatusCode ? (
+                    {loadingVisible && item.status == loadingStatusCode ? (
                       <Spinner
                         show
                         icon="reload"
