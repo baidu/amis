@@ -521,6 +521,7 @@ setSchemaTpl('submitOnChange', {
 setSchemaTpl('validateOnChange', {
   type: 'select',
   name: 'validateOnChange',
+  overlayPlacement: 'top',
   label: '校验触发',
   options: [
     {
