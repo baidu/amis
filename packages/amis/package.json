@@ -42,7 +42,6 @@
   "dependencies": {
     "amis-core": "^2.2.0",
     "amis-ui": "^2.2.0",
-    "ansi-to-react": "^6.1.6",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.1",

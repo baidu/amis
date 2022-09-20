@@ -91,7 +91,7 @@
     "rollup-plugin-license": "^2.7.0",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-scss": "^3.0.0",
-    "sass": "^1.54.0",
+    "sass": "^1.54.9",
     "ts-jest": "^28.0.3",
     "typescript": "^4.6.4"
   },

@@ -4,7 +4,6 @@
 import React from 'react';
 import {buildApi, isApiOutdated, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
-import Ansi from 'ansi-to-react';
 import {Icon, SearchBox, VirtualList} from 'amis-ui';
 
 export type LogOperation =
@@ -58,11 +57,6 @@ export interface LogSchema extends BaseSchema {
    * 每行高度
    */
   rowHeight?: number;
-
-  /**
-   * 关闭 ANSI 颜色支持
-   */
-  disableColor?: boolean;
 
   /**
    * 一些可操作选项
@@ -285,17 +279,6 @@ export class Log extends React.Component<LogProps, LogState> {
     });
   }
 
-  renderHighlightWordWithAnsi(line: string) {
-    let {filterWord} = this.state;
-    if (filterWord === '') {
-      return line;
-    }
-    return line.replaceAll(
-      filterWord,
-      `\u001b[43;1m\u001b[30;1m${filterWord}\u001b[0m`
-    );
-  }
-
   /**
    * 渲染某一行
    */
@@ -306,11 +289,7 @@ export class Log extends React.Component<LogProps, LogState> {
         {showLineNumber && (
           <span className={cx('Log-line-number')}>{index + 1} </span>
         )}
-        {disableColor ? (
-          this.renderHighlightWord(line)
-        ) : (
-          <Ansi useClasses>{this.renderHighlightWordWithAnsi(line)}</Ansi>
-        )}
+        {this.renderHighlightWord(line)}
       </div>
     );
   }
@@ -359,13 +338,7 @@ export class Log extends React.Component<LogProps, LogState> {
               {showLineNumber && (
                 <span className={cx('Log-line-number')}>{index + 1} </span>
               )}
-              {disableColor ? (
-                this.renderHighlightWord(logs[index])
-              ) : (
-                <Ansi useClasses>
-                  {this.renderHighlightWordWithAnsi(logs[index])}
-                </Ansi>
-              )}
+              {this.renderHighlightWord(logs[index])}
             </div>
           )}
         />
