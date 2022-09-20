@@ -655,6 +655,7 @@ export default class TreeSelectControl extends React.Component<
           onKeyDown={this.handleInputKeyDown}
           clearable={clearable}
           allowInput={searchable || isEffectiveApi(autoComplete)}
+          hasDropDownArrow
         >
           {loading ? <Spinner size="sm" /> : undefined}
         </ResultBox>
