@@ -57,12 +57,26 @@ export default class OptionControl extends React.Component<
   constructor(props: OptionControlProps) {
     super(props);
 
+    let source: 'custom' | 'api' | 'apicenter' = 'custom';
+
+    if (props.data.source) {
+      const api = props.data.source;
+      const url =
+        typeof api === 'string'
+          ? api
+          : typeof api === 'object'
+          ? api.url || ''
+          : '';
+
+      source = !url.indexOf('api://') ? 'apicenter' : 'api';
+    }
+
     this.state = {
       options: this.transformOptions(props),
       api: props.data.source,
       labelField: props.data.labelField,
       valueField: props.data.valueField,
-      source: props.data.source ? 'api' : 'custom'
+      source
     };
   }
 
