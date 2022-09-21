@@ -7,7 +7,6 @@ import {buildApi, isApiOutdated} from 'amis-core';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 import {ActionSchema} from './Action';
 import {dataMapping, resolveVariableAndFilter} from 'amis-core';
-import {env} from 'process';
 
 /**
  * IFrame 渲染器
