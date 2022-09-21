@@ -2,7 +2,7 @@
  * 结果树(暂时不支持结果排序)
  */
 import React from 'react';
-import _, {cloneDeep, isEqual, omit} from 'lodash';
+import {cloneDeep, isEqual, omit} from 'lodash';
 
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from 'amis-core';
@@ -291,7 +291,7 @@ export class BaseResultTreeList extends React.Component<
       title,
       searchable,
       translate: __,
-      searchPlaceholder
+      searchPlaceholder = __('Transfer.searchKeyword')
     } = this.props;
 
     return (

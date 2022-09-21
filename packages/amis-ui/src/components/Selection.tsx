@@ -51,12 +51,9 @@ export class BaseSelection<
   S = any
 > extends React.Component<T, S> {
   static itemRender(option: Option, states: ItemRenderStates) {
-    if (states?.labelField) {
-      return <span>{option[states.labelField || 'label']}</span>
-    }
     return (
       <span>
-        {option.label}
+        {option[states?.labelField || 'label']}
         {option.tip || ''}
       </span>
     );

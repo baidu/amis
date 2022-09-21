@@ -47,15 +47,13 @@ export class ResultList extends React.Component<
   ResultListState
 > {
   static itemRender(option: Option, states: ItemRenderStates) {
-    if (states?.labelField) {
-      return <span>{option[states.labelField || 'label']}</span>;
-    }
-    return <span>{`${option.scopeLabel || ''}${option.label}`}</span>;
+    return <span>{`${option.scopeLabel || ''}${option[states?.labelField || 'label']}`}</span>;
   }
 
-  static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender'> = {
+  static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender' | 'searchPlaceholder'> = {
     placeholder: 'placeholder.selectData',
-    itemRender: ResultList.itemRender
+    itemRender: ResultList.itemRender,
+    searchPlaceholder: ''
   };
 
   state: ResultListState = {
@@ -288,7 +286,7 @@ export class ResultList extends React.Component<
       searchable,
       value,
       translate: __,
-      searchPlaceholder
+      searchPlaceholder = __('Transfer.searchKeyword')
     } = this.props;
 
     const {searchResult} = this.state;

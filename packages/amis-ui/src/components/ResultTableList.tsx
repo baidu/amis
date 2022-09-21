@@ -209,7 +209,7 @@ export class BaseResultTableSelection extends BaseSelection<
       title,
       searchable,
       translate: __,
-      searchPlaceholder
+      searchPlaceholder = __('Transfer.searchKeyword')
     } = this.props;
 
     return (

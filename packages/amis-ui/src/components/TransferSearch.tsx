@@ -92,7 +92,7 @@ export class TransferSearch extends React.Component<
     const {
       classnames: cx,
       translate: __,
-      placeholder = __('Transfer.searchKeyword')
+      placeholder
     } = this.props;
 
     const {inputValue} = this.state;
