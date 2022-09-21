@@ -152,6 +152,8 @@ register('zh-CN', {
   'Form.unique': '当前值不唯一',
   'Form.validateFailed': '依赖的部分字段没有通过验证',
   'Form.nestedError': '表单不要直接嵌套在表单下面',
+  'Iframe.invalid': 'iframe 地址不合法',
+  'Iframe.invalidProtocol': '无法加载 http 协议的 iframe',
   'Image.configError': '图片多选配置和裁剪配置只能设置一个',
   'Image.crop': '裁剪图片',
   'Image.dragDrop': '将图片拖拽到此处',

@@ -7,6 +7,7 @@ import {buildApi, isApiOutdated} from 'amis-core';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 import {ActionSchema} from './Action';
 import {dataMapping, resolveVariableAndFilter} from 'amis-core';
+import {env} from 'process';
 
 /**
  * IFrame 渲染器
@@ -170,7 +171,9 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       style,
       allow,
       sandbox,
-      referrerpolicy
+      referrerpolicy,
+      translate: __,
+      env
     } = this.props;
 
     let tempStyle: any = {};
@@ -192,7 +195,15 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       finalSrc &&
       !/^(\.\/|\.\.\/|\/|https?\:\/\/|\/\/)/.test(finalSrc)
     ) {
-      return <p>请填写合法的 iframe 地址</p>;
+      return <p>{__('Iframe.invalid')}</p>;
+    }
+
+    if (
+      location.protocol === 'https:' &&
+      finalSrc &&
+      finalSrc.startsWith('http://')
+    ) {
+      env.notify('error', __('Iframe.invalidProtocol'));
     }
 
     return (
