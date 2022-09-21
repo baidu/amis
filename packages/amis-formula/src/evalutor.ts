@@ -921,13 +921,13 @@ export class Evaluator {
       }
       s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
     }
-    return n.split('.')[0].length > maxLen
-      ? `最大数额只支持到兆(既小数点前${maxLen}位)`
-      : head +
-          s
-            .replace(/(零.)*零元/, '元')
-            .replace(/(零.)+/g, '零')
-            .replace(/^整$/, '零元整');
+    return (
+      head +
+      s
+        .replace(/(零.)*零元/, '元')
+        .replace(/(零.)+/g, '零')
+        .replace(/^整$/, '零元整')
+    );
   }
 
   /**
