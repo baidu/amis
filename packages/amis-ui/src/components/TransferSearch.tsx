@@ -31,9 +31,6 @@ export class TransferSearch extends React.Component<
   TransferSearchProps,
   TransferSearchState
 > {
-  static itemRender(option: any) {
-    return <span>{`${option.scopeLabel || ''}${option.label}`}</span>;
-  }
 
   state: TransferSearchState = {
     inputValue: ''
