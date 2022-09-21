@@ -896,30 +896,11 @@ export class Evaluator {
    */
   fnUPPERMONEY(n: number) {
     n = this.formatNumber(n);
+    const maxLen = 14;
     const fraction = ['角', '分'];
     const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
     const unit = [
-      [
-        '元',
-        '万',
-        '亿',
-        '兆',
-        '京',
-        '垓',
-        '秭',
-        '穣',
-        '沟',
-        '涧',
-        '正',
-        '版载',
-        '极',
-        '恒河沙',
-        '阿僧只',
-        '那由他',
-        '不可思议',
-        '无量',
-        '大数'
-      ],
+      ['元', '万', '亿', '兆', '京'],
       ['', '拾', '佰', '仟']
     ];
     const head = n < 0 ? '欠' : '';
@@ -940,13 +921,13 @@ export class Evaluator {
       }
       s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
     }
-    return (
-      head +
-      s
-        .replace(/(零.)*零元/, '元')
-        .replace(/(零.)+/g, '零')
-        .replace(/^整$/, '零元整')
-    );
+    return n.split('.')[0].length > maxLen
+      ? `最大数额只支持到京(既小数点前${maxLen}位)`
+      : head +
+          s
+            .replace(/(零.)*零元/, '元')
+            .replace(/(零.)+/g, '零')
+            .replace(/^整$/, '零元整');
   }
 
   /**
