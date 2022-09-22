@@ -10,6 +10,7 @@ import {remarkTpl} from '../component/BaseControl';
 import {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
 import {InputComponentName} from '../component/InputComponentName';
+import {FormulaDateType} from '../renderer/FormulaControl';
 
 /**
  * @deprecated 兼容当前组件的switch
@@ -355,12 +356,14 @@ setSchemaTpl(
     mode?: string; // 自定义展示默认值，上下展示: vertical, 左右展示: horizontal
     label?: string; // 表单项 label
     name?: string; // 表单项 name
+    header?: string; // 表达式弹窗标题
     rendererSchema?: any;
     rendererWrapper?: boolean; // 自定义渲染器 是否需要浅色边框包裹
     needDeleteValue?: boolean; // 是否需要剔除默认值
     useSelectMode?: boolean; // 是否使用Select选择设置模式，需要确保 rendererSchema.options 不为 undefined
     valueType?: string; // 用于设置期望数值类型
     visibleOn?: string; // 用于控制显示的表达式
+    DateTimeType?: FormulaDateType; // 日期类组件要支持 表达式 & 相对值
   }) => {
     let curRendererSchema = config?.rendererSchema;
     if (
@@ -389,7 +392,8 @@ setSchemaTpl(
             rendererWrapper: config?.rendererWrapper,
             needDeleteValue: config?.needDeleteValue,
             valueType: config?.valueType,
-            header: '表达式'
+            header: config.header ?? '表达式',
+            DateTimeType: config.DateTimeType ?? FormulaDateType.NotDate
           }
         ]
       };
@@ -404,7 +408,8 @@ setSchemaTpl(
         needDeleteValue: config?.needDeleteValue,
         valueType: config?.valueType,
         visibleOn: config?.visibleOn,
-        header: '表达式'
+        header: config?.header ?? '表达式',
+        DateTimeType: config?.DateTimeType ?? FormulaDateType.NotDate
       };
     }
   }

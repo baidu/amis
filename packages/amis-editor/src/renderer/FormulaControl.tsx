@@ -15,7 +15,7 @@ import omit from 'lodash/omit';
 import cx from 'classnames';
 import {FormItem, Button, InputBox, Icon, ResultBox} from 'amis';
 import {FormulaExec, isExpression} from 'amis';
-import {PickerContainer} from 'amis';
+import {PickerContainer, relativeValueRe} from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
 
 import {autobind} from 'amis-editor-core';
@@ -27,6 +27,13 @@ import type {
 import {dataMapping, FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
+
+export enum FormulaDateType {
+  NotDate, // 不是时间类
+  IsDate, // 日期时间类
+  IsRange // 日期时间范围类
+}
+
 export interface FormulaControlProps extends FormControlProps {
   manager?: EditorManager;
 
@@ -95,6 +102,14 @@ export interface FormulaControlProps extends FormControlProps {
    * 是否使用外部的Form数据
    */
   useExternalFormData?: boolean;
+
+  /**
+   * 是否是日期类组件使用formulaControl
+   * 日期类 值 使用表达式时，支持 now、+1day、-2weeks、+1hours、+2years等这种相对值写法，不会最外层包裹 ${}
+   * 日期类 跨度值 使用表达式时，支持 1day、2weeks、1hours、2years等这种相对值写法，不会最外层包裹 ${}
+   * 默认为 FormulaDateType.NotDate
+   */
+  DateTimeType?: FormulaDateType;
 }
 
 interface FormulaControlState {
@@ -109,7 +124,8 @@ export default class FormulaControl extends React.Component<
   FormulaControlState
 > {
   static defaultProps: Partial<FormulaControlProps> = {
-    simple: false
+    simple: false,
+    DateTimeType: FormulaDateType.NotDate
   };
   isUnmount: boolean;
 
@@ -261,6 +277,28 @@ export default class FormulaControl extends React.Component<
     }
     return [];
   }
+  // 日期类组件 & 是否存在快捷键判断
+  @autobind
+  hasDateShortcutkey(str: string): boolean {
+    const {DateTimeType} = this.props;
+
+    if (DateTimeType === FormulaDateType.IsDate) {
+      return (
+        /^(\+|-)(\d+)(minute|min|hour|day|week|month|year|weekday|second|millisecond)s?$/i.test(
+          str
+        ) || /^(now|today)$/.test(str)
+      );
+    } else if (DateTimeType === FormulaDateType.IsRange) {
+      return /^((?:\-|\+)?(?:\d*\.)?\d+)(minute|min|hour|day|week|month|quarter|year|weekday|second|millisecond)s?$/i.test(
+        str
+      );
+    }
+    // 非日期类组件使用，也直接false
+    // if (DateTimeType === FormulaDateType.NotDate) {
+    //   return false;
+    // }
+    return false;
+  }
 
   @autobind
   transExpr(str: string) {
@@ -282,7 +320,7 @@ export default class FormulaControl extends React.Component<
   handleConfirm(value: any) {
     const val = !value
       ? undefined
-      : isExpression(value)
+      : isExpression(value) || this.hasDateShortcutkey(value)
       ? value
       : `\${${value}}`;
     this.props?.onChange?.(val);
@@ -421,7 +459,6 @@ export default class FormulaControl extends React.Component<
       ...rest
     } = this.props;
 
-    const labelText = typeof label === 'string' ? label : '';
     // 自身字段
     const selfName = this.props?.data?.name;
 
@@ -445,6 +482,13 @@ export default class FormulaControl extends React.Component<
       ? FormulaEditor.highlightValue(value, this.state.variables)
       : value;
 
+    // 公式表达式弹窗内容过滤
+    const filterValue = isExpression(value)
+      ? this.transExpr(value)
+      : this.hasDateShortcutkey(value)
+      ? value
+      : undefined;
+
     return (
       <div
         className={cx(
@@ -453,39 +497,45 @@ export default class FormulaControl extends React.Component<
           className
         )}
       >
-        {/* 非简单模式 & 非表达式 & 无自定义渲染 */}
-        {!simple && !isExpr && !rendererSchema && (
-          <InputBox
-            className="ae-editor-FormulaControl-input"
-            value={value}
-            clearable={true}
-            placeholder={placeholder}
-            onChange={this.handleSimpleInputChange}
-          />
-        )}
-        {/* 非简单模式 & 非表达式 & 自定义渲染 */}
-        {!simple && !isExpr && rendererSchema && (
-          <div
-            className={cx(
-              'ae-editor-FormulaControl-custom-renderer',
-              rendererWrapper ? 'border-wrapper' : ''
-            )}
-          >
-            {render('inner', this.filterCustomRendererProps(rendererSchema), {
-              inputOnly: true,
-              value: value,
-              data: useExternalFormData
-                ? {
-                    ...this.props.data
-                  }
-                : {},
-              onChange: this.handleSimpleInputChange,
-              manager: manager
-            })}
-          </div>
-        )}
-        {/* 非简单模式 & 表达式 */}
-        {!simple && isExpr && (
+        {/* 非简单模式 & 非表达式 & 非日期快捷 & 无自定义渲染 */}
+        {!simple &&
+          !isExpr &&
+          !this.hasDateShortcutkey(value) &&
+          !rendererSchema && (
+            <InputBox
+              className="ae-editor-FormulaControl-input"
+              value={value}
+              clearable={true}
+              placeholder={placeholder}
+              onChange={this.handleSimpleInputChange}
+            />
+          )}
+        {/* 非简单模式 & 非表达式 & 非日期快捷 & 自定义渲染 */}
+        {!simple &&
+          !isExpr &&
+          !this.hasDateShortcutkey(value) &&
+          rendererSchema && (
+            <div
+              className={cx(
+                'ae-editor-FormulaControl-custom-renderer',
+                rendererWrapper ? 'border-wrapper' : ''
+              )}
+            >
+              {render('inner', this.filterCustomRendererProps(rendererSchema), {
+                inputOnly: true,
+                value: value,
+                data: useExternalFormData
+                  ? {
+                      ...this.props.data
+                    }
+                  : {},
+                onChange: this.handleSimpleInputChange,
+                manager: manager
+              })}
+            </div>
+          )}
+        {/* 非简单模式 &（表达式 或 日期快捷）*/}
+        {!simple && (isExpr || this.hasDateShortcutkey(value)) && (
           <ResultBox
             className={cx(
               'ae-editor-FormulaControl-ResultBox',
@@ -518,7 +568,7 @@ export default class FormulaControl extends React.Component<
                 variableMode={rest.variableMode ?? this.state.variableMode}
                 variables={this.state.variables}
                 header={header || '新表达式语法'}
-                value={isExpression(value) ? this.transExpr(value) : undefined}
+                value={filterValue}
                 onChange={onChange}
                 selfVariableName={selfName}
               />
