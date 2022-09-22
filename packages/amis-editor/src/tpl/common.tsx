@@ -361,7 +361,6 @@ setSchemaTpl(
     useSelectMode?: boolean; // 是否使用Select选择设置模式，需要确保 rendererSchema.options 不为 undefined
     valueType?: string; // 用于设置期望数值类型
     visibleOn?: string; // 用于控制显示的表达式
-    evalMode?: boolean; // 为false时，则会用 ${这里面才是表达式} 包裹变量
   }) => {
     let curRendererSchema = config?.rendererSchema;
     if (
@@ -390,7 +389,7 @@ setSchemaTpl(
             rendererWrapper: config?.rendererWrapper,
             needDeleteValue: config?.needDeleteValue,
             valueType: config?.valueType,
-            evalMode: config?.evalMode ?? false // 默认需要${}包裹变量
+            header: '表达式'
           }
         ]
       };
@@ -405,7 +404,7 @@ setSchemaTpl(
         needDeleteValue: config?.needDeleteValue,
         valueType: config?.valueType,
         visibleOn: config?.visibleOn,
-        evalMode: config?.evalMode ?? false // 默认需要${}包裹变量
+        header: '表达式'
       };
     }
   }
@@ -686,15 +685,15 @@ setSchemaTpl('visible', {
   expressionName: 'visibleOn'
 });
 
-
 // 新版配置面板兼容 [可见] 状态
 setSchemaTpl('newVisible', {
-    type: 'ae-StatusControl',
-    label: '可见',
-    mode: 'normal',
-    name: 'visible',
-    expressionName: 'visibleOn',
-    visibleOn:"data.visible || data.visible === false || data.visibleOn !== undefined"
+  type: 'ae-StatusControl',
+  label: '可见',
+  mode: 'normal',
+  name: 'visible',
+  expressionName: 'visibleOn',
+  visibleOn:
+    'data.visible || data.visible === false || data.visibleOn !== undefined'
 });
 
 setSchemaTpl('hidden', {
@@ -1040,7 +1039,7 @@ setSchemaTpl('app-page-args', {
   type: 'ae-DataMappingControl',
   name: 'params',
   label: '页面参数',
-  schema: {"type": "object", "properties":{}},
+  schema: {type: 'object', properties: {}},
   mode: 'horizontal'
 });
 
@@ -1061,15 +1060,18 @@ setSchemaTpl(
   }
 );
 
-setSchemaTpl('iconLink', (schema: {name: 'icon' | 'rightIcon', visibleOn: boolean}) => {
-  const {name, visibleOn} = schema;
-  return {
-    name: name,
-    visibleOn,
-    label: '图标',
-    type: 'icon-picker',
-    placeholder: '点击选择图标',
-    clearable: true,
-    description: ''
+setSchemaTpl(
+  'iconLink',
+  (schema: {name: 'icon' | 'rightIcon'; visibleOn: boolean}) => {
+    const {name, visibleOn} = schema;
+    return {
+      name: name,
+      visibleOn,
+      label: '图标',
+      type: 'icon-picker',
+      placeholder: '点击选择图标',
+      clearable: true,
+      description: ''
+    };
   }
-});
+);

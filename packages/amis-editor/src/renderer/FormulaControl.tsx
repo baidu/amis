@@ -27,15 +27,7 @@ import type {
 import {dataMapping, FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
-
 export interface FormulaControlProps extends FormControlProps {
-  /**
-   * evalMode 即直接就是表达式，否则
-   * 需要 ${这里面才是表达式}
-   * 默认为 true，即默认不会将表达式用 ${} 包裹
-   */
-  evalMode?: boolean;
-
   manager?: EditorManager;
 
   /**
@@ -110,8 +102,6 @@ interface FormulaControlState {
   variables: any;
 
   variableMode?: 'tree' | 'tabs';
-
-  evalMode?: boolean;
 }
 
 export default class FormulaControl extends React.Component<
@@ -127,8 +117,7 @@ export default class FormulaControl extends React.Component<
     super(props);
     this.state = {
       variables: this.normalizeVariables(props.variables), // 备注: 待沟通
-      variableMode: 'tabs',
-      evalMode: true
+      variableMode: 'tabs'
     };
   }
 
@@ -171,7 +160,7 @@ export default class FormulaControl extends React.Component<
       variables = dataMapping(variables, this.props.data);
     }
 
-    const {context, evalMode} = this.props;
+    const {context} = this.props;
     // 自身字段
     const field = this.props?.data?.name;
     const ancestorField = context?.node?.ancestorField;
@@ -182,7 +171,7 @@ export default class FormulaControl extends React.Component<
         ...(ancestorField
           ? ancestorField.map((item: any) => ({
               label: item,
-              value: evalMode ? `this.${item}` : item
+              value: `this.${item}`
             }))
           : []),
         ...(field ? [{label: field, value: `this.${field}`}] : [])
@@ -209,7 +198,10 @@ export default class FormulaControl extends React.Component<
     if (!expression || !selfName || !isString(expression)) {
       return false;
     }
-    const variables = FormulaExec.collect(expression);
+    let variables = [];
+    try {
+      variables = FormulaExec.collect(expression);
+    } catch (e) {}
     return variables.some((variable: string) => variable === selfName);
   }
 
@@ -271,8 +263,29 @@ export default class FormulaControl extends React.Component<
   }
 
   @autobind
+  transExpr(str: string) {
+    if (
+      str.indexOf('}') === str.length - 1 &&
+      str.slice(0, 2) === '${' &&
+      str.slice(-1) === '}'
+    ) {
+      // 非最外层内容还存在表达式情况
+      if (isExpression(str.slice(2, -1))) {
+        return str;
+      }
+      return str.slice(2, -1);
+    }
+    return str;
+  }
+
+  @autobind
   handleConfirm(value: any) {
-    this.props?.onChange?.(value);
+    const val = !value
+      ? undefined
+      : isExpression(value)
+      ? value
+      : `\${${value}}`;
+    this.props?.onChange?.(val);
   }
 
   handleSimpleInputChange = debounce(
@@ -299,7 +312,7 @@ export default class FormulaControl extends React.Component<
     let curRendererSchema: any = null;
     if (rendererSchema) {
       curRendererSchema = Object.assign({}, rendererSchema, data, {
-        type: rendererSchema.type ?? data.type,
+        type: rendererSchema.type ?? data.type
       });
 
       // 默认要剔除的字段
@@ -400,7 +413,6 @@ export default class FormulaControl extends React.Component<
       variables,
       placeholder,
       simple,
-      evalMode,
       rendererSchema,
       rendererWrapper,
       manager,
@@ -430,11 +442,7 @@ export default class FormulaControl extends React.Component<
     const isError = isLoop || isTypeError;
 
     const highlightValue = isExpression(value)
-      ? FormulaEditor.highlightValue(
-          value,
-          this.state.variables,
-          evalMode ?? this.state.evalMode
-        )
+      ? FormulaEditor.highlightValue(value, this.state.variables)
       : value;
 
     return (
@@ -445,7 +453,8 @@ export default class FormulaControl extends React.Component<
           className
         )}
       >
-        {!simple && !rendererSchema && !isExpr && (
+        {/* 非简单模式 & 非表达式 & 无自定义渲染 */}
+        {!simple && !isExpr && !rendererSchema && (
           <InputBox
             className="ae-editor-FormulaControl-input"
             value={value}
@@ -454,7 +463,8 @@ export default class FormulaControl extends React.Component<
             onChange={this.handleSimpleInputChange}
           />
         )}
-        {!simple && rendererSchema && !isExpr && (
+        {/* 非简单模式 & 非表达式 & 自定义渲染 */}
+        {!simple && !isExpr && rendererSchema && (
           <div
             className={cx(
               'ae-editor-FormulaControl-custom-renderer',
@@ -474,6 +484,7 @@ export default class FormulaControl extends React.Component<
             })}
           </div>
         )}
+        {/* 非简单模式 & 表达式 */}
         {!simple && isExpr && (
           <ResultBox
             className={cx(
@@ -503,11 +514,11 @@ export default class FormulaControl extends React.Component<
             return (
               <FormulaEditor
                 {...rest}
-                evalMode={evalMode ?? this.state.evalMode}
+                evalMode={true}
                 variableMode={rest.variableMode ?? this.state.variableMode}
                 variables={this.state.variables}
-                header={header || labelText}
-                value={isString(value) ? value : undefined}
+                header={header || '新表达式语法'}
+                value={isExpression(value) ? this.transExpr(value) : undefined}
                 onChange={onChange}
                 selfVariableName={selfName}
               />
