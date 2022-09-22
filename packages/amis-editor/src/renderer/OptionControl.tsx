@@ -508,7 +508,6 @@ export default class OptionControl extends React.Component<
             },
             {
               type: 'input-text',
-              name: 'label',
               placeholder: '请输入显示文本',
               label: '文本',
               mode: 'horizontal',
