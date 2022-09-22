@@ -54,7 +54,6 @@ export interface UserTabSelectState {
   inputValue: string;
   breadList: Array<any>;
   options: Array<Option>;
-  tempSelection: Array<Option>;
   selection: Array<Option>;
   searchList: Array<Option>;
   searchLoading: boolean;
@@ -79,7 +78,6 @@ export class UserTabSelect extends React.Component<
       options: [],
       breadList: [],
       searchList: [],
-      tempSelection: [],
       selection: props.selection ? props.selection : [],
       isSearch: false,
       searchLoading: false,
@@ -106,37 +104,46 @@ export class UserTabSelect extends React.Component<
       inputValue: '',
       searchList: [],
       searchLoading: false,
-      activeKey: 0
+      activeKey: 0,
+      selection: []
     });
   }
 
   @autobind
   onOpen() {
-    const {selection} = this.state;
+    const {selection = []} = this.props;
     this.setState({
       isOpened: true,
-      tempSelection: selection.slice()
+      selection: selection.slice()
     });
   }
 
   @autobind
-  handleBack() {
-    this.onClose();
+  handleSubmit() {
     const {onChange} = this.props;
     onChange(this.state.selection);
+    this.onClose();
   }
 
   @autobind
-  handleSelectChange(option: Option | Array<Option>, isReplace?: boolean) {
+  handleSelectChange(
+    option: Option | Array<Option>,
+    isReplace?: boolean,
+    isDelete?: boolean
+  ) {
     const {multiple, valueField = 'value'} = this.props;
     let selection = this.state.selection.slice();
     let selectionVals = selection.map((option: Option) => option[valueField]);
-    if (isReplace && Array.isArray(option)) {
+    if (isDelete) {
+      selection = selection.filter(
+        (item: Option) => item[valueField] !== (option as Option)[valueField]
+      );
+    } else if (isReplace && Array.isArray(option)) {
       selection = option.slice();
     } else if (!Array.isArray(option)) {
       let pos = selectionVals.indexOf(option[valueField]);
       if (pos !== -1) {
-        selection.splice(selection.indexOf(option), 1);
+        selection.splice(pos, 1);
       } else {
         if (multiple) {
           selection.push(option);
@@ -153,32 +160,67 @@ export class UserTabSelect extends React.Component<
   }
 
   @autobind
+  handleImmediateChange(option: Array<Option>) {
+    const {onChange} = this.props;
+    if (Array.isArray(option)) {
+      this.setState({
+        selection: option
+      });
+      onChange(option);
+    }
+  }
+
+  @autobind
   handleTabChange(key: number) {
     this.setState({
       activeKey: key
     });
   }
 
+  @autobind
+  getResult() {
+    const {
+      selection,
+      tabOptions,
+      valueField = 'value',
+      labelField = 'label'
+    } = this.props;
+    const _selection = selection?.slice() || [];
+    if (tabOptions) {
+      for (let item of tabOptions) {
+        for (let item2 of item.options) {
+          const res = _selection.find(
+            item => item[valueField] === item2[valueField]
+          );
+          if (res) {
+            res[labelField] = item2[labelField];
+          }
+        }
+      }
+    }
+
+    return _selection;
+  }
+
   render() {
     let {
       classnames: cx,
       translate: __,
-      onChange,
       placeholder = '请选择',
       tabOptions,
       onSearch,
       deferLoad,
       data
     } = this.props;
-    const {activeKey, isOpened, selection} = this.state;
+    const {activeKey, isOpened} = this.state;
 
     return (
       <div className={cx('UserTabSelect')}>
         <ResultBox
           className={cx('UserTabSelect-input', isOpened ? 'is-active' : '')}
           allowInput={false}
-          result={selection}
-          onResultChange={value => this.handleSelectChange(value, true)}
+          result={this.getResult()}
+          onResultChange={this.handleImmediateChange}
           onResultClick={this.onOpen}
           placeholder={placeholder}
           useMobileUI
@@ -191,7 +233,7 @@ export class UserTabSelect extends React.Component<
         >
           <div className={cx('UserTabSelect-wrap')}>
             <div className={cx('UserSelect-navbar')}>
-              <span className="left-arrow-box" onClick={this.handleBack}>
+              <span className="left-arrow-box" onClick={this.onClose}>
                 <Icon icon="left-arrow" className="icon" />
               </span>
               <div className={cx('UserSelect-navbar-title')}>人员选择</div>
@@ -212,7 +254,7 @@ export class UserTabSelect extends React.Component<
                     className="TabsTransfer-tab"
                   >
                     <UserSelect
-                      selection={selection}
+                      selection={this.state.selection}
                       showResultBox={false}
                       {...item}
                       options={
@@ -251,6 +293,16 @@ export class UserTabSelect extends React.Component<
                 );
               })}
             </Tabs>
+
+            <div className={cx('UserTabSelect-footer')}>
+              <button
+                type="button"
+                className={cx('Button Button--md Button--primary')}
+                onClick={this.handleSubmit}
+              >
+                {__('UserSelect.sure')}
+              </button>
+            </div>
           </div>
         </PopUp>
       </div>

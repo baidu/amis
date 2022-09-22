@@ -375,6 +375,7 @@ register('de-DE', {
   'UserSelect.resultSort': 'Ergebnissortierung auswählen',
   'UserSelect.selected': 'Ausgewählt',
   'UserSelect.clear': 'leer',
+  'UserSelect.sure': 'Submit',
   'SchemaType.string': 'String',
   'SchemaType.number': 'Number',
   'SchemaType.integer': 'integer',
