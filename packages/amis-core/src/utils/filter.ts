@@ -190,7 +190,18 @@ extendsFilters({
     }
     return encodeURIComponent(input);
   },
-  url_decode: input => decodeURIComponent(input),
+  url_decode: (input: string) => {
+    let result;
+
+    try {
+      result = decodeURIComponent(input);
+    } catch (e) {
+      console.warn(
+        `[amis] ${e?.name ?? 'URIError'}: input string is not valid.`
+      );
+    }
+    return result;
+  },
   default: (input, defaultValue, strict = false) =>
     (strict ? input : input ? input : undefined) ??
     (() => {
