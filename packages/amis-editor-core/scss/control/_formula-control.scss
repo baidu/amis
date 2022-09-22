@@ -65,7 +65,7 @@
     margin-right: 3px;
     max-width: calc(100% - 39px); // 避免表达式内容太长撑开面板
     white-space: nowrap;
-    padding: 0;
+    padding: 0 0 0 0.75rem;
 
     &.is-clearable {
       > div:first-child {
