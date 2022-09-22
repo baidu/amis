@@ -358,6 +358,7 @@ register('zh-CN', {
   'UserSelect.resultSort': '选择结果排序',
   'UserSelect.selected': '已选',
   'UserSelect.clear': '清空',
+  'UserSelect.sure': '确定',
   'SchemaType.string': '文本',
   'SchemaType.number': '数字',
   'SchemaType.integer': '整数',

@@ -363,6 +363,7 @@ register('en-US', {
   'UserSelect.resultSort': 'Select result sort',
   'UserSelect.selected': 'Selected',
   'UserSelect.clear': 'empty',
+  'UserSelect.sure': 'submit',
   'SchemaType.string': 'String',
   'SchemaType.number': 'Number',
   'SchemaType.integer': 'integer',
