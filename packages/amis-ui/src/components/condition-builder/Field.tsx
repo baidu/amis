@@ -83,7 +83,7 @@ export class ConditionField extends React.Component<
   }
 
   // 选了值，还原options
-  onPopClose(e: React.MouseEvent, onClose: () => void) {
+  onPopClose(onClose: () => void) {
     this.setState({searchText: ''});
     onClose();
   }
@@ -117,14 +117,14 @@ export class ConditionField extends React.Component<
                 options={this.filterOptions(this.props.options)}
                 value={value}
                 onChange={(value: any) => {
-                  this.onPopClose(null, onClose);
+                  this.onPopClose(onClose);
                   onChange(value.name);
                 }}
               />
             ) : (
               <ListSelection
                 multiple={false}
-                onClick={(e: any) => this.onPopClose(e, onClose)}
+                onClick={() => this.onPopClose(onClose)}
                 options={this.filterOptions(this.props.options)}
                 value={[value]}
                 option2value={option2value}
