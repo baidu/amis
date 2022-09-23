@@ -427,7 +427,7 @@ export default class TransferTableOption extends React.Component<
                     value: options,
                     items: [
                       ...columns.map((item: Option) =>
-                        renderInput(item.name, item.label ?? '', true)
+                        renderInput(item.name, item.label ?? '', false)
                       ),
                       renderInput('value', '值', true, true)
                     ]
