@@ -280,7 +280,7 @@ $category-2-height: px2rem(32px);
     // tab导航
     ul[role='tablist'],
     &-links {
-      margin: 0 0 -1px 0;
+      margin: 0;
       flex: 0;
       border-bottom: 1px solid #d4d6d9;
       display: flex;
@@ -356,6 +356,7 @@ $category-2-height: px2rem(32px);
       padding: 0;
       overflow-y: overlay !important;
       @include minScrollBar();
+      margin-top: -1px;
     }
 
     div.ae-switch-more-flex {
