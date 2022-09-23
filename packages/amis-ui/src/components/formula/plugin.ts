@@ -4,7 +4,7 @@
 
 import type CodeMirror from 'codemirror';
 import {eachTree} from 'amis-core';
-import type {FormulaEditorProps, VariableItem} from './Editor';
+import {FormulaEditorProps, VariableItem, FormulaEditor} from './Editor';
 
 export function editorFactory(
   dom: HTMLElement,
@@ -179,6 +179,7 @@ export class FormulaPlugin {
     const vars = Object.keys(varMap).sort((a, b) => b.length - a.length);
     const editor = this.editor;
     const lines = editor.lineCount();
+    const {evalMode = true} = this.getProps();
     for (let line = 0; line < lines; line++) {
       const content = editor.getLine(line);
 
@@ -205,10 +206,15 @@ export class FormulaPlugin {
         let from = 0;
         let idx = -1;
         while (~(idx = content.indexOf(v, from))) {
-          const encode = content.replace(v, REPLACE_KEY);
-          const curNameEg = new RegExp(`\\b${REPLACE_KEY}\\b`, 'g');
+          const encode = FormulaEditor.replaceStrByIndex(
+            content,
+            idx,
+            v,
+            REPLACE_KEY
+          );
+          const reg = FormulaEditor.getRegExpByMode(evalMode, REPLACE_KEY);
 
-          if (curNameEg.test(encode)) {
+          if (reg.test(encode)) {
             this.markText(
               {
                 line: line,

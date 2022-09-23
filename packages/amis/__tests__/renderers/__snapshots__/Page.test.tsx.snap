@@ -992,6 +992,17 @@ exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
       <div
         className="cxd-Page-body"
       >
+        <div
+          className="cxd-Spinner-overlay in"
+        />
+        <div
+          className="cxd-Spinner cxd-Spinner--overlay in"
+          data-testid="spinner"
+        >
+          <div
+            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+        </div>
         <span
           className="cxd-TplField"
         >
@@ -1023,6 +1034,17 @@ exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
       <div
         className="cxd-Page-body"
       >
+        <div
+          className="cxd-Spinner-overlay in"
+        />
+        <div
+          className="cxd-Spinner cxd-Spinner--overlay in"
+          data-testid="spinner"
+        >
+          <div
+            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+        </div>
         <span
           className="cxd-TplField"
         >
@@ -1994,6 +2016,17 @@ exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes 
       <div
         className="cxd-Page-body"
       >
+        <div
+          className="cxd-Spinner-overlay in"
+        />
+        <div
+          className="cxd-Spinner cxd-Spinner--overlay in"
+          data-testid="spinner"
+        >
+          <div
+            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+        </div>
         <span
           className="cxd-TplField"
         >

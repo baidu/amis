@@ -106,7 +106,7 @@ export class Evaluator {
       const filter = filters.shift()!;
       const fn = this.filters[filter.name];
       if (!fn) {
-        throw new Error(`filter \`${filter.name}\` not exits`);
+        throw new Error(`filter \`${filter.name}\` not exists.`);
       }
       context.filter = filter;
       input = fn.apply(
@@ -896,10 +896,11 @@ export class Evaluator {
    */
   fnUPPERMONEY(n: number) {
     n = this.formatNumber(n);
+    const maxLen = 14;
     const fraction = ['角', '分'];
     const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
     const unit = [
-      ['元', '万', '亿'],
+      ['元', '万', '亿', '兆'],
       ['', '拾', '佰', '仟']
     ];
     const head = n < 0 ? '欠' : '';
