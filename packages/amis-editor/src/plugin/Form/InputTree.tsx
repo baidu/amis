@@ -488,27 +488,17 @@ export class TreeControlPlugin extends BasePlugin {
       },
       {
         title: '外观',
-        body: [
-          {
-            label: '顶级文字',
-            name: 'rootLabel',
-            type: 'input-text',
-            pipeIn: defaultValue('顶级'),
-            visibleOn: 'data.hideRoot !== true'
-          },
-
-          getSchemaTpl('switch', {
-            name: 'showIcon',
-            label: '是否显示图标',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('switch', {
-            label: '是否显示单选按钮',
-            name: 'showRadio',
-            visibleOn: '!data.multiple'
+        body: getSchemaTpl('collapseGroup', [
+          getSchemaTpl('style:formItem', {renderer}),
+          getSchemaTpl('style:classNames', {
+            schema: [
+              getSchemaTpl('className', {
+                label: 'tree容器',
+                name: 'treeContainerClassName'
+              })
+            ]
           })
-        ]
+        ])
       },
       {
         title: '事件',
