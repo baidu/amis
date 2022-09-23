@@ -449,14 +449,13 @@ export default class TransferTableOption extends React.Component<
     if (type === 'columns') {
       const keys = value.map(item => item.name);
       data.options = data.options.map((item: Option) => {
-        const obj = {
+        return {
           ...keys.reduce((pv, cv, idx) => {
             pv[cv] = item[cv];
             return pv;
           },
           {value: item.value})
         }
-        return obj;
       });
     }
     onValueChange && onValueChange(type, data, onBulkChange);
