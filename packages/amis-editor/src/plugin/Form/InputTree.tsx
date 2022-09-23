@@ -493,7 +493,7 @@ export class TreeControlPlugin extends BasePlugin {
           getSchemaTpl('style:classNames', {
             schema: [
               getSchemaTpl('className', {
-                label: 'tree容器',
+                label: '外层容器',
                 name: 'treeContainerClassName'
               })
             ]
