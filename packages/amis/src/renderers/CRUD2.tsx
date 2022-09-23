@@ -890,7 +890,6 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-
     store.updateSelectData(newItems, newUnSelectedItems);
     onSelect && onSelect(newItems);
   }
@@ -1094,7 +1093,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             </span>
           </div>
         ))}
-        <a onClick={this.clearSelection} className={cx('Crud-selectionClear')}>
+        <a
+          onClick={this.clearSelection.bind(this)}
+          className={cx('Crud-selectionClear')}
+        >
           {__('clear')}
         </a>
       </div>

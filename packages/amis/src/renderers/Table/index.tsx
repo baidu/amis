@@ -1966,6 +1966,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.searchable && column.name && !autoGenerateFilter) {
       affix.push(
         <HeadCellSearchDropDown
+          {...props}
           key="table-head-search"
           {...this.props}
           onQuery={onQuery}
@@ -1983,6 +1984,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.sortable && column.name) {
       affix.push(
         <span
+          {...props}
           key="table-head-sort"
           className={cx('TableCell-sortBtn')}
           onClick={async () => {

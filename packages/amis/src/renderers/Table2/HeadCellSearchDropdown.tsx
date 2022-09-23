@@ -23,7 +23,7 @@ export interface QuickSearchConfig {
 export interface HeadCellSearchProps extends RendererProps {
   name: string;
   searchable: boolean | QuickSearchConfig;
-  onSearch?: (values: object) => void;
+  onSearch?: Function; // (values: object) => void;
   onAction?: Function;
   store: ITableStore2;
   sortable?: boolean;
