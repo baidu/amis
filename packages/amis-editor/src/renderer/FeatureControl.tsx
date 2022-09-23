@@ -236,12 +236,17 @@ export default class FeatureControl extends React.Component<
       className: `${klass}-action`,
       btnClassName: `${klass}-action--btn`,
       menuClassName: `${klass}-action--menus`,
-      buttons: this.state.unUseFeat.map(item => {
-        return {
-          label: item.label,
-          onClick: () => this.handleAdd(item)
-        };
-      })
+      buttons: this.state.unUseFeat.map(
+        item => {
+          return {
+            label: item.label,
+            onClick: () => this.handleAdd(item)
+          };
+        },
+        {
+          popOverContainer: null // amis 渲染挂载节点会使用 this.target
+        }
+      )
     });
   }
 

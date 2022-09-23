@@ -624,17 +624,23 @@ export default class OptionControl extends React.Component<
             clearable={false}
             onChange={(value: string) => this.handleEditLabel(index, value)}
           />
-          {render('dropdown', {
-            type: 'dropdown-button',
-            className: 'ae-OptionControlItem-dropdown',
-            btnClassName: 'px-2',
-            icon: 'fa fa-ellipsis-h',
-            hideCaret: true,
-            closeOnClick: true,
-            align: 'right',
-            menuClassName: 'ae-OptionControlItem-ulmenu',
-            buttons: operationBtn
-          })}
+          {render(
+            'dropdown',
+            {
+              type: 'dropdown-button',
+              className: 'ae-OptionControlItem-dropdown',
+              btnClassName: 'px-2',
+              icon: 'fa fa-ellipsis-h',
+              hideCaret: true,
+              closeOnClick: true,
+              align: 'right',
+              menuClassName: 'ae-OptionControlItem-ulmenu',
+              buttons: operationBtn
+            },
+            {
+              popOverContainer: null // amis 渲染挂载节点会使用 this.target
+            }
+          )}
         </div>
         {editDom}
       </li>

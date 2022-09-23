@@ -421,60 +421,65 @@ export default class TimelineItemControl extends React.Component<
             }
           )} */}
 
-          {amisRender({
-            type: 'dropdown-button',
-            className: 'ae-TimelineItemControlItem-dropdown',
-            btnClassName: 'px-2',
-            icon: 'fa fa-ellipsis-h',
-            hideCaret: true,
-            closeOnClick: true,
-            align: 'right',
-            menuClassName: 'ae-TimelineItemControlItem-ulmenu',
-            buttons: [
-              {
-                type: 'action',
-                className: 'ae-TimelineItemControlItem-action',
-                label: '编辑',
-                actionType: 'dialog',
-                dialog: {
-                  title: '节点配置',
-                  headerClassName: 'font-bold',
-                  closeOnEsc: true,
-                  closeOnOutside: false,
-                  showCloseButton: true,
-                  body: [
-                    {
-                      type: 'form',
-                      wrapWithPanel: false,
-                      wrapperComponent: 'div',
-                      resetAfterSubmit: true,
-                      autoFocus: true,
-                      preventEnterSubmit: true,
-                      horizontal: {
-                        justify: true,
-                        left: 3,
-                        right: 9
-                      },
-                      body: this.buildAddOrEditSchema(props),
-                      onSubmit: (e: any) => this.toggleEdit(e, index)
-                    }
-                  ]
+          {amisRender(
+            {
+              type: 'dropdown-button',
+              className: 'ae-TimelineItemControlItem-dropdown',
+              btnClassName: 'px-2',
+              icon: 'fa fa-ellipsis-h',
+              hideCaret: true,
+              closeOnClick: true,
+              align: 'right',
+              menuClassName: 'ae-TimelineItemControlItem-ulmenu',
+              buttons: [
+                {
+                  type: 'action',
+                  className: 'ae-TimelineItemControlItem-action',
+                  label: '编辑',
+                  actionType: 'dialog',
+                  dialog: {
+                    title: '节点配置',
+                    headerClassName: 'font-bold',
+                    closeOnEsc: true,
+                    closeOnOutside: false,
+                    showCloseButton: true,
+                    body: [
+                      {
+                        type: 'form',
+                        wrapWithPanel: false,
+                        wrapperComponent: 'div',
+                        resetAfterSubmit: true,
+                        autoFocus: true,
+                        preventEnterSubmit: true,
+                        horizontal: {
+                          justify: true,
+                          left: 3,
+                          right: 9
+                        },
+                        body: this.buildAddOrEditSchema(props),
+                        onSubmit: (e: any) => this.toggleEdit(e, index)
+                      }
+                    ]
+                  }
+                },
+                {
+                  type: 'button',
+                  className: 'ae-TimelineItemControlItem-action',
+                  label: '复制',
+                  onClick: () => this.toggleCopy(index)
+                },
+                {
+                  type: 'button',
+                  className: 'ae-TimelineItemControlItem-action',
+                  label: '删除',
+                  onClick: () => this.toggleDelete(index)
                 }
-              },
-              {
-                type: 'button',
-                className: 'ae-TimelineItemControlItem-action',
-                label: '复制',
-                onClick: () => this.toggleCopy(index)
-              },
-              {
-                type: 'button',
-                className: 'ae-TimelineItemControlItem-action',
-                label: '删除',
-                onClick: () => this.toggleDelete(index)
-              }
-            ]
-          })}
+              ]
+            },
+            {
+              popOverContainer: null // amis 渲染挂载节点会使用 this.target
+            }
+          )}
         </div>
         <div className="ae-TimelineItemControlItem-Main">
           <InputBox

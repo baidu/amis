@@ -651,27 +651,33 @@ export class EventControl extends React.Component<
             'no-bd-btm': !eventKeys.length
           })}
         >
-          {render('dropdown', {
-            type: 'dropdown-button',
-            level: 'enhance',
-            label: '添加事件',
-            disabled: false,
-            className: 'block w-full add-event-dropdown',
-            closeOnClick: true,
-            buttons: events.map(item => ({
-              type: 'button',
-              disabledTip: '您已添加该事件',
-              tooltipPlacement: 'left',
-              disabled: Object.keys(onEvent).includes(item.eventName),
-              actionType: '',
-              label: item.eventLabel,
-              onClick: this.addEvent.bind(
-                this,
-                item,
-                Object.keys(onEvent).includes(item.eventName)
-              )
-            }))
-          })}
+          {render(
+            'dropdown',
+            {
+              type: 'dropdown-button',
+              level: 'enhance',
+              label: '添加事件',
+              disabled: false,
+              className: 'block w-full add-event-dropdown',
+              closeOnClick: true,
+              buttons: events.map(item => ({
+                type: 'button',
+                disabledTip: '您已添加该事件',
+                tooltipPlacement: 'left',
+                disabled: Object.keys(onEvent).includes(item.eventName),
+                actionType: '',
+                label: item.eventLabel,
+                onClick: this.addEvent.bind(
+                  this,
+                  item,
+                  Object.keys(onEvent).includes(item.eventName)
+                )
+              }))
+            },
+            {
+              popOverContainer: null // amis 渲染挂载节点会使用 this.target
+            }
+          )}
         </header>
         <ul
           className={cx({

@@ -8,15 +8,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import Sortable from 'sortablejs';
-import {
-  render as amisRender,
-  FormItem,
-  Button,
-  Icon,
-  InputBox,
-  Modal,
-  toast
-} from 'amis';
+import {FormItem, Button, Icon, InputBox, Modal, toast} from 'amis';
 
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
@@ -355,36 +347,41 @@ export default class TreeOptionControl extends React.Component<
           }}
         />
         <div className="ae-TreeOptionControlItem-btns">
-          {amisRender({
-            // {render('dropdown', {  这里 通过 renderChid 方法渲染出来的 dropdown-button 有 bug FIXME: jiatianqi
-            type: 'dropdown-button',
-            className: 'ae-TreeOptionControlItem-dropdown fa-sm',
-            btnClassName: 'px-2',
-            icon: 'add',
-            hideCaret: true,
-            closeOnClick: true,
-            trigger: 'hover',
-            align: 'right',
-            menuClassName: 'ae-TreeOptionControlItem-ulmenu',
-            buttons: [
-              {
-                type: 'button',
-                className: 'ae-OptionControlItem-action',
-                label: '添加选项',
-                onClick: () => {
-                  this.addOption(path);
+          {render(
+            'dropdown',
+            {
+              type: 'dropdown-button',
+              className: 'ae-TreeOptionControlItem-dropdown fa-sm',
+              btnClassName: 'px-2',
+              icon: 'add',
+              hideCaret: true,
+              closeOnClick: true,
+              trigger: 'hover',
+              align: 'right',
+              menuClassName: 'ae-TreeOptionControlItem-ulmenu',
+              buttons: [
+                {
+                  type: 'button',
+                  className: 'ae-OptionControlItem-action',
+                  label: '添加选项',
+                  onClick: () => {
+                    this.addOption(path);
+                  }
+                },
+                {
+                  type: 'button',
+                  className: 'ae-OptionControlItem-action',
+                  label: '添加子选项',
+                  onClick: () => {
+                    this.addChildOption(path);
+                  }
                 }
-              },
-              {
-                type: 'button',
-                className: 'ae-OptionControlItem-action',
-                label: '添加子选项',
-                onClick: () => {
-                  this.addChildOption(path);
-                }
-              }
-            ]
-          })}
+              ]
+            },
+            {
+              popOverContainer: null // amis 渲染挂载节点会使用 this.target
+            }
+          )}
           <Button
             size="sm"
             onClick={() => {
