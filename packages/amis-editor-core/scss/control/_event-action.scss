@@ -95,7 +95,7 @@
         @include flexBox(column, flex-start);
         @include minScrollBar();
         margin: 0;
-        padding: 0 #{px2rem(12px)};
+        padding: #{px2rem(12px)} #{px2rem(12px)} 0;
         background: #ffffff;
         list-style-type: none;
         .ae-option-control-item {
