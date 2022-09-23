@@ -1654,6 +1654,7 @@ exports[`Renderer:text with counter and maxLength 1`] = `
               <input
                 autocomplete="off"
                 class=""
+                maxlength="10"
                 name="text"
                 placeholder=""
                 size="10"
@@ -1787,6 +1788,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
               <input
                 autocomplete="off"
                 class=""
+                maxlength="10"
                 name="text"
                 placeholder=""
                 size="10"
@@ -1920,6 +1922,8 @@ exports[`Renderer:text with minLength 1`] = `
               <input
                 autocomplete="off"
                 class="test-text-class-two"
+                maxlength="8"
+                minlength="5"
                 name="text"
                 placeholder=""
                 size="10"
