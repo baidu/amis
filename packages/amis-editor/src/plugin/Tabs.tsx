@@ -74,7 +74,7 @@ export class TabsPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            value: {
+            "event.data.value": {
               type: 'string',
               title: '选项卡索引'
             }
