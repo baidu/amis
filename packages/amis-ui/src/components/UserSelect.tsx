@@ -58,7 +58,6 @@ export interface UserSelectProps extends ThemeProps, LocaleProps {
     isReplace?: boolean,
     isDelete?: boolean
   ) => void;
-  onTempChange: (value: Array<Option>) => void;
 }
 
 export interface UserSelectState {
@@ -261,11 +260,10 @@ export class UserSelect extends React.Component<
 
   @autobind
   onOpen() {
-    const {selection, tempSelection} = this.props;
+    const {selection} = this.props;
     this.setState({
       isOpened: true,
-      selection: selection || [],
-      tempSelection: tempSelection || []
+      selection: selection || []
     });
   }
 
