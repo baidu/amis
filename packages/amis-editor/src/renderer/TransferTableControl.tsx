@@ -285,13 +285,15 @@ function BaseOptionControl(Cmpt: React.JSXElementConstructor<any>) {
 const renderInput = (
   name: string,
   placeholder: string,
-  required: boolean = true
+  required: boolean = true,
+  unique: Boolean = false
 ) => {
   return {
     type: 'input-text',
     name,
     placeholder: placeholder,
-    required
+    required,
+    unique
   };
 };
 
@@ -412,17 +414,24 @@ export default class TransferTableOption extends React.Component<
               this.handleChange(args[2].options, 'options'),
             body: [
               {
-                name: 'options',
-                type: 'combo',
-                multiple: true,
-                draggable: true,
-                addButtonText: '新增',
-                value: options,
-                items: [
-                  ...columns.map((item: Option) =>
-                    renderInput(item.name, item.label ?? '')
-                  ),
-                  renderInput('value', '值', true)
+                type: 'form',
+                wrapWithPanel: false,
+                mode: 'normal',
+                body: [
+                  {
+                    name: 'options',
+                    type: 'combo',
+                    multiple: true,
+                    draggable: true,
+                    addButtonText: '新增',
+                    value: options,
+                    items: [
+                      ...columns.map((item: Option) =>
+                        renderInput(item.name, item.label ?? '', false)
+                      ),
+                      renderInput('value', '值', true, true)
+                    ]
+                  }
                 ]
               }
             ]
@@ -437,6 +446,18 @@ export default class TransferTableOption extends React.Component<
     const {data} = this.props;
     const {onBulkChange, onValueChange} = this.props;
     data[type] = value;
+    if (type === 'columns') {
+      const keys = value.map(item => item.name);
+      data.options = data.options.map((item: Option) => {
+        return {
+          ...keys.reduce((pv, cv, idx) => {
+            pv[cv] = item[cv];
+            return pv;
+          },
+          {value: item.value})
+        }
+      });
+    }
     onValueChange && onValueChange(type, data, onBulkChange);
   }
 
