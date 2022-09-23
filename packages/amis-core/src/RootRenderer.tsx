@@ -225,7 +225,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       const api = normalizeApi((action as any).api);
       if (typeof api.url === 'string') {
         let fileName = action.fileName || 'data.txt';
-        if (api.url.indexOf('.') !== -1) {
+        if (!action.fileName && api.url.indexOf('.') !== -1) {
           fileName = api.url.split('/').pop();
         }
         saveAs(api.url, fileName);

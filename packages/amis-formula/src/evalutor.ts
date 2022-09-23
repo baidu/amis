@@ -106,7 +106,7 @@ export class Evaluator {
       const filter = filters.shift()!;
       const fn = this.filters[filter.name];
       if (!fn) {
-        throw new Error(`filter \`${filter.name}\` not exits`);
+        throw new Error(`filter \`${filter.name}\` not exists.`);
       }
       context.filter = filter;
       input = fn.apply(
