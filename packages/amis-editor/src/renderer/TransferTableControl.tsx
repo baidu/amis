@@ -286,7 +286,7 @@ const renderInput = (
   name: string,
   placeholder: string,
   required: boolean = true,
-  unique: Boolean = false
+  unique: boolean = false
 ) => {
   return {
     type: 'input-text',
@@ -450,7 +450,7 @@ export default class TransferTableOption extends React.Component<
       const keys = value.map(item => item.name);
       data.options = data.options.map((item: Option) => {
         return {
-          ...keys.reduce((pv, cv, idx) => {
+          ...keys.reduce((pv, cv) => {
             pv[cv] = item[cv];
             return pv;
           },
