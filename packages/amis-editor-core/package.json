@@ -9,7 +9,8 @@
     "build": "npm run clean-dist && webpack",
     "clean-dist": "rimraf lib/* esm/*",
     "i18n:update": "npx i18n update --config=./i18nConfig.js",
-    "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US"
+    "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US",
+    "i18n:merge": "npx i18n merge --config=./i18nConfig.js --l=en-US"
   },
   "keywords": [
     "amis",
