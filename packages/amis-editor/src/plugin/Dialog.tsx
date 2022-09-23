@@ -56,12 +56,34 @@ export class DialogPlugin extends BasePlugin {
     {
       eventName: 'confirm',
       eventLabel: '确认',
-      description: '点击弹窗确认按钮时触发'
+      description: '点击弹窗确认按钮时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '弹窗数据'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'cancel',
       eventLabel: '取消',
-      description: '点击弹窗取消按钮时触发'
+      description: '点击弹窗取消按钮时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '弹窗数据'
+            }
+          }
+        }
+      ]
     }
   ];
 
