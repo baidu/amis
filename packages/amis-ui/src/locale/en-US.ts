@@ -188,6 +188,7 @@ register('en-US', {
   'Quarter.placeholder': 'Select a quarter',
   'Repeat.pre': 'Per',
   'reset': 'Reset',
+  'save': 'Save',
   'saveFailed': 'Save failed',
   'saveSuccess': 'Saved successfully',
   'search': 'Search',

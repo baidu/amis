@@ -193,6 +193,7 @@ register('zh-CN', {
   'Quarter.placeholder': '请选择季度',
   'Repeat.pre': '每',
   'reset': '重置',
+  'save': '保存',
   'saveFailed': '保存失败',
   'saveSuccess': '保存成功',
   'search': '搜索',
