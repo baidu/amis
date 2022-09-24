@@ -58,13 +58,14 @@ export class StaticControlPlugin extends BasePlugin {
               getSchemaTpl('label'),
               // getSchemaTpl('value'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: {
-                  ...context?.schema,
-                  type: 'textarea', // 改用多行文本编辑
-                  value: context?.schema.tpl // 避免默认值丢失
-                },
-                mode: 'vertical', // 改成上下展示模式
-                name: 'tpl'
+                //  TODO: 因为 formulaControl 未适配 static 这类特殊组件，暂不传递 rendererSchema属性，让其内部先使用 InputBox
+                //  待后续 formulaControl 优化之后再重新调整适配
+                // rendererSchema: {
+                //   ...context?.schema,
+                //   type: 'textarea', // 改用多行文本编辑
+                //   value: context?.schema.tpl // 避免默认值丢失
+                // },
+                mode: 'vertical' // 改成上下展示模式
               }),
               getSchemaTpl('switch', {
                 name: 'quickEdit',
