@@ -112,7 +112,7 @@ export class UserSelect extends React.Component<
     if (prevProps.options !== options) {
       if (
         options &&
-        options.length === 1 &&
+        options.length &&
         options[0].leftOptions &&
         Array.isArray(options[0].children)
       ) {
