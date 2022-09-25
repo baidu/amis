@@ -207,12 +207,14 @@ export class ImageControlPlugin extends BasePlugin {
                 ]
               }),
 
-              // TODO: amis 组件问题导致上传的图片无法显示出来,暂时先下掉该配置项， 问题卡片： [amis-saas-7262]
-              // getSchemaTpl('switch', {
-              //   name: 'fixedSize',
-              //   label: tipedLabel('固定尺寸', '开启后需同时设置CSS类'),
-              //   value: false
-              // }),
+              getSchemaTpl('switch', {
+                name: 'fixedSize',
+                label: tipedLabel(
+                  '固定尺寸',
+                  '开启后需通过CSS类设置其高度、宽度'
+                ),
+                value: false
+              }),
 
               {
                 type: 'container',
@@ -221,6 +223,7 @@ export class ImageControlPlugin extends BasePlugin {
                 body: [
                   {
                     type: 'input-text',
+                    required: true,
                     name: 'fixedSizeClassName',
                     label: tipedLabel(
                       'CSS类名',
