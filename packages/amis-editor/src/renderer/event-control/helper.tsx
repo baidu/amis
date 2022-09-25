@@ -437,8 +437,10 @@ export const getEventLabel = (events: RendererPluginEvent[], name: string) =>
 export const getEventDesc = (events: RendererPluginEvent[], name: string) =>
   events.find(item => item.eventName === name)?.description;
 
-export const getEventStrongDesc = (events: RendererPluginEvent[], name: string) =>
-  events.find(item => item.eventName === name)?.strongDesc;
+export const getEventStrongDesc = (
+  events: RendererPluginEvent[],
+  name: string
+) => events.find(item => item.eventName === name)?.strongDesc;
 
 // 判断插件动作中是否存在指定动作
 export const hasActionType = (
@@ -742,7 +744,10 @@ export const getOldActionSchema = (
                 name: 'dialog',
                 pipeIn: defaultValue({
                   title: '弹框标题',
-                  body: '<p>对，你刚刚点击了</p>'
+                  body: '<p>对，你刚刚点击了</p>',
+                  showCloseButton: true,
+                  showErrorMsg: true,
+                  showLoading: true
                 }),
                 asFormItem: true,
                 children: ({value, onChange, data}: any) =>

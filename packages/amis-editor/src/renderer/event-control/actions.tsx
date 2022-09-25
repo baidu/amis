@@ -181,7 +181,10 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               required: true,
               pipeIn: defaultValue({
                 title: '弹框标题',
-                body: '<p>对，你刚刚点击了</p>'
+                body: '<p>对，你刚刚点击了</p>',
+                showCloseButton: true,
+                showErrorMsg: true,
+                showLoading: true
               }),
               asFormItem: true,
               visibleOn: 'data.groupType === "dialog"',
