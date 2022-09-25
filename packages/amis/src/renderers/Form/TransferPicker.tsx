@@ -86,7 +86,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
     if (
       selectMode === 'associated' &&
       options &&
-      options.length === 1 &&
+      options.length &&
       options[0].leftOptions &&
       Array.isArray(options[0].children)
     ) {
