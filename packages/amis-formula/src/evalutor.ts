@@ -542,7 +542,7 @@ export class Evaluator {
   }
 
   /**
-   * 异或处理，多个表达式有且只有一个为真，则结果为真。
+   * 异或处理，多个表达式组中存在奇数个真时认为真。
    *
    * @example XOR(condition1, condition2)
    * @param {expression} condition1 - 条件表达式1
@@ -552,7 +552,7 @@ export class Evaluator {
    * @returns {boolean}
    */
   fnXOR(...condtions: Array<() => any>) {
-    return condtions.filter(c => c()).length === 1;
+    return !!(condtions.filter(c => c()).length % 2);
   }
 
   /**
