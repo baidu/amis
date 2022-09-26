@@ -87,10 +87,13 @@ test('formula:or', () => {
 });
 
 test('formula:xor', () => {
-  expect(evalFormual('XOR(0, 1)')).toBe(false);
-  expect(evalFormual('XOR(1, 0)')).toBe(false);
-  expect(evalFormual('XOR(1, 1)')).toBe(true);
-  expect(evalFormual('XOR(0, 0)')).toBe(true);
+  expect(evalFormual('XOR(0, 1)')).toBe(true);
+  expect(evalFormual('XOR(1, 0)')).toBe(true);
+  expect(evalFormual('XOR(1, 1)')).toBe(false);
+  expect(evalFormual('XOR(0, 0)')).toBe(false);
+
+  expect(evalFormual('XOR(0, 0, 1)')).toBe(true);
+  expect(evalFormual('XOR(0, 1, 1)')).toBe(false);
 });
 
 test('formula:ifs', () => {

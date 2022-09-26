@@ -542,7 +542,7 @@ export class Evaluator {
   }
 
   /**
-   * 异或处理，两个表达式同时为「真」，或者同时为「假」，则结果返回为「真」
+   * 异或处理，多个表达式有且只有一个为真，则结果为真。
    *
    * @example XOR(condition1, condition2)
    * @param {expression} condition1 - 条件表达式1
@@ -551,8 +551,8 @@ export class Evaluator {
    *
    * @returns {boolean}
    */
-  fnXOR(c1: () => any, c2: () => any) {
-    return !!c1() === !!c2();
+  fnXOR(...condtions: Array<() => any>) {
+    return condtions.filter(c => c()).length === 1;
   }
 
   /**
@@ -894,7 +894,7 @@ export class Evaluator {
    *
    * @returns {string} 数值中文大写字符
    */
-   fnUPPERMONEY(n: number) {
+  fnUPPERMONEY(n: number) {
     n = this.formatNumber(n);
     const maxLen = 14;
     if (n.toString().split('.')[0]?.length > maxLen) {
