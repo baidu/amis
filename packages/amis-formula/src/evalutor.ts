@@ -894,9 +894,13 @@ export class Evaluator {
    *
    * @returns {string} 数值中文大写字符
    */
-  fnUPPERMONEY(n: number) {
+   fnUPPERMONEY(n: number) {
     n = this.formatNumber(n);
     const maxLen = 14;
+    if (n.toString().split('.')[0]?.length > maxLen) {
+      return `最大数额只支持到兆(既小数点前${maxLen}位)`;
+    }
+
     const fraction = ['角', '分'];
     const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
     const unit = [
