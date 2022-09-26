@@ -409,6 +409,10 @@
     background: var(--Form-input-onDisabled-bg);
     border-color: var(--Form-input-onDisabled-borderColor);
     transition: all var(--animation-duration);
+
+    & > input {
+      color: var(--text--muted-color);
+    }
   }
 
   &-spinner {
