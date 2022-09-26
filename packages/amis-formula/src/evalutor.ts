@@ -552,7 +552,7 @@ export class Evaluator {
    * @returns {boolean}
    */
   fnXOR(...condtions: Array<() => any>) {
-    return condtions.filter(c => c()).length === 1;
+    return !!(condtions.filter(c => c()).length % 2);
   }
 
   /**
