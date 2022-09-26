@@ -123,7 +123,19 @@ export class DrawerPlugin extends BasePlugin {
                   }
                 ],
                 pipeIn: defaultValue('right'),
-                pipeOut: (value: any) => (value ? value : 'right')
+                pipeOut: (value: any) => (value ? value : 'right'),
+                onChange: (
+                  value: string,
+                  oldValue: string,
+                  model: any,
+                  form: any
+                ) => {
+                  if (value === 'left' || value === 'right') {
+                    form.deleteValueByName('height');
+                  } else if (value === 'top' || value === 'bottom') {
+                    form.deleteValueByName('width');
+                  }
+                }
               },
               getSchemaTpl('switch', {
                 name: 'overlay',

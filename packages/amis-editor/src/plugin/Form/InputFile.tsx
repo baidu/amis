@@ -51,7 +51,7 @@ export class FileControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            'event.data.file': {
               type: 'object',
               title: '上传的文件'
             }
@@ -67,7 +67,7 @@ export class FileControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            'event.data.file': {
               type: 'object',
               title: '被移除的文件'
             }
@@ -83,7 +83,7 @@ export class FileControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            'event.data.file': {
               type: 'object',
               title: '远程上传请求成功后返回的结果数据'
             }

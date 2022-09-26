@@ -57,7 +57,7 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            'event.data.file': {
               type: 'object',
               title: '上传的文件'
             }
@@ -73,7 +73,7 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            'event.data.file': {
               type: 'object',
               title: '被移除的文件'
             }
@@ -89,7 +89,7 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            'event.data.file': {
               type: 'object',
               title: '远程上传请求成功后返回的结果数据'
             }
@@ -206,32 +206,6 @@ export class ImageControlPlugin extends BasePlugin {
                   }
                 ]
               }),
-
-              getSchemaTpl('switch', {
-                name: 'fixedSize',
-                label: tipedLabel(
-                  '固定尺寸',
-                  '开启后需通过CSS类设置其高度、宽度'
-                ),
-                value: false
-              }),
-
-              {
-                type: 'container',
-                className: 'ae-ExtendMore mb-3',
-                visibleOn: 'data.fixedSize',
-                body: [
-                  {
-                    type: 'input-text',
-                    required: true,
-                    name: 'fixedSizeClassName',
-                    label: tipedLabel(
-                      'CSS类名',
-                      '开启固定尺寸时，根据此值控制展示尺寸'
-                    )
-                  }
-                ]
-              },
 
               getSchemaTpl('switch', {
                 name: 'hideUploadButton',
@@ -410,6 +384,36 @@ export class ImageControlPlugin extends BasePlugin {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
           getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+          {
+            title: '尺寸',
+            body: [
+              getSchemaTpl('switch', {
+                name: 'fixedSize',
+                label: tipedLabel(
+                  '固定尺寸',
+                  '开启后需通过CSS类设置其高度、宽度'
+                ),
+                value: false
+              }),
+
+              {
+                type: 'container',
+                className: 'ae-ExtendMore mb-3',
+                visibleOn: 'data.fixedSize',
+                body: [
+                  {
+                    type: 'input-text',
+                    required: true,
+                    name: 'fixedSizeClassName',
+                    label: tipedLabel(
+                      'CSS类名',
+                      '开启固定尺寸时，根据此值控制展示尺寸'
+                    )
+                  }
+                ]
+              }
+            ]
+          },
           getSchemaTpl('style:classNames', {
             schema: []
           })

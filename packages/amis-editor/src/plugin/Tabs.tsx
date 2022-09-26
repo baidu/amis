@@ -74,7 +74,7 @@ export class TabsPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            value: {
+            'event.data.value': {
               type: 'string',
               title: '选项卡索引'
             }
@@ -164,8 +164,9 @@ export class TabsPlugin extends BasePlugin {
                 ),
                 type: 'input-text',
                 name: 'activeKey',
-                pipeOut: (data: string) => data === '' || isNaN(Number(data)) ? data : Number(data)
-              },
+                pipeOut: (data: string) =>
+                  data === '' || isNaN(Number(data)) ? data : Number(data)
+              }
             ]
           },
           getSchemaTpl('status'),
