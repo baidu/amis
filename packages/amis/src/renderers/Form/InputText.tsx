@@ -586,6 +586,8 @@ export default class TextControl extends React.PureComponent<
       ? ''
       : typeof value === 'string'
       ? value
+      : value instanceof Date
+      ? value.toISOString()
       : JSON.stringify(value);
   }
 
