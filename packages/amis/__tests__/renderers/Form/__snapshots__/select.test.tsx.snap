@@ -1418,7 +1418,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
 `;
 
 exports[`Renderer:select table with labelField & valueField 2`] = `
-Object {
+{
   "a": "zhugeliang,libai",
 }
 `;
