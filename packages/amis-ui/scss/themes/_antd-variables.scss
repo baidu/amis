@@ -8,7 +8,6 @@ $ns: 'antd-';
 @import '../properties';
 
 :root {
-  --colors-brand-main: #1890ff;
   --colors-brand-1: #002766;
   --colors-brand-2: #003a8c;
   --colors-brand-3: #0050b3;
@@ -31,7 +30,6 @@ $ns: 'antd-';
   --colors-neutral-9: #f2f4f5;
   --colors-neutral-10: #f7f9fa;
   --colors-neutral-11: #ffffff;
-  --colors-error-main: #ff4d4f;
   --colors-error-1: #660a18;
   --colors-error-2: #8c1523;
   --colors-error-3: #b32430;
@@ -42,7 +40,6 @@ $ns: 'antd-';
   --colors-error-8: #ffbab8;
   --colors-error-9: #ffdddb;
   --colors-error-10: #ffe7e6;
-  --colors-warning-main: #faad14;
   --colors-warning-1: #613400;
   --colors-warning-2: #874d00;
   --colors-warning-3: #ad6800;
@@ -53,7 +50,6 @@ $ns: 'antd-';
   --colors-warning-8: #ffe4a1;
   --colors-warning-9: #fff2d0;
   --colors-warning-10: #fff9e6;
-  --colors-success-main: #52c41a;
   --colors-success-1: #092b00;
   --colors-success-2: #135200;
   --colors-success-3: #237804;
@@ -64,137 +60,82 @@ $ns: 'antd-';
   --colors-success-8: #b8eb99;
   --colors-success-9: #def7cc;
   --colors-success-10: #f0ffe6;
-  --fonts-base-size: 14px;
-  --fonts-base-weight: 400;
-  --fonts-base-lineHeight: 1.5;
   --fonts-base-family: -apple-system, BlinkMacSystemFont, SF Pro SC, SF Pro Text,
     Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto, Hiragino Sans GB,
     Arial, microsoft yahei ui, Microsoft YaHei, SimSun, sans-serif;
-  --fonts-heading-1-size: 2em;
-  --fonts-heading-1-weight: 400;
-  --fonts-heading-1-lineHeight: 1.5;
-  --fonts-heading-1-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
-    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
-    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
-    sans-serif;
-  --fonts-heading-2-size: 1.5em;
-  --fonts-heading-2-weight: 400;
-  --fonts-heading-2-lineHeight: 1.5;
-  --fonts-heading-2-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
-    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
-    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
-    sans-serif;
-  --fonts-heading-3-size: 1.17em;
-  --fonts-heading-3-weight: 400;
-  --fonts-heading-3-lineHeight: 1.5;
-  --fonts-heading-3-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
-    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
-    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
-    sans-serif;
-  --fonts-heading-4-size: 1em;
-  --fonts-heading-4-weight: 400;
-  --fonts-heading-4-lineHeight: 1.5;
-  --fonts-heading-4-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
-    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
-    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
-    sans-serif;
-  --fonts-heading-5-size: 0.83em;
-  --fonts-heading-5-weight: 400;
-  --fonts-heading-5-lineHeight: 1.5;
-  --fonts-heading-5-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
-    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
-    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
-    sans-serif;
-  --fonts-heading-6-size: 0.67em;
-  --fonts-heading-6-weight: 400;
-  --fonts-heading-6-lineHeight: 1.5;
-  --fonts-heading-6-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
-    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
-    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
-    sans-serif;
-  --fonts-other-xs-size: 10px;
-  --fonts-other-xs-weight: 400;
-  --fonts-other-xs-lineHeight: 1.5;
-  --fonts-other-xs-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
-    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
-    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
-    sans-serif;
-  --fonts-other-sm-size: 12px;
-  --fonts-other-sm-weight: 400;
-  --fonts-other-sm-lineHeight: 1.5;
-  --fonts-other-sm-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
-    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
-    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
-    sans-serif;
-  --fonts-other-1lh-size: 14px;
-  --fonts-other-1lh-weight: 400;
-  --fonts-other-1lh-lineHeight: 1;
-  --fonts-other-1lh-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
-    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
-    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
-    sans-serif;
-  --fonts-other-lg-size: 16px;
-  --fonts-other-lg-weight: 400;
-  --fonts-other-lg-lineHeight: 1.5;
-  --fonts-other-lg-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
-    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
-    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
-    sans-serif;
-  --fonts-other-xl-size: 18px;
-  --fonts-other-xl-weight: 400;
-  --fonts-other-xl-lineHeight: 1.5;
-  --fonts-other-xl-family: -apple-system, BlinkMacSystemFont, SF Pro SC,
-    SF Pro Text, Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto,
-    Hiragino Sans GB, Arial, microsoft yahei ui, Microsoft YaHei, SimSun,
-    sans-serif;
-  --borders-radius-1-radius: 0px;
-  --borders-radius-2-radius: 2px;
-  --borders-radius-3-radius: 4px;
-  --borders-radius-4-radius: 6px;
-  --borders-radius-5-radius: 8px;
-  --borders-radius-6-radius: 10px;
-  --borders-radius-7-radius: 50%;
-  --borders-line-1-width: 0px;
-  --borders-line-1-style: none;
-  --borders-line-2-width: 1px;
-  --borders-line-2-style: solid;
-  --borders-line-3-width: 2px;
-  --borders-line-3-style: solid;
-  --borders-line-4-width: 3px;
-  --borders-line-4-style: solid;
-  --sizes-size-0-size: 0px;
-  --sizes-size-1-size: auto;
-  --sizes-size-2-size: 2px;
-  --sizes-size-3-size: 4px;
-  --sizes-size-4-size: 6px;
-  --sizes-size-5-size: 8px;
-  --sizes-size-6-size: 10px;
-  --sizes-size-7-size: 12px;
-  --sizes-size-8-size: 14px;
-  --sizes-size-9-size: 16px;
-  --sizes-size-10-size: 18px;
-  --sizes-size-11-size: 20px;
-  --sizes-size-12-size: 22px;
-  --sizes-size-13-size: 24px;
-  --sizes-size-14-size: 26px;
-  --sizes-size-15-size: 28px;
-  --sizes-size-16-size: 30px;
-  --sizes-size-17-size: 32px;
-  --sizes-size-18-size: 34px;
-  --sizes-size-19-size: 36px;
-  --sizes-size-20-size: 38px;
-  --sizes-size-21-size: 40px;
-  --shadows-shadow-none-boxShadow: 0px 0px 0px 0px transparent;
-  --shadows-shadow-sm-boxShadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
-  --shadows-shadow-normal-boxShadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
+  --fonts-size-1: 48px;
+  --fonts-size-2: 40px;
+  --fonts-size-3: 32px;
+  --fonts-size-4: 24px;
+  --fonts-size-5: 20px;
+  --fonts-size-6: 16px;
+  --fonts-size-7: 14px;
+  --fonts-size-8: 12px;
+  --fonts-size-9: 12px;
+  --fonts-lineHeight-1: 1.3;
+  --fonts-lineHeight-2: 1.5;
+  --fonts-lineHeight-3: 1.7;
+  --fonts-weight-1: 900;
+  --fonts-weight-2: 800;
+  --fonts-weight-3: 700;
+  --fonts-weight-4: 600;
+  --fonts-weight-5: 500;
+  --fonts-weight-6: 400;
+  --fonts-weight-7: 300;
+  --fonts-weight-8: 200;
+  --fonts-weight-9: 100;
+
+  --borders-width-1: 0px;
+  --borders-width-2: 1px;
+  --borders-width-3: 2px;
+  --borders-width-4: 3px;
+  --borders-style-1: none;
+  --borders-style-2: solid;
+  --borders-style-3: dashed;
+  --borders-style-4: dotted;
+  --borders-radius-1: 0px;
+  --borders-radius-2: 2px;
+  --borders-radius-3: 4px;
+  --borders-radius-4: 6px;
+  --borders-radius-5: 8px;
+  --borders-radius-6: 10px;
+  --borders-radius-7: 50%;
+
+  --sizes-size-0: 0px;
+  --sizes-size-1: auto;
+  --sizes-size-2: 2px;
+  --sizes-size-3: 4px;
+  --sizes-size-4: 6px;
+  --sizes-size-5: 8px;
+  --sizes-size-6: 10px;
+  --sizes-size-7: 12px;
+  --sizes-size-8: 14px;
+  --sizes-size-9: 16px;
+  --sizes-size-10: 18px;
+  --sizes-size-11: 20px;
+  --sizes-size-12: 22px;
+  --sizes-size-13: 24px;
+  --sizes-size-14: 26px;
+  --sizes-size-15: 28px;
+  --sizes-size-16: 30px;
+  --sizes-size-17: 32px;
+  --sizes-size-18: 34px;
+  --sizes-size-19: 36px;
+  --sizes-size-20: 38px;
+  --sizes-size-21: 40px;
+
+  --shadows-shadow-none: 0px 0px 0px 0px transparent;
+  --shadows-shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadows-shadow-normal: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
     0px 1px 2px 0px rgba(0, 0, 0, 0.06);
-  --shadows-shadow-md-boxShadow: 0px 4px -1px 0px rgba(0, 0, 0, 0.1),
+  --shadows-shadow-md: 0px 4px -1px 0px rgba(0, 0, 0, 0.1),
     0px 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadows-shadow-lg-boxShadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+  --shadows-shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
     0px 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadows-shadow-xl-boxShadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1),
+  --shadows-shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.1),
     0px 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadows-shadow-2xl-boxShadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadows-shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+
   --button-default-default-shadow: 0px 0px 0px 0px transparent;
   --button-default-default-font-color: #151e26;
   --button-default-default-bg-color: #ffffff;
@@ -1145,8 +1086,8 @@ $ns: 'antd-';
 
   --Modal-header-bg: #fff;
   --Modal-title-fontWeight: 500;
-  --Modal-body-paddingY: var(--sizes-size-0-size);
-  --Modal-body-paddingX: var(--sizes-size-0-size);
+  --Modal-body-paddingY: var(--sizes-size-0);
+  --Modal-body-paddingX: var(--sizes-size-0);
   --Modal-body-borderTop: 1px var(--colors-neutral-7) solid;
   --Modal-body-borderBottom: 1px var(--colors-neutral-7) solid;
 

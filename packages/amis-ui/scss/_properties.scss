@@ -31,12 +31,12 @@
     'Liberation Mono', 'Courier New', monospace;
   --fontFamilyBase: var(--fonts-base-family);
 
-  --fontSizeBase: var(--fonts-base-size);
-  --fontSizeMd: var(--fonts-other-1lh-size);
-  --fontSizeLg: var(--fonts-other-lg-size);
-  --fontSizeXl: var(--fonts-other-xl-size);
-  --fontSizeSm: var(--fonts-other-sm-size);
-  --fontSizeXs: var(--fonts-other-xs-size);
+  --fontSizeBase: var(--fonts-size-7);
+  --fontSizeMd: var(--fonts-size-7);
+  --fontSizeLg: var(--fonts-size-6);
+  --fontSizeXl: var(--fonts-size-5);
+  --fontSizeSm: var(--fonts-size-8);
+  --fontSizeXs: var(--fonts-size-8);
 
   --text-color: var(--colors-neutral-2);
   --button-color: var(--colors-neutral-11);
@@ -51,16 +51,16 @@
   --borderColor: var(--colors-neutral-8);
   --borderColorLight: var(--colors-neutral-10);
   --borderColorDarken: var(--colors-neutral-8);
-  --borderRadius: var(--borders-radius-2-radius);
-  --borderRadiusMd: var(--borders-radius-3-radius);
-  --borderRadiusLg: var(--borders-radius-4-radius);
+  --borderRadius: var(--borders-radius-2);
+  --borderRadiusMd: var(--borders-radius-3);
+  --borderRadiusLg: var(--borders-radius-4);
 
   --boxShadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   --boxShadowSm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   --boxTooltipShadow: 0 4px 6px 1px rgb(8 14 26 / 6%),
     0 1px 10px 0 rgb(8 14 26 / 5%), 0 2px 4px -1px rgb(8 14 26 / 4%);
 
-  --lineHeightBase: var(--fonts-base-lineHeight);
+  --lineHeightBase: var(--fonts-lineHeight-2);
 
   --body-lineHeight: var(--lineHeightBase);
 
@@ -88,12 +88,12 @@
   --body-color: var(--text-color);
   --body-weight: var(--fontWeightBase);
 
-  --gap-xs: var(--sizes-size-3-size);
-  --gap-sm: var(--sizes-size-5-size);
-  --gap-base: var(--sizes-size-7-size);
-  --gap-md: var(--sizes-size-9-size);
-  --gap-lg: var(--sizes-size-11-size);
-  --gap-xl: var(--sizes-size-13-size);
+  --gap-xs: var(--sizes-size-3);
+  --gap-sm: var(--sizes-size-5);
+  --gap-base: var(--sizes-size-7);
+  --gap-md: var(--sizes-size-9);
+  --gap-lg: var(--sizes-size-11);
+  --gap-xl: var(--sizes-size-13);
 
   --icon-color: var(--colors-neutral-5);
   --icon-onHover-color: var(--colors-brand-5);
@@ -185,9 +185,9 @@
   --Badge--warning-bg: var(--warning);
   --Badge--danger-bg: var(--danger);
 
-  --Button--sm-paddingX: var(--sizes-size-5-size);
-  --Button-borderWidth: var(--borders-line-2-width);
-  --Button--sm-lineHeight: var(--fonts-base-lineHeight);
+  --Button--sm-paddingX: var(--sizes-size-5);
+  --Button-borderWidth: var(--borders-width-2);
+  --Button--sm-lineHeight: var(--fonts-lineHeight-2);
   --Button--sm-fontSize: var(--fontSizeSm);
   --Button-transition: color var(--animation-duration) ease-in-out,
     background-color var(--animation-duration) ease-in-out,
@@ -649,7 +649,7 @@
   --Form-select-paddingX: var(--Form-input-paddingX);
   --Form-select-placeholderColor: var(--Form-input-placeholderColor);
   --Form-select-popoverGap: 0;
-  --Form-select-icon-rigin: var(--sizes-size-9-size);
+  --Form-select-icon-rigin: var(--sizes-size-9);
   --Form-select-search-height: var(--Form-select-menu-height);
   --Form-select-value-bgColor: var(--Form-input-onDisabled-bg);
   --Form-select-value-bgColor--dark: #46474f;

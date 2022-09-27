@@ -64,7 +64,7 @@
 // .#{$ns}Select {
 //   .#{$ns}PopOver {
 //     .#{$ns}Select-menu {
-//       border-radius: var(--borders-radius-3-radius);
+//       border-radius: var(--borders-radius-3);
 //       .#{$ns}Select-option {
 //         // height: var(--Form-input-height);
 //         line-height: 1.1;
@@ -86,7 +86,7 @@
 //   .#{$ns}PopOver {
 //     .#{$ns}NestedSelect-menuOuter {
 //       .#{$ns}NestedSelect-menu {
-//         border-radius: var(--borders-radius-3-radius);
+//         border-radius: var(--borders-radius-3);
 //         .#{$ns}NestedSelect-option {
 //           height: var(--Form-input-height);
 //           padding: 0 px2rem(12px);
@@ -107,7 +107,7 @@
 //   .#{$ns}PopOver {
 //     box-shadow: var(--boxShadow);
 //     .#{$ns}Tree {
-//       border-radius: var(--borders-radius-3-radius);
+//       border-radius: var(--borders-radius-3);
 //       border: none;
 //     }
 //   }
@@ -117,7 +117,7 @@
 //   .#{$ns}TreeSelect-popover {
 //     box-shadow: var(--boxShadow);
 //     .#{$ns}Tree {
-//       border-radius: var(--borders-radius-3-radius);
+//       border-radius: var(--borders-radius-3);
 //       border: none;
 //     }
 //   }
@@ -138,13 +138,12 @@
 // }
 
 // .#{$ns}Alert {
-//   font-weight: var(--fonts-base-weight);
+//   font-weight: var(--fonts-weight-6);
 //   .#{$ns}Alert-close {
 //     opacity: 1;
-//     color: var(--colors-neutral-info);
+//     color: var(--colors-neutral-5);
 //     &:hover {
-//       color: var(--colors-neutral-lessStrong
-//       --colors-neutral-lessStrong);
+//       color: var(--colors-neutral-4);
 //     }
 //     &:active {
 //       color: var(--colors-neutral-3);
@@ -268,7 +267,7 @@
 //   &-body {
 //     padding: #{px2rem(16px)} 0 #{px2rem(24px)} 0;
 //     font-size: #{$T2};
-//     font-weight: var(--fonts-base-weight);
+//     font-weight: var(--fonts-weight-6);
 //   }
 
 //   &-footer {
@@ -292,7 +291,7 @@
 
 //   &-body {
 //     font-size: #{$T3};
-//     font-weight: var(--fonts-base-weight);
+//     font-weight: var(--fonts-weight-6);
 //   }
 // }
 
