@@ -156,8 +156,8 @@ extendLocale('en-US', {
   'f66335b5bff0e26fdff2a3303e0f9bb0': 'Error information:',
   '966e23b5c1efe8e18fc4f0c326d47314':
     ')A rendering error occurs. For details about the error, check the console output.',
-  '44e049d9ecbe2c474100a3424021570e':
-    '<div class=wrapper-sm b-a b-light m-b-sm>Be dragged into the placeholder area</div>',
+  'f942c7a6a35c4eb1381d2966462d0489':
+    '<div class="wrapper-sm b-a b-light m-b-sm">Be dragged into the placeholder area</div>',
   '245897371cda2055f5c17c6cf298ed48':
     'Tip: No redirection is allowed in the preview mode.',
   'e1b7255934e3189b1f5d440fc1aa0230':
