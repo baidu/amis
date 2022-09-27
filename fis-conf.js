@@ -15,7 +15,7 @@ fis.set('project.ignore', [
   '.*/**'
 ]);
 // 配置只编译哪些文件。
-
+fis.config.set("project.watch.usePolling", true);
 const Resource = fis.require('postpackager-loader/lib/resource.js');
 const versionHash = fis.util.md5(package.version);
 

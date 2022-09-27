@@ -7,7 +7,7 @@
   .#{$ns}PopOver {
     box-shadow: var(--boxShadow);
     .#{$ns}Tree {
-      border-radius: var(--borders-radius-3-radius);
+      border-radius: var(--borders-radius-3);
       border: none;
     }
   }
