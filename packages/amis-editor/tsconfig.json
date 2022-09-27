@@ -9,6 +9,6 @@
       "../../node_modules/@types"
     ]
   },
-  "include": ["src/**/*", "../amis-editor-core/src/builder"],
+  "include": ["src/**/*"],
   "references": []
 }
