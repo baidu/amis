@@ -35,12 +35,10 @@ module.exports = {
               }
             }
           },
-          /*
           {
             loader: 'webpack-react-i18n',
             options: i18nConfig
           }
-          */
         ]
 
       },

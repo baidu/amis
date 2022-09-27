@@ -1,6 +1,6 @@
 {
   "name": "amis-editor-core",
-  "version": "5.2.0-beta.74",
+  "version": "5.2.0-i18n.1",
   "description": "amis 可视化编辑器",
   "main": "lib/index.min.js",
   "types": "lib/index.d.ts",
@@ -9,7 +9,8 @@
     "build": "npm run clean-dist && webpack",
     "clean-dist": "rimraf lib/* esm/*",
     "i18n:update": "npx i18n update --config=./i18nConfig.js",
-    "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US"
+    "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US",
+    "i18n:merge": "npx i18n merge --config=./i18nConfig.js --l=en-US"
   },
   "keywords": [
     "amis",
@@ -30,7 +31,7 @@
   },
   "dependencies": {
     "deep-diff": "1.0.2",
-    "i18n-runtime": "0.0.6",
+    "i18n-runtime": "0.0.10",
     "json-ast-comments": "^1.1.0",
     "lodash": "^4.17.15",
     "mobx": "^4.5.0",
