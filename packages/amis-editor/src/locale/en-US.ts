@@ -20,8 +20,8 @@ extendLocale('en-US', {
   '4d9c32c23df5d234e629c922c58d8e12': 'Right',
   '5ef69f62dc668c1a3e68b51c50a2530a': 'Icon',
   '4434b33a8731a73613ba5fa1eb984efb': 'CSS class name',
-  'd46908ab96b7955bc7ba9cb172c4d2c8':
-    'Which secondary CSS class names are available? Go to<a href=https://baidu.gitee.io/amis/zh-CN/style/index target=_blank>Style description</a>. In addition, you can add a custom class name, and then add a custom style in the system configuration.',
+  'f10b676db977ae808af8d96b327be7f3':
+    'Which secondary CSS class names are available? Go to<a href="https://baidu.gitee.io/amis/zh-CN/style/index" target="_blank">Style description</a>. In addition, you can add a custom class name, and then add a custom style in the system configuration.',
   '159dbc2fafd57b9d3652f16659b1b519': 'Triggering mode',
   '45a51525391d4a3771b22f2cf1aa96b3':
     'The floating layer triggering mode defaults to the mouseover.',
@@ -615,8 +615,8 @@ extendLocale('en-US', {
   '7ac1519928de413cfe36f5d2e0610430': 'Automatic stretch',
   '8e15f51c9512fdbf4287794d6642a90b': 'Child node management',
   'bc78248b34b7bf18691e6d385e0f544b': 'Child node content',
-  '2f10b0974520010e9db4ed5c87bc2a95':
-    '<span class=label label-default>Child node${index | plus}</span>',
+  '197af5d5971778e3b80deb25182d63e3':
+    '<span class="label label-default">Child node${index | plus}</span>',
   '023c4bfc60545a2668c2d5111171b5d8': 'CSS class name of external layer',
   'a4611da51ffee9140976d01668e45d45': 'Child node collection',
   '729a4cca5ed3504793c1f3a87d2b48b9': 'Button click and selection',
@@ -710,7 +710,7 @@ extendLocale('en-US', {
   '66e867eb73a118649800c0a064d0b5aa': 'Type description',
   '5aa528690fd771f89683a7f00868f39e': 'Branch management',
   '35b65a5a3f8d721e12cae310463d69d6': 'Hit conditions',
-  'c4f1a371191ac24d16e00e105540c47a': 'For example: this.type === text',
+  '7341e991c8e8cfec68d31ffe0e06e429': 'For example: this.type === "text"',
   '85485d70be6b380294428018e54fc9b9':
     'Judge whether to use this branch according to the member’s data.',
   '50bfed6ada3e7d0ef4d20eb727b3d7df': 'Configure sub-form item',
@@ -949,8 +949,8 @@ extendLocale('en-US', {
   'c80c42a0be1b39ed899b1f5560875cf8':
     'It supports the JS expression, such as: <code>data.var_a + 2</code>. That is, when the form item  <code>var_a</code> changes, it sets the current form item to a value of <code>var_a + 2</code> automatically. If it is set to a string, it should be placed inside quotation marks.',
   '89a8549c2ed7fc23a683599731d92b22': 'Application conditions',
-  'e16e5eca749d250efd3ad95434ff7026':
-    'It supports the following conditions. For example, the <code>\\${xxx}</code> or <code>data.xxx == a</code> expression is used to configure the application conditions. When the application conditions are satisfied, you can set the calculation result to the target variable.  ',
+  '8add6799ceff24eb041c5a6a92bb1694':
+    'It supports the following conditions. For example, the <code>\\${xxx}</code> or <code>data.xxx == "a"</code> expression is used to configure the application conditions. When the application conditions are satisfied, you can set the calculation result to the target variable.  ',
   '3df193f5d4f652a4bac331a69761041b': 'Whether to apply it initially',
   '86cebf86c66c6a4e6731b840c3967ab0':
     'Whether to run the formula result during initialization and set it to the target variable.',
@@ -1032,8 +1032,8 @@ extendLocale('en-US', {
     'Be triggered when the input box gets a focus (non-embedded mode)',
   '0f5fc3b84cf9c24ff3acae45ae22fb57':
     'Be triggered when the input box loses the focus (non-embedded mode)',
-  'cfbace00045a3debdc8f02858cf753c6':
-    'Before the data submission, format the data according to the setting. Refer to the format application in <a href=https://momentjs.com/ target=_blank>moment</a>.',
+  'e02d111d524de97e8622121f7ce845cf':
+    'Before the data submission, format the data according to the setting. Refer to the format application in <a href="https://momentjs.com/" target="_blank">moment</a>.',
   'ecd1a3cadcf1d55250afafbbde767250': 'Display format',
   '182503224cfaf1f63c566f13da56a2a4':
     'Refer to the format application in <a href=https://momentjs.com/ target=_blank>moment</a>.',
@@ -1116,8 +1116,8 @@ extendLocale('en-US', {
   'd28879b6a8a4ddb62bf6f2ab59303df7': 'Submitted together with the form',
   '3a76423b7ae40b0fa8b0bedb470cce7e': 'Separate upload',
   '7c6722203327e8173be987f36fadf610': 'Data format',
-  'abe8f84fa8436e1033af359d8ef25634':
-    '${formType ? asBase64 ? You can use it for small files. By default, the file download address is submitted to the form. After setting, the base64 format string of the file content is submitted to the form.\r\n : The File control does not take over the file upload. Thus, the file upload is directly completed by the saving interface of the form. You can choose either of this option and Base64 (什么和Base64 ？？？) : }',
+  'fde1ab2f504097f3f717acbb653b4f09':
+    '${formType ? asBase64 ? "You can use it for small files. By default, the file download address is submitted to the form. After setting, the base64 format string of the file content is submitted to the form." : "The File control does not take over the file upload. Thus, the file upload is directly completed by the saving interface of the form. You can choose either of this option and Base64 (什么和Base64 ？？？)" : ""}',
   '6168fb08fe64663a502a132c5589b73d': 'Binary',
   '7245fe895fa1cfc42b5217a3de314565': 'Automatic upload',
   'cf9e4c80962e712eaa55551cccff317e': 'Enable block',
@@ -1290,8 +1290,8 @@ extendLocale('en-US', {
   '81fafee54baebeb9591b5e7840d7e650':
     'Configuration item displayed in the large-screen mode',
   '0b6eee152cb2553ed4298ca2fe82d3f8': 'Screen width ≥ 1200px',
-  'ac3906888a34e51c5bdc1297636857ed':
-    'The configuration is separated with a space. You can group the configuration bars using <code>|</code>. <a target=_blank href=https://www.froala.com/wysiwyg-editor/docs/options>Reference documentation</a>',
+  'd85a80d177db696b29b7338af1501055':
+    'The configuration is separated with a space. You can group the configuration bars using <code>|</code>. <a target="_blank" href="https://www.froala.com/wysiwyg-editor/docs/options">Reference documentation</a>',
   'f126c4368fbf51cfd470684e7c3d31c9':
     'Configuration item displayed in the medium-screen mode',
   '3b8c320d14dba586c581ceb951917397': 'Screen width ≥ 992px',
@@ -1301,8 +1301,8 @@ extendLocale('en-US', {
   'b8c8f1c6a56e902bd837420da0f554b3': 'tinymce Setting item',
   'e4d0e65de0018b63698ff22d683d6dd5': 'Whether to display the menu bar',
   '63068211669d69b4028eebe0052425e7': 'Enabled plugin',
-  'a917d194212a4f48b60d094c7a83fa17':
-    'The configuration is separated with a space. <a target=_blank href=https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/>Reference documentation</a>',
+  '8cfcd52cebdc2555b202f4b03de93662':
+    'The configuration is separated with a space. <a target="_blank" href="https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/">Reference documentation</a>',
   '1a920d9999206a9fa5f588c7405fe081':
     'The SubForm allows you to configure a <code>subform</code> as the current form item.',
   '18c113b99afa964ee988f30e81baf12b': 'Name field description',
@@ -1343,8 +1343,8 @@ extendLocale('en-US', {
   'e54289c1f0e9311185adee89af24e618': 'Cancel edit button icon',
   '1205e138ba64dddf61c1f8e6eb3a1aa7': 'Confirm mode',
   '1c1618f67cfea6fefb5f287932be2c27': 'Get the parent data',
-  'c811e7212b773b5d698a708113007729':
-    'Configure canAccessSuperData: true Configure strictMode at the same time: False Enable this feature. It maps the variable with the same name of the parent data domain automatically during the initialization. Note that it is mapped only during the initialization. Once modified, the data in the current line predominates. If it is of form item type, it is used as the initial value.',
+  '5831c1f77c5acefa6dfe9c64d06ca78a':
+    'Configure "canAccessSuperData": true Configure "strictMode" at the same time: False Enable this feature. It maps the variable with the same name of the parent data domain automatically during the initialization. Note that it is mapped only during the initialization. Once modified, the data in the current line predominates. If it is of form item type, it is used as the initial value.',
   '677fb705e57897710d28867b7628307e': 'Input CSS class name',
   '14d342362f66aa86e2aa1c1e11aa1204': 'Label',
   '1b4996b29c7b4d5fb45ca701e6438d14':
@@ -1440,8 +1440,8 @@ extendLocale('en-US', {
   'd1f923b8e23b66b3e48953ba1ce17839': 'Select geographic position',
   '989ea9acbab9b17d2c15e2946b5365bb': 'Select position',
   'dffd9d86d2003615897b12ce7597d77b': 'Baidu Map AK',
-  '3eaf4454ea75f435e78890d051775f68':
-    'Get Baidu Map AK from the <a href=http://lbsyun.baidu.com/ target=_blank>Baidu Map Open Platform</a>',
+  'a269e7de6c7735290733eb3e574c2129':
+    'Get Baidu Map AK from the <a href="http://lbsyun.baidu.com/" target="_blank">Baidu Map Open Platform</a>',
   'b472ba224a7d132c487ee6ec4798f835': 'Coordinate format',
   '36443b53c845b197db8d39eeda433ab9': 'Baidu coordinate',
   'f58cb611aec0998a44ef104b5c950b40':
@@ -1487,8 +1487,8 @@ extendLocale('en-US', {
   'dc0c50a5c9832b393df34835111c34a3': 'Enable embedded mode',
   '1ac065ed64b81380384a0b371d5b404f': 'Configuration option details',
   'd64b585847f015eaa1443a3a03562350': 'Display the style of the selected data',
-  'c2ceb5af7595ec6d1818b35d5b68890b':
-    'It allows you to get the variable using <code>\\${xxx}</code> or write the template logic using lodash.template syntax. <a target=_blank href=/amis/zh-CN/docs/concepts/template>Details</a>',
+  '0861915dbac25ccb573b3bb72ffeebd7':
+    'It allows you to get the variable using <code>\\${xxx}</code> or write the template logic using lodash.template syntax. <a target="_blank" href="/amis/zh-CN/docs/concepts/template">Details</a>',
   'c2c23b4fc7f695c58e947ad413f2c5d8': 'Checkbox type',
   '33e6c41fed95c25e3b426d596d504579': 'Drawer type popout',
   '5a7af8d3e471d98339c84b07a844547b':
@@ -1749,14 +1749,14 @@ extendLocale('en-US', {
   'a2bc1edd7be9348e5a998feb0886c55d': 'Log data source',
   'ddeeaa33ae62ead1a77a859fb79b78d7':
     'It displays the mapping of the current values. For example, if the original value is 1, 2, or 3..., it is required to display offline, online, expiration, and so on.',
-  'de5c484c2ef38a6908f501bd93339ea7': '<span class=label label-info>I/span>',
-  '637729ecbb0395a5ce9fc43f94cb92bd':
-    '<span class=label label-success>II</span>',
-  '3a82dd75c3c3747c77329f682b243405':
-    '<span class=label label-danger>III</span>',
-  '6aa6f4aed3337b006be1052661f2b86b':
-    '<span class=label label-warning>IV</span>',
-  '8fb95b984334a27006b5d45613a79c51': '<span class=label label-info> V/span>',
+  '844318bd1d58ba0bf7dabbb771174b12': '<span class="label label-info">I/span>',
+  '2fccd71275cdf5d6c0c677ef79dd84a0':
+    '<span class="label label-success">II</span>',
+  '198a96c4cfc64d5feba81b3f931f8289':
+    '<span class="label label-danger">III</span>',
+  '626a0f2fdf13bcadf11581006ab9eba3':
+    '<span class="label label-warning">IV</span>',
+  'ce3fd44456123f571e9d083b98da9fcb': '<span class="label label-info"> V/span>',
   '8b139ce9fa196b602bb1ee3bd25b25df': 'Mapping table',
   'a9de5901385d644363cd056482be7517':
     '<p>When the value hits the left Key, it displays the right conent. When the value does not hit the key, the key is the content of <code>*</code> by default</div>. Ensure that the key value is unique.',
@@ -1845,8 +1845,8 @@ extendLocale('en-US', {
   '348097cc50579e489f0bcb5433637d3a':
     'With this option enabled, you can sort them according to the current column sequence (backend sequence).',
   '9db64f772c11c614ee00bb3cc066f46f': 'Column group name',
-  '161799764950b7251c94ae3e44d4c06f':
-    'When the group name of multiple column groups keeps consistent, the table displays the super table header at the top layer of the table header displayed.<a href=https://baidu.github.io/amis/crud/header-group target=_blank>Example</a>',
+  'fea0f3f456153564218a9eefb78d8cec':
+    'When the group name of multiple column groups keeps consistent, the table displays the super table header at the top layer of the table header displayed.<a href="https://baidu.github.io/amis/crud/header-group" target="_blank">Example</a>',
   '19c4f5e98ad302574202de30dddbaf66': 'Enable quick edit',
   '15c3796e07e33afc7252df751f610c5d': 'Whether to save immediately',
   'ba5a0a1ff2c438ae7719ca48b0ce3af7': 'Enable “View more display options”',
@@ -1933,8 +1933,8 @@ extendLocale('en-US', {
   '6c5b1f0e8e361a801fa75da070d1cba5':
     'It is used to display the pure text. The html label is escaped.',
   '67e77a196826a8880e47ad949ce08ac0': 'This a pure text.',
-  '8f945732891671ab4a3e095ebe58ea38':
-    'If the current field has a value, do not set it any more. Otherwise, the new set value overwrites the old one. It allows you to get the variable using <code>\\${xxx}</code> or write the template logic using lodash.template syntax. <a target=_blank href=/amis/zh-CN/docs/concepts/template>Details</a>',
+  'f8fc21a9fd40881e8fd3d7f15919465c':
+    'If the current field has a value, do not set it any more. Otherwise, the new set value overwrites the old one. It allows you to get the variable using <code>\\${xxx}</code> or write the template logic using lodash.template syntax. <a target="_blank" href="/amis/zh-CN/docs/concepts/template">Details</a>',
   '83077805e05ac6bedad69b47fca4462b': 'Progress display',
   'c77048def6e8a2d6c556a3fcc9c66730': 'Progress bar, progress',
   'b1aefb18d4bf96dc283a26d67abc41a8':
@@ -2186,8 +2186,8 @@ extendLocale('en-US', {
   '4f58f808d62c4e31c347e483898396d5':
     'It is used to show or perform asynchronous tasks.',
   '9ee043b0a77a26d22eec0f4ea99afbd3': 'hive task',
-  'f0eda973dd9e60c659057dadde816725':
-    'View details<a target=_blank href=http://www.baidu.com>Log</a>.',
+  '2c8a99d35cb5704994cabcc61a4c3a4a':
+    'View details<a target="_blank" href="http://www.baidu.com">Log</a>.',
   '3709f71c9552ed5db76cbe8f3cb5d4be': 'Small traffic',
   'c60ad696dee4e1eeff6f0f2c2e9b9fc0': 'Total',
   '5c0dc424442c913c6d16a2cf43137da4': 'Initial task information',
@@ -2356,7 +2356,7 @@ extendLocale('en-US', {
   '7c57a563ab87bc6eb5edd8f5b953f499': 'Interface setting',
   '6aa351f5dacd13d3d862d9c93e4a0241': 'Sending method',
   '8dc91bca9bc83efea73150e3478657fc': 'Sending conditions',
-  'd811d2650a17fb7cac710e9376645287': 'For example: this.type == 123',
+  'bf9e242338d2c26b182aa6b9c015d84c': 'For example: this.type == "123"',
   '91ee84292a5bf5e59d3b6309f948f2f1':
     'An expression is used to set the sending conditions for the request.',
   '55409342e28d37db86fb23efbd84a025': 'The sending entity format is ',
@@ -2385,8 +2385,8 @@ extendLocale('en-US', {
   '9ae7a582479116d4cb41e828fbd59798': 'Send data mapping',
   '0fcbf036057c6dd88b7b809daa0c5eb7':
     'When the data mapping is not enabled, it send as much data as possible when the API is sent. If you want to control the data sent by yourself, or need additional data processing, enable this option.',
-  'eba0c4982948edc9b865292dc8abea33':
-    '<p>When the data mapping is not enabled, the sent data is automatically cut into the whitelist mode. Thus, what is sent is determined by the configuration. Bind the data, e.g., <code>{a: \\${a}, b: 2}</code></p><p>If you want to customize (???) based on the default(?????), add a Key as `&`. The Value is `\\$$` in the first row. </p><div>When the value is <code>__undefined</code>, it indicates that you need to delete the corresponding field. You can combine the <code>{&: \\$$}</code> to achieve the blacklist effect. </div>',
+  '5414824fb8efdb7d59beae4bf95fdefd':
+    '<p>When the data mapping is not enabled, the sent data is automatically cut into the whitelist mode. Thus, what is sent is determined by the configuration. Bind the data, e.g., <code>{"a": "\\${a}", "b": 2}</code></p><p>If you want to customize (???) based on the default(?????), add a Key as `&`. The Value is `\\$$` in the first row. </p><div>When the value is <code>__undefined</code>, it indicates that you need to delete the corresponding field. You can combine the <code>{"&": "\\$$"}</code> to achieve the blacklist effect. </div>',
   '7dd590a9d9e783e980d318bd52891905': 'Return the result mapping',
   '7e295b6ff39ec7356e06c4534bfc4fb3':
     'If required to process the additional data for the return result, enable this option.',
@@ -2434,8 +2434,8 @@ extendLocale('en-US', {
   '5d26b8a41e805204c9dcd5ea7e23b150': 'Enter text or value',
   '22de6ef85ed60ec54dbdc1d8583e5104': 'Add in batch',
   '421252e16c6cb544fe9ce0be94a190e0': 'Add options in batch',
-  '55c4cbeae7ffae65d211bc5e9968dc28':
-    'Each option is listed in a separate row. All items with non-repeated values are added as new options. <br/>You can set the label and value for each row using a space, respectively, e.g., 张三 zhangsan',
+  'c130bd5b55edefdaf8923269e9a52439':
+    'Each option is listed in a separate row. All items with non-repeated values are added as new options. <br/>You can set the label and value for each row using a space, respectively, e.g., "张三 zhangsan"',
   '1e2f96a69fbef8caa8823a3067ebbdc7': 'Enter option content',
   'a4f1ddbbfc96930d24e4b54cb815b62b': 'No option',
   '5b4ffa2eadaf629b833b37a3e8742b2c': 'No chunking',
@@ -2712,8 +2712,8 @@ extendLocale('en-US', {
     'You can specify to refresh the target component after the operation is complete. Enter the <code>name</code> property of the target component. Multiple components should be separated with <code>,</code>. If the target component is a form item, first enter the form name, and then connect the form item name with <code>.</code>, such as <code>xxForm.xxControl</code>. Additionally, you can refresh the whole page if you set the refresh target object to <code>window</code>. ',
   '705b3b333576dbf6c063d7060a4cc509':
     'After the name is set, the completion of the current component operation will trigger the refresh of the target component (according to the set name).',
-  '018dcc21d4c932029eaff062c4767f3f':
-    'Which secondary CSS class names are available? Go to <a href=https://baidu.github.io/amis/docs/concepts/style target=_blank>Style instructions</a>. In addition, you can add a custom class name, and then add a custom style in the system configuration.',
+  '7080fa6e0ca1d7e24f6f8cac05077a3a':
+    'Which secondary CSS class names are available? Go to <a href="https://baidu.github.io/amis/docs/concepts/style" target="_blank">Style instructions</a>. In addition, you can add a custom class name, and then add a custom style in the system configuration.',
   '3bce1a6217990c8dc087d254f1fe754a': 'Automatic fill',
   'f01553e415ca33cc89d0bca84023f4b5':
     'Automatically fill the value in a field of the currently-selected option into a form item in the form. The data mapping is supportive.',
@@ -2970,29 +2970,29 @@ extendLocale('en-US', {
     "\r\n      const button = document.createElement('button');\r\n      button.innerText = 'Click to modify the name';\r\n      button.onclick = event => {\r\n        event.preventDefault();\r\n      };\r\n      dom.appendChild(button);",
   'a8065b6d2062bf061762b9200a88251a':
     "\r\n        const button = document.createElement('button');\r\n        button.innerText = 'Click to modify the name ddd';\r\n        button.onclick = event => {\r\n          onChange('new name');\r\n          event.preventDefault();\r\n        };\r\n        dom.appendChild(button);",
-  '717a7095d0330ee4bdb46ba8c8b44463':
-    '<div>\r\n<h2>hello, world!</h2>\r\n<div id=customBox>Custom container area</div>\r\n</div>',
+  '73ac822ddf4685dbfec661dec41a96b7':
+    '<div>\r\n<h2>hello, world!</h2>\r\n<div id="customBox">Custom container area</div>\r\n</div>',
   'f29ab26877ed22ffa59636d747d824b9':
     'You can press the Esc key to close the popout.',
   'dcba76890a534e1fe94421be2a17b484':
     'Display the error message at the bottom left corner.',
   'af5876b89583552eef4c781718886dec':
     'Display the loading animation at the bottom left corner.',
-  'ff57dff3fca4dee46a8e693d35b7e728':
-    '<div> With the data mapping enabled, the data in the popout only contains the set part. Then, you need to bind the data. For example:{a: ${a}, b: 2}. </div>',
-  '290aa0d8fd40285d213a3786c98e28d3':
-    '<div>When the value is __undefined, it indicates that the corresponding field is deleted. You can combine {&: $$} to achieve the blacklist effect. </div>',
-  'c7505acc5b5dd1ad17f35dd90e0884d6':
-    '${data[&] ? The parameter customization feature is already enabled. Thus, you can click to disable this feature. : If you need to customize the parameters based on the default data, enable the parameter customization feature and then define the key and value. }',
+  'f19464cd1d7c55610b84b4972eaf506f':
+    '<div> With the data mapping enabled, the data in the popout only contains the set part. Then, you need to bind the data. For example:{"a": "${a}", "b": 2}. </div>',
+  '784cf5219012b5f16f2985b7f1fd52f5':
+    '<div>When the value is __undefined, it indicates that the corresponding field is deleted. You can combine {"&": "$$"} to achieve the blacklist effect. </div>',
+  'af9f27383daeec508815a33753247f42':
+    '${data["&"] ? "The parameter customization feature is already enabled. Thus, you can click to disable this feature." : "If you need to customize the parameters based on the default data, enable the parameter customization feature and then define the key and value."}',
   '9567f8bbb315b1217b7b32be37f97792':
     '${data[&] ? Disable immediately:  disable immediately}',
   'bde8a41fc64bfe78d0c4951ac6f93718': 'Display mask',
   '874cf31274d782914c7833cc39836c4e':
     'You can drag the drawer to change its size.',
-  '0eeffa0f121262f0c737975a7a6553e4':
-    'It takes effect when it is at the left or right position. The default width is the width configured in the size field. The value unit defaults to px. It also supports such units as percentage, e.g., 100%.',
-  '9c203944698316da279b3c6f8d1933ac':
-    'It takes effect when it is at the upper or bottom position. The default width is the height configured in the size field. The value unit defaults to px. It also supports such units as percentage, e.g., 100%.',
+  '94397b87ac63fe238c779120fadab024':
+    "It takes effect when it is at the 'left' or 'right' position. The default width is the width configured in the 'size' field. The value unit defaults to px. It also supports such units as percentage, e.g., 100%.",
+  'a6d91e801974dfa735a4ae0e098c522a':
+    "It takes effect when it is at the 'upper' or 'bottom' position. The default width is the height configured in the 'size' field. The value unit defaults to px. It also supports such units as percentage, e.g., 100%.",
   '45ce37c24c6e7252d98c6d450e3ca4ad': 'Title area',
   '660553eee939d2bd8ea68172fa7216df': 'Footer area',
   '1495c26f33625552e4845630b6b7b44a':
@@ -3177,8 +3177,8 @@ extendLocale('en-US', {
   'e6ff6a97bf600c02942db3126a7077b8': 'API center',
   '37087e5bb2d0367872a461f535580d91': 'Enter time',
   '96641a78cfd9f9f8ba68f0524347b186': 'Enter title',
-  '82e9f5ad74c0ff5a041369bd6c7a0760':
-    'Each option is listed in a separate row. All items with non-repeated values are added as new options. <br/>You can set the time and title for each row using spaces, respectively, e.g., End-of-term makeup examination on June 23, 2022',
+  '1bf14fd24efe68f62bbff0538dee238a':
+    'Each option is listed in a separate row. All items with non-repeated values are added as new options. <br/>You can set the time and title for each row using spaces, respectively, e.g., "End-of-term makeup examination on June 23, 2022"',
   'd584018521820dac9e92120737b733ba': 'Node configuration',
   '72a3c1690dead6e24f7ac1abc90d5063': 'Enter display time',
   '79d3abe929f67f0644a78bf32adb3a89': 'Copy',
@@ -3195,8 +3195,8 @@ extendLocale('en-US', {
   '4fe2f10c6d5bedac03f40a4362e4f69b': 'Enter component name',
   '89bc2a21c778b36d09c8d795aac8260e': 'Data entry',
   '666352a09304cba42de24312f509c3b4': 'Automatic fill or reference entry',
-  'e367011e16762afd7db7cf4ff06dcb68':
-    "({\r\n          isEmail: 'The Email format is incorrect',\r\n          isRequired: ''This option is required',\r\n          isUrl: 'The Url format is incorrect',\r\n          isInt: 'Enter an integer',\r\n          isAlpha: 'Enter a letter',\r\n          isNumeric: 'Enter a number',\r\n          isAlpha: 'Enter a letter or number',\r\n          isFloat: 'Enter a floating-point value',\r\n          isWords: 'Enter a letter',\r\n          isUrlPath: 'You can enter letters, numbers, \\-\\, and \\_\\. only',\r\n          matchRegexp: 'The format is incorrect. Enter the content that meets the rule of \\$1\\ .' ,\r\n          minLength: 'Enter more content which includes at least $1 character.' ,\r\n          maxLength: 'Control the content length and do not enter more than $1 character',\r\n          maximum: ''Check it when the current input value exceeds the maximum value $1',\r\n          minimum: 'Check it when the current input value is less than minimum value $1',\r\n          isJson: 'Check the Json format.' ,\r\n          isLength: 'Enter the content with a length of $1',\r\n          notEmptyString: 'Do not enter all blank characters',\r\n          equalsField: 'The input data is inconsistent with $1',\r\n          equals: 'The input data is inconsistent with $1',\r\n          isPhoneNumber: 'Enter a valid phone number',\r\n          isTelNumber: 'Enter a valid phone number',\r\n          isZipcode: 'Enter a valid postal address',\r\n          isId: 'Enter a valid ID number',\r\n      })[data.type] || ''",
+  '7237d0dfa065bf451120d06330291b7d':
+    "({\n          isEmail: 'The Email format is incorrect',\n          isRequired: 'This option is required',\n          isUrl: 'The Url format is incorrect',\n          isInt: 'Enter an integer',\n          isAlpha: 'Enter a letter',\n          isNumeric: 'Enter a number',\n          isAlpha: 'Enter a letter or number',\n          isFloat: 'Enter a floating-point value',\n          isWords: 'Enter a letter',\n          isUrlPath: 'You can enter letters, numbers, \\-\\, and \\_\\. only',\n          matchRegexp: 'The format is incorrect. Enter the content that meets the rule of \\$1\\ .' ,\n          minLength: 'Enter more content which includes at least $1 character.' ,\n          maxLength: 'Control the content length and do not enter more than $1 character',\n          maximum: ''Check it when the current input value exceeds the maximum value $1',\n          minimum: 'Check it when the current input value is less than minimum value $1',\n          isJson: 'Check the Json format.' ,\n          isLength: 'Enter the content with a length of $1',\n          notEmptyString: 'Do not enter all blank characters',\n          equalsField: 'The input data is inconsistent with $1',\n          equals: 'The input data is inconsistent with $1',\n          isPhoneNumber: 'Enter a valid phone number',\n          isTelNumber: 'Enter a valid phone number',\n          isZipcode: 'Enter a valid postal address',\n          isId: 'Enter a valid ID number',\n      })[data.type] || ''",
   'd3e329f73ae4b58d95cc7769eeca8370':
     'It takes effect when it is at the left or right position.',
   'fd179c2844536ce198290441c38c814e':
@@ -3206,5 +3206,31 @@ extendLocale('en-US', {
   '34df758502e02c7c1a58f804a6c96c28': 'Text before being folded',
   '1d20d90b7c7301b7739900242d38544e':
     'No configuration. The title appears by default.',
-  '8aea4138b4fac2627c9b72da37e0671f': 'Text after being folded'
+  '8aea4138b4fac2627c9b72da37e0671f': 'Text after being folded',
+  'e9b91e9101059dc2e234d9847dd7b003': '',
+  '544fac400db790f57ea8ee4207cbeb6b': '',
+  'fcb9b16d5d056bfbf6b6cba9dcf61efa': '',
+  '17a689143f0c7003123bb3c947d35273': '',
+  '2aa41edf8cfa79e7e5fcf38c9742b495': '',
+  '37ad5d98b12853d786b08cb52b91a43a': '',
+  '324d0ccd6fa9d976d2f17de3bf0b70bd': '',
+  '7a377ac3904628fd73e7d33ce6130ae1': '',
+  '674ddb63a7cd9e14a49813d52cf7e25e': '',
+  '24c5febd312d27b5e80354cf03e241f0': '',
+  '54d621d5bd588bea4e896de52147a229': '',
+  'ae76ff4dcb615d3b0232dcd10115e149': '',
+  '152b66069787294e53cfc176a189c81f': '',
+  '10cfe8897db8c032986138ba7b2f48da': '',
+  'a6e2cf5b7fa625f571a3e6d0df3a7327': '',
+  '3371427f1b82095309092ef82418ec1a': '',
+  '0e9525b2bb1493c567c114dd61b69095': '',
+  'ff0d36eac9b9c029d91c365cd2c7e6cf': '',
+  'a718dcd3a16bee2a4086244ef1eb0ab4': '',
+  'c323e3527a805cfdd264700fdf013daf': '',
+  'c762cefa0ff423010af0a943c04d603b': '',
+  'b95aed5c6f2c8e49e23b382ac3d593ba': '',
+  'fd11733fbabaf2ae3cf1fcd3fe385cc5': '',
+  'acf719549561f28f38bf750a64cda508': '',
+  'e027500d91d46a962036f63c09492c6c': '',
+  'd01886eeef1de19f2e99617017f4def8': ''
 });
