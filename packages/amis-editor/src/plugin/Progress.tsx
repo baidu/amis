@@ -79,13 +79,11 @@ export class ProgressPlugin extends BasePlugin {
                   }
                 }
               },
-              {
-                type: 'input-number',
-                name: 'value',
-                label: '默认值',
-                min: 0,
-                max: 100
-              },
+              getSchemaTpl('valueFormula', {
+                type: 'input-number'
+                // rendererSchema: context?.schema,
+                // valueType: 'number' // 期望数值类型，不过 amis中会尝试字符串 trans 数值类型
+              }),
               getSchemaTpl('menuTpl', {
                 name: 'valueTpl'
               }),
