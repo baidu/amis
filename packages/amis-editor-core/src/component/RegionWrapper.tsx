@@ -97,10 +97,6 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
 
     wrapper.setAttribute('data-region', region);
     wrapper.setAttribute('data-region-host', id);
-    wrapper.setAttribute(
-      'data-region-placeholder',
-      this.props.placeholder || this.props.label
-    );
     rendererName && wrapper.setAttribute('data-renderer', rendererName);
   }
 
@@ -108,7 +104,9 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
     return (
       <EditorNodeContext.Provider value={this.editorNode}>
         {this.props.children}
-        <span className="ae-Region-placeholder" />
+        <span className="ae-Region-placeholder">
+          {this.props.placeholder || this.props.label}
+        </span>
       </EditorNodeContext.Provider>
     );
   }

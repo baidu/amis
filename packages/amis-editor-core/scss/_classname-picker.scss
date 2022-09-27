@@ -1,7 +1,7 @@
 .ae-ClassNamePicker-popover {
   padding: 10px;
   width: 610px;
-  max-height: 400px;
+  max-height: calc(100% - 400px);
   overflow: auto;
 
   &.ae-PopOver--leftBottomLeftTop {

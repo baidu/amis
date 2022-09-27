@@ -26,8 +26,13 @@
 @import './control/formula-control';
 @import './control/dateshortcut-control';
 @import './control/badge-control';
+@import './control/go-config';
+@import './control/feature-control';
+@import './control/databinding-control';
 @import './control/event-action';
+@import './control/timeline_item_control';
 @import './control/tree_option_control';
+@import './control/_inpupt-file';
 
 /* 样式控件 */
 @import './style-control/box-model';
@@ -1053,54 +1058,25 @@
 
 .ae-Region-placeholder {
   display: none;
+  text-align: center;
+  color: var(--text--muted-color);
+  user-select: none;
+  text-align: center;
+  text-transform: uppercase;
+  border: 1px dashed rgb(206, 208, 211);
+  background: rgba(10, 19, 37, 0.05);
 
-  // &:first-child {
-  //   position: relative;
-  //   display: flex;
-  //   flex: 1;
-  //   flex-direction: column;
-  //   justify-content: center;
-  //   min-width: 60px;
-  //   padding: 0 5px;
-  //   -webkit-user-select: none;
-  //   user-select: none;
-  //   text-align: center;
-  //   text-transform: uppercase;
-  //   color: var(--text--muted-color);
-  //   // border: 1px dashed rgb(206, 208, 211);
-  //   background: rgba(10, 19, 37, 0.05);
-  // }
+  &:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
 }
 
 [data-region] {
   position: relative;
   min-height: 34px;
-
-  &:empty {
-    min-width: 20px;
-
-    &:before {
-      height: 100%;
-      content: attr(data-region-placeholder);
-      position: relative;
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      justify-content: center;
-
-      padding: 0 5px;
-      -webkit-user-select: none;
-      user-select: none;
-      text-align: center;
-      text-transform: uppercase;
-      color: rgb(108, 113, 124);
-      border: 1px dashed rgb(206, 208, 211);
-      background: rgba(10, 19, 37, 0.05);
-    }
-  }
-  // &.is-region-active {
-  //   min-height: 34px;
-  // }
 
   &.is-dragenter {
     background-color: #fff;
@@ -1505,10 +1481,27 @@ div.ae-DragImage {
 
 .ae-ApiSample {
   min-width: 200px;
+  max-height: 300px;
+
+  &-desc {
+    font-size: var(--fontSizeSm);
+    display: inline-block;
+    margin-top: #{px2rem(5px)};
+    color: #84868c;
+  }
+
+  &-icon {
+    --Remark-onHover-bg: #{$Editor-theme-color};
+
+    & > i {
+      border: none;
+      padding: #{px2rem(10px)};
+      border-radius: #{px2rem(3px)};
+    }
+  }
 
   > pre {
     overflow: auto;
-    border: 1px solid #999;
     page-break-inside: avoid;
     display: block;
     padding: 9.5px;
@@ -1518,12 +1511,13 @@ div.ae-DragImage {
     color: #333;
     word-break: break-all;
     word-wrap: break-word;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    background-color: #f7f7f9;
+    border-radius: #{$Editor-borderRadius};
+    border: none;
 
     > code {
       white-space: pre;
+      color: #151a26;
     }
   }
 
@@ -1563,5 +1557,53 @@ div.ae-DragImage {
 .ae-collapse-checkbox {
   label {
     margin-right: 0;
+  }
+}
+
+.ae-Scaffold-Modal {
+  width: px2rem(700px);
+  @include panel-sm-content();
+
+  .ae-Steps {
+    margin: auto;
+    max-width: px2rem(350px);
+    --Steps-title-fontsize: #{px2rem(14px)};
+
+    &-Icon {
+      width: px2rem(22px) !important;
+      height: px2rem(22px) !important;
+      font-size: px2rem(12px) !important;
+    }
+  }
+
+  &-Tabs {
+    --Tabs-linkFontSize: #{px2rem(12px)};
+  }
+}
+
+.ae-Button--link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 !important;
+
+  svg {
+    width: 12px;
+    margin-right: 4px !important;
+  }
+}
+
+.ae-Fields-Setting {
+  &-Item {
+    display: flex;
+    height: px2rem(32px);
+    margin-bottom: 12px;
+    padding: 0 px2rem(8px);
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+
+    &-label {
+      flex-grow: 1;
+      line-height: px2rem(30px);
+    }
   }
 }

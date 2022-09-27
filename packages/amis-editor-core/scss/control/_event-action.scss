@@ -9,11 +9,12 @@
   }
   &-header {
     position: fixed;
-    top: #{px2rem(45px)};
+    top: #{px2rem(48px)};
     width: 100%;
     padding: #{px2rem(12px)};
     background: #fff;
     z-index: 1;
+    margin-top: 1px;
     .add-event-dropdown {
       button {
         top: 44px;
@@ -75,6 +76,14 @@
           }
         }
       }
+      &-desc {
+        margin: #{px2rem(12px)};
+        color: #84868c;
+        button > svg {
+          width: #{px2rem(12px)};
+          height: #{px2rem(12px)};
+        }
+      }
       &:last-child {
         .event-item-header {
           border-bottom: #{px2rem(1px)} solid #d4d6d9;
@@ -87,7 +96,9 @@
         @include flexBox(column, flex-start);
         @include minScrollBar();
         margin: 0;
-        padding: #{px2rem(13px)} #{px2rem(8px)} 0;
+        padding-left: #{px2rem(12px)};
+        padding-right: #{px2rem(12px)};
+        padding-top: #{px2rem(12px)};
         background: #ffffff;
         list-style-type: none;
         .ae-option-control-item {
@@ -333,13 +344,13 @@
                 }
                 li .is-checked > div {
                   background: var(--Tree-item-onChekced-bg);
-                  &:hover{
+                  &:hover {
                     background-color: var(--Tree-item-onChekced-bg) !important;
                   }
                 }
               }
             }
-          
+
             li .is-checked::before {
               content: '';
               background: url('../static/check.svg') no-repeat center center;
