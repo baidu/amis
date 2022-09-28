@@ -119,7 +119,8 @@ export class AssociatedSelection extends BaseSelection<
       leftMode,
       cellRender,
       multiple,
-      itemRender
+      itemRender,
+      labelField
     } = this.props;
 
     const selectdOption = BaseSelection.resolveSelected(
@@ -196,6 +197,7 @@ export class AssociatedSelection extends BaseSelection<
                   options={selectdOption.children || []}
                   onChange={onChange!}
                   multiple={multiple}
+                  labelField={labelField}
                 />
               ) : rightMode === 'chained' ? (
                 <ChainedSelection
@@ -206,6 +208,7 @@ export class AssociatedSelection extends BaseSelection<
                   option2value={option2value}
                   multiple={multiple}
                   itemRender={itemRender}
+                  labelField={labelField}
                 />
               ) : (
                 <GroupedSelection
@@ -216,6 +219,7 @@ export class AssociatedSelection extends BaseSelection<
                   option2value={option2value}
                   multiple={multiple}
                   itemRender={itemRender}
+                  labelField={labelField}
                 />
               )
             ) : (

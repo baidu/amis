@@ -128,6 +128,11 @@ export interface TransferControlSchema extends FormOptionsSchema {
    * 右侧列表搜索框提示
    */
   resultSearchPlaceholder?: string;
+
+  /**
+   * 统计数字
+   */
+  statistics?: boolean;
 }
 
 export interface BaseTransferProps
@@ -343,7 +348,7 @@ export class BaseTransferRenderer<
       });
     }
 
-    return ResultList.itemRender(option);
+    return ResultList.itemRender(option, states);
   }
 
   @autobind
@@ -424,7 +429,9 @@ export class BaseTransferRenderer<
       searchPlaceholder,
       resultListModeFollowSelect = false,
       resultSearchPlaceholder,
-      resultSearchable = false
+      resultSearchable = false,
+      statistics,
+      labelField
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -471,6 +478,8 @@ export class BaseTransferRenderer<
           searchPlaceholder={searchPlaceholder}
           resultSearchable={resultSearchable}
           resultSearchPlaceholder={resultSearchPlaceholder}
+          statistics={statistics}
+          labelField={labelField}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
           onSelectAll={this.onSelectAll}

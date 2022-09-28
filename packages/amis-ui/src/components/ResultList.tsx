@@ -21,17 +21,20 @@ export interface ResultListProps extends ThemeProps, LocaleProps {
   sortable?: boolean;
   disabled?: boolean;
   title?: string;
+  searchPlaceholder?: string;
   placeholder: string;
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   itemClassName?: string;
   searchable?: boolean;
   onSearch?: Function;
   valueField?: string;
+  labelField?: string
 }
 
 export interface ItemRenderStates {
   index: number;
   disabled?: boolean;
+  labelField?: string;
   onChange: (value: any, name: string) => void;
 }
 
@@ -43,13 +46,14 @@ export class ResultList extends React.Component<
   ResultListProps,
   ResultListState
 > {
-  static itemRender(option: any) {
-    return <span>{`${option.scopeLabel || ''}${option.label}`}</span>;
+  static itemRender(option: Option, states: ItemRenderStates) {
+    return <span>{`${option.scopeLabel || ''}${option[states?.labelField || 'label']}`}</span>;
   }
 
-  static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender'> = {
+  static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender' | 'searchPlaceholder'> = {
     placeholder: 'placeholder.selectData',
-    itemRender: ResultList.itemRender
+    itemRender: ResultList.itemRender,
+    searchPlaceholder: ''
   };
 
   state: ResultListState = {
@@ -215,12 +219,13 @@ export class ResultList extends React.Component<
   renderNormalList(value?: Options) {
     const {
       classnames: cx,
-      placeholder,
       itemRender,
       disabled,
       itemClassName,
       sortable,
-      translate: __
+      labelField,
+      translate: __,
+      placeholder
     } = this.props;
 
     return (
@@ -247,7 +252,8 @@ export class ResultList extends React.Component<
                   {itemRender(option, {
                     index,
                     disabled,
-                    onChange: this.handleValueChange.bind(this, index)
+                    onChange: this.handleValueChange.bind(this, index),
+                    labelField
                   })}
                 </label>
 
@@ -280,7 +286,7 @@ export class ResultList extends React.Component<
       searchable,
       value,
       translate: __,
-      placeholder = __('Transfer.searchKeyword')
+      searchPlaceholder = __('Transfer.searchKeyword')
     } = this.props;
 
     const {searchResult} = this.state;
@@ -290,7 +296,7 @@ export class ResultList extends React.Component<
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
-            placeholder={placeholder}
+            placeholder={searchPlaceholder}
             onSearch={this.search}
             onCancelSearch={this.clearSearch}
           />

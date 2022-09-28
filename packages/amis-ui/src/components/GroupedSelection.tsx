@@ -21,7 +21,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
       classnames: cx,
       itemClassName,
       itemRender,
-      multiple
+      multiple,
+      labelField
     } = this.props;
 
     const valueArray = this.valueArray;
@@ -48,7 +49,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
               multiple: multiple,
               checked: false,
               onChange: () => undefined,
-              disabled: disabled || option.disabled
+              disabled: disabled || option.disabled,
+              labelField
             })}
           </div>
 
@@ -88,7 +90,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
             multiple: multiple,
             checked: !!~valueArray.indexOf(option),
             onChange: () => this.toggleOption(option),
-            disabled: disabled || option.disabled
+            disabled: disabled || option.disabled,
+            labelField
           })}
         </div>
       </div>
