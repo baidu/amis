@@ -428,7 +428,7 @@ setSchemaTpl('apiControl', (patch: any = {}) => {
   return {
     type: 'ae-apiControl',
     label,
-    name,
+    name: name || 'api',
     description,
     labelRemark: sampleBuilder
       ? {
