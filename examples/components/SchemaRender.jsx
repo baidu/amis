@@ -6,7 +6,7 @@ import {toast} from 'amis';
 import {normalizeLink} from 'amis-core';
 import {withRouter} from 'react-router';
 import copy from 'copy-to-clipboard';
-import {qsparse} from 'amis-core';
+import {qsparse, parseQuery} from 'amis-core';
 
 function loadEditor() {
   return new Promise(resolve =>
@@ -86,7 +86,7 @@ export default function (schema, showCode, envOverrides) {
               if (pathname !== location.pathname || !location.search) {
                 return false;
               }
-              const currentQuery = qsparse(location.search.substring(1));
+              const currentQuery = parseQuery(location);
               const query = qsparse(search.substring(1));
 
               return Object.keys(query).every(
