@@ -562,6 +562,7 @@ test('Renderer:checkboxes with defaultCheckAll & inline', async () => {
   const Ins = container.querySelectorAll('.cxd-CheckboxesControl');
   expect(Ins[0]!).toHaveClass('is-inline');
   expect(Ins[1]!).not.toHaveClass('is-inline');
+  await wait(200);
 
   fireEvent.click(getByText('Submit'));
   await waitFor(() => {

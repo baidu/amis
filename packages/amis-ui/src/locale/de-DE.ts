@@ -130,12 +130,13 @@ register('de-DE', {
   'File.failed': 'Fehlerhafte Dateien',
   'File.invalidType': '{{files}} entspricht nicht Typ `{{accept}}`',
   'File.maxSize':
-    '{{filename}} überschreitet die maximale Größe von {{maxsize}} (in Byte)',
+    '{{filename}} überschreitet die maximale Größe von {{maxSize}}',
   'File.pause': 'Hochladen anhalten',
   'File.repick': 'Erneut suswählen',
   'File.result':
     'Erfolgreich hochgeladene Dateien: {{uploaded}}, nicht hochgeladene Dateien: {{failed}}',
   'File.retry': 'Wiederholen',
+  'File.sizeLimit': 'Die maximale Dateigröße ist {{maxSize}}',
   'File.start': 'Hochladen beginnen',
   'File.upload': 'Hochladen',
   'Image.upload': 'Hochladen',
@@ -151,6 +152,9 @@ register('de-DE', {
   'Form.unique': 'Aktueller Wert ist nicht eindeutig',
   'Form.validateFailed': 'Fehler bei der Überprüfung der Formulareingabe',
   'Form.nestedError': 'Form kann nicht als Nachkomme von Form erscheinen',
+  'Iframe.invalid': 'Ungültige Iframe-URL',
+  'Iframe.invalidProtocol':
+    'HTTP-URL-Iframe kann nicht in https verwendet werden',
   'Image.configError':
     'Es können nur eine Beschneidung oder mehrere festgelegt werden',
   'Image.crop': 'Bild beschneiden',
@@ -195,6 +199,7 @@ register('de-DE', {
   'Quarter.placeholder': 'Quartal auswählen',
   'Repeat.pre': 'Pro',
   'reset': 'Zurücksetzen',
+  'save': 'Konservierung',
   'saveFailed': 'Fehler beim Speichern',
   'saveSuccess': 'Erfolgreich gespeichert',
   'search': 'Suchen',
@@ -281,6 +286,30 @@ register('de-DE', {
   'validate.minimum': 'Der Eingabewert ist kleiner als der Mindestwert von $1.',
   'validate.minLength': 'Geben Sie weitere Zeichen ein, mindestens $1.',
   'validate.notEmptyString': 'Geben Sie nicht nur Leerzeichen ein.',
+  'validate.isDateTimeSame':
+    'Der aktuelle Datumswert ist ungültig, bitte geben Sie denselben Datumswert wie $1 ein',
+  'validate.isDateTimeBefore':
+    'Der aktuelle Datumswert ist ungültig, bitte geben Sie einen Datumswert vor $1 ein',
+  'validate.isDateTimeAfter':
+    'Der aktuelle Datumswert ist ungültig, bitte geben Sie nach $1 einen Datumswert ein',
+  'validate.isDateTimeSameOrBefore':
+    'Der aktuelle Datumswert ist ungültig. Bitte geben Sie einen Datumswert ein, der gleich oder älter als $1 ist',
+  'validate.isDateTimeSameOrAfter':
+    'Der aktuelle Datumswert ist ungültig. Bitte geben Sie einen Datumswert ein, der gleich oder nach $1 ist',
+  'validate.isDateTimeBetween':
+    'Der aktuelle Datumswert ist ungültig, bitte geben Sie einen Datumswert zwischen $1 und $2 ein',
+  'validate.isTimeSame':
+    'Der aktuelle Zeitwert ist ungültig, bitte geben Sie denselben Zeitwert wie 1 $ ein',
+  'validate.isTimeBefore':
+    'Der aktuelle Zeitwert ist ungültig, bitte geben Sie einen Zeitwert vor $1 ein',
+  'validate.isTimeAfter':
+    'Der aktuelle Zeitwert ist ungültig, bitte geben Sie nach $1 einen Zeitwert ein',
+  'validate.isTimeSameOrBefore':
+    'Der aktuelle Zeitwert ist ungültig. Bitte geben Sie einen Zeitwert ein, der gleich oder älter als $1 ist',
+  'validate.isTimeSameOrAfter':
+    'Der aktuelle Zeitwert ist ungültig. Bitte geben Sie einen Zeitwert ein, der gleich oder nach $1 ist',
+  'validate.isTimeBetween':
+    'Der aktuelle Zeitwert ist ungültig, bitte geben Sie einen Zeitwert zwischen $1 und $2 ein',
   'validateFailed': 'Fehler bei der Überprüfung',
   'Wizard.configError': 'Konfigurationsfehler',
   'Wizard.finish': 'Ende',
@@ -350,6 +379,7 @@ register('de-DE', {
   'UserSelect.resultSort': 'Ergebnissortierung auswählen',
   'UserSelect.selected': 'Ausgewählt',
   'UserSelect.clear': 'leer',
+  'UserSelect.sure': 'Submit',
   'SchemaType.string': 'String',
   'SchemaType.number': 'Number',
   'SchemaType.integer': 'integer',

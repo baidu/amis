@@ -117,11 +117,12 @@ export class Transfer<
 > extends React.Component<T, TransferState> {
   static defaultProps: Pick<
     TransferProps,
-    'multiple' | 'resultListModeFollowSelect' | 'selectMode'
+    'multiple' | 'resultListModeFollowSelect' | 'selectMode' | 'statistics'
   > = {
     multiple: true,
     resultListModeFollowSelect: false,
-    selectMode: 'list'
+    selectMode: 'list',
+    statistics: true
   };
 
   state: TransferState = {
@@ -314,7 +315,7 @@ export class Transfer<
 
     const newArr: Array<Option> = [];
     Array.isArray(value) &&
-      value.forEach(item => {
+      value.forEach((item: Option) => {
         if (!unuseArr.find(v => v.value === item.value)) {
           newArr.push(item);
         }
@@ -444,7 +445,8 @@ export class Transfer<
       option2value,
       optionItemRender,
       cellRender,
-      multiple
+      multiple,
+      labelField
     } = props;
     const {isTreeDeferLoad, searchResult} = this.state;
     const options = searchResult ?? [];
@@ -482,6 +484,7 @@ export class Transfer<
         cascade={true}
         onlyChildren={!isTreeDeferLoad}
         itemRender={optionItemRender}
+        labelField={labelField}
       />
     ) : mode === 'chained' ? (
       <ChainedSelection
@@ -494,6 +497,7 @@ export class Transfer<
         option2value={option2value}
         itemRender={optionItemRender}
         multiple={multiple}
+        labelField={labelField}
       />
     ) : (
       <GroupedSelection
@@ -506,6 +510,7 @@ export class Transfer<
         option2value={option2value}
         itemRender={optionItemRender}
         multiple={multiple}
+        labelField={labelField}
       />
     );
   }
@@ -528,7 +533,8 @@ export class Transfer<
       leftDefaultValue,
       optionItemRender,
       multiple,
-      noResultsText
+      noResultsText,
+      labelField
     } = props;
 
     return selectMode === 'table' ? (
@@ -559,6 +565,7 @@ export class Transfer<
         showIcon={false}
         multiple={multiple}
         cascade={true}
+        labelField={labelField}
       />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
@@ -571,6 +578,7 @@ export class Transfer<
         onDeferLoad={onDeferLoad}
         itemRender={optionItemRender}
         multiple={multiple}
+        labelField={labelField}
       />
     ) : selectMode === 'associated' ? (
       <AssociatedSelection
@@ -588,6 +596,7 @@ export class Transfer<
         leftDefaultValue={leftDefaultValue}
         itemRender={optionItemRender}
         multiple={multiple}
+        labelField={labelField}
       />
     ) : (
       <GroupedSelection
@@ -600,6 +609,7 @@ export class Transfer<
         onDeferLoad={onDeferLoad}
         itemRender={optionItemRender}
         multiple={multiple}
+        labelField={labelField}
       />
     );
   }
@@ -619,14 +629,13 @@ export class Transfer<
       resultSearchPlaceholder,
       onResultSearch,
       sortable,
-      translate: __
+      labelField,
+      translate: __,
+      placeholder = __('Transfer.selectFromLeft')
     } = this.props;
 
     const {resultSelectMode, isTreeDeferLoad} = this.state;
     const searchable = !isTreeDeferLoad && resultSearchable;
-
-    const placeholder =
-      resultSearchPlaceholder || __('Transfer.selectFromLeft');
 
     switch (resultSelectMode) {
       case 'table':
@@ -643,6 +652,7 @@ export class Transfer<
             multiple={false}
             searchable={searchable}
             placeholder={placeholder}
+            searchPlaceholder={resultSearchPlaceholder}
             onSearch={onResultSearch}
           />
         );
@@ -658,7 +668,9 @@ export class Transfer<
             itemRender={resultItemRender}
             searchable={searchable}
             placeholder={placeholder}
+            searchPlaceholder={resultSearchPlaceholder}
             onSearch={onResultSearch}
+            labelField={labelField}
           />
         );
       default:
@@ -670,9 +682,11 @@ export class Transfer<
             value={value}
             onChange={onChange}
             placeholder={placeholder}
+            searchPlaceholder={resultSearchPlaceholder}
             itemRender={resultItemRender}
             searchable={searchable}
             onSearch={onResultSearch}
+            labelField={labelField}
           />
         );
     }

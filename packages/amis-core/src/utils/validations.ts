@@ -1,6 +1,8 @@
-import {createObject} from './helper';
+import moment from 'moment';
 import {filter} from './tpl';
 import {isPureVariable, resolveVariableAndFilter} from './tpl-builtin';
+import type {MomentInput, unitOfTime, MomentFormatSpecification} from 'moment';
+
 const isExisty = (value: any) => value !== null && value !== undefined;
 const isEmpty = (value: any) => value === '';
 const makeRegexp = (reg: string | RegExp) => {
@@ -94,7 +96,9 @@ export interface ValidateFn {
     value: any,
     arg1?: any,
     arg2?: any,
-    arg3?: any
+    arg3?: any,
+    arg4?: any,
+    arg5?: any
   ): boolean;
 }
 
@@ -166,6 +170,11 @@ export const validations: {
     return validations.matchRegexp(values, value, /^[A-Z\s\u00C0-\u017F]+$/i);
   },
   isLength: function (values, value, length) {
+    // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
+    if (typeof value === 'number') {
+      value = String(value);
+    }
+
     return !isExisty(value) || isEmpty(value) || value.length === length;
   },
   equals: function (values, value, eql) {
@@ -182,6 +191,10 @@ export const validations: {
     return !isExisty(value) || value.length <= length;
   },
   minLength: function (values, value, length) {
+    // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
+    if (typeof value === 'number') {
+      value = String(value);
+    }
     return !isExisty(value) || isEmpty(value) || value.length >= length;
   },
   isUrlPath: function (values, value, regexp) {
@@ -282,6 +295,146 @@ export const validations: {
   },
   matchRegexp9: function (values, value, regexp) {
     return validations.matchRegexp(values, value, regexp);
+  },
+  /** ============================ 日期时间相关 ============================= */
+  isDateTimeSame: (
+    values,
+    value: MomentInput,
+    targetDate: MomentInput,
+    granularity?: unitOfTime.StartOf
+  ) => {
+    return moment(value).isSame(moment(targetDate), granularity);
+  },
+  isDateTimeBefore: (
+    values,
+    value: MomentInput,
+    targetDate: MomentInput,
+    granularity?: unitOfTime.StartOf
+  ) => {
+    return moment(value).isBefore(moment(targetDate), granularity);
+  },
+  isDateTimeAfter: (
+    values,
+    value: MomentInput,
+    targetDate: MomentInput,
+    granularity?: unitOfTime.StartOf
+  ) => {
+    return moment(value).isAfter(moment(targetDate), granularity);
+  },
+  isDateTimeSameOrBefore: (
+    values,
+    value: MomentInput,
+    targetDate: MomentInput,
+    granularity?: unitOfTime.StartOf
+  ) => {
+    return moment(value).isSameOrBefore(moment(targetDate), granularity);
+  },
+  isDateTimeSameOrAfter: (
+    values,
+    value: MomentInput,
+    targetDate: MomentInput,
+    granularity?: unitOfTime.StartOf
+  ) => {
+    return moment(value).isSameOrAfter(moment(targetDate), granularity);
+  },
+  isDateTimeBetween: (
+    values,
+    value: MomentInput,
+    lhs: MomentInput,
+    rhs: MomentInput,
+    granularity?: unitOfTime.StartOf,
+    inclusivity?: '()' | '[)' | '(]' | '[]'
+  ) => {
+    return moment(value).isBetween(
+      moment(lhs),
+      moment(rhs),
+      granularity,
+      inclusivity
+    );
+  },
+  /** ============================ 时间相关 ============================= */
+  isTimeSame: (
+    values,
+    value: MomentInput,
+    targetTime: MomentInput,
+    granularity?: unitOfTime.StartOf,
+    format?: MomentFormatSpecification
+  ) => {
+    // 直接使用时间构造的moment object是不合法的，所以需要额外指定一下格式
+    format = format ?? 'hh:mm:ss';
+    return moment(value, format).isSame(
+      moment(targetTime, format),
+      granularity
+    );
+  },
+  isTimeBefore: (
+    values,
+    value: MomentInput,
+    targetTime: MomentInput,
+    granularity?: unitOfTime.StartOf,
+    format?: MomentFormatSpecification
+  ) => {
+    format = format ?? 'hh:mm:ss';
+    return moment(value, format).isBefore(
+      moment(targetTime, format),
+      granularity
+    );
+  },
+  isTimeAfter: (
+    values,
+    value: MomentInput,
+    targetTime: MomentInput,
+    granularity?: unitOfTime.StartOf,
+    format?: MomentFormatSpecification
+  ) => {
+    format = format ?? 'hh:mm:ss';
+    return moment(value, format).isAfter(
+      moment(targetTime, format),
+      granularity
+    );
+  },
+  isTimeSameOrBefore: (
+    values,
+    value: MomentInput,
+    targetTime: MomentInput,
+    granularity?: unitOfTime.StartOf,
+    format?: MomentFormatSpecification
+  ) => {
+    format = format ?? 'hh:mm:ss';
+    return moment(value, format).isSameOrBefore(
+      moment(targetTime, format),
+      granularity
+    );
+  },
+  isTimeSameOrAfter: (
+    values,
+    value: MomentInput,
+    targetTime: MomentInput,
+    granularity?: unitOfTime.StartOf,
+    format?: MomentFormatSpecification
+  ) => {
+    format = format ?? 'hh:mm:ss';
+    return moment(value, format).isSameOrAfter(
+      moment(targetTime, format),
+      granularity
+    );
+  },
+  isTimeBetween: (
+    values,
+    value: MomentInput,
+    lhs: MomentInput,
+    rhs: MomentInput,
+    granularity?: unitOfTime.StartOf,
+    inclusivity?: '()' | '[)' | '(]' | '[]',
+    format?: MomentFormatSpecification
+  ) => {
+    format = format ?? 'hh:mm:ss';
+    return moment(value, format).isBetween(
+      moment(lhs, format),
+      moment(rhs, format),
+      granularity,
+      inclusivity
+    );
   }
 };
 
@@ -322,7 +475,19 @@ export const validateMessages: {
   isPhoneNumber: 'validate.isPhoneNumber',
   isTelNumber: 'validate.isTelNumber',
   isZipcode: 'validate.isZipcode',
-  isId: 'validate.isId'
+  isId: 'validate.isId',
+  isDateTimeSame: 'validate.isDateTimeSame',
+  isDateTimeBefore: 'validate.isDateTimeBefore',
+  isDateTimeAfter: 'validate.isDateTimeAfter',
+  isDateTimeSameOrBefore: 'validate.isDateTimeSameOrBefore',
+  isDateTimeSameOrAfter: 'validate.isDateTimeSameOrAfter',
+  isDateTimeBetween: 'validate.isDateTimeBetween',
+  isTimeSame: 'validate.isTimeSame',
+  isTimeBefore: 'validate.isTimeBefore',
+  isTimeAfter: 'validate.isTimeAfter',
+  isTimeSameOrBefore: 'validate.isTimeSameOrBefore',
+  isTimeSameOrAfter: 'validate.isTimeSameOrAfter',
+  isTimeBetween: 'validate.isTimeBetween'
 };
 
 export function validate(

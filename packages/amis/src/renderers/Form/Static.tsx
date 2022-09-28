@@ -69,7 +69,15 @@ export default class StaticControl extends React.Component<StaticProps, any> {
     this.handleQuickChange = this.handleQuickChange.bind(this);
   }
 
-  async handleQuickChange(values: any, saveImmediately: boolean | any) {
+  async handleQuickChange(
+    values: any,
+    saveImmediately: boolean | any,
+    savePristine?: boolean,
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
+  ) {
     const {onBulkChange, onAction, data} = this.props;
 
     if (saveImmediately && saveImmediately.api) {
@@ -77,7 +85,8 @@ export default class StaticControl extends React.Component<StaticProps, any> {
         null,
         {
           actionType: 'ajax',
-          api: saveImmediately.api
+          api: saveImmediately.api,
+          reload: options?.reload
         },
         extendObject(data, values),
         true

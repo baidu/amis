@@ -10,19 +10,34 @@ import {localeable} from 'amis-core';
 export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
   valueArray: Array<Option>;
 
-  renderOption(option: Option, index: number) {
+  renderOption(
+    option: Option,
+    index: number,
+    key: string = `${index}`
+  ): JSX.Element {
     const {
       labelClassName,
       disabled,
       classnames: cx,
       itemClassName,
       itemRender,
-      multiple
+      multiple,
+      labelField
     } = this.props;
 
     const valueArray = this.valueArray;
 
     if (Array.isArray(option.children)) {
+      if (!option.label) {
+        return (
+          <>
+            {option.children.map((child: Option, index: number) =>
+              this.renderOption(child, index)
+            )}
+          </>
+        );
+      }
+
       return (
         <div
           key={index}
@@ -34,7 +49,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
               multiple: multiple,
               checked: false,
               onChange: () => undefined,
-              disabled: disabled || option.disabled
+              disabled: disabled || option.disabled,
+              labelField
             })}
           </div>
 
@@ -74,7 +90,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
             multiple: multiple,
             checked: !!~valueArray.indexOf(option),
             onChange: () => this.toggleOption(option),
-            disabled: disabled || option.disabled
+            disabled: disabled || option.disabled,
+            labelField
           })}
         </div>
       </div>

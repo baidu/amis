@@ -23,9 +23,13 @@ exports[`Renderer:Page 1`] = `
             <span
               className="cxd-TplField"
             >
-              <span>
-                This is Title
-              </span>
+              <span
+                dangerouslySetInnerHTML={
+                  {
+                    "__html": "This is Title",
+                  }
+                }
+              />
             </span>
             <div
               className="cxd-Remark cxd-Remark--warning"
@@ -50,9 +54,13 @@ exports[`Renderer:Page 1`] = `
             <span
               className="cxd-TplField"
             >
-              <span>
-                This is SubTitle
-              </span>
+              <span
+                dangerouslySetInnerHTML={
+                  {
+                    "__html": "This is SubTitle",
+                  }
+                }
+              />
             </span>
           </small>
         </div>
@@ -62,9 +70,13 @@ exports[`Renderer:Page 1`] = `
           <span
             className="cxd-TplField"
           >
-            <span>
-              This is toolbar
-            </span>
+            <span
+              dangerouslySetInnerHTML={
+                {
+                  "__html": "This is toolbar",
+                }
+              }
+            />
           </span>
         </div>
       </div>
@@ -74,9 +86,13 @@ exports[`Renderer:Page 1`] = `
         <span
           className="cxd-TplField"
         >
-          <span>
-            This is body
-          </span>
+          <span
+            dangerouslySetInnerHTML={
+              {
+                "__html": "This is body",
+              }
+            }
+          />
         </span>
       </div>
     </div>
@@ -976,12 +992,27 @@ exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
       <div
         className="cxd-Page-body"
       >
+        <div
+          className="cxd-Spinner-overlay in"
+        />
+        <div
+          className="cxd-Spinner cxd-Spinner--overlay in"
+          data-testid="spinner"
+        >
+          <div
+            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+        </div>
         <span
           className="cxd-TplField"
         >
-          <span>
-            The variable value is 1
-          </span>
+          <span
+            dangerouslySetInnerHTML={
+              {
+                "__html": "The variable value is 1",
+              }
+            }
+          />
         </span>
       </div>
     </div>
@@ -1003,12 +1034,27 @@ exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
       <div
         className="cxd-Page-body"
       >
+        <div
+          className="cxd-Spinner-overlay in"
+        />
+        <div
+          className="cxd-Spinner cxd-Spinner--overlay in"
+          data-testid="spinner"
+        >
+          <div
+            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+        </div>
         <span
           className="cxd-TplField"
         >
-          <span>
-            The variable value is 2
-          </span>
+          <span
+            dangerouslySetInnerHTML={
+              {
+                "__html": "The variable value is 2",
+              }
+            }
+          />
         </span>
       </div>
     </div>
@@ -1942,9 +1988,13 @@ exports[`Renderer:Page initData 1`] = `
         <span
           className="cxd-TplField"
         >
-          <span>
-            The variable value is 1
-          </span>
+          <span
+            dangerouslySetInnerHTML={
+              {
+                "__html": "The variable value is 1",
+              }
+            }
+          />
         </span>
       </div>
     </div>
@@ -1966,12 +2016,27 @@ exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes 
       <div
         className="cxd-Page-body"
       >
+        <div
+          className="cxd-Spinner-overlay in"
+        />
+        <div
+          className="cxd-Spinner cxd-Spinner--overlay in"
+          data-testid="spinner"
+        >
+          <div
+            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+        </div>
         <span
           className="cxd-TplField"
         >
-          <span>
-            The variable value is 6
-          </span>
+          <span
+            dangerouslySetInnerHTML={
+              {
+                "__html": "The variable value is 6",
+              }
+            }
+          />
         </span>
       </div>
     </div>
@@ -1996,9 +2061,13 @@ exports[`Renderer:Page location query 1`] = `
         <span
           className="cxd-TplField"
         >
-          <span>
-            The variable value is 5
-          </span>
+          <span
+            dangerouslySetInnerHTML={
+              {
+                "__html": "The variable value is 5",
+              }
+            }
+          />
         </span>
       </div>
     </div>
@@ -2023,9 +2092,13 @@ exports[`Renderer:Page location query 2`] = `
         <span
           className="cxd-TplField"
         >
-          <span>
-            The variable value is 6
-          </span>
+          <span
+            dangerouslySetInnerHTML={
+              {
+                "__html": "The variable value is 6",
+              }
+            }
+          />
         </span>
       </div>
     </div>

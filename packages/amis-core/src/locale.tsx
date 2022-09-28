@@ -51,7 +51,7 @@ export function makeTranslator(locale?: string): TranslateFn {
       return str;
     }
 
-    const dict = locales[locale!] || locales[defaultLocale];
+    const dict = locales[locale!] || locales[defaultLocale] || locales['zh-CN'];
     return format(dict?.[str] || str, ...args);
   };
 

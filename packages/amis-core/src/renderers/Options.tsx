@@ -26,7 +26,8 @@ import {
   getTreeDepth,
   flattenTree,
   keyToPath,
-  getVariable
+  getVariable,
+  isObject
 } from '../utils/helper';
 import {reaction} from 'mobx';
 import {
@@ -54,6 +55,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import {Option} from '../types';
+import {isEqual} from 'lodash';
 
 export {Option};
 
@@ -246,6 +248,7 @@ export interface OptionsProps
   creatable?: boolean;
   addApi?: Api;
   addControls?: Array<any>;
+  editInitApi?: Api;
   editApi?: Api;
   editControls?: Array<any>;
   deleteApi?: Api;
@@ -1083,6 +1086,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         labelField,
         onOpenDialog,
         editApi,
+        editInitApi,
         env,
         source,
         data,
@@ -1117,6 +1121,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               ...editDialog,
               body: {
                 type: 'form',
+                initApi: editInitApi,
                 api: editApi,
                 controls: editControls
               }
@@ -1266,7 +1271,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         pathSeparator,
         delimiter = ',',
         labelField = 'label',
-        valueField = 'value'
+        valueField = 'value',
+        translate: __
       } = this.props;
 
       const {nodePathArray, nodeValueArray} = normalizeNodePath(
@@ -1281,6 +1287,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       return (
         <Control
           {...this.props}
+          placeholder={__(this.props.placeholder)}
           ref={this.inputRef}
           options={formItem ? formItem.filteredOptions : []}
           onToggle={this.handleToggle}

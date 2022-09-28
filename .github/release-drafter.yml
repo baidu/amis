@@ -1,34 +1,56 @@
 categories:
-  - title: 新功能
+  - title: 新功能 Features 🚀
     label: feat
-  - title: Bugfix
-    label: fix
+  - title: 问题修复 Bugfix 🐛
+    labels:
+      - 'fix'
+      - 'fixes'
   - title: 依赖更新
     label: dep
-  - title: 日常维护
+  - title: 日常维护 Chore
     label: chore
-  - title: 样式更新
-    label: style
-  - title: 文档
-    label: doc
+  - title: 样式调整 Style 🌈
+    labels:
+      - 'style'
+      - 'styles'
+  - title: 文档更新 Docs
+    labels:
+      - 'doc'
+      - 'docs'
+  - title: 单元测试 test
+    label: test
 
 autolabeler:
   - label: 'feat'
+    branch:
+      - '/feat-.+/i'
     title:
       - '/feat/i'
   - label: 'fix'
+    branch:
+      - '/fix-.+/i'
     title:
       - '/fix/i'
   - label: 'chore'
+    branch:
+      - '/chore-.+/i'
     title:
       - '/chore/i'
   - label: 'style'
+    branch:
+      - '/style[s]?-.+/i'
     title:
       - '/style/i'
   - label: 'doc'
+    branch:
+      - '/doc[s]?-.+/i'
     title:
       - '/doc/i'
-
+  - label: 'test'
+    branch:
+      - '/test[s]?-.+/i'
+    title:
+      - '/test/i'
 template: |
 
   ## 更新记录

@@ -170,7 +170,7 @@ export function formulaExec(
   const curValue = value.trim(); // 剔除前后空格
 
   // OpenFormulaExecEvalMode 为 true 时，非 ${ xxx } 格式也会尝试使用表达式运算器
-  if (OpenFormulaExecEvalMode && /^[0-9a-zA-z_]+$/.test(curValue)) {
+  if (OpenFormulaExecEvalMode && /^[0-9a-zA-Z_]+$/.test(curValue)) {
     // 普通字符串类型（非表达式），先试一下从上下文中获取数据
     const curValueTemp = FormulaExec['var'](curValue, data);
     // 备注: 其他特殊格式，比如邮箱、日期

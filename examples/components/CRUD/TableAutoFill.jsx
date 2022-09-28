@@ -131,7 +131,13 @@ export default {
         align: 'right'
       }
     ],
-    footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
+    footerToolbar: [
+      'statistics',
+      {
+        type: 'pagination',
+        layout: 'perPage,pager,go'
+      }
+    ],
     // rowClassNameExpr: '<%= data.id == 1 ? "bg-success" : "" %>',
     columns: [
       {
@@ -154,6 +160,7 @@ export default {
       {
         name: 'browser',
         label: 'Browser',
+        width: 500,
         searchable: {
           type: 'select',
           name: 'browser',
@@ -178,7 +185,7 @@ export default {
       {
         name: 'platform',
         label: 'Platform(s)',
-        searchable: true
+        width: 500
       },
       {
         name: 'version',

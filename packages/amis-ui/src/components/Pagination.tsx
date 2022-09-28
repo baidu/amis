@@ -143,7 +143,7 @@ export class Pagination extends React.Component<
     if (disabled) {
       return;
     }
-    onPageChange?.(page, perPage);
+    onPageChange?.(isNaN(Number(page)) || Number(page) < 1 ? 1 : page, perPage);
   }
 
   /**
@@ -478,7 +478,6 @@ export class Pagination extends React.Component<
       <Select
         key="perpage"
         className={cx('Pagination-perpage', 'Pagination-item')}
-        overlayPlacement="right-bottom-right-top"
         clearable={false}
         disabled={disabled}
         value={perPage}

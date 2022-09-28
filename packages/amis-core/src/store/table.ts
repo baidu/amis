@@ -309,7 +309,15 @@ export const TableStore = iRendererStore
   })
   .views(self => {
     function getColumnsExceptBuiltinTypes() {
-      return self.columns.filter(item => !/^__/.test(item.type));
+      return self.columns.filter(
+        item =>
+          /** 排除掉内置的列和不可见的列 */
+          !/^__/.test(item.type) &&
+          isVisible(
+            item.pristine,
+            hasVisibleExpression(item.pristine) ? self.data : {}
+          )
+      );
     }
 
     function getForms() {
@@ -1008,6 +1016,9 @@ export const TableStore = iRendererStore
       self.selectedRows.clear();
       // self.expandedRows.clear();
 
+      /* 避免输入内容为非数组挂掉 */
+      rows = !Array.isArray(rows) ? [] : rows;
+
       let arr: Array<SRow> = rows.map((item, index) => {
         if (!isObject(item)) {
           item = {
@@ -1337,8 +1348,10 @@ export const TableStore = iRendererStore
       localStorage.setItem(
         key,
         JSON.stringify({
-          // 可显示列index
-          toggledColumnIndex: self.activeToggaleColumns.map(item => item.index),
+          // 可显示列index, 原始配置中存在 toggled: false 的列不持久化
+          toggledColumnIndex: self.activeToggaleColumns
+            .filter(item => !(item.pristine?.toggled === false))
+            .map(item => item.index),
           // 列排序，name，label可能不存在
           columnOrder: self.columnsData.map(
             item => item.name || item.label || item.rawIndex
