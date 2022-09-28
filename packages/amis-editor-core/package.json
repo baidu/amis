@@ -1,6 +1,6 @@
 {
   "name": "amis-editor-core",
-  "version": "5.2.0-i18n.1",
+  "version": "5.2.0-i18n.2",
   "description": "amis 可视化编辑器",
   "main": "lib/index.min.js",
   "types": "lib/index.d.ts",
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "deep-diff": "1.0.2",
-    "i18n-runtime": "0.0.10",
+    "i18n-runtime": "0.0.11",
     "json-ast-comments": "^1.1.0",
     "lodash": "^4.17.15",
     "mobx": "^4.5.0",
