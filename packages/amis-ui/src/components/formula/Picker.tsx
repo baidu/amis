@@ -27,6 +27,14 @@ export interface FormulaPickerProps extends FormulaEditorProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
   /**
+   * 混合模式，意味着这个输入框既可以输入不同文本
+   * 也可以输入公式。
+   * 当输入公式时，值格式为 ${公式内容}
+   * 其他内容当字符串。
+   */
+  mixedMode?: boolean;
+
+  /**
    * 编辑器标题
    */
   title?: string;
@@ -130,21 +138,47 @@ export class FormulaPicker extends React.Component<
   FormulaPickerProps,
   FormulaPickerState
 > {
-  constructor(props: FormulaPickerProps) {
-    super(props);
-    this.props.onRef && this.props.onRef(this);
-  }
+  state: FormulaPickerState;
 
   static defaultProps = {
     evalMode: true
   };
 
-  state: FormulaPickerState = {
-    isOpened: false,
-    value: this.props.value!,
-    editorValue: this.props.value!,
-    isError: false
-  };
+  constructor(props: FormulaPickerProps) {
+    super(props);
+    this.props.onRef && this.props.onRef(this);
+    this.state = {
+      isOpened: false,
+      value: this.props.value!,
+      editorValue: this.value2EditorValue(this.props),
+      isError: false
+    };
+  }
+
+  componentDidUpdate(prevProps: FormulaPickerProps) {
+    const value = this.props.value;
+    if (typeof value !== 'undefined' && value !== prevProps.value) {
+      this.setState({
+        value,
+        editorValue: this.value2EditorValue(this.props)
+      });
+    }
+  }
+
+  value2EditorValue(props: FormulaPickerProps) {
+    if (props.mixedMode) {
+      if (
+        typeof props.value === 'string' &&
+        /^\s*\$\{(.+?)\}\s*$/.test(props.value)
+      ) {
+        return RegExp.$1;
+      } else {
+        return '';
+      }
+    }
+
+    return String(props.value || '');
+  }
 
   @autobind
   handleConfirm() {
@@ -199,12 +233,16 @@ export class FormulaPicker extends React.Component<
   }
 
   confirm(value: string) {
+    const {mixedMode} = this.props;
     const validate = this.validate(value);
 
     if (validate === true) {
-      this.setState({value}, () => {
-        this.close(undefined, () => this.handleConfirm());
-      });
+      this.setState(
+        {value: mixedMode && value ? `\${${value}}` : value},
+        () => {
+          this.close(undefined, () => this.handleConfirm());
+        }
+      );
     } else {
       this.setState({isError: validate});
     }
@@ -214,7 +252,7 @@ export class FormulaPicker extends React.Component<
   async handleClick() {
     const state = {
       ...(await this.props.onPickerOpen?.(this.props)),
-      editorValue: this.props.value,
+      editorValue: this.value2EditorValue(this.props),
       isOpened: true
     };
 
@@ -253,7 +291,7 @@ export class FormulaPicker extends React.Component<
     try {
       value &&
         parse(value, {
-          evalMode: this.props.evalMode,
+          evalMode: this.props.mixedMode ? true : this.props.evalMode,
           allowFilter: false
         });
 
@@ -289,10 +327,11 @@ export class FormulaPicker extends React.Component<
       functions,
       children,
       variableMode,
+      mixedMode,
+      evalMode,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
-
     const iconElement = generateIcon(cx, icon, 'Icon');
 
     return (
@@ -432,6 +471,7 @@ export class FormulaPicker extends React.Component<
           <Modal.Body>
             <Editor
               {...rest}
+              evalMode={mixedMode ? true : evalMode}
               variables={this.state.variables ?? variables}
               functions={this.state.functions ?? functions}
               variableMode={this.state.variableMode ?? variableMode}

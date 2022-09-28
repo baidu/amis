@@ -1,20 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parser:anonymous-function 1`] = `
-Object {
-  "args": Array [],
-  "end": Object {
+{
+  "args": [],
+  "end": {
     "column": 8,
     "index": 7,
     "line": 1,
   },
-  "return": Object {
-    "end": Object {
+  "return": {
+    "end": {
       "column": 8,
       "index": 7,
       "line": 1,
     },
-    "start": Object {
+    "start": {
       "column": 7,
       "index": 6,
       "line": 1,
@@ -22,7 +22,7 @@ Object {
     "type": "literal",
     "value": 1,
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -32,20 +32,20 @@ Object {
 `;
 
 exports[`parser:anonymous-function 2`] = `
-Object {
-  "args": Array [],
-  "end": Object {
+{
+  "args": [],
+  "end": {
     "column": 15,
     "index": 14,
     "line": 1,
   },
-  "return": Object {
-    "end": Object {
+  "return": {
+    "end": {
       "column": 15,
       "index": 14,
       "line": 1,
     },
-    "start": Object {
+    "start": {
       "column": 7,
       "index": 6,
       "line": 1,
@@ -53,7 +53,7 @@ Object {
     "type": "string",
     "value": "string",
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -63,16 +63,16 @@ Object {
 `;
 
 exports[`parser:anonymous-function 3`] = `
-Object {
-  "args": Array [
-    Object {
-      "end": Object {
+{
+  "args": [
+    {
+      "end": {
         "column": 3,
         "index": 2,
         "line": 1,
       },
       "name": "a",
-      "start": Object {
+      "start": {
         "column": 2,
         "index": 1,
         "line": 1,
@@ -80,61 +80,61 @@ Object {
       "type": "variable",
     },
   ],
-  "end": Object {
+  "end": {
     "column": 25,
     "index": 24,
     "line": 1,
   },
-  "return": Object {
-    "body": Array [
-      Object {
-        "end": Object {
+  "return": {
+    "body": [
+      {
+        "end": {
           "column": 14,
           "index": 13,
           "line": 1,
         },
-        "host": Object {
-          "end": Object {
+        "host": {
+          "end": {
             "column": 12,
             "index": 11,
             "line": 1,
           },
           "name": "a",
-          "start": Object {
+          "start": {
             "column": 11,
             "index": 10,
             "line": 1,
           },
           "type": "variable",
         },
-        "key": Object {
-          "end": Object {
+        "key": {
+          "end": {
             "column": 14,
             "index": 13,
             "line": 1,
           },
           "name": "a",
-          "start": Object {
+          "start": {
             "column": 13,
             "index": 12,
             "line": 1,
           },
           "type": "identifier",
         },
-        "start": Object {
+        "start": {
           "column": 11,
           "index": 10,
           "line": 1,
         },
         "type": "getter",
       },
-      Object {
-        "end": Object {
+      {
+        "end": {
           "column": 18,
           "index": 17,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 15,
           "index": 14,
           "line": 1,
@@ -142,41 +142,41 @@ Object {
         "type": "template_raw",
         "value": "---",
       },
-      Object {
-        "end": Object {
+      {
+        "end": {
           "column": 23,
           "index": 22,
           "line": 1,
         },
-        "host": Object {
-          "end": Object {
+        "host": {
+          "end": {
             "column": 21,
             "index": 20,
             "line": 1,
           },
           "name": "a",
-          "start": Object {
+          "start": {
             "column": 20,
             "index": 19,
             "line": 1,
           },
           "type": "variable",
         },
-        "key": Object {
-          "end": Object {
+        "key": {
+          "end": {
             "column": 23,
             "index": 22,
             "line": 1,
           },
           "name": "b",
-          "start": Object {
+          "start": {
             "column": 22,
             "index": 21,
             "line": 1,
           },
           "type": "identifier",
         },
-        "start": Object {
+        "start": {
           "column": 20,
           "index": 19,
           "line": 1,
@@ -184,19 +184,19 @@ Object {
         "type": "getter",
       },
     ],
-    "end": Object {
+    "end": {
       "column": 25,
       "index": 24,
       "line": 1,
     },
-    "start": Object {
+    "start": {
       "column": 8,
       "index": 7,
       "line": 1,
     },
     "type": "template",
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -206,48 +206,48 @@ Object {
 `;
 
 exports[`parser:array-literall 1`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 21,
     "index": 20,
     "line": 1,
   },
-  "members": Array [
-    Object {
-      "end": Object {
+  "members": [
+    {
+      "end": {
         "column": 3,
         "index": 2,
         "line": 1,
       },
       "name": "a",
-      "start": Object {
+      "start": {
         "column": 2,
         "index": 1,
         "line": 1,
       },
       "type": "variable",
     },
-    Object {
-      "end": Object {
+    {
+      "end": {
         "column": 6,
         "index": 5,
         "line": 1,
       },
       "name": "b",
-      "start": Object {
+      "start": {
         "column": 5,
         "index": 4,
         "line": 1,
       },
       "type": "variable",
     },
-    Object {
-      "end": Object {
+    {
+      "end": {
         "column": 9,
         "index": 8,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 8,
         "index": 7,
         "line": 1,
@@ -255,13 +255,13 @@ Object {
       "type": "literal",
       "value": 1,
     },
-    Object {
-      "end": Object {
+    {
+      "end": {
         "column": 12,
         "index": 11,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 11,
         "index": 10,
         "line": 1,
@@ -269,35 +269,35 @@ Object {
       "type": "literal",
       "value": 2,
     },
-    Object {
-      "end": Object {
+    {
+      "end": {
         "column": 20,
         "index": 19,
         "line": 1,
       },
-      "members": Array [
-        Object {
-          "key": Object {
-            "end": Object {
+      "members": [
+        {
+          "key": {
+            "end": {
               "column": 16,
               "index": 15,
               "line": 1,
             },
             "name": "a",
-            "start": Object {
+            "start": {
               "column": 15,
               "index": 14,
               "line": 1,
             },
             "type": "identifier",
           },
-          "value": Object {
-            "end": Object {
+          "value": {
+            "end": {
               "column": 19,
               "index": 18,
               "line": 1,
             },
-            "start": Object {
+            "start": {
               "column": 18,
               "index": 17,
               "line": 1,
@@ -307,7 +307,7 @@ Object {
           },
         },
       ],
-      "start": Object {
+      "start": {
         "column": 14,
         "index": 13,
         "line": 1,
@@ -315,7 +315,7 @@ Object {
       "type": "object",
     },
   ],
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -325,26 +325,26 @@ Object {
 `;
 
 exports[`parser:binary-expression 1`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 12,
     "index": 11,
     "line": 1,
   },
-  "left": Object {
-    "end": Object {
+  "left": {
+    "end": {
       "column": 7,
       "index": 6,
       "line": 1,
     },
-    "left": Object {
-      "end": Object {
+    "left": {
+      "end": {
         "column": 2,
         "index": 1,
         "line": 1,
       },
       "name": "a",
-      "start": Object {
+      "start": {
         "column": 1,
         "index": 0,
         "line": 1,
@@ -352,21 +352,21 @@ Object {
       "type": "variable",
     },
     "op": "&&",
-    "right": Object {
-      "end": Object {
+    "right": {
+      "end": {
         "column": 7,
         "index": 6,
         "line": 1,
       },
       "name": "b",
-      "start": Object {
+      "start": {
         "column": 6,
         "index": 5,
         "line": 1,
       },
       "type": "variable",
     },
-    "start": Object {
+    "start": {
       "column": 1,
       "index": 0,
       "line": 1,
@@ -374,21 +374,21 @@ Object {
     "type": "and",
   },
   "op": "&&",
-  "right": Object {
-    "end": Object {
+  "right": {
+    "end": {
       "column": 12,
       "index": 11,
       "line": 1,
     },
     "name": "c",
-    "start": Object {
+    "start": {
       "column": 11,
       "index": 10,
       "line": 1,
     },
     "type": "variable",
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -398,26 +398,26 @@ Object {
 `;
 
 exports[`parser:binary-expression 2`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 12,
     "index": 11,
     "line": 1,
   },
-  "left": Object {
-    "end": Object {
+  "left": {
+    "end": {
       "column": 7,
       "index": 6,
       "line": 1,
     },
-    "left": Object {
-      "end": Object {
+    "left": {
+      "end": {
         "column": 2,
         "index": 1,
         "line": 1,
       },
       "name": "a",
-      "start": Object {
+      "start": {
         "column": 1,
         "index": 0,
         "line": 1,
@@ -425,21 +425,21 @@ Object {
       "type": "variable",
     },
     "op": "&&",
-    "right": Object {
-      "end": Object {
+    "right": {
+      "end": {
         "column": 7,
         "index": 6,
         "line": 1,
       },
       "name": "b",
-      "start": Object {
+      "start": {
         "column": 6,
         "index": 5,
         "line": 1,
       },
       "type": "variable",
     },
-    "start": Object {
+    "start": {
       "column": 1,
       "index": 0,
       "line": 1,
@@ -447,21 +447,21 @@ Object {
     "type": "and",
   },
   "op": "||",
-  "right": Object {
-    "end": Object {
+  "right": {
+    "end": {
       "column": 12,
       "index": 11,
       "line": 1,
     },
     "name": "c",
-    "start": Object {
+    "start": {
       "column": 11,
       "index": 10,
       "line": 1,
     },
     "type": "variable",
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -471,20 +471,20 @@ Object {
 `;
 
 exports[`parser:binary-expression 3`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 12,
     "index": 11,
     "line": 1,
   },
-  "left": Object {
-    "end": Object {
+  "left": {
+    "end": {
       "column": 2,
       "index": 1,
       "line": 1,
     },
     "name": "a",
-    "start": Object {
+    "start": {
       "column": 1,
       "index": 0,
       "line": 1,
@@ -492,20 +492,20 @@ Object {
     "type": "variable",
   },
   "op": "||",
-  "right": Object {
-    "end": Object {
+  "right": {
+    "end": {
       "column": 12,
       "index": 11,
       "line": 1,
     },
-    "left": Object {
-      "end": Object {
+    "left": {
+      "end": {
         "column": 7,
         "index": 6,
         "line": 1,
       },
       "name": "b",
-      "start": Object {
+      "start": {
         "column": 6,
         "index": 5,
         "line": 1,
@@ -513,28 +513,28 @@ Object {
       "type": "variable",
     },
     "op": "&&",
-    "right": Object {
-      "end": Object {
+    "right": {
+      "end": {
         "column": 12,
         "index": 11,
         "line": 1,
       },
       "name": "c",
-      "start": Object {
+      "start": {
         "column": 11,
         "index": 10,
         "line": 1,
       },
       "type": "variable",
     },
-    "start": Object {
+    "start": {
       "column": 6,
       "index": 5,
       "line": 1,
     },
     "type": "and",
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -544,26 +544,26 @@ Object {
 `;
 
 exports[`parser:binary-expression 4`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 14,
     "index": 13,
     "line": 1,
   },
-  "left": Object {
-    "end": Object {
+  "left": {
+    "end": {
       "column": 8,
       "index": 7,
       "line": 1,
     },
-    "left": Object {
-      "end": Object {
+    "left": {
+      "end": {
         "column": 2,
         "index": 1,
         "line": 1,
       },
       "name": "a",
-      "start": Object {
+      "start": {
         "column": 1,
         "index": 0,
         "line": 1,
@@ -571,21 +571,21 @@ Object {
       "type": "variable",
     },
     "op": "!==",
-    "right": Object {
-      "end": Object {
+    "right": {
+      "end": {
         "column": 8,
         "index": 7,
         "line": 1,
       },
       "name": "b",
-      "start": Object {
+      "start": {
         "column": 7,
         "index": 6,
         "line": 1,
       },
       "type": "variable",
     },
-    "start": Object {
+    "start": {
       "column": 1,
       "index": 0,
       "line": 1,
@@ -593,21 +593,21 @@ Object {
     "type": "strneq",
   },
   "op": "===",
-  "right": Object {
-    "end": Object {
+  "right": {
+    "end": {
       "column": 14,
       "index": 13,
       "line": 1,
     },
     "name": "c",
-    "start": Object {
+    "start": {
       "column": 13,
       "index": 12,
       "line": 1,
     },
     "type": "variable",
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -617,15 +617,15 @@ Object {
 `;
 
 exports[`parser:complex 1`] = `
-Object {
-  "body": Array [
-    Object {
-      "end": Object {
+{
+  "body": [
+    {
+      "end": {
         "column": 13,
         "index": 12,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "index": 0,
         "line": 1,
@@ -633,16 +633,16 @@ Object {
       "type": "raw",
       "value": "raw content ",
     },
-    Object {
-      "body": Object {
-        "body": Array [
-          Object {
-            "end": Object {
+    {
+      "body": {
+        "body": [
+          {
+            "end": {
               "column": 28,
               "index": 27,
               "line": 1,
             },
-            "start": Object {
+            "start": {
               "column": 16,
               "index": 15,
               "line": 1,
@@ -650,15 +650,15 @@ Object {
             "type": "template_raw",
             "value": "es tempalte ",
           },
-          Object {
-            "body": Array [
-              Object {
-                "end": Object {
+          {
+            "body": [
+              {
+                "end": {
                   "column": 37,
                   "index": 36,
                   "line": 1,
                 },
-                "start": Object {
+                "start": {
                   "column": 31,
                   "index": 30,
                   "line": 1,
@@ -666,20 +666,20 @@ Object {
                 "type": "template_raw",
                 "value": "deeper",
               },
-              Object {
-                "end": Object {
+              {
+                "end": {
                   "column": 44,
                   "index": 43,
                   "line": 1,
                 },
-                "left": Object {
-                  "end": Object {
+                "left": {
+                  "end": {
                     "column": 40,
                     "index": 39,
                     "line": 1,
                   },
                   "name": "a",
-                  "start": Object {
+                  "start": {
                     "column": 39,
                     "index": 38,
                     "line": 1,
@@ -687,13 +687,13 @@ Object {
                   "type": "variable",
                 },
                 "op": "+",
-                "right": Object {
-                  "end": Object {
+                "right": {
+                  "end": {
                     "column": 44,
                     "index": 43,
                     "line": 1,
                   },
-                  "start": Object {
+                  "start": {
                     "column": 43,
                     "index": 42,
                     "line": 1,
@@ -701,7 +701,7 @@ Object {
                   "type": "literal",
                   "value": 3,
                 },
-                "start": Object {
+                "start": {
                   "column": 39,
                   "index": 38,
                   "line": 1,
@@ -709,12 +709,12 @@ Object {
                 "type": "add",
               },
             ],
-            "end": Object {
+            "end": {
               "column": 46,
               "index": 45,
               "line": 1,
             },
-            "start": Object {
+            "start": {
               "column": 30,
               "index": 29,
               "line": 1,
@@ -722,24 +722,24 @@ Object {
             "type": "template",
           },
         ],
-        "end": Object {
+        "end": {
           "column": 48,
           "index": 47,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 15,
           "index": 14,
           "line": 1,
         },
         "type": "template",
       },
-      "end": Object {
+      "end": {
         "column": 49,
         "index": 48,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 13,
         "index": 12,
         "line": 1,
@@ -747,12 +747,12 @@ Object {
       "type": "script",
     },
   ],
-  "end": Object {
+  "end": {
     "column": 49,
     "index": 48,
     "line": 1,
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -762,53 +762,53 @@ Object {
 `;
 
 exports[`parser:conditional 1`] = `
-Object {
-  "alternate": Object {
-    "end": Object {
+{
+  "alternate": {
+    "end": {
       "column": 10,
       "index": 9,
       "line": 1,
     },
     "name": "c",
-    "start": Object {
+    "start": {
       "column": 9,
       "index": 8,
       "line": 1,
     },
     "type": "variable",
   },
-  "consequent": Object {
-    "end": Object {
+  "consequent": {
+    "end": {
       "column": 6,
       "index": 5,
       "line": 1,
     },
     "name": "b",
-    "start": Object {
+    "start": {
       "column": 5,
       "index": 4,
       "line": 1,
     },
     "type": "variable",
   },
-  "end": Object {
+  "end": {
     "column": 10,
     "index": 9,
     "line": 1,
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
   },
-  "test": Object {
-    "end": Object {
+  "test": {
+    "end": {
       "column": 2,
       "index": 1,
       "line": 1,
     },
     "name": "a",
-    "start": Object {
+    "start": {
       "column": 1,
       "index": 0,
       "line": 1,
@@ -820,20 +820,20 @@ Object {
 `;
 
 exports[`parser:evalMode 1`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 6,
     "index": 5,
     "line": 1,
   },
-  "left": Object {
-    "end": Object {
+  "left": {
+    "end": {
       "column": 2,
       "index": 1,
       "line": 1,
     },
     "name": "a",
-    "start": Object {
+    "start": {
       "column": 1,
       "index": 0,
       "line": 1,
@@ -841,21 +841,21 @@ Object {
     "type": "variable",
   },
   "op": "+",
-  "right": Object {
-    "end": Object {
+  "right": {
+    "end": {
       "column": 6,
       "index": 5,
       "line": 1,
     },
     "name": "b",
-    "start": Object {
+    "start": {
       "column": 5,
       "index": 4,
       "line": 1,
     },
     "type": "variable",
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -865,15 +865,15 @@ Object {
 `;
 
 exports[`parser:filter 1`] = `
-Object {
-  "body": Array [
-    Object {
-      "end": Object {
+{
+  "body": [
+    {
+      "end": {
         "column": 10,
         "index": 9,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "index": 0,
         "line": 1,
@@ -881,42 +881,42 @@ Object {
       "type": "raw",
       "value": "$abc is ",
     },
-    Object {
-      "body": Object {
+    {
+      "body": {
         "end": undefined,
-        "filters": Array [
-          Object {
-            "args": Array [],
+        "filters": [
+          {
+            "args": [],
             "name": "html",
           },
         ],
-        "input": Object {
-          "end": Object {
+        "input": {
+          "end": {
             "column": 15,
             "index": 14,
             "line": 1,
           },
           "name": "abc",
-          "start": Object {
+          "start": {
             "column": 12,
             "index": 11,
             "line": 1,
           },
           "type": "variable",
         },
-        "start": Object {
+        "start": {
           "column": 12,
           "index": 11,
           "line": 1,
         },
         "type": "filter",
       },
-      "end": Object {
+      "end": {
         "column": 23,
         "index": 22,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 10,
         "index": 9,
         "line": 1,
@@ -924,12 +924,12 @@ Object {
       "type": "script",
     },
   ],
-  "end": Object {
+  "end": {
     "column": 23,
     "index": 22,
     "line": 1,
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -939,15 +939,15 @@ Object {
 `;
 
 exports[`parser:filter-escape 1`] = `
-Object {
-  "body": Array [
-    Object {
-      "end": Object {
+{
+  "body": [
+    {
+      "end": {
         "column": 10,
         "index": 9,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "index": 0,
         "line": 1,
@@ -955,44 +955,44 @@ Object {
       "type": "raw",
       "value": "$abc is ",
     },
-    Object {
-      "body": Object {
+    {
+      "body": {
         "end": undefined,
-        "filters": Array [
-          Object {
-            "args": Array [
+        "filters": [
+          {
+            "args": [
               "YYYY-MM-DD HH:mm:ss",
             ],
             "name": "date",
           },
         ],
-        "input": Object {
-          "end": Object {
+        "input": {
+          "end": {
             "column": 15,
             "index": 14,
             "line": 1,
           },
           "name": "abc",
-          "start": Object {
+          "start": {
             "column": 12,
             "index": 11,
             "line": 1,
           },
           "type": "variable",
         },
-        "start": Object {
+        "start": {
           "column": 12,
           "index": 11,
           "line": 1,
         },
         "type": "filter",
       },
-      "end": Object {
+      "end": {
         "column": 46,
         "index": 45,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 10,
         "index": 9,
         "line": 1,
@@ -1000,12 +1000,12 @@ Object {
       "type": "script",
     },
   ],
-  "end": Object {
+  "end": {
     "column": 46,
     "index": 45,
     "line": 1,
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -1015,32 +1015,32 @@ Object {
 `;
 
 exports[`parser:functionCall 1`] = `
-Object {
-  "args": Array [
-    Object {
-      "end": Object {
+{
+  "args": [
+    {
+      "end": {
         "column": 11,
         "index": 10,
         "line": 1,
       },
       "name": "a",
-      "start": Object {
+      "start": {
         "column": 10,
         "index": 9,
         "line": 1,
       },
       "type": "variable",
     },
-    Object {
-      "args": Array [
-        Object {
-          "end": Object {
+    {
+      "args": [
+        {
+          "end": {
             "column": 23,
             "index": 22,
             "line": 1,
           },
           "name": "b",
-          "start": Object {
+          "start": {
             "column": 22,
             "index": 21,
             "line": 1,
@@ -1048,13 +1048,13 @@ Object {
           "type": "variable",
         },
       ],
-      "end": Object {
+      "end": {
         "column": 24,
         "index": 23,
         "line": 1,
       },
       "identifier": "doAction",
-      "start": Object {
+      "start": {
         "column": 13,
         "index": 12,
         "line": 1,
@@ -1062,13 +1062,13 @@ Object {
       "type": "func_call",
     },
   ],
-  "end": Object {
+  "end": {
     "column": 25,
     "index": 24,
     "line": 1,
   },
   "identifier": "doAction",
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -1078,20 +1078,20 @@ Object {
 `;
 
 exports[`parser:group-expression 1`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 13,
     "index": 12,
     "line": 1,
   },
-  "left": Object {
-    "end": Object {
+  "left": {
+    "end": {
       "column": 2,
       "index": 1,
       "line": 1,
     },
     "name": "a",
-    "start": Object {
+    "start": {
       "column": 1,
       "index": 0,
       "line": 1,
@@ -1099,20 +1099,20 @@ Object {
     "type": "variable",
   },
   "op": "&&",
-  "right": Object {
-    "end": Object {
+  "right": {
+    "end": {
       "column": 13,
       "index": 12,
       "line": 1,
     },
-    "left": Object {
-      "end": Object {
+    "left": {
+      "end": {
         "column": 8,
         "index": 7,
         "line": 1,
       },
       "name": "b",
-      "start": Object {
+      "start": {
         "column": 7,
         "index": 6,
         "line": 1,
@@ -1120,28 +1120,28 @@ Object {
       "type": "variable",
     },
     "op": "&&",
-    "right": Object {
-      "end": Object {
+    "right": {
+      "end": {
         "column": 13,
         "index": 12,
         "line": 1,
       },
       "name": "c",
-      "start": Object {
+      "start": {
         "column": 12,
         "index": 11,
         "line": 1,
       },
       "type": "variable",
     },
-    "start": Object {
+    "start": {
       "column": 7,
       "index": 6,
       "line": 1,
     },
     "type": "and",
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -1151,117 +1151,117 @@ Object {
 `;
 
 exports[`parser:multi-expression 1`] = `
-Object {
-  "body": Array [
-    Object {
-      "end": Object {
+{
+  "body": [
+    {
+      "end": {
         "column": 5,
         "index": 4,
         "line": 1,
       },
-      "host": Object {
-        "end": Object {
+      "host": {
+        "end": {
           "column": 3,
           "index": 2,
           "line": 1,
         },
         "name": "a",
-        "start": Object {
+        "start": {
           "column": 2,
           "index": 1,
           "line": 1,
         },
         "type": "variable",
       },
-      "key": Object {
-        "end": Object {
+      "key": {
+        "end": {
           "column": 5,
           "index": 4,
           "line": 1,
         },
         "name": "b",
-        "start": Object {
+        "start": {
           "column": 4,
           "index": 3,
           "line": 1,
         },
         "type": "identifier",
       },
-      "start": Object {
+      "start": {
         "column": 2,
         "index": 1,
         "line": 1,
       },
       "type": "getter",
     },
-    Object {
-      "end": Object {
+    {
+      "end": {
         "column": 10,
         "index": 9,
         "line": 1,
       },
-      "host": Object {
-        "end": Object {
+      "host": {
+        "end": {
           "column": 8,
           "index": 7,
           "line": 1,
         },
         "name": "a",
-        "start": Object {
+        "start": {
           "column": 7,
           "index": 6,
           "line": 1,
         },
         "type": "variable",
       },
-      "key": Object {
-        "end": Object {
+      "key": {
+        "end": {
           "column": 10,
           "index": 9,
           "line": 1,
         },
         "name": "b",
-        "start": Object {
+        "start": {
           "column": 9,
           "index": 8,
           "line": 1,
         },
         "type": "variable",
       },
-      "start": Object {
+      "start": {
         "column": 7,
         "index": 6,
         "line": 1,
       },
       "type": "getter",
     },
-    Object {
-      "end": Object {
+    {
+      "end": {
         "column": 18,
         "index": 17,
         "line": 1,
       },
-      "host": Object {
-        "end": Object {
+      "host": {
+        "end": {
           "column": 14,
           "index": 13,
           "line": 1,
         },
         "name": "a",
-        "start": Object {
+        "start": {
           "column": 13,
           "index": 12,
           "line": 1,
         },
         "type": "variable",
       },
-      "key": Object {
-        "end": Object {
+      "key": {
+        "end": {
           "column": 18,
           "index": 17,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 15,
           "index": 14,
           "line": 1,
@@ -1269,42 +1269,42 @@ Object {
         "type": "string",
         "value": "c",
       },
-      "start": Object {
+      "start": {
         "column": 13,
         "index": 12,
         "line": 1,
       },
       "type": "getter",
     },
-    Object {
-      "end": Object {
+    {
+      "end": {
         "column": 26,
         "index": 25,
         "line": 1,
       },
-      "host": Object {
-        "end": Object {
+      "host": {
+        "end": {
           "column": 22,
           "index": 21,
           "line": 1,
         },
         "name": "a",
-        "start": Object {
+        "start": {
           "column": 21,
           "index": 20,
           "line": 1,
         },
         "type": "variable",
       },
-      "key": Object {
-        "body": Array [
-          Object {
-            "end": Object {
+      "key": {
+        "body": [
+          {
+            "end": {
               "column": 25,
               "index": 24,
               "line": 1,
             },
-            "start": Object {
+            "start": {
               "column": 24,
               "index": 23,
               "line": 1,
@@ -1313,19 +1313,19 @@ Object {
             "value": "d",
           },
         ],
-        "end": Object {
+        "end": {
           "column": 26,
           "index": 25,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 23,
           "index": 22,
           "line": 1,
         },
         "type": "template",
       },
-      "start": Object {
+      "start": {
         "column": 21,
         "index": 20,
         "line": 1,
@@ -1333,12 +1333,12 @@ Object {
       "type": "getter",
     },
   ],
-  "end": Object {
+  "end": {
     "column": 28,
     "index": 27,
     "line": 1,
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -1348,38 +1348,38 @@ Object {
 `;
 
 exports[`parser:number 1`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 13,
     "index": 12,
     "line": 1,
   },
-  "left": Object {
-    "end": Object {
+  "left": {
+    "end": {
       "column": 9,
       "index": 8,
       "line": 1,
     },
-    "left": Object {
-      "end": Object {
+    "left": {
+      "end": {
         "column": 2,
         "index": 1,
         "line": 1,
       },
       "op": "-",
-      "start": Object {
+      "start": {
         "column": 1,
         "index": 0,
         "line": 1,
       },
       "type": "unary",
-      "value": Object {
-        "end": Object {
+      "value": {
+        "end": {
           "column": 3,
           "index": 2,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 2,
           "index": 1,
           "line": 1,
@@ -1389,13 +1389,13 @@ Object {
       },
     },
     "op": "+",
-    "right": Object {
-      "end": Object {
+    "right": {
+      "end": {
         "column": 9,
         "index": 8,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 6,
         "index": 5,
         "line": 1,
@@ -1403,7 +1403,7 @@ Object {
       "type": "literal",
       "value": 2.5,
     },
-    "start": Object {
+    "start": {
       "column": 1,
       "index": 0,
       "line": 1,
@@ -1411,13 +1411,13 @@ Object {
     "type": "add",
   },
   "op": "+",
-  "right": Object {
-    "end": Object {
+  "right": {
+    "end": {
       "column": 13,
       "index": 12,
       "line": 1,
     },
-    "start": Object {
+    "start": {
       "column": 12,
       "index": 11,
       "line": 1,
@@ -1425,7 +1425,7 @@ Object {
     "type": "literal",
     "value": 3,
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -1435,35 +1435,35 @@ Object {
 `;
 
 exports[`parser:object-literall 1`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 32,
     "index": 31,
     "line": 1,
   },
-  "members": Array [
-    Object {
-      "key": Object {
-        "end": Object {
+  "members": [
+    {
+      "key": {
+        "end": {
           "column": 3,
           "index": 2,
           "line": 1,
         },
         "name": "a",
-        "start": Object {
+        "start": {
           "column": 2,
           "index": 1,
           "line": 1,
         },
         "type": "identifier",
       },
-      "value": Object {
-        "end": Object {
+      "value": {
+        "end": {
           "column": 6,
           "index": 5,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 5,
           "index": 4,
           "line": 1,
@@ -1472,14 +1472,14 @@ Object {
         "value": 1,
       },
     },
-    Object {
-      "key": Object {
-        "end": Object {
+    {
+      "key": {
+        "end": {
           "column": 11,
           "index": 10,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 8,
           "index": 7,
           "line": 1,
@@ -1487,13 +1487,13 @@ Object {
         "type": "string",
         "value": "b",
       },
-      "value": Object {
-        "end": Object {
+      "value": {
+        "end": {
           "column": 14,
           "index": 13,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 13,
           "index": 12,
           "line": 1,
@@ -1502,16 +1502,16 @@ Object {
         "value": 2,
       },
     },
-    Object {
-      "key": Object {
-        "body": Array [
-          Object {
-            "end": Object {
+    {
+      "key": {
+        "body": [
+          {
+            "end": {
               "column": 19,
               "index": 18,
               "line": 1,
             },
-            "start": Object {
+            "start": {
               "column": 18,
               "index": 17,
               "line": 1,
@@ -1520,25 +1520,25 @@ Object {
             "value": "c",
           },
         ],
-        "end": Object {
+        "end": {
           "column": 20,
           "index": 19,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 17,
           "index": 16,
           "line": 1,
         },
         "type": "template",
       },
-      "value": Object {
-        "end": Object {
+      "value": {
+        "end": {
           "column": 24,
           "index": 23,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 23,
           "index": 22,
           "line": 1,
@@ -1547,29 +1547,29 @@ Object {
         "value": 3,
       },
     },
-    Object {
-      "key": Object {
-        "end": Object {
+    {
+      "key": {
+        "end": {
           "column": 27,
           "index": 26,
           "line": 1,
         },
         "name": "d",
-        "start": Object {
+        "start": {
           "column": 26,
           "index": 25,
           "line": 1,
         },
         "type": "identifier",
       },
-      "value": Object {
-        "end": Object {
+      "value": {
+        "end": {
           "column": 31,
           "index": 30,
           "line": 1,
         },
-        "members": Array [],
-        "start": Object {
+        "members": [],
+        "start": {
           "column": 29,
           "index": 28,
           "line": 1,
@@ -1578,7 +1578,7 @@ Object {
       },
     },
   ],
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -1588,15 +1588,15 @@ Object {
 `;
 
 exports[`parser:simple 1`] = `
-Object {
-  "body": Array [
-    Object {
-      "end": Object {
+{
+  "body": [
+    {
+      "end": {
         "column": 22,
         "index": 21,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "index": 0,
         "line": 1,
@@ -1604,21 +1604,21 @@ Object {
       "type": "raw",
       "value": "expression result is ",
     },
-    Object {
-      "body": Object {
-        "end": Object {
+    {
+      "body": {
+        "end": {
           "column": 29,
           "index": 28,
           "line": 1,
         },
-        "left": Object {
-          "end": Object {
+        "left": {
+          "end": {
             "column": 25,
             "index": 24,
             "line": 1,
           },
           "name": "a",
-          "start": Object {
+          "start": {
             "column": 24,
             "index": 23,
             "line": 1,
@@ -1626,33 +1626,33 @@ Object {
           "type": "variable",
         },
         "op": "+",
-        "right": Object {
-          "end": Object {
+        "right": {
+          "end": {
             "column": 29,
             "index": 28,
             "line": 1,
           },
           "name": "b",
-          "start": Object {
+          "start": {
             "column": 28,
             "index": 27,
             "line": 1,
           },
           "type": "variable",
         },
-        "start": Object {
+        "start": {
           "column": 24,
           "index": 23,
           "line": 1,
         },
         "type": "add",
       },
-      "end": Object {
+      "end": {
         "column": 30,
         "index": 29,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 22,
         "index": 21,
         "line": 1,
@@ -1660,12 +1660,12 @@ Object {
       "type": "script",
     },
   ],
-  "end": Object {
+  "end": {
     "column": 30,
     "index": 29,
     "line": 1,
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -1675,13 +1675,13 @@ Object {
 `;
 
 exports[`parser:single-string 1`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 9,
     "index": 8,
     "line": 1,
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -1692,32 +1692,32 @@ Object {
 `;
 
 exports[`parser:string 1`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 29,
     "index": 28,
     "line": 1,
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
   },
   "type": "string",
-  "value": "string literall, escape \\"",
+  "value": "string literall, escape "",
 }
 `;
 
 exports[`parser:template 1`] = `
-Object {
-  "body": Array [
-    Object {
-      "end": Object {
+{
+  "body": [
+    {
+      "end": {
         "column": 5,
         "index": 4,
         "line": 1,
       },
-      "start": Object {
+      "start": {
         "column": 2,
         "index": 1,
         "line": 1,
@@ -1725,20 +1725,20 @@ Object {
       "type": "template_raw",
       "value": "abc",
     },
-    Object {
-      "end": Object {
+    {
+      "end": {
         "column": 12,
         "index": 11,
         "line": 1,
       },
-      "left": Object {
-        "end": Object {
+      "left": {
+        "end": {
           "column": 8,
           "index": 7,
           "line": 1,
         },
         "name": "a",
-        "start": Object {
+        "start": {
           "column": 7,
           "index": 6,
           "line": 1,
@@ -1746,21 +1746,21 @@ Object {
         "type": "variable",
       },
       "op": "+",
-      "right": Object {
-        "end": Object {
+      "right": {
+        "end": {
           "column": 12,
           "index": 11,
           "line": 1,
         },
         "name": "b",
-        "start": Object {
+        "start": {
           "column": 11,
           "index": 10,
           "line": 1,
         },
         "type": "variable",
       },
-      "start": Object {
+      "start": {
         "column": 7,
         "index": 6,
         "line": 1,
@@ -1768,12 +1768,12 @@ Object {
       "type": "add",
     },
   ],
-  "end": Object {
+  "end": {
     "column": 14,
     "index": 13,
     "line": 1,
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -1783,40 +1783,40 @@ Object {
 `;
 
 exports[`parser:unary-expression 1`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 2,
     "index": 1,
     "line": 1,
   },
   "op": "!",
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
   },
   "type": "unary",
-  "value": Object {
-    "end": Object {
+  "value": {
+    "end": {
       "column": 3,
       "index": 2,
       "line": 1,
     },
     "op": "!",
-    "start": Object {
+    "start": {
       "column": 2,
       "index": 1,
       "line": 1,
     },
     "type": "unary",
-    "value": Object {
-      "end": Object {
+    "value": {
+      "end": {
         "column": 4,
         "index": 3,
         "line": 1,
       },
       "name": "a",
-      "start": Object {
+      "start": {
         "column": 3,
         "index": 2,
         "line": 1,
@@ -1828,117 +1828,117 @@ Object {
 `;
 
 exports[`parser:variable-geter 1`] = `
-Object {
-  "args": Array [
-    Object {
-      "end": Object {
+{
+  "args": [
+    {
+      "end": {
         "column": 13,
         "index": 12,
         "line": 1,
       },
-      "host": Object {
-        "end": Object {
+      "host": {
+        "end": {
           "column": 11,
           "index": 10,
           "line": 1,
         },
         "name": "a",
-        "start": Object {
+        "start": {
           "column": 10,
           "index": 9,
           "line": 1,
         },
         "type": "variable",
       },
-      "key": Object {
-        "end": Object {
+      "key": {
+        "end": {
           "column": 13,
           "index": 12,
           "line": 1,
         },
         "name": "b",
-        "start": Object {
+        "start": {
           "column": 12,
           "index": 11,
           "line": 1,
         },
         "type": "identifier",
       },
-      "start": Object {
+      "start": {
         "column": 10,
         "index": 9,
         "line": 1,
       },
       "type": "getter",
     },
-    Object {
-      "end": Object {
+    {
+      "end": {
         "column": 18,
         "index": 17,
         "line": 1,
       },
-      "host": Object {
-        "end": Object {
+      "host": {
+        "end": {
           "column": 16,
           "index": 15,
           "line": 1,
         },
         "name": "a",
-        "start": Object {
+        "start": {
           "column": 15,
           "index": 14,
           "line": 1,
         },
         "type": "variable",
       },
-      "key": Object {
-        "end": Object {
+      "key": {
+        "end": {
           "column": 18,
           "index": 17,
           "line": 1,
         },
         "name": "b",
-        "start": Object {
+        "start": {
           "column": 17,
           "index": 16,
           "line": 1,
         },
         "type": "variable",
       },
-      "start": Object {
+      "start": {
         "column": 15,
         "index": 14,
         "line": 1,
       },
       "type": "getter",
     },
-    Object {
-      "end": Object {
+    {
+      "end": {
         "column": 26,
         "index": 25,
         "line": 1,
       },
-      "host": Object {
-        "end": Object {
+      "host": {
+        "end": {
           "column": 22,
           "index": 21,
           "line": 1,
         },
         "name": "a",
-        "start": Object {
+        "start": {
           "column": 21,
           "index": 20,
           "line": 1,
         },
         "type": "variable",
       },
-      "key": Object {
-        "end": Object {
+      "key": {
+        "end": {
           "column": 26,
           "index": 25,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 23,
           "index": 22,
           "line": 1,
@@ -1946,42 +1946,42 @@ Object {
         "type": "string",
         "value": "c",
       },
-      "start": Object {
+      "start": {
         "column": 21,
         "index": 20,
         "line": 1,
       },
       "type": "getter",
     },
-    Object {
-      "end": Object {
+    {
+      "end": {
         "column": 34,
         "index": 33,
         "line": 1,
       },
-      "host": Object {
-        "end": Object {
+      "host": {
+        "end": {
           "column": 30,
           "index": 29,
           "line": 1,
         },
         "name": "a",
-        "start": Object {
+        "start": {
           "column": 29,
           "index": 28,
           "line": 1,
         },
         "type": "variable",
       },
-      "key": Object {
-        "body": Array [
-          Object {
-            "end": Object {
+      "key": {
+        "body": [
+          {
+            "end": {
               "column": 33,
               "index": 32,
               "line": 1,
             },
-            "start": Object {
+            "start": {
               "column": 32,
               "index": 31,
               "line": 1,
@@ -1990,19 +1990,19 @@ Object {
             "value": "d",
           },
         ],
-        "end": Object {
+        "end": {
           "column": 34,
           "index": 33,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 31,
           "index": 30,
           "line": 1,
         },
         "type": "template",
       },
-      "start": Object {
+      "start": {
         "column": 29,
         "index": 28,
         "line": 1,
@@ -2010,13 +2010,13 @@ Object {
       "type": "getter",
     },
   ],
-  "end": Object {
+  "end": {
     "column": 36,
     "index": 35,
     "line": 1,
   },
   "identifier": "doAction",
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -2026,72 +2026,72 @@ Object {
 `;
 
 exports[`parser:variable-geter2 1`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 17,
     "index": 16,
     "line": 1,
   },
-  "host": Object {
-    "end": Object {
+  "host": {
+    "end": {
       "column": 12,
       "index": 11,
       "line": 1,
     },
-    "host": Object {
-      "end": Object {
+    "host": {
+      "end": {
         "column": 9,
         "index": 8,
         "line": 1,
       },
-      "host": Object {
-        "end": Object {
+      "host": {
+        "end": {
           "column": 4,
           "index": 3,
           "line": 1,
         },
-        "host": Object {
-          "end": Object {
+        "host": {
+          "end": {
             "column": 2,
             "index": 1,
             "line": 1,
           },
           "name": "a",
-          "start": Object {
+          "start": {
             "column": 1,
             "index": 0,
             "line": 1,
           },
           "type": "variable",
         },
-        "key": Object {
-          "end": Object {
+        "key": {
+          "end": {
             "column": 4,
             "index": 3,
             "line": 1,
           },
           "name": "b",
-          "start": Object {
+          "start": {
             "column": 3,
             "index": 2,
             "line": 1,
           },
           "type": "variable",
         },
-        "start": Object {
+        "start": {
           "column": 1,
           "index": 0,
           "line": 1,
         },
         "type": "getter",
       },
-      "key": Object {
-        "end": Object {
+      "key": {
+        "end": {
           "column": 9,
           "index": 8,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 6,
           "index": 5,
           "line": 1,
@@ -2099,43 +2099,43 @@ Object {
         "type": "string",
         "value": "c",
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "index": 0,
         "line": 1,
       },
       "type": "getter",
     },
-    "key": Object {
-      "end": Object {
+    "key": {
+      "end": {
         "column": 12,
         "index": 11,
         "line": 1,
       },
       "name": "d",
-      "start": Object {
+      "start": {
         "column": 11,
         "index": 10,
         "line": 1,
       },
       "type": "variable",
     },
-    "start": Object {
+    "start": {
       "column": 1,
       "index": 0,
       "line": 1,
     },
     "type": "getter",
   },
-  "key": Object {
-    "body": Array [
-      Object {
-        "end": Object {
+  "key": {
+    "body": [
+      {
+        "end": {
           "column": 16,
           "index": 15,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 15,
           "index": 14,
           "line": 1,
@@ -2144,19 +2144,19 @@ Object {
         "value": "x",
       },
     ],
-    "end": Object {
+    "end": {
       "column": 17,
       "index": 16,
       "line": 1,
     },
-    "start": Object {
+    "start": {
       "column": 14,
       "index": 13,
       "line": 1,
     },
     "type": "template",
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,
@@ -2166,72 +2166,72 @@ Object {
 `;
 
 exports[`parser:variable-geter2 2`] = `
-Object {
-  "end": Object {
+{
+  "end": {
     "column": 16,
     "index": 15,
     "line": 1,
   },
-  "host": Object {
-    "end": Object {
+  "host": {
+    "end": {
       "column": 12,
       "index": 11,
       "line": 1,
     },
-    "host": Object {
-      "end": Object {
+    "host": {
+      "end": {
         "column": 9,
         "index": 8,
         "line": 1,
       },
-      "host": Object {
-        "end": Object {
+      "host": {
+        "end": {
           "column": 4,
           "index": 3,
           "line": 1,
         },
-        "host": Object {
-          "end": Object {
+        "host": {
+          "end": {
             "column": 2,
             "index": 1,
             "line": 1,
           },
           "name": "a",
-          "start": Object {
+          "start": {
             "column": 1,
             "index": 0,
             "line": 1,
           },
           "type": "variable",
         },
-        "key": Object {
-          "end": Object {
+        "key": {
+          "end": {
             "column": 4,
             "index": 3,
             "line": 1,
           },
           "name": "b",
-          "start": Object {
+          "start": {
             "column": 3,
             "index": 2,
             "line": 1,
           },
           "type": "variable",
         },
-        "start": Object {
+        "start": {
           "column": 1,
           "index": 0,
           "line": 1,
         },
         "type": "getter",
       },
-      "key": Object {
-        "end": Object {
+      "key": {
+        "end": {
           "column": 9,
           "index": 8,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 6,
           "index": 5,
           "line": 1,
@@ -2239,43 +2239,43 @@ Object {
         "type": "string",
         "value": "c",
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "index": 0,
         "line": 1,
       },
       "type": "getter",
     },
-    "key": Object {
-      "end": Object {
+    "key": {
+      "end": {
         "column": 12,
         "index": 11,
         "line": 1,
       },
       "name": "d",
-      "start": Object {
+      "start": {
         "column": 11,
         "index": 10,
         "line": 1,
       },
       "type": "identifier",
     },
-    "start": Object {
+    "start": {
       "column": 1,
       "index": 0,
       "line": 1,
     },
     "type": "getter",
   },
-  "key": Object {
-    "body": Array [
-      Object {
-        "end": Object {
+  "key": {
+    "body": [
+      {
+        "end": {
           "column": 15,
           "index": 14,
           "line": 1,
         },
-        "start": Object {
+        "start": {
           "column": 14,
           "index": 13,
           "line": 1,
@@ -2284,19 +2284,19 @@ Object {
         "value": "x",
       },
     ],
-    "end": Object {
+    "end": {
       "column": 16,
       "index": 15,
       "line": 1,
     },
-    "start": Object {
+    "start": {
       "column": 13,
       "index": 12,
       "line": 1,
     },
     "type": "template",
   },
-  "start": Object {
+  "start": {
     "column": 1,
     "index": 0,
     "line": 1,

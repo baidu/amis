@@ -323,6 +323,49 @@ order: 67
 }
 ```
 
+### 最大选择个数
+
+可通过设置`maxKeepItemSelectionLength`控制表格可选中的最大个数
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+        {
+            "type": "table2",
+            "source": "$rows",
+            "maxKeepItemSelectionLength": 2,
+            "rowSelection": {
+                "type": "checkbox",
+                "keyField": "id"
+            },
+            "columns": [
+                {
+                    "title": "Engine",
+                    "name": "engine"
+                },
+                {
+                    "title": "Version",
+                    "name": "version"
+                },
+                {
+                    "title": "Browser",
+                    "name": "browser"
+                },
+                {
+                    "title": "Operation",
+                    "name": "operation",
+                    "type": "button",
+                    "label": "删除",
+                    "size": "sm"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 筛选和排序
 
 ```schema: scope="body"

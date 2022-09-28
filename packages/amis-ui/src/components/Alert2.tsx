@@ -83,7 +83,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
           generateIcon(cx, icon, 'icon')
         )
       ) : React.isValidElement(icon) ? (
-        React.cloneElement(icon, {
+        React.cloneElement(icon as React.ReactElement, {
           className: cx(`Alert-icon`, icon.props?.className)
         })
       ) : null
@@ -92,7 +92,14 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     ) : null;
 
     return this.state.show ? (
-      <div className={cx('Alert', level ? `Alert--${level}` : '', title ? 'Alert-has-title' : '', className)}>
+      <div
+        className={cx(
+          'Alert',
+          level ? `Alert--${level}` : '',
+          title ? 'Alert-has-title' : '',
+          className
+        )}
+      >
         {showIcon && iconNode ? (
           <div className={cx('Alert-icon', iconClassName)}>{iconNode}</div>
         ) : null}

@@ -61,7 +61,8 @@ export class ChainedSelection extends BaseSelection<
       classnames: cx,
       itemClassName,
       itemRender,
-      multiple
+      multiple,
+      labelField
     } = this.props;
     const valueArray = this.valueArray;
 
@@ -93,7 +94,8 @@ export class ChainedSelection extends BaseSelection<
             multiple: multiple,
             checked: !!~valueArray.indexOf(option),
             onChange: () => this.toggleOption(option),
-            disabled: disabled || option.disabled
+            disabled: disabled || option.disabled,
+            labelField
           })}
         </div>
       </div>
@@ -107,7 +109,8 @@ export class ChainedSelection extends BaseSelection<
       classnames: cx,
       itemClassName,
       itemRender,
-      multiple
+      multiple,
+      labelField
     } = this.props;
     const valueArray = this.valueArray;
 
@@ -130,7 +133,8 @@ export class ChainedSelection extends BaseSelection<
               multiple: multiple,
               checked: !!~this.state.selected.indexOf(id),
               onChange: () => this.selectOption(option, depth, id),
-              disabled: disabled || option.disabled
+              disabled: disabled || option.disabled,
+              labelField
             })}
           </div>
 

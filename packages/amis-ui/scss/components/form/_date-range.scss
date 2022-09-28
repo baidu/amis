@@ -52,7 +52,8 @@
   }
 
   .#{$ns}DateRangePicker-input.isActive {
-    border-bottom: 2px solid var(--Form-input-onHover-borderColor);
+    border-bottom: var(--DateRangePicker-activeCursor-height) solid
+      var(--DateRangePicker-activeCursor-color);
   }
 
   .#{$ns}DateRangePicker-input-separator {
@@ -97,6 +98,19 @@
   &-clear {
     @include input-clear();
     line-height: 1;
+  }
+
+  &-activeCursor {
+    bottom: 0;
+    height: var(--DateRangePicker-activeCursor-height);
+    background: var(--DateRangePicker-activeCursor-color);
+    opacity: 0;
+    transition: all var(--animation-duration) ease-in-out;
+    pointer-events: none;
+
+    &.isFocused {
+      opacity: 1;
+    }
   }
 }
 

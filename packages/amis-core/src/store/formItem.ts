@@ -31,6 +31,7 @@ import {StoreNode} from './node';
 import {getStoreById} from './manager';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
+import {dataMapping} from '../utils/dataMapping';
 
 interface IOption {
   value?: string | number | null;
@@ -286,7 +287,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       rules = {
         ...rules,
-        isRequired: self.required
+        isRequired: self.required || rules?.isRequired
       };
 
       // todo 这个弄个配置由渲染器自己来决定
@@ -1174,13 +1175,19 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       !keepErrors && clearError();
     }
 
-    function openDialog(
-      schema: any,
-      data: any,
-      callback?: (ret?: any) => void
-    ) {
+    function resetValidationStatus(tag?: string) {
+      self.validated = false;
+      clearError();
+    }
+
+    function openDialog(schema: any, ctx: any, callback?: (ret?: any) => void) {
+      if (schema.data) {
+        self.dialogData = dataMapping(schema.data, ctx);
+      } else {
+        self.dialogData = ctx;
+      }
+
       self.dialogSchema = schema;
-      self.dialogData = data;
       self.dialogOpen = true;
       callback && dialogCallbacks.set(self.dialogData, callback);
     }
@@ -1232,6 +1239,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       setSubStore,
       getSubStore,
       reset,
+      resetValidationStatus,
       openDialog,
       closeDialog,
       changeTmpValue,

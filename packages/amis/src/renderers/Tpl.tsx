@@ -59,24 +59,6 @@ export class Tpl extends React.Component<TplProps, object> {
 
   constructor(props: TplProps) {
     super(props);
-    this.htmlRef = this.htmlRef.bind(this);
-  }
-
-  componentDidUpdate(prevProps: TplProps) {
-    if (
-      anyChanged(
-        ['data', 'tpl', 'html', 'text', 'raw', 'value'],
-        this.props,
-        prevProps
-      )
-    ) {
-      this._render();
-    }
-  }
-
-  htmlRef(dom: any) {
-    this.dom = dom;
-    this._render();
   }
 
   getContent() {
@@ -100,16 +82,6 @@ export class Tpl extends React.Component<TplProps, object> {
     }
   }
 
-  _render() {
-    if (!this.dom) {
-      return;
-    }
-
-    this.dom.firstChild.innerHTML = this.props.env.filterHtml(
-      this.getContent()
-    );
-  }
-
   render() {
     const {
       className,
@@ -118,21 +90,21 @@ export class Tpl extends React.Component<TplProps, object> {
       classnames: cx,
       style,
       showNativeTitle,
-      data
+      data,
+      env
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
-    const content = this.getContent();
+    const content = env.filterHtml(this.getContent());
 
     return (
       <Component
-        ref={this.htmlRef}
         className={cx('TplField', className)}
         style={buildStyle(style, data)}
         {...(showNativeTitle
           ? {title: typeof content === 'string' ? content : ''}
           : {})}
       >
-        <span>{content}</span>
+        <span dangerouslySetInnerHTML={{__html: content}}></span>
       </Component>
     );
   }

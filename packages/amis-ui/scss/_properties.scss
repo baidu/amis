@@ -473,6 +473,8 @@
     var(--fontSizeLg) * 8 + var(--DatePicker-paddingX) * 2 +
       var(--Form-input-clearBtn-size) * 2
   );
+  --DateRangePicker-activeCursor-color: var(--primary);
+  --DateRangePicker-activeCursor-height: 2px;
 
   --LocationPicker-borderRadius: var(--Form-input-borderWidth);
 

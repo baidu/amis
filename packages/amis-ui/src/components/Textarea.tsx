@@ -202,6 +202,7 @@ export class Textarea extends React.Component<TextAreaProps, TextAreaState> {
           placeholder={placeholder}
           autoCorrect="off"
           spellCheck="false"
+          maxLength={maxLength}
           readOnly={readOnly}
           minRows={minRows || undefined}
           maxRows={maxRows || undefined}

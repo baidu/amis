@@ -1218,8 +1218,7 @@ $Wizard-steps-liAfterBorder: none !important;
   --ColorPicker-onDisabled-color: #999;
   --ColorPicker-boxShadow: #{$L1};
 
-  --Collapse-border: var(--borders-width-2) solid
-    var(--colors-neutral-8);
+  --Collapse-border: var(--borders-width-2) solid var(--colors-neutral-8);
   --Collapse-border-color: var(--colors-neutral-8);
   --Collapse-header-fontSize: var(--fonts-size-7);
   --Collapse-header-fontWeight: var(--fonts-weight-6);
@@ -1403,8 +1402,7 @@ $Wizard-steps-liAfterBorder: none !important;
   --Wizard-badge-onActive-backgroundColor: #333333;
   --Wizard-badge-onComplete-backgroundColor: #333333;
   --Wizard-badge-fontSize: var(--fonts-size-7);
-  --Wizard-badge-border: var(--borders-width-2) var(--borders-style-2)
-    #999999;
+  --Wizard-badge-border: var(--borders-width-2) var(--borders-style-2) #999999;
   --Wizard-badge-borderRadius: var(--borders-radius-7);
   --Wizard-badge-bg: var(--colors-neutral-11);
   --Wizard-badge-marginRight: var(--sizes-size-4);
@@ -1425,8 +1423,8 @@ $Wizard-steps-liAfterBorder: none !important;
   --Pagination-fontSize: var(--fonts-size-8);
   --Pagination-onActive-backgroundColor: var(--colors-neutral-11);
   --Pagination-onActive-color: var(--colors-brand-5);
-  --Pagination-onActive-border: var(--borders-width-2)
-    var(--borders-style-2) var(--colors-brand-5);
+  --Pagination-onActive-border: var(--borders-width-2) var(--borders-style-2)
+    var(--colors-brand-5);
 
   // Panel
   --Panel-borderRadius: var(--borders-radius-3);
@@ -1438,8 +1436,8 @@ $Wizard-steps-liAfterBorder: none !important;
   --Nav-item-borderRadius: var(--borders-radius-1);
   --Nav-item-onActive-bg: #f6f7fb;
   --Nav-item-onActive-color: var(--colors-brand-5);
-  --Nav-item-onActive-borderLeft: var(--borders-width-4)
-    var(--borders-style-2) var(--colors-brand-5);
+  --Nav-item-onActive-borderLeft: var(--borders-width-4) var(--borders-style-2)
+    var(--colors-brand-5);
   --Nav-subItem-fontSize: var(--fonts-size-8);
   --Nav-subItem-onActiveBeforeBg: var(--colors-brand-5);
 

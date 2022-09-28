@@ -106,7 +106,7 @@ export class Evaluator {
       const filter = filters.shift()!;
       const fn = this.filters[filter.name];
       if (!fn) {
-        throw new Error(`filter \`${filter.name}\` not exits`);
+        throw new Error(`filter \`${filter.name}\` not exists.`);
       }
       context.filter = filter;
       input = fn.apply(
@@ -230,6 +230,10 @@ export class Evaluator {
   add(ast: {left: any; right: any}) {
     const left = this.evalute(ast.left);
     const right = this.evalute(ast.right);
+    // 如果有一个不是数字就变成字符串拼接
+    if (isNaN(left) || isNaN(right)) {
+      return left + right;
+    }
     return stripNumber(this.formatNumber(left) + this.formatNumber(right));
   }
 
@@ -538,7 +542,7 @@ export class Evaluator {
   }
 
   /**
-   * 异或处理，两个表达式同时为「真」，或者同时为「假」，则结果返回为「真」
+   * 异或处理，多个表达式组中存在奇数个真时认为真。
    *
    * @example XOR(condition1, condition2)
    * @param {expression} condition1 - 条件表达式1
@@ -547,8 +551,8 @@ export class Evaluator {
    *
    * @returns {boolean}
    */
-  fnXOR(c1: () => any, c2: () => any) {
-    return !!c1() === !!c2();
+  fnXOR(...condtions: Array<() => any>) {
+    return !!(condtions.filter(c => c()).length % 2);
   }
 
   /**
@@ -892,10 +896,15 @@ export class Evaluator {
    */
   fnUPPERMONEY(n: number) {
     n = this.formatNumber(n);
+    const maxLen = 14;
+    if (n.toString().split('.')[0]?.length > maxLen) {
+      return `最大数额只支持到兆(既小数点前${maxLen}位)`;
+    }
+
     const fraction = ['角', '分'];
     const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
     const unit = [
-      ['元', '万', '亿'],
+      ['元', '万', '亿', '兆'],
       ['', '拾', '佰', '仟']
     ];
     const head = n < 0 ? '欠' : '';

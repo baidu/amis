@@ -12,7 +12,8 @@ fis.set('project.ignore', [
   'scripts/**',
   'npm/**',
   'gh-pages/**',
-  '.*/**'
+  '.*/**',
+  'node_modules/**'
 ]);
 // 配置只编译哪些文件。
 
@@ -222,7 +223,7 @@ fis.match('*.html:jsx', {
 
 // 这些用了 esm
 fis.match(
-  '{echarts/extension/**.js,zrender/**.js,ansi-to-react/lib/index.js,markdown-it-html5-media/**.js}',
+  '{echarts/extension/**.js,zrender/**.js,markdown-it-html5-media/**.js}',
   {
     parser: fis.plugin('typescript', {
       sourceMap: false,

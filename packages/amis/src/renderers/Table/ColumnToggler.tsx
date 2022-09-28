@@ -548,7 +548,7 @@ export default class ColumnToggler extends React.Component<
               generateIcon(cx, icon, label ? 'm-r-xs' : '')
             )
           ) : React.isValidElement(icon) ? (
-            React.cloneElement(icon, {
+            React.cloneElement(icon as React.ReactElement, {
               className: cx({'m-r-xs': !!label})
             })
           ) : (

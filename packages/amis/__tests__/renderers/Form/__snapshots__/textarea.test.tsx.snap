@@ -164,6 +164,7 @@ exports[`Renderer:textarea with maxLength & clearable & resetValue 1`] = `
               autocomplete="off"
               autocorrect="off"
               class="cxd-TextareaControl-input cxd-TextareaControl-input--counter"
+              maxlength="9"
               name="text"
               spellcheck="false"
             >

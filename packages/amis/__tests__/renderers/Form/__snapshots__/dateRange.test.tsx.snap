@@ -77,6 +77,10 @@ exports[`Renderer:dateRange 1`] = `
                 type="text"
                 value="2019-06-26"
               />
+              <div
+                class="cxd-DateRangePicker-activeCursor"
+                style="position: absolute; left: 0px; width: 0px;"
+              />
               <a
                 class="cxd-DateRangePicker-clear"
               >

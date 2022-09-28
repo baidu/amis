@@ -172,6 +172,11 @@ export interface FormSchemaBase {
   persistData?: string;
 
   /**
+   * 开启本地缓存后限制保存哪些 key
+   */
+  persistDataKeys?: string[];
+
+  /**
    * 提交成功后清空本地缓存
    */
   clearPersistDataAfterSubmit?: boolean;
@@ -870,7 +875,7 @@ export default class Form extends React.Component<FormProps, object> {
     submit: boolean,
     changePristine = false
   ) {
-    const {store, formLazyChange} = this.props;
+    const {store, formLazyChange, persistDataKeys} = this.props;
     if (typeof name !== 'string') {
       return;
     }
@@ -882,7 +887,7 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     if (store.persistData && store.inited) {
-      store.setLocalPersistData();
+      store.setLocalPersistData(persistDataKeys);
     }
   }
   formItemDispatchEvent(dispatchEvent: any) {

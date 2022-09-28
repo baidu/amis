@@ -303,7 +303,7 @@ export interface CRUDCommonSchema extends BaseSchema {
   /**
    * 内容区域占满屏幕剩余空间
    */
-  autoFillHeight?: boolean;
+  autoFillHeight?: TableSchema['autoFillHeight'];
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -1107,6 +1107,24 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             columns: store.columns ?? columns
           })
           .then(value => {
+            const {page, lastPage} = store;
+            // 空列表 且 页数已经非法超出，则跳转到最后的合法页数
+            if (
+              !store.data.items.length &&
+              !interval &&
+              page > 1 &&
+              lastPage < page
+            ) {
+              this.search(
+                {
+                  ...store.query,
+                  [pageField || 'page']: lastPage
+                },
+                false,
+                undefined
+              );
+            }
+
             interval &&
               this.mounted &&
               (!stopAutoRefreshWhen ||
@@ -1180,7 +1198,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     indexes: Array<string>,
     unModifiedItems?: Array<any>,
     rowsOrigin?: Array<object> | object,
-    resetOnFailed?: boolean
+    options?: {
+      resetOnFailed?: boolean;
+      reload?: string;
+    }
   ) {
     const {
       store,
@@ -1221,8 +1242,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           errorMessage: messages && messages.saveSuccess
         })
         .then(() => {
-          reload && this.reloadTarget(reload, data);
-          this.search(undefined, undefined, true, true);
+          const finalReload = options?.reload ?? reload;
+          finalReload
+            ? this.reloadTarget(finalReload, data)
+            : this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
     } else {
@@ -1241,11 +1264,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       store
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
-          reload && this.reloadTarget(reload, data);
-          this.search(undefined, undefined, true, true);
+          const finalReload = options?.reload ?? reload;
+          finalReload
+            ? this.reloadTarget(finalReload, data)
+            : this.search(undefined, undefined, true, true);
         })
         .catch(() => {
-          resetOnFailed && this.control.reset();
+          options?.resetOnFailed && this.control.reset();
         });
     }
   }
@@ -1361,7 +1386,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       onSelect
     } = this.props;
-
     let newItems = items;
     let newUnSelectedItems = unSelectedItems;
 
@@ -1419,8 +1443,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         } else {
           oldUnselectedItems.push(item);
         }
-
-        ~idx2 && oldItems.splice(idx2, 1);
+        !~idx && ~idx2 && oldItems.splice(idx2, 1);
       });
 
       newItems = oldItems;
@@ -1446,7 +1469,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
     onSelect && onSelect(newItems);

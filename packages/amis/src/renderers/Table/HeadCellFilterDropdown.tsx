@@ -8,13 +8,20 @@ import {PopOver} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {Checkbox} from 'amis-ui';
 import xor from 'lodash/xor';
-import {normalizeOptions} from 'amis-core';
-import {getVariable, createObject} from 'amis-core';
+import {
+  normalizeOptions,
+  getVariable,
+  createObject,
+  isNumeric
+} from 'amis-core';
+import type {Option} from 'amis-core';
 
 export interface QuickFilterConfig {
   options: Array<any>;
   // source: Api;
   multiple: boolean;
+  /* 是否开启严格对比模式 */
+  strictMode?: boolean;
   [propName: string]: any;
 }
 
@@ -147,10 +154,26 @@ export class HeadCellFilterDropDown extends React.Component<
     } else {
       options = options.map(option => ({
         ...option,
-        selected: option.value == filterValue
+        selected: this.optionComparator(option, filterValue)
       }));
     }
     return options;
+  }
+
+  optionComparator(option: Option, selected: any) {
+    const {filterable} = this.props;
+
+    /**
+     * 无论是否严格模式，需要考虑CRUD开启syncLocation后，参数值会被转化为string的情况：
+     * 数字类需要特殊处理，如果两边都为数字类时才进行比较，否则不相等，排除 1 == true 这种情况
+     */
+    if (isNumeric(option.value)) {
+      return isNumeric(selected) ? option.value == selected : false;
+    }
+
+    return filterable?.strictMode === true
+      ? option.value === selected
+      : option.value == selected;
   }
 
   handleClickOutside() {
