@@ -31,3 +31,5 @@ tsconfig.tsbuildinfo
 lerna-debug.log
 .rollup.cache
 package-lock.json
+
+**.xlsx
