@@ -1415,7 +1415,7 @@ popOver 的其它配置请参考 [popover](./popover)
         {
             "type": "table",
             "source": "$rows",
-            "rowClassNameExpr": "<%= data.id % 2 ? 'bg-success' : '' %>",
+            "rowClassNameExpr": "<%= data.id % 2 ? 'bg-success' : 'bg-blue-50' %>",
             "columns": [
                 {
                     "name": "engine",
@@ -1871,11 +1871,10 @@ popOver 的其它配置请参考 [popover](./popover)
 | prefixRow        | `Array`                                  |                           | 顶部总结行                                                                |
 | affixRow         | `Array`                                  |                           | 底部总结行                                                                |
 | itemBadge        | [`BadgeSchema`](./badge)                 |                           | 行角标配置                                                                |
-| autoFillHeight   | `boolean`  丨 `{height: number}`         |                           | 内容区域自适应高度                                                        |
+| autoFillHeight   | `boolean` 丨 `{height: number}`          |                           | 内容区域自适应高度                                                        |
 | resizable        | `boolean`                                | `true`                    | 列宽度是否支持调整                                                        |
 | selectable       | `boolean`                                | `false`                   | 支持勾选                                                                  |
-| multiple         | `boolean`                                | `false`                   | 勾选icon是否为多选样式`checkbox`，  默认为`radio`                         |
-
+| multiple         | `boolean`                                | `false`                   | 勾选 icon 是否为多选样式`checkbox`， 默认为`radio`                        |
 
 ## 列配置属性表
 
