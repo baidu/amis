@@ -328,7 +328,6 @@ export const TableStore = iRendererStore
     }
 
     function getExportedColumns() {
-      console.log(self.columns);
       return self.columns.filter(item => {
         return (
           item &&
