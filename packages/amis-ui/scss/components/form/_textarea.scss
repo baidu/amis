@@ -16,6 +16,8 @@
     border-radius: var(--Form-input-borderRadius);
     background: var(--Form-input-bg);
     padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+    /* 避免和clear btn 重叠 */
+    padding-right: calc(var(--Form-input-paddingX) + var(--Form-fontSize));
     font-size: var(--Form-input-fontSize);
     display: block;
     width: 100%;
@@ -54,13 +56,13 @@
   }
 
   .has-error--maxLength &-counter {
-    background: var(--danger);
+    color: var(--danger);
   }
 
   &-clear {
     @include input-clear();
     position: absolute;
-    right: var(--Form-input-paddingX);
+    right: var(--Form-input-paddingY);
     top: var(--Form-input-paddingY);
   }
 }

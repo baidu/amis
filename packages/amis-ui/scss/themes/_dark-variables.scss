@@ -35,6 +35,9 @@ $link-color: $info;
 @import '../variables';
 @import '../properties';
 
+/* 此处放置需要override的变量，因为部分变量已经在variables.scss中定义 */
+$Table-strip-bg: $Panel-bg;
+
 :root {
   --Panel-bg: #{$Panel-bg};
   --background-head: #191c22;

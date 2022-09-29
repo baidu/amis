@@ -207,6 +207,23 @@ export class BaseTransferRenderer<
         joinValues || extractValue
           ? value[(valueField as string) || 'value']
           : value;
+      const indexes = findTreeIndex(
+        options,
+        optionValueCompare(
+          value[(valueField as string) || 'value'],
+          (valueField as string) || 'value'
+        )
+      );
+
+      if (!indexes) {
+        newOptions.push(value);
+      } else if (optionModified) {
+        const origin = getTree(newOptions, indexes);
+        newOptions = spliceTree(newOptions, indexes, 1, {
+          ...origin,
+          ...value
+        });
+      }
     }
 
     (newOptions.length > options.length || optionModified) &&
@@ -258,7 +275,7 @@ export class BaseTransferRenderer<
         const result =
           payload.data.options || payload.data.items || payload.data;
         if (!Array.isArray(result)) {
-          throw new Error('CRUD.invalidArray');
+          throw new Error(__('CRUD.invalidArray'));
         }
 
         return result.map(item => {

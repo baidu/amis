@@ -7,6 +7,7 @@
   "files.exclude": {
     "**/lib": true,
     "**/esm": true,
+    "**/sdk": true,
     "**/tsconfig.tsbuildinfo": true,
     "**/schema.json": true,
     "**/lerna-debug.log": true,
@@ -15,6 +16,15 @@
     "public/**": true
   },
   "search.exclude": {
+    "**/lib": true,
+    "**/esm": true,
+    "**/sdk": true,
+    "**/tsconfig.tsbuildinfo": true,
+    "**/schema.json": true,
+    "**/lerna-debug.log": true,
+    "**/package-lock.json": true,
+    "**/.rollup.cache": true,
+    "public/**": true,
     "examples/docs.json": true,
     "examples/components/EChartsEditor/option-parts/**/*": true
   }

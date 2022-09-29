@@ -129,18 +129,18 @@ exports[`Renderer:Form 1`] = `
 `;
 
 exports[`Renderer:Form 2`] = `
-Object {
-  "body": Object {
+{
+  "body": {
     "a": "123",
   },
-  "config": Object {
+  "config": {
     "errorMessage": "saveFailed",
     "method": "post",
     "onFailed": [Function],
     "onSuccess": [Function],
     "successMessage": "saveSuccess",
   },
-  "data": Object {
+  "data": {
     "a": "123",
   },
   "method": "post",
@@ -837,7 +837,7 @@ exports[`Renderer:Form:onValidate 1`] = `
 `;
 
 exports[`Renderer:Form:onValidate 2`] = `
-Object {
+{
   "a": 1,
   "b": 2,
 }
@@ -1007,7 +1007,7 @@ exports[`Renderer:Form:onValidate 3`] = `
 `;
 
 exports[`Renderer:Form:onValidate 4`] = `
-Object {
+{
   "a": 1,
   "b": 2,
 }
@@ -1429,7 +1429,7 @@ exports[`Renderer:Form:valdiate 2`] = `
 `;
 
 exports[`Renderer:Form:valdiate 3`] = `
-Object {
+{
   "a": "123",
 }
 `;

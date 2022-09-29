@@ -156,15 +156,25 @@ test(`filter:url_encode`, () => {
   ).toBe('%3D');
 });
 
-test(`filter:url_encode`, () => {
-  expect(
-    resolveVariableAndFilter('${a|url_decode}', {
-      a: '%3D'
-    })
-  ).toBe('=');
+describe('filter:url_decode', () => {
+  test(`filter:url_decode:normal`, () => {
+    expect(
+      resolveVariableAndFilter('${a|url_decode}', {
+        a: '%3D'
+      })
+    ).toBe('=');
+  });
+
+  test(`filter:url_decode:error`, () => {
+    expect(
+      resolveVariableAndFilter('${a|url_decode}', {
+        a: '%'
+      })
+    ).toBe(undefined);
+  });
 });
 
-test(`filter:url_encode`, () => {
+test(`filter:default`, () => {
   expect(
     resolveVariableAndFilter('${a|default:-}', {
       a: ''

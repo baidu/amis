@@ -138,6 +138,24 @@ export class FormulaEditor extends React.Component<
     evalMode: true
   };
 
+  static replaceStrByIndex(
+    str: string,
+    idx: number,
+    key: string,
+    replaceKey: string
+  ) {
+    const from = str.slice(0, idx);
+    const left = str.slice(idx);
+    return from + left.replace(key, replaceKey);
+  }
+
+  static getRegExpByMode(evalMode: boolean, key: string) {
+    const reg = evalMode
+      ? `\\b${key}\\b`
+      : `\\$\\{[^\\{\\}]*\\b${key}\\b[^\\{\\}]*\\}`;
+    return new RegExp(reg);
+  }
+
   static highlightValue(
     value: string,
     variables: Array<VariableItem>,
@@ -174,14 +192,18 @@ export class FormulaEditor extends React.Component<
       let from = 0;
       let idx = -1;
       while (~(idx = content.indexOf(v, from))) {
-        // 处理一下 \b 匹配不到的字符，比如 中文、[] 等
-        const encodeHtml = html.replace(v, REPLACE_KEY);
-        const curNameEg = new RegExp(`\\b${REPLACE_KEY}\\b`, 'g'); // 避免变量识别冲突，比如：name、me 被识别成 na「me」
+        const encodeHtml = FormulaEditor.replaceStrByIndex(
+          html,
+          idx,
+          v,
+          REPLACE_KEY
+        );
+        const reg = FormulaEditor.getRegExpByMode(evalMode, REPLACE_KEY);
 
         // 如果匹配到则高亮，没有匹配到替换成原值
-        if (curNameEg.test(encodeHtml)) {
+        if (reg.test(encodeHtml)) {
           html = encodeHtml.replace(
-            curNameEg,
+            REPLACE_KEY,
             `<span class="c-field">${varMap[v]}</span>`
           );
         } else {

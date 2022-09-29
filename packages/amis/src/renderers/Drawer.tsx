@@ -579,9 +579,7 @@ export default class Drawer extends React.Component<DrawerProps> {
         onExited={this.handleExited}
         closeOnEsc={closeOnEsc}
         closeOnOutside={
-          !store.drawerOpen &&
-          !store.dialogOpen &&
-          (closeOnOutside || !showCloseButton)
+          !store.drawerOpen && !store.dialogOpen && closeOnOutside
         }
         container={
           drawerContainer

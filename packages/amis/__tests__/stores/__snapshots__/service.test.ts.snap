@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`store:ServiceStore 1`] = `
-Object {
+{
   "action": undefined,
   "busying": false,
   "checking": false,
-  "childrenIds": Array [],
-  "data": Object {},
+  "childrenIds": [],
+  "data": {},
   "dialogData": undefined,
   "dialogOpen": false,
   "disposed": false,
@@ -21,7 +21,7 @@ Object {
   "msg": "",
   "parentId": "",
   "path": "",
-  "pristine": Object {},
+  "pristine": {},
   "saving": false,
   "schema": null,
   "schemaKey": "",
@@ -31,13 +31,13 @@ Object {
 `;
 
 exports[`store:ServiceStore fetchInitData failed 1`] = `
-Array [
-  Object {
+[
+  {
     "action": undefined,
     "busying": false,
     "checking": false,
-    "childrenIds": Array [],
-    "data": Object {},
+    "childrenIds": [],
+    "data": {},
     "dialogData": undefined,
     "dialogOpen": false,
     "disposed": false,
@@ -52,19 +52,19 @@ Array [
     "msg": "",
     "parentId": "",
     "path": "",
-    "pristine": Object {},
+    "pristine": {},
     "saving": false,
     "schema": null,
     "schemaKey": "",
     "storeType": "ServiceStore",
     "updatedAt": 0,
   },
-  Object {
+  {
     "action": undefined,
     "busying": false,
     "checking": false,
-    "childrenIds": Array [],
-    "data": Object {},
+    "childrenIds": [],
+    "data": {},
     "dialogData": undefined,
     "dialogOpen": false,
     "disposed": false,
@@ -79,7 +79,7 @@ Array [
     "msg": "",
     "parentId": "",
     "path": "",
-    "pristine": Object {},
+    "pristine": {},
     "saving": false,
     "schema": null,
     "schemaKey": "",
@@ -90,13 +90,13 @@ Array [
 `;
 
 exports[`store:ServiceStore fetchInitData success 1`] = `
-Array [
-  Object {
+[
+  {
     "action": undefined,
     "busying": false,
     "checking": false,
-    "childrenIds": Array [],
-    "data": Object {},
+    "childrenIds": [],
+    "data": {},
     "dialogData": undefined,
     "dialogOpen": false,
     "disposed": false,
@@ -111,18 +111,18 @@ Array [
     "msg": "",
     "parentId": "",
     "path": "",
-    "pristine": Object {},
+    "pristine": {},
     "saving": false,
     "schema": null,
     "schemaKey": "",
     "storeType": "ServiceStore",
   },
-  Object {
+  {
     "action": undefined,
     "busying": false,
     "checking": false,
-    "childrenIds": Array [],
-    "data": Object {
+    "childrenIds": [],
+    "data": {
       "a": 1,
       "b": 2,
     },
@@ -140,7 +140,7 @@ Array [
     "msg": "",
     "parentId": "",
     "path": "",
-    "pristine": Object {
+    "pristine": {
       "a": 1,
       "b": 2,
     },

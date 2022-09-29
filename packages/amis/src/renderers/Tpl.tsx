@@ -90,10 +90,11 @@ export class Tpl extends React.Component<TplProps, object> {
       classnames: cx,
       style,
       showNativeTitle,
-      data
+      data,
+      env
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
-    const content = this.getContent();
+    const content = env.filterHtml(this.getContent());
 
     return (
       <Component

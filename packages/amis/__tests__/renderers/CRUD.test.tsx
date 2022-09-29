@@ -1,8 +1,33 @@
-import React = require('react');
-import {cleanup, fireEvent, render, waitFor} from '@testing-library/react';
+/**
+ * 组件名称：CRUD 增删改查
+ * 单测内容：
+ * 01. interval & headerToolbar & footerToolbar
+ * 02. stopAutoRefreshWhen 停止自动刷新条件
+ * 03. loadDataOnce 前端分页加载
+ * 04. list模式
+ * 05. card模式
+ * 06. source 数据源 & alwaysShowPagination 总是显示分页
+ * 07. filter 过滤器
+ * 08. draggable & itemDraggableOn 拖拽
+ * 09. quickEdit & quickSaveApi 快速编辑
+ * 10. quickSaveItemApi 即时保存
+ * 11. bulkActions 批量操作
+ * 12. sortable & orderBy & orderDir & orderField 排序
+ * 13. keepItemSelectionOnPageChange & maxKeepItemSelectionLength & labelTpl
+ * 14. autoGenerateFilter 自动生成查询表单
+ * 15. group 分组
+ */
+
+import {
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+  waitForElementToBeRemoved
+} from '@testing-library/react';
 import '../../src';
 import {clearStoresCache, render as amisRender} from '../../src';
-import {makeEnv, wait} from '../helper';
+import {makeEnv as makeEnvRaw, wait} from '../helper';
 import rows from '../mockData/rows';
 
 afterEach(() => {
@@ -10,6 +35,9 @@ afterEach(() => {
   clearStoresCache();
   jest.useRealTimers();
 });
+
+/** 避免updateLocation里的console.error */
+const makeEnv = args => makeEnvRaw({updateLocation: () => {}, ...args});
 
 async function fetcher(config: any) {
   return {
@@ -171,16 +199,8 @@ test('Renderer:crud list', async () => {
       makeEnv({fetcher})
     )
   );
+
   await waitFor(() => {
-    expect(
-      container.querySelector('[data-testid="spinner"]')
-    ).toBeInTheDocument();
-  });
-  expect(container).toMatchSnapshot();
-  await waitFor(() => {
-    expect(
-      container.querySelector('[data-testid="spinner"]')
-    ).not.toBeInTheDocument();
     expect(container.querySelectorAll('.cxd-ListItem').length > 5).toBeTruthy();
   });
   expect(container).toMatchSnapshot();
@@ -223,15 +243,6 @@ test('Renderer:crud cards', async () => {
   );
 
   await waitFor(() => {
-    expect(
-      container.querySelector('[data-testid="spinner"]')
-    ).toBeInTheDocument();
-  });
-  expect(container).toMatchSnapshot();
-  await waitFor(() => {
-    expect(
-      container.querySelector('[data-testid="spinner"]')
-    ).not.toBeInTheDocument();
     expect(container.querySelector('.cxd-Card-title')).toBeInTheDocument();
   });
   expect(container).toMatchSnapshot();

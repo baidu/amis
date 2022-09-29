@@ -28,6 +28,9 @@ $Wizard-steps-liAfterBorder: none !important;
 @import '../variables';
 @import '../properties';
 
+/* 此处放置需要override的变量，因为部分变量已经在variables.scss中定义 */
+$Table-strip-bg: transparent;
+
 // yunshe4.0 font-size
 $T1: 10px;
 $T2: 12px;
@@ -186,6 +189,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-select-valueIcon-color--dark: #{$G8};
   --Form-select-multiple-bgColor: #{$G10};
   --Form-select-value-bgColor--dark: #{$G4};
+  --Form-selectValue-onDisabled-color: #{$G6};
 
   --InputGroup-select-borderWidth: #{px2rem(1px)};
   --InputGroup-select-onFocused-bg: #eaf6fe;
@@ -391,7 +395,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Table-thead-bg: #{$G10};
   --Table-thead-borderColor: #fff;
   --Table-thead-iconColor: #999;
-  --Table-strip-bg: transparent;
+  --Table-strip-bg: #{$Table-strip-bg};
   --Table-onHover-bg: #{$B1};
   --Table-onHover-bg-rgb: 245, 251, 255;
   --Table-onHover-borderColor: #eceff8;

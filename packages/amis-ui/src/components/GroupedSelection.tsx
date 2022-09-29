@@ -10,7 +10,11 @@ import {localeable} from 'amis-core';
 export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
   valueArray: Array<Option>;
 
-  renderOption(option: Option, index: number) {
+  renderOption(
+    option: Option,
+    index: number,
+    key: string = `${index}`
+  ): JSX.Element {
     const {
       labelClassName,
       disabled,
@@ -24,6 +28,16 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
     const valueArray = this.valueArray;
 
     if (Array.isArray(option.children)) {
+      if (!option.label) {
+        return (
+          <>
+            {option.children.map((child: Option, index: number) =>
+              this.renderOption(child, index)
+            )}
+          </>
+        );
+      }
+
       return (
         <div
           key={index}
