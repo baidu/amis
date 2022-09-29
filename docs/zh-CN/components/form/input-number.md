@@ -170,6 +170,7 @@ order: 32
 | suffix           | `string`                                |        | 后缀                 |
 | kilobitSeparator | `boolean`                               |        | 千分分隔             |
 | keyboard         | `boolean`                               |        | 键盘事件（方向上下） |
+| big              | `boolean`                               |        | 是否使用大数         |
 | displayMode      | `string`                                |        | 样式类型             |
 
 ## 事件表
