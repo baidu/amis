@@ -851,6 +851,7 @@ icon:
 | 事件名称 | 事件参数                          | 说明             |
 | -------- | --------------------------------- | ---------------- |
 | change   | `event.data.value: string` 选中值 | 选中值变化时触发 |
+| selectAll   | `event.data.options: Array<Options>`  | 全选时触发 |
 
 ## 动作表
 
