@@ -76,6 +76,8 @@ amis 中表达式有两种语法：
 
 - 变量名： `xxx变量`、`xxx变量.xxx属性`、`xxx变量[xxx属性]`
 - 布尔值： `true` 或者 `false`
+- null：`null`
+- undefined: `undefined`
 - 数字： `123` 或者 `123.23`
 - 字符串： `"string"` 或者 `'string'`
 - 字符模板
