@@ -1,13 +1,7 @@
 import React from 'react';
 import {FormHorizontal, Renderer, RendererProps} from 'amis-core';
-import {Schema} from 'amis-core';
 import pick from 'lodash/pick';
-import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
-  SchemaObject
-} from '../Schema';
+import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 
 import {ucFirst} from 'amis-core';
 import {Spinner} from 'amis-ui';
