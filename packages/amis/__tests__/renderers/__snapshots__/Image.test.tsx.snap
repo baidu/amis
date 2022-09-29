@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:image 1`] = `
+exports[`Renderer:image image:basic 1`] = `
 <div>
   <div
     class="cxd-ImageField cxd-ImageField--thumb show"
@@ -35,7 +35,7 @@ exports[`Renderer:image 1`] = `
 </div>
 `;
 
-exports[`Renderer:images 1`] = `
+exports[`Renderer:images images:basic 1`] = `
 <div>
   <div
     class="cxd-Page"
