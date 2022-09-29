@@ -51,6 +51,11 @@ export interface NumberProps extends ThemeProps {
    */
   displayMode?: 'base' | 'enhance';
   keyboard?: Boolean;
+
+  /**
+   * 是否是大数
+   */
+  big?: boolean;
 }
 
 export class NumberInput extends React.Component<NumberProps, any> {
@@ -63,13 +68,13 @@ export class NumberInput extends React.Component<NumberProps, any> {
   /**
    * 是否是 bigNumber，如果输入的内容是字符串就自动开启
    */
-  isBigNumber: boolean = false;
+  isBig: boolean = false;
 
   constructor(props: NumberProps) {
     super(props);
     const value = props.value;
-    if (typeof value === 'string') {
-      this.isBigNumber = true;
+    if (typeof value === 'string' || props.big) {
+      this.isBig = true;
     }
   }
 
@@ -156,7 +161,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
       return updateValue;
     };
     const updatedValue = triggerValueUpdate(target, false);
-    if (this.isBigNumber) {
+    if (this.isBig) {
       this.handleChange(updatedValue.toString());
     } else {
       val = Number(updatedValue.toString());
@@ -217,7 +222,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
         placeholder={placeholder}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        stringMode={this.isBigNumber ? true : false}
+        stringMode={this.isBig ? true : false}
         keyboard={keyboard}
         {...precisionProps}
       />

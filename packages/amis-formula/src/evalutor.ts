@@ -1915,7 +1915,7 @@ function parseJson(str: string, defaultValue?: any) {
 
 function stripNumber(number: number) {
   if (typeof number === 'number' && !Number.isInteger(number)) {
-    return parseFloat(number.toPrecision(12));
+    return parseFloat(number.toPrecision(20));
   } else {
     return number;
   }
