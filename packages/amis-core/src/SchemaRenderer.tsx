@@ -16,7 +16,7 @@ import {ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
 import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
-import {anyChanged, chainEvents, autobind, createObject} from './utils/helper';
+import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
 
 import {bindEvent, dispatchEvent, RendererEvent} from './utils/renderer-event';
