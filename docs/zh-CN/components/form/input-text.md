@@ -250,6 +250,8 @@ order: 56
 
 ## 前缀和后缀
 
+`prefix` 和 `suffix` 属性支持数据映射。
+
 ```schema: scope="body"
 {
     "type": "form",
@@ -281,9 +283,9 @@ order: 56
 }
 ```
 
-支持数据映射
-
 ## 显示计数器
+
+配置`"showCounter": true`后输入框将显示计数器，一般会配合`maxLength`属性以限制输入长度，如果不设置`maxLength`，则仅展示计数器，并不会限制用户的输入长度。
 
 ```schema: scope="body"
 {
@@ -294,14 +296,33 @@ order: 56
             "type": "input-text",
             "label": "A",
             "showCounter": true,
-            "placeholder": "请输入"
+            "placeholder": "请输入",
+            "showCounter": true,
+            "options": [
+                {
+                    "label": "aa",
+                    "value": "aa"
+                },
+                {
+                    "label": "bb",
+                    "value": "bb"
+                },
+                {
+                    "label": "cc",
+                    "value": "cc"
+                },
+                {
+                    "label": "dd",
+                    "value": "dd"
+                }
+            ]
         },
         {
             "name": "b",
             "type": "input-text",
             "label": "B",
             "showCounter": true,
-            "maxLength": 100,
+            "maxLength": 20,
             "placeholder": "请输入"
         }
     ]
@@ -381,12 +402,12 @@ order: 56
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称 | 事件参数                           | 说明                                           |
-| -------- | --------------------------------- | --------------------------------------------- |
-| click    | `event.data.value: string` 输入值 | 点击输入框时触发，只针对选择器模式的输入框有效     |
-| enter    | `event.data.value: string` 输入值 | 回车时触发，只针对选择器模式的输入框有效          |
-| focus    | `event.data.value: string` 输入值 | 输入框获取焦点时触发                            |
-| blur     | `event.data.value: string` 输入值 | 输入框失去焦点时触发                            |
+| 事件名称 | 事件参数                          | 说明                                           |
+| -------- | --------------------------------- | ---------------------------------------------- |
+| click    | `event.data.value: string` 输入值 | 点击输入框时触发，只针对选择器模式的输入框有效 |
+| enter    | `event.data.value: string` 输入值 | 回车时触发，只针对选择器模式的输入框有效       |
+| focus    | `event.data.value: string` 输入值 | 输入框获取焦点时触发                           |
+| blur     | `event.data.value: string` 输入值 | 输入框失去焦点时触发                           |
 | change   | `event.data.value: string` 输入值 | 值变化时触发                                   |
 
 ## 动作表

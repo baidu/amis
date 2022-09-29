@@ -35,11 +35,17 @@ done
 
 # 把代码里面import的部分换成内部包名称
 for f in $(find ./packages/*/lib -type f -name "*.[tj]s"); do
-  sed -i '' -e "s/\'amis/\'@fex\/amis/g" $f
+  sed -i '' -e "s/from \'amis/from \'@fex\/amis/g" $f
+  sed -i '' -e "s/import(\'amis/import(\'@fex\/amis/g" $f
+  sed -i '' -e "s/require(\'amis/require(\'@fex\/amis/g" $f
+  sed -i '' -e "s/require(\[\'amis/require(\[\'@fex\/amis/g" $f
 done
 
 for f in $(find ./packages/*/esm -type f -name "*.[tj]s"); do
-  sed -i '' -e "s/\'amis/\'@fex\/amis/g" $f
+  sed -i '' -e "s/from \'amis/from \'@fex\/amis/g" $f
+  sed -i '' -e "s/import(\'amis/import(\'@fex\/amis/g" $f
+  sed -i '' -e "s/require(\'amis/require(\'@fex\/amis/g" $f
+  sed -i '' -e "s/require(\[\'amis/require(\[\'@fex\/amis/g" $f
 done
 
 npm publish --workspaces --registry=http://registry.npm.baidu-int.com --ignore-scripts

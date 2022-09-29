@@ -59,9 +59,12 @@ test('formula:expression2', () => {
 });
 
 test('formula:expression3', () => {
-  expect(evalFormual('${a} === "b"', {a: 'b'})).toBe(true);
+  // expect(evalFormual('${a} === "b"', {a: 'b'})).toBe(true);
   expect(evalFormual('b === "b"')).toBe(false);
-  expect(evalFormual('${a}', {a: 'b'})).toBe('b');
+  // expect(evalFormual('${a}', {a: 'b'})).toBe('b');
+
+  expect(evalFormual('obj.x.a', {obj: {x: {a: 1}}})).toBe(1);
+  expect(evalFormual('obj.y.a', {obj: {x: {a: 1}}})).toBe(undefined);
 });
 
 test('formula:if', () => {
@@ -84,10 +87,13 @@ test('formula:or', () => {
 });
 
 test('formula:xor', () => {
-  expect(evalFormual('XOR(0, 1)')).toBe(false);
-  expect(evalFormual('XOR(1, 0)')).toBe(false);
-  expect(evalFormual('XOR(1, 1)')).toBe(true);
-  expect(evalFormual('XOR(0, 0)')).toBe(true);
+  expect(evalFormual('XOR(0, 1)')).toBe(true);
+  expect(evalFormual('XOR(1, 0)')).toBe(true);
+  expect(evalFormual('XOR(1, 1)')).toBe(false);
+  expect(evalFormual('XOR(0, 0)')).toBe(false);
+
+  expect(evalFormual('XOR(0, 0, 1)')).toBe(true);
+  expect(evalFormual('XOR(0, 1, 1)')).toBe(false);
 });
 
 test('formula:ifs', () => {

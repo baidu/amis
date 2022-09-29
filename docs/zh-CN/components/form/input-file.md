@@ -72,6 +72,26 @@ order: 21
 
 想要限制多个类型，则用逗号分隔，例如：`.csv,.md`
 
+## 限制文件大小
+
+可以配置`maxSize`来限制文件大小
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-file",
+            "name": "file",
+            "label": "不能上传超过 1M 的文件",
+            "maxSize": 1048576,
+            "receiver": "/api/upload/file"
+        }
+    ]
+}
+```
+
 ## 手动上传
 
 如果不希望 File 组件上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。

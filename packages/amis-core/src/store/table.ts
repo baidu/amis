@@ -1016,6 +1016,9 @@ export const TableStore = iRendererStore
       self.selectedRows.clear();
       // self.expandedRows.clear();
 
+      /* 避免输入内容为非数组挂掉 */
+      rows = !Array.isArray(rows) ? [] : rows;
+
       let arr: Array<SRow> = rows.map((item, index) => {
         if (!isObject(item)) {
           item = {

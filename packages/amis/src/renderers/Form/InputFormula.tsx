@@ -25,6 +25,14 @@ export interface InputFormulaControlSchema extends FormBaseControlSchema {
   evalMode?: boolean;
 
   /**
+   * 混合模式，意味着这个输入框既可以输入不同文本
+   * 也可以输入公式。
+   * 当输入公式时，值格式为 ${公式内容}
+   * 其他内容当字符串。
+   */
+  mixedMode?: boolean;
+
+  /**
    * 用于提示的变量集合，默认为空
    */
   variables: Array<VariableItem>;
@@ -165,6 +173,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       disabled,
       onChange,
       evalMode,
+      mixedMode,
       variableMode,
       header,
       label,
@@ -227,6 +236,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         data={data}
         onPickerOpen={onPickerOpen}
         selfVariableName={selfVariableName}
+        mixedMode={mixedMode}
       />
     );
   }

@@ -17,6 +17,7 @@ import TableSelection from './TableSelection';
 
 export interface ResultTableSelectionProps extends BaseSelectionProps {
   title?: string;
+  searchPlaceholder?: string;
   placeholder?: string;
   searchable?: boolean;
   onSearch?: Function;
@@ -208,7 +209,7 @@ export class BaseResultTableSelection extends BaseSelection<
       title,
       searchable,
       translate: __,
-      placeholder = __('Transfer.searchKeyword')
+      searchPlaceholder = __('Transfer.searchKeyword')
     } = this.props;
 
     return (
@@ -216,7 +217,7 @@ export class BaseResultTableSelection extends BaseSelection<
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
-            placeholder={placeholder}
+            placeholder={searchPlaceholder}
             onSearch={this.search}
             onCancelSearch={this.clearSearch}
           />

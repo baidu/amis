@@ -630,25 +630,7 @@ export default class Table extends React.Component<TableProps, object> {
 
   componentDidMount() {
     const currentNode = findDOMNode(this) as HTMLElement;
-    // 获取小于所有子元素高度之和的父元素
-    let parent: HTMLElement | Window | null = getScrollParent(
-      currentNode,
-      parent => {
-        if (parent.getAttribute('role') === 'dialog') {
-          /**
-           *
-           * * 兼容在 Dialog 中的场景,
-           * ! 有时 dialog 内容并没有撑出滚动条，这里需要做一下特殊处理
-           * TODO 有没有一种更好的方式来判断
-           */
-          return true;
-        }
-        // * 具备 overflow-*:auto 的父元素的高度小于当前元素
-        return (
-          parent.offsetHeight > 0 && parent.offsetHeight < parent.scrollHeight
-        );
-      }
-    );
+    let parent: HTMLElement | Window | null = getScrollParent(currentNode);
 
     if (!parent || parent === document.body) {
       parent = window;
@@ -1911,16 +1893,16 @@ export default class Table extends React.Component<TableProps, object> {
       );
     }
 
-    let affix = null;
+    let affix = [];
 
     if (column.searchable && column.name && !autoGenerateFilter) {
-      affix = (
+      affix.push(
         <HeadCellSearchDropDown
           {...this.props}
           onQuery={onQuery}
           name={column.name}
           searchable={column.searchable}
-          sortable={column.sortable}
+          sortable={false}
           type={column.type}
           data={query}
           orderBy={store.orderBy}
@@ -1928,8 +1910,9 @@ export default class Table extends React.Component<TableProps, object> {
           popOverContainer={this.getPopOverContainer}
         />
       );
-    } else if (column.sortable && column.name) {
-      affix = (
+    }
+    if (column.sortable && column.name) {
+      affix.push(
         <span
           className={cx('TableCell-sortBtn')}
           onClick={async () => {
@@ -1997,8 +1980,9 @@ export default class Table extends React.Component<TableProps, object> {
           </i>
         </span>
       );
-    } else if (column.filterable && column.name) {
-      affix = (
+    }
+    if (!column.searchable && column.filterable && column.name) {
+      affix.push(
         <HeadCellFilterDropDown
           {...this.props}
           onQuery={onQuery}

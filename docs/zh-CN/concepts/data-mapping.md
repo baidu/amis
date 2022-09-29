@@ -18,10 +18,12 @@ order: 12
   "data": {
     "name": "rick"
   },
-  "body": {
-    "type": "tpl",
-    "tpl": "my name is ${name}" // 输出: my name is rick
-  }
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "my name is ${name}" // 输出: my name is rick
+    }
+  ]
 }
 ```
 
@@ -812,7 +814,7 @@ ${xxx | url_encode}
 
 ### url_decode
 
-效果同 [decodeURIComponent() - JavaScript | MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent)
+效果同 [decodeURIComponent() - JavaScript | MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent)，注意从`2.3.0`版本开始，不合法的输入会被转化为`undefined`。
 
 ##### 基本用法
 
