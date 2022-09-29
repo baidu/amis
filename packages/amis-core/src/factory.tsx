@@ -3,7 +3,13 @@ import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
 import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
-import {findIndex, promisify, qsparse, string2regExp} from './utils/helper';
+import {
+  findIndex,
+  promisify,
+  qsparse,
+  string2regExp,
+  parseQuery
+} from './utils/helper';
 import {
   fetcherResult,
   SchemaNode,
@@ -302,7 +308,7 @@ export const defaultOptions: RenderOptions = {
         return false;
       }
       const query = qsparse(search.substring(1));
-      const currentQuery = qsparse(location.search.substring(1));
+      const currentQuery = parseQuery(location);
       return Object.keys(query).every(key => query[key] === currentQuery[key]);
     } else if (pathname === location.pathname) {
       return true;
