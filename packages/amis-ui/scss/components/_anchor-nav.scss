@@ -30,6 +30,8 @@
           margin-left: px2rem(-2px);
           height: px2rem(32px);
           line-height: px2rem(32px);
+          @include truncate();
+          max-width: var(--Tabs--vertical-width);
 
           &:hover {
             color: var(--primary);
@@ -46,8 +48,8 @@
             border-color: var(--primary);
           }
           > a:hover {
-            color: #528EFF;
-            border-color: #528EFF;
+            color: #528eff;
+            border-color: #528eff;
           }
           > a:active {
             color: #144bcc;
@@ -71,6 +73,11 @@
         margin-bottom: calc(var(--Tabs-borderWidth) * -1);
         display: inline-block;
         position: relative;
+
+        > a {
+          @include truncate();
+          max-width: var(--Tabs--vertical-width);
+        }
 
         > a:first-child {
           font-size: var(--Tabs-linkFontSize);
