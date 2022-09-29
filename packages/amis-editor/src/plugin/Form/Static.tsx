@@ -96,8 +96,10 @@ export class StaticControlPlugin extends BasePlugin {
                 name: 'quickEdit.saveImmediately',
                 label: '立即保存',
                 visibleOn: 'data.quickEdit',
-                description: '开启后修改即提交，而不是标记修改批量提交。',
-                descriptionClassName: 'help-block m-b-none',
+                labelRemark: {
+                  type: 'remark',
+                  content: '开启后修改即提交，而不是标记修改批量提交。'
+                },
                 pipeIn: (value: any) => !!value
               }),
               getSchemaTpl('apiControl', {
