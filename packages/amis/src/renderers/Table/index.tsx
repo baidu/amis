@@ -1201,9 +1201,23 @@ export default class Table extends React.Component<TableProps, object> {
         forEach(
           table.querySelectorAll('thead>tr:first-child>th'),
           (item: HTMLElement) => {
-            const width = widths2[item.getAttribute('data-index') as string];
-            item.style.cssText += `width: ${width}px; height: ${heights.header2}px`;
-            totalWidth2 += width;
+            const rowSpan = Number(item.getAttribute('rowspan'));
+            const colSpan = Number(item.getAttribute('colspan'));
+            let thWidth = widths2[item.getAttribute('data-index') as string];
+            let thHeight = Number(heights.header2);
+
+            /* 考虑表头分组的情况，需要将固定列中对应的表头的高度按照rowSpan扩大指定倍数 */
+            if (!isNaN(thHeight) && !isNaN(rowSpan)) {
+              thHeight *= rowSpan;
+            }
+
+            /* 考虑表头分组的情况，需要将分组表头按照colSpan缩小至指定倍数 */
+            if (!isNaN(thWidth) && !isNaN(colSpan) && colSpan !== 0) {
+              thWidth /= colSpan;
+            }
+
+            item.style.cssText += `width: ${thWidth}px; height: ${thHeight}px`;
+            totalWidth2 += thWidth;
           }
         );
 
@@ -2283,6 +2297,7 @@ export default class Table extends React.Component<TableProps, object> {
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
     const columnsGroup = store.columnGroup;
+
     return (
       <table
         className={cx('Table-table', tableClassName, {
