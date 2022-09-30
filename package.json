@@ -85,6 +85,10 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/.rollup.cache/"
-    ]
+    ],
+    "snapshotFormat": {
+      "escapeString": false,
+      "printBasicPrototype": false
+    }
   }
 }
