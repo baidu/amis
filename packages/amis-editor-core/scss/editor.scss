@@ -1078,6 +1078,29 @@
   position: relative;
   min-height: 34px;
 
+  &:empty {
+    min-width: 20px;
+
+    &:before {
+      height: 100%;
+      content: attr(data-region-placeholder);
+      position: relative;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 0 5px;
+      -webkit-user-select: none;
+      user-select: none;
+      text-align: center;
+      text-transform: uppercase;
+      color: rgb(108, 113, 124);
+      border: 1px dashed rgb(206, 208, 211);
+      background: rgba(10, 19, 37, 0.05);
+    }
+  }
+
   &.is-dragenter {
     background-color: #fff;
   }
