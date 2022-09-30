@@ -174,3 +174,9 @@
     transform: translate3d(-50%, -50%, 0);
   }
 }
+
+.#{$ns}Spinner-mark {
+  position: absolute;
+  z-index: -999;
+  opacity: 0;
+}
