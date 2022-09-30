@@ -51,6 +51,9 @@
     > div:first-child {
       padding-top: 0;
     }
+    div[data-role='form-item'] > label > span span {
+      line-height: 20px;
+    }
     .fix-icon-picker-overflow {
       input {
         width: 0;
