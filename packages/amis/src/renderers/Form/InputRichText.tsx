@@ -1,5 +1,11 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  buildApi,
+  qsstringify
+} from 'amis-core';
 import cx from 'classnames';
 import {LazyComponent} from 'amis-core';
 import {tokenize} from 'amis-core';
@@ -108,7 +114,9 @@ export default class RichTextControl extends React.Component<
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleChange = this.handleChange.bind(this);
-
+    const api = buildApi(props.receiver, props.data, {
+      method: props.receiver.method || 'post'
+    });
     if (finnalVendor === 'froala') {
       this.config = {
         imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif'],
@@ -135,9 +143,10 @@ export default class RichTextControl extends React.Component<
         ...props.options,
         editorClass: props.editorClass,
         placeholderText: props.translate(props.placeholder),
-        imageUploadURL: tokenize(props.receiver, props.data),
+        imageUploadURL: api.url,
         imageUploadParams: {
-          from: 'rich-text'
+          from: 'rich-text',
+          ...api.data
         },
         videoUploadURL: tokenize(props.videoReceiver, props.data),
         videoUploadParams: {
@@ -162,8 +171,19 @@ export default class RichTextControl extends React.Component<
         images_upload_handler: (blobInfo: any, progress: any) =>
           new Promise(async (resolve, reject) => {
             const formData = new FormData();
+
+            if (api.data) {
+              qsstringify(api.data)
+                .split('&')
+                .filter(item => item !== '')
+                .forEach(item => {
+                  let parts = item.split('=');
+                  formData.append(parts[0], decodeURIComponent(parts[1]));
+                });
+            }
+
             formData.append(
-              props.fileField,
+              props.fileField || 'file',
               blobInfo.blob(),
               blobInfo.filename()
             );
@@ -176,7 +196,7 @@ export default class RichTextControl extends React.Component<
                     data: payload
                   };
                 },
-                ...normalizeApi(tokenize(props.receiver, props.data), 'post')
+                ...api
               };
 
               const response = await fetcher(receiver, formData, {
