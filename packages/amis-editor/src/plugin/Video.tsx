@@ -63,7 +63,10 @@ export class VideoPlugin extends BasePlugin {
             name: 'isLive',
             label: '直播流',
             labelRemark: {
-              type: 'remark',
+              className: 'm-l-xs',
+              trigger: 'click',
+              rootClose: true,
+              placement: 'left',
               content: '如果是直播流，请勾选，否则有可能不能正常播放。'
             }
           })

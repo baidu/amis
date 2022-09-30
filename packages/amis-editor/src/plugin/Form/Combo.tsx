@@ -491,7 +491,10 @@ export class ComboControlPlugin extends BasePlugin {
         label: '懒加载',
         pipeIn: defaultValue(false),
         labelRemark: {
-          type: 'remark',
+          className: 'm-l-xs',
+          trigger: 'click',
+          rootClose: true,
+          placement: 'left',
           content: '如果数据比较多，比较卡顿时，可开启此配置项。'
         }
       }),
@@ -501,7 +504,10 @@ export class ComboControlPlugin extends BasePlugin {
         label: '严格模式',
         pipeIn: defaultValue(true),
         labelRemark: {
-          type: 'remark',
+          className: 'm-l-xs',
+          trigger: 'click',
+          rootClose: true,
+          placement: 'left',
           content: '如果你希望环境变量的值实时透传到 Combo 中，请关闭此选项。'
         }
       }),
@@ -522,7 +528,10 @@ export class ComboControlPlugin extends BasePlugin {
         label: '允许为空',
         pipeIn: defaultValue(false),
         labelRemark: {
-          type: 'remark',
+          className: 'm-l-xs',
+          trigger: 'click',
+          rootClose: true,
+          placement: 'left',
           content: '如果子表单项里面配置验证器，且又是单条模式。可以允许用户选择清空（不填）。'
         }
       }),
