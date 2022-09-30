@@ -2,6 +2,7 @@ $right-panel-width: px2rem(280px);
 $right-panel-sidetab-width: px2rem(62px);
 $category-1-height: px2rem(44px);
 $category-2-height: px2rem(32px);
+$tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
 .editor-right-panel {
   position: relative;
@@ -21,7 +22,12 @@ $category-2-height: px2rem(32px);
 
   .ae-Settings-content {
     padding: var(--gap-base);
-    [data-tooltip][data-position='bottom']:hover:after {
+    #{$tooltip-bottom} {
+      margin-left: -10px;
+      animation-name: none;
+    }
+
+    .ae-Combo-item > div:first-child > #{$tooltip-bottom} {
       margin-left: 15px;
     }
   }
