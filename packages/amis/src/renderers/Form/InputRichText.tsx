@@ -114,15 +114,23 @@ export default class RichTextControl extends React.Component<
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    const imageApi = normalizeApi(
+    const imageReceiver = normalizeApi(
       props.receiver,
       props.receiver.method || 'post'
     );
+    imageReceiver.data = imageReceiver.data || {};
+    const imageApi = buildApi(imageReceiver, props.data, {
+      method: props.receiver.method || 'post'
+    });
     if (finnalVendor === 'froala') {
-      const videoApi = normalizeApi(
+      const videoReceiver = normalizeApi(
         props.videoReceiver,
         props.videoReceiver.method || 'post'
       );
+      videoReceiver.data = videoReceiver.data || {};
+      const videoApi = buildApi(videoReceiver, props.data, {
+        method: props.videoReceiver.method || 'post'
+      });
       this.config = {
         imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif'],
         imageDefaultAlign: 'left',
@@ -151,12 +159,12 @@ export default class RichTextControl extends React.Component<
         imageUploadURL: imageApi.url,
         imageUploadParams: {
           from: 'rich-text',
-          ...(imageApi.data ?? {})
+          ...imageApi.data
         },
         videoUploadURL: videoApi.url,
         videoUploadParams: {
           from: 'rich-text',
-          ...(videoApi.data ?? {})
+          ...videoApi.data
         },
         events: {
           ...(props.options && props.options.events),
