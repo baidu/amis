@@ -114,10 +114,23 @@ export default class RichTextControl extends React.Component<
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    const api = buildApi(props.receiver, props.data, {
+    const imageReceiver = normalizeApi(
+      props.receiver,
+      props.receiver.method || 'post'
+    );
+    imageReceiver.data = imageReceiver.data || {};
+    const imageApi = buildApi(imageReceiver, props.data, {
       method: props.receiver.method || 'post'
     });
     if (finnalVendor === 'froala') {
+      const videoReceiver = normalizeApi(
+        props.videoReceiver,
+        props.videoReceiver.method || 'post'
+      );
+      videoReceiver.data = videoReceiver.data || {};
+      const videoApi = buildApi(videoReceiver, props.data, {
+        method: props.videoReceiver.method || 'post'
+      });
       this.config = {
         imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif'],
         imageDefaultAlign: 'left',
@@ -143,14 +156,15 @@ export default class RichTextControl extends React.Component<
         ...props.options,
         editorClass: props.editorClass,
         placeholderText: props.translate(props.placeholder),
-        imageUploadURL: api.url,
+        imageUploadURL: imageApi.url,
         imageUploadParams: {
           from: 'rich-text',
-          ...api.data
+          ...imageApi.data
         },
-        videoUploadURL: tokenize(props.videoReceiver, props.data),
+        videoUploadURL: videoApi.url,
         videoUploadParams: {
-          from: 'rich-text'
+          from: 'rich-text',
+          ...videoApi.data
         },
         events: {
           ...(props.options && props.options.events),
@@ -172,8 +186,8 @@ export default class RichTextControl extends React.Component<
           new Promise(async (resolve, reject) => {
             const formData = new FormData();
 
-            if (api.data) {
-              qsstringify(api.data)
+            if (imageApi.data) {
+              qsstringify(imageApi.data)
                 .split('&')
                 .filter(item => item !== '')
                 .forEach(item => {
@@ -196,7 +210,7 @@ export default class RichTextControl extends React.Component<
                     data: payload
                   };
                 },
-                ...api
+                ...imageApi
               };
 
               const response = await fetcher(receiver, formData, {
