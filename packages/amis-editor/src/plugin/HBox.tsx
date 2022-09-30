@@ -165,7 +165,7 @@ export class HBoxPlugin extends BasePlugin {
             ]
           },
 
-          {
+          getSchemaTpl('combo-container', {
             name: 'columns',
             label: '列集合',
             type: 'combo',
@@ -188,7 +188,7 @@ export class HBoxPlugin extends BasePlugin {
                 label: ''
               })
             ]
-          },
+          }),
           getSchemaTpl('fieldSet', {
             title: '水平对齐',
             collapsable: false,

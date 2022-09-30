@@ -10,10 +10,7 @@ import {
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class MatrixControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -159,8 +156,9 @@ export class MatrixControlPlugin extends BasePlugin {
             title: '选项',
             body: [
               [
-                {
+                getSchemaTpl('combo-container', {
                   label: '列配置',
+                  mode: 'normal',
                   name: 'columns',
                   type: 'combo',
                   multiple: true,
@@ -175,16 +173,17 @@ export class MatrixControlPlugin extends BasePlugin {
                       placeholder: '列说明'
                     }
                   ]
-                },
+                }),
                 {
                   name: 'rowLabel',
                   label: '行标题文字',
                   type: 'input-text'
                 },
-                {
+                getSchemaTpl('combo-container', {
                   label: '行配置',
                   name: 'rows',
                   type: 'combo',
+                  mode: 'normal',
                   multiple: true,
                   scaffold: {
                     label: '行说明'
@@ -197,16 +196,12 @@ export class MatrixControlPlugin extends BasePlugin {
                       placeholder: '行说明'
                     }
                   ]
-                }
+                })
               ],
               getSchemaTpl('apiControl', {
                 label: tipedLabel('接口', '获取矩阵数据接口'),
                 name: 'source',
-                mode: 'horizontal',
-                horizontal: {
-                  left: 4,
-                  justify: true
-                }
+                mode: 'normal'
               })
               // getSchemaTpl('value')
             ]

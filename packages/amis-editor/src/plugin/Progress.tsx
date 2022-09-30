@@ -216,7 +216,7 @@ export class ProgressPlugin extends BasePlugin {
                   form.setValueByName('stripe', value === 'stripe');
                 }
               },
-              {
+              getSchemaTpl('combo-container', {
                 name: 'map',
                 type: 'combo',
                 mode: 'normal',
@@ -252,7 +252,7 @@ export class ProgressPlugin extends BasePlugin {
                 pipeIn: (value: any) => {
                   return Array.isArray(value) ? value : [];
                 }
-              }
+              })
             ]
           },
           getSchemaTpl('style:classNames', {
