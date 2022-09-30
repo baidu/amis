@@ -97,6 +97,7 @@ export interface ExpandableProps {
   expandedRowClassName?: Function;
   expandIcon?: Function;
   fixed?: boolean;
+  position?: string; // 控制展开按钮的位置 不设置默认是在左侧 设置支持left、right、none
 }
 
 export interface SummaryProps {
@@ -154,6 +155,7 @@ export interface TableProps extends ThemeProps, LocaleProps {
   onSelect?: Function;
   onSelectAll?: Function;
   itemActions?: Function;
+  onRef?: (ref: any) => void;
 }
 
 export interface ScrollProps {
@@ -463,6 +465,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   componentDidMount() {
+    this.props?.onRef?.(this);
+
     if (this.props.loading) {
       return;
     }
@@ -792,7 +796,20 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
     const tdColumns = this.tdColumns;
     const isExpandable = this.isExpandableTable();
-    const extraCount = this.getExtraColumnCount();
+    const extraCount =
+      this.getExtraColumnCount() - (this.isRightExpandable() ? 1 : 0);
+    const isLeftExpandable = this.isLeftExpandable();
+    const isRightExpandable = this.isRightExpandable();
+
+    const expandableCol =
+      !draggable && isExpandable ? (
+        <col
+          className={cx('Table-expand-col')}
+          style={{
+            width: (expandable?.columnWidth || DefaultCellWidth) + 'px'
+          }}
+        ></col>
+      ) : null;
 
     return (
       <colgroup>
@@ -810,16 +827,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             }}
           ></col>
         ) : null}
-        {!draggable && isExpandable ? (
-          <col
-            className={cx('Table-expand-col')}
-            style={{
-              width: (expandable?.columnWidth || DefaultCellWidth) + 'px'
-            }}
-          ></col>
-        ) : null}
+        {isLeftExpandable ? expandableCol : null}
         {tdColumns.map((data, index) => {
-          const width = colWidths ? colWidths[index + extraCount] : data.width;
+          const width = colWidths
+            ? colWidths[index + extraCount - (isRightExpandable ? 1 : 0)]
+            : data.width;
 
           return (
             <col
@@ -831,6 +843,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             ></col>
           );
         })}
+        {isRightExpandable ? expandableCol : null}
       </colgroup>
     );
   }
@@ -932,6 +945,18 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         : this.state.dataSource;
 
     const isExpandable = this.isExpandableTable();
+    const isLeftExpandable = this.isLeftExpandable();
+    const isRightExpandable = this.isRightExpandable();
+
+    const expandableCell =
+      !draggable && isExpandable ? (
+        <Cell
+          wrapperComponent="th"
+          rowSpan={thColumns.length}
+          fixed={expandable && expandable.fixed ? 'left' : ''}
+          className={cx('Table-row-expand-icon-cell')}
+        ></Cell>
+      ) : null;
 
     let allRowKeys: Array<string> = [];
     let allRows: Array<any> = [];
@@ -1016,14 +1041,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                     : null}
                 </Cell>
               ) : null}
-              {!draggable && isExpandable && index === 0 ? (
-                <Cell
-                  wrapperComponent="th"
-                  rowSpan={thColumns.length}
-                  fixed={expandable && expandable.fixed ? 'left' : ''}
-                  className={cx('Table-row-expand-icon-cell')}
-                ></Cell>
-              ) : null}
+              {isLeftExpandable && index === 0 ? expandableCell : null}
               {data.map((item, i) => {
                 let sort = null;
                 if (item.sorter) {
@@ -1108,6 +1126,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                   </Cell>
                 );
               })}
+              {isRightExpandable && index === 0 ? expandableCell : null}
             </tr>
           );
         })}
@@ -1205,21 +1224,24 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     this.setState({hoverRow: null});
   }
 
-  onExpandRow(data: any) {
+  onExpandRows(data: Array<any>) {
     const {expandedRowKeys} = this.state;
     const {expandable} = this.props;
-    const key = data[this.getExpandableKeyField()];
-    this.setState({expandedRowKeys: [...expandedRowKeys, key]});
+    const keys = data.map((d: any) => d[this.getExpandableKeyField()]);
+    this.setState({expandedRowKeys: [...expandedRowKeys, ...keys]});
     expandable?.onExpand && expandable?.onExpand(true, data);
   }
 
-  onCollapseRow(data: any) {
+  onCollapseRows(data: Array<any>) {
     const {expandedRowKeys} = this.state;
     const {expandable} = this.props;
-    const key = data[this.getExpandableKeyField()];
-    // 还是得模糊匹配 否则'3'、3匹配不上
-    this.setState({expandedRowKeys: expandedRowKeys.filter(k => k != key)});
-    expandable?.onExpand && expandable?.onExpand(false, data);
+    const keys = data.map((d: any) => d[this.getExpandableKeyField()]);
+    this.setState({
+      expandedRowKeys: expandedRowKeys.filter(
+        (k: string | number) => !keys.find(v => v == k) // 模糊匹配 否则'3'、3匹配不上
+      )
+    });
+    expandable?.onExpand && expandable?.onExpand(true, data);
   }
 
   getChildrenColumnName() {
@@ -1251,8 +1273,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
     return (
       expandable &&
-      expandable.rowExpandable &&
-      expandable.rowExpandable(data, rowIndex)
+      (!expandable.rowExpandable ||
+        (expandable.rowExpandable && expandable.rowExpandable(data, rowIndex)))
     );
   }
 
@@ -1295,20 +1317,27 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     return length > 0;
   }
 
-  getExpandedIcons(isExpanded: boolean, record: any) {
+  isExpanded(record: any) {
+    return !!find(
+      this.state.expandedRowKeys,
+      key => key == record[this.getExpandableKeyField()]
+    ); // == 匹配 否则'3'、3匹配不上
+  }
+
+  getExpandedIcons(record: any) {
     const {classnames: cx} = this.props;
 
-    return isExpanded ? (
+    return this.isExpanded(record) ? (
       <i
         className={cx('Table-expandBtn', 'is-active')}
-        onClick={this.onCollapseRow.bind(this, record)}
+        onClick={this.onCollapseRows.bind(this, [record])}
       >
         <Icon icon="right-arrow-bold" className="icon" />
       </i>
     ) : (
       <i
         className={cx('Table-expandBtn')}
-        onClick={this.onExpandRow.bind(this, record)}
+        onClick={this.onExpandRows.bind(this, [record])}
       >
         <Icon icon="right-arrow-bold" className="icon" />
       </i>
@@ -1375,17 +1404,15 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const isExpandable = this.isExpandableTable();
     const defaultKey = this.getRowSelectionKeyField();
     const colCount = this.getExtraColumnCount();
+    const isLeftExpandable = this.isLeftExpandable();
+    const isRightExpandable = this.isRightExpandable();
 
     // 当前行是否可展开
     const isExpandableRow = this.isExpandableRow(data, rowIndex);
     // 当前行是否有children
     const hasChildrenRow = this.hasChildrenRow(data);
 
-    const isExpanded = !!find(
-      this.state.expandedRowKeys,
-      key => key == data[this.getExpandableKeyField()]
-    ); // == 匹配 否则'3'、3匹配不上
-
+    const isExpanded = this.isExpanded(data);
     // 设置缩进效果
     const indentDom =
       levels.length > 0 ? (
@@ -1439,9 +1466,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             })}
           >
             {i === 0 && levels.length > 0 ? indentDom : null}
-            {i === 0 && hasChildrenRow
-              ? this.getExpandedIcons(isExpanded, data)
-              : null}
+            {i === 0 && hasChildrenRow ? this.getExpandedIcons(data) : null}
             {render ? children : data[item.name]}
           </div>
         </Cell>
@@ -1497,6 +1522,24 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const hasChildrenChecked = this.hasCheckedChildrenRows(data);
     const isRadio = rowSelection && rowSelection.type === 'radio';
 
+    const expandableCell =
+      !draggable && isExpandable ? (
+        <Cell
+          fixed={
+            expandable && expandable.fixed
+              ? isRightExpandable
+                ? 'right'
+                : 'left'
+              : ''
+          }
+          className={cx('Table-cell-expand-icon-cell')}
+        >
+          {isExpandableRow || hasChildrenRow
+            ? this.getExpandedIcons(data)
+            : null}
+        </Cell>
+      ) : null;
+
     return [
       <tr
         key={`${data[keyField || 'key'] || rowIndex}`} // 可能会拖拽排序，就不能用rowIndex作为key了，否则显示会有问题
@@ -1540,17 +1583,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             ></CheckBox>
           </Cell>
         ) : null}
-        {!draggable && isExpandable ? (
-          <Cell
-            fixed={expandable && expandable.fixed ? 'left' : ''}
-            className={cx('Table-cell-expand-icon-cell')}
-          >
-            {isExpandableRow || hasChildrenRow
-              ? this.getExpandedIcons(isExpanded, data)
-              : null}
-          </Cell>
-        ) : null}
+        {isLeftExpandable ? expandableCell : null}
         {cells}
+        {isRightExpandable ? expandableCell : null}
       </tr>,
       children
     ];
@@ -1600,19 +1635,35 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     return !!expandable;
   }
 
+  // 展开列放到右侧 会影响之前的一些合并的规则
+  isRightExpandable() {
+    const {expandable} = this.props;
+    return expandable && expandable.position === 'right';
+  }
+
+  // 展开列放到左侧
+  isLeftExpandable() {
+    const {expandable} = this.props;
+    return (
+      expandable && (!expandable.position || expandable.position === 'left')
+    );
+  }
+
   isNestedTable() {
     const {dataSource} = this.props;
     return !!find(dataSource, item => this.hasChildrenRow(item));
   }
 
+  // 计算自动增加的列数
+  // 选择、拖拽、展开
   getExtraColumnCount() {
-    const {draggable, rowSelection} = this.props;
+    const {draggable, rowSelection, expandable} = this.props;
 
     let count = 0;
     if (draggable) {
       count++;
     } else {
-      if (this.isExpandableTable()) {
+      if (this.isExpandableTable() && expandable?.position !== 'none') {
         count++;
       }
       if (rowSelection) {
@@ -1628,6 +1679,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const cells: Array<React.ReactNode> = [];
     const trs: Array<React.ReactNode> = [];
     let colCount = this.getExtraColumnCount();
+    const isRightExpandable = this.isRightExpandable() ? 1 : 0;
 
     Array.isArray(summary)
       ? summary.forEach((s, index) => {
@@ -1642,7 +1694,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                   {s.map((d, i) => {
                     // 将操作列自动添加到第一列，用户的colSpan只需要关心实际的列数
                     const colSpan =
-                      i === 0 ? (d.colSpan || 1) + colCount : d.colSpan;
+                      i === 0
+                        ? (d.colSpan || 1) + colCount - isRightExpandable
+                        : i === s.length - 1
+                        ? (d.colSpan || 1) + isRightExpandable
+                        : d.colSpan;
                     return (
                       <Cell
                         key={'summary-tr-cell-' + i}
@@ -1662,7 +1718,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                   key={'summary-cell-' + index}
                   fixed={s.fixed}
                   colSpan={
-                    cells.length === 0 ? (s.colSpan || 1) + colCount : s.colSpan
+                    cells.length === 0
+                      ? (s.colSpan || 1) + colCount - isRightExpandable
+                      : index === summary.length - 1
+                      ? (s.colSpan || 1) + isRightExpandable
+                      : s.colSpan
                   }
                 >
                   {typeof s.render === 'function'
@@ -1776,10 +1836,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     // 设置了横向滚动轴 则table的table-layout为fixed
     const hasScrollX = scroll && scroll.x;
     const hoverRow = this.state.hoverRow;
-    // 如果设置了列宽 那么table-layout为fixed才能生效
-    const columnWidth = this.tdColumns.some(item => item.width);
 
-    const tableLayout = hasScrollX || columnWidth ? 'fixed' : 'auto';
+    const tableLayout = hasScrollX ? 'fixed' : 'auto';
     const tableStyle = hasScrollX ? {width: scroll.x + 'px'} : {};
 
     return (
