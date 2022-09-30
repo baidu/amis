@@ -63,7 +63,7 @@ setSchemaTpl(
   (config: {visibleOn: string; [propName: string]: any}) => {
     return [
       {
-        type: 'button-group-select',
+        type: 'select',
         label: '标题宽度',
         name: 'horizontal',
         options: [

@@ -81,13 +81,7 @@ setSchemaTpl(
   }) => ({
     label: '布局',
     name: 'mode',
-    type: 'button-group-select',
-    option: '继承',
-    horizontal: {
-      left: 2,
-      justify: true
-    },
-    // className: 'w-full',
+    type: 'select',
     pipeIn: defaultValue(''),
     options: [
       {
@@ -215,7 +209,7 @@ setSchemaTpl(
       type: 'tabs',
       tabsMode: 'line', // tiled
       className: 'editor-prop-config-tabs',
-      linksClassName: 'editor-prop-config-tabs-links',
+      linksClassName: 'editor-prop-config-tabs-links aa',
       contentClassName:
         'no-border editor-prop-config-tabs-cont hoverShowScrollBar',
       tabs: config
@@ -592,12 +586,17 @@ setSchemaTpl('className', (schema: any) => {
  */
 setSchemaTpl('combo-container', (config: SchemaObject) => {
   if (isObject(config)) {
-    const itemsWrapperClassName =
-      ['input-kv', 'combo'].includes((config as any).type) &&
-      'ae-Combo-items ' + ((config as any).itemsWrapperClassName ?? '');
+    let itemsWrapperClassName;
+    let itemClassName;
+    if (['input-kv', 'combo'].includes((config as any).type)) {
+      itemsWrapperClassName =
+        'ae-Combo-items ' + ((config as any).itemsWrapperClassName ?? '');
+      itemClassName = 'ae-Combo-item ' + ((config as any).itemClassName ?? '');
+    }
     return {
       ...(config as any),
-      ...(itemsWrapperClassName ? {itemsWrapperClassName} : {})
+      ...(itemsWrapperClassName ? {itemsWrapperClassName} : {}),
+      ...(itemClassName ? {itemClassName} : {})
     };
   }
   return config;
@@ -686,15 +685,15 @@ setSchemaTpl('visible', {
   expressionName: 'visibleOn'
 });
 
-
 // 新版配置面板兼容 [可见] 状态
 setSchemaTpl('newVisible', {
-    type: 'ae-StatusControl',
-    label: '可见',
-    mode: 'normal',
-    name: 'visible',
-    expressionName: 'visibleOn',
-    visibleOn:"data.visible || data.visible === false || data.visibleOn !== undefined"
+  type: 'ae-StatusControl',
+  label: '可见',
+  mode: 'normal',
+  name: 'visible',
+  expressionName: 'visibleOn',
+  visibleOn:
+    'data.visible || data.visible === false || data.visibleOn !== undefined'
 });
 
 setSchemaTpl('hidden', {
@@ -1040,7 +1039,7 @@ setSchemaTpl('app-page-args', {
   type: 'ae-DataMappingControl',
   name: 'params',
   label: '页面参数',
-  schema: {"type": "object", "properties":{}},
+  schema: {type: 'object', properties: {}},
   mode: 'horizontal'
 });
 
@@ -1061,15 +1060,18 @@ setSchemaTpl(
   }
 );
 
-setSchemaTpl('iconLink', (schema: {name: 'icon' | 'rightIcon', visibleOn: boolean}) => {
-  const {name, visibleOn} = schema;
-  return {
-    name: name,
-    visibleOn,
-    label: '图标',
-    type: 'icon-picker',
-    placeholder: '点击选择图标',
-    clearable: true,
-    description: ''
+setSchemaTpl(
+  'iconLink',
+  (schema: {name: 'icon' | 'rightIcon'; visibleOn: boolean}) => {
+    const {name, visibleOn} = schema;
+    return {
+      name: name,
+      visibleOn,
+      label: '图标',
+      type: 'icon-picker',
+      placeholder: '点击选择图标',
+      clearable: true,
+      description: ''
+    };
   }
-});
+);
