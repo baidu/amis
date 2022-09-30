@@ -31,7 +31,7 @@ extendLocale('en-US', {
   '2fc96b2704b05d6a9f299c442573ee77': 'White',
   'adb7e5312abdb9a44297e48d63815fa3': 'Dark color',
   '48d0a09bdd5fe7e89f0a445b0ffdf14f': 'Light color',
-  '0d98c74797e49d00bcc4c17c9d557a2b': 'Others',
+  '0d98c74797e49d00bcc4c17c9d557a2b': 'More',
   '0103eb2d3dca70270d1a74e9ec987ac9': 'Rounded corner',
   '8456bc40d48da5af833f1c63385e9879': 'Font',
   'b3b2682579133673d3fe08c156d565dc': 'Normal',
