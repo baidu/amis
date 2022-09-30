@@ -97,7 +97,10 @@ export class StaticControlPlugin extends BasePlugin {
                 label: '立即保存',
                 visibleOn: 'data.quickEdit',
                 labelRemark: {
-                  type: 'remark',
+                  className: 'm-l-xs',
+                  trigger: 'click',
+                  rootClose: true,
+                  placement: 'left',
                   content: '开启后修改即提交，而不是标记修改批量提交。'
                 },
                 pipeIn: (value: any) => !!value
