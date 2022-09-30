@@ -62,7 +62,10 @@ export class VideoPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'isLive',
             label: '直播流',
-            description: '如果是直播流，请勾选，否则有可能不能正常播放。'
+            labelRemark: {
+              type: 'remark',
+              content: '如果是直播流，请勾选，否则有可能不能正常播放。'
+            }
           })
         ]
       },
