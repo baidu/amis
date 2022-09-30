@@ -116,6 +116,7 @@ export default class TreeSelectControl extends React.Component<
   TreeSelectState
 > {
   static defaultProps = {
+    hideRoot: true,
     placeholder: 'Select.placeholder',
     optionsPlaceholder: 'placeholder.noData',
     multiple: false,
