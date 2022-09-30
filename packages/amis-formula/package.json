@@ -94,7 +94,11 @@
     },
     "setupFilesAfterEnv": [
       "<rootDir>/__tests__/jest.setup.js"
-    ]
+    ],
+    "snapshotFormat": {
+      "escapeString": false,
+      "printBasicPrototype": false
+    }
   },
   "gitHead": "37d23b4a8eb1c663bc38e8dd9040889ea1526ec4"
 }

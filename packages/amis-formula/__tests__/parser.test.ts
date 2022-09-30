@@ -1,4 +1,5 @@
 import {parse} from '../src/index';
+
 test('parser:simple', () => {
   expect(
     parse('expression result is ${a + b}', {

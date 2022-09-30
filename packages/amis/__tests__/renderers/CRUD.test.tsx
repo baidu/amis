@@ -29,6 +29,7 @@ import '../../src';
 import {clearStoresCache, render as amisRender} from '../../src';
 import {makeEnv as makeEnvRaw, wait} from '../helper';
 import rows from '../mockData/rows';
+import type {RenderOptions} from '../../src';
 
 afterEach(() => {
   cleanup();
@@ -37,7 +38,8 @@ afterEach(() => {
 });
 
 /** 避免updateLocation里的console.error */
-const makeEnv = args => makeEnvRaw({updateLocation: () => {}, ...args});
+const makeEnv = (env?: Partial<RenderOptions>) =>
+  makeEnvRaw({updateLocation: () => {}, ...env});
 
 async function fetcher(config: any) {
   return {
