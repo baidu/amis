@@ -453,47 +453,53 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                       <ul
                         class="cxd-Tree-list"
                       >
-                        <li
-                          class="cxd-Tree-item "
+                        <div
+                          style="overflow: auto; will-change: transform; height: 160px; width: 100%;"
                         >
                           <div
-                            class="cxd-Tree-itemLabel"
-                          >
-                            <div
-                              class="cxd-Tree-itemArrow"
-                            >
-                              <icon-mock
-                                classname="icon icon-down-arrow-bold"
-                                icon="down-arrow-bold"
-                              />
-                            </div>
-                            <div
-                              class="cxd-Tree-itemLabel-item"
-                            >
-                              <i
-                                class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                              >
-                                <icon-mock
-                                  classname="icon icon-folder"
-                                  icon="folder"
-                                />
-                              </i>
-                              <span
-                                class="cxd-Tree-itemText"
-                                title="法师"
-                              >
-                                法师
-                              </span>
-                              <div
-                                class="cxd-Tree-item-icons"
-                              />
-                            </div>
-                          </div>
-                          <ul
-                            class="cxd-Tree-sublist"
+                            style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 160px;"
                           >
                             <li
+                              class="cxd-Tree-item "
+                              style="position: absolute; top: 0px; height: 32px;"
+                            >
+                              <div
+                                class="cxd-Tree-itemLabel"
+                              >
+                                <div
+                                  class="cxd-Tree-itemArrow"
+                                >
+                                  <icon-mock
+                                    classname="icon icon-down-arrow-bold"
+                                    icon="down-arrow-bold"
+                                  />
+                                </div>
+                                <div
+                                  class="cxd-Tree-itemLabel-item"
+                                >
+                                  <i
+                                    class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                  >
+                                    <icon-mock
+                                      classname="icon icon-folder"
+                                      icon="folder"
+                                    />
+                                  </i>
+                                  <span
+                                    class="cxd-Tree-itemText"
+                                    title="法师"
+                                  >
+                                    法师
+                                  </span>
+                                  <div
+                                    class="cxd-Tree-item-icons"
+                                  />
+                                </div>
+                              </div>
+                            </li>
+                            <li
                               class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                              style="position: absolute; top: 32px; height: 32px;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -524,49 +530,47 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 </div>
                               </div>
                             </li>
-                          </ul>
-                        </li>
-                        <li
-                          class="cxd-Tree-item "
-                        >
-                          <div
-                            class="cxd-Tree-itemLabel"
-                          >
-                            <div
-                              class="cxd-Tree-itemArrow"
+                            <li
+                              class="cxd-Tree-item "
+                              style="position: absolute; top: 64px; height: 32px;"
                             >
-                              <icon-mock
-                                classname="icon icon-down-arrow-bold"
-                                icon="down-arrow-bold"
-                              />
-                            </div>
-                            <div
-                              class="cxd-Tree-itemLabel-item"
-                            >
-                              <i
-                                class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                              >
-                                <icon-mock
-                                  classname="icon icon-folder"
-                                  icon="folder"
-                                />
-                              </i>
-                              <span
-                                class="cxd-Tree-itemText"
-                                title="战士"
-                              >
-                                战士
-                              </span>
                               <div
-                                class="cxd-Tree-item-icons"
-                              />
-                            </div>
-                          </div>
-                          <ul
-                            class="cxd-Tree-sublist"
-                          >
+                                class="cxd-Tree-itemLabel"
+                              >
+                                <div
+                                  class="cxd-Tree-itemArrow"
+                                >
+                                  <icon-mock
+                                    classname="icon icon-down-arrow-bold"
+                                    icon="down-arrow-bold"
+                                  />
+                                </div>
+                                <div
+                                  class="cxd-Tree-itemLabel-item"
+                                >
+                                  <i
+                                    class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                  >
+                                    <icon-mock
+                                      classname="icon icon-folder"
+                                      icon="folder"
+                                    />
+                                  </i>
+                                  <span
+                                    class="cxd-Tree-itemText"
+                                    title="战士"
+                                  >
+                                    战士
+                                  </span>
+                                  <div
+                                    class="cxd-Tree-item-icons"
+                                  />
+                                </div>
+                              </div>
+                            </li>
                             <li
                               class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                              style="position: absolute; top: 96px; height: 32px;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel"
@@ -599,6 +603,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                             </li>
                             <li
                               class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                              style="position: absolute; top: 128px; height: 32px;"
                             >
                               <div
                                 class="cxd-Tree-itemLabel is-checked"
@@ -629,8 +634,8 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 </div>
                               </div>
                             </li>
-                          </ul>
-                        </li>
+                          </div>
+                        </div>
                       </ul>
                     </div>
                   </div>
@@ -667,7 +672,9 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   label-1
                                 </span>
                               </div>
@@ -690,7 +697,9 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   label-2
                                 </span>
                               </div>
@@ -713,7 +722,9 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   label-3
                                 </span>
                               </div>
@@ -736,7 +747,9 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
                               >
-                                <span>
+                                <span
+                                  class=""
+                                >
                                   label-4
                                 </span>
                               </div>
@@ -1237,7 +1250,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-1
                         </span>
                       </div>
@@ -1248,7 +1263,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-2
                         </span>
                       </div>
@@ -1259,7 +1276,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-3
                         </span>
                       </div>
@@ -1270,7 +1289,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-4
                         </span>
                       </div>
@@ -1281,7 +1302,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-5
                         </span>
                       </div>
@@ -1292,7 +1315,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-6
                         </span>
                       </div>
@@ -1303,7 +1328,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-7
                         </span>
                       </div>
@@ -1314,7 +1341,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-8
                         </span>
                       </div>
@@ -1325,7 +1354,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-9
                         </span>
                       </div>
@@ -1336,7 +1367,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                       <div
                         class="cxd-ChainedSelection-itemLabel"
                       >
-                        <span>
+                        <span
+                          class=""
+                        >
                           group-10
                         </span>
                       </div>
@@ -1372,7 +1405,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span>
+                              <span
+                                class=""
+                              >
                                 group-2-option-1
                               </span>
                             </div>
@@ -1395,7 +1430,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span>
+                              <span
+                                class=""
+                              >
                                 group-2-option-2
                               </span>
                             </div>
@@ -1418,7 +1455,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span>
+                              <span
+                                class=""
+                              >
                                 group-2-option-3
                               </span>
                             </div>
@@ -1441,7 +1480,9 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                             <div
                               class="cxd-ChainedSelection-itemLabel"
                             >
-                              <span>
+                              <span
+                                class=""
+                              >
                                 group-2-option-4
                               </span>
                             </div>
@@ -1487,366 +1528,6 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                           style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
                         />
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="cxd-Transfer-mid"
-              />
-              <div
-                class="cxd-Transfer-result"
-              >
-                <div
-                  class="cxd-Transfer-title"
-                >
-                  <span>
-                    已选项
-                    <span>
-                      （
-                      0
-                      ）
-                    </span>
-                  </span>
-                  <a
-                    class="cxd-Transfer-clearAll is-disabled"
-                  >
-                    清空
-                  </a>
-                </div>
-                <div
-                  class="cxd-Selections cxd-Transfer-value"
-                >
-                  <div
-                    class="cxd-Selections-placeholder"
-                  >
-                    请选择左侧数据
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div
-      class="cxd-Panel-footerWrap"
-    >
-      <div
-        class="cxd-Panel-btnToolbar cxd-Panel-footer"
-      >
-        <button
-          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
-          type="submit"
-        >
-          <span>
-            提交
-          </span>
-        </button>
-      </div>
-    </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:transfer group mode with virtual 1`] = `
-<div>
-  <div
-    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
-  >
-    <div
-      class="cxd-Panel-heading"
-    >
-      <h3
-        class="cxd-Panel-title"
-      >
-        <span
-          class="cxd-TplField"
-        >
-          <span>
-            表单
-          </span>
-        </span>
-      </h3>
-    </div>
-    <div
-      class="cxd-Panel-body"
-    >
-      <form
-        class="cxd-Form cxd-Form--normal"
-        novalidate=""
-      >
-        <input
-          style="display: none;"
-          type="submit"
-        />
-        <div
-          class="cxd-Form-item cxd-Form-item--normal"
-          data-role="form-item"
-        >
-          <label
-            class="cxd-Form-label"
-          >
-            <span>
-              <span
-                class="cxd-TplField"
-              >
-                <span>
-                  分组
-                </span>
-              </span>
-            </span>
-          </label>
-          <div
-            class="cxd-TransferControl cxd-Form-control"
-          >
-            <div
-              class="cxd-Transfer"
-            >
-              <div
-                class="cxd-Transfer-select"
-              >
-                <div
-                  class="cxd-Transfer-title"
-                >
-                  <span>
-                    <label
-                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                    >
-                      <input
-                        type="checkbox"
-                      />
-                      <i />
-                      <span
-                        class=""
-                      />
-                    </label>
-                    可选项
-                    <span>
-                      （
-                      200
-                      /
-                      200
-                      ）
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-GroupedSelection cxd-Transfer-selection"
-                >
-                  <div
-                    style="display: block; position: relative; width: 100%; height: 100%;"
-                  >
-                    <div
-                      style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
-                    >
-                      <div
-                        style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 8800px;"
-                      >
-                        <div
-                          class="cxd-GroupedSelection-group"
-                          style="position: absolute; top: 8640px; left: 0px; width: 100%; height: 40px;"
-                        >
-                          <div
-                            class="cxd-GroupedSelection-items"
-                          >
-                            <div
-                              class="cxd-GroupedSelection-item"
-                            >
-                              <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                              >
-                                <input
-                                  type="checkbox"
-                                />
-                                <i />
-                                <span
-                                  class=""
-                                />
-                              </label>
-                              <div
-                                class="cxd-GroupedSelection-itemLabel"
-                              >
-                                <span>
-                                  option-197
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="cxd-GroupedSelection-group"
-                          style="position: absolute; top: 8680px; left: 0px; width: 100%; height: 40px;"
-                        >
-                          <div
-                            class="cxd-GroupedSelection-items"
-                          >
-                            <div
-                              class="cxd-GroupedSelection-item"
-                            >
-                              <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                              >
-                                <input
-                                  type="checkbox"
-                                />
-                                <i />
-                                <span
-                                  class=""
-                                />
-                              </label>
-                              <div
-                                class="cxd-GroupedSelection-itemLabel"
-                              >
-                                <span>
-                                  option-198
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="cxd-GroupedSelection-group"
-                          style="position: absolute; top: 8720px; left: 0px; width: 100%; height: 40px;"
-                        >
-                          <div
-                            class="cxd-GroupedSelection-items"
-                          >
-                            <div
-                              class="cxd-GroupedSelection-item"
-                            >
-                              <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                              >
-                                <input
-                                  type="checkbox"
-                                />
-                                <i />
-                                <span
-                                  class=""
-                                />
-                              </label>
-                              <div
-                                class="cxd-GroupedSelection-itemLabel"
-                              >
-                                <span>
-                                  option-199
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="cxd-GroupedSelection-group"
-                          style="position: absolute; top: 8760px; left: 0px; width: 100%; height: 40px;"
-                        >
-                          <div
-                            class="cxd-GroupedSelection-items"
-                          >
-                            <div
-                              class="cxd-GroupedSelection-item"
-                            >
-                              <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                              >
-                                <input
-                                  type="checkbox"
-                                />
-                                <i />
-                                <span
-                                  class=""
-                                />
-                              </label>
-                              <div
-                                class="cxd-GroupedSelection-itemLabel"
-                              >
-                                <span>
-                                  option-200
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="resize-sensor"
-                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-  
-                      <div
-                        class="resize-sensor-expand"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-shrink"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-appear"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                      />
                     </div>
                   </div>
                 </div>
@@ -2068,47 +1749,53 @@ exports[`Renderer:transfer left tree 1`] = `
                               <ul
                                 class="cxd-Tree-list"
                               >
-                                <li
-                                  class="cxd-Tree-item "
+                                <div
+                                  style="overflow: auto; will-change: transform; height: 266px; width: 100%;"
                                 >
                                   <div
-                                    class="cxd-Tree-itemLabel"
-                                  >
-                                    <div
-                                      class="cxd-Tree-itemArrow"
-                                    >
-                                      <icon-mock
-                                        classname="icon icon-down-arrow-bold"
-                                        icon="down-arrow-bold"
-                                      />
-                                    </div>
-                                    <div
-                                      class="cxd-Tree-itemLabel-item"
-                                    >
-                                      <i
-                                        class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                                      >
-                                        <icon-mock
-                                          classname="icon icon-folder"
-                                          icon="folder"
-                                        />
-                                      </i>
-                                      <span
-                                        class="cxd-Tree-itemText"
-                                        title="法师"
-                                      >
-                                        法师
-                                      </span>
-                                      <div
-                                        class="cxd-Tree-item-icons"
-                                      />
-                                    </div>
-                                  </div>
-                                  <ul
-                                    class="cxd-Tree-sublist"
+                                    style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 288px;"
                                   >
                                     <li
+                                      class="cxd-Tree-item "
+                                      style="position: absolute; top: 0px; height: 32px;"
+                                    >
+                                      <div
+                                        class="cxd-Tree-itemLabel"
+                                      >
+                                        <div
+                                          class="cxd-Tree-itemArrow"
+                                        >
+                                          <icon-mock
+                                            classname="icon icon-down-arrow-bold"
+                                            icon="down-arrow-bold"
+                                          />
+                                        </div>
+                                        <div
+                                          class="cxd-Tree-itemLabel-item"
+                                        >
+                                          <i
+                                            class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                          >
+                                            <icon-mock
+                                              classname="icon icon-folder"
+                                              icon="folder"
+                                            />
+                                          </i>
+                                          <span
+                                            class="cxd-Tree-itemText"
+                                            title="法师"
+                                          >
+                                            法师
+                                          </span>
+                                          <div
+                                            class="cxd-Tree-item-icons"
+                                          />
+                                        </div>
+                                      </div>
+                                    </li>
+                                    <li
                                       class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      style="position: absolute; top: 32px; height: 32px;"
                                     >
                                       <div
                                         class="cxd-Tree-itemLabel"
@@ -2139,49 +1826,47 @@ exports[`Renderer:transfer left tree 1`] = `
                                         </div>
                                       </div>
                                     </li>
-                                  </ul>
-                                </li>
-                                <li
-                                  class="cxd-Tree-item "
-                                >
-                                  <div
-                                    class="cxd-Tree-itemLabel"
-                                  >
-                                    <div
-                                      class="cxd-Tree-itemArrow"
+                                    <li
+                                      class="cxd-Tree-item "
+                                      style="position: absolute; top: 64px; height: 32px;"
                                     >
-                                      <icon-mock
-                                        classname="icon icon-down-arrow-bold"
-                                        icon="down-arrow-bold"
-                                      />
-                                    </div>
-                                    <div
-                                      class="cxd-Tree-itemLabel-item"
-                                    >
-                                      <i
-                                        class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                                      >
-                                        <icon-mock
-                                          classname="icon icon-folder"
-                                          icon="folder"
-                                        />
-                                      </i>
-                                      <span
-                                        class="cxd-Tree-itemText"
-                                        title="战士"
-                                      >
-                                        战士
-                                      </span>
                                       <div
-                                        class="cxd-Tree-item-icons"
-                                      />
-                                    </div>
-                                  </div>
-                                  <ul
-                                    class="cxd-Tree-sublist"
-                                  >
+                                        class="cxd-Tree-itemLabel"
+                                      >
+                                        <div
+                                          class="cxd-Tree-itemArrow"
+                                        >
+                                          <icon-mock
+                                            classname="icon icon-down-arrow-bold"
+                                            icon="down-arrow-bold"
+                                          />
+                                        </div>
+                                        <div
+                                          class="cxd-Tree-itemLabel-item"
+                                        >
+                                          <i
+                                            class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                          >
+                                            <icon-mock
+                                              classname="icon icon-folder"
+                                              icon="folder"
+                                            />
+                                          </i>
+                                          <span
+                                            class="cxd-Tree-itemText"
+                                            title="战士"
+                                          >
+                                            战士
+                                          </span>
+                                          <div
+                                            class="cxd-Tree-item-icons"
+                                          />
+                                        </div>
+                                      </div>
+                                    </li>
                                     <li
                                       class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      style="position: absolute; top: 96px; height: 32px;"
                                     >
                                       <div
                                         class="cxd-Tree-itemLabel"
@@ -2214,6 +1899,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                     </li>
                                     <li
                                       class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      style="position: absolute; top: 128px; height: 32px;"
                                     >
                                       <div
                                         class="cxd-Tree-itemLabel"
@@ -2244,49 +1930,47 @@ exports[`Renderer:transfer left tree 1`] = `
                                         </div>
                                       </div>
                                     </li>
-                                  </ul>
-                                </li>
-                                <li
-                                  class="cxd-Tree-item "
-                                >
-                                  <div
-                                    class="cxd-Tree-itemLabel"
-                                  >
-                                    <div
-                                      class="cxd-Tree-itemArrow"
+                                    <li
+                                      class="cxd-Tree-item "
+                                      style="position: absolute; top: 160px; height: 32px;"
                                     >
-                                      <icon-mock
-                                        classname="icon icon-down-arrow-bold"
-                                        icon="down-arrow-bold"
-                                      />
-                                    </div>
-                                    <div
-                                      class="cxd-Tree-itemLabel-item"
-                                    >
-                                      <i
-                                        class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                                      >
-                                        <icon-mock
-                                          classname="icon icon-folder"
-                                          icon="folder"
-                                        />
-                                      </i>
-                                      <span
-                                        class="cxd-Tree-itemText"
-                                        title="打野"
-                                      >
-                                        打野
-                                      </span>
                                       <div
-                                        class="cxd-Tree-item-icons"
-                                      />
-                                    </div>
-                                  </div>
-                                  <ul
-                                    class="cxd-Tree-sublist"
-                                  >
+                                        class="cxd-Tree-itemLabel"
+                                      >
+                                        <div
+                                          class="cxd-Tree-itemArrow"
+                                        >
+                                          <icon-mock
+                                            classname="icon icon-down-arrow-bold"
+                                            icon="down-arrow-bold"
+                                          />
+                                        </div>
+                                        <div
+                                          class="cxd-Tree-itemLabel-item"
+                                        >
+                                          <i
+                                            class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                                          >
+                                            <icon-mock
+                                              classname="icon icon-folder"
+                                              icon="folder"
+                                            />
+                                          </i>
+                                          <span
+                                            class="cxd-Tree-itemText"
+                                            title="打野"
+                                          >
+                                            打野
+                                          </span>
+                                          <div
+                                            class="cxd-Tree-item-icons"
+                                          />
+                                        </div>
+                                      </div>
+                                    </li>
                                     <li
                                       class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      style="position: absolute; top: 192px; height: 32px;"
                                     >
                                       <div
                                         class="cxd-Tree-itemLabel"
@@ -2319,6 +2003,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                     </li>
                                     <li
                                       class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      style="position: absolute; top: 224px; height: 32px;"
                                     >
                                       <div
                                         class="cxd-Tree-itemLabel"
@@ -2351,6 +2036,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                     </li>
                                     <li
                                       class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                      style="position: absolute; top: 256px; height: 32px;"
                                     >
                                       <div
                                         class="cxd-Tree-itemLabel"
@@ -2381,8 +2067,8 @@ exports[`Renderer:transfer left tree 1`] = `
                                         </div>
                                       </div>
                                     </li>
-                                  </ul>
-                                </li>
+                                  </div>
+                                </div>
                               </ul>
                             </div>
                           </div>
@@ -3516,7 +3202,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-1
                         </span>
@@ -3534,7 +3222,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-3
                         </span>
@@ -3552,7 +3242,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-5
                         </span>
@@ -3570,7 +3262,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-7
                         </span>
@@ -3588,7 +3282,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-9
                         </span>
@@ -3606,7 +3302,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-11
                         </span>
@@ -3624,7 +3322,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-13
                         </span>
@@ -3642,7 +3342,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-15
                         </span>
@@ -3660,7 +3362,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-17
                         </span>
@@ -3678,7 +3382,9 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                     <div
                       class="cxd-Selections-item"
                     >
-                      <label>
+                      <label
+                        class="cxd-Selections-label"
+                      >
                         <span>
                           label-19
                         </span>
@@ -4123,7 +3829,9 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             class="cxd-Selections-item"
                             style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
                           >
-                            <label>
+                            <label
+                              class="cxd-Selections-label"
+                            >
                               <span>
                                 label-1
                               </span>
@@ -4142,7 +3850,9 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             class="cxd-Selections-item"
                             style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
                           >
-                            <label>
+                            <label
+                              class="cxd-Selections-label"
+                            >
                               <span>
                                 label-3
                               </span>
@@ -4161,7 +3871,9 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             class="cxd-Selections-item"
                             style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
                           >
-                            <label>
+                            <label
+                              class="cxd-Selections-label"
+                            >
                               <span>
                                 label-5
                               </span>
@@ -4180,7 +3892,9 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             class="cxd-Selections-item"
                             style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
                           >
-                            <label>
+                            <label
+                              class="cxd-Selections-label"
+                            >
                               <span>
                                 label-7
                               </span>
@@ -4405,54 +4119,60 @@ exports[`Renderer:transfer tree 1`] = `
                           <ul
                             class="cxd-Tree-list"
                           >
-                            <li
-                              class="cxd-Tree-item "
+                            <div
+                              style="overflow: auto; will-change: transform; height: 266px; width: 100%;"
                             >
                               <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <div
-                                  class="cxd-Tree-itemArrow"
-                                >
-                                  <icon-mock
-                                    classname="icon icon-down-arrow-bold"
-                                    icon="down-arrow-bold"
-                                  />
-                                </div>
-                                <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
-                                >
-                                  <input
-                                    type="checkbox"
-                                  />
-                                  <i />
-                                  <span
-                                    class=""
-                                  />
-                                </label>
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="法师"
-                                  >
-                                    <span
-                                      class=""
-                                    >
-                                      法师
-                                    </span>
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                              <ul
-                                class="cxd-Tree-sublist"
+                                style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 288px;"
                               >
                                 <li
+                                  class="cxd-Tree-item "
+                                  style="position: absolute; top: 0px; height: 32px;"
+                                >
+                                  <div
+                                    class="cxd-Tree-itemLabel"
+                                  >
+                                    <div
+                                      class="cxd-Tree-itemArrow"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-down-arrow-bold"
+                                        icon="down-arrow-bold"
+                                      />
+                                    </div>
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <div
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="法师"
+                                      >
+                                        <span
+                                          class=""
+                                        >
+                                          法师
+                                        </span>
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
+                                  </div>
+                                </li>
+                                <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  style="position: absolute; top: 32px; height: 32px;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -4461,7 +4181,7 @@ exports[`Renderer:transfer tree 1`] = `
                                       class="cxd-Tree-itemArrowPlaceholder"
                                     />
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                     >
                                       <input
                                         type="checkbox"
@@ -4490,56 +4210,54 @@ exports[`Renderer:transfer tree 1`] = `
                                     </div>
                                   </div>
                                 </li>
-                              </ul>
-                            </li>
-                            <li
-                              class="cxd-Tree-item "
-                            >
-                              <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <div
-                                  class="cxd-Tree-itemArrow"
+                                <li
+                                  class="cxd-Tree-item "
+                                  style="position: absolute; top: 64px; height: 32px;"
                                 >
-                                  <icon-mock
-                                    classname="icon icon-down-arrow-bold"
-                                    icon="down-arrow-bold"
-                                  />
-                                </div>
-                                <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
-                                >
-                                  <input
-                                    type="checkbox"
-                                  />
-                                  <i />
-                                  <span
-                                    class=""
-                                  />
-                                </label>
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="战士"
-                                  >
-                                    <span
-                                      class=""
-                                    >
-                                      战士
-                                    </span>
-                                  </span>
                                   <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                              <ul
-                                class="cxd-Tree-sublist"
-                              >
+                                    class="cxd-Tree-itemLabel"
+                                  >
+                                    <div
+                                      class="cxd-Tree-itemArrow"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-down-arrow-bold"
+                                        icon="down-arrow-bold"
+                                      />
+                                    </div>
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <div
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="战士"
+                                      >
+                                        <span
+                                          class=""
+                                        >
+                                          战士
+                                        </span>
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
+                                  </div>
+                                </li>
                                 <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  style="position: absolute; top: 96px; height: 32px;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -4548,7 +4266,7 @@ exports[`Renderer:transfer tree 1`] = `
                                       class="cxd-Tree-itemArrowPlaceholder"
                                     />
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                     >
                                       <input
                                         type="checkbox"
@@ -4579,6 +4297,7 @@ exports[`Renderer:transfer tree 1`] = `
                                 </li>
                                 <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  style="position: absolute; top: 128px; height: 32px;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -4587,7 +4306,7 @@ exports[`Renderer:transfer tree 1`] = `
                                       class="cxd-Tree-itemArrowPlaceholder"
                                     />
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                     >
                                       <input
                                         type="checkbox"
@@ -4616,56 +4335,54 @@ exports[`Renderer:transfer tree 1`] = `
                                     </div>
                                   </div>
                                 </li>
-                              </ul>
-                            </li>
-                            <li
-                              class="cxd-Tree-item "
-                            >
-                              <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <div
-                                  class="cxd-Tree-itemArrow"
+                                <li
+                                  class="cxd-Tree-item "
+                                  style="position: absolute; top: 160px; height: 32px;"
                                 >
-                                  <icon-mock
-                                    classname="icon icon-down-arrow-bold"
-                                    icon="down-arrow-bold"
-                                  />
-                                </div>
-                                <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
-                                >
-                                  <input
-                                    type="checkbox"
-                                  />
-                                  <i />
-                                  <span
-                                    class=""
-                                  />
-                                </label>
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="打野"
-                                  >
-                                    <span
-                                      class=""
-                                    >
-                                      打野
-                                    </span>
-                                  </span>
                                   <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                              <ul
-                                class="cxd-Tree-sublist"
-                              >
+                                    class="cxd-Tree-itemLabel"
+                                  >
+                                    <div
+                                      class="cxd-Tree-itemArrow"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-down-arrow-bold"
+                                        icon="down-arrow-bold"
+                                      />
+                                    </div>
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <div
+                                      class="cxd-Tree-itemLabel-item"
+                                    >
+                                      <span
+                                        class="cxd-Tree-itemText"
+                                        title="打野"
+                                      >
+                                        <span
+                                          class=""
+                                        >
+                                          打野
+                                        </span>
+                                      </span>
+                                      <div
+                                        class="cxd-Tree-item-icons"
+                                      />
+                                    </div>
+                                  </div>
+                                </li>
                                 <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  style="position: absolute; top: 192px; height: 32px;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -4674,7 +4391,7 @@ exports[`Renderer:transfer tree 1`] = `
                                       class="cxd-Tree-itemArrowPlaceholder"
                                     />
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                     >
                                       <input
                                         type="checkbox"
@@ -4705,6 +4422,7 @@ exports[`Renderer:transfer tree 1`] = `
                                 </li>
                                 <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  style="position: absolute; top: 224px; height: 32px;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -4713,7 +4431,7 @@ exports[`Renderer:transfer tree 1`] = `
                                       class="cxd-Tree-itemArrowPlaceholder"
                                     />
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                     >
                                       <input
                                         type="checkbox"
@@ -4744,6 +4462,7 @@ exports[`Renderer:transfer tree 1`] = `
                                 </li>
                                 <li
                                   class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                                  style="position: absolute; top: 256px; height: 32px;"
                                 >
                                   <div
                                     class="cxd-Tree-itemLabel"
@@ -4752,7 +4471,7 @@ exports[`Renderer:transfer tree 1`] = `
                                       class="cxd-Tree-itemArrowPlaceholder"
                                     />
                                     <label
-                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                     >
                                       <input
                                         type="checkbox"
@@ -4781,8 +4500,8 @@ exports[`Renderer:transfer tree 1`] = `
                                     </div>
                                   </div>
                                 </li>
-                              </ul>
-                            </li>
+                              </div>
+                            </div>
                           </ul>
                         </div>
                       </div>

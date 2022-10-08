@@ -1433,6 +1433,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       FormItemWrap.layoutRenderers[mode] ||
       FormItemWrap.layoutRenderers['normal'];
 
+    // !没了这个， tree 里的 options 渲染会出问题
+    model?.filteredOptions;
+
     return (
       <>
         {renderLayout(this.props, this.renderControl.bind(this))}
