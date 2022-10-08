@@ -381,15 +381,18 @@ icon:
         },
         {
           "ref": "libai",
-          "defer": true
+          "defer": true,
+          "label": "lazy-option-libai"
         },
         {
           "ref": "hanxin",
-          "defer": true
+          "defer": true,
+          "label": "lazy-option-hanxin"
         },
         {
           "ref": "yunzhongjun",
-          "defer": true
+          "defer": true,
+          "label": "lazy-option-yunzhongjun"
         }
       ]
     }
