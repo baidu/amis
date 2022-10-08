@@ -322,10 +322,28 @@ List 的内容、Card 卡片的内容配置同上
 }
 ```
 
+## 工具栏
+
+> 2.2.0 及以上版本
+
+配置`"showToolbar": true`使图片在放大模式下开启图片工具栏。配置`"toolbarActions"`属性可以自定义工具栏的展示方式，具体配置参考[ImageAction](./image#imageaction)
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "image",
+        "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+        "enlargeAble": true,
+        "showToolbar": true
+    }
+}
+```
+
 ## 属性表
 
-| 属性名         | 类型                                 | 默认值    | 说明                                                                                   |
-| -------------- | ------------------------------------ | --------- | -------------------------------------------------------------------------------------- |
+| 属性名         | 类型                                 | 默认值    | 说明                                                                                   | 版本    |
+| -------------- | ------------------------------------ | --------- | -------------------------------------------------------------------------------------- | ------- |
 | type           | `string`                             |           | 如果在 Table、Card 和 List 中，为`"image"`；在 Form 中用作静态展示，为`"static-image"` |
 | className      | `string`                             |           | 外层 CSS 类名                                                                          |
 | innerClassName | `string`                             |           | 组件内层 CSS 类名                                                                      |
@@ -346,3 +364,22 @@ List 的内容、Card 卡片的内容配置同上
 | thumbMode      | `string`                             | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                       |
 | thumbRatio     | `string`                             | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                           |
 | imageMode      | `string`                             | `thumb`   | 图片展示模式，可选：`'thumb'`, `'original'` 即：缩略图模式 或者 原图模式               |
+| showToolbar    | `boolean`                            | `false`   | 放大模式下是否展示图片的工具栏                                                         | `2.2.0` |
+| toolbarActions | `ImageAction[]`                      |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                           | `2.2.0` |
+
+#### ImageAction
+
+```typescript
+interface ImageAction {
+  /* 操作key */
+  key: 'rotateRight' | 'rotateLeft' | 'zoomIn' | 'zoomOut' | 'scaleOrigin';
+  /* 动作名称 */
+  label?: string;
+  /* 动作icon */
+  icon?: string;
+  /* 动作自定义CSS类 */
+  iconClassName?: string;
+  /* 动作是否禁用 */
+  disabled?: boolean;
+}
+```

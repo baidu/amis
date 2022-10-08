@@ -1,5 +1,5 @@
 import {Instance, types} from 'mobx-state-tree';
-import {createObject, qsparse} from '../utils/helper';
+import {createObject, parseQuery} from '../utils/helper';
 import {ServiceStore} from './service';
 
 export const RootStore = ServiceStore.named('RootStore')
@@ -30,15 +30,7 @@ export const RootStore = ServiceStore.named('RootStore')
       self.runtimeErrorStack = errorStack;
     },
     updateLocation(location?: any) {
-      const query =
-        (location && location.query) ||
-        (location &&
-          location.search &&
-          qsparse(location.search.substring(1))) ||
-        (window.location.search &&
-          qsparse(window.location.search.substring(1)));
-
-      self.query = query;
+      self.query = parseQuery(location);
     },
     setVisible(id: string, value: boolean) {
       const state = {

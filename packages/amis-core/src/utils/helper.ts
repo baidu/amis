@@ -3,6 +3,7 @@ import isEqual from 'lodash/isEqual';
 import isNaN from 'lodash/isNaN';
 import uniq from 'lodash/uniq';
 import last from 'lodash/last';
+import merge from 'lodash/merge';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
 import qs from 'qs';
@@ -1704,4 +1705,26 @@ export function isNumeric(value: any): boolean {
     return true;
   }
   return /^[-+]?(?:\d*[.])?\d+$/.test(value);
+}
+
+/**
+ * 获取URL链接中的query参数（包含hash mode）
+ *
+ * @param location Location对象，或者类Location结构的对象
+ */
+export function parseQuery(
+  location?: Location | {query?: any; search?: any; [propName: string]: any}
+): Record<string, any> {
+  const query =
+    (location && !(location instanceof Location) && location?.query) ||
+    (location && location?.search && qsparse(location.search.substring(1))) ||
+    (window.location.search && qsparse(window.location.search.substring(1)));
+  /* 处理hash中的query */
+  const hashQuery =
+    window.location?.hash && typeof window.location?.hash === 'string'
+      ? qsparse(window.location.hash.replace(/^#.*\?/gi, ''))
+      : {};
+  const normalizedQuery = isPlainObject(query) ? query : {};
+
+  return merge(normalizedQuery, hashQuery);
 }

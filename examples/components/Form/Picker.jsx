@@ -39,7 +39,19 @@ export default {
             label: '选项4',
             value: 4
           }
-        ]
+        ],
+        "onEvent": {
+          "itemclick": {
+            "actions": [
+              {
+                "actionType": "alert",
+                "args": {
+                  "msg": "${event.data.label}~${event.data.id}</a>"
+                }
+              }
+            ]
+          }
+        }
       },
 
       {
@@ -285,6 +297,18 @@ export default {
               toggled: true
             }
           ]
+        },
+        "onEvent": {
+          "itemclick": {
+            "actions": [
+              {
+                "actionType": "alert",
+                "args": {
+                  "msg": "${ecent.data.label}~${event.data.id}</a>"
+                }
+              }
+            ]
+          }
         }
       },
 

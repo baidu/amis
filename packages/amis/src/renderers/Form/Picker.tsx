@@ -281,6 +281,7 @@ export default class PickerControl extends React.PureComponent<
         additionalOptions.push(item);
       }
     });
+    
 
     additionalOptions.length && setOptions(options.concat(additionalOptions));
     const rendererEvent = await dispatchEvent(
@@ -292,6 +293,25 @@ export default class PickerControl extends React.PureComponent<
     }
 
     onChange(value);
+  }
+
+
+  @autobind
+  async handleItemClick(itemlabel: string, itemid: string) {
+    const {
+      data,
+      dispatchEvent,
+      setOptions
+    } = this.props;
+
+     const rendererEvent = await dispatchEvent(
+      'itemclick',
+      createObject(data, {'label': itemlabel, 'id': itemid})
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
   }
 
   removeItem(index: number) {
@@ -393,7 +413,13 @@ export default class PickerControl extends React.PureComponent<
             >
               ×
             </span>
-            <span className={`${ns}Picker-valueLabel`}>
+            <span 
+              className={`${ns}Picker-valueLabel`}
+              onClick={e => {
+                e.stopPropagation();
+                this.handleItemClick(getVariable(item, labelField || 'label'), getVariable(item, 'id')|| '');
+              }}
+            >
               {labelTpl ? (
                 <Html html={filter(labelTpl, item)} />
               ) : (

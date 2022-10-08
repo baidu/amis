@@ -542,7 +542,7 @@ export class Evaluator {
   }
 
   /**
-   * 异或处理，两个表达式同时为「真」，或者同时为「假」，则结果返回为「真」
+   * 异或处理，多个表达式组中存在奇数个真时认为真。
    *
    * @example XOR(condition1, condition2)
    * @param {expression} condition1 - 条件表达式1
@@ -551,8 +551,8 @@ export class Evaluator {
    *
    * @returns {boolean}
    */
-  fnXOR(c1: () => any, c2: () => any) {
-    return !!c1() === !!c2();
+  fnXOR(...condtions: Array<() => any>) {
+    return !!(condtions.filter(c => c()).length % 2);
   }
 
   /**
@@ -897,6 +897,10 @@ export class Evaluator {
   fnUPPERMONEY(n: number) {
     n = this.formatNumber(n);
     const maxLen = 14;
+    if (n.toString().split('.')[0]?.length > maxLen) {
+      return `最大数额只支持到兆(既小数点前${maxLen}位)`;
+    }
+
     const fraction = ['角', '分'];
     const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
     const unit = [
@@ -1911,7 +1915,7 @@ function parseJson(str: string, defaultValue?: any) {
 
 function stripNumber(number: number) {
   if (typeof number === 'number' && !Number.isInteger(number)) {
-    return parseFloat(number.toPrecision(12));
+    return parseFloat(number.toPrecision(16));
   } else {
     return number;
   }

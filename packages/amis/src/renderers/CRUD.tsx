@@ -44,7 +44,7 @@ import {ActionSchema} from './Action';
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema} from './Table';
-import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter, parseQuery} from 'amis-core';
 
 import type {PaginationProps} from './Pagination';
 
@@ -448,14 +448,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        qsparse(location.search.substring(1)),
+        parseQuery(location),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        qsparse(window.location.search.substring(1)) as object,
+        parseQuery(window.location),
         undefined,
         pageField,
         perPageField
@@ -545,7 +545,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        qsparse(props.location.search.substring(1)),
+        parseQuery(props.location),
         undefined,
         props.pageField,
         props.perPageField

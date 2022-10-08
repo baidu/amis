@@ -24,6 +24,7 @@ export interface ResultTreeListProps
   onSearch?: Function;
   onChange: (value: Array<Option>, optionModified?: boolean) => void;
   placeholder: string;
+  searchPlaceholder?: string;
   itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   itemClassName?: string;
   cellRender?: (
@@ -254,10 +255,10 @@ export class BaseResultTreeList extends React.Component<
       className,
       classnames: cx,
       value,
-      placeholder,
       valueField,
       itemRender,
-      translate: __
+      translate: __,
+      placeholder
     } = this.props;
 
     const {treeOptions, searching, searchTreeOptions} = this.state;
@@ -290,7 +291,7 @@ export class BaseResultTreeList extends React.Component<
       title,
       searchable,
       translate: __,
-      placeholder = __('Transfer.searchKeyword')
+      searchPlaceholder = __('Transfer.searchKeyword')
     } = this.props;
 
     return (
@@ -298,7 +299,7 @@ export class BaseResultTreeList extends React.Component<
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
-            placeholder={placeholder}
+            placeholder={searchPlaceholder}
             onSearch={this.search}
             onCancelSearch={this.clearSearch}
           />

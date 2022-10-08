@@ -61,6 +61,10 @@ fieldset.#{$ns}Collapse {
       font-size: var(--fontSizeXs);
       padding: 0 3px;
       margin: 0 0 0 -3px;
+
+      &:hover {
+        background-color: var(--white);
+      }
     }
 
     &:after {
@@ -78,6 +82,10 @@ fieldset.#{$ns}Collapse {
       font-size: var(--fontSizeSm);
       padding: 0 5px;
       margin: 0 0 0 -5px;
+
+      &:hover {
+        background-color: var(--white);
+      }
     }
 
     &:after {
@@ -95,6 +103,10 @@ fieldset.#{$ns}Collapse {
       font-size: var(--fontSizeBase);
       padding: 0 8px;
       margin: 0 0 0 -8px;
+
+      &:hover {
+        background-color: var(--white);
+      }
     }
 
     &:after {
@@ -111,6 +123,10 @@ fieldset.#{$ns}Collapse {
       font-size: var(--fontSizeMd);
       padding: 0 10px;
       margin: 0 0 0 -10px;
+
+      &:hover {
+        background-color: var(--white);
+      }
     }
 
     &:after {
@@ -127,6 +143,10 @@ fieldset.#{$ns}Collapse {
       font-size: var(--fontSizeLg);
       padding: 0 var(--gap-md);
       margin: 0 0 0 calc(var(--gap-md) * -1);
+
+      &:hover {
+        background-color: var(--white);
+      }
     }
 
     &:after {
