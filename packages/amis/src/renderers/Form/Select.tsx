@@ -201,11 +201,13 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input && this.input.focus();
   }
 
-  getValue(value: Option | Array<Option> | string | void) {
+  getValue(
+    value: Option | Array<Option> | string | void,
+    additonalOptions: Array<any> = []
+  ) {
     const {joinValues, extractValue, delimiter, multiple, valueField, options} =
       this.props;
     let newValue: string | Option | Array<Option> | void = value;
-    let additonalOptions: Array<any> = [];
 
     (Array.isArray(value) ? value : value ? [value] : []).forEach(
       (option: any) => {
@@ -268,8 +270,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   async changeValue(value: Option | Array<Option> | string | void) {
     const {onChange, setOptions, options, data, dispatchEvent} = this.props;
 
-    let newValue: string | Option | Array<Option> | void = this.getValue(value);
     let additonalOptions: Array<any> = [];
+    let newValue: string | Option | Array<Option> | void = this.getValue(
+      value,
+      additonalOptions
+    );
+
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
@@ -531,7 +537,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
     if (
       selectMode === 'associated' &&
       options &&
-      options.length === 1 &&
+      options.length &&
       options[0].leftOptions &&
       Array.isArray(options[0].children)
     ) {

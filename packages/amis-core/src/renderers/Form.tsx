@@ -1522,7 +1522,14 @@ export default class Form extends React.Component<FormProps, object> {
       formLabelAlign: labelAlign !== 'left' ? 'right' : labelAlign,
       formLabelWidth: labelWidth,
       controlWidth,
-      disabled: disabled || (control as Schema).disabled || form.loading,
+      /**
+       * form.loading有为true时才下发disabled属性，否则不显性设置disbaled为false
+       * Form中包含容器类组件时，这些组件会将此处的disbaled继续下发至子组件，导致SchemaRenderer中props.disabled覆盖schema.disabled
+       */
+      disabled:
+        disabled ||
+        (control as Schema).disabled ||
+        (form.loading ? true : undefined),
       btnDisabled: disabled || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,

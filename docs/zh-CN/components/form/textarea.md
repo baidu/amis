@@ -37,7 +37,8 @@ order: 57
             "name": "textarea",
             "type": "textarea",
             "label": "多行文本",
-            "clearable": true
+            "clearable": true,
+            "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmodtion tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         }
     ]
 }
@@ -63,6 +64,8 @@ order: 57
 
 ## 显示计数器
 
+配置`"showCounter": true`后输入框将显示计数器，一般会配合`maxLength`属性以限制输入长度，如果不设置`maxLength`，则仅展示计数器，并不会限制用户的输入长度。
+
 ```schema: scope="body"
 {
     "type": "form",
@@ -80,7 +83,7 @@ order: 57
             "type": "textarea",
             "label": "B",
             "showCounter": true,
-            "maxLength": 100,
+            "maxLength": 30,
             "placeholder": "请输入"
         }
     ]

@@ -460,6 +460,12 @@ order: 67
 
 ## 可展开
 
+支持点击按钮展开/关闭当前行的自定义内容，展开按钮可放在表格的最左侧、最右侧或通过事件动作来触发展开。
+
+### 默认展开
+
+默认模式 展开按钮在表格最左侧
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -490,7 +496,7 @@ order: 67
                 }
             ],
             "expandable": {
-                "expandableOn": "this.record.id === 1 || this.record.id === 3",
+                "expandableOn": "this.record && (this.record.id === 1 || this.record.id === 3)",
                 "keyField": "id",
                 "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
                 "expandedRowKeys": ["3"],
@@ -507,7 +513,7 @@ order: 67
 }
 ```
 
-## 已展开 - 正则表达式
+### 默认展开 - 正则表达式
 
 ```schema: scope="body"
 {
@@ -539,11 +545,212 @@ order: 67
                 }
             ],
             "expandable": {
-                "expandableOn": "this.record.id === 1 || this.record.id === 3",
+                "expandableOn": "this.record && (this.record.id === 1 || this.record.id === 3)",
                 "keyField": "id",
                 "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
                 "expandedRowKeysExpr": "data.record.id == '3'",
                 "type": "container",
+                "body": [
+                    {
+                        "type": "tpl",
+                        "html": "<div class=\"test\">测试测试</div>"
+                    }
+                ]
+            }
+        }
+    ]
+}
+```
+
+### 右侧展开按钮
+
+通过设置`expandable.position`属性为`right`控制，支持 不设置、`left`、`right`、`none`四种情况。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+        {
+            "type": "table2",
+            "source": "$rows",
+            "columns": [
+                {
+                    "title": "Engine",
+                    "name": "engine"
+                },
+                {
+                    "title": "Version",
+                    "name": "version"
+                },
+                {
+                    "title": "Browser",
+                    "name": "browser"
+                },
+                {
+                    "title": "Operation",
+                    "name": "operation",
+                    "type": "button",
+                    "label": "删除",
+                    "size": "sm"
+                }
+            ],
+            "expandable": {
+                "expandableOn": "this.record && (this.record.id === 1 || this.record.id === 3)",
+                "keyField": "id",
+                "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
+                "expandedRowKeys": ["3"],
+                "type": "container",
+                "position": "right",
+                "body": [
+                    {
+                        "type": "tpl",
+                        "html": "<div class=\"test\">测试测试</div>"
+                    }
+                ]
+            },
+            "footSummary": [
+                {
+                    "type": "text",
+                    "text": "总计"
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "测试测试",
+                    "colSpan": 2
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "最后一列"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### 无展开按钮
+
+可设置无展开按钮，通过事件动作展开关闭，可单独行控制
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+        {
+            "type": "table2",
+            "source": "$rows",
+            "id": "table-select",
+            "columns": [
+                {
+                    "title": "Engine",
+                    "name": "engine"
+                },
+                {
+                    "title": "Version",
+                    "name": "version"
+                },
+                {
+                    "title": "Browser",
+                    "name": "browser"
+                },
+                {
+                    "title": "Operation",
+                    "name": "operation",
+                    "type": "button",
+                    "label": "展开",
+                    "size": "sm",
+                    "onEvent": {
+                        "click": {
+                            "actions": [
+                                {
+                                    "actionType": "expand",
+                                    "componentId": "table-select",
+                                    "description": "展开行",
+                                    "args": {
+                                        "value": "${id}"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "expandable": {
+                "keyField": "id",
+                "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
+                "type": "container",
+                "position": "none",
+                "body": [
+                    {
+                        "type": "tpl",
+                        "html": "<div class=\"test\">测试测试</div>"
+                    }
+                ]
+            }
+        }
+    ]
+}
+```
+
+也可以通过正则表达式一次控制多行展开关闭
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+        {
+            "type": "container",
+            "style": {
+                "marginBottom": "5px"
+            },
+            "body": [
+                {
+                    "type": "button",
+                    "label": "展开",
+                    "size": "sm",
+                    "onEvent": {
+                        "click": {
+                            "actions": [
+                                {
+                                    "actionType": "expand",
+                                    "componentId": "table-select2",
+                                    "description": "展开行",
+                                    "args": {
+                                        "expandedRowsExpr": "data.record?.id === 1 || data.record?.id === 3"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "type": "table2",
+            "source": "$rows",
+            "id": "table-select2",
+            "columns": [
+                {
+                    "title": "Engine",
+                    "name": "engine"
+                },
+                {
+                    "title": "Version",
+                    "name": "version"
+                },
+                {
+                    "title": "Browser",
+                    "name": "browser"
+                }
+            ],
+            "expandable": {
+                "keyField": "id",
+                "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
+                "type": "container",
+                "position": "none",
                 "body": [
                     {
                         "type": "tpl",

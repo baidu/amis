@@ -518,3 +518,4 @@ order: 35
 | 事件名称 | 事件参数                                                           | 说明             |
 | -------- | ------------------------------------------------------------------ | ---------------- |
 | change   | `event.data.value: string`<br/> `event.data.option: Option` 选中值 | 选中值变化时触发 |
+| itemclick   | `event.data.label: string`<br/> `event.data.id: string`  | 点击时触发 |

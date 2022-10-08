@@ -152,6 +152,9 @@ register('de-DE', {
   'Form.unique': 'Aktueller Wert ist nicht eindeutig',
   'Form.validateFailed': 'Fehler bei der Überprüfung der Formulareingabe',
   'Form.nestedError': 'Form kann nicht als Nachkomme von Form erscheinen',
+  'Iframe.invalid': 'Ungültige Iframe-URL',
+  'Iframe.invalidProtocol':
+    'HTTP-URL-Iframe kann nicht in https verwendet werden',
   'Image.configError':
     'Es können nur eine Beschneidung oder mehrere festgelegt werden',
   'Image.crop': 'Bild beschneiden',
@@ -196,6 +199,7 @@ register('de-DE', {
   'Quarter.placeholder': 'Quartal auswählen',
   'Repeat.pre': 'Pro',
   'reset': 'Zurücksetzen',
+  'save': 'Konservierung',
   'saveFailed': 'Fehler beim Speichern',
   'saveSuccess': 'Erfolgreich gespeichert',
   'search': 'Suchen',
