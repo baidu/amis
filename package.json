@@ -46,6 +46,7 @@
     "fis3-preprocessor-js-require-css": "^0.1.3",
     "fis3-preprocessor-js-require-file": "^0.1.3",
     "husky": "^8.0.0",
+    "i18n-command": "^0.0.11-beta.1",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
     "lerna": "^5.0.0",

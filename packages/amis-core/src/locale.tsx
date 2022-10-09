@@ -11,6 +11,8 @@ interface LocaleConfig {
 
 let defaultLocale: string = 'zh-CN';
 
+let globalLocale: string = 'zh-CN';
+
 const locales: {
   [propName: string]: LocaleConfig;
 } = {};
@@ -67,6 +69,18 @@ export function setDefaultLocale(loacle: string) {
   defaultLocale = loacle;
 }
 
+export function getGlobaltLocale() {
+  return globalLocale;
+}
+
+export let i18n: (key: string, data?: any) => string =
+  makeTranslator(globalLocale);
+
+export function setGlobaltLocale(loacle: string) {
+  globalLocale = loacle;
+  i18n = makeTranslator(globalLocale);
+}
+
 export interface LocaleProps {
   locale: string;
   translate: TranslateFn;
@@ -117,6 +131,8 @@ export function localeable<
       render() {
         const locale: string =
           this.props.locale || this.context || defaultLocale;
+
+        setGlobaltLocale(locale);
         const translate = this.props.translate || makeTranslator(locale);
         const injectedProps: {
           locale: string;

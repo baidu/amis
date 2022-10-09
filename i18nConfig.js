@@ -34,5 +34,10 @@ module.exports = {
     fileName: 'amis-i18n',
     fileExtension: 'xlsx',
     path: './'
+  },
+  translate: {
+    appId: '20220810001301703',
+    key: 'WW7jKaJJBrtCawTOkCpk',
+    host: 'http://api.fanyi.baidu.com'
   }
 };

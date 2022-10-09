@@ -34,6 +34,9 @@ import {RegisterStore, RendererStore} from './store';
 import {
   setDefaultLocale,
   getDefaultLocale,
+  setGlobaltLocale,
+  getGlobaltLocale,
+  i18n,
   makeTranslator,
   register as registerLocale,
   extendLocale,
@@ -135,6 +138,9 @@ export {
   // 多语言相关
   getDefaultLocale,
   setDefaultLocale,
+  setGlobaltLocale,
+  getGlobaltLocale,
+  i18n,
   registerLocale,
   makeTranslator,
   extendLocale,
@@ -173,6 +179,7 @@ export function render(
   pathPrefix: string = ''
 ): JSX.Element {
   let locale = props.locale || getDefaultLocale();
+  setGlobaltLocale(locale);
   // 兼容 locale 的不同写法
   locale = locale.replace('_', '-');
   locale = locale === 'en' ? 'en-US' : locale;

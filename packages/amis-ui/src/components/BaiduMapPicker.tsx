@@ -1,5 +1,5 @@
 import React from 'react';
-import {ClassNamesFn, themeable} from 'amis-core';
+import {ClassNamesFn, themeable, i18n} from 'amis-core';
 import {loadScript, autobind, uuid} from 'amis-core';
 import debounce from 'lodash/debounce';
 import {Icon} from './icons';
@@ -204,7 +204,7 @@ export class BaiduMapPicker extends React.Component<
       const locs: Array<LocationItem> = [];
 
       locs.push({
-        title: '当前位置',
+        title: i18n('当前位置'),
         address: rs.address,
         city: rs.addressComponents.city,
         lat: rs.point.lat,
@@ -340,7 +340,7 @@ export class BaiduMapPicker extends React.Component<
             <input
               onChange={this.handleChange}
               value={inputValue}
-              placeholder="搜索地点"
+              placeholder={i18n('搜索地点')}
             />
           </div>
         </div>
