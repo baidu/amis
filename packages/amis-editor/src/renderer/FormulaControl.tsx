@@ -12,6 +12,7 @@ import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
+import last from 'lodash/last';
 import cx from 'classnames';
 import {FormItem, Button, InputBox, Icon, ResultBox} from 'amis';
 import {FormulaExec, isExpression} from 'amis';
@@ -259,15 +260,15 @@ export default class FormulaControl extends React.Component<
   async resolveVariablesFromScope() {
     const {node, manager} = this.props.formProps || this.props;
     await manager?.getContextSchemas(node);
-    const dataPropsAsOptions = manager?.dataSchema?.getDataPropsAsOptions();
+    const dataPropsAsOptions: any[] =
+      manager?.dataSchema?.getDataPropsAsOptions() || [];
 
-    if (dataPropsAsOptions) {
-      return dataPropsAsOptions.map((item: any) => ({
-        selectMode: 'tree',
-        ...item
-      }));
-    }
-    return [];
+    /** 最后一个元素应该是系统变量 */
+    return [
+      ...dataPropsAsOptions.slice(0, dataPropsAsOptions.length - 1),
+      ...(manager?.variableManager?.getVariableFormulaOptions() ?? []),
+      last(dataPropsAsOptions)
+    ];
   }
 
   @autobind

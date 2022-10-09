@@ -5,7 +5,7 @@ import {
   RendererPluginAction
 } from 'amis-editor-core';
 import React from 'react';
-import {normalizeApi} from 'amis-core';
+import {normalizeApi, mapTree} from 'amis-core';
 import {
   FORMITEM_CMPTS,
   getArgsWrapper,
@@ -15,7 +15,8 @@ import {
   renderCmptSelect,
   SUPPORT_DISABLED_CMPTS
 } from './helper';
-import {BaseLabelMark} from '../../component/BaseControl';
+import type {EditorManager} from 'amis-editor-core';
+
 const MSG_TYPES: {[key: string]: string} = {
   info: '提示',
   warning: '警告',
@@ -23,8 +24,93 @@ const MSG_TYPES: {[key: string]: string} = {
   error: '错误'
 };
 
-const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
+const ACTION_TYPE_TREE = (manager: EditorManager): RendererPluginAction[] => {
+  const variableManager = manager?.variableManager;
+  /** 变量列表 */
+  const variableOptions = variableManager.getVariableOptions();
+  /** 存在变量时才展示变量赋值面板 */
+  const showVariablePanel =
+    Array.isArray(variableOptions) && variableOptions.length > 0;
+
   return [
+    ...(showVariablePanel
+      ? [
+          {
+            actionLabel: '变量',
+            children: [
+              {
+                actionLabel: '变量赋值',
+                actionType: 'setVariable',
+                description: '更新变量的值',
+                innerArgs: ['variablePath', 'value'],
+                descDetail: (info: {
+                  args: {
+                    value: any;
+                    variablePath: string;
+                  };
+                  [propName: string]: any;
+                }) => {
+                  return (
+                    <div>
+                      设置变量 「
+                      <span className="variable-left variable-right">
+                        {variableManager.getNameByPath(
+                          info?.args?.variablePath
+                        )}
+                      </span>
+                      」 的数据
+                    </div>
+                  );
+                },
+                schema: [
+                  getArgsWrapper([
+                    {
+                      type: 'wrapper',
+                      className: 'p-none',
+                      body: [
+                        {
+                          type: 'radios',
+                          label: '作用域',
+                          name: 'scope',
+                          mode: 'horizontal',
+                          options: [{label: '应用变量', value: 'application'}],
+                          required: true,
+                          value: 'application'
+                        },
+                        {
+                          type: 'tree-select',
+                          name: 'variablePath',
+                          label: '应用变量',
+                          multiple: false,
+                          mode: 'horizontal',
+                          required: true,
+                          placeholder: '请选择变量',
+                          showIcon: false,
+                          size: 'lg',
+                          options: variableOptions
+                        },
+                        {
+                          type: 'input-formula',
+                          name: 'value',
+                          label: '参数值',
+                          variables: '${variables}',
+                          evalMode: false,
+                          variableMode: 'tabs',
+                          inputMode: 'input-group',
+                          size: 'lg',
+                          mode: 'horizontal',
+                          required: true,
+                          placeholder: '请输入变量值'
+                        }
+                      ]
+                    }
+                  ])
+                ]
+              }
+            ]
+          }
+        ]
+      : []),
     {
       actionLabel: '页面',
       actionType: 'page',
@@ -802,7 +888,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       source: '${__setValueDs}',
                       labelField: 'label',
                       valueField: 'value',
-                      required: true,
+                      required: true
                     },
                     {
                       name: 'val',
