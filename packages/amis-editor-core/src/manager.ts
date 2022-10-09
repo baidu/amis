@@ -2,7 +2,7 @@
  * @file 把一些功能性的东西放在了这个里面，辅助 compoennt/Editor.tsx 组件的。
  * 编辑器非 UI 相关的东西应该放在这。
  */
-import {getRenderers, RenderOptions} from 'amis-core';
+import {getRenderers, RenderOptions, mapTree} from 'amis-core';
 import {
   PluginInterface,
   BasicPanelItem,
@@ -53,12 +53,16 @@ import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
 import debounce from 'lodash/debounce';
+import sortBy from 'lodash/sortBy';
+import reverse from 'lodash/reverse';
+import cloneDeep from 'lodash/cloneDeep';
 import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
 import {parse, stringify} from 'json-ast-comments';
 import {EditorNodeType} from './store/node';
 import {EditorProps} from './component/Editor';
 import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from './dnd';
+import {VariableManager} from './variable';
 import {IScopedContext} from 'amis';
 import {SchemaObject, SchemaCollection} from 'amis/lib/Schema';
 import type {RendererConfig} from 'amis-core/lib/factory';
@@ -139,6 +143,9 @@ export class EditorManager {
   dataSchema: DataSchema;
   readonly isInFrame: boolean = false;
 
+  /** 变量管理 */
+  readonly variableManager;
+
   constructor(
     readonly config: EditorManagerConfig,
     readonly store: EditorStoreType,
@@ -179,8 +186,15 @@ export class EditorManager {
     this.dnd = parent?.dnd || new EditorDNDManager(this, store);
     this.dataSchema =
       parent?.dataSchema || new DataSchema(config.schemas || []);
-
     this.dataSchema.current.tag = '系统变量';
+
+    /** 初始化变量管理 */
+    this.variableManager = new VariableManager(
+      this.dataSchema,
+      config?.variables,
+      config?.variableOptions
+    );
+
     if (isInFrame) {
       return;
     }

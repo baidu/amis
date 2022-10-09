@@ -16,6 +16,7 @@ import {PopOverForm} from './PopOverForm';
 import {ContextMenuPanel} from './Panel/ContextMenuPanel';
 import {LeftPanels} from './Panel/LeftPanels';
 import {RightPanels} from './Panel/RightPanels';
+import type {VariableGroup, VariableOptions} from '../variable';
 
 export interface EditorProps extends PluginEventListener {
   value: SchemaObject;
@@ -88,6 +89,11 @@ export interface EditorProps extends PluginEventListener {
       [propName: string]: RendererPluginAction;
     };
   };
+
+  /** 上下文变量 */
+  variables?: VariableGroup[];
+  /** 变量配置 */
+  variableOptions?: VariableOptions;
 
   onUndo?: () => void; // 用于触发外部 undo 事件
   onRedo?: () => void; // 用于触发外部 redo 事件
