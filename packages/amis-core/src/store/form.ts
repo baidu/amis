@@ -78,7 +78,9 @@ export const FormStore = ServiceStore.named('FormStore')
           const current = pool.shift()!;
           if (current.storeType === 'FormItemStore') {
             formItems.push(current);
-          } else if (current.storeType !== 'ComboStore') {
+          } else if (
+            !['ComboStore', 'TableStore'].includes(current.storeType)
+          ) {
             pool.push(...current.children);
           }
         }
@@ -541,6 +543,7 @@ export const FormStore = ServiceStore.named('FormStore')
     ) {
       self.validated = true;
       const items = self.directItems.concat();
+      console.log('items', items);
       for (let i = 0, len = items.length; i < len; i++) {
         let item = items[i] as IFormItemStore;
 

@@ -19,7 +19,8 @@ import {
   Payload,
   ApiObject,
   autobind,
-  isExpression
+  isExpression,
+  IFormStore
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -345,6 +346,20 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         return msg;
       }
     }
+
+    const parentFormStore = this.props.store;
+    if (!parentFormStore || parentFormStore.storeType !== 'FormStore') return;
+
+    // 校验子项
+    const children = (parentFormStore as IFormStore).items.filter(
+      item =>
+        item.storeType === 'FormItemStore' &&
+        item.path.startsWith(this.props.$path + '/')
+    );
+
+    const results = await Promise.all(
+      children.map(item => item.validate(this.props.value))
+    );
   }
 
   emitValue() {
