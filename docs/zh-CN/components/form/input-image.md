@@ -237,7 +237,7 @@ app.listen(8080, function () {});
 }
 ```
 
-**多选模式**
+### 多选模式
 
 当表单项为多选模式时，不能再直接取选项中的值了，而是通过 `items` 变量来取，通过它可以获取当前选中的选项集合。
 
@@ -257,12 +257,75 @@ app.listen(8080, function () {});
         "myUrl": "${items|pick:url}",
         "lastUrl": "${items|last|pick:url}"
       }
+    },
+    {
+      "type": "tpl",
+      "label": false,
+      "inline": false,
+      "tpl": "<strong>myUrl集合</strong>"
+    },
+    {
+      "type": "each",
+      "name": "myUrl",
+      "className": "mb-1",
+      "items": {
+        "type": "tpl",
+        "tpl": "<span class='label label-info m-l-sm inline-block mb-1'><%= data.item %></span>"
+      }
+    },
+    {
+      "type": "tpl",
+      "label": false,
+      "inline": false,
+      "tpl": "<strong>lastUrl</strong>"
+    },
+    {
+      "type": "text",
+      "name": "lastUrl",
+      "label": "lastUrl",
+      "inline": false
     }
   ]
 }
 ```
 
-**initAutoFill**
+### 其他表单项填充
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "表单",
+  "body": [
+    {
+      "type": "select",
+      "label": "选项",
+      "name": "imageUrl",
+      "delimiter": "|",
+      "autoFill": {
+        "inputImage": "${value}"
+      },
+      "options": [
+        {
+          "label": "imageURL",
+          "value": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+        },
+        {
+          "label": "空链接",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "type": "input-image",
+      "label": "图片上传",
+      "name": "inputImage",
+      "imageClassName": "r w-full"
+    }
+  ]
+}
+```
+
+### initAutoFill 初始化时自动同步
 
 当表单反显时，可通过`initAutoFill`控制`autoFill`在数据反显时是否执行。
 
