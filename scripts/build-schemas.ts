@@ -305,6 +305,7 @@ main().catch(e => {
 
     const sourceFile = node.getSourceFile();
     const position = sourceFile.getLineAndCharacterOfPosition(node.pos);
+
     console.log(
       `\x1b[36m${sourceFile.fileName}:${position.line + 1}:${
         position.character + 1

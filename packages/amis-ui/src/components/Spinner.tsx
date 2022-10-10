@@ -105,7 +105,8 @@ export class Spinner extends React.Component<SpinnerProps> {
   };
 
   state = {
-    spinning: false
+    spinning: false,
+    showMark: true
   };
 
   parent: HTMLElement | null = null;
@@ -113,32 +114,18 @@ export class Spinner extends React.Component<SpinnerProps> {
   spinnerRef = (dom: HTMLElement) => {
     if (dom) {
       this.parent = dom.parentNode as HTMLElement;
+      this.setState({
+        showMark: false
+      });
     }
   };
 
-  componentDidUpdate(prev: SpinnerProps) {
-    if (!prev.show && this.props.show) {
-      // 先根据 props.show 触发一次 loading，否则元素没有渲染，无法找到 parent
-      this.setState({spinning: true});
-    }
-
+  componentDidUpdate() {
     if (this.parent) {
       if (this.props.show) {
         store.push(this.parent);
       } else if (this.state.spinning) {
         store.remove(this.parent);
-      }
-    }
-  }
-
-  componentDidMount(): void {
-    // 对于 通过 条件语句控制 Spinner 是否展示的情况，需要在这里处理 ： show && <Spinner show overlay />
-    if (this.props.show) {
-      // 先根据 props.show 触发一次 loading，否则元素没有渲染，无法找到 parent
-      this.setState({spinning: true});
-
-      if (this.parent) {
-        store.push(this.parent);
       }
     }
   }
@@ -150,6 +137,9 @@ export class Spinner extends React.Component<SpinnerProps> {
     store.remove(this.parent!);
   }
 
+  /**
+   * 监控着 spinnerContainers 的变化
+   */
   loadingChecker = reaction(
     () => store.spinnerContainers.size,
     () => {
@@ -175,67 +165,71 @@ export class Spinner extends React.Component<SpinnerProps> {
     const timeout = {enter: delay, exit: 0};
 
     return (
-      <Transition
-        mountOnEnter
-        unmountOnExit
-        in={this.state.spinning}
-        timeout={timeout}
-      >
-        {(status: string) => {
-          return (
-            <>
-              {/* 遮罩层 */}
-              {overlay ? (
-                <div className={cx(`Spinner-overlay`, fadeStyles[status])} />
-              ) : null}
+      <>
+        {this.state.showMark && (
+          <span className={cx('Spinner-mark')} ref={this.spinnerRef as any} />
+        )}
+        <Transition
+          mountOnEnter
+          unmountOnExit
+          in={this.state.spinning}
+          timeout={timeout}
+        >
+          {(status: string) => {
+            return (
+              <>
+                {/* 遮罩层 */}
+                {overlay ? (
+                  <div className={cx(`Spinner-overlay`, fadeStyles[status])} />
+                ) : null}
 
-              {/* spinner图标和文案 */}
-              <div
-                ref={this.spinnerRef as any}
-                data-testid="spinner"
-                className={cx(
-                  `Spinner`,
-                  tip && {
-                    [`Spinner-tip--${tipPlacement}`]: [
-                      'top',
-                      'right',
-                      'bottom',
-                      'left'
-                    ].includes(tipPlacement)
-                  },
-                  {[`Spinner--overlay`]: overlay},
-                  fadeStyles[status],
-                  className
-                )}
-              >
+                {/* spinner图标和文案 */}
                 <div
+                  data-testid="spinner"
                   className={cx(
-                    `Spinner-icon`,
-                    {
-                      [`Spinner-icon--${size}`]: ['lg', 'sm'].includes(size),
-                      [`Spinner-icon--default`]: !icon,
-                      [`Spinner-icon--simple`]: !isCustomIcon && icon,
-                      [`Spinner-icon--custom`]: isCustomIcon
+                    `Spinner`,
+                    tip && {
+                      [`Spinner-tip--${tipPlacement}`]: [
+                        'top',
+                        'right',
+                        'bottom',
+                        'left'
+                      ].includes(tipPlacement)
                     },
-                    spinnerClassName
+                    {[`Spinner--overlay`]: overlay},
+                    fadeStyles[status],
+                    className
                   )}
                 >
-                  {icon ? (
-                    isCustomIcon ? (
-                      icon
-                    ) : hasIcon(icon as string) ? (
-                      <Icon icon={icon} className="icon" />
-                    ) : (
-                      generateIcon(cx, icon as string, 'icon')
-                    )
-                  ) : null}
+                  <div
+                    className={cx(
+                      `Spinner-icon`,
+                      {
+                        [`Spinner-icon--${size}`]: ['lg', 'sm'].includes(size),
+                        [`Spinner-icon--default`]: !icon,
+                        [`Spinner-icon--simple`]: !isCustomIcon && icon,
+                        [`Spinner-icon--custom`]: isCustomIcon
+                      },
+                      spinnerClassName
+                    )}
+                  >
+                    {icon ? (
+                      isCustomIcon ? (
+                        icon
+                      ) : hasIcon(icon as string) ? (
+                        <Icon icon={icon} className="icon" />
+                      ) : (
+                        generateIcon(cx, icon as string, 'icon')
+                      )
+                    ) : null}
+                  </div>
+                  {tip ? <span className={cx(`Spinner-tip`)}>{tip}</span> : ''}
                 </div>
-                {tip ? <span className={cx(`Spinner-tip`)}>{tip}</span> : ''}
-              </div>
-            </>
-          );
-        }}
-      </Transition>
+              </>
+            );
+          }}
+        </Transition>
+      </>
     );
   }
 }

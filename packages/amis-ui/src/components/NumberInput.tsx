@@ -51,6 +51,11 @@ export interface NumberProps extends ThemeProps {
    */
   displayMode?: 'base' | 'enhance';
   keyboard?: Boolean;
+
+  /**
+   * 是否是大数
+   */
+  big?: boolean;
 }
 
 export class NumberInput extends React.Component<NumberProps, any> {
@@ -59,6 +64,19 @@ export class NumberInput extends React.Component<NumberProps, any> {
     readOnly: false,
     borderMode: 'full'
   };
+
+  /**
+   * 是否是 bigNumber，如果输入的内容是字符串就自动开启
+   */
+  isBig: boolean = false;
+
+  constructor(props: NumberProps) {
+    super(props);
+    const value = props.value;
+    if (typeof value === 'string' || props.big) {
+      this.isBig = true;
+    }
+  }
 
   @autobind
   handleChange(value: any) {
@@ -71,6 +89,22 @@ export class NumberInput extends React.Component<NumberProps, any> {
 
       if (typeof max === 'number') {
         value = Math.min(value, max);
+      }
+    }
+
+    if (typeof value === 'string') {
+      let val = getMiniDecimal(value);
+      if (typeof min !== 'undefined') {
+        let minValue = getMiniDecimal(min);
+        if (val.lessEquals(minValue)) {
+          value = min;
+        }
+      }
+      if (typeof max !== 'undefined') {
+        let maxValue = getMiniDecimal(max);
+        if (maxValue.lessEquals(val)) {
+          value = max;
+        }
       }
     }
 
@@ -87,18 +121,19 @@ export class NumberInput extends React.Component<NumberProps, any> {
     const {onBlur} = this.props;
     onBlur && onBlur(e);
   }
+
   @autobind
   handleEnhanceModeChange(action: 'add' | 'subtract'): void {
-    const {value, step, disabled, readOnly, precision} = this.props;
+    const {value, step = 1, disabled, readOnly, precision} = this.props;
     // value为undefined会导致溢出错误
-    let val = Number(value) || 0;
+    let val = value || 0;
     if (disabled || readOnly) {
       return;
     }
     if (isNaN(Number(step)) || !Number(step)) {
       return;
     }
-    let stepDecimal = getMiniDecimal(Number(step));
+    let stepDecimal = getMiniDecimal(step);
     if (action !== 'add') {
       stepDecimal = stepDecimal.negate();
     }
@@ -126,9 +161,14 @@ export class NumberInput extends React.Component<NumberProps, any> {
       return updateValue;
     };
     const updatedValue = triggerValueUpdate(target, false);
-    val = Number(updatedValue.toString());
-    this.handleChange(val);
+    if (this.isBig) {
+      this.handleChange(updatedValue.toString());
+    } else {
+      val = Number(updatedValue.toString());
+      this.handleChange(val);
+    }
   }
+
   @autobind
   renderBase() {
     const {
@@ -182,6 +222,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
         placeholder={placeholder}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
+        stringMode={this.isBig ? true : false}
         keyboard={keyboard}
         {...precisionProps}
       />

@@ -89,7 +89,8 @@ export default {
         {
           title: '超级小',
           type: 'fieldSet',
-          className: 'fieldset-xs',
+          collapsable: true,
+          size: 'xs',
           body: [
             {
               type: 'plain',
@@ -100,7 +101,8 @@ export default {
         {
           title: '小尺寸',
           type: 'fieldSet',
-          className: 'fieldset-sm',
+          collapsable: true,
+          size: 'sm',
           body: [
             {
               type: 'plain',
@@ -111,7 +113,8 @@ export default {
         {
           title: '正常尺寸',
           type: 'fieldSet',
-          className: 'fieldset',
+          collapsable: true,
+          size: 'base',
           body: [
             {
               type: 'plain',
@@ -122,7 +125,8 @@ export default {
         {
           title: '中大尺寸',
           type: 'fieldSet',
-          className: 'fieldset-md',
+          collapsable: true,
+          size: 'md',
           body: [
             {
               type: 'plain',
@@ -133,7 +137,8 @@ export default {
         {
           title: '超大尺寸',
           type: 'fieldSet',
-          className: 'fieldset-lg',
+          collapsable: true,
+          size: 'lg',
           body: [
             {
               type: 'plain',

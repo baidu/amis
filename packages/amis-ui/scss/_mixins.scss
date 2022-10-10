@@ -574,3 +574,9 @@
     color: var(--icon-onHover-color);
   }
 }
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

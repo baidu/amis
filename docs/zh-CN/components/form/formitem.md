@@ -218,7 +218,33 @@ order: 1
       "label": "禁用",
       "name": "text2",
       "disabled": true
-    }
+    },
+    {
+      "type": "grid",
+      "columns": [
+        {
+          "body": [
+            {
+              "type": "input-text",
+              "label": "姓名",
+              "name": "name",
+              "value": "amis",
+              "disabled": true
+            }
+          ]
+        },
+        {
+          "body": [
+            {
+              "type": "input-email",
+              "label": "邮箱",
+              "name": "email",
+              "disabled": true
+            }
+          ]
+        }
+      ]
+    },
   ]
 }
 ```

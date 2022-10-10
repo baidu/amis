@@ -66,7 +66,7 @@ export default class Container<T> extends React.Component<
         {children
           ? typeof children === 'function'
             ? ((children as any)(this.props) as JSX.Element)
-            : (children as unknown)
+            : (children as any)
           : body
           ? (render('body', body as any, {disabled}) as JSX.Element)
           : null}

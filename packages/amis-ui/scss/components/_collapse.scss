@@ -61,15 +61,15 @@
     display: inline-block;
   }
 
-  &.is-active &-arrow:before {
+  &.is-active > * > &-arrow:before {
     transform: rotate(135deg);
     transform-origin: 50% 30%;
   }
-  &.is-active &-icon-tranform {
+  &.is-active > * > &-icon-tranform {
     transform: rotate(90deg);
   }
 
-  &--disabled &-header {
+  &--disabled > &-header {
     cursor: not-allowed;
     user-select: none;
     color: var(--text--muted-color);
@@ -78,7 +78,7 @@
     }
   }
 
-  &--disabled &-arrow:before {
+  &--disabled > * > &-arrow:before {
     border-color: var(--text--muted-color);
   }
 
