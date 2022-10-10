@@ -423,9 +423,15 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     throw new Error('Please implements this!');
   }
 
-  reload(subPath?: string, query?: any, ctx?: any) {
+  reload(
+    subPath?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, replace);
     }
 
     const {
@@ -486,10 +492,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     }
   }
 
-  receive(values: object) {
+  receive(values: object, replace?: boolean) {
     const {store} = this.props;
 
-    store.updateData(values);
+    store.updateData(values, undefined, replace);
     this.reload();
   }
 
@@ -1243,7 +1249,7 @@ export class WizardRenderer extends Wizard {
     }
   }
 
-  setData(values: object) {
-    return this.props.store.updateData(values);
+  setData(values: object, replace?: boolean) {
+    return this.props.store.updateData(values, undefined, replace);
   }
 }

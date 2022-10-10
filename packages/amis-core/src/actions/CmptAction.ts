@@ -41,6 +41,7 @@ export class CmptAction implements RendererAction {
       action.componentId && renderer.props.$schema.id !== action.componentId
         ? event.context.scoped?.getComponentById(action.componentId)
         : renderer;
+    const dataMergeMode = action.dataMergeMode || 'merge';
 
     // 显隐&状态控制
     if (['show', 'hidden'].includes(action.actionType)) {
@@ -58,7 +59,11 @@ export class CmptAction implements RendererAction {
     // 数据更新
     if (action.actionType === 'setValue') {
       if (component?.setData) {
-        return component?.setData(action.args?.value, action.args?.index);
+        return component?.setData(
+          action.args?.value,
+          dataMergeMode === 'override',
+          action.args?.index
+        );
       } else {
         return component?.props.onChange?.(action.args?.value);
       }
@@ -66,7 +71,13 @@ export class CmptAction implements RendererAction {
 
     // 刷新
     if (action.actionType === 'reload') {
-      return component?.reload?.(undefined, action.args);
+      return component?.reload?.(
+        undefined,
+        action.args,
+        undefined,
+        undefined,
+        dataMergeMode === 'override'
+      );
     }
 
     // 执行组件动作
