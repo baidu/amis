@@ -22,6 +22,7 @@ export interface ListenerAction {
   description?: string; // 事件描述，actionType: broadcast
   componentId?: string; // 组件ID，用于直接执行指定组件的动作
   args?: Record<string, any> | null; // 参数，可以配置数据映射
+  dataMergeMode?: 'merge' | 'override'; // 参数模式，合并或者覆盖
   outputVar?: string; // 输出数据变量名
   preventDefault?: boolean; // 阻止原有组件的动作行为
   stopPropagation?: boolean; // 阻止后续的事件处理器执行

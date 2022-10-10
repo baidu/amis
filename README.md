@@ -63,6 +63,9 @@ npm run build
 # 执行测试用例
 npm test --workspaces
 
+# 测试某个用例
+npm test --workspace amis inputImage
+
 # 查看测试用例覆盖率
 npm run coverage
 

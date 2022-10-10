@@ -324,11 +324,17 @@ export class Chart extends React.Component<ChartProps> {
     this.ref = ref;
   }
 
-  reload(subpath?: string, query?: any) {
+  reload(
+    subpath?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     const {api, env, store, interval, translate: __} = this.props;
 
     if (query) {
-      return this.receive(query);
+      return this.receive(query, replace);
     } else if (!env || !env.fetcher || !isEffectiveApi(api, store.data)) {
       return;
     }
@@ -389,10 +395,10 @@ export class Chart extends React.Component<ChartProps> {
       });
   }
 
-  receive(data: object) {
+  receive(data: object, replace?: boolean) {
     const store = this.props.store;
 
-    store.updateData(data);
+    store.updateData(data, undefined, replace);
     this.reload();
   }
 
@@ -508,9 +514,9 @@ export class ChartRenderer extends Chart {
     scoped.unRegisterComponent(this);
   }
 
-  setData(values: object) {
+  setData(values: object, replace?: boolean) {
     const {store} = this.props;
-    store.updateData(values);
+    store.updateData(values, undefined, replace);
     // 重新渲染
     this.renderChart(this.props.config, values);
   }
