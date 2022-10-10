@@ -215,9 +215,15 @@ export default class App extends React.Component<AppProps, object> {
     this.unWatchRouteChange?.();
   }
 
-  async reload(subpath?: any, query?: any, ctx?: any, silent?: boolean) {
+  async reload(
+    subpath?: any,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, replace);
     }
 
     const {
@@ -246,10 +252,10 @@ export default class App extends React.Component<AppProps, object> {
     }
   }
 
-  receive(values: object) {
+  receive(values: object, replace?: boolean) {
     const {store} = this.props;
 
-    store.updateData(values);
+    store.updateData(values, undefined, replace);
     this.reload();
   }
 
@@ -468,7 +474,7 @@ export class AppRenderer extends App {
     super.componentWillUnmount();
   }
 
-  setData(values: object) {
-    return this.props.store.updateData(values);
+  setData(values: object, replace?: boolean) {
+    return this.props.store.updateData(values, undefined, replace);
   }
 }
