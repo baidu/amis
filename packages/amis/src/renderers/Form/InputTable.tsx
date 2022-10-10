@@ -20,7 +20,7 @@ import {
   ApiObject,
   autobind,
   isExpression,
-  IFormStore
+  ITableStore
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -237,6 +237,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   subForms: any = {};
   rowPrinstine: Array<any> = [];
   editting: any = {};
+  tableStore?: ITableStore;
+
   constructor(props: TableProps) {
     super(props);
 
@@ -347,14 +349,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       }
     }
 
-    const parentFormStore = this.props.store;
-    if (!parentFormStore || parentFormStore.storeType !== 'FormStore') return;
+    if (!this.tableStore) return;
 
     // 校验子项
-    const children = (parentFormStore as IFormStore).items.filter(
-      item =>
-        item.storeType === 'FormItemStore' &&
-        item.path.startsWith(this.props.$path + '/')
+    const children = this.tableStore.children.filter(
+      item => item?.storeType === 'FormItemStore'
     );
 
     const results = await Promise.all(
@@ -1149,6 +1148,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     return String(this.entries.get(entry));
   }
 
+  tableRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
+    this.tableStore = ref?.props?.store;
+  }
+
   render() {
     const {
       className,
@@ -1211,6 +1217,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             tableContentClassName
           },
           {
+            ref: this.tableRef.bind(this),
             value: undefined,
             saveImmediately: true,
             disabled,
