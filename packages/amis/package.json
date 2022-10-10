@@ -83,7 +83,7 @@
     "@rollup/plugin-typescript": "^8.3.4",
     "@svgr/rollup": "^6.2.1",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.0.0",
+    "@testing-library/react": "^13.4.0",
     "@types/async": "^2.0.45",
     "@types/codemirror": "^5.60.3",
     "@types/echarts": "^4.9.2",
