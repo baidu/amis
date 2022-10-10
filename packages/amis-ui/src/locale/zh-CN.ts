@@ -355,5 +355,7 @@ register('zh-CN', {
   'JSONSchema.add_prop': '添加属性',
   'JSONSchema.array_items': '成员类型',
   'Required': '必填',
-  'TimeNow': '此刻'
+  'TimeNow': '此刻',
+  'IconSelect.all': '全部',
+  'IconSelect.choice': '图标选择'
 });

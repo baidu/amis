@@ -1800,6 +1800,7 @@
   --SearchBox-width: #{px2rem(150px)};
   --SearchBox-history-dropdown-maxWidth: calc(var(--SearchBox-width) * 2);
   --SearchBox-history-dropdown-maxHeight: #{px2rem(200px)};
+
   --SearchBox-hover-color: #2468f2;
   --SearchBox-focus-color: #144bcc;
   --SearchBox-search-icon-color: #84868c;
@@ -1811,4 +1812,24 @@
   --SearchBox-enhonce-disabled-color: #f2f2f4;
   --SearchBox-enhonce-disabled-search-color: #b8babf;
   --SearchBox-enhonce-clearable-gap: #{px2rem(6px)};
+
+  --IconSelect-searchBox-width: #{px2rem(246px)};
+  --IconSelect-type-item-height: #{px2rem(48px)};
+  --IconSelect-dialog-height: #{50vh};
+  --IconSelect-base-margin: var(--gap-base);
+  --IconSelect-xs-margin: var(--gap-xs);
+  --IconSelect-sm-padding: #{px2rem(6px)};
+  --IconSelect-base-border-radius: var(--borderRadiusMd);
+  --IconSelect-border-color: var(--menu-border-color);
+  --IconSelect-preivew-icon-size: #{px2rem(20px)};
+  --IconSelect-list-icon-size: #{px2rem(24px)};
+  --IconSelect-type-font-size: var(--fontSizeSm);
+  --IconSelect-active-badge-color: var(--white);
+  --IconSelect-active-bg-color: #{$B6};
+  --IconSelect-icon-name-color: #{$G2};
+  --IconSelect-icon-id-color: #{$G5};
+  --IconSelect-icon-placeholder-color: #{$G6};
+  --IconSelect-type-width: #{px2rem(88px)};
+  --IconSelect-type-li-height: #{px2rem(32px)};
+  --IconSelect-type-li-padding: var(--gap-md)
 }
