@@ -118,6 +118,11 @@ export interface ComboControlSchema extends FormBaseControlSchema {
   addable?: boolean;
 
   /**
+   * Add at top
+   */
+   addattop?: boolean;
+
+  /**
    * 数组输入框的子项
    */
   items?: Array<ComboSubControl>;
@@ -459,7 +464,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   addItemWith(condition: ComboCondition) {
-    const {flat, joinValues, delimiter, scaffold, disabled, submitOnChange} =
+    const {flat, joinValues, addattop, delimiter, scaffold, disabled, submitOnChange} =
       this.props;
 
     if (disabled) {
@@ -481,6 +486,10 @@ export default class ComboControl extends React.Component<ComboProps> {
       value = value.join(delimiter || ',');
     }
 
+    if (addattop === true){
+      value.unshift(value.pop());
+    }
+
     this.props.onChange(value, submitOnChange, true);
   }
 
@@ -488,6 +497,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {
       flat,
       joinValues,
+      addattop,
       delimiter,
       scaffold,
       disabled,
@@ -525,6 +535,10 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     if (flat && joinValues) {
       value = value.join(delimiter || ',');
+    }
+
+    if (addattop === true){
+      value.unshift(value.pop());
     }
 
     this.props.onChange(value, submitOnChange, true);

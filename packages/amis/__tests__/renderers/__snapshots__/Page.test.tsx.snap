@@ -1,55 +1,72 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Renderer:Page 1`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+[
   <div
-    className="cxd-Page-content"
+    className="cxd-Page"
+    onClick={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-Page-content"
     >
       <div
-        className="cxd-Page-headerRow"
+        className="cxd-Page-main"
       >
         <div
-          className="cxd-Page-header"
+          className="cxd-Page-headerRow"
         >
-          <h2
-            className="cxd-Page-title"
+          <div
+            className="cxd-Page-header"
           >
-            <span
-              className="cxd-TplField"
+            <h2
+              className="cxd-Page-title"
             >
               <span
-                dangerouslySetInnerHTML={
-                  {
-                    "__html": "This is Title",
-                  }
-                }
-              />
-            </span>
-            <div
-              className="cxd-Remark cxd-Remark--warning"
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-            >
-              <span
-                className="cxd-Remark-icon icon"
+                className="cxd-TplField"
               >
-                <icon-mock
-                  className=" icon-question-mark"
-                  icon="question-mark"
+                <span
+                  dangerouslySetInnerHTML={
+                    {
+                      "__html": "This is Title",
+                    }
+                  }
                 />
               </span>
-            </div>
-          </h2>
-          <small
-            className="cxd-Page-subTitle"
+              <div
+                className="cxd-Remark cxd-Remark--warning"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                <span
+                  className="cxd-Remark-icon icon"
+                >
+                  <icon-mock
+                    className=" icon-question-mark"
+                    icon="question-mark"
+                  />
+                </span>
+              </div>
+            </h2>
+            <small
+              className="cxd-Page-subTitle"
+            >
+              <span
+                className="cxd-TplField"
+              >
+                <span
+                  dangerouslySetInnerHTML={
+                    {
+                      "__html": "This is SubTitle",
+                    }
+                  }
+                />
+              </span>
+            </small>
+          </div>
+          <div
+            className="cxd-Page-toolbar"
           >
             <span
               className="cxd-TplField"
@@ -57,47 +74,38 @@ exports[`Renderer:Page 1`] = `
               <span
                 dangerouslySetInnerHTML={
                   {
-                    "__html": "This is SubTitle",
+                    "__html": "This is toolbar",
                   }
                 }
               />
             </span>
-          </small>
+          </div>
         </div>
         <div
-          className="cxd-Page-toolbar"
+          className="cxd-Page-body"
         >
+          <span
+            className="cxd-Spinner-mark"
+          />
           <span
             className="cxd-TplField"
           >
             <span
               dangerouslySetInnerHTML={
                 {
-                  "__html": "This is toolbar",
+                  "__html": "This is body",
                 }
               }
             />
           </span>
         </div>
       </div>
-      <div
-        className="cxd-Page-body"
-      >
-        <span
-          className="cxd-TplField"
-        >
-          <span
-            dangerouslySetInnerHTML={
-              {
-                "__html": "This is body",
-              }
-            }
-          />
-        </span>
-      </div>
     </div>
-  </div>
-</div>
+  </div>,
+  <span
+    className="cxd-Spinner-mark"
+  />,
+]
 `;
 
 exports[`Renderer:Page classNames 1`] = `
@@ -979,87 +987,81 @@ exports[`Renderer:Page initApi error show Message 1`] = `
 `;
 
 exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+[
   <div
-    className="cxd-Page-content"
+    className="cxd-Page"
+    onClick={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-Page-main"
       >
         <div
-          className="cxd-Spinner-overlay in"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay in"
-          data-testid="spinner"
-        >
-          <div
-            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
-          />
-        </div>
-        <span
-          className="cxd-TplField"
+          className="cxd-Page-body"
         >
           <span
-            dangerouslySetInnerHTML={
-              {
-                "__html": "The variable value is 1",
-              }
-            }
+            className="cxd-Spinner-mark"
           />
-        </span>
+          <span
+            className="cxd-TplField"
+          >
+            <span
+              dangerouslySetInnerHTML={
+                {
+                  "__html": "The variable value is 1",
+                }
+              }
+            />
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+  <span
+    className="cxd-Spinner-mark"
+  />,
+]
 `;
 
 exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+[
   <div
-    className="cxd-Page-content"
+    className="cxd-Page"
+    onClick={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-Page-main"
       >
         <div
-          className="cxd-Spinner-overlay in"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay in"
-          data-testid="spinner"
-        >
-          <div
-            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
-          />
-        </div>
-        <span
-          className="cxd-TplField"
+          className="cxd-Page-body"
         >
           <span
-            dangerouslySetInnerHTML={
-              {
-                "__html": "The variable value is 2",
-              }
-            }
+            className="cxd-Spinner-mark"
           />
-        </span>
+          <span
+            className="cxd-TplField"
+          >
+            <span
+              dangerouslySetInnerHTML={
+                {
+                  "__html": "The variable value is 2",
+                }
+              }
+            />
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+  <span
+    className="cxd-Spinner-mark"
+  />,
+]
 `;
 
 exports[`Renderer:Page initApi reload by Dialog action 1`] = `
@@ -1972,136 +1974,157 @@ exports[`Renderer:Page initApi silentPolling 2`] = `
 `;
 
 exports[`Renderer:Page initData 1`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+[
   <div
-    className="cxd-Page-content"
+    className="cxd-Page"
+    onClick={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-Page-main"
       >
-        <span
-          className="cxd-TplField"
+        <div
+          className="cxd-Page-body"
         >
           <span
-            dangerouslySetInnerHTML={
-              {
-                "__html": "The variable value is 1",
-              }
-            }
+            className="cxd-Spinner-mark"
           />
-        </span>
+          <span
+            className="cxd-TplField"
+          >
+            <span
+              dangerouslySetInnerHTML={
+                {
+                  "__html": "The variable value is 1",
+                }
+              }
+            />
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+  <span
+    className="cxd-Spinner-mark"
+  />,
+]
 `;
 
 exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes ture 1`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+[
   <div
-    className="cxd-Page-content"
+    className="cxd-Page"
+    onClick={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-Page-main"
       >
         <div
-          className="cxd-Spinner-overlay in"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay in"
-          data-testid="spinner"
-        >
-          <div
-            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
-          />
-        </div>
-        <span
-          className="cxd-TplField"
+          className="cxd-Page-body"
         >
           <span
-            dangerouslySetInnerHTML={
-              {
-                "__html": "The variable value is 6",
-              }
-            }
+            className="cxd-Spinner-mark"
           />
-        </span>
+          <span
+            className="cxd-TplField"
+          >
+            <span
+              dangerouslySetInnerHTML={
+                {
+                  "__html": "The variable value is 6",
+                }
+              }
+            />
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+  <span
+    className="cxd-Spinner-mark"
+  />,
+]
 `;
 
 exports[`Renderer:Page location query 1`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+[
   <div
-    className="cxd-Page-content"
+    className="cxd-Page"
+    onClick={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-Page-main"
       >
-        <span
-          className="cxd-TplField"
+        <div
+          className="cxd-Page-body"
         >
           <span
-            dangerouslySetInnerHTML={
-              {
-                "__html": "The variable value is 5",
-              }
-            }
+            className="cxd-Spinner-mark"
           />
-        </span>
+          <span
+            className="cxd-TplField"
+          >
+            <span
+              dangerouslySetInnerHTML={
+                {
+                  "__html": "The variable value is 5",
+                }
+              }
+            />
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+  <span
+    className="cxd-Spinner-mark"
+  />,
+]
 `;
 
 exports[`Renderer:Page location query 2`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
+[
   <div
-    className="cxd-Page-content"
+    className="cxd-Page"
+    onClick={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-Page-content"
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-Page-main"
       >
-        <span
-          className="cxd-TplField"
+        <div
+          className="cxd-Page-body"
         >
           <span
-            dangerouslySetInnerHTML={
-              {
-                "__html": "The variable value is 6",
-              }
-            }
+            className="cxd-Spinner-mark"
           />
-        </span>
+          <span
+            className="cxd-TplField"
+          >
+            <span
+              dangerouslySetInnerHTML={
+                {
+                  "__html": "The variable value is 6",
+                }
+              }
+            />
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+  <span
+    className="cxd-Spinner-mark"
+  />,
+]
 `;

@@ -650,44 +650,50 @@ order: 67
 {
     "type": "service",
     "api": "/api/mock2/sample?perPage=5",
-    "className": "w-xxl",
+    "className": "flex justify-center",
     "body": [
         {
-            "type": "table",
-            "source": "$rows",
-            "className": "m-b-none",
-            "columnsTogglable": false,
-            "columns": [
+            "type": "wrapper",
+            "className": "w-xxl border-2 border-solid border-indigo-400",
+            "body": [
                 {
-                    "name": "engine",
-                    "label": "Engine",
-                    "fixed": "left"
-                },
-
-                {
-                    "name": "grade",
-                    "label": "Grade"
-                },
-
-                {
-                    "name": "version",
-                    "label": "Version"
-                },
-
-                {
-                    "name": "browser",
-                    "label": "Browser"
-                },
-
-                {
-                    "name": "id",
-                    "label": "ID"
-                },
-
-                {
-                    "name": "platform",
-                    "label": "Platform",
-                    "fixed": "right"
+                    "type": "table",
+                    "source": "$rows",
+                    "className": "m-b-none",
+                    "columnsTogglable": false,
+                    "columns": [
+                        {
+                            "name": "id",
+                            "label": "ID",
+                            "fixed": "left"
+                        },
+                        {
+                            "name": "engine",
+                            "label": "Engine",
+                            "groupName": 'Group-1',
+                            "fixed": "left"
+                        },
+                        {
+                            "name": "grade",
+                            "label": "Grade",
+                        },
+                        {
+                            "name": "version",
+                            "label": "Version"
+                        },
+                        {
+                            "name": "browser",
+                            "label": "Browser",
+                            "groupName": 'Group-2',
+                            "fixed": "right"
+                        },
+                        {
+                            "name": "platform",
+                            "label": "Platform",
+                            "groupName": 'Group-2',
+                            "fixed": "right"
+                        }
+                    ]
                 }
             ]
         }
@@ -1415,7 +1421,7 @@ popOver 的其它配置请参考 [popover](./popover)
         {
             "type": "table",
             "source": "$rows",
-            "rowClassNameExpr": "<%= data.id % 2 ? 'bg-success' : '' %>",
+            "rowClassNameExpr": "<%= data.id % 2 ? 'bg-success' : 'bg-blue-50' %>",
             "columns": [
                 {
                     "name": "engine",
@@ -1871,11 +1877,10 @@ popOver 的其它配置请参考 [popover](./popover)
 | prefixRow        | `Array`                                  |                           | 顶部总结行                                                                |
 | affixRow         | `Array`                                  |                           | 底部总结行                                                                |
 | itemBadge        | [`BadgeSchema`](./badge)                 |                           | 行角标配置                                                                |
-| autoFillHeight   | `boolean`  丨 `{height: number}`         |                           | 内容区域自适应高度                                                        |
+| autoFillHeight   | `boolean` 丨 `{height: number}`          |                           | 内容区域自适应高度                                                        |
 | resizable        | `boolean`                                | `true`                    | 列宽度是否支持调整                                                        |
 | selectable       | `boolean`                                | `false`                   | 支持勾选                                                                  |
-| multiple         | `boolean`                                | `false`                   | 勾选icon是否为多选样式`checkbox`，  默认为`radio`                         |
-
+| multiple         | `boolean`                                | `false`                   | 勾选 icon 是否为多选样式`checkbox`， 默认为`radio`                        |
 
 ## 列配置属性表
 

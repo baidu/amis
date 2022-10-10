@@ -836,7 +836,7 @@ export default class ImageControl extends React.Component<
     // 排除自身的字段，否则会无限更新state
     const excludeSelfAutoFill = omit(autoFill, name || '');
 
-    if (!isEmpty(excludeSelfAutoFill) && onBulkChange && this.initAutoFill) {
+    if (!isEmpty(excludeSelfAutoFill) && onBulkChange) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
@@ -1341,7 +1341,6 @@ export default class ImageControl extends React.Component<
       frameImageStyle.width = frameImageWidth;
     }
     const filterFrameImage = filter(frameImage, this.props.data, '| raw');
-
     const hasPending = files.some(file => file.state == 'pending');
     return (
       <div className={cx(`ImageControl`, className)}>
