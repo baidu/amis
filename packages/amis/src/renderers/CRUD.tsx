@@ -1807,9 +1807,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     const {store, classPrefix: ns, classnames: cx, translate: __} = this.props;
     const {page, lastPage} = store;
 
-    return page < lastPage ? (
+    return (
       <div className={cx('Crud-loadMore')}>
         <Button
+          disabled={page >= lastPage}
+          disabledTip={__('CRUD.loadMoreDisableTip')}
           classPrefix={ns}
           onClick={() =>
             this.search({page: page + 1, loadDataMode: 'load-more'})
@@ -1819,8 +1821,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           {__('CRUD.loadMore')}
         </Button>
       </div>
-    ) : (
-      ''
     );
   }
 

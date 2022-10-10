@@ -44,6 +44,7 @@ register('de-DE', {
   'CRUD.invalidArray': '"data.items" muss ein Array sein',
   'CRUD.invalidData': '"data" ist leer',
   'CRUD.loadMore': 'Weitere laden',
+  'CRUD.loadMoreDisableTip': 'Keine Daten oder letzte Seite',
   'CRUD.perPage': 'Pro Seite',
   'CRUD.stat': '{{page}} von {{lastPage}} insgesamt: {{total}}.',
   'CRUD.paginationGoText': 'Wechseln zu',
