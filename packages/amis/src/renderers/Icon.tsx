@@ -1,8 +1,9 @@
 import React from 'react';
-import {Renderer, RendererProps, filter} from 'amis-core';
+import {Renderer, RendererProps, filter, IconCheckedSchema} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {getIcon} from 'amis-ui/lib/components/icons';
+import {isObject} from 'lodash';
 
 /**
  * Icon 图表渲染器
@@ -14,7 +15,7 @@ export interface IconSchema extends BaseSchema {
   /**
    * 按钮类型
    */
-  icon: SchemaTpl;
+  icon: SchemaTpl | IconCheckedSchema;
 
   vendor?: 'iconfont' | 'fa' | '';
 
@@ -39,6 +40,22 @@ export class Icon extends React.Component<IconProps, object> {
     let icon = this.props.icon;
 
     icon = filter(icon, data);
+
+    if (typeof icon !== 'string') {
+      if (
+        isObject(icon) &&
+        typeof icon.id === 'string' &&
+        icon.id.startsWith('svg-')
+      ) {
+        return (
+          <svg className={cx('icon', className)}>
+            <use xlinkHref={`#${icon.id.replace(/^svg-/, '')}`}></use>
+          </svg>
+        );
+      }
+
+      return;
+    }
 
     let CustomIcon = getIcon(icon);
     if (CustomIcon) {
