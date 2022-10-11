@@ -143,6 +143,7 @@ export class ChainedSelectControlPlugin extends BasePlugin {
             body: [
               getSchemaTpl('apiControl', {
                 name: 'source',
+                mode: 'normal',
                 label: tipedLabel(
                   '获取选项接口',
                   `<div>可用变量说明</div><ul>
