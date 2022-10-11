@@ -18,12 +18,12 @@ import {
   filterTree,
   findTree,
   mapTree,
-  normalizeApi
+  normalizeApi,
+  PlainObject
 } from 'amis-core';
 import CmptActionSelect from './comp-action-select';
 import {Button} from 'amis';
 import ACTION_TYPE_TREE from './actions';
-import {stores} from 'amis-core/lib/factory';
 
 // 数据容器范围
 export const DATA_CONTAINER = [
@@ -32,6 +32,7 @@ export const DATA_CONTAINER = [
   'drawer',
   'wizard',
   'service',
+  'crud',
   'page',
   'app',
   'chart'
@@ -43,12 +44,12 @@ export const SELECT_PROPS_CONTAINER = ['form'];
 // 是否数据容器
 export const IS_DATA_CONTAINER = `${JSON.stringify(
   DATA_CONTAINER
-)}.includes(__rendererName)`;
+)}.includes(data.__rendererName)`;
 
 // 是否下拉展示可赋值属性
 export const SHOW_SELECT_PROP = `${JSON.stringify(
   SELECT_PROPS_CONTAINER
-)}.includes(__rendererName)`;
+)}.includes(data.__rendererName)`;
 
 // 表单项组件
 export const FORMITEM_CMPTS = [
@@ -211,7 +212,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               inputMode: 'input-group'
             }
           ],
-          visibleOn: `data.__rendererName && ${IS_DATA_CONTAINER}`
+          visibleOn: `${IS_DATA_CONTAINER}`
         },
         {
           type: 'combo',
@@ -255,7 +256,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               ]
             }
           ],
-          visibleOn: `data.__rendererName && __rendererName === 'combo'`
+          visibleOn: `data.__rendererName === 'combo'`
         },
         {
           name: '__valueInput',
@@ -267,7 +268,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           label: '变量赋值',
           size: 'lg',
           mode: 'horizontal',
-          visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && __rendererName !== 'combo'`,
+          visibleOn: `!${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,
           required: true
         }
       ]
@@ -511,7 +512,7 @@ export const renderCmptSelect = (
     {
       type: 'tree-select',
       name: 'componentId',
-      label: componentLabel,
+      label: componentLabel || '选择组件',
       showIcon: false,
       searchable: true,
       required,
@@ -540,7 +541,7 @@ export const renderCmptActionSelect = (
 ) => {
   return [
     ...renderCmptSelect(
-      '选择组件',
+      componentLabel || '选择组件',
       true,
       async (value: string, oldVal: any, data: any, form: any) => {
         // 获取组件上下文.
@@ -958,6 +959,31 @@ export const getOldActionSchema = (
 };
 
 /**
+ * 对象转Combo组件对象数组
+ * @param obj
+ * @returns
+ */
+const objectToComboArray = (obj: PlainObject) =>
+  Object.entries(obj).map(([key, val]) => ({
+    key,
+    val
+  }));
+
+/**
+ * Combo组件对象数组转对象
+ * @param arr
+ * @returns
+ */
+const comboArrayToObject = (arr: any[]) => {
+  let obj: PlainObject = {};
+  arr.forEach(item => {
+    obj[item.key] = item.val;
+  });
+
+  return obj;
+};
+
+/**
  * 获取事件动作面板所需属性配置
  */
 export const getEventControlConfig = (
@@ -1085,10 +1111,7 @@ export const getEventControlConfig = (
               if (!arr[index]) {
                 arr[index] = {};
               }
-              arr[index].item = Object.entries(valueItem).map(([key, val]) => ({
-                key,
-                val
-              }));
+              arr[index].item = objectToComboArray(valueItem);
               return arr;
             },
             []
@@ -1096,10 +1119,7 @@ export const getEventControlConfig = (
           // 目前只有给combo赋值会是数组，所以认为是全量的赋值方式
           config.args['__comboType'] = 'all';
         } else if (typeof action.args[prop] === 'object') {
-          config.args[prop] = Object.keys(action.args[prop]).map(key => ({
-            key,
-            val: action.args?.[prop][key]
-          }));
+          config.args[prop] = objectToComboArray(action.args[prop]);
           config.args['__containerType'] = 'appoint';
           // 如果有index，认为是给指定序号的combo赋值，所以认为是指定序号的赋值方式
           if (action.args.index !== undefined) {
@@ -1128,6 +1148,24 @@ export const getEventControlConfig = (
         manager.pluginActions,
         commonActions
       );
+
+      // 处理刷新组件动作的追加参数
+      if (config.actionType === 'reload') {
+        config.__addParam = config.args === undefined || !!config.args;
+
+        if (config.args && typeof config.args === 'object') {
+          config.__addParamType = 'custom';
+        }
+
+        if (
+          config.__addParam &&
+          config.__addParamType === 'custom' &&
+          config.args
+        ) {
+          config.__reloadParams = objectToComboArray(config.args);
+        }
+      }
+
       // 还原args为可视化配置结构(args + addOnArgs)
       if (config.args) {
         if (innerArgs) {
@@ -1219,6 +1257,20 @@ export const getEventControlConfig = (
         });
         delete action.addOnArgs;
       }
+
+      // 刷新组件时，处理是否追加事件变量
+      if (config.actionType === 'reload') {
+        action.args = null;
+        action.dataMergeMode = undefined;
+        if (config.__addParam) {
+          action.dataMergeMode = config.dataMergeMode || 'merge';
+          action.args = undefined;
+          if (config.__addParamType === 'custom') {
+            action.args = comboArrayToObject(config.__reloadParams || []);
+          }
+        }
+      }
+
       // 转换下格式
       if (['setValue', 'url'].includes(action.actionType)) {
         const propName = action.actionType === 'setValue' ? 'value' : 'params';
@@ -1263,11 +1315,6 @@ export const getEventControlConfig = (
       }
 
       delete action.config;
-
-      // 去掉空参
-      if (action.args && !Object.keys(action.args).length) {
-        delete action.args;
-      }
 
       return action;
     }
