@@ -337,12 +337,12 @@
                 li > div {
                   padding-left: #{px2rem(32px)};
                 }
-                li > div > div {
+                li > div {
                   &:hover {
                     background-color: var(--Tree-item-onHover-bg-pure);
                   }
                 }
-                li .is-checked > div {
+                & > li .is-checked {
                   background: var(--Tree-item-onChekced-bg);
                   &:hover {
                     background-color: var(--Tree-item-onChekced-bg) !important;
