@@ -223,7 +223,7 @@ export default class App extends React.Component<AppProps, object> {
     replace?: boolean
   ) {
     if (query) {
-      return this.receive(query, replace);
+      return this.receive(query, undefined, replace);
     }
 
     const {
@@ -252,7 +252,7 @@ export default class App extends React.Component<AppProps, object> {
     }
   }
 
-  receive(values: object, replace?: boolean) {
+  receive(values: object, subPath?: string, replace?: boolean) {
     const {store} = this.props;
 
     store.updateData(values, undefined, replace);

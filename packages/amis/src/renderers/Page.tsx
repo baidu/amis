@@ -628,7 +628,7 @@ export default class Page extends React.Component<PageProps> {
     replace?: boolean
   ) {
     if (query) {
-      return this.receive(query, replace);
+      return this.receive(query, undefined, replace);
     }
 
     const {store, initApi} = this.props;
@@ -642,7 +642,7 @@ export default class Page extends React.Component<PageProps> {
         .then(this.initInterval);
   }
 
-  receive(values: object, replace?: boolean) {
+  receive(values: object, subPath?: string, replace?: boolean) {
     const {store} = this.props;
 
     store.updateData(values, undefined, replace);
@@ -1030,7 +1030,7 @@ export class PageRenderer extends Page {
     }, 300);
   }
 
-  setData(values: object, replace?: boolean) {
+  setData(values: object, subPath?: string, replace?: boolean) {
     return this.props.store.updateData(values, undefined, replace);
   }
 }
