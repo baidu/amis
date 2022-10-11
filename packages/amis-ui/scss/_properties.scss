@@ -1649,11 +1649,11 @@
   --IconSelect-list-icon-size: #{px2rem(24px)};
   --IconSelect-type-font-size: var(--fontSizeSm);
   --IconSelect-active-badge-color: var(--white);
-  --IconSelect-active-bg-color: #{$B6};
-  --IconSelect-icon-name-color: #{$G2};
-  --IconSelect-icon-id-color: #{$G5};
-  --IconSelect-icon-placeholder-color: #{$G6};
+  --IconSelect-active-bg-color: var(--colors-brand-5);
+  --IconSelect-icon-name-color: var(--colors-neutral-2);
+  --IconSelect-icon-id-color: var(--colors-neutral-5);
+  --IconSelect-icon-placeholder-color: var(--colors-neutral-6);
   --IconSelect-type-width: #{px2rem(88px)};
   --IconSelect-type-li-height: #{px2rem(32px)};
-  --IconSelect-type-li-padding: var(--gap-md)
+  --IconSelect-type-li-padding: var(--gap-md);
 }
