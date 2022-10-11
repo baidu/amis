@@ -1030,7 +1030,7 @@ export class PageRenderer extends Page {
     }, 300);
   }
 
-  setData(values: object, replace?: boolean) {
+  setData(values: object, subPath?: string, replace?: boolean) {
     return this.props.store.updateData(values, undefined, replace);
   }
 }
