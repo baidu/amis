@@ -334,7 +334,7 @@ export class Chart extends React.Component<ChartProps> {
     const {api, env, store, interval, translate: __} = this.props;
 
     if (query) {
-      return this.receive(query, replace);
+      return this.receive(query, undefined, replace);
     } else if (!env || !env.fetcher || !isEffectiveApi(api, store.data)) {
       return;
     }
@@ -395,7 +395,7 @@ export class Chart extends React.Component<ChartProps> {
       });
   }
 
-  receive(data: object, replace?: boolean) {
+  receive(data: object, subPath?: string, replace?: boolean) {
     const store = this.props.store;
 
     store.updateData(data, undefined, replace);
