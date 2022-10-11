@@ -386,8 +386,8 @@ export class BaseTransferRenderer<
 
   @autobind
   onSelectAll(options: Option[]) {
-    const {dispatchEvent} = this.props;
-    dispatchEvent('selectAll', options);
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent('selectAll', createObject(data, {options}));
   }
 
   // 动作

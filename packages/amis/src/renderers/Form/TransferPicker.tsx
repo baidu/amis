@@ -3,7 +3,7 @@ import React from 'react';
 import {Spinner} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TransferPicker} from 'amis-ui';
-import {autobind} from 'amis-core';
+import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 
 /**
@@ -41,8 +41,8 @@ export interface TabsTransferProps
 export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferProps> {
   @autobind
   dispatchEvent(name: string) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(name, data);
+    const {dispatchEvent, data, value} = this.props;
+    dispatchEvent(name, createObject(data, {value}));
   }
 
   // 动作

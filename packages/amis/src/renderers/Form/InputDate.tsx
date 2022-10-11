@@ -423,8 +423,8 @@ export default class DateControl extends React.PureComponent<
   // 派发有event的事件
   @autobind
   dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(e, data);
+    const {dispatchEvent, data, value} = this.props;
+    dispatchEvent(e, createObject(data, {value}));
   }
 
   // 动作
