@@ -239,7 +239,7 @@ export interface DefaultProps {
 
 export interface RangeItemProps extends RangeProps {
   value: FormatValue;
-  updateValue: (value: Value) => void;
+  onChange: (value: Value) => void;
   onAfterChange: () => void;
 }
 
@@ -298,7 +298,7 @@ export class Input extends React.Component<RangeItemProps, any> {
     const {multiple, value: originValue, type, min} = this.props;
     const _value = this.getValue(value, type);
 
-    this.props.updateValue(
+    this.props.onChange(
       multiple
         ? {...(originValue as MultipleValue), [type]: _value}
         : value ?? min
@@ -314,7 +314,7 @@ export class Input extends React.Component<RangeItemProps, any> {
     const {multiple, value: originValue, type} = this.props;
     const _value = this.getValue(value, type);
 
-    this.props.updateValue(
+    this.props.onChange(
       multiple ? {...(originValue as MultipleValue), [type]: _value} : value
     );
   }
@@ -547,11 +547,11 @@ export default class RangeControl extends React.PureComponent<
   }
 
   /**
-   * 所有触发value变换 -> updateValue
+   * 所有触发value变换 -> onChange
    * @param value
    */
   @autobind
-  async updateValue(value: FormatValue) {
+  async onChange(value: FormatValue) {
     this.setState({value: this.getValue(value)});
     const {onChange, data, dispatchEvent} = this.props;
     const result = this.getFormatValue(value);
@@ -604,7 +604,7 @@ export default class RangeControl extends React.PureComponent<
     const props: RangeItemProps = {
       ...this.props,
       value,
-      updateValue: this.updateValue,
+      onChange: this.onChange,
       onAfterChange: this.onAfterChange
     };
 

@@ -39,6 +39,7 @@ register('en-US', {
   'CRUD.invalidArray': 'data.items must be an array',
   'CRUD.invalidData': 'data is empty',
   'CRUD.loadMore': 'Load more',
+  'CRUD.loadMoreDisableTip': 'No data or last page',
   'CRUD.perPage': 'Per page',
   'CRUD.stat': '{{page}} of {{lastPage}} total: {{total}}.',
   'CRUD.paginationGoText': 'Go to',

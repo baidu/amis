@@ -1501,9 +1501,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
   }
 
-  handleQuery(values: object, forceReload: boolean = false) {
+  handleQuery(values: object, forceReload: boolean = false, replace?: boolean) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
-
     store.updateQuery(
       {
         ...values,
@@ -1513,21 +1512,22 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         ? env.updateLocation
         : undefined,
       pageField,
-      perPageField
+      perPageField,
+      replace
     );
     this.search(undefined, undefined, undefined, forceReload);
   }
 
-  reload(subpath?: string, query?: any) {
+  reload(subpath?: string, query?: any, replace?: boolean) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace);
     } else {
       this.search(undefined, undefined, true, true);
     }
   }
 
-  receive(values: object) {
-    this.handleQuery(values, true);
+  receive(values: object, subPath?: string, replace?: boolean) {
+    this.handleQuery(values, true, replace);
   }
 
   reloadTarget(target: string, data: any) {
@@ -1807,9 +1807,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     const {store, classPrefix: ns, classnames: cx, translate: __} = this.props;
     const {page, lastPage} = store;
 
-    return page < lastPage ? (
+    return (
       <div className={cx('Crud-loadMore')}>
         <Button
+          disabled={page >= lastPage}
+          disabledTip={__('CRUD.loadMoreDisableTip')}
           classPrefix={ns}
           onClick={() =>
             this.search({page: page + 1, loadDataMode: 'load-more'})
@@ -1819,8 +1821,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           {__('CRUD.loadMore')}
         </Button>
       </div>
-    ) : (
-      ''
     );
   }
 
@@ -2244,7 +2244,13 @@ export class CRUDRenderer extends CRUD {
     scoped.unRegisterComponent(this);
   }
 
-  reload(subpath?: string, query?: any, ctx?: any) {
+  reload(
+    subpath?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     const scoped = this.context as IScopedContext;
     if (subpath) {
       return scoped.reload(
@@ -2253,16 +2259,16 @@ export class CRUDRenderer extends CRUD {
       );
     }
 
-    return super.reload(subpath, query);
+    return super.reload(subpath, query, replace);
   }
 
-  receive(values: any, subPath?: string) {
+  receive(values: any, subPath?: string, replace?: boolean) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);
     }
 
-    return super.receive(values);
+    return super.receive(values, undefined, replace);
   }
 
   reloadTarget(target: string, data: any) {

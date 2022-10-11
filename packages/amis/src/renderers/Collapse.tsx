@@ -100,6 +100,18 @@ export interface CollapseProps
 }
 
 export default class Collapse extends React.Component<CollapseProps, {}> {
+  static propsList: Array<string> = [
+    'collapsable',
+    'collapsed',
+    'collapseTitle',
+    'showArrow',
+    'headerPosition',
+    'bodyClassName',
+    'headingClassName',
+    'collapseHeader',
+    'size'
+  ];
+
   render() {
     const {
       id,

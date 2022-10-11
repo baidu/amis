@@ -179,6 +179,56 @@ fieldSet 的另一种标题展现样式，不同的是展开的时候收起文�
 }
 ```
 
+## 嵌套使用
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "fieldSet",
+      "title": "基本配置",
+      "collapsable": true,
+      "body": [
+        {
+          "name": "text1",
+          "type": "input-text",
+          "label": "文本1"
+        },
+
+        {
+          "name": "text2",
+          "type": "input-text",
+          "label": "文本2"
+        },
+
+        {
+          "type": "fieldSet",
+          "title": "基本配置",
+          "collapsable": true,
+          "collapsed": true,
+          size: 'base',
+          "body": [
+            {
+              "name": "text1",
+              "type": "input-text",
+              "label": "文本1"
+            },
+
+            {
+              "name": "text2",
+              "type": "input-text",
+              "label": "文本2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名           | 类型                                         | 默认值  | 说明                                                                       |
@@ -192,3 +242,4 @@ fieldSet 的另一种标题展现样式，不同的是展开的时候收起文�
 | collapsable      | `boolean`                                    | `false` | 是否可折叠                                                                 |
 | collapsed        | `booelan`                                    | `false` | 默认是否折叠                                                               |
 | collapseTitle    | [SchemaNode](../../../docs/types/schemanode) | `收起`  | 收起的标题                                                                 |
+| size             | string                                       | ``      | 大小，支持 xs、sm、base、lg、xl                                            |
