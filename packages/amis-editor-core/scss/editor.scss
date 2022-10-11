@@ -1040,7 +1040,7 @@
   &:before {
     pointer-events: none;
     font-size: 12px;
-    content: '<隐藏状态>';
+    content: attr(data-hide-text);
     z-index: 10;
     color: rgb(108, 113, 124);
     border: 1px dashed rgb(206, 208, 211);
