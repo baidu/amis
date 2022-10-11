@@ -1,5 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import isEqual from 'lodash/isEqual';
 import {ScopedContext, IScopedContext, SchemaExpression} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
@@ -602,9 +603,10 @@ export default class Table extends React.Component<TableProps, object> {
     let rows: Array<object> = [];
     let updateRows = false;
 
+    // 要严格比较前后的value值，否则某些情况下会导致循环update无限渲染
     if (
       Array.isArray(value) &&
-      (!prevProps || (prevProps.value || prevProps.items) !== value)
+      (!prevProps || !isEqual(prevProps.value || prevProps.items, value))
     ) {
       updateRows = true;
       rows = value;
@@ -1912,6 +1914,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.searchable && column.name && !autoGenerateFilter) {
       affix.push(
         <HeadCellSearchDropDown
+          key="table-head-search"
           {...this.props}
           onQuery={onQuery}
           name={column.name}
@@ -1928,6 +1931,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.sortable && column.name) {
       affix.push(
         <span
+          key="table-head-sort"
           className={cx('TableCell-sortBtn')}
           onClick={async () => {
             let orderBy = '';
@@ -1998,6 +2002,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (!column.searchable && column.filterable && column.name) {
       affix.push(
         <HeadCellFilterDropDown
+          key="table-head-filter"
           {...this.props}
           onQuery={onQuery}
           name={column.name}
