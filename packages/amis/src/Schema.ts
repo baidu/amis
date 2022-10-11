@@ -613,6 +613,11 @@ export type SchemaName = string;
 export type SchemaReload = string;
 
 /**
+ * 页面跳转地址，支持相对地址。
+ */
+export type SchemaRedirect = string;
+
+/**
  * 支持两种语法，但是不能混着用。分别是：
  *
  * 1. `${xxx}` 或者 `${xxx|upperCase}`
