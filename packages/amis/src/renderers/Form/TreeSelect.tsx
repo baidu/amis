@@ -116,6 +116,7 @@ export default class TreeSelectControl extends React.Component<
   TreeSelectState
 > {
   static defaultProps = {
+    hideRoot: true,
     placeholder: 'Select.placeholder',
     optionsPlaceholder: 'placeholder.noData',
     multiple: false,
@@ -524,7 +525,8 @@ export default class TreeSelectControl extends React.Component<
       expandTreeOptions,
       selfDisabledAffectChildren,
       showOutline,
-      autoCheckChildren
+      autoCheckChildren,
+      hideRoot
     } = this.props;
 
     let filtedOptions =
@@ -560,7 +562,7 @@ export default class TreeSelectControl extends React.Component<
         showOutline={showOutline}
         cascade={cascade}
         foldedField="collapsed"
-        hideRoot
+        hideRoot={hideRoot}
         value={value || ''}
         nodePath={nodePath}
         enableNodePath={enableNodePath}
