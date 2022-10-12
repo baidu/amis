@@ -1154,9 +1154,9 @@ export class Evaluator {
   /**
    * 对文本进行 HTML 转义
    *
-   * 示例 `ESCAPE("star")`
+   * 示例 `ESCAPE("<star>&")`
    *
-   * 返回 `Star`
+   * 返回 `&lt;start&gt;&amp;`
    *
    * @example ESCAPE(text)
    * @param {string} text - 文本
