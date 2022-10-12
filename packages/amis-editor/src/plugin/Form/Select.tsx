@@ -67,6 +67,10 @@ export class SelectControlPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -83,6 +87,10 @@ export class SelectControlPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -99,6 +107,10 @@ export class SelectControlPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -116,7 +128,7 @@ export class SelectControlPlugin extends BasePlugin {
               type: 'object',
               title: '新增的选项'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -136,7 +148,7 @@ export class SelectControlPlugin extends BasePlugin {
               type: 'object',
               title: '编辑的选项'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -156,7 +168,7 @@ export class SelectControlPlugin extends BasePlugin {
               type: 'object',
               title: '删除的选项'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }

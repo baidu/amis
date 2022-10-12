@@ -5,10 +5,7 @@ import {BasePlugin} from 'amis-editor-core';
 
 import type {BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
-import {
-  RendererPluginEvent,
-  RendererPluginAction
-} from 'amis-editor-core';
+import {RendererPluginEvent, RendererPluginAction} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class CodeEditorControlPlugin extends BasePlugin {
@@ -45,6 +42,22 @@ export class CodeEditorControlPlugin extends BasePlugin {
   };
 
   events: RendererPluginEvent[] = [
+    {
+      eventName: 'change',
+      eventLabel: '代码变化',
+      description: '代码变化时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '当前代码'
+            }
+          }
+        }
+      ]
+    },
     {
       eventName: 'focus',
       eventLabel: '获取焦点',

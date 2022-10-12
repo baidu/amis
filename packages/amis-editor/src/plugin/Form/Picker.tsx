@@ -72,9 +72,25 @@ export class PickerControlPlugin extends BasePlugin {
               type: 'string',
               title: '选中值'
             },
-            'event.data.option': {
+            'event.data.selectedItems': {
               type: 'string',
               title: '选中的行数据'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'itemclick',
+      eventLabel: '点击选项',
+      description: '选项被点击时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.item': {
+              type: 'object',
+              title: '所点击的选项'
             }
           }
         }

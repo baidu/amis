@@ -93,7 +93,7 @@ export class TreeControlPlugin extends BasePlugin {
               type: 'object',
               title: '新增的节点信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -113,7 +113,7 @@ export class TreeControlPlugin extends BasePlugin {
               type: 'object',
               title: '编辑的节点信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -133,7 +133,7 @@ export class TreeControlPlugin extends BasePlugin {
               type: 'object',
               title: '删除的节点信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }

@@ -1,4 +1,8 @@
-import {EditorNodeType, jsonToJsonSchema, registerEditorPlugin} from 'amis-editor-core';
+import {
+  EditorNodeType,
+  jsonToJsonSchema,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,

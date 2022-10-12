@@ -63,6 +63,10 @@ export class TransferPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -76,9 +80,9 @@ export class TransferPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            'event.data.items': {
               type: 'array',
-              title: '选中值'
+              title: '选项集合'
             }
           }
         }
