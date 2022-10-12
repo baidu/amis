@@ -824,7 +824,8 @@ export default class Table extends React.Component<TableProps, object> {
       prevSelectedRows !== selectedRows && this.syncSelected();
     }
 
-    this.updateTableInfoLazy();
+    // 延迟执行，否则表格还没更新，拿到的宽度不对，导致表头错位
+    Promise.resolve().then(() => this.updateTableInfoLazy());
   }
 
   componentWillUnmount() {
