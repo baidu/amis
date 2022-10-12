@@ -54,7 +54,8 @@ import isPlainObject from 'lodash/isPlainObject';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import {Option} from '../types';
-import {isEqual} from 'lodash';
+import isEqual from 'lodash/isEqual';
+import {resolveEventData} from '../utils';
 
 export {Option};
 
@@ -475,13 +476,14 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     async dispatchOptionEvent(eventName: string, eventData: any = '') {
-      const {dispatchEvent, options, data} = this.props;
+      const {dispatchEvent, options} = this.props;
       const rendererEvent = await dispatchEvent(
         eventName,
-        createObject(data, {
-          value: eventData,
-          options
-        })
+        resolveEventData(
+          this.props,
+          {value: eventData, options, items: options}, // 为了保持名字统一
+          'value'
+        )
       );
       // 返回阻塞标识
       return !!rendererEvent?.prevented;

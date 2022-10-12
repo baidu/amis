@@ -94,7 +94,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '${event.data.value|json}'
+                    msg: '${transfer|json}'
                   }
                 }
               ]
@@ -283,7 +283,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '${event.data.value|json}'
+                    msg: '${transferEvent7|json}'
                   }
                 }
               ]
@@ -399,7 +399,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '${event.data.value|json}'
+                    msg: '${transferEvent10|json}'
                   }
                 }
               ]
@@ -593,7 +593,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '${event.data.value|json}'
+                    msg: '${transferEvent13|json}'
                   }
                 }
               ]

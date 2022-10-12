@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, prettyBytes} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  prettyBytes,
+  resolveEventData
+} from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 import {Payload, ApiObject, ApiString, ActionObject} from 'amis-core';
@@ -844,9 +849,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           (ret.data as any).value || (ret.data as any).url || ret.data;
 
         const dispatcher = await this.dispatchEvent('success', {
-          ...file,
-          value,
-          state: 'uploaded'
+          ...file, // 保留历史结构
+          item: file,
+          value
         });
         if (dispatcher?.prevented) {
           return;
@@ -859,7 +864,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         });
       })
       .catch(async error => {
-        const dispatcher = await this.dispatchEvent('fail', {file, error});
+        const dispatcher = await this.dispatchEvent('fail', {
+          item: file,
+          error
+        });
         if (dispatcher?.prevented) {
           return;
         }
@@ -871,7 +879,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     const files = this.state.files.concat();
     const removeFile = files[index];
     // 触发移出文件事件
-    const dispatcher = await this.dispatchEvent('remove', removeFile);
+    const dispatcher = await this.dispatchEvent('remove', {
+      ...removeFile, // 保留历史结构
+      item: removeFile
+    });
     if (dispatcher?.prevented) {
       return;
     }
@@ -1279,21 +1290,27 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   async dispatchEvent(e: string, data?: Record<string, any>) {
-    const {dispatchEvent} = this.props;
+    const {dispatchEvent, multiple} = this.props;
     const getEventData = (item: Record<string, any>) => ({
       name: item.path || item.name,
       value: item.value,
       state: item.state,
       error: item.error
     });
-    const value = data
+    const value: any = data
       ? getEventData(data)
       : this.state.files.map(item => getEventData(item));
+
     return dispatchEvent(
       e,
-      createObject(this.props.data, {
-        file: value
-      })
+      resolveEventData(
+        this.props,
+        {
+          ...data,
+          file: multiple ? value : value?.[0]
+        },
+        'file'
+      )
     );
   }
 

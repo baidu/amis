@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import cx from 'classnames';
 import {Checkbox} from 'amis-ui';
 import {withBadge, BadgeObject} from 'amis-ui';
@@ -74,12 +79,10 @@ export default class CheckboxControl extends React.Component<
 
   @autobind
   async dispatchChangeEvent(eventData: any = {}) {
-    const {dispatchEvent, data, onChange} = this.props;
+    const {dispatchEvent, onChange} = this.props;
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: eventData
-      })
+      resolveEventData(this.props, {value: eventData}, 'value')
     );
 
     if (rendererEvent?.prevented) {

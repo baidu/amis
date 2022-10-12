@@ -1,10 +1,14 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import {LazyComponent} from 'amis-core';
 import {Editor} from 'amis-ui';
 import {autobind} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
-import {bindRendererEvent} from 'amis-core';
 
 import type {Position} from 'monaco-editor';
 import type {ListenerAction} from 'amis-core';
@@ -148,6 +152,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
 
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleEditorMounted = this.handleEditorMounted.bind(this);
   }
 
@@ -177,18 +182,56 @@ export default class EditorControl extends React.Component<EditorProps, any> {
     this.editor?.setPosition(position);
   }
 
-  @bindRendererEvent<EditorProps, EditorRendererEvent>('focus')
-  handleFocus() {
+  async handleFocus(e: any) {
+    const {dispatchEvent, value, onFocus} = this.props;
+
     this.setState({
       focused: true
     });
+
+    const rendererEvent = await dispatchEvent(
+      'focus',
+      resolveEventData(this.props, {value}, 'value')
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onFocus?.(e);
   }
 
-  @bindRendererEvent<EditorProps, EditorRendererEvent>('blur')
-  handleBlur() {
+  async handleBlur(e: any) {
+    const {dispatchEvent, value, onBlur} = this.props;
+
     this.setState({
       focused: false
     });
+
+    const rendererEvent = await dispatchEvent(
+      'blur',
+      resolveEventData(this.props, {value}, 'value')
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onBlur?.(e);
+  }
+
+  async handleChange(e: any) {
+    const {dispatchEvent, onChange} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {value: e}, 'value')
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    onChange?.(e);
   }
 
   handleEditorMounted(editor: any, monaco: any) {
@@ -276,7 +319,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
           component={Editor}
           allowFullscreen={allowFullscreen}
           value={finnalValue}
-          onChange={onChange}
+          onChange={this.handleChange}
           disabled={disabled}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}

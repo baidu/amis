@@ -1,7 +1,12 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
 import {Tabs as CTabs, Tab, Button} from 'amis-ui';
@@ -509,7 +514,6 @@ export default class ComboControl extends React.Component<ComboProps> {
       scaffold,
       disabled,
       submitOnChange,
-      data,
       dispatchEvent
     } = this.props;
 
@@ -519,12 +523,17 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     let value = this.getValueAsArray();
 
+    // todo:这里的数据结构与表单项最终类型不一致，需要区分是否多选、是否未input-kv or input-kvs
     const rendererEvent = await dispatchEvent(
       'add',
-      createObject(data, {
-        value:
-          flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
-      })
+      resolveEventData(
+        this.props,
+        {
+          value:
+            flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
+        },
+        'value'
+      )
     );
 
     if (rendererEvent?.prevented) {
@@ -572,13 +581,21 @@ export default class ComboControl extends React.Component<ComboProps> {
     let value = this.getValueAsArray();
     const ctx = createObject(data, value[key]);
 
+    // todo:这里的数据结构与表单项最终类型不一致，需要区分是否多选、是否未input-kv or input-kvs
     const rendererEvent = await dispatchEvent(
       'delete',
-      createObject(data, {
-        key,
-        value:
-          flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
-      })
+      resolveEventData(
+        this.props,
+        {
+          key,
+          value:
+            flat && joinValues
+              ? value.join(delimiter || ',')
+              : cloneDeep(value),
+          item: value[key]
+        },
+        'value'
+      )
     );
 
     if (rendererEvent?.prevented) {
@@ -969,13 +986,22 @@ export default class ComboControl extends React.Component<ComboProps> {
 
   @autobind
   async handleTabSelect(key: number) {
-    const {store, data, dispatchEvent} = this.props;
-
+    const {store, data, name, value, dispatchEvent} = this.props;
+    const eventData = {
+      key,
+      item: value[key]
+    };
     const rendererEvent = await dispatchEvent(
       'tabsChange',
-      createObject(data, {
-        key
-      })
+      createObject(
+        data,
+        name
+          ? {
+              ...eventData,
+              [name]: value
+            }
+          : eventData
+      )
     );
 
     if (rendererEvent?.prevented) {

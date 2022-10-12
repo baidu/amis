@@ -4,7 +4,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  resolveEventData
 } from 'amis-core';
 import {Select} from 'amis-ui';
 import {Api} from 'amis-core';
@@ -184,9 +185,7 @@ export default class ChainedSelectControl extends React.Component<
 
               const rendererEvent = await dispatchEvent(
                 'change',
-                createObject(data, {
-                  value: valueRes
-                })
+                resolveEventData(this.props, {value: valueRes}, 'value')
               );
 
               if (rendererEvent?.prevented) {
@@ -240,9 +239,7 @@ export default class ChainedSelectControl extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: valueRes
-      })
+      resolveEventData(this.props, {value: valueRes}, 'value')
     );
 
     if (rendererEvent?.prevented) {

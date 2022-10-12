@@ -1,5 +1,5 @@
 import React from 'react';
-import {Overlay} from 'amis-core';
+import {Overlay, resolveEventData} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {PopUp} from 'amis-ui';
 
@@ -202,23 +202,13 @@ export default class TreeSelectControl extends React.Component<
   }
 
   handleFocus(e: any) {
-    const {dispatchEvent, value, data} = this.props;
-    dispatchEvent(
-      'focus',
-      createObject(data, {
-        value
-      })
-    );
+    const {dispatchEvent, value} = this.props;
+    dispatchEvent('focus', resolveEventData(this.props, {value}, 'value'));
   }
 
   handleBlur(e: any) {
     const {dispatchEvent, value, data} = this.props;
-    dispatchEvent(
-      'blur',
-      createObject(data, {
-        value
-      })
-    );
+    dispatchEvent('blur', resolveEventData(this.props, {value}, 'value'));
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
@@ -453,9 +443,7 @@ export default class TreeSelectControl extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value
-      })
+      resolveEventData(this.props, {value}, 'value')
     );
 
     if (rendererEvent?.prevented) {

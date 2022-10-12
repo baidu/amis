@@ -19,7 +19,8 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   isApiOutdated,
-  isEffectiveApi
+  isEffectiveApi,
+  resolveEventData
 } from 'amis-core';
 import {Html, Icon} from 'amis-ui';
 import {FormOptionsSchema, SchemaTpl} from '../../Schema';
@@ -283,9 +284,14 @@ export default class PickerControl extends React.PureComponent<
     });
 
     additionalOptions.length && setOptions(options.concat(additionalOptions));
+    const option = multiple ? items : items[0];
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {value, option: items[0]})
+      resolveEventData(
+        this.props,
+        {value, option, selectedItems: option},
+        'value'
+      )
     );
     if (rendererEvent?.prevented) {
       return;
@@ -295,13 +301,14 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
-  async handleItemClick(itemlabel: string, itemid: string) {
-    const {data, dispatchEvent, setOptions} = this.props;
+  async handleItemClick(item: any) {
+    const {data, dispatchEvent} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'itemclick',
-      createObject(data, {label: itemlabel, id: itemid})
+      createObject(data, {item})
     );
+
     if (rendererEvent?.prevented) {
       return;
     }
@@ -410,10 +417,7 @@ export default class PickerControl extends React.PureComponent<
               className={`${ns}Picker-valueLabel`}
               onClick={e => {
                 e.stopPropagation();
-                this.handleItemClick(
-                  getVariable(item, labelField || 'label'),
-                  getVariable(item, 'id') || ''
-                );
+                this.handleItemClick(item);
               }}
             >
               {labelTpl ? (
