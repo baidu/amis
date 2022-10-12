@@ -532,10 +532,10 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
         // 判断大小值是否是合法的日期，并且当前日期在范围内
         const isMinDateValid = minDate?.isValid()
-          ? newDate.isAfter(minDate)
+          ? newDate.isSameOrAfter(minDate)
           : true;
         const isMaxDateValid = maxDate?.isValid()
-          ? newDate.isBefore(maxDate)
+          ? newDate.isSameOrBefore(maxDate)
           : true;
         // 小于 0 的日期丢弃
         if (!dateValue.startsWith('-') && isMinDateValid && isMaxDateValid) {
