@@ -12,7 +12,7 @@ extendLocale('en-US', {
   '31e3752986d64c8b36897c8641c8628d': 'Right margin',
   'eabe91d9426b6446f707cea3e7ab2418': 'Bottom margin',
   '2e46d251ee6188bb1b3ff20656276572': 'Left margin',
-  '3dc4038d0f0a2d2b3c2b2e29a5ec6dde': 'None(原文什么意思？)',
+  '3dc4038d0f0a2d2b3c2b2e29a5ec6dde': 'None',
   'a8b0c20416853bda54120bf19477ad11': 'All',
   'af767b7e4ae069d54f9ea839858d4c6d': 'Top',
   '4d9c32c23df5d234e629c922c58d8e12': 'Right',
@@ -31,7 +31,7 @@ extendLocale('en-US', {
   '2fc96b2704b05d6a9f299c442573ee77': 'White',
   'adb7e5312abdb9a44297e48d63815fa3': 'Dark color',
   '48d0a09bdd5fe7e89f0a445b0ffdf14f': 'Light color',
-  '0d98c74797e49d00bcc4c17c9d557a2b': 'More',
+  '0d98c74797e49d00bcc4c17c9d557a2b': 'Others',
   '0103eb2d3dca70270d1a74e9ec987ac9': 'Rounded corner',
   '8456bc40d48da5af833f1c63385e9879': 'Font',
   'b3b2682579133673d3fe08c156d565dc': 'Normal',
@@ -80,8 +80,7 @@ extendLocale('en-US', {
   '06e004ef21414c06d3e4ff2cefaf6a04': 'Code',
   '7f7c624a843b0d539a4ea59a696702f9': 'Batch operation',
   'b80ed82d124c6fd9242dcacdda2a2f8b': 'Change the component type.',
-  '41150516bf0d90646edc5239593366e9':
-    'Select the component and plug it into?（插入到哪里？？）',
+  '41150516bf0d90646edc5239593366e9': 'Select the component and plug it into?',
   'd87481b371771b4f150da76e311bbbef':
     'The component can be filtered by entering the keywords.',
   'becdc848350872592201e31bab03892a': 'It is impossible to preview it.',
@@ -205,7 +204,7 @@ extendLocale('en-US', {
     'Click to add an element in the left component panel.',
   '54ea89b497ec3bb319c68844dfa3687f': 'API',
   '51e213e66b37d716a35baebc9193035c':
-    "This API is used to store the data. After submission of the form, you can import the data into this API. <br/>\n          API response body requirements (If data exists in the data (此处原文是否存在逻辑问题), the data is merged into the form context):<br/>\n          {{@1}}\n}, null, '<br/>')}",
+    "This API is used to store the data. After submission of the form, you can import the data into this API. <br/>\n          API response body requirements (If data exists in the data, the data is merged into the form context):<br/>\n          {{@1}}\n}, null, '<br/>')}",
   '388e0ff896ea4f23e71d36c06443f157':
     "API response body requirements: <br/>\n          {{@1}},\n  page: 0,\n  total: 0\n}, null, '<br/>')}",
   'b4bc91701b86fe8543d649e97daea602': 'Initialize the API',
@@ -230,7 +229,7 @@ extendLocale('en-US', {
   '9913107b19cb6012250134ff91377430': 'Radiobox',
   '454e60f5759903d7d3dba58e3f9bd590': 'Select-box',
   'db98f889ce6bc235e66bd4b2a788d137': 'Checkbox',
-  '006ded9fa277cf030592021f595a07d5': 'Drop-down box',
+  '006ded9fa277cf030592021f595a07d5': 'Select',
   'a6beb974cc0b50eebd18120b8110a88b': 'Switch',
   'b339aa87104709397ba68e7ebbc6e5ba': 'Table',
   '481e034e6026969aae4ce7ce7c8a7b6f': 'File upload',
