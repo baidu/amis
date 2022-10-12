@@ -31,7 +31,7 @@ export const generateIcon = (
       icon.id.startsWith('svg-')
     ) {
       return (
-        <svg className={cx('icon', className, classNameProp)}>
+        <svg className={cx('icon', 'icon-object', className, classNameProp)}>
           <use xlinkHref={`#${icon.id.replace(/^svg-/, '')}`}></use>
         </svg>
       );
