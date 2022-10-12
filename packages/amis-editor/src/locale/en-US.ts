@@ -4,8 +4,8 @@ extendLocale('en-US', {
   'f7e68bde2caa2cb5696d6a37fe4a23a4': 'Common',
   'ea15ae2b7fba76c83eec6d0986d15197': 'Option',
   '3fea7ca76cdece641436d7ab0d02ab1b': 'Status',
-  '24d67862f87f439db7ca957aecb77cce': 'Property',
-  'afcde2611bdd13c1e65b4fb6a2f13425': 'Style',
+  '24d67862f87f439db7ca957aecb77cce': 'Properties',
+  'afcde2611bdd13c1e65b4fb6a2f13425': 'Design',
   '6d0034a2419e1f394dedab07994b9665': 'Label CSS class name',
   '2cadb6621afe19333b142faa541b0f91': 'Control  CSS class name',
   '0e627e6a0ff773ee76bc4cc0871cb48d': 'Description CSS class name',
@@ -70,7 +70,7 @@ extendLocale('en-US', {
   '9959b2ad2d4f75f7a6be46872642df6d': 'Navigation layout',
   '4cde06e6162ed66720e3133cb83bc059': 'Horizontal',
   '75ac842f8e77305846f1d776f97dfaf8': 'Vertical',
-  '056f2d7df6e6b64625c3a2d27ce07b05': 'Navigation',
+  '056f2d7df6e6b64625c3a2d27ce07b05': 'Nav',
   '696754a8b2b23e30b11187303d1238f5': 'Area content',
   '33be689a0f0de129ce37f7a96052002e': 'Content area',
   '32c65d8d7431e76029678ec7bb73a5ab': 'Title',
@@ -79,7 +79,7 @@ extendLocale('en-US', {
   'e7a707f9fc7da36828db940ca2960f4b':
     'The audio control can be used to play various audio files.',
   '997c7a5d34f6fc628893f509d0df32e0': 'Feature',
-  '22b777e6fcb613b8ba83ced9594cd07e': 'Base',
+  '22b777e6fcb613b8ba83ced9594cd07e': 'Ordinary',
   '37b12f2666b9e4e37f33eb5e83533d5e':
     '<p>Currently, this feature is configured for the field content node. If you select the upper layer, more configurations exist. </p>',
   'f8f176147db276063e7ec15f076e39e0': 'Audio address',
@@ -98,7 +98,7 @@ extendLocale('en-US', {
   '54c6bb48170611ec995f634319312156': 'Autoplay',
   '56e6ecf97176d30c06b30cfa428ef832': 'Loop play',
   '2fb0853874c2cc8cc42f0c7520af662a': 'Inlink mode',
-  '33bf801796fd255b5f6147e33146669b': 'Status',
+  '33bf801796fd255b5f6147e33146669b': 'Display and hide',
   '4c50eef3bdaf0b4164ce179e576f2b2d': 'Portrait',
   '18dc831ec12d358d05902bef1f00e1f1': 'User portrait',
   '027446c2f9070b0f5b16a18208bf5fc7': 'Display',
@@ -120,12 +120,12 @@ extendLocale('en-US', {
   'dfd0cd7f2cba96917484569a646bdc8d': 'Length',
   'c1df04eec5fa0857bc0df2d68d8e953c': 'Height',
   '0103eb2d3dca70270d1a74e9ec987ac9': 'Rounded corner',
-  '9a233b241eef54521cfe9365bfaa7b2f': 'Padding and margin',
+  '9a233b241eef54521cfe9365bfaa7b2f': 'Padding And Margin',
   '961534b4ea37e4e88aada736b299d063': 'Border',
   '8e1b944f4389bdaab6f11d5bc83190c8': 'Background',
   '803205e38834280d9e6a75993ac00764': 'Shadow',
-  '0d98c74797e49d00bcc4c17c9d557a2b': 'More',
-  '34dac4adbc96afd65f060cc4cfff1feb': 'Transparency',
+  '0d98c74797e49d00bcc4c17c9d557a2b': 'Others',
+  '34dac4adbc96afd65f060cc4cfff1feb': 'Opacity',
   '169b227aff15b834b64205d0fdcb0f33': 'Bread crumb',
   '3576258acd7269da9f44859a2edec1aa': 'Bread crumb navigation',
   'db1c89e0f6e62f9642018cbb531bbd4f': 'Home page',
@@ -150,7 +150,7 @@ extendLocale('en-US', {
   'd7ec2d3fea4756bc1642e0f10c180cf5': 'Name',
   '939d5345ad4345dbaabe14798f6ac0f1': 'Submit',
   '4b9c3271dc2f299dc3aeffb369187513': 'Reset',
-  '5e64227f46b221001e3b151d72fa6412': 'Whether to disable it (关闭什么？)',
+  '5e64227f46b221001e3b151d72fa6412': 'Whether to close it',
   'd5bb99590ef447a1af8e9782786c751d':
     'Close the current {{@1}} after you specify the operation',
   '1e7196ce05260faa55e5b7ea5a1667c2': 'Second confirmation',
@@ -185,12 +185,12 @@ extendLocale('en-US', {
   '66774850742a81e8b2393195290b7330': 'Button management',
   'f9f2b9cc91cd332db6b2b732c3869233': 'Add button',
   '40f3bc0a4f4d0f4230fc7fa6f4fcec92': 'Child button',
-  'f05dd80af77a441216ef940e7887a8db': 'Button toolbar',
+  'f05dd80af77a441216ef940e7887a8db': 'Button Toolbar',
   '433e2e80ec74563daf4368e59b525e34':
     'It can be used to put multiple buttons or button groups. A spacing exists between buttons.',
   '6651fec0511e3593d3438a113dff23d6':
     'The buttons or button groups are sortable and removable. If you want to edit the buttons or button groups, edit them in the preview area.',
-  'd7213304d1a8a02a73a2f4010839e061': 'Add, delete, change, and view',
+  'd7213304d1a8a02a73a2f4010839e061': 'CRUD',
   '7a9f1ec32752de8b69ef21138970f64d':
     'This button is used to realize the addition, deletion, change, and view of data, and supports three display modes: table, cards, and list. This button is used for data fetching, paging, single operation, batch operation, sorting, quick edit, and other features. Integrate query conditions',
   '48c68eb5a42e2b3e679c53b00f6e203f': 'Rendering engine',
@@ -492,7 +492,7 @@ extendLocale('en-US', {
   'a823cfa70cfa46c788e1eedae043f6e5': 'Container label',
   'f7d64e5e79994c3c8853f2608d7b2d25':
     'Because the HTML label is invalid, re-enter it again.',
-  '473d2078518479669823205110842376': 'Custom code',
+  '473d2078518479669823205110842376': 'Custom Code',
   '8b9c77fa4e646b9cb270f833252e511b':
     'This feature is implemented through the embedded code.',
   '0b13dc6251002bf556263fb3e4675b11': 'HTML content',
@@ -563,7 +563,7 @@ extendLocale('en-US', {
   '0fad5a56c8b4643f24797eaa616bef6f':
     'Define whether the pop-up box can be dragged and resized',
   '7fdaa90d63dd5163de1911264bc5c514': 'Bodyclassname class name',
-  'cc70a816b7d61e7212d57335c0a15af5': 'Drop-down button',
+  'cc70a816b7d61e7212d57335c0a15af5': 'Drop Down Button',
   '74bafe23b0be1a14aa218b396cb33bd0':
     'More buttons are displayed after you click the drop-down button.',
   '213a4e49568569943403ff31fff31ee5': 'Configure drop-down button collection',
@@ -580,7 +580,7 @@ extendLocale('en-US', {
   '1ce673c48f29162208e75bc210307bfc': 'Display style',
   'c9e265ec462b61887af6f58928923925': 'Hide drop-down icon',
   '938ac86e738246ccd0ca0224031f96af': 'Drop-down menu',
-  'ff9f6c2d74c413daa3cd6fb12f8dfd3e': 'Loop Each',
+  'ff9f6c2d74c413daa3cd6fb12f8dfd3e': 'Each',
   'f34111ff3694a6c6de6e31bef8ebadcb':
     'The feature renderer can be based on the current renderer for the loop output of variables.',
   '874268022baac239b06c40600d3ce080':
@@ -619,7 +619,7 @@ extendLocale('en-US', {
     '<span class="label label-default">Child node${index | plus}</span>',
   '023c4bfc60545a2668c2d5111171b5d8': 'CSS class name of external layer',
   'a4611da51ffee9140976d01668e45d45': 'Child node collection',
-  '729a4cca5ed3504793c1f3a87d2b48b9': 'Button click and selection',
+  '729a4cca5ed3504793c1f3a87d2b48b9': 'Button Group Select',
   '29513434492e5d19a9660e0a918befd1':
     'This option is used to display multiple buttons which appear as a whole visually. Meanwhile, it can be used as an option selector for form items.',
   '6edda84461bf13d38328cb401c8c23db': 'Option 1',
@@ -639,10 +639,10 @@ extendLocale('en-US', {
     'Allow the button to occupy the parent container fully. The width of individual buttons is adaptive.',
   'ac3880323853de9adc4f66bc06d438ff': 'Button style',
   '0b98b0bea3db6ae5b67a09c7bb2d032b': 'Button selection style',
-  '55b45c73ae417c4dead67905b1550e85': 'Form item',
+  '55b45c73ae417c4dead67905b1550e85': 'Form Item',
   '3b49c8cece3f495f0e76b73823c68bfa': 'Button collection',
   '012f602372cd2dbd639cd966c63e1f90': 'Toolbar',
-  'b6872877e1eb5ddedd904c170db26024': 'Chained drop-down box',
+  'b6872877e1eb5ddedd904c170db26024': 'Chained-Select',
   'fdf1664c0790d25f236bd596aef1acef':
     'Through the <code>source</code> fetch option, you can add the levels infinitely as long as there is a return result.',
   '556988a9dc1816dd979e96eb5cd19a85': 'Chained drop-down box',
@@ -660,7 +660,7 @@ extendLocale('en-US', {
     'The default rendering option group gets the value variable in each item and uses it as the form item value.',
   'f411d0f1f925d9b48d8c1d451bd809b1': 'Description',
   '2ef0fb6299da5954f5ea84a088684ee5': 'Option description',
-  '454e60f5759903d7d3dba58e3f9bd590': 'Select box',
+  '454e60f5759903d7d3dba58e3f9bd590': 'Checkbox',
   '81c8c07d13f425215010783bbf3bf06e': 'Select form',
   'c75fde0e2d329ce62f55cb1a207181ae':
     'Be triggered when the selection status changes.',
@@ -676,7 +676,7 @@ extendLocale('en-US', {
   'f38c0a46797523b11051e35ec0f82a42': 'Option B',
   '9c541222ced2435288c24b34f8ad1fb8': 'Select all',
   '05bef457e8350e1a5d8007cad41b70e5': 'Select all by default',
-  '84f31b24ffc8ea2b81d61a6f054b5bb6': 'Code editor',
+  '84f31b24ffc8ea2b81d61a6f054b5bb6': 'Code',
   '08346c5bb99d8e3bfa406995b8c4f067':
     'The code editor is a monaco-editor, which supports {{@1}} and so on.',
   'ab0710b367acefa1d6a78e2338291e86': 'Get focus',
@@ -691,7 +691,7 @@ extendLocale('en-US', {
   '44fe0e1bcabcea83d6a30e6af0fd42af': 'Full screen ',
   'b3b97a293baac13db6367aba5539a09c': 'Control size',
   '3386da5f56fac758ed0f18e024ecb943': 'Extra big',
-  '254bb8aa6b92d588d957a383df24db1e': 'Combination input',
+  '254bb8aa6b92d588d957a383df24db1e': 'Combo',
   '4db731c7d73988e40a01b4bf1a7f00d7':
     'Through the combination of multiple form items, you can configure whether to add and delete the initially set template.',
   'b58c7549c0246c55b9cac96383200338': 'Add',
@@ -721,8 +721,8 @@ extendLocale('en-US', {
   '26343b8bcb694fa5e333b47d8b663d1c': 'Whether to go to a newline',
   '86032735a191d117b02111e447494380': 'Whether to ',
   '28a59fee1a4714493a8d6cec05c1417b':
-    'The data structure in the default array is an object. If there is a form item only, you can configure the value(可以配置将值打平). Thus, the value contained in the array is the value of the form item.  ',
-  '7f2579cabd4d654458a720eed517a37d': 'Whether to add(新增什么)',
+    'The data structure in the default array is an object. If there is a form item only, you can configure the value. Thus, the value contained in the array is the value of the form item.  ',
+  '7f2579cabd4d654458a720eed517a37d': 'Whether to add',
   'ea1e5695bf682ea3b31aba0c35198ae3': 'Add button text',
   '1ab31449faaaeeeb7200d724eab9a7ab': 'Whether to delete',
   'fa3e9f9e49f5a81c998f949155f86b50': 'Request sent before the deletion',
@@ -760,7 +760,7 @@ extendLocale('en-US', {
   'ead7156521ca11acb7ca7bdf4c9c87f6':
     'If the sub-form item is configured with a validator and is in the single-entry mode, the user can select to clear it (leave it blank).',
   '7ab968b8219f6c348478da255ebcbcb9': 'CSS configuration of individual columns',
-  '6e87bfe16db746db13966f0d7552b052': 'Condition component',
+  '6e87bfe16db746db13966f0d7552b052': 'Condition Builder',
   'ab7f2096d3ea8aa85f453b204bfbc493':
     'It is used to set the complicated combination condition. It allows you to add conditions and groups, set the combination method, and drag the sorting feature and other features.',
   'ae5e21c7b57aaaff2071b757f35dbb3e':
@@ -783,7 +783,7 @@ extendLocale('en-US', {
   'c5739a29e7c403fc212608cefe70cf29': 'Element collection',
   'a00f44e570f896de5490cba9d2462951': 'Insert a new element',
   'a9a8efb2541ee6f89ea7b83e610ebf7f': 'Add element',
-  'bac53d3c739f7fb3327704efd5b40eee': 'Diff editor',
+  'bac53d3c739f7fb3327704efd5b40eee': 'Diff Editor',
   '7b4fe9415d80d3694d2f630411ac7e9c':
     'Compare the codes on both sides. The supportive language includes {@1}} and so on.',
   '0517b74cbe247a903faf40991a5a335f': 'diff editor',
@@ -797,12 +797,12 @@ extendLocale('en-US', {
   '04b8c503707c34f9c275d349275787f2':
     'It allows you to use ${xxx} to get the variable.',
   'a71e655ab56c9962742f72623f67ca76': 'Right default value',
-  '460bc46ffeb31b737669e2312c5bae72': 'Field set',
+  '460bc46ffeb31b737669e2312c5bae72': 'Field Set',
   'a89cd8150a1dbc60ac7063580e0852e2':
     'Through the combination of multiple form items, you can configure whether to fold',
   'a13a2fa224ca5b6f44d5aee33ec29d58': 'Text 1',
   '37dd6f28ffb87d8907a286e0ef4dc7fe': 'Text 2',
-  'd6c40a2ee219c010edbcdaa2eeb94ddd': 'Sub-form item',
+  'd6c40a2ee219c010edbcdaa2eeb94ddd': 'Sub-form Item',
   'ec2a8ec81d1d2588db8c7827ba99e7d3': 'Whether to fold',
   'f315bd4984fd09c30581674d28287f12': 'Whether to fold by default',
   'ab2d2b13794ae1e2d7bf3bcd5af55dce': 'Control style',
@@ -816,18 +816,18 @@ extendLocale('en-US', {
   '15d169d28cd48c97fe751e4cc92ca926': 'Multi-line text',
   '829abe5a8dcd0579a340d20636b59276': 'Group',
   '9597dcaf432ceba92a160d61cb1ef65f': 'Number input',
-  '9913107b19cb6012250134ff91377430': 'Single-select box',
-  '006ded9fa277cf030592021f595a07d5': 'Drop-down box',
+  '9913107b19cb6012250134ff91377430': 'Radio',
+  '006ded9fa277cf030592021f595a07d5': 'Select',
   'a6beb974cc0b50eebd18120b8110a88b': 'Switch',
-  '481e034e6026969aae4ce7ce7c8a7b6f': 'File upload',
-  '6bfb9bb2218ff32b6139e98bc93707c0': 'Image upload',
-  '24b6d4c0892a8f3ee2a982e3ab0afe38': 'Rich text edit',
+  '481e034e6026969aae4ce7ce7c8a7b6f': 'Input File',
+  '6bfb9bb2218ff32b6139e98bc93707c0': 'Input Image',
+  '24b6d4c0892a8f3ee2a982e3ab0afe38': 'Rich Text',
   'fdf6f7f6497556de440fe434b721ee99': 'Display name',
   '712538d3e674792ec94feb9a5eb2cc0a': 'Submit field name',
   'eee1e2258d7ea163fec625ee44be9637': 'Form',
   '10b3d542748da2043f79395bfa2ab35f':
     'It is used to create, edit or display the data. To configure the initialization interface, you can load the data remotely. To configure the submission interface, you can send the data to the remote device. Additionally, you can submit the data to other components. Thus, it is possible to build communication with other components.',
-  '5ac57ce6df8c2a19668b7429aebd9f33': 'Text box',
+  '5ac57ce6df8c2a19668b7429aebd9f33': 'Input Text',
   '1b6f9adf1e6a41a18b9a76407d945618': 'Create form quickly',
   '380c80efc8d38510d31f50578690b781': 'Submission address',
   'ffc2c1671eb7e3f6751006cd7a9961f4': 'Text and input box display mode',
@@ -984,7 +984,7 @@ extendLocale('en-US', {
   '89e34c77922f9362fc8f4033e7f6bdf4': 'Enable drag and sort',
   '1362211a6bfc8cc4130d54643e8e9732':
     'This option allows you to drag and sort the prompt text',
-  'ba6a6f2cdb46e8f80fbfd4fed20eafac': 'Select city',
+  'ba6a6f2cdb46e8f80fbfd4fed20eafac': 'Input City',
   '20700607ccdb7b6c83f3b5bc525e6975':
     'This option allows you to select a region or city',
   'ee167d4c74e600248aefe9d0ba474705': 'Change in selected value',
@@ -992,7 +992,7 @@ extendLocale('en-US', {
   '9633e6be5ecb44fbd69b3e8328cc8430': 'Allows you to select a region',
   'eec86dd33ae6186937da563fcde3555e': 'Allows you to select a city',
   '95892a76bc26c2db31087c9914e442b4': 'Whether a search box appears',
-  'd1b5ad85ada6350ea1a1432b813700be': 'Color box',
+  'd1b5ad85ada6350ea1a1432b813700be': 'Input Color',
   '5a9e72d006165ae3dacdbd96f931f70e':
     'It supports <code>hex, hls, rgb, and rgba</code> formats. It defaults to the <code>hex</code> format.',
   '6b36c6f7ec834692ec6c8e3816349fdd': 'Color',
@@ -1048,7 +1048,7 @@ extendLocale('en-US', {
   'c899221db27c8b3606ce7c807f0765f2': 'Select month range',
   'c09ddfc72d3c34ae6aa76d5a457cb403': 'Select quarter range',
   'cb6deedf9cd4a0b65abd70798cfed85e': 'Select year range',
-  '7866226eb814f681dcc4037e7489aab8': 'Date range',
+  '7866226eb814f681dcc4037e7489aab8': 'Date Range',
   '28de3d73d839b616bd617b3636669780':
     'Date range box, input-datetime-range, date and time range, input-time-range, time range, input-month-range, month range, input-quarter-range, quarter range, input-year-range, year range',
   '9024ff398faf8340b92bf0208431973b':
@@ -1143,7 +1143,7 @@ extendLocale('en-US', {
   '26d384ebe61b6ffe0e64310331f9e998': 'Drag to upload',
   '644d03767c8148de6651cc6b00b0173f': 'Selection button',
   'd1b06a828d05b0ff72328d50b16a8443': 'Upload button',
-  '0d4ebf2f4a10336011cfe0466b29ba5c': 'Input combination',
+  '0d4ebf2f4a10336011cfe0466b29ba5c': 'Input Group',
   '5b7363cba6bad37b6614809e9bd90746':
     'The input combination supports several types of control combinations.',
   '13370c4a5c95eff126068be5cfd2a9df': 'input combination',
@@ -1196,7 +1196,7 @@ extendLocale('en-US', {
   '1765a2daba3ba8c5af95e66fa83545d4': 'Aspect ratio description',
   'a7b7da38fcb8e246e910e178c5fe4ebc':
     'When the aspect ratio does not meet conditions, the description appears as the prompt information.',
-  'ed55564c631322fa3042c77286d6562c': 'KV pair',
+  'ed55564c631322fa3042c77286d6562c': 'Input KV',
   '746dd83e6891ccc9a19804c23c2c4443':
     'It is used to edit the data of the key-value pair type',
   'b3747d09769d3a2ea8aa664edc901212':
@@ -1209,7 +1209,7 @@ extendLocale('en-US', {
   '7c3885e3c3eca4d95521b3e220586628': 'Month range',
   '5b4ad7ffa6eee985e72e002bf18ac09a':
     'To select the month range, you can set the minimum and maximum dates through <code>minDate</code> and <code>maxDate</code>.',
-  '1e65b8181e9a40e76b86e2c261cafbe0': 'Number box',
+  '1e65b8181e9a40e76b86e2c261cafbe0': 'Input Number',
   'c45782c425bfc31824af8129bd6e0282':
     'It supports the setting of the maximum and minimum values and the step and precision.',
   'acc945d0c8449dce7dc1441f466ec413': 'Input value',
@@ -1235,7 +1235,7 @@ extendLocale('en-US', {
   'a483bccf85587055ab31314ad1d2f82a': 'Quarter',
   '549a2a421951fc8c304c6223f346e024': 'Select quarter',
   '39891e1760c79287985adece9a107fd6': 'Quarter range',
-  '6036c91d6b0b6d1a2468684e597d9f70': 'Sliding block',
+  '6036c91d6b0b6d1a2468684e597d9f70': 'Input Range',
   '4c65f10eacbfaf580236b5cbe2de68de': 'Select a value or range',
   '0a6a4aee139530801791c556e7177a7f':
     'Be triggered when the sliding block value changes',
@@ -1264,7 +1264,7 @@ extendLocale('en-US', {
   'e2c6470c3f2e76cb98ba951a64e41c3d': 'Clear score value',
   '09bbfb387dce6201df1ccef2aab161a6': 'Clear',
   '5ea244a79d480632f635a254c95c38df':
-    'Whether to allow you to clear it after you click it again (点击什么，清除什么)',
+    'Whether to allow you to clear it after you click it again',
   'fa6f66437097fe23c948f4f9b78ecec0': 'Half-star allowed',
   '1a10cd6599219eafb615b34234cfc0b5': 'Description content',
   '9c07532d0c9acfecfc4ec2eb265c3e03': 'Characters',
@@ -1273,7 +1273,7 @@ extendLocale('en-US', {
     'The default unselected color value is #e7e7e8.',
   '4dd547945b10f672a7e48d7ffc42496e': 'Select color value',
   'f186d55a48868a88b026d48efc1cf36f': 'Score description',
-  'd38056d1c6aa9456f4b6b2c20aab06a2': 'Repeat cycle selection',
+  'd38056d1c6aa9456f4b6b2c20aab06a2': 'Input Repeat',
   'b3389af540d99fe9e51fb2995dbd6dff':
     'Select the repeated frequency, e.g., hourly, daily, weekly, and so on.',
   '2d842318fbd931286be387aaf5b2a7c3': 'Cycle',
@@ -1376,7 +1376,7 @@ extendLocale('en-US', {
   'c54993eb4c2a46263cca2e6bdebb051d': 'Hour, minute, and second input',
   'c166d8f9804ecef74b3b74190599a7b8':
     'To select the date range, you can set the minimum and maximum dates through <code>minDate</code> and <code>maxDate</code>.',
-  '479728c411bac59bc44d5ab8dc3cb4f0': 'Tree select-box',
+  '479728c411bac59bc44d5ab8dc3cb4f0': 'Tree Select',
   '15ac5d800c0163b4b806622739478e9b':
     'You can select it in the tree structure. You can configure the option through <code>options</code> and can also fetch options through the <code>source</code>.',
   '57a6105deead3fec79028cce7bfa2004': 'Option C',
@@ -1434,10 +1434,10 @@ extendLocale('en-US', {
   '133886b10fd9721e6cf91b76f2df5b6e':
     'Separately check the API of this form item',
   'b95c6e14a4d8f6a6c6d99d583916f327': 'Merged into one row',
-  'd22dfe420e4b00e000b93f94db3c856e': 'Select list',
+  'd22dfe420e4b00e000b93f94db3c856e': 'Select List',
   '5e391af52da238f13c78b471a7cc54f3':
     'You can select a single list of multiple lists. This feature allows you to fetch options by <code>source</code>. You can configure images for the options and also customize the <code>HTML</code> configuration.',
-  'd1f923b8e23b66b3e48953ba1ce17839': 'Select geographic position',
+  'd1f923b8e23b66b3e48953ba1ce17839': 'Location Picker',
   '989ea9acbab9b17d2c15e2946b5365bb': 'Select position',
   'dffd9d86d2003615897b12ce7597d77b': 'Baidu Map AK',
   'a269e7de6c7735290733eb3e574c2129':
@@ -1446,7 +1446,7 @@ extendLocale('en-US', {
   '36443b53c845b197db8d39eeda433ab9': 'Baidu coordinate',
   'f58cb611aec0998a44ef104b5c950b40':
     'Coordinate format by State Bureau of Surveying and Mapping',
-  '076a041dcf45a36b29c5cdb8b8eca922': 'Rectangular switch',
+  '076a041dcf45a36b29c5cdb8b8eca922': 'Rectangular Switch',
   '183aae5eec1ff547833dc338aaeffc9a':
     'You can configure row single-select and column single-select, and single-select or multi-select for all options. ',
   '7583b85ff3579d60a9f9d323c2f6674a': 'Row title description',
@@ -1466,7 +1466,7 @@ extendLocale('en-US', {
   '854af3c2cd9c275ac70fc5121ea4fb2e': 'Row description',
   'bf306308e467aeb7b00df0e2dd127d06': 'Add a row',
   '75bf5fd49520bce97de632700fc8a129': 'Get matrix data API',
-  '24d9de25721d1fb0ecf89ef81c43d877': 'Cascade selector',
+  '24d9de25721d1fb0ecf89ef81c43d877': 'Nested Select',
   '10d1cfb7219a5445ef1e70aa16e4451d':
     'It applies to sub-items contained in the option. You can fetch options through <code>source</code>. It supports the selection of multiple options.',
   '03cd388fe29a4fc116c0021e496a113a': 'Option b1',
@@ -1481,7 +1481,7 @@ extendLocale('en-US', {
   '6a7f7d89c8f1f3e6aab0962ff920b145': 'Parent option as a return value',
   'c23eb92d1f249452c3ff3ee13738b47a':
     'With this feature enabled, you can select the parent option but cannot select all child options. Also, the parent option is used as the return value.',
-  '8fcbfdc1a9403f6339d81911473806da': 'Select list',
+  '8fcbfdc1a9403f6339d81911473806da': 'Picker',
   '819776e8d96b1438eca3594f47bdb1c6':
     'Through the <code>pickerSchema</code>, you can configure the data source available to select the data you need. It supports the selection of multiple data sources.',
   'dc0c50a5c9832b393df34835111c34a3': 'Enable embedded mode',
@@ -1512,7 +1512,7 @@ extendLocale('en-US', {
   '406af2b98e6210cd42d7f824cb6dfd16': 'Option value check',
   'fa8d03e8b5458c1a1d742736bc26e25b':
     'With this feature enabled, the option text becomes red when the option value does not match the option among the current options.',
-  '33e7b7433fdbeafa1ef71105ee28c061': 'Static display box',
+  '33e7b7433fdbeafa1ef71105ee28c061': 'Static',
   'c99e0a675933de39693b7e80d5b70405':
     'It is purely used to display data. Also, it can be used to display <code>json, date, image, and progress</code> data.',
   '134492cd10a0646da6f23a743feee6d4': 'Static value',
@@ -1563,8 +1563,8 @@ extendLocale('en-US', {
     'The default selected value is true and the default unselected value is false.',
   'cadd676e2710e50ac149211078f8a306': 'Selected value',
   '13f19e1d0dd528aafd6263fafdc35e82': 'Unselected value',
-  '617a63f1b19b5aad029f973479bac917': 'Combination shuttle',
-  '4f26f1edebcdeea90f6e4247a501dbaf': 'Combination shuttle component',
+  '617a63f1b19b5aad029f973479bac917': 'Tabs Transfer',
+  '4f26f1edebcdeea90f6e4247a501dbaf': 'Tabs Transfer Picker',
   'ab5dea29793d933fa7b5487a7309df6a': 'Member',
   '71f8043aefd52572b172e7d1fbd5af57': 'Magician',
   'fda93c79275b812a6c1c189fbebf8b08': 'Zhu Geliang',
@@ -1594,7 +1594,7 @@ extendLocale('en-US', {
   '6c5358b981a475da2a83e95e4170647a': 'Cascaded selection form',
   'b51b404751554341aae342bc5a6e9b22': 'Title Text on the left',
   'c7840604d79e814f02f8260bc2ba6544': 'Title Text of the result on the right',
-  'c6a16ef980efc2ac48c58727e5bade81': 'Multi-line text box',
+  'c6a16ef980efc2ac48c58727e5bade81': 'Textarea',
   '2af7e3952d7430d1e4c86ea5aca4e4fa':
     'It allows you to enter characters in a newline.',
   '5bc28acd4afb712dcbc234927357cd87':
@@ -1615,7 +1615,7 @@ extendLocale('en-US', {
   '3dd8d112997a8d0ae0641b8bf69eb7ff': 'Left selection form',
   '7980e24e70a7e56490fa397d5bc6b86a': 'Right selection form',
   'baf916e9b0de774b78e716e91b963690': 'Show statistics',
-  'e40d15221a911e060b8a05ec7aa9533c': 'Tree drop-down box',
+  'e40d15221a911e060b8a05ec7aa9533c': 'Tree Select',
   '26aa42c81825364d2d691261017b6797':
     'Click the input box to pop out the tree select-box for your selection.',
   '382df0b291e5306c423bcf471eb1734f': 'Tree drop-down',
@@ -1639,7 +1639,7 @@ extendLocale('en-US', {
   '43474db97aff2ed0a876a47b6f4cdc7d': 'Automatically generated UUID',
   '43e1548e15272e1007051d7c8b70adf6':
     'Automatically generate UUID in the UUID v4 format without the need to configure it',
-  '844d72db7e57be4d77881ee9b4294e75': 'UUID (原文什么逻辑？)',
+  '844d72db7e57be4d77881ee9b4294e75': 'UUID (will be hide)',
   '2820712cac089483cf2b4a0c939fc780': 'Column',
   '9e17d57a0ba39254a75c0265aa3063ca': 'Column layout',
   'e63907bf0db529e84866d1ae737bfc0d': 'Column',
@@ -1967,7 +1967,7 @@ extendLocale('en-US', {
   'ae41a992ccceb36f83024f72531186ec': 'Property name',
   '52dff5b153bb5eaca33a008458ce0209': 'Property value',
   '42c3762943823c37b537a10c09765822': 'Number of crossing columns ',
-  '22b03c024d815ad327e8b95d684ced38': 'QR code',
+  '22b03c024d815ad327e8b95d684ced38': 'QR Code',
   '1857d9050ac0527374f4324c0a5ad910':
     'This option can be used to generate a QR code.',
   'e71377bb59c70af683be127ec49d01c7': 'QR code value',
@@ -2182,7 +2182,7 @@ extendLocale('en-US', {
   '370bb4d6806c88a7df2ac17ca2a7b6a6':
     'Disabling the tab leads to the destruction of its content area. By configuring the “Render only during activation” tab, it is possible to realize the re-load effect every time when you select it.',
   'f6724322c613ca164ea9a9d03e9055c9': 'Card {{@1}}',
-  '8a471486c6c7bbe43e14392c6b127aea': 'Asynchronous task',
+  '8a471486c6c7bbe43e14392c6b127aea': 'Asynchronous Task',
   '4f58f808d62c4e31c347e483898396d5':
     'It is used to show or perform asynchronous tasks.',
   '9ee043b0a77a26d22eec0f4ea99afbd3': 'hive task',
@@ -2479,7 +2479,7 @@ extendLocale('en-US', {
   'dec2eb7145e149f281cb7e75fbe8972a': 'Redirection link',
   'ae10a948eca808b3dd77506b24f3fd0e': 'Redirect to the specified page',
   'c7a34a3465d1beea2f85d53edcff8235': 'Redirect to',
-  '0b72392143e4038e98128cb0f6f679b3': 'Page parameters',
+  '0b72392143e4038e98128cb0f6f679b3': 'Page Parameters',
   'c068b579db3bf0a553bd0af4f81cc14f': 'Parameter name',
   'bfed4943c5f487de1b63a82f7230cce2': 'Parameter value',
   '56aa76ab3c987377e855ae2c6c612050': 'Open a new window',
@@ -2632,12 +2632,12 @@ extendLocale('en-US', {
   '5babfafd769570de3bba47605753361a': 'Border width ',
   'af208c560d926f0daf4b2ce2d396505d': 'X-axis offset',
   'b6b46126bfb0851ca10e74541c5d7be1': 'Y-axis offset',
-  '4a32b29da68a6ee204b3743e0fab8bb3': 'Blur radius',
-  '22d460dcddb7fda718bc62034c459158': 'Diffusion radius',
+  '4a32b29da68a6ee204b3743e0fab8bb3': 'Blur',
+  '22d460dcddb7fda718bc62034c459158': 'Spread',
   'b24a723b73f96ab3340fe9502370ee13': 'Inner shadow',
-  '1cbac849ccc41edb12271d9fe9b65b5f': 'Shadow color',
-  'e94d6fc08a97892ff9d8c8d9a8d9e0ab': 'Set shadow color',
-  'a5d833839a610994dc4752e2d91f4192': 'Display type',
+  '1cbac849ccc41edb12271d9fe9b65b5f': 'Shadow Color',
+  'e94d6fc08a97892ff9d8c8d9a8d9e0ab': 'Set Shadow Color',
+  'a5d833839a610994dc4752e2d91f4192': 'Display Type',
   '2c86d897c71cc9c2e648222a200d5bbb': 'Block',
   '0b0052c532b457b2d032c9f56af9e4e5': 'Inline block',
   '70d457cd36de1acefe7d9587f3f862c9': 'Inline element',
@@ -2656,13 +2656,13 @@ extendLocale('en-US', {
     'Alignment at the starting and end points',
   'ba3a7db7cc1ac5a908358f62fdbb21de': 'Equal spacing between elements',
   'f6cbf29fdb5e94052a22986533c7267f': 'Cross-axis alignment',
-  '6b461e0a4ffef9438fb8f01369091cac': 'Font type',
-  '2539fe0e6d40a023dd95d0bd71d10bc9': 'Select font',
-  '690660d9dbd7312ad2825e554736e2f8': 'Font color',
-  '5f15efdc32badce0902c46a7a0105c51': 'Font size',
-  '4c5fead0489fbc7651c91400dec5d379': 'Text style',
+  '6b461e0a4ffef9438fb8f01369091cac': 'Font Type',
+  '2539fe0e6d40a023dd95d0bd71d10bc9': 'Select Font',
+  '690660d9dbd7312ad2825e554736e2f8': 'Font Color',
+  '5f15efdc32badce0902c46a7a0105c51': 'Font Size',
+  '4c5fead0489fbc7651c91400dec5d379': 'Text Style',
   'd1b490c01d24a1a70e9c83a29ac38fde': 'Text position',
-  '4ae7f423d9ed9ffa48c3e404f96bb51f': 'Text typesetting',
+  '4ae7f423d9ed9ffa48c3e404f96bb51f': 'Text Type Setting',
   '65786fea9d354015d3a2724086f7f3d6': 'Default font',
   '1a63ac23010e0573f7c0a8cd3314b8c6': 'Example',
   '226c06861b0605a3276311b1369204f2': 'Interface return example',
@@ -3024,9 +3024,9 @@ extendLocale('en-US', {
   '160cb9a7d57c5b5ca65b5cdf79e8fd28': 'Maximum number of nodes',
   '1cd9e1bb335cb0643d9e310dd4edd830': 'Icon field',
   'a0e965072593eb1b19b4568fa26d977c': 'You can select the child node only',
-  '8865c6822a31e0da6bc7eece8677d8f0': 'You can add (新增什么？？)',
+  '8865c6822a31e0da6bc7eece8677d8f0': 'You can add',
   'bc560e477282dafc3c37b7a665af4f9c':
-    'You can add a child node at the top layer（新增什么？？）',
+    'You can add a child node at the top layer',
   '89664aa96ba7eb788ea273c0d36467cc': 'Top-layer text',
   'b4eab506cf436d3cdd1cd68fc857ec04': 'Add a level 1 node',
   '2b3073b1ba5f9deab7818d8be02de3a1': 'Highlight node characters',
@@ -3207,31 +3207,45 @@ extendLocale('en-US', {
   '1d20d90b7c7301b7739900242d38544e':
     'No configuration. The title appears by default.',
   '8aea4138b4fac2627c9b72da37e0671f': 'Text after being folded',
-  'e9b91e9101059dc2e234d9847dd7b003': '',
-  '544fac400db790f57ea8ee4207cbeb6b': '',
-  'fcb9b16d5d056bfbf6b6cba9dcf61efa': '',
-  '17a689143f0c7003123bb3c947d35273': '',
-  '2aa41edf8cfa79e7e5fcf38c9742b495': '',
-  '37ad5d98b12853d786b08cb52b91a43a': '',
-  '324d0ccd6fa9d976d2f17de3bf0b70bd': '',
-  '7a377ac3904628fd73e7d33ce6130ae1': '',
-  '674ddb63a7cd9e14a49813d52cf7e25e': '',
-  '24c5febd312d27b5e80354cf03e241f0': '',
-  '54d621d5bd588bea4e896de52147a229': '',
-  'ae76ff4dcb615d3b0232dcd10115e149': '',
-  '152b66069787294e53cfc176a189c81f': '',
-  '10cfe8897db8c032986138ba7b2f48da': '',
-  'a6e2cf5b7fa625f571a3e6d0df3a7327': '',
-  '3371427f1b82095309092ef82418ec1a': '',
-  '0e9525b2bb1493c567c114dd61b69095': '',
-  'ff0d36eac9b9c029d91c365cd2c7e6cf': '',
-  'a718dcd3a16bee2a4086244ef1eb0ab4': '',
-  'c323e3527a805cfdd264700fdf013daf': '',
-  'c762cefa0ff423010af0a943c04d603b': '',
-  'b95aed5c6f2c8e49e23b382ac3d593ba': '',
-  'fd11733fbabaf2ae3cf1fcd3fe385cc5': '',
-  'acf719549561f28f38bf750a64cda508': '',
-  'e027500d91d46a962036f63c09492c6c': '',
-  'd01886eeef1de19f2e99617017f4def8': '',
-  '5e568c42a5ecb74db2dc3d8531079dd6': ''
+  'e9b91e9101059dc2e234d9847dd7b003': 'Popup data',
+  '544fac400db790f57ea8ee4207cbeb6b': 'Standard',
+  'fcb9b16d5d056bfbf6b6cba9dcf61efa':
+    'Refer to the format application in <a href="https://momentjs.com/" target="_blank">moment</a>.',
+  '17a689143f0c7003123bb3c947d35273':
+    'The verification priority is higher than the maximum width.',
+  '2aa41edf8cfa79e7e5fcf38c9742b495':
+    'The verification priority is higher than the maximum height.',
+  '37ad5d98b12853d786b08cb52b91a43a':
+    'After enabling it, you need to set its height and width through the CSS class.',
+  '324d0ccd6fa9d976d2f17de3bf0b70bd':
+    'Control the display size according to this value when the fixed size is enabled.',
+  '7a377ac3904628fd73e7d33ce6130ae1':
+    'Minimum number of nodes selected for form validation',
+  '674ddb63a7cd9e14a49813d52cf7e25e':
+    'Maximum number of nodes selected for form validation',
+  '24c5febd312d27b5e80354cf03e241f0': 'Outer container',
+  '54d621d5bd588bea4e896de52147a229': 'Row data selected',
+  'ae76ff4dcb615d3b0232dcd10115e149': 'Initialize static data',
+  '152b66069787294e53cfc176a189c81f': 'Field corresponding to the icon',
+  '10cfe8897db8c032986138ba7b2f48da': 'Data field assignment',
+  'a6e2cf5b7fa625f571a3e6d0df3a7327': 'Data field member assignment',
+  '3371427f1b82095309092ef82418ec1a': 'You have added this event.',
+  '0e9525b2bb1493c567c114dd61b69095': 'Notes:',
+  'ff0d36eac9b9c029d91c365cd2c7e6cf':
+    '${data[&] ? Disable immediately:  disable immediately}',
+  'a718dcd3a16bee2a4086244ef1eb0ab4': 'Enter the content with a length of $1',
+  'c323e3527a805cfdd264700fdf013daf':
+    'Control the content length and do not enter more than $1 character.',
+  'c762cefa0ff423010af0a943c04d603b':
+    'Enter more content which includes at least $1 character',
+  'b95aed5c6f2c8e49e23b382ac3d593ba':
+    'Check it when the current input value exceeds the maximum value $1',
+  'fd11733fbabaf2ae3cf1fcd3fe385cc5':
+    'Check it when the current input value is less than minimum value $1',
+  'acf719549561f28f38bf750a64cda508': 'The input data is inconsistent with $1.',
+  'e027500d91d46a962036f63c09492c6c': 'The input data is inconsistent with $1.',
+  'd01886eeef1de19f2e99617017f4def8':
+    "'The format is incorrect. Enter the content that meets the rule of \\$1\\ .'",
+  '5e568c42a5ecb74db2dc3d8531079dd6':
+    '<a target="_blank" href="https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/">Reference documentation</a>'
 });
