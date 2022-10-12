@@ -1,7 +1,6 @@
 import React from 'react';
+import merge from 'lodash/merge';
 import {Renderer, RendererProps} from 'amis-core';
-import {ServiceStore, IServiceStore} from 'amis-core';
-import {Api, SchemaNode, PlainObject} from 'amis-core';
 import {filter} from 'amis-core';
 import cx from 'classnames';
 import {Icon} from 'amis-ui';
@@ -82,14 +81,13 @@ export class StatusField extends React.Component<StatusProps, object> {
   };
 
   render() {
-    const {
-      className,
-      placeholder,
-      map,
-      labelMap,
-      classnames: cx,
-      data
-    } = this.props;
+    const {className, placeholder, classnames: cx, data} = this.props;
+    const map = merge(StatusField.defaultProps.map, this.props?.map);
+    const labelMap = merge(
+      StatusField.defaultProps.labelMap,
+      this.props?.labelMap
+    );
+
     let value = getPropValue(this.props);
     let viewValue: React.ReactNode = (
       <span className="text-muted" key="status-value">
@@ -98,7 +96,7 @@ export class StatusField extends React.Component<StatusProps, object> {
     );
     let wrapClassName: string = '';
 
-    if (value !== undefined && value !== '' && map) {
+    if (value != undefined && value !== '' && map) {
       if (typeof value === 'boolean') {
         value = value ? 1 : 0;
       } else if (/^\d+$/.test(value)) {
@@ -106,7 +104,7 @@ export class StatusField extends React.Component<StatusProps, object> {
       }
 
       wrapClassName = `StatusField--${value}`;
-      let itemClassName = map[value] || '';
+      let itemClassName = filter(map[value], data) || '';
       let svgIcon: string = '';
 
       itemClassName = itemClassName.replace(

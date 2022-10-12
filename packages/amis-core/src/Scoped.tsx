@@ -9,13 +9,12 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import {dataMapping} from './utils/tpl-builtin';
 import {RendererEnv, RendererProps} from './factory';
 import {
-  noop,
   autobind,
   qsstringify,
   qsparse,
-  createObject,
   findTree,
-  TreeItem
+  TreeItem,
+  parseQuery
 } from './utils/helper';
 import {RendererData, ActionObject} from './types';
 
@@ -26,7 +25,7 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
     data: RendererData,
     throwErrors?: boolean
   ) => void;
-  receive?: (values: RendererData, subPath?: string) => void;
+  receive?: (values: RendererData, subPath?: string, replace?: boolean) => void;
   reload?: (
     subPath?: string,
     query?: RendererData | null,
@@ -212,7 +211,7 @@ function createScopedTools(
           component.receive(values, subPath);
         } else if (name === 'window' && env && env.updateLocation) {
           const query = {
-            ...(location.search ? qsparse(location.search.substring(1)) : {}),
+            ...parseQuery(location),
             ...values
           };
           const link = location.pathname + '?' + qsstringify(query);

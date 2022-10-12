@@ -1,5 +1,5 @@
 import React from 'react';
-
+import isEqual from 'lodash/isEqual';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
@@ -44,7 +44,7 @@ import {ActionSchema} from './Action';
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema} from './Table';
-import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter, parseQuery} from 'amis-core';
 
 import type {PaginationProps} from './Pagination';
 
@@ -448,14 +448,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        qsparse(location.search.substring(1)),
+        parseQuery(location),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        qsparse(window.location.search.substring(1)) as object,
+        parseQuery(window.location),
         undefined,
         pageField,
         perPageField
@@ -519,13 +519,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     let val: any;
+
     if (
       this.props.pickerMode &&
       isArrayChildrenModified(
         (val = getPropValue(this.props)),
         getPropValue(prevProps)
-      )
+      ) &&
+      !isEqual(val, store.selectedItems.concat())
     ) {
+      /**
+       * 更新链：Table -> CRUD -> Picker -> Form
+       * 对于Picker模式来说，执行到这里的时候store.selectedItems已经更新过了，所以需要额外判断一下
+       */
       store.setSelectedItems(val);
     }
 
@@ -545,7 +551,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        qsparse(props.location.search.substring(1)),
+        parseQuery(props.location),
         undefined,
         props.pageField,
         props.perPageField
@@ -1386,7 +1392,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       onSelect
     } = this.props;
-
     let newItems = items;
     let newUnSelectedItems = unSelectedItems;
 
@@ -1444,8 +1449,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         } else {
           oldUnselectedItems.push(item);
         }
-
-        ~idx2 && oldItems.splice(idx2, 1);
+        !~idx && ~idx2 && oldItems.splice(idx2, 1);
       });
 
       newItems = oldItems;
@@ -1504,9 +1508,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
   }
 
-  handleQuery(values: object, forceReload: boolean = false) {
+  handleQuery(values: object, forceReload: boolean = false, replace?: boolean) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
-
     store.updateQuery(
       {
         ...values,
@@ -1516,21 +1519,22 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         ? env.updateLocation
         : undefined,
       pageField,
-      perPageField
+      perPageField,
+      replace
     );
     this.search(undefined, undefined, undefined, forceReload);
   }
 
-  reload(subpath?: string, query?: any) {
+  reload(subpath?: string, query?: any, replace?: boolean) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace);
     } else {
       this.search(undefined, undefined, true, true);
     }
   }
 
-  receive(values: object) {
-    this.handleQuery(values, true);
+  receive(values: object, subPath?: string, replace?: boolean) {
+    this.handleQuery(values, true, replace);
   }
 
   reloadTarget(target: string, data: any) {
@@ -1810,9 +1814,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     const {store, classPrefix: ns, classnames: cx, translate: __} = this.props;
     const {page, lastPage} = store;
 
-    return page < lastPage ? (
+    return (
       <div className={cx('Crud-loadMore')}>
         <Button
+          disabled={page >= lastPage}
+          disabledTip={__('CRUD.loadMoreDisableTip')}
           classPrefix={ns}
           onClick={() =>
             this.search({page: page + 1, loadDataMode: 'load-more'})
@@ -1822,8 +1828,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           {__('CRUD.loadMore')}
         </Button>
       </div>
-    ) : (
-      ''
     );
   }
 
@@ -2247,7 +2251,13 @@ export class CRUDRenderer extends CRUD {
     scoped.unRegisterComponent(this);
   }
 
-  reload(subpath?: string, query?: any, ctx?: any) {
+  reload(
+    subpath?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     const scoped = this.context as IScopedContext;
     if (subpath) {
       return scoped.reload(
@@ -2256,16 +2266,16 @@ export class CRUDRenderer extends CRUD {
       );
     }
 
-    return super.reload(subpath, query);
+    return super.reload(subpath, query, replace);
   }
 
-  receive(values: any, subPath?: string) {
+  receive(values: any, subPath?: string, replace?: boolean) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);
     }
 
-    return super.receive(values);
+    return super.receive(values, undefined, replace);
   }
 
   reloadTarget(target: string, data: any) {

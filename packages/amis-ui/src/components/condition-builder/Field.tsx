@@ -15,6 +15,7 @@ import {
 } from 'amis-core';
 import {Icon} from '../icons';
 import SearchBox from '../SearchBox';
+import TreeSelection from '../TreeSelection';
 
 export interface ConditionFieldProps extends ThemeProps, LocaleProps {
   options: Array<any>;
@@ -24,6 +25,7 @@ export interface ConditionFieldProps extends ThemeProps, LocaleProps {
   fieldClassName?: string;
   searchable?: boolean;
   popOverContainer?: any;
+  selectMode?: 'list' | 'tree';
 }
 
 export interface ConditionFieldState {
@@ -81,7 +83,7 @@ export class ConditionField extends React.Component<
   }
 
   // 选了值，还原options
-  onPopClose(e: React.MouseEvent, onClose: () => void) {
+  onPopClose(onClose: () => void) {
     this.setState({searchText: ''});
     onClose();
   }
@@ -96,7 +98,8 @@ export class ConditionField extends React.Component<
       disabled,
       translate: __,
       searchable,
-      popOverContainer
+      popOverContainer,
+      selectMode = 'list'
     } = this.props;
 
     return (
@@ -107,16 +110,29 @@ export class ConditionField extends React.Component<
             {searchable ? (
               <SearchBox mini={false} onSearch={this.onSearch} />
             ) : null}
-            <ListSelection
-              multiple={false}
-              onClick={(e: any) => this.onPopClose(e, onClose)}
-              options={this.filterOptions(this.props.options)}
-              value={[value]}
-              option2value={option2value}
-              onChange={(value: any) =>
-                onChange(Array.isArray(value) ? value[0] : value)
-              }
-            />
+            {selectMode === 'tree' ? (
+              <TreeSelection
+                className={'is-scrollable'}
+                multiple={false}
+                options={this.filterOptions(this.props.options)}
+                value={value}
+                onChange={(value: any) => {
+                  this.onPopClose(onClose);
+                  onChange(value.name);
+                }}
+              />
+            ) : (
+              <ListSelection
+                multiple={false}
+                onClick={() => this.onPopClose(onClose)}
+                options={this.filterOptions(this.props.options)}
+                value={[value]}
+                option2value={option2value}
+                onChange={(value: any) =>
+                  onChange(Array.isArray(value) ? value[0] : value)
+                }
+              />
+            )}
           </>
         )}
       >

@@ -40,7 +40,7 @@ import {resolveVariable} from 'amis-core';
 import {buildStyle} from 'amis-core';
 import {PullRefresh} from 'amis-ui';
 import position from 'amis-core';
-import {scrollPosition} from 'amis-core';
+import {scrollPosition, isMobile} from 'amis-core';
 
 /**
  * 样式属性名及值
@@ -620,9 +620,15 @@ export default class Page extends React.Component<PageProps> {
     });
   }
 
-  reload(subpath?: any, query?: any, ctx?: any, silent?: boolean) {
+  reload(
+    subpath?: any,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace);
     }
 
     const {store, initApi} = this.props;
@@ -636,10 +642,10 @@ export default class Page extends React.Component<PageProps> {
         .then(this.initInterval);
   }
 
-  receive(values: object) {
+  receive(values: object, subPath?: string, replace?: boolean) {
     const {store} = this.props;
 
-    store.updateData(values);
+    store.updateData(values, undefined, replace);
     this.reload();
   }
 
@@ -651,7 +657,7 @@ export default class Page extends React.Component<PageProps> {
     const {interval, silentPolling, stopAutoRefreshWhen, data, dispatchEvent} =
       this.props;
 
-    if (value.data) {
+    if (value?.data) {
       dispatchEvent('inited', createObject(data, value.data));
     }
 
@@ -786,6 +792,7 @@ export default class Page extends React.Component<PageProps> {
       data,
       asideResizor,
       pullRefresh,
+      useMobileUI,
       translate: __
     } = this.props;
 
@@ -862,7 +869,7 @@ export default class Page extends React.Component<PageProps> {
           </div>
         ) : null}
 
-        {pullRefresh && !pullRefresh.disabled ? (
+        {useMobileUI && isMobile() && pullRefresh && !pullRefresh.disabled ? (
           <PullRefresh
             {...pullRefresh}
             translate={__}
@@ -1023,7 +1030,7 @@ export class PageRenderer extends Page {
     }, 300);
   }
 
-  setData(values: object) {
-    return this.props.store.updateData(values);
+  setData(values: object, replace?: boolean) {
+    return this.props.store.updateData(values, undefined, replace);
   }
 }

@@ -125,7 +125,6 @@ order: 57
             "name": "id",
             "label": "Id"
         },
-
         {
             "name": "type",
             "label": "映射",

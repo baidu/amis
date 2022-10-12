@@ -172,6 +172,11 @@ export interface FormSchemaBase {
   persistData?: string;
 
   /**
+   * 开启本地缓存后限制保存哪些 key
+   */
+  persistDataKeys?: string[];
+
+  /**
    * 提交成功后清空本地缓存
    */
   clearPersistDataAfterSubmit?: boolean;
@@ -750,10 +755,10 @@ export default class Form extends React.Component<FormProps, object> {
       : store.reset(undefined, false);
   }
 
-  receive(values: object) {
+  receive(values: object, name?: string, replace?: boolean) {
     const {store} = this.props;
 
-    store.updateData(values);
+    store.updateData(values, undefined, replace);
     this.reload();
   }
 
@@ -807,10 +812,10 @@ export default class Form extends React.Component<FormProps, object> {
     return store.data;
   }
 
-  setValues(value: any) {
+  setValues(value: any, replace?: boolean) {
     const {store} = this.props;
     this.flush();
-    store.setValues(value);
+    store.setValues(value, undefined, replace);
   }
 
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
@@ -870,7 +875,7 @@ export default class Form extends React.Component<FormProps, object> {
     submit: boolean,
     changePristine = false
   ) {
-    const {store, formLazyChange} = this.props;
+    const {store, formLazyChange, persistDataKeys} = this.props;
     if (typeof name !== 'string') {
       return;
     }
@@ -882,7 +887,7 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     if (store.persistData && store.inited) {
-      store.setLocalPersistData();
+      store.setLocalPersistData(persistDataKeys);
     }
   }
   formItemDispatchEvent(dispatchEvent: any) {
@@ -1517,7 +1522,14 @@ export default class Form extends React.Component<FormProps, object> {
       formLabelAlign: labelAlign !== 'left' ? 'right' : labelAlign,
       formLabelWidth: labelWidth,
       controlWidth,
-      disabled: disabled || (control as Schema).disabled || form.loading,
+      /**
+       * form.loading有为true时才下发disabled属性，否则不显性设置disbaled为false
+       * Form中包含容器类组件时，这些组件会将此处的disbaled继续下发至子组件，导致SchemaRenderer中props.disabled覆盖schema.disabled
+       */
+      disabled:
+        disabled ||
+        (control as Schema).disabled ||
+        (form.loading ? true : undefined),
       btnDisabled: disabled || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
@@ -1860,9 +1872,15 @@ export class FormRenderer extends Form {
     scoped.close(target);
   }
 
-  reload(target?: string, query?: any, ctx?: any, silent?: boolean) {
+  reload(
+    target?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace);
     }
 
     const scoped = this.context as IScopedContext;
@@ -1901,7 +1919,7 @@ export class FormRenderer extends Form {
     }
   }
 
-  receive(values: object, name?: string) {
+  receive(values: object, name?: string, replace?: boolean) {
     if (name) {
       const scoped = this.context as IScopedContext;
       const idx = name.indexOf('.');
@@ -1917,10 +1935,10 @@ export class FormRenderer extends Form {
       return;
     }
 
-    return super.receive(values);
+    return super.receive(values, undefined, replace);
   }
 
-  setData(values: object) {
+  setData(values: object, replace?: boolean) {
     return super.setValues(values);
   }
 }

@@ -22,7 +22,7 @@ order: 21
       "name": "formula",
       "label": "公式",
       "evalMode": true,
-      "value": "SUM(1 + 2)",
+      "value": "SUM(1 , 2)",
       "variables": [
         {
           "label": "表单字段",
@@ -93,7 +93,7 @@ order: 21
       "label": "公式",
       "variableMode": "tree",
       "evalMode": false,
-      "value": "${SUM(1 + 2)}",
+      "value": "${SUM(1 , 2)}",
       "inputMode": "button",
       "variables": [
         {
@@ -163,7 +163,7 @@ order: 21
       "label": "公式",
       "variableMode": "tree",
       "evalMode": true,
-      "value": "SUM(1 + 2)",
+      "value": "SUM(1 , 2)",
       "inputMode": "input-group",
       "variables": [
         {
@@ -373,7 +373,147 @@ Tab 结构：
       "allowInput": false,
       "label": "公式",
       "evalMode": true,
-      "value": "SUM(1 + 2)",
+      "value": "SUM(1, 2)",
+      "variables": [
+        {
+          "label": "表单字段",
+          "children": [
+            {
+              "label": "文章名",
+              "value": "name",
+              "tag": "文本"
+            },
+            {
+              "label": "作者",
+              "value": "author",
+              "tag": "文本"
+            },
+            {
+              "label": "售价",
+              "value": "price",
+              "tag": "数字"
+            },
+            {
+              "label": "出版时间",
+              "value": "time",
+              "tag": "时间"
+            },
+            {
+              "label": "版本号",
+              "value": "version",
+              "tag": "数字"
+            },
+            {
+              "label": "出版社",
+              "value": "publisher",
+              "tag": "文本"
+            }
+          ]
+        },
+        {
+          "label": "流程字段",
+          "children": [
+            {
+              "label": "联系电话",
+              "value": "telphone"
+            },
+            {
+              "label": "地址",
+              "value": "addr"
+            }
+          ]
+        }
+      ],
+    }
+  ]
+}
+```
+
+## 模板模式
+
+当配置 `evalMode` 为 false 时则为模板模式，意思是说默认不当做表达式，只有 `${`和`}`包裹的部分才是表达式。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "body": [
+    {
+      "type": "input-formula",
+      "name": "formula",
+      "label": "公式",
+      "evalMode": false,
+      "value": "my name is \\${name}",
+      "variables": [
+        {
+          "label": "表单字段",
+          "children": [
+            {
+              "label": "文章名",
+              "value": "name",
+              "tag": "文本"
+            },
+            {
+              "label": "作者",
+              "value": "author",
+              "tag": "文本"
+            },
+            {
+              "label": "售价",
+              "value": "price",
+              "tag": "数字"
+            },
+            {
+              "label": "出版时间",
+              "value": "time",
+              "tag": "时间"
+            },
+            {
+              "label": "版本号",
+              "value": "version",
+              "tag": "数字"
+            },
+            {
+              "label": "出版社",
+              "value": "publisher",
+              "tag": "文本"
+            }
+          ]
+        },
+        {
+          "label": "流程字段",
+          "children": [
+            {
+              "label": "联系电话",
+              "value": "telphone"
+            },
+            {
+              "label": "地址",
+              "value": "addr"
+            }
+          ]
+        }
+      ],
+    }
+  ]
+}
+```
+
+## 混合模式
+
+混合模式的意思是支持输入文本和输入公式两种格式的值，当输入公式时值会自动用 `${` 和 `}` 包裹，如果不是这种格式则认为是输入普通的字符串。通过 `mixedMode` 为 true 启用这种模式
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "body": [
+    {
+      "type": "input-formula",
+      "name": "value",
+      "label": "混合模式",
+      "mixedMode": true,
+      "value": "\\${SUM(1, 2)}",
       "variables": [
         {
           "label": "表单字段",

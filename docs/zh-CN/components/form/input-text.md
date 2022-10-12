@@ -250,6 +250,8 @@ order: 56
 
 ## 前缀和后缀
 
+`prefix` 和 `suffix` 属性支持数据映射。
+
 ```schema: scope="body"
 {
     "type": "form",
@@ -281,9 +283,9 @@ order: 56
 }
 ```
 
-支持数据映射
-
 ## 显示计数器
+
+配置`"showCounter": true`后输入框将显示计数器，一般会配合`maxLength`属性以限制输入长度，如果不设置`maxLength`，则仅展示计数器，并不会限制用户的输入长度。
 
 ```schema: scope="body"
 {
@@ -294,14 +296,33 @@ order: 56
             "type": "input-text",
             "label": "A",
             "showCounter": true,
-            "placeholder": "请输入"
+            "placeholder": "请输入",
+            "showCounter": true,
+            "options": [
+                {
+                    "label": "aa",
+                    "value": "aa"
+                },
+                {
+                    "label": "bb",
+                    "value": "bb"
+                },
+                {
+                    "label": "cc",
+                    "value": "cc"
+                },
+                {
+                    "label": "dd",
+                    "value": "dd"
+                }
+            ]
         },
         {
             "name": "b",
             "type": "input-text",
             "label": "B",
             "showCounter": true,
-            "maxLength": 100,
+            "maxLength": 20,
             "placeholder": "请输入"
         }
     ]
@@ -379,7 +400,7 @@ order: 56
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.2.1 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.1 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 

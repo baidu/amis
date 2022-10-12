@@ -420,7 +420,7 @@
         }
       }
 
-      @if var(--Table-strip-bg) !=transparent {
+      @if $Table-strip-bg != transparent {
         background: transparent;
 
         &.#{$ns}Table-tr--odd {

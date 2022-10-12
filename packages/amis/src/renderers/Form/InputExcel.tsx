@@ -1,8 +1,9 @@
-import React, {Suspense} from 'react';
+import React from 'react';
 import Dropzone from 'react-dropzone';
-import {autobind, createObject, resolveEventData} from 'amis-core';
+import {autobind, createObject, isObject, resolveEventData} from 'amis-core';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
+import type {CellValue, CellRichTextValue} from 'exceljs';
 
 /**
  * Excel 解析
@@ -113,6 +114,69 @@ export default class ExcelControl extends React.PureComponent<
       resolveEventData(this.props, {value: eventData}, 'value')
     );
   }
+
+  /**
+   * 检查当前单元格数据是否为富文本
+   *
+   * @reference https://github.com/exceljs/exceljs#rich-text
+   */
+  isRichTextValue(value: any) {
+    return !!(
+      value &&
+      isObject(value) &&
+      value.hasOwnProperty('richText') &&
+      Array.isArray(value?.richText)
+    );
+  }
+
+  /**
+   * 将富文本类型的单元格内容转化为Plain Text
+   *
+   * @param {CellRichTextValue} cellValue 单元格值
+   * @param {Boolean} html 是否输出为html格式
+   */
+  richText2PlainString(cellValue: CellRichTextValue, html = false) {
+    const result = cellValue.richText.map(({text, font = {}}) => {
+      let outputStr = text;
+
+      /* 如果以HTML格式输出，简单处理一下样式 */
+      if (html) {
+        let styles = '';
+        const htmlTag = font?.bold
+          ? 'strong'
+          : font?.italic
+          ? 'em'
+          : font?.vertAlign === 'superscript'
+          ? 'sup'
+          : font?.vertAlign === 'subscript'
+          ? 'sub'
+          : 'span';
+
+        if (font?.strike) {
+          styles += 'text-decoration: line-through;';
+        } else if (font?.underline) {
+          styles += 'text-decoration: underline;';
+        }
+
+        if (font?.outline) {
+          styles += 'outline: solid;';
+        }
+
+        if (font?.size) {
+          styles += `font-size: ${font.size}px;`;
+        }
+
+        outputStr = `<${htmlTag} ${
+          styles ? `style=${styles}` : ''
+        }>${text}</${htmlTag}>`;
+      }
+
+      return outputStr;
+    });
+
+    return result.join('');
+  }
+
   /**
    * 读取单个 sheet 的内容
    */
@@ -132,7 +196,11 @@ export default class ExcelControl extends React.PureComponent<
       worksheet.eachRow((row: any, rowNumber: number) => {
         // 将第一列作为字段名
         if (rowNumber == 1) {
-          firstRowValues = row.values;
+          firstRowValues = (row.values ?? []).map((item: CellValue) =>
+            this.isRichTextValue(item)
+              ? this.richText2PlainString(item as CellRichTextValue)
+              : item
+          );
         } else {
           const data: any = {};
           if (includeEmpty) {

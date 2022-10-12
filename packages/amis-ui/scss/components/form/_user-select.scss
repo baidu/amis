@@ -13,10 +13,11 @@
 
   &-searchBox {
     height: px2rem(52px);
-    margin: 0 px2rem(16px);
+    padding: 0 px2rem(16px);
     flex: none;
     display: flex;
     align-items: center;
+    background: var(--white);
   }
 
   &-search {
@@ -30,6 +31,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     background: var(--UserSelect--content-bg);
+    margin-bottom: px2rem(16px);
   }
 
   &-wrap {
@@ -38,6 +40,17 @@
     display: flex;
     flex-direction: column;
     text-align: left;
+    margin-bottom: px2rem(16px);
+    background: var(--UserSelect--content-bg);
+  }
+
+  &-footer {
+    background: var(--white);
+    padding: px2rem(10px) px2rem(16px) 0;
+
+    .#{$ns}Button {
+      width: 100%;
+    }
   }
 
   &-navbar {
@@ -73,6 +86,7 @@
     flex: none;
     white-space: nowrap;
     overflow-x: auto;
+    background: var(--white);
 
     &-item {
       cursor: pointer;
@@ -95,6 +109,8 @@
     position: relative;
     flex: 1;
     background: var(--UserSelect--content-bg);
+    margin-top: px2rem(16px);
+    margin-bottom: px2rem(16px);
   }
 
   &-scroll {
@@ -108,7 +124,6 @@
 
   &-memberList-box {
     width: 100vw;
-    margin-top: px2rem(16px);
   }
 
   &-memberList,
@@ -238,6 +253,7 @@
     flex: none;
     overflow: hidden;
     box-sizing: border-box;
+    background: var(--white);
   }
 
   &-selectNum {
@@ -396,10 +412,27 @@
     flex-direction: column;
   }
 
+  .#{$ns}UserSelect-wrap {
+    height: calc(100% - 16px);
+  }
+
+  &-footer {
+    padding: px2rem(16px) px2rem(16px) 0;
+    background: var(--white);
+
+    .#{$ns}Button {
+      width: 100%;
+    }
+  }
+
   &-tabs {
     flex: 1;
     display: flex;
     flex-direction: column;
+
+    .#{$ns}Tabs-content {
+      background-color: var(--UserSelect--content-bg);
+    }
 
     > div {
       &:first-child {

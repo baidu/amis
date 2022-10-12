@@ -882,6 +882,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 | joinValues               | `boolean`                          | `true`                                         | 默认为 `true` 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用 array 的方式。                                                                             |
 | delimiter                | `string`                           | `false`                                        | 当扁平化开启并且 joinValues 为 true 时，用什么分隔符。                                                                                                              |
 | addable                  | `boolean`                          | `false`                                        | 是否可新增                                                                                                                                                          |
+| addattop                 | `boolean`                          | `false`                                        | 在顶部添加                                                                                                                                                          |
 | removable                | `boolean`                          | `false`                                        | 是否可删除                                                                                                                                                          |
 | deleteApi                | [API](../../../docs/types/api)     |                                                | 如果配置了，则删除前会发送一个 api，请求成功才完成删除                                                                                                              |
 | deleteConfirmText        | `string`                           | `"确认要删除？"`                               | 当配置 `deleteApi` 才生效！删除时用来做用户确认                                                                                                                     |
@@ -904,7 +905,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.2.1 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.1 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 

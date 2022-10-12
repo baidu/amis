@@ -3,7 +3,7 @@ import React from 'react';
 import {Spinner} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import {TransferPicker} from 'amis-ui';
-import {autobind} from 'amis-core';
+import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 
 /**
@@ -86,7 +86,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
     if (
       selectMode === 'associated' &&
       options &&
-      options.length === 1 &&
+      options.length &&
       options[0].leftOptions &&
       Array.isArray(options[0].children)
     ) {

@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "2.2.0",
+  "version": "2.3.1",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -40,14 +40,13 @@
     ]
   },
   "dependencies": {
-    "amis-core": "^2.2.0",
-    "amis-ui": "^2.2.0",
-    "ansi-to-react": "^6.1.6",
+    "amis-core": "^2.3.1",
+    "amis-ui": "^2.3.1",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.1",
-    "downshift": "6.1.7",
-    "echarts": "5.3.3",
+    "downshift": "6.1.12",
+    "echarts": "5.4.0",
     "echarts-stat": "^1.2.0",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.2",
@@ -72,7 +71,7 @@
     "react-dropzone": "^11.4.2",
     "react-json-view": "1.21.3",
     "react-transition-group": "4.4.2",
-    "sortablejs": "1.14.0",
+    "sortablejs": "1.15.0",
     "tslib": "^2.3.1",
     "video-react": "0.15.0"
   },
@@ -80,11 +79,11 @@
     "@fortawesome/fontawesome-free": "^6.1.1",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-node-resolve": "^14.1.0",
     "@rollup/plugin-typescript": "^8.3.4",
     "@svgr/rollup": "^6.2.1",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.0.0",
+    "@testing-library/react": "^13.4.0",
     "@types/async": "^2.0.45",
     "@types/codemirror": "^5.60.3",
     "@types/echarts": "^4.9.2",
@@ -119,9 +118,9 @@
     "glob": "^7.2.0",
     "history": "^4.7.2",
     "husky": "^7.0.4",
-    "jest": "^28.1.0",
+    "jest": "^29.0.3",
     "jest-canvas-mock": "^2.3.0",
-    "jest-environment-jsdom": "^28.1.0",
+    "jest-environment-jsdom": "^29.0.3",
     "js-yaml": "^4.1.0",
     "json5": "^2.2.1",
     "lint-staged": "^12.3.3",
@@ -141,10 +140,10 @@
     "react-router-dom": "5.3.0",
     "react-test-renderer": "^18.0.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.73.0",
+    "rollup": "^2.79.1",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-license": "^2.7.0",
-    "ts-jest": "^28.0.3",
+    "ts-jest": "^29.0.2",
     "ts-json-schema-generator": "0.96.0",
     "ts-node": "^10.5.0",
     "typescript": "^4.6.4"
@@ -153,7 +152,8 @@
     "lib",
     "esm",
     "sdk",
-    "schema.json"
+    "schema.json",
+    "revision.json"
   ],
   "exports": {
     ".": {
@@ -192,7 +192,12 @@
       "js"
     ],
     "transform": {
-      "\\.(ts|tsx)$": "ts-jest"
+      "\\.(ts|tsx)$": [
+        "ts-jest",
+        {
+          "diagnostics": false
+        }
+      ]
     },
     "setupFiles": [
       "jest-canvas-mock"
@@ -211,10 +216,9 @@
       "/node_modules/",
       "/.rollup.cache/"
     ],
-    "globals": {
-      "ts-jest": {
-        "diagnostics": false
-      }
+    "snapshotFormat": {
+      "escapeString": false,
+      "printBasicPrototype": false
     }
   },
   "peerDependencies": {

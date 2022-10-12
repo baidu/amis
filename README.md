@@ -15,7 +15,7 @@
 <div align="center">
   QQ 群: 1147750223（已满） |
   QQ 群2: 651547026 |
-  如流群：3395342（已满）|
+  如流群：3395342 |
   如流群2：5511067|
 </div>
 
@@ -62,6 +62,9 @@ npm run build
 
 # 执行测试用例
 npm test --workspaces
+
+# 测试某个用例
+npm test --workspace amis inputImage
 
 # 查看测试用例覆盖率
 npm run coverage

@@ -26,8 +26,7 @@ import {
   getTreeDepth,
   flattenTree,
   keyToPath,
-  getVariable,
-  isObject
+  getVariable
 } from '../utils/helper';
 import {reaction} from 'mobx';
 import {
@@ -463,8 +462,6 @@ export function registerOptionsControl(config: OptionsConfig) {
             )
             .then(() => this.normalizeValue());
         }
-      } else if (!isEqual(props.value, prevProps.value) && props.formInited) {
-        this.normalizeValue();
       }
 
       if (prevProps.value !== props.value || formItem?.expressionsInOptions) {
@@ -547,6 +544,8 @@ export function registerOptionsControl(config: OptionsConfig) {
                 selectedOptions[0]
               )
         );
+        const tmpData = {...data};
+        const result = {...toSync};
 
         Object.keys(autoFill).forEach(key => {
           const keys = keyToPath(key);
@@ -554,15 +553,16 @@ export function registerOptionsControl(config: OptionsConfig) {
           // 如果左边的 key 是一个路径
           // 这里不希望直接把原始对象都给覆盖没了
           // 而是保留原始的对象，只修改指定的属性
-          if (keys.length > 1 && isPlainObject(data[keys[0]])) {
-            const obj = {...data[keys[0]]};
+          if (keys.length > 1 && isPlainObject(tmpData[keys[0]])) {
             const value = getVariable(toSync, key);
-            toSync[keys[0]] = obj;
-            setVariable(toSync, key, value);
+
+            // 存在情况：依次更新同一子路径的多个key，eg: a.b.c1 和 a.b.c2，所以需要同步更新data
+            setVariable(tmpData, key, value);
+            result[keys[0]] = tmpData[keys[0]];
           }
         });
 
-        onBulkChange(toSync);
+        onBulkChange(result);
       }
     }
 
@@ -575,38 +575,16 @@ export function registerOptionsControl(config: OptionsConfig) {
         multiple,
         formItem,
         valueField,
-        delimiter,
         enableNodePath,
         pathSeparator,
         onChange
       } = this.props;
 
-      if (!formItem || !formItem.options.length) {
+      if (!formItem || joinValues !== false || !formItem.options.length) {
         return;
       }
 
-      if (joinValues !== false) {
-        // 只处理多选且值为 array 的情况，因为理应为分隔符隔开的字符串
-        if (!(multiple && Array.isArray(value))) return;
-
-        const selectedOptions = formItem.getSelectedOptions(value);
-
-        onChange?.(
-          (multiple
-            ? selectedOptions.concat()
-            : selectedOptions.length
-            ? [selectedOptions[0]]
-            : []
-          )
-            .map((selectedOption: Option) => {
-              return typeof selectedOption === 'string' ||
-                typeof selectedOption === 'number'
-                ? selectedOption
-                : selectedOption[valueField || 'value'];
-            })
-            .join(delimiter || ',')
-        );
-      } else if (
+      if (
         extractValue === false &&
         (typeof value === 'string' || typeof value === 'number')
       ) {
@@ -616,13 +594,12 @@ export function registerOptionsControl(config: OptionsConfig) {
         extractValue === true &&
         value &&
         !(
-          (multiple &&
-            Array.isArray(value) &&
+          (Array.isArray(value) &&
             value.every(
               val => typeof val === 'string' || typeof val === 'number'
             )) ||
-          (!multiple &&
-            (typeof value === 'string' || typeof value === 'number'))
+          typeof value === 'string' ||
+          typeof value === 'number'
         )
       ) {
         const selectedOptions = formItem
@@ -1298,7 +1275,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         pathSeparator,
         delimiter = ',',
         labelField = 'label',
-        valueField = 'value'
+        valueField = 'value',
+        translate: __
       } = this.props;
 
       const {nodePathArray, nodeValueArray} = normalizeNodePath(
@@ -1313,6 +1291,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       return (
         <Control
           {...this.props}
+          placeholder={__(this.props.placeholder)}
           ref={this.inputRef}
           options={formItem ? formItem.filteredOptions : []}
           onToggle={this.handleToggle}

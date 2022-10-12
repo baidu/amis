@@ -219,7 +219,7 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
         key={index}
         onClick={() => this.handleSelect(name)}
       >
-        <a>{title}</a>
+        <a title={title}>{title}</a>
       </li>
     );
   }

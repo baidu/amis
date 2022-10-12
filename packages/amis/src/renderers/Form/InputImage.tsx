@@ -3,6 +3,7 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
+  prettyBytes,
   resolveEventData
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
@@ -346,20 +347,6 @@ export default class ImageControl extends React.Component<
     dropCrop: true
   };
 
-  static formatFileSize(
-    size: number | string,
-    units = [' B', ' KB', ' M', ' G']
-  ) {
-    size = parseInt(size as string, 10) || 0;
-
-    while (size > 1024 && units.length > 1) {
-      size /= 1024;
-      units.shift();
-    }
-
-    return size.toFixed(2) + units[0];
-  }
-
   static valueToFile(
     value: string | object,
     props?: ImageProps
@@ -482,7 +469,7 @@ export default class ImageControl extends React.Component<
   componentDidUpdate(prevProps: ImageProps) {
     const props = this.props;
 
-    if (prevProps.value !== props.value && this.emitValue !== props.value) {
+    if (prevProps.value !== props.value) {
       const value: string | Array<string | FileValue> | FileValue = props.value;
       const multiple = props.multiple;
       const joinValues = props.joinValues;
@@ -853,7 +840,7 @@ export default class ImageControl extends React.Component<
     // 排除自身的字段，否则会无限更新state
     const excludeSelfAutoFill = omit(autoFill, name || '');
 
-    if (!isEmpty(excludeSelfAutoFill) && onBulkChange && this.initAutoFill) {
+    if (!isEmpty(excludeSelfAutoFill) && onBulkChange) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
@@ -1005,8 +992,8 @@ export default class ImageControl extends React.Component<
         this.props.env.alert(
           __('File.maxSize', {
             filename: file.name,
-            actualSize: ImageControl.formatFileSize(file.size),
-            maxSize: ImageControl.formatFileSize(maxSize)
+            actualSize: prettyBytes(file.size, 1024),
+            maxSize: prettyBytes(maxSize, 1024)
           })
         );
         return;
@@ -1368,7 +1355,6 @@ export default class ImageControl extends React.Component<
       frameImageStyle.width = frameImageWidth;
     }
     const filterFrameImage = filter(frameImage, this.props.data, '| raw');
-
     const hasPending = files.some(file => file.state == 'pending');
     return (
       <div className={cx(`ImageControl`, className)}>
@@ -1581,9 +1567,9 @@ export default class ImageControl extends React.Component<
                                           </div>,
                                           file.info.len ? (
                                             <div key="size">
-                                              {ImageControl.formatFileSize(
+                                              {prettyBytes(
                                                 file.info.len
-                                              )}
+                                              , 1024)}
                                             </div>
                                           ) : null
                                         ]

@@ -69,17 +69,25 @@ export interface NumberControlSchema extends FormBaseControlSchema {
   unitOptions?: string | Array<Option> | string[] | PlainObject;
 
   /**
+   * 是否是大数，如果是的话输入输出都将是字符串
+   */
+  big?: boolean;
+
+  /**
    * 是否千分分隔
    */
   kilobitSeparator?: boolean;
+
   /**
    * 只读
    */
   readOnly?: boolean;
+
   /**
    * 是否启用键盘行为
    */
   keyboard?: boolean;
+
   /**
    * 输入框为基础输入框还是加强输入框
    */
@@ -120,6 +128,10 @@ export interface NumberProps extends FormControlProps {
    * 输入框为基础输入框还是加强输入框
    */
   displayMode?: 'base' | 'enhance';
+  /**
+   * 是否是大数，如果是的话输入输出都将是字符串
+   */
+  big?: boolean;
 }
 
 interface NumberState {
@@ -218,7 +230,11 @@ export default class NumberControl extends React.Component<
   getValue(inputValue: any) {
     const {resetValue, unitOptions} = this.props;
 
-    if (inputValue && typeof inputValue !== 'number') {
+    if (
+      inputValue &&
+      typeof inputValue !== 'number' &&
+      typeof inputValue !== 'string'
+    ) {
       return;
     }
 
@@ -251,6 +267,9 @@ export default class NumberControl extends React.Component<
   }
 
   filterNum(value: number | string | undefined) {
+    if (typeof value === 'undefined') {
+      return undefined;
+    }
     if (typeof value !== 'number') {
       value = filter(value, this.props.data);
       value = /^[-]?\d+/.test(value) ? +value : undefined;
@@ -313,7 +332,8 @@ export default class NumberControl extends React.Component<
       unitOptions,
       readOnly,
       keyboard,
-      displayMode
+      displayMode,
+      big
     } = this.props;
     let precisionProps: any = {};
     const finalPrecision = this.filterNum(precision);
@@ -374,6 +394,7 @@ export default class NumberControl extends React.Component<
           onBlur={() => this.dispatchEvent('blur')}
           keyboard={keyboard}
           displayMode={displayMode}
+          big={big}
         />
         {unitOptions ? (
           <Select

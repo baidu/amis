@@ -64,7 +64,12 @@ export interface TextControlSchema extends FormOptionsSchema {
   borderMode?: 'full' | 'half' | 'none';
 
   /**
-   * 限制文字个数
+   * 限制文字最小输入个数
+   */
+  minLength?: number;
+
+  /**
+   * 限制文字最大输入个数
    */
   maxLength?: number;
 
@@ -626,6 +631,8 @@ export default class TextControl extends React.PureComponent<
       ? ''
       : typeof value === 'string'
       ? value
+      : value instanceof Date
+      ? value.toISOString()
       : JSON.stringify(value);
   }
 
@@ -653,6 +660,7 @@ export default class TextControl extends React.PureComponent<
       borderMode,
       showCounter,
       maxLength,
+      minLength,
       translate: __
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -756,7 +764,9 @@ export default class TextControl extends React.PureComponent<
                     onFocus: this.handleFocus,
                     onBlur: this.handleBlur,
                     onChange: this.handleInputChange,
-                    onKeyDown: this.handleKeyDown
+                    onKeyDown: this.handleKeyDown,
+                    maxLength,
+                    minLength
                   })}
                   autoComplete="off"
                   size={10}
@@ -863,7 +873,8 @@ export default class TextControl extends React.PureComponent<
       suffix,
       data,
       showCounter,
-      maxLength
+      maxLength,
+      minLength
     } = this.props;
 
     const type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -895,6 +906,8 @@ export default class TextControl extends React.PureComponent<
           onBlur={this.handleBlur}
           max={max}
           min={min}
+          maxLength={maxLength}
+          minLength={minLength}
           autoComplete="off"
           size={10}
           step={step}

@@ -237,7 +237,7 @@ app.listen(8080, function () {});
 }
 ```
 
-**多选模式**
+### 多选模式
 
 当表单项为多选模式时，不能再直接取选项中的值了，而是通过 `items` 变量来取，通过它可以获取当前选中的选项集合。
 
@@ -257,12 +257,75 @@ app.listen(8080, function () {});
         "myUrl": "${items|pick:url}",
         "lastUrl": "${items|last|pick:url}"
       }
+    },
+    {
+      "type": "tpl",
+      "label": false,
+      "inline": false,
+      "tpl": "<strong>myUrl集合</strong>"
+    },
+    {
+      "type": "each",
+      "name": "myUrl",
+      "className": "mb-1",
+      "items": {
+        "type": "tpl",
+        "tpl": "<span class='label label-info m-l-sm inline-block mb-1'><%= data.item %></span>"
+      }
+    },
+    {
+      "type": "tpl",
+      "label": false,
+      "inline": false,
+      "tpl": "<strong>lastUrl</strong>"
+    },
+    {
+      "type": "text",
+      "name": "lastUrl",
+      "label": "lastUrl",
+      "inline": false
     }
   ]
 }
 ```
 
-**initAutoFill**
+### 其他表单项填充
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "表单",
+  "body": [
+    {
+      "type": "select",
+      "label": "选项",
+      "name": "imageUrl",
+      "delimiter": "|",
+      "autoFill": {
+        "inputImage": "${value}"
+      },
+      "options": [
+        {
+          "label": "imageURL",
+          "value": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+        },
+        {
+          "label": "空链接",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "type": "input-image",
+      "label": "图片上传",
+      "name": "inputImage",
+      "imageClassName": "r w-full"
+    }
+  ]
+}
+```
+
+### initAutoFill 初始化时自动同步
 
 当表单反显时，可通过`initAutoFill`控制`autoFill`在数据反显时是否执行。
 
@@ -403,7 +466,7 @@ app.listen(8080, function () {});
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.2.1 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.1 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`file`取值。
 

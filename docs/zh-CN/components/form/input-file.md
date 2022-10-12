@@ -72,6 +72,26 @@ order: 21
 
 想要限制多个类型，则用逗号分隔，例如：`.csv,.md`
 
+## 限制文件大小
+
+可以配置`maxSize`来限制文件大小
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-file",
+            "name": "file",
+            "label": "不能上传超过 1M 的文件",
+            "maxSize": 1048576,
+            "receiver": "/api/upload/file"
+        }
+    ]
+}
+```
+
 ## 手动上传
 
 如果不希望 File 组件上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。
@@ -320,7 +340,7 @@ order: 21
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.2.1 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.1 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`file`取值。
 

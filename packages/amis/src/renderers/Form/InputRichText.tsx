@@ -1,5 +1,11 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  buildApi,
+  qsstringify
+} from 'amis-core';
 import cx from 'classnames';
 import {LazyComponent} from 'amis-core';
 import {tokenize} from 'amis-core';
@@ -108,8 +114,23 @@ export default class RichTextControl extends React.Component<
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleChange = this.handleChange.bind(this);
-
+    const imageReceiver = normalizeApi(
+      props.receiver,
+      props.receiver.method || 'post'
+    );
+    imageReceiver.data = imageReceiver.data || {};
+    const imageApi = buildApi(imageReceiver, props.data, {
+      method: props.receiver.method || 'post'
+    });
     if (finnalVendor === 'froala') {
+      const videoReceiver = normalizeApi(
+        props.videoReceiver,
+        props.videoReceiver.method || 'post'
+      );
+      videoReceiver.data = videoReceiver.data || {};
+      const videoApi = buildApi(videoReceiver, props.data, {
+        method: props.videoReceiver.method || 'post'
+      });
       this.config = {
         imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif'],
         imageDefaultAlign: 'left',
@@ -135,13 +156,15 @@ export default class RichTextControl extends React.Component<
         ...props.options,
         editorClass: props.editorClass,
         placeholderText: props.translate(props.placeholder),
-        imageUploadURL: tokenize(props.receiver, props.data),
+        imageUploadURL: imageApi.url,
         imageUploadParams: {
-          from: 'rich-text'
+          from: 'rich-text',
+          ...imageApi.data
         },
-        videoUploadURL: tokenize(props.videoReceiver, props.data),
+        videoUploadURL: videoApi.url,
         videoUploadParams: {
-          from: 'rich-text'
+          from: 'rich-text',
+          ...videoApi.data
         },
         events: {
           ...(props.options && props.options.events),
@@ -159,50 +182,58 @@ export default class RichTextControl extends React.Component<
       const fetcher = props.env.fetcher;
       this.config = {
         ...props.options,
-        images_upload_handler: async (
-          blobInfo: any,
-          ok: (locaiton: string) => void,
-          fail: (reason: string) => void
-        ) => {
-          const formData = new FormData();
-          formData.append(
-            props.fileField,
-            blobInfo.blob(),
-            blobInfo.filename()
-          );
+        images_upload_handler: (blobInfo: any, progress: any) =>
+          new Promise(async (resolve, reject) => {
+            const formData = new FormData();
 
-          try {
-            const receiver = {
-              adaptor: (payload: object) => {
-                return {
-                  ...payload,
-                  data: payload
-                };
-              },
-              ...normalizeApi(tokenize(props.receiver, props.data), 'post')
-            };
-
-            const response = await fetcher(receiver, formData, {
-              method: 'post'
-            });
-            if (response.ok) {
-              const location =
-                response.data?.link ||
-                response.data?.url ||
-                response.data?.value ||
-                response.data?.data?.link ||
-                response.data?.data?.url ||
-                response.data?.data?.value;
-              if (location) {
-                ok(location);
-              } else {
-                console.warn('must have return value');
-              }
+            if (imageApi.data) {
+              qsstringify(imageApi.data)
+                .split('&')
+                .filter(item => item !== '')
+                .forEach(item => {
+                  let parts = item.split('=');
+                  formData.append(parts[0], decodeURIComponent(parts[1]));
+                });
             }
-          } catch (e) {
-            fail(e);
-          }
-        }
+
+            formData.append(
+              props.fileField || 'file',
+              blobInfo.blob(),
+              blobInfo.filename()
+            );
+
+            try {
+              const receiver = {
+                adaptor: (payload: object) => {
+                  return {
+                    ...payload,
+                    data: payload
+                  };
+                },
+                ...imageApi
+              };
+
+              const response = await fetcher(receiver, formData, {
+                method: 'post'
+              });
+              if (response.ok) {
+                const location =
+                  response.data?.link ||
+                  response.data?.url ||
+                  response.data?.value ||
+                  response.data?.data?.link ||
+                  response.data?.data?.url ||
+                  response.data?.data?.value;
+                if (location) {
+                  resolve(location);
+                } else {
+                  console.warn('must have return value');
+                }
+              }
+            } catch (e) {
+              reject(e);
+            }
+          })
       };
     }
   }

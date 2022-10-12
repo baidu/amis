@@ -1,4 +1,4 @@
-import {OptionsControlProps, OptionsControl} from 'amis-core';
+import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
 import React from 'react';
 import find from 'lodash/find';
 import {Spinner} from 'amis-ui';
@@ -213,11 +213,18 @@ export class BaseTabsTransferRenderer<
       setOptions(newOptions, true);
 
     // 触发渲染器事件
-    const rendererEvent = await dispatchEvent('change', {
-      value: newValue,
-      options,
-      items: options // 为了保持名字统一
-    });
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(
+        this.props,
+        {
+          value: newValue,
+          options,
+          items: options // 为了保持名字统一
+        },
+        'value'
+      )
+    );
     if (rendererEvent?.prevented) {
       return;
     }

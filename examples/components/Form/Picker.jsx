@@ -39,7 +39,19 @@ export default {
             label: '选项4',
             value: 4
           }
-        ]
+        ],
+        onEvent: {
+          itemclick: {
+            actions: [
+              {
+                actionType: 'alert',
+                args: {
+                  msg: '${item.label}~${item.value}</a>'
+                }
+              }
+            ]
+          }
+        }
       },
 
       {
@@ -209,8 +221,7 @@ export default {
                         },
                         {
                           type: 'html',
-                          html:
-                            '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                          html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                         }
                       ]
                     }
@@ -285,6 +296,18 @@ export default {
               toggled: true
             }
           ]
+        },
+        onEvent: {
+          itemclick: {
+            actions: [
+              {
+                actionType: 'alert',
+                args: {
+                  msg: '${item|json}</a>'
+                }
+              }
+            ]
+          }
         }
       },
 
@@ -422,8 +445,7 @@ export default {
                         },
                         {
                           type: 'html',
-                          html:
-                            '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                          html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                         }
                       ]
                     }
@@ -598,8 +620,7 @@ export default {
                       },
                       {
                         type: 'html',
-                        html:
-                          '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                        html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                       }
                     ]
                   }
@@ -789,8 +810,7 @@ export default {
                       },
                       {
                         type: 'html',
-                        html:
-                          '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                        html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                       }
                     ]
                   }
@@ -997,8 +1017,7 @@ export default {
                       },
                       {
                         type: 'html',
-                        html:
-                          '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                        html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                       }
                     ]
                   }
@@ -1188,8 +1207,7 @@ export default {
                       },
                       {
                         type: 'html',
-                        html:
-                          '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                        html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                       }
                     ]
                   }

@@ -67,7 +67,7 @@ exports[`Form:initData 1`] = `
 `;
 
 exports[`Form:initData 2`] = `
-Object {
+{
   "a": "1",
   "b": "2",
 }
@@ -237,15 +237,15 @@ exports[`Form:initData:remote 1`] = `
 `;
 
 exports[`Form:initData:remote 2`] = `
-Object {
-  "config": Object {
+{
+  "config": {
     "cancelExecutor": [Function],
     "errorMessage": "fetchFailed",
     "onSuccess": [Function],
     "successMessage": undefined,
   },
   "method": "get",
-  "query": Object {
+  "query": {
     "c": "123",
   },
   "url": "/api/xxx?c=123",
@@ -253,7 +253,7 @@ Object {
 `;
 
 exports[`Form:initData:remote 3`] = `
-Object {
+{
   "a": 1,
   "b": 2,
   "c": "123",
@@ -424,4 +424,4 @@ exports[`Form:initData:without-super 1`] = `
 </div>
 `;
 
-exports[`Form:initData:without-super 2`] = `Object {}`;
+exports[`Form:initData:without-super 2`] = `{}`;

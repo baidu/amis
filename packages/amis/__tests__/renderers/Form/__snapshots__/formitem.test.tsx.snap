@@ -421,7 +421,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
 `;
 
 exports[`Renderer:FormItem:validateApi:success 2`] = `
-Object {
+{
   "a": "123",
 }
 `;

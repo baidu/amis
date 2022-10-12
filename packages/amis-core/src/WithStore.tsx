@@ -1,4 +1,5 @@
 import hoistNonReactStatic from 'hoist-non-react-statics';
+import {reaction} from 'mobx';
 import {observer} from 'mobx-react';
 import {isAlive} from 'mobx-state-tree';
 import React from 'react';
@@ -46,6 +47,8 @@ export function HocStoreFactory(renderer: {
       store: IIRendererStore;
       context!: React.ContextType<typeof RootStoreContext>;
       ref: any;
+      state: any;
+      unReaction: any;
 
       constructor(
         props: Props,
@@ -116,6 +119,28 @@ export function HocStoreFactory(renderer: {
             ),
             ...this.formatData(this.props.data)
           });
+        }
+
+        this.state = {};
+        const {detectField, ...rest} = props;
+        let exprProps: any = {};
+        if (!detectField || detectField === 'data') {
+          exprProps = getExprProperties(rest, store.data, undefined, rest);
+
+          this.state = {
+            ...exprProps
+          };
+
+          this.unReaction = reaction(
+            () =>
+              JSON.stringify(
+                getExprProperties(rest, store.data, undefined, rest)
+              ),
+            () =>
+              this.setState({
+                ...getExprProperties(rest, store.data, undefined, rest)
+              })
+          );
         }
       }
 
@@ -259,6 +284,7 @@ export function HocStoreFactory(renderer: {
         const rootStore = this.context as IRendererStore;
         const store = this.store;
 
+        this.unReaction?.();
         isAlive(store) && rootStore.removeStore(store);
 
         // @ts-ignore
@@ -287,13 +313,8 @@ export function HocStoreFactory(renderer: {
       render() {
         const {detectField, ...rest} = this.props;
 
-        let exprProps: any = {};
-        if (!detectField || detectField === 'data') {
-          exprProps = getExprProperties(rest, this.store.data, undefined, rest);
-
-          if (exprProps.hidden || exprProps.visible === false) {
-            return null;
-          }
+        if (this.state.hidden || this.state.visible === false) {
+          return null;
         }
 
         return (
@@ -301,7 +322,7 @@ export function HocStoreFactory(renderer: {
             {
               ...(rest as any) /* todo */
             }
-            {...exprProps}
+            {...this.state}
             ref={this.refFn}
             data={this.store.data}
             dataUpdatedAt={this.store.updatedAt}

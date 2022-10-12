@@ -12,7 +12,8 @@ import {
   qsstringify,
   qsparse,
   isArrayChildrenModified,
-  autobind
+  autobind,
+  parseQuery
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import Button from 'amis-ui';
@@ -254,14 +255,14 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        qsparse(location.search.substring(1)),
+        parseQuery(location),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        qsparse(window.location.search.substring(1)) as object,
+        parseQuery(window.location),
         undefined,
         pageField,
         perPageField
@@ -331,7 +332,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        qsparse(props.location.search.substring(1)),
+        parseQuery(props.location),
         undefined,
         props.pageField,
         props.perPageField
@@ -851,7 +852,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           oldUnselectedItems.push(item);
         }
 
-        ~idx2 && oldItems.splice(idx2, 1);
+        !~idx && ~idx2 && oldItems.splice(idx2, 1);
       });
 
       newItems = oldItems;

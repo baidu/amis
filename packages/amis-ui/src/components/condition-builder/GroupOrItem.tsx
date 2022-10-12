@@ -32,6 +32,7 @@ export interface CBGroupOrItemProps extends ThemeProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
+  selectMode?: 'list' | 'tree';
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -79,6 +80,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       onDragStart,
       formula,
       popOverContainer,
+      selectMode,
       renderEtrValue
     } = this.props;
 
@@ -148,6 +150,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 formula={formula}
                 popOverContainer={popOverContainer}
                 renderEtrValue={renderEtrValue}
+                selectMode={selectMode}
               />
               <Button
                 className={cx('CBDelete')}

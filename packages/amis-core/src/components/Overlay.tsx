@@ -156,6 +156,8 @@ class Position extends React.Component<any, any> {
     return cloneElement(child, {
       ...props,
       ...arrowPosition,
+      // 防止 child offset 被 Overlay offset 覆盖
+      ...(child.props.offset ? {offset: child.props.offset} : {}),
       // FIXME: Don't forward `positionLeft` and `positionTop` via both props
       // and `props.style`.
       positionLeft,

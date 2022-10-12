@@ -24,14 +24,18 @@ exports[`Renderer:anchorNav 1`] = `
               <li
                 class="cxd-AnchorNav-link is-active"
               >
-                <a>
+                <a
+                  title="基本信息"
+                >
                   基本信息
                 </a>
               </li>
               <li
                 class="cxd-AnchorNav-link"
               >
-                <a>
+                <a
+                  title="工作信息"
+                >
                   工作信息
                 </a>
               </li>
@@ -396,7 +400,9 @@ exports[`Renderer:anchorNav horizontal 1`] = `
               <li
                 class="cxd-AnchorNav-link is-active"
               >
-                <a>
+                <a
+                  title="基本信息"
+                >
                   基本信息
                 </a>
               </li>

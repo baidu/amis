@@ -1178,8 +1178,11 @@ export class DateRangePicker extends React.Component<
           ? minDate
           : startDate
         : minDate || startDate;
-
-    if (minDate && currentDate.isBefore(minDate, precision)) {
+    // 在 dateTimeRange 的场景下，如果选择了开始时间的时间点不为 0，比如 2020-10-1 10:10，这时 currentDate 传入的当天值是 2020-10-1 00:00，这个值在起始时间后面，导致没法再选这一天了，所以在这时需要先通过将时间都转成 00 再比较
+    if (
+      minDate &&
+      currentDate.startOf('day').isBefore(minDate.startOf('day'), precision)
+    ) {
       return false;
     } else if (maxDate && currentDate.isAfter(maxDate, precision)) {
       return false;

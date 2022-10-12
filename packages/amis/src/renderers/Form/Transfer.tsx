@@ -129,6 +129,11 @@ export interface TransferControlSchema extends FormOptionsSchema {
    * 右侧列表搜索框提示
    */
   resultSearchPlaceholder?: string;
+
+  /**
+   * 统计数字
+   */
+  statistics?: boolean;
 }
 
 export interface BaseTransferProps
@@ -203,6 +208,23 @@ export class BaseTransferRenderer<
         joinValues || extractValue
           ? value[(valueField as string) || 'value']
           : value;
+      const indexes = findTreeIndex(
+        options,
+        optionValueCompare(
+          value[(valueField as string) || 'value'],
+          (valueField as string) || 'value'
+        )
+      );
+
+      if (!indexes) {
+        newOptions.push(value);
+      } else if (optionModified) {
+        const origin = getTree(newOptions, indexes);
+        newOptions = spliceTree(newOptions, indexes, 1, {
+          ...origin,
+          ...value
+        });
+      }
     }
 
     (newOptions.length > options.length || optionModified) &&
@@ -262,7 +284,7 @@ export class BaseTransferRenderer<
         const result =
           payload.data.options || payload.data.items || payload.data;
         if (!Array.isArray(result)) {
-          throw new Error('CRUD.invalidArray');
+          throw new Error(__('CRUD.invalidArray'));
         }
 
         return result.map(item => {
@@ -335,7 +357,7 @@ export class BaseTransferRenderer<
       });
     }
 
-    return ResultList.itemRender(option);
+    return ResultList.itemRender(option, states);
   }
 
   @autobind
@@ -369,6 +391,15 @@ export class BaseTransferRenderer<
       ref = ref.getWrappedInstance();
     }
     this.tranferRef = ref;
+  }
+
+  @autobind
+  onSelectAll(options: Option[]) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(
+      'selectAll',
+      resolveEventData(this.props, {items: options}, 'value')
+    );
   }
 
   // 动作
@@ -410,7 +441,9 @@ export class BaseTransferRenderer<
       searchPlaceholder,
       resultListModeFollowSelect = false,
       resultSearchPlaceholder,
-      resultSearchable = false
+      resultSearchable = false,
+      statistics,
+      labelField
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -457,6 +490,8 @@ export class BaseTransferRenderer<
           searchPlaceholder={searchPlaceholder}
           resultSearchable={resultSearchable}
           resultSearchPlaceholder={resultSearchPlaceholder}
+          statistics={statistics}
+          labelField={labelField}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
           onRef={this.getRef}

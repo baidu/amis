@@ -135,7 +135,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '派发change事件${event.data.value}'
+                    msg: '派发change事件${tree}'
                   }
                 }
               ]
@@ -146,7 +146,14 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '派发add事件${event.data|json}'
+                    msg: '派发add事件${tree|json}'
+                  }
+                },
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '派发add事件${items|json}'
                   }
                 }
               ]
@@ -157,7 +164,14 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '派发edit事件${event.data|json}'
+                    msg: '派发edit事件${tree|json}'
+                  }
+                },
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '派发edit事件${items|json}'
                   }
                 }
               ]
@@ -168,7 +182,14 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '派发delete事件${event.data|json}'
+                    msg: '派发delete事件${tree|json}'
+                  }
+                },
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '派发delete事件${items|json}'
                   }
                 }
               ]
@@ -179,7 +200,7 @@ export default {
                   actionType: 'toast',
                   args: {
                     msgType: 'info',
-                    msg: '派发loadFinished事件${event.data.value|json}'
+                    msg: '派发loadFinished事件${tree|json}'
                   }
                 }
               ]
