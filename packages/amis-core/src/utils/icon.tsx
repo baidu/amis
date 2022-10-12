@@ -24,6 +24,10 @@ export const generateIcon = (
   className?: string,
   classNameProp?: string
 ) => {
+  if (React.isValidElement(icon)) {
+    return icon;
+  }
+
   if (typeof icon !== 'string') {
     if (
       isObject(icon) &&
@@ -38,10 +42,6 @@ export const generateIcon = (
     }
 
     return;
-  }
-
-  if (React.isValidElement(icon)) {
-    return icon;
   }
 
   const isURLIcon = icon?.indexOf('.') !== -1;
