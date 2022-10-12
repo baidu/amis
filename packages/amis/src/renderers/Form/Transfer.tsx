@@ -396,10 +396,7 @@ export class BaseTransferRenderer<
   @autobind
   onSelectAll(options: Option[]) {
     const {dispatchEvent, data} = this.props;
-    dispatchEvent(
-      'selectAll',
-      resolveEventData(this.props, {items: options}, 'value')
-    );
+    dispatchEvent('selectAll', createObject(data, {items: options}));
   }
 
   // 动作
@@ -494,6 +491,7 @@ export class BaseTransferRenderer<
           labelField={labelField}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
+          onSelectAll={this.onSelectAll}
           onRef={this.getRef}
         />
 
