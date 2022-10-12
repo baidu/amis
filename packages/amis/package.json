@@ -179,6 +179,14 @@
       "import": [
         "./sdk/*"
       ]
+    },
+    "./schema.json": {
+      "require": [
+        "./schema.json"
+      ],
+      "import": [
+        "./schema.json"
+      ]
     }
   },
   "jest": {
