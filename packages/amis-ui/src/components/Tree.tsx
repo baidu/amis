@@ -1,6 +1,19 @@
 /**
  * @file Tree
  * @description 树形组件
+ *
+ * 情况列举：
+ * 1. 选中父节点时，连带选中子节点，
+ *    1.1 交互
+ *        1.1.1 子节点不可以取消勾选
+ *        1.1.2 子节点可以取消勾选
+ *    1.2 数据（state.value）
+ *        1.2.1 只提交父节点数据
+ *        1.2.2 只提交子节点的数据
+ *        1.2.3 全部数据提交
+ *
+ * 2. 选中节点时，只选中当前节点，没有联动效果
+ *
  * @author fex
  */
 
@@ -11,14 +24,12 @@ import {
   autobind,
   findTreeIndex,
   hasAbility,
-  createObject,
   getTreeParent,
-  getTreeAncestors,
-  cloneObject
+  getTreeAncestors
 } from 'amis-core';
 import merge from 'lodash/merge';
 import {Option, Options, value2array} from './Select';
-import {ClassNamesFn, themeable, ThemeProps, highlight} from 'amis-core';
+import {themeable, ThemeProps, highlight} from 'amis-core';
 import {Icon, getIcon} from './icons';
 import Checkbox from './Checkbox';
 import {LocaleProps, localeable} from 'amis-core';
@@ -226,8 +237,7 @@ export class TreeSelector extends React.Component<
       isAdding: false,
       isEditing: false,
       editingItem: null,
-      dropIndicator: undefined,
-      flattenedOptions: []
+      dropIndicator: undefined
     };
 
     this.syncUnFolded(props);
@@ -840,10 +850,14 @@ export class TreeSelector extends React.Component<
         }
       }
     );
-
-    this.setState({
-      flattenedOptions: flattenedOptions
-    });
+    if (!this.state.flattenedOptions) {
+      // 初始化
+      this.state = {...this.state, flattenedOptions};
+    } else {
+      this.setState({
+        flattenedOptions: flattenedOptions
+      });
+    }
   }
 
   /**
@@ -888,13 +902,22 @@ export class TreeSelector extends React.Component<
   /**
    * 判断元素是否选中：checked
    */
-  isItemChecked(item: Option): boolean {
-    const {autoCheckChildren, onlyChildren} = this.props;
+  isItemChecked(item?: Option): boolean {
+    if (!item) {
+      return false;
+    }
+
+    const {autoCheckChildren, onlyChildren, multiple, withChildren, cascade} =
+      this.props;
     const {value} = this.state;
     const checked = !!~value.indexOf(item);
+
+    if (checked) {
+      return true;
+    }
+
     if (item.children?.length) {
       if (
-        !checked &&
         onlyChildren &&
         autoCheckChildren &&
         this.isItemChildrenChecked(item) // TODO: 优化这个逻辑
@@ -903,12 +926,26 @@ export class TreeSelector extends React.Component<
         return true;
       }
     }
+
+    if (item.parent && multiple && autoCheckChildren) {
+      // 当前节点为子节点
+      if (withChildren) {
+        return false;
+      }
+      if (cascade) {
+        return false;
+      }
+      return this.isParentChecked(item);
+    }
+
     // 判断父组件是否勾选
-    return checked || (autoCheckChildren && this.isParentChecked(item));
+    return false;
   }
 
   /**
    * item 是否 disabled 状态
+   * props.disabled === true return;
+   *
    */
   isItemDisabled(item: Option, checked: boolean) {
     const {
@@ -930,28 +967,32 @@ export class TreeSelector extends React.Component<
       selfDisabled ||
       (multiple && !autoCheckChildren && !item[valueField]);
 
-    if (checked && withChildren && this.isItemChildrenChecked(item.parent)) {
-      // 判断兄弟节点是否全部勾选
+    if (nodeDisabled) {
       return true;
     }
 
-    if (checked && !cascade && !~value.indexOf(item)) {
-      if (item.children && onlyChildren) {
-        // 此时子节点全部选中，父节点不在 value 中
+    if (
+      (maxLength && !checked && value.length >= maxLength) ||
+      (minLength && checked && value.length <= minLength)
+    ) {
+      return true;
+    }
+
+    if (
+      autoCheckChildren &&
+      multiple &&
+      checked &&
+      item.parent &&
+      this.isItemChecked(item.parent)
+    ) {
+      // 子节点
+      if (onlyChildren) {
         return false;
       }
-      // 父级选中，自己跟着选中，但子集会成为 disabled（不可反选，由于 cascade == false）
-      return true;
+      return !cascade;
     }
 
-    if (!nodeDisabled) {
-      return (
-        (maxLength && !checked && value.length >= maxLength) ||
-        (minLength && checked && value.length <= minLength)
-      );
-    }
-
-    return nodeDisabled;
+    return false;
   }
 
   @autobind
@@ -975,8 +1016,7 @@ export class TreeSelector extends React.Component<
       translate: __,
       itemRender,
       // ? 没看到那里用到这个属性了，暂时没测
-      draggable,
-      autoCheckChildren
+      draggable
     } = this.props;
 
     const item = this.state.flattenedOptions[index];
@@ -990,6 +1030,7 @@ export class TreeSelector extends React.Component<
     const checked = this.isItemChecked(item);
     const disabled = this.isItemDisabled(item, checked);
     const partial = this.isItemChildrenPartialChecked(item);
+    const checkedInValue = !!~this.state.value.indexOf(item);
 
     const checkbox: JSX.Element | null = multiple ? (
       <Checkbox
@@ -1030,7 +1071,7 @@ export class TreeSelector extends React.Component<
               !cascade &&
               this.isItemChildrenChecked(item) &&
               !disabled,
-            'is-checked': !disabled && checked,
+            'is-checked': checkedInValue,
             'is-disabled': disabled
           })}
           draggable={draggable}
@@ -1212,7 +1253,6 @@ export class TreeSelector extends React.Component<
       isAdding,
       addingParent,
       isEditing,
-      inputValue,
       dropIndicator,
       flattenedOptions
     } = this.state;
