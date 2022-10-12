@@ -302,11 +302,11 @@ export default class PickerControl extends React.PureComponent<
 
   @autobind
   async handleItemClick(item: any) {
-    const {dispatchEvent} = this.props;
+    const {data, dispatchEvent} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'itemclick',
-      resolveEventData(this.props, {item})
+      createObject(data, {item})
     );
 
     if (rendererEvent?.prevented) {
