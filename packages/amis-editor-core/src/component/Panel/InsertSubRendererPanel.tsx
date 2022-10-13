@@ -139,7 +139,7 @@ export class InsertSubRendererPanel extends React.Component<PanelProps> {
                             target="_blank"
                             href={store.amisDocHost + item.docLink}
                           >
-                            &nbsp;<span>详情</span>&nbsp;
+                            <span>详情</span>
                           </a>
                         ) : null}
                       </div>
