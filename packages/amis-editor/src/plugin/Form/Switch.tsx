@@ -25,7 +25,8 @@ export class SwitchControlPlugin extends BasePlugin {
   tags = ['表单项'];
   scaffold = {
     type: 'switch',
-    option: '开关',
+    label: '开关',
+    option: '说明',
     name: 'switch',
     falseValue: false,
     trueValue: true

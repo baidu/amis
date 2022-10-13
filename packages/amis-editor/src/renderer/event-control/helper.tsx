@@ -24,6 +24,7 @@ import CmptActionSelect from './comp-action-select';
 import {Button} from 'amis';
 import ACTION_TYPE_TREE from './actions';
 import {stores} from 'amis-core/lib/factory';
+import without from 'lodash/without';
 
 // 数据容器范围
 export const DATA_CONTAINER = [
@@ -115,6 +116,26 @@ export const FORMITEM_CMPTS = [
   'tree-select',
   'uuid'
 ];
+
+export const SUPPORT_STATIC_FORMITEM_CMPTS = without(FORMITEM_CMPTS, ...[
+  'button-toolbar',
+  'condition-builder',
+  'diff-editor',
+  'editor',
+  'formula',
+  'hidden',
+  'icon-picker',
+  'input-excel',
+  'input-file',
+  'input-formula',
+  'input-image',
+  'input-repeat',
+  'input-rich-text',
+  'input-sub-form',
+  'input-table',
+  'picker',
+  'uuid'
+]);
 
 export const SUPPORT_DISABLED_CMPTS = [
   'button-group',

@@ -811,6 +811,11 @@ export class FormPlugin extends BasePlugin {
             getSchemaTpl('className'),
 
             getSchemaTpl('className', {
+              name: 'staticClassName',
+              label: '静态展示时 的 CSS 类名'
+            }),
+
+            getSchemaTpl('className', {
               name: 'panelClassName',
               visibleOn: 'this.wrapWithPanel !== false',
               label: 'Panel 的 CSS 类名',
@@ -844,7 +849,8 @@ export class FormPlugin extends BasePlugin {
             }),
 
             getSchemaTpl('disabled'),
-            getSchemaTpl('visible')
+            getSchemaTpl('visible'),
+            getSchemaTpl('static')
           ]
         }
       ])
