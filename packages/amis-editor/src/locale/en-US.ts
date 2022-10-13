@@ -3247,5 +3247,32 @@ extendLocale('en-US', {
   'd01886eeef1de19f2e99617017f4def8':
     "'The format is incorrect. Enter the content that meets the rule of \\$1\\ .'",
   '5e568c42a5ecb74db2dc3d8531079dd6':
-    '<a target="_blank" href="https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/">Reference documentation</a>'
+    '<a target="_blank" href="https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/">Reference documentation</a>',
+  'cadf0e302ddbc6fdbf005aed670b5e3e': 'Code changes',
+  '6006074bdabc639b86f42aa18876e33a': 'Fired when code changes',
+  '28e5fd494ea37a09fd2ad36d0f98bacc': 'Deleted item',
+  '046de1a6cb21ff83af74958342c0db64': 'Activated item',
+  'f6e5fc909971d2e5f6ffe23edae93584': 'If there is a lot of data and the comparison is stuck, you can turn on this configuration item',
+  '31dae237cbd03ae0d2dcf7ad2fd4fb76': 'The data returned after the initial interface request is successful',
+  '850c62f7b1ebfb4b89182ecd51202a7d': 'Triggered after the form is submitted successfully. If the event source is a button and the type of the button is "Submit", the submit success event will be triggered even if the current form is not configured with "Save Interface"',
+  '88b2930823f9fd6706473805e9b11797': 'Save the data returned after the interface request is successful',
+  '3e07258baf3c4389c1ffd4a98c20b8fe': 'Save the error information returned after the interface request fails',
+  '0d6581b6dd51f6c03a4edf26475d75c6': 'Removed item',
+  '4ea280a2e54969de1d1b9bbd5b708e63': 'Click option',
+  'f05520432bb87ced419a1da818c6cc9d': 'Fired when an option is clicked',
+  '91f7b7fdf9b91073ca3519260f7a62d7': 'Option clicked',
+  '6afde638796d237377b0755506d08ded': 'target component',
+  'fee99f2bcced486e4753a8f58f511d3f': 'Append data',
+  '3f3f4c71c1b736e7f01cf910a553ff43': 'When "Yes" is selected, the data domain variables of the source component will be synchronized to the data domain of the target component.<br/>If the target component is a CRUD component, and the data pull interface of the CRUD component is a get request, the data domain variable where the source component is located will be appended to the target component\'s initialization request query.',
+  '2aecb19ca1655d66fc80fc27a783cc9e': 'Append method',
+  'b67b01a3b9170f1daf78082cfd0df793': 'When "Merge" is selected, the data is merged into the data field of the target component.<br/>When "Override" is selected, the data will directly overwrite the data field of the target component.',
+  'bd81577a6fd4956e676cec499bb70d00': 'Merge',
+  'e09fea40f7e4abd4b2a495b315940688': 'Cover',
+  '9a5500b6013ec1ebf61bdf0e18452348': 'The data defaults to the data field where the source component is located, you can select "Custom" to customize the required data',
+  'f30bcdccf71b19e858c37d8881d2b206': 'The data domain where the source component is located',
+  'fa644cb20c66f7530d8a376d4fa6a36e': 'Component data',
+  '7d9260bd45b2e85a09398f218c25f220': 'Update the data field of the target component or the data value of the target form item',
+  'e7af71fb102cc86ab3be6a2fb32b5e3f': 'Data settings',
+  '77b1081c177fa3334cc93c99f0ecee75': 'Direct assignment',
+  'f5c5e3d69daee06ea1606378ef466765': 'Member assignment'
 });

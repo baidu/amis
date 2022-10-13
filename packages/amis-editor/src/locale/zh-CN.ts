@@ -2870,5 +2870,38 @@ extendLocale('zh-CN', {
   '7237d0dfa065bf451120d06330291b7d':
     "({\n          isEmail: 'Email 格式不正确',\n          isRequired: '这是必填项',\n          isUrl: 'Url 格式不正确',\n          isInt: '请输入整形数字',\n          isAlpha: '请输入字母',\n          isNumeric: '请输入数字',\n          isAlphanumeric: '请输入字母或者数字',\n          isFloat: '请输入浮点型数值',\n          isWords: '请输入字母',\n          isUrlPath: '只能输入字母、数字、\\`-\\` 和 \\`_\\`.',\n          matchRegexp: '格式不正确, 请输入符合规则为 \\`$1\\` 的内容。',\n          minLength: '请输入更多的内容，至少输入 $1 个字符。',\n          maxLength: '请控制内容长度, 请不要输入 $1 个字符以上',\n          maximum: '当前输入值超出最大值 $1，请检查',\n          minimum: '当前输入值低于最小值 $1，请检查',\n          isJson: '请检查 Json 格式。',\n          isLength: '请输入长度为 $1 的内容',\n          notEmptyString: '请不要全输入空白字符',\n          equalsField: '输入的数据与 $1 值不一致',\n          equals: '输入的数据与 $1 不一致',\n          isPhoneNumber: '请输入合法的手机号码',\n          isTelNumber: '请输入合法的电话号码',\n          isZipcode: '请输入合法的邮编地址',\n          isId: '请输入合法的身份证号',\n      })[data.type] || ''",
   '5e568c42a5ecb74db2dc3d8531079dd6':
-    '<a target="_blank" href="https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/">参考文档</a>'
+    '<a target="_blank" href="https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/">参考文档</a>',
+  'cadf0e302ddbc6fdbf005aed670b5e3e': '代码变化',
+  '6006074bdabc639b86f42aa18876e33a': '代码变化时触发',
+  '28e5fd494ea37a09fd2ad36d0f98bacc': '被删除的项',
+  '046de1a6cb21ff83af74958342c0db64': '被激活的项',
+  'f6e5fc909971d2e5f6ffe23edae93584':
+    '如果数据比较多，比较卡顿时，可开启此配置项。',
+  '31dae237cbd03ae0d2dcf7ad2fd4fb76': '初始化接口请求成功后返回的数据',
+  '850c62f7b1ebfb4b89182ecd51202a7d':
+    '表单提交成功后触发，如果事件源是按钮，且按钮的类型为“提交”，那么即便当前表单没有配置“保存接口”也将触发提交成功事件',
+  '88b2930823f9fd6706473805e9b11797': '保存接口请求成功后返回的数据',
+  '3e07258baf3c4389c1ffd4a98c20b8fe': '保存接口请求失败后返回的错误信息',
+  '0d6581b6dd51f6c03a4edf26475d75c6': '被移除的项',
+  '4ea280a2e54969de1d1b9bbd5b708e63': '点击选项',
+  'f05520432bb87ced419a1da818c6cc9d': '选项被点击时触发',
+  '91f7b7fdf9b91073ca3519260f7a62d7': '所点击的选项',
+  '6afde638796d237377b0755506d08ded': '目标组件',
+  'fee99f2bcced486e4753a8f58f511d3f': '追加数据',
+  '3f3f4c71c1b736e7f01cf910a553ff43':
+    '选择“是”时，会将源组件所在数据域变量同步到目标组件的数据域。<br/>如果目标组件是增删改查组件，且增删改查组件的数据拉取接口是get请求，则源组件所在数据域变量将追加到目标组件的初始化请求query中。',
+  '2aecb19ca1655d66fc80fc27a783cc9e': '追加方式',
+  'b67b01a3b9170f1daf78082cfd0df793':
+    '选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。',
+  'bd81577a6fd4956e676cec499bb70d00': '合并',
+  'e09fea40f7e4abd4b2a495b315940688': '覆盖',
+  '9a5500b6013ec1ebf61bdf0e18452348':
+    '数据默认为源组件所在数据域，可以选择“自定义”来定制所需数据',
+  'f30bcdccf71b19e858c37d8881d2b206': '源组件所在数据域',
+  'fa644cb20c66f7530d8a376d4fa6a36e': '组件数据',
+  '7d9260bd45b2e85a09398f218c25f220':
+    '更新目标组件的数据域或目标表单项的数据值',
+  'e7af71fb102cc86ab3be6a2fb32b5e3f': '数据设置',
+  '77b1081c177fa3334cc93c99f0ecee75': '直接赋值',
+  'f5c5e3d69daee06ea1606378ef466765': '成员赋值'
 });
