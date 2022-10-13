@@ -75,7 +75,13 @@
       if (theme == 'default') {
         theme = 'cxd';
       }
-      document.querySelector(`link[title=${theme}]`).disabled = false;
+
+      const linkDom = document.querySelector(`link[title=${theme}]`);
+
+      if (linkDom) {
+        linkDom.disabled = false;
+      }
+
       if (theme === 'dark') {
         document.querySelector('body').classList.add('dark');
       }
