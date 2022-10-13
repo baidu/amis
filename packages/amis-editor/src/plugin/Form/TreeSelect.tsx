@@ -23,6 +23,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
     type: 'tree-select',
     label: '树下拉框',
     name: 'tree-select',
+    clearable: false,
     options: [
       {
         label: '选项A',
@@ -252,6 +253,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
 
   panelBodyCreator = (context: BaseEventContext) => {
     const renderer: any = context.info.renderer;
+
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -270,8 +272,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                   justify: true,
                   left: 8
                 },
-                inputClassName: 'is-inline ',
-                value: true
+                inputClassName: 'is-inline '
               }),
               getSchemaTpl('searchable'),
               getSchemaTpl('multiple', {
