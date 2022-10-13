@@ -1,6 +1,6 @@
 {
   "name": "amis-editor-core",
-  "version": "5.2.0-i18n.3",
+  "version": "5.2.0-i18n.5",
   "description": "amis 可视化编辑器",
   "main": "lib/index.min.js",
   "types": "lib/index.d.ts",
@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "deep-diff": "1.0.2",
-    "i18n-runtime": "0.0.12",
     "json-ast-comments": "^1.1.0",
     "lodash": "^4.17.15",
     "mobx": "^4.5.0",
@@ -97,7 +96,8 @@
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.8.0",
     "webpack-node-externals": "^3.0.0",
-    "webpack-react-i18n": "0.0.10"
+    "webpack-react-i18n": "0.0.10",
+    "i18n-runtime": "0.0.12"
   },
   "peerDependencies": {
     "amis": "*",
