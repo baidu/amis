@@ -8,15 +8,14 @@ import {
 } from '../../util';
 import cx from 'classnames';
 import {prompt, toast} from 'amis';
-import debounce = require('lodash/debounce');
-import findIndex = require('lodash/findIndex');
-
+import debounce from 'lodash/debounce';
+import findIndex from 'lodash/findIndex';
 import {parse, stringify} from 'json-ast-comments';
 import isPlainObject from 'lodash/isPlainObject';
 
 const internalSchema = /^\/schemas\/(.*).json$/;
 
-function buildSchema(
+async function buildSchema(
   schemaUrl: string,
   definition: string,
   fileUri: string,
@@ -33,7 +32,7 @@ function buildSchema(
     schemas.some(item => item.uri === schemaUrl) ||
       schemas.push({
         uri: schemaUrl,
-        schema: require('amis/schema.json')
+        schema: await import('amis/schema.json').then(item => item.default)
       });
   }
 
@@ -180,7 +179,7 @@ export default class AMisCodeEditor extends React.Component<AMisCodeEditorProps>
     }
   );
 
-  changeJsonOptions(props: AMisCodeEditorProps = this.props) {
+  async changeJsonOptions(props: AMisCodeEditorProps = this.props) {
     const monaco = this.monaco;
     let schemaUrl =
       props.$schemaUrl ||
@@ -190,7 +189,7 @@ export default class AMisCodeEditor extends React.Component<AMisCodeEditorProps>
       schemaUrl = `${window.location.protocol}//${window.location.host}${schemaUrl}`;
     }
 
-    const schemas = buildSchema(
+    const schemas = await buildSchema(
       schemaUrl,
       props.$schema!,
       monaco.Uri.parse(this.uri).toString(),
@@ -266,8 +265,7 @@ export default class AMisCodeEditor extends React.Component<AMisCodeEditorProps>
           className: 'w-full',
           type: 'tpl',
           label: false,
-          tpl:
-            '当前有部分已更改数据因为格式不正确尚未保存，您确认要丢弃这部分更改吗？'
+          tpl: '当前有部分已更改数据因为格式不正确尚未保存，您确认要丢弃这部分更改吗？'
         },
         {
           type: 'switch',
