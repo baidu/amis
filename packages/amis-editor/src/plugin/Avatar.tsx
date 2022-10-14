@@ -96,11 +96,13 @@ export class AvatarPlugin extends BasePlugin {
                   className: 'ae-ExtendMore mb-3',
                   body: [
                     // 图标
-                    getSchemaTpl('icon', {
-                      name: 'icon',
+                    {
                       label: '图标',
+                      name: 'icon',
+                      type: 'icon-picker',
+                      className: 'fix-icon-picker-overflow',
                       visibleOn: 'data.showtype === "icon"'
-                    }),
+                    },
                     // 图片
                     getSchemaTpl('valueFormula', {
                       rendererSchema: {

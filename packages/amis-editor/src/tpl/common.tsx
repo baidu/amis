@@ -509,8 +509,9 @@ setSchemaTpl('expression', {
 
 setSchemaTpl('icon', {
   label: '图标',
-  type: 'icon-select',
+  type: 'icon-picker',
   name: 'icon',
+  className: 'fix-icon-picker-overflow',
   placeholder: '点击选择图标',
   clearable: true,
   description: ''
@@ -1046,13 +1047,31 @@ setSchemaTpl(
   'iconLink',
   (schema: {name: 'icon' | 'rightIcon'; visibleOn: boolean}) => {
     const {name, visibleOn} = schema;
-    return getSchemaTpl('icon', {
+    return {
       name: name,
       visibleOn,
       label: '图标',
+      type: 'icon-picker',
+      className: 'fix-icon-picker-overflow',
       placeholder: '点击选择图标',
       clearable: true,
       description: ''
-    });
+    };
+  }
+);
+
+setSchemaTpl(
+  'iconLink',
+  (schema: {name: 'icon' | 'rightIcon'; visibleOn: boolean}) => {
+    const {name, visibleOn} = schema;
+    return {
+      name: name,
+      visibleOn,
+      label: '图标',
+      type: 'icon-picker',
+      placeholder: '点击选择图标',
+      clearable: true,
+      description: ''
+    };
   }
 );

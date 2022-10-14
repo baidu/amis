@@ -96,16 +96,18 @@ export class CollapseGroupPlugin extends BasePlugin {
                   autoFocus: false,
                   form: {
                     body: [
-                      getSchemaTpl('icon', {
-                        name: 'expandIcon',
+                      {
                         label: '图标',
+                        name: 'expandIcon',
+                        type: 'icon-picker',
+                        className: 'fix-icon-picker-overflow',
                         pipeIn: (value: any) => value?.icon,
                         pipeOut: (value: any) => ({
                           type: 'icon',
                           vendor: '',
                           icon: value
                         })
-                      })
+                      }
                     ]
                   },
                   pipeIn: (value: string) => {

@@ -73,10 +73,12 @@ export class BreadcrumbPlugin extends BasePlugin {
                 name: 'href',
                 placeholder: '链接'
               },
-              getSchemaTpl('icon', {
+              {
                 name: 'icon',
-                label: '图标'
-              })
+                label: '图标',
+                type: 'icon-picker',
+                className: 'fix-icon-picker-overflow'
+              }
             ]
           }
         ]

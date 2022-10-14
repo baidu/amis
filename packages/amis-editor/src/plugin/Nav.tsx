@@ -66,10 +66,12 @@ export class NavPlugin extends BasePlugin {
           required: true
         },
 
-        getSchemaTpl('icon', {
+        {
+          type: 'icon-picker',
           name: 'icon',
-          label: '图标'
-        }),
+          label: '图标',
+          className: 'fix-icon-picker-overflow'
+        },
 
         {
           type: 'group',
