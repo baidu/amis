@@ -225,5 +225,6 @@ extendLocale('zh-CN', {
   'eadc8c8d4a8776893672330598babca0': '位置错误，目标位置没有找到',
   'f3c057f37fb9a4e7dd44b04919c12578': '请从左侧组件面板中点击添加新的元素。',
   'f942c7a6a35c4eb1381d2966462d0489':
-    '<div class="wrapper-sm b-a b-light m-b-sm">拖入占位</div>'
+    '<div class="wrapper-sm b-a b-light m-b-sm">拖入占位</div>',
+  '392342f7750a565f9a79c678c6b12421': '<隐藏状态>'
 });

@@ -252,5 +252,6 @@ extendLocale('en-US', {
   '9c4666fd08c2738eb9611a3721cb5f0f': 'Advanced query',
   'a094e5b7699ea4b61094cc4120170423': 'Data source',
   'eeb6908870e058bc23d52c1e405a054e': 'Previous step',
-  '38ce27d84639f3a6e07c00b3b4995c0e': 'Next step'
+  '38ce27d84639f3a6e07c00b3b4995c0e': 'Next step',
+  '392342f7750a565f9a79c678c6b12421': '<Hidden state>'
 });

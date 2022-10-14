@@ -32,6 +32,7 @@ async function buildSchema(
     schemas.some(item => item.uri === schemaUrl) ||
       schemas.push({
         uri: schemaUrl,
+        // @ts-ignore
         schema: await import('amis/schema.json').then(item => item.default)
       });
   }
