@@ -237,7 +237,8 @@ function BoxBorder({
                 placeholder: '边框颜色',
                 clearable: true,
                 value: value[getKey('border', 'color')],
-                inputClassName: 'ae-border-colorpicker'
+                inputClassName: 'ae-border-colorpicker',
+                label: false,
               },
               {
                 onChange: changeItem('border', 'color')

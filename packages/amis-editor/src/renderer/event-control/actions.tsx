@@ -16,6 +16,8 @@ import {
   SUPPORT_DISABLED_CMPTS
 } from './helper';
 import {BaseLabelMark} from '../../component/BaseControl';
+import {i18n as _i18n} from 'i18n-runtime';
+
 const MSG_TYPES: {[key: string]: string} = {
   info: '提示',
   warning: '警告',
@@ -204,7 +206,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   }
                   block
                 >
-                  去配置
+                  {/* 翻译未生效，临时方案 */}
+                  {_i18n('a532be3ad5f3fda70d228b8542e81835')}
                 </Button>
               )
             },
@@ -232,7 +235,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   }
                   block
                 >
-                  去配置
+                  {/* 翻译未生效，临时方案 */}
+                  {_i18n('a532be3ad5f3fda70d228b8542e81835')}
                 </Button>
               )
             }
