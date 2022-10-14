@@ -971,13 +971,19 @@ Form 支持轮询初始化接口，步骤如下：
 
 ## 表单数据域调试
 
-配置`debug:true`可以查看当前表单的数据域数据详情，方便数据映射、表达式等功能调试，如下，你可以修改表单项查看数据域变化
+配置`debug:true`可以查看当前表单的数据域数据详情，方便数据映射、表达式等功能调试，如下，你可以修改表单项查看数据域变化。`debugConfig`可以额外配置 debug 区域的相关配置，具体配置请参考[Json 组件属性](../json.md#属性表)。
+
+> 2.2.0 及以上版本支持`debugConfig`
 
 ```schema: scope="body"
 {
     "type": "form",
     "title": "用户信息",
     "debug": true,
+    "debugConfig": {
+      "enableClipboard": true,
+      "displayDataTypes": true
+    },
     "body": [
       {
         "type": "input-text",
