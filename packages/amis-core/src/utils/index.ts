@@ -50,6 +50,7 @@ export * from './tpl';
 export * from './uncontrollable';
 export * from './validations';
 export * from './toNumber';
+export * from './decodeEntity';
 
 import animation from './Animation';
 
