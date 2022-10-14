@@ -23,7 +23,6 @@ export interface StatusControlProps extends FormControlProps {
   messages?: Pick<FormSchema, 'messages'>;
 }
 
-
 type StatusFormData = {
   statusType: number;
   expression: string;
@@ -52,11 +51,11 @@ export class StatusControl extends React.Component<
     const {data: ctx = {}, expressionName, name, trueValue} = this.props;
     const formData: StatusFormData = {
       statusType: 1,
-      expression: '',
+      expression: ''
     };
-    if (ctx[expressionName] || ctx[expressionName]=== "") {
-        formData.statusType = 2;
-        formData.expression = ctx[expressionName];
+    if (ctx[expressionName] || ctx[expressionName] === '') {
+      formData.statusType = 2;
+      formData.expression = ctx[expressionName];
     }
     return {
       checked:
@@ -76,21 +75,17 @@ export class StatusControl extends React.Component<
   handleSwitch(value: boolean) {
     const {trueValue, falseValue} = this.props;
     this.setState({checked: value == trueValue ? true : false}, () => {
-
       const {onBulkChange, expressionName, name} = this.props;
-        onBulkChange &&
-          onBulkChange({
-            [name]: value == trueValue ? trueValue : falseValue,
-            [expressionName]: undefined,
-          });
+      onBulkChange &&
+        onBulkChange({
+          [name]: value == trueValue ? trueValue : falseValue,
+          [expressionName]: undefined
+        });
     });
-
   }
 
   @autobind
-  handleFormSubmit(
-    values: StatusFormData
-  ) {
+  handleFormSubmit(values: StatusFormData) {
     const {onBulkChange, name, expressionName} = this.props;
     const data: Record<string, any> = {
       [name]: undefined,
@@ -109,7 +104,6 @@ export class StatusControl extends React.Component<
     }
     onBulkChange && onBulkChange(data);
   }
-
 
   render() {
     const {className, data: ctx = {}, trueValue, falseValue, env} = this.props;
@@ -191,7 +185,7 @@ export class StatusControl extends React.Component<
                 label: '表达式',
                 placeholder: `请输入${label}条件`,
                 visibleOn: 'this.statusType === 2'
-              },
+              }
             ]
           },
           {

@@ -229,9 +229,16 @@ export default class FormulaControl extends React.Component<
     // 当前数据域
     const curData = this.getContextData();
 
-    if (rendererSchema.type === 'switch' && (rendererSchema.trueValue !== undefined || rendererSchema.falseValue !== undefined)) {
+    if (
+      rendererSchema.type === 'switch' &&
+      (rendererSchema.trueValue !== undefined ||
+        rendererSchema.falseValue !== undefined)
+    ) {
       // 开关类型组件单独处理
-      return rendererSchema.trueValue === value || rendererSchema.falseValue === value;
+      return (
+        rendererSchema.trueValue === value ||
+        rendererSchema.falseValue === value
+      );
     } else if (
       (expectType === 'number' && isNumber(value)) ||
       (expectType === 'boolean' && isBoolean(value)) ||
@@ -303,7 +310,7 @@ export default class FormulaControl extends React.Component<
     let curRendererSchema: any = null;
     if (rendererSchema) {
       curRendererSchema = Object.assign({}, rendererSchema, data, {
-        type: rendererSchema.type ?? data.type,
+        type: rendererSchema.type ?? data.type
       });
 
       // 默认要剔除的字段

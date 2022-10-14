@@ -5,12 +5,7 @@
 import React from 'react';
 import cx from 'classnames';
 import findIndex from 'lodash/findIndex';
-import {
-  FormControlProps,
-  FormItem,
-  TreeSelection
-} from 'amis';
-
+import {FormControlProps, FormItem, TreeSelection} from 'amis';
 
 export interface ColumnControlProps extends FormControlProps {
   className?: string;
@@ -24,7 +19,6 @@ export default class ColumnControl extends React.Component<
   ColumnControlProps,
   ColumnsControlState
 > {
-
   constructor(props: any) {
     super(props);
 
@@ -51,16 +45,22 @@ export default class ColumnControl extends React.Component<
 
   render() {
     const {columns} = this.state;
-    const options = columns ? columns.map(c => ({value: c.key, label: c.title})) : [];
-    const value = columns ? columns.filter(c => c.toggled !== false).map(c => ({value: c.key, label: c.title})) : []
+    const options = columns
+      ? columns.map(c => ({value: c.key, label: c.title}))
+      : [];
+    const value = columns
+      ? columns
+          .filter(c => c.toggled !== false)
+          .map(c => ({value: c.key, label: c.title}))
+      : [];
 
     return (
       <div className={cx('ae-ColumnControl')}>
         <TreeSelection
           options={options}
           value={value}
-          onChange={(v: Array<any>) => this.onChange(v)}>
-        </TreeSelection>
+          onChange={(v: Array<any>) => this.onChange(v)}
+        ></TreeSelection>
       </div>
     );
   }

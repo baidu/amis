@@ -47,9 +47,7 @@ class DataPickerControl extends React.Component<FormControlProps> {
         onChange={() => {}}
         header={''}
       >
-        {({onClick}: {
-            onClick: (e: React.MouseEvent) => void;
-        }) => {
+        {({onClick}: {onClick: (e: React.MouseEvent) => void}) => {
           return (
             <InputBox
               className="ae-InputVariable"
