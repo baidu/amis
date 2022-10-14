@@ -459,4 +459,11 @@ test('evalute:array:func', () => {
     {id: 1.1},
     {id: 2.2}
   ]);
+
+  expect(evaluate('${ARRAYFILTER(arr1, item => item)}', data)).toMatchObject([
+    1, 2, 3
+  ]);
+  expect(
+    evaluate('${ARRAYFILTER(arr1, item => item && item >=2)}', data)
+  ).toMatchObject([2, 3]);
 });
