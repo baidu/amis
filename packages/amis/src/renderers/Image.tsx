@@ -157,7 +157,46 @@ export interface ImageThumbProps
   overlays?: JSX.Element;
 }
 
-export class ImageThumb extends React.Component<ImageThumbProps> {
+interface ImageThumbState {
+  imageLoading: boolean; // 切换图片后，图片是否在加载
+}
+
+export class ImageThumb extends React.Component<
+  ImageThumbProps,
+  ImageThumbState
+> {
+  constructor(props: ImageThumbProps) {
+    super(props);
+
+    this.state = {
+      imageLoading: false
+    };
+  }
+
+  componentDidUpdate(preProps: ImageThumbProps) {
+    if (preProps.src !== this.props.src) {
+      this.setState({
+        imageLoading: true
+      });
+    }
+  }
+
+  @autobind
+  handleImgLoaded(e: React.SyntheticEvent<HTMLImageElement, Event>) {
+    this.setState({
+      imageLoading: false
+    });
+
+    this.props?.onLoad?.(e);
+  }
+
+  @autobind
+  handleImgError(e: React.SyntheticEvent<HTMLImageElement, Event>) {
+    this.setState({
+      imageLoading: false
+    });
+  }
+
   @autobind
   handleEnlarge() {
     const {onEnlarge, ...rest} = this.props;
@@ -187,6 +226,29 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
       overlays,
       imageMode
     } = this.props;
+
+    const {imageLoading} = this.state;
+
+    const imageContent = (
+      <>
+        {imageLoading ? (
+          <img
+            className={cx('Image-image', imageClassName)}
+            src={imagePlaceholder}
+            alt={alt}
+          />
+        ) : null}
+        <img
+          onLoad={this.handleImgLoaded}
+          onError={this.handleImgError}
+          className={cx('Image-image', imageClassName, {
+            'Image-image--loading': imageLoading
+          })}
+          src={src}
+          alt={alt}
+        />
+      </>
+    );
 
     const enlarge =
       enlargeAble || overlays ? (
@@ -221,12 +283,7 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
             )}
             style={{height: height, width: width}}
           >
-            <img
-              onLoad={onLoad}
-              className={cx('Image-image', imageClassName)}
-              src={src}
-              alt={alt}
-            />
+            {imageContent}
             {enlarge}
           </div>
         ) : (
@@ -242,12 +299,7 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
               )}
               style={{height: height, width: width}}
             >
-              <img
-                onLoad={onLoad}
-                className={cx('Image-image', imageClassName)}
-                src={src}
-                alt={alt}
-              />
+              {imageContent}
             </div>
             {enlarge}
           </div>

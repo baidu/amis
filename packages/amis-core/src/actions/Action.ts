@@ -117,20 +117,15 @@ export const runAction = async (
 ) => {
   // 用户可能，需要用到事件数据和当前域的数据，因此merge事件数据和当前渲染器数据
   // 需要保持渲染器数据链完整
-  const mergeData = renderer.props.data.__super
-    ? createObject(
-        createObject(renderer.props.data.__super, {
-          event
-        }),
-        renderer.props.data
-      )
-    : createObject(
-        {
-          event
-        },
-        renderer.props.data
-      );
-
+  const mergeData = createObject(
+    event.data,
+    renderer.props.data.__super
+      ? createObject(
+          renderer.props.data.__super,
+          createObject(renderer.props.data, {event})
+        )
+      : createObject(renderer.props.data, {event})
+  );
   // 兼容一下1.9.0之前的版本
   const expression = actionConfig.expression ?? actionConfig.execOn;
 

@@ -56,7 +56,9 @@ const SpinnerSharedStore = types
         self.spinnerContainers.add(spinnerContainer);
       },
       remove: (spinnerContainer: HTMLElement) => {
-        self.spinnerContainers.delete(spinnerContainer);
+        if (self.spinnerContainers.has(spinnerContainer)) {
+          self.spinnerContainers.delete(spinnerContainer);
+        }
       },
       /**
        *  判断当前 Spinner 是否可以进入 loading 状态
@@ -91,7 +93,10 @@ const SpinnerSharedStore = types
 
 const store = SpinnerSharedStore.create({});
 
-export class Spinner extends React.Component<SpinnerProps> {
+export class Spinner extends React.Component<
+  SpinnerProps,
+  {spinning: boolean; showMark: boolean}
+> {
   static defaultProps = {
     show: true,
     className: '',
@@ -111,6 +116,14 @@ export class Spinner extends React.Component<SpinnerProps> {
 
   parent: HTMLElement | null = null;
 
+  /**
+   * 解决同级（same parent node） spinner 的 show 不全为 true 时
+   * 辅助控制 spinning; push: + 1 ; remove: -1;
+   * > 0 : spinning = checkLoading
+   * = 0 : spinning = false; cannot remove
+   */
+  count: number = 0;
+
   spinnerRef = (dom: HTMLElement) => {
     if (dom) {
       this.parent = dom.parentNode as HTMLElement;
@@ -123,9 +136,11 @@ export class Spinner extends React.Component<SpinnerProps> {
   componentDidUpdate() {
     if (this.parent) {
       if (this.props.show) {
+        this.count++;
         store.push(this.parent);
-      } else if (this.state.spinning) {
+      } else if (this.state.spinning && this.count > 0) {
         store.remove(this.parent);
+        this.count--;
       }
     }
   }
@@ -144,7 +159,7 @@ export class Spinner extends React.Component<SpinnerProps> {
     () => store.spinnerContainers.size,
     () => {
       this.setState({
-        spinning: store.checkLoading(this.parent)
+        spinning: store.checkLoading(this.parent) && this.count > 0
       });
     }
   );

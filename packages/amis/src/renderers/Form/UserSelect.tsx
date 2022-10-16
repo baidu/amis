@@ -4,7 +4,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  resolveEventData
 } from 'amis-core';
 import {UserSelect} from 'amis-ui';
 import {UserTabSelect} from 'amis-ui';
@@ -187,10 +188,15 @@ export default class UserSelectControl extends React.Component<
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: newValue,
-        options
-      })
+      resolveEventData(
+        this.props,
+        {
+          value: newValue,
+          options,
+          items: options // 为了保持名字统一
+        },
+        'value'
+      )
     );
     if (rendererEvent?.prevented) {
       return;

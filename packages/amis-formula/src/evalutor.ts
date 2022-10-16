@@ -1154,9 +1154,9 @@ export class Evaluator {
   /**
    * 对文本进行 HTML 转义
    *
-   * 示例 `ESCAPE("star")`
+   * 示例 `ESCAPE("<star>&")`
    *
-   * 返回 `Star`
+   * 返回 `&lt;start&gt;&amp;`
    *
    * @example ESCAPE(text)
    * @param {string} text - 文本
@@ -1805,8 +1805,28 @@ export class Evaluator {
       throw new Error('expected an anonymous function get ' + iterator);
     }
 
-    return (Array.isArray(value) ? value : []).map((item, index) =>
-      this.callAnonymousFunction(iterator, [item, index])
+    return (Array.isArray(value) ? value : []).map((item, index, arr) =>
+      this.callAnonymousFunction(iterator, [item, index, arr])
+    );
+  }
+
+  /**
+   * 数据做数据过滤，需要搭配箭头函数一起使用，注意箭头函数只支持单表达式用法。
+   * 将第二个箭头函数返回为 false 的成员过滤掉。
+   *
+   * @param {Array<any>} arr 数组
+   * @param {Function<any>} iterator 箭头函数
+   * @namespace 数组
+   * @example ARRAYFILTER(arr, item => item)
+   * @returns {boolean} 结果
+   */
+  fnARRAYFILTER(value: any, iterator: any) {
+    if (!iterator || iterator.type !== 'anonymous_function') {
+      throw new Error('expected an anonymous function get ' + iterator);
+    }
+
+    return (Array.isArray(value) ? value : []).filter((item, index, arr) =>
+      this.callAnonymousFunction(iterator, [item, index, arr])
     );
   }
 

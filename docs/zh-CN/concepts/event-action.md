@@ -97,10 +97,20 @@ order: 9
 
 通过配置`actionType: 'ajax'`和`api`实现 http 请求发送，该动作需实现 `env.fetcher` 请求器。
 
-- 请求结果缓存在`event.data.responseResult`或`event.data.{{outputVar}}`。
-- 请求结果的状态、数据、消息分别默认缓存在：`event.data.{{outputVar}}.responseStatus`、`event.data.{{outputVar}}.responseData`、`event.data.{{outputVar}}.responseMsg`。
+请求响应结果缓存在`responseResult`或`{outputVar}`（`< 2.3.2 及以下版本 为 event.data.responseResult`或`event.data.{outputVar}`）。请求响应结果的结构如下：
 
-< 2.0.3 及以下版本，请求返回数据默认缓存在 `event.data`。`outputVar` 配置用于解决串行或者并行发送多个 http 请求的场景。
+```json
+{
+  // 状态码
+  "responseStatus": 0,
+  // 响应数据
+  "responseData": {
+    "xxx": "xxx"
+  },
+  // 响应消息
+  "responseMsg": "ok"
+}
+```
 
 ```schema
 {
@@ -134,9 +144,9 @@ order: 9
             },
             {
               actionType: 'toast',
-              expression: '${event.data.responseResult.responseStatus === 0}',
+              expression: '${responseResult.responseStatus === 0}',
               args: {
-                msg: '${event.data|json}'
+                msg: '${responseResult|json}'
               }
             }
           ]
@@ -172,9 +182,9 @@ order: 9
             },
             {
               actionType: 'toast',
-              expression: '${event.data.responseResult.responseStatus === 0}',
+              expression: '${responseResult.responseStatus === 0}',
               args: {
-                msg: '${event.data|json}'
+                msg: '${responseResult|json}'
               }
             }
           ]
@@ -187,12 +197,13 @@ order: 9
 
 **动作属性**
 
-| 属性名        | 类型                                | 默认值 | 说明                                                        |
-| ------------- | ----------------------------------- | ------ | ----------------------------------------------------------- |
-| actionType    | `string`                            | `ajax` | ajax 请求                                                   |
-| args.api      | [API](../../../docs/types/api)      | -      | 接口配置，`< 1.8.0 及以下版本 为 api`                       |
-| args.options  | `object`                            | -      | 其他配置，`< 1.8.0 及以下版本 为 options`                   |
-| args.messages | `{success: string, failed: string}` | -      | 请求成功/失败后的提示信息，`< 1.8.0 及以下版本 为 messages` |
+| 属性名        | 类型                                | 默认值 | 说明                                                                               |
+| ------------- | ----------------------------------- | ------ | ---------------------------------------------------------------------------------- |
+| actionType    | `string`                            | `ajax` | ajax 请求                                                                          |
+| args.api      | [API](../../../docs/types/api)      | -      | 接口配置，`< 1.8.0 及以下版本 为 api`                                              |
+| args.options  | `object`                            | -      | 其他配置，`< 1.8.0 及以下版本 为 options`                                          |
+| args.messages | `{success: string, failed: string}` | -      | 请求成功/失败后的提示信息，`< 1.8.0 及以下版本 为 messages`                        |
+| outputVar     | `string`                            | -      | 输出数据变量名，用于存储请求响应结果，用于解决串行或者并行发送多个 http 请求的场景 |
 
 ### 打开弹窗（模态）
 
@@ -275,9 +286,9 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型                    | 默认值   | 说明                                       |
-| ---------- | ----------------------- | -------- | ------------------------------------------ |
-| actionType | `string`                | `dialog` | 点击后显示一个弹出框                       |
+| 属性名     | 类型                    | 默认值   | 说明                                                      |
+| ---------- | ----------------------- | -------- | --------------------------------------------------------- |
+| actionType | `string`                | `dialog` | 点击后显示一个弹出框                                      |
 | dialog     | `string`/`DialogObject` | -        | 指定弹框内容，格式可参考[Dialog](../../components/dialog) |
 
 ### 关闭弹窗（模态）
@@ -430,9 +441,9 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型                    | 默认值   | 说明                                       |
-| ---------- | ----------------------- | -------- | ------------------------------------------ |
-| actionType | `string`                | `drawer` | 点击后显示一个侧边栏                       |
+| 属性名     | 类型                    | 默认值   | 说明                                                      |
+| ---------- | ----------------------- | -------- | --------------------------------------------------------- |
+| actionType | `string`                | `drawer` | 点击后显示一个侧边栏                                      |
 | drawer     | `string`/`DrawerObject` | -        | 指定弹框内容，格式可参考[Drawer](../../components/drawer) |
 
 ### 关闭抽屉（模态）
@@ -1367,7 +1378,7 @@ order: 9
 
 更新数据即更新指定组件数据域中的数据（data），通过配置`actionType: 'setValue'`实现组件`数据域变量更新`，通过它可以实现`组件间联动更新`、`数据回填`，支持`基础类型`、`对象类型`、`数组类型`，数据类型取决于目标组件所需数据值类型，仅支持`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据`输入类`组件。更多示例请查看[更新数据示例](../../../examples/action/setdata/form)。
 
-> 注意：虽然更新数据可以实现对组件数据域的更新，但如果更新数据动作的数据值来自前面的异步动作（例如 发送 http 请求、自定义 JS（异步）），则后面的动作只能通过事件变量`${event.data.xxx}`来获取异步动作产生的数据，无法通过当前数据域`${xxx}`直接获取更新后的数据。
+> 注意：< 2.3.2 及以下版本，虽然更新数据可以实现对组件数据域的更新，但如果更新数据动作的数据值来自前面的异步动作（例如 发送 http 请求、自定义 JS（异步）），则后面的动作只能通过事件变量`${event.data.xxx}`来获取异步动作产生的数据，无法通过当前数据域`${xxx}`直接获取更新后的数据。
 
 ```schema
 {
@@ -1444,7 +1455,7 @@ order: 9
 
 - context，渲染器上下文
 - doAction() 动作执行方法，用于调用任何 actionType 指定的动作
-- event，事件对象，可以获取事件上下文，以及可以调用 setData()、stopPropagation()、preventDefault()分别实现事件上下文设置、动作干预、事件干预
+- event，事件对象，可以调用 setData()、stopPropagation()、preventDefault()分别实现事件上下文设置、动作干预、事件干预，可以通过 event.data 获取事件上下文
 
 ```schema
 {
@@ -1507,7 +1518,7 @@ order: 9
                   {
                     "componentId": "u:e47e2c8e6be8",
                     "args": {
-                      "value": "${event.data.pId}"
+                      "value": "${pId}"
                     },
                     "actionType": "setValue"
                   },
@@ -1563,7 +1574,7 @@ order: 9
                   {
                     "componentId": "u:e47e2c8e6be7",
                     "args": {
-                      "value": "${event.data.pId}"
+                      "value": "${pId}"
                     },
                     "actionType": "setValue"
                   },
@@ -1711,7 +1722,7 @@ order: 9
             {
               actionType: 'reload',
               args: {
-                myname: '${event.data.value}', // 从事件数据中取
+                myname: '${myrole}', // 从事件数据中取
               }
             },
             {
@@ -1753,8 +1764,8 @@ order: 9
             {
               actionType: 'reload',
               args: {
-                myrole: '${event.data.value}',
-                age: '${event.data.age}'
+                myrole: '${myrole}',
+                age: '${age}'
               }
             },
             {
@@ -1791,7 +1802,7 @@ order: 9
             {
               actionType: 'reload',
               args: {
-                job: '${event.data.value}'
+                job: '${myrole}'
               }
             },
             {
@@ -2294,6 +2305,10 @@ registerAction('my-action', new MyAction());
   body: {
     type: 'form',
     wrapWithPanel: false,
+    data: {
+      name: 'lvxj',
+      age: 'kkkk'
+    },
     body: [
       {
         type: 'button',
@@ -2332,13 +2347,27 @@ registerAction('my-action', new MyAction());
                       }
                     },
                     outputVar: 'var2'
+                  },
+                  {
+                    actionType: 'ajax',
+                    args: {
+                      api: {
+                        url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?name=${name}',
+                        method: 'get'
+                      },
+                      messages: {
+                        success: '请求3成功了！欧耶',
+                        failed: '失败了呢。。'
+                      }
+                    },
+                    outputVar: 'var3'
                   }
                 ]
               },
               {
                 actionType: 'toast',
                 args: {
-                  msg: 'var1:${event.data.var1|json}, var2:${event.data.var2|json}'
+                  msg: 'var1:${var1|json}, var2:${var2|json}, var3:${var3|json}'
                 }
               }
             ]
@@ -2359,7 +2388,7 @@ registerAction('my-action', new MyAction());
 
 # 动作间数据传递
 
-从事件触发开始，整个数据流包含事件本身产生的事件数据和动作产生的动作数据，事件源头产生的数据在 AMIS 事件动作机制底层已经自动加入渲染器数据域，可以通过`event.data.xxx`直接获取，而部分动作产生的数据如何流动需要交互设计者进行介入，对于数据流动可以通过数据映射，将上一个动作产生的数据作为动作参数写入下一个动作。
+从事件触发开始，整个数据流包含事件本身产生的事件数据和动作产生的动作数据，事件源头产生的数据在 AMIS 事件动作机制底层已经自动加入渲染器数据域，可以通过`xxx`直接获取（`< 2.3.2 及以下版本 为 event.data.xxx`），而部分动作产生的数据如何流动需要交互设计者进行介入，对于数据流动可以通过数据映射，将上一个动作产生的数据作为动作参数写入下一个动作。
 
 **传递数据**
 
@@ -2416,7 +2445,8 @@ registerAction('my-action', new MyAction());
             {
               actionType: 'reload',
               args: {
-                age: '${event.data.age}'
+                age: '${age}',
+                name: '${name}'
               }
             }
           ]
@@ -2429,7 +2459,9 @@ registerAction('my-action', new MyAction());
 
 **引用 http 请求动作返回的数据**
 
-http 请求动作执行结束后，后面的动作可以通过 `event.data.responseResult.responseStatus`或`event.data.{{outputVar}}.responseStatus`、`event.data.responseResult.responseData`或`event.data.{{outputVar}}.responseData`、`event.data.responseResult.responseMsg`或`event.data.{{outputVar}}.responseMsg`来获取请求结果的状态、数据、消息。
+http 请求动作执行结束后，后面的动作可以通过 `${responseResult}`或`${{outputVar}}`来获取请求响应结果，响应结果的结构定义参考[发送 http 请求](../../docs/concepts/event-action#发送-http-请求)。
+
+> `< 2.3.2 及以下版本 需要通过 ${event.data.{xxx}}`来获取以上信息，例如：${event.data.responseResult}
 
 ```schema
 {
@@ -2451,7 +2483,7 @@ http 请求动作执行结束后，后面的动作可以通过 `event.data.respo
             {
               actionType: 'dialog',
               args: {
-                id: '${event.data.responseResult.responseData.id}'
+                id: '${responseResult.responseData.id}'
               },
               dialog: {
                 type: 'dialog',
@@ -2531,7 +2563,7 @@ http 请求动作执行结束后，后面的动作可以通过 `event.data.respo
                         args: {
                           msg: '不关闭'
                         },
-                        preventDefault: 'event.data.command === "Do not close"'
+                        preventDefault: 'command === "Do not close"'
                       }
                     ]
                   }

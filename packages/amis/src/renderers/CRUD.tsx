@@ -1,5 +1,5 @@
 import React from 'react';
-
+import isEqual from 'lodash/isEqual';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
@@ -519,13 +519,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     let val: any;
+
     if (
       this.props.pickerMode &&
       isArrayChildrenModified(
         (val = getPropValue(this.props)),
         getPropValue(prevProps)
-      )
+      ) &&
+      !isEqual(val, store.selectedItems.concat())
     ) {
+      /**
+       * 更新链：Table -> CRUD -> Picker -> Form
+       * 对于Picker模式来说，执行到这里的时候store.selectedItems已经更新过了，所以需要额外判断一下
+       */
       store.setSelectedItems(val);
     }
 
@@ -1469,6 +1475,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
+
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
     onSelect && onSelect(newItems);
@@ -1501,13 +1508,21 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
   }
 
-  handleQuery(values: object, forceReload: boolean = false, replace?: boolean) {
+  handleQuery(
+    values: object,
+    forceReload: boolean = false,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
     store.updateQuery(
-      {
-        ...values,
-        [pageField || 'page']: 1
-      },
+      resetPage
+        ? {
+            // 有些交互场景完全不想重置
+            [pageField || 'page']: 1,
+            ...values
+          }
+        : values,
       syncLocation && env && env.updateLocation
         ? env.updateLocation
         : undefined,
@@ -1518,16 +1533,26 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     this.search(undefined, undefined, undefined, forceReload);
   }
 
-  reload(subpath?: string, query?: any, replace?: boolean) {
+  reload(
+    subpath?: string,
+    query?: any,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
     if (query) {
-      return this.receive(query, undefined, replace);
+      return this.receive(query, undefined, replace, resetPage);
     } else {
       this.search(undefined, undefined, true, true);
     }
   }
 
-  receive(values: object, subPath?: string, replace?: boolean) {
-    this.handleQuery(values, true, replace);
+  receive(
+    values: object,
+    subPath?: string,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
+    this.handleQuery(values, true, replace, resetPage);
   }
 
   reloadTarget(target: string, data: any) {
@@ -2259,7 +2284,12 @@ export class CRUDRenderer extends CRUD {
       );
     }
 
-    return super.reload(subpath, query, replace);
+    return super.reload(
+      subpath,
+      omit(query, 'resetPage'),
+      replace,
+      query.resetPage ?? true
+    );
   }
 
   receive(values: any, subPath?: string, replace?: boolean) {
