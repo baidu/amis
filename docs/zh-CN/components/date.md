@@ -103,7 +103,7 @@ List 的内容、Card 卡片的内容配置同上
 
 ## 配置数据格式
 
-如果你的数据值默认不是`X`格式（时间戳秒格式），那么需要配置 `valueformat `参数用于解析当前时间值，比如毫秒是配置 `"valueformat": "x"`。
+如果你的数据值默认不是`X`格式（时间戳秒格式），那么需要配置 `valueFormat `参数用于解析当前时间值，比如毫秒是配置 `"valueFormat": "x"`。
 
 除此之外还支持各种自定义日期格式，例如下面`value`值为：`"2020/4/14 19:59:50"`，查阅 [moment 文档](https://momentjs.com/docs/#/displaying/format/) 可知，需要配置数据格式为 `"YYYY/MM/DD HH:mm:ss"`，然后我们配置输出格式`format`，输出指定格式日期：
 
