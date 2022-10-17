@@ -79,7 +79,13 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
     };
   }
   componentDidMount() {
-    const {multiple, options, valueField = 'value', cascade} = this.props;
+    const {
+      multiple,
+      options,
+      valueField = 'value',
+      cascade,
+      onlyLeaf
+    } = this.props;
     let selectedOptions = this.props.selectedOptions.slice();
     let parentsCount = 0;
     let parentTree: Options = [];
@@ -103,7 +109,7 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
           option.children.forEach((option: Option) => (option.disabled = true));
         }
       }
-      return multiple
+      return multiple && !onlyLeaf
         ? {
             options: [
               {
@@ -148,9 +154,9 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
 
   @autobind
   dealParentSelect(option: Option, selectedOptions: Options): Options {
-    const {valueField = 'value'} = this.props;
+    const {valueField = 'value', onlyLeaf} = this.props;
     const parentOption = this.getOptionParent(option);
-    if (parentOption) {
+    if (parentOption && !onlyLeaf) {
       const parentChildren = parentOption?.children;
       const equalOption = intersectionBy(
         selectedOptions,
@@ -224,9 +230,10 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       options,
       cascade,
       multiple,
+      onlyLeaf,
       onlyChildren // 子节点可点击
     } = this.props;
-    if (!multiple || cascade || onlyChildren) {
+    if (!multiple || cascade || onlyChildren || onlyLeaf) {
       return;
     }
     const selectedValues = selectedOptions.map(
@@ -256,14 +263,17 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
 
   @autobind
   dealChildrenSelect(option: Option, selectedOptions: Options) {
-    const {valueField = 'value'} = this.props;
+    const {valueField = 'value', onlyChildren} = this.props;
     let index = selectedOptions.findIndex(
       (item: Option) => item[valueField] === option[valueField]
     );
     if (index !== -1) {
       selectedOptions.splice(index, 1);
     } else {
-      selectedOptions.push(option);
+      if (onlyChildren && option.children?.length) {
+      } else {
+        selectedOptions.push(option);
+      }
     }
     function loop(option: Option) {
       if (!option.children) {
@@ -277,7 +287,10 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
           );
         } else {
           // 添加节点及其子节点
-          selectedOptions.push(item);
+          if (onlyChildren && item.children?.length) {
+          } else {
+            selectedOptions.push(item);
+          }
         }
         loop(item);
       });
@@ -297,7 +310,13 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
 
   @autobind
   onSelect(option: CascaderOption, tabIndex: number) {
-    const {multiple, valueField = 'value', cascade, onlyLeaf} = this.props;
+    const {
+      multiple,
+      valueField = 'value',
+      cascade,
+      onlyLeaf,
+      onlyChildren
+    } = this.props;
 
     let tabs = this.state.tabs.slice();
     let {activeTab} = this.state;
@@ -328,12 +347,14 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
             !option.children.length
           ) {
             selectedOptions = this.dealChildrenSelect(option, selectedOptions);
-            selectedOptions = this.dealParentSelect(option, selectedOptions);
+            if (!onlyChildren) {
+              selectedOptions = this.dealParentSelect(option, selectedOptions);
+            }
           }
         }
       } else {
         // 单选
-        selectedOptions = this.getParentTree(option, [option]);
+        selectedOptions = [option];
       }
     }
     this.dealOptionDisable(selectedOptions);
@@ -352,19 +373,20 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
     });
 
     if (option?.children && !option.isCheckAll) {
-      const nextTab = multiple
-        ? {
-            options: [
-              {
-                ...option,
-                isCheckAll: true
-              },
-              ...option.children
-            ]
-          }
-        : {
-            options: option.children
-          };
+      const nextTab =
+        multiple && !onlyLeaf
+          ? {
+              options: [
+                {
+                  ...option,
+                  isCheckAll: true
+                },
+                ...option.children
+              ]
+            }
+          : {
+              options: option.children
+            };
 
       if (tabs[tabIndex + 1]) {
         tabs[tabIndex + 1] = nextTab;

@@ -13,6 +13,7 @@ order: 31
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "api": "/api/mock2/form/saveForm",
   "body": [
     {
@@ -91,6 +92,7 @@ order: 31
   },
   "body": {
     "type": "form",
+    "debug": true,
     "api": "/api/mock2/form/saveForm",
     "body": [
       {
@@ -111,6 +113,7 @@ order: 31
   "type": "page",
   "body": {
     "type": "form",
+    "debug": true,
     "api": "/api/mock2/form/saveForm",
     "body": [
       {
@@ -133,6 +136,7 @@ order: 31
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "api": "/api/mock2/form/saveForm",
   "body": [
     {
@@ -173,11 +177,12 @@ order: 31
 }
 ```
 
-在多选时，也可以通过 `onlyLeaf` 来设置只允许选择叶子节点，即便分支节点有 `value` 也不会有选中动作。
+在多选时，也可以通过 `onlyLeaf` 并且搭配 `cascade` 来设置只允许选择叶子节点，即便分支节点有 `value` 也不会有选中动作,
 
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "api": "/api/mock2/form/saveForm",
   "body": [
     {
@@ -185,6 +190,7 @@ order: 31
       "name": "nestedSelect",
       "label": "级联选择器",
       "onlyLeaf": true,
+      "cascade": true,
       "multiple": true,
       "options": [
         {
@@ -511,6 +517,7 @@ order: 31
 ```schema: scope="body"
 {
   "type": "form",
+  "debug": true,
   "api": "/api/mock2/form/saveForm",
   "body": [
     {
