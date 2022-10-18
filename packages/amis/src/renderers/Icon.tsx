@@ -44,12 +44,17 @@ export class Icon extends React.Component<IconProps, object> {
     if (typeof icon !== 'string') {
       if (
         isObject(icon) &&
-        typeof icon.id === 'string' &&
-        icon.id.startsWith('svg-')
+        typeof (icon as IconCheckedSchema).id === 'string' &&
+        (icon as IconCheckedSchema).id.startsWith('svg-')
       ) {
         return (
           <svg className={cx('icon', className)}>
-            <use xlinkHref={`#${icon.id.replace(/^svg-/, '')}`}></use>
+            <use
+              xlinkHref={`#${(icon as IconCheckedSchema).id.replace(
+                /^svg-/,
+                ''
+              )}`}
+            ></use>
           </svg>
         );
       }

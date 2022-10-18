@@ -2239,7 +2239,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -2831,7 +2831,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -4099,7 +4099,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           取消

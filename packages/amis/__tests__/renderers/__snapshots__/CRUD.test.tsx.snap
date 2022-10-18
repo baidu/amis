@@ -127,7 +127,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                       class="cxd-Crud-actions"
                     >
                       <button
-                        class="cxd-Button cxd-Button--default"
+                        class="cxd-Button cxd-Button--default cxd-Button--size-default"
                         type="button"
                       >
                         <span>
@@ -1036,7 +1036,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         class="cxd-Crud-actions"
                       >
                         <button
-                          class="cxd-Button cxd-Button--default"
+                          class="cxd-Button cxd-Button--default cxd-Button--size-default"
                           type="button"
                         >
                           <span>
@@ -2152,7 +2152,7 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                     class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default"
                       type="button"
                     >
                       <span>
@@ -2649,7 +2649,7 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                       class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
                     >
                       <button
-                        class="cxd-Button cxd-Button--default"
+                        class="cxd-Button cxd-Button--default cxd-Button--size-default"
                         type="button"
                       >
                         <span>
@@ -2913,7 +2913,7 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                     class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default"
                       type="button"
                     >
                       <span>

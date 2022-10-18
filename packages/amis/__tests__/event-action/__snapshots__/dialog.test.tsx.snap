@@ -15,7 +15,7 @@ exports[`EventAction:dialog 1`] = `
           class="cxd-Page-body"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -59,7 +59,7 @@ exports[`EventAction:dialog 1`] = `
         class="cxd-Modal-body"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -67,7 +67,7 @@ exports[`EventAction:dialog 1`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--default ml-2"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default ml-2"
           type="button"
         >
           <span>
@@ -75,7 +75,7 @@ exports[`EventAction:dialog 1`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--default ml-2"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default ml-2"
           type="button"
         >
           <span>
@@ -83,7 +83,7 @@ exports[`EventAction:dialog 1`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--default ml-2"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default ml-2"
           type="button"
         >
           <span>
@@ -95,7 +95,7 @@ exports[`EventAction:dialog 1`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -103,7 +103,7 @@ exports[`EventAction:dialog 1`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -131,7 +131,8 @@ exports[`EventAction:dialog 2`] = `
           class="cxd-Page-body"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default
+            cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -160,7 +161,7 @@ exports[`EventAction:dialog 3`] = `
           class="cxd-Page-body"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -189,7 +190,7 @@ exports[`EventAction:dialog 4`] = `
           class="cxd-Page-body"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -218,7 +219,7 @@ exports[`EventAction:dialog 5`] = `
           class="cxd-Page-body"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -247,7 +248,7 @@ exports[`EventAction:dialog 6`] = `
           class="cxd-Page-body"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -276,7 +277,7 @@ exports[`EventAction:dialog 7`] = `
           class="cxd-Page-body"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>

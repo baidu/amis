@@ -220,7 +220,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -286,7 +286,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -294,7 +294,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -322,7 +322,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -362,7 +362,7 @@ exports[`Renderer:Page handleAction actionType=ajax 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -402,7 +402,7 @@ exports[`Renderer:Page handleAction actionType=dialog default 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -434,7 +434,8 @@ exports[`Renderer:Page handleAction actionType=dialog default 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default
+            cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -466,7 +467,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -481,7 +482,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
             class="cxd-TplField"
           >
             <span>
-              The variable a is 
+              The variable a is
             </span>
           </span>
         </div>
@@ -573,7 +574,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -601,7 +602,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -641,7 +642,7 @@ exports[`Renderer:Page handleAction actionType=drawer default 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -695,7 +696,7 @@ exports[`Renderer:Page handleAction actionType=drawer default 1`] = `
         class="cxd-Drawer-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -703,7 +704,7 @@ exports[`Renderer:Page handleAction actionType=drawer default 1`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -731,7 +732,7 @@ exports[`Renderer:Page handleAction actionType=drawer default 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -763,7 +764,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -778,7 +779,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
             class="cxd-TplField"
           >
             <span>
-              The variable a is 
+              The variable a is
             </span>
           </span>
         </div>
@@ -862,7 +863,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
         class="cxd-Drawer-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -890,7 +891,8 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default
+            cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1079,7 +1081,7 @@ exports[`Renderer:Page initApi reload by Dialog action 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1119,7 +1121,7 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1218,7 +1220,7 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -1226,7 +1228,7 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -1254,7 +1256,7 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1294,7 +1296,7 @@ exports[`Renderer:Page initApi reload by Drawer action 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1334,7 +1336,7 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1425,7 +1427,7 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
         class="cxd-Drawer-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -1433,7 +1435,7 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -1461,7 +1463,7 @@ exports[`Renderer:Page initApi reload by Drawer action 3`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1561,7 +1563,7 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--default"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -1574,36 +1576,36 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
               class="resize-sensor"
               style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
             >
-              
-  
+
+
               <div
                 class="resize-sensor-expand"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-shrink"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-appear"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -1703,7 +1705,7 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--default"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -1716,36 +1718,36 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
               class="resize-sensor"
               style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
             >
-              
-  
+
+
               <div
                 class="resize-sensor-expand"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-shrink"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-appear"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -1785,7 +1787,7 @@ exports[`Renderer:Page initApi reload by action 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1825,7 +1827,7 @@ exports[`Renderer:Page initApi reload by action 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1879,7 +1881,7 @@ exports[`Renderer:Page initApi show loading 1`] = `
             class="cxd-TplField"
           >
             <span>
-              The variable value is 
+              The variable value is
             </span>
           </span>
         </div>
