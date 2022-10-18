@@ -73,10 +73,11 @@ export class CmptAction implements RendererAction {
     if (action.actionType === 'reload') {
       return component?.reload?.(
         undefined,
-        action.args,
+        action.data,
         undefined,
         undefined,
-        dataMergeMode === 'override'
+        dataMergeMode === 'override',
+        action.args
       );
     }
 

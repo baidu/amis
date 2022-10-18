@@ -9,7 +9,10 @@ import {
 
 export interface IDrawerAction extends ListenerAction {
   actionType: 'drawer';
-  drawer: SchemaNode;
+  args: {
+    drawer: SchemaNode;
+  };
+  drawer?: SchemaNode; // 兼容历史
 }
 
 /**
@@ -25,7 +28,7 @@ export class DrawerAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    renderer.props.onAction?.(event, action, action.args);
+    renderer.props.onAction?.(event, action, action.data);
   }
 }
 
@@ -57,7 +60,7 @@ export class CloseDrawerAction implements RendererAction {
           ...action,
           actionType: 'close'
         },
-        action.args
+        action.data
       );
     }
   }

@@ -10,16 +10,21 @@ import {
   runActions
 } from './Action';
 
+type ScriptType =
+  | string
+  | ((
+      renderer: any,
+      doAction: (action: ActionObject, data: Record<string, any>) => void,
+      event: RendererEvent<any>,
+      action: ListenerAction
+    ) => void); // 自定义JS，actionType: custom
+
 export interface ICustomAction extends ListenerAction {
   actionType: 'custom';
-  script:
-    | string
-    | ((
-        renderer: any,
-        doAction: (action: ActionObject, data: Record<string, any>) => void,
-        event: RendererEvent<any>,
-        action: ListenerAction
-      ) => void); // 自定义JS，actionType: custom
+  args: {
+    script: ScriptType;
+  };
+  script?: ScriptType; // 兼容历史
 }
 
 /**
@@ -36,7 +41,7 @@ export class CustomAction implements RendererAction {
     event: RendererEvent<any>
   ) {
     // 执行自定义编排脚本
-    let scriptFunc = action.script;
+    let scriptFunc = action.args?.script ?? action.script;
 
     if (typeof scriptFunc === 'string') {
       scriptFunc = promisify(

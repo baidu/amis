@@ -60,7 +60,7 @@ export class LinkAction implements RendererAction {
         type: 'button',
         ...action.args
       },
-      action.args
+      action.data ?? {}
     );
   }
 }
