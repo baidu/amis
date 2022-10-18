@@ -147,36 +147,36 @@ exports[`Renderer:checkboxes 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -329,36 +329,36 @@ exports[`Renderer:checkboxes 2`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -421,7 +421,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
             class="cxd-CheckboxesControl cxd-Form-control is-inline"
           >
             <label
-              class="cxd-Checkbox cxd-Checkbox--checkbox"
+              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
             >
               <input
                 checked=""
@@ -552,7 +552,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -565,36 +565,36 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -788,7 +788,7 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -801,36 +801,36 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -1024,7 +1024,7 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1037,36 +1037,36 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -1215,7 +1215,7 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1228,36 +1228,36 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -1410,7 +1410,7 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1423,36 +1423,36 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -1666,7 +1666,7 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1679,36 +1679,36 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -1855,7 +1855,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1868,36 +1868,36 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -2035,7 +2035,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
           class="cxd-Panel-btnToolbar cxd-Panel-footer"
         >
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="submit"
           >
             <span>
@@ -2048,36 +2048,36 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
         class="resize-sensor"
         style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+  
         <div
           class="resize-sensor-expand"
           style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
         >
-
-
+          
+    
           <div
             style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
           />
-
-
+          
+  
         </div>
-
-
+        
+  
         <div
           class="resize-sensor-shrink"
           style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
         >
-
-
+          
+    
           <div
             style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
           />
-
-
+          
+  
         </div>
-
-
+        
+  
         <div
           class="resize-sensor-appear"
           style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -2247,7 +2247,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -2450,7 +2450,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -2463,36 +2463,36 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -2657,7 +2657,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
           class="cxd-Panel-btnToolbar cxd-Panel-footer"
         >
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="submit"
           >
             <span>
@@ -2670,36 +2670,36 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
         class="resize-sensor"
         style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+  
         <div
           class="resize-sensor-expand"
           style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
         >
-
-
+          
+    
           <div
             style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
           />
-
-
+          
+  
         </div>
-
-
+        
+  
         <div
           class="resize-sensor-shrink"
           style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
         >
-
-
+          
+    
           <div
             style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
           />
-
-
+          
+  
         </div>
-
-
+        
+  
         <div
           class="resize-sensor-appear"
           style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -2839,7 +2839,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -3003,7 +3003,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3016,36 +3016,36 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -3206,7 +3206,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3219,36 +3219,36 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -3430,7 +3430,7 @@ exports[`Renderer:checkboxes with group 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3443,36 +3443,36 @@ exports[`Renderer:checkboxes with group 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -3637,7 +3637,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3650,36 +3650,36 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -3809,7 +3809,7 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3822,36 +3822,36 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -4016,7 +4016,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
           class="cxd-Panel-btnToolbar cxd-Panel-footer"
         >
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="submit"
           >
             <span>
@@ -4029,36 +4029,36 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
         class="resize-sensor"
         style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+  
         <div
           class="resize-sensor-expand"
           style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
         >
-
-
+          
+    
           <div
             style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
           />
-
-
+          
+  
         </div>
-
-
+        
+  
         <div
           class="resize-sensor-shrink"
           style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
         >
-
-
+          
+    
           <div
             style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
           />
-
-
+          
+  
         </div>
-
-
+        
+  
         <div
           class="resize-sensor-appear"
           style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -4105,7 +4105,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
           取消
         </button>
         <button
-          class="cxd-Button cxd-Button--danger"
+          class="cxd-Button cxd-Button--danger cxd-Button--size-default"
           type="button"
         >
           确认
@@ -4267,7 +4267,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -4280,36 +4280,36 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
-
-
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
-
-
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
-
-
+        
+  
       </div>
-
-
+      
+  
       <div
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"

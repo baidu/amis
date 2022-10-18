@@ -777,9 +777,7 @@ exports[`Renderer:number with prefix & suffix & kilobitSeparator 1`] = `
 </div>
 `;
 
-exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `<div />`;
-
-exports[`Renderer:number with step & precision & displayMode & keyboard 2`] = `
+exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1058,7 +1056,7 @@ exports[`Renderer:number with unitOptions 1`] = `
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="downshift-0-label"
-              class="cxd-Select is-focused"
+              class="cxd-Select"
               role="combobox"
               tabindex="0"
             >

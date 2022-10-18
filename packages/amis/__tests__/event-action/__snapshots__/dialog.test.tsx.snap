@@ -131,8 +131,7 @@ exports[`EventAction:dialog 2`] = `
           class="cxd-Page-body"
         >
           <button
-            class="cxd-Button cxd-Button--default
-            cxd-Button--size-default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
