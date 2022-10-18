@@ -28,7 +28,7 @@ export class TableCellV2Plugin extends BasePlugin {
     const {context, data} = event.context;
     if (
       !context.node.parent?.parent?.type ||
-      context.node.parent.parent.type !== 'table-v2'
+      context.node.parent.parent.type !== 'table2'
     ) {
       return;
     }

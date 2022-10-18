@@ -27,7 +27,7 @@ import {getArgsWrapper} from '../renderer/event-control/helper';
 
 export class TableV2Plugin extends BasePlugin {
   // 关联渲染器名字
-  rendererName = 'table-v2';
+  rendererName = 'table2';
   $schema = '/schemas/TableSchema.json';
 
   // 组件名称
@@ -41,12 +41,12 @@ export class TableV2Plugin extends BasePlugin {
   icon = 'fa fa-table';
 
   scaffold: SchemaObject = {
-    type: 'table-v2',
+    type: 'table2',
 
     columns: [
       {
         title: '列信息',
-        key: 'a'
+        name: 'a'
       }
     ],
 
@@ -64,7 +64,7 @@ export class TableV2Plugin extends BasePlugin {
   ];
 
   previewSchema: any = {
-    type: 'table-v2',
+    type: 'table2',
     className: 'text-left m-b-none',
     items: [
       {a: 1, b: 2, c: 9},
@@ -342,7 +342,7 @@ export class TableV2Plugin extends BasePlugin {
     }
 
     const result: any = {
-      $id: 'table-v2',
+      $id: 'table2',
       type: 'object',
       properties: {
         items: {
@@ -870,7 +870,7 @@ export class TableV2Plugin extends BasePlugin {
     if (
       !schema.$$id &&
       ['crud', 'crud2'].includes(schema.$$editor?.renderer.name) &&
-      renderer.name === 'table-v2'
+      renderer.name === 'table2'
     ) {
       return {
         ...({id: schema.$$editor.id} as any),
