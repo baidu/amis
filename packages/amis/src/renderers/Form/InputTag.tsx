@@ -3,7 +3,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  resolveEventData
 } from 'amis-core';
 import Downshift from 'downshift';
 import find from 'lodash/find';
@@ -144,13 +145,18 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   async dispatchEvent(eventName: string, eventData: any = {}) {
-    const {dispatchEvent, options, data} = this.props;
+    const {dispatchEvent, options} = this.props;
     const rendererEvent = await dispatchEvent(
       eventName,
-      createObject(data, {
-        options,
-        ...eventData
-      })
+      resolveEventData(
+        this.props,
+        {
+          options,
+          items: options, // 为了保持名字统一
+          ...eventData
+        },
+        'value'
+      )
     );
     // 返回阻塞标识
     return !!rendererEvent?.prevented;
@@ -523,7 +529,7 @@ export default class TagControl extends React.PureComponent<
                           disabled: reachMax || item.disabled,
                           className: cx('ListMenu-item', {
                             'is-disabled': reachMax
-                          }),
+                          })
                         })
                       })}
                     />

@@ -4,7 +4,9 @@ import {
   differenceWith,
   includes,
   debounce,
-  result
+  result,
+  isEqual,
+  unionWith
 } from 'lodash';
 
 import {ThemeProps, themeable} from 'amis-core';
@@ -186,25 +188,26 @@ export class Transfer<
   toggleAll() {
     const {options, option2value, onChange, value, onSelectAll} = this.props;
     let valueArray = BaseSelection.value2array(value, options, option2value);
-    const availableOptions = flattenTree(options).filter(
-      (option, index, list) =>
-        !option.disabled &&
-        option.value !== void 0 &&
-        list.indexOf(option) === index
-    );
+    const availableOptions = this.availableOptions;
 
-    if (valueArray.length < availableOptions.length) {
-      valueArray = availableOptions;
-    } else {
-      valueArray = [];
+    // availableOptions 中选项是否都被选中了
+    const isAvailableOptionsAllSelected =
+      intersectionWith(availableOptions, valueArray, isEqual).length ===
+      availableOptions.length;
+    // 全不选
+    if (isAvailableOptionsAllSelected) {
+      valueArray = differenceWith(valueArray, availableOptions, isEqual);
+    }
+    // 全选
+    else {
+      valueArray = unionWith(valueArray, availableOptions, isEqual);
     }
 
     let newValue: string | Options = option2value
       ? valueArray.map(item => option2value(item))
       : valueArray;
 
-    // > 0 全选。TODO：由于未来可能有逻辑：禁用清空不了，这里判断全选，得完善下
-    newValue.length > 0 && onSelectAll?.(newValue);
+    isAvailableOptionsAllSelected || onSelectAll?.(newValue);
 
     onChange?.(newValue);
   }
@@ -366,6 +369,13 @@ export class Transfer<
       option => this.valueArray.indexOf(option) > -1
     );
 
+    // 不在当前 availableOptions 中的已选项 数量
+    const selectedNotInAvailableOptions = differenceWith(
+      this.valueArray,
+      this.availableOptions,
+      isEqual
+    ).length;
+
     return (
       <>
         <div
@@ -386,8 +396,11 @@ export class Transfer<
             {__(selectTitle || 'Transfer.available')}
             {statistics !== false ? (
               <span>
-                （{this.availableOptions.length - this.valueArray.length}/
-                {this.availableOptions.length}）
+                （
+                {this.availableOptions.length -
+                  this.valueArray.length +
+                  selectedNotInAvailableOptions}
+                /{this.availableOptions.length}）
               </span>
             ) : null}
           </span>
@@ -708,9 +721,11 @@ export class Transfer<
       selectMode = 'list',
       translate: __
     } = this.props;
+    const {searchResult} = this.state;
 
     this.valueArray = BaseSelection.value2array(value, options, option2value);
-    this.availableOptions = flattenTree(options).filter(
+
+    this.availableOptions = flattenTree(searchResult ?? options).filter(
       (option, index, list) =>
         !option.disabled &&
         option.value !== void 0 &&

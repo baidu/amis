@@ -22,6 +22,7 @@ export interface ListenerAction {
   description?: string; // 事件描述，actionType: broadcast
   componentId?: string; // 组件ID，用于直接执行指定组件的动作
   args?: Record<string, any> | null; // 参数，可以配置数据映射
+  dataMergeMode?: 'merge' | 'override'; // 参数模式，合并或者覆盖
   outputVar?: string; // 输出数据变量名
   preventDefault?: boolean; // 阻止原有组件的动作行为
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
@@ -116,20 +117,15 @@ export const runAction = async (
 ) => {
   // 用户可能，需要用到事件数据和当前域的数据，因此merge事件数据和当前渲染器数据
   // 需要保持渲染器数据链完整
-  const mergeData = renderer.props.data.__super
-    ? createObject(
-        createObject(renderer.props.data.__super, {
-          event
-        }),
-        renderer.props.data
-      )
-    : createObject(
-        {
-          event
-        },
-        renderer.props.data
-      );
-
+  const mergeData = createObject(
+    event.data,
+    renderer.props.data.__super
+      ? createObject(
+          renderer.props.data.__super,
+          createObject(renderer.props.data, {event})
+        )
+      : createObject(renderer.props.data, {event})
+  );
   // 兼容一下1.9.0之前的版本
   const expression = actionConfig.expression ?? actionConfig.execOn;
 

@@ -1,11 +1,14 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 
 import {Textarea} from 'amis-ui';
 
 import {autobind, ucFirst} from 'amis-core';
-
-import {bindRendererEvent} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 
@@ -105,43 +108,56 @@ export default class TextAreaControl extends React.Component<
   }
 
   @autobind
-  @bindRendererEvent<TextAreaProps, TextAreaRendererEvent>(
-    'change',
-    undefined,
-    false
-  )
   handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    const {onChange} = this.props;
+    const {onChange, dispatchEvent} = this.props;
+
+    dispatchEvent('change', resolveEventData(this.props, {value: e}, 'value'));
+
     onChange && onChange(e);
   }
 
   @autobind
-  @bindRendererEvent<TextAreaProps, TextAreaRendererEvent>('focus')
   handleFocus(e: React.FocusEvent<HTMLTextAreaElement>) {
-    const {onFocus} = this.props;
+    const {onFocus, dispatchEvent, value} = this.props;
 
     this.setState(
       {
         focused: true
       },
-      () => {
+      async () => {
+        const rendererEvent = await dispatchEvent(
+          'focus',
+          resolveEventData(this.props, {value}, 'value')
+        );
+
+        if (rendererEvent?.prevented) {
+          return;
+        }
         onFocus && onFocus(e);
       }
     );
   }
 
   @autobind
-  @bindRendererEvent<TextAreaProps, TextAreaRendererEvent>('blur')
   handleBlur(e: React.FocusEvent<HTMLTextAreaElement>) {
-    const {onBlur, trimContents, value, onChange} = this.props;
+    const {onBlur, trimContents, value, onChange, dispatchEvent} = this.props;
 
     this.setState(
       {
         focused: false
       },
-      () => {
+      async () => {
         if (trimContents && value && typeof value === 'string') {
           onChange(value.trim());
+        }
+
+        const rendererEvent = await dispatchEvent(
+          'blur',
+          resolveEventData(this.props, {value}, 'value')
+        );
+
+        if (rendererEvent?.prevented) {
+          return;
         }
 
         onBlur && onBlur(e);

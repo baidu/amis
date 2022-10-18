@@ -196,6 +196,7 @@ export default class Panel extends React.Component<PanelProps> {
       formHorizontal,
       subFormMode,
       subFormHorizontal,
+      id,
       ...rest
     } = this.props;
 
@@ -249,6 +250,7 @@ export default class Panel extends React.Component<PanelProps> {
       affixFooter,
       classPrefix: ns,
       classnames: cx,
+      id,
       ...rest
     } = this.props;
 

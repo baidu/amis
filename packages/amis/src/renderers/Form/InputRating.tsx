@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import {autobind, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {Rating} from 'amis-ui';
@@ -101,13 +106,11 @@ export default class RatingControl extends React.Component<RatingProps, any> {
 
   @autobind
   async handleChange(value: any) {
-    const {onChange, dispatchEvent, data} = this.props;
+    const {onChange, dispatchEvent} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value
-      })
+      resolveEventData(this.props, {value}, 'value')
     );
 
     if (rendererEvent?.prevented) {

@@ -1,19 +1,48 @@
 .#{$ns}CBGroup {
   font-size: var(--fontSizeSm);
   position: relative;
-  border: 1px solid #e8e9eb;
-  border-radius: 4px;
-  border-left: px2rem(3px) solid #e6f0ff;
-  padding: px2rem(30px) px2rem(27px) px2rem(17px);
-  margin-top: px2rem(30px);
+  // border: 1px solid #e8e9eb;
+  // border-radius: 4px;
+  // border-left: px2rem(3px) solid #e6f0ff;
+  // padding: px2rem(30px) px2rem(27px) px2rem(17px);
+  // margin-top: px2rem(30px);
+  display: flex;
   &-toolbarCondition {
-    text-align: center;
-    margin-top: px2rem(-44px);
-    margin-bottom: px2rem(16px);
+    // text-align: center;
+    // margin-top: px2rem(-44px);
+    // margin-bottom: px2rem(16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 px2rem(10px) 0 0;
+    flex-direction: column;
+
+    &[draggable='true'] {
+      cursor: grab;
+    }
+
+    &-arrow {
+      position: absolute;
+      top: 0;
+      font-size: 14px;
+      width: px2rem(20px);
+      height: px2rem(20px);
+      border-radius: 50%;
+      background: #d4e5ff;
+      text-align: center;
+      color: #0832a6;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+
+      &.is-collapse {
+        transform: rotate(180deg);
+      }
+    }
+
     .#{$ns}Select {
-      font-size: 12px;
+      font-size: px2rem(12px);
       height: px2rem(28px);
-      width: px2rem(62px);
+      width: px2rem(28px);
       background: #d4e5ff;
       border: none;
       color: #0832a6;
@@ -21,16 +50,83 @@
       padding: 0;
       padding-left: px2rem(8px);
       min-height: px2rem(28px);
+
       &:hover {
         background: #d4e5ff;
       }
+
+      &-arrow {
+        display: none;
+      }
+
+      &-menu {
+        padding: 0;
+
+        > .#{$ns}Select-option {
+          font-size: px2rem(12px);
+          font-weight: 500;
+          line-height: 2rem !important;
+          text-align: center;
+          padding: 0 !important;
+        }
+      }
     }
+
+    &::before {
+      content: ' ';
+      position: absolute;
+      top: px2rem(5px);
+      bottom: px2rem(5px);
+      width: 2px;
+      background-color: #d4e5ff;
+    }
+  }
+
+  &-body {
+    position: relative;
+    &-wrapper {
+      flex: 1;
+    }
+
+    &-collapse {
+      background: #f7f7f9;
+      text-align: center;
+      color: #84868c;
+      display: flex;
+      justify-content: center;
+
+      > span {
+        position: relative;
+        top: -8px;
+        background: #f7f7f9;
+        padding: 0 10px;
+        cursor: pointer;
+      }
+
+      &::before {
+        content: ' ';
+        height: 1px;
+        background: #e8e9eb;
+        position: absolute;
+        left: 32px;
+        right: 32px;
+      }
+    }
+  }
+
+  &-body-wrapper {
+    flex: 1;
   }
 
   &-toolbar {
     display: flex;
     flex-direction: row;
-    margin-top: px2rem(8px);
+    padding-top: px2rem(8px);
+
+    &[draggable='true'] {
+      cursor: grab;
+    }
+
     .#{$ns}Button {
       transition: padding var(--animation-duration);
       min-width: unset;
@@ -47,14 +143,14 @@
       display: flex;
       align-items: center;
       .#{$ns}ButtonGroup {
-        & > .cxd-Button:first-child {
+        & > .cxd-Button:not(:last-child) {
           margin-right: px2rem(24px);
         }
       }
 
-      .#{$ns}CBDelete {
-        margin-left: var(--gap-xs);
-      }
+      // .#{$ns}CBDelete {
+      //   margin-left: var(--gap-xs);
+      // }
     }
   }
   .#{$ns}ResultBox {
@@ -104,22 +200,30 @@
 }
 
 .#{$ns}CBDelete {
-  cursor: pointer;
-  margin-left: auto;
-  background: #fff;
+  margin-left: 5px;
+  font-size: 16px;
+  color: #84868c;
+  // cursor: pointer;
+  // margin-left: auto;
 }
 
-.#{$ns}CBGroupOrItem-body-group--hover {
-  & > .#{$ns}CBGroupOrItem-dragbar {
-    opacity: 1 !important;
-  }
-  & > .#{$ns}CBGroup {
-    border-left-color: #2468f1;
-  }
-}
+// .#{$ns}CBGroupOrItem-body-group.is-hover {
+//   & > .#{$ns}CBGroupOrItem-dragbar {
+//     opacity: 1 !important;
+//   }
+//   & > .#{$ns}CBGroup {
+//     border-left-color: #2468f1;
+//   }
+// }
 
 .#{$ns}CBGroupOrItem {
   position: relative;
+  transition: box-shadow 0.3s ease;
+
+  &.is-hover {
+    box-shadow: #e8ebee 0 2px 10px 0;
+    // cursor: grab;
+  }
 
   & + & {
     margin-top: px2rem(10px);
@@ -145,9 +249,12 @@
       flex-direction: row;
       display: flex;
       align-items: center;
-      margin-top: px2rem(16px);
+      // margin-top: px2rem(16px);
+      > .is-hover {
+        cursor: grab;
+      }
       > .#{$ns}CBGroupOrItem-dragbar {
-        left: px2rem(-16px);
+        left: px2rem(-5px);
         position: absolute;
       }
       > .#{$ns}CBGroup {

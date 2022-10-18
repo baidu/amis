@@ -535,9 +535,15 @@ export default class Service extends React.Component<ServiceProps> {
     return value;
   }
 
-  reload(subpath?: string, query?: any, ctx?: RendererData, silent?: boolean) {
+  reload(
+    subpath?: string,
+    query?: any,
+    ctx?: RendererData,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace);
     }
 
     const {
@@ -587,10 +593,10 @@ export default class Service extends React.Component<ServiceProps> {
     this.reload(target, query, undefined, true);
   }
 
-  receive(values: object) {
+  receive(values: object, subPath?: string, replace?: boolean) {
     const {store} = this.props;
 
-    store.updateData(values);
+    store.updateData(values, undefined, replace);
     this.reload();
   }
 
@@ -772,7 +778,13 @@ export class ServiceRenderer extends Service {
     scoped.registerComponent(this as ScopedComponentType);
   }
 
-  reload(subpath?: string, query?: any, ctx?: any, silent?: boolean) {
+  reload(
+    subpath?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     const scoped = this.context as IScopedContext;
     if (subpath) {
       return scoped.reload(
@@ -781,16 +793,16 @@ export class ServiceRenderer extends Service {
       );
     }
 
-    return super.reload(subpath, query, ctx, silent);
+    return super.reload(subpath, query, ctx, silent, replace);
   }
 
-  receive(values: any, subPath?: string) {
+  receive(values: any, subPath?: string, replace?: boolean) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);
     }
 
-    return super.receive(values);
+    return super.receive(values, subPath, replace);
   }
 
   componentWillUnmount() {
@@ -804,7 +816,7 @@ export class ServiceRenderer extends Service {
     scoped.reload(target, data);
   }
 
-  setData(values: object) {
-    return this.props.store.updateData(values);
+  setData(values: object, replace?: boolean) {
+    return this.props.store.updateData(values, undefined, replace);
   }
 }
