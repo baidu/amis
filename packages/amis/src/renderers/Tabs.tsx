@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, resolveEventData} from 'amis-core';
 import {ActionObject, Schema, SchemaNode} from 'amis-core';
 import find from 'lodash/find';
 import {
@@ -619,9 +619,13 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: tab?.hash ? tab?.hash : key + 1
-      })
+      resolveEventData(
+        this.props,
+        {
+          value: tab?.hash ? tab?.hash : key + 1
+        },
+        'value'
+      )
     );
     if (rendererEvent?.prevented) {
       return;

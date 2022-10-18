@@ -26,6 +26,10 @@
 
   &-image {
     display: block;
+
+    &--loading {
+      visibility: hidden;
+    }
   }
 
   &--original &-image {

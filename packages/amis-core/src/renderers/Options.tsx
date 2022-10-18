@@ -26,8 +26,7 @@ import {
   getTreeDepth,
   flattenTree,
   keyToPath,
-  getVariable,
-  isObject
+  getVariable
 } from '../utils/helper';
 import {reaction} from 'mobx';
 import {
@@ -55,7 +54,8 @@ import isPlainObject from 'lodash/isPlainObject';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import {Option} from '../types';
-import {isEqual} from 'lodash';
+import isEqual from 'lodash/isEqual';
+import {resolveEventData} from '../utils';
 
 export {Option};
 
@@ -476,13 +476,14 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     async dispatchOptionEvent(eventName: string, eventData: any = '') {
-      const {dispatchEvent, options, data} = this.props;
+      const {dispatchEvent, options} = this.props;
       const rendererEvent = await dispatchEvent(
         eventName,
-        createObject(data, {
-          value: eventData,
-          options
-        })
+        resolveEventData(
+          this.props,
+          {value: eventData, options, items: options}, // 为了保持名字统一
+          'value'
+        )
       );
       // 返回阻塞标识
       return !!rendererEvent?.prevented;
@@ -543,6 +544,8 @@ export function registerOptionsControl(config: OptionsConfig) {
                 selectedOptions[0]
               )
         );
+        const tmpData = {...data};
+        const result = {...toSync};
 
         Object.keys(autoFill).forEach(key => {
           const keys = keyToPath(key);
@@ -550,15 +553,16 @@ export function registerOptionsControl(config: OptionsConfig) {
           // 如果左边的 key 是一个路径
           // 这里不希望直接把原始对象都给覆盖没了
           // 而是保留原始的对象，只修改指定的属性
-          if (keys.length > 1 && isPlainObject(data[keys[0]])) {
-            const obj = {...data[keys[0]]};
+          if (keys.length > 1 && isPlainObject(tmpData[keys[0]])) {
             const value = getVariable(toSync, key);
-            toSync[keys[0]] = obj;
-            setVariable(toSync, key, value);
+
+            // 存在情况：依次更新同一子路径的多个key，eg: a.b.c1 和 a.b.c2，所以需要同步更新data
+            setVariable(tmpData, key, value);
+            result[keys[0]] = tmpData[keys[0]];
           }
         });
 
-        onBulkChange(toSync);
+        onBulkChange(result);
       }
     }
 

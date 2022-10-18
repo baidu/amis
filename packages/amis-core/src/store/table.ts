@@ -335,16 +335,8 @@ export const TableStore = iRendererStore
             item.pristine,
             hasVisibleExpression(item.pristine) ? self.data : {}
           ) &&
-          (item.type === '__checkme'
-            ? self.selectable &&
-              !self.dragging &&
-              !self.hideCheckToggler &&
-              self.rows.length
-            : item.type === '__dragme'
-            ? self.dragging
-            : item.type === '__expandme'
-            ? (getFootableColumns().length || self.isNested) && !self.dragging
-            : item.toggled || !item.toggable)
+          (item.toggled || !item.toggable) &&
+          !/^__/.test(item.type)
         );
       });
     }

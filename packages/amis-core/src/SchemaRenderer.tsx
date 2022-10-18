@@ -52,7 +52,8 @@ const defaultOmitList = [
   'requiredOn',
   'syncSuperStore',
   'mode',
-  'body'
+  'body',
+  'id'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();

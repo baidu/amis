@@ -331,6 +331,7 @@ register('de-DE', {
   'Condition.not': 'nicht',
   'Condition.and': 'und',
   'Condition.or': 'oder',
+  'Condition.collapse': 'entfalten',
   'Condition.add_cond': 'und Bedingung',
   'Condition.add_cond_group': 'Bedingungsgruppe hinzufügen',
   'Condition.delete_cond_group': 'Konditionsgruppe löschen',

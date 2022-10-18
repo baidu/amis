@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import cx from 'classnames';
 import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import moment from 'moment';
@@ -423,8 +428,8 @@ export default class DateControl extends React.PureComponent<
   // 派发有event的事件
   @autobind
   dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
-    const {dispatchEvent, data} = this.props;
-    dispatchEvent(e, data);
+    const {dispatchEvent, value} = this.props;
+    dispatchEvent(e, resolveEventData(this.props, {value}, 'value'));
   }
 
   // 动作
@@ -444,10 +449,10 @@ export default class DateControl extends React.PureComponent<
   // 值的变化
   @autobind
   async handleChange(nextValue: any) {
-    const {dispatchEvent, data} = this.props;
+    const {dispatchEvent} = this.props;
     const dispatcher = dispatchEvent(
       'change',
-      createObject(data, {value: nextValue})
+      resolveEventData(this.props, {value: nextValue}, 'value')
     );
     if (dispatcher?.prevented) {
       return;
