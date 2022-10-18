@@ -2286,9 +2286,9 @@ export class CRUDRenderer extends CRUD {
 
     return super.reload(
       subpath,
-      omit(query, 'resetPage'),
+      query ? omit(query, 'resetPage') : query,
       replace,
-      query.resetPage ?? true
+      query?.resetPage ?? true
     );
   }
 
