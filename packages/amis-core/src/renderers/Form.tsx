@@ -755,10 +755,10 @@ export default class Form extends React.Component<FormProps, object> {
       : store.reset(undefined, false);
   }
 
-  receive(values: object) {
+  receive(values: object, name?: string, replace?: boolean) {
     const {store} = this.props;
 
-    store.updateData(values);
+    store.updateData(values, undefined, replace);
     this.reload();
   }
 
@@ -812,10 +812,10 @@ export default class Form extends React.Component<FormProps, object> {
     return store.data;
   }
 
-  setValues(value: any) {
+  setValues(value: any, replace?: boolean) {
     const {store} = this.props;
     this.flush();
-    store.setValues(value);
+    store.setValues(value, undefined, replace);
   }
 
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
@@ -1872,9 +1872,15 @@ export class FormRenderer extends Form {
     scoped.close(target);
   }
 
-  reload(target?: string, query?: any, ctx?: any, silent?: boolean) {
+  reload(
+    target?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace);
     }
 
     const scoped = this.context as IScopedContext;
@@ -1913,7 +1919,7 @@ export class FormRenderer extends Form {
     }
   }
 
-  receive(values: object, name?: string) {
+  receive(values: object, name?: string, replace?: boolean) {
     if (name) {
       const scoped = this.context as IScopedContext;
       const idx = name.indexOf('.');
@@ -1929,10 +1935,10 @@ export class FormRenderer extends Form {
       return;
     }
 
-    return super.receive(values);
+    return super.receive(values, undefined, replace);
   }
 
-  setData(values: object) {
+  setData(values: object, replace?: boolean) {
     return super.setValues(values);
   }
 }

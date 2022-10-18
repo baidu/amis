@@ -32,7 +32,7 @@ export class BroadcastAction implements RendererAction {
     }
 
     // 作为一个新的事件，需要把广播动作的args参数追加到事件数据中
-    event.setData(createObject(event.data, action.args));
+    event.setData(createObject(event.data, action.args ?? {}));
 
     // 直接触发对应的动作
     return await dispatchEvent(

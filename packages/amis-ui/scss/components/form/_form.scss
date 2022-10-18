@@ -77,6 +77,7 @@
 
 .#{$ns}Form-description {
   display: block;
+  word-break: break-word;
   color: var(--Form-description-color);
   margin: var(--Form-input-marginBottom) 0 0;
   font-size: var(--Form-description-fontSize);

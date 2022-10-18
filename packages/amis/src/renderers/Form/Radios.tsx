@@ -5,7 +5,8 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  resolveEventData
 } from 'amis-core';
 import {autobind, isEmpty, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -70,10 +71,15 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
 
     const rendererEvent = await dispatchEvent(
       'change',
-      createObject(data, {
-        value: option,
-        options
-      })
+      resolveEventData(
+        this.props,
+        {
+          value: option,
+          options,
+          items: options // 为了保持名字统一
+        },
+        'value'
+      )
     );
     if (rendererEvent?.prevented) {
       return;
