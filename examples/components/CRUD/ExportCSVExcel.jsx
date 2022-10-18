@@ -14,7 +14,7 @@ export default {
           grade: 'A',
           engine: {
             name: 'Trident',
-            version: '4'
+            version: '4/2'
           },
           date: '1591326307'
         },
@@ -23,7 +23,6 @@ export default {
           icon: __uri('../../static/ie.png'),
           browser: 'Internet Explorer 4.2',
           platform: 'Win 95+',
-
           engine: {
             name: 'Trident',
             version: '4'

@@ -319,6 +319,7 @@ register('en-US', {
   'Condition.not': 'not',
   'Condition.and': 'and',
   'Condition.or': 'or',
+  'Condition.collapse': 'unfold',
   'Condition.add_cond': 'add condition',
   'Condition.add_cond_group': 'add condition group',
   'Condition.delete_cond_group': 'delete condition group',

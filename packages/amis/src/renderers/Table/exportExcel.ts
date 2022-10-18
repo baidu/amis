@@ -6,7 +6,12 @@ import {filter} from 'amis-core';
 import './ColumnToggler';
 import {TableStore} from 'amis-core';
 import {saveAs} from 'file-saver';
-import {getVariable, removeHTMLTag, createObject} from 'amis-core';
+import {
+  getVariable,
+  removeHTMLTag,
+  decodeEntity,
+  createObject
+} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {BaseSchema} from '../../Schema';
 import {toDataURL, getImageDimensions} from 'amis-core';
@@ -297,7 +302,7 @@ export async function exportExcel(
       } else {
         if (column.pristine.tpl) {
           sheetRow.getCell(columIndex).value = removeHTMLTag(
-            filter(column.pristine.tpl, rowData)
+            decodeEntity(filter(column.pristine.tpl, rowData))
           );
         } else {
           sheetRow.getCell(columIndex).value = value;
