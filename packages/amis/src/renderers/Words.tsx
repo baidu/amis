@@ -2,7 +2,7 @@
  * @file Words
  */
 import React, {Fragment} from 'react';
-import {autobind, Renderer, RendererProps, Option, getTreeAncestors} from 'amis-core';
+import {autobind, Renderer, RendererProps, Option, getTreeAncestors, resolveVariableAndFilter} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {PlainObject} from '../types';
 import {Tag} from 'amis-ui';
@@ -109,8 +109,6 @@ export class WordsField extends React.Component<WordsProps, object> {
       inTag
     } = this.props;
 
-    console.log(words, this.props);
-
     // 纯文字展示
     if (!Array.isArray(words)) {
       return words;
@@ -194,8 +192,14 @@ export class WordsField extends React.Component<WordsProps, object> {
   getWords() {
     const {
       selectedOptions = [],
-      words
+      words: oldWords,
+      data
     } = this.props;
+
+    let words;
+    if (typeof oldWords === 'string') {
+      words = resolveVariableAndFilter(oldWords, data, '| raw');
+    }
 
     if (words) {
       return words;

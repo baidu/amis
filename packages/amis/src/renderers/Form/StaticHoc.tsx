@@ -1,5 +1,5 @@
 import React from "react";
-import {getPropValue, FormControlProps, Option, getTreeAncestors} from "amis-core";
+import {getPropValue, FormControlProps} from "amis-core";
 
 function renderCommonStatic(props: any, defaultValue: string) {
   const {
@@ -57,6 +57,7 @@ function renderCommonStatic(props: any, defaultValue: string) {
 
     case 'input-tag':
       return render('static-input-tag', {type: 'tags'}, staticProps);
+
     default:
       return defaultValue;
   }
@@ -89,19 +90,20 @@ export function supportStatic<T extends FormControlProps>() {
         const displayValue = getPropValue(props);
         if (!displayValue) {
           body = staticPlaceholder;
-        }
-
-        else {
+        } else {
           // 自定义了schema并且有type
-          if (staticSchema && staticSchema.type) {
+          if (staticSchema && (
+            staticSchema.type
+            || Array.isArray(staticSchema)
+            || typeof staticSchema === 'string'
+            || typeof staticSchema === 'number'
+          )) {
             body = render('form-static-schema', staticSchema, props);
-          }
-          // 特殊组件
-          else if (target.renderStatic) {
+          } else if (target.renderStatic) {
+            // 特殊组件
             body = target.renderStatic.apply(this, [...args, displayValue]);
-          }
-          // 可复用组件
-          else {
+          } else {
+            // 可复用组件
             body = renderCommonStatic(props, displayValue);
           }
         }

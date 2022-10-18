@@ -1,5 +1,5 @@
 import React from 'react';
-import {autobind, localeable, LocaleProps} from 'amis-core';
+import {anyChanged, autobind, localeable, LocaleProps} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import Button from './Button';
 
@@ -53,12 +53,37 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
     if (this.ref && this.ref.current) {
       if (this.ref.current.scrollHeight > this.ref.current.clientHeight) {
         this.setState({
-          showBtn: true,
-          isExpend: false
+          showBtn: true
         });
       }
     }
   }
+
+  shouldComponentUpdate(nextProps: Readonly<MultilineTextProps>, nextState: Readonly<MultilineTextState>, nextContext: any): boolean {
+    if (
+      anyChanged(
+        ['text', 'maxRows', 'expendButtonText', 'collapseButtonText', 'className'],
+        this.props,
+        nextProps
+      )
+      || anyChanged(['isExpend', 'showBtn'], this.state, nextState)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  componentDidUpdate(oldProps: any, oldState: any) {
+    const {text, maxRows} = this.props;
+    if (text !== oldProps.text || maxRows !== oldProps) {
+      if (this.ref && this.ref.current) {
+        this.setState({
+          showBtn: this.ref.current.scrollHeight > this.ref.current.clientHeight
+        });
+      }
+    }
+  }
+
 
   @autobind
   toggleExpend() {
@@ -93,11 +118,22 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
           className
         )}
       >
+        {/* 用于计算高度 */}
         <div
           ref={this.ref}
           className={cx('white-space-pre-line', 'overflow-hidden')}
           style={{
-            height: isExpend ? 'auto' : `${maxRows * 20}px`
+            height: `${maxRows * 20}px`,
+            visibility: 'hidden',
+            position: 'absolute',
+            zIndex: -99
+          }}
+        >{text}</div>
+        {/* 用于展示 */}
+        <div
+          className={cx('white-space-pre-line', 'overflow-hidden')}
+          style={{
+            height: (showBtn && !isExpend) ? `${maxRows * 20}px` : 'auto'
           }}
         >{text}</div>
         {showBtn &&

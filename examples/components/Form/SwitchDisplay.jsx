@@ -42,7 +42,7 @@ export default {
           "value": true
         },
         {
-          "type": "select",
+          "type": "checkboxes",
           "name": "checkboxes",
           "label": "多选框",
           "value": renderSelectValues(12),

@@ -957,7 +957,6 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           className={cx(
             `Form-item Form-item--horizontal`,
             isStatic && staticClassName ? staticClassName : className,
-            className,
             {
               'Form-item--horizontal-justify': horizontal.justify,
               [`is-error`]: model && !model.valid,
