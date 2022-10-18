@@ -33,8 +33,10 @@ test('EventAction:custom', async () => {
                 actions: [
                   {
                     actionType: 'custom',
-                    script:
-                      "doAction({actionType: 'ajax', args: {api: 'api/xxx'}, outputVar: 'result'});"
+                    args: {
+                      script:
+                        "doAction({actionType: 'ajax', args: {api: 'api/xxx'}, outputVar: 'result'});"
+                    }
                   },
                   {
                     actionType: 'setValue',
@@ -56,8 +58,10 @@ test('EventAction:custom', async () => {
                 actions: [
                   {
                     actionType: 'custom',
-                    script:
-                      "doAction({actionType: 'ajax', args: {api: 'api/xxx'}, outputVar: 'result'});event.stopPropagation();"
+                    args: {
+                      script:
+                        "doAction({actionType: 'ajax', args: {api: 'api/xxx'}, outputVar: 'result'});event.stopPropagation();"
+                    }
                   },
                   {
                     actionType: 'setValue',
@@ -79,8 +83,10 @@ test('EventAction:custom', async () => {
                 actions: [
                   {
                     actionType: 'custom',
-                    script:
-                      "doAction({actionType: 'setValue', componentId: 'page_001', args: {value: {age: 17}}});"
+                    args: {
+                      script:
+                        "doAction({actionType: 'setValue', componentId: 'page_001', args: {value: {age: 17}}});"
+                    }
                   }
                 ]
               }

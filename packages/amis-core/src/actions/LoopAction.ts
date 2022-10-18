@@ -1,5 +1,5 @@
-import { RendererEvent } from '../utils/renderer-event';
-import { createObject } from '../utils/helper';
+import {RendererEvent} from '../utils/renderer-event';
+import {createObject} from '../utils/helper';
 import {
   RendererAction,
   ListenerContext,
@@ -8,7 +8,7 @@ import {
   runActions,
   ILogicAction
 } from './Action';
-import { resolveVariable } from '../utils/tpl-builtin';
+import {resolveVariable} from '../utils/tpl-builtin';
 
 export interface ILoopAction extends ILogicAction {
   actionType: 'loop';
