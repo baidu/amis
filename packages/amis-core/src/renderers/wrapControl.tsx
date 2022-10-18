@@ -606,8 +606,7 @@ export function wrapControl<
               return;
             }
             const value = this.model.tmpValue;
-            // oldValue 从store获取，以防止连续 onChange 导致 props 还未更新，取到的 value 不正确
-            const oldValue = this.model.value;
+            const oldValue = getVariable(data, this.model.name, false);
 
             if (oldValue === value) {
               return;
