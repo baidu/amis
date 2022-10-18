@@ -128,6 +128,10 @@ import {
   SchemaExpression
 } from 'amis-core';
 import type {FormSchemaBase} from 'amis-core/lib/renderers/Form';
+import {MultilineTextSchema} from './renderers/MultilineText';
+import {DateRangeSchema} from './renderers/DateRange';
+import {PasswordSchema} from './renderers/Password';
+import {WordsSchema} from './renderers/Words';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -485,7 +489,11 @@ export type SchemaObject =
   | TabsTransferPickerControlSchema
   | TreeControlSchema
   | TreeSelectControlSchema
-  | UserSelectControlSchema;
+  | UserSelectControlSchema
+  | DateRangeSchema
+  | MultilineTextSchema
+  | PasswordSchema
+  | WordsSchema;
 
 export type SchemaCollection =
   | SchemaObject

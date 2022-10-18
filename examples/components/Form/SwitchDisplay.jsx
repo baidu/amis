@@ -42,7 +42,7 @@ export default {
           "value": true
         },
         {
-          "type": "select",
+          "type": "checkboxes",
           "name": "checkboxes",
           "label": "多选框",
           "value": renderSelectValues(12),
@@ -240,7 +240,6 @@ export default {
               "type": "button",
               "label": "切换为输入态",
               "level": "primary",
-              "visibleOn": "${static}",
               "onEvent": {
                 "click": {
                   "actions": [
@@ -256,7 +255,6 @@ export default {
               "type": "button",
               "label": "切换为展示态",
               "level": "primary",
-              "visibleOn": "${!static}",
               "onEvent": {
                 "click": {
                   "actions": [
@@ -1842,7 +1840,6 @@ export default {
               "type": "button",
               "label": "切换为输入态",
               "level": "primary",
-              "visibleOn": "${static}",
               "onEvent": {
                 "click": {
                   "actions": [
@@ -1858,7 +1855,6 @@ export default {
               "type": "button",
               "label": "切换为展示态",
               "level": "primary",
-              "visibleOn": "${!static}",
               "onEvent": {
                 "click": {
                   "actions": [

@@ -586,4 +586,29 @@ export interface BaseSchemaWithoutType {
       actions: ListenerAction[]; // 执行的动作集
     };
   };
+  /**
+   * 是否静态展示
+   */
+  static?: boolean;
+  /**
+   * 是否静态展示表达式
+   */
+  staticOn?: SchemaExpression;
+  /**
+   * 静态展示空值占位
+   */
+  staticPlaceholder?: string;
+  /**
+   * 静态展示表单项类名
+   */
+  staticClassName?: SchemaClassName;
+  /**
+   * 静态展示表单项Label类名
+   */
+  staticLabelClassName?: SchemaClassName;
+  /**
+   * 静态展示表单项Value类名
+   */
+  staticInputClassName?: SchemaClassName;
+  staticSchema?: any;
 }

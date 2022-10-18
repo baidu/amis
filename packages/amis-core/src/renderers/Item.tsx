@@ -25,9 +25,7 @@ import {
   BaseApiObject,
   BaseSchemaWithoutType,
   ClassName,
-  Schema,
-  SchemaClassName,
-  SchemaExpression
+  Schema
 } from '../types';
 import {filter} from '../utils/tpl';
 import {HocStoreFactory} from '../WithStore';
@@ -466,14 +464,6 @@ export interface FormItemProps extends RendererProps {
   // error string
   error?: string;
   showErrorMsg?: boolean;
-  // 展示态 相关
-  static?: boolean;
-  staticOn?: SchemaExpression;
-  staticPlaceholder?: string;
-  staticClassName?: SchemaClassName;
-  staticLabelClassName?: SchemaClassName;
-  staticInputClassName?: SchemaClassName;
-  staticSchema?: any;
 }
 
 // 下发下去的属性
@@ -957,7 +947,6 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           className={cx(
             `Form-item Form-item--horizontal`,
             isStatic && staticClassName ? staticClassName : className,
-            className,
             {
               'Form-item--horizontal-justify': horizontal.justify,
               [`is-error`]: model && !model.valid,

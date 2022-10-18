@@ -2,7 +2,7 @@
  * @file MultilineText
  */
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, resolveVariableAndFilter} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {MultilineText} from 'amis-ui';
 
@@ -39,7 +39,9 @@ export interface MultilineTextProps
 
 export class MultilineTextField extends React.Component<MultilineTextProps, object> {
   render() {
-    return <MultilineText {...this.props} />;
+    const {data, text: originText} = this.props;
+    const text = resolveVariableAndFilter(originText, data, '| raw');
+    return <MultilineText {...this.props} text={text} />;
   }
 }
 

@@ -2,10 +2,10 @@
  * @file Words
  */
 import React, {Fragment} from 'react';
-import {autobind, Renderer, RendererProps, Option, getTreeAncestors} from 'amis-core';
-import {BaseSchema} from '../Schema';
-import {PlainObject} from '../types';
+import {autobind, Renderer, RendererProps, Option, getTreeAncestors, resolveVariableAndFilter} from 'amis-core';
+import {BaseSchema, SchemaObject} from '../Schema';
 import {Tag} from 'amis-ui';
+import {TagSchema} from './Tag';
 
 type Words = string | string[];
 /**
@@ -27,7 +27,7 @@ export interface WordsSchema extends BaseSchema {
   /**
    * 展示文字
    */
-  expendButton?: PlainObject;
+  expendButton?: SchemaObject;
 
   /**
    * 收起文字
@@ -37,7 +37,7 @@ export interface WordsSchema extends BaseSchema {
   /**
    * 展示文字
    */
-  collapseButton?: PlainObject;
+  collapseButton?: SchemaObject;
 
   /**
   * tags数据
@@ -47,12 +47,12 @@ export interface WordsSchema extends BaseSchema {
   /**
    * useTag 当数据是数组时，是否使用tag的方式展示
    */
-  inTag?: boolean | PlainObject;
+  inTag?: boolean | TagSchema;
 
   /**
      * 分割符
      */
-  delimiter?: string | JSX.Element;
+  delimiter?: string;
 }
 
 export interface WordsProps
@@ -106,10 +106,9 @@ export class WordsField extends React.Component<WordsProps, object> {
   renderContent(words: Words) {
     const {
       delimiter,
-      inTag
+      inTag,
+      classnames: cx
     } = this.props;
-
-    console.log(words, this.props);
 
     // 纯文字展示
     if (!Array.isArray(words)) {
@@ -118,10 +117,11 @@ export class WordsField extends React.Component<WordsProps, object> {
 
     // 不使用tag时，默认用 逗号连接
     if (!inTag) {
-      return words.map((item, key) => {
-        return <Fragment key={key}>
+      const lastIndex = words.length - 1;
+      return words.map((item, index) => {
+        return <Fragment key={index}>
           {item}
-          {delimiter ? delimiter : '， '}
+          {index === lastIndex ? '' : delimiter ? delimiter : '， '}
         </Fragment>
       })
     }
@@ -132,8 +132,8 @@ export class WordsField extends React.Component<WordsProps, object> {
         key={key}
         label={label}
         className={'mb-1'}
-        {...typeof inTag === 'object' ? inTag : undefined}
-      ></Tag>
+        {...typeof inTag === 'object' ? {...inTag, className: cx(inTag.className)} : undefined}
+      />
     ));
   }
 
@@ -151,7 +151,7 @@ export class WordsField extends React.Component<WordsProps, object> {
           render('collapseBtn', {
             type: 'button',
             level: 'link',
-            className: 'ml-1'
+            className: 'ml-1 v-baseline'
           }, {
             onClick: this.toggleExpend,
             ...collapseButton,
@@ -181,7 +181,7 @@ export class WordsField extends React.Component<WordsProps, object> {
         {render('collapseBtn', {
           type: 'button',
           level: 'link',
-          className: 'ml-1'
+          className: 'ml-1 v-baseline'
         }, {
           onClick: this.toggleExpend,
           ...expendButton,
@@ -194,8 +194,14 @@ export class WordsField extends React.Component<WordsProps, object> {
   getWords() {
     const {
       selectedOptions = [],
-      words
+      words: oldWords,
+      data
     } = this.props;
+
+    let words;
+    if (typeof oldWords === 'string') {
+      words = resolveVariableAndFilter(oldWords, data, '| raw');
+    }
 
     if (words) {
       return words;
@@ -250,7 +256,7 @@ export class WordsRenderer extends WordsField {}
   type: 'tags'
 })
 export class TagsRenderer extends WordsField {
-  static defaultProps: Partial<WordsProps> = {
+  static defaultProps = {
     inTag: true
   }
 }

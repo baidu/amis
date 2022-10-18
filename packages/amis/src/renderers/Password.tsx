@@ -22,7 +22,11 @@ export interface PasswordProps
   extends RendererProps,
     Omit<PasswordSchema, 'type' | 'className'> {}
 
-export class PasswordField extends React.Component<PasswordProps, object> {
+export interface PasswordState {
+  visible: boolean;
+}
+
+export class PasswordField extends React.Component<PasswordProps, PasswordState> {
   state = {
     visible: false
   };
