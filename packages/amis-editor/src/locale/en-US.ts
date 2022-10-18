@@ -3284,5 +3284,8 @@ extendLocale('en-US', {
     'Update the data field of the target component or the data value of the target form item',
   'e7af71fb102cc86ab3be6a2fb32b5e3f': 'Data settings',
   '77b1081c177fa3334cc93c99f0ecee75': 'Direct assignment',
-  'f5c5e3d69daee06ea1606378ef466765': 'Member assignment'
+  'f5c5e3d69daee06ea1606378ef466765': 'Member assignment',
+  '697af73997072e0ce9ee65b15a7b3715': 'Reset PageNo',
+  'd7bf42dd6e66f2818f9a232603c4a53b':
+    'When "Yes" is selected, the crud component will request the first page of data'
 });

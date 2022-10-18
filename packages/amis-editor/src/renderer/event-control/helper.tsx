@@ -1151,20 +1151,34 @@ export const getEventControlConfig = (
 
       // 处理刷新组件动作的追加参数
       if (config.actionType === 'reload') {
-        config.__addParam = config.args === undefined || !!config.args;
+        config.__resetPage = config.args?.resetPage;
+        config.__addParam = config.data === undefined || !!config.data;
 
-        if (config.args && typeof config.args === 'object') {
+        if (
+          (config.data && typeof config.data === 'object') ||
+          (config.args &&
+            !Object.keys(config.args).length &&
+            config.data === undefined)
+        ) {
           config.__addParamType = 'custom';
         }
 
         if (
           config.__addParam &&
           config.__addParamType === 'custom' &&
-          config.args
+          config.data
+        ) {
+          config.__reloadParams = objectToComboArray(config.data);
+        } else if (
+          config.args &&
+          !Object.keys(config.args).length &&
+          config.data === undefined
         ) {
           config.__reloadParams = objectToComboArray(config.args);
         }
       }
+
+      delete config.data;
 
       // 还原args为可视化配置结构(args + addOnArgs)
       if (config.args) {
@@ -1260,13 +1274,22 @@ export const getEventControlConfig = (
 
       // 刷新组件时，处理是否追加事件变量
       if (config.actionType === 'reload') {
-        action.args = null;
+        action.data = null;
         action.dataMergeMode = undefined;
+
+        action.args =
+          action.__rendererName === 'crud'
+            ? {
+                ...action.args,
+                resetPage: config.__resetPage ?? true
+              }
+            : undefined;
+
         if (config.__addParam) {
           action.dataMergeMode = config.dataMergeMode || 'merge';
-          action.args = undefined;
+          action.data = undefined;
           if (config.__addParamType === 'custom') {
-            action.args = comboArrayToObject(config.__reloadParams || []);
+            action.data = comboArrayToObject(config.__reloadParams || []);
           }
         }
       }

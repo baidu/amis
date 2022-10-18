@@ -692,110 +692,128 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               '目标组件',
               true,
               (value: string, oldVal: any, data: any, form: any) => {
+                form.setValueByName('args.resetPage', true);
                 form.setValueByName('__addParam', true);
                 form.setValueByName('__addParamType', 'default');
                 form.setValueByName('__reloadParam', []);
               }
-            )
-            // {
-            //   type: 'switch',
-            //   name: '__addParam',
-            //   label: '追加数据',
-            //   labelRemark: {
-            //     className: 'm-l-xs',
-            //     icon: 'fa fa-question-circle',
-            //     rootClose: true,
-            //     content: `选择“是”时，会将源组件所在数据域变量同步到目标组件的数据域。<br/>如果目标组件是增删改查组件，且增删改查组件的数据拉取接口是get请求，则源组件所在数据域变量将追加到目标组件的初始化请求query中。`,
-            //     placement: 'top'
-            //   },
-            //   onText: '是',
-            //   offText: '否',
-            //   mode: 'horizontal',
-            //   pipeIn: defaultValue(true),
-            //   visibleOn: `data.actionType === "reload" &&  ${IS_DATA_CONTAINER}`
-            // },
-            // {
-            //   type: 'radios',
-            //   name: 'dataMergeMode',
-            //   mode: 'horizontal',
-            //   label: '追加方式',
-            //   labelRemark: {
-            //     className: 'm-l-xs',
-            //     icon: 'fa fa-question-circle',
-            //     rootClose: true,
-            //     content: `选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。`,
-            //     placement: 'top'
-            //   },
-            //   pipeIn: defaultValue('merge'),
-            //   visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
-            //   options: [
-            //     {
-            //       label: '合并',
-            //       value: 'merge'
-            //     },
-            //     {
-            //       label: '覆盖',
-            //       value: 'override'
-            //     }
-            //   ]
-            // },
-            // {
-            //   type: 'radios',
-            //   name: '__addParamType',
-            //   mode: 'horizontal',
-            //   label: '数据配置',
-            //   labelRemark: {
-            //     className: 'm-l-xs',
-            //     icon: 'fa fa-question-circle',
-            //     rootClose: true,
-            //     content: `数据默认为源组件所在数据域，可以选择“自定义”来定制所需数据`,
-            //     placement: 'top'
-            //   },
-            //   pipeIn: defaultValue('default'),
-            //   visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
-            //   options: [
-            //     {
-            //       label: '源组件所在数据域',
-            //       value: 'default'
-            //     },
-            //     {
-            //       label: '自定义',
-            //       value: 'custom'
-            //     }
-            //   ]
-            // },
-            // {
-            //   type: 'combo',
-            //   name: '__reloadParams',
-            //   label: '',
-            //   multiple: true,
-            //   removable: true,
-            //   addable: true,
-            //   strictMode: false,
-            //   canAccessSuperData: true,
-            //   size: 'lg',
-            //   mode: 'horizontal',
-            //   items: [
-            //     {
-            //       name: 'key',
-            //       type: 'input-text',
-            //       placeholder: '参数名',
-            //       labelField: 'label',
-            //       valueField: 'value',
-            //       required: true
-            //     },
-            //     {
-            //       name: 'val',
-            //       type: 'input-formula',
-            //       placeholder: '参数值',
-            //       variables: '${variables}',
-            //       evalMode: false,
-            //       variableMode: 'tabs',
-            //       inputMode: 'input-group'
-            //     }
-            //   ],
-            //   visibleOn: `data.__addParam && data.__addParamType === "custom" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
-            // }
+            ),
+            {
+              type: 'switch',
+              name: '__resetPage',
+              label: '重置页码',
+              labelRemark: {
+                className: 'm-l-xs',
+                icon: 'fa fa-question-circle',
+                rootClose: true,
+                content: `选择“是”时，将重新请求第一页数据。`,
+                placement: 'top'
+              },
+              onText: '是',
+              offText: '否',
+              mode: 'horizontal',
+              pipeIn: defaultValue(true),
+              visibleOn: `data.actionType === "reload" && data.__rendererName === "crud"`
+            },
+            {
+              type: 'switch',
+              name: '__addParam',
+              label: '追加数据',
+              labelRemark: {
+                className: 'm-l-xs',
+                icon: 'fa fa-question-circle',
+                rootClose: true,
+                content: `选择“是”时，会将源组件所在数据域变量同步到目标组件的数据域。<br/>如果目标组件是增删改查组件，且增删改查组件的数据拉取接口是get请求，则源组件所在数据域变量将追加到目标组件的初始化请求query中。`,
+                placement: 'top'
+              },
+              onText: '是',
+              offText: '否',
+              mode: 'horizontal',
+              pipeIn: defaultValue(true),
+              visibleOn: `data.actionType === "reload" &&  ${IS_DATA_CONTAINER}`
+            },
+            {
+              type: 'radios',
+              name: 'dataMergeMode',
+              mode: 'horizontal',
+              label: '追加方式',
+              labelRemark: {
+                className: 'm-l-xs',
+                icon: 'fa fa-question-circle',
+                rootClose: true,
+                content: `选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。`,
+                placement: 'top'
+              },
+              pipeIn: defaultValue('merge'),
+              visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
+              options: [
+                {
+                  label: '合并',
+                  value: 'merge'
+                },
+                {
+                  label: '覆盖',
+                  value: 'override'
+                }
+              ]
+            },
+            {
+              type: 'radios',
+              name: '__addParamType',
+              mode: 'horizontal',
+              label: '数据配置',
+              labelRemark: {
+                className: 'm-l-xs',
+                icon: 'fa fa-question-circle',
+                rootClose: true,
+                content: `数据默认为源组件所在数据域，可以选择“自定义”来定制所需数据`,
+                placement: 'top'
+              },
+              pipeIn: defaultValue('default'),
+              visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
+              options: [
+                {
+                  label: '源组件所在数据域',
+                  value: 'default'
+                },
+                {
+                  label: '自定义',
+                  value: 'custom'
+                }
+              ]
+            },
+            {
+              type: 'combo',
+              name: '__reloadParams',
+              label: '',
+              multiple: true,
+              removable: true,
+              addable: true,
+              strictMode: false,
+              canAccessSuperData: true,
+              size: 'lg',
+              mode: 'horizontal',
+              items: [
+                {
+                  name: 'key',
+                  type: 'input-text',
+                  placeholder: '参数名',
+                  labelField: 'label',
+                  valueField: 'value',
+                  required: true
+                },
+                {
+                  name: 'val',
+                  type: 'input-formula',
+                  placeholder: '参数值',
+                  variables: '${variables}',
+                  evalMode: false,
+                  variableMode: 'tabs',
+                  inputMode: 'input-group'
+                }
+              ],
+              visibleOn: `data.__addParam && data.__addParamType === "custom" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
+            }
           ]
         },
         {
