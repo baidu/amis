@@ -28,7 +28,15 @@ export class DrawerAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    renderer.props.onAction?.(event, action, action.data);
+    renderer.props.onAction?.(
+      event,
+      {
+        actionType: 'drawer',
+        drawer: action.args?.drawer || action.drawer,
+        reload: 'none'
+      },
+      action.data
+    );
   }
 }
 
