@@ -513,20 +513,23 @@ export class EventControl extends React.Component<
         item => item.value === action.componentId
       );
 
+      // 获取组件数据动作所需上下文
       let setValueDs: any = null;
-      if (actionConfig?.actionType === 'setValue') {
-        const rendererType = node?.type;
-        const rendererName = node?.label;
-        // todo:这里会闪一下，需要从amis查下问题
-        if (SELECT_PROPS_CONTAINER.includes(rendererType || '')) {
-          const curVariable = rawVariables.find(
-            item => item.label === `${rendererName}变量`
-          );
-          setValueDs = curVariable?.children?.filter(
-            (item: ContextVariables) => item.value !== '$$id'
-          );
-        }
+      if (
+        actionConfig?.actionType === 'setValue' &&
+        node?.id &&
+        SELECT_PROPS_CONTAINER.includes(node?.type || '')
+      ) {
+        const targetDataSchema: any = await getContextSchemas?.(node.id, true);
+        const targetDataSchemaIns = new DataSchema(targetDataSchema || []);
+        const targetVariables =
+          targetDataSchemaIns?.getDataPropsAsOptions() || [];
+
+        setValueDs = targetVariables?.filter(
+          (item: ContextVariables) => item.value !== '$$id'
+        );
       }
+
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,

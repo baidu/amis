@@ -572,6 +572,7 @@ export const renderCmptActionSelect = (
             form.setValueByName('args.__comboType', undefined);
             form.setValueByName('args.__valueInput', undefined);
             form.setValueByName('args.__containerType', undefined);
+
             if (SELECT_PROPS_CONTAINER.includes(rendererType)) {
               form.setValueByName(
                 '__setValueDs',
@@ -1102,11 +1103,17 @@ export const getEventControlConfig = (
     ) => {
       let config = {...action};
 
-      if (['setValue', 'url'].includes(action.actionType) && action.args) {
-        const prop = action.actionType === 'setValue' ? 'value' : 'params';
+      if (['link', 'url'].includes(action.actionType) && action.args?.params) {
+        config.args = {
+          ...config.args,
+          params: objectToComboArray(action.args?.params)
+        };
+      }
+
+      if (['setValue'].includes(action.actionType) && action.args?.value) {
         !config.args && (config.args = {});
-        if (Array.isArray(action.args[prop])) {
-          config.args[prop] = action.args[prop].reduce(
+        if (Array.isArray(action.args?.value)) {
+          config.args.value = action.args?.value.reduce(
             (arr: any, valueItem: any, index: number) => {
               if (!arr[index]) {
                 arr[index] = {};
@@ -1118,8 +1125,8 @@ export const getEventControlConfig = (
           );
           // 目前只有给combo赋值会是数组，所以认为是全量的赋值方式
           config.args['__comboType'] = 'all';
-        } else if (typeof action.args[prop] === 'object') {
-          config.args[prop] = objectToComboArray(action.args[prop]);
+        } else if (typeof action.args?.value === 'object') {
+          config.args.value = objectToComboArray(action.args?.value);
           config.args['__containerType'] = 'appoint';
           // 如果有index，认为是给指定序号的combo赋值，所以认为是指定序号的赋值方式
           if (action.args.index !== undefined) {
@@ -1127,19 +1134,21 @@ export const getEventControlConfig = (
           }
         } else if (
           action.actionType === 'setValue' &&
-          typeof action.args[prop] === 'string'
+          typeof action.args?.value === 'string'
         ) {
           config.args['__containerType'] = 'all';
           config.args['__valueInput'] = config.args['value'];
           delete config.args?.value;
         }
       }
+
       if (
         action.actionType === 'ajax' &&
         typeof action?.args?.api === 'string'
       ) {
         action.args.api = normalizeApi(action?.args?.api);
       }
+
       // 获取动作专有配置参数
       const innerArgs: any = getPropOfAcion(
         action,
@@ -1295,16 +1304,20 @@ export const getEventControlConfig = (
       }
 
       // 转换下格式
-      if (['setValue', 'url'].includes(action.actionType)) {
-        const propName = action.actionType === 'setValue' ? 'value' : 'params';
-        if (
-          action.actionType === 'setValue' &&
-          config.args?.__valueInput !== undefined
-        ) {
+      if (['link', 'url'].includes(action.actionType)) {
+        action.args = {
+          ...action.args,
+          params: comboArrayToObject(config.args?.params)
+        };
+      }
+
+      // 转换下格式
+      if (action.actionType === 'setValue') {
+        if (config.args?.__valueInput !== undefined) {
           action.args = {
             value: config.args?.__valueInput
           };
-        } else if (Array.isArray(config.args?.[propName])) {
+        } else if (Array.isArray(config.args?.value)) {
           action.args = action.args ?? {};
           if (
             action.__rendererName === 'combo' &&
@@ -1312,7 +1325,7 @@ export const getEventControlConfig = (
           ) {
             // combo特殊处理
             let tempArr: any = [];
-            config.args?.[propName].forEach((valueItem: any, index: number) => {
+            config.args?.value.forEach((valueItem: any, index: number) => {
               valueItem.item.forEach((item: any) => {
                 if (!tempArr[index]) {
                   tempArr[index] = {};
@@ -1322,16 +1335,12 @@ export const getEventControlConfig = (
             });
             action.args = {
               ...action.args,
-              [propName]: tempArr
+              value: tempArr
             };
           } else {
-            let tmpObj: any = {};
-            config.args?.[propName].forEach((item: any) => {
-              tmpObj[item.key] = item.val;
-            });
             action.args = {
               ...action.args,
-              [propName]: tmpObj
+              value: comboArrayToObject(config.args?.value!)
             };
           }
         }

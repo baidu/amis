@@ -1036,11 +1036,36 @@ setSchemaTpl('app-page', {
 });
 
 setSchemaTpl('app-page-args', {
-  type: 'ae-DataMappingControl',
+  type: 'combo',
   name: 'params',
   label: '页面参数',
-  schema: {type: 'object', properties: {}},
-  mode: 'horizontal'
+  multiple: true,
+  removable: true,
+  addable: true,
+  strictMode: false,
+  canAccessSuperData: true,
+  size: 'lg',
+  mode: 'horizontal',
+  items: [
+    {
+      name: 'key',
+      type: 'input-text',
+      placeholder: '参数名',
+      source: '${__pageInputSchema}',
+      labelField: 'label',
+      valueField: 'value',
+      required: true
+    },
+    {
+      name: 'val',
+      type: 'input-formula',
+      placeholder: '参数值',
+      variables: '${variables}',
+      evalMode: false,
+      variableMode: 'tabs',
+      inputMode: 'input-group'
+    }
+  ]
 });
 
 setSchemaTpl(
