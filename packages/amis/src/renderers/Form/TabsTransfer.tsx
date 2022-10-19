@@ -17,6 +17,7 @@ import {
 import {Selection as BaseSelection} from 'amis-ui';
 import {ActionObject} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import {supportStatic} from './StaticHoc';
 
 /**
  * TabsTransfer
@@ -268,6 +269,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
     }
   }
 
+  @supportStatic()
   render() {
     const {
       className,

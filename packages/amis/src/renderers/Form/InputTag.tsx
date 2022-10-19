@@ -2,14 +2,12 @@ import React from 'react';
 import {
   OptionsControl,
   OptionsControlProps,
-  Option,
-  FormOptionsControl
+  Option
 } from 'amis-core';
 import Downshift from 'downshift';
 import find from 'lodash/find';
 import isInteger from 'lodash/isInteger';
 import unionWith from 'lodash/unionWith';
-import isEqual from 'lodash/isEqual';
 import {findDOMNode} from 'react-dom';
 import {ResultBox} from 'amis-ui';
 import {autobind, filterTree, createObject} from 'amis-core';
@@ -19,6 +17,7 @@ import {PopOver} from 'amis-core';
 import {ListMenu} from 'amis-ui';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Tag 输入框
@@ -425,6 +424,7 @@ export default class TagControl extends React.PureComponent<
     return max != null && isInteger(max) && selectedOptions.length >= max;
   }
 
+  @supportStatic()
   render() {
     const {
       className,

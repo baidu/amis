@@ -8,6 +8,7 @@ import {isMobile, createObject, autobind} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
 import {FormBaseControlSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * DateRange 日期范围控件
@@ -232,6 +233,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     this.props.onChange(nextValue);
   }
 
+  @supportStatic()
   render() {
     const {
       className,

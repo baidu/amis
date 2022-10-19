@@ -175,7 +175,7 @@ export const examples = [
           },
 
           {
-            label: '编辑态、展示态切换',
+            label: '输入态、展示态切换',
             path: '/examples/form/switchDisplay',
             component: makeSchemaRenderer(SwitchFormDisplay)
           },

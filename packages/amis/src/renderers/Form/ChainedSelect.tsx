@@ -12,6 +12,8 @@ import {isEffectiveApi} from 'amis-core';
 import {isMobile, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
+import find from 'lodash/find';
 
 /**
  * 链式下拉框
@@ -257,6 +259,49 @@ export default class ChainedSelectControl extends React.Component<
     reload && reload();
   }
 
+  renderStatic(displayValue = '-') {
+    const {
+      options = [],
+      labelField = 'label',
+      valueField = 'value',
+      classPrefix,
+      classnames: cx,
+      className,
+      value,
+      delimiter
+    } = this.props;
+
+    const allOptions = [
+      {options, visible: true},
+      ...(this.state.stack || [])
+    ];
+    const valueArr = Array.isArray(value)
+      ? value.concat()
+      : value && typeof value === 'string'
+      ? value.split(delimiter || ',')
+      : [];
+  
+    if (valueArr?.length > 0) {
+      displayValue = valueArr
+        .map((value: any, index) => {
+          const {options, visible} = allOptions[index] || {};
+          if (visible === false) {
+            return null;
+          }
+          if (!options || !options.length) {
+            return value;
+          }
+          const selectedOption = find(options, (o) => value === o[valueField]) || {};
+          return selectedOption[labelField] ?? value;
+        })
+        .filter(v => v != null)
+        .join(' > ');
+    }
+  
+    return <div className={cx(`${classPrefix}SelectStaticControl`, className)}>{displayValue}</div>;
+  }
+
+  @supportStatic()
   render() {
     const {
       options,

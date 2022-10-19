@@ -19,7 +19,7 @@ import {ActionSchema} from '../Action';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {generateIcon} from 'amis-core';
 import {rendererEventDispatcher, bindRendererEvent} from 'amis-core';
-import renderStaticHoc from './StaticHoc';
+import {supportStatic} from './StaticHoc';
 
 import type {Option} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
@@ -892,27 +892,11 @@ export default class TextControl extends React.PureComponent<
     );
   }
 
-  @renderStaticHoc()
-  renderStatic(displayValue = '-'): JSX.Element {
-    return (
-      <>
-        {
-          this.props.type === 'input-password'
-          ? '********'
-          : displayValue
-        }
-      </>
-    );
-  }
-
-  render(): JSX.Element {
+  renderBody(body: JSX.Element) {
     const {
       classnames: cx,
       className,
       classPrefix: ns,
-      options,
-      source,
-      autoComplete,
       addOn: addOnRaw,
       render,
       data,
@@ -928,12 +912,6 @@ export default class TextControl extends React.PureComponent<
             type: 'plain'
           }
         : addOnRaw;
-
-    let input = isStatic
-      ? this.renderStatic()
-      : autoComplete !== false && (source || options?.length || autoComplete)
-        ? this.renderSugestMode()
-        : this.renderNormal();
 
     const iconElement = generateIcon(cx, addOn?.icon, 'Icon');
 
@@ -954,22 +932,41 @@ export default class TextControl extends React.PureComponent<
     ) : null;
 
     if (inputOnly) {
-      return input;
+      return body;
     }
 
-    return (
-      <div
-        className={cx(className, `${ns}TextControl`, {
+    const classNames = !isStatic
+      ? cx(className, `${ns}TextControl`, {
           [`${ns}TextControl--withAddOn`]: !!addOnDom,
           'is-focused': this.state.isFocused,
           'is-disabled': disabled
-        })}
-      >
+        }) 
+      : cx(`${ns}TextControl`, {
+        [`${ns}TextControl--withAddOn`]: !!addOnDom
+      });
+
+    return (
+      <div className={classNames}>
         {addOn && addOn.position === 'left' ? addOnDom : null}
-        {input}
+        {body}
         {addOn && addOn.position !== 'left' ? addOnDom : null}
       </div>
     );
+  }
+
+  @supportStatic()
+  render(): JSX.Element {
+    const {
+      options,
+      source,
+      autoComplete,
+    } = this.props;
+
+    let input = autoComplete !== false && (source || options?.length || autoComplete)
+      ? this.renderSugestMode()
+      : this.renderNormal();
+    
+    return this.renderBody(input);
   }
 }
 

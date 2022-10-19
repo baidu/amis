@@ -13,6 +13,7 @@ import {
   ActionObject
 } from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * 数字输入框
@@ -296,7 +297,18 @@ export default class NumberControl extends React.Component<
     }
     this.input.focus();
   }
-  render(): JSX.Element {
+
+  renderStatic(displayValue = '-') {
+    const {unit, value} = this.props;
+    const finalValue =
+      unit && value && typeof value === 'string'
+        ? value.replace(unit, '')
+        : value;
+    return <>{finalValue || displayValue}</>;
+  }
+
+  @supportStatic()
+  render() {
     const {
       className,
       classPrefix: ns,
