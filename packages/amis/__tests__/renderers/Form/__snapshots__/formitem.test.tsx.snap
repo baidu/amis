@@ -88,7 +88,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -228,7 +228,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -368,7 +368,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="submit"
         >
           <span>

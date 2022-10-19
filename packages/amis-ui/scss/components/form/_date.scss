@@ -25,7 +25,7 @@
       box-sizing: none;
     }
     &::placeholder {
-      color: #{$G6};
+      color: var(--colors-neutral-6);
     }
   }
 
@@ -217,7 +217,6 @@
       height: #{px2rem(43px)};
       padding-top: #{px2rem(11px)};
       margin-left: #{px2rem(2px)};
-      border-bottom: 1px solid var(--Calendar-input-borderColor);
     }
   }
 
@@ -263,6 +262,9 @@
     }
 
     td.rdtToday {
+      > span {
+        border: 1px solid var(--Calendar-borderColor);
+      }
       &:hover span {
         background: transparent;
       }

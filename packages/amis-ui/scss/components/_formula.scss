@@ -392,6 +392,10 @@
     &.is-filled {
       fill: var(--InputFormula-icon-color-onActive);
       color: var(--InputFormula-icon-color-onActive);
+
+      &.icon-function.icon {
+        font-size: var(--InputFormula-icon-size) !important;
+      }
     }
   }
 

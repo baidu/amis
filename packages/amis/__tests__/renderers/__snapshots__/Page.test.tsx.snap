@@ -220,7 +220,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -286,7 +286,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -294,7 +294,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -322,7 +322,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -362,7 +362,7 @@ exports[`Renderer:Page handleAction actionType=ajax 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -402,7 +402,7 @@ exports[`Renderer:Page handleAction actionType=dialog default 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -434,7 +434,7 @@ exports[`Renderer:Page handleAction actionType=dialog default 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -466,7 +466,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -573,7 +573,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -601,7 +601,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -641,7 +641,7 @@ exports[`Renderer:Page handleAction actionType=drawer default 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -695,7 +695,7 @@ exports[`Renderer:Page handleAction actionType=drawer default 1`] = `
         class="cxd-Drawer-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -703,7 +703,7 @@ exports[`Renderer:Page handleAction actionType=drawer default 1`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -731,7 +731,7 @@ exports[`Renderer:Page handleAction actionType=drawer default 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -763,7 +763,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -862,7 +862,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
         class="cxd-Drawer-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -890,7 +890,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1079,7 +1079,7 @@ exports[`Renderer:Page initApi reload by Dialog action 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1119,7 +1119,7 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1218,7 +1218,7 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -1226,7 +1226,7 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -1254,7 +1254,7 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1294,7 +1294,7 @@ exports[`Renderer:Page initApi reload by Drawer action 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1334,7 +1334,7 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1425,7 +1425,7 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
         class="cxd-Drawer-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -1433,7 +1433,7 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -1461,7 +1461,7 @@ exports[`Renderer:Page initApi reload by Drawer action 3`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1561,7 +1561,7 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--default"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -1703,7 +1703,7 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--default"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -1785,7 +1785,7 @@ exports[`Renderer:Page initApi reload by action 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -1825,7 +1825,7 @@ exports[`Renderer:Page initApi reload by action 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>

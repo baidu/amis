@@ -55,7 +55,7 @@ exports[`Form:initData 1`] = `
       </div>
     </div>
     <button
-      class="cxd-Button cxd-Button--default"
+      class="cxd-Button cxd-Button--default cxd-Button--size-default"
       type="submit"
     >
       <span>
@@ -184,7 +184,7 @@ exports[`Form:initData:remote 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -327,7 +327,7 @@ exports[`Form:initData:super 1`] = `
               </div>
             </div>
             <button
-              class="cxd-Button cxd-Button--default"
+              class="cxd-Button cxd-Button--default cxd-Button--size-default"
               type="submit"
             >
               <span>
@@ -409,7 +409,7 @@ exports[`Form:initData:without-super 1`] = `
               </div>
             </div>
             <button
-              class="cxd-Button cxd-Button--default"
+              class="cxd-Button cxd-Button--default cxd-Button--size-default"
               type="submit"
             >
               <span>

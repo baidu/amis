@@ -45,6 +45,7 @@
     margin-right: auto;
     margin-top: var(--Modal-content-startMarginTop);
     margin-bottom: var(--gap-md);
+    padding: var(--Modal-body-paddingY) var(--Modal-body-paddingX);
     border: var(--Modal-content-borderWidth) solid
       var(--Modal-content-borderColor);
     border-radius: var(--Modal-content-borderRadius);

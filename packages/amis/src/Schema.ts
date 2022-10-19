@@ -305,6 +305,7 @@ export type SchemaType =
   | 'hbox'
   | 'hidden'
   | 'icon-picker'
+  | 'icon-select'
   | 'input-image'
   | 'input-group'
   | 'list-select'

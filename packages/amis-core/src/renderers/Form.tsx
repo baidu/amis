@@ -975,6 +975,14 @@ export default class Form extends React.Component<FormProps, object> {
     };
   }
 
+  handleReset(action: any) {
+    const {onReset} = this.props;
+
+    return (data: any) => {
+      onReset && onReset(data, action);
+    };
+  }
+
   async handleAction(
     e: React.UIEvent<any> | void,
     action: ActionObject,
