@@ -37,6 +37,11 @@
       &.is-collapse {
         transform: rotate(180deg);
       }
+
+      &:hover {
+        background: #2468f2;
+        color: $white;
+      }
     }
 
     .#{$ns}Select {
@@ -52,7 +57,8 @@
       min-height: px2rem(28px);
 
       &:hover {
-        background: #d4e5ff;
+        color: $white;
+        background: #2468f2;
       }
 
       &-arrow {
@@ -89,27 +95,24 @@
     }
 
     &-collapse {
-      background: #f7f7f9;
       text-align: center;
       color: #84868c;
       display: flex;
       justify-content: center;
+      align-items: center;
 
       > span {
-        position: relative;
-        top: -8px;
-        background: #f7f7f9;
         padding: 0 10px;
         cursor: pointer;
       }
 
-      &::before {
+      &::before,
+      &::after {
         content: ' ';
         height: 1px;
         background: #e8e9eb;
-        position: absolute;
-        left: 32px;
-        right: 32px;
+        display: block;
+        flex: 1;
       }
     }
   }
@@ -249,9 +252,19 @@
       flex-direction: row;
       display: flex;
       align-items: center;
+      transition: all 0.2s ease;
+      padding-left: 10px;
+
       // margin-top: px2rem(16px);
-      > .is-hover {
+
+      &.is-hover {
         cursor: grab;
+        box-shadow: 0px 2px 14px 0px rgb(0 0 0 / 16%);
+        border-radius: 8px;
+        padding: 10px;
+        margin: -10px 0px;
+        background: $white;
+        z-index: 1;
       }
       > .#{$ns}CBGroupOrItem-dragbar {
         left: px2rem(-5px);
@@ -297,11 +310,13 @@
   }
 
   & > &-body > &-body-group > &-dragbar,
-  & > &-body > &-body-item > &-dragbar {
+  & > &-body > &-body-item > &-dragbar,
+  & > &-body > &-body-item > .#{$ns}CBDelete {
     opacity: 0;
   }
 
-  &:hover > &-body > &-body-item > &-dragbar {
+  &:hover > &-body > &-body-item > &-dragbar,
+  &:hover > &-body > &-body-item > .#{$ns}CBDelete {
     opacity: 1;
   }
 
