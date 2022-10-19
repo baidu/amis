@@ -166,7 +166,10 @@ export class DiffEditorControlPlugin extends BasePlugin {
               getSchemaTpl('autoFillApi')
             ]
           },
-          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('status', {
+            isFormItem: true,
+            unsupportStatic: true
+          }),
           getSchemaTpl('validation', {
             tag: ValidatorTag.All
           })
@@ -213,7 +216,9 @@ export class DiffEditorControlPlugin extends BasePlugin {
               }
             ]
           }),
-          getSchemaTpl('style:classNames')
+          getSchemaTpl('style:classNames', {
+            unsupportStatic: true
+          })
         ])
       },
       {

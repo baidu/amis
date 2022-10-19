@@ -112,7 +112,6 @@ export class ListControlPlugin extends BasePlugin {
             getSchemaTpl('label'),
             getSchemaTpl('multiple'),
             getSchemaTpl('extractValue'),
-            
             getSchemaTpl('valueFormula', {
               rendererSchema: context?.schema,
               useSelectMode: true, // 改用 Select 设置模式
