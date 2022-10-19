@@ -144,7 +144,10 @@ export class CodeEditorControlPlugin extends BasePlugin {
               getSchemaTpl('autoFillApi')
             ]
           },
-          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('status', {
+            isFormItem: true,
+            unsupportStatic: true
+          }),
           getSchemaTpl('validation', {
             tag: ValidatorTag.Code
           })
@@ -191,7 +194,9 @@ export class CodeEditorControlPlugin extends BasePlugin {
               }
             ]
           }),
-          getSchemaTpl('style:classNames')
+          getSchemaTpl('style:classNames', {
+            unsupportStatic: true
+          })
         ])
       },
       {

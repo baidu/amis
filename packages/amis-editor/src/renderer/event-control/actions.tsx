@@ -13,7 +13,8 @@ import {
   SHOW_SELECT_PROP,
   renderCmptActionSelect,
   renderCmptSelect,
-  SUPPORT_DISABLED_CMPTS
+  SUPPORT_DISABLED_CMPTS,
+  SUPPORT_STATIC_FORMITEM_CMPTS
 } from './helper';
 import {BaseLabelMark} from '../../component/BaseControl';
 const MSG_TYPES: {[key: string]: string} = {
@@ -660,6 +661,66 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 {
                   label: '禁用',
                   value: 'disabled'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          actionLabel: '组件展示态',
+          actionType: 'staticStatus',
+          description: '控制所选的组件的输入态/静态',
+          actions: [
+            {
+              actionType: 'static',
+              descDetail: (info: any) => {
+                return (
+                  <div>
+                    <span className="variable-left variable-right">
+                      {info?.rendererLabel}
+                    </span>
+                    组件切换为静态
+                  </div>
+                );
+              }
+            },
+            {
+              actionType: 'nonstatic',
+              descDetail: (info: any) => {
+                return (
+                  <div>
+                    <span className="variable-left variable-right">
+                      {info?.rendererLabel}
+                    </span>
+                    组件切换为输入态
+                  </div>
+                );
+              }
+            }
+          ],
+          supportComponents: [
+            'form',
+            ...SUPPORT_STATIC_FORMITEM_CMPTS
+          ],
+          schema: [
+            ...renderCmptSelect('选择组件', true),
+            {
+              type: 'radios',
+              label: '组件状态',
+              name: 'groupType',
+              mode: 'horizontal',
+              inputClassName: 'event-action-radio',
+              value: 'nonstatic',
+              required: true,
+              pipeIn: defaultValue('nonstatic'),
+              options: [
+                {
+                  label: '表单输入',
+                  value: 'nonstatic'
+                },
+                {
+                  label: '表单静态',
+                  value: 'static'
                 }
               ]
             }

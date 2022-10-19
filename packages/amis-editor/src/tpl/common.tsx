@@ -608,12 +608,20 @@ setSchemaTpl('combo-container', (config: SchemaObject) => {
  */
 setSchemaTpl(
   'status',
-  (config: {isFormItem?: boolean; readonly?: boolean; disabled?: boolean}) => {
+  (config: {
+    isFormItem?: boolean;
+    readonly?: boolean;
+    disabled?: boolean;
+    unsupportStatic?: boolean;
+  }) => {
     return {
       title: '状态',
       body: [
         getSchemaTpl('newVisible'),
         getSchemaTpl('hidden'),
+        !config?.unsupportStatic && config?.isFormItem 
+          ? getSchemaTpl('static') 
+          : null,
         config?.readonly ? getSchemaTpl('readonly') : null,
         config?.disabled || config?.isFormItem
           ? getSchemaTpl('disabled')
@@ -684,6 +692,14 @@ setSchemaTpl('visible', {
   mode: 'normal',
   name: 'visible',
   expressionName: 'visibleOn'
+});
+
+setSchemaTpl('static', {
+  type: 'ae-StatusControl',
+  label: '静态展示',
+  mode: 'normal',
+  name: 'static',
+  expressionName: 'staticOn'
 });
 
 

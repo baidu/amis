@@ -376,7 +376,10 @@ export class ImageControlPlugin extends BasePlugin {
               }
             ]
           },
-          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('status', {
+            isFormItem: true,
+            unsupportStatic: true
+          }),
           getSchemaTpl('validation', {tag: ValidatorTag.File})
         ])
       },
@@ -415,6 +418,7 @@ export class ImageControlPlugin extends BasePlugin {
             ]
           },
           getSchemaTpl('style:classNames', {
+            unsupportStatic: true,
             schema: []
           })
         ])

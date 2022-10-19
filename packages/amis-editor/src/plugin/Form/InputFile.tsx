@@ -362,7 +362,10 @@ export class FileControlPlugin extends BasePlugin {
               })
             ]
           },
-          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('status', {
+            isFormItem: true,
+            unsupportStatic: true
+          }),
           getSchemaTpl('validation', {tag: ValidatorTag.File})
         ])
       },
@@ -371,6 +374,7 @@ export class FileControlPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
           getSchemaTpl('style:classNames', {
+            unsupportStatic: true,
             schema: [
               getSchemaTpl('className', {
                 name: 'descriptionClassName',
