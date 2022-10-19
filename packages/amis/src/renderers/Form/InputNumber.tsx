@@ -283,7 +283,7 @@ export default class NumberControl extends React.Component<
     const prevUnitValue = this.state.unit;
     this.setState({unit: option.value}, () => {
       if (value) {
-        value = value.replace(prevUnitValue, '');
+        value = value.toString().replace(prevUnitValue, '');
         this.props.onChange(value + this.state.unit);
       }
     });
