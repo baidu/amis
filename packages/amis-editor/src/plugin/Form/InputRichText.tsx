@@ -18,7 +18,9 @@ export class RichTextControlPlugin extends BasePlugin {
   scaffold = {
     type: 'input-rich-text',
     label: '富文本',
-    name: 'rich-text'
+    name: 'rich-text',
+    receiver: '/api/upload/image',
+    vendor: 'tinymce'
   };
   previewSchema: any = {
     type: 'form',
