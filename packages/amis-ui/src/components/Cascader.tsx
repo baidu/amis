@@ -270,8 +270,7 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
     if (index !== -1) {
       selectedOptions.splice(index, 1);
     } else {
-      if (onlyChildren && option.children?.length) {
-      } else {
+      if (!(onlyChildren && option.children?.length)) {
         selectedOptions.push(option);
       }
     }
@@ -287,8 +286,7 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
           );
         } else {
           // 添加节点及其子节点
-          if (onlyChildren && item.children?.length) {
-          } else {
+          if (!(onlyChildren && item.children?.length)) {
             selectedOptions.push(item);
           }
         }
