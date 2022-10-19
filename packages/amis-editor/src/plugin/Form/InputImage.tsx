@@ -311,6 +311,7 @@ export class ImageControlPlugin extends BasePlugin {
                   {
                     name: 'maxSize',
                     type: 'input-number',
+                    suffix: 'B',
                     label: tipedLabel(
                       '最大体积',
                       '超出大小不允许上传，单位字节'
