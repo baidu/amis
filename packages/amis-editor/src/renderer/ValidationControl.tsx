@@ -230,7 +230,7 @@ export default class ValidationControl extends React.Component<
             icon: 'fa fa-plus',
             label: '',
             tooltip: '添加校验规则',
-            placement: 'top',
+            placement: 'left',
             align: 'right',
             tooltipTrigger: 'hover',
             closeOnClick: true,
