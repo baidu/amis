@@ -418,26 +418,27 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 ),
                 name: 'hideNodePathLabel'
               }),
-              {
-                type: 'ae-Switch-More',
-                mode: 'normal',
-                name: 'hideRoot',
-                label: '显示顶级节点',
-                value: true,
-                trueValue: false,
-                falseValue: true,
-                formType: 'extend',
-                form: {
-                  body: [
-                    {
-                      type: 'input-text',
-                      label: '节点文案',
-                      value: '顶级',
-                      name: 'rootLabel'
-                    }
-                  ]
-                }
-              },
+              // tree-select 该组件目前无此配置
+              // {
+              //   type: 'ae-Switch-More',
+              //   mode: 'normal',
+              //   name: 'hideRoot',
+              //   label: '显示顶级节点',
+              //   value: true,
+              //   trueValue: false,
+              //   falseValue: true,
+              //   formType: 'extend',
+              //   form: {
+              //     body: [
+              //       {
+              //         type: 'input-text',
+              //         label: '节点文案',
+              //         value: '顶级',
+              //         name: 'rootLabel'
+              //       }
+              //     ]
+              //   }
+              // },
               getSchemaTpl('switch', {
                 label: '显示节点图标',
                 name: 'showIcon',
