@@ -3,407 +3,426 @@
 @import './cxd-variables';
 @import './common';
 
-.#{$ns}Switch {
-  &:active {
-    .slider::before {
-      width: calc(var(--Switch-slider-width) + var(--Switch-slider-margin) * 2);
-      border-radius: 10px;
-    }
-  }
+// .#{$ns}Switch {
+//   .text {
+//     margin: 0 px2rem(8px) 0 px2rem(25px);
+//     vertical-align: super;
+//   }
+//   .slider {
+//     &:before {
+//       width: calc(var(--Switch-height) - #{px2rem(4px)});
+//       top: px2rem(2px);
+//       bottom: px2rem(2px);
+//       left: px2rem(2px);
+//       transition: all 0.5s ease;
+//     }
+//   }
+//   &:active {
+//     .slider::before {
+//       width: calc(var(--Switch-height) + #{px2rem(2px)});
+//       border-radius: 10px;
+//     }
+//   }
+//   &:hover {
+//     background: var(--Switch-onHover-bgColor);
+//   }
+//   &.is-checked {
+//     background: var(--Switch-checked-bgColor);
 
-  &.is-checked {
-    &:hover {
-      background: var(--Switch-checked-onHover-bgColor);
-    }
-    &:active {
-      background: var(--Switch-checked-onActive-bgColor);
+//     .slider::before {
+//       right: auto;
+//       left: calc(
+//         100% - (var(--Switch-height) - #{px2rem(4px)}) - #{px2rem(2px)}
+//       );
+//     }
 
-      .slider::before {
-        right: calc(var(--Switch-slider-margin) * 2);
-      }
-    }
-  }
+//     .text {
+//       margin: 0 px2rem(25px) 0 px2rem(8px);
+//     }
+//     &:hover {
+//       background: var(--Switch-checked-onHover-bgColor);
+//     }
+//     &:active {
+//       background: var(--Switch-checked-onActive-bgColor);
+//       .slider::before {
+//         left: calc(
+//           100% - (var(--Switch-height) + #{px2rem(2px)}) - #{px2rem(2px)}
+//         );
+//       }
+//     }
+//   }
+// }
 
-  &--sm {
-    &:active {
-      .slider::before {
-        width: calc(
-          var(--Switch-slider-width--sm) + var(--Switch-slider-margin) * 2
-        );
-        border-radius: 10px;
-      }
-    }
-  }
-}
+// // input选择器模式
+// .#{$ns}TextControl-sugs {
+//   border-radius: px2rem(3px);
+//   // top: calc(var(--Form-input-height) + #{px2rem(4px)});
+//   box-shadow: #{px2rem(2px)} #{px2rem(4px)} #{px2rem(8px)} rgba(0, 0, 0, 0.2);
+//   border: none;
+// }
 
-// input选择器模式
-.#{$ns}TextControl-sugs {
-  border-radius: px2rem(3px);
-  // top: calc(var(--Form-input-height) + #{px2rem(4px)});
-  box-shadow: #{px2rem(2px)} #{px2rem(4px)} #{px2rem(8px)} rgba(0, 0, 0, 0.2);
-  border: none;
-}
+// .#{$ns}Select {
+//   .#{$ns}PopOver {
+//     .#{$ns}Select-menu {
+//       border-radius: var(--borders-radius-3);
+//       .#{$ns}Select-option {
+//         // height: var(--Form-input-height);
+//         line-height: 1.1;
+//         padding: px2rem(5px) px2rem(12px);
 
-.#{$ns}Select {
-  .#{$ns}PopOver {
-    .#{$ns}Select-menu {
-      border-radius: #{$R3};
-      .#{$ns}Select-option {
-        // height: var(--Form-input-height);
-        line-height: 1.1;
-        padding: px2rem(5px) px2rem(12px);
-        svg {
-          color: var(--default-icon-color);
-        }
-      }
-    }
-  }
-}
+//         &.is-highlight:hover > span {
+//           color: var(--menu-active-color);
+//         }
 
-.#{$ns}NestedSelectControl {
-  .#{$ns}PopOver {
-    .#{$ns}NestedSelect-menuOuter {
-      .#{$ns}NestedSelect-menu {
-        border-radius: #{$R3};
-        .#{$ns}NestedSelect-option {
-          height: var(--Form-input-height);
-          padding: 0 px2rem(12px);
-          .#{$ns}NestedSelect-optionArrowRight {
-            padding-right: 0;
-          }
-        }
+//         svg {
+//           color: var(--default-icon-color);
+//         }
+//       }
+//     }
+//   }
+// }
 
-        &:not(:first-child) {
-          margin-left: 2px;
-        }
-      }
-    }
-  }
-}
+// .#{$ns}NestedSelectControl {
+//   .#{$ns}PopOver {
+//     .#{$ns}NestedSelect-menuOuter {
+//       .#{$ns}NestedSelect-menu {
+//         border-radius: var(--borders-radius-3);
+//         .#{$ns}NestedSelect-option {
+//           height: var(--Form-input-height);
+//           padding: 0 px2rem(12px);
+//           .#{$ns}NestedSelect-optionArrowRight {
+//             padding-right: 0;
+//           }
+//         }
 
-.#{$ns}TreeSelectControl {
-  .#{$ns}PopOver {
-    box-shadow: var(--boxShadow);
-    .#{$ns}Tree {
-      border-radius: #{$R3};
-      border: none;
-    }
-  }
-}
+//         &:not(:first-child) {
+//           margin-left: 2px;
+//         }
+//       }
+//     }
+//   }
+// }
 
-.#{$ns}Modal-content {
-  .#{$ns}TreeSelect-popover {
-    box-shadow: var(--boxShadow);
-    .#{$ns}Tree {
-      border-radius: #{$R3};
-      border: none;
-    }
-  }
-}
+// .#{$ns}TreeSelectControl {
+//   .#{$ns}PopOver {
+//     box-shadow: var(--boxShadow);
+//     .#{$ns}Tree {
+//       border-radius: var(--borders-radius-3);
+//       border: none;
+//     }
+//   }
+// }
 
-.#{$ns}Toast {
-  .#{$ns}Toast-icon {
-    margin-right: #{px2rem(8px)};
-  }
-  .#{$ns}Toast-close {
-    margin-left: #{px2rem(8px)};
-    cursor: pointer;
-  }
-}
+// .#{$ns}Modal-content {
+//   .#{$ns}TreeSelect-popover {
+//     box-shadow: var(--boxShadow);
+//     .#{$ns}Tree {
+//       border-radius: var(--borders-radius-3);
+//       border: none;
+//     }
+//   }
+// }
 
-.#{$ns}Button--iconOnly {
-  min-width: var(--Button-height);
-}
+// .#{$ns}Toast {
+//   .#{$ns}Toast-icon {
+//     margin-right: #{px2rem(8px)};
+//   }
+//   .#{$ns}Toast-close {
+//     margin-left: #{px2rem(8px)};
+//     cursor: pointer;
+//   }
+// }
 
-.#{$ns}Alert {
-  font-weight: #{$W2};
-  .#{$ns}Alert-close {
-    opacity: 1;
-    color: #{$G5};
-    &:hover {
-      color: #{$G4};
-    }
-    &:active {
-      color: #{$G3};
-    }
-  }
-}
+// .#{$ns}Button--iconOnly {
+//   min-width: var(--Button-height);
+// }
 
-.#{$ns}IconPickerControl {
-  .#{$ns}IconPickerControl-input--withAC {
-    .#{$ns}IconPickerControl-sugsPanel {
-      border: none;
-      box-shadow: var(--boxShadow);
-      border-radius: px2rem(3px);
-    }
-  }
-}
+// .#{$ns}Alert {
+//   font-weight: var(--fonts-weight-6);
+//   .#{$ns}Alert-close {
+//     opacity: 1;
+//     color: var(--colors-neutral-5);
+//     &:hover {
+//       color: var(--colors-neutral-4);
+//     }
+//     &:active {
+//       color: var(--colors-neutral-3);
+//     }
+//   }
+// }
 
-.#{$ns}Combo {
-  .#{$ns}Combo-items {
-    .#{$ns}Combo-item {
-      .#{$ns}Combo-delBtn {
-        padding-top: calc(
-          (var(--Form-input-height) - var(--Form-input-lineHeight) * 10px) / 2
-        );
-      }
-    }
-  }
-}
+// .#{$ns}IconPickerControl {
+//   .#{$ns}IconPickerControl-input--withAC {
+//     .#{$ns}IconPickerControl-sugsPanel {
+//       border: none;
+//       box-shadow: var(--boxShadow);
+//       border-radius: px2rem(3px);
+//     }
+//   }
+// }
 
-.#{$ns}LocationControl {
-  .#{$ns}PopOver {
-    border: none;
-    box-shadow: var(--boxShadow);
-  }
-}
+// .#{$ns}Combo {
+//   .#{$ns}Combo-items {
+//     .#{$ns}Combo-item {
+//       .#{$ns}Combo-delBtn {
+//         padding-top: calc(
+//           (var(--Form-input-height) - var(--Form-input-lineHeight) * 10px) / 2
+//         );
+//       }
+//     }
+//   }
+// }
 
-.#{$ns}Transfer {
-  &-title {
-    height: px2rem(32px);
-    flex: 0 0 px2rem(32px);
-    padding-left: #{px2rem(12px)};
-    padding-right: #{px2rem(12px)};
+// .#{$ns}LocationControl {
+//   .#{$ns}PopOver {
+//     border: none;
+//     box-shadow: var(--boxShadow);
+//   }
+// }
 
-    &--light {
-      height: px2rem(40px);
-      flex: 0 0 px2rem(40px);
-    }
-  }
+// .#{$ns}Transfer {
+//   &-title {
+//     height: px2rem(32px);
+//     flex: 0 0 px2rem(32px);
+//     padding-left: #{px2rem(12px)};
+//     padding-right: #{px2rem(12px)};
 
-  &-result {
-    > .#{$ns}Selections {
-      height: 100%;
-    }
-  }
+//     &--light {
+//       height: px2rem(40px);
+//       flex: 0 0 px2rem(40px);
+//     }
+//   }
 
-  &-table-title {
-    background-color: unset;
-  }
+//   &-result {
+//     > .#{$ns}Selections {
+//       height: 100%;
+//     }
+//   }
 
-  .#{$ns}ListCheckboxes {
-    .#{$ns}ListCheckboxes-item {
-      padding-left: #{px2rem(16px)};
-      padding-right: #{px2rem(16px)};
-    }
-  }
+//   &-table-title {
+//     background-color: unset;
+//   }
 
-  .#{$ns}TableSelection {
-    .#{$ns}Table-table {
-      border-top: 0;
-      border-left: 0;
-      border-right: 0;
-    }
+//   .#{$ns}ListCheckboxes {
+//     .#{$ns}ListCheckboxes-item {
+//       padding-left: #{px2rem(16px)};
+//       padding-right: #{px2rem(16px)};
+//     }
+//   }
 
-    tbody {
-      tr {
-        &.is-active {
-          color: unset;
-        }
-      }
-    }
-  }
-}
+//   .#{$ns}TableSelection {
+//     .#{$ns}Table-table {
+//       border-top: 0;
+//       border-left: 0;
+//       border-right: 0;
+//     }
 
-.#{$ns}GroupedSelection {
-  &-item {
-    padding-left: var(--gap-base);
-    padding-right: var(--gap-base);
+//     tbody {
+//       tr {
+//         &.is-active {
+//           color: unset;
+//         }
+//       }
+//     }
+//   }
+// }
 
-    &.is-active {
-      color: unset;
-    }
-  }
-}
+// .#{$ns}GroupedSelection {
+//   &-item {
+//     padding-left: var(--gap-base);
+//     padding-right: var(--gap-base);
 
-.#{$ns}Selections {
-  height: auto;
+//     &.is-active {
+//       color: unset;
+//     }
+//   }
+// }
 
-  &-item {
-    padding-left: var(--gap-base);
-    padding-right: var(--gap-base);
-  }
-  &-mid {
-    min-width: px2rem(16px);
-  }
+// .#{$ns}Selections {
+//   height: auto;
 
-  .#{$ns}TableSelection {
-    .#{$ns}Table-table > thead > tr,
-    .#{$ns}Table-table > tbody > tr {
-      height: px2rem(40px);
-    }
-  }
-}
+//   &-item {
+//     padding-left: var(--gap-base);
+//     padding-right: var(--gap-base);
+//   }
+//   &-mid {
+//     min-width: px2rem(16px);
+//   }
 
-.#{$ns}Modal {
-  box-shadow: var(--boxShadow);
-  &-content {
-    padding: #{px2rem(24px)} 0;
-    border-radius: #{$R4};
-  }
+//   .#{$ns}TableSelection {
+//     .#{$ns}Table-table > thead > tr,
+//     .#{$ns}Table-table > tbody > tr {
+//       height: px2rem(40px);
+//     }
+//   }
+// }
 
-  &-body {
-    font-size: #{$T2};
-    font-weight: #{$W2};
-  }
+// .#{$ns}Modal {
+//   box-shadow: var(--boxShadow);
+//   &-content {
+//     padding: #{px2rem(24px)};
+//     border-radius: #{$R4};
+//   }
 
-  &-footer {
-    .#{$ns}Button {
-      margin-left: #{px2rem(16px)};
-    }
-  }
-}
+//   &-body {
+//     padding: #{px2rem(16px)} 0 #{px2rem(24px)} 0;
+//     font-size: #{$T2};
+//     font-weight: var(--fonts-weight-6);
+//   }
 
-.#{$ns}Drawer {
-  &-content {
-    border-radius: 0;
-  }
-  &-header {
-    border-radius: #{$R4} 0 0 0;
-  }
-  &-title {
-    font-size: #{$T3};
-    font-weight: #{$W3};
-  }
+//   &-footer {
+//     .#{$ns}Button {
+//       margin-left: #{px2rem(16px)};
+//     }
+//   }
+// }
 
-  &-body {
-    font-size: #{$T3};
-    font-weight: #{$W2};
-  }
-}
+// .#{$ns}Drawer {
+//   &-content {
+//     border-radius: 0;
+//   }
+//   &-header {
+//     border-radius: #{$R4} 0 0 0;
+//   }
+//   &-title {
+//     font-size: #{$T3};
+//     font-weight: #{$W3};
+//   }
 
-.#{$ns}Drawer--right {
-  .#{$ns}Drawer-header {
-    border-radius: #{$R4} 0 0 0;
-  }
-  .#{$ns}Drawer-footer {
-    justify-content: flex-end;
-    .#{$ns}Button {
-      margin-left: #{px2rem(12px)};
-    }
-  }
-}
+//   &-body {
+//     font-size: #{$T3};
+//     font-weight: var(--fonts-weight-6);
+//   }
+// }
 
-.#{$ns}Drawer--left {
-  .#{$ns}Drawer-header {
-    border-radius: 0 #{$R4} 0 0;
-  }
-  .#{$ns}Drawer-footer {
-    .#{$ns}Button {
-      margin-left: #{px2rem(16px)};
-    }
-  }
-}
+// .#{$ns}Drawer--right {
+//   .#{$ns}Drawer-header {
+//     border-radius: #{$R4} 0 0 0;
+//   }
+//   .#{$ns}Drawer-footer {
+//     justify-content: flex-end;
+//     .#{$ns}Button {
+//       margin-left: #{px2rem(16px)};
+//     }
+//   }
+// }
 
-.#{$ns}Drawer--top {
-  .#{$ns}Drawer-footer {
-    .#{$ns}Button {
-      margin-left: #{px2rem(16px)};
-    }
-  }
-}
-.#{$ns}Drawer--bottom {
-  .#{$ns}Drawer-header {
-    border-radius: #{$R4} #{$R4} 0 0;
-  }
-  .#{$ns}Drawer-footer {
-    .#{$ns}Button {
-      margin-left: #{px2rem(16px)};
-    }
-  }
-}
+// .#{$ns}Drawer--left {
+//   .#{$ns}Drawer-header {
+//     border-radius: 0 #{$R4} 0 0;
+//   }
+//   .#{$ns}Drawer-footer {
+//     .#{$ns}Button {
+//       margin-left: #{px2rem(16px)};
+//     }
+//   }
+// }
 
-.#{$ns}Steps {
-  .#{$ns}StepsItem {
-    &-container {
-      &Icon {
-        padding-right: #{px2rem(8px)};
-        .#{$ns}StepsItem-icon {
-          width: #{px2rem(24px)};
-          height: #{px2rem(24px)};
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          svg {
-            width: #{px2rem(12px)};
-            height: #{px2rem(12px)};
-            top: 0;
-          }
-        }
+// .#{$ns}Drawer--top {
+//   .#{$ns}Drawer-footer {
+//     .#{$ns}Button {
+//       margin-left: #{px2rem(16px)};
+//     }
+//   }
+// }
+// .#{$ns}Drawer--bottom {
+//   .#{$ns}Drawer-header {
+//     border-radius: #{$R4} #{$R4} 0 0;
+//   }
+//   .#{$ns}Drawer-footer {
+//     .#{$ns}Button {
+//       margin-left: #{px2rem(16px)};
+//     }
+//   }
+// }
 
-        &Wrapper {
-          .#{$ns}StepsItem-body {
-            .#{$ns}StepsItem-title {
-              &:after {
-                padding-right: #{px2rem(8px)};
-              }
-            }
-            .#{$ns}StepsItem-subTitle {
-              padding-left: #{px2rem(8px)};
-            }
-          }
-        }
-      }
-    }
-  }
-  &--vertical {
-    .#{$ns}StepsItem {
-      &-container {
-        &Icon > .#{$ns}StepsItem-icon {
-          &:after {
-            top: px2rem(28px);
-            left: px2rem(10px);
-            transform: translate(px2rem(1px));
-          }
-        }
-      }
-    }
-  }
-  .#{$ns}StepsItem.is-finish {
-    .#{$ns}StepsItem-icon {
-      color: var(--Steps-status-success);
-      background-color: var(--white);
-    }
-  }
+// .#{$ns}Steps {
+//   .#{$ns}StepsItem {
+//     &-container {
+//       &Icon {
+//         padding-right: #{px2rem(8px)};
+//         .#{$ns}StepsItem-icon {
+//           width: #{px2rem(24px)};
+//           height: #{px2rem(24px)};
+//           display: inline-flex;
+//           align-items: center;
+//           justify-content: center;
+//           svg {
+//             width: #{px2rem(12px)};
+//             height: #{px2rem(12px)};
+//             top: 0;
+//           }
+//         }
 
-  .#{$ns}StepsItem.is-error {
-    .#{$ns}StepsItem-icon {
-      color: var(--Steps-status-error);
-      background-color: var(--white);
-      border: 1px solid var(--Steps-status-error);
-    }
-  }
-}
+//         &Wrapper {
+//           .#{$ns}StepsItem-body {
+//             .#{$ns}StepsItem-title {
+//               &:after {
+//                 padding-right: #{px2rem(8px)};
+//               }
+//             }
+//             .#{$ns}StepsItem-subTitle {
+//               padding-left: #{px2rem(8px)};
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+//   &--vertical {
+//     .#{$ns}StepsItem {
+//       &-container {
+//         &Icon > .#{$ns}StepsItem-icon {
+//           &:after {
+//             top: px2rem(28px);
+//             left: px2rem(10px);
+//             transform: translate(px2rem(1px));
+//           }
+//         }
+//       }
+//     }
+//   }
+//   .#{$ns}StepsItem.is-finish {
+//     .#{$ns}StepsItem-icon {
+//       color: var(--Steps-status-success);
+//       background-color: var(--white);
+//     }
+//   }
 
-.#{$ns}Form-feedback {
-  list-style-type: none;
-  padding-left: 0;
-}
+//   .#{$ns}StepsItem.is-error {
+//     .#{$ns}StepsItem-icon {
+//       color: var(--Steps-status-error);
+//       background-color: var(--white);
+//       border: 1px solid var(--Steps-status-error);
+//     }
+//   }
+// }
 
-.#{$ns}Form-item {
-  &--inline {
-    .#{$ns}Form-label {
-      margin-right: #{px2rem(16px)};
-    }
-  }
-}
+// .#{$ns}Form-feedback {
+//   list-style-type: none;
+//   padding-left: 0;
+// }
 
-//FieldSet Form + Collapse
-.#{$ns}Form {
-  .icon-position-right .#{$ns}Collapse-header,
-  .#{$ns}Collapse--title-bottom .#{$ns}Collapse-header {
-    display: block;
-  }
-  .#{$ns}Collapse {
-    border: none;
-    &-header {
-      background-color: var(--white);
-      display: inline-flex;
-      justify-content: flex-end;
-      flex-direction: row-reverse;
-    }
-    &-content {
-      padding: 0;
-    }
-  }
-}
+// .#{$ns}Form-item {
+//   &--inline {
+//     .#{$ns}Form-label {
+//       margin-right: #{px2rem(16px)};
+//     }
+//   }
+// }
+
+// //FieldSet Form + Collapse
+// .#{$ns}Form {
+//   .#{$ns}Collapse {
+//     border: none;
+//     &-header {
+//       background-color: var(--white);
+//       display: inline-flex;
+//       justify-content: flex-end;
+//       flex-direction: row-reverse;
+//     }
+//     &-content {
+//       padding: 0;
+//     }
+//   }
+// }

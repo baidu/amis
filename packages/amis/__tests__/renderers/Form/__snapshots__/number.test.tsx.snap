@@ -249,7 +249,7 @@ exports[`Renderer:number with borderMode 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -407,7 +407,7 @@ exports[`Renderer:number with borderMode 2`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -566,7 +566,7 @@ exports[`Renderer:number with precision and default value 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -725,7 +725,7 @@ exports[`Renderer:number with prefix & suffix & kilobitSeparator 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -904,7 +904,7 @@ exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1107,7 +1107,7 @@ exports[`Renderer:number with unitOptions 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>

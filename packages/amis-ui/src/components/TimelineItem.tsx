@@ -108,12 +108,7 @@ export function TimelineItem(props: TimelineItem) {
   return (
     <div className={cx('TimelineItem')} key={key}>
       <div className={cx('TimelineItem-axle')}>
-        <div
-          className={cx(
-            'TimelineItem-line',
-            icon ? 'TimelineItem-line-icon' : ''
-          )}
-        ></div>
+        <div className={cx('TimelineItem-line')}></div>
         {icon ? (
           <div className={cx('TimelineItem-icon')}>
             <Icon icon={icon} className="icon" />

@@ -84,7 +84,7 @@ exports[`Renderer:condition-builder 1`] = `
                             <div
                               class="cxd-Select-value"
                             >
-                              并且
+                              且
                             </div>
                           </div>
                           <span
@@ -98,35 +98,39 @@ exports[`Renderer:condition-builder 1`] = `
                         </div>
                       </div>
                       <div
-                        class="cxd-CBGroup-body"
+                        class="cxd-CBGroup-body-wrapper"
                       >
                         <div
-                          class="cxd-CBGroup-placeholder "
-                        >
-                          空
-                        </div>
-                      </div>
-                      <div
-                        class="cxd-CBGroup-toolbar"
-                      >
-                        <div
-                          class="cxd-CBGroup-toolbarConditionAdd"
+                          class="cxd-CBGroup-body"
                         >
                           <div
-                            class="cxd-ButtonGroup"
+                            class="cxd-CBGroup-placeholder "
                           >
-                            <button
-                              class="cxd-Button cxd-Button--link cxd-Button--xs"
-                              type="button"
+                            空
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-CBGroup-toolbar"
+                        >
+                          <div
+                            class="cxd-CBGroup-toolbarConditionAdd"
+                          >
+                            <div
+                              class="cxd-ButtonGroup"
                             >
-                              添加条件
-                            </button>
-                            <button
-                              class="cxd-Button cxd-Button--link cxd-Button--xs"
-                              type="button"
-                            >
-                              添加条件组
-                            </button>
+                              <button
+                                class="cxd-Button cxd-Button--link cxd-Button--size-xs"
+                                type="button"
+                              >
+                                添加条件
+                              </button>
+                              <button
+                                class="cxd-Button cxd-Button--link cxd-Button--size-xs"
+                                type="button"
+                              >
+                                添加条件组
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -149,7 +153,7 @@ exports[`Renderer:condition-builder 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>

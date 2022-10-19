@@ -694,11 +694,6 @@ class BaseDatePicker extends React.Component<
               ? 'rdtPickerTime'
               : dateFormat && !timeFormat
               ? 'rdtPickerDate'
-              : '',
-            viewMode === 'months' ||
-              viewMode === 'years' ||
-              viewMode === 'quarters'
-              ? 'rdtPickerNotDays'
               : ''
           )}
         >

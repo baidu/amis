@@ -110,7 +110,10 @@
     &.#{$ns}Checkbox {
       &:hover {
         & > input + i {
-          border-color: var(--Button--primary-onHover-bg);
+          border-color: var(--button-primary-hover-top-border-color)
+            var(--button-primary-hover-right-border-color)
+            var(--button-primary-hover-bottom-border-color)
+            var(--button-primary-hover-left-border-color);
         }
       }
 
@@ -129,11 +132,11 @@
 
     &:hover {
       input:checked + i {
-        background: var(--Button--primary-onHover-bg);
+        background: var(--button-primary-hover-bg-color);
         border-color: transparent;
 
         &:before {
-          background: var(--Button--primary-onHover-bg);
+          background: var(--button-primary-hover-bg-color);
         }
       }
 
@@ -263,8 +266,8 @@
     &:hover {
       input:checked + i {
         background: transparent;
-        border-color: var(--Button--primary-onHover-bg) transparent transparent
-          var(--Button--primary-onHover-bg);
+        border-color: var(--button-primary-hover-top-border-color) transparent
+          transparent var(--button-primary-hover-left-border-color);
       }
     }
 

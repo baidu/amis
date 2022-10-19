@@ -727,7 +727,7 @@ export class CustomTimeView extends React.Component<
           <div className={cx('TimeFooterWrapper')}>
             <div className={cx('QuickWrapper')}>{quickLists}</div>
             <a
-              className={cx('Button', 'Button--primary', 'Button--sm')}
+              className={cx('Button', 'Button--primary', 'Button--size-sm')}
               onClick={this.confirm}
             >
               {__('confirm')}

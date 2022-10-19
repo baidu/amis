@@ -216,7 +216,7 @@ exports[`Renderer:input-formula 1`] = `
                       />
                     </div>
                     <button
-                      class="cxd-Button cxd-Button--default cxd-FormulaPicker-action"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-FormulaPicker-action"
                       type="button"
                     >
                       <icon-mock
@@ -235,7 +235,7 @@ exports[`Renderer:input-formula 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -488,7 +488,7 @@ exports[`Renderer:input-formula button 1`] = `
                     class="cxd-FormulaPicker cxd-Form-control"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default cxd-FormulaPicker-action w-full"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-FormulaPicker-action w-full"
                       type="button"
                     >
                       <icon-mock
@@ -512,7 +512,7 @@ exports[`Renderer:input-formula button 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -802,7 +802,7 @@ exports[`Renderer:input-formula input-group 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>

@@ -283,5 +283,6 @@ export {
   Role,
   Department,
   Post,
-  RightDoubleArrowIcon
+  RightDoubleArrowIcon,
+  DownArrowBoldIcon
 };

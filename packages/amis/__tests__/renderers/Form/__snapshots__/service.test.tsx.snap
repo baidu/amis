@@ -250,7 +250,7 @@ exports[`form:service:remoteData 1`] = `
       data-role="form-item"
     >
       <button
-        class="cxd-Button cxd-Button--default"
+        class="cxd-Button cxd-Button--default cxd-Button--size-default"
         type="submit"
       >
         <span>
@@ -325,7 +325,7 @@ exports[`form:service:remoteSchmea+data 1`] = `
       data-role="form-item"
     >
       <button
-        class="cxd-Button cxd-Button--default"
+        class="cxd-Button cxd-Button--default cxd-Button--size-default"
         type="submit"
       >
         <span>
@@ -378,7 +378,7 @@ exports[`form:service:super-remoteData 1`] = `
       data-role="form-item"
     >
       <button
-        class="cxd-Button cxd-Button--default"
+        class="cxd-Button cxd-Button--default cxd-Button--size-default"
         type="submit"
       >
         <span>

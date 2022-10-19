@@ -520,13 +520,11 @@ export class Tabs extends React.Component<TabsProps, any> {
             {icon ? (
               iconPosition === 'right' ? (
                 <>
-                  {title}
-                  {iconElement}
+                  {title} {iconElement}
                 </>
               ) : (
                 <>
-                  {iconElement}
-                  {title}
+                  {iconElement} {title}
                 </>
               )
             ) : (

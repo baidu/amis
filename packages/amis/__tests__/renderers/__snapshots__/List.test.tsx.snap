@@ -52,7 +52,7 @@ exports[`Renderer:list 1`] = `
                         class="cxd-ListItem-actions"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                           type="button"
                         >
                           <span>
@@ -120,7 +120,7 @@ exports[`Renderer:list 1`] = `
                         class="cxd-ListItem-actions"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                           type="button"
                         >
                           <span>
@@ -188,7 +188,7 @@ exports[`Renderer:list 1`] = `
                         class="cxd-ListItem-actions"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                           type="button"
                         >
                           <span>
@@ -256,7 +256,7 @@ exports[`Renderer:list 1`] = `
                         class="cxd-ListItem-actions"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                           type="button"
                         >
                           <span>
@@ -324,7 +324,7 @@ exports[`Renderer:list 1`] = `
                         class="cxd-ListItem-actions"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                           type="button"
                         >
                           <span>
@@ -392,7 +392,7 @@ exports[`Renderer:list 1`] = `
                         class="cxd-ListItem-actions"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                           type="button"
                         >
                           <span>
@@ -460,7 +460,7 @@ exports[`Renderer:list 1`] = `
                         class="cxd-ListItem-actions"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                           type="button"
                         >
                           <span>
@@ -528,7 +528,7 @@ exports[`Renderer:list 1`] = `
                         class="cxd-ListItem-actions"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                           type="button"
                         >
                           <span>
@@ -596,7 +596,7 @@ exports[`Renderer:list 1`] = `
                         class="cxd-ListItem-actions"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                           type="button"
                         >
                           <span>
@@ -664,7 +664,7 @@ exports[`Renderer:list 1`] = `
                         class="cxd-ListItem-actions"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                           type="button"
                         >
                           <span>

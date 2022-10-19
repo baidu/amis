@@ -312,8 +312,9 @@ register('zh-CN', {
   'Editor.fullscreen': '全屏',
   'Editor.exitFullscreen': '退出全屏',
   'Condition.not': '非',
-  'Condition.and': '并且',
-  'Condition.or': '或者',
+  'Condition.and': '且',
+  'Condition.or': '或',
+  'Condition.collapse': '展开全部',
   'Condition.add_cond': '添加条件',
   'Condition.add_cond_group': '添加条件组',
   'Condition.delete_cond_group': '删除组',
@@ -378,5 +379,7 @@ register('zh-CN', {
   'JSONSchema.add_prop': '添加属性',
   'JSONSchema.array_items': '成员类型',
   'Required': '必填',
-  'TimeNow': '此刻'
+  'TimeNow': '此刻',
+  'IconSelect.all': '全部',
+  'IconSelect.choice': '图标选择'
 });

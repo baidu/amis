@@ -37,7 +37,7 @@ exports[`Renderer:button 1`] = `
           data-role="form-item"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <i
@@ -53,7 +53,7 @@ exports[`Renderer:button 1`] = `
           data-role="form-item"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -66,7 +66,7 @@ exports[`Renderer:button 1`] = `
           data-role="form-item"
         >
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="submit"
           >
             <span>
@@ -79,7 +79,7 @@ exports[`Renderer:button 1`] = `
           data-role="form-item"
         >
           <button
-            class="cxd-Button cxd-Button--danger cxd-Button--sm"
+            class="cxd-Button cxd-Button--danger cxd-Button--size-sm"
             type="reset"
           >
             <span>
@@ -169,7 +169,7 @@ exports[`Renderer:button 2`] = `
           data-role="form-item"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <i
@@ -185,7 +185,7 @@ exports[`Renderer:button 2`] = `
           data-role="form-item"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -198,7 +198,7 @@ exports[`Renderer:button 2`] = `
           data-role="form-item"
         >
           <button
-            class="cxd-Button cxd-Button--primary"
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default"
             type="submit"
           >
             <span>
@@ -211,7 +211,7 @@ exports[`Renderer:button 2`] = `
           data-role="form-item"
         >
           <button
-            class="cxd-Button cxd-Button--danger cxd-Button--sm"
+            class="cxd-Button cxd-Button--danger cxd-Button--size-sm"
             type="reset"
           >
             <span>
@@ -305,7 +305,7 @@ exports[`Renderer:button 2`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -313,7 +313,7 @@ exports[`Renderer:button 2`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>

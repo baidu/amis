@@ -94,10 +94,9 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
         <div className={cx('CBGroupOrItem-body')}>
           {value?.conjunction ? (
             <div
-              className={cx(
-                'CBGroupOrItem-body-group',
-                this.state.hover && 'CBGroupOrItem-body-group--hover'
-              )}
+              className={cx('CBGroupOrItem-body-group', {
+                'is-hover': this.state.hover
+              })}
               onMouseOver={this.handlerHoverIn}
               onMouseOut={this.handlerHoverOut}
             >
@@ -111,6 +110,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 </a>
               ) : null}
               <ConditionGroup
+                draggable={draggable}
                 disabled={disabled}
                 searchable={searchable}
                 onDragStart={onDragStart}
@@ -156,6 +156,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 className={cx('CBDelete')}
                 onClick={this.handleItemRemove}
                 disabled={disabled}
+                level="link"
               >
                 <Icon icon="remove" className="icon" />
               </Button>
