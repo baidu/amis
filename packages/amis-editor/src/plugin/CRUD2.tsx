@@ -527,7 +527,7 @@ export class CRUDPlugin extends BasePlugin {
         return;
       }
 
-      // 可能会出错，但是cards table-v2 list 配置面板结构统一，因此
+      // 可能会出错，但是cards table2 list 配置面板结构统一，因此
       (context.data as any).tabs.forEach((tab: any) => {
         if (tab.title === '属性') {
           tab.body[0].body.forEach((collapse: any) => {
@@ -707,7 +707,7 @@ export class CRUDPlugin extends BasePlugin {
       );
       if (appendCols?.length) {
         appendCols.forEach((col: any) => {
-          if (existColsName.includes(col.key)) {
+          if (existColsName.includes(col.name)) {
             return;
           }
 
@@ -760,7 +760,6 @@ export class CRUDPlugin extends BasePlugin {
     //     });
     //   });
     // }
-
     return columns;
   }
 
@@ -1383,14 +1382,14 @@ export class CRUDPlugin extends BasePlugin {
     columns: [
       {
         title: 'A',
-        key: 'a'
+        name: 'a'
       },
       {
         title: 'B',
-        key: 'b'
+        name: 'b'
       },
       {
-        key: 'operation',
+        name: 'operation',
         title: '操作',
         buttons: [
           {
@@ -1534,7 +1533,7 @@ export class TableCRUDPlugin extends CRUDPlugin {
     mode: 'table2',
     columns: [
       {
-        key: 'id',
+        name: 'id',
         title: 'ID',
         type: 'container',
         body: [
@@ -1544,7 +1543,7 @@ export class TableCRUDPlugin extends CRUDPlugin {
         ]
       },
       {
-        key: 'engine',
+        name: 'engine',
         title: '示例',
         type: 'container',
         body: [

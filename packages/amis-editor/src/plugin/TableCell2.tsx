@@ -1,6 +1,6 @@
 import {Button, Icon} from 'amis';
 import React from 'react';
-import {FormItemProps, getVariable} from 'amis-core';
+import {getVariable} from 'amis-core';
 
 import {
   BasePlugin,
@@ -20,7 +20,7 @@ import {TabsSchema} from 'amis/lib/renderers/Tabs';
 import {SchemaObject} from 'amis/lib/Schema';
 import {remarkTpl} from '../component/BaseControl';
 
-export class TableCellV2Plugin extends BasePlugin {
+export class TableCell2Plugin extends BasePlugin {
   panelTitle = '列配置';
   panelIcon = 'fa fa-columns';
 
@@ -42,7 +42,7 @@ export class TableCellV2Plugin extends BasePlugin {
         ? false
         : {
             sameName: context.info.renderer.isFormItem ? 'name' : undefined,
-            name: 'key',
+            name: 'name',
             type: 'ae-DataBindingControl',
             label: '列字段',
             onBindingChange(
@@ -557,7 +557,6 @@ export class TableCellV2Plugin extends BasePlugin {
           const parent = dom.parentElement?.parentElement;
           const groupId = parent?.getAttribute('data-group-id');
           const wrapper = dom.closest('table')!.parentElement?.parentElement;
-
           return [].slice.call(
             wrapper?.querySelectorAll(
               `th[data-group-id="${groupId}"],
@@ -585,4 +584,4 @@ export class TableCellV2Plugin extends BasePlugin {
   }
 }
 
-registerEditorPlugin(TableCellV2Plugin);
+registerEditorPlugin(TableCell2Plugin);
