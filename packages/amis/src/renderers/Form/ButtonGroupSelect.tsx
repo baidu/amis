@@ -8,6 +8,7 @@ import type {Option} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {getLevelFromClassName, autobind, isEmpty} from 'amis-core';
 import {ButtonGroupSchema} from '../ButtonGroup';
+import {supportStatic} from './StaticHoc';
 
 /**
  * 按钮组控件。
@@ -67,6 +68,7 @@ export default class ButtonGroupControl extends React.Component<
     reload && reload();
   }
 
+  @supportStatic()
   render(props = this.props) {
     const {
       render,

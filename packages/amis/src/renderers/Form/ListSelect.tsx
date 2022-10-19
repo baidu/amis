@@ -12,6 +12,7 @@ import {
   SchemaClassName,
   SchemaCollection
 } from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * List 复选框
@@ -94,6 +95,78 @@ export default class ListControl extends React.Component<ListProps, any> {
     reload && reload();
   }
 
+  renderStatic(displayValue = '-') {
+    const {
+      itemSchema,
+      labelField,
+      valueField,
+      imageClassName,
+      itemClassName,
+      selectedOptions,
+      classnames: cx,
+      render,
+      data
+    } = this.props;
+
+    if (!selectedOptions.length) {
+      return displayValue;
+    }
+
+    const itemRender = (option: Option, key: number) => {
+      let label = option[labelField || 'label'];
+      label = label || `选项${key + 1}`;
+      if (itemSchema || option.body || option.image) {
+        return (
+          <div
+            key={key}
+            className={cx(
+              'ListControl-static-item',
+              itemClassName
+            )}
+          >
+            {itemSchema
+              ? render(`${key}/body`, itemSchema, {
+                data: createObject(data, option)
+              })
+              : option.body
+                ? render(`${key}/body`, option.body)
+                : [(option.image
+                      ? <div key="image"
+                          className={cx('ListControl-itemImage', imageClassName)}
+                        >
+                          <img src={option.image} alt={label} />
+                        </div>
+                      : null
+                    ),
+                    (
+                      <div key="label"
+                        className={cx('ListControl-itemLabel')}
+                      >
+                        {label}
+                      </div>
+                    )
+                  ]
+            }
+          </div>
+        );
+      }
+
+      return (
+        <div
+          key={key}
+          className={cx(`ListControl-static-item`)}
+        >
+          {label}
+        </div>
+      );
+    }
+
+    return <div className={cx('StaticList')}>
+      {selectedOptions.map(itemRender)}
+    </div>
+  }
+
+  @supportStatic()
   render() {
     const {
       render,

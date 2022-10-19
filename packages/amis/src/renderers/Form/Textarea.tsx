@@ -2,15 +2,13 @@ import React from 'react';
 import {
   FormItem,
   FormControlProps,
-  FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  autobind
 } from 'amis-core';
-
 import {Textarea} from 'amis-ui';
-
-import {autobind, ucFirst} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * TextArea 多行文本输入框。
@@ -165,9 +163,22 @@ export default class TextAreaControl extends React.Component<
     );
   }
 
+  renderStatic(displayValue = '') {
+    const {
+      render,
+      staticSchema = {}
+    } = this.props;
+
+    return render('static-textarea', {
+      type: 'multiline-text',
+      text: displayValue,
+      maxRows: staticSchema.limit || 5
+    }, staticSchema);
+  }
+
+  @supportStatic()
   render() {
     const {...rest} = this.props;
-
     return (
       <Textarea
         {...rest}

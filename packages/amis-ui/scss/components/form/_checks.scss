@@ -477,6 +477,18 @@
   }
 }
 
+.#{$ns}Form-static .#{$ns}Checkbox {
+  input {
+    &[disabled]:checked + i {
+      background: var(--Checkbox-onHover-bg);
+      &:before {
+        background: var(--Checkbox-onHover-bg);
+        border-color: var(--Checkbox-onHover-bg);
+      }
+    }
+  }
+}
+
 .#{$ns}CheckboxControl,
 .#{$ns}RadiosControl,
 .#{$ns}CheckboxesControl {

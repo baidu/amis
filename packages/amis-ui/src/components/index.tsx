@@ -108,6 +108,8 @@ import Steps, {StepStatus} from './Steps';
 import Tag from './Tag';
 import Timeline from './Timeline';
 import ImageGallery from './ImageGallery';
+import BaiduMapPicker from './BaiduMapPicker';
+import MultilineText from './MultilineText';
 
 export {
   NotFound,
@@ -220,5 +222,7 @@ export {
   StepStatus,
   Tag,
   Timeline,
-  ImageGallery
+  ImageGallery,
+  BaiduMapPicker,
+  MultilineText
 };
