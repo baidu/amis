@@ -1,163 +1,646 @@
 .#{$ns}Button {
-  display: inline-block;
-  font-weight: var(--Button-fontWeight);
-  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   vertical-align: middle;
   user-select: none;
   background: transparent;
-  border: var(--Button-borderWidth) solid transparent;
   transition: var(--Button-transition);
   white-space: nowrap;
-  min-width: var(--Button-mimWidth);
+  min-width: auto;
 
   &--primary {
     @include button-variant(
-      var(--Button--primary-bg),
-      var(--Button--primary-border),
-      var(--Button--primary-color),
-      var(--Button--primary-onHover-bg),
-      var(--Button--primary-onHover-border),
-      var(--Button--primary-onHover-color),
-      var(--Button--primary-onActive-bg),
-      var(--Button--primary-onActive-border),
-      var(--Button--primary-onActive-color)
+      var(--button-primary-default-bg-color),
+      var(--button-primary-default-font-color),
+      var(--button-primary-default-top-border-color),
+      var(--button-primary-default-right-border-color),
+      var(--button-primary-default-bottom-border-color),
+      var(--button-primary-default-left-border-color),
+      var(--button-primary-default-top-border-width),
+      var(--button-primary-default-right-border-width),
+      var(--button-primary-default-bottom-border-width),
+      var(--button-primary-default-left-border-width),
+      var(--button-primary-default-top-border-style),
+      var(--button-primary-default-right-border-style),
+      var(--button-primary-default-bottom-border-style),
+      var(--button-primary-default-left-border-style),
+      var(--button-primary-default-shadow),
+      var(--button-primary-hover-bg-color),
+      var(--button-primary-hover-font-color),
+      var(--button-primary-hover-top-border-color),
+      var(--button-primary-hover-right-border-color),
+      var(--button-primary-hover-bottom-border-color),
+      var(--button-primary-hover-left-border-color),
+      var(--button-primary-hover-top-border-width),
+      var(--button-primary-hover-right-border-width),
+      var(--button-primary-hover-bottom-border-width),
+      var(--button-primary-hover-left-border-width),
+      var(--button-primary-hover-top-border-style),
+      var(--button-primary-hover-right-border-style),
+      var(--button-primary-hover-bottom-border-style),
+      var(--button-primary-hover-left-border-style),
+      var(--button-primary-hover-shadow),
+      var(--button-primary-active-bg-color),
+      var(--button-primary-active-font-color),
+      var(--button-primary-active-top-border-color),
+      var(--button-primary-active-right-border-color),
+      var(--button-primary-active-bottom-border-color),
+      var(--button-primary-active-left-border-color),
+      var(--button-primary-active-top-border-width),
+      var(--button-primary-active-right-border-width),
+      var(--button-primary-active-bottom-border-width),
+      var(--button-primary-active-left-border-width),
+      var(--button-primary-active-top-border-style),
+      var(--button-primary-active-right-border-style),
+      var(--button-primary-active-bottom-border-style),
+      var(--button-primary-active-left-border-style),
+      var(--button-primary-active-shadow),
+      var(--button-primary-disabled-bg-color),
+      var(--button-primary-disabled-font-color),
+      var(--button-primary-disabled-top-border-color),
+      var(--button-primary-disabled-right-border-color),
+      var(--button-primary-disabled-bottom-border-color),
+      var(--button-primary-disabled-left-border-color),
+      var(--button-primary-disabled-top-border-width),
+      var(--button-primary-disabled-right-border-width),
+      var(--button-primary-disabled-bottom-border-width),
+      var(--button-primary-disabled-left-border-width),
+      var(--button-primary-disabled-top-border-style),
+      var(--button-primary-disabled-right-border-style),
+      var(--button-primary-disabled-bottom-border-style),
+      var(--button-primary-disabled-left-border-style),
+      var(--button-primary-disabled-shadow)
     );
   }
 
   &--secondary {
     @include button-variant(
-      var(--Button--secondary-bg),
-      var(--Button--secondary-border),
-      var(--Button--secondary-color),
-      var(--Button--secondary-onHover-bg),
-      var(--Button--secondary-onHover-border),
-      var(--Button--secondary-onHover-color),
-      var(--Button--secondary-onActive-bg),
-      var(--Button--secondary-onActive-border),
-      var(--Button--secondary-onActive-color)
+      var(--button-secondary-default-bg-color),
+      var(--button-secondary-default-font-color),
+      var(--button-secondary-default-top-border-color),
+      var(--button-secondary-default-right-border-color),
+      var(--button-secondary-default-bottom-border-color),
+      var(--button-secondary-default-left-border-color),
+      var(--button-secondary-default-top-border-width),
+      var(--button-secondary-default-right-border-width),
+      var(--button-secondary-default-bottom-border-width),
+      var(--button-secondary-default-left-border-width),
+      var(--button-secondary-default-top-border-style),
+      var(--button-secondary-default-right-border-style),
+      var(--button-secondary-default-bottom-border-style),
+      var(--button-secondary-default-left-border-style),
+      var(--button-secondary-default-shadow),
+      var(--button-secondary-hover-bg-color),
+      var(--button-secondary-hover-font-color),
+      var(--button-secondary-hover-top-border-color),
+      var(--button-secondary-hover-right-border-color),
+      var(--button-secondary-hover-bottom-border-color),
+      var(--button-secondary-hover-left-border-color),
+      var(--button-secondary-hover-top-border-width),
+      var(--button-secondary-hover-right-border-width),
+      var(--button-secondary-hover-bottom-border-width),
+      var(--button-secondary-hover-left-border-width),
+      var(--button-secondary-hover-top-border-style),
+      var(--button-secondary-hover-right-border-style),
+      var(--button-secondary-hover-bottom-border-style),
+      var(--button-secondary-hover-left-border-style),
+      var(--button-secondary-hover-shadow),
+      var(--button-secondary-active-bg-color),
+      var(--button-secondary-active-font-color),
+      var(--button-secondary-active-top-border-color),
+      var(--button-secondary-active-right-border-color),
+      var(--button-secondary-active-bottom-border-color),
+      var(--button-secondary-active-left-border-color),
+      var(--button-secondary-active-top-border-width),
+      var(--button-secondary-active-right-border-width),
+      var(--button-secondary-active-bottom-border-width),
+      var(--button-secondary-active-left-border-width),
+      var(--button-secondary-active-top-border-style),
+      var(--button-secondary-active-right-border-style),
+      var(--button-secondary-active-bottom-border-style),
+      var(--button-secondary-active-left-border-style),
+      var(--button-secondary-active-shadow),
+      var(--button-secondary-disabled-bg-color),
+      var(--button-secondary-disabled-font-color),
+      var(--button-secondary-disabled-top-border-color),
+      var(--button-secondary-disabled-right-border-color),
+      var(--button-secondary-disabled-bottom-border-color),
+      var(--button-secondary-disabled-left-border-color),
+      var(--button-secondary-disabled-top-border-width),
+      var(--button-secondary-disabled-right-border-width),
+      var(--button-secondary-disabled-bottom-border-width),
+      var(--button-secondary-disabled-left-border-width),
+      var(--button-secondary-disabled-top-border-style),
+      var(--button-secondary-disabled-right-border-style),
+      var(--button-secondary-disabled-bottom-border-style),
+      var(--button-secondary-disabled-left-border-style),
+      var(--button-secondary-disabled-shadow)
     );
   }
 
   &--success {
     @include button-variant(
-      var(--Button--success-bg),
-      var(--Button--success-border),
-      var(--Button--success-color),
-      var(--Button--success-onHover-bg),
-      var(--Button--success-onHover-border),
-      var(--Button--success-onHover-color),
-      var(--Button--success-onActive-bg),
-      var(--Button--success-onActive-border),
-      var(--Button--success-onActive-color)
+      var(--button-success-default-bg-color),
+      var(--button-success-default-font-color),
+      var(--button-success-default-top-border-color),
+      var(--button-success-default-right-border-color),
+      var(--button-success-default-bottom-border-color),
+      var(--button-success-default-left-border-color),
+      var(--button-success-default-top-border-width),
+      var(--button-success-default-right-border-width),
+      var(--button-success-default-bottom-border-width),
+      var(--button-success-default-left-border-width),
+      var(--button-success-default-top-border-style),
+      var(--button-success-default-right-border-style),
+      var(--button-success-default-bottom-border-style),
+      var(--button-success-default-left-border-style),
+      var(--button-success-default-shadow),
+      var(--button-success-hover-bg-color),
+      var(--button-success-hover-font-color),
+      var(--button-success-hover-top-border-color),
+      var(--button-success-hover-right-border-color),
+      var(--button-success-hover-bottom-border-color),
+      var(--button-success-hover-left-border-color),
+      var(--button-success-hover-top-border-width),
+      var(--button-success-hover-right-border-width),
+      var(--button-success-hover-bottom-border-width),
+      var(--button-success-hover-left-border-width),
+      var(--button-success-hover-top-border-style),
+      var(--button-success-hover-right-border-style),
+      var(--button-success-hover-bottom-border-style),
+      var(--button-success-hover-left-border-style),
+      var(--button-success-hover-shadow),
+      var(--button-success-active-bg-color),
+      var(--button-success-active-font-color),
+      var(--button-success-active-top-border-color),
+      var(--button-success-active-right-border-color),
+      var(--button-success-active-bottom-border-color),
+      var(--button-success-active-left-border-color),
+      var(--button-success-active-top-border-width),
+      var(--button-success-active-right-border-width),
+      var(--button-success-active-bottom-border-width),
+      var(--button-success-active-left-border-width),
+      var(--button-success-active-top-border-style),
+      var(--button-success-active-right-border-style),
+      var(--button-success-active-bottom-border-style),
+      var(--button-success-active-left-border-style),
+      var(--button-success-active-shadow),
+      var(--button-success-disabled-bg-color),
+      var(--button-success-disabled-font-color),
+      var(--button-success-disabled-top-border-color),
+      var(--button-success-disabled-right-border-color),
+      var(--button-success-disabled-bottom-border-color),
+      var(--button-success-disabled-left-border-color),
+      var(--button-success-disabled-top-border-width),
+      var(--button-success-disabled-right-border-width),
+      var(--button-success-disabled-bottom-border-width),
+      var(--button-success-disabled-left-border-width),
+      var(--button-success-disabled-top-border-style),
+      var(--button-success-disabled-right-border-style),
+      var(--button-success-disabled-bottom-border-style),
+      var(--button-success-disabled-left-border-style),
+      var(--button-success-disabled-shadow)
     );
   }
 
   &--enhance {
     @include button-variant(
-      var(--Button--enhance-bg),
-      var(--Button--enhance-border),
-      var(--Button--enhance-color),
-      var(--Button--enhance-onHover-bg),
-      var(--Button--enhance-onHover-border),
-      var(--Button--enhance-onHover-color),
-      var(--Button--enhance-onActive-bg),
-      var(--Button--enhance-onActive-border),
-      var(--Button--enhance-onActive-color)
+      var(--button-enhance-default-bg-color),
+      var(--button-enhance-default-font-color),
+      var(--button-enhance-default-top-border-color),
+      var(--button-enhance-default-right-border-color),
+      var(--button-enhance-default-bottom-border-color),
+      var(--button-enhance-default-left-border-color),
+      var(--button-enhance-default-top-border-width),
+      var(--button-enhance-default-right-border-width),
+      var(--button-enhance-default-bottom-border-width),
+      var(--button-enhance-default-left-border-width),
+      var(--button-enhance-default-top-border-style),
+      var(--button-enhance-default-right-border-style),
+      var(--button-enhance-default-bottom-border-style),
+      var(--button-enhance-default-left-border-style),
+      var(--button-enhance-default-shadow),
+      var(--button-enhance-hover-bg-color),
+      var(--button-enhance-hover-font-color),
+      var(--button-enhance-hover-top-border-color),
+      var(--button-enhance-hover-right-border-color),
+      var(--button-enhance-hover-bottom-border-color),
+      var(--button-enhance-hover-left-border-color),
+      var(--button-enhance-hover-top-border-width),
+      var(--button-enhance-hover-right-border-width),
+      var(--button-enhance-hover-bottom-border-width),
+      var(--button-enhance-hover-left-border-width),
+      var(--button-enhance-hover-top-border-style),
+      var(--button-enhance-hover-right-border-style),
+      var(--button-enhance-hover-bottom-border-style),
+      var(--button-enhance-hover-left-border-style),
+      var(--button-enhance-hover-shadow),
+      var(--button-enhance-active-bg-color),
+      var(--button-enhance-active-font-color),
+      var(--button-enhance-active-top-border-color),
+      var(--button-enhance-active-right-border-color),
+      var(--button-enhance-active-bottom-border-color),
+      var(--button-enhance-active-left-border-color),
+      var(--button-enhance-active-top-border-width),
+      var(--button-enhance-active-right-border-width),
+      var(--button-enhance-active-bottom-border-width),
+      var(--button-enhance-active-left-border-width),
+      var(--button-enhance-active-top-border-style),
+      var(--button-enhance-active-right-border-style),
+      var(--button-enhance-active-bottom-border-style),
+      var(--button-enhance-active-left-border-style),
+      var(--button-enhance-active-shadow),
+      var(--button-enhance-disabled-bg-color),
+      var(--button-enhance-disabled-font-color),
+      var(--button-enhance-disabled-top-border-color),
+      var(--button-enhance-disabled-right-border-color),
+      var(--button-enhance-disabled-bottom-border-color),
+      var(--button-enhance-disabled-left-border-color),
+      var(--button-enhance-disabled-top-border-width),
+      var(--button-enhance-disabled-right-border-width),
+      var(--button-enhance-disabled-bottom-border-width),
+      var(--button-enhance-disabled-left-border-width),
+      var(--button-enhance-disabled-top-border-style),
+      var(--button-enhance-disabled-right-border-style),
+      var(--button-enhance-disabled-bottom-border-style),
+      var(--button-enhance-disabled-left-border-style),
+      var(--button-enhance-disabled-shadow)
     );
   }
 
   &--info {
     @include button-variant(
-      var(--Button--info-bg),
-      var(--Button--info-border),
-      var(--Button--info-color),
-      var(--Button--info-onHover-bg),
-      var(--Button--info-onHover-border),
-      var(--Button--info-onHover-color),
-      var(--Button--info-onActive-bg),
-      var(--Button--info-onActive-border),
-      var(--Button--info-onActive-color)
+      var(--button-info-default-bg-color),
+      var(--button-info-default-font-color),
+      var(--button-info-default-top-border-color),
+      var(--button-info-default-right-border-color),
+      var(--button-info-default-bottom-border-color),
+      var(--button-info-default-left-border-color),
+      var(--button-info-default-top-border-width),
+      var(--button-info-default-right-border-width),
+      var(--button-info-default-bottom-border-width),
+      var(--button-info-default-left-border-width),
+      var(--button-info-default-top-border-style),
+      var(--button-info-default-right-border-style),
+      var(--button-info-default-bottom-border-style),
+      var(--button-info-default-left-border-style),
+      var(--button-info-default-shadow),
+      var(--button-info-hover-bg-color),
+      var(--button-info-hover-font-color),
+      var(--button-info-hover-top-border-color),
+      var(--button-info-hover-right-border-color),
+      var(--button-info-hover-bottom-border-color),
+      var(--button-info-hover-left-border-color),
+      var(--button-info-hover-top-border-width),
+      var(--button-info-hover-right-border-width),
+      var(--button-info-hover-bottom-border-width),
+      var(--button-info-hover-left-border-width),
+      var(--button-info-hover-top-border-style),
+      var(--button-info-hover-right-border-style),
+      var(--button-info-hover-bottom-border-style),
+      var(--button-info-hover-left-border-style),
+      var(--button-info-hover-shadow),
+      var(--button-info-active-bg-color),
+      var(--button-info-active-font-color),
+      var(--button-info-active-top-border-color),
+      var(--button-info-active-right-border-color),
+      var(--button-info-active-bottom-border-color),
+      var(--button-info-active-left-border-color),
+      var(--button-info-active-top-border-width),
+      var(--button-info-active-right-border-width),
+      var(--button-info-active-bottom-border-width),
+      var(--button-info-active-left-border-width),
+      var(--button-info-active-top-border-style),
+      var(--button-info-active-right-border-style),
+      var(--button-info-active-bottom-border-style),
+      var(--button-info-active-left-border-style),
+      var(--button-info-active-shadow),
+      var(--button-info-disabled-bg-color),
+      var(--button-info-disabled-font-color),
+      var(--button-info-disabled-top-border-color),
+      var(--button-info-disabled-right-border-color),
+      var(--button-info-disabled-bottom-border-color),
+      var(--button-info-disabled-left-border-color),
+      var(--button-info-disabled-top-border-width),
+      var(--button-info-disabled-right-border-width),
+      var(--button-info-disabled-bottom-border-width),
+      var(--button-info-disabled-left-border-width),
+      var(--button-info-disabled-top-border-style),
+      var(--button-info-disabled-right-border-style),
+      var(--button-info-disabled-bottom-border-style),
+      var(--button-info-disabled-left-border-style),
+      var(--button-info-disabled-shadow)
     );
   }
 
   &--warning {
     @include button-variant(
-      var(--Button--warning-bg),
-      var(--Button--warning-border),
-      var(--Button--warning-color),
-      var(--Button--warning-onHover-bg),
-      var(--Button--warning-onHover-border),
-      var(--Button--warning-onHover-color),
-      var(--Button--warning-onActive-bg),
-      var(--Button--warning-onActive-border),
-      var(--Button--warning-onActive-color)
+      var(--button-warning-default-bg-color),
+      var(--button-warning-default-font-color),
+      var(--button-warning-default-top-border-color),
+      var(--button-warning-default-right-border-color),
+      var(--button-warning-default-bottom-border-color),
+      var(--button-warning-default-left-border-color),
+      var(--button-warning-default-top-border-width),
+      var(--button-warning-default-right-border-width),
+      var(--button-warning-default-bottom-border-width),
+      var(--button-warning-default-left-border-width),
+      var(--button-warning-default-top-border-style),
+      var(--button-warning-default-right-border-style),
+      var(--button-warning-default-bottom-border-style),
+      var(--button-warning-default-left-border-style),
+      var(--button-warning-default-shadow),
+      var(--button-warning-hover-bg-color),
+      var(--button-warning-hover-font-color),
+      var(--button-warning-hover-top-border-color),
+      var(--button-warning-hover-right-border-color),
+      var(--button-warning-hover-bottom-border-color),
+      var(--button-warning-hover-left-border-color),
+      var(--button-warning-hover-top-border-width),
+      var(--button-warning-hover-right-border-width),
+      var(--button-warning-hover-bottom-border-width),
+      var(--button-warning-hover-left-border-width),
+      var(--button-warning-hover-top-border-style),
+      var(--button-warning-hover-right-border-style),
+      var(--button-warning-hover-bottom-border-style),
+      var(--button-warning-hover-left-border-style),
+      var(--button-warning-hover-shadow),
+      var(--button-warning-active-bg-color),
+      var(--button-warning-active-font-color),
+      var(--button-warning-active-top-border-color),
+      var(--button-warning-active-right-border-color),
+      var(--button-warning-active-bottom-border-color),
+      var(--button-warning-active-left-border-color),
+      var(--button-warning-active-top-border-width),
+      var(--button-warning-active-right-border-width),
+      var(--button-warning-active-bottom-border-width),
+      var(--button-warning-active-left-border-width),
+      var(--button-warning-active-top-border-style),
+      var(--button-warning-active-right-border-style),
+      var(--button-warning-active-bottom-border-style),
+      var(--button-warning-active-left-border-style),
+      var(--button-warning-active-shadow),
+      var(--button-warning-disabled-bg-color),
+      var(--button-warning-disabled-font-color),
+      var(--button-warning-disabled-top-border-color),
+      var(--button-warning-disabled-right-border-color),
+      var(--button-warning-disabled-bottom-border-color),
+      var(--button-warning-disabled-left-border-color),
+      var(--button-warning-disabled-top-border-width),
+      var(--button-warning-disabled-right-border-width),
+      var(--button-warning-disabled-bottom-border-width),
+      var(--button-warning-disabled-left-border-width),
+      var(--button-warning-disabled-top-border-style),
+      var(--button-warning-disabled-right-border-style),
+      var(--button-warning-disabled-bottom-border-style),
+      var(--button-warning-disabled-left-border-style),
+      var(--button-warning-disabled-shadow)
     );
   }
 
   &--danger {
     @include button-variant(
-      var(--Button--danger-bg),
-      var(--Button--danger-border),
-      var(--Button--danger-color),
-      var(--Button--danger-onHover-bg),
-      var(--Button--danger-onHover-border),
-      var(--Button--danger-onHover-color),
-      var(--Button--danger-onActive-bg),
-      var(--Button--danger-onActive-border),
-      var(--Button--danger-onActive-color)
+      var(--button-danger-default-bg-color),
+      var(--button-danger-default-font-color),
+      var(--button-danger-default-top-border-color),
+      var(--button-danger-default-right-border-color),
+      var(--button-danger-default-bottom-border-color),
+      var(--button-danger-default-left-border-color),
+      var(--button-danger-default-top-border-width),
+      var(--button-danger-default-right-border-width),
+      var(--button-danger-default-bottom-border-width),
+      var(--button-danger-default-left-border-width),
+      var(--button-danger-default-top-border-style),
+      var(--button-danger-default-right-border-style),
+      var(--button-danger-default-bottom-border-style),
+      var(--button-danger-default-left-border-style),
+      var(--button-danger-default-shadow),
+      var(--button-danger-hover-bg-color),
+      var(--button-danger-hover-font-color),
+      var(--button-danger-hover-top-border-color),
+      var(--button-danger-hover-right-border-color),
+      var(--button-danger-hover-bottom-border-color),
+      var(--button-danger-hover-left-border-color),
+      var(--button-danger-hover-top-border-width),
+      var(--button-danger-hover-right-border-width),
+      var(--button-danger-hover-bottom-border-width),
+      var(--button-danger-hover-left-border-width),
+      var(--button-danger-hover-top-border-style),
+      var(--button-danger-hover-right-border-style),
+      var(--button-danger-hover-bottom-border-style),
+      var(--button-danger-hover-left-border-style),
+      var(--button-danger-hover-shadow),
+      var(--button-danger-active-bg-color),
+      var(--button-danger-active-font-color),
+      var(--button-danger-active-top-border-color),
+      var(--button-danger-active-right-border-color),
+      var(--button-danger-active-bottom-border-color),
+      var(--button-danger-active-left-border-color),
+      var(--button-danger-active-top-border-width),
+      var(--button-danger-active-right-border-width),
+      var(--button-danger-active-bottom-border-width),
+      var(--button-danger-active-left-border-width),
+      var(--button-danger-active-top-border-style),
+      var(--button-danger-active-right-border-style),
+      var(--button-danger-active-bottom-border-style),
+      var(--button-danger-active-left-border-style),
+      var(--button-danger-active-shadow),
+      var(--button-danger-disabled-bg-color),
+      var(--button-danger-disabled-font-color),
+      var(--button-danger-disabled-top-border-color),
+      var(--button-danger-disabled-right-border-color),
+      var(--button-danger-disabled-bottom-border-color),
+      var(--button-danger-disabled-left-border-color),
+      var(--button-danger-disabled-top-border-width),
+      var(--button-danger-disabled-right-border-width),
+      var(--button-danger-disabled-bottom-border-width),
+      var(--button-danger-disabled-left-border-width),
+      var(--button-danger-disabled-top-border-style),
+      var(--button-danger-disabled-right-border-style),
+      var(--button-danger-disabled-bottom-border-style),
+      var(--button-danger-disabled-left-border-style),
+      var(--button-danger-disabled-shadow)
     );
   }
 
   &--light {
     @include button-variant(
-      var(--Button--light-bg),
-      var(--Button--light-border),
-      var(--Button--light-color),
-      var(--Button--light-onHover-bg),
-      var(--Button--light-onHover-border),
-      var(--Button--light-onHover-color),
-      var(--Button--light-onActive-bg),
-      var(--Button--light-onActive-border),
-      var(--Button--light-onActive-color)
+      var(--button-light-default-bg-color),
+      var(--button-light-default-font-color),
+      var(--button-light-default-top-border-color),
+      var(--button-light-default-right-border-color),
+      var(--button-light-default-bottom-border-color),
+      var(--button-light-default-left-border-color),
+      var(--button-light-default-top-border-width),
+      var(--button-light-default-right-border-width),
+      var(--button-light-default-bottom-border-width),
+      var(--button-light-default-left-border-width),
+      var(--button-light-default-top-border-style),
+      var(--button-light-default-right-border-style),
+      var(--button-light-default-bottom-border-style),
+      var(--button-light-default-left-border-style),
+      var(--button-light-default-shadow),
+      var(--button-light-hover-bg-color),
+      var(--button-light-hover-font-color),
+      var(--button-light-hover-top-border-color),
+      var(--button-light-hover-right-border-color),
+      var(--button-light-hover-bottom-border-color),
+      var(--button-light-hover-left-border-color),
+      var(--button-light-hover-top-border-width),
+      var(--button-light-hover-right-border-width),
+      var(--button-light-hover-bottom-border-width),
+      var(--button-light-hover-left-border-width),
+      var(--button-light-hover-top-border-style),
+      var(--button-light-hover-right-border-style),
+      var(--button-light-hover-bottom-border-style),
+      var(--button-light-hover-left-border-style),
+      var(--button-light-hover-shadow),
+      var(--button-light-active-bg-color),
+      var(--button-light-active-font-color),
+      var(--button-light-active-top-border-color),
+      var(--button-light-active-right-border-color),
+      var(--button-light-active-bottom-border-color),
+      var(--button-light-active-left-border-color),
+      var(--button-light-active-top-border-width),
+      var(--button-light-active-right-border-width),
+      var(--button-light-active-bottom-border-width),
+      var(--button-light-active-left-border-width),
+      var(--button-light-active-top-border-style),
+      var(--button-light-active-right-border-style),
+      var(--button-light-active-bottom-border-style),
+      var(--button-light-active-left-border-style),
+      var(--button-light-active-shadow),
+      var(--button-light-disabled-bg-color),
+      var(--button-light-disabled-font-color),
+      var(--button-light-disabled-top-border-color),
+      var(--button-light-disabled-right-border-color),
+      var(--button-light-disabled-bottom-border-color),
+      var(--button-light-disabled-left-border-color),
+      var(--button-light-disabled-top-border-width),
+      var(--button-light-disabled-right-border-width),
+      var(--button-light-disabled-bottom-border-width),
+      var(--button-light-disabled-left-border-width),
+      var(--button-light-disabled-top-border-style),
+      var(--button-light-disabled-right-border-style),
+      var(--button-light-disabled-bottom-border-style),
+      var(--button-light-disabled-left-border-style),
+      var(--button-light-disabled-shadow)
     );
   }
 
   &--dark {
     @include button-variant(
-      var(--Button--dark-bg),
-      var(--Button--dark-border),
-      var(--Button--dark-color),
-      var(--Button--dark-onHover-bg),
-      var(--Button--dark-onHover-border),
-      var(--Button--dark-onHover-color),
-      var(--Button--dark-onActive-bg),
-      var(--Button--dark-onActive-border),
-      var(--Button--dark-onActive-color)
+      var(--button-dark-default-bg-color),
+      var(--button-dark-default-font-color),
+      var(--button-dark-default-top-border-color),
+      var(--button-dark-default-right-border-color),
+      var(--button-dark-default-bottom-border-color),
+      var(--button-dark-default-left-border-color),
+      var(--button-dark-default-top-border-width),
+      var(--button-dark-default-right-border-width),
+      var(--button-dark-default-bottom-border-width),
+      var(--button-dark-default-left-border-width),
+      var(--button-dark-default-top-border-style),
+      var(--button-dark-default-right-border-style),
+      var(--button-dark-default-bottom-border-style),
+      var(--button-dark-default-left-border-style),
+      var(--button-dark-default-shadow),
+      var(--button-dark-hover-bg-color),
+      var(--button-dark-hover-font-color),
+      var(--button-dark-hover-top-border-color),
+      var(--button-dark-hover-right-border-color),
+      var(--button-dark-hover-bottom-border-color),
+      var(--button-dark-hover-left-border-color),
+      var(--button-dark-hover-top-border-width),
+      var(--button-dark-hover-right-border-width),
+      var(--button-dark-hover-bottom-border-width),
+      var(--button-dark-hover-left-border-width),
+      var(--button-dark-hover-top-border-style),
+      var(--button-dark-hover-right-border-style),
+      var(--button-dark-hover-bottom-border-style),
+      var(--button-dark-hover-left-border-style),
+      var(--button-dark-hover-shadow),
+      var(--button-dark-active-bg-color),
+      var(--button-dark-active-font-color),
+      var(--button-dark-active-top-border-color),
+      var(--button-dark-active-right-border-color),
+      var(--button-dark-active-bottom-border-color),
+      var(--button-dark-active-left-border-color),
+      var(--button-dark-active-top-border-width),
+      var(--button-dark-active-right-border-width),
+      var(--button-dark-active-bottom-border-width),
+      var(--button-dark-active-left-border-width),
+      var(--button-dark-active-top-border-style),
+      var(--button-dark-active-right-border-style),
+      var(--button-dark-active-bottom-border-style),
+      var(--button-dark-active-left-border-style),
+      var(--button-dark-active-shadow),
+      var(--button-dark-disabled-bg-color),
+      var(--button-dark-disabled-font-color),
+      var(--button-dark-disabled-top-border-color),
+      var(--button-dark-disabled-right-border-color),
+      var(--button-dark-disabled-bottom-border-color),
+      var(--button-dark-disabled-left-border-color),
+      var(--button-dark-disabled-top-border-width),
+      var(--button-dark-disabled-right-border-width),
+      var(--button-dark-disabled-bottom-border-width),
+      var(--button-dark-disabled-left-border-width),
+      var(--button-dark-disabled-top-border-style),
+      var(--button-dark-disabled-right-border-style),
+      var(--button-dark-disabled-bottom-border-style),
+      var(--button-dark-disabled-left-border-style),
+      var(--button-dark-disabled-shadow)
     );
   }
 
   &--default {
-    @include button-variant(
-      var(--Button--default-bg),
-      var(--Button--default-border),
-      var(--Button--default-color),
-      var(--Button--default-onHover-bg),
-      var(--Button--default-onHover-border),
-      var(--Button--default-onHover-color),
-      var(--Button--default-onActive-bg),
-      var(--Button--default-onActive-border),
-      var(--Button--default-onActive-color)
+    @include button-variant();
+  }
+
+  &--size-default {
+    @include button-size(
+      var(--button-size-default-font-size),
+      var(--button-size-default-font-lineHeight),
+      var(--button-size-default-top-right-border-radius),
+      var(--button-size-default-top-left-border-radius),
+      var(--button-size-default-bottom-right-border-radius),
+      var(--button-size-default-bottom-left-border-radius),
+      var(--button-size-default-height),
+      var(--button-size-default-paddingTop),
+      var(--button-size-default-paddingBottom),
+      var(--button-size-default-paddingLeft),
+      var(--button-size-default-paddingRight),
+      var(--button-size-default-marginTop),
+      var(--button-size-default-marginBottom),
+      var(--button-size-default-marginLeft),
+      var(--button-size-default-marginRight),
+      var(--button-size-default-minWith),
+      var(--button-size-default-icon-size),
+      var(--button-size-default-icon-margin)
     );
   }
 
-  &--xs {
+  &--size-xs {
     @include button-size(
-      var(--Button--xs-paddingY),
-      var(--Button--xs-paddingX),
-      var(--Button--xs-fontSize),
-      var(--Button--xs-lineHeight),
-      var(--Button--sm-borderRadius),
-      var(--Button--xs-height)
+      var(--button-size-xs-font-size),
+      var(--button-size-xs-font-lineHeight),
+      var(--button-size-xs-top-right-border-radius),
+      var(--button-size-xs-top-left-border-radius),
+      var(--button-size-xs-bottom-right-border-radius),
+      var(--button-size-xs-bottom-left-border-radius),
+      var(--button-size-xs-height),
+      var(--button-size-xs-paddingTop),
+      var(--button-size-xs-paddingBottom),
+      var(--button-size-xs-paddingLeft),
+      var(--button-size-xs-paddingRight),
+      var(--button-size-xs-marginTop),
+      var(--button-size-xs-marginBottom),
+      var(--button-size-xs-marginLeft),
+      var(--button-size-xs-marginRight),
+      var(--button-size-xs-minWith),
+      var(--button-size-xs-icon-size),
+      var(--button-size-xs-icon-margin)
     );
 
     &.#{$ns}Button--iconOnly {
@@ -167,14 +650,26 @@
     }
   }
 
-  &--sm {
+  &--size-sm {
     @include button-size(
-      var(--Button--sm-paddingY),
-      var(--Button--sm-paddingX),
-      var(--Button--sm-fontSize),
-      var(--Button--sm-lineHeight),
-      var(--Button--sm-borderRadius),
-      var(--Button--sm-height)
+      var(--button-size-sm-font-size),
+      var(--button-size-sm-font-lineHeight),
+      var(--button-size-sm-top-right-border-radius),
+      var(--button-size-sm-top-left-border-radius),
+      var(--button-size-sm-bottom-right-border-radius),
+      var(--button-size-sm-bottom-left-border-radius),
+      var(--button-size-sm-height),
+      var(--button-size-sm-paddingTop),
+      var(--button-size-sm-paddingBottom),
+      var(--button-size-sm-paddingLeft),
+      var(--button-size-sm-paddingRight),
+      var(--button-size-sm-marginTop),
+      var(--button-size-sm-marginBottom),
+      var(--button-size-sm-marginLeft),
+      var(--button-size-sm-marginRight),
+      var(--button-size-sm-minWith),
+      var(--button-size-sm-icon-size),
+      var(--button-size-sm-icon-margin)
     );
 
     &.#{$ns}Button--iconOnly {
@@ -184,14 +679,26 @@
     }
   }
 
-  &--md {
+  &--size-md {
     @include button-size(
-      var(--Button--md-paddingY),
-      var(--Button--md-paddingX),
-      var(--Button--md-fontSize),
-      var(--Button--md-lineHeight),
-      var(--Button-borderRadius),
-      var(--Button--md-height)
+      var(--button-size-md-font-size),
+      var(--button-size-md-font-lineHeight),
+      var(--button-size-md-top-right-border-radius),
+      var(--button-size-md-top-left-border-radius),
+      var(--button-size-md-bottom-right-border-radius),
+      var(--button-size-md-bottom-left-border-radius),
+      var(--button-size-md-height),
+      var(--button-size-md-paddingTop),
+      var(--button-size-md-paddingBottom),
+      var(--button-size-md-paddingLeft),
+      var(--button-size-md-paddingRight),
+      var(--button-size-md-marginTop),
+      var(--button-size-md-marginBottom),
+      var(--button-size-md-marginLeft),
+      var(--button-size-md-marginRight),
+      var(--button-size-md-minWith),
+      var(--button-size-md-icon-size),
+      var(--button-size-md-icon-margin)
     );
 
     &.#{$ns}Button--iconOnly {
@@ -201,14 +708,26 @@
     }
   }
 
-  &--lg {
+  &--size-lg {
     @include button-size(
-      var(--Button--lg-paddingY),
-      var(--Button--lg-paddingX),
-      var(--Button--lg-fontSize),
-      var(--Button--lg-lineHeight),
-      var(--Button--lg-borderRadius),
-      var(--Button--lg-height)
+      var(--button-size-lg-font-size),
+      var(--button-size-lg-font-lineHeight),
+      var(--button-size-lg-top-right-border-radius),
+      var(--button-size-lg-top-left-border-radius),
+      var(--button-size-lg-bottom-right-border-radius),
+      var(--button-size-lg-bottom-left-border-radius),
+      var(--button-size-lg-height),
+      var(--button-size-lg-paddingTop),
+      var(--button-size-lg-paddingBottom),
+      var(--button-size-lg-paddingLeft),
+      var(--button-size-lg-paddingRight),
+      var(--button-size-lg-marginTop),
+      var(--button-size-lg-marginBottom),
+      var(--button-size-lg-marginLeft),
+      var(--button-size-lg-marginRight),
+      var(--button-size-lg-minWith),
+      var(--button-size-lg-icon-size),
+      var(--button-size-lg-icon-margin)
     );
 
     &.#{$ns}Button--iconOnly {
@@ -252,15 +771,6 @@
     }
   }
 
-  @include button-size(
-    var(--Button-paddingY),
-    var(--Button-paddingX),
-    var(--Button-fontSize),
-    var(--Button-lineHeight),
-    var(--Button-borderRadius),
-    var(--Button-height)
-  );
-
   @include hover-focus {
     // color: var(--text-color);
     text-decoration: none;
@@ -274,13 +784,8 @@
 
   &.is-disabled,
   &:disabled {
-    // opacity: var(--Button-onDisabled-opacity);
-    filter: grayscale(100%);
     box-shadow: none;
     cursor: not-allowed;
-    color: var(--text--muted-color);
-    border: var(--Button-borderWidth) solid var(--Button-onDisabled-borderColor);
-    background: var(--Button-onDisabled-bg);
 
     & > svg,
     & > svg path {
@@ -293,35 +798,72 @@
   }
 
   &--link {
-    width: auto;
-    min-width: auto;
-    font-weight: var(--fontWeightNormal);
-    color: var(--Button--link-color);
-    text-decoration: var(--link-decoration);
-    border: none;
-    height: auto;
+    @include button-variant(
+      var(--button-link-default-bg-color),
+      var(--button-link-default-font-color),
+      var(--button-link-default-top-border-color),
+      var(--button-link-default-right-border-color),
+      var(--button-link-default-bottom-border-color),
+      var(--button-link-default-left-border-color),
+      var(--button-link-default-top-border-width),
+      var(--button-link-default-right-border-width),
+      var(--button-link-default-bottom-border-width),
+      var(--button-link-default-left-border-width),
+      var(--button-link-default-top-border-style),
+      var(--button-link-default-right-border-style),
+      var(--button-link-default-bottom-border-style),
+      var(--button-link-default-left-border-style),
+      var(--button-link-default-shadow),
+      var(--button-link-hover-bg-color),
+      var(--button-link-hover-font-color),
+      var(--button-link-hover-top-border-color),
+      var(--button-link-hover-right-border-color),
+      var(--button-link-hover-bottom-border-color),
+      var(--button-link-hover-left-border-color),
+      var(--button-link-hover-top-border-width),
+      var(--button-link-hover-right-border-width),
+      var(--button-link-hover-bottom-border-width),
+      var(--button-link-hover-left-border-width),
+      var(--button-link-hover-top-border-style),
+      var(--button-link-hover-right-border-style),
+      var(--button-link-hover-bottom-border-style),
+      var(--button-link-hover-left-border-style),
+      var(--button-link-hover-shadow),
+      var(--button-link-active-bg-color),
+      var(--button-link-active-font-color),
+      var(--button-link-active-top-border-color),
+      var(--button-link-active-right-border-color),
+      var(--button-link-active-bottom-border-color),
+      var(--button-link-active-left-border-color),
+      var(--button-link-active-top-border-width),
+      var(--button-link-active-right-border-width),
+      var(--button-link-active-bottom-border-width),
+      var(--button-link-active-left-border-width),
+      var(--button-link-active-top-border-style),
+      var(--button-link-active-right-border-style),
+      var(--button-link-active-bottom-border-style),
+      var(--button-link-active-left-border-style),
+      var(--button-link-active-shadow),
+      var(--button-link-disabled-bg-color),
+      var(--button-link-disabled-font-color),
+      var(--button-link-disabled-top-border-color),
+      var(--button-link-disabled-right-border-color),
+      var(--button-link-disabled-bottom-border-color),
+      var(--button-link-disabled-left-border-color),
+      var(--button-link-disabled-top-border-width),
+      var(--button-link-disabled-right-border-width),
+      var(--button-link-disabled-bottom-border-width),
+      var(--button-link-disabled-left-border-width),
+      var(--button-link-disabled-top-border-style),
+      var(--button-link-disabled-right-border-style),
+      var(--button-link-disabled-bottom-border-style),
+      var(--button-link-disabled-left-border-style),
+      var(--button-link-disabled-shadow)
+    );
     padding: 0;
-
-    @include hover-focus {
-      color: var(--Button--link-onHover-color);
-      box-shadow: none;
-    }
-
-    @include hover-active {
-      color: var(--Button--link-onActive-color);
-      box-shadow: none;
-    }
-
-    &:disabled,
-    &.is-disabled {
-      color: var(--text--muted-color);
-      border: none;
-      background: var(--Button--link-onDisabled-backgroundColor);
-
-      @include hover-active {
-        color: var(--text--muted-color);
-      }
-    }
+    margin: 0;
+    height: auto;
+    line-height: auto;
   }
 
   &--block {

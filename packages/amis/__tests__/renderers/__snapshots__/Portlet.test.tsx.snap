@@ -47,7 +47,7 @@ exports[`Renderer:portlet 1`] = `
                   class="cxd-toolbar"
                 >
                   <button
-                    class="cxd-Button cxd-Button--link cxd-Button--sm"
+                    class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                     type="button"
                   >
                     <span>
@@ -59,7 +59,7 @@ exports[`Renderer:portlet 1`] = `
                   class="cxd-tab-toolbar"
                 >
                   <button
-                    class="cxd-Button cxd-Button--link cxd-Button--sm"
+                    class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                     type="button"
                   >
                     <span>
@@ -70,7 +70,7 @@ exports[`Renderer:portlet 1`] = `
                     class="cxd-DropDown "
                   >
                     <button
-                      class="cxd-Button cxd-Button--link cxd-Button--sm"
+                      class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                     >
                       <i
                         class="m-r-xs fa fa-ellipsis-h"

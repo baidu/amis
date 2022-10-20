@@ -119,13 +119,13 @@ exports[`Renderer:condition-builder 1`] = `
                               class="cxd-ButtonGroup"
                             >
                               <button
-                                class="cxd-Button cxd-Button--link cxd-Button--xs"
+                                class="cxd-Button cxd-Button--link cxd-Button--size-xs"
                                 type="button"
                               >
                                 添加条件
                               </button>
                               <button
-                                class="cxd-Button cxd-Button--link cxd-Button--xs"
+                                class="cxd-Button cxd-Button--link cxd-Button--size-xs"
                                 type="button"
                               >
                                 添加条件组
@@ -153,7 +153,7 @@ exports[`Renderer:condition-builder 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>

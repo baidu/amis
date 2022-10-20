@@ -155,7 +155,7 @@ exports[`Renderer:anchorNav 1`] = `
                       class="cxd-Panel-btnToolbar cxd-Panel-footer"
                     >
                       <button
-                        class="cxd-Button cxd-Button--primary"
+                        class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                         type="submit"
                       >
                         <span>
@@ -317,7 +317,7 @@ exports[`Renderer:anchorNav 1`] = `
                       class="cxd-Panel-btnToolbar cxd-Panel-footer"
                     >
                       <button
-                        class="cxd-Button cxd-Button--primary"
+                        class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                         type="submit"
                       >
                         <span>
@@ -522,7 +522,7 @@ exports[`Renderer:anchorNav horizontal 1`] = `
                       class="cxd-Panel-btnToolbar cxd-Panel-footer"
                     >
                       <button
-                        class="cxd-Button cxd-Button--primary"
+                        class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                         type="submit"
                       >
                         <span>

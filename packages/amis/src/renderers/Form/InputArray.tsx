@@ -45,7 +45,7 @@ export default class InputArrayControl extends React.Component<InputArrayProps> 
   }
 
   validate(args: Array<any>) {
-    return this.comboInstance ? this.comboInstance.validate(...args) : null;
+    return this.comboInstance ? this.comboInstance.validate() : null;
   }
 
   render() {

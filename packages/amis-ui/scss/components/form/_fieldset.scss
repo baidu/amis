@@ -31,7 +31,7 @@
 }
 
 fieldset.#{$ns}Collapse {
-  margin-bottom: var(--Form-item-gap);
+  border: none;
   > legend {
     font-weight: var(--fontWeightNormal);
     padding: var(--gap-xs) 0;
@@ -44,8 +44,9 @@ fieldset.#{$ns}Collapse {
     cursor: pointer;
     border-bottom: none !important;
     background: transparent;
-    display: flex;
-    flex-direction: row;
+    display: inline-flex !important;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
     // width: 100%;
     &:hover {
       background: transparent;

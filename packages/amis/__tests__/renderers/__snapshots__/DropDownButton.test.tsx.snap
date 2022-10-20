@@ -6,7 +6,7 @@ exports[`Renderer:dropdown-button 1`] = `
     class="cxd-DropDown  is-opened show"
   >
     <button
-      class="cxd-Button cxd-Button--primary"
+      class="cxd-Button cxd-Button--primary cxd-Button--size-default"
     >
       <span
         class="cxd-DropDown-caret"
@@ -53,7 +53,7 @@ exports[`Renderer:dropdown-button 2`] = `
     class="cxd-DropDown  show"
   >
     <button
-      class="cxd-Button cxd-Button--primary"
+      class="cxd-Button cxd-Button--primary cxd-Button--size-default"
     >
       <span
         class="cxd-DropDown-caret"

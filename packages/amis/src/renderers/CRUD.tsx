@@ -2274,7 +2274,8 @@ export class CRUDRenderer extends CRUD {
     query?: any,
     ctx?: any,
     silent?: boolean,
-    replace?: boolean
+    replace?: boolean,
+    args?: any
   ) {
     const scoped = this.context as IScopedContext;
     if (subpath) {
@@ -2284,21 +2285,21 @@ export class CRUDRenderer extends CRUD {
       );
     }
 
-    return super.reload(
-      subpath,
-      omit(query, 'resetPage'),
-      replace,
-      query.resetPage ?? true
-    );
+    return super.reload(subpath, query, replace, args?.resetPage ?? true);
   }
 
-  receive(values: any, subPath?: string, replace?: boolean) {
+  receive(
+    values: any,
+    subPath?: string,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);
     }
 
-    return super.receive(values, undefined, replace);
+    return super.receive(values, undefined, replace, resetPage);
   }
 
   reloadTarget(target: string, data: any) {

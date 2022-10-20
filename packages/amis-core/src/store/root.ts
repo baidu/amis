@@ -8,7 +8,8 @@ export const RootStore = ServiceStore.named('RootStore')
     runtimeErrorStack: types.frozen(),
     query: types.frozen(),
     visibleState: types.optional(types.frozen(), {}),
-    disableState: types.optional(types.frozen(), {})
+    disableState: types.optional(types.frozen(), {}),
+    staticState: types.optional(types.frozen(), {})
   })
   .views(self => ({
     get downStream() {
@@ -45,6 +46,13 @@ export const RootStore = ServiceStore.named('RootStore')
         [id]: value
       };
       self.disableState = state;
+    },
+    setStatic(id: string, value: boolean) {
+      const state = {
+        ...self.staticState,
+        [id]: value
+      };
+      self.staticState = state;
     }
   }));
 

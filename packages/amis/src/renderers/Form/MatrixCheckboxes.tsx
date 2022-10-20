@@ -15,6 +15,7 @@ import {Checkbox, Spinner} from 'amis-ui';
 import {autobind, setVariable, createObject} from 'amis-core';
 import {ApiObject, ActionObject} from 'amis-core';
 import {FormBaseControlSchema, SchemaApi} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Matrix 选择控件。适合做权限勾选。
@@ -289,7 +290,7 @@ export default class MatrixCheckbox extends React.Component<
     this.props.onChange(value.concat());
   }
 
-  renderInput() {
+  renderInput(forceDisabled = false) {
     const {columns, rows} = this.state;
     const {rowLabel, disabled, classnames: cx, multiple} = this.props;
 
@@ -324,7 +325,7 @@ export default class MatrixCheckbox extends React.Component<
                     <td key={x} className="text-center">
                       <Checkbox
                         type={multiple ? 'checkbox' : 'radio'}
-                        disabled={disabled}
+                        disabled={forceDisabled || disabled}
                         checked={
                           !!(value[x] && value[x][y] && value[x][y].checked)
                         }
@@ -343,9 +344,22 @@ export default class MatrixCheckbox extends React.Component<
     );
   }
 
+  renderStatic(displayValue = '-') {
+    const {className, render, classnames: cx} = this.props;
+    const {error} = this.state;
+    return (
+      <div key="input" className={cx('MatrixControl', className || '')}>
+        {error
+          ? displayValue
+          : this.renderInput(true)
+        }
+      </div>
+    );
+  }
+
+  @supportStatic()
   render() {
     const {className, render, classnames: cx} = this.props;
-
     const {error, loading} = this.state;
 
     return (

@@ -382,5 +382,7 @@ register('en-US', {
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
   'JSONSchema.array_items': 'Items',
-  'TimeNow': 'Now'
+  'TimeNow': 'Now',
+  'IconSelect.all': 'All',
+  'IconSelect.choice': 'Icon selection'
 });

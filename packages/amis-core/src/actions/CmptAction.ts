@@ -9,6 +9,8 @@ import {
 export interface ICmptAction extends ListenerAction {
   actionType:
     | 'setValue'
+    | 'static'
+    | 'nonstatic'
     | 'show'
     | 'hidden'
     | 'enabled'
@@ -49,6 +51,11 @@ export class CmptAction implements RendererAction {
         action.componentId,
         action.actionType === 'show'
       );
+    } else if (['static', 'nonstatic'].includes(action.actionType)) {
+      return renderer.props.topStore.setStatic(
+        action.componentId,
+        action.actionType === 'static'
+      );
     } else if (['enabled', 'disabled'].includes(action.actionType)) {
       return renderer.props.topStore.setDisable(
         action.componentId,
@@ -73,10 +80,11 @@ export class CmptAction implements RendererAction {
     if (action.actionType === 'reload') {
       return component?.reload?.(
         undefined,
-        action.args,
+        action.data,
         undefined,
         undefined,
-        dataMergeMode === 'override'
+        dataMergeMode === 'override',
+        action.args
       );
     }
 

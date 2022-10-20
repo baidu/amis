@@ -132,6 +132,10 @@
       width: var(--InputRange-handle-icon-width);
       height: var(--InputRange-handle-icon-height);
       top: 0;
+
+      g path {
+        fill: var(--colors-brand-9);
+      }
     }
   }
 

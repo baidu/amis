@@ -26,6 +26,8 @@
           .icon {
             width: px2rem(9px);
             height: px2rem(9px);
+            position: relative; 
+            top: 0;
           }
         }
       }
