@@ -3287,5 +3287,16 @@ extendLocale('en-US', {
   'f5c5e3d69daee06ea1606378ef466765': 'Member assignment',
   '697af73997072e0ce9ee65b15a7b3715': 'Reset PageNo',
   'd7bf42dd6e66f2818f9a232603c4a53b':
-    'When "Yes" is selected, the crud component will request the first page of data'
+    'When "Yes" is selected, the crud component will request the first page of data',
+  '3e573fd37473d789211ee44335d82fad': '',
+  '905407c57ccd033cb6bd64bfad20a8c7': '',
+  '0d1f68afa19f3f3dd88e28d17c98ddf9': '',
+  'e052287273ad39a1d3fa9fa3decb5fd9': '',
+  '506f28f48dbebd5d19e19dfc721e13be': '',
+  '0e35b091e18032508758899735664df7': '',
+  '34d361256526b04909e064c29d9a9b76': '',
+  'd2e930293da37452638759e17d771adf': '',
+  'b535bea11c97ec5588b1494799de4d60': '',
+  'f7784642f42d33f506ba05f3daefc3c4': '',
+  'a8797a840f3c0bbb5297aada95f9b13a': ''
 });
