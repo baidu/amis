@@ -4,6 +4,7 @@ import cx from 'classnames';
 import {filterDate, parseDuration} from 'amis-core';
 import InputDateRange, {DateRangeControlSchema} from './InputDateRange';
 import {DateRangePicker} from 'amis-ui';
+import {supportStatic} from './StaticHoc';
 
 /**
  * YearRange 年份范围控件
@@ -15,6 +16,7 @@ export interface YearRangeControlSchema
 }
 
 export default class YearRangeControl extends InputDateRange {
+  @supportStatic()
   render() {
     const {
       className,

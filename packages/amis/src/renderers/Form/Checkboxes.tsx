@@ -11,6 +11,7 @@ import {
 import type {ActionObject, Api, OptionsControlProps, Option} from 'amis-core';
 import {Checkbox, Icon} from 'amis-ui';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * 复选框
@@ -322,6 +323,7 @@ export default class CheckboxesControl extends React.Component<
     return result;
   }
 
+  @supportStatic()
   render() {
     const {
       className,

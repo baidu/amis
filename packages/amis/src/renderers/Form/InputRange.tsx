@@ -1,19 +1,21 @@
-import React, {CSSProperties, ReactNode} from 'react';
+import React, {ReactNode} from 'react';
 import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 import isEqual from 'lodash/isEqual';
 import forEach from 'lodash/forEach';
 
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
-import {Range as InputRange} from 'amis-ui';
-import {NumberInput} from 'amis-ui';
-import {Icon} from 'amis-ui';
-import {stripNumber} from 'amis-core';
-import {autobind, createObject} from 'amis-core';
-import {filter} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  resolveEventData,
+  autobind,
+  stripNumber,
+  filter,
+  ActionObject
+} from 'amis-core';
+import {Range as InputRange, NumberInput, Icon} from 'amis-ui';
 import {FormBaseControlSchema, SchemaObject} from '../../Schema';
-import {ActionObject} from 'amis-core';
-import {resolveEventData} from 'amis-core';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Range
@@ -624,6 +626,7 @@ export default class RangeControl extends React.PureComponent<
       : value;
   }
 
+  @supportStatic()
   render() {
     const {value} = this.state;
     const props: RangeItemProps = {

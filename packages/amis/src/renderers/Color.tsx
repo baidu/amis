@@ -49,7 +49,7 @@ export class ColorField extends React.Component<ColorProps, object> {
           style={{backgroundColor: color || defaultColor}}
         />
         {showValue ? (
-          <span className={cx('ColorField-value')}>{color}</span>
+          <span className={cx('ColorField-value')}>{color || defaultColor}</span>
         ) : null}
       </div>
     );

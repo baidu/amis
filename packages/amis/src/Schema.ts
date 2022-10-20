@@ -128,6 +128,10 @@ import {
   SchemaExpression
 } from 'amis-core';
 import type {FormSchemaBase} from 'amis-core/lib/renderers/Form';
+import {MultilineTextSchema} from './renderers/MultilineText';
+import {DateRangeSchema} from './renderers/DateRange';
+import {PasswordSchema} from './renderers/Password';
+import {WordsSchema} from './renderers/Words';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -163,6 +167,7 @@ export type SchemaType =
   | 'static-time' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'month'
   | 'static-month' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
+  | 'date-range'
   | 'dialog'
   | 'spinner'
   | 'divider'
@@ -348,6 +353,10 @@ export type SchemaType =
   | 'grid-nav'
   | 'users-select'
   | 'tag'
+  | 'tags'
+  | 'words'
+  | 'password'
+  | 'multiline-text'
 
   // 原生 input 类型
   | 'native-date'
@@ -480,7 +489,11 @@ export type SchemaObject =
   | TabsTransferPickerControlSchema
   | TreeControlSchema
   | TreeSelectControlSchema
-  | UserSelectControlSchema;
+  | UserSelectControlSchema
+  | DateRangeSchema
+  | MultilineTextSchema
+  | PasswordSchema
+  | WordsSchema;
 
 export type SchemaCollection =
   | SchemaObject

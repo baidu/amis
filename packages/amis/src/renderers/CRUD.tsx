@@ -2288,13 +2288,18 @@ export class CRUDRenderer extends CRUD {
     return super.reload(subpath, query, replace, args?.resetPage ?? true);
   }
 
-  receive(values: any, subPath?: string, replace?: boolean) {
+  receive(
+    values: any,
+    subPath?: string,
+    replace?: boolean,
+    resetPage?: boolean
+  ) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);
     }
 
-    return super.receive(values, undefined, replace);
+    return super.receive(values, undefined, replace, resetPage);
   }
 
   reloadTarget(target: string, data: any) {

@@ -176,6 +176,13 @@
   }
 }
 
+.#{$ns}Form-static {
+  .#{$ns}Switch-option {
+    vertical-align: initial;
+    color: var(--text--muted-color);
+  }
+}
+
 .#{$ns}SwitchControl {
   padding-top: calc((var(--Form-input-height) - var(--Switch-height)) / 2);
 
