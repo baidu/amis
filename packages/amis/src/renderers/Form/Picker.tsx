@@ -464,11 +464,11 @@ export default class PickerControl extends React.PureComponent<
               return;
             } else if (
               selectedItems
-                .map(item => item.id)
+                .map(item => item[valueField || 'value'])
                 .sort()
                 .join(',') ===
               selectedOptions
-                .map(item => item.id)
+                .map(item => item[valueField || 'value'])
                 .sort()
                 .join(',')
             ) {
