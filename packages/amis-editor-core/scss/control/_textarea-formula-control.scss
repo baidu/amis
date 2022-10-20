@@ -1,0 +1,71 @@
+.ae-TextareaFormulaControl {
+  position: relative;
+  &-input {
+    textarea {
+      resize: none;
+    }
+  }
+  
+  .ae-TextareaResultBox {
+    width: 100%;
+    height: 100px;
+    display: block;
+    border: 1px solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    background: var(--Form-input-bg);
+    font-size: var(--Form-input-fontSize);
+    overflow-y: auto;
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+    }
+  
+    &:hover {
+      border-color: var(--Form-input-onHover-borderColor);
+    }
+
+    &-content {
+      position: relative;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    &-input {
+      width: 100%;
+      min-height: 100%;
+      display: inline-block;
+      padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+        /* 避免和 btn 重叠 */
+      padding-right: calc(var(--Form-input-paddingX) + var(--Form-fontSize));
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
+    &-dropdown {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+    }
+
+    &-menus {
+      min-width: 80px;
+      right: 0;
+      left: auto;
+    }
+  
+    &-expression {
+      display: inline-block;
+      cursor: pointer;
+      padding: 0 4px;
+      margin: 0 1px 1px;
+      color: white;
+      background-color: $editor-active-color;
+      border-radius: var(--Form-input-borderRadius);
+      .icon {
+        margin-left: 2px;
+        width: 8px;
+      }
+    }
+  }
+}
+
