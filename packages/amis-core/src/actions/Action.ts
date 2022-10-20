@@ -185,10 +185,13 @@ export const runAction = async (
   // 需要保持渲染器数据链完整
   // 注意：并行ajax请求结果必须通过event取值
   const mergeData = createObject(
-    renderer.props.data.__super
-      ? createObject(renderer.props.data.__super, {event})
-      : {event},
-    extendObject(renderer.props.data, event.data)
+    createObject(
+      renderer.props.data.__super
+        ? createObject(renderer.props.data.__super, {event})
+        : {event},
+      renderer.props.data
+    ),
+    event.data
   );
 
   // 兼容一下1.9.0之前的版本
