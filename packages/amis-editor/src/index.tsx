@@ -149,6 +149,7 @@ import './renderer/ValidationItem';
 import './renderer/SwitchMoreControl';
 import './renderer/StatusControl';
 import './renderer/FormulaControl';
+import './renderer/ExpressionFormulaControl';
 import './renderer/textarea-formula/TextareaFormulaControl';
 import './renderer/DateShortCutControl';
 import './renderer/BadgeControl';

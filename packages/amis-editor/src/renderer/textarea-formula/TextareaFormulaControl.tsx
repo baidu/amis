@@ -17,6 +17,12 @@ import {autobind, FormControlProps, Schema} from 'amis-core';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
 import FormulaPicker from './FormulaPicker';
 
+export function renderFormulaValue(item: any) {
+  const html = {__html: item.html};
+  // bca-disable-next-line
+  return <span dangerouslySetInnerHTML={html}></span>;
+}
+
 export interface TextareaFormulaControlProps extends FormControlProps {
   height?: number; // 输入框的高度
 
@@ -288,7 +294,7 @@ export default class TextareaFormulaControl extends React.Component<
         placement="bottom"
         key={value + idx}
         tooltip={{
-          children: () => this.renderFormulaValue(highlightValue)
+          children: () => renderFormulaValue(highlightValue)
         }}
       >
         <div
@@ -312,13 +318,6 @@ export default class TextareaFormulaControl extends React.Component<
         </div>
       </TooltipWrapper>
     );
-  }
-
-  @autobind
-  renderFormulaValue(item: any) {
-    const html = {__html: item.html};
-    // bca-disable-next-line
-    return <span dangerouslySetInnerHTML={html}></span>;
   }
 
   @autobind
