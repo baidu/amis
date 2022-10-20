@@ -213,6 +213,7 @@ export const runAction = async (
   const args = dataMapping(actionConfig.args, mergeData, key =>
     ['adaptor', 'responseAdaptor', 'requestAdaptor'].includes(key)
   );
+  const afterMappingData = dataMapping(actionConfig.data, mergeData);
 
   // 动作数据
   const actionData =
@@ -220,18 +221,18 @@ export const runAction = async (
       ? omit(
           {
             ...args, // 兼容历史（动作配置与数据混在一起的情况）
-            ...(actionConfig.data ?? {})
+            ...(afterMappingData ?? {})
           },
           getOmitActionProp(actionConfig.actionType)
         )
-      : actionConfig.data;
+      : afterMappingData;
 
   // 默认为事件数据
   const data =
     args && !Object.keys(args).length && actionConfig.data === undefined // 兼容历史
       ? {}
       : actionData !== undefined
-      ? dataMapping(actionData, mergeData)
+      ? actionData
       : event.data;
 
   await actionInstrance.run(
