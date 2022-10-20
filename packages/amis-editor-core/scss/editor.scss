@@ -1453,6 +1453,11 @@ div.ae-DragImage {
   height: auto;
   width: 100%;
   border: 1px solid $borderColor;
+  > div:nth-child(2),
+  div[data-renderer='drawer'] {
+    flex-basis: auto;
+    overflow: visible;
+  }
 }
 
 .ae-EditableRenderers {
