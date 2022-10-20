@@ -297,11 +297,11 @@ export class Input extends React.Component<RangeItemProps, any> {
    * @param e React.ChangeEvent
    */
   @autobind
-  onChange(value: number) {
-    const {multiple, value: originValue, type, min} = this.props;
+  handleInputNumberChange(value: number) {
+    const {multiple, value: originValue, type, min, onChange} = this.props;
     const _value = this.getValue(value, type);
 
-    this.props.onChange(
+    onChange?.(
       multiple
         ? {...(originValue as MultipleValue), [type]: _value}
         : value ?? min
@@ -457,7 +457,7 @@ export class Input extends React.Component<RangeItemProps, any> {
           step={step}
           max={this.checkNum(max)}
           min={this.checkNum(min)}
-          onChange={this.onChange}
+          onChange={this.handleInputNumberChange}
           disabled={disabled}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
@@ -574,7 +574,7 @@ export default class RangeControl extends React.PureComponent<
    * @param value
    */
   @autobind
-  async onChange(value: FormatValue) {
+  async handleChange(value: FormatValue) {
     this.setState({value: this.getValue(value)});
     const {onChange, dispatchEvent} = this.props;
     const result = this.getFormatValue(value);
@@ -632,7 +632,7 @@ export default class RangeControl extends React.PureComponent<
     const props: RangeItemProps = {
       ...this.props,
       value,
-      onChange: this.onChange,
+      onChange: this.handleChange,
       onAfterChange: this.onAfterChange
     };
 
