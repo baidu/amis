@@ -1,4 +1,5 @@
 import omit from 'lodash/omit';
+import {IFormStore} from '../store';
 import {Api} from '../types';
 import {normalizeApiResponseData} from '../utils/api';
 import {ServerError} from '../utils/errors';
@@ -45,6 +46,20 @@ export class AjaxAction implements RendererAction {
     if (!renderer.props.env?.fetcher) {
       throw new Error('env.fetcher is required!');
     }
+
+    // 如果在Form中，触发了 submit 事件，则先需要校验通过之后再调接口
+    if (
+      this.fetcherType === 'submit' &&
+      renderer.props.store?.storeType === 'FormStore'
+    ) {
+      const store = renderer.props.store as IFormStore;
+      const valid = await store.validate();
+
+      if (!valid) {
+        return;
+      }
+    }
+
     if (this.fetcherType === 'download' && action.actionType === 'download') {
       if ((action as any).args?.api) {
         (action as any).args.api.responseType = 'blob';
@@ -128,4 +143,5 @@ export class AjaxAction implements RendererAction {
 
 registerAction('ajax', new AjaxAction());
 
+registerAction('submit', new AjaxAction('submit'));
 registerAction('download', new AjaxAction('download'));
