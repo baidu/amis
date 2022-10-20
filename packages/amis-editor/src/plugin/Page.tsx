@@ -265,7 +265,7 @@ export class PagePlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              ...getSchemaTpl('style:common'),
+              ...getSchemaTpl('style:common', ['layout']),
               getSchemaTpl('style:classNames', {
                 isFormItem: false,
                 schema: [
