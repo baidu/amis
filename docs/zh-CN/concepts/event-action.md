@@ -368,9 +368,9 @@ order: 9
             },
             {
               actionType: 'toast',
-              expression: '${responseResult.responseStatus === 0}',
+              expression: '${event.data.responseResult.responseStatus === 0}',
               args: {
-                msg: '${responseResult|json}'
+                msg: '${event.data.responseResult|json}'
               }
             }
           ]
@@ -408,9 +408,9 @@ order: 9
             },
             {
               actionType: 'toast',
-              expression: '${responseResult.responseStatus === 0}',
+              expression: '${event.data.responseResult.responseStatus === 0}',
               args: {
-                msg: '${responseResult|json}'
+                msg: '${event.data.responseResult|json}'
               }
             }
           ]
@@ -433,9 +433,9 @@ order: 9
 
 **其他属性**
 
-| 属性名    | 类型     | 默认值 | 说明                                                                                                                               |
-| --------- | -------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| outputVar | `string` | -      | 请求响应结果缓存在`responseResult`或`{outputVar}`（`< 2.3.2 及以下版本 为 event.data.responseResult`或`event.data.{outputVar}`）。 |
+| 属性名    | 类型     | 默认值 | 说明                                                                          |
+| --------- | -------- | ------ | ----------------------------------------------------------------------------- |
+| outputVar | `string` | -      | 请求响应结果缓存在`${event.data.responseResult}`或`${event.data.{outputVar}}` |
 
 请求响应结果的结构如下：
 
@@ -1994,7 +1994,7 @@ order: 9
           actions: [
             {
               actionType: 'reload',
-              args: {
+              data: {
                 myname: '${myrole}', // 从事件数据中取
               }
             },
@@ -2036,7 +2036,7 @@ order: 9
           actions: [
             {
               actionType: 'reload',
-              args: {
+              data: {
                 myrole: '${myrole}',
                 age: '${age}'
               }
@@ -2074,7 +2074,7 @@ order: 9
           actions: [
             {
               actionType: 'reload',
-              args: {
+              data: {
                 job: '${myrole}'
               }
             },
@@ -2245,7 +2245,6 @@ registerAction('my-action', new MyAction());
               {
                 actionType: 'loop',
                 args: {
-                  level: 3,
                   loopName: '${loopName}'
                 },
                 children: [
@@ -2300,8 +2299,7 @@ registerAction('my-action', new MyAction());
                 preventDefault: false,
                 stopPropagation: false,
                 args: {
-                  loopName: '${loopName}',
-                  level: 3
+                  loopName: '${loopName}'
                 },
                 children: [
                   {
@@ -2321,8 +2319,7 @@ registerAction('my-action', new MyAction());
                   {
                     actionType: 'loop',
                     args: {
-                      loopName: '${loopName}',
-                      level: 3
+                      loopName: '${loopName}'
                     },
                     children: [
                       {
@@ -2653,7 +2650,7 @@ registerAction('my-action', new MyAction());
               {
                 actionType: 'toast',
                 args: {
-                  msg: 'var1:${var1|json}, var2:${var2|json}, var3:${var3|json}'
+                  msg: 'var1:${event.data.var1|json}, var2:${event.data.var2|json}, var3:${event.data.var3|json}'
                 }
               }
             ]
@@ -2675,7 +2672,7 @@ registerAction('my-action', new MyAction());
 
 从事件触发开始，整个数据流包含事件本身产生的事件数据和动作产生的动作数据，事件源头产生的数据在 AMIS 事件动作机制底层已经自动加入渲染器数据域，可以通过`xxx`直接获取（`< 2.3.2 及以下版本 为 event.data.xxx`），而部分动作产生的数据如何流动需要交互设计者进行介入，对于数据流动可以通过数据映射，将上一个动作产生的数据作为动作参数写入下一个动作。
 
-**传递数据**
+#### 传递数据
 
 通过 `data` 指定输入的参数数据（`< 2.3.2 及以下版本`通过`args`传递数据），它是一个键值对。
 
@@ -2744,7 +2741,7 @@ registerAction('my-action', new MyAction());
 }
 ```
 
-**引用 http 请求动作返回的数据**
+#### 引用 http 请求返回的数据
 
 http 请求动作执行结束后，后面的动作可以通过 `${responseResult}`或`${{outputVar}}`来获取请求响应结果，响应结果的结构定义参考[发送 http 请求](../../docs/concepts/event-action#发送-http-请求)。
 
@@ -2770,7 +2767,7 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
             {
               actionType: 'dialog',
               data: {
-                id: '${responseResult.responseData.id}'
+                id: '${event.data.responseResult.responseData.id}'
               },
               dialog: {
                 type: 'dialog',

@@ -183,15 +183,14 @@ export const runAction = async (
 ) => {
   // 用户可能，需要用到事件数据和当前域的数据，因此merge事件数据和当前渲染器数据
   // 需要保持渲染器数据链完整
+  // 注意：并行ajax请求结果必须通过event取值
   const mergeData = createObject(
-    event.data,
     renderer.props.data.__super
-      ? createObject(
-          renderer.props.data.__super,
-          createObject(renderer.props.data, {event})
-        )
-      : createObject(renderer.props.data, {event})
+      ? createObject(renderer.props.data.__super, {event})
+      : {event},
+    extendObject(renderer.props.data, event.data)
   );
+
   // 兼容一下1.9.0之前的版本
   const expression = actionConfig.expression ?? actionConfig.execOn;
 
@@ -214,24 +213,23 @@ export const runAction = async (
 
   // 动作数据
   const actionData =
-    actionConfig.data !== undefined
-      ? dataMapping(
-          omit(
-            {
-              ...(args ?? {}), // 兼容历史（动作配置与数据混在一起的情况）
-              ...(actionConfig.data ?? {})
-            },
-            getOmitActionProp(actionConfig.actionType)
-          ),
-          mergeData
+    args && Object.keys(args).length
+      ? omit(
+          {
+            ...args, // 兼容历史（动作配置与数据混在一起的情况）
+            ...(actionConfig.data ?? {})
+          },
+          getOmitActionProp(actionConfig.actionType)
         )
-      : event.data;
+      : actionConfig.data;
 
   // 默认为事件数据
   const data =
     args && !Object.keys(args).length && actionConfig.data === undefined // 兼容历史
       ? {}
-      : actionData;
+      : actionData !== undefined
+      ? dataMapping(actionData, mergeData)
+      : event.data;
 
   await actionInstrance.run(
     {
