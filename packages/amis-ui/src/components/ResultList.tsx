@@ -28,7 +28,7 @@ export interface ResultListProps extends ThemeProps, LocaleProps {
   searchable?: boolean;
   onSearch?: Function;
   valueField?: string;
-  labelField?: string
+  labelField?: string;
 }
 
 export interface ItemRenderStates {
@@ -47,10 +47,17 @@ export class ResultList extends React.Component<
   ResultListState
 > {
   static itemRender(option: Option, states: ItemRenderStates) {
-    return <span>{`${option.scopeLabel || ''}${option[states?.labelField || 'label']}`}</span>;
+    return (
+      <span>{`${option.scopeLabel || ''}${
+        option[states?.labelField || 'label']
+      }`}</span>
+    );
   }
 
-  static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender' | 'searchPlaceholder'> = {
+  static defaultProps: Pick<
+    ResultListProps,
+    'placeholder' | 'itemRender' | 'searchPlaceholder'
+  > = {
     placeholder: 'placeholder.selectData',
     itemRender: ResultList.itemRender,
     searchPlaceholder: ''
@@ -248,7 +255,11 @@ export class ResultList extends React.Component<
                   />
                 ) : null}
 
-                <label>
+                <label
+                  className={cx('Selections-label', {
+                    'is-invalid': option?.__unmatched
+                  })}
+                >
                   {itemRender(option, {
                     index,
                     disabled,
