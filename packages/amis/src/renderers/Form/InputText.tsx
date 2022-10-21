@@ -105,7 +105,7 @@ export interface TextControlSchema extends FormOptionsSchema {
   nativeInputClassName?: string;
 
   /** 在内容为空的时候清除值 */
-  clearValueOnEmpty: boolean;
+  clearValueOnEmpty?: boolean;
 }
 
 export type InputTextRendererEvent =
