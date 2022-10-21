@@ -114,7 +114,8 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
     return (
       <div
         className={cx(
-          `MultilineText`,
+          'MultilineText',
+          'relative',
           className
         )}
       >
@@ -126,6 +127,7 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
             height: `${maxRows * 20}px`,
             visibility: 'hidden',
             position: 'absolute',
+            width: '100%',
             zIndex: -99
           }}
         >{text}</div>
