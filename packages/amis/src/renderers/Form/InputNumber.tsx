@@ -18,6 +18,7 @@ import {
   ActionObject
 } from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * 数字输入框
@@ -283,18 +284,16 @@ export default class NumberControl extends React.Component<
     const prevUnitValue = this.state.unit;
     this.setState({unit: option.value}, () => {
       if (value) {
-        value = value.replace(prevUnitValue, '');
+        value = value.toString().replace(prevUnitValue, '');
         this.props.onChange(value + this.state.unit);
       }
     });
   }
 
   componentDidUpdate(prevProps: NumberProps) {
-    if (
-      !isNaN(this.props.value) &&
-      !isNaN(prevProps.value) &&
-      this.props.value !== prevProps.value
-    ) {
+    // 匹配 数字 + ?字符
+    const reg = /^([-+]?(([1-9]\d*\.?\d*)|(0\.\d*[1-9]))[^\d\.]*)$/;
+    if (reg.test(this.props.value) && this.props.value !== prevProps.value) {
       const unit = this.getUnit();
       this.setState({unit: unit});
     }
@@ -313,7 +312,18 @@ export default class NumberControl extends React.Component<
     }
     this.input.focus();
   }
-  render(): JSX.Element {
+
+  renderStatic(displayValue = '-') {
+    const {unit, value} = this.props;
+    const finalValue =
+      unit && value && typeof value === 'string'
+        ? value.replace(unit, '')
+        : value;
+    return <>{finalValue || displayValue}</>;
+  }
+
+  @supportStatic()
+  render() {
     const {
       className,
       classPrefix: ns,

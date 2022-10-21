@@ -34,6 +34,7 @@ import 'tinymce/plugins/template';
 import 'tinymce/plugins/nonbreaking';
 import 'tinymce/plugins/emoticons';
 import 'tinymce/plugins/emoticons/js/emojis';
+import 'tinymce/plugins/quickbars/plugin';
 import {LocaleProps} from 'amis-core';
 
 interface TinymceEditorProps extends LocaleProps {
@@ -89,12 +90,15 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         'table',
         'emoticons',
         'template',
-        'help'
+        'help',
+        'quickbars'
       ],
       toolbar:
         'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | ' +
         'bullist numlist outdent indent | link image | preview media | ' +
         'fontfamily fontsize forecolor backcolor emoticons | print help',
+      quickbars_selection_toolbar: 'bold italic | link h2 h3 blockquote',
+      quickbars_insert_toolbar: 'quickimage quicktable',
       menu: {
         file: {
           title: 'File',

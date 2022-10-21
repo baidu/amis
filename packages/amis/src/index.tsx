@@ -145,6 +145,10 @@ import './renderers/GridNav';
 import './renderers/TooltipWrapper';
 import './renderers/Tag';
 import './renderers/Table2/index';
+import './renderers/Words';
+import './renderers/Password';
+import './renderers/DateRange';
+import './renderers/MultilineText';
 
 import './compat';
 import './schemaExtend';

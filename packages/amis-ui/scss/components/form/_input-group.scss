@@ -148,6 +148,9 @@
       color: var(--primary);
     }
   }
+  .#{$ns}Form-static {
+    margin-right: var(--gap-xs);
+  }
 }
 
 .#{$ns}InputGroup:not(.is-inline) {

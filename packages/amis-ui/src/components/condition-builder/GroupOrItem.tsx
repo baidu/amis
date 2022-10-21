@@ -33,6 +33,7 @@ export interface CBGroupOrItemProps extends ThemeProps {
   popOverContainer?: any;
   renderEtrValue?: any;
   selectMode?: 'list' | 'tree';
+  isCollapsed?: boolean;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -81,7 +82,8 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       formula,
       popOverContainer,
       selectMode,
-      renderEtrValue
+      renderEtrValue,
+      isCollapsed
     } = this.props;
 
     return (
@@ -110,6 +112,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 </a>
               ) : null}
               <ConditionGroup
+                isCollapsed={isCollapsed}
                 draggable={draggable}
                 disabled={disabled}
                 searchable={searchable}

@@ -13,6 +13,7 @@ import {
 } from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Tree 下拉选择框。
@@ -178,6 +179,7 @@ export default class TreeControl extends React.Component<TreeProps> {
     }
   }
 
+  @supportStatic()
   render() {
     const {
       className,
