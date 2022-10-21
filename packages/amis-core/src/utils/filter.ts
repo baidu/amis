@@ -100,13 +100,16 @@ extendsFilters({
       ? JSON.stringify(input, null, parseInt(tabSize as string, 10))
       : JSON.stringify(input),
   toJson: input => {
-    let ret;
-    try {
-      ret = JSON.parse(input);
-    } catch (e) {
-      ret = null;
+    // 如果不是字符串，不处理
+    if (typeof input !== 'string') {
+      return input;
     }
-    return ret;
+
+    try {
+      return JSON.parse(input);
+    } catch (e) {
+      return null;
+    }
   },
   toInt: input => (typeof input === 'string' ? parseInt(input, 10) : input),
   toFloat: input => (typeof input === 'string' ? parseFloat(input) : input),

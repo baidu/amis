@@ -11,6 +11,7 @@ import truncate from 'lodash/truncate';
 import uniqWith from 'lodash/uniqWith';
 import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
+import isPlainObject from 'lodash/isPlainObject';
 import {EvaluatorOptions, FilterContext, FilterMap, FunctionMap} from './types';
 
 export class Evaluator {
@@ -1913,6 +1914,40 @@ export class Evaluator {
    */
   fnUNIQ(arr: any[], field?: string) {
     return field ? uniqBy(arr, field) : uniqWith(arr, isEqual);
+  }
+
+  /**
+   * 判断是否为类型支持：string, number, array, date, plain-object。
+   *
+   * @param {string} 判断对象
+   * @namespace 其他
+   * @example ISTYPE([{a: '1'}, {b: '2'}, {a: '1'}], 'array')
+   * @returns {boolean} 结果结果
+   */
+  fnISTYPE(
+    target: any,
+    type: 'string' | 'number' | 'array' | 'date' | 'plain-object' | 'nil'
+  ) {
+    switch (type) {
+      case 'string':
+        return typeof target === 'string';
+
+      case 'number':
+        return typeof target === 'number';
+
+      case 'array':
+        return Array.isArray(target);
+
+      case 'date':
+        return !!(target && target instanceof Date);
+
+      case 'plain-object':
+        return isPlainObject(target);
+
+      case 'nil':
+        return !target;
+    }
+    return false;
   }
 }
 
