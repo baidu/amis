@@ -40,7 +40,9 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       popOverContainer,
       placeholder,
       maxTagCount,
-      overflowTagPopover
+      overflowTagPopover,
+      itemHeight,
+      virtualThreshold
     } = this.props;
     const {inputValue, searchResult} = this.state;
 

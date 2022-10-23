@@ -13,6 +13,7 @@ import {autobind, guid} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import {BaseSelection, BaseSelectionProps} from './Selection';
 import TransferSearch from './TransferSearch';
+import VirtualList, {AutoSizer} from './virtual-list';
 
 export interface ResultListProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -28,7 +29,9 @@ export interface ResultListProps extends ThemeProps, LocaleProps {
   searchable?: boolean;
   onSearch?: Function;
   valueField?: string;
-  labelField?: string
+  labelField?: string;
+  itemHeight: number; // 每个选项的高度，主要用于虚拟渲染
+  virtualThreshold: number; // 数据量多大的时候开启虚拟渲染
 }
 
 export interface ItemRenderStates {
@@ -47,13 +50,26 @@ export class ResultList extends React.Component<
   ResultListState
 > {
   static itemRender(option: Option, states: ItemRenderStates) {
-    return <span>{`${option.scopeLabel || ''}${option[states?.labelField || 'label']}`}</span>;
+    return (
+      <span>{`${option.scopeLabel || ''}${
+        option[states?.labelField || 'label']
+      }`}</span>
+    );
   }
 
-  static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender' | 'searchPlaceholder'> = {
+  static defaultProps: Pick<
+    ResultListProps,
+    | 'placeholder'
+    | 'itemRender'
+    | 'searchPlaceholder'
+    | 'virtualThreshold'
+    | 'itemHeight'
+  > = {
     placeholder: 'placeholder.selectData',
     itemRender: ResultList.itemRender,
-    searchPlaceholder: ''
+    searchPlaceholder: '',
+    virtualThreshold: 100,
+    itemHeight: 32
   };
 
   state: ResultListState = {
@@ -216,7 +232,12 @@ export class ResultList extends React.Component<
     }
   }
 
-  renderNormalList(value?: Options) {
+  renderOption(
+    option: any,
+    index: number,
+    value: Options,
+    styles: object = {}
+  ) {
     const {
       classnames: cx,
       itemRender,
@@ -224,52 +245,88 @@ export class ResultList extends React.Component<
       itemClassName,
       sortable,
       labelField,
+      translate: __
+    } = this.props;
+
+    return (
+      <div
+        style={styles}
+        className={cx('Selections-item', itemClassName, option?.className)}
+        key={index}
+      >
+        {sortable && !disabled && value!.length > 1 ? (
+          <Icon className={cx('Selections-dragbar icon')} icon="drag-bar" />
+        ) : null}
+
+        <label>
+          {itemRender(option, {
+            index,
+            disabled,
+            onChange: this.handleValueChange.bind(this, index),
+            labelField
+          })}
+        </label>
+
+        {!disabled ? (
+          <a
+            className={cx('Selections-delBtn')}
+            data-index={index}
+            onClick={(e: React.MouseEvent<HTMLElement>) =>
+              this.handleCloseItem(e, option)
+            }
+          >
+            <Icon icon="close" className="icon" />
+          </a>
+        ) : null}
+      </div>
+    );
+  }
+
+  renderNormalList(value?: Options) {
+    const {
+      classnames: cx,
       translate: __,
-      placeholder
+      placeholder,
+      virtualThreshold = 1000,
+      itemHeight
     } = this.props;
 
     return (
       <>
         {Array.isArray(value) && value.length ? (
           <div className={cx('Selections-items')}>
-            {value.map((option, index) => (
-              <div
-                className={cx(
-                  'Selections-item',
-                  itemClassName,
-                  option?.className
-                )}
-                key={index}
-              >
-                {sortable && !disabled && value.length > 1 ? (
-                  <Icon
-                    className={cx('Selections-dragbar icon')}
-                    icon="drag-bar"
+            {value.length > virtualThreshold ? (
+              <AutoSizer>
+                {({height}: {height: number}) => (
+                  <VirtualList
+                    height={height}
+                    itemCount={value.length}
+                    itemSize={itemHeight}
+                    renderItem={({
+                      index,
+                      style
+                    }: {
+                      index: number;
+                      style?: object;
+                    }) => {
+                      const option = value[index];
+                      if (!option) {
+                        return null;
+                      }
+
+                      return this.renderOption(option, index, value, {
+                        ...style,
+                        width: '100%'
+                      });
+                    }}
                   />
-                ) : null}
-
-                <label>
-                  {itemRender(option, {
-                    index,
-                    disabled,
-                    onChange: this.handleValueChange.bind(this, index),
-                    labelField
-                  })}
-                </label>
-
-                {!disabled ? (
-                  <a
-                    className={cx('Selections-delBtn')}
-                    data-index={index}
-                    onClick={(e: React.MouseEvent<HTMLElement>) =>
-                      this.handleCloseItem(e, option)
-                    }
-                  >
-                    <Icon icon="close" className="icon" />
-                  </a>
-                ) : null}
-              </div>
-            ))}
+                )}
+              </AutoSizer>
+            ) : (
+              value.map((option, index) =>
+                this.renderOption(option, index, value)
+              )
+            )}
           </div>
         ) : (
           <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>
