@@ -223,7 +223,7 @@ fis.match('*.html:jsx', {
 
 // 这些用了 esm
 fis.match(
-  '{echarts/extension/**.js,zrender/**.js,markdown-it-html5-media/**.js}',
+  '{echarts/extension/**.js,zrender/**.js,markdown-it-html5-media/**.js,react-hook-form/**.js,qrcode.react/**.js}',
   {
     parser: fis.plugin('typescript', {
       sourceMap: false,
