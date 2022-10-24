@@ -1203,6 +1203,7 @@ export const getEventControlConfig = (
         ) {
           config.__customData = true;
           config.__containerType = 'appoint';
+          config.dataMergeMode = 'override';
         }
 
         if (config.__addParam && config.__customData && config.data) {
