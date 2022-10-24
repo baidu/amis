@@ -12,7 +12,7 @@ import {
   RendererPluginEvent,
   SubRendererPluginAction
 } from 'amis-editor-core';
-import {ActionConfig, ContextVariables} from './types';
+import {ActionConfig, ComponentInfo, ContextVariables} from './types';
 import {
   DataSchema,
   filterTree,
@@ -118,25 +118,28 @@ export const FORMITEM_CMPTS = [
   'uuid'
 ];
 
-export const SUPPORT_STATIC_FORMITEM_CMPTS = without(FORMITEM_CMPTS, ...[
-  'button-toolbar',
-  'condition-builder',
-  'diff-editor',
-  'editor',
-  'formula',
-  'hidden',
-  'icon-picker',
-  'input-excel',
-  'input-file',
-  'input-formula',
-  'input-image',
-  'input-repeat',
-  'input-rich-text',
-  'input-sub-form',
-  'input-table',
-  'picker',
-  'uuid'
-]);
+export const SUPPORT_STATIC_FORMITEM_CMPTS = without(
+  FORMITEM_CMPTS,
+  ...[
+    'button-toolbar',
+    'condition-builder',
+    'diff-editor',
+    'editor',
+    'formula',
+    'hidden',
+    'icon-picker',
+    'input-excel',
+    'input-file',
+    'input-formula',
+    'input-image',
+    'input-repeat',
+    'input-rich-text',
+    'input-sub-form',
+    'input-table',
+    'picker',
+    'uuid'
+  ]
+);
 
 export const SUPPORT_DISABLED_CMPTS = [
   'button-group',
@@ -483,14 +486,21 @@ export const getPropOfAcion = (
   propName: string,
   actionTree: RendererPluginAction[],
   pluginActions: PluginActions,
-  commonActions?: {[propName: string]: RendererPluginAction}
+  commonActions?: {[propName: string]: RendererPluginAction},
+  allComponents?: ComponentInfo[]
 ): any => {
   let prop: any = null;
   if (action.componentId) {
     // 优先从组件特性动作中找
-    pluginActions[action.__rendererName]?.find(
-      (item: RendererPluginAction) => item.actionType === action.actionType
-    )?.[propName as keyof RendererPluginAction];
+    const node = findTree(
+      allComponents ?? [],
+      item => item.value === action.componentId
+    );
+    prop =
+      node &&
+      pluginActions[node.type]?.find(
+        (item: RendererPluginAction) => item.actionType === action.actionType
+      )?.[propName as keyof RendererPluginAction];
   }
 
   if (!prop) {
@@ -1183,6 +1193,7 @@ export const getEventControlConfig = (
       if (config.actionType === 'reload') {
         config.__resetPage = config.args?.resetPage;
         config.__addParam = config.data === undefined || !!config.data;
+        config.__customData = !!config.data;
 
         if (
           (config.data && typeof config.data === 'object') ||
@@ -1190,15 +1201,18 @@ export const getEventControlConfig = (
             !Object.keys(config.args).length &&
             config.data === undefined)
         ) {
-          config.__addParamType = 'custom';
+          config.__customData = true;
+          config.__containerType = 'appoint';
         }
 
-        if (
-          config.__addParam &&
-          config.__addParamType === 'custom' &&
-          config.data
-        ) {
-          config.__reloadParams = objectToComboArray(config.data);
+        if (config.__addParam && config.__customData && config.data) {
+          if (typeof config.data === 'string') {
+            config.__containerType = 'all';
+            config.__valueInput = config.data;
+          } else {
+            config.__containerType = 'appoint';
+            config.__reloadParams = objectToComboArray(config.data);
+          }
         } else if (
           config.args &&
           !Object.keys(config.args).length &&
@@ -1318,8 +1332,11 @@ export const getEventControlConfig = (
         if (config.__addParam) {
           action.dataMergeMode = config.dataMergeMode || 'merge';
           action.data = undefined;
-          if (config.__addParamType === 'custom') {
-            action.data = comboArrayToObject(config.__reloadParams || []);
+          if (config.__customData) {
+            action.data =
+              config.__containerType === 'all'
+                ? config.__valueInput
+                : comboArrayToObject(config.__reloadParams || []);
           }
         }
       }

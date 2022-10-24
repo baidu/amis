@@ -416,7 +416,8 @@ export class EventControl extends React.Component<
     >
   ) {
     const {events, onEvent} = this.state;
-    const {actionTree, pluginActions, commonActions} = this.props;
+    const {actionTree, pluginActions, commonActions, allComponents} =
+      this.props;
     // 收集当前事件已有ajax动作的请求返回结果作为事件变量
     let oldActions = onEvent[activeData.actionData!.eventKey].actions;
     if (activeData.type === 'update') {
@@ -432,14 +433,16 @@ export class EventControl extends React.Component<
           'actionLabel',
           actionTree,
           pluginActions,
-          commonActions
+          commonActions,
+          allComponents
         );
         const dataSchemaJson = getPropOfAcion(
           item,
           'outputVarDataSchema',
           actionTree,
           pluginActions,
-          commonActions
+          commonActions,
+          allComponents
         );
         const dataSchema = new DataSchema(dataSchemaJson || []);
         return {
@@ -575,14 +578,16 @@ export class EventControl extends React.Component<
       actions: pluginActions,
       actionTree,
       commonActions,
-      getComponents
+      getComponents,
+      allComponents
     } = this.props;
     const desc = getPropOfAcion(
       action,
       'descDetail',
       actionTree,
       pluginActions,
-      commonActions
+      commonActions,
+      allComponents
     );
     let info = {...action};
     // 根据子动作类型获取动作树节点的配置
@@ -618,8 +623,9 @@ export class EventControl extends React.Component<
     } else if (type === 'update') {
       this.updateAction?.(config.eventKey, config.actionIndex, action);
     }
-    this.setState({actionData: undefined});
+
     this.setState({showAcionDialog: false});
+    this.setState({actionData: undefined});
   }
 
   @autobind
@@ -633,6 +639,7 @@ export class EventControl extends React.Component<
       actions: pluginActions,
       commonActions,
       getComponents,
+      allComponents,
       render
     } = this.props;
     const {
@@ -781,7 +788,8 @@ export class EventControl extends React.Component<
                                       'actionLabel',
                                       actionTree,
                                       pluginActions,
-                                      commonActions
+                                      commonActions,
+                                      allComponents
                                     ) || action.actionType}
                                   </div>
                                 </div>

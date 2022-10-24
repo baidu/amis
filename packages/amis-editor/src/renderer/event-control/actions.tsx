@@ -704,10 +704,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               }
             }
           ],
-          supportComponents: [
-            'form',
-            ...SUPPORT_STATIC_FORMITEM_CMPTS
-          ],
+          supportComponents: ['form', ...SUPPORT_STATIC_FORMITEM_CMPTS],
           schema: [
             ...renderCmptSelect('选择组件', true),
             {
@@ -755,7 +752,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               (value: string, oldVal: any, data: any, form: any) => {
                 form.setValueByName('args.resetPage', true);
                 form.setValueByName('__addParam', true);
-                form.setValueByName('__addParamType', 'default');
+                form.setValueByName('__customData', false);
+                form.setValueByName('__containerType', 'all');
                 form.setValueByName('__reloadParam', []);
               }
             ),
@@ -794,54 +792,59 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               visibleOn: `data.actionType === "reload" &&  ${IS_DATA_CONTAINER}`
             },
             {
-              type: 'radios',
-              name: 'dataMergeMode',
-              mode: 'horizontal',
-              label: '追加方式',
+              type: 'switch',
+              name: '__customData',
+              label: '自定义数据',
               labelRemark: {
                 className: 'm-l-xs',
                 icon: 'fa fa-question-circle',
                 rootClose: true,
-                content: `选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。`,
+                content: `数据默认为源组件所在数据域，开启“自定义”可以定制所需数据`,
                 placement: 'top'
               },
-              pipeIn: defaultValue('merge'),
+              onText: '是',
+              offText: '否',
+              mode: 'horizontal',
+              pipeIn: defaultValue(true),
               visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
-              options: [
-                {
-                  label: '合并',
-                  value: 'merge'
-                },
-                {
-                  label: '覆盖',
-                  value: 'override'
-                }
-              ]
+              onChange: (value: string, oldVal: any, data: any, form: any) => {
+                form.setValueByName('__containerType', 'all');
+              }
             },
             {
               type: 'radios',
-              name: '__addParamType',
+              name: '__containerType',
               mode: 'horizontal',
-              label: '数据配置',
-              labelRemark: {
-                className: 'm-l-xs',
-                icon: 'fa fa-question-circle',
-                rootClose: true,
-                content: `数据默认为源组件所在数据域，可以选择“自定义”来定制所需数据`,
-                placement: 'top'
-              },
-              pipeIn: defaultValue('default'),
-              visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
+              label: '',
+              pipeIn: defaultValue('all'),
+              visibleOn: `data.__addParam && data.__customData && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
               options: [
                 {
-                  label: '源组件所在数据域',
-                  value: 'default'
+                  label: '直接赋值',
+                  value: 'all'
                 },
                 {
-                  label: '自定义',
-                  value: 'custom'
+                  label: '成员赋值',
+                  value: 'appoint'
                 }
-              ]
+              ],
+              onChange: (value: string, oldVal: any, data: any, form: any) => {
+                form.setValueByName('__reloadParams', []);
+                form.setValueByName('__valueInput', undefined);
+              }
+            },
+            {
+              name: '__valueInput',
+              type: 'input-formula',
+              variables: '${variables}',
+              evalMode: false,
+              required: true,
+              variableMode: 'tabs',
+              inputMode: 'input-group',
+              label: '',
+              size: 'lg',
+              mode: 'horizontal',
+              visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
             },
             {
               type: 'combo',
@@ -873,7 +876,32 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   inputMode: 'input-group'
                 }
               ],
-              visibleOn: `data.__addParam && data.__addParamType === "custom" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
+              visibleOn: `data.__addParam && data.__customData && data.__containerType === "appoint" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
+            },
+            {
+              type: 'radios',
+              name: 'dataMergeMode',
+              mode: 'horizontal',
+              label: '追加方式',
+              labelRemark: {
+                className: 'm-l-xs',
+                icon: 'fa fa-question-circle',
+                rootClose: true,
+                content: `选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。`,
+                placement: 'top'
+              },
+              pipeIn: defaultValue('merge'),
+              visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
+              options: [
+                {
+                  label: '合并',
+                  value: 'merge'
+                },
+                {
+                  label: '覆盖',
+                  value: 'override'
+                }
+              ]
             }
           ]
         },

@@ -1341,7 +1341,7 @@ export class CRUDPlugin extends BasePlugin {
     //   actionType: 'resetQuery',
     //   actionLabel: '重置查询',
     //   description: '重新恢复查询条件为初始值',
-    //   desc: (info: any) => {
+    //   descDetail: (info: any) => {
     //     return (
     //       <div>
     //         <span className="variable-right">{info?.__rendererLabel}</span>
