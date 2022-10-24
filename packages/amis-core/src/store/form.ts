@@ -78,7 +78,9 @@ export const FormStore = ServiceStore.named('FormStore')
           const current = pool.shift()!;
           if (current.storeType === 'FormItemStore') {
             formItems.push(current);
-          } else if (current.storeType !== 'ComboStore') {
+          } else if (
+            !['ComboStore', 'TableStore'].includes(current.storeType)
+          ) {
             pool.push(...current.children);
           }
         }
