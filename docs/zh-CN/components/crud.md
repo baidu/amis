@@ -417,6 +417,7 @@ List 模式支持 [List](./list) 中的所有功能。
   "actions": [
     {
       "icon": "fa fa-edit",
+      "className": "mr-4",
       "tooltip": "编辑",
       "actionType": "dialog",
       "dialog": {
