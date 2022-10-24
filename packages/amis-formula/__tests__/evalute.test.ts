@@ -467,3 +467,24 @@ test('evalute:array:func', () => {
     evaluate('${ARRAYFILTER(arr1, item => item && item >=2)}', data)
   ).toMatchObject([2, 3]);
 });
+
+test('evalute:ISTYPE', () => {
+  const data = {
+    a: 1,
+    b: 'string',
+    c: null,
+    d: undefined,
+    e: [1, 2],
+    f: {a: 1, b: 2},
+    g: new Date()
+  };
+  expect(evaluate('${ISTYPE(a, "number")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(b, "number")}', data)).toBe(false);
+  expect(evaluate('${ISTYPE(b, "string")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(c, "nil")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(d, "nil")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(e, "array")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(f, "array")}', data)).toBe(false);
+  expect(evaluate('${ISTYPE(f, "plain-object")}', data)).toBe(true);
+  expect(evaluate('${ISTYPE(g, "date")}', data)).toBe(true);
+});
