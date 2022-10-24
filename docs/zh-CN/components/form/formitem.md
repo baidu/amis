@@ -341,6 +341,8 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
+  "mode": "horizontal",
+  "labelWidth": 220,
   "body": [
     {
       "type": "input-text",
@@ -366,6 +368,8 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
+  "mode": "horizontal",
+  "labelWidth": 220,
   "body": [
     {
       "type": "input-number",
@@ -393,6 +397,8 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
+  "mode": "horizontal",
+  "labelWidth": 220,
   "body": [
     {
       "type": "input-text",
@@ -421,6 +427,8 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
+  "mode": "horizontal",
+  "labelWidth": 220,
   "body": [
     {
       "type": "input-tag",
@@ -455,7 +463,7 @@ order: 1
   "type": "form",
   "title": "单个表单项状态切换",
   "mode": "horizontal",
-  "labelWidth": 150,
+  "labelWidth": 220,
   "body": [
     {
       "type": "input-text",
@@ -503,6 +511,227 @@ order: 1
     },
   ],
   "actions": []
+}
+```
+
+##### 表单项静态展示优先级
+
+1. 表单项配置为`static: true` 时，始终保持静态展示；
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "父表单 static: true",
+  "static": true,
+  "mode": "horizontal",
+  "labelWidth": 220,
+  "body": [
+    {
+      "type": "input-text",
+      "label": "text1为静态 static: true",
+      "static": true,
+      "value": "value",
+      "name": "text1",
+      "description": "配置了static: true, 所以是静态"
+    },
+    {
+      "type": "input-text",
+      "value": "value",
+      "name": "text2",
+      "label": "text2",
+      "description": "其他表单项是 输入态"
+    }
+  ]
+}
+```
+
+2. 表单项配置为`static: false` 或 `不配置` 时，跟随父表单的状态；
+
+```schema: scope="body"
+{
+  "type": "form",
+  "static": true,
+  "title": "父表单为静态 static: true",
+  "mode": "horizontal",
+  "labelWidth": 220,
+  "body": [
+    {
+      "type": "input-text",
+      "label": "text1为静态 static: true",
+      "static": true,
+      "value": "value",
+      "name": "text1"
+    },
+    {
+      "type": "input-text",
+      "label": "text2为输入态 static: false",
+      "static": false,
+      "value": "value",
+      "name": "text2",
+      "description": "虽然配置了static: false, 但是仍然和父表单保持一致"
+    },
+    {
+      "type": "input-text",
+      "label": "text3 未配置 static 属性",
+      "value": "value",
+      "name": "text3",
+      "description": "未配置static时，和父表单保持一致"
+    }
+  ]
+}
+```
+
+3. 使用 `事件动作` 切换表单项 的 静态/展示态，优先级最高，将无视 `schema` 配置
+
+```schema: scope="body"
+{
+  "type": "form",
+  "static": true,
+  "title": "父表单为静态 static: true",
+  "mode": "horizontal",
+  "id": "myForm",
+  "labelWidth": 220,
+  "body": [
+    {
+      "type": "input-text",
+      "label": "text1",
+      "static": true,
+      "value": "value",
+      "name": "text1",
+      "id": "text1",
+      "description": "初始配置了static: true, 但是后续可以使用动作切换状态"
+    },
+    {
+      "type": "button-toolbar",
+      "name": "button-toolbar1",
+      "label": "text1 切换状态",
+      "buttons": [
+        {
+          "type": "button",
+          "label": "静态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "static",
+                  "componentId": "text1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "button",
+          "label": "输入态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "nonstatic",
+                  "componentId": "text1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "input-text",
+      "label": "text2",
+      "static": false,
+      "value": "value",
+      "name": "text2",
+      "id": "text2",
+      "description": "初始配置了static: false, 但是后续可以使用动作切换状态"
+    },
+    {
+      "type": "button-toolbar",
+      "name": "button-toolbar2",
+      "label": "text2 切换状态",
+      "buttons": [
+        {
+          "type": "button",
+          "label": "静态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "static",
+                  "componentId": "text2"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "button",
+          "label": "输入态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "nonstatic",
+                  "componentId": "text2"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "input-text",
+      "label": "text3",
+      "value": "value",
+      "name": "text3",
+      "description": "无配置，跟随父表单变化"
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "button-toolbar",
+      "name": "button-toolbar0",
+      "label": "父表单 切换状态",
+      "buttons": [
+        {
+          "type": "button",
+          "label": "静态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "static",
+                  "componentId": "myForm"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "button",
+          "label": "输入态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "nonstatic",
+                  "componentId": "myForm"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
 }
 ```
 
