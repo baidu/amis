@@ -1,5 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import isEqual from 'lodash/isEqual';
 import {ScopedContext, IScopedContext, SchemaExpression} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
@@ -602,9 +603,10 @@ export default class Table extends React.Component<TableProps, object> {
     let rows: Array<object> = [];
     let updateRows = false;
 
+    // 要严格比较前后的value值，否则某些情况下会导致循环update无限渲染
     if (
       Array.isArray(value) &&
-      (!prevProps || (prevProps.value || prevProps.items) !== value)
+      (!prevProps || !isEqual(prevProps.value || prevProps.items, value))
     ) {
       updateRows = true;
       rows = value;
@@ -822,7 +824,8 @@ export default class Table extends React.Component<TableProps, object> {
       prevSelectedRows !== selectedRows && this.syncSelected();
     }
 
-    this.updateTableInfoLazy();
+    // 延迟执行，否则表格还没更新，拿到的宽度不对，导致表头错位
+    Promise.resolve().then(() => this.updateTableInfoLazy());
   }
 
   componentWillUnmount() {
@@ -1201,9 +1204,23 @@ export default class Table extends React.Component<TableProps, object> {
         forEach(
           table.querySelectorAll('thead>tr:first-child>th'),
           (item: HTMLElement) => {
-            const width = widths2[item.getAttribute('data-index') as string];
-            item.style.cssText += `width: ${width}px; height: ${heights.header2}px`;
-            totalWidth2 += width;
+            const rowSpan = Number(item.getAttribute('rowspan'));
+            const colSpan = Number(item.getAttribute('colspan'));
+            let thWidth = widths2[item.getAttribute('data-index') as string];
+            let thHeight = Number(heights.header2);
+
+            /* 考虑表头分组的情况，需要将固定列中对应的表头的高度按照rowSpan扩大指定倍数 */
+            if (!isNaN(thHeight) && !isNaN(rowSpan)) {
+              thHeight *= rowSpan;
+            }
+
+            /* 考虑表头分组的情况，需要将分组表头按照colSpan缩小至指定倍数 */
+            if (!isNaN(thWidth) && !isNaN(colSpan) && colSpan !== 0) {
+              thWidth /= colSpan;
+            }
+
+            item.style.cssText += `width: ${thWidth}px; height: ${thHeight}px`;
+            totalWidth2 += thWidth;
           }
         );
 
@@ -1786,7 +1803,7 @@ export default class Table extends React.Component<TableProps, object> {
               })}
               <button
                 type="button"
-                className={cx('Button Button--xs Button--success m-l-sm')}
+                className={cx('Button Button--size-xs Button--success m-l-sm')}
                 onClick={this.handleSave}
               >
                 <Icon icon="check" className="icon m-r-xs" />
@@ -1794,7 +1811,7 @@ export default class Table extends React.Component<TableProps, object> {
               </button>
               <button
                 type="button"
-                className={cx('Button Button--xs Button--danger m-l-sm')}
+                className={cx('Button Button--size-xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
                 <Icon icon="close" className="icon m-r-xs" />
@@ -1898,6 +1915,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.searchable && column.name && !autoGenerateFilter) {
       affix.push(
         <HeadCellSearchDropDown
+          key="table-head-search"
           {...this.props}
           onQuery={onQuery}
           name={column.name}
@@ -1914,6 +1932,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.sortable && column.name) {
       affix.push(
         <span
+          key="table-head-sort"
           className={cx('TableCell-sortBtn')}
           onClick={async () => {
             let orderBy = '';
@@ -1984,6 +2003,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (!column.searchable && column.filterable && column.name) {
       affix.push(
         <HeadCellFilterDropDown
+          key="table-head-filter"
           {...this.props}
           onQuery={onQuery}
           name={column.name}
@@ -2283,6 +2303,7 @@ export default class Table extends React.Component<TableProps, object> {
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
     const columnsGroup = store.columnGroup;
+
     return (
       <table
         className={cx('Table-table', tableClassName, {

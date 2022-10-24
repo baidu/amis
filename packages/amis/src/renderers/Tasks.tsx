@@ -408,6 +408,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                         className={cx(
                           'Button',
                           'Button--danger',
+                          'Button--size-md',
                           retryBtnClassName || btnClassName
                         )}
                       >
@@ -419,6 +420,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                         className={cx(
                           'Button',
                           'Button--default',
+                          'Button--size-md',
                           btnClassName,
                           {
                             disabled: item.status !== readyStatusCode

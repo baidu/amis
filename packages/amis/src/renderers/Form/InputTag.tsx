@@ -3,13 +3,12 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  resolveEventData
 } from 'amis-core';
 import Downshift from 'downshift';
 import find from 'lodash/find';
 import isInteger from 'lodash/isInteger';
 import unionWith from 'lodash/unionWith';
-import isEqual from 'lodash/isEqual';
 import {findDOMNode} from 'react-dom';
 import {ResultBox} from 'amis-ui';
 import {autobind, filterTree, createObject} from 'amis-core';
@@ -19,6 +18,7 @@ import {PopOver} from 'amis-core';
 import {ListMenu} from 'amis-ui';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Tag 输入框
@@ -144,13 +144,18 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   async dispatchEvent(eventName: string, eventData: any = {}) {
-    const {dispatchEvent, options, data} = this.props;
+    const {dispatchEvent, options} = this.props;
     const rendererEvent = await dispatchEvent(
       eventName,
-      createObject(data, {
-        options,
-        ...eventData
-      })
+      resolveEventData(
+        this.props,
+        {
+          options,
+          items: options, // 为了保持名字统一
+          ...eventData
+        },
+        'value'
+      )
     );
     // 返回阻塞标识
     return !!rendererEvent?.prevented;
@@ -425,6 +430,7 @@ export default class TagControl extends React.PureComponent<
     return max != null && isInteger(max) && selectedOptions.length >= max;
   }
 
+  @supportStatic()
   render() {
     const {
       className,
@@ -523,7 +529,7 @@ export default class TagControl extends React.PureComponent<
                           disabled: reachMax || item.disabled,
                           className: cx('ListMenu-item', {
                             'is-disabled': reachMax
-                          }),
+                          })
                         })
                       })}
                     />

@@ -218,7 +218,33 @@ order: 1
       "label": "禁用",
       "name": "text2",
       "disabled": true
-    }
+    },
+    {
+      "type": "grid",
+      "columns": [
+        {
+          "body": [
+            {
+              "type": "input-text",
+              "label": "姓名",
+              "name": "name",
+              "value": "amis",
+              "disabled": true
+            }
+          ]
+        },
+        {
+          "body": [
+            {
+              "type": "input-email",
+              "label": "邮箱",
+              "name": "email",
+              "disabled": true
+            }
+          ]
+        }
+      ]
+    },
   ]
 }
 ```
@@ -304,6 +330,181 @@ order: 1
 ```
 
 > `visible`和`hidden`，`visibleOn`和`hiddenOn`除了判断逻辑相反以外，没有任何区别
+
+### 配置静态展示
+
+##### 静态配置
+
+通过配置`"static": true`来将表单项以静态形式展示  
+可以在[示例页](../../../examples/form/switchDisplay)查看支持静态展示的表单项的展示方式
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "input-text",
+      "label": "静态",
+      "name": "text1",
+      "value": "text1的值",
+      "static": true
+    },
+    {
+      "type": "input-text",
+      "label": "输入态",
+      "name": "text2",
+      "value": "text2的值"
+    }
+  ]
+}
+```
+
+##### 通过条件配置静态/输入态
+
+也可以通过[表达式](../../../docs/concepts/expression)配置`staticOn`，来实现在某个条件下将当前表单项状态的的自动切换.
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "input-number",
+      "label": "数量",
+      "name": "number",
+      "value": 0,
+      "description": "调整数量大小查看效果吧！"
+    },
+    {
+      "type": "input-text",
+      "label": "文本",
+      "name": "text",
+      "staticOn": "this.number > 1",
+      "value": "text value",
+      "description": "当数量大于1的时候，该文本框会变成静态"
+    }
+  ]
+}
+```
+
+##### 自定义展示态的展示方式
+
+通过配置`staticSchema`，可以自定义静态展示时的展示方式
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "input-text",
+      "name": "var3",
+      "label": "自定义展示态schema",
+      "value": "表单项value",
+      "static": true,
+      "staticSchema": [
+        "自定义前缀 | ",
+        {
+          "type": "tpl",
+          "tpl": "${var3}"
+        },
+        " | 自定义后缀",
+      ]
+    }
+  ]
+}
+```
+
+##### 限制选择器类组件的展示数量
+
+下拉选择器、多选框等组件，当选项过多静态展示时，若全部展示会占用页面很多空间，所以默认进行了限制（10个）  
+可以通过配置`staticSchema.limit`，可以自定义静态展示时的数量
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "input-tag",
+      "name": "tags",
+      "label": "自定义展示数量",
+      "value": "1,2,3,4,5,6,7,8",
+      "options": [
+        {"label": "选项1", "value": "选项1"},
+        {"label": "选项2", "value": "选项2"},
+        {"label": "选项3", "value": "选项3"},
+        {"label": "选项4", "value": "选项4"},
+        {"label": "选项5", "value": "选项5"},
+        {"label": "选项6", "value": "选项6"},
+        {"label": "选项7", "value": "选项7"},
+        {"label": "选项8", "value": "选项8"}
+      ],
+      "static": true,
+      "staticSchema": {
+        "limit": 3
+      }
+    }
+  ]
+}
+```
+
+##### 通过事件动作切换表单项状态
+
+也支持使用 事件动作 切换表单项的 输入态和展示态（静态），也可以使用动作对整个表单进行状态切换
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "单个表单项状态切换",
+  "mode": "horizontal",
+  "labelWidth": 150,
+  "body": [
+    {
+      "type": "input-text",
+      "id": "formItemSwitch",
+      "name": "var1",
+      "label": "使用事件动作状态切换",
+      "value": "text"
+    },
+    {
+      "type": 'button-toolbar',
+      "name": 'button-toolbar',
+      "buttons": [
+        {
+          "type": "button",
+          "label": "输入态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "nonstatic",
+                  "componentId": "formItemSwitch"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "button",
+          "label": "展示态",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "static",
+                  "componentId": "formItemSwitch"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "className": 'show'
+    },
+  ],
+  "actions": []
+}
+```
 
 ## 表单项值
 
@@ -1344,3 +1545,59 @@ fillMapping 配置 支持变量取值和表达式；
 | autoFill.size           | `string`                                           |           | showSuggestion 为 true 时，参照录入 mode 为 dialog 时，可设置大小                                   |
 | autoFill.columns        | `Array<Column>`                                    |           | showSuggestion 为 true 时，数据展示列配置                                                           |
 | autoFill.filter         | [SchemaNode](../../docs/types/schemanode)          |           | showSuggestion 为 true 时，数据查询过滤条件                                                         |
+| static                  | `boolean`                                          |           | 当前表单项是否是静态展示，目前支持静[支持静态展示的表单项](#支持静态展示的表单项) |
+| staticClassName         | `string`                                           |           | 静态展示时的类名 |
+| staticLabelClassName    | `string`                                           |           | 静态展示时的Label的类名 |
+| staticInputClassName    | `string`                                           |           | 静态展示时的value的类名 |
+| staticSchema            | `string`|`Array`|[SchemaNode](../../docs/types/schemanode)     |           | 自定义静态展示方式 |
+| staticSchema.limit      | `number`                                           | 10        | select、checkboxes等选择类组件多选时展示态展示的数量 |
+
+## 支持静态展示的表单项  
+
+可以在[示例页](../../../examples/form/switchDisplay)查看支持静态展示的表单项的展示方式
+
+- form 表单
+- button-group-select 按钮点选
+- chained-select 链式下拉框
+- chart-radios 图表单选框
+- checkbox 勾选框
+- checkboxes 复选框
+- combo 组合
+- input-kv 键值对
+- input-array 数组输入框
+- input-city 城市选择器
+- input-color 颜色选择器
+- input-date 日期选择器
+- input-date-range 日期范围选择器
+- input-datetime-range 日期时间选择器
+- input-time-range 时间范围选择器
+- input-group 输入框组合
+- input-month-range 月份范围
+- input-number 数字输入
+- input-quarter-range 季度范围
+- input-range 滑块
+- input-rating 评分
+- input-tag 标签选择器
+- input-text 输入框
+- input-password 密码输入框
+- input-email 邮箱输入框
+- input-url url输入框
+- native-date native日期选择器
+- native-time native时间选择器
+- native-number native数字输入
+- input-tree 树形选择器
+- input-year-range 年份范围
+- list-select 列表选择器
+- location-picker 地理位置
+- matrix-checkboxes 矩阵勾选
+- nested-select 级联选择器
+- radios 单选框
+- select 下拉框
+- multi-select 多选下拉框
+- switch 开关
+- tabs-transfer 组合穿梭器
+- tabs-transfer-picker 组合穿梭选择器
+- textarea 多行输入框
+- transfer 穿梭器
+- transfer-picker 穿梭选择器
+- tree-select 属性选择器

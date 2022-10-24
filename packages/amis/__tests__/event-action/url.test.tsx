@@ -30,7 +30,9 @@ test('EventAction:url & link', async () => {
                       params: {
                         name: 'jack',
                         jon: '${myjon}'
-                      },
+                      }
+                    },
+                    data: {
                       name: '${myname}',
                       age: 18
                     }
@@ -63,18 +65,10 @@ test('EventAction:url & link', async () => {
     params: {
       name: 'jack',
       jon: 'player'
-    },
-    name: 'lvxj',
-    age: 18
+    }
   });
   expect(jumpTo.mock.calls[0][2]).toEqual({
-    url: 'http://www.baidu.com',
-    blank: true,
-    params: {
-      name: 'jack',
-      jon: 'player'
-    },
-    name: 'lvxj',
-    age: 18
+    age: 18,
+    name: 'lvxj'
   });
 });

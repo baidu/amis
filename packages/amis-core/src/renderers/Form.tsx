@@ -9,7 +9,9 @@ import {
   ActionObject,
   Payload,
   ClassName,
-  BaseApiObject
+  BaseApiObject,
+  SchemaExpression,
+  SchemaClassName
 } from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import getExprProperties from '../utils/filter-schema';
@@ -330,6 +332,13 @@ export interface FormSchemaBase {
    * label自定义宽度，默认单位为px
    */
   labelWidth?: number | string;
+
+  /**
+   * 展示态时的className
+   */
+  static?: boolean;
+  staticOn?: SchemaExpression;
+  staticClassName?: SchemaClassName;
 }
 
 export type FormGroup = FormSchemaBase & {
@@ -755,10 +764,10 @@ export default class Form extends React.Component<FormProps, object> {
       : store.reset(undefined, false);
   }
 
-  receive(values: object) {
+  receive(values: object, name?: string, replace?: boolean) {
     const {store} = this.props;
 
-    store.updateData(values);
+    store.updateData(values, undefined, replace);
     this.reload();
   }
 
@@ -812,10 +821,10 @@ export default class Form extends React.Component<FormProps, object> {
     return store.data;
   }
 
-  setValues(value: any) {
+  setValues(value: any, replace?: boolean) {
     const {store} = this.props;
     this.flush();
-    store.setValues(value);
+    store.setValues(value, undefined, replace);
   }
 
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
@@ -1506,7 +1515,8 @@ export default class Form extends React.Component<FormProps, object> {
       formLazyChange,
       dispatchEvent,
       labelAlign,
-      labelWidth
+      labelWidth,
+      static: isStatic = false
     } = props;
 
     const subProps = {
@@ -1522,7 +1532,15 @@ export default class Form extends React.Component<FormProps, object> {
       formLabelAlign: labelAlign !== 'left' ? 'right' : labelAlign,
       formLabelWidth: labelWidth,
       controlWidth,
-      disabled: disabled || (control as Schema).disabled || form.loading,
+      /**
+       * form.loading有为true时才下发disabled属性，否则不显性设置disbaled为false
+       * Form中包含容器类组件时，这些组件会将此处的disbaled继续下发至子组件，导致SchemaRenderer中props.disabled覆盖schema.disabled
+       */
+      disabled:
+        disabled ||
+        (control as Schema).disabled ||
+        (form.loading ? true : undefined),
+      static: (control as Schema).static ?? isStatic,
       btnDisabled: disabled || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
@@ -1565,7 +1583,9 @@ export default class Form extends React.Component<FormProps, object> {
       $path,
       store,
       columnCount,
-      render
+      render,
+      staticClassName,
+      static: isStatic = false
     } = this.props;
 
     const {restError} = store;
@@ -1592,7 +1612,8 @@ export default class Form extends React.Component<FormProps, object> {
           `Form`,
           `Form--${mode || 'normal'}`,
           columnCount ? `Form--column Form--column-${columnCount}` : null,
-          className
+          staticClassName && isStatic ? staticClassName : className,
+          isStatic ? 'Form--isStatic' : null
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
@@ -1693,8 +1714,7 @@ export default class Form extends React.Component<FormProps, object> {
       affixFooter,
       lazyLoad,
       translate: __,
-      footer,
-      formStore
+      footer
     } = this.props;
 
     let body: JSX.Element = this.renderBody();
@@ -1865,9 +1885,15 @@ export class FormRenderer extends Form {
     scoped.close(target);
   }
 
-  reload(target?: string, query?: any, ctx?: any, silent?: boolean) {
+  reload(
+    target?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean,
+    replace?: boolean
+  ) {
     if (query) {
-      return this.receive(query);
+      return this.receive(query, undefined, replace);
     }
 
     const scoped = this.context as IScopedContext;
@@ -1906,7 +1932,7 @@ export class FormRenderer extends Form {
     }
   }
 
-  receive(values: object, name?: string) {
+  receive(values: object, name?: string, replace?: boolean) {
     if (name) {
       const scoped = this.context as IScopedContext;
       const idx = name.indexOf('.');
@@ -1922,10 +1948,10 @@ export class FormRenderer extends Form {
       return;
     }
 
-    return super.receive(values);
+    return super.receive(values, undefined, replace);
   }
 
-  setData(values: object) {
+  setData(values: object, replace?: boolean) {
     return super.setValues(values);
   }
 }

@@ -201,7 +201,7 @@ exports[`Renderer:textarea with maxLength & clearable & resetValue 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -326,7 +326,7 @@ exports[`Renderer:textarea with readOnly 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -455,7 +455,7 @@ exports[`Renderer:textarea with trimContents & showCounter 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>

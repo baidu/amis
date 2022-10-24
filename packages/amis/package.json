@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "2.2.0",
+  "version": "2.3.2-beta.1",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -40,8 +40,8 @@
     ]
   },
   "dependencies": {
-    "amis-core": "^2.2.0",
-    "amis-ui": "^2.2.0",
+    "amis-core": "^2.3.2-beta.1",
+    "amis-ui": "^2.3.2-beta.1",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.1",
@@ -83,7 +83,7 @@
     "@rollup/plugin-typescript": "^8.3.4",
     "@svgr/rollup": "^6.2.1",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.0.0",
+    "@testing-library/react": "^13.4.0",
     "@types/async": "^2.0.45",
     "@types/codemirror": "^5.60.3",
     "@types/echarts": "^4.9.2",
@@ -179,6 +179,14 @@
       "import": [
         "./sdk/*"
       ]
+    },
+    "./schema.json": {
+      "require": [
+        "./schema.json"
+      ],
+      "import": [
+        "./schema.json"
+      ]
     }
   },
   "jest": {
@@ -215,7 +223,11 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/.rollup.cache/"
-    ]
+    ],
+    "snapshotFormat": {
+      "escapeString": false,
+      "printBasicPrototype": false
+    }
   },
   "peerDependencies": {
     "amis-core": "*",

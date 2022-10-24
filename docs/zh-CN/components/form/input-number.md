@@ -115,6 +115,28 @@ order: 32
 }
 ```
 
+## 是否是大数
+
+> 2.3.0 及以上版本
+
+默认情况下使用 JavaScript 原生数字类型，但如果要支持输入超过 JavaScript 支持范围的整数或浮点数，可以通过 `"big": true` 开启大数支持，开启之后输入输出都将是字符串
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-number",
+            "name": "number",
+            "label": "数字",
+            "big": "true"
+        }
+    ]
+}
+```
+
 ## 原生数字组件
 
 原生数字组件将直接使用浏览器的实现，最终展现效果和浏览器有关，而且只支持 `min`、`max`、`step` 这几个属性设置。
@@ -148,17 +170,20 @@ order: 32
 | suffix           | `string`                                |        | 后缀                 |
 | kilobitSeparator | `boolean`                               |        | 千分分隔             |
 | keyboard         | `boolean`                               |        | 键盘事件（方向上下） |
+| big              | `boolean`                               |        | 是否使用大数         |
 | displayMode      | `string`                                |        | 样式类型             |
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`event.data.xxx`事件参数变量来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称 | 事件参数                          | 说明             |
-| -------- | --------------------------------- | ---------------- |
-| change   | `event.data.value: number` 当前值 | 输入值变化时触发 |
-| blur     | `event.data.value: number` 当前值 | -                |
-| focus    | `event.data.value: number` 当前值 | -                |
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称 | 事件参数                  | 说明             |
+| -------- | ------------------------- | ---------------- |
+| change   | `[name]: number` 组件的值 | 输入值变化时触发 |
+| blur     | `[name]: number` 组件的值 | -                |
+| focus    | `[name]: number` 组件的值 | -                |
 
 ## 动作表
 

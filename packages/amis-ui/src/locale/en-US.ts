@@ -39,6 +39,7 @@ register('en-US', {
   'CRUD.invalidArray': 'data.items must be an array',
   'CRUD.invalidData': 'data is empty',
   'CRUD.loadMore': 'Load more',
+  'CRUD.loadMoreDisableTip': 'No data or last page',
   'CRUD.perPage': 'Per page',
   'CRUD.stat': '{{page}} of {{lastPage}} total: {{total}}.',
   'CRUD.paginationGoText': 'Go to',
@@ -318,6 +319,7 @@ register('en-US', {
   'Condition.not': 'not',
   'Condition.and': 'and',
   'Condition.or': 'or',
+  'Condition.collapse': 'unfold',
   'Condition.add_cond': 'add condition',
   'Condition.add_cond_group': 'add condition group',
   'Condition.delete_cond_group': 'delete condition group',
@@ -380,5 +382,7 @@ register('en-US', {
   'JSONSchema.description': 'Description',
   'JSONSchema.key': 'Key',
   'JSONSchema.array_items': 'Items',
-  'TimeNow': 'Now'
+  'TimeNow': 'Now',
+  'IconSelect.all': 'All',
+  'IconSelect.choice': 'Icon selection'
 });

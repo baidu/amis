@@ -376,7 +376,11 @@ export type Table2RendererEvent =
   | 'columnToggled'
   | 'dragOver';
 
-export type Table2RendererAction = 'selectAll' | 'clearAll' | 'select';
+export type Table2RendererAction =
+  | 'selectAll'
+  | 'clearAll'
+  | 'select'
+  | 'expand';
 
 export interface Table2Props extends RendererProps {
   title?: string;
@@ -408,7 +412,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
   static contextType = ScopedContext;
 
   renderedToolbars: Array<string> = [];
-  control: any;
+  tableRef?: any;
 
   constructor(props: Table2Props, context: IScopedContext) {
     super(props);
@@ -436,16 +440,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
   componentWillUnmount() {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
-  }
-
-  @autobind
-  controlRef(control: any) {
-    // 因为 control 有可能被 n 层 hoc 包裹。
-    while (control && control.getWrappedInstance) {
-      control = control.getWrappedInstance();
-    }
-
-    this.control = control;
   }
 
   syncSelected() {
@@ -934,7 +928,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
           reload && this.reloadTarget(reload, data);
         })
         .catch(() => {
-          options?.resetOnFailed && this.control.reset();
+          options?.resetOnFailed && this.reset();
         });
     }
   }
@@ -1199,10 +1193,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   doAction(action: ActionObject, args: any, throwErrors: boolean): any {
-    const {store, rowSelection, data} = this.props;
+    const {store, rowSelection, data, keyField: key, expandable} = this.props;
 
     const actionType = action?.actionType as string;
-    const keyField = rowSelection?.keyField;
+    const keyField = rowSelection?.keyField || key || 'key';
+    const dataSource = store.getData(data).items || [];
 
     switch (actionType) {
       case 'selectAll':
@@ -1212,22 +1207,69 @@ export default class Table2 extends React.Component<Table2Props, object> {
         store.updateSelected([], keyField);
         break;
       case 'select':
-        const dataSource = store.getData(data);
         const selected: Array<any> = [];
-        dataSource.items.forEach((item: any, rowIndex: number) => {
+        dataSource.forEach((item: any, rowIndex: number) => {
           const flag = evalExpression(args?.selectedRowKeysExpr, {
             record: item,
             rowIndex
           });
-          if (flag && keyField) {
+          if (flag) {
             selected.push(item[keyField]);
           }
         });
         store.updateSelected(selected, keyField);
         break;
+      case 'expand':
+        const expandableKey = expandable?.keyField || key || 'key';
+        const expanded: Array<any> = [];
+        const collapse: Array<any> = [];
+        // value值控制展开1个
+        if (args?.value) {
+          const rowIndex = dataSource.findIndex(
+            (d: any) => d[expandableKey] === args.value
+          );
+          const item = dataSource[rowIndex];
+          if (this.tableRef && this.tableRef.isExpandableRow(item, rowIndex)) {
+            if (this.tableRef.isExpanded(item)) {
+              collapse.push(item);
+            } else {
+              expanded.push(item);
+            }
+          }
+        } else if (args?.expandedRowsExpr) {
+          dataSource.forEach((item: any, rowIndex: number) => {
+            const flag = evalExpression(args?.expandedRowsExpr, {
+              record: item,
+              rowIndex
+            });
+            if (
+              flag &&
+              this.tableRef &&
+              this.tableRef.isExpandableRow(item, rowIndex)
+            ) {
+              if (this.tableRef.isExpanded(item)) {
+                collapse.push(item);
+              } else {
+                expanded.push(item);
+              }
+            }
+          });
+        }
+        if (expanded.length > 0) {
+          this.tableRef && this.tableRef.onExpandRows(expanded);
+        }
+        if (collapse.length > 0) {
+          this.tableRef && this.tableRef.onCollapseRows(collapse);
+        }
+        break;
       default:
         break;
     }
+  }
+
+  @autobind
+  getRef(ref: any) {
+    this.tableRef = ref;
   }
 
   renderTable() {
@@ -1393,6 +1435,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     return (
       <Table
         {...rest}
+        onRef={this.getRef}
         title={this.renderSchema('title', title, {data: this.props.data})}
         footer={this.renderSchema('footer', footer, {data: this.props.data})}
         columns={this.buildColumns(store.filteredColumns)}
@@ -1431,7 +1474,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
               })}
               <button
                 type="button"
-                className={cx('Button Button--xs Button--success m-l-sm')}
+                className={cx('Button Button--size-xs Button--success m-l-sm')}
                 onClick={this.handleSaveOrder}
               >
                 <Icon icon="check" className="icon m-r-xs" />
@@ -1439,7 +1482,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
               </button>
               <button
                 type="button"
-                className={cx('Button Button--xs Button--danger m-l-sm')}
+                className={cx('Button Button--size-xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
                 <Icon icon="close" className="icon m-r-xs" />

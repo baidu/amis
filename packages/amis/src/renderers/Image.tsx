@@ -1,13 +1,24 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {filter} from 'amis-core';
-import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
+import {themeable, ThemeProps} from 'amis-core';
 import {autobind, getPropValue} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {LocaleProps, localeable} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
-import {resolveVariable} from 'amis-core';
 import {handleAction} from 'amis-core';
+import type {
+  ImageAction,
+  ImageActionKey
+} from 'amis-ui/lib/components/ImageGallery';
+
+export interface ImageToolbarAction {
+  key: keyof typeof ImageActionKey;
+  label?: string;
+  icon?: string;
+  iconClassName?: string;
+  disabled?: boolean;
+}
 
 /**
  * 图片展示控件。
@@ -124,6 +135,16 @@ export interface ImageSchema extends BaseSchema {
    * 链接的 target
    */
   htmlTarget?: string;
+
+  /**
+   * 是否展示图片工具栏
+   */
+  showToolbar?: boolean;
+
+  /**
+   * 工具栏配置
+   */
+  toolbarActions?: ImageToolbarAction[];
 }
 
 export interface ImageThumbProps
@@ -136,7 +157,46 @@ export interface ImageThumbProps
   overlays?: JSX.Element;
 }
 
-export class ImageThumb extends React.Component<ImageThumbProps> {
+interface ImageThumbState {
+  imageLoading: boolean; // 切换图片后，图片是否在加载
+}
+
+export class ImageThumb extends React.Component<
+  ImageThumbProps,
+  ImageThumbState
+> {
+  constructor(props: ImageThumbProps) {
+    super(props);
+
+    this.state = {
+      imageLoading: false
+    };
+  }
+
+  componentDidUpdate(preProps: ImageThumbProps) {
+    if (preProps.src !== this.props.src) {
+      this.setState({
+        imageLoading: true
+      });
+    }
+  }
+
+  @autobind
+  handleImgLoaded(e: React.SyntheticEvent<HTMLImageElement, Event>) {
+    this.setState({
+      imageLoading: false
+    });
+
+    this.props?.onLoad?.(e);
+  }
+
+  @autobind
+  handleImgError(e: React.SyntheticEvent<HTMLImageElement, Event>) {
+    this.setState({
+      imageLoading: false
+    });
+  }
+
   @autobind
   handleEnlarge() {
     const {onEnlarge, ...rest} = this.props;
@@ -166,6 +226,29 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
       overlays,
       imageMode
     } = this.props;
+
+    const {imageLoading} = this.state;
+
+    const imageContent = (
+      <>
+        {imageLoading ? (
+          <img
+            className={cx('Image-image', imageClassName)}
+            src={imagePlaceholder}
+            alt={alt}
+          />
+        ) : null}
+        <img
+          onLoad={this.handleImgLoaded}
+          onError={this.handleImgError}
+          className={cx('Image-image', imageClassName, {
+            'Image-image--loading': imageLoading
+          })}
+          src={src}
+          alt={alt}
+        />
+      </>
+    );
 
     const enlarge =
       enlargeAble || overlays ? (
@@ -200,12 +283,7 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
             )}
             style={{height: height, width: width}}
           >
-            <img
-              onLoad={onLoad}
-              className={cx('Image-image', imageClassName)}
-              src={src}
-              alt={alt}
-            />
+            {imageContent}
             {enlarge}
           </div>
         ) : (
@@ -221,12 +299,7 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
               )}
               style={{height: height, width: width}}
             >
-              <img
-                onLoad={onLoad}
-                className={cx('Image-image', imageClassName)}
-                src={src}
-                alt={alt}
-              />
+              {imageContent}
             </div>
             {enlarge}
           </div>
@@ -284,6 +357,8 @@ export interface ImageFieldProps extends RendererProps {
   thumbRatio: '1:1' | '4:3' | '16:9';
   originalSrc?: string; // 原图
   enlargeAble?: boolean;
+  showToolbar?: boolean;
+  toolbarActions?: ImageAction[];
   onImageEnlarge?: (
     info: {
       src: string;
@@ -292,6 +367,8 @@ export interface ImageFieldProps extends RendererProps {
       caption?: string;
       thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
       thumbRatio?: '1:1' | '4:3' | '16:9';
+      showToolbar?: boolean;
+      toolbarActions?: ImageAction[];
     },
     target: any
   ) => void;
@@ -317,7 +394,13 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     thumbMode,
     thumbRatio
   }: ImageThumbProps) {
-    const {onImageEnlarge, enlargeTitle, enlargeCaption} = this.props;
+    const {
+      onImageEnlarge,
+      enlargeTitle,
+      enlargeCaption,
+      showToolbar,
+      toolbarActions
+    } = this.props;
 
     onImageEnlarge &&
       onImageEnlarge(
@@ -327,7 +410,9 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
           title: enlargeTitle || title,
           caption: enlargeCaption || caption,
           thumbMode,
-          thumbRatio
+          thumbRatio,
+          showToolbar,
+          toolbarActions
         },
         this.props
       );

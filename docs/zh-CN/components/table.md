@@ -650,44 +650,50 @@ order: 67
 {
     "type": "service",
     "api": "/api/mock2/sample?perPage=5",
-    "className": "w-xxl",
+    "className": "flex justify-center",
     "body": [
         {
-            "type": "table",
-            "source": "$rows",
-            "className": "m-b-none",
-            "columnsTogglable": false,
-            "columns": [
+            "type": "wrapper",
+            "className": "w-xxl border-2 border-solid border-indigo-400",
+            "body": [
                 {
-                    "name": "engine",
-                    "label": "Engine",
-                    "fixed": "left"
-                },
-
-                {
-                    "name": "grade",
-                    "label": "Grade"
-                },
-
-                {
-                    "name": "version",
-                    "label": "Version"
-                },
-
-                {
-                    "name": "browser",
-                    "label": "Browser"
-                },
-
-                {
-                    "name": "id",
-                    "label": "ID"
-                },
-
-                {
-                    "name": "platform",
-                    "label": "Platform",
-                    "fixed": "right"
+                    "type": "table",
+                    "source": "$rows",
+                    "className": "m-b-none",
+                    "columnsTogglable": false,
+                    "columns": [
+                        {
+                            "name": "id",
+                            "label": "ID",
+                            "fixed": "left"
+                        },
+                        {
+                            "name": "engine",
+                            "label": "Engine",
+                            "groupName": 'Group-1',
+                            "fixed": "left"
+                        },
+                        {
+                            "name": "grade",
+                            "label": "Grade",
+                        },
+                        {
+                            "name": "version",
+                            "label": "Version"
+                        },
+                        {
+                            "name": "browser",
+                            "label": "Browser",
+                            "groupName": 'Group-2',
+                            "fixed": "right"
+                        },
+                        {
+                            "name": "platform",
+                            "label": "Platform",
+                            "groupName": 'Group-2',
+                            "fixed": "right"
+                        }
+                    ]
                 }
             ]
         }

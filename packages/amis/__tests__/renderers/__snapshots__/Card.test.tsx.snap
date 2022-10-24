@@ -467,7 +467,7 @@ exports[`Renderer:cards hightlight 1`] = `
                         class="cxd-DropDown  cxd-Card-action pr-1 flex"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
                           <i
                             class="m-r-xs fa fa-ellipsis-h"
@@ -596,7 +596,7 @@ exports[`Renderer:cards hightlight 2`] = `
                         class="cxd-DropDown  cxd-Card-action pr-1 flex"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
                           <i
                             class="m-r-xs fa fa-ellipsis-h"
@@ -722,7 +722,7 @@ exports[`Renderer:cards media 1`] = `
                         class="cxd-DropDown  cxd-Card-action pr-1 flex"
                       >
                         <button
-                          class="cxd-Button cxd-Button--link cxd-Button--sm"
+                          class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
                           <i
                             class="m-r-xs fa fa-ellipsis-h"

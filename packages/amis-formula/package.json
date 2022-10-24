@@ -1,6 +1,6 @@
 {
   "name": "amis-formula",
-  "version": "2.2.0",
+  "version": "2.3.2-beta.1",
   "description": "负责 amis 里面的表达式实现，内置公式，编辑器等",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -95,7 +95,11 @@
     },
     "setupFilesAfterEnv": [
       "<rootDir>/__tests__/jest.setup.js"
-    ]
+    ],
+    "snapshotFormat": {
+      "escapeString": false,
+      "printBasicPrototype": false
+    }
   },
   "gitHead": "37d23b4a8eb1c663bc38e8dd9040889ea1526ec4"
 }

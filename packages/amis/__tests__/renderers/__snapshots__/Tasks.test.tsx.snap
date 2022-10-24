@@ -43,7 +43,7 @@ exports[`Renderer:tesks 1`] = `
                   </td>
                   <td>
                     <a
-                      class="cxd-Button cxd-Button--default disabled"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-md disabled"
                     >
                       上线
                     </a>
@@ -78,7 +78,7 @@ exports[`Renderer:tesks 1`] = `
                   </td>
                   <td>
                     <a
-                      class="cxd-Button cxd-Button--default disabled"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-md disabled"
                     >
                       上线
                     </a>
@@ -98,7 +98,7 @@ exports[`Renderer:tesks 1`] = `
                   </td>
                   <td>
                     <a
-                      class="cxd-Button cxd-Button--default disabled"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-md disabled"
                     >
                       上线
                     </a>

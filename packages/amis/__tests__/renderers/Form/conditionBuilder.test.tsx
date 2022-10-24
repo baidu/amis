@@ -102,7 +102,7 @@ test('Renderer:condition-builder add', async () => {
     amisRender(testSchema, {onChange}, makeEnv({}))
   );
 
-  const andCondition = await findByText('并且');
+  const andCondition = await findByText('且');
 
   fireEvent.mouseOver(andCondition);
 

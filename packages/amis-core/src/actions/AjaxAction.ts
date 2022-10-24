@@ -55,7 +55,7 @@ export class AjaxAction implements RendererAction {
     try {
       const result = await env.fetcher(
         action.args?.api as string,
-        omit(action.args ?? {}, ['api', 'options', 'messages']),
+        action.data ?? {},
         action.args?.options ?? {}
       );
       const responseData =

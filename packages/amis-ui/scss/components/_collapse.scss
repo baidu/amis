@@ -61,15 +61,15 @@
     display: inline-block;
   }
 
-  &.is-active &-arrow:before {
+  &.is-active > * > &-arrow:before {
     transform: rotate(135deg);
     transform-origin: 50% 30%;
   }
-  &.is-active &-icon-tranform {
+  &.is-active > * > &-icon-tranform {
     transform: rotate(90deg);
   }
 
-  &--disabled &-header {
+  &--disabled > &-header {
     cursor: not-allowed;
     user-select: none;
     color: var(--text--muted-color);
@@ -78,7 +78,7 @@
     }
   }
 
-  &--disabled &-arrow:before {
+  &--disabled > * > &-arrow:before {
     border-color: var(--text--muted-color);
   }
 
@@ -117,5 +117,22 @@
     color: var(--body-color);
     font-size: var(--Collapse-content-fontSize);
     font-weight: var(--Collapse-content-fontWeight);
+  }
+}
+
+//FieldSet Form + Collapse
+.#{$ns}Form {
+  .#{$ns}Collapse {
+    border: none;
+    &-header {
+      background-color: var(--white);
+      display: inline-flex;
+      justify-content: flex-end;
+      flex-direction: row-reverse;
+      border-radius: 0;
+    }
+    &-content {
+      padding: 0;
+    }
   }
 }

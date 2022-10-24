@@ -1,3 +1,4 @@
+import omit from 'lodash/omit';
 import {RendererProps} from '../factory';
 import {createObject, extendObject} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
@@ -21,7 +22,9 @@ export interface ListenerAction {
   actionType: string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
   description?: string; // 事件描述，actionType: broadcast
   componentId?: string; // 组件ID，用于直接执行指定组件的动作
-  args?: Record<string, any>; // 参数，可以配置数据映射
+  args?: Record<string, any>; // 动作配置，可以配置数据映射
+  data?: Record<string, any> | null; // 动作数据参数，可以配置数据映射
+  dataMergeMode?: 'merge' | 'override'; // 参数模式，合并或者覆盖
   outputVar?: string; // 输出数据变量名
   preventDefault?: boolean; // 阻止原有组件的动作行为
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
@@ -67,6 +70,70 @@ export const registerAction = (type: string, action: RendererAction) => {
 // 通过类型获取 Action 实例
 export const getActionByType = (type: string) => {
   return ActionTypeMap[type];
+};
+
+// 根据动作类型获取属性排除列表
+const getOmitActionProp = (type: string) => {
+  let omitList: string[] = [];
+  switch (type) {
+    case 'toast':
+      omitList = [
+        'msgType',
+        'msg',
+        'position',
+        'closeButton',
+        'showIcon',
+        'timeout',
+        'title'
+      ];
+      break;
+    case 'alert':
+      omitList = ['msg'];
+      break;
+    case 'confirm':
+      omitList = ['msg', 'title'];
+      break;
+    case 'ajax':
+      omitList = ['api', 'messages', 'options'];
+      break;
+    case 'setValue':
+      omitList = ['value', 'index'];
+      break;
+    case 'copy':
+      omitList = ['content', 'copyFormat'];
+      break;
+    case 'email':
+      omitList = ['to', 'cc', 'bcc', 'subject', 'body'];
+      break;
+    case 'link':
+      omitList = ['link', 'blank', 'params'];
+      break;
+    case 'url':
+      omitList = ['url', 'blank', 'params'];
+      break;
+    case 'for':
+      omitList = ['loopName'];
+      break;
+    case 'goPage':
+      omitList = ['delta'];
+      break;
+    case 'custom':
+      omitList = ['script'];
+      break;
+    case 'broadcast':
+      omitList = ['eventName'];
+      break;
+    case 'dialog':
+      omitList = ['dialog'];
+      break;
+    case 'drawer':
+      omitList = ['drawer'];
+      break;
+    case 'reload':
+      omitList = ['resetPage'];
+      break;
+  }
+  return omitList;
 };
 
 export const runActions = async (
@@ -116,19 +183,16 @@ export const runAction = async (
 ) => {
   // 用户可能，需要用到事件数据和当前域的数据，因此merge事件数据和当前渲染器数据
   // 需要保持渲染器数据链完整
-  const mergeData = renderer.props.data.__super
-    ? createObject(
-        createObject(renderer.props.data.__super, {
-          event
-        }),
-        renderer.props.data
-      )
-    : createObject(
-        {
-          event
-        },
-        renderer.props.data
-      );
+  // 注意：并行ajax请求结果必须通过event取值
+  const mergeData = createObject(
+    createObject(
+      renderer.props.data.__super
+        ? createObject(renderer.props.data.__super, {event})
+        : {event},
+      renderer.props.data
+    ),
+    event.data
+  );
 
   // 兼容一下1.9.0之前的版本
   const expression = actionConfig.expression ?? actionConfig.execOn;
@@ -145,19 +209,37 @@ export const runAction = async (
     actionConfig.stopPropagation &&
     evalExpression(String(actionConfig.stopPropagation), mergeData);
 
-  // 修正参数，处理数据映射
-  let args = event.data;
+  // 动作配置
+  const args = dataMapping(actionConfig.args, mergeData, key =>
+    ['adaptor', 'responseAdaptor', 'requestAdaptor'].includes(key)
+  );
+  const afterMappingData = dataMapping(actionConfig.data, mergeData);
 
-  if (actionConfig.args) {
-    args = dataMapping(actionConfig.args, mergeData, key =>
-      ['adaptor', 'responseAdaptor', 'requestAdaptor'].includes(key)
-    );
-  }
+  // 动作数据
+  const actionData =
+    args && Object.keys(args).length
+      ? omit(
+          {
+            ...args, // 兼容历史（动作配置与数据混在一起的情况）
+            ...(afterMappingData ?? {})
+          },
+          getOmitActionProp(actionConfig.actionType)
+        )
+      : afterMappingData;
+
+  // 默认为事件数据
+  const data =
+    args && !Object.keys(args).length && actionConfig.data === undefined // 兼容历史
+      ? {}
+      : actionData !== undefined
+      ? actionData
+      : event.data;
 
   await actionInstrance.run(
     {
       ...actionConfig,
-      args
+      args,
+      data
     },
     renderer,
     event,

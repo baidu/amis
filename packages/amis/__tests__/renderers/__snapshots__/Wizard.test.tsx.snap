@@ -65,7 +65,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
         role="wizard-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default btn-lg btn-primary"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default btn-lg btn-primary"
           type="button"
         >
           <span>
@@ -73,7 +73,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary btn-lg btn-primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default btn-lg btn-primary"
           type="button"
         >
           <span>
@@ -253,7 +253,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
         role="wizard-footer"
       >
         <div
-          class="cxd-Button cxd-Button--default is-disabled btn-lg btn-primary"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled btn-lg btn-primary"
           disabled=""
         >
           <span>
@@ -261,7 +261,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
           </span>
         </div>
         <button
-          class="cxd-Button cxd-Button--default btn-lg btn-primary"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default btn-lg btn-primary"
           type="button"
         >
           <span>
@@ -458,7 +458,7 @@ exports[`Renderer:Wizard default 1`] = `
         role="wizard-footer"
       >
         <div
-          class="cxd-Button cxd-Button--default is-disabled"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
           disabled=""
         >
           <span>
@@ -466,7 +466,7 @@ exports[`Renderer:Wizard default 1`] = `
           </span>
         </div>
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -653,7 +653,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                     data-role="form-item"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default"
                       type="button"
                     >
                       <span>
@@ -668,7 +668,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                 role="wizard-footer"
               >
                 <div
-                  class="cxd-Button cxd-Button--default is-disabled"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
                   disabled=""
                 >
                   <span>
@@ -676,7 +676,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                   </span>
                 </div>
                 <button
-                  class="cxd-Button cxd-Button--default"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
                   type="button"
                 >
                   <span>
@@ -814,7 +814,7 @@ exports[`Renderer:Wizard dialog 1`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -822,7 +822,7 @@ exports[`Renderer:Wizard dialog 1`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -970,7 +970,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                     data-role="form-item"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-default"
                       type="button"
                     >
                       <span>
@@ -985,7 +985,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                 role="wizard-footer"
               >
                 <div
-                  class="cxd-Button cxd-Button--default is-disabled"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
                   disabled=""
                 >
                   <span>
@@ -993,7 +993,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                   </span>
                 </div>
                 <button
-                  class="cxd-Button cxd-Button--default"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
                   type="button"
                 >
                   <span>
@@ -1194,7 +1194,7 @@ exports[`Renderer:Wizard initApi default 1`] = `
         role="wizard-footer"
       >
         <div
-          class="cxd-Button cxd-Button--default is-disabled"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
           disabled=""
         >
           <span>
@@ -1202,7 +1202,7 @@ exports[`Renderer:Wizard initApi default 1`] = `
           </span>
         </div>
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -1402,7 +1402,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                 role="wizard-footer"
               >
                 <div
-                  class="cxd-Button cxd-Button--default is-disabled"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
                   disabled=""
                 >
                   <span>
@@ -1410,7 +1410,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                   </span>
                 </div>
                 <button
-                  class="cxd-Button cxd-Button--default"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
                   type="button"
                 >
                   <span>
@@ -1543,7 +1543,7 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                 role="wizard-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--default"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
                   type="button"
                 >
                   <span>
@@ -1551,7 +1551,7 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                   </span>
                 </button>
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="button"
                 >
                   <span>
@@ -1684,7 +1684,7 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                 role="wizard-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--default"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
                   type="button"
                 >
                   <span>
@@ -1692,7 +1692,7 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                   </span>
                 </button>
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="button"
                 >
                   <span>
@@ -2000,7 +2000,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
         role="wizard-footer"
       >
         <div
-          class="cxd-Button cxd-Button--default is-disabled"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
           disabled=""
         >
           <span>
@@ -2008,7 +2008,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
           </span>
         </div>
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -2196,7 +2196,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
         role="wizard-footer"
       >
         <div
-          class="cxd-Button cxd-Button--default is-disabled"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
           disabled=""
         >
           <span>
@@ -2204,7 +2204,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
           </span>
         </div>
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -2321,7 +2321,7 @@ exports[`Renderer:Wizard send data 1`] = `
         role="wizard-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -2329,7 +2329,7 @@ exports[`Renderer:Wizard send data 1`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -2489,7 +2489,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
         role="wizard-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -2497,7 +2497,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -2693,7 +2693,7 @@ exports[`Renderer:Wizard target 1`] = `
                 role="wizard-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--default"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default"
                   type="button"
                 >
                   <span>
@@ -2701,7 +2701,7 @@ exports[`Renderer:Wizard target 1`] = `
                   </span>
                 </button>
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="button"
                 >
                   <span>
@@ -2859,7 +2859,7 @@ exports[`Renderer:Wizard target 1`] = `
                 class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="cxd-Button cxd-Button--primary"
+                  class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="submit"
                 >
                   <span>
@@ -3074,7 +3074,7 @@ exports[`Renderer:Wizard validate 1`] = `
         role="wizard-footer"
       >
         <div
-          class="cxd-Button cxd-Button--default is-disabled"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
           disabled=""
         >
           <span>
@@ -3082,7 +3082,7 @@ exports[`Renderer:Wizard validate 1`] = `
           </span>
         </div>
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>

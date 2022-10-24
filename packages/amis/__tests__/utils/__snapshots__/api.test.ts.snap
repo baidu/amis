@@ -15,7 +15,7 @@ exports[`api:cache 1`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -55,7 +55,7 @@ exports[`api:cache 2`] = `
           class="cxd-Page-toolbar"
         >
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>

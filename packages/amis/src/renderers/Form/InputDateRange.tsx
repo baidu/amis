@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  resolveEventData
+} from 'amis-core';
 import cx from 'classnames';
 import {filterDate, parseDuration} from 'amis-core';
 import 'moment/locale/zh-cn';
@@ -8,6 +13,7 @@ import {isMobile, createObject, autobind} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
 import {FormBaseControlSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * DateRange 日期范围控件
@@ -196,12 +202,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   dispatchEvent(eventName: string) {
     const {dispatchEvent, data, value} = this.props;
 
-    dispatchEvent(
-      eventName,
-      createObject(data, {
-        value
-      })
-    );
+    dispatchEvent(eventName, resolveEventData(this.props, {value}, 'value'));
   }
 
   // 动作
@@ -224,7 +225,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     const {dispatchEvent, data} = this.props;
     const dispatcher = dispatchEvent(
       'change',
-      createObject(data, {value: nextValue})
+      resolveEventData(this.props, {value: nextValue}, 'value')
     );
     if (dispatcher?.prevented) {
       return;
@@ -232,6 +233,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     this.props.onChange(nextValue);
   }
 
+  @supportStatic()
   render() {
     const {
       className,

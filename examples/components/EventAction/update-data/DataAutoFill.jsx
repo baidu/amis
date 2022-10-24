@@ -9,7 +9,7 @@ export default {
   body: [
     {
       type: 'alert',
-      body: '远程请求后、表单提交后，将数据回填给另一个组件。请求返回的数据可以指定存储在`outputVar`变量里，其他动作可以通过`event.data.{{outputVar}}`直接获取该数据。',
+      body: '远程请求后、表单提交后，将数据回填给另一个组件。请求返回的数据可以指定存储在`outputVar`变量里，其他动作可以通过`${[outputVar]}`直接获取该数据。',
       level: 'info',
       className: 'mb-1'
     },
@@ -59,7 +59,7 @@ export default {
                   actionType: 'setValue',
                   componentId: 'form_data_001',
                   args: {
-                    value: '${event.data.myResult}'
+                    value: '${myResult}'
                   }
                 }
               ]
@@ -156,7 +156,7 @@ export default {
                                 actionType: 'setValue',
                                 componentId: 'form_data_002',
                                 args: {
-                                  value: '${event.data.myResult}'
+                                  value: '${myResult}'
                                 }
                               },
                               {
@@ -404,21 +404,21 @@ export default {
                   actionType: 'setValue',
                   componentId: 'id',
                   args: {
-                    value: '${event.data.value}'
+                    value: '${picker}'
                   }
                 },
                 {
                   actionType: 'setValue',
                   componentId: 'platform',
                   args: {
-                    value: '${event.data.option.platform}'
+                    value: '${selectedItems.platform}'
                   }
                 },
                 {
                   actionType: 'click',
                   componentId: 'dialog-action',
                   args: {
-                    browser: '${event.data.option.browser}'
+                    browser: '${selectedItems.browser}'
                   }
                 }
               ]

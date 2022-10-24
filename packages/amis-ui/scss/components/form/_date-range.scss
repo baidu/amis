@@ -47,7 +47,7 @@
     line-height: px2rem(30px);
 
     &::placeholder {
-      color: #{$G6};
+      color: var(--colors-neutral-text-6);
     }
   }
 
