@@ -1238,6 +1238,7 @@ exports[`Renderer:transfer table 1`] = `
                                 <tr>
                                   <th
                                     class="cxd-Table-checkCell"
+                                    data-index="0"
                                   >
                                     <label
                                       class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
@@ -1251,10 +1252,14 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                     </label>
                                   </th>
-                                  <th>
+                                  <th
+                                    data-index="1"
+                                  >
                                     英雄
                                   </th>
-                                  <th>
+                                  <th
+                                    data-index="2"
+                                  >
                                     位置
                                   </th>
                                 </tr>
