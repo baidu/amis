@@ -782,7 +782,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 className: 'm-l-xs',
                 icon: 'fa fa-question-circle',
                 rootClose: true,
-                content: `选择“是”时，会将源组件所在数据域变量同步到目标组件的数据域。<br/>如果目标组件是增删改查组件，且增删改查组件的数据拉取接口是get请求，则源组件所在数据域变量将追加到目标组件的初始化请求query中。`,
+                content: `当选择“是”，且目标组件是增删改查组件时，数据接口请求时将带上这些数据，其他类型的目标组件只有在数据接口是post请求时才会带上这些数据。`,
                 placement: 'top'
               },
               onText: '是',

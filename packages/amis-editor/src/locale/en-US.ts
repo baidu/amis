@@ -3304,5 +3304,7 @@ extendLocale('en-US', {
   '7bb3e24cc54f4b8ee0a65d14fa4c067c': 'Modify activation tab value',
   'fd951a59a7c635d5330bc1aeec22c813': 'Custom Data',
   'b62ce3df3c0d5772006c525b60d5eeab':
-    'The data defaults to the data field where the source component is located, you can select "Custom" to customize the required data'
+    'The data defaults to the data field where the source component is located, you can select "Custom" to customize the required data',
+  '0f9803bd27434940d4017007c105a861':
+    'When "Yes" is selected, and the target component is CRUD, the request be send with this data. Other target components send with this data just when the request api is POST method.'
 });
