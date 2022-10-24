@@ -67,14 +67,12 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
   renderOptionOrLabel(
     option: Option,
     index: number,
-    key: string = `${index}`,
+    hasParent: boolean = false,
     styles: object = {}
   ): JSX.Element {
     const {
-      labelClassName,
       disabled,
       classnames: cx,
-      itemClassName,
       itemRender,
       multiple,
       labelField
@@ -101,7 +99,19 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
       );
     }
 
-    return this.renderPureOption(option, index, key, styles);
+    return hasParent ? (
+      <div
+        key={'group' + index}
+        style={styles}
+        className={cx('GroupedSelection-group', option.className)}
+      >
+        <div className={cx('GroupedSelection-items', option.className)}>
+          {this.renderPureOption(option, index)}
+        </div>
+      </div>
+    ) : (
+      this.renderPureOption(option, index, undefined, styles)
+    );
   }
 
   renderPureOption(
@@ -178,7 +188,15 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
     let body: Array<React.ReactNode> | React.ReactNode | null = null;
 
     if (Array.isArray(options) && options.length) {
-      const flattendOptions: Option[] = flattenTree(options);
+      const flattendOptions: Option[] = flattenTree(
+        options,
+        (item, index, level) => {
+          return {
+            option: item,
+            hasParent: level > 1
+          };
+        }
+      );
 
       body =
         flattendOptions.length > virtualThreshold ? (
@@ -195,12 +213,12 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
                   index: number;
                   style?: object;
                 }) => {
-                  const option = flattendOptions[index];
+                  const {option, hasParent} = flattendOptions[index];
                   if (!option) {
                     return null;
                   }
 
-                  return this.renderOptionOrLabel(option, index, undefined, {
+                  return this.renderOptionOrLabel(option, index, hasParent, {
                     ...style,
                     width: '100%'
                   });

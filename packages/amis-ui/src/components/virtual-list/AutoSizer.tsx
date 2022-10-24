@@ -58,11 +58,6 @@ export default class AutoSizer extends React.PureComponent<
     return (
       <WrapperCmpt
         style={{
-          // position: 'absolute',
-          // left: 0,
-          // top: 0,
-          // right: 0,
-          // bottom: 0
           display: 'block',
           position: 'relative',
           width: '100%',
