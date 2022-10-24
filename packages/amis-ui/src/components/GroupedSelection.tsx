@@ -213,7 +213,7 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
                   index: number;
                   style?: object;
                 }) => {
-                  const {option, hasParent} = flattendOptions[index];
+                  const {option, hasParent} = flattendOptions[index] || {};
                   if (!option) {
                     return null;
                   }

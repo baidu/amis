@@ -99,7 +99,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps, any> {
         <thead>
           <tr>
             {multiple && Array.isArray(options) && options.length ? (
-              <th data-index={0} className={cx('Table-checkCell')}>
+              <th className={cx('Table-checkCell')}>
                 <Checkbox
                   key="checkbox"
                   size="sm"
@@ -111,9 +111,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps, any> {
               </th>
             ) : null}
             {columns.map((column, index) => (
-              <th data-index={index + 1} key={index}>
-                {column.label}
-              </th>
+              <th key={index}>{column.label}</th>
             ))}
           </tr>
         </thead>
@@ -224,9 +222,8 @@ export class TableSelection extends BaseSelection<TableSelectionProps, any> {
     this.ref &&
       forEach(
         this.ref.querySelectorAll('thead>tr:last-child>th'),
-        (item: HTMLElement) => {
-          widths[item.getAttribute('data-index') as string] =
-            item.getBoundingClientRect().width;
+        (item: HTMLElement, index: number) => {
+          widths[index] = item.getBoundingClientRect().width;
         }
       );
 
@@ -254,8 +251,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps, any> {
     } = this.props;
     const columns = this.getColumns();
     let valueArray = BaseSelection.value2array(value, options, option2value);
-
-    const {startIndex, stopIndex} = this.state.rowRenderScope || {};
+    const {startIndex = 0, stopIndex = 10} = this.state.rowRenderScope || {};
 
     let tableList: React.ReactNode | null = null;
 
@@ -264,7 +260,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps, any> {
       for (let index = startIndex; index <= stopIndex; index++) {
         const option = options[index];
         if (!option) {
-          return null;
+          break;
         }
 
         trs.push(
@@ -314,14 +310,13 @@ export class TableSelection extends BaseSelection<TableSelectionProps, any> {
                 onItemsRendered={res => {
                   if (!isEqual(this.state.rowRenderScope, res)) {
                     // 需要延后执行，否则报 warning
-                    Promise.resolve().then(() =>
+                    setTimeout(() => {
                       this.setState({
                         rowRenderScope: res
-                      })
-                    );
+                      });
+                    });
                   }
                 }}
-                className={cx('Table-table', 'is-virtual')}
                 height={height}
                 itemCount={options.length}
                 itemSize={itemHeight}

@@ -42,6 +42,7 @@
 
 .#{$ns}GroupedSelection {
   max-height: px2rem(300px);
+  height: 100%;
   overflow: auto;
   user-select: none;
   padding: var(--gap-xs) 0;
@@ -324,6 +325,11 @@
     min-height: px2rem(200px);
     max-height: px2rem(400px);
     overflow: auto;
+
+    > .#{$ns}GroupedSelection {
+      padding: 0;
+      max-height: 100%;
+    }
   }
 
   &-left {
