@@ -224,7 +224,7 @@ export function render(
   }
 
   // 默认将开启移动端原生 UI
-  if (typeof options.useMobileUI) {
+  if (options.useMobileUI !== false) {
     props.useMobileUI = true;
   }
 
