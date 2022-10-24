@@ -3306,5 +3306,25 @@ extendLocale('en-US', {
   'b62ce3df3c0d5772006c525b60d5eeab':
     'The data defaults to the data field where the source component is located, you can select "Custom" to customize the required data',
   '0f9803bd27434940d4017007c105a861':
-    'When "Yes" is selected, and the target component is CRUD, the request be send with this data. Other target components send with this data just when the request api is POST method.'
+    'When "Yes" is selected, and the target component is CRUD, the request be send with this data. Other target components send with this data just when the request api is POST method.',
+  '81e1ff0bb8917a9df99d737982ee24b7':
+    'SubForm, configure a subform as the current form item',
+  'a5c2dba5ccf62851b24cfa12d4958ce2':
+    'It can be used to display data and array type data, such as multiform of multiple',
+  '74104c62ed33836f0bc74297539dd7c9':
+    'Configure options to realize selection options',
+  'b5ade3d97d5b11bc784786111e011571':
+    'Tree structure, options can be configured through options, or options can be pulled through source',
+  '2c05e451a6f2b2fe1cf55f7afb8c8423':
+    'Single or multiple choices, support the source pull option, which can be configured with pictures or customized HTML configuration',
+  'c65c9862813c7a66c0df52e301e0e1d1':
+    'Applicable to options that contain sub items. You can pull options from source and support multiple choices',
+  '8f650b58c8421edecfb380d6f60ef40e':
+    'Configure the data sources available for selection through pickerSchema to select the required data. Multiple selections are supported',
+  'b7a4abc1e4e975c9df5bb9d9cf4823ba':
+    'Configure options through options, and pull options through source',
+  'f2fc416c7d95a93a8da621f760be8417':
+    'Support multiple choices, input prompts, and use source to obtain options',
+  'b4482a3d9523f48e83a816fa85911185':
+    'It is purely used to display data, such as json, date, image, progress, etc'
 });
