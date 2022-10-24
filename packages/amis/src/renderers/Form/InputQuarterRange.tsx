@@ -4,6 +4,7 @@ import cx from 'classnames';
 import {filterDate, parseDuration} from 'amis-core';
 import InputDateRange, {DateRangeControlSchema} from './InputDateRange';
 import {DateRangePicker} from 'amis-ui';
+import {supportStatic} from './StaticHoc';
 /**
  * QuarterRange 季度范围控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/input-quarter-range
@@ -14,6 +15,7 @@ export interface QuarterRangeControlSchema
 }
 
 export default class QuarterRangeControl extends InputDateRange {
+  @supportStatic()
   render() {
     const {
       className,

@@ -10,6 +10,7 @@ import {ActionObject} from 'amis-core';
 import {Rating} from 'amis-ui';
 import type {textPositionType} from 'amis-ui/lib/components/Rating';
 import {FormBaseControlSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Rating
@@ -120,6 +121,43 @@ export default class RatingControl extends React.Component<RatingProps, any> {
     onChange?.(value);
   }
 
+  renderStatic() {
+    const {
+      className,
+      value,
+      count,
+      half,
+      char,
+      inactiveColor,
+      colors,
+      texts,
+      charClassName,
+      textClassName,
+      textPosition,
+      classnames: cx
+    } = this.props;
+
+    return (
+      <div className={cx('RatingControl', className)}>
+        <Rating
+          classnames={cx}
+          value={value}
+          disabled={true}
+          count={count}
+          half={half}
+          char={char}
+          inactiveColor={inactiveColor}
+          colors={colors}
+          texts={texts}
+          charClassName={charClassName}
+          textClassName={textClassName}
+          textPosition={textPosition}
+        />
+      </div>
+    );
+  }
+
+  @supportStatic()
   render() {
     const {
       className,

@@ -11,6 +11,7 @@ import {
 import {autobind, isEmpty, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Radio 单选框。
@@ -93,6 +94,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
     reload && reload();
   }
 
+  @supportStatic()
   render() {
     const {
       className,

@@ -26,7 +26,10 @@ export interface IConfirmAction extends ListenerAction {
 
 export interface IDialogAction extends ListenerAction {
   actionType: 'dialog';
-  dialog: SchemaNode;
+  args: {
+    dialog: SchemaNode;
+  };
+  dialog?: SchemaNode; // 兼容历史
 }
 
 /**
@@ -45,10 +48,11 @@ export class DialogAction implements RendererAction {
     renderer.props.onAction?.(
       event,
       {
-        ...action,
+        actionType: 'dialog',
+        dialog: action.args?.dialog || action.dialog,
         reload: 'none'
       },
-      action.args
+      action.data
     );
   }
 }
@@ -81,7 +85,7 @@ export class CloseDialogAction implements RendererAction {
           ...action,
           actionType: 'close'
         },
-        action.args
+        action.data
       );
     }
   }

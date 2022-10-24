@@ -10,7 +10,10 @@ import {
 
 export interface IBroadcastAction extends ListenerAction {
   actionType: 'broadcast';
-  eventName: string; // 事件名称，actionType: broadcast
+  args: {
+    eventName: string; // 事件名称，actionType: broadcast
+  };
+  eventName?: string; // 兼容历史
 }
 
 /**
@@ -26,20 +29,20 @@ export class BroadcastAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    if (!action.eventName) {
+    if (!action.args?.eventName && !action.eventName) {
       console.error('eventName 未定义，请定义事件名称');
       return;
     }
 
     // 作为一个新的事件，需要把广播动作的args参数追加到事件数据中
-    event.setData(createObject(event.data, action.args ?? {}));
+    event.setData(createObject(event.data, action.data ?? {}));
 
     // 直接触发对应的动作
     return await dispatchEvent(
-      action.eventName,
+      action.args?.eventName || action.eventName!,
       renderer,
       event.context.scoped,
-      action.args,
+      action.data,
       event
     );
   }

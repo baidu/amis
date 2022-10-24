@@ -322,7 +322,7 @@ export default class DropDownButton extends React.Component<
       disabled,
       btnDisabled,
       btnClassName,
-      size,
+      size = 'default',
       label,
       level,
       primary,
@@ -377,7 +377,7 @@ export default class DropDownButton extends React.Component<
                 'Button--primary': primary,
                 'Button--iconOnly': iconOnly
               },
-              size ? `Button--${size}` : ''
+              `Button--size-${size}`
             )}
           >
             {hasIcon(icon) ? (

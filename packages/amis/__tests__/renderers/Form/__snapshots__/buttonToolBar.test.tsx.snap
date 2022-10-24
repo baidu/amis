@@ -44,7 +44,7 @@ exports[`Renderer:button-toolbar 1`] = `
               class="cxd-ButtonToolbar cxd-Form-control"
             >
               <button
-                class="cxd-Button cxd-Button--default"
+                class="cxd-Button cxd-Button--default cxd-Button--size-default"
                 type="button"
               >
                 <span>
@@ -52,7 +52,7 @@ exports[`Renderer:button-toolbar 1`] = `
                 </span>
               </button>
               <button
-                class="cxd-Button cxd-Button--default"
+                class="cxd-Button cxd-Button--default cxd-Button--size-default"
                 type="submit"
               >
                 <span>
@@ -60,7 +60,7 @@ exports[`Renderer:button-toolbar 1`] = `
                 </span>
               </button>
               <button
-                class="cxd-Button cxd-Button--default"
+                class="cxd-Button cxd-Button--default cxd-Button--size-default"
                 type="reset"
               >
                 <span>
@@ -159,7 +159,7 @@ exports[`Renderer:button-toolbar 2`] = `
               class="cxd-ButtonToolbar cxd-Form-control"
             >
               <button
-                class="cxd-Button cxd-Button--default"
+                class="cxd-Button cxd-Button--default cxd-Button--size-default"
                 type="button"
               >
                 <span>
@@ -167,7 +167,7 @@ exports[`Renderer:button-toolbar 2`] = `
                 </span>
               </button>
               <button
-                class="cxd-Button cxd-Button--default"
+                class="cxd-Button cxd-Button--default cxd-Button--size-default"
                 type="submit"
               >
                 <span>
@@ -175,7 +175,7 @@ exports[`Renderer:button-toolbar 2`] = `
                 </span>
               </button>
               <button
-                class="cxd-Button cxd-Button--default"
+                class="cxd-Button cxd-Button--default cxd-Button--size-default"
                 type="reset"
               >
                 <span>
@@ -271,7 +271,7 @@ exports[`Renderer:button-toolbar 2`] = `
         class="cxd-Modal-footer"
       >
         <button
-          class="cxd-Button cxd-Button--default"
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
           type="button"
         >
           <span>
@@ -279,7 +279,7 @@ exports[`Renderer:button-toolbar 2`] = `
           </span>
         </button>
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
         >
           <span>

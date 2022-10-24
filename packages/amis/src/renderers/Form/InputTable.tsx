@@ -20,7 +20,8 @@ import {
   ApiObject,
   autobind,
   isExpression,
-  ITableStore
+  ITableStore,
+  generateIcon
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -737,7 +738,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             >
               {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
               {props.addBtnIcon ? (
-                <Icon icon={props.addBtnIcon} className="icon" />
+                typeof props.addBtnIcon === 'string' ? (
+                  <Icon icon={props.addBtnIcon} className="icon" />
+                ) : (
+                  generateIcon(props.classnames, props.addBtnIcon)
+                )
               ) : null}
             </Button>
           )
@@ -769,7 +774,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             >
               {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
               {props.copyBtnIcon ? (
-                <Icon icon={props.copyBtnIcon} className="icon" />
+                typeof props.copyBtnIcon === 'string' ? (
+                  <Icon icon={props.copyBtnIcon} className="icon" />
+                ) : (
+                  generateIcon(props.classnames, props.copyBtnIcon)
+                )
               ) : null}
             </Button>
           )
@@ -845,10 +854,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 {/* 兼容之前的写法 */}
                 {typeof props.updateBtnIcon !== 'undefined' ? (
                   props.updateBtnIcon ? (
-                    <Icon icon={props.updateBtnIcon} className="icon" />
+                    typeof props.updateBtnIcon === 'string' ? (
+                      <Icon icon={props.updateBtnIcon} className="icon" />
+                    ) : (
+                      generateIcon(props.classnames, props.updateBtnIcon)
+                    )
                   ) : null
                 ) : props.editBtnIcon ? (
-                  <Icon icon={props.editBtnIcon} className="icon" />
+                  typeof props.editBtnIcon === 'string' ? (
+                    <Icon icon={props.editBtnIcon} className="icon" />
+                  ) : (
+                    generateIcon(props.classnames, props.editBtnIcon)
+                  )
                 ) : null}
               </Button>
             )
@@ -880,7 +897,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 <span>{props.confirmBtnLabel}</span>
               ) : null}
               {props.confirmBtnIcon ? (
-                <Icon icon={props.confirmBtnIcon} className="icon" />
+                typeof props.confirmBtnIcon === 'string' ? (
+                  <Icon icon={props.confirmBtnIcon} className="icon" />
+                ) : (
+                  generateIcon(props.classnames, props.confirmBtnIcon)
+                )
               ) : null}
             </Button>
           ) : null
@@ -912,7 +933,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 <span>{props.cancelBtnLabel}</span>
               ) : null}
               {props.cancelBtnIcon ? (
-                <Icon icon={props.cancelBtnIcon} className="icon" />
+                typeof props.cancelBtnIcon === 'string' ? (
+                  <Icon icon={props.cancelBtnIcon} className="icon" />
+                ) : (
+                  generateIcon(props.classnames, props.cancelBtnIcon)
+                )
               ) : null}
             </Button>
           ) : null
@@ -949,7 +974,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 <span>{props.deleteBtnLabel}</span>
               ) : null}
               {props.deleteBtnIcon ? (
-                <Icon icon={props.deleteBtnIcon} className="icon" />
+                typeof props.deleteBtnIcon === 'string' ? (
+                  <Icon icon={props.deleteBtnIcon} className="icon" />
+                ) : (
+                  generateIcon(props.classnames, props.deleteBtnIcon)
+                )
               ) : null}
             </Button>
           )

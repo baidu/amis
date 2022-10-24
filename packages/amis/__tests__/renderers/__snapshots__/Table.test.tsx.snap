@@ -4288,7 +4288,7 @@ exports[`Renderer:table groupName-default 1`] = `
                     class="cxd-ColumnToggler is-actived"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default cxd-Button--sm"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
                         classname="icon m-r-none icon-columns"
@@ -5019,7 +5019,7 @@ exports[`Renderer:table groupName-default 1`] = `
                       class="cxd-ColumnToggler is-actived"
                     >
                       <button
-                        class="cxd-Button cxd-Button--default cxd-Button--sm"
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
                           classname="icon m-r-none icon-columns"
@@ -5253,7 +5253,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                     class="cxd-ColumnToggler is-actived"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default cxd-Button--sm"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
                         classname="icon m-r-none icon-columns"
@@ -5988,7 +5988,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                       class="cxd-ColumnToggler is-actived"
                     >
                       <button
-                        class="cxd-Button cxd-Button--default cxd-Button--sm"
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
                           classname="icon m-r-none icon-columns"
@@ -6210,7 +6210,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                     class="cxd-ColumnToggler is-actived"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default cxd-Button--sm"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
                         classname="icon m-r-none icon-columns"
@@ -6934,7 +6934,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                       class="cxd-ColumnToggler is-actived"
                     >
                       <button
-                        class="cxd-Button cxd-Button--default cxd-Button--sm"
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
                           classname="icon m-r-none icon-columns"
@@ -7136,7 +7136,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                     class="cxd-ColumnToggler is-actived"
                   >
                     <button
-                      class="cxd-Button cxd-Button--default cxd-Button--sm"
+                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
                         classname="icon m-r-none icon-columns"
@@ -7867,7 +7867,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                       class="cxd-ColumnToggler is-actived"
                     >
                       <button
-                        class="cxd-Button cxd-Button--default cxd-Button--sm"
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
                           classname="icon m-r-none icon-columns"
@@ -8744,7 +8744,7 @@ exports[`Renderer:table list 1`] = `
           class="cxd-ColumnToggler"
         >
           <button
-            class="cxd-Button cxd-Button--default cxd-Button--sm"
+            class="cxd-Button cxd-Button--default cxd-Button--size-sm"
           >
             <icon-mock
               classname="icon m-r-none icon-columns"

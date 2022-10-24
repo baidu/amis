@@ -537,7 +537,7 @@ export default class ColumnToggler extends React.Component<
             'Button--primary': primary,
             'Button--iconOnly': iconOnly
           },
-          size ? `Button--${size}` : ''
+          size ? `Button--size-${size}` : ''
         )}
       >
         {icon ? (

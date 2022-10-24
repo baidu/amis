@@ -1,4 +1,5 @@
-.#{$ns}ListControl {
+.#{$ns}ListControl,
+.#{$ns}ListControl-static {
   &-items {
     display: block;
     margin: calc(var(--ListControl-gutterWidth) / -2);
@@ -24,12 +25,38 @@
     max-width: calc(#{px2rem(200px)} + 2 * var(--ListControl-item-paddingX));
     border-radius: var(--ListControl-item-borderRadius);
 
-    &:not(.is-disabled) {
-      cursor: pointer;
-    }
-
     .b-inherit {
       border-color: var(--ListControl-item-color);
+    }
+  }
+
+  &-itemImage {
+    margin: calc(var(--ListControl-item-paddingY) * -1)
+      calc(var(--ListControl-item-paddingX) * -1);
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+  }
+
+  &-itemLabel {
+    text-align: center;
+  }
+
+  &-itemImage + &-itemLabel {
+    margin-top: var(--ListControl-item-paddingY);
+  }
+
+  &-placeholder {
+    color: var(--Form-input-placeholderColor);
+  }
+}
+
+.#{$ns}ListControl {
+  &-item {
+    &:not(.is-disabled) {
+      cursor: pointer;
     }
 
     @include hover {
@@ -96,27 +123,5 @@
         border-color: var(--ListControl-item-onDisabled-borderColor);
       }
     }
-  }
-
-  &-itemImage {
-    margin: calc(var(--ListControl-item-paddingY) * -1)
-      calc(var(--ListControl-item-paddingX) * -1);
-
-    img {
-      display: block;
-      max-width: 100%;
-    }
-  }
-
-  &-itemLabel {
-    text-align: center;
-  }
-
-  &-itemImage + &-itemLabel {
-    margin-top: var(--ListControl-item-paddingY);
-  }
-
-  &-placeholder {
-    color: var(--Form-input-placeholderColor);
   }
 }

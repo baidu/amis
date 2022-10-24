@@ -15,7 +15,7 @@ exports[`EventAction:disabled 1`] = `
           class="cxd-Page-body"
         >
           <div
-            class="cxd-Button cxd-Button--default is-disabled"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -23,7 +23,7 @@ exports[`EventAction:disabled 1`] = `
             </span>
           </div>
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -31,7 +31,7 @@ exports[`EventAction:disabled 1`] = `
             </span>
           </button>
           <div
-            class="cxd-Button cxd-Button--default is-disabled"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
             disabled=""
           >
             <span>
@@ -39,7 +39,7 @@ exports[`EventAction:disabled 1`] = `
             </span>
           </div>
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -47,7 +47,7 @@ exports[`EventAction:disabled 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -55,7 +55,7 @@ exports[`EventAction:disabled 1`] = `
             </span>
           </button>
           <button
-            class="cxd-Button cxd-Button--default"
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
             <span>
@@ -93,7 +93,7 @@ exports[`EventAction:disabled 1`] = `
                   type="submit"
                 />
                 <div
-                  class="cxd-Button cxd-Button--default is-disabled ml-2"
+                  class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled ml-2"
                   disabled=""
                 >
                   <span>
