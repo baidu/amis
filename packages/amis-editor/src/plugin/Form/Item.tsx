@@ -58,9 +58,7 @@ export class ItemPlugin extends BasePlugin {
   panelBodyCreator = (context: BaseEventContext) => {
     const type = context.schema.type || '';
     const supportStatic = SUPPORT_STATIC_FORMITEM_CMPTS.includes(type);
-    const ignoreName = ~['button', 'submit', 'reset'].indexOf(
-      type
-    );
+    const ignoreName = ~['button', 'submit', 'reset'].indexOf(type);
     const notRequiredName = ~[
       'button-toobar',
       'container',
@@ -159,12 +157,14 @@ export class ItemPlugin extends BasePlugin {
               name: 'descriptionClassName',
               visibleOn: 'this.description'
             }),
-            ...!supportStatic ? [] : [
-              getSchemaTpl('className', {
-                label: '静态 CSS 类名',
-                name: 'staticClassName'
-              })
-            ]
+            ...(!supportStatic
+              ? []
+              : [
+                  getSchemaTpl('className', {
+                    label: '静态 CSS 类名',
+                    name: 'staticClassName'
+                  })
+                ])
           ]
         },
 
@@ -177,8 +177,7 @@ export class ItemPlugin extends BasePlugin {
             supportStatic ? getSchemaTpl('static') : null,
             getSchemaTpl('switch', {
               name: 'clearValueOnHidden',
-              label: '隐藏时删除表单项值',
-              disabledOn: 'typeof this.visible === "boolean"'
+              label: '隐藏时删除表单项值'
             })
           ]
         },
