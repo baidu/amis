@@ -3300,5 +3300,9 @@ extendLocale('en-US', {
   'd2e930293da37452638759e17d771adf': 'Component Status',
   'b535bea11c97ec5588b1494799de4d60': 'Form Input',
   'f7784642f42d33f506ba05f3daefc3c4': 'Form Static',
-  'a8797a840f3c0bbb5297aada95f9b13a': 'Form Item Static'
+  'a8797a840f3c0bbb5297aada95f9b13a': 'Form Item Static',
+  '7bb3e24cc54f4b8ee0a65d14fa4c067c': 'Modify activation tab value',
+  'fd951a59a7c635d5330bc1aeec22c813': 'Custom Data',
+  'b62ce3df3c0d5772006c525b60d5eeab':
+    'The data defaults to the data field where the source component is located, you can select "Custom" to customize the required data'
 });
