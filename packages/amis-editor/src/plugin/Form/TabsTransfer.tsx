@@ -16,7 +16,7 @@ export class TabsTransferPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-th-list';
   pluginIcon = 'tabs-transfer-plugin';
-  description = `组合穿梭器组件`;
+  description = '组合穿梭器组件';
   docLink = '/amis/zh-CN/components/form/transfer';
   tags = ['表单项'];
   scaffold = {

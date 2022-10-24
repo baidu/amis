@@ -16,7 +16,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-chevron-down';
   pluginIcon = 'tree-select-plugin';
-  description = `点击输入框，弹出树型选择框进行选择`;
+  description = '点击输入框，弹出树型选择框进行选择';
   docLink = '/amis/zh-CN/components/form/treeselect';
   tags = ['表单项'];
   scaffold = {

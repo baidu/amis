@@ -12,7 +12,7 @@ export class FormulaControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-calculator';
   pluginIcon = 'formula-plugin';
-  description = `通过公式计算指定的变量值，并将其结果作用到指定的变量中`;
+  description = '通过公式计算指定的变量值，并将其结果作用到指定的变量中';
   docLink = '/amis/zh-CN/components/form/formula';
   tags = ['表单项'];
   scaffold = {

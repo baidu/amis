@@ -1276,7 +1276,7 @@ export const getEventControlConfig = (
             ? [
                 ...variables.eventVariables,
                 {
-                  label: `数据来源变量`,
+                  label: '数据来源变量',
                   children: datasource
                 },
                 ...variables.rawVariables

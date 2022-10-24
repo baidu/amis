@@ -3,10 +3,7 @@ import {registerEditorPlugin, tipedLabel} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import type {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import type {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class SwitchControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -20,7 +17,7 @@ export class SwitchControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-toggle-on';
   pluginIcon = 'switch-plugin';
-  description = `开关控件`;
+  description = '开关控件';
   docLink = '/amis/zh-CN/components/form/switch';
   tags = ['表单项'];
   scaffold = {

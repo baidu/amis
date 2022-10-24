@@ -765,7 +765,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 className: 'm-l-xs',
                 icon: 'fa fa-question-circle',
                 rootClose: true,
-                content: `选择“是”时，将重新请求第一页数据。`,
+                content: '选择“是”时，将重新请求第一页数据。',
                 placement: 'top'
               },
               onText: '是',

@@ -242,7 +242,7 @@ export class CRUDPlugin extends BasePlugin {
             });
           } else {
             toast.warning(
-              `API返回格式不正确，请点击接口地址右侧示例的问号查看示例`
+              'API返回格式不正确，请点击接口地址右侧示例的问号查看示例'
             );
           }
         }

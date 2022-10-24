@@ -22,7 +22,7 @@ export class MatrixControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-th-large';
   pluginIcon = 'matrix-checkboxes-plugin';
-  description = `可配置行单选，列单选，以及全部选项只能单选或者全部选项多选`;
+  description = '可配置行单选，列单选，以及全部选项只能单选或者全部选项多选';
   docLink = '/amis/zh-CN/components/form/matrix-checkboxes';
   tags = ['表单项'];
   scaffold = {
