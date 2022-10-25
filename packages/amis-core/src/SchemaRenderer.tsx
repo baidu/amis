@@ -87,6 +87,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       () =>
         `${props.topStore.visibleState[props.schema.id || props.$path]}${
           props.topStore.disableState[props.schema.id || props.$path]
+        }${
+          props.topStore.staticState[props.schema.id || props.$path]
         }`,
       () => this.forceUpdate()
     );
@@ -275,6 +277,9 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const disable = isAlive(topStore)
       ? topStore.disableState[schema.id || $path]
       : undefined;
+    const isStatic = isAlive(topStore)
+      ? topStore.staticState[schema.id || $path]
+      : undefined;
 
     if (
       visible === false ||
@@ -421,6 +426,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     if (disable !== undefined) {
       (props as any).disabled = disable;
+    }
+
+    if (isStatic !== undefined) {
+      (props as any).static = isStatic;
     }
 
     // 自动解析变量模式，主要是方便直接引入第三方组件库，无需为了支持变量封装一层

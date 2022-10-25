@@ -406,7 +406,7 @@ export function resolveRenderer(
     return cache[type];
   } else if (cache[path]) {
     return cache[path];
-  } else if (path && path.length > 1024) {
+  } else if (path && path.length > 3072) {
     throw new Error('Path太长是不是死循环了？');
   }
 

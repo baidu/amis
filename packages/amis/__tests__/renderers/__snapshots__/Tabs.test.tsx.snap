@@ -1173,7 +1173,7 @@ exports[`Renderer:tabs toolbar 1`] = `
               class="cxd-Tabs-toolbar toolbarClassName"
             >
               <button
-                class="cxd-Button cxd-Button--default cxd-Button--sm"
+                class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                 type="button"
               >
                 <span>

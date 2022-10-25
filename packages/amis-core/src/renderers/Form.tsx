@@ -9,7 +9,9 @@ import {
   ActionObject,
   Payload,
   ClassName,
-  BaseApiObject
+  BaseApiObject,
+  SchemaExpression,
+  SchemaClassName
 } from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import getExprProperties from '../utils/filter-schema';
@@ -330,6 +332,13 @@ export interface FormSchemaBase {
    * label自定义宽度，默认单位为px
    */
   labelWidth?: number | string;
+
+  /**
+   * 展示态时的className
+   */
+  static?: boolean;
+  staticOn?: SchemaExpression;
+  staticClassName?: SchemaClassName;
 }
 
 export type FormGroup = FormSchemaBase & {
@@ -1506,7 +1515,8 @@ export default class Form extends React.Component<FormProps, object> {
       formLazyChange,
       dispatchEvent,
       labelAlign,
-      labelWidth
+      labelWidth,
+      static: isStatic = false
     } = props;
 
     const subProps = {
@@ -1530,6 +1540,13 @@ export default class Form extends React.Component<FormProps, object> {
         disabled ||
         (control as Schema).disabled ||
         (form.loading ? true : undefined),
+      /**
+       * 静态展示 优先级逻辑
+       * 1. 表单子项 static: true 始终保持静态
+       * 2. 表单子项 static: false 或 不配置，跟随父表单
+       * 3. 动作控制 表单子项 时，无视配置，优先级最高
+       */
+      static: (control as Schema).static || isStatic,
       btnDisabled: disabled || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
@@ -1572,7 +1589,9 @@ export default class Form extends React.Component<FormProps, object> {
       $path,
       store,
       columnCount,
-      render
+      render,
+      staticClassName,
+      static: isStatic = false
     } = this.props;
 
     const {restError} = store;
@@ -1599,7 +1618,8 @@ export default class Form extends React.Component<FormProps, object> {
           `Form`,
           `Form--${mode || 'normal'}`,
           columnCount ? `Form--column Form--column-${columnCount}` : null,
-          className
+          staticClassName && isStatic ? staticClassName : className,
+          isStatic ? 'Form--isStatic' : null
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
@@ -1700,8 +1720,7 @@ export default class Form extends React.Component<FormProps, object> {
       affixFooter,
       lazyLoad,
       translate: __,
-      footer,
-      formStore
+      footer
     } = this.props;
 
     let body: JSX.Element = this.renderBody();

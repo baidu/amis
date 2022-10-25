@@ -46,6 +46,7 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   popOverContainer?: any;
   renderEtrValue?: any;
   selectMode?: 'list' | 'tree';
+  isCollapsed?: boolean; // 是否折叠
 }
 
 export class ConditionGroup extends React.Component<
@@ -58,6 +59,15 @@ export class ConditionGroup extends React.Component<
     this.state = {
       isCollapsed: false
     };
+  }
+
+  componentDidUpdate(prevProps: Readonly<ConditionGroupProps>): void {
+    // 上层折叠的时候，内层也折叠，主要是为了处理，子节点中，第一项也是Group的折叠场景
+    if (prevProps.isCollapsed !== this.props.isCollapsed) {
+      this.setState({
+        isCollapsed: this.props.isCollapsed || false
+      });
+    }
   }
 
   getValue() {
@@ -260,6 +270,7 @@ export class ConditionGroup extends React.Component<
                   popOverContainer={popOverContainer}
                   renderEtrValue={renderEtrValue}
                   selectMode={selectMode}
+                  isCollapsed={isCollapsed}
                 />
               ))
             ) : (

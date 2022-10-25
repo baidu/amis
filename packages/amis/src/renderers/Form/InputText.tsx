@@ -20,6 +20,7 @@ import {Spinner} from 'amis-ui';
 import {ActionSchema} from '../Action';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {generateIcon} from 'amis-core';
+import {supportStatic} from './StaticHoc';
 
 import type {Option} from 'amis-core';
 import type {ListenerAction} from 'amis-core';
@@ -103,6 +104,9 @@ export interface TextControlSchema extends FormOptionsSchema {
 
   /** 原生input标签的CSS类名 */
   nativeInputClassName?: string;
+
+  /** 在内容为空的时候清除值 */
+  clearValueOnEmpty?: boolean;
 }
 
 export type InputTextRendererEvent =
@@ -549,19 +553,29 @@ export default class TextControl extends React.PureComponent<
 
   @autobind
   async handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, dispatchEvent} = this.props;
-    let value = e.currentTarget.value;
+    const {onChange, dispatchEvent, trimContents, clearValueOnEmpty} =
+      this.props;
+    let value: string | undefined = this.transformValue(e.currentTarget.value);
+    if (typeof value === 'string') {
+      if (trimContents) {
+        value = value.trim();
+      }
+
+      if (clearValueOnEmpty && value === '') {
+        value = undefined;
+      }
+    }
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: this.transformValue(value)}, 'value')
+      resolveEventData(this.props, {value}, 'value')
     );
 
     if (rendererEvent?.prevented) {
       return;
     }
 
-    onChange(this.transformValue(value));
+    onChange(value);
   }
 
   normalizeValue(value: Option[] | Option | undefined | null) {
@@ -950,19 +964,17 @@ export default class TextControl extends React.PureComponent<
     );
   }
 
-  render(): JSX.Element {
+  renderBody(body: JSX.Element) {
     const {
       classnames: cx,
       className,
       classPrefix: ns,
-      options,
-      source,
-      autoComplete,
       addOn: addOnRaw,
       render,
       data,
       disabled,
-      inputOnly
+      inputOnly,
+      static: isStatic
     } = this.props;
 
     const addOn: any =
@@ -973,14 +985,9 @@ export default class TextControl extends React.PureComponent<
           }
         : addOnRaw;
 
-    let input =
-      autoComplete !== false && (source || options.length || autoComplete)
-        ? this.renderSugestMode()
-        : this.renderNormal();
-
     const iconElement = generateIcon(cx, addOn?.icon, 'Icon');
 
-    let addOnDom = addOn ? (
+    let addOnDom = addOn && !isStatic ? (
       addOn.actionType ||
       ~['button', 'submit', 'reset', 'action'].indexOf(addOn.type) ? (
         <div className={cx(`${ns}TextControl-button`, addOn.className)}>
@@ -997,22 +1004,41 @@ export default class TextControl extends React.PureComponent<
     ) : null;
 
     if (inputOnly) {
-      return input;
+      return body;
     }
 
-    return (
-      <div
-        className={cx(className, `${ns}TextControl`, {
+    const classNames = !isStatic
+      ? cx(className, `${ns}TextControl`, {
           [`${ns}TextControl--withAddOn`]: !!addOnDom,
           'is-focused': this.state.isFocused,
           'is-disabled': disabled
-        })}
-      >
+        }) 
+      : cx(`${ns}TextControl`, {
+        [`${ns}TextControl--withAddOn`]: !!addOnDom
+      });
+
+    return (
+      <div className={classNames}>
         {addOn && addOn.position === 'left' ? addOnDom : null}
-        {input}
+        {body}
         {addOn && addOn.position !== 'left' ? addOnDom : null}
       </div>
     );
+  }
+
+  @supportStatic()
+  render(): JSX.Element {
+    const {
+      options,
+      source,
+      autoComplete,
+    } = this.props;
+
+    let input = autoComplete !== false && (source || options?.length || autoComplete)
+      ? this.renderSugestMode()
+      : this.renderNormal();
+    
+    return this.renderBody(input);
   }
 }
 

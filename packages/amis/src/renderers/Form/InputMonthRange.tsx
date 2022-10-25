@@ -4,6 +4,7 @@ import cx from 'classnames';
 import {filterDate, parseDuration} from 'amis-core';
 import InputDateRange, {DateRangeControlSchema} from './InputDateRange';
 import {DateRangePicker} from 'amis-ui';
+import {supportStatic} from './StaticHoc';
 
 /**
  * MonthRange 月范围控件
@@ -16,6 +17,7 @@ export interface MonthRangeControlSchema
 }
 
 export default class MonthRangeControl extends InputDateRange {
+  @supportStatic()
   render() {
     const {
       className,

@@ -282,7 +282,9 @@ export default class IconPickerControl extends React.PureComponent<
                 {!value || (inputValue && isOpen) ? null : (
                   <div className={cx('IconPickerControl-value')}>
                     <i className={cx(value)} />
-                    {value}
+                    {
+                      typeof value === 'string' ? value : ''
+                    }
                   </div>
                 )}
 

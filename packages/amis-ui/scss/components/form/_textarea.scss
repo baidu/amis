@@ -66,3 +66,11 @@
     top: var(--Form-input-paddingY);
   }
 }
+
+.#{$ns}Form-static {
+  .#{$ns}TextareaControl > textarea {
+    border: 0;
+    padding: 0;
+    resize: none;
+  }
+}

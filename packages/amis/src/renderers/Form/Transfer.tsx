@@ -27,6 +27,7 @@ import {Selection as BaseSelection} from 'amis-ui';
 import {ResultList} from 'amis-ui';
 import {ActionObject} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Transfer
@@ -427,6 +428,7 @@ export class BaseTransferRenderer<
     }
   }
 
+  @supportStatic()
   render() {
     let {
       className,

@@ -142,7 +142,7 @@
   @include clearfix();
 
   & + & {
-    border-top: var(--ListItem-borderWidth) solid var(--ListItem-borderColor);
+    border-top: var(--ListItem-borderWidth) solid var(--List-borderColor);
   }
 
   position: relative;

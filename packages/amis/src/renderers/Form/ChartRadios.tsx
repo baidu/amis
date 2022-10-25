@@ -6,6 +6,7 @@ import {
 } from 'amis-core';
 import {autobind} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
+import {supportStatic} from './StaticHoc';
 
 /**
  * 图表 Radio 单选框。
@@ -46,6 +47,10 @@ export default class ChartRadiosControl extends React.Component<
   }
 
   highlight(index: number = this.highlightIndex) {
+    if (this.props.static) {
+      return;
+    }
+
     this.highlightIndex = index;
 
     if (!this.chart || this.prevIndex === index) {
@@ -80,7 +85,8 @@ export default class ChartRadiosControl extends React.Component<
     this.prevIndex = index;
   }
 
-  compoonentDidMount() {
+  componentDidMount() {
+    // to do 初始化有值的情况暂时无法生效
     if (this.props.selectedOptions.length) {
       this.highlight(this.props.options.indexOf(this.props.selectedOptions[0]));
     }
@@ -92,6 +98,30 @@ export default class ChartRadiosControl extends React.Component<
     }
   }
 
+  renderStatic(displayValue = '-') {
+    this.prevIndex = -1;
+    this.highlightIndex = -1;
+
+    const {
+      options = [],
+      selectedOptions,
+      labelField = 'label',
+      valueField = 'value',
+      chartValueField
+    } = this.props;
+    if (options.length && selectedOptions.length) {
+      const count = options.reduce((all, cur) => {
+        return all + cur[chartValueField || valueField]
+      }, 0);
+      if (count > 0) {
+        const percent = (+selectedOptions[0][chartValueField || valueField] / count * 100).toFixed(2);
+        displayValue = `${selectedOptions[0][labelField]}：${percent}%`;
+      }
+    }
+    return <>{displayValue}</>;
+  }
+
+  @supportStatic()
   render() {
     const {options, labelField, chartValueField, valueField, render} =
       this.props;

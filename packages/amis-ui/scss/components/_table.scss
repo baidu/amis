@@ -1021,6 +1021,20 @@
   }
 }
 
+.#{$ns}InputTable {
+  .#{$ns}Field--quickEditable svg {
+    color: var(--primary);
+
+    &:hover {
+      color: var(--primary-onHover);
+    }
+
+    &:active {
+      color: var(--primary-onActive);
+    }
+  }
+}
+
 .#{$ns}InputTable-toolbar {
   display: flex;
   flex-direction: row;
