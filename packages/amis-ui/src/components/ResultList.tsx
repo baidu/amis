@@ -30,8 +30,8 @@ export interface ResultListProps extends ThemeProps, LocaleProps {
   onSearch?: Function;
   valueField?: string;
   labelField?: string;
-  itemHeight: number; // 每个选项的高度，主要用于虚拟渲染
-  virtualThreshold: number; // 数据量多大的时候开启虚拟渲染
+  itemHeight?: number; // 每个选项的高度，主要用于虚拟渲染
+  virtualThreshold?: number; // 数据量多大的时候开启虚拟渲染
 }
 
 export interface ItemRenderStates {
@@ -288,7 +288,7 @@ export class ResultList extends React.Component<
       translate: __,
       placeholder,
       virtualThreshold = 1000,
-      itemHeight
+      itemHeight = 30
     } = this.props;
 
     return (

@@ -820,7 +820,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1518,7 +1518,7 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -1878,7 +1878,7 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -3690,7 +3690,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>
@@ -4234,7 +4234,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
         class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="cxd-Button cxd-Button--primary"
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="submit"
         >
           <span>

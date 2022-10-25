@@ -542,7 +542,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       overflowTagPopover,
       placeholder,
       itemHeight,
-      virtualThreshold
+      virtualThreshold,
+      rightMode
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -582,6 +583,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           multiple={multiple}
           columns={columns}
           leftMode={leftMode}
+          rightMode={rightMode}
           leftOptions={leftOptions}
           borderMode={borderMode}
           useMobileUI={useMobileUI}
