@@ -1008,7 +1008,7 @@ const objectToComboArray = (obj: PlainObject) =>
  */
 const comboArrayToObject = (arr: any[]) => {
   let obj: PlainObject = {};
-  arr.forEach(item => {
+  arr?.forEach(item => {
     obj[item.key] = item.val;
   });
 
@@ -1344,10 +1344,13 @@ export const getEventControlConfig = (
 
       // 转换下格式
       if (['link', 'url'].includes(action.actionType)) {
-        action.args = {
-          ...action.args,
-          params: comboArrayToObject(config.args?.params)
-        };
+        const params = config.args?.params;
+        if (params && params.length) {
+          action.args = {
+            ...action.args,
+            params: comboArrayToObject(params)
+          };
+        }
       }
 
       // 转换下格式
