@@ -159,7 +159,7 @@ export class FormulaPicker extends React.Component<
     const value = this.props.value;
     if (value !== prevProps.value) {
       this.setState({
-        value: value ?? '',
+        value: typeof value === 'string' ? value : '',
         editorValue: this.value2EditorValue(this.props)
       });
     }
