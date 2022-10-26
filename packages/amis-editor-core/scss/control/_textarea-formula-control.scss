@@ -23,6 +23,44 @@
       border-color: var(--Form-input-onHover-borderColor);
     }
 
+    &-editor {
+      & > .CodeMirror {
+        height: 100px;
+      }
+      .cm-field, .cm-expression {
+        display: inline-block;
+        position: relative;
+        padding: 0 5px;
+        border-radius: 3px;
+        color: #fff;
+        margin: 0 1px;
+        background: #007bff;
+        cursor: pointer;
+
+        &:hover {
+          .expression-popover {
+            display: block;
+          }
+        }
+
+        .expression-popover {
+          position: absolute;
+          display: none;
+          left: 0;
+          bottom: -24px;
+          transform: translate(calc(24px - 50%));
+          font-size: 12px;
+          width: max-content;
+          color: #000;
+          border-radius: 4px;
+          padding: 0 8px;
+
+          background: var(--Tooltip-bg);
+          box-shadow: var(--Tooltip-boxShadow);
+        }
+      }
+    }
+
     &-content {
       position: relative;
       width: 100%;
@@ -48,7 +86,7 @@
     }
 
     &-menus {
-      min-width: 80px;
+      min-width: 60px;
       right: 0;
       left: auto;
     }
@@ -56,7 +94,7 @@
     &-expression {
       display: inline-block;
       cursor: pointer;
-      padding: 0 4px;
+      padding: 0 4px 0 8px;
       margin: 0 1px 1px;
       color: white;
       background-color: $editor-active-color;
