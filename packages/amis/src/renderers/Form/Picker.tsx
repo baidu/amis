@@ -305,7 +305,7 @@ export default class PickerControl extends React.PureComponent<
     const {data, dispatchEvent} = this.props;
 
     const rendererEvent = await dispatchEvent(
-      'itemclick',
+      'itemClick',
       createObject(data, {item})
     );
 
