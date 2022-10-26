@@ -1876,7 +1876,7 @@ export default class Table extends React.Component<TableProps, object> {
               classPrefix={ns}
               partial={store.someChecked && !store.allChecked}
               checked={store.someChecked}
-              disabled={store.disabledHeadCheckbox}
+              disabled={store.isSelectionThresholdReached}
               onChange={this.handleCheckAll}
             />
           ) : (

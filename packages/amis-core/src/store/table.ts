@@ -198,6 +198,40 @@ export const Row = types
       return table && table.itemDraggableOn
         ? evalExpression(table.itemDraggableOn, (self as IRow).locals)
         : true;
+    },
+
+    /**
+     * 判断当前行点击后是否应该继续触发check
+     * 用于限制checkOnItemClick触发的check事件
+     */
+    get isCheckAvaiableOnClick(): boolean {
+      const table = getParent(self, self.depth * 2) as ITableStore;
+      const keepItemSelectionOnPageChange =
+        table?.keepItemSelectionOnPageChange;
+      const selectionUpperLimit = table?.maxKeepItemSelectionLength;
+
+      // 如果未做配置，或者配置不合法直接通过检查
+      if (
+        !keepItemSelectionOnPageChange ||
+        !Number.isInteger(selectionUpperLimit)
+      ) {
+        return true;
+      }
+
+      // 使用内置ID，不会重复
+      const selectedIds = (table?.selectedRows ?? []).map(
+        (item: IRow) => item.id
+      );
+      // 此时syncSelected还没有触发，所以需要比较点击之后的数量
+      const selectedCount = selectedIds.includes(self.id)
+        ? selectedIds.length - 1
+        : selectedIds.length + 1;
+
+      if (selectedCount > selectionUpperLimit) {
+        return false;
+      }
+
+      return true;
     }
   }))
   .actions(self => ({
@@ -677,7 +711,8 @@ export const TableStore = iRendererStore
         return getHovedRow();
       },
 
-      get disabledHeadCheckbox() {
+      /** 已选择item是否达到数量上限 */
+      get isSelectionThresholdReached() {
         const selectedLength = self.data?.selectedItems?.length;
         const maxLength = self.maxKeepItemSelectionLength;
 
@@ -685,7 +720,7 @@ export const TableStore = iRendererStore
           return false;
         }
 
-        return maxLength === selectedLength;
+        return maxLength <= selectedLength;
       },
 
       get firstToggledColumnIndex() {
