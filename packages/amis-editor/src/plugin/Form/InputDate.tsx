@@ -197,12 +197,34 @@ export class DateControlPlugin extends BasePlugin {
     {
       eventName: 'focus',
       eventLabel: '获取焦点',
-      description: '输入框获取焦点(非内嵌模式)时触发'
+      description: '输入框获取焦点(非内嵌模式)时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '时间值'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'blur',
       eventLabel: '失去焦点',
-      description: '输入框失去焦点(非内嵌模式)时触发'
+      description: '输入框失去焦点(非内嵌模式)时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '时间值'
+            }
+          }
+        }
+      ]
     }
   ];
 
