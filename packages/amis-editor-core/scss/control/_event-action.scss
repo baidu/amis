@@ -258,7 +258,9 @@
 }
 
 .action-config-dialog {
-  font-size: 12px;
+  *:not(svg) {
+    font-size: 12px;
+  }
 
   .action-config-panel {
     background: #ffffff;
