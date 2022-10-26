@@ -127,6 +127,53 @@ class APIBuilder extends DSBuilder {
       .filter(Boolean);
   }
 
+  public makeFormSourceSetting() {
+    return [
+      {
+        type: 'radios',
+        name: '__scene',
+        label: '场景',
+        options: [
+          {
+            label: '新增',
+            value: 'Insert'
+          },
+          {
+            label: '编辑',
+            value: 'Edit'
+          }
+        ],
+        value: 'Insert',
+        pipeIn(value: any, data: any) {
+          return value ?? (data.initApi ? 'Edit' : 'Insert');
+        },
+        onChange: (value: any, oldValue: any, model: any, form: any) => {
+          if (value === 'Insert') {
+            form.setValueByName(`initApi`, undefined);
+          } else {
+            form.setValueByName(`initApi`, {});
+          }
+        }
+      },
+      {
+        type: 'container',
+        visibleOn: `__scene === 'Insert'`,
+        body: this.makeSourceSettingForm({
+          name: 'api',
+          feat: 'Insert'
+        })
+      },
+      {
+        type: 'container',
+        visibleOn: `__scene === 'Edit'`,
+        body: this.makeSourceSettingForm({
+          name: 'api',
+          feat: 'Edit'
+        })
+      }
+    ] as SchemaObject[];
+  }
+
   public async getContextFileds(config: {
     schema: any;
     sourceKey: string;

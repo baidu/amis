@@ -166,6 +166,8 @@ export abstract class DSBuilder {
     fieldName: string;
   }): Promise<SchemaObject[]>;
 
+  public abstract makeFormSourceSetting(): SchemaObject[];
+
   /**
    * 数据源schema生成
    */
