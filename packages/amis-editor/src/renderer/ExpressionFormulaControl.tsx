@@ -139,6 +139,7 @@ export default class ExpressionFormulaControl extends React.Component<
               level="primary"
               tooltip={{
                 placement: 'bottom',
+                tooltipClassName: 'btn-configured-tooltip',
                 children: () => renderFormulaValue(highlightValue)
               }}
               onClick={this.openFormulaPickerModal}
