@@ -22,7 +22,7 @@ export class FormulaPlugin {
     readonly editor: CodeMirror.Editor,
     readonly cm: typeof CodeMirror,
     readonly getProps: () => TextareaFormulaControlProps,
-    readonly onExpressionClick: (expression: string, brace: Array<CodeMirror.Position>) => any
+    readonly onExpressionClick: (expression: string, brace?: Array<CodeMirror.Position>) => any
   ) {
     const {value} = this.getProps();
     if (value) {
@@ -55,6 +55,32 @@ export class FormulaPlugin {
         );
       }
     }
+  }
+
+  // 找到表达式所在的位置
+  getExpressionBrace(expression: string) {
+    const editor = this.editor;
+    const lines = editor.lineCount();
+    for (let line = 0; line < lines; line++) {
+      const content = editor.getLine(line);
+      const braces = this.computedBracesPosition(content);
+      for (let i = 0; i < braces.length; i++) {
+        // 替换每个公式表达式中的内容
+        const start = braces[i].begin;
+        const end = braces[i].end;
+        if (expression === content.slice(start, end)) {
+          return [{
+            line: line,
+            ch: start - 2
+          },
+          {
+            line: line,
+            ch: end + 1
+          }];
+        }
+      }
+    }
+    return undefined;
   }
 
   // 计算 `${`、`}` 括号的位置，如 ${a}+${b}, 结果是 [ { from: 0, to: 3 }, { from: 5, to: 8 } ]
@@ -155,7 +181,8 @@ export class FormulaPlugin {
     text.innerText = '表达式';
     text.setAttribute('data-expression', expression);
     text.onclick = () => {
-      this.onExpressionClick(expression, [from, to]);
+      const brace = this.getExpressionBrace(expression);
+      this.onExpressionClick(expression, brace);
     }
     const {variables} = this.getProps();
     const highlightValue = FormulaEditor.highlightValue(expression, variables) || {

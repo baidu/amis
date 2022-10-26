@@ -7,7 +7,6 @@ import {autobind, FormControlProps} from 'amis-core';
 import cx from 'classnames';
 import isEqual from 'lodash/isEqual';
 import {FormItem, Button, Icon} from 'amis';
-import {renderFormulaValue} from './textarea-formula/TextareaFormulaControl';
 import FormulaPicker from './textarea-formula/FormulaPicker';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
 import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
@@ -83,6 +82,13 @@ export default class ExpressionFormulaControl extends React.Component<
     });
   }
 
+  @autobind
+  renderFormulaValue(item: any) {
+    const html = {__html: item.html};
+    // bca-disable-next-line
+    return <span dangerouslySetInnerHTML={html}></span>;
+  }
+
   async resolveVariablesFromScope() {
     const {node, manager} = this.props.formProps || this.props;
     await manager?.getContextSchemas(node);
@@ -140,7 +146,7 @@ export default class ExpressionFormulaControl extends React.Component<
               tooltip={{
                 placement: 'bottom',
                 tooltipClassName: 'btn-configured-tooltip',
-                children: () => renderFormulaValue(highlightValue)
+                children: () => this.renderFormulaValue(highlightValue)
               }}
               onClick={this.openFormulaPickerModal}
             >

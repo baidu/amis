@@ -6,6 +6,7 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import cx from 'classnames';
 import {
+  Icon,
   render as amisRender,
   FormItem
 } from 'amis';
@@ -39,6 +40,8 @@ interface TextareaFormulaControlState {
   formulaPickerValue: string; // 公式编辑器内容
 
   expressionBrace?: Array<CodeMirror.Position>; // 表达式所在位置
+
+  isFullscreen: boolean; //是否全屏
 }
 
 export class TextareaFormulaControl extends React.Component<
@@ -46,7 +49,8 @@ export class TextareaFormulaControl extends React.Component<
   TextareaFormulaControlState
 > {
   static defaultProps: Partial<TextareaFormulaControlProps> = {
-    variableMode: 'tabs'
+    variableMode: 'tabs',
+    height: 100
   };
 
   isUnmount: boolean;
@@ -62,7 +66,8 @@ export class TextareaFormulaControl extends React.Component<
       variables: [],
       menusList: [],
       formulaPickerOpen: false,
-      formulaPickerValue: ''
+      formulaPickerValue: '',
+      isFullscreen: false
     };
   }
 
@@ -121,7 +126,7 @@ export class TextareaFormulaControl extends React.Component<
   }
 
   @autobind
-  onExpressionClick(expression: string, brace: Array<CodeMirror.Position>) {
+  onExpressionClick(expression: string, brace?: Array<CodeMirror.Position>) {
     this.setState({
       formulaPickerValue: expression,
       formulaPickerOpen: true,
@@ -137,7 +142,7 @@ export class TextareaFormulaControl extends React.Component<
   @autobind
   handleConfirm(value: any) {
     const {expressionBrace} = this.state;
-    // // 去除可能包裹的最外层的${}
+    // 去除可能包裹的最外层的${}
     value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
     value = value ? `\${${value}}` : value;
     this.editorPlugin?.insertContent(value, 'expression', expressionBrace);
@@ -164,6 +169,13 @@ export class TextareaFormulaControl extends React.Component<
     this.editorPlugin = new FormulaPlugin(editor, cm, () => ({...this.props, variables}), this.onExpressionClick);
   }
 
+  @autobind
+  handleFullscreenModeChange() {
+    this.setState({
+      isFullscreen: !this.state.isFullscreen
+    });
+  }
+
   render() {
     const {
       className,
@@ -173,7 +185,7 @@ export class TextareaFormulaControl extends React.Component<
       height,
       ...rest
     } = this.props;
-    const {value, menusList, formulaPickerOpen, formulaPickerValue} = this.state;
+    const {value, menusList, formulaPickerOpen, formulaPickerValue, isFullscreen} = this.state;
 
     const variables = rest.variables || this.state.variables || [];
 
@@ -184,32 +196,49 @@ export class TextareaFormulaControl extends React.Component<
     }
 
     return (
-      <div className={cx('ae-TextareaFormulaControl')} ref={(ref: any) => this.wrapRef = ref}>
-        <div className='ae-TextareaResultBox' style={resultBoxStyle}>
-          <div className="ae-TextareaResultBox-content">
-            <CodeMirrorEditor
-              className="ae-TextareaResultBox-editor"
-              value={value}
-              onChange={this.handleOnChange}
-              editorFactory={this.editorFactory}
-              editorDidMount={this.handleEditorMounted}
-            />
-            {amisRender({
-              type: 'dropdown-button',
-              className: 'ae-TextareaResultBox-dropdown',
-              menuClassName: 'ae-TextareaResultBox-menus',
-              popOverContainer: this.wrapRef,
-              label: '',
-              level: 'link',
-              size: 'md',
-              icon: 'fa fa-plus',
-              placement: 'top',
-              trigger: 'hover',
-              closeOnClick: true,
-              closeOnOutside: true,
-              hideCaret: true,
-              buttons: menusList
-            })}
+      <div className={cx('ae-TextareaFormulaControl', {'is-fullscreen': this.state.isFullscreen})} ref={(ref: any) => this.wrapRef = ref}>
+        <div
+          className={cx('ae-TextareaResultBox')}
+          style={resultBoxStyle}
+        >
+          <CodeMirrorEditor
+            className="ae-TextareaResultBox-editor"
+            value={value}
+            onChange={this.handleOnChange}
+            editorFactory={this.editorFactory}
+            editorDidMount={this.handleEditorMounted}
+          />
+          {amisRender({
+            type: 'dropdown-button',
+            className: 'ae-TextareaResultBox-dropdown',
+            menuClassName: 'ae-TextareaResultBox-menus',
+            popOverContainer: this.wrapRef,
+            label: '',
+            level: 'link',
+            size: 'md',
+            icon: 'fa fa-plus',
+            trigger: 'hover',
+            closeOnClick: true,
+            closeOnOutside: true,
+            hideCaret: true,
+            buttons: menusList
+          })}
+          <div className="ae-TextareaResultBox-fullscreen">
+            <a
+              className={cx('Modal-fullscreen')}
+              data-tooltip={
+                isFullscreen
+                  ? '退出全屏'
+                  : '全屏'
+              }
+              data-position="left"
+              onClick={this.handleFullscreenModeChange}
+            >
+              <Icon
+                icon={isFullscreen ? 'compress-alt' : 'expand-alt'}
+                className="icon"
+              />
+            </a>
           </div>
         </div>
         {formulaPickerOpen ? (
