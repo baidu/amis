@@ -163,7 +163,7 @@ export class CardsPlugin extends BasePlugin {
               name: 'columnsCount',
               type: 'input-range',
               visibleOn: '!this.leftFixed',
-              min: 0,
+              min: 1,
               max: 12,
               step: 1,
               label: '每行显示个数',
