@@ -61,7 +61,7 @@ export class BaseSelection<
 
   static defaultProps = {
     placeholder: 'placeholder.noOption',
-    itemRender: BaseSelection.itemRender,
+    itemRender: this.itemRender,
     multiple: true,
     clearable: false
   };
