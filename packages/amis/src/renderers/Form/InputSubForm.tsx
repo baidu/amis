@@ -3,7 +3,7 @@ import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import cx from 'classnames';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import {createObject, guid} from 'amis-core';
+import {createObject, guid, ActionObject} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {FormBaseControlSchema, FormSchema, SchemaClassName} from '../../Schema';
 import Sortable from 'sortablejs';
@@ -71,9 +71,20 @@ export interface SubFormControlSchema extends FormBaseControlSchema {
   btnLabel?: string;
 
   /**
+   * 按钮图标
+   * @default pencil
+   */
+  btnIcon?: string;
+
+  /**
    * 新增按钮文字
    */
   addButtonText?: string;
+
+  /**
+   * 新增按钮图标
+   */
+  addButtonIcon?: string;
 
   /**
    * 新增按钮 CSS 类名
@@ -101,6 +112,12 @@ export interface SubFormControlSchema extends FormBaseControlSchema {
   form?: Omit<FormSchema, 'type'>;
 
   scaffold?: any;
+
+  /**
+   * 展示形式
+   * @default button
+   */
+  selectMode: 'button' | 'table' | 'cards' | 'list';
 }
 
 export interface SubFormProps extends FormControlProps {
@@ -139,11 +156,15 @@ export default class SubFormControl extends React.PureComponent<
     maxLength: 0,
     multiple: false,
     btnClassName: '',
+    addButtonIcon: 'plus',
     addButtonClassName: '',
     itemClassName: '',
     labelField: 'label',
     btnLabel: 'SubForm.button',
-    placeholder: 'placeholder.empty'
+    btnIcon: 'pencil',
+    placeholder: 'placeholder.empty',
+    selectMode: 'button',
+
   };
 
   static propsList: Array<string> = ['form', 'formStore'];
@@ -352,7 +373,8 @@ export default class SubFormControl extends React.PureComponent<
       addable,
       removable,
       minLength,
-      addButtonText
+      addButtonText,
+      btnIcon,
     } = this.props;
 
     return (
@@ -397,7 +419,7 @@ export default class SubFormControl extends React.PureComponent<
                   onClick={this.open}
                   className={cx('SubForm-valueEdit')}
                 >
-                  <Icon icon="pencil" className="icon" />
+                  <Icon icon={btnIcon} className="icon" />
                 </a>
                 {!disabled &&
                 removable !== false &&
@@ -458,6 +480,7 @@ export default class SubFormControl extends React.PureComponent<
       value,
       labelField,
       btnLabel,
+      btnIcon,
       render,
       data,
       translate: __
@@ -494,21 +517,341 @@ export default class SubFormControl extends React.PureComponent<
               )}
           </span>
           <a className={cx('SubForm-valueEdit')}>
-            <Icon icon="pencil" className="icon" />
+            <Icon icon={btnIcon} className="icon" />
           </a>
         </div>
       </div>
     );
   }
 
+  // 获取当前子表单的字段名
+  getFormNames() {
+    const {
+      $schema,
+    } = this.props;
+
+    const formBodys = $schema?.form?.body || [];
+    let names: any = [];
+    formBodys.forEach((item: any) => {
+        names.push(item.name);
+    });
+
+    return names;
+  }
+
+  renderActions() {
+    const {
+      translate: __,
+      removable,
+      minLength,
+      value,
+    } = this.props;
+    let btns: any = [
+      {
+        type: 'button',
+        level: 'link',
+        label: __('UserSelect.edit'),
+        index: 0,
+      },
+    ];
+    if (removable !== false) {
+      btns.push({
+          type: 'button',
+          level: 'link',
+          label: __('delete'),
+          mode: 'delete',
+          disabled: minLength as number >= value?.length,
+          index: 1,
+      });
+    }
+
+    return btns;
+  }
+
+  renderAddBtn() {
+    const {
+      render,
+      addButtonClassName,
+      disabled,
+      maxLength,
+      value,
+      translate: __,
+      addButtonText,
+      addButtonIcon,
+      addable,
+    } = this.props;
+
+    if (addable === false) {
+      return null;
+    }
+
+    return render(
+      'button',
+      {
+        type: 'button',
+        level: 'text',
+        label: __(addButtonText || 'SubForm.add'),
+        className: cx(`Button SubForm-addBtn`, addButtonClassName),
+        disabled: disabled
+                  || !!( maxLength && Array.isArray(value) && value.length >= maxLength),
+        icon: `fa fa-${addButtonIcon}`,
+      },
+      {
+        data: createObject(this.props.data),
+        onAction: () => {
+          this.addItem();
+        },
+      }
+    );
+  }
+
+  getColumns() {
+    const {
+      $schema,
+    } = this.props;
+
+    const formBodys = $schema?.form?.body || [];
+    return formBodys.map((item: any) => ({
+              name: item.name,
+              label: item.label
+            }));
+  }
+
+  // 根据子表单字段，及value，生成数据源
+  getSource() {
+    const {
+      value,
+      multiple,
+    } = this.props;
+
+    const names = this.getFormNames();
+
+    let newValue = multiple ? value : (value ? [value] : []);
+    if (newValue?.length) {
+      return newValue?.map((item: any) => {
+        let valueItem: any = {};
+        names.forEach((name: any) => {
+          valueItem[name] = item[name] || '';
+        });
+        return valueItem;
+      });
+    }
+
+    return [];
+  }
+
+  renderTable() {
+    const {
+      render,
+      data,
+      translate: __,
+      draggable,
+      itemsClassName,
+      itemClassName,
+    } = this.props;
+
+    return (
+      <>
+        {
+          render(
+            'table',
+            {
+              type: 'table',
+              className: itemsClassName,
+              rowClassName: itemClassName,
+              draggable,
+              columns: this.getColumns().concat({
+                type: 'operation',
+                label: '操作',
+                buttons: this.renderActions(),
+              }),
+              source: '${rows}'
+            },
+            {
+              data: createObject(data, {
+                rows: this.getSource()
+              }),
+              onAction: (e: any, action: ActionObject, ctx: object) => {
+                this.handleAction(e, action, ctx);
+              },
+              onSaveOrder: (movedItems: any[], newItems: any[]) => {
+                this.onSaveOrder(movedItems, newItems);
+              }
+            }
+          )
+        }
+        {this.renderAddBtn()}
+      </>
+    );
+  }
+
+  renderList() {
+    const {
+      render,
+      data,
+      translate: __,
+      draggable,
+      itemsClassName,
+      itemClassName,
+    } = this.props;
+
+    return (
+      <>
+        {
+          render(
+            'list',
+            {
+              type: 'list',
+              itemClassName,
+              className: itemsClassName,
+              listItem: {
+                body: {
+                  type: 'hbox',
+                  columns: this.getColumns(),
+                },
+                actions: this.renderActions(),
+              },
+              draggable,
+            },
+            {
+              data: createObject(data, {
+                items: this.getSource()
+              }),
+              onAction: (e: any, action: ActionObject, ctx: object) => {
+                this.handleAction(e, action, ctx);
+              },
+              onSaveOrder: (movedItems: any[], newItems: any[]) => {
+                this.onSaveOrder(movedItems, newItems);
+              }
+            }
+          )
+        }
+        {this.renderAddBtn()}
+      </>
+    );
+  }
+
+  renderCard() {
+    const {
+      render,
+      data,
+      addable,
+      draggable,
+      itemsClassName,
+      itemClassName,
+    } = this.props;
+
+    const defaultClassName = 'Grid-col--sm6 Grid-col--md4 Grid-col--lg3';
+
+    return (
+      <>
+        {
+          render(
+            'cards',
+            {
+              type: 'cards',
+              itemsClassName,
+              itemClassName: `${defaultClassName} ${itemClassName}`,
+              addable,
+              draggable,
+              card: {
+                body: this.getColumns(),
+                actions: this.renderActions()
+              },
+            },
+            {
+              data: createObject(data, {
+                items: this.getSource()
+              }),
+              onAction: (e: any, action: ActionObject, ctx: object) => {
+                this.handleAction(e, action, ctx);
+              },
+              onSaveOrder: (movedItems: any[], newItems: any[]) => {
+                this.onSaveOrder(movedItems, newItems);
+              }
+            }
+          )
+        }
+        {this.renderAddBtn()}
+      </>
+    );
+  }
+
+  handleAction(
+    e: any,
+    action: ActionObject,
+    ctx: object,
+  ) {
+    let {value, onChange, multiple} = this.props;
+    if (!multiple) {
+      if (action.index === 1) {
+        onChange(undefined);
+        return;
+      }
+
+      this.setState({
+        dialogData: createObject(this.props.data, value),
+        dialogCtx: {
+          mode: 'edit'
+        }
+      });
+      return;
+    }
+
+    const index = ctx!.index!;
+    // 删除
+    if (action.index === 1) {
+      value = value.concat();
+      value.splice(index, 1);
+      onChange(value);
+      return;
+    }
+
+    // 编辑
+    this.setState({
+      dialogData: createObject(this.props.data, ctx),
+      dialogCtx: {
+        mode: 'edit',
+        index
+      }
+    });
+  }
+
+  onSaveOrder(movedItems: any[], newItems: any[]) {
+    const {
+      onChange
+    } = this.props;
+    onChange(newItems);
+  }
+
+  renderContent() {
+    const {
+      selectMode,
+      multiple,
+    } = this.props;
+
+    if (selectMode === 'table') {
+      return this.renderTable();
+    }
+    else if (selectMode === 'list') {
+      return this.renderList();
+    }
+    else if (selectMode === 'cards') {
+      return this.renderCard();
+    }
+    else {
+      return multiple ? this.renderMultipe() : this.renderSingle();
+    }
+  }
+
   render() {
-    const {multiple, classPrefix: ns, className, render} = this.props;
+    const {classPrefix: ns, className, render} = this.props;
     const dialogData = this.state.dialogData;
     const dialogCtx = this.state.dialogCtx;
 
     return (
       <div className={cx(`${ns}SubFormControl`, className)}>
-        {multiple ? this.renderMultipe() : this.renderSingle()}
+        {this.renderContent()}
         {render(`modal`, this.buildDialogSchema(), {
           show: !!dialogCtx,
           onClose: this.close,
@@ -523,7 +866,7 @@ export default class SubFormControl extends React.PureComponent<
 
 @FormItem({
   type: 'input-sub-form',
-  sizeMutable: false,
+  sizeMutable: true,
   strictMode: false
 })
 export class SubFormControlRenderer extends SubFormControl {}
