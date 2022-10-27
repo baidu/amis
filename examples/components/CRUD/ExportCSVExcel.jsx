@@ -16,7 +16,8 @@ export default {
             name: 'Trident',
             version: '4/2'
           },
-          date: '1591326307'
+          date: '1591326307',
+          city: '310100'
         },
         {
           link: 'https://www.microsoft.com/',
@@ -188,6 +189,11 @@ export default {
         name: 'date',
         label: 'Date',
         type: 'date'
+      },
+      {
+        name: 'city',
+        label: 'city',
+        type: 'input-city'
       }
     ]
   }
