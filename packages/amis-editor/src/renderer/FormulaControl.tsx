@@ -137,21 +137,13 @@ export default class FormulaControl extends React.Component<
     };
   }
 
+  componentDidMount(): void {
+    this.getVariables();
+  }
+
   componentDidUpdate(prevProps: FormulaControlProps) {
     // 优先使用props中的变量数据
-    if (!this.props.variables) {
-      // 从amis数据域中取变量数据
-      this.resolveVariablesFromScope().then(variables => {
-        if (Array.isArray(variables)) {
-          const vars = variables.filter(item => item.children?.length);
-          if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
-            this.setState({
-              variables: vars
-            });
-          }
-        }
-      });
-    }
+    this.getVariables();
     if (this.props.data !== prevProps.data) {
       this.setState({
         variables: dataMapping(this.props.variables, this.props.data)
@@ -194,6 +186,23 @@ export default class FormulaControl extends React.Component<
       ],
       'value'
     );
+  }
+
+  // 设置 variables
+  getVariables() {
+    if (!this.props.variables) {
+      // 从amis数据域中取变量数据
+      this.resolveVariablesFromScope().then(variables => {
+        if (Array.isArray(variables)) {
+          const vars = variables.filter(item => item.children?.length);
+          if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
+            this.setState({
+              variables: vars
+            });
+          }
+        }
+      });
+    }
   }
 
   /**
@@ -326,17 +335,10 @@ export default class FormulaControl extends React.Component<
     this.props?.onChange?.(val);
   }
 
-  handleSimpleInputChange = debounce(
-    (value: any) => {
-      const curValue = this.replaceExpression(value);
-      this.props?.onChange?.(curValue);
-    },
-    250,
-    {
-      trailing: true,
-      leading: false
-    }
-  );
+  handleSimpleInputChange = (value: any) => {
+    const curValue = this.replaceExpression(value);
+    this.props?.onChange?.(curValue);
+  };
 
   handleInputChange = (value: any) => {
     this.props?.onChange?.(value);
@@ -544,7 +546,7 @@ export default class FormulaControl extends React.Component<
             allowInput={false}
             clearable={true}
             value={value}
-            result={highlightValue}
+            result={{html: '已配置表达式'}}
             itemRender={this.renderFormulaValue}
             onChange={this.handleInputChange}
             onResultChange={() => {
@@ -581,8 +583,12 @@ export default class FormulaControl extends React.Component<
           {({onClick}: {onClick: (e: React.MouseEvent) => void}) => (
             <Button
               size="sm"
-              tooltip={'点击配置表达式'}
-              tooltipPlacement="left"
+              tooltip={{
+                enterable: false,
+                content: '点击配置表达式',
+                placement: 'left',
+                mouseLeaveDelay: 0
+              }}
               onClick={onClick}
               // active={simple && value} // 不需要，避免 hover 时无任何反馈效果
             >
