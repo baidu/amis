@@ -1565,14 +1565,19 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
-批量操作会默认将下面数据添加到数据域中以供按钮行为使用
+#### 批量操作数据域
 
-- `items` `Array<object>` selectedItems 的别名
-- `rows` items 的别名，推荐用 items。
-- `selectedItems` `Array<object>` 选中的行数据集合
-- `unSelectedItems` `Array<object>` 没选中的行数据也可获取。
-- `ids` `string` 多个 id 值用英文逗号隔开，前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段。
-- `第一行所有行数据` 还有第一行的所有行数据也会包含进去。
+批量操作会默认将下面数据添加到数据域中以供**按钮行为**使用，需要注意的是**静态**和**批量操作**时的数据域是不同的。**静态数据域**是指渲染批量操作区域时能够获取到的数据，**批量操作数据域**是指触发按钮动作时能够获取到的数据，具体区别参考下表：
+
+| 属性名            | 类型                  | 所属数据域     | 说明                                                                                 | 版本    |
+| ----------------- | --------------------- | -------------- | ------------------------------------------------------------------------------------ | ------- |
+| `currentPageData` | `Array<Column>`       | 静态, 批量操作 | 当前分页数据集合，`Column`为当前 Table 数据结构定义                                  | `2.4.0` |
+| `selectedItems`   | `Array<Column>`       | 静态, 批量操作 | 选中的行数据集合                                                                     |
+| `unSelectedItems` | `Array<Column>`       | 静态, 批量操作 | 未选中的行数据集合                                                                   |
+| `items`           | `Array<Column>`       | 批量操作       | `selectedItems` 的别名                                                               |
+| `rows`            | `Array<Column>`       | 批量操作       | `selectedItems` 的别名，推荐用 `items`                                               |
+| `ids`             | `string`              | 批量操作       | 多个 id 值用英文逗号隔开，前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段 |
+| `...rest`         | `Record<string, any>` | 批量操作       | 选中的行数据集合的首个元素的字段，注意列字段如果和以上字段重名时，会被上述字段值覆盖 |
 
 你可以通过[数据映射](../../docs/concepts/data-mapping)，在`api`中获取这些参数。
 
