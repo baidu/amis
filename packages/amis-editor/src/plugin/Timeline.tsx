@@ -20,8 +20,9 @@ export class TimelinePlugin extends BasePlugin {
     label: '时间轴',
     name: 'timeline',
     items: [
-      {time: '2012-12-21', title: '节点数据'},
-      {time: '2012-12-24', title: '节点数据'}
+      {time: '2012-12-21', title: '节点示例数据'},
+      {time: '2012-12-24', title: '节点示例数据'},
+      {time: '2012-12-27', title: '节点示例数据'}
     ]
   };
   previewSchema = {
