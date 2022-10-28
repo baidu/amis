@@ -185,6 +185,44 @@ export interface TableControlSchema
   perPage?: number;
 }
 
+class RenderTableCell extends React.Component<any> {
+  shouldComponentUpdate(nextProps: any) {
+    const props = this.props;
+
+    const columnModify = !isEqual(nextProps.column, props.column);
+
+    const dateModify =
+      !props.column?.name || !nextProps.column?.name
+        ? false
+        : !isEqual(
+            nextProps.data[nextProps.column.name],
+            props.data[props.column.name]
+          );
+
+    const operationModify =
+      (props.column?.type === 'operation' &&
+        nextProps.editIndex !== props.editIndex) ||
+      nextProps.editIndex === nextProps.rowIndex ||
+      props.editIndex === props.rowIndex;
+
+    return operationModify || columnModify || dateModify;
+  }
+
+  render() {
+    const {column, render, region, editIndex, rowIndex, ...rest} = this.props;
+    return render(
+      region,
+      {
+        ...column,
+        column: column,
+        type: 'cell',
+        key: column.region
+      },
+      {...rest, editIndex, rowIndex}
+    );
+  }
+}
+
 export interface TableProps
   extends FormControlProps,
     Omit<
@@ -563,9 +601,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.setState({
       editIndex: index,
       isCreateMode: isCreate,
-      raw: this.state.items[index],
-
-      columns: this.buildColumns(this.props, isCreate)
+      raw: this.state.items[index]
     });
   }
 
@@ -718,13 +754,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         children: ({
           key,
           rowIndex,
-          offset
+          offset,
+          editIndex
         }: {
           key: any;
           rowIndex: number;
           offset: number;
+          editIndex: number;
         }) =>
-          ~this.state.editIndex && needConfirm !== false ? null : (
+          ~editIndex && needConfirm !== false ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -754,13 +792,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         children: ({
           key,
           rowIndex,
-          offset
+          offset,
+          editIndex
         }: {
           key: any;
           rowIndex: number;
           offset: number;
+          editIndex: number;
         }) =>
-          ~this.state.editIndex && needConfirm !== false ? null : (
+          ~editIndex && needConfirm !== false ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -827,14 +867,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             key,
             rowIndex,
             data,
-            offset
+            offset,
+            editIndex
           }: {
             key: any;
             rowIndex: number;
             data: any;
             offset: number;
+            editIndex: number;
           }) =>
-            ~this.state.editIndex || (data && data.__isPlaceholder) ? null : (
+            ~editIndex || (data && data.__isPlaceholder) ? null : (
               <Button
                 classPrefix={ns}
                 size="sm"
@@ -875,13 +917,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         children: ({
           key,
           rowIndex,
-          offset
+          offset,
+          editIndex
         }: {
           key: any;
           rowIndex: number;
           offset: number;
+          editIndex: number;
         }) =>
-          this.state.editIndex === rowIndex + offset ? (
+          editIndex === rowIndex + offset ? (
             <Button
               classPrefix={ns}
               size="sm"
@@ -911,13 +955,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         children: ({
           key,
           rowIndex,
-          offset
+          offset,
+          editIndex
         }: {
           key: any;
           rowIndex: number;
           offset: number;
+          editIndex: number;
         }) =>
-          this.state.editIndex === rowIndex + offset ? (
+          editIndex === rowIndex + offset ? (
             <Button
               classPrefix={ns}
               size="sm"
@@ -950,14 +996,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           key,
           rowIndex,
           data,
-          offset
+          offset,
+          editIndex
         }: {
           key: any;
           rowIndex: number;
           data: any;
           offset: number;
+          editIndex: number;
         }) =>
-          (~this.state.editIndex || (data && data.__isPlaceholder)) &&
+          (~editIndex || (data && data.__isPlaceholder)) &&
           needConfirm !== false ? null : (
             <Button
               classPrefix={ns}
@@ -1265,7 +1313,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             reUseRow: false,
             offset,
             rowClassName,
-            rowClassNameExpr
+            rowClassNameExpr,
+            renderCell: (props: any) => (
+              <RenderTableCell {...props} editIndex={this.state.editIndex} />
+            )
             // TODO: 这里是为了处理columns里使用value变量添加的，目前会影响初始化数据加载后的组件行为，先回滚
             // onPristineChange: this.handlePristineChange
           }

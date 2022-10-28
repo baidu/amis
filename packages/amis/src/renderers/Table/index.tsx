@@ -386,6 +386,7 @@ export interface TableProps extends RendererProps {
   itemBadge?: BadgeObject;
   loading?: boolean;
   autoFillHeight?: boolean | AutoFillHeightObject;
+  renderCell?: (props: any) => JSX.Element | null;
 }
 
 export type ExportExcelToolbar = SchemaNode & {
@@ -2087,7 +2088,8 @@ export default class Table extends React.Component<TableProps, object> {
       checkOnItemClick,
       popOverContainer,
       canAccessSuperData,
-      itemBadge
+      itemBadge,
+      renderCell
     } = this.props;
 
     if (column.name && item.rowSpans[column.name] === 0) {
@@ -2192,15 +2194,17 @@ export default class Table extends React.Component<TableProps, object> {
     };
     delete subProps.label;
 
-    return render(
-      region,
-      {
-        ...column.pristine,
-        column: column.pristine,
-        type: 'cell'
-      },
-      subProps
-    );
+    return renderCell
+      ? renderCell({...subProps, column: column.pristine, region, render})
+      : render(
+          region,
+          {
+            ...column.pristine,
+            column: column.pristine,
+            type: 'cell'
+          },
+          subProps
+        );
   }
 
   renderAffixHeader(tableClassName: string) {
