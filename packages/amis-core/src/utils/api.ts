@@ -199,7 +199,10 @@ export function buildApi(
         api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
       } else {
         api.query = data;
-        api.url += '?' + qsstringify(data);
+        const query = qsstringify(data);
+        if (query) {
+          api.url = `${api.url}?${query}`;
+        }
       }
     }
 
@@ -213,7 +216,10 @@ export function buildApi(
         api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
       } else {
         api.query = api.data;
-        api.url += '?' + qsstringify(api.data);
+        const query = qsstringify(api.data);
+        if (query) {
+          api.url = `${api.url}?${query}`;
+        }
       }
       delete api.data;
     }
