@@ -417,6 +417,7 @@ List 模式支持 [List](./list) 中的所有功能。
   "actions": [
     {
       "icon": "fa fa-edit",
+      "className": "mr-4",
       "tooltip": "编辑",
       "actionType": "dialog",
       "dialog": {
@@ -1564,14 +1565,19 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
-批量操作会默认将下面数据添加到数据域中以供按钮行为使用
+#### 批量操作数据域
 
-- `items` `Array<object>` selectedItems 的别名
-- `rows` items 的别名，推荐用 items。
-- `selectedItems` `Array<object>` 选中的行数据集合
-- `unSelectedItems` `Array<object>` 没选中的行数据也可获取。
-- `ids` `string` 多个 id 值用英文逗号隔开，前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段。
-- `第一行所有行数据` 还有第一行的所有行数据也会包含进去。
+批量操作会默认将下面数据添加到数据域中以供**按钮行为**使用，需要注意的是**静态**和**批量操作**时的数据域是不同的。**静态数据域**是指渲染批量操作区域时能够获取到的数据，**批量操作数据域**是指触发按钮动作时能够获取到的数据，具体区别参考下表：
+
+| 属性名            | 类型                  | 所属数据域     | 说明                                                                                 | 版本    |
+| ----------------- | --------------------- | -------------- | ------------------------------------------------------------------------------------ | ------- |
+| `currentPageData` | `Array<Column>`       | 静态, 批量操作 | 当前分页数据集合，`Column`为当前 Table 数据结构定义                                  | `2.4.0` |
+| `selectedItems`   | `Array<Column>`       | 静态, 批量操作 | 选中的行数据集合                                                                     |
+| `unSelectedItems` | `Array<Column>`       | 静态, 批量操作 | 未选中的行数据集合                                                                   |
+| `items`           | `Array<Column>`       | 批量操作       | `selectedItems` 的别名                                                               |
+| `rows`            | `Array<Column>`       | 批量操作       | `selectedItems` 的别名，推荐用 `items`                                               |
+| `ids`             | `string`              | 批量操作       | 多个 id 值用英文逗号隔开，前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段 |
+| `...rest`         | `Record<string, any>` | 批量操作       | 选中的行数据集合的首个元素的字段，注意列字段如果和以上字段重名时，会被上述字段值覆盖 |
 
 你可以通过[数据映射](../../docs/concepts/data-mapping)，在`api`中获取这些参数。
 
@@ -2866,11 +2872,41 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 
-- 默认 [Table](./table) 模式里的列配置。
+- 默认[Table](./table)模式里的[列配置](./table#列配置属表)。
 - [Cards](./cards) 模式。
 - [List](./list) 模式。
 
-## columns-toggler 属性表
+### 列配置属性表
+
+除了 Table 组件默认支持的列配置，CRUD 的列配置还额外支持以下属性：
+
+| 属性名     | 类型                                                            | 默认值  | 说明                                                                        |
+| ---------- | --------------------------------------------------------------- | ------- | --------------------------------------------------------------------------- |
+| sortable   | `boolean`                                                       | `false` | 是否可排序                                                                  |
+| searchable | `boolean` \| `Schema`                                           | `false` | 是否可快速搜索，开启`autoGenerateFilter`后，`searchable`支持配置`Schema`    |
+| filterable | `boolean` \| [`QuickFilterConfig`](./crud.md#quickfilterconfig) | `false` | 是否可快速搜索，`options`属性为静态选项，支持设置`source`属性从接口获取选项 |
+| quickEdit  | `boolean` \| [`QuickEditConfig`](./crud.md#quickeditconfig)     | -       | 快速编辑，一般需要配合`quickSaveApi`接口使用                                |
+
+#### QuickFilterConfig
+
+| 属性名     | 类型                          | 默认值  | 说明                                                     | 版本    |
+| ---------- | ----------------------------- | ------- | -------------------------------------------------------- | ------- |
+| options    | `Array<any>`                  | -       | 静态选项                                                 |         |
+| multiple   | `boolean`                     | `false` | 是否支持多选                                             |         |
+| source     | [`Api`](../../docs/types/api) | -       | 选项 API 接口                                            |         |
+| strictMode | `string`                      | `false` | 严格模式，开启严格模式后，会采用 JavaScript 严格想等比较 | `2.3.0` |
+
+#### QuickEditConfig
+
+| 属性名             | 类型                      | 默认值      | 说明                                                                                                    | 版本 |
+| ------------------ | ------------------------- | ----------- | ------------------------------------------------------------------------------------------------------- | ---- |
+| type               | `SchemaType`              | -           | 表单项组件类型                                                                                          |      |
+| body               | `SchemaCollection`        | -           | 组件容器，支持多个表单项组件                                                                            |      |
+| mode               | `'inline' \| 'popOver'`   | `'popOver'` | 编辑模式，inline 为行内编辑，popOver 为浮层编辑                                                         |      |
+| saveImmediately    | `boolean` 或 `{api: Api}` | `false`     | 是否修改后即时保存，一般需要配合`quickSaveItemApi`接口使用，也可以直接配置[`Api`](../../docs/types/api) |      |
+| quickEditEnabledOn | `SchemaExpression`        | -           | 开启快速编辑条件[表达式](../../docs/concepts/expression)                                                |      |
+
+### columns-toggler 属性表
 
 | 属性名          | 类型                           | 默认值    | 说明                                   |
 | --------------- | ------------------------------ | --------- | -------------------------------------- |

@@ -1,5 +1,5 @@
 import {Instance, types} from 'mobx-state-tree';
-import {createObject, parseQuery} from '../utils/helper';
+import {createObject, extendObject, parseQuery} from '../utils/helper';
 import {ServiceStore} from './service';
 
 export const RootStore = ServiceStore.named('RootStore')
@@ -15,11 +15,13 @@ export const RootStore = ServiceStore.named('RootStore')
     get downStream() {
       return self.query
         ? createObject(
-            {
-              ...(self.data && self.data.__super ? self.data.__super : null),
-              ...self.query,
-              __query: self.query
-            },
+            extendObject(
+              self.data && self.data.__super ? self.data.__super : null,
+              {
+                ...self.query,
+                __query: self.query
+              }
+            ),
             self.data
           )
         : self.data;

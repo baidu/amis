@@ -20,6 +20,7 @@ import {
   ApiObject,
   autobind,
   isExpression,
+  ITableStore,
   generateIcon
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
@@ -237,6 +238,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   subForms: any = {};
   rowPrinstine: Array<any> = [];
   editting: any = {};
+  tableStore?: ITableStore;
+
   constructor(props: TableProps) {
     super(props);
 
@@ -346,6 +349,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         return msg;
       }
     }
+
+    if (!this.tableStore) return;
+
+    // 校验子项
+    const children = this.tableStore.children.filter(
+      item => item?.storeType === 'FormItemStore'
+    );
+
+    const results = await Promise.all(
+      children.map(item => item.validate(this.props.value))
+    );
   }
 
   emitValue() {
@@ -1163,6 +1177,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     return String(this.entries.get(entry));
   }
 
+  tableRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
+    this.tableStore = ref?.props?.store;
+  }
+
   render() {
     const {
       className,
@@ -1225,6 +1246,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             tableContentClassName
           },
           {
+            ref: this.tableRef.bind(this),
             value: undefined,
             saveImmediately: true,
             disabled,

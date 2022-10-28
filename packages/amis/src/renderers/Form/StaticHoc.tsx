@@ -87,28 +87,30 @@ export function supportStatic<T extends FormControlProps>() {
           className,
           staticPlaceholder = '-'
         } = props;
-        
-        let body;
 
+        let body;
         const displayValue = getPropValue(props);
-        if (!displayValue) {
+        const isValueEmpty = displayValue == null || displayValue === '';
+
+        if (staticSchema && (
+          staticSchema.type
+          || Array.isArray(staticSchema)
+          || typeof staticSchema === 'string'
+          || typeof staticSchema === 'number'
+        )) {
+          // 有自定义schema 且schema有type 时，展示schema
+          body = render('form-static-schema', staticSchema, props);
+        } else if (target.renderStatic) {
+          // 特殊组件，control有 renderStatic 时，特殊处理
+          body = target.renderStatic.apply(this, [...args,
+            isValueEmpty ? staticPlaceholder : displayValue
+          ]);
+        } else if (isValueEmpty) {
+          // 空值时，展示 staticPlaceholder
           body = staticPlaceholder;
         } else {
-          // 自定义了schema并且有type
-          if (staticSchema && (
-            staticSchema.type
-            || Array.isArray(staticSchema)
-            || typeof staticSchema === 'string'
-            || typeof staticSchema === 'number'
-          )) {
-            body = render('form-static-schema', staticSchema, props);
-          } else if (target.renderStatic) {
-            // 特殊组件
-            body = target.renderStatic.apply(this, [...args, displayValue]);
-          } else {
-            // 可复用组件
-            body = renderCommonStatic(props, displayValue);
-          }
+          // 可复用组件 统一处理
+          body = renderCommonStatic(props, displayValue);
         }
 
         return <div className={cx(`${ns}Form-static`, className)}>{body}</div>

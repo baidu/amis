@@ -1,15 +1,22 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, Schema, ActionObject} from 'amis-core';
-import {filter} from 'amis-core';
-import cx from 'classnames';
-import {Button, Spinner} from 'amis-ui';
-import {Checkbox} from 'amis-ui';
-import {ListStore, IListStore} from 'amis-core';
-import {observer} from 'mobx-react';
+import Sortable from 'sortablejs';
 import omit from 'lodash/omit';
+import {Button, Spinner, Checkbox, Icon} from 'amis-ui';
 import {
+  ListStore,
+  IListStore,
+  isPureVariable,
+  resolveVariable,
+  resolveVariableAndFilter,
+  Renderer,
+  RendererProps,
+  SchemaNode,
+  Schema,
+  ActionObject,
+  filter,
+  autobind,
+  createObject,
   anyChanged,
   getScrollParent,
   difference,
@@ -18,17 +25,11 @@ import {
   noop,
   isClickOnInput
 } from 'amis-core';
-import {
-  isPureVariable,
-  resolveVariable,
-  resolveVariableAndFilter
-} from 'amis-core';
+
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
-import Sortable from 'sortablejs';
 import {TableCell} from './Table';
 import Copyable, {SchemaCopyable} from './Copyable';
-import {Icon} from 'amis-ui';
 import {
   BaseSchema,
   SchemaClassName,
@@ -42,6 +43,7 @@ import {
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
 import type {IItem} from 'amis-core/lib/store/list';
+import type {OnEventProps} from 'amis-core/lib/utils/renderer-event';
 
 /**
  * 不指定类型默认就是文本
@@ -204,7 +206,7 @@ export interface ListSchema extends BaseSchema {
   itemDraggableOn?: SchemaExpression;
 
   /**
-   * 点击卡片的时候是否勾选卡片。
+   * 点击列表单行时，是否选择
    */
   checkOnItemClick?: boolean;
 
@@ -462,10 +464,22 @@ export default class List extends React.Component<ListProps, object> {
   }
 
   handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
-    const {onAction} = this.props;
+    const {data, dispatchEvent, onAction, onEvent} = this.props;
+    const hasClickActions =
+      onEvent &&
+      Array.isArray(onEvent?.itemClick?.actions) &&
+      onEvent.itemClick.actions.length > 0;
 
-    // todo
-    onAction(e, action, ctx);
+    if (hasClickActions) {
+      dispatchEvent(
+        'itemClick',
+        createObject(data, {
+          item: ctx
+        })
+      );
+    } else {
+      onAction?.(e, action, ctx);
+    }
   }
 
   handleCheck(item: IItem) {
@@ -933,12 +947,17 @@ export default class List extends React.Component<ListProps, object> {
       multiple,
       store,
       onAction,
+      onEvent,
       hideCheckToggler,
       checkOnItemClick,
       itemAction,
       classnames: cx,
       translate: __
     } = this.props;
+    const hasClickActions =
+      onEvent &&
+      Array.isArray(onEvent?.itemClick?.actions) &&
+      onEvent.itemClick.actions.length > 0;
 
     return render(
       `${index}`,
@@ -961,10 +980,11 @@ export default class List extends React.Component<ListProps, object> {
         hideCheckToggler,
         checkOnItemClick,
         itemAction,
+        hasClickActions,
         selected: item.checked,
         onCheck: this.handleCheck,
+        onAction: this.handleAction,
         dragging: store.dragging,
-        onAction,
         data: item.locals,
         onQuickChange: store.dragging ? null : this.handleQuickChange,
         popOverContainer: this.getPopOverContainer
@@ -1059,6 +1079,8 @@ export interface ListItemProps
   checkable?: boolean;
   checkOnItemClick?: boolean;
   itemAction?: ActionSchema;
+  onEvent?: OnEventProps['onEvent'];
+  hasClickActions?: boolean;
 }
 export class ListItem extends React.Component<ListItemProps> {
   static defaultProps: Partial<ListItemProps> = {
@@ -1085,18 +1107,34 @@ export class ListItem extends React.Component<ListItemProps> {
     if (isClickOnInput(e)) {
       return;
     }
-    const {itemAction, onAction, item} = this.props;
-    if (itemAction) {
-      onAction && onAction(e, itemAction, item?.data);
-      return;
-    }
 
-    this.props.onCheck && this.props.onCheck(item);
+    const {
+      checkable,
+      checkOnItemClick,
+      itemAction,
+      onAction,
+      item,
+      onCheck,
+      hasClickActions
+    } = this.props;
+
+    // itemAction和itemClick事件统一交给List处理，itemClick事件会覆盖itemAction
+    onAction?.(
+      e,
+      hasClickActions ? undefined : itemAction,
+      hasClickActions ? item : item?.data
+    );
+
+    // itemAction, itemClick事件和checkOnItemClick为互斥关系
+    if (checkable && checkOnItemClick && !hasClickActions && !itemAction) {
+      onCheck?.(item);
+    }
   }
 
   handleCheck() {
-    const item = this.props.item;
-    this.props.onCheck && this.props.onCheck(item);
+    const {onCheck, item} = this.props;
+
+    onCheck?.(item);
   }
 
   handleAction(e: React.UIEvent<any>, action: ActionObject, ctx: object) {
@@ -1297,14 +1335,13 @@ export class ListItem extends React.Component<ListItemProps> {
       subTitle: subTitleTpl,
       desc: descTpl,
       avatarClassName,
-      checkOnItemClick,
       render,
-      checkable,
       classnames: cx,
       actionsPosition,
-      itemAction
+      itemAction,
+      onEvent,
+      hasClickActions
     } = this.props;
-
     const avatar = filter(avatarTpl, data);
     const title = filter(titleTpl, data);
     const subTitle = filter(subTitleTpl, data);
@@ -1312,15 +1349,11 @@ export class ListItem extends React.Component<ListItemProps> {
 
     return (
       <div
-        onClick={
-          (checkOnItemClick && checkable) || itemAction
-            ? this.handleClick
-            : undefined
-        }
+        onClick={this.handleClick}
         className={cx(
           `ListItem ListItem--actions-at-${actionsPosition || 'right'}`,
           {
-            'ListItem--hasItemAction': itemAction
+            'ListItem--hasItemAction': itemAction || hasClickActions
           },
           className
         )}

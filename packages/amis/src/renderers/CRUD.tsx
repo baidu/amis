@@ -727,6 +727,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const ctx = createObject(store.mergedData, {
       ...selectedItems[0],
+      currentPageData: store.mergedData.items.concat(),
       rows: selectedItems,
       items: selectedItems,
       selectedItems,
@@ -1478,7 +1479,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
-    onSelect && onSelect(newItems);
+    onSelect && onSelect(newItems, newUnSelectedItems);
   }
 
   handleChildPopOverOpen(popOver: any) {
@@ -1635,6 +1636,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     let itemBtns: Array<ActionSchema> = [];
 
     const ctx = createObject(store.mergedData, {
+      currentPageData: store.mergedData.items.concat(),
       selectedItems: selectedItems.concat(),
       unSelectedItems: unSelectedItems.concat()
     });
@@ -1870,15 +1872,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderExportCSV(toolbar: Schema) {
-    const {
-      store,
-      classPrefix: ns,
-      classnames: cx,
-      translate: __,
-      loadDataOnce,
-      data
-    } = this.props;
-
+    const {store, classPrefix: ns, translate: __, loadDataOnce} = this.props;
     const api = (toolbar as Schema).api;
 
     return (
@@ -1888,7 +1882,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           store.exportAsCSV({
             loadDataOnce,
             api,
-            data
+            data: store.filterData /* 因为filter区域可能设置了过滤字段值，所以query信息也要写入数据域 */
           })
         }
       >

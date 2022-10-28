@@ -23,7 +23,7 @@ import {ThemeProps} from './theme';
 import find from 'lodash/find';
 import {LocaleProps} from './locale';
 import {HocStoreFactory} from './WithStore';
-import {RendererEnv} from './env';
+import type {RendererEnv} from './env';
 import {OnEventProps} from './utils/renderer-event';
 import {Placeholder} from './renderers/Placeholder';
 
@@ -406,7 +406,7 @@ export function resolveRenderer(
     return cache[type];
   } else if (cache[path]) {
     return cache[path];
-  } else if (path && path.length > 1024) {
+  } else if (path && path.length > 3072) {
     throw new Error('Path太长是不是死循环了？');
   }
 

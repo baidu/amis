@@ -329,9 +329,11 @@ export class BaseTransferRenderer<
 
   @autobind
   handleResultSearch(term: string, item: Option) {
-    const {valueField} = this.props;
+    const {valueField, labelField} = this.props;
     const regexp = string2regExp(term);
-    return regexp.test(item[(valueField as string) || 'value']);
+    const labelTest = item[(labelField as string) || 'label'];
+    const valueTest = item[(valueField as string) || 'value'];
+    return regexp.test(labelTest) || regexp.test(valueTest);
   }
 
   @autobind

@@ -136,15 +136,11 @@ import {WordsSchema} from './renderers/Words';
 // 每加个类型，这补充一下。
 export type SchemaType =
   | 'form'
-  | 'button'
-  | 'submit'
-  | 'reset'
   | 'alert'
   | 'app'
   | 'audio'
   | 'avatar'
   | 'button-group'
-  | 'button-toolbar'
   | 'breadcrumb'
   | 'card'
   | 'card2'
@@ -155,7 +151,6 @@ export type SchemaType =
   | 'collapse'
   | 'collapse-group'
   | 'color'
-  | 'container'
   | 'crud'
   | 'crud2'
   | 'custom'
@@ -176,9 +171,7 @@ export type SchemaType =
   | 'each'
   | 'flex'
   | 'flex-item'
-  | 'grid'
   | 'grid-2d'
-  | 'hbox'
   | 'icon'
   | 'iframe'
   | 'image'
@@ -202,7 +195,6 @@ export type SchemaType =
   | 'pagination-wrapper'
   | 'property'
   | 'operation'
-  | 'panel'
   | 'plain'
   | 'text'
   | 'progress'
@@ -211,14 +203,11 @@ export type SchemaType =
   | 'barcode'
   | 'remark'
   | 'search-box'
-  | 'service'
   | 'sparkline'
   | 'status'
-  | 'switch'
   | 'table'
   | 'static-table' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'table2'
-  | 'tabs'
   | 'html'
   | 'tpl'
   | 'tasks'
@@ -445,7 +434,6 @@ export type SchemaObject =
   | DateControlSchema
   | DateTimeControlSchema
   | TimeControlSchema
-  | MonthControlSchema
   | MonthControlSchema
   | QuarterControlSchema
   | YearControlSchema

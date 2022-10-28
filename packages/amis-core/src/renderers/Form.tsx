@@ -1540,7 +1540,13 @@ export default class Form extends React.Component<FormProps, object> {
         disabled ||
         (control as Schema).disabled ||
         (form.loading ? true : undefined),
-      static: (control as Schema).static ?? isStatic,
+      /**
+       * 静态展示 优先级逻辑
+       * 1. 表单子项 static: true 始终保持静态
+       * 2. 表单子项 static: false 或 不配置，跟随父表单
+       * 3. 动作控制 表单子项 时，无视配置，优先级最高
+       */
+      static: (control as Schema).static || isStatic,
       btnDisabled: disabled || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,

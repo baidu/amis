@@ -109,13 +109,15 @@
     color: var(--ImageControl-addBtn-onHover-color) !important;
   }
 
-  &-dropzone:hover &-addBtn {
-    border-color: var(--ImageControl-addBtn-onHover-border);
-    background: var(--ImageControl-addBtn-onHover-bg);
-    color: var(--ImageControl-addBtn-onHover-color);
-    border-color: var(--ImageControl-addBtn-onHover-border);
-    &-text {
+  &-dropzone:hover {
+    &-addBtn:not(.is-disabled) {
+      border-color: var(--ImageControl-addBtn-onHover-border);
+      background: var(--ImageControl-addBtn-onHover-bg);
       color: var(--ImageControl-addBtn-onHover-color);
+      border-color: var(--ImageControl-addBtn-onHover-border);
+      .#{$ns}ImageControl-addBtn-text {
+        color: var(--ImageControl-addBtn-onHover-color);
+      }
     }
   }
 

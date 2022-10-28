@@ -570,6 +570,8 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 
 ## 表单静态展示
 
+> 2.4.0 及以上版本
+
 在一些场景，表单提交后需要将填写的内容静态展示
 
 ### 设置初始状态
@@ -582,7 +584,7 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
   "title": "表单状态切换",
   "mode": "horizontal",
   "labelWidth": 150,
-  "id": "allFormSwitch",
+  "id": "allFormStatic",
   "static": true,
   "body": [
     {
@@ -621,7 +623,6 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
   "mode": "horizontal",
   "labelWidth": 150,
   "id": "allFormSwitch",
-  "static": true,
   "data": {
     "isStatic": false
   },
@@ -1442,8 +1443,8 @@ Form 支持轮询初始化接口，步骤如下：
 | promptPageLeave             | `boolean`                                                                 | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
 | columnCount                 | `number`                                                                  | 0                                                                      | 表单项显示为几列                                                                                                                                                                                                                                                                                                                                             |
 | inheritData                 | `boolean`                                                                 | `true`                                                                 | 默认表单是采用数据链的形式创建个自己的数据域，表单提交的时候只会发送自己这个数据域的数据，如果希望共用上层数据域可以设置这个属性为 false，这样上层数据域的数据不需要在表单中用隐藏域或者显式映射才能发送了。                                                                                                                                                 |
-| static | `boolean` |   | 整个表单静态方式展示，详情请查看[示例页](../../../examples/form/switchDisplay) |
-| staticClassName | `string` |   | 表单静态展示时使用的类名 |
+| static | `boolean` |   | `2.4.0` 整个表单静态方式展示，详情请查看[示例页](../../../examples/form/switchDisplay) |
+| staticClassName | `string` |   | `2.4.0` 表单静态展示时使用的类名 |
 
 ## 事件表
 
