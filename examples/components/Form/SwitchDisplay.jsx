@@ -1618,18 +1618,18 @@ export default {
           "name": "combo",
           "label": "组合单条",
           "value": {
-            "a": 1,
-            "b": "a"
+            "c-1": 1,
+            "c-2": "a"
           },
           "items": [
             {
-              "name": "a",
+              "name": "c-1",
               "label": "名称",
               "type": "input-text",
               "placeholder": "A"
             },
             {
-              "name": "b",
+              "name": "c-2",
               "label": "信息",
               "type": "select",
               "options": [

@@ -333,6 +333,8 @@ order: 1
 
 ### 配置静态展示
 
+> 2.4.0 及以上版本
+
 ##### 静态配置
 
 通过配置`"static": true`来将表单项以静态形式展示  
@@ -1774,12 +1776,12 @@ fillMapping 配置 支持变量取值和表达式；
 | autoFill.size           | `string`                                           |           | showSuggestion 为 true 时，参照录入 mode 为 dialog 时，可设置大小                                   |
 | autoFill.columns        | `Array<Column>`                                    |           | showSuggestion 为 true 时，数据展示列配置                                                           |
 | autoFill.filter         | [SchemaNode](../../docs/types/schemanode)          |           | showSuggestion 为 true 时，数据查询过滤条件                                                         |
-| static                  | `boolean`                                          |           | 当前表单项是否是静态展示，目前支持静[支持静态展示的表单项](#支持静态展示的表单项) |
-| staticClassName         | `string`                                           |           | 静态展示时的类名 |
-| staticLabelClassName    | `string`                                           |           | 静态展示时的Label的类名 |
-| staticInputClassName    | `string`                                           |           | 静态展示时的value的类名 |
-| staticSchema            | `string`|`Array`|[SchemaNode](../../docs/types/schemanode)     |           | 自定义静态展示方式 |
-| staticSchema.limit      | `number`                                           | 10        | select、checkboxes等选择类组件多选时展示态展示的数量 |
+| static                  | `boolean`                                          |           | `2.4.0` 当前表单项是否是静态展示，目前支持静[支持静态展示的表单项](#支持静态展示的表单项) |
+| staticClassName         | `string`                                           |           | `2.4.0` 静态展示时的类名 |
+| staticLabelClassName    | `string`                                           |           | `2.4.0` 静态展示时的Label的类名 |
+| staticInputClassName    | `string`                                           |           | `2.4.0` 静态展示时的value的类名 |
+| staticSchema            | `string`|`Array`|[SchemaNode](../../docs/types/schemanode)     |           | `2.4.0` 自定义静态展示方式 |
+| staticSchema.limit      | `number`                                           | 10        | `2.4.0` select、checkboxes等选择类组件多选时展示态展示的数量 |
 
 ## 支持静态展示的表单项  
 
