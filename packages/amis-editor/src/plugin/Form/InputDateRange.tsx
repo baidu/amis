@@ -257,7 +257,7 @@ export class DateRangeControlPlugin extends BasePlugin {
                   },
                   mode: 'vertical',
                   header: '表达式或相对值',
-                  DateTimeType: FormulaDateType.IsDate,
+                  DateTimeType: FormulaDateType.IsRange,
                   label: tipedLabel('默认值', dateTooltip)
                 }),
                 getSchemaTpl('valueFormula', {
@@ -287,12 +287,13 @@ export class DateRangeControlPlugin extends BasePlugin {
 
                 getSchemaTpl('valueFormula', {
                   name: 'minDuration',
-                  header: '表达式或相对值',
-                  DateTimeType: FormulaDateType.IsRange,
+                  header: '表达式',
+                  DateTimeType: FormulaDateType.NotDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.minDuration,
-                    type: 'input-text'
+                    type: 'input-text',
+                    placeholder: '请输入相对值'
                   },
                   needDeleteProps: ['minDuration'], // 避免自我限制
                   label: tipedLabel('最小跨度', rangTooltip)
@@ -300,12 +301,13 @@ export class DateRangeControlPlugin extends BasePlugin {
 
                 getSchemaTpl('valueFormula', {
                   name: 'maxDuration',
-                  header: '表达式或相对值',
-                  DateTimeType: FormulaDateType.IsRange,
+                  header: '表达式',
+                  DateTimeType: FormulaDateType.NotDate,
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.maxDuration,
-                    type: 'input-text'
+                    type: 'input-text',
+                    placeholder: '请输入相对值'
                   },
                   needDeleteProps: ['maxDuration'], // 避免自我限制
                   label: tipedLabel('最大跨度', rangTooltip)

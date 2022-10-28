@@ -286,21 +286,39 @@ export default class FormulaControl extends React.Component<
     }
     return [];
   }
+
+  matchDate(str: string): boolean {
+    const matchDate =
+      /^(.+)?(\+|-)(\d+)(minute|min|hour|day|week|month|year|weekday|second|millisecond)s?$/i;
+    const m = matchDate.exec(str);
+    return m ? (m[1] ? this.matchDate(m[1]) : true) : false;
+  }
+
+  matchDateRange(str: string): boolean {
+    if (/^(now|today)$/.test(str)) {
+      return true;
+    }
+    return this.matchDate(str);
+  }
+
   // 日期类组件 & 是否存在快捷键判断
   @autobind
   hasDateShortcutkey(str: string): boolean {
     const {DateTimeType} = this.props;
 
     if (DateTimeType === FormulaDateType.IsDate) {
-      return (
-        /^(\+|-)(\d+)(minute|min|hour|day|week|month|year|weekday|second|millisecond)s?$/i.test(
-          str
-        ) || /^(now|today)$/.test(str)
-      );
+      if (/^(now|today)$/.test(str)) {
+        return true;
+      }
+      return this.matchDate(str);
     } else if (DateTimeType === FormulaDateType.IsRange) {
-      return /^((?:\-|\+)?(?:\d*\.)?\d+)(minute|min|hour|day|week|month|quarter|year|weekday|second|millisecond)s?$/i.test(
-        str
-      );
+      const start_end = str?.split(',');
+      if (start_end && start_end.length === 2) {
+        return (
+          this.matchDateRange(start_end[0].trim()) &&
+          this.matchDateRange(start_end[1].trim())
+        );
+      }
     }
     // 非日期类组件使用，也直接false
     // if (DateTimeType === FormulaDateType.NotDate) {
@@ -413,10 +431,11 @@ export default class FormulaControl extends React.Component<
 
       // 设置统一的占位提示
       if (curRendererSchema.type === 'select') {
-        curRendererSchema.placeholder = '请选择默认值';
+        !curRendererSchema.placeholder &&
+          (curRendererSchema.placeholder = '请选择默认值');
         curRendererSchema.inputClassName =
           'ae-editor-FormulaControl-select-style';
-      } else {
+      } else if (!curRendererSchema.placeholder) {
         curRendererSchema.placeholder = '请输入静态默认值';
       }
 
@@ -546,7 +565,7 @@ export default class FormulaControl extends React.Component<
             allowInput={false}
             clearable={true}
             value={value}
-            result={{html: '已配置表达式'}}
+            result={{html: '已配置'}}
             itemRender={this.renderFormulaValue}
             onChange={this.handleInputChange}
             onResultChange={() => {
