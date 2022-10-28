@@ -305,7 +305,7 @@ export default class PickerControl extends React.PureComponent<
     const {data, dispatchEvent} = this.props;
 
     const rendererEvent = await dispatchEvent(
-      'itemclick',
+      'itemClick',
       createObject(data, {item})
     );
 
@@ -453,7 +453,31 @@ export default class PickerControl extends React.PureComponent<
       primaryField: valueField,
       options: source ? [] : options,
       multiple,
-      onSelect: embed ? this.handleChange : undefined,
+      onSelect: embed
+        ? (selectedItems: Array<any>, unSelectedItems: Array<any>) => {
+            // 过滤掉一些无用事件，否则会导致 value 错误
+            if (
+              !Array.isArray(selectedItems) ||
+              !Array.isArray(unSelectedItems) ||
+              (!selectedItems.length && !unSelectedItems.length)
+            ) {
+              return;
+            } else if (
+              selectedItems
+                .map(item => item[valueField || 'value'])
+                .sort()
+                .join(',') ===
+              selectedOptions
+                .map(item => item[valueField || 'value'])
+                .sort()
+                .join(',')
+            ) {
+              return;
+            }
+
+            this.handleChange(selectedItems);
+          }
+        : undefined,
       ref: this.crudRef,
       popOverContainer
     }) as JSX.Element;

@@ -760,17 +760,6 @@
     }
   }
 
-  &:active,
-  &.is-active {
-    color: var(--Button-onActive-color);
-    box-shadow: var(--Button-onActive-boxShadow);
-    border-color: var(--Button-onActive-border);
-
-    &:focus {
-      box-shadow: var(--Button-onActive-boxShadow);
-    }
-  }
-
   @include hover-focus {
     // color: var(--text-color);
     text-decoration: none;

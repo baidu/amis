@@ -942,7 +942,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         }
 
         // 因为crud里面也会处理二次确认，所以如果按钮处理过了就跳过crud的二次确认
-        await onAction(e, {...action, ignoreConfirm: !!hasOnEvent}, mergedData);
+        onAction(e, {...action, ignoreConfirm: !!hasOnEvent}, mergedData);
       } else if (action.countDown) {
         throw new Error('cancel');
       }
@@ -958,7 +958,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         return;
       }
 
-      await onAction(e, action, mergedData);
+      onAction(e, action, mergedData);
     }
   }
 

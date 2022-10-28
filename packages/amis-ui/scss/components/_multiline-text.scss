@@ -1,0 +1,20 @@
+.#{$ns}MultilineText {
+  position: relative;
+  &-counter,
+  &-display {
+    white-space: pre-line;
+    overflow: hidden;
+  }
+
+  &-counter {
+    visibility: hidden;
+    position: absolute;
+    width: 100%;
+    z-index: -99;
+  }
+
+  &-button-wrapper {
+    margin-top: --(gap-xs);
+    text-align: right;
+  }
+}

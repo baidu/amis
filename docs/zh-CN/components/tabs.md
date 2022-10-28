@@ -175,6 +175,60 @@ order: 68
 }
 ```
 
+## 作为表单项的值
+
+如果在表单里给 tabs 配置了 name，它可以作为一个表单提交项的值，默认情况下会取 title
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "tabs",
+            "name": "tab",
+            "tabs": [
+                {
+                    "title": "Tab 1",
+                    "tab": "Content 1"
+                },
+                {
+                    "title": "Tab 2",
+                    "tab": "Content 2"
+                }
+            ]
+        }
+    ]
+}
+```
+
+如果不想使用 title，可以给每个 tab 设置 value，这样就会取这个 value 作为表单项的值
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "type": "tabs",
+            "name": "tab",
+            "tabs": [
+                {
+                    "title": "Tab 1",
+                    "tab": "Content 1",
+                    "value": 0
+                },
+                {
+                    "title": "Tab 2",
+                    "tab": "Content 2",
+                    "value": 1
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 展示模式
 
 ### 简约

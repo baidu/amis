@@ -113,33 +113,27 @@ export class MultilineText extends React.Component<MultilineTextProps, Multiline
 
     return (
       <div
-        className={cx(
-          `MultilineText`,
-          className
-        )}
+        className={cx('MultilineText', className)}
       >
         {/* 用于计算高度 */}
         <div
           ref={this.ref}
-          className={cx('white-space-pre-line', 'overflow-hidden')}
+          className={cx('MultilineText-counter')}
           style={{
-            height: `${maxRows * 20}px`,
-            visibility: 'hidden',
-            position: 'absolute',
-            zIndex: -99
+            height: `${maxRows * 20}px`
           }}
         >{text}</div>
         {/* 用于展示 */}
         <div
-          className={cx('white-space-pre-line', 'overflow-hidden')}
+          className={cx('MultilineText-display')}
           style={{
             height: (showBtn && !isExpend) ? `${maxRows * 20}px` : 'auto'
           }}
         >{text}</div>
         {showBtn &&
-          <div className="text-right">
+          <div className={cx('MultilineText-button-wrapper')}>
             <Button
-              className="mt-1"
+              className={cx('MultilineText-button')}
               level="link"
               onClick={this.toggleExpend}
             >{!isExpend ? expendButtonText : collapseButtonText}</Button>
