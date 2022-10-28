@@ -21,6 +21,9 @@ export class FileControlPlugin extends BasePlugin {
   scaffold = {
     type: 'input-file',
     label: '文件上传',
+    autoUpload: true,
+    proxy: true,
+    uploadType: 'fileReceptor',
     name: 'file',
     receiver: {
       url: 'object-upload://default',
@@ -240,7 +243,7 @@ export class FileControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('proxy', {
-                value: false,
+                value: true,
                 visibleOn: 'data.uploadType !== "asForm" || !data.uploadType'
               }),
 
@@ -263,7 +266,7 @@ export class FileControlPlugin extends BasePlugin {
                 type: 'container',
                 className: 'ae-ExtendMore mb-3',
                 visibleOn:
-                  'data.uploadType !== "asForm" && data.useChunk != false',
+                  'data.uploadType !== "asForm" && data.useChunk === true',
                 body: [
                   {
                     type: 'input-group',
@@ -287,6 +290,7 @@ export class FileControlPlugin extends BasePlugin {
                       'data.uploadType == "fileReceptor" && data.useChunk != false',
                     body: [
                       getSchemaTpl('apiControl', {
+                        mode: 'row',
                         name: 'startChunkApi',
                         label: tipedLabel(
                           '分块准备接口',
@@ -295,6 +299,7 @@ export class FileControlPlugin extends BasePlugin {
                         value: '/api/upload/startChunk'
                       }),
                       getSchemaTpl('apiControl', {
+                        mode: 'row',
                         name: 'chunkApi',
                         label: tipedLabel(
                           '分块上传接口',
@@ -303,6 +308,7 @@ export class FileControlPlugin extends BasePlugin {
                         value: '/api/upload/chunk'
                       }),
                       getSchemaTpl('apiControl', {
+                        mode: 'row',
                         name: 'finishChunkApi',
                         label: tipedLabel(
                           '上传完成接口',
