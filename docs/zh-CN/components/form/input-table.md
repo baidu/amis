@@ -13,43 +13,122 @@ order: 54
 可以用来展示数组类型的数据。配置`columns` 数组，来定义列信息。
 
 ```schema: scope="body"
-{
-  "type": "form",
-  "debug": "true",
-  "data": {
-    "table": [
-        {
-            "a": "a1",
-            "b": "b1"
-        },
-        {
-            "a": "a2",
-            "b": "b2"
-        },
-        {
-            "a": "a3",
-            "b": "b3"
-        }
-    ]
-  },
-  "api": "/api/mock2/form/saveForm",
-  "body": [
     {
-    "type":"input-table",
-    "name":"table",
-    "columns":[
-        {
-          "name": "a",
-          "label": "A"
-        },
-        {
-          "name": "b",
-          "label": "B"
-        }
-    ]
-  }
-  ]
-}
+      "type": "button",
+      "id": "u:f5cbbd3ae6ae",
+      "label": "业务积压预警系数配置",
+      "actionType": "dialog",
+      "dialog": {
+        "type": "dialog",
+        "title": "业务积压预警系数配置",
+        "body": [
+          {
+            "type": "form",
+            "title": "表单",
+            "body": [
+              {
+                "type": "input-table",
+                "name": "items",
+                "label": "",
+                "editable": true,
+                "columns": [
+                  {
+                    "label": "岗位",
+                    "name": "assignmentSuggId",
+                    "type": "text",
+                    "toggled": true,
+                    "placeholder": "-",
+                    "modalMode": "dialog",
+                    "inline": true,
+                    "tpl": "${postNm}/${postId}"
+                  },
+                  {
+                    "label": "业务溢出最大值（%）",
+                    "name": "sensitiveVal",
+                    "type": "input-number",
+                    "id": "u:390acb65847e",
+                    "precision": 0,
+                    "remark": {
+                      "icon": "fa fa-question-circle",
+                      "trigger": [
+                        "hover",
+                        "focus"
+                      ],
+                      "className": "Remark--warning",
+                      "setting": true,
+                      "placement": "top",
+                      "content": "默认值为-1。达到溢出最大值的岗位会触发生成系统建议调度"
+                    },
+                    "step": 1,
+                    "min": "-1",
+                    "max": "10000",
+                    "required": true
+                  },
+                  {
+                    "label": "岗位效率（笔/30分钟）",
+                    "name": "stdEfficiency",
+                    "type": "input-number",
+                    "id": "u:78459e0a57db",
+                    "remark": {
+                      "icon": "fa fa-question-circle",
+                      "trigger": [
+                        "hover",
+                        "focus"
+                      ],
+                      "className": "Remark--warning",
+                      "setting": true,
+                      "placement": "top",
+                      "content": "默认值为-1。每半小时平均完成多少笔业务"
+                    },
+                    "min": "-1",
+                    "precision": 2,
+                    "step": 0.5,
+                    "max": "10000",
+                    "required": true
+                  }
+                ],
+                "strictMode": true,
+                "id": "u:fc1ff256b319",
+                "mode": "normal"
+              }
+            ],
+            "id": "u:b34af79ce445",
+            "debug": "true",
+            "initApi": "/api/mock2/form/getTreeOptions"
+          }
+        ],
+        "closeOnEsc": false,
+        "closeOnOutside": false,
+        "showCloseButton": true,
+        "size": "md",
+        "actions": [
+          {
+            "type": "button",
+            "label": "取消修改",
+            "actionType": "cancel",
+            "dialog": {
+              "title": "系统提示",
+              "body": "对你点击了"
+            },
+            "id": "u:af5f19778b55"
+          },
+          {
+            "type": "submit",
+            "label": "保存修改",
+            "actionType": "ajax",
+            "dialog": {
+              "title": "系统提示",
+              "body": "对你点击了"
+            },
+            "id": "u:d32c24435830",
+            "level": "primary"
+          }
+        ],
+        "affixHeader": true
+      },
+      "level": "primary",
+      "className": "mb-3 h-10"
+    }
 ```
 
 我们为表单数据域设置了`table`变量，配置`table`表单项可以展示该数据
@@ -84,11 +163,13 @@ order: 54
       "columns":[
           {
             "name": "a",
-            "label": "A"
+            "label": "A",
+            "type": "input-text"
           },
           {
             "name": "b",
-            "label": "B"
+            "label": "B",
+            "type": "input-text"
           }
       ]
     }
@@ -104,21 +185,26 @@ order: 54
 {
   "type": "form",
   "api": "/api/mock2/form/saveForm",
+  "initApi": "/api/mock2/form/getOptions",
   "body": [
     {
     "type":"input-table",
-    "name":"table",
+    "name":"options",
     "addable": true,
     "editable": true,
     "columns":[
-        {
-          "name": "a",
-          "label": "A"
-        },
-        {
-          "name": "b",
-          "label": "B"
-        }
+      {
+        "name": "id",
+        "label": "ID"
+      },
+      {
+        "name": "label",
+        "label": "label"
+      },
+      {
+        "name": "value",
+        "label": "value"
+      }
     ]
   }
   ]

@@ -1,3 +1,5 @@
+const DB = require('../sample.db');
+
 module.exports = function (req, res) {
   const size =
     req.query.size && typeof Number(req.query.size) === 'number'
@@ -32,11 +34,27 @@ module.exports = function (req, res) {
     {label: 'Option Q', value: 'q'}
   ];
 
+  function getRandomText() {
+    const aa = ['engine', 'browser', 'platform', 'version', 'grade'];
+
+    const key = aa[Math.ceil(Math.random() * 5 - 1)];
+
+    const index = Math.ceil(Math.random() * 171 - 1);
+
+    return DB[index][key];
+  }
+
+  const jiade = [...Array(200)].map((_, i) => ({
+    id: i + 1,
+    label: getRandomText(),
+    value: getRandomText()
+  }));
+
   res.json({
     status: 0,
     msg: 'ok',
     data: {
-      options: customOptions.length > 0 ? customOptions : defaultOptions
+      options: jiade // size ? defaultOptions : DB // .slice(0, 10)
     }
   });
 };

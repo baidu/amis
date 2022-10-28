@@ -15,22 +15,31 @@ order: 67
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "/api/mock2/sample?perPage=5",
+    "api": "/api/mock2/form/getOptions",
     "body": [
         {
             "type": "table",
             "title": "表格1",
-            "source": "$rows",
+            "source": "$options",
+            saveImmediately: true,
             "columns": [
                 {
                     "name": "engine",
-                    "label": "Engine"
+                    "label": "Engine",
+                    type: 'input-text'
                 },
 
                 {
                     "name": "version",
-                    "label": "Version"
-                }
+                    "label": "Version",
+                    type: 'input-text'
+                },
+
+                {
+                  "name": "browser",
+                  "label": "Browser",
+                    type: 'input-text'
+                },
             ]
         }
     ]
