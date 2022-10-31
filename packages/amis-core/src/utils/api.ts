@@ -387,8 +387,13 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 export function wrapFetcher(
   fn: (config: fetcherConfig) => Promise<fetcherResult>,
   tracker?: (eventTrack: EventTrack, data: any) => void
-): (api: Api, data: object, options?: object) => Promise<Payload | void> {
-  return function (api, data, options) {
+) {
+  // 避免重复处理
+  if ((fn as any)._wrappedFetcher) {
+    return fn as any;
+  }
+
+  const wrappedFetcher = function (api: Api, data: object, options?: object) {
     api = buildApi(api, data, options) as ApiObject;
 
     if (api.requestAdaptor) {
@@ -460,6 +465,10 @@ export function wrapFetcher(
     }
     return wrapAdaptor(fn(api), api);
   };
+
+  (fn as any)._wrappedFetcher = true;
+
+  return wrappedFetcher;
 }
 
 export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
