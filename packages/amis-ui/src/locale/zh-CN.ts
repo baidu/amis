@@ -343,6 +343,7 @@ register('zh-CN', {
   'Condition.expression': '表达式',
   'Condition.formula_placeholder': '请输入公式',
   'Condition.fun_error': '方法未定义',
+  'Condition.configured': '已配置',
   'InputTable.uniqueError': '列`{{label}}`没有通过唯一验证',
   'Timeline.collapseText': '收起',
   'Timeline.expandText': '展开',
