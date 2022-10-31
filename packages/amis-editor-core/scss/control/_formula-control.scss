@@ -70,10 +70,22 @@
     &.is-clearable {
       > div:first-child {
         max-width: calc(100% - 24px); // 避免表达式内容太长撑开面板
-
+        background: #007bff;
+        color: #fff;
+        padding: 1px 5px;
+        border-radius: 5px 0 0 5px;
+        height: 22px;
         > div,
         span {
           padding-right: 0; // 覆盖 amis 默认样式
+        }
+      }
+      > div:last-child {
+        background: #007bff;
+        margin-right: 0.75rem;
+        border-radius: 0 5px 5px 0;
+        svg {
+          fill: #fff;
         }
       }
     }
