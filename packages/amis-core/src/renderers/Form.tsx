@@ -1958,10 +1958,10 @@ export class FormRenderer extends Form {
   }
 
   setData(values: object, replace?: boolean) {
+    const {onChange, store} = this.props;
     super.setValues(values);
     // 触发表单change
-    (this.props.formLazyChange === false
-      ? this.emitChange
-      : this.lazyEmitChange)(false);
+    onChange &&
+      onChange(store.data, difference(store.data, store.pristine), this.props);
   }
 }
