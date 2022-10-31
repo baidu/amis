@@ -912,6 +912,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
       "selectMode": "associated",
       "leftMode": "tree",
       "source": "/api/mock2/form/departUser",
+      "searchApi": '/api/mock2/form/departUserSearch?term=${term}',
       "deferApi": "/api/mock2/form/departUser?ref=${ref}&dep=${value}"
     }
   ]
