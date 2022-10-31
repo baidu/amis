@@ -1958,6 +1958,10 @@ export class FormRenderer extends Form {
   }
 
   setData(values: object, replace?: boolean) {
-    return super.setValues(values);
+    super.setValues(values);
+    // 触发表单change
+    (this.props.formLazyChange === false
+      ? this.emitChange
+      : this.lazyEmitChange)(false);
   }
 }
