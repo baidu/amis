@@ -182,6 +182,7 @@ export class SwitchControlPlugin extends BasePlugin {
               */
               getSchemaTpl('valueFormula', {
                 rendererSchema: context?.schema,
+                needDeleteProps: ['option'],
                 rendererWrapper: true, // 浅色线框包裹一下，增加边界感
                 valueType: 'boolean',
                 pipeIn: (value: any, data: any) => {

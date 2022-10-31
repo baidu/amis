@@ -210,11 +210,15 @@ export default class FormulaControl extends React.Component<
    * 备注: 手动编辑时，自动处理掉 ${xx}，避免识别成 公式表达式
    */
   @autobind
-  replaceExpression(expression: any): any {
+  outReplaceExpression(expression: any): any {
     if (expression && isString(expression) && isExpression(expression)) {
       return expression.replace(/(^|[^\\])\$\{/g, '\\${');
     }
     return expression;
+  }
+
+  inReplaceExpression(expression: any): any {
+    return expression.replace(/\\\$\{/g, '${');
   }
 
   // 根据 name 值 判断当前表达式是否 存在循环引用问题
@@ -365,7 +369,7 @@ export default class FormulaControl extends React.Component<
   }
 
   handleSimpleInputChange = (value: any) => {
-    const curValue = this.replaceExpression(value);
+    const curValue = this.outReplaceExpression(value);
     this.props?.onChange?.(curValue);
   };
 
@@ -432,22 +436,17 @@ export default class FormulaControl extends React.Component<
       }
       curRendererSchema = omit(curRendererSchema, deleteProps);
 
-      // 避免没有清空icon
-      if (
-        curRendererSchema.clearable !== undefined &&
-        !curRendererSchema.clearable
-      ) {
-        curRendererSchema.clearable = true;
-      }
+      // 设置可清空
+      curRendererSchema.clearable = true;
 
       // 设置统一的占位提示
       if (curRendererSchema.type === 'select') {
         !curRendererSchema.placeholder &&
-          (curRendererSchema.placeholder = '请选择默认值');
+          (curRendererSchema.placeholder = '请选择静态值');
         curRendererSchema.inputClassName =
           'ae-editor-FormulaControl-select-style';
       } else if (!curRendererSchema.placeholder) {
-        curRendererSchema.placeholder = '请输入静态默认值';
+        curRendererSchema.placeholder = '请输入静态值';
       }
 
       // 设置popOverContainer
@@ -536,7 +535,7 @@ export default class FormulaControl extends React.Component<
           !rendererSchema && (
             <InputBox
               className="ae-editor-FormulaControl-input"
-              value={value}
+              value={this.inReplaceExpression(value)}
               clearable={true}
               placeholder={placeholder}
               onChange={this.handleSimpleInputChange}
@@ -555,7 +554,7 @@ export default class FormulaControl extends React.Component<
             >
               {render('inner', this.filterCustomRendererProps(rendererSchema), {
                 inputOnly: true,
-                value: value,
+                value: this.inReplaceExpression(value),
                 data: useExternalFormData
                   ? {
                       ...this.props.data
