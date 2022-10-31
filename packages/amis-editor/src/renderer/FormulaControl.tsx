@@ -217,8 +217,12 @@ export default class FormulaControl extends React.Component<
     return expression;
   }
 
+  @autobind
   inReplaceExpression(expression: any): any {
-    return expression.replace(/\\\$\{/g, '${');
+    if (expression && isString(expression)) {
+      return expression.replace(/\\\$\{/g, '${');
+    }
+    return expression;
   }
 
   // 根据 name 值 判断当前表达式是否 存在循环引用问题
