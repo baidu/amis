@@ -307,7 +307,7 @@ export class DateRangeControlPlugin extends BasePlugin {
                 }),
                 getSchemaTpl('dateShortCutControl', {
                   mode: 'normal',
-                  dropDownOption: {
+                  normalDropDownOption: {
                     'yesterday': '昨天',
                     'thisweek': '这个周',
                     'prevweek': '上周',
@@ -317,6 +317,18 @@ export class DateRangeControlPlugin extends BasePlugin {
                     'thisquarter': '这个季度',
                     'prevquarter': '上个季度',
                     'thisyear': '今年'
+                  },
+                  customDropDownOption: {
+                    daysago: '最近n天',
+                    dayslater: 'n天以内',
+                    weeksago: '最近n周',
+                    weekslater: 'n周以内',
+                    monthsago: '最近n月',
+                    monthslater: 'n月以内',
+                    quartersago: '最近n季度',
+                    quarterslater: 'n季度以内',
+                    yearsago: '最近n年',
+                    yearslater: 'n年以内'
                   }
                 }),
                 // getSchemaTpl('remark'),
