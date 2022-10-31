@@ -2941,5 +2941,9 @@ extendLocale('zh-CN', {
   'f2fc416c7d95a93a8da621f760be8417':
     '支持多选，输入提示，可使用 source 获取选项',
   'b4482a3d9523f48e83a816fa85911185':
-    '纯用来展示数据，可用来展示 json、date、image、progress 等数据'
+    '纯用来展示数据，可用来展示 json、date、image、progress 等数据',
+  'ecfd82eb65102274188011a502913d3a': '抽屉数据',
+  '951f802ebd0c0d795fbae6767a5ee9b3': '初始化接口请求成功',
+  'da0126992b4937a5fd847ef5366b02e6': '初始化接口请求成功返回的数据',
+  '70b8342d743374233bfee0f56c7f0fc7': '节点示例数据'
 });
