@@ -214,7 +214,7 @@ export class FormPlugin extends BasePlugin {
   events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
-      eventLabel: '初始化完成',
+      eventLabel: '初始化接口请求成功',
       description: '远程初始化接口请求成功时触发',
       // 表单数据为表单变量
       dataSchema: [
@@ -223,7 +223,7 @@ export class FormPlugin extends BasePlugin {
           properties: {
             'event.data': {
               type: 'object',
-              title: '初始化接口请求成功后返回的数据'
+              title: '初始化接口请求成功返回的数据'
             }
           }
         }
