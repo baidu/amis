@@ -1,13 +1,9 @@
 import {getSchemaTpl, valuePipeOut} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, tipedLabel} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import type {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import type {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class SwitchControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -21,12 +17,13 @@ export class SwitchControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-toggle-on';
   pluginIcon = 'switch-plugin';
-  description = `开关控件`;
+  description = '开关控件';
   docLink = '/amis/zh-CN/components/form/switch';
   tags = ['表单项'];
   scaffold = {
     type: 'switch',
-    option: '开关',
+    label: '开关',
+    option: '说明',
     name: 'switch',
     falseValue: false,
     trueValue: true
@@ -97,7 +94,7 @@ export class SwitchControlPlugin extends BasePlugin {
               },
 
               {
-                type: 'ae-Switch-More',
+                type: 'ae-switch-more',
                 bulk: true,
                 mode: 'normal',
                 label: '填充文本',
@@ -120,7 +117,7 @@ export class SwitchControlPlugin extends BasePlugin {
               },
 
               {
-                type: 'ae-Switch-More',
+                type: 'ae-switch-more',
                 bulk: true,
                 mode: 'normal',
                 label: tipedLabel(
@@ -199,7 +196,8 @@ export class SwitchControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

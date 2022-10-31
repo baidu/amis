@@ -3,10 +3,7 @@ import {getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class TabsTransferPlugin extends BasePlugin {
@@ -19,7 +16,7 @@ export class TabsTransferPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-th-list';
   pluginIcon = 'tabs-transfer-plugin';
-  description = `组合穿梭器组件`;
+  description = '组合穿梭器组件';
   docLink = '/amis/zh-CN/components/form/transfer';
   tags = ['表单项'];
   scaffold = {
@@ -147,22 +144,10 @@ export class TabsTransferPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'selectAll',
-      eventLabel: '全选',
-      description: '选中所有选项',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -218,6 +203,10 @@ export class TabsTransferPlugin extends BasePlugin {
     }
   ];
 
+  notRenderFormZone = true;
+
+  panelJustify = true;
+
   panelDefinitions = {
     options: {
       label: '选项 Options',
@@ -269,65 +258,64 @@ export class TabsTransferPlugin extends BasePlugin {
       {
         title: '属性',
         body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('switchDefaultValue'),
-
           {
-            type: 'select',
-            name: 'value',
-            label: '默认值',
-            source: '${options}',
-            multiple: true,
-            visibleOn: 'typeof this.value !== "undefined"'
-          },
+            title: '基本',
+            body: [
+              getSchemaTpl('formItemName', {
+                required: true
+              }),
+              getSchemaTpl('label'),
 
-          getSchemaTpl('searchable'),
+              getSchemaTpl('searchable'),
 
-          getSchemaTpl('api', {
-            label: '检索接口',
-            name: 'searchApi'
-          }),
+              getSchemaTpl('api', {
+                label: '检索接口',
+                name: 'searchApi'
+              }),
 
-          {
-            label: '查询时勾选展示模式',
-            name: 'searchResultMode',
-            type: 'select',
-            mode: 'inline',
-            className: 'w-full',
-            options: [
               {
-                label: '列表形式',
-                value: 'list'
+                label: '查询时勾选展示模式',
+                name: 'searchResultMode',
+                type: 'select',
+                mode: 'normal',
+                options: [
+                  {
+                    label: '列表形式',
+                    value: 'list'
+                  },
+                  {
+                    label: '表格形式',
+                    value: 'table'
+                  },
+                  {
+                    label: '树形选择形式',
+                    value: 'tree'
+                  },
+                  {
+                    label: '级联选择形式',
+                    value: 'chained'
+                  }
+                ]
               },
-              {
-                label: '表格形式',
-                value: 'table'
-              },
-              {
-                label: '树形选择形式',
-                value: 'tree'
-              },
-              {
-                label: '级联选择形式',
-                value: 'chained'
-              }
+
+              getSchemaTpl('sortable'),
+
+              getSchemaTpl('formulaControl', {
+                label: '左侧选项标题',
+                name: 'selectTitle',
+                type: 'input-text',
+                inputClassName: 'is-inline '
+              }),
+
+              getSchemaTpl('formulaControl', {
+                label: '右侧结果标题',
+                name: 'resultTitle',
+                type: 'input-text',
+                inputClassName: 'is-inline '
+              })
             ]
           },
-
-          getSchemaTpl('sortable'),
-
           {
-            label: '左侧的标题文字',
-            name: 'selectTitle',
-            type: 'input-text'
-          },
-
-          {
-            label: '右侧结果的标题文字',
-            name: 'resultTitle',
-            type: 'input-text'
-          },
-
-          getSchemaTpl('fieldSet', {
             title: '选项',
             body: [
               {
@@ -338,9 +326,17 @@ export class TabsTransferPlugin extends BasePlugin {
               getSchemaTpl('joinValues'),
               getSchemaTpl('delimiter'),
               getSchemaTpl('extractValue'),
-              getSchemaTpl('autoFill')
+              getSchemaTpl('autoFillApi', {
+                visibleOn:
+                  '!this.autoFill || this.autoFill.scene && this.autoFill.action'
+              }),
+              getSchemaTpl('autoFill', {
+                visibleOn:
+                  '!this.autoFill || !this.autoFill.scene && !this.autoFill.action'
+              })
             ]
-          })
+          },
+          getSchemaTpl('status', {isFormItem: true})
         ])
       },
       {

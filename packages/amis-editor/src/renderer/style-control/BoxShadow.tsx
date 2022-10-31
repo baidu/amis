@@ -10,24 +10,22 @@
 import React from 'react';
 import mapValues from 'lodash/mapValues';
 
-import {render as amisRender, FormItem} from 'amis';
+import {FormItem} from 'amis';
 
 import {parseBoxShadow, normalizeBoxShadow} from './transformation';
 
-import type {FormControlProps} from 'amis-core';
+import type {FormControlProps, RendererProps} from 'amis-core';
 import type {BoxShadowProps} from './types';
 
 function BoxShadow({
   value = '',
-  onChange
+  onChange,
+  render
 }: {
   value?: string;
   onChange: (value: any) => void;
-}) {
-  const boxShadowContext: Record<
-    BoxShadowProps,
-    any
-  > = mapValues(
+} & RendererProps) {
+  const boxShadowContext: Record<BoxShadowProps, any> = mapValues(
     parseBoxShadow(typeof value !== 'string' ? '' : value),
     (value, key, collection) =>
       key === 'color' || key === 'inset' ? value : {length: value, unit: 'px'}
@@ -40,7 +38,8 @@ function BoxShadow({
 
   return (
     <>
-      {amisRender(
+      {render(
+        'inner',
         {
           type: 'form',
           wrapWithPanel: false,

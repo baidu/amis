@@ -18,8 +18,16 @@ setSchemaTpl('style:formItem', ({renderer, schema}: any) => {
 
 setSchemaTpl(
   'style:classNames',
-  (config: {schema: SchemaCollection; isFormItem: boolean}) => {
-    const {isFormItem = true, schema = []} = config || {};
+  (config: {
+    schema: SchemaCollection;
+    isFormItem: boolean;
+    unsupportStatic?: boolean;
+  }) => {
+    const {
+      isFormItem = true,
+      unsupportStatic = false,
+      schema = []
+    } = config || {};
 
     return {
       title: 'CSS 类名',
@@ -35,7 +43,13 @@ setSchemaTpl(
             getSchemaTpl('className', {
               label: '控件',
               name: 'inputClassName'
-            })
+            }),
+            ...unsupportStatic ? [] : [
+              getSchemaTpl('className', {
+                label: '表单项静态',
+                name: 'staticClassName'
+              })
+            ]
           ]
         : [
             getSchemaTpl('className', {
@@ -57,145 +71,163 @@ setSchemaTpl('style:others', (schemas: any[] = []) => ({
  * @param {string | Array<string>} exclude 需要隐藏的配置key
  * @param {string | Array<string>} include 包含的配置key，存在时，优先级高于exclude
  */
-setSchemaTpl('style:common', (
-  exclude: string[] | string,
-  include: string[] | string,
-) => {
-  // key统一转换成Kebab case，eg: boxShadow => bos-shadow
-  exclude = (exclude
-    ? Array.isArray(exclude)
-      ? exclude
-      : [exclude]
-    : []
-  ).map((key: string) => kebabCase(key));
+setSchemaTpl(
+  'style:common',
+  (exclude: string[] | string, include: string[] | string) => {
+    // key统一转换成Kebab case，eg: boxShadow => bos-shadow
+    exclude = (
+      exclude ? (Array.isArray(exclude) ? exclude : [exclude]) : []
+    ).map((key: string) => kebabCase(key));
 
-  include = (include
-    ? Array.isArray(include)
-      ? include
-      : [include]
-    : []
-  ).map((key: string) => kebabCase(key));
+    include = (
+      include ? (Array.isArray(include) ? include : [include]) : []
+    ).map((key: string) => kebabCase(key));
 
-  return [
-    {
-      header: '布局',
-      key: 'layout',
-      body: [
-        {
-          type: 'style-display',
-          label: false,
-          name: 'style'
-        }
-      ].filter(comp => !~exclude.indexOf(comp.type.replace(/^style-/i, '')))
-    },
-    {
-      header: '文字',
-      key: 'font',
-      body: [
-        {
-          type: 'style-font',
-          label: false,
-          name: 'style'
-        }
-      ]
-    },
-    {
-      header: '内外边距',
-      key: 'box-model',
-      body: [
-        {
-          type: 'style-box-model',
-          label: false,
-          name: 'style'
-        }
-      ]
-    },
-    {
-      header: '背景',
-      key: 'background',
-      body: [
-        {
-          type: 'style-background',
-          label: false,
-          name: 'style'
-        }
-      ]
-    },
-    {
-      header: '边框',
-      key: 'border',
-      body: [
-        {
-          type: 'style-border',
-          label: false,
-          name: 'style'
-        }
-      ]
-    },
-    {
-      header: '阴影',
-      key: 'box-shadow',
-      body: [
-        {
-          type: 'style-box-shadow',
-          label: false,
-          name: 'style.boxShadow'
-        }
-      ]
-    },
-    {
-      header: '其他',
-      key: 'other',
-      body: [
-        {
-          label: '透明度',
-          name: 'style.opacity',
-          min: 0,
-          max: 1,
-          step: 0.05,
-          type: 'input-range',
-          pipeIn: defaultValue(1),
-          marks: {
-            '0%': '0',
-            '50%': '0.5',
-            '100%': '1'
+    return [
+      {
+        header: '布局',
+        key: 'layout',
+        body: [
+          {
+            type: 'style-display',
+            label: false,
+            name: 'style'
           }
-        },
-        {
-          label: '光标类型',
-          name: 'style.cursor',
-          type: 'select',
-          mode: 'row',
-          menuTpl: {
-            type: 'html',
-            html:
-              "<span style='cursor:${value};'>${label}</span><code class='ae-Code'>${value}</code>",
-            className: 'ae-selection-code'
+        ].filter(comp => !~exclude.indexOf(comp.type.replace(/^style-/i, '')))
+      },
+      {
+        header: '文字',
+        key: 'font',
+        body: [
+          {
+            type: 'style-font',
+            label: false,
+            name: 'style'
+          }
+        ]
+      },
+      {
+        header: '内外边距',
+        key: 'box-model',
+        body: [
+          {
+            type: 'style-box-model',
+            label: false,
+            name: 'style'
+          }
+        ]
+      },
+      {
+        header: '背景',
+        key: 'background',
+        body: [
+          {
+            type: 'style-background',
+            label: false,
+            name: 'style'
+          }
+        ]
+      },
+      {
+        header: '边框',
+        key: 'border',
+        body: [
+          {
+            type: 'style-border',
+            label: false,
+            name: 'style'
+          }
+        ]
+      },
+      {
+        header: '阴影',
+        key: 'box-shadow',
+        body: [
+          {
+            type: 'style-box-shadow',
+            label: false,
+            name: 'style.boxShadow'
+          }
+        ]
+      },
+      {
+        header: '其他',
+        key: 'other',
+        body: [
+          {
+            label: '透明度',
+            name: 'style.opacity',
+            min: 0,
+            max: 1,
+            step: 0.05,
+            type: 'input-range',
+            pipeIn: defaultValue(1),
+            marks: {
+              '0%': '0',
+              '50%': '0.5',
+              '100%': '1'
+            }
           },
-          pipIn: defaultValue('default'),
-          options: [
-            {label: '默认', value: 'default'},
-            {label: '自动', value: 'auto'},
-            {label: '无指针', value: 'none'},
-            {label: '悬浮', value: 'pointer'},
-            {label: '帮助', value: 'help'},
-            {label: '文本', value: 'text'},
-            {label: '单元格', value: 'cell'},
-            {label: '交叉指针', value: 'crosshair'},
-            {label: '可移动', value: 'move'},
-            {label: '禁用', value: 'not-allowed'},
-            {label: '可抓取', value: 'grab'},
-            {label: '放大', value: 'zoom-in'},
-            {label: '缩小', value: 'zoom-out'}
-          ]
-        }
-      ]
-    }
-  ].filter(item => 
-    include.length
-      ? ~include.indexOf(item.key)
-      : !~exclude.indexOf(item.key)
-  );
+          {
+            label: '光标类型',
+            name: 'style.cursor',
+            type: 'select',
+            mode: 'row',
+            menuTpl: {
+              type: 'html',
+              html: "<span style='cursor:${value};'>${label}</span><code class='ae-Code'>${value}</code>",
+              className: 'ae-selection-code'
+            },
+            pipIn: defaultValue('default'),
+            options: [
+              {label: '默认', value: 'default'},
+              {label: '自动', value: 'auto'},
+              {label: '无指针', value: 'none'},
+              {label: '悬浮', value: 'pointer'},
+              {label: '帮助', value: 'help'},
+              {label: '文本', value: 'text'},
+              {label: '单元格', value: 'cell'},
+              {label: '交叉指针', value: 'crosshair'},
+              {label: '可移动', value: 'move'},
+              {label: '禁用', value: 'not-allowed'},
+              {label: '可抓取', value: 'grab'},
+              {label: '放大', value: 'zoom-in'},
+              {label: '缩小', value: 'zoom-out'}
+            ]
+          }
+        ]
+      }
+    ].filter(item =>
+      include.length ? ~include.indexOf(item.key) : !~exclude.indexOf(item.key)
+    );
+  }
+);
+
+/**
+ * 宽高配置控件
+ * @param {object | undefined} options witdthSchema(宽度控件配置) heightSchema(高度控件配置)
+ */
+setSchemaTpl('style:widthHeight', (option: any = {}) => {
+  const {widthSchema = {}, heightSchema = {}} = option;
+  return {
+    type: 'container',
+    body: [
+      {
+        type: 'input-number',
+        name: 'width',
+        label: '宽度',
+        unitOptions: ['px', '%', 'rem', 'em', 'vw'],
+        ...widthSchema
+      },
+      {
+        type: 'input-number',
+        name: 'height',
+        label: '高度',
+        unitOptions: ['px', '%', 'rem', 'em', 'vh'],
+        ...heightSchema
+      }
+    ]
+  };
 });
 
 /**

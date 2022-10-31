@@ -2,13 +2,13 @@
  * 动作配置面板
  */
 
-import {render as amisRender} from 'amis-core';
 import {PluginActions, RendererPluginAction} from 'amis-editor-core';
 import React from 'react';
 import {ActionConfig, ComponentInfo} from './types';
 import ActionConfigPanel from './action-config-panel';
 import {BASE_ACTION_PROPS} from './comp-action-select';
 import {findActionNode} from './helper';
+import {PlainObject, SchemaNode} from 'amis-core';
 
 interface ActionDialogProp {
   show: boolean;
@@ -22,6 +22,11 @@ interface ActionDialogProp {
   getComponents: (action: RendererPluginAction) => ComponentInfo[]; // 当前页面组件树
   actionConfigInitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置初始化时格式化
   actionConfigSubmitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置提交时格式化
+  render: (
+    region: string,
+    node: SchemaNode,
+    props?: PlainObject
+  ) => JSX.Element;
 }
 
 export default class ActionDialog extends React.Component<ActionDialogProp> {
@@ -77,6 +82,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
       labelField: 'actionLabel',
       valueField: 'actionType',
       inputClassName: 'no-border action-tree-control',
+      placeholder: '未匹配到数据',
       onChange: (value: string, oldVal: any, data: any, form: any) => {
         // 因为不知道动作都有哪些字段，这里只保留基础配置
         let removeKeys: {
@@ -116,7 +122,6 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
         }
 
         const actionNode = findActionNode(actionTree, value);
-
         form.setValues({
           ...removeKeys,
           __keywords: form.data.__keywords,
@@ -156,20 +161,23 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
       pluginActions,
       getComponents,
       commonActions,
-      onClose
+      onClose,
+      render
     } = this.props;
 
-    return amisRender(
+    return render(
+      'inner',
       {
         type: 'dialog',
         title: '动作配置',
         headerClassName: 'font-bold',
         className: 'action-config-dialog',
+        bodyClassName: 'action-config-dialog-body',
         closeOnEsc: true,
         closeOnOutside: false,
         show,
         showCloseButton: true,
-        size: 'lg',
+        size: 'md',
         body: [
           {
             type: 'form',
@@ -202,6 +210,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
                         type: 'input-text',
                         name: '__keywords',
                         className: 'action-tree-search',
+                        inputClassName: 'action-tree-search-input',
                         placeholder: '请搜索执行动作',
                         clearable: true,
                         onChange: (

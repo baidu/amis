@@ -4,10 +4,11 @@ import {
   BasePlugin,
   BasicRendererInfo,
   PluginInterface,
-  RendererInfoResolveEventContext
+  RendererInfoResolveEventContext,
+  tipedLabel
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {BUTTON_DEFAULT_ACTION, tipedLabel} from '../component/BaseControl';
+import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
@@ -95,6 +96,7 @@ export class ButtonPlugin extends BasePlugin {
                 type: 'button-group-select',
                 name: 'type',
                 size: 'sm',
+                visibleOn: 'type === "submit" || type === "reset" ',
                 options: [
                   {
                     label: '按钮',
@@ -284,9 +286,8 @@ export class ButtonPlugin extends BasePlugin {
         title: '事件',
         className: 'p-none',
         body:
-          this.manager?.config.actionOptions?.showOldEntry !== false &&
-          (!!context.schema.actionType ||
-            ['submit', 'reset'].includes(context.schema.type))
+          !!context.schema.actionType ||
+          ['submit', 'reset'].includes(context.schema.type)
             ? [
                 getSchemaTpl('eventControl', {
                   name: 'onEvent',

@@ -6,7 +6,7 @@
 import React from 'react';
 import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
-import {render as amisRender, FormItem} from 'amis';
+import {FormItem} from 'amis';
 
 import {isObject} from 'amis-editor-core';
 
@@ -19,7 +19,7 @@ export interface DisplayProps extends FormControlProps {
 }
 
 const Display: React.FC<DisplayProps> = props => {
-  const {onChange, value} = props;
+  const {onChange, value, render} = props;
   // 下拉菜单通用渲染
   const menuTpl = {
     type: 'html',
@@ -54,7 +54,8 @@ const Display: React.FC<DisplayProps> = props => {
 
   return (
     <>
-      {amisRender(
+      {render(
+        'inner',
         {
           type: 'form',
           wrapWithPanel: false,

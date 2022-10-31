@@ -4,16 +4,15 @@ import {
   BaseEventContext,
   BasicSubRenderInfo,
   RendererEventContext,
-  SubRendererInfo
-} from 'amis-editor-core';
-import {getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {ValidatorTag} from '../../validator';
-import {tipedLabel} from '../../component/BaseControl';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
+  SubRendererInfo,
   RendererPluginAction,
-  RendererPluginEvent
+  RendererPluginEvent,
+  tipedLabel,
+  getSchemaTpl,
+  defaultValue
 } from 'amis-editor-core';
+import {ValidatorTag} from '../../validator';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class ChainedSelectControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -135,7 +134,8 @@ export class ChainedSelectControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           {
@@ -143,6 +143,7 @@ export class ChainedSelectControlPlugin extends BasePlugin {
             body: [
               getSchemaTpl('apiControl', {
                 name: 'source',
+                mode: 'normal',
                 label: tipedLabel(
                   '获取选项接口',
                   `<div>可用变量说明</div><ul>

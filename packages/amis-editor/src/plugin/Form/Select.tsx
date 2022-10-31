@@ -1,15 +1,11 @@
 import {getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import isArray from 'lodash/isArray';
 
-import {tipedLabel} from '../../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class SelectControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -23,7 +19,7 @@ export class SelectControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-th-list';
   pluginIcon = 'select-plugin';
-  description = `支持多选，输入提示，可使用<code>source</code>获取选项`;
+  description = '支持多选，输入提示，可使用 source 获取选项';
   docLink = '/amis/zh-CN/components/form/select';
   tags = ['表单项'];
   scaffold = {
@@ -71,6 +67,10 @@ export class SelectControlPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -87,6 +87,10 @@ export class SelectControlPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -103,6 +107,10 @@ export class SelectControlPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -120,7 +128,7 @@ export class SelectControlPlugin extends BasePlugin {
               type: 'object',
               title: '新增的选项'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -140,7 +148,7 @@ export class SelectControlPlugin extends BasePlugin {
               type: 'object',
               title: '编辑的选项'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -160,7 +168,7 @@ export class SelectControlPlugin extends BasePlugin {
               type: 'object',
               title: '删除的选项'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -210,17 +218,24 @@ export class SelectControlPlugin extends BasePlugin {
               getSchemaTpl('clearable'),
               getSchemaTpl('searchable'),
               getSchemaTpl('multiple', {
-                popMore: [
+                body: [
                   getSchemaTpl('switch', {
                     label: '单行显示选中值',
                     name: 'valuesNoWrap'
-                  })
+                  }),
+                  {
+                    type: 'input-number',
+                    name: 'maxTagCount',
+                    label: tipedLabel(
+                      '标签展示数',
+                      '标签的最大展示数量，超出数量后以收纳浮层的方式展示，默认全展示'
+                    )
+                  }
                 ]
               }),
               getSchemaTpl('checkAll'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
-                visibleOn: 'this.options && this.options.length > 0'
+                rendererSchema: context?.schema
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
@@ -277,6 +292,18 @@ export class SelectControlPlugin extends BasePlugin {
                 form: {
                   body: [getSchemaTpl('deleteApi')]
                 }
+              })
+            ]
+          },
+          {
+            title: '高级',
+            body: [
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '选项值检查',
+                  '开启后，当选项值未匹配到当前options中的选项时，选项文本飘红'
+                ),
+                name: 'showInvalidMatch'
               })
             ]
           },

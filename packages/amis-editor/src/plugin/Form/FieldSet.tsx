@@ -8,13 +8,12 @@ export class FieldSetControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'fieldset';
   $schema = '/schemas/FieldSetControlSchema.json';
-  disabledRendererPlugin = true; // 组件面板不显示
 
   // 组件名称
   name = '字段集';
   isBaseComponent = true;
   icon = 'fa fa-toggle-down';
-  description = `多个表单项的组合，可配置是否折叠`;
+  description = '多个表单项的组合，可配置是否折叠';
   docLink = '/amis/zh-CN/components/form/fieldset';
   tags = ['表单项'];
   scaffold = {

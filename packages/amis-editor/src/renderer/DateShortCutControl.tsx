@@ -5,7 +5,7 @@ import React from 'react';
 import cx from 'classnames';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
-import {render as amisRender, FormItem, Button, Icon, InputBox} from 'amis';
+import {FormItem, Button, Icon, InputBox} from 'amis';
 
 import type {FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
@@ -299,7 +299,7 @@ export class DateShortCutControl extends React.PureComponent<
   }
 
   render() {
-    const {className, label} = this.props;
+    const {className, label, render} = this.props;
     const optionList = this.dropDownOptionArr.map((item: any) => ({
       ...item,
       type: 'button',
@@ -312,13 +312,19 @@ export class DateShortCutControl extends React.PureComponent<
         </header>
         {this.renderContent()}
         <div className={klass + '-footer'}>
-          {amisRender({
-            type: 'dropdown-button',
-            label: '添加选项',
-            closeOnClick: true,
-            closeOnOutside: true,
-            buttons: optionList
-          })}
+          {render(
+            'inner',
+            {
+              type: 'dropdown-button',
+              label: '添加选项',
+              closeOnClick: true,
+              closeOnOutside: true,
+              buttons: optionList
+            },
+            {
+              popOverContainer: null // amis 渲染挂载节点会使用 this.target
+            }
+          )}
         </div>
       </div>
     );

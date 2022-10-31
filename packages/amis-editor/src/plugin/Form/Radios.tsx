@@ -4,10 +4,7 @@ import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class RadiosControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -21,7 +18,7 @@ export class RadiosControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-dot-circle-o';
   pluginIcon = 'radios-plugin';
-  description = `通过<code>options</code>配置选项，可通过<code>source</code>拉取选项`;
+  description = '通过 options 配置选项，可通过 source 拉取选项';
   docLink = '/amis/zh-CN/components/form/radios';
   tags = ['表单项'];
   scaffold = {
@@ -70,6 +67,10 @@ export class RadiosControlPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -122,7 +123,8 @@ export class RadiosControlPlugin extends BasePlugin {
               }),
               // getSchemaTpl('autoFill')
               getSchemaTpl('labelRemark'),
-              getSchemaTpl('remark')
+              getSchemaTpl('remark'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           {
@@ -138,9 +140,7 @@ export class RadiosControlPlugin extends BasePlugin {
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
-          getSchemaTpl('validation', {
-            tag: ValidatorTag.All
-          })
+          getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
         ])
       },
       {

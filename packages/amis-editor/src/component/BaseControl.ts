@@ -3,8 +3,8 @@
  */
 
 import flatten from 'lodash/flatten';
-import {getEventControlConfig} from '../renderer/event-control/helper';
-import {getSchemaTpl, isObject} from 'amis-editor-core';
+import {getEventControlConfig, SUPPORT_STATIC_FORMITEM_CMPTS} from '../renderer/event-control/helper';
+import {getSchemaTpl, isObject, tipedLabel} from 'amis-editor-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
 
@@ -143,7 +143,7 @@ const normalizeBodySchema = (
  * @param {Object=} panels
  * @param {string=} key
  * `property` 属性
- *     `common` 常用
+ *     `common` 基本
  *     `status` 状态
  *     `validation` 校验
  * `style` 样式
@@ -196,6 +196,8 @@ export const formItemControl: (
   >,
   context?: BaseEventContext
 ) => Array<any> = (panels, context) => {
+  const type = context?.schema?.type || '';
+  const supportStatic = SUPPORT_STATIC_FORMITEM_CMPTS.includes(type);
   const collapseProps = {
     type: 'collapse',
     headingClassName: 'ae-formItemControl-header',
@@ -215,7 +217,7 @@ export const formItemControl: (
     : [
         {
           ...collapseProps,
-          header: '常用',
+          header: '基本',
           key: 'common',
           body: normalizeBodySchema(
             [
@@ -250,6 +252,7 @@ export const formItemControl: (
           body: normalizeBodySchema(
             [
               getSchemaTpl('hidden'),
+              supportStatic ? getSchemaTpl('static') : null,
               // TODO: 下面的部分表单项才有，是不是判断一下是否是表单项
               getSchemaTpl('disabled'),
               getSchemaTpl('clearValueOnHidden')
@@ -283,7 +286,6 @@ export const formItemControl: (
         //       }
         //     ])
       ];
-
   return [
     {
       type: 'tabs',
@@ -337,7 +339,13 @@ export const formItemControl: (
                 label: '描述 CSS 类名',
                 name: 'descriptionClassName',
                 visibleOn: 'this.description'
-              })
+              }),
+              ...!supportStatic ? [] : [
+                getSchemaTpl('className', {
+                  label: '静态 CSS 类名',
+                  name: 'staticClassName'
+                })
+              ]
             ],
             panels?.style?.body,
             panels?.style?.replace,
@@ -370,25 +378,6 @@ export const formItemControl: (
   ];
 };
 
-export function tipedLabel(
-  body: string | Array<SchemaObject>,
-  tip: string,
-  style?: React.CSSProperties
-) {
-  return {
-    type: 'tooltip-wrapper',
-    tooltip: tip,
-    tooltipTheme: 'dark',
-    placement: 'top',
-    tooltipStyle: {
-      fontSize: '12px',
-      ...(style || {})
-    },
-    className: 'ae-formItemControl-label-tip',
-    body
-  };
-}
-
 /**
  * 信息提示组件模版
  */
@@ -400,7 +389,7 @@ export function remarkTpl(config: {
   return {
     type: 'ae-switch-more',
     formType: 'dialog',
-    className:'ae-switch-more-flex',
+    className: 'ae-switch-more-flex',
     label: config.labelRemark
       ? tipedLabel(config.label, config.labelRemark)
       : config.label,
@@ -482,12 +471,10 @@ export function remarkTpl(config: {
                   }
                 ]
               },
-              {
+              getSchemaTpl('icon', {
                 name: 'icon',
-                label: '图标',
-                type: 'icon-picker',
-                className: 'fix-icon-picker-overflow'
-              },
+                label: '图标'
+              }),
               {
                 name: 'className',
                 label: 'CSS 类名',

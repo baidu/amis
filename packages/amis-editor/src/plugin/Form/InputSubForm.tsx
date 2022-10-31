@@ -1,4 +1,5 @@
 import {Button} from 'amis';
+import {SchemaCollection} from 'amis/lib/Schema';
 import React from 'react';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
@@ -20,7 +21,7 @@ export class SubFormControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-window-restore';
   pluginIcon = 'sub-form-plugin';
-  description = `SubForm, 配置一个子<code>form</code>作为当前的表单项`;
+  description = 'SubForm, 配置一个子 form 作为当前的表单项';
   docLink = '/amis/zh-CN/components/form/input-sub-form';
   tags = ['表单项'];
   scaffold = {
@@ -94,7 +95,7 @@ export class SubFormControlPlugin extends BasePlugin {
         label: '允许最多个数',
         type: 'input-number'
       }
-    ];
+    ] as SchemaCollection;
   };
 
   filterProps(props: any) {
@@ -165,6 +166,7 @@ export class SubFormControlPlugin extends BasePlugin {
       type: 'dialog',
       body: {
         type: 'form',
+        className: 'h-full pl-4 pr-4',
         ...rest
       }
     };
@@ -174,10 +176,29 @@ export class SubFormControlPlugin extends BasePlugin {
       value: schema,
       memberImmutable: ['body'],
       onChange: newValue => {
-        const form = newValue.body[0];
+        const {
+          title,
+          actions,
+          name,
+          size,
+          closeOnEsc,
+          showCloseButton,
+          bodyClassName,
+          body
+        } = newValue;
+
         newValue = {
           ...value,
-          form
+          form: {
+            title,
+            actions,
+            name,
+            size,
+            closeOnEsc,
+            showCloseButton,
+            bodyClassName,
+            ...body[0]
+          }
         };
         // delete newValue.form.body;
         delete newValue.form.type;

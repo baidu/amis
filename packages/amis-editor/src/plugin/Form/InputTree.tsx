@@ -7,6 +7,8 @@ import {
   getArgsWrapper,
   getEventControlConfig
 } from '../../renderer/event-control/helper';
+import {tipedLabel} from 'amis-editor-core';
+import {ValidatorTag} from '../../validator';
 
 export class TreeControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -18,7 +20,8 @@ export class TreeControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-list-alt';
   pluginIcon = 'input-tree-plugin';
-  description = `树型结构来选择，可通过<code>options</code>来配置选项，也可通过<code>source</code>拉取选项`;
+  description =
+    '树型结构来选择，可通过 options 来配置选项，也可通过 source 拉取选项';
   docLink = '/amis/zh-CN/components/form/input-tree';
   tags = ['表单项'];
   scaffold = {
@@ -91,7 +94,7 @@ export class TreeControlPlugin extends BasePlugin {
               type: 'object',
               title: '新增的节点信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -111,7 +114,7 @@ export class TreeControlPlugin extends BasePlugin {
               type: 'object',
               title: '编辑的节点信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -131,7 +134,7 @@ export class TreeControlPlugin extends BasePlugin {
               type: 'object',
               title: '删除的节点信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -250,85 +253,194 @@ export class TreeControlPlugin extends BasePlugin {
       ]
     }
   };
-  panelBodyCreator = (context: BaseEventContext) =>
-    getSchemaTpl('tabs', [
+  panelJustify = true;
+
+  panelBodyCreator = (context: BaseEventContext) => {
+    const renderer: any = context.info.renderer;
+    return getSchemaTpl('tabs', [
       {
-        title: '常规',
-        body: [
-          /*
-          getSchemaTpl('switchDefaultValue'),
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
           {
-            type: 'input-text',
-            name: 'value',
-            label: '默认值',
-            visibleOn: 'typeof this.value !== "undefined"'
+            title: '基本',
+            body: [
+              getSchemaTpl('formItemName', {
+                required: true
+              }),
+              getSchemaTpl('label'),
+              getSchemaTpl('multiple', {
+                body: [
+                  {
+                    type: 'input-number',
+                    label: tipedLabel('节点最小数', '表单校验最少选中的节点数'),
+                    name: 'minLength'
+                  },
+                  {
+                    type: 'input-number',
+                    label: tipedLabel('节点最大数', '表单校验最多选中的节点数'),
+                    name: 'maxLength'
+                  }
+                ]
+              }),
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '子节点自动选',
+                  '当选中父节点时级联选择子节点'
+                ),
+                name: 'autoCheckChildren',
+                hiddenOn: '!data.multiple',
+                value: true
+              }),
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '子节点可反选',
+                  '子节点可反选，值包含父子节点'
+                ),
+                name: 'cascade',
+                hiddenOn: '!data.multiple || !data.autoCheckChildren'
+              }),
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '值包含父节点',
+                  '选中父节点时，值里面将包含父子节点的值，否则只会保留父节点的值'
+                ),
+                name: 'withChildren',
+                hiddenOn:
+                  '!data.multiple || !data.autoCheckChildren && data.cascade'
+              }),
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '值只含子节点',
+                  'ui 行为级联选中子节点，子节点可反选，值只包含子节点的值'
+                ),
+                name: 'onlyChildren',
+                hiddenOn: '!data.multiple || !data.autoCheckChildren'
+              }),
+              getSchemaTpl('valueFormula', {
+                rendererSchema: {
+                  ...context?.schema,
+                  type: 'tree-select'
+                },
+                visibleOn: 'this.options && this.options.length > 0'
+              }),
+
+              getSchemaTpl('labelRemark'),
+              getSchemaTpl('remark'),
+              getSchemaTpl('placeholder'),
+              getSchemaTpl('description')
+            ]
           },
-          */
-          getSchemaTpl('valueFormula', {
-            rendererSchema: {
-              ...context?.schema,
-              type: 'tree-select' // 改用树形输入框，避免占用太多空间
-            },
-            mode: 'vertical' // 改成上下展示模式
-          }),
-          getSchemaTpl('fieldSet', {
+          {
             title: '选项',
             body: [
-              {
-                $ref: 'options',
-                name: 'options'
-              },
-              getSchemaTpl('source', {
-                sampleBuilder: (schema: any) =>
-                  JSON.stringify(
+              getSchemaTpl('treeOptionControl', {
+                label: '数据',
+                showIconField: true
+              }),
+              getSchemaTpl('switch', {
+                label: '只可选择叶子节点',
+                name: 'onlyLeaf'
+              }),
+              getSchemaTpl('creatable', {
+                formType: 'extend',
+                hiddenOnDefault: true,
+                label: '可新增',
+                form: {
+                  body: [
+                    getSchemaTpl('switch', {
+                      label: '顶层可新增',
+                      value: true,
+                      name: 'rootCreatable'
+                    }),
                     {
-                      status: 0,
-                      msg: '',
-                      data: {
-                        options: [
-                          {
-                            label: '选项A',
-                            value: 'a',
-                            children: [
-                              {
-                                label: '子选项',
-                                value: 'c'
-                              }
-                            ]
-                          },
-
-                          {
-                            label: '选项B',
-                            value: 'b'
-                          }
-                        ]
-                      }
+                      type: 'input-text',
+                      label: '顶层文案',
+                      value: '添加一级节点',
+                      name: 'rootCreateTip',
+                      hiddenOn: '!data.rootCreatable'
                     },
-                    null,
-                    2
-                  )
+                    getSchemaTpl('addApi')
+                  ]
+                }
               }),
-
-              getSchemaTpl('switch', {
-                label: '隐藏顶级',
-                name: 'hideRoot'
+              getSchemaTpl('editable', {
+                formType: 'extend',
+                hiddenOnDefault: true,
+                form: {
+                  body: [getSchemaTpl('editApi')]
+                }
               }),
-
+              getSchemaTpl('removable', {
+                formType: 'extend',
+                hiddenOnDefault: true,
+                form: {
+                  body: [getSchemaTpl('deleteApi')]
+                }
+              })
+            ]
+          },
+          {
+            title: '高级',
+            body: [
+              getSchemaTpl('valueFormula', {
+                name: 'highlightTxt',
+                label: '高亮节点字符',
+                type: 'input-text'
+              }),
+              {
+                type: 'ae-Switch-More',
+                mode: 'normal',
+                name: 'enableNodePath',
+                label: tipedLabel(
+                  '选项值包含父节点',
+                  '开启后对应节点值会包含父节点'
+                ),
+                value: false,
+                formType: 'extend',
+                form: {
+                  body: [
+                    {
+                      type: 'input-text',
+                      label: '路径分隔符',
+                      value: '/',
+                      name: 'pathSeparator'
+                    }
+                  ]
+                }
+              },
+              {
+                type: 'ae-Switch-More',
+                mode: 'normal',
+                name: 'hideRoot',
+                label: '显示顶级节点',
+                value: true,
+                trueValue: false,
+                falseValue: true,
+                formType: 'extend',
+                form: {
+                  body: [
+                    {
+                      type: 'input-text',
+                      label: '节点文案',
+                      value: '顶级',
+                      name: 'rootLabel'
+                    }
+                  ]
+                }
+              },
               getSchemaTpl('switch', {
+                label: '显示节点图标',
                 name: 'showIcon',
-                label: '是否显示图标',
-                pipeIn: defaultValue(true)
+                value: true
               }),
-
-              getSchemaTpl('multiple'),
-
               getSchemaTpl('switch', {
-                name: 'cascade',
-                label: '不自动选中子节点',
-                visibleOn: 'data.multiple',
-                description: '选中父级时，孩子节点是否自动选中'
+                label: tipedLabel(
+                  '显示节点勾选框',
+                  '单选情况下，也可显示树节点勾选框'
+                ),
+                name: 'showRadio',
+                hiddenOn: 'data.multiple'
               }),
-
               getSchemaTpl('switch', {
                 name: 'withChildren',
                 label: '数值是否携带子节点',
@@ -342,38 +454,52 @@ export class TreeControlPlugin extends BasePlugin {
                 visibleOn: 'data.cascade !== true && data.multiple',
                 disabledOn: 'data.withChildren'
               }),
-
-              getSchemaTpl('joinValues'),
-              getSchemaTpl('delimiter'),
-              getSchemaTpl('extractValue'),
-              getSchemaTpl('autoFill')
+              {
+                type: 'ae-Switch-More',
+                mode: 'normal',
+                name: 'initiallyOpen',
+                label: tipedLabel(
+                  '自定义展开层级',
+                  '默认展开所有节点层级，开启后可自定义展开层级数'
+                ),
+                value: true,
+                trueValue: false,
+                falseValue: true,
+                formType: 'extend',
+                form: {
+                  body: [
+                    {
+                      type: 'input-number',
+                      label: '设置层级',
+                      name: 'unfoldedLevel',
+                      value: 1,
+                      hiddenOn: 'data.initiallyOpen'
+                    }
+                  ]
+                }
+              }
             ]
-          })
-        ]
+          },
+          getSchemaTpl('status', {
+            isFormItem: true,
+            readonly: true
+          }),
+          getSchemaTpl('validation', {tag: ValidatorTag.Tree})
+        ])
       },
       {
         title: '外观',
-        body: [
-          {
-            label: '顶级文字',
-            name: 'rootLabel',
-            type: 'input-text',
-            pipeIn: defaultValue('顶级'),
-            visibleOn: 'data.hideRoot !== true'
-          },
-
-          getSchemaTpl('switch', {
-            name: 'showIcon',
-            label: '是否显示图标',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('switch', {
-            label: '是否显示单选按钮',
-            name: 'showRadio',
-            visibleOn: '!data.multiple'
+        body: getSchemaTpl('collapseGroup', [
+          getSchemaTpl('style:formItem', {renderer}),
+          getSchemaTpl('style:classNames', {
+            schema: [
+              getSchemaTpl('className', {
+                label: '外层容器',
+                name: 'treeContainerClassName'
+              })
+            ]
           })
-        ]
+        ])
       },
       {
         title: '事件',
@@ -386,6 +512,7 @@ export class TreeControlPlugin extends BasePlugin {
         ]
       }
     ]);
+  };
 }
 
 registerEditorPlugin(TreeControlPlugin);

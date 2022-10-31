@@ -18,7 +18,7 @@ export class StaticControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-info';
   pluginIcon = 'static-plugin';
-  description = `纯用来展示数据，可用来展示<code>json、date、image、progress</code>等数据`;
+  description = '纯用来展示数据，可用来展示 json、date、image、progress 等数据';
   docLink = '/amis/zh-CN/components/form/static';
   tags = ['表单项'];
   scaffold = {
@@ -58,13 +58,14 @@ export class StaticControlPlugin extends BasePlugin {
               getSchemaTpl('label'),
               // getSchemaTpl('value'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: {
-                  ...context?.schema,
-                  type: 'textarea', // 改用多行文本编辑
-                  value: context?.schema.tpl, // 避免默认值丢失
-                },
-                mode: 'vertical', // 改成上下展示模式
-                name: 'tpl'
+                //  TODO: 因为 formulaControl 未适配 static 这类特殊组件，暂不传递 rendererSchema属性，让其内部先使用 InputBox
+                //  待后续 formulaControl 优化之后再重新调整适配
+                // rendererSchema: {
+                //   ...context?.schema,
+                //   type: 'textarea', // 改用多行文本编辑
+                //   value: context?.schema.tpl // 避免默认值丢失
+                // },
+                mode: 'vertical' // 改成上下展示模式
               }),
               getSchemaTpl('switch', {
                 name: 'quickEdit',
@@ -95,8 +96,13 @@ export class StaticControlPlugin extends BasePlugin {
                 name: 'quickEdit.saveImmediately',
                 label: '立即保存',
                 visibleOn: 'data.quickEdit',
-                description: '开启后修改即提交，而不是标记修改批量提交。',
-                descriptionClassName: 'help-block m-b-none',
+                labelRemark: {
+                  className: 'm-l-xs',
+                  trigger: 'click',
+                  rootClose: true,
+                  placement: 'left',
+                  content: '开启后修改即提交，而不是标记修改批量提交。'
+                },
                 pipeIn: (value: any) => !!value
               }),
               getSchemaTpl('apiControl', {
@@ -291,7 +297,8 @@ export class StaticControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
               /*{
                   children: (
                     <Button

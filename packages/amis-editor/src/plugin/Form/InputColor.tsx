@@ -1,9 +1,8 @@
 import {registerEditorPlugin} from 'amis-editor-core';
-import {getSchemaTpl} from 'amis-editor-core';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {tipedLabel} from '../../component/BaseControl';
 import tinyColor from 'tinycolor2';
 
 function convertColor(value: string[], format: string): string[];
@@ -171,124 +170,133 @@ export class ColorControlPlugin extends BasePlugin {
     return getSchemaTpl('tabs', [
       {
         title: '属性',
-        body: getSchemaTpl('collapseGroup', [
-          {
-            title: '基本',
-            body: [
-              getSchemaTpl('formItemName', {
-                required: true
-              }),
-              getSchemaTpl('label'),
-              {
-                type: 'select',
-                label: '值格式',
-                name: 'format',
-                value: 'hex',
-                options: formatOptions,
-                onChange: (
-                  format: any,
-                  oldFormat: any,
-                  model: any,
-                  form: any
-                ) => {
-                  const {value, presetColors} = form.data;
-                  if (value) {
-                    form.setValueByName('value', convertColor(value, format));
+        body: getSchemaTpl(
+          'collapseGroup',
+          [
+            {
+              title: '基本',
+              body: [
+                getSchemaTpl('formItemName', {
+                  required: true
+                }),
+                getSchemaTpl('label'),
+                {
+                  type: 'select',
+                  label: '值格式',
+                  name: 'format',
+                  value: 'hex',
+                  options: formatOptions,
+                  onChange: (
+                    format: any,
+                    oldFormat: any,
+                    model: any,
+                    form: any
+                  ) => {
+                    const {value, presetColors} = form.data;
+                    if (value) {
+                      form.setValueByName('value', convertColor(value, format));
+                    }
+                    if (Array.isArray(presetColors)) {
+                      form.setValueByName(
+                        'presetColors',
+                        convertColor(presetColors, format)
+                      );
+                    }
                   }
-                  if (Array.isArray(presetColors)) {
-                    form.setValueByName(
-                      'presetColors',
-                      convertColor(presetColors, format)
-                    );
-                  }
-                }
-              },
-              // todo: 待优化
-              [
-                ...formatOptions.map(({value}) =>
-                  this.getConditionalColorPanel(value)
-                )
-              ],
-              // {
-              //   label: '默认值',
-              //   name: 'value',
-              //   type: 'input-color',
-              //   format: '${format}'
-              // },
-              getSchemaTpl('clearable'),
-              getSchemaTpl('labelRemark'),
-              getSchemaTpl('remark'),
-              getSchemaTpl('placeholder'),
-              getSchemaTpl('description')
-            ]
-          },
-          {
-            title: '拾色器',
-            body: [
-              getSchemaTpl('switch', {
-                label: tipedLabel(
-                  '隐藏调色盘',
-                  '开启时，禁止手动输入颜色，只能从备选颜色中选择'
-                ),
-                name: 'allowCustomColor',
-                disabledOn:
-                  'Array.isArray(presetColors) && presetColors.length === 0',
-                pipeIn: (value: any) =>
-                  typeof value === 'undefined' ? false : !value,
-                pipeOut: (value: boolean) => !value
-              }),
-              getSchemaTpl('switch', {
-                label: tipedLabel('备选色', '拾色器底部的备选颜色'),
-                name: 'presetColors',
-                onText: '自定义',
-                offText: '默认',
-                pipeIn: (value: any) =>
-                  typeof value === 'undefined' ? false : true,
-                pipeOut: (
-                  value: any,
-                  originValue: any,
-                  {format = 'hex'}: any
-                ) => {
-                  return !value ? undefined : presetColorsByFormat[format];
                 },
-                onChange: (
-                  colors: any,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  if (Array.isArray(colors) && colors.length === 0) {
-                    form.setValueByName('allowCustomColor', true);
+                // todo: 待优化
+                [
+                  ...formatOptions.map(({value}) =>
+                    this.getConditionalColorPanel(value)
+                  )
+                ],
+                // {
+                //   label: '默认值',
+                //   name: 'value',
+                //   type: 'input-color',
+                //   format: '${format}'
+                // },
+                getSchemaTpl('clearable'),
+                getSchemaTpl('labelRemark'),
+                getSchemaTpl('remark'),
+                getSchemaTpl('placeholder'),
+                getSchemaTpl('description'),
+                getSchemaTpl('autoFillApi')
+              ]
+            },
+            {
+              title: '拾色器',
+              body: [
+                getSchemaTpl('switch', {
+                  label: tipedLabel(
+                    '隐藏调色盘',
+                    '开启时，禁止手动输入颜色，只能从备选颜色中选择'
+                  ),
+                  name: 'allowCustomColor',
+                  disabledOn:
+                    'Array.isArray(presetColors) && presetColors.length === 0',
+                  pipeIn: (value: any) =>
+                    typeof value === 'undefined' ? false : !value,
+                  pipeOut: (value: boolean) => !value
+                }),
+                getSchemaTpl('switch', {
+                  label: tipedLabel('备选色', '拾色器底部的备选颜色'),
+                  name: 'presetColors',
+                  onText: '自定义',
+                  offText: '默认',
+                  pipeIn: (value: any) =>
+                    typeof value === 'undefined' ? false : true,
+                  pipeOut: (
+                    value: any,
+                    originValue: any,
+                    {format = 'hex'}: any
+                  ) => {
+                    return !value ? undefined : presetColorsByFormat[format];
+                  },
+                  onChange: (
+                    colors: any,
+                    oldValue: any,
+                    model: any,
+                    form: any
+                  ) => {
+                    if (Array.isArray(colors) && colors.length === 0) {
+                      form.setValueByName('allowCustomColor', true);
+                    }
                   }
-                }
-              }),
-              ...formatOptions.map(({value}) =>
-                this.getConditionalColorComb(value)
-              )
-            ]
-          },
-          getSchemaTpl('status', {
-            isFormItem: true
-          }),
-          getSchemaTpl('validation', {
-            tag: ValidatorTag.MultiSelect
-          })
-        ], {...context?.schema, configTitle: 'props'})
+                }),
+                ...formatOptions.map(({value}) =>
+                  this.getConditionalColorComb(value)
+                )
+              ]
+            },
+            getSchemaTpl('status', {
+              isFormItem: true
+            }),
+            getSchemaTpl('validation', {
+              tag: ValidatorTag.MultiSelect
+            })
+          ],
+          {...context?.schema, configTitle: 'props'}
+        )
       },
       {
         title: '外观',
-        body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:formItem', {renderer}),
-          getSchemaTpl('style:classNames', {
-            schema: [
-              getSchemaTpl('className', {
-                label: '描述',
-                name: 'descriptionClassName',
-                visibleOn: 'this.description'
-              })
-            ]
-          })
-        ],  {...context?.schema, configTitle: 'style'})
+        body: getSchemaTpl(
+          'collapseGroup',
+          [
+            getSchemaTpl('style:formItem', {renderer}),
+            getSchemaTpl('style:classNames', {
+              schema: [
+                getSchemaTpl('className', {
+                  label: '描述',
+                  name: 'descriptionClassName',
+                  visibleOn: 'this.description'
+                })
+              ]
+            })
+          ],
+          {...context?.schema, configTitle: 'style'}
+        )
       },
       {
         title: '事件',

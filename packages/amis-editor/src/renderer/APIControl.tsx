@@ -1,26 +1,49 @@
 import React from 'react';
 import merge from 'lodash/merge';
+import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import cx from 'classnames';
-import {FormItem, InputBox, Icon} from 'amis';
-import {} from 'amis-ui';
-import {PickerContainer} from 'amis';
+import {FormItem, Icon} from 'amis';
+import {Input, PickerContainer, Spinner} from 'amis-ui';
 
 import {getEnv} from 'mobx-state-tree';
 import {normalizeApi, isEffectiveApi, isApiOutdated} from 'amis-core';
 
-import {isObject, autobind, createObject, anyChanged} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {
+  isObject,
+  autobind,
+  createObject,
+  tipedLabel,
+  anyChanged
+} from 'amis-editor-core';
 
 import type {SchemaObject, SchemaCollection, SchemaApi} from 'amis/lib/Schema';
 import type {Api} from 'amis/lib/types';
 import type {FormControlProps} from 'amis-core';
 import type {ActionSchema} from 'amis/lib/renderers/Action';
 
+export type ApiObject = Api & {
+  messages?: Record<
+    | 'fetchSuccess'
+    | 'fetchFailed'
+    | 'saveOrderSuccess'
+    | 'saveOrderFailed'
+    | 'quickSaveSuccess'
+    | 'quickSaveFailed',
+    string
+  >;
+};
+
 export interface APIControlProps extends FormControlProps {
   name?: string;
   label?: string;
   value?: any;
+
+  /**
+   * 开启debug模式
+   */
+  debug?: boolean;
+
   /**
    * 接口消息设置描述信息
    */
@@ -77,6 +100,36 @@ export interface APIControlProps extends FormControlProps {
   pickerHeaderClassName?: string;
 
   /**
+   * 是否只返回内部TabsPanel
+   */
+  onlyTabs?: boolean;
+
+  /**
+   * 开启高亮显示
+   */
+  enableHighlight?: boolean;
+
+  /**
+   * Picker选项的label字段
+   */
+  labelField?: string;
+
+  /**
+   * 检索字段
+   */
+  searchField?: string;
+
+  /**
+   * 检索字段类型
+   */
+  searchType?: string;
+
+  /**
+   * 底部区域CSS类名
+   */
+  footerClassName?: string;
+
+  /**
    * Picker面板确认
    */
   onPickerConfirm: (values: any) => void | any;
@@ -103,37 +156,49 @@ export interface APIControlState {
   apiStr: string;
   selectedItem?: any[];
   schema?: SchemaCollection;
+  loading: boolean;
 }
 
 export default class APIControl extends React.Component<
   APIControlProps,
   APIControlState
 > {
-  static defaultProps: Pick<APIControlProps, 'pickerBtnSchema'> = {
+  input?: HTMLInputElement;
+
+  static defaultProps: Pick<
+    APIControlProps,
+    'pickerBtnSchema' | 'labelField' | 'searchType'
+  > = {
     pickerBtnSchema: {
       type: 'button',
       level: 'link',
-      size: 'sm',
-      label: '点击选择'
-    }
+      size: 'sm'
+    },
+    labelField: 'label',
+    searchType: 'key'
   };
+
   constructor(props: APIControlProps) {
     super(props);
 
     this.state = {
       apiStr: this.transformApi2Str(props.value),
       selectedItem: [],
-      schema: props.pickerSchema
+      schema: props.pickerSchema,
+      loading: false
     };
+  }
+
+  componentDidMount() {
+    this.updatePickerOptions();
   }
 
   componentDidUpdate(prevProps: APIControlProps) {
     const props = this.props;
-
     if (prevProps.value !== props.value) {
       this.setState({apiStr: this.transformApi2Str(props.value)});
+      this.updatePickerOptions();
     }
-
     if (anyChanged(['enablePickerMode', 'pickerSchema'], prevProps, props)) {
       this.setState({schema: props.pickerSchema});
     }
@@ -150,23 +215,52 @@ export default class APIControl extends React.Component<
     }
   }
 
+  /**
+   * 已选API详情，因为list接口是分页的，所以需要单独调用一次
+   */
+  async updatePickerOptions() {
+    const apiObj = normalizeApi(this.props.value);
+
+    if (apiObj?.url?.startsWith('api://')) {
+      this.setState({loading: true});
+      const keyword = apiObj.url.replace('api://', '');
+
+      try {
+        await this.fetchOptions(keyword);
+      } catch (error) {}
+    }
+    this.setState({loading: false});
+  }
+
   transformApi2Str(value: any) {
     const api = normalizeApi(value);
 
-    return api.url ? `${api.method ? `${api.method}:` : ''}${api.url}` : '';
+    return api.url
+      ? `${
+          api.method &&
+          api.method.toLowerCase() !==
+            'get' /** 默认为GET请求，直接隐藏掉前缀，为了呈现更多信息 */
+            ? `${api.method}:`
+            : ''
+        }${api.url}`
+      : '';
   }
 
-  async fetchOptions() {
-    const {value, data, env} = this.props;
+  async fetchOptions(keyword?: string) {
+    const {value, data, env, searchField, searchType} = this.props;
     let {pickerSource} = this.props;
     const apiObj = normalizeApi(value);
-    const apiKey = apiObj?.url.split('api://')?.[1];
 
-    if (!pickerSource) {
+    if (!pickerSource || !apiObj?.url) {
       return;
     }
 
-    const ctx = createObject(data, {value, op: 'loadOptions'});
+    const apiKey = apiObj?.url?.split('api://')?.[1];
+    const ctx = createObject(data, {
+      value,
+      op: 'loadOptions',
+      ...(keyword && searchField ? {[searchField]: keyword, searchType} : {})
+    });
     const schemaFilter = getEnv((window as any).editorStore).schemaFilter;
 
     // 基于爱速搭的规则转换一下
@@ -177,6 +271,7 @@ export default class APIControl extends React.Component<
     if (isEffectiveApi(pickerSource, ctx)) {
       const res = await env.fetcher(pickerSource, ctx);
       const items: any[] = res.data?.items || res?.data?.rows;
+
       if (items.length) {
         const selectedItem = items.find(item => item.key === apiKey);
 
@@ -186,7 +281,40 @@ export default class APIControl extends React.Component<
   }
 
   @autobind
-  handleSubmit(values: SchemaApi, action: any) {
+  inputRef(ref: any) {
+    this.input = ref;
+  }
+
+  focus() {
+    if (!this.input) {
+      return;
+    }
+
+    this.input.focus();
+  }
+
+  @autobind
+  clearPickerValue() {
+    const {onChange} = this.props;
+
+    this.setState(
+      {apiStr: this.transformApi2Str(undefined), selectedItem: []},
+      () => {
+        onChange?.(undefined);
+        this.focus();
+      }
+    );
+  }
+
+  @autobind
+  handleSimpleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.currentTarget.value;
+
+    this.handleSubmit(value, 'input');
+  }
+
+  @autobind
+  handleSubmit(values: SchemaApi, action?: 'input' | 'picker-submit') {
     const {onChange, value} = this.props;
     let api: Api = values;
 
@@ -198,7 +326,6 @@ export default class APIControl extends React.Component<
     if (typeof value !== 'string' || typeof values !== 'string') {
       api = merge({}, normalizeApi(values));
     }
-
     onChange?.(api);
   }
 
@@ -240,24 +367,44 @@ export default class APIControl extends React.Component<
     onPickerClose?.();
   }
 
+  @autobind
   renderHeader() {
-    const {render, actions, enablePickerMode} = this.props;
+    const {render, labelRemark, useMobileUI, popOverContainer, env} =
+      this.props;
+    const label: any = this.props.label;
+    const classPrefix = env?.theme?.classPrefix;
 
-    const actionsDom =
-      Array.isArray(actions) && actions.length > 0
-        ? actions.map((action, index) => {
-            return render(`action/${index}`, action, {
-              key: index,
-              onAction: this.handleAction.bind(this, action)
-            });
-          })
-        : null;
+    // const actionsDom =
+    //   Array.isArray(actions) && actions.length > 0
+    //     ? actions.map((action, index) => {
+    //         return render(`action/${index}`, action, {
+    //           key: index,
+    //           onAction: this.handleAction.bind(this, action)
+    //         });
+    //       })
+    //     : null;
 
-    return actionsDom || enablePickerMode ? (
-      <header className="ae-ApiControl-header" key="header">
-        {enablePickerMode ? this.renderPickerSchema() : actionsDom}
+    return (
+      <header className="ApiControl-header" key="header">
+        <label className={cx(`${classPrefix}Form-label`)}>
+          {label?.type ? render('label', label) : label || ''}
+          {labelRemark
+            ? render('label-remark', {
+                type: 'remark',
+                icon: labelRemark.icon || 'warning-mark',
+                tooltip: labelRemark,
+                className: cx(`Form-lableRemark`, labelRemark?.className),
+                useMobileUI,
+                container: popOverContainer
+                  ? popOverContainer
+                  : env && env.getModalContainer
+                  ? env.getModalContainer
+                  : undefined
+              })
+            : null}
+        </label>
       </header>
-    ) : null;
+    );
   }
 
   renderPickerSchema() {
@@ -280,14 +427,19 @@ export default class APIControl extends React.Component<
     return (
       <PickerContainer
         title={pickerTitle}
-        value={selectedItem}
         headerClassName={cx(pickerHeaderClassName, 'font-bold')}
         onConfirm={this.handlePickerConfirm}
         onCancel={this.handlePickerClose}
         size={pickerSize}
-        bodyRender={({value, onClose, onChange, setState, ...states}) => {
+        bodyRender={({
+          onChange,
+          setState
+        }: {
+          onChange: (value: any) => void;
+          setState: (state: any) => void;
+        }) => {
           return render('api-control-picker', schema!, {
-            data: {[pickerName]: selectedItem},
+            value: selectedItem,
             onSelect: (items: Array<any>) => {
               setState({selectedItem: items});
               onChange(this.normalizeValue(items, onPickerSelect));
@@ -295,32 +447,50 @@ export default class APIControl extends React.Component<
           });
         }}
       >
-        {({onClick, isOpened}) =>
-          render('picker-action', pickerBtnSchema!, {
-            onClick: async (e: React.MouseEvent<any>) => {
-              if (!isOpened && enablePickerMode) {
-                try {
-                  await this.fetchOptions();
-                } catch {}
-              }
+        {({
+          onClick,
+          isOpened
+        }: {
+          onClick: (e: React.MouseEvent) => void;
+          isOpened: boolean;
+        }) =>
+          render(
+            'picker-action',
+            {
+              icon: (
+                <Icon icon="picker-icon" className="icon ae-ApiControl-icon" />
+              ),
+              ...pickerBtnSchema!,
+              className: cx(
+                'ae-ApiControl-PickerBtn',
+                pickerBtnSchema?.className
+              )
+            },
+            {
+              onClick: async (e: React.MouseEvent<any>) => {
+                if (!isOpened && enablePickerMode) {
+                  try {
+                    await this.fetchOptions();
+                  } catch {}
+                }
 
-              onClick(e);
+                onClick(e);
+              }
             }
-          })
+          )
         }
       </PickerContainer>
     );
   }
 
   renderApiDialog() {
-    const {messageDesc} = this.props;
-
     return {
       label: '',
       type: 'action',
       acitonType: 'dialog',
       size: 'sm',
-      icon: <Icon icon="api" />,
+      icon: <Icon icon="setting" className="icon ae-ApiControl-icon" />,
+      className: 'ae-ApiControl-setting-button',
       actionType: 'dialog',
       dialog: {
         title: '高级设置',
@@ -331,12 +501,14 @@ export default class APIControl extends React.Component<
         closeOnEsc: true,
         closeOnOutside: false,
         showCloseButton: true,
-        body: [this.renderApiConfigTabs(messageDesc)]
+        body: [this.renderApiConfigTabs()]
       }
     };
   }
 
-  renderApiConfigTabs(messageDesc?: string, submitOnChange: boolean = false) {
+  renderApiConfigTabs(submitOnChange: boolean = false) {
+    const {messageDesc, debug = false} = this.props;
+
     return {
       type: 'form',
       className: 'ae-ApiControl-form',
@@ -344,6 +516,7 @@ export default class APIControl extends React.Component<
       submitOnChange,
       wrapWithPanel: false,
       onSubmit: this.handleSubmit,
+      debug,
       body: [
         {
           type: 'tabs',
@@ -406,8 +579,7 @@ export default class APIControl extends React.Component<
                   name: 'dataType',
                   size: 'sm',
                   mode: 'horizontal',
-                  description:
-                    '发送体格式为：<%= data.dataType === "json" ? "application/json" : data.dataType === "form-data" ? "multipart/form-data" : data.dataType === "form" ? "application/x-www-form-urlencoded" : "" %>，当发送内容中存在文件时会自动使用 form-data 格式。',
+                  description: `${'发送体格式为'}：<%= data.dataType === "json" ? "application/json" : (data.dataType === "form-data" ? "multipart/form-data" : (data.dataType === "form" ? "application/x-www-form-urlencoded" : "")) %>，${'当发送内容中存在文件时会自动使用 form-data 格式。'}`,
                   options: [
                     {
                       label: 'JSON',
@@ -463,75 +635,6 @@ export default class APIControl extends React.Component<
                   description: '默认数据为追加方式，开启后完全替换当前数据'
                 },
                 {
-                  label: tipedLabel(
-                    '初始加载',
-                    '当配置初始化接口后，组件初始就会拉取接口数据，可以通过以下配置修改'
-                  ),
-                  type: 'group',
-                  visibleOn: 'this.initApi',
-                  mode: 'horizontal',
-                  direction: 'vertical',
-                  // labelRemark: {
-                  //   trigger: 'hover',
-                  //   rootClose: true,
-                  //   content:
-                  //     '当配置初始化接口后，组件初始就会拉取接口数据，可以通过以下配置修改',
-                  //   placement: 'top'
-                  // },
-
-                  body: [
-                    {
-                      name: 'initFetch',
-                      type: 'radios',
-                      inline: true,
-                      mode: 'normal',
-                      renderLabel: false,
-                      onChange: () => {
-                        document.getElementsByClassName(
-                          'ae-Settings-content'
-                        )[0].scrollTop = 0;
-                      },
-                      // pipeIn: (value:any) => typeof value === 'boolean' ? value : '1'
-                      options: [
-                        {
-                          label: '是',
-                          value: true
-                        },
-
-                        {
-                          label: '否',
-                          value: false
-                        },
-
-                        {
-                          label: '表达式',
-                          value: ''
-                        }
-                      ]
-                    },
-                    {
-                      name: 'initFetchOn',
-                      autoComplete: false,
-                      visibleOn: 'typeof this.initFetch !== "boolean"',
-                      type: 'input-text',
-                      mode: 'normal',
-                      size: 'lg',
-                      renderLabel: false,
-                      placeholder: '如：this.id 表示有 id 值时初始加载',
-                      className: 'm-t-n-sm'
-                    }
-                  ]
-                },
-                {
-                  label: '定时刷新',
-                  name: 'interval',
-                  type: 'switch',
-                  mode: 'horizontal',
-                  visibleOn: 'data.initApi',
-                  pipeIn: (value: any) => !!value,
-                  pipeOut: (value: any) => (value ? 3000 : undefined)
-                },
-                {
                   label: '',
                   name: 'interval',
                   type: 'input-number',
@@ -563,13 +666,6 @@ export default class APIControl extends React.Component<
                   size: 'lg',
                   visibleOn: '!!data.interval',
                   placeholder: '停止定时刷新检测表达式'
-                  // labelRemark: {
-                  //   trigger: 'hover',
-                  //   rootClose: true,
-                  //   content:
-                  //     '定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则停止刷新',
-                  //   placement: 'top'
-                  // }
                 }
               ]
             },
@@ -589,13 +685,6 @@ export default class APIControl extends React.Component<
                       ),
                       name: 'data',
                       mode: 'row',
-                      // labelRemark: {
-                      //   trigger: 'hover',
-                      //   rootClose: true,
-                      //   content:
-                      //     '当没开启数据映射时，发送 API 的时候会发送尽可能多的数据，如果你想自己控制发送的数据，或者需要额外的数据处理，请开启此选项',
-                      //   placement: 'top'
-                      // },
                       pipeIn: (value: any) => !!value,
                       pipeOut: (value: any) => (value ? {'&': '$$'} : null)
                     },
@@ -656,7 +745,7 @@ export default class APIControl extends React.Component<
 
                         {
                           placeholder: 'Value',
-                          type: 'input-text',
+                          type: 'ae-DataPickerControl',
                           name: 'value'
                         }
                       ]
@@ -669,13 +758,6 @@ export default class APIControl extends React.Component<
                       ),
                       name: 'responseData',
                       mode: 'row',
-                      // labelRemark: {
-                      //   trigger: 'hover',
-                      //   rootClose: true,
-                      //   content:
-                      //     '如果需要对返回结果做额外的数据处理，请开启此选项',
-                      //   placement: 'top'
-                      // },
                       pipeIn: (value: any) => !!value,
                       pipeOut: (value: any) => (value ? {'&': '$$'} : null)
                     },
@@ -772,18 +854,11 @@ export default class APIControl extends React.Component<
                       type: 'switch',
                       label: tipedLabel(
                         '请求头',
-                        '可以配置headers对象，添加自定义请求头'
+                        '可以配置<code>headers</code>对象，添加自定义请求头'
                       ),
                       name: 'headers',
                       mode: 'row',
                       className: 'm-b-xs',
-                      // labelRemark: {
-                      //   trigger: 'hover',
-                      //   rootClose: true,
-                      //   content:
-                      //     '可以配置<code>headers</code>对象，添加自定义请求头',
-                      //   placement: 'top'
-                      // },
                       pipeIn: (value: any) => !!value,
                       pipeOut: (value: any) => (value ? {'': ''} : null)
                     },
@@ -915,47 +990,109 @@ export default class APIControl extends React.Component<
         }
       ]
     };
-    // return
   }
 
   render() {
     const {
       render,
       className,
+      footerClassName,
+      classPrefix,
+      label,
+      labelRemark,
       value,
       footer,
       border = false,
-      messageDesc
+      onlyTabs = false,
+      messageDesc,
+      enablePickerMode,
+      disabled,
+      mode,
+      enableHighlight,
+      labelField = 'label',
+      useMobileUI,
+      popOverContainer,
+      env
     } = this.props;
+    let {apiStr, selectedItem, loading} = this.state;
+    selectedItem =
+      Array.isArray(selectedItem) && selectedItem.length !== 0
+        ? selectedItem
+        : [];
+    const highlightLabel = selectedItem?.[0]?.[labelField] ?? '';
 
     return (
-      <div className={cx('ae-ApiControl', className, {border})}>
-        {this.renderHeader()}
+      <>
+        <div className={cx('ae-ApiControl', className, {border})}>
+          {onlyTabs ? (
+            render('api-control-tabs', this.renderApiConfigTabs(true), {
+              data: normalizeApi(value)
+            })
+          ) : (
+            <>
+              {this.renderHeader()}
 
-        <div className="ae-ApiControl-content" key="content">
-          <InputBox
-            className="ae-ApiControl-input m-b-none"
-            value={this.state.apiStr}
-            clearable={false}
-            placeholder="http://"
-            onChange={(value: string) => this.handleSubmit(value, 'input')}
-          />
-          {render('api-control-dialog', this.renderApiDialog(), {
-            data: normalizeApi(value)
-          })}
+              <div className="ae-ApiControl-content" key="content">
+                <div className={cx('ae-ApiControl-input')}>
+                  {enableHighlight && highlightLabel ? (
+                    <div className={cx('ae-ApiControl-highlight')}>
+                      {loading ? (
+                        <Spinner
+                          show
+                          icon="reload"
+                          size="sm"
+                          spinnerClassName={cx('Select-spinner')}
+                        />
+                      ) : (
+                        <span className={cx('ae-ApiControl-highlight-tag')}>
+                          <span>{highlightLabel}</span>
+                          <a
+                            onClick={this.clearPickerValue}
+                            className={cx('Modal-close')}
+                          >
+                            <Icon
+                              icon="close"
+                              className={cx(
+                                'icon',
+                                'ae-ApiControl-highlight-close'
+                              )}
+                            />
+                          </a>
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <Input
+                      ref={this.inputRef}
+                      value={apiStr}
+                      type="text"
+                      disabled={disabled}
+                      placeholder="http://"
+                      onChange={this.handleSimpleInputChange}
+                    />
+                  )}
+                  {enablePickerMode ? this.renderPickerSchema() : null}
+                </div>
+
+                {render('api-control-dialog', this.renderApiDialog(), {
+                  data: normalizeApi(value)
+                })}
+              </div>
+            </>
+          )}
         </div>
-
         {Array.isArray(footer) && footer.length !== 0 ? (
-          <footer className="mt-3" key="footer">
+          <footer className={cx('mt-3', footerClassName)} key="footer">
             {render('api-control-footer', footer)}
           </footer>
         ) : null}
-      </div>
+      </>
     );
   }
 }
 
 @FormItem({
-  type: 'ae-apiControl'
+  type: 'ae-apiControl',
+  renderLabel: false
 })
 export class APIControlRenderer extends APIControl {}

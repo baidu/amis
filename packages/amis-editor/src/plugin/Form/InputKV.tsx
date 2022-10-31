@@ -1,10 +1,7 @@
 /**
  * @file input-kv 组件的素项目部
  */
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, valuePipeOut} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
@@ -77,6 +74,10 @@ export class KVControlPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '当前组合项的值'
+            },
+            'event.data.item': {
+              type: 'object',
+              title: '被移除的项'
             }
           }
         }

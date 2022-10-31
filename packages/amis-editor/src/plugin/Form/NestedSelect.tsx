@@ -1,8 +1,5 @@
 import {relativeValueRe} from 'amis';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {availableLanguages} from 'amis/lib/renderers/Form/Editor';
 import {defaultValue, getSchemaTpl, valuePipeOut} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
@@ -11,9 +8,9 @@ import {
   BasicSubRenderInfo,
   RendererEventContext,
   SubRendererInfo,
-  BaseEventContext
+  BaseEventContext,
+  tipedLabel
 } from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
@@ -27,7 +24,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-indent';
   pluginIcon = 'nested-select-plugin';
-  description = `适用于选项中含有子项，可通过<code>source</code>拉取选项，支持多选`;
+  description = '适用于选项中含有子项，可通过 source 拉取选项，支持多选';
   docLink = '/amis/zh-CN/components/form/nestedselect';
   tags = ['表单项'];
   scaffold = {
@@ -302,14 +299,13 @@ export class NestedSelectControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           {
             title: '选项',
-            body: [
-              getSchemaTpl('treeOptionControl')
-            ]
+            body: [getSchemaTpl('treeOptionControl')]
           },
           getSchemaTpl('status', {isFormItem: true}),
           getSchemaTpl('validation', {

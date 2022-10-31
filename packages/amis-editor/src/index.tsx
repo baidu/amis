@@ -1,3 +1,5 @@
+import 'amis';
+import './locale/index';
 export * from 'amis-editor-core';
 import './tpl/index';
 
@@ -71,9 +73,9 @@ import './plugin/Audio';
 import './plugin/Avatar';
 import './plugin/Button';
 import './plugin/ButtonGroup';
-import './plugin/ButtonToolbar';
 import './plugin/Breadcrumb';
 import './plugin/Card';
+import './plugin/Card2';
 import './plugin/Cards';
 import './plugin/Carousel';
 import './plugin/Chart';
@@ -119,9 +121,12 @@ import './plugin/Steps';
 import './plugin/Sparkline';
 import './plugin/Submit';
 import './plugin/Table';
+import './plugin/Table2';
+import './plugin/TableCell2';
 import './plugin/Tabs';
 import './plugin/Tasks';
 import './plugin/Time';
+import './plugin/Timeline';
 import './plugin/Tpl';
 import './plugin/AnchorNav';
 import './plugin/Video';
@@ -131,6 +136,8 @@ import './plugin/TooltipWrapper';
 import './plugin/TableView';
 import './plugin/CodeView';
 import './plugin/WebComponent';
+import './plugin/CRUD2';
+import './plugin/ColumnToggler';
 
 // 常见布局
 import './plugin/Layout/Layout1_1';
@@ -154,6 +161,7 @@ import './plugin/Layout/Layout_scroll_y';
 import {GridPlugin} from './plugin/Grid';
 
 import './renderer/OptionControl';
+import './renderer/TimelineItemControl';
 import './renderer/APIControl';
 import './renderer/ValidationControl';
 import './renderer/ValidationItem';
@@ -173,8 +181,10 @@ import './renderer/RangePartsControl';
 import './renderer/DataBindingControl';
 import './renderer/DataMappingControl';
 import './renderer/DataPickerControl';
+import './renderer/FeatureControl';
 import './renderer/event-control/index';
 import './renderer/TreeOptionControl';
+import './renderer/TransferTableControl';
 
 export * from './component/BaseControl';
 export * from './icons/index';

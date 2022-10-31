@@ -1,6 +1,8 @@
 import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
+import assign from 'lodash/assign';
+import cloneDeep from 'lodash/cloneDeep';
 
 setSchemaTpl('options', {
   label: '选项 Options',
@@ -114,13 +116,14 @@ setSchemaTpl('tree', {
 
 setSchemaTpl('multiple', (schema: any = {}) => {
   return {
-    type: 'ae-Switch-More',
+    type: 'ae-switch-more',
     mode: 'normal',
     name: 'multiple',
     label: '可多选',
     value: false,
     hiddenOnDefault: true,
     formType: 'extend',
+    ...(schema.patch || {}),
     form: {
       body: schema.replace
         ? schema.body
@@ -128,7 +131,7 @@ setSchemaTpl('multiple', (schema: any = {}) => {
             getSchemaTpl('joinValues'),
             getSchemaTpl('delimiter'),
             getSchemaTpl('extractValue'),
-            ...[schema.body || []]
+            ...(schema?.body || [])
           ]
     }
   };
@@ -210,6 +213,7 @@ setSchemaTpl('addApi', () => {
   return getSchemaTpl('apiControl', {
     label: '新增接口',
     name: 'addApi',
+    mode: 'row',
     visibleOn: 'data.creatable'
   });
 });
@@ -235,6 +239,7 @@ setSchemaTpl('editApi', () =>
   getSchemaTpl('apiControl', {
     label: '编辑接口',
     name: 'editApi',
+    mode: 'row',
     visibleOn: 'data.editable'
   })
 );
@@ -253,6 +258,7 @@ setSchemaTpl('deleteApi', () =>
   getSchemaTpl('apiControl', {
     label: '删除接口',
     name: 'deleteApi',
+    mode: 'row',
     visibleOn: 'data.removable'
   })
 );
@@ -277,6 +283,11 @@ setSchemaTpl('hideNodePathLabel', {
   type: 'switch',
   label: tipedLabel('隐藏路径', '隐藏选中节点的祖先节点文本信息'),
   name: 'hideNodePathLabel',
+  mode: 'horizontal',
+  horizontal: {
+    justify: true,
+    left: 8
+  },
   inputClassName: 'is-inline'
 });
 
@@ -299,9 +310,91 @@ setSchemaTpl('optionControlV2', {
   closeDefaultCheck: true // 关闭默认值设置
 });
 
+/**
+ * 时间轴组件选项控件
+ */
+setSchemaTpl('timelineItemControl', {
+  label: '数据',
+  model: 'normal',
+  type: 'ae-timelineItemControl'
+});
+
 setSchemaTpl('treeOptionControl', {
   label: '数据',
   mode: 'normal',
   name: 'options',
   type: 'ae-treeOptionControl'
+});
+
+setSchemaTpl('dataMap', {
+  type: 'container',
+  body: [
+    getSchemaTpl('switch', {
+      label: tipedLabel(
+        '数据映射',
+        '<div> 当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：{"a": "${a}", "b": 2}。</div>' +
+          '<div>当值为 __undefined时，表示删除对应的字段，可以结合{"&": "$$"}来达到黑名单效果。</div>'
+      ),
+      name: 'dataMapSwitch',
+      value: false,
+      className: 'm-b-xs',
+      onChange: (value: any, oldValue: any, model: any, form: any) => {
+        const newDataValue = value ? {} : null;
+        form.setValues({
+          dataMap: newDataValue,
+          data: newDataValue
+        });
+      }
+    }),
+    {
+      type: 'alert',
+      level: 'info',
+      visibleOn: 'this.dataMapSwitch',
+      className: 'relative',
+      body: [
+        {
+          type: 'tpl',
+          tpl: '${data["&"] ? "已开启定制参数功能，可点击关闭该功能。" : "如果需要在默认数据的基础上定制参数，请配置开启参数定制再定义key和value。"}'
+        },
+        {
+          type: 'button',
+          label: '${data["&"] ? "立即关闭" : "立即开启"}',
+          level: 'link',
+          className: 'absolute bottom-3 right-10',
+          onClick: (e: any, props: any) => {
+            const newData = props.data.data?.['&'] === '$$' ? {} : {'&': '$$'};
+            // 用onBulkChange保证代码视图和编辑区域数据保持同步
+            props.onBulkChange({
+              data: newData,
+              dataMap: {}
+            });
+          }
+        }
+      ],
+      showCloseButton: true
+    },
+    getSchemaTpl('combo-container', {
+      type: 'input-kv',
+      syncDefaultValue: false,
+      name: 'dataMap',
+      value: null,
+      visibleOn: 'this.dataMapSwitch',
+      className: 'block -mt-5',
+      deleteBtn: {
+        icon: 'fa fa-trash'
+      },
+      onChange: (value: any, oldValue: any, model: any, form: any) => {
+        // 用assign保证'&'第一个被遍历到
+        const newDataMap = form.data.data?.['&']
+          ? assign({'&': '$$'}, value)
+          : cloneDeep(value);
+        form.setValues({
+          data: newDataMap
+        });
+        form.setValues({
+          data: newDataMap
+        });
+      }
+    })
+  ]
 });

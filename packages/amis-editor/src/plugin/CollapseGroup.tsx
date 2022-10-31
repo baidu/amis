@@ -2,7 +2,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {isObject} from 'amis-editor-core';
 
 export class CollapseGroupPlugin extends BasePlugin {
@@ -96,18 +96,16 @@ export class CollapseGroupPlugin extends BasePlugin {
                   autoFocus: false,
                   form: {
                     body: [
-                      {
-                        label: '图标',
+                      getSchemaTpl('icon', {
                         name: 'expandIcon',
-                        type: 'icon-picker',
-                        className: 'fix-icon-picker-overflow',
+                        label: '图标',
                         pipeIn: (value: any) => value?.icon,
                         pipeOut: (value: any) => ({
                           type: 'icon',
                           vendor: '',
                           icon: value
                         })
-                      }
+                      })
                     ]
                   },
                   pipeIn: (value: string) => {

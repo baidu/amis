@@ -1,13 +1,14 @@
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
+  registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
   RegionConfig,
-  RendererInfo
+  RendererInfo,
+  getSchemaTpl,
+  noop,
+  defaultValue
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {noop} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class DialogPlugin extends BasePlugin {
@@ -55,12 +56,34 @@ export class DialogPlugin extends BasePlugin {
     {
       eventName: 'confirm',
       eventLabel: '确认',
-      description: '点击弹窗确认按钮时触发'
+      description: '点击弹窗确认按钮时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '弹窗数据'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'cancel',
       eventLabel: '取消',
-      description: '点击弹窗取消按钮时触发'
+      description: '点击弹窗取消按钮时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '弹窗数据'
+            }
+          }
+        }
+      ]
     }
   ];
 
@@ -83,108 +106,97 @@ export class DialogPlugin extends BasePlugin {
   ];
 
   panelTitle = '弹框';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     return getSchemaTpl('tabs', [
       {
-        title: '常规',
-        body: [
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
           {
-            label: '标题',
-            type: 'input-text',
-            name: 'title'
-          },
-
-          getSchemaTpl('switch', {
-            label: '数据映射',
-            name: 'data',
-            className: 'block m-b-xs',
-            pipeIn: (value: any) => !!value,
-            pipeOut: (value: any) => (value ? {'&': '$$'} : null)
-          }),
-
-          {
-            type: 'tpl',
-            visibleOn: '!this.data',
-            tpl:
-              '<p class="text-sm text-muted">当没开启数据映射时，弹框中默认会拥有触发打开弹框按钮所在环境的所有数据。</p>'
-          },
-
-          {
-            type: 'input-kv',
-            syncDefaultValue: false,
-            name: 'data',
-            visibleOn: 'this.data',
-            descriptionClassName: 'help-block text-xs m-b-none',
-            description:
-              '<p>当开启数据映射时，弹框中的数据只会包含设置的部分，请绑定数据。如：<code>{"a": "\\${a}", "b": 2}</code></p><p>如果希望在默认的基础上定制，请先添加一个 Key 为 `&` Value 为 `\\$$` 作为第一行。</p><div>当值为 <code>__undefined</code>时，表示删除对应的字段，可以结合<code>{"&": "\\$$"}</code>来达到黑名单效果。</div>',
-            messages: {
-              validateFailed: '数据映射中存在错误，请仔细检查'
-            }
-          },
-
-          getSchemaTpl('switch', {
-            label: '按 Esc 关闭弹框',
-            name: 'closeOnEsc',
-            value: false
-          }),
-
-          getSchemaTpl('switch', {
-            label: '点击弹框外区域关闭弹框',
-            name: 'closeOnOutside',
-            value: false
-          })
-        ]
+            title: '基本',
+            body: [
+              {
+                label: '标题',
+                type: 'input-text',
+                name: 'title'
+              },
+              getSchemaTpl('switch', {
+                label: '展示关闭按钮',
+                name: 'showCloseButton',
+                value: true
+              }),
+              getSchemaTpl('switch', {
+                label: '可按 Esc 关闭',
+                name: 'closeOnEsc',
+                value: false
+              }),
+              getSchemaTpl('switch', {
+                label: '左下角展示报错消息',
+                name: 'showErrorMsg',
+                value: true
+              }),
+              getSchemaTpl('switch', {
+                label: '左下角展示loading动画',
+                name: 'showLoading',
+                value: true
+              }),
+              getSchemaTpl('dataMap')
+            ]
+          }
+        ])
       },
       {
         title: '外观',
-        body: [
+        body: getSchemaTpl('collapseGroup', [
           {
-            label: '尺寸',
-            type: 'button-group-select',
-            name: 'size',
-            size: 'sm',
-            className: 'block',
-            pipeIn: defaultValue(''),
-            options: [
+            title: '基本',
+            body: [
               {
-                label: '小',
-                value: 'sm'
-              },
-              {
-                label: '默认',
-                value: ''
-              },
-              {
-                label: '中',
-                value: 'md'
-              },
-              {
-                label: '大',
-                value: 'lg'
-              },
-              {
-                label: '超大',
-                value: 'xl'
+                label: '尺寸',
+                type: 'button-group-select',
+                name: 'size',
+                size: 'sm',
+                options: [
+                  {
+                    label: '标准',
+                    value: ''
+                  },
+                  {
+                    label: '小',
+                    value: 'sm'
+                  },
+                  {
+                    label: '中',
+                    value: 'md'
+                  },
+                  {
+                    label: '大',
+                    value: 'lg'
+                  },
+                  {
+                    label: '超大',
+                    value: 'xl'
+                  }
+                ],
+                pipeIn: defaultValue(''),
+                pipeOut: (value: string) => (value ? value : undefined)
               }
             ]
           },
-
-          getSchemaTpl('switch', {
-            label: '是否显示关闭按钮',
-            name: 'showCloseButton',
-            value: true
-          }),
-
-          getSchemaTpl('className', {
-            name: 'headerClassName',
-            label: '顶部 CSS 类名'
-          }),
-
-          getSchemaTpl('className', {
-            name: 'bodyClassName',
-            label: '内容 CSS 类名'
-          })
-        ]
+          {
+            title: 'CSS类名',
+            body: [
+              getSchemaTpl('className', {
+                name: 'className',
+                label: '外层'
+              }),
+              getSchemaTpl('className', {
+                name: 'bodyClassName',
+                label: '内容区域'
+              })
+            ]
+          }
+        ])
       },
       {
         title: '事件',

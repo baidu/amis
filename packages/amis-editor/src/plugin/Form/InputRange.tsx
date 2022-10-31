@@ -1,11 +1,7 @@
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
@@ -19,7 +15,7 @@ export class RangeControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-sliders';
   pluginIcon = 'input-range-plugin';
-  description = `选择某个值或者某个范围`;
+  description = '选择某个值或者某个范围';
   docLink = '/amis/zh-CN/components/form/input-range';
   tags = ['表单项'];
   scaffold = {
@@ -153,20 +149,20 @@ export class RangeControlPlugin extends BasePlugin {
                 name: 'value',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.min || 0,
                   type: 'input-number'
                 },
                 valueType: 'number', // 期望数值类型
-                visibleOn: '!data.multiple'
+                visibleOn: '!data.multiple',
+                pipeIn: defaultValue(0)
               }),
 
               getSchemaTpl('valueFormula', {
                 name: 'min',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.min || 0,
                   type: 'input-number'
                 },
+                pipeIn: defaultValue(0),
                 needDeleteProps: ['min'], // 避免自我限制
                 label: tipedLabel(
                   '最小值',
@@ -179,9 +175,9 @@ export class RangeControlPlugin extends BasePlugin {
                 name: 'max',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.max || 100,
                   type: 'input-number'
                 },
+                pipeIn: defaultValue(100),
                 needDeleteProps: ['max'], // 避免自我限制
                 label: tipedLabel(
                   '最大值',
@@ -204,8 +200,9 @@ export class RangeControlPlugin extends BasePlugin {
                     value: 0
                   },
                   {
-                    type: 'tpl',
-                    tpl: '-'
+                    type: 'html',
+                    html: '-',
+                    className: 'inputGroup-split-line'
                   },
                   {
                     type: 'input-number',
@@ -278,7 +275,8 @@ export class RangeControlPlugin extends BasePlugin {
                 label: '可重置',
                 value: false,
                 visibleOn: '!!data.showInput'
-              })
+              }),
+              getSchemaTpl('autoFillApi')
             ]
           },
           {

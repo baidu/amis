@@ -1,12 +1,13 @@
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {
-  BUTTON_DEFAULT_ACTION,
-  formItemControl,
-  tipedLabel
-} from '../component/BaseControl';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {RegionWrapper as Region} from 'amis-editor-core';
+  BasePlugin,
+  RegionConfig,
+  BaseEventContext,
+  tipedLabel,
+  defaultValue,
+  getSchemaTpl,
+  registerEditorPlugin
+} from 'amis-editor-core';
+import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
 
 export class ButtonGroupPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -93,7 +94,7 @@ export class ButtonGroupPlugin extends BasePlugin {
                     type: 'tpl',
                     inline: false,
                     className: 'p-t-xs',
-                    tpl: '<span class="label label-default"><% if (data.type === "button-group") { %> 按钮组 <% } else { %><%= data.label %><% if (data.icon) { %><i class="<%= data.icon %>"/><% }%><% } %></span>'
+                    tpl: `<span class="label label-default"><% if (data.type === "button-group") { %> ${'按钮组'} <% } else { %><%= data.label %><% if (data.icon) { %><i class="<%= data.icon %>"/><% }%><% } %></span>`
                   }
                 ],
                 addButtonText: '新增按钮',

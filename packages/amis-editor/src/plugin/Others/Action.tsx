@@ -6,10 +6,11 @@ import {
   BasePlugin,
   BasicPanelItem,
   BasicToolbarItem,
-  BuildPanelEventContext,
+  BuildPanelEventContext
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
+import {SchemaCollection} from 'amis/lib/Schema';
 
 export class ActionPlugin extends BasePlugin {
   panelTitle = '按钮';
@@ -146,7 +147,10 @@ export class ActionPlugin extends BasePlugin {
         name: 'dialog',
         pipeIn: defaultValue({
           title: '弹框标题',
-          body: '<p>对，你刚刚点击了</p>'
+          body: '<p>对，你刚刚点击了</p>',
+          showCloseButton: true,
+          showErrorMsg: true,
+          showLoading: true
         }),
         asFormItem: true,
         children: ({value, onChange, data}: any) =>
@@ -350,7 +354,7 @@ export class ActionPlugin extends BasePlugin {
         className: 'p-3',
         body: schema
       }
-    ];
+    ] as SchemaCollection;
   };
 
   buildEditorPanel(
@@ -405,7 +409,7 @@ export class ActionPlugin extends BasePlugin {
     ) {
       toolbars.push({
         iconSvg: 'dialog',
-        tooltip: `配置弹框内容`,
+        tooltip: '配置弹框内容',
         placement: 'bottom',
         onClick: () => this.editDetail(id)
       });

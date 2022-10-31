@@ -8,19 +8,12 @@ import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import omit from 'lodash/omit';
 import Sortable from 'sortablejs';
-import {
-  render as amisRender,
-  FormItem,
-  Button,
-  Checkbox,
-  Icon,
-  InputBox
-} from 'amis';
+import {FormItem, Button, Checkbox, Icon, InputBox} from 'amis';
 import {value2array} from 'amis-ui/lib/components/Select';
 
 import {autobind} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 
 import type {Option} from 'amis';
 import type {FormControlProps} from 'amis-core';
@@ -47,7 +40,7 @@ export interface OptionControlState {
   api: SchemaApi;
   labelField: string;
   valueField: string;
-  source: 'custom' | 'api' | 'form';
+  source: 'custom' | 'api' | 'apicenter';
 }
 
 export default class OptionControl extends React.Component<
@@ -64,12 +57,26 @@ export default class OptionControl extends React.Component<
   constructor(props: OptionControlProps) {
     super(props);
 
+    let source: 'custom' | 'api' | 'apicenter' = 'custom';
+
+    if (props.data.source) {
+      const api = props.data.source;
+      const url =
+        typeof api === 'string'
+          ? api
+          : typeof api === 'object'
+          ? api.url || ''
+          : '';
+
+      source = !url.indexOf('api://') ? 'apicenter' : 'api';
+    }
+
     this.state = {
       options: this.transformOptions(props),
       api: props.data.source,
       labelField: props.data.labelField,
       valueField: props.data.valueField,
-      source: props.data.source ? 'api' : 'custom'
+      source
     };
   }
 
@@ -209,7 +216,7 @@ export default class OptionControl extends React.Component<
       data.value = defaultValue || undefined;
     }
 
-    if (source === 'api') {
+    if (source === 'api' || source === 'apicenter') {
       const {api, labelField, valueField} = this.state;
       data.source = api;
       data.labelField = labelField;
@@ -296,7 +303,7 @@ export default class OptionControl extends React.Component<
    * 切换选项类型
    */
   @autobind
-  handleSourceChange(source: 'custom' | 'api' | 'form') {
+  handleSourceChange(source: 'custom' | 'api' | 'apicenter') {
     this.setState({source: source}, this.onChange);
   }
 
@@ -396,8 +403,15 @@ export default class OptionControl extends React.Component<
   }
 
   renderHeader() {
-    const {render, label, labelRemark, useMobileUI, env, popOverContainer} =
-      this.props;
+    const {
+      render,
+      label,
+      labelRemark,
+      useMobileUI,
+      env,
+      popOverContainer,
+      hasApiCenter
+    } = this.props;
     const classPrefix = env?.theme?.classPrefix;
     const {source} = this.state;
     const optionSourceList = (
@@ -407,16 +421,17 @@ export default class OptionControl extends React.Component<
           value: 'custom'
         },
         {
-          label: '接口获取',
+          label: '外部接口',
           value: 'api'
-        }
+        },
+        ...(hasApiCenter ? [{label: 'API中心', value: 'apicenter'}] : [])
         // {
         //   label: '表单实体',
         //   value: 'form'
         // }
       ] as Array<{
         label: string;
-        value: 'custom' | 'api' | 'form';
+        value: 'custom' | 'api' | 'apicenter';
       }>
     ).map(item => ({
       ...item,
@@ -470,6 +485,7 @@ export default class OptionControl extends React.Component<
 
   renderOption(props: any) {
     const {checked, index, editing, multipleProps, closeDefaultCheck} = props;
+    const render = this.props.render;
     const ctx: Partial<TextControlSchema> = this.props.data;
     const isMultiple = ctx?.multiple === true || multipleProps;
 
@@ -479,7 +495,7 @@ export default class OptionControl extends React.Component<
 
     const editDom = editing ? (
       <div className="ae-OptionControlItem-extendMore">
-        {amisRender({
+        {render('option', {
           type: 'container',
           className: 'ae-ExtendMore right mb-2',
           body: [
@@ -492,7 +508,6 @@ export default class OptionControl extends React.Component<
             },
             {
               type: 'input-text',
-              name: 'label',
               placeholder: '请输入显示文本',
               label: '文本',
               mode: 'horizontal',
@@ -607,19 +622,25 @@ export default class OptionControl extends React.Component<
             value={label}
             placeholder="请输入文本/值"
             clearable={false}
-            onChange={value => this.handleEditLabel(index, value)}
+            onChange={(value: string) => this.handleEditLabel(index, value)}
           />
-          {amisRender({
-            type: 'dropdown-button',
-            className: 'ae-OptionControlItem-dropdown',
-            btnClassName: 'px-2',
-            icon: 'fa fa-ellipsis-h',
-            hideCaret: true,
-            closeOnClick: true,
-            align: 'right',
-            menuClassName: 'ae-OptionControlItem-ulmenu',
-            buttons: operationBtn
-          })}
+          {render(
+            'dropdown',
+            {
+              type: 'dropdown-button',
+              className: 'ae-OptionControlItem-dropdown',
+              btnClassName: 'px-2',
+              icon: 'fa fa-ellipsis-h',
+              hideCaret: true,
+              closeOnClick: true,
+              align: 'right',
+              menuClassName: 'ae-OptionControlItem-ulmenu',
+              buttons: operationBtn
+            },
+            {
+              popOverContainer: null // amis 渲染挂载节点会使用 this.target
+            }
+          )}
         </div>
         {editDom}
       </li>
@@ -698,7 +719,7 @@ export default class OptionControl extends React.Component<
   renderApiPanel() {
     const {render} = this.props;
     const {source, api, labelField, valueField} = this.state;
-    if (source !== 'api') {
+    if (source === 'custom') {
       return null;
     }
 
@@ -707,10 +728,12 @@ export default class OptionControl extends React.Component<
       getSchemaTpl('apiControl', {
         label: '接口',
         name: 'source',
+        mode: 'normal',
         className: 'ae-ExtendMore',
         visibleOn: 'data.autoComplete !== false',
         value: api,
         onChange: this.handleAPIChange,
+        sourceType: source,
         footer: [
           {
             label: tipedLabel(
@@ -764,7 +787,7 @@ export default class OptionControl extends React.Component<
                 添加选项
               </Button>
               {/* {render('option-control-batchAdd', this.buildBatchAddSchema())} */}
-              {amisRender(this.buildBatchAddSchema(), {
+              {render('inner', this.buildBatchAddSchema(), {
                 onSubmit: this.handleBatchAdd
               })}
             </div>

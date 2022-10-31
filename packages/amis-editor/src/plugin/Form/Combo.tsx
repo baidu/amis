@@ -15,10 +15,7 @@ import React from 'react';
 import {diff, JSONPipeIn} from 'amis-editor-core';
 import {JSONPipeOut} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
-import {
-  RendererPluginEvent,
-  RendererPluginAction
-} from 'amis-editor-core';
+import {RendererPluginEvent, RendererPluginAction} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 
 export class ComboControlPlugin extends BasePlugin {
@@ -109,6 +106,10 @@ export class ComboControlPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '现有组合项的值'
+            },
+            'event.data.item': {
+              type: 'object',
+              title: '被删除的项'
             }
           }
         }
@@ -125,6 +126,14 @@ export class ComboControlPlugin extends BasePlugin {
             'event.data.key': {
               type: 'string',
               title: '选项卡索引'
+            },
+            'event.data.value': {
+              type: 'string',
+              title: '现有组合项的值'
+            },
+            'event.data.item': {
+              type: 'object',
+              title: '被激活的项'
             }
           }
         }
@@ -490,14 +499,26 @@ export class ComboControlPlugin extends BasePlugin {
         name: 'lazyLoad',
         label: '懒加载',
         pipeIn: defaultValue(false),
-        description: '如果数据比较多，比较卡顿时，可开启此配置项'
+        labelRemark: {
+          className: 'm-l-xs',
+          trigger: 'click',
+          rootClose: true,
+          placement: 'left',
+          content: '如果数据比较多，比较卡顿时，可开启此配置项。'
+        }
       }),
 
       getSchemaTpl('switch', {
         name: 'strictMode',
         label: '严格模式',
         pipeIn: defaultValue(true),
-        description: '如果你希望环境变量的值实时透传到 Combo 中，请关闭此选项。'
+        labelRemark: {
+          className: 'm-l-xs',
+          trigger: 'click',
+          rootClose: true,
+          placement: 'left',
+          content: '如果你希望环境变量的值实时透传到 Combo 中，请关闭此选项。'
+        }
       }),
 
       {
@@ -515,8 +536,14 @@ export class ComboControlPlugin extends BasePlugin {
         name: 'nullable',
         label: '允许为空',
         pipeIn: defaultValue(false),
-        description:
-          '如果子表单项里面配置验证器，且又是单条模式。可以允许用户选择清空（不填）。'
+        labelRemark: {
+          className: 'm-l-xs',
+          trigger: 'click',
+          rootClose: true,
+          placement: 'left',
+          content:
+            '如果子表单项里面配置验证器，且又是单条模式。可以允许用户选择清空（不填）。'
+        }
       }),
 
       {

@@ -4,7 +4,7 @@
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 
 const DefaultSize = 40;
 const DefaultBorderRadius = 20;
@@ -54,7 +54,7 @@ export class AvatarPlugin extends BasePlugin {
           getSchemaTpl('collapseGroup', [
             {
               className: 'p-none',
-              title: '常用',
+              title: '基本',
               body: [
                 // 如果同时存在 src、text 和 icon，会优先用 src、接着 text、最后 icon
                 {
@@ -96,13 +96,11 @@ export class AvatarPlugin extends BasePlugin {
                   className: 'ae-ExtendMore mb-3',
                   body: [
                     // 图标
-                    {
-                      label: '图标',
+                    getSchemaTpl('icon', {
                       name: 'icon',
-                      type: 'icon-picker',
-                      className: 'fix-icon-picker-overflow',
+                      label: '图标',
                       visibleOn: 'data.showtype === "icon"'
-                    },
+                    }),
                     // 图片
                     getSchemaTpl('valueFormula', {
                       rendererSchema: {

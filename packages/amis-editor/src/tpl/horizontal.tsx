@@ -1,5 +1,6 @@
 import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {isObject} from 'lodash';
+import {tipedLabel} from 'amis-editor-core';
 
 setSchemaTpl('horizontal-align', {
   type: 'button-group-select',
@@ -57,47 +58,51 @@ setSchemaTpl('leftRate', {
   }
 });
 
-setSchemaTpl('horizontal', () => {
-  return [
-    {
-      type: 'button-group-select',
-      label: '标题宽度',
-      name: 'horizontal',
-      options: [
-        {label: '继承', value: 'formHorizontal'},
-        {label: '固宽', value: 'leftFixed'},
-        {label: '比例', value: 'leftRate'}
-      ],
-      pipeIn(v: any) {
-        if (!v) {
-          return 'formHorizontal';
-        }
-        if (v.leftFixed) {
-          return 'leftFixed';
-        }
-        return 'leftRate';
-      },
-      pipeOut(v: any) {
-        const defaultData = {
-          formHorizontal: undefined,
-          leftFixed: {leftFixed: 'normal'},
-          leftRate: {left: 3, right: 9}
-        };
+setSchemaTpl(
+  'horizontal',
+  (config: {visibleOn: string; [propName: string]: any}) => {
+    return [
+      {
+        type: 'select',
+        label: '标题宽度',
+        name: 'horizontal',
+        options: [
+          {label: '继承', value: 'formHorizontal'},
+          {label: '固宽', value: 'leftFixed'},
+          {label: '比例', value: 'leftRate'}
+        ],
+        pipeIn(v: any) {
+          if (!v) {
+            return 'formHorizontal';
+          }
+          if (v.leftFixed) {
+            return 'leftFixed';
+          }
+          return 'leftRate';
+        },
+        pipeOut(v: any) {
+          const defaultData = {
+            formHorizontal: undefined,
+            leftFixed: {leftFixed: 'normal'},
+            leftRate: {left: 3, right: 9}
+          };
 
-        // @ts-ignore
-        return defaultData[v];
+          // @ts-ignore
+          return defaultData[v];
+        },
+        visibleOn: 'this.mode == "horizontal" && this.label !== false',
+        ...(isObject(config) ? config : {})
       },
-      visibleOn: 'this.mode == "horizontal" && this.label !== false'
-    },
-    {
-      type: 'container',
-      className: 'ae-ExtendMore mb-3',
-      visibleOn:
-        'this.mode == "horizontal" && this.horizontal && this.label !== false',
-      body: [getSchemaTpl('leftFixed'), getSchemaTpl('leftRate')]
-    }
-  ];
-});
+      {
+        type: 'container',
+        className: 'ae-ExtendMore mb-3',
+        visibleOn:
+          'this.mode == "horizontal" && this.horizontal && this.label !== false',
+        body: [getSchemaTpl('leftFixed'), getSchemaTpl('leftRate')]
+      }
+    ];
+  }
+);
 
 setSchemaTpl('subFormItemMode', {
   label: '子表单展示模式',

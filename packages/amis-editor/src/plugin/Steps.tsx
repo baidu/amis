@@ -45,7 +45,7 @@ export class StepsPlugin extends BasePlugin {
       {
         title: '常规',
         body: [
-          {
+          getSchemaTpl('combo-container', {
             name: 'steps',
             label: '步骤列表',
             type: 'combo',
@@ -76,7 +76,7 @@ export class StepsPlugin extends BasePlugin {
                 placeholder: '描述'
               }
             ]
-          },
+          }),
           {
             name: 'value',
             type: 'input-text',

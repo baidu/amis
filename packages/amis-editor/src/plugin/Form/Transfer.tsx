@@ -2,10 +2,10 @@ import {getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+
+import {ValidatorTag} from '../../validator';
+import {tipedLabel} from 'amis-editor-core';
 
 export class TransferPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -17,7 +17,7 @@ export class TransferPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-th-list';
   pluginIcon = 'transfer-plugin';
-  description = `穿梭器组件`;
+  description = '穿梭器组件';
   docLink = '/amis/zh-CN/components/form/transfer';
   tags = ['表单项'];
   scaffold = {
@@ -26,45 +26,16 @@ export class TransferPlugin extends BasePlugin {
     name: 'transfer',
     options: [
       {
-        label: '法师',
-        children: [
-          {
-            label: '诸葛亮',
-            value: 'zhugeliang'
-          }
-        ]
+        label: '诸葛亮',
+        value: 'zhugeliang'
       },
       {
-        label: '战士',
-        children: [
-          {
-            label: '曹操',
-            value: 'caocao'
-          },
-          {
-            label: '钟无艳',
-            value: 'zhongwuyan'
-          }
-        ]
-      },
-      {
-        label: '打野',
-        children: [
-          {
-            label: '李白',
-            value: 'libai'
-          },
-          {
-            label: '韩信',
-            value: 'hanxin'
-          },
-          {
-            label: '云中君',
-            value: 'yunzhongjun'
-          }
-        ]
+        label: '曹操',
+        value: 'caocao'
       }
-    ]
+    ],
+    selectMode: 'list',
+    resultListModeFollowSelect: false
   };
   previewSchema: any = {
     type: 'form',
@@ -92,6 +63,10 @@ export class TransferPlugin extends BasePlugin {
             'event.data.value': {
               type: 'string',
               title: '选中值'
+            },
+            'event.data.items': {
+              type: 'array',
+              title: '选项集合'
             }
           }
         }
@@ -105,9 +80,9 @@ export class TransferPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            'event.data.items': {
               type: 'array',
-              title: '选中值'
+              title: '选项集合'
             }
           }
         }
@@ -181,7 +156,9 @@ export class TransferPlugin extends BasePlugin {
     }
   };
 
-  // notRenderFormZone = true;
+  notRenderFormZone = true;
+
+  panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
     const renderer: any = context.info.renderer;
@@ -190,231 +167,194 @@ export class TransferPlugin extends BasePlugin {
       {
         title: '属性',
         body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('switchDefaultValue'),
-
           {
-            type: 'select',
-            name: 'value',
-            label: '默认值',
-            source: '${options}',
-            visibleOn: '!data.multiple && typeof this.value !== "undefined"'
-          },
-
-          {
-            type: 'select',
-            name: 'value',
-            label: '默认值',
-            source: '${options}',
-            multiple: true,
-            visibleOn: ' data.multiple && typeof this.value !== "undefined"'
-          },
-
-          {
-            label: '勾选展示模式',
-            name: 'selectMode',
-            type: 'select',
-            mode: 'inline',
-            className: 'w-full',
-            options: [
-              {
-                label: '列表形式',
-                value: 'list'
-              },
-              {
-                label: '表格形式',
-                value: 'table'
-              },
-              {
-                label: '树形选择形式',
-                value: 'tree'
-              },
-              {
-                label: '级联选择形式',
-                value: 'chained'
-              },
-              {
-                label: '关联选择形式',
-                value: 'associated'
-              }
+            title: '基本',
+            body: [
+              getSchemaTpl('formItemName', {
+                required: true
+              }),
+              getSchemaTpl('label'),
+              getSchemaTpl('valueFormula', {
+                rendererSchema: {
+                  ...context?.schema,
+                  type: 'select',
+                  multiple: true
+                },
+                visibleOn: 'data.options.length > 0'
+              }),
+              getSchemaTpl('labelRemark'),
+              getSchemaTpl('remark'),
+              getSchemaTpl('description'),
+              getSchemaTpl('switch', {
+                label: '统计数据',
+                name: 'statistics'
+              })
             ]
           },
-
           {
-            name: 'columns',
-            type: 'combo',
-            multiple: true,
-            label: false,
-            strictMode: false,
-            addButtonText: '新增一列',
-            draggable: false,
-            visibleOn: 'data.selectMode === "table"',
-            items: [
-              {
-                type: 'input-text',
-                name: 'label',
-                placeholder: '标题'
-              },
-              {
-                type: 'input-text',
-                name: 'name',
-                placeholder: '绑定字段名'
-              },
-              {
-                type: 'select',
-                name: 'type',
-                placeholder: '类型',
-                value: 'input-text',
-                options: [
-                  {
-                    value: 'text',
-                    label: '纯文本'
-                  },
-                  {
-                    value: 'tpl',
-                    label: '模板'
-                  },
-                  {
-                    value: 'image',
-                    label: '图片'
-                  },
-                  {
-                    value: 'date',
-                    label: '日期'
-                  },
-                  {
-                    value: 'progress',
-                    label: '进度'
-                  },
-                  {
-                    value: 'status',
-                    label: '状态'
-                  },
-                  {
-                    value: 'mapping',
-                    label: '映射'
-                  },
-                  {
-                    value: 'operation',
-                    label: '操作栏'
-                  }
-                ]
-              }
-            ]
-          },
-
-          {
-            $ref: 'options',
-            label: '左边的选项集',
-            name: 'leftOptions',
-            visibleOn: 'data.selectMode === "associated"'
-          },
-
-          {
-            label: '左侧选择形式',
-            name: 'leftMode',
-            type: 'select',
-            mode: 'inline',
-            className: 'w-full',
-            visibleOn: 'data.selectMode === "associated"',
-            options: [
-              {
-                label: '列表形式',
-                value: 'list'
-              },
-              {
-                label: '树形选择形式',
-                value: 'tree'
-              }
-            ]
-          },
-
-          {
-            label: '右侧选择形式',
-            name: 'rightMode',
-            type: 'select',
-            mode: 'inline',
-            className: 'w-full',
-            visibleOn: 'data.selectMode === "associated"',
-            options: [
-              {
-                label: '列表形式',
-                value: 'list'
-              },
-              {
-                label: '树形选择形式',
-                value: 'tree'
-              }
-            ]
-          },
-
-          getSchemaTpl('searchable'),
-
-          getSchemaTpl('api', {
-            label: '检索接口',
-            name: 'searchApi'
-          }),
-
-          {
-            label: '查询时勾选展示模式',
-            name: 'searchResultMode',
-            type: 'select',
-            mode: 'inline',
-            className: 'w-full',
-            options: [
-              {
-                label: '列表形式',
-                value: 'list'
-              },
-              {
-                label: '表格形式',
-                value: 'table'
-              },
-              {
-                label: '树形选择形式',
-                value: 'tree'
-              },
-              {
-                label: '级联选择形式',
-                value: 'chained'
-              }
-            ]
-          },
-
-          getSchemaTpl('sortable'),
-
-          getSchemaTpl('selectFirst'),
-
-          getSchemaTpl('switch', {
-            label: '是否显示统计数据',
-            name: 'statistics'
-          }),
-
-          {
-            label: '左侧的标题文字',
-            name: 'selectTitle',
-            type: 'input-text'
-          },
-
-          {
-            label: '右侧结果的标题文字',
-            name: 'resultTitle',
-            type: 'input-text'
-          },
-
-          getSchemaTpl('fieldSet', {
-            title: '选项',
+            title: '左侧选项面板',
             body: [
               {
-                $ref: 'options',
-                name: 'options'
+                label: '展示形式',
+                name: 'selectMode',
+                type: 'select',
+                options: [
+                  {
+                    label: '列表形式',
+                    value: 'list'
+                  },
+                  {
+                    label: '表格形式',
+                    value: 'table'
+                  },
+                  {
+                    label: '树形形式',
+                    value: 'tree'
+                  }
+                ],
+                onChange: (value: any, origin: any, item: any, form: any) => {
+                  form.setValues({
+                    options: undefined,
+                    columns: undefined,
+                    value: '',
+                    valueTpl: ''
+                  });
+                  // 主要解决直接设置value、valueTpl为undefined配置面板不生效问题，所以先设置''，后使用setTimout设置为undefined
+                  setTimeout(() => {
+                    form.setValues({
+                      value: undefined,
+                      valueTpl: undefined
+                    });
+                  }, 100);
+                }
               },
-              getSchemaTpl('source'),
-              getSchemaTpl('joinValues'),
-              getSchemaTpl('delimiter'),
-              getSchemaTpl('extractValue'),
-              getSchemaTpl('autoFill')
+
+              getSchemaTpl('optionControl', {
+                visibleOn: 'data.selectMode === "list"',
+                multiple: true
+              }),
+
+              {
+                type: 'ae-transferTableControl',
+                label: '数据',
+                visibleOn: 'data.selectMode === "table"',
+                mode: 'normal',
+                // 自定义change函数
+                onValueChange: (
+                  type: 'options' | 'columns',
+                  data: any,
+                  onBulkChange: Function
+                ) => {
+                  if (type === 'options') {
+                    onBulkChange(data);
+                  } else if (type === 'columns') {
+                    const columns = data.columns;
+                    if (data.columns.length > 0) {
+                      data.valueTpl = `\${${columns[0].name}}`;
+                    }
+                    onBulkChange(data);
+                  }
+                }
+              },
+
+              getSchemaTpl('treeOptionControl', {
+                visibleOn: 'data.selectMode === "tree"'
+              }),
+
+              getSchemaTpl('switch', {
+                label: '可检索',
+                name: 'searchable'
+              }),
+
+              getSchemaTpl('menuTpl', {
+                label: tipedLabel(
+                  '模板',
+                  '左侧选项渲染模板，支持JSX，变量使用\\${xx}'
+                ),
+                visibleOn: 'data.selectMode !== "table"'
+              }),
+
+              getSchemaTpl('formulaControl', {
+                label: '标题',
+                name: 'selectTitle',
+                type: 'input-text',
+                inputClassName: 'is-inline '
+              })
             ]
-          })
+          },
+          {
+            title: '右侧结果面板',
+            body: [
+              {
+                type: 'button-group-select',
+                label: '展示形式',
+                name: 'resultListModeFollowSelect',
+                inputClassName: 'items-center',
+                options: [
+                  {label: '列表形式', value: false},
+                  {label: '跟随左侧', value: true}
+                ],
+                onChange: (value: any, origin: any, item: any, form: any) => {
+                  form.setValueByName('sortable', !value ? true : undefined);
+                }
+              },
+              getSchemaTpl('switch', {
+                label: tipedLabel(
+                  '可检索',
+                  '查询功能目前只支持根据名称或值来模糊匹配查询'
+                ),
+                name: 'resultSearchable'
+              }),
+              getSchemaTpl('sortable', {
+                label: '支持排序',
+                mode: 'horizontal',
+                horizontal: {
+                  justify: true,
+                  left: 8
+                },
+                inputClassName: 'is-inline',
+                visibleOn:
+                  'data.selectMode === "list" && !data.resultListModeFollowSelect'
+              }),
+
+              getSchemaTpl('menuTpl', {
+                name: 'valueTpl',
+                label: tipedLabel(
+                  '模板',
+                  '结果选项渲染模板，支持JSX，变量使用\\${xx}'
+                ),
+                visibleOn:
+                  '!(data.selectMode === "table" && data.resultListModeFollowSelect)'
+              }),
+
+              getSchemaTpl('formulaControl', {
+                label: '标题',
+                name: 'resultTitle',
+                type: 'input-text',
+                inputClassName: 'is-inline '
+              })
+            ]
+          },
+          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
+        ])
+      },
+      {
+        title: '外观',
+        body: getSchemaTpl('collapseGroup', [
+          getSchemaTpl('style:formItem', renderer),
+          getSchemaTpl('style:classNames', [
+            getSchemaTpl('className', {
+              label: '描述',
+              name: 'descriptionClassName',
+              visibleOn: 'this.description'
+            }),
+            getSchemaTpl('className', {
+              name: 'addOn.className',
+              label: 'AddOn',
+              visibleOn: 'this.addOn && this.addOn.type === "text"'
+            })
+          ])
         ])
       },
       {

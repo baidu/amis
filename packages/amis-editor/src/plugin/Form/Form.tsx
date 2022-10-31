@@ -10,10 +10,7 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {jsonToJsonSchema} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {setVariable} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
@@ -141,7 +138,7 @@ export class FormPlugin extends BasePlugin {
   scaffoldForm: ScaffoldForm = {
     title: '快速创建表单',
     body: [
-      getSchemaTpl('api', {
+      getSchemaTpl('apiControl', {
         label: '提交地址'
       }),
       {
@@ -217,7 +214,7 @@ export class FormPlugin extends BasePlugin {
   events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
-      eventLabel: '初始化完成',
+      eventLabel: '初始化接口请求成功',
       description: '远程初始化接口请求成功时触发',
       // 表单数据为表单变量
       dataSchema: [
@@ -226,7 +223,7 @@ export class FormPlugin extends BasePlugin {
           properties: {
             'event.data': {
               type: 'object',
-              title: 'initApi 远程请求返回的初始化数据'
+              title: '初始化接口请求成功返回的数据'
             }
           }
         }
@@ -312,17 +309,34 @@ export class FormPlugin extends BasePlugin {
         }
       ]
     },
+    // {
+    //   eventName: 'submit',
+    //   eventLabel: '表单提交',
+    //   strongDesc: '配置该事件后将不会触发表单提交时默认的校验、提交到api或者target等行为，所有行为需要自己配置',
+    //   dataSchema: [
+    //     {
+    //       type: 'object',
+    //       properties: {
+    //         'event.data': {
+    //           type: 'object',
+    //           title: '当前表单数据'
+    //         }
+    //       }
+    //     }
+    //   ]
+    // },
     {
       eventName: 'submitSucc',
       eventLabel: '提交成功',
-      description: '表单提交请求成功后触发',
+      description:
+        '表单提交成功后触发，如果事件源是按钮，且按钮的类型为“提交”，那么即便当前表单没有配置“保存接口”也将触发提交成功事件',
       dataSchema: [
         {
           type: 'object',
           properties: {
             'event.data.result': {
               type: 'object',
-              title: '提交成功后返回的数据'
+              title: '保存接口请求成功后返回的数据'
             }
           }
         }
@@ -338,7 +352,7 @@ export class FormPlugin extends BasePlugin {
           properties: {
             'event.data.error': {
               type: 'object',
-              title: '提交失败后返回的错误信息'
+              title: '保存接口请求失败后返回的错误信息'
             }
           }
         }
@@ -417,6 +431,18 @@ export class FormPlugin extends BasePlugin {
             }),
 
             getSchemaTpl('submitOnChange'),
+
+            getSchemaTpl('switch', {
+              label: '禁用回车提交表单',
+              name: 'preventEnterSubmit',
+              labelRemark: {
+                className: 'm-l-xs',
+                trigger: 'click',
+                rootClose: true,
+                content: '设置后无法通过键盘 “回车” 按键进行表单提交',
+                placement: 'left'
+              }
+            }),
 
             getSchemaTpl('switch', {
               label: '提交完后重置表单',
@@ -537,10 +563,10 @@ export class FormPlugin extends BasePlugin {
           : {
               title: '接口',
               body: [
-                getSchemaTpl('api', {
+                getSchemaTpl('apiControl', {
                   label: '保存接口',
                   description: '用来保存表单数据',
-                  sampleBuilder: (schema: any) => `{
+                  sampleBuilder: () => `{
     "status": 0,
     "msg": "",
 
@@ -566,7 +592,7 @@ export class FormPlugin extends BasePlugin {
                   pipeOut: (value: any) => (value ? '' : undefined)
                 }),
 
-                getSchemaTpl('api', {
+                getSchemaTpl('apiControl', {
                   name: 'asyncApi',
                   label: '异步检测接口',
                   visibleOn: 'data.asyncApi != null',
@@ -578,14 +604,15 @@ export class FormPlugin extends BasePlugin {
                   type: 'divider'
                 },
 
-                getSchemaTpl('api', {
+                getSchemaTpl('apiControl', {
                   name: 'initApi',
                   label: '初始化接口',
                   description: '用来初始化表单数据',
-                  sampleBuilder: (schema: any) => {
+                  sampleBuilder: () => {
                     const data = {};
+                    const schema = context?.schema;
 
-                    if (Array.isArray(schema.body)) {
+                    if (Array.isArray(schema?.body)) {
                       schema.body.forEach((control: any) => {
                         if (
                           control.name &&
@@ -659,7 +686,7 @@ export class FormPlugin extends BasePlugin {
                   pipeOut: (value: any) => (value ? '' : undefined)
                 }),
 
-                getSchemaTpl('api', {
+                getSchemaTpl('apiControl', {
                   name: 'initAsyncApi',
                   label: '异步检测接口',
                   visibleOn: 'data.initAsyncApi != null',
@@ -785,6 +812,11 @@ export class FormPlugin extends BasePlugin {
             getSchemaTpl('className'),
 
             getSchemaTpl('className', {
+              name: 'staticClassName',
+              label: '静态展示时 的 CSS 类名'
+            }),
+
+            getSchemaTpl('className', {
               name: 'panelClassName',
               visibleOn: 'this.wrapWithPanel !== false',
               label: 'Panel 的 CSS 类名',
@@ -818,7 +850,8 @@ export class FormPlugin extends BasePlugin {
             }),
 
             getSchemaTpl('disabled'),
-            getSchemaTpl('visible')
+            getSchemaTpl('visible'),
+            getSchemaTpl('static')
           ]
         }
       ])
@@ -891,8 +924,8 @@ export class FormPlugin extends BasePlugin {
         ...jsonToJsonSchema(data)
       };
 
-      scope.removeSchema(jsonschema.$id);
-      scope.addSchema(jsonschema);
+      scope?.removeSchema(jsonschema.$id);
+      scope?.addSchema(jsonschema);
     }
   }
 }

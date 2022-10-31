@@ -1,7 +1,7 @@
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../validator';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
@@ -216,7 +216,7 @@ export class ProgressPlugin extends BasePlugin {
                   form.setValueByName('stripe', value === 'stripe');
                 }
               },
-              {
+              getSchemaTpl('combo-container', {
                 name: 'map',
                 type: 'combo',
                 mode: 'normal',
@@ -252,7 +252,7 @@ export class ProgressPlugin extends BasePlugin {
                 pipeIn: (value: any) => {
                   return Array.isArray(value) ? value : [];
                 }
-              }
+              })
             ]
           },
           getSchemaTpl('style:classNames', {

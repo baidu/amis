@@ -13,7 +13,7 @@ import isString from 'lodash/isString';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import cx from 'classnames';
-import {FormItem, Button, InputBox, Icon, render, ResultBox} from 'amis';
+import {FormItem, Button, InputBox, Icon, ResultBox} from 'amis';
 import {FormulaExec, isExpression} from 'amis';
 import {PickerContainer} from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
@@ -147,6 +147,11 @@ export default class FormulaControl extends React.Component<
         }
       });
     }
+    if (this.props.data !== prevProps.data) {
+      this.setState({
+        variables: dataMapping(this.props.variables, this.props.data)
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -214,6 +219,7 @@ export default class FormulaControl extends React.Component<
     if (value === null || value === undefined) {
       return true; // 数值为空不进行类型识别
     }
+    const {rendererSchema} = this.props;
     const expectType = this.props.valueType;
 
     if (expectType === null || expectType === undefined) {
@@ -224,6 +230,16 @@ export default class FormulaControl extends React.Component<
     const curData = this.getContextData();
 
     if (
+      rendererSchema.type === 'switch' &&
+      (rendererSchema.trueValue !== undefined ||
+        rendererSchema.falseValue !== undefined)
+    ) {
+      // 开关类型组件单独处理
+      return (
+        rendererSchema.trueValue === value ||
+        rendererSchema.falseValue === value
+      );
+    } else if (
       (expectType === 'number' && isNumber(value)) ||
       (expectType === 'boolean' && isBoolean(value)) ||
       (expectType === 'object' && isPlainObject(value)) ||
@@ -255,7 +271,14 @@ export default class FormulaControl extends React.Component<
     const {node, manager} = this.props.formProps || this.props;
     await manager?.getContextSchemas(node);
     const dataPropsAsOptions = manager?.dataSchema?.getDataPropsAsOptions();
-    return dataPropsAsOptions || [];
+
+    if (dataPropsAsOptions) {
+      return dataPropsAsOptions.map((item: any) => ({
+        selectMode: 'tree',
+        ...item
+      }));
+    }
+    return [];
   }
 
   @autobind
@@ -287,8 +310,7 @@ export default class FormulaControl extends React.Component<
     let curRendererSchema: any = null;
     if (rendererSchema) {
       curRendererSchema = Object.assign({}, rendererSchema, data, {
-        type: rendererSchema.type ?? data.type,
-        value: this.props.value ?? rendererSchema.value ?? data.value
+        type: rendererSchema.type ?? data.type
       });
 
       // 默认要剔除的字段
@@ -321,7 +343,8 @@ export default class FormulaControl extends React.Component<
         'suffix',
         'unitOptions',
         'keyboard',
-        'kilobitSeparator'
+        'kilobitSeparator',
+        'value'
       ];
 
       // 当前组件要剔除的字段
@@ -349,19 +372,23 @@ export default class FormulaControl extends React.Component<
       // 设置统一的占位提示
       if (curRendererSchema.type === 'select') {
         curRendererSchema.placeholder = '请选择默认值';
+        curRendererSchema.inputClassName =
+          'ae-editor-FormulaControl-select-style';
       } else {
         curRendererSchema.placeholder = '请输入静态默认值';
       }
+
+      // 设置popOverContainer
+      curRendererSchema.popOverContainer = window.document.body;
     }
+
     return curRendererSchema;
   }
 
   @autobind
   renderFormulaValue(item: any) {
     const html = {__html: item.html};
-    {
-      /* bca-disable-next-line */
-    }
+    // bca-disable-next-line
     return <span dangerouslySetInnerHTML={html}></span>;
   }
 
@@ -389,6 +416,7 @@ export default class FormulaControl extends React.Component<
       rendererWrapper,
       manager,
       useExternalFormData = false,
+      render,
       ...rest
     } = this.props;
 
@@ -444,21 +472,17 @@ export default class FormulaControl extends React.Component<
               rendererWrapper ? 'border-wrapper' : ''
             )}
           >
-            {render(
-              this.filterCustomRendererProps(rendererSchema),
-              {
-                data: useExternalFormData
-                  ? {
-                      ...this.props.data
-                    }
-                  : {},
-                onChange: this.handleSimpleInputChange,
-                manager: manager
-              },
-              {
-                ...(manager?.env || {})
-              }
-            )}
+            {render('inner', this.filterCustomRendererProps(rendererSchema), {
+              inputOnly: true,
+              value: value,
+              data: useExternalFormData
+                ? {
+                    ...this.props.data
+                  }
+                : {},
+              onChange: this.handleSimpleInputChange,
+              manager: manager
+            })}
           </div>
         )}
         {!simple && isExpr && (
@@ -480,7 +504,13 @@ export default class FormulaControl extends React.Component<
         )}
         <PickerContainer
           showTitle={false}
-          bodyRender={({onClose, value, onChange}) => {
+          bodyRender={({
+            value,
+            onChange
+          }: {
+            onChange: (value: any) => void;
+            value: any;
+          }) => {
             return (
               <FormulaEditor
                 {...rest}
@@ -498,7 +528,7 @@ export default class FormulaControl extends React.Component<
           onConfirm={this.handleConfirm}
           size="md"
         >
-          {({onClick, isOpened}) => (
+          {({onClick}: {onClick: (e: React.MouseEvent) => void}) => (
             <Button
               size="sm"
               tooltip={'点击配置表达式'}

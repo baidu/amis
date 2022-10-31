@@ -22,6 +22,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
   tags = ['表单项', '按钮'];
   scaffold = {
     type: 'button-toolbar',
+    label: '按钮工具栏',
     buttons: [
       {
         type: 'button',
@@ -40,8 +41,7 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
     wrapWithPanel: false,
     mode: 'horizontal',
     body: {
-      ...this.scaffold,
-      label: '按钮工具栏'
+      ...this.scaffold
     }
   };
 
@@ -59,58 +59,81 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
 
   panelTitle = '工具栏';
 
+  panelJustify = true;
+
   panelBodyCreator = (context: BaseEventContext) => {
-    return formItemControl(
+    return getSchemaTpl('tabs', [
       {
-        common: {
-          replace: true,
-          body: [
-            getSchemaTpl('formItemName', {
-              required: true
-            }),
-            getSchemaTpl('label'),
-            getSchemaTpl('remark'),
-            getSchemaTpl('labelRemark'),
-            getSchemaTpl('description')
-          ]
-        },
-        option: {
-          title: '按钮管理',
-          replace: true,
-          body: [
+        title: '属性',
+        body: [
+          getSchemaTpl('collapseGroup', [
             {
-              name: 'buttons',
-              type: 'combo',
-              label: '',
-              multiple: true,
-              addable: true,
-              minLength: 1,
-              draggable: true,
-              draggableTip: '',
-              editable: false,
-              visibleOn: 'this.buttons && this.buttons.length',
-              items: [
-                {
-                  type: 'tpl',
-                  inline: false,
-                  tpl:
-                    '<span class="label label-default"><% if (data.type === "button-group") { %> 按钮组 <% } else { %><%= data.label %><% if (data.icon) { %><i class="<%= data.icon %>"/><% }%><% } %></span>'
-                }
-              ],
-              addButtonText: '新增按钮',
-              scaffold: {
-                type: 'button',
-                label: '按钮'
-              }
-            }
-          ]
-        },
-        event: {
-          hidden: false
-        }
+              title: '基本',
+              body: [
+                getSchemaTpl('label'),
+                getSchemaTpl('labelRemark'),
+                getSchemaTpl('remark'),
+                getSchemaTpl('description'),
+                getSchemaTpl('combo-container', {
+                  type: 'combo',
+                  label: '按钮管理',
+                  name: 'buttons',
+                  mode: 'normal',
+                  multiple: true,
+                  addable: true,
+                  minLength: 1,
+                  draggable: true,
+                  editable: false,
+                  items: [
+                    {
+                      type: 'tpl',
+                      inline: false,
+                      className: 'p-t-xs',
+                      tpl: `<span class="label label-default"><% if (data.type === "button-group") { %> ${'按钮组'} <% } else { %><%= data.label %><% if (data.icon) { %><i class="<%= data.icon %>"/><% }%><% } %></span>`
+                    }
+                  ],
+                  addButtonText: '新增按钮',
+                  scaffold: {
+                    type: 'button',
+                    label: '按钮'
+                  }
+                })
+              ]
+            },
+            getSchemaTpl('status')
+          ])
+        ]
       },
-      context
-    );
+      {
+        title: '外观',
+        body: [
+          getSchemaTpl('collapseGroup', [
+            {
+              title: '基本',
+              body: [
+                getSchemaTpl('formItemMode'),
+                getSchemaTpl('horizontal', {
+                  label: '',
+                  visibleOn:
+                    'data.mode == "horizontal" && data.label !== false && data.horizontal'
+                })
+              ]
+            },
+            getSchemaTpl('style:classNames', {
+              isFormItem: true,
+              unsupportStatic: true,
+              schema: [
+                getSchemaTpl('className', {
+                  label: '描述',
+                  name: 'descriptionClassName',
+                  visibleOn: 'this.description'
+                })
+              ]
+            })
+          ])
+        ]
+      }
+    ]);
   };
 }
 

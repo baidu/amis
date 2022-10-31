@@ -1,13 +1,16 @@
 import {ContainerWrapper} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BaseEventContext, BasePlugin} from 'amis-editor-core';
-import {getSchemaTpl} from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
 import {
-  RendererPluginAction,
-  RendererPluginEvent
+  BaseEventContext,
+  BasePlugin,
+  getSchemaTpl,
+  defaultValue
 } from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control/helper';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import type {SchemaObject} from 'amis/lib/Schema';
+import {tipedLabel} from 'amis-editor-core';
+import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 
 export class PagePlugin extends BasePlugin {
   // 关联渲染器名字
@@ -26,6 +29,7 @@ export class PagePlugin extends BasePlugin {
   // pluginIcon = 'page-plugin'; // 暂无新 icon
   scaffold: SchemaObject = {
     type: 'page',
+    regions: ['body'],
     body: [
       {
         type: 'tpl',
@@ -46,7 +50,7 @@ export class PagePlugin extends BasePlugin {
   events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
-      eventLabel: '初始化完成',
+      eventLabel: '初始化接口请求成功',
       description: '远程初始化接口请求成功时触发',
       dataSchema: [
         {
@@ -54,7 +58,7 @@ export class PagePlugin extends BasePlugin {
           properties: {
             'event.data': {
               type: 'object',
-              title: '远程请求返回的初始化数据'
+              title: '初始化接口请求成功返回的数据'
             }
           }
         }
@@ -90,170 +94,170 @@ export class PagePlugin extends BasePlugin {
   wrapper = ContainerWrapper;
 
   panelTitle = '页面';
+  panelJustify = true;
+
   panelBodyCreator = (context: BaseEventContext) => {
     return [
       getSchemaTpl('tabs', [
         {
-          title: '常规',
+          title: '属性',
           body: [
-            {
-              type: 'checkboxes',
-              name: 'regions',
-              label: '区域展示',
-              pipeIn: (value: any) =>
-                Array.isArray(value)
-                  ? value
-                  : ['auto', 'body', 'toolbar', 'aside', 'header'],
-              pipeOut: (value: any) => {
-                return Array.isArray(value) && ~value.indexOf('auto')
-                  ? undefined
-                  : value.length
-                  ? value
-                  : ['auto', 'body', 'toolbar', 'aside', 'header'];
+            getSchemaTpl('collapseGroup', [
+              {
+                title: '基本',
+                body: [
+                  {
+                    type: 'checkboxes',
+                    name: 'regions',
+                    label: '区域展示',
+                    pipeIn: (value: any) =>
+                      Array.isArray(value)
+                        ? value
+                        : ['body', 'toolbar', 'aside', 'header'],
+                    pipeOut: (value: any) => {
+                      return Array.isArray(value) && value.length
+                        ? value
+                        : ['body', 'toolbar', 'aside', 'header'];
+                    },
+                    joinValues: false,
+                    extractValue: true,
+                    inline: false,
+                    options: [
+                      {
+                        label: '内容区',
+                        value: 'body'
+                      },
+                      {
+                        label: '标题栏',
+                        value: 'header'
+                      },
+                      {
+                        label: '工具栏',
+                        value: 'toolbar'
+                      },
+                      {
+                        label: '边栏',
+                        value: 'aside'
+                      }
+                    ]
+                  },
+                  {
+                    label: '页面标题',
+                    name: 'title',
+                    type: 'input-text'
+                  },
+                  {
+                    label: '副标题',
+                    name: 'subTitle',
+                    type: 'textarea'
+                  },
+                  getSchemaTpl('remark', {
+                    label: '标题提示',
+                    hiddenOn:
+                      'data.regions && !data.regions.includes("header") || !data.title'
+                  }),
+                  {
+                    type: 'ae-Switch-More',
+                    name: 'asideResizor',
+                    mode: 'normal',
+                    label: '边栏宽度可调节',
+                    hiddenOn: 'data.regions && !data.regions.includes("aside")',
+                    value: false,
+                    hiddenOnDefault: true,
+                    formType: 'extend',
+                    form: {
+                      body: [
+                        {
+                          type: 'input-number',
+                          label: '最小宽度',
+                          min: 0,
+                          name: 'asideMinWidth',
+                          pipeIn: defaultValue(160),
+                          pipeOut: (value: any) => value || 0
+                        },
+                        {
+                          type: 'input-number',
+                          label: '最大宽度',
+                          min: 0,
+                          name: 'asideMaxWidth',
+                          pipeIn: defaultValue(350),
+                          pipeOut: (value: any) => value || 0
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    type: 'switch',
+                    label: tipedLabel(
+                      '边栏固定',
+                      '边栏内容是否固定，即不跟随内容区滚动'
+                    ),
+                    name: 'asideSticky',
+                    inputClassName: 'is-inline',
+                    pipeIn: defaultValue(true),
+                    hiddenOn: 'data.regions && !data.regions.includes("aside")'
+                  }
+                ]
               },
-              joinValues: false,
-              extractValue: true,
-              inline: false,
-              options: [
-                {
-                  label: '自动',
-                  value: 'auto'
-                },
-                {
-                  label: '内容区',
-                  value: 'body',
-                  disabledOn:
-                    '!Array.isArray(this.regions) || ~this.regions.indexOf("auto")'
-                },
-                {
-                  label: '边栏',
-                  value: 'aside',
-                  disabledOn:
-                    '!Array.isArray(this.regions) ||~this.regions.indexOf("auto")'
-                },
-                {
-                  label: '工具栏',
-                  value: 'toolbar',
-                  disabledOn:
-                    '!Array.isArray(this.regions) ||~this.regions.indexOf("auto")'
-                },
-                {
-                  label: '顶部',
-                  value: 'header',
-                  disabledOn:
-                    '!Array.isArray(this.regions) ||~this.regions.indexOf("auto")'
-                }
-              ]
-            },
-
-            {
-              label: '标题',
-              name: 'title',
-              type: 'input-text'
-            },
-
-            {
-              label: '副标题',
-              name: 'subTitle',
-              type: 'input-text'
-            },
-
-            {
-              label: '提示',
-              name: 'remark',
-              type: 'textarea',
-              visibleOn: 'this.title',
-              description:
-                '标题附近会出现一个提示图标，鼠标放上去会提示该内容。'
-            },
-            getSchemaTpl('data')
-          ]
-        },
-
-        {
-          title: '接口',
-          body: [
-            getSchemaTpl('api', {
-              label: '数据初始化接口',
-              name: 'initApi',
-              sampleBuilder: (schema: any) => `{
-  "status": 0,
-  "msg": "",
-
-  data: {
-    // 示例数据
-    "id": 1,
-    "a": "sample"
-  }
-}`
-            }),
-
-            getSchemaTpl('initFetch'),
-
-            getSchemaTpl('switch', {
-              label: '开启定时刷新',
-              name: 'interval',
-              visibleOn: 'data.initApi',
-              pipeIn: (value: any) => !!value,
-              pipeOut: (value: any) => (value ? 3000 : undefined)
-            }),
-
-            {
-              name: 'interval',
-              type: 'input-number',
-              visibleOn: 'typeof this.interval === "number"',
-              step: 500
-            },
-
-            getSchemaTpl('switch', {
-              name: 'silentPolling',
-              label: '静默刷新',
-              visibleOn: '!!data.interval',
-              description: '设置自动定时刷新时是否显示loading'
-            }),
-
-            {
-              name: 'stopAutoRefreshWhen',
-              label: '停止定时刷新检测表达式',
-              type: 'input-text',
-              visibleOn: '!!data.interval',
-              description:
-                '定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则不刷新了。'
-            },
-
-            {
-              label: '默认消息提示',
-              type: 'combo',
-              name: 'messages',
-              multiLine: true,
-              description:
-                '设置 ajax 默认提示信息，当 ajax 没有返回 msg 信息时有用，如果 ajax 返回携带了 msg 值，则还是以 ajax 返回为主',
-              items: [
-                {
-                  label: '获取成功提示',
-                  type: 'input-text',
-                  name: 'fetchSuccess'
-                },
-
-                {
-                  label: '获取失败提示',
-                  type: 'input-text',
-                  name: 'fetchFailed'
-                },
-
-                {
-                  label: '保存成功提示',
-                  type: 'input-text',
-                  name: 'saveSuccess'
-                },
-
-                {
-                  label: '保存失败提示',
-                  type: 'input-text',
-                  name: 'saveFailed'
-                }
-              ]
-            }
+              {
+                title: '数据',
+                body: [
+                  getSchemaTpl('combo-container', {
+                    type: 'input-kv',
+                    mode: 'normal',
+                    name: 'data',
+                    label: '初始化静态数据'
+                  }),
+                  getSchemaTpl('apiControl', {
+                    name: 'initApi',
+                    labelClassName: 'none',
+                    label: tipedLabel(
+                      '初始化接口',
+                      '用来获取初始数据的 api, 返回的数据可以整个 page 级别使用'
+                    )
+                  })
+                ]
+              },
+              ,
+              {
+                title: '移动端',
+                body: [
+                  {
+                    type: 'combo',
+                    name: 'pullRefresh',
+                    mode: 'normal',
+                    noBorder: true,
+                    items: [
+                      {
+                        type: 'ae-Switch-More',
+                        mode: 'normal',
+                        label: '下拉刷新',
+                        name: 'disabled',
+                        formType: 'extend',
+                        value: true,
+                        trueValue: false,
+                        falseValue: true,
+                        autoFocus: false,
+                        form: {
+                          body: [
+                            {
+                              name: 'pullingText',
+                              label: tipedLabel('下拉文案', '下拉过程提示文案'),
+                              type: 'input-text'
+                            },
+                            {
+                              name: 'loosingText',
+                              label: tipedLabel('释放文案', '释放过程提示文案'),
+                              type: 'input-text'
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ])
           ]
         },
         {
@@ -261,27 +265,27 @@ export class PagePlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              ...getSchemaTpl('style:common'),
-              getSchemaTpl('style:className', {
+              ...getSchemaTpl('style:common', ['layout']),
+              getSchemaTpl('style:classNames', {
                 isFormItem: false,
                 schema: [
                   getSchemaTpl('className', {
                     name: 'headerClassName',
-                    label: '头部CSS类名'
+                    label: '顶部'
                   }),
                   getSchemaTpl('className', {
                     name: 'bodyClassName',
-                    label: '内容CSS类名'
+                    label: '内容区'
                   }),
 
                   getSchemaTpl('className', {
                     name: 'asideClassName',
-                    label: '边栏CSS类名'
+                    label: '边栏'
                   }),
 
                   getSchemaTpl('className', {
                     name: 'toolbarClassName',
-                    label: '工具栏CSS类名'
+                    label: '工具栏'
                   })
                 ]
               })
@@ -297,100 +301,77 @@ export class PagePlugin extends BasePlugin {
               ...getEventControlConfig(this.manager, context)
             })
           ]
-        },
-        {
-          title: '其他',
-          body: [
-            {
-              type: 'combo',
-              name: 'pullRefresh',
-              multiLine: true,
-              noBorder: true,
-              items: [
-                {
-                  type: 'switch',
-                  label: '移动端下拉刷新',
-                  name: 'disabled',
-                  mode: 'horizontal',
-                  horizontal: {
-                    justify: true,
-                    left: 8
-                  },
-                  inputClassName: 'is-inline ',
-                  trueValue: false,
-                  falseValue: true
-                },
-                {
-                  name: 'pullingText',
-                  label: '下拉过程提示文案',
-                  type: 'input-text',
-                  visibleOn: '!this.disabled'
-                },
-                {
-                  name: 'loosingText',
-                  label: '释放过程提示文案',
-                  type: 'input-text',
-                  visibleOn: '!this.disabled'
-                }
-              ]
-            }
-
-            // {
-            //   type: 'combo',
-            //   name: 'definitions',
-            //   multiple: true,
-            //   multiLine: true,
-            //   label: '定义',
-            //   description: '定义类型，定义完成后可被子节点引用。',
-            //   pipeIn: (value: any) =>
-            //     value
-            //       ? Object.keys(value).map(key => ({
-            //           key,
-            //           value: value[key]
-            //         }))
-            //       : [],
-            //   pipeOut: (value: any) =>
-            //     Array.isArray(value)
-            //       ? value.reduce(
-            //           (obj, current) => ({
-            //             ...obj,
-            //             [current.key || '']: current.value
-            //               ? current.value
-            //               : {type: 'tpl', tpl: '内容'}
-            //           }),
-            //           {}
-            //         )
-            //       : undefined,
-            //   items: [
-            //     {
-            //       type: 'input-text',
-            //       name: 'key',
-            //       label: 'Key',
-            //       required: true
-            //     },
-
-            //     {
-            //       children: ({index}: any) => (
-            //         <Button
-            //           size="sm"
-            //           level="danger"
-            //           // onClick={this.handleEditDefinitionDetail.bind(
-            //           //   this,
-            //           //   index
-            //           // )}
-            //           block
-            //         >
-            //           配置详情
-            //         </Button>
-            //       )
-            //     }
-            //   ]
-            // }
-          ]
         }
+
+        // {
+        //   type: 'combo',
+        //   name: 'definitions',
+        //   multiple: true,
+        //   multiLine: true,
+        //   label: '定义',
+        //   description: '定义类型，定义完成后可被子节点引用。',
+        //   pipeIn: (value: any) =>
+        //     value
+        //       ? Object.keys(value).map(key => ({
+        //           key,
+        //           value: value[key]
+        //         }))
+        //       : [],
+        //   pipeOut: (value: any) =>
+        //     Array.isArray(value)
+        //       ? value.reduce(
+        //           (obj, current) => ({
+        //             ...obj,
+        //             [current.key || '']: current.value
+        //               ? current.value
+        //               : {type: 'tpl', tpl: '内容'}
+        //           }),
+        //           {}
+        //         )
+        //       : undefined,
+        //   items: [
+        //     {
+        //       type: 'input-text',
+        //       name: 'key',
+        //       label: 'Key',
+        //       required: true
+        //     },
+
+        //     {
+        //       children: ({index}: any) => (
+        //         <Button
+        //           size="sm"
+        //           level="danger"
+        //           // onClick={this.handleEditDefinitionDetail.bind(
+        //           //   this,
+        //           //   index
+        //           // )}
+        //           block
+        //         >
+        //           配置详情
+        //         </Button>
+        //       )
+        //     }
+        //   ]
+        // }
+        // ]
+        // }
       ])
     ];
   };
+
+  rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
+    if (e === 'inited') {
+      const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+      const jsonschema: any = {
+        $id: 'pageInitedData',
+        ...jsonToJsonSchema(data)
+      };
+
+      scope?.removeSchema(jsonschema.$id);
+      scope?.addSchema(jsonschema);
+    }
+  }
 }
 
 registerEditorPlugin(PagePlugin);

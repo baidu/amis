@@ -1,15 +1,11 @@
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin} from 'amis-editor-core';
+import {BasePlugin, tipedLabel} from 'amis-editor-core';
 
 import type {BaseEventContext} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class TextareaControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -22,7 +18,7 @@ export class TextareaControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-paragraph';
   pluginIcon = 'textarea-plugin';
-  description = `支持换行输入`;
+  description = '支持换行输入';
   docLink = '/amis/zh-CN/components/form/textarea';
   tags = ['表单项'];
   scaffold = {
@@ -142,7 +138,8 @@ export class TextareaControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           getSchemaTpl('status', {

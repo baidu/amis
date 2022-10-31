@@ -1,21 +1,20 @@
 import {Button} from 'amis';
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
+  registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
-  RegionConfig,
-  RendererInfo
+  RendererPluginAction,
+  diff,
+  defaultValue,
+  getSchemaTpl,
+  CodeEditor as AmisCodeEditor
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl, } from 'amis-editor-core';
-import {diff} from 'amis-editor-core';
-import AMisCodeEditor from 'amis-editor-core';
-import {RendererPluginAction} from 'amis-editor-core';
 
 const ChartConfigEditor = ({value, onChange}: any) => {
   return (
     <div className="ae-JsonEditor">
-      <AMisCodeEditor value={value} onChange={onChange} />
+      <AmisCodeEditor value={value} onChange={onChange} />
     </div>
   );
 };

@@ -85,34 +85,6 @@ export class CRUDPlugin extends BasePlugin {
     }
   ];
 
-  sampleBuilder = (schema: any) => {
-    const data: any = {
-      items: [],
-      total: 0
-    };
-
-    if (Array.isArray(schema?.columns)) {
-      const item = {};
-      schema.columns.forEach((control: any) => {
-        if (control?.name) {
-          setVariable(item, control.name, 'sample');
-        }
-      });
-
-      data.items.push(item);
-    }
-
-    return JSON.stringify(
-      {
-        status: 0,
-        msg: '',
-        data: data
-      },
-      null,
-      2
-    );
-  };
-
   btnSchemas = {
     create: {
       label: '新增',
@@ -216,7 +188,7 @@ export class CRUDPlugin extends BasePlugin {
   scaffoldForm: ScaffoldForm = {
     title: '增删改查快速开始-CRUD',
     body: [
-      getSchemaTpl('api', {
+      getSchemaTpl('apiControl', {
         label: '接口地址',
         sampleBuilder: (schema: any) =>
           JSON.stringify(
@@ -270,7 +242,7 @@ export class CRUDPlugin extends BasePlugin {
             });
           } else {
             toast.warning(
-              `API返回格式不正确，请点击接口地址右侧示例的问号查看示例`
+              'API返回格式不正确，请点击接口地址右侧示例的问号查看示例'
             );
           }
         }
@@ -392,7 +364,10 @@ export class CRUDPlugin extends BasePlugin {
 
       valueSchema.bulkActions = [];
       /** 统一api格式 */
-      valueSchema.api = normalizeApi(valueSchema.api);
+      valueSchema.api =
+        typeof valueSchema.api === 'string'
+          ? normalizeApi(valueSchema.api)
+          : valueSchema.api;
       hasFeatures &&
         features.forEach((item: string) => {
           if (itemBtns.includes(item)) {
@@ -418,7 +393,7 @@ export class CRUDPlugin extends BasePlugin {
               );
             } else if (item === 'delete') {
               schema = cloneDeep(this.btnSchemas.delete);
-              schema.api = valueSchema.api?.method.match(/^(post|delete)$/i)
+              schema.api = valueSchema.api?.method?.match(/^(post|delete)$/i)
                 ? valueSchema.api
                 : {...valueSchema.api, method: 'post'};
             }
@@ -446,7 +421,7 @@ export class CRUDPlugin extends BasePlugin {
               const createSchemaBase = this.btnSchemas.create;
               createSchemaBase.dialog.body = {
                 type: 'form',
-                api: valueSchema.api?.method.match(/^(post|put)$/i)
+                api: valueSchema.api?.method?.match(/^(post|put)$/i)
                   ? valueSchema.api
                   : {...valueSchema.api, method: 'post'},
                 body: valueSchema.columns.map((column: ColumnItem) => {
@@ -552,6 +527,7 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'filter',
             label: '启用查询条件',
+            visibleOn: 'data.api && data.api.url',
             pipeIn: (value: any) => !!value,
             pipeOut: (value: any, originValue: any) => {
               if (value) {
@@ -577,10 +553,11 @@ export class CRUDPlugin extends BasePlugin {
           }),
 
           {
-            type: 'divider'
+            type: 'divider',
+            visibleOn: 'data.api && data.api.url'
           },
 
-          {
+          getSchemaTpl('combo-container', {
             label: '批量操作',
             name: 'bulkActions',
             type: 'combo',
@@ -622,7 +599,7 @@ export class CRUDPlugin extends BasePlugin {
                 )
               }
             ]
-          },
+          }),
 
           // getSchemaTpl('switch', {
           //   name: 'defaultChecked',
@@ -635,7 +612,7 @@ export class CRUDPlugin extends BasePlugin {
             type: 'divider'
           },
 
-          {
+          getSchemaTpl('combo-container', {
             label: '单条操作',
             name: 'itemActions',
             type: 'combo',
@@ -683,7 +660,7 @@ export class CRUDPlugin extends BasePlugin {
                 )
               }
             ]
-          },
+          }),
 
           {
             type: 'divider',
@@ -704,7 +681,7 @@ export class CRUDPlugin extends BasePlugin {
             }
           }),
 
-          {
+          getSchemaTpl('combo-container', {
             label: '默认参数',
             type: 'input-kv',
             name: 'defaultParams',
@@ -715,7 +692,7 @@ export class CRUDPlugin extends BasePlugin {
               content: '可以用来设置默认参数，比如 <code>perPage:20</code>',
               placement: 'left'
             }
-          },
+          }),
 
           {
             type: 'divider'
@@ -764,7 +741,7 @@ export class CRUDPlugin extends BasePlugin {
       {
         title: '接口',
         body: [
-          getSchemaTpl('api', {
+          getSchemaTpl('apiControl', {
             label: '数据拉取接口',
             sampleBuilder: () => {
               const data: any = {
@@ -890,7 +867,7 @@ export class CRUDPlugin extends BasePlugin {
             label: '是否可拖拽排序'
           }),
 
-          getSchemaTpl('api', {
+          getSchemaTpl('apiControl', {
             label: '顺序保存接口',
             name: 'saveOrderApi',
             visibleOn: 'data.draggable'
@@ -900,7 +877,7 @@ export class CRUDPlugin extends BasePlugin {
             type: 'divider'
           },
 
-          getSchemaTpl('api', {
+          getSchemaTpl('apiControl', {
             label: '快速保存接口',
             name: 'quickSaveApi',
             description:
@@ -911,7 +888,7 @@ export class CRUDPlugin extends BasePlugin {
             type: 'divider'
           },
 
-          getSchemaTpl('api', {
+          getSchemaTpl('apiControl', {
             label: '快速保存单条接口',
             name: 'quickSaveItemApi',
             description:
@@ -1115,7 +1092,7 @@ export class CRUDPlugin extends BasePlugin {
             ]
           },
 
-          {
+          getSchemaTpl('combo-container', {
             name: 'headerToolbar',
             type: 'combo',
             draggable: true,
@@ -1289,9 +1266,9 @@ export class CRUDPlugin extends BasePlugin {
               //   className: 'm-l-none'
               // }
             ]
-          },
+          }),
 
-          {
+          getSchemaTpl('combo-container', {
             name: 'footerToolbar',
             type: 'combo',
             draggable: true,
@@ -1467,7 +1444,7 @@ export class CRUDPlugin extends BasePlugin {
                 className: 'm-l-none'
               }
             ]
-          },
+          }),
 
           getSchemaTpl('switch', {
             name: 'filterTogglable',

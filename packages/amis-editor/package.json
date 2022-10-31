@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "5.2.0-beta.19",
+  "version": "5.2.1",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -8,8 +8,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
-    "build-webpack": "npm run clean-dist && webpack",
-    "clean-dist": "rimraf lib/* esm/*"
+    "clean-dist": "rimraf lib/* esm/*",
+    "i18n:update": "npx i18n update --config=./i18nConfig.js",
+    "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US",
+    "i18n:merge": "npx i18n merge --config=./i18nConfig.js --l=en-US"
   },
   "keywords": [
     "amis",
@@ -18,16 +20,21 @@
   "author": "@fex",
   "license": "ISC",
   "files": [
-    "lib"
+    "lib",
+    "esm"
   ],
   "lint-staged": {
     "{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}": [
       "prettier --write"
+    ],
+    "{src,scss,examples}/**/**/*.scss": [
+      "stylelint"
     ]
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "amis-editor-core": "*",
+    "i18n-runtime": "*",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
@@ -54,10 +61,10 @@
     "@types/sortablejs": "^1.10.7",
     "@types/tinycolor2": "^1.4.3",
     "ajv": "^8.8.2",
-    "amis": "^2.0.2",
-    "amis-core": "^2.0.2",
-    "amis-formula": "^2.0.2",
-    "amis-ui": "^2.0.2",
+    "amis": "2.3.2-beta.1",
+    "amis-core": "2.3.2-beta.1",
+    "amis-formula": "2.3.2-beta.1",
+    "amis-ui": "2.3.2-beta.1",
     "axios": "0.21.1",
     "concurrently": "^6.2.0",
     "css-loader": "^6.2.0",
@@ -88,6 +95,7 @@
     "sass": "^1.49.7",
     "sass-loader": "^12.5.0",
     "style-loader": "^3.2.1",
+    "stylelint": "^14.11.0",
     "ts-jest": "^28.0.3",
     "ts-json-schema-generator": "0.96.0",
     "ts-loader": "^9.2.5",
@@ -103,6 +111,7 @@
     "amis": "*",
     "amis-core": "*",
     "amis-formula": "*",
-    "amis-ui": "*"
+    "amis-ui": "*",
+    "i18n-runtime": "*"
   }
 }

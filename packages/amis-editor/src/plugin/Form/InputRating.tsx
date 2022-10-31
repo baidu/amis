@@ -5,14 +5,10 @@ import {
   undefinedPipeOut
 } from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
+import {BasePlugin, BaseEventContext, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class RateControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -24,7 +20,7 @@ export class RateControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-star-o';
   pluginIcon = 'input-rating-plugin';
-  description = `支持只读、半星选择`;
+  description = '支持只读、半星选择';
   docLink = '/amis/zh-CN/components/form/input-rating';
   tags = ['表单项'];
   scaffold = {
@@ -121,7 +117,6 @@ export class RateControlPlugin extends BasePlugin {
                 name: 'min',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.min,
                   type: 'input-number'
                 },
                 needDeleteProps: ['min'], // 避免自我限制
@@ -136,7 +131,6 @@ export class RateControlPlugin extends BasePlugin {
                 name: 'max',
                 rendererSchema: {
                   ...context?.schema,
-                  value: context?.schema.max,
                   type: 'input-number'
                 },
                 needDeleteProps: ['max'], // 避免自我限制
@@ -234,7 +228,8 @@ export class RateControlPlugin extends BasePlugin {
 
                   return res;
                 }
-              })
+              }),
+              getSchemaTpl('autoFillApi')
             ]
           },
           getSchemaTpl('status', {isFormItem: true, readonly: true}),

@@ -16,7 +16,7 @@ import {VRenderer} from 'amis-editor-core';
 import findIndex from 'lodash/findIndex';
 import {RegionWrapper as Region} from 'amis-editor-core';
 import {Tab} from 'amis';
-import {tipedLabel} from '../component/BaseControl';
+import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../validator';
 import {
   getArgsWrapper,
@@ -74,7 +74,7 @@ export class TabsPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            value: {
+            'event.data.value': {
               type: 'string',
               title: '选项卡索引'
             }
@@ -87,13 +87,12 @@ export class TabsPlugin extends BasePlugin {
   actions = [
     {
       actionType: 'changeActiveKey',
-      actionLabel: '修改激活tab值',
+      actionLabel: '激活指定选项卡',
       description: '修改当前激活tab项的key',
       config: ['activeKey'],
-      desc: (info: any) => {
+      descDetail: (info: any) => {
         return (
           <div>
-            <span className="variable-right">{info?.__rendererLabel}</span>
             激活第
             <span className="variable-left variable-right">
               {info?.args?.activeKey}
@@ -155,7 +154,18 @@ export class TabsPlugin extends BasePlugin {
                 ),
                 visibleOn: isNewTabMode,
                 clearValueOnHidden: true
-              })
+              }),
+
+              {
+                label: tipedLabel(
+                  '默认选项卡',
+                  '默认显示某个选项卡，选项卡配置hash时使用hash，否则使用索引值，支持获取变量，如：<code>tab\\${id}</code>、<code>\\${id}</code>'
+                ),
+                type: 'input-text',
+                name: 'activeKey',
+                pipeOut: (data: string) =>
+                  data === '' || isNaN(Number(data)) ? data : Number(data)
+              }
             ]
           },
           getSchemaTpl('status'),

@@ -7,7 +7,6 @@ import React from 'react';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import mapValues from 'lodash/mapValues';
-import {render as amisRender} from 'amis';
 import {fontFamilyList} from './font-family';
 import {string2CSSUnit, isObject} from 'amis-editor-core';
 
@@ -22,7 +21,7 @@ export interface FontProps extends FormControlProps {
 }
 
 const Font: React.FC<FontProps> = props => {
-  const {value, onChange} = props;
+  const {value, onChange, render} = props;
   const validProps = [
     'color',
     'fontFamily',
@@ -67,7 +66,8 @@ const Font: React.FC<FontProps> = props => {
 
   return (
     <>
-      {amisRender(
+      {render(
+        'inner',
         {
           type: 'form',
           wrapWithPanel: false,

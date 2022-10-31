@@ -10,10 +10,10 @@ import {
   BasicSubRenderInfo,
   RendererEventContext,
   SubRendererInfo,
-  BaseEventContext
+  BaseEventContext,
+  tipedLabel
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
-import {tipedLabel} from '../../component/BaseControl';
 import {
   RendererPluginAction,
   RendererPluginEvent
@@ -110,7 +110,7 @@ export class CheckboxControlPlugin extends BasePlugin {
               getSchemaTpl('label'),
               getSchemaTpl('option'),
               {
-                type: 'ae-Switch-More',
+                type: 'ae-switch-more',
                 hiddenOnDefault: false,
                 mode: 'normal',
                 label: '值格式',
@@ -152,7 +152,8 @@ export class CheckboxControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
-              getSchemaTpl('description')
+              getSchemaTpl('description'),
+              getSchemaTpl('autoFillApi')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

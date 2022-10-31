@@ -118,7 +118,8 @@ export enum ValidatorTag {
   Number = '7',
   File = '8',
   Date = '9',
-  Code = '10'
+  Code = '10',
+  Tree = '11'
 }
 
 registerValidator(
@@ -133,7 +134,8 @@ registerValidator(
       [ValidatorTag.Code]: ValidTagMatchType.isDefault,
       [ValidatorTag.Email]: ValidTagMatchType.isDefault,
       [ValidatorTag.Password]: ValidTagMatchType.isDefault,
-      [ValidatorTag.URL]: ValidTagMatchType.isDefault
+      [ValidatorTag.URL]: ValidTagMatchType.isDefault,
+      [ValidatorTag.Tree]: ValidTagMatchType.isDefault,
     }
   },
   {
@@ -208,7 +210,7 @@ registerValidator(
     label: '固定长度',
     name: 'isLength',
     group: ValidationGroup.Pattern,
-    message: '请输入长度为 $1 的内容',
+    message: '请输入长度为 \\$1 的内容',
     tag: {
       [ValidatorTag.Number]: ValidTagMatchType.isDefault,
       [ValidatorTag.Text]: ValidTagMatchType.isMore
@@ -226,7 +228,7 @@ registerValidator(
     label: '最大长度',
     name: 'maxLength',
     group: ValidationGroup.Pattern,
-    message: '请控制内容长度, 请不要输入 $1 个字符以上',
+    message: '请控制内容长度, 请不要输入 \\$1 个字符以上',
     tag: {
       [ValidatorTag.Text]: ValidTagMatchType.isDefault
     },
@@ -243,7 +245,7 @@ registerValidator(
   //   label: '最大个数',
   //   name: 'maxLength',
   //   group: ValidationGroup.Pattern,
-  //   message: '文件个数不可超过 $1 个',
+  //   message: '文件个数不可超过 \\$1 个',
   //   tag: {
   //     [ValidatorTag.File]: true
   //   },
@@ -259,7 +261,7 @@ registerValidator(
   //   label: '最小个数',
   //   name: 'minLength',
   //   group: ValidationGroup.Pattern,
-  //   message: '文件个数不可少于 $1 个',
+  //   message: '文件个数不可少于 \\$1 个',
   //   tag: {
   //     [ValidatorTag.File]: true
   //   },
@@ -275,7 +277,7 @@ registerValidator(
   //   label: '最大体积',
   //   group: ValidationGroup.Pattern,
   //   name: 'maxSize',
-  //   message: '文件体积不可超过 $1 Byte',
+  //   message: '文件体积不可超过 \\$1 Byte',
   //   tag: {
   //     [ValidatorTag.File]: true
   //   },
@@ -290,7 +292,7 @@ registerValidator(
     label: '最小长度',
     name: 'minLength',
     group: ValidationGroup.Pattern,
-    message: '请输入更多的内容，至少输入 $1 个字符',
+    message: '请输入更多的内容，至少输入 \\$1 个字符',
     tag: {
       [ValidatorTag.Text]: ValidTagMatchType.isDefault
     },
@@ -307,7 +309,7 @@ registerValidator(
     label: '最大值',
     name: 'maximum',
     group: ValidationGroup.Number,
-    message: '当前输入值超出最大值 $1，请检查',
+    message: '当前输入值超出最大值 \\$1，请检查',
     tag: {
       [ValidatorTag.Number]: ValidTagMatchType.isDefault,
       [ValidatorTag.Text]: ValidTagMatchType.isMore
@@ -325,7 +327,7 @@ registerValidator(
     label: '最小值',
     name: 'minimum',
     group: ValidationGroup.Number,
-    message: '当前输入值低于最小值 $1，请检查',
+    message: '当前输入值低于最小值 \\$1，请检查',
     tag: {
       [ValidatorTag.Number]: ValidTagMatchType.isDefault,
       [ValidatorTag.Text]: ValidTagMatchType.isMore
@@ -388,7 +390,7 @@ registerValidator(
     label: '与指定值相同',
     name: 'equals',
     group: ValidationGroup.Others,
-    message: '输入的数据与 $1 不一致',
+    message: '输入的数据与 \\$1 不一致',
     tag: {
       [ValidatorTag.All]: ValidTagMatchType.isMore,
       [ValidatorTag.Password]: ValidTagMatchType.isDefault
@@ -405,7 +407,7 @@ registerValidator(
     label: '与指定字段值相同',
     name: 'equalsField',
     group: ValidationGroup.Others,
-    message: '输入的数据与 $1 值不一致',
+    message: '输入的数据与 \\$1 值不一致',
     tag: {
       [ValidatorTag.All]: ValidTagMatchType.isMore,
       [ValidatorTag.Password]: ValidTagMatchType.isDefault
@@ -420,28 +422,26 @@ registerValidator(
   },
   ...Array(5)
     .fill(null)
-    .map(
-      (v, index): Validator => {
-        const num = index === 0 ? '' : index;
-        return {
-          label: '自定义正则' + num,
-          name: 'matchRegexp' + num,
-          group: ValidationGroup.Regex,
-          message: '格式不正确, 请输入符合规则为 `$1` 的内容。',
-          tag: {
-            [ValidatorTag.All]: ValidTagMatchType.isMore
-          },
-          schema: [
-            {
-              type: 'input-text',
-              name: 'value',
-              label: '表达式',
-              placeholder: '请输入Js正则',
-              prefix: '/',
-              suffix: '/'
-            }
-          ]
-        };
-      }
-    )
+    .map((v, index): Validator => {
+      const num = index === 0 ? '' : index;
+      return {
+        label: '自定义正则' + num,
+        name: 'matchRegexp' + num,
+        group: ValidationGroup.Regex,
+        message: '格式不正确, 请输入符合规则为 \\$1 的内容。',
+        tag: {
+          [ValidatorTag.All]: ValidTagMatchType.isMore
+        },
+        schema: [
+          {
+            type: 'input-text',
+            name: 'value',
+            label: '表达式',
+            placeholder: '请输入Js正则',
+            prefix: '/',
+            suffix: '/'
+          }
+        ]
+      };
+    })
 );

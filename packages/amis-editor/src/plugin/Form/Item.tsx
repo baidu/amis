@@ -15,6 +15,7 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import find from 'lodash/find';
 import {JSONDelete, JSONPipeIn, JSONUpdate} from 'amis-editor-core';
+import {SUPPORT_STATIC_FORMITEM_CMPTS} from '../../renderer/event-control/helper';
 
 export class ItemPlugin extends BasePlugin {
   // panelTitle = '表单项通配';
@@ -48,16 +49,16 @@ export class ItemPlugin extends BasePlugin {
         render: this.manager.makeSchemaFormRender({
           body: this.panelBodyCreator(context),
           panelById: store.activeId,
-          formKey: 'form-item',
+          formKey: 'form-item'
         }),
         order: -200
       });
     }
   }
   panelBodyCreator = (context: BaseEventContext) => {
-    const ignoreName = ~['button', 'submit', 'reset'].indexOf(
-      context.schema.type
-    );
+    const type = context.schema.type || '';
+    const supportStatic = SUPPORT_STATIC_FORMITEM_CMPTS.includes(type);
+    const ignoreName = ~['button', 'submit', 'reset'].indexOf(type);
     const notRequiredName = ~[
       'button-toobar',
       'container',
@@ -72,7 +73,7 @@ export class ItemPlugin extends BasePlugin {
       'table',
       'elevator',
       'static'
-    ].indexOf(context.schema.type);
+    ].indexOf(type);
     const hasReadOnly = ~[
       'switch',
       'wizard',
@@ -81,10 +82,9 @@ export class ItemPlugin extends BasePlugin {
       'input-rating',
       'input-text',
       'textarea'
-    ].indexOf(context.schema.type);
+    ].indexOf(type);
     /** 不支持配置校验属性的组件 */
-    const ignoreValidator = !!~['input-group'].indexOf(context.schema.type);
-    const autoFillApi = context.schema.autoFillApi;
+    const ignoreValidator = !!~['input-group'].indexOf(type);
     const renderer: any = context.info.renderer;
     return [
       getSchemaTpl('tabs', [
@@ -106,15 +106,24 @@ export class ItemPlugin extends BasePlugin {
             getSchemaTpl('switch', {
               name: 'disabled',
               label: '禁用',
-              mode: 'inline',
-              className: 'w-full'
+              mode: 'horizontal',
+              horizontal: {
+                justify: true,
+                left: 8
+              },
+              inputClassName: 'is-inline '
             }),
             ignoreValidator ? null : getSchemaTpl('required'),
             getSchemaTpl('description'),
             getSchemaTpl('placeholder'),
-            getSchemaTpl('remark'),
-            renderer.renderLabel !== false ? getSchemaTpl('labelRemark') : null,
-            autoFillApi ? getSchemaTpl('autoFillApi') : null
+            getSchemaTpl('remark', {
+              mode: 'row'
+            }),
+            renderer.renderLabel !== false
+              ? getSchemaTpl('labelRemark', {
+                  mode: 'row'
+                })
+              : null
           ]
         },
 
@@ -147,7 +156,15 @@ export class ItemPlugin extends BasePlugin {
               label: '描述 CSS 类名',
               name: 'descriptionClassName',
               visibleOn: 'this.description'
-            })
+            }),
+            ...(!supportStatic
+              ? []
+              : [
+                  getSchemaTpl('className', {
+                    label: '静态 CSS 类名',
+                    name: 'staticClassName'
+                  })
+                ])
           ]
         },
 
@@ -157,11 +174,10 @@ export class ItemPlugin extends BasePlugin {
             // TODO: 有些表单项没有 disabled
             getSchemaTpl('disabled'),
             getSchemaTpl('visible'),
-
+            supportStatic ? getSchemaTpl('static') : null,
             getSchemaTpl('switch', {
               name: 'clearValueOnHidden',
-              label: '隐藏时删除表单项值',
-              disabledOn: 'typeof this.visible === "boolean"'
+              label: '隐藏时删除表单项值'
             })
           ]
         },
