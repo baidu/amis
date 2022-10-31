@@ -466,7 +466,7 @@ export function wrapFetcher(
     return wrapAdaptor(fn(api), api);
   };
 
-  (fn as any)._wrappedFetcher = true;
+  (wrappedFetcher as any)._wrappedFetcher = true;
 
   return wrappedFetcher;
 }
