@@ -11,6 +11,7 @@
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^14.1.0",
+    "@rollup/plugin-replace": "^5.0.1",
     "@rollup/plugin-typescript": "^8.3.4",
     "@testing-library/jest-dom": "^5.16.4",
     "@types/file-saver": "^2.0.1",
@@ -43,7 +44,7 @@
     "esm"
   ],
   "dependencies": {
-    "amis-formula": "^2.3.2-beta.1",
+    "amis-formula": "*",
     "classnames": "2.3.1",
     "file-saver": "^2.0.2",
     "hoist-non-react-statics": "^3.3.2",

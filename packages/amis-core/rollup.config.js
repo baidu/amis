@@ -5,6 +5,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import license from 'rollup-plugin-license';
 import autoExternal from 'rollup-plugin-auto-external';
+import replace from '@rollup/plugin-replace';
 import {
   name,
   version,
@@ -87,8 +88,7 @@ function transpileDynamicImportForCJS(options) {
 
       return {
         left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
-        right:
-          '], function(mod) {fullfill(tslib.__importStar(mod))})})})'
+        right: '], function(mod) {fullfill(tslib.__importStar(mod))})})})'
       };
 
       // return {
@@ -130,6 +130,12 @@ function getPlugins(format = 'esm') {
     resolve({
       jsnext: true,
       main: true
+    }),
+    replace({
+      'preventAssignment': true,
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      '__buildDate__': () => JSON.stringify(new Date()),
+      '__buildVersion': JSON.stringify(version)
     }),
     typescript(typeScriptOptions),
     commonjs({

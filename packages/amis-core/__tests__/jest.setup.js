@@ -12,6 +12,8 @@ Object.defineProperty(window, 'DragEvent', {
   value: class DragEvent {}
 });
 
+global.__buildVersion = '';
+
 global.beforeAll(() => {
   console.warn = msg => {
     // warning 先关了，实在太吵。
