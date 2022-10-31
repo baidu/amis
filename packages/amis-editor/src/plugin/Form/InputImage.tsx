@@ -29,6 +29,9 @@ export class ImageControlPlugin extends BasePlugin {
     type: 'input-image',
     label: '图片上传',
     name: 'image',
+    autoUpload: true,
+    proxy: true,
+    uploadType: 'fileReceptor',
     imageClassName: 'r w-full',
     receiver: {
       url: 'object-upload://default',
