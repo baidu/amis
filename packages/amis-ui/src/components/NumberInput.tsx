@@ -15,10 +15,12 @@ import {Icon} from './icons';
 import {ThemeProps, themeable} from 'amis-core';
 import {autobind, ucFirst} from 'amis-core';
 
+export type ValueType = string | number;
+
 export interface NumberProps extends ThemeProps {
   placeholder?: string;
-  max?: number;
-  min?: number;
+  max?: ValueType;
+  min?: ValueType;
   step?: number;
   showSteps?: boolean;
   precision?: number;
@@ -27,7 +29,7 @@ export interface NumberProps extends ThemeProps {
    * 只读
    */
   readOnly?: boolean;
-  value?: number;
+  value?: ValueType;
   onChange?: (value: number) => void;
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
@@ -90,8 +92,8 @@ export class NumberInput extends React.Component<NumberProps, any> {
    */
   static normalizeValue = (
     value: any,
-    min: number | undefined,
-    max: number | undefined,
+    min: ValueType | undefined,
+    max: ValueType | undefined,
     precision: number,
     resetValue: any,
     isBig: boolean | undefined
