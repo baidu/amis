@@ -92,6 +92,7 @@ export class EditorDNDManager {
   createDragImage(id: string, node: EditorNodeType) {
     const dragImage = document.createElement('div');
     dragImage.classList.add('ae-DragImage');
+    // bca-disable-next-line
     dragImage.innerHTML = `<span>${node.label}</span>`;
     document.body.appendChild(dragImage);
     // dragImage.style.cssText += `width: ${node.w}px; height: ${node.h}px;`;
@@ -414,6 +415,7 @@ export class EditorDNDManager {
 
     this.dndMode?.leave(e, this.dragGhost!);
     delete this.dndMode;
+    // bca-disable-next-line
     this.dragGhost.innerHTML = '';
     this.store.setDragId('');
     this.store.setDropId('');

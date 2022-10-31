@@ -19,6 +19,7 @@ import {CommonConfigWrapper} from './CommonConfigWrapper';
 import {Schema} from 'amis/lib/types';
 import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core/lib/factory';
+import {SchemaCollection} from 'amis/lib/Schema';
 
 // 创建 Node Store 并构建成树
 export function makeWrapper(
@@ -69,6 +70,7 @@ export function makeWrapper(
       });
       this.editorNode!.setRendererConfig(rendererConfig);
 
+      // 查找父数据域，将当前组件数据域追加上去，使其形成父子关系
       if (
         rendererConfig.storeType &&
         !manager.dataSchema.hasScope(`${info.id}-${info.type}`)
@@ -82,9 +84,10 @@ export function makeWrapper(
             closestScope = manager.dataSchema.getScope(
               `${from.id}-${from.type}`
             );
-          }
+          } 
 
-          from = from.parent;
+          // node.parent 是找不到 root 那层的，所以需要自己加逻辑
+          from = from.parentId === 'root' ? store.root : from.parent;
         }
 
         if (closestScope) {
@@ -282,11 +285,8 @@ function SchemaFrom({
     schema,
     {
       onFinished: (newValue: any) => {
-        if (newValue && newValue.type) {
-          // 确保type值不为空
           const diffValue = diff(value, newValue);
           onChange(newValue, diffValue);
-        }
       },
       data: value,
       node: node,
@@ -303,7 +303,7 @@ function SchemaFrom({
 export function makeSchemaFormRender(
   manager: EditorManager,
   schema: {
-    body?: Array<any>;
+    body?: SchemaCollection;
     controls?: Array<any>;
     definitions?: any;
     api?: any;
@@ -311,7 +311,7 @@ export function makeSchemaFormRender(
     justify?: boolean;
     panelById?: string;
     formKey?: string;
-  },
+  }
 ) {
   const env = {...manager.env, session: 'schema-form'};
 
@@ -331,10 +331,11 @@ export function makeSchemaFormRender(
         }
       });
     }
-    
 
     // 每一层的面板数据不要共用
-    const curFormKey = `${id}-${node?.type}${schema.formKey ? '-': ''}${schema.formKey ? schema.formKey: ''}`; 
+    const curFormKey = `${id}-${node?.type}${schema.formKey ? '-' : ''}${
+      schema.formKey ? schema.formKey : ''
+    }`;
 
     return (
       <SchemaFrom
@@ -676,6 +677,7 @@ export function renderThumbToGhost(
   schema: any,
   manager: EditorManager
 ) {
+  // bca-disable-next-line
   ghost.innerHTML = '';
   let path = '';
   const host = region.host!;
@@ -709,11 +711,15 @@ export function renderThumbToGhost(
     );
   } catch (e) {}
 
+  /* bca-disable */
   const html =
     thumbHost.innerHTML ||
     '<div class="wrapper-sm b-a b-light m-b-sm">拖入占位</div>';
+  // bca-disable-line
   ghost.innerHTML = html;
+  /* bca-enable */
 
   unmountComponentAtNode(thumbHost);
+  // bca-disable-next-line
   thumbHost.innerHTML = '';
 }

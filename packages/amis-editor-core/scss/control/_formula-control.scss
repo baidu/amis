@@ -47,7 +47,8 @@
   }
 
   &-custom-renderer {
-    flex: 1;
+    width: calc(100% - 36px);
+    flex: 1 1 auto;
     margin-right: 3px;
     border: none;
     padding: 0;
@@ -64,12 +65,14 @@
     margin-right: 3px;
     max-width: calc(100% - 39px); // 避免表达式内容太长撑开面板
     white-space: nowrap;
+    padding: 0;
 
     &.is-clearable {
       > div:first-child {
-        max-width: calc(100% - 20px); // 避免表达式内容太长撑开面板
+        max-width: calc(100% - 24px); // 避免表达式内容太长撑开面板
 
-        > div,span {
+        > div,
+        span {
           padding-right: 0; // 覆盖 amis 默认样式
         }
       }
@@ -83,7 +86,7 @@
       font-size: 12px;
       border-radius: 4px;
     }
-    
+
     span.c-func {
       color: #ae4597;
       font-weight: bold;

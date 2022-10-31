@@ -67,7 +67,6 @@ export class RightPanels extends React.Component<
     const id = store.activeId;
     const node = store.getNodeById(id);
     const panelKey = store.getPanelKey();
-
     const renderPanel = (panel: PanelItem) => {
       return panel.render ? (
         panel.render({

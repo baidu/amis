@@ -87,6 +87,7 @@ export default class SearchPanel extends React.Component<
       this.curInputBox = this.ref.current.childNodes[0].childNodes[0];
       this.curInputBox.addEventListener('keyup', this.bindEnterEvent);
     }
+    this.updateCurKeyword('');
   }
 
   componentWillUnmount() {
@@ -96,7 +97,7 @@ export default class SearchPanel extends React.Component<
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: any) {
-    const externalKeyword = nextProps.externalKeyword;
+    const {externalKeyword, allResult} = nextProps;
     // 当externalKeyword在外部发现变动，则将其值同步给curKeyword，并执行一次搜索
     if (externalKeyword !== this.state.curKeyword) {
       this.setState(
@@ -107,6 +108,23 @@ export default class SearchPanel extends React.Component<
           this.groupedResultByKeyword(externalKeyword);
         }
       );
+    }
+    // 外部搜索数据变更时
+    if (allResult !== this.props.allResult) {
+      let curResultTags: string[] = [];
+      let curResultByTag: {
+        [propName: string]: any[];
+      } = {};
+      if (allResult && allResult.length > 0) {
+        // 获取分类信息
+        const curResultTagsObj = this.getResultTags(allResult);
+        curResultTags = curResultTagsObj.curResultTags;
+        curResultByTag = curResultTagsObj.curResultByTag;
+      }
+      this.setState({
+        resultTags: curResultTags,
+        resultByTag: curResultByTag
+      });
     }
   }
 
@@ -137,10 +155,10 @@ export default class SearchPanel extends React.Component<
 
     allResult.forEach(item => {
       if (!isString(item) && item[curTagKey]) {
-        const tags = Array.isArray(item.tags)
-          ? item.tags.concat()
-          : item.tags
-          ? [item.tags]
+        const tags = Array.isArray(item[curTagKey])
+          ? item[curTagKey].concat()
+          : item[curTagKey]
+          ? [item[curTagKey]]
           : ['其他'];
         tags.forEach((tag: string) => {
           if (curResultTags.indexOf(tag) < 0) {
@@ -167,13 +185,14 @@ export default class SearchPanel extends React.Component<
    */
   groupedResultByKeyword(keywords?: string) {
     const {allResult} = this.props;
-    let curSearchResult: Array<any> = [];
+    let curSearchResult: any[] = [];
     let curSearchResultByTag: {
-      [propName: string]: Array<any>;
+      [propName: string]: any[];
     } = {};
     const curKeyword = keywords ? keywords : this.state.curKeyword;
+    const curTagKey = this.props.tagKey || 'tags';
     const grouped: {
-      [propName: string]: Array<any>;
+      [propName: string]: any[];
     } = {};
     const regular = curKeyword ? new RegExp(curKeyword, 'i') : null;
 
@@ -187,11 +206,11 @@ export default class SearchPanel extends React.Component<
           key => item[key] && regular && regular.test(item[key])
         )
       ) {
-        if (item.tags) {
-          const tags = Array.isArray(item.tags)
-            ? item.tags.concat()
-            : item.tags
-            ? [item.tags]
+        if (item[curTagKey]) {
+          const tags = Array.isArray(item[curTagKey])
+            ? item[curTagKey].concat()
+            : item[curTagKey]
+            ? [item[curTagKey]]
             : ['其他'];
           tags.forEach((tag: string) => {
             curSearchResultByTag[tag] = grouped[tag] || [];
@@ -432,13 +451,8 @@ export default class SearchPanel extends React.Component<
 
   render() {
     const {allResult, closeAutoComplete, immediateChange} = this.props;
-    const {
-      resultTags,
-      curKeyword,
-      searchResult,
-      searchResultByTag,
-      visible
-    } = this.state;
+    const {resultTags, curKeyword, searchResult, searchResultByTag, visible} =
+      this.state;
     const searchResultTags = searchResultByTag
       ? Object.keys(searchResultByTag)
       : [];

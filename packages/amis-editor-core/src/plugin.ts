@@ -1,7 +1,6 @@
 /**
  * @file 定义插件的 interface，以及提供一个 BasePlugin 基类，把一些通用的方法放在这。
  */
-
 import {RegionWrapperProps} from './component/RegionWrapper';
 import {EditorManager} from './manager';
 import {EditorStoreType} from './store/editor';
@@ -13,7 +12,8 @@ import {DiffChange} from './util';
 import find from 'lodash/find';
 import type {RendererConfig} from 'amis-core/lib/factory';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
-import type {BaseSchema} from 'amis/lib/Schema';
+import type {BaseSchema, SchemaCollection} from 'amis/lib/Schema';
+import {DSFieldGroup} from './builder/DSBuilder';
 
 /**
  * 区域的定义，容器渲染器都需要定义区域信息。
@@ -243,7 +243,7 @@ export interface RendererInfo extends RendererScaffoldInfo {
   wrapperProps?: any;
 
   /**
-   * 修改一些属性，一般用来干掉 $$id
+   * 修改一些属性，一般用来干掉 $$id，或者渲染假数据
    * 这样它的孩子节点就不能直接点选编辑了，比如 Combo。
    */
   filterProps?: (props: any, node: EditorNodeType) => any;
@@ -311,12 +311,22 @@ export interface PopOverForm {
 }
 
 export interface ScaffoldForm extends PopOverForm {
-  mode?: 'normal' | 'horizontal' | 'inline';
+  // 内容是否是分步骤的，如果是，body必须是?: Array<{title: string,body: any[]}>
+  stepsBody?: boolean;
+  mode?:
+    | 'normal'
+    | 'horizontal'
+    | 'inline'
+    | {
+        mode: string;
+        horizontal: any;
+      };
 
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  className?: string;
   initApi?: any;
   api?: any;
-
+  actions?: any[];
   /**
    * 整体验证脚手架配置，如果有错误返回错误对象。
    * key 是配置的字段名。
@@ -555,6 +565,12 @@ export interface ResizeMoveEventContext extends EventContext {
   node: EditorNodeType;
 }
 
+export interface AfterBuildPanelBody extends EventContext {
+  data: SchemaCollection;
+  plugin: BasePlugin;
+  context: BaseEventContext;
+}
+
 /**
  * 将事件上下文转成事件对象。
  */
@@ -720,6 +736,9 @@ export interface PluginInterface
 
   order?: number;
 
+  // 是否可绑定数据，一般容器类型就没有
+  withDataSource?: boolean;
+
   /**
    * 渲染器的名字，关联后不用自己实现 getRendererInfo 了。
    */
@@ -769,10 +788,30 @@ export interface PluginInterface
   panelJustify?: boolean;
 
   /**
+   * 有数据域的容器，可以为子组件提供读取的字段绑定页面
+   */
+  getAvailableContextFields?: (
+    // 提供数据域的容器节点
+    scopeNode: EditorNodeType,
+    // 数据域的应用节点
+    target: EditorNodeType,
+    // 节点所属的容器region
+    region?: EditorNodeType
+  ) => Promise<SchemaCollection | void>;
+
+  /**
    * @deprecated 用 panelBodyCreator
    */
   panelControlsCreator?: (context: BaseEventContext) => Array<any>;
-  panelBodyCreator?: (context: BaseEventContext) => Array<any>;
+  panelBodyCreator?: (context: BaseEventContext) => SchemaCollection;
+
+  /**
+   * panel还需要合并目标插件提供的配置，冲突时以当前plugin为准
+   */
+  panelBodyMergeable?: (
+    context: BaseEventContext,
+    plugin: PluginInterface
+  ) => boolean;
 
   popOverBody?: Array<any>;
   popOverBodyCreator?: (context: BaseEventContext) => Array<any>;
@@ -862,6 +901,7 @@ export interface RendererPluginEvent {
   isBroadcast?: boolean; // 广播事件
   owner?: string; // 标记来源，主要用于广播
   dataSchema?: any[]; // 上下文schema
+  strongDesc?: string;
 }
 
 // 动作声明
@@ -873,12 +913,17 @@ export interface RendererPluginAction {
   supportComponents?: string[] | string; // 如果schema中包含选择组件，可以指定该动作支持的组件类型，用于组件数树过滤
   innerArgs?: string[]; // 动作专属配置参数，主要是为了区分特性字段和附加参数
   descDetail?: (info: any) => string | JSX.Element; // 动作详细描述
+  outputVarDataSchema?: any | any[]; // 动作出参的结构定义
   actions?: SubRendererPluginAction[]; // 分支动作（配置面板包含多种动作的情况）
   children?: RendererPluginAction[]; // 子类型，for动作树
 }
 
 // 分支动作
-export interface SubRendererPluginAction extends Pick<RendererPluginAction, 'actionType' | 'innerArgs' | 'descDetail'>{}
+export interface SubRendererPluginAction
+  extends Pick<
+    RendererPluginAction,
+    'actionType' | 'innerArgs' | 'descDetail'
+  > {}
 
 export interface PluginEvents {
   [propName: string]: RendererPluginEvent[];
@@ -956,6 +1001,16 @@ export abstract class BasePlugin implements PluginInterface {
         plugin.panelBodyCreator) &&
       context.info.plugin === this
     ) {
+      const body = plugin.panelBodyCreator
+        ? plugin.panelBodyCreator(context)
+        : plugin.panelBody!;
+
+      this.manager.trigger('after-build-panel-body', {
+        context,
+        data: body,
+        plugin
+      });
+
       panels.push({
         key: 'config',
         icon: plugin.panelIcon || plugin.icon || 'fa fa-cog',
@@ -965,9 +1020,7 @@ export abstract class BasePlugin implements PluginInterface {
           definitions: plugin.panelDefinitions,
           submitOnChange: plugin.panelSubmitOnChange,
           api: plugin.panelApi,
-          body: plugin.panelBodyCreator
-            ? plugin.panelBodyCreator(context)
-            : plugin.panelBody!,
+          body: body,
           controls: plugin.panelControlsCreator
             ? plugin.panelControlsCreator(context)
             : plugin.panelControls!,

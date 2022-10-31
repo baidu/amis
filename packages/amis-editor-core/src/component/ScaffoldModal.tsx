@@ -3,7 +3,7 @@ import {EditorManager} from '../manager';
 import {EditorStoreType} from '../store/editor';
 import {render, Modal, getTheme, Icon, Spinner, Button} from 'amis';
 import {observer} from 'mobx-react';
-import {autobind} from '../util';
+import {autobind, isObject} from '../util';
 import {createObject} from 'amis-core';
 
 export interface SubEditorProps {
@@ -12,8 +12,20 @@ export interface SubEditorProps {
   theme?: string;
 }
 
+interface ScaffoldState {
+  step: number
+}
+
 @observer
-export class ScaffoldModal extends React.Component<SubEditorProps> {
+export class ScaffoldModal extends React.Component<SubEditorProps, ScaffoldState> {
+  constructor(props: SubEditorProps) {
+    super(props);
+
+    this.state = {
+      step: 0
+    };
+  }
+
   @autobind
   handleConfirm([values]: any) {
     const store = this.props.store;
@@ -32,21 +44,54 @@ export class ScaffoldModal extends React.Component<SubEditorProps> {
 
     store.scaffoldForm?.callback(values);
     store.closeScaffoldForm();
+    this.setState({step: 0});
   }
 
   buildSchema() {
     const {store} = this.props;
     const scaffoldFormContext = store.scaffoldForm!;
 
+    let body = scaffoldFormContext.controls ?? scaffoldFormContext.body;
+    if (scaffoldFormContext.stepsBody) {
+      body = [
+        {
+          type: 'steps',
+          name: '__steps',
+          className: 'ae-Steps',
+          steps: body.map((step, index) => ({
+            title: step.title,
+            value: index,
+            iconClassName: 'ae-Steps-Icon'
+          }))
+        },
+        ...body.map((step, index) => ({
+          type: 'container',
+          visibleOn: `__step === ${index}`,
+          body: step.body
+        }))
+      ]
+    }
+
+    let layout: object;
+    if (isObject(scaffoldFormContext.mode)) {
+      layout = scaffoldFormContext.mode as object;
+    } else {
+      layout = {
+        mode: scaffoldFormContext.mode || 'normal'
+      }
+    }
+
     return {
       type: 'form',
       wrapWithPanel: false,
       initApi: scaffoldFormContext.initApi,
       api: scaffoldFormContext.api,
-      mode: scaffoldFormContext.mode || 'normal',
+      ...layout,
       wrapperComponent: 'div',
-      [scaffoldFormContext.controls ? 'controls' : 'body']:
-        scaffoldFormContext.controls ?? scaffoldFormContext.body
+      data: {
+        __step: 0
+      },
+      [scaffoldFormContext.controls ? 'controls' : 'body']: body,
     };
     // const {store} = this.props;
     // const scaffoldFormContext = store.scaffoldForm;
@@ -101,6 +146,32 @@ export class ScaffoldModal extends React.Component<SubEditorProps> {
   }
 
   @autobind
+  goToNextStep() {
+    // 不能更新props的data，控制amis不重新渲染，否则数据会重新初始化
+    const form = this.amisScope?.getComponents()[0].props.store;
+    const step = this.state.step + 1;
+    form.setValueByName('__step', step);
+
+    // 控制按钮
+    this.setState({
+     step
+    });
+  }
+
+  @autobind
+  goToPrevStep() {
+    // 不能更新props的data，控制amis不重新渲染，否则数据会重新初始化
+    const form = this.amisScope?.getComponents()[0].props.store;
+    const step = this.state.step - 1;
+    form.setValueByName('__step', step);
+
+    // 控制按钮
+    this.setState({
+     step
+    });
+  }
+
+  @autobind
   async handleConfirmClick() {
     const form = this.amisScope?.getComponents()[0];
 
@@ -129,14 +200,25 @@ export class ScaffoldModal extends React.Component<SubEditorProps> {
     }
   }
 
+  @autobind
+  handleCancelClick() {
+    this.props.store.closeScaffoldForm();
+    this.setState({step: 0});
+  }
+
   render() {
     const {store, theme, manager} = this.props;
     const scaffoldFormContext = store.scaffoldForm;
     const cx = getTheme(theme || 'cxd').classnames;
 
+    const isStepBody = !! scaffoldFormContext?.stepsBody;
+    const isLastStep = isStepBody && this.state.step === scaffoldFormContext!.body.length - 1;
+    const isFirstStep = isStepBody && this.state.step === 0;
+
     return (
       <Modal
         size={scaffoldFormContext?.size || 'md'}
+        contentClassName={scaffoldFormContext?.className}
         show={!!scaffoldFormContext}
         onHide={store.closeScaffoldForm}
         closeOnEsc={!store.scaffoldFormBuzy}
@@ -158,7 +240,10 @@ export class ScaffoldModal extends React.Component<SubEditorProps> {
             render(
               this.buildSchema(),
               {
-                data: createObject(store.ctx, scaffoldFormContext?.value),
+                data: createObject(store.ctx, {
+                  ...(scaffoldFormContext?.value || {}),
+                  __step: 0
+                }),
                 onValidate: scaffoldFormContext.validate,
                 scopeRef: this.scopeRef
               },
@@ -184,14 +269,38 @@ export class ScaffoldModal extends React.Component<SubEditorProps> {
               ) : null}
             </div>
           ) : null}
-          <Button
-            level="primary"
-            onClick={this.handleConfirmClick}
-            disabled={store.scaffoldFormBuzy}
-          >
-            确认
-          </Button>
-          <Button onClick={store.closeScaffoldForm}>取消</Button>
+          {
+            isStepBody && !isFirstStep  && (
+              <Button
+                  level="primary"
+                  onClick={this.goToPrevStep}
+                >
+                  上一步
+                </Button>
+            )
+          }
+          {
+            isStepBody && !isLastStep && (
+              <Button
+                level="primary"
+                onClick={this.goToNextStep}
+              >
+                下一步
+              </Button>
+            )
+          }
+          {
+            (!isStepBody || isLastStep) && (
+              <Button
+                level="primary"
+                onClick={this.handleConfirmClick}
+                disabled={store.scaffoldFormBuzy}
+              >
+                确认
+              </Button>
+            )
+          }
+          <Button onClick={this.handleCancelClick}>取消</Button>
         </div>
       </Modal>
     );

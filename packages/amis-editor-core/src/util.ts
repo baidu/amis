@@ -8,6 +8,7 @@ import DeepDiff, {Diff} from 'deep-diff';
 import isPlainObject from 'lodash/isPlainObject';
 import isNumber from 'lodash/isNumber';
 import type {Schema} from 'amis/lib/types';
+import {SchemaObject} from 'amis/lib/Schema';
 
 const {
   guid,
@@ -210,7 +211,7 @@ export function JSONGetByPath(
   return target;
 }
 
-export function JSONGetPathById(json: any, id: string): Array<string> | null {
+export function JSONGetPathById(json: any, id: string, idKey: string = '$$id'): Array<string> | null {
   let paths: Array<string> = [];
   let resolved: boolean = false;
   let stack: Array<any> = [
@@ -225,7 +226,7 @@ export function JSONGetPathById(json: any, id: string): Array<string> | null {
     let data = cur.data;
     let path = cur.path;
 
-    if (data.$$id === id) {
+    if (data[idKey] === id) {
       resolved = true;
       paths = path.split('.').filter((item: any) => item);
       break;
@@ -255,8 +256,8 @@ export function JSONGetPathById(json: any, id: string): Array<string> | null {
   return resolved ? paths : null;
 }
 
-export function JSONGetById(json: any, id: string): any {
-  let paths = JSONGetPathById(json, id);
+export function JSONGetById(json: any, id: string, idKey?: string): any {
+  let paths = JSONGetPathById(json, id, idKey);
   if (paths === null) {
     return null;
   }
@@ -513,10 +514,15 @@ export function JSONMoveDownById(json: any, id: string) {
   });
 }
 
-export function JSONDuplicate(json: any, id: string) {
+export function JSONDuplicate(
+  json: any,
+  id: string,
+  // 有时候复制时因为局部会有事件动作等内容，需要改为复制部分的新id，这里把老id与新id的关系存下来
+  reIds: {[propKey: string]: string} = {}
+) {
   return JSONChangeInArray(json, id, (arr: any[], node: any, index: number) => {
     const copy = JSONPipeIn(JSONPipeOut(node));
-    arr.splice(index + 1, 0, reGenerateID(copy));
+    arr.splice(index + 1, 0, reGenerateID(copy, reIds));
   });
 }
 
@@ -524,16 +530,24 @@ export function JSONDuplicate(json: any, id: string) {
  * 用于复制或粘贴的时候重新生成
  * @param json
  */
-export function reGenerateID(json: any) {
+export function reGenerateID(
+  json: any,
+  // 有时候复制时因为局部会有事件动作等内容，需要改为复制部分的新id，这里把老id与新id的关系存下来
+  reIds: {[propKey: string]: string} = {}
+) {
   JSONTraverse(json, (value: any, key: string, host: any) => {
-    if (
-      key === 'id' &&
-      typeof value === 'string' &&
-      value.indexOf('u:') === 0 &&
-      host
-    ) {
-      host.id = 'u:' + guid();
+    const isNodeIdFormat =
+      typeof value === 'string' && value.indexOf('u:') === 0;
+    if (key === 'id' && isNodeIdFormat && host) {
+      const newID = generateNodeId();
+      reIds[host.id] = newID;
+      host.id = newID;
     }
+    // 组件ID，给新的id内容
+    else if (key === 'componentId' && isNodeIdFormat) {
+      host.componentId = reIds[value] ?? value;
+    }
+
     return value;
   });
   return json;
@@ -541,6 +555,7 @@ export function reGenerateID(json: any) {
 
 export function createElementFromHTML(htmlString: string): HTMLElement {
   var div = document.createElement('div');
+  // bca-disable-next-line
   div.innerHTML = htmlString.trim();
 
   // Change this to div.childNodes to support multiple top-level nodes
@@ -870,6 +885,13 @@ export function jsonToJsonSchema(json: any = {}) {
     }
   });
   return jsonschema;
+}
+
+/**
+ * 生成节点id
+ */
+export function generateNodeId() {
+  return 'u:' + guid();
 }
 
 // 是否使用 plugin 自带的 svg 版 icon

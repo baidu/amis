@@ -1,4 +1,4 @@
-import {findTree, getVariable, mapObject} from 'amis-core';
+import {findTree, getVariable, mapObject, createObject} from 'amis-core';
 import {cast, getEnv, Instance, types} from 'mobx-state-tree';
 import {
   diff,
@@ -189,6 +189,8 @@ export const EditorStore = types
 
     // 弹出子编辑器相关的信息
     subEditorContext: types.maybe(types.frozen<SubEditorContext>()),
+    // 子编辑器中可能需要拿到父编辑器的数据
+    superEditorData: types.maybe(types.frozen()),
 
     calculateStarted: false,
 
@@ -360,8 +362,8 @@ export const EditorStore = types
         return this.getNodeById(self.activeId)?.info;
       },
 
-      getSchema(id?: string) {
-        return id ? JSONGetById(self.schema, id) : self.schema;
+      getSchema(id?: string, idKey?: string) {
+        return id ? JSONGetById(self.schema, id, idKey) : self.schema;
       },
 
       getSchemaParentById(id: string, skipArray: boolean = false) {
@@ -497,7 +499,7 @@ export const EditorStore = types
       },
 
       getValueOf(id: string) {
-        return JSONPipeOut(JSONGetById(self.schema, id));
+        return JSONPipeOut(JSONGetById(self.schema, id), false);
       },
 
       get valueWithoutHiddenProps() {
@@ -508,10 +510,11 @@ export const EditorStore = types
         return JSONPipeOut(
           JSONGetById(self.schema, self.activeId),
           getEnv(self).isHiddenProps ||
-            (key =>
+            ((key, props) =>
               (key.substring(0, 2) === '$$' &&
                 key !== '$$comments' &&
                 key !== '$$commonSchema') ||
+              typeof props === 'function' || // pipeIn 和 pipeOut
               key.substring(0, 2) === '__')
         );
       },
@@ -536,7 +539,7 @@ export const EditorStore = types
           );
         }
 
-        return bcn;
+        return bcn.filter(item => !item.isSecondFactor);
       },
 
       get activePath(): Array<EditorNodeType> {
@@ -851,7 +854,6 @@ export const EditorStore = types
         );
         return idx < self.schemaHistory.length - 1;
       },
-
       // 判断是否时布局容器中的列级元素
       isFlexItem(id: string) {
         const activeId = id || self.activeId;
@@ -861,7 +863,6 @@ export const EditorStore = types
         }
         return false;
       },
-
       draggableContainer(id?: string) {
         const activeId = id || self.activeId;
         const curSchema = this.getSchema(activeId);
@@ -871,7 +872,9 @@ export const EditorStore = types
         }
         return false;
       },
-
+      get getSuperEditorData() {
+        return self.superEditorData || {};
+      }
     };
   })
   .actions(self => {
