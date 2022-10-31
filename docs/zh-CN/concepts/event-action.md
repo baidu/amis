@@ -2013,7 +2013,7 @@ registerAction('my-action', new MyAction());
     body: [
       {
         type: 'button',
-        label: '循环发送两次请求，且每次携带了循环的数据',
+        label: '循环发送两次请求，没有携带循环的数据',
         level: 'primary',
         onEvent: {
           click: {
