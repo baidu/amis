@@ -177,6 +177,7 @@ export class ImageControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('apiControl', {
+                mode: 'row',
                 name: 'receiver',
                 label: tipedLabel(
                   '文件接收器',
@@ -192,7 +193,7 @@ export class ImageControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('proxy', {
-                value: false
+                value: true
               }),
               // getSchemaTpl('autoFill'),
 
