@@ -56,6 +56,7 @@ export class NodeWrapper extends React.Component<NodeWrapperProps> {
     (Array.isArray(dom) ? dom : dom ? [dom] : []).forEach(dom => {
       dom.setAttribute('data-editor-id', id);
       dom.setAttribute('data-visible', visible ? '' : 'false');
+      dom.setAttribute('data-hide-text', visible ? '' : '<隐藏状态>');
     });
     info.plugin?.markDom?.(dom, this.props);
   }

@@ -87,6 +87,7 @@ export default class SearchPanel extends React.Component<
       this.curInputBox = this.ref.current.childNodes[0].childNodes[0];
       this.curInputBox.addEventListener('keyup', this.bindEnterEvent);
     }
+    this.updateCurKeyword('');
   }
 
   componentWillUnmount() {
@@ -101,7 +102,7 @@ export default class SearchPanel extends React.Component<
     if (externalKeyword !== this.state.curKeyword) {
       this.setState(
         {
-          curKeyword: externalKeyword,
+          curKeyword: externalKeyword
         },
         () => {
           this.groupedResultByKeyword(externalKeyword);
@@ -122,7 +123,7 @@ export default class SearchPanel extends React.Component<
       }
       this.setState({
         resultTags: curResultTags,
-        resultByTag: curResultByTag,
+        resultByTag: curResultByTag
       });
     }
   }
@@ -199,10 +200,9 @@ export default class SearchPanel extends React.Component<
       if (isString(item) && regular && regular.test(item)) {
         // 兼容字符串类型
         curSearchResult.push(item);
-      }
-      else if (
-        !keywords
-        || ['name', 'description', 'scaffold.type'].some(
+      } else if (
+        !keywords ||
+        ['name', 'description', 'scaffold.type'].some(
           key => item[key] && regular && regular.test(item[key])
         )
       ) {
@@ -210,14 +210,13 @@ export default class SearchPanel extends React.Component<
           const tags = Array.isArray(item[curTagKey])
             ? item[curTagKey].concat()
             : item[curTagKey]
-              ? [item[curTagKey]]
-              : ['其他'];
+            ? [item[curTagKey]]
+            : ['其他'];
           tags.forEach((tag: string) => {
             curSearchResultByTag[tag] = grouped[tag] || [];
             curSearchResultByTag[tag].push(item);
           });
-        }
-        else {
+        } else {
           curSearchResult.push(item);
         }
       }
@@ -226,7 +225,7 @@ export default class SearchPanel extends React.Component<
     // 更新当前搜索结果数据（备注: 附带重置功能）
     this.setState({
       searchResult: curSearchResult,
-      searchResultByTag: curSearchResultByTag,
+      searchResultByTag: curSearchResultByTag
     });
   }
 
@@ -452,13 +451,8 @@ export default class SearchPanel extends React.Component<
 
   render() {
     const {allResult, closeAutoComplete, immediateChange} = this.props;
-    const {
-      resultTags,
-      curKeyword,
-      searchResult,
-      searchResultByTag,
-      visible
-    } = this.state;
+    const {resultTags, curKeyword, searchResult, searchResultByTag, visible} =
+      this.state;
     const searchResultTags = searchResultByTag
       ? Object.keys(searchResultByTag)
       : [];

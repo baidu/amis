@@ -901,6 +901,7 @@ export interface RendererPluginEvent {
   isBroadcast?: boolean; // 广播事件
   owner?: string; // 标记来源，主要用于广播
   dataSchema?: any[]; // 上下文schema
+  strongDesc?: string;
 }
 
 // 动作声明

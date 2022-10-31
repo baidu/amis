@@ -234,7 +234,7 @@ export default class RenderersPanel extends React.Component<
                                             store.amisDocHost + item.docLink
                                           }
                                         >
-                                          &nbsp;详情&nbsp;
+                                          详情
                                         </a>
                                       )}
                                     </div>

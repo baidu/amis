@@ -519,7 +519,7 @@ class APIBuilder extends DSBuilder {
     return fields.map((field: any) => ({
       type: field.type,
       title: field.label,
-      key: field.name,
+      name: field.name,
       [field.typeKey || 'value']: '${' + field.name + '}'
     }));
   }

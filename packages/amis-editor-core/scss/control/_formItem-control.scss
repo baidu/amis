@@ -17,6 +17,12 @@
   }
 
   div[data-role='form-item'] {
+    &.ae-ExtendMore {
+      > label {
+        flex: 0;
+        padding: 0;
+      }
+    }
     > label {
       line-height: 32px;
       margin: 0;
@@ -44,6 +50,9 @@
     --Form-item-gap: 12px;
     > div:first-child {
       padding-top: 0;
+    }
+    div[data-role='form-item'] > label > span span {
+      line-height: 20px;
     }
     .fix-icon-picker-overflow {
       input {
@@ -125,11 +134,9 @@
   margin-bottom: px2rem(12px);
   > button,
   > button:hover {
-    color: var(--Button--enhance-color) !important;
-    background: var(--Button--enhance-bg) !important;
-    border-color: var(--Button--enhance-border) !important;
-    box-shadow: var(--Button-boxShadow);
-    text-shadow: var(--Button-textShadow);
+    color: #528eff !important;
+    background: #ffffff !important;
+    border-color: #528eff !important;
     width: 100%;
     height: px2rem(32px);
   }
@@ -137,9 +144,4 @@
 
 .form-item-gap {
   margin-bottom: var(--Form-item-gap);
-}
-
-/* remark组件弹窗左右边距 */
-.ae-remark-form {
-  padding: 0 1.5rem;
 }
