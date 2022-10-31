@@ -1,4 +1,8 @@
-import {EditorNodeType, jsonToJsonSchema, registerEditorPlugin} from 'amis-editor-core';
+import {
+  EditorNodeType,
+  jsonToJsonSchema,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -85,7 +89,7 @@ export class WizardPlugin extends BasePlugin {
   events: RendererPluginEvent[] = [
     {
       eventName: 'inited',
-      eventLabel: '初始化完成',
+      eventLabel: '初始化接口请求成功',
       description: '远程初始化接口请求成功时触发',
       dataSchema: [
         {
@@ -93,7 +97,7 @@ export class WizardPlugin extends BasePlugin {
           properties: {
             'event.data': {
               type: 'object',
-              title: 'initApi 远程请求返回的初始化数据'
+              title: '初始化接口请求成功返回的数据'
             }
           }
         }

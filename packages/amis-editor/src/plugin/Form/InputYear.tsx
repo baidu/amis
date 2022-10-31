@@ -12,7 +12,7 @@ export class YearControlPlugin extends DateControlPlugin {
   isBaseComponent = true;
   icon = 'fa fa-calendar';
   pluginIcon = 'input-year-plugin';
-  description = `年选择`;
+  description = '年选择';
   docLink = '/amis/zh-CN/components/form/input-year';
   tags = ['表单项'];
   // @ts-ignore

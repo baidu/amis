@@ -82,13 +82,7 @@ setSchemaTpl(
   }) => ({
     label: '布局',
     name: 'mode',
-    type: 'button-group-select',
-    option: '继承',
-    horizontal: {
-      left: 2,
-      justify: true
-    },
-    // className: 'w-full',
+    type: 'select',
     pipeIn: defaultValue(''),
     options: [
       {
@@ -216,7 +210,7 @@ setSchemaTpl(
       type: 'tabs',
       tabsMode: 'line', // tiled
       className: 'editor-prop-config-tabs',
-      linksClassName: 'editor-prop-config-tabs-links',
+      linksClassName: 'editor-prop-config-tabs-links aa',
       contentClassName:
         'no-border editor-prop-config-tabs-cont hoverShowScrollBar',
       tabs: config
@@ -519,9 +513,8 @@ setSchemaTpl('expression', {
 
 setSchemaTpl('icon', {
   label: '图标',
-  type: 'icon-picker',
+  type: 'icon-select',
   name: 'icon',
-  className: 'fix-icon-picker-overflow',
   placeholder: '点击选择图标',
   clearable: true,
   description: ''
@@ -596,12 +589,17 @@ setSchemaTpl('className', (schema: any) => {
  */
 setSchemaTpl('combo-container', (config: SchemaObject) => {
   if (isObject(config)) {
-    const itemsWrapperClassName =
-      ['input-kv', 'combo'].includes((config as any).type) &&
-      'ae-Combo-items ' + ((config as any).itemsWrapperClassName ?? '');
+    let itemsWrapperClassName;
+    let itemClassName;
+    if (['input-kv', 'combo'].includes((config as any).type)) {
+      itemsWrapperClassName =
+        'ae-Combo-items ' + ((config as any).itemsWrapperClassName ?? '');
+      itemClassName = 'ae-Combo-item ' + ((config as any).itemClassName ?? '');
+    }
     return {
       ...(config as any),
-      ...(itemsWrapperClassName ? {itemsWrapperClassName} : {})
+      ...(itemsWrapperClassName ? {itemsWrapperClassName} : {}),
+      ...(itemClassName ? {itemClassName} : {})
     };
   }
   return config;
@@ -612,12 +610,20 @@ setSchemaTpl('combo-container', (config: SchemaObject) => {
  */
 setSchemaTpl(
   'status',
-  (config: {isFormItem?: boolean; readonly?: boolean; disabled?: boolean}) => {
+  (config: {
+    isFormItem?: boolean;
+    readonly?: boolean;
+    disabled?: boolean;
+    unsupportStatic?: boolean;
+  }) => {
     return {
       title: '状态',
       body: [
         getSchemaTpl('newVisible'),
         getSchemaTpl('hidden'),
+        !config?.unsupportStatic && config?.isFormItem 
+          ? getSchemaTpl('static') 
+          : null,
         config?.readonly ? getSchemaTpl('readonly') : null,
         config?.disabled || config?.isFormItem
           ? getSchemaTpl('disabled')
@@ -688,6 +694,15 @@ setSchemaTpl('visible', {
   mode: 'normal',
   name: 'visible',
   expressionName: 'visibleOn'
+});
+
+
+setSchemaTpl('static', {
+  type: 'ae-StatusControl',
+  label: '静态展示',
+  mode: 'normal',
+  name: 'static',
+  expressionName: 'staticOn'
 });
 
 // 新版配置面板兼容 [可见] 状态
@@ -1041,42 +1056,49 @@ setSchemaTpl('app-page', {
 });
 
 setSchemaTpl('app-page-args', {
-  type: 'ae-DataMappingControl',
+  type: 'combo',
   name: 'params',
   label: '页面参数',
-  schema: {type: 'object', properties: {}},
-  mode: 'horizontal'
+  multiple: true,
+  removable: true,
+  addable: true,
+  strictMode: false,
+  canAccessSuperData: true,
+  size: 'lg',
+  mode: 'horizontal',
+  items: [
+    {
+      name: 'key',
+      type: 'input-text',
+      placeholder: '参数名',
+      source: '${__pageInputSchema}',
+      labelField: 'label',
+      valueField: 'value',
+      required: true
+    },
+    {
+      name: 'val',
+      type: 'input-formula',
+      placeholder: '参数值',
+      variables: '${variables}',
+      evalMode: false,
+      variableMode: 'tabs',
+      inputMode: 'input-group'
+    }
+  ]
 });
 
 setSchemaTpl(
   'iconLink',
   (schema: {name: 'icon' | 'rightIcon'; visibleOn: boolean}) => {
     const {name, visibleOn} = schema;
-    return {
+    return getSchemaTpl('icon', {
       name: name,
       visibleOn,
       label: '图标',
-      type: 'icon-picker',
-      className: 'fix-icon-picker-overflow',
       placeholder: '点击选择图标',
       clearable: true,
       description: ''
-    };
-  }
-);
-
-setSchemaTpl(
-  'iconLink',
-  (schema: {name: 'icon' | 'rightIcon'; visibleOn: boolean}) => {
-    const {name, visibleOn} = schema;
-    return {
-      name: name,
-      visibleOn,
-      label: '图标',
-      type: 'icon-picker',
-      placeholder: '点击选择图标',
-      clearable: true,
-      description: ''
-    };
+    });
   }
 );

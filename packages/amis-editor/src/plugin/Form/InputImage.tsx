@@ -19,7 +19,8 @@ export class ImageControlPlugin extends BasePlugin {
   // 组件名称
   name = '图片上传';
   isBaseComponent = true;
-  description = `可以对图片实现裁剪，限制图片的宽高以及大小，支持自动上传及上传多张图片`;
+  description =
+    '可以对图片实现裁剪，限制图片的宽高以及大小，支持自动上传及上传多张图片';
   docLink = '/amis/zh-CN/components/form/input-image';
   tags = ['表单项'];
   icon = 'fa fa-crop';
@@ -28,6 +29,9 @@ export class ImageControlPlugin extends BasePlugin {
     type: 'input-image',
     label: '图片上传',
     name: 'image',
+    autoUpload: true,
+    proxy: true,
+    uploadType: 'fileReceptor',
     imageClassName: 'r w-full',
     receiver: {
       url: 'object-upload://default',
@@ -57,7 +61,7 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            'event.data.file': {
               type: 'object',
               title: '上传的文件'
             }
@@ -73,7 +77,7 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            'event.data.item': {
               type: 'object',
               title: '被移除的文件'
             }
@@ -89,7 +93,7 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            'event.data.item': {
               type: 'object',
               title: '远程上传请求成功后返回的结果数据'
             }
@@ -105,7 +109,7 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.file': {
+            'event.data.item': {
               type: 'object',
               title: '上传的文件'
             },
@@ -173,6 +177,7 @@ export class ImageControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('apiControl', {
+                mode: 'row',
                 name: 'receiver',
                 label: tipedLabel(
                   '文件接收器',
@@ -188,7 +193,7 @@ export class ImageControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('proxy', {
-                value: false
+                value: true
               }),
               // getSchemaTpl('autoFill'),
 
@@ -208,12 +213,6 @@ export class ImageControlPlugin extends BasePlugin {
               }),
 
               getSchemaTpl('switch', {
-                name: 'fixedSize',
-                label: '固定尺寸',
-                value: false
-              }),
-
-              getSchemaTpl('switch', {
                 name: 'hideUploadButton',
                 label: '隐藏上传按钮',
                 value: false
@@ -225,38 +224,38 @@ export class ImageControlPlugin extends BasePlugin {
                 value: false
               }),
 
-              getSchemaTpl('switch', {
-                name: 'compress',
-                value: true,
-                label: tipedLabel(
-                  '开启压缩',
-                  '由 hiphoto 实现，自定义接口将无效'
-                )
-              }),
-              {
-                type: 'container',
-                className: 'ae-ExtendMore mb-3',
-                visibleOn: 'data.compress',
-                name: 'compressOptions',
-                body: [
-                  {
-                    type: 'input-number',
-                    label: '最大宽度',
-                    name: 'maxWidth'
-                  },
+              // getSchemaTpl('switch', {
+              //   name: 'compress',
+              //   value: true,
+              //   label: tipedLabel(
+              //     '开启压缩',
+              //     '由 hiphoto 实现，自定义接口将无效'
+              //   )
+              // }),
+              // {
+              //   type: 'container',
+              //   className: 'ae-ExtendMore mb-3',
+              //   visibleOn: 'data.compress',
+              //   name: 'compressOptions',
+              //   body: [
+              //     {
+              //       type: 'input-number',
+              //       label: '最大宽度',
+              //       name: 'compressOptions.maxWidth'
+              //     },
 
-                  {
-                    type: 'input-number',
-                    label: '最大高度',
-                    name: 'maxHeight'
-                  }
-                ]
-              },
+              //     {
+              //       type: 'input-number',
+              //       label: '最大高度',
+              //       name: 'compressOptions.maxHeight'
+              //     }
+              //   ]
+              // },
 
-              getSchemaTpl('switch', {
-                name: 'showCompressOptions',
-                label: '是否显示压缩选项'
-              }),
+              // getSchemaTpl('switch', {
+              //   name: 'showCompressOptions',
+              //   label: '显示压缩选项'
+              // }),
 
               getSchemaTpl('switch', {
                 name: 'crop',
@@ -317,6 +316,7 @@ export class ImageControlPlugin extends BasePlugin {
                   {
                     name: 'maxSize',
                     type: 'input-number',
+                    suffix: 'B',
                     label: tipedLabel(
                       '最大体积',
                       '超出大小不允许上传，单位字节'
@@ -325,13 +325,19 @@ export class ImageControlPlugin extends BasePlugin {
                   {
                     type: 'input-number',
                     name: 'limit.width',
-                    label: '宽度'
+                    label: tipedLabel(
+                      '宽度',
+                      '校验优先级比最大宽度和最大宽度高'
+                    )
                   },
 
                   {
                     type: 'input-number',
                     name: 'limit.height',
-                    label: '高度'
+                    label: tipedLabel(
+                      '高度',
+                      '校验优先级比最大高度和最大高度高'
+                    )
                   },
 
                   {
@@ -366,7 +372,7 @@ export class ImageControlPlugin extends BasePlugin {
 
                   {
                     type: 'input-text',
-                    name: 'limit.限制最小高度',
+                    name: 'limit.aspectRatioLabel',
                     label: tipedLabel(
                       '宽高比描述',
                       '当宽高比没有满足条件时，此描述将作为提示信息显示'
@@ -376,7 +382,10 @@ export class ImageControlPlugin extends BasePlugin {
               }
             ]
           },
-          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('status', {
+            isFormItem: true,
+            unsupportStatic: true
+          }),
           getSchemaTpl('validation', {tag: ValidatorTag.File})
         ])
       },
@@ -384,7 +393,38 @@ export class ImageControlPlugin extends BasePlugin {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
           getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+          {
+            title: '尺寸',
+            body: [
+              getSchemaTpl('switch', {
+                name: 'fixedSize',
+                label: tipedLabel(
+                  '固定尺寸',
+                  '开启后需通过CSS类设置其高度、宽度'
+                ),
+                value: false
+              }),
+
+              {
+                type: 'container',
+                className: 'ae-ExtendMore mb-3',
+                visibleOn: 'data.fixedSize',
+                body: [
+                  {
+                    type: 'input-text',
+                    required: true,
+                    name: 'fixedSizeClassName',
+                    label: tipedLabel(
+                      'CSS类名',
+                      '开启固定尺寸时，根据此值控制展示尺寸'
+                    )
+                  }
+                ]
+              }
+            ]
+          },
           getSchemaTpl('style:classNames', {
+            unsupportStatic: true,
             schema: []
           })
         ])

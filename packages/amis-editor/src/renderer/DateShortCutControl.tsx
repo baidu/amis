@@ -312,13 +312,19 @@ export class DateShortCutControl extends React.PureComponent<
         </header>
         {this.renderContent()}
         <div className={klass + '-footer'}>
-          {render('inner', {
-            type: 'dropdown-button',
-            label: '添加选项',
-            closeOnClick: true,
-            closeOnOutside: true,
-            buttons: optionList
-          })}
+          {render(
+            'inner',
+            {
+              type: 'dropdown-button',
+              label: '添加选项',
+              closeOnClick: true,
+              closeOnOutside: true,
+              buttons: optionList
+            },
+            {
+              popOverContainer: null // amis 渲染挂载节点会使用 this.target
+            }
+          )}
         </div>
       </div>
     );

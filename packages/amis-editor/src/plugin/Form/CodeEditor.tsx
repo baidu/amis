@@ -43,6 +43,22 @@ export class CodeEditorControlPlugin extends BasePlugin {
 
   events: RendererPluginEvent[] = [
     {
+      eventName: 'change',
+      eventLabel: '代码变化',
+      description: '代码变化时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.value': {
+              type: 'string',
+              title: '当前代码'
+            }
+          }
+        }
+      ]
+    },
+    {
       eventName: 'focus',
       eventLabel: '获取焦点',
       description: '输入框获取焦点时触发',
@@ -143,7 +159,10 @@ export class CodeEditorControlPlugin extends BasePlugin {
               getSchemaTpl('autoFillApi')
             ]
           },
-          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('status', {
+            isFormItem: true,
+            unsupportStatic: true
+          }),
           getSchemaTpl('validation', {
             tag: ValidatorTag.Code
           })
@@ -190,7 +209,9 @@ export class CodeEditorControlPlugin extends BasePlugin {
               }
             ]
           }),
-          getSchemaTpl('style:classNames')
+          getSchemaTpl('style:classNames', {
+            unsupportStatic: true
+          })
         ])
       },
       {

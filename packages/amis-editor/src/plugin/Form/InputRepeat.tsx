@@ -12,7 +12,7 @@ export class RepeatControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-repeat';
   pluginIcon = 'input-repeat-plugin';
-  description = `选择重复的频率，如每时、每天、每周等`;
+  description = '选择重复的频率，如每时、每天、每周等';
   docLink = '/amis/zh-CN/components/form/input-repeat';
   tags = ['表单项'];
   scaffold = {
@@ -46,9 +46,10 @@ export class RepeatControlPlugin extends BasePlugin {
       name: 'options',
       type: 'select',
       label: '启用单位',
-      options: 'secondly,minutely,hourly,daily,weekdays,weekly,monthly,yearly'.split(
-        ','
-      ),
+      options:
+        'secondly,minutely,hourly,daily,weekdays,weekly,monthly,yearly'.split(
+          ','
+        ),
       value: 'hourly,daily,weekly,monthly',
       multiple: true
     }

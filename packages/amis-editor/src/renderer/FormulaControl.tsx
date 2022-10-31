@@ -236,6 +236,7 @@ export default class FormulaControl extends React.Component<
     if (value === null || value === undefined) {
       return true; // 数值为空不进行类型识别
     }
+    const {rendererSchema} = this.props;
     const expectType = this.props.valueType;
 
     if (expectType === null || expectType === undefined) {
@@ -246,6 +247,16 @@ export default class FormulaControl extends React.Component<
     const curData = this.getContextData();
 
     if (
+      rendererSchema.type === 'switch' &&
+      (rendererSchema.trueValue !== undefined ||
+        rendererSchema.falseValue !== undefined)
+    ) {
+      // 开关类型组件单独处理
+      return (
+        rendererSchema.trueValue === value ||
+        rendererSchema.falseValue === value
+      );
+    } else if (
       (expectType === 'number' && isNumber(value)) ||
       (expectType === 'boolean' && isBoolean(value)) ||
       (expectType === 'object' && isPlainObject(value)) ||

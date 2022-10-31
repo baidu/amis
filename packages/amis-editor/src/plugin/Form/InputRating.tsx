@@ -8,10 +8,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {
-  RendererPluginAction,
-  RendererPluginEvent
-} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class RateControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -23,7 +20,7 @@ export class RateControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-star-o';
   pluginIcon = 'input-rating-plugin';
-  description = `支持只读、半星选择`;
+  description = '支持只读、半星选择';
   docLink = '/amis/zh-CN/components/form/input-rating';
   tags = ['表单项'];
   scaffold = {

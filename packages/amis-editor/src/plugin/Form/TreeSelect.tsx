@@ -16,13 +16,14 @@ export class TreeSelectControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-chevron-down';
   pluginIcon = 'tree-select-plugin';
-  description = `点击输入框，弹出树型选择框进行选择`;
+  description = '点击输入框，弹出树型选择框进行选择';
   docLink = '/amis/zh-CN/components/form/treeselect';
   tags = ['表单项'];
   scaffold = {
     type: 'tree-select',
     label: '树下拉框',
     name: 'tree-select',
+    clearable: false,
     options: [
       {
         label: '选项A',
@@ -89,7 +90,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
               type: 'object',
               title: '新增的选项信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -109,7 +110,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
               type: 'object',
               title: '编辑的选项信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -129,7 +130,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
               type: 'object',
               title: '删除的选项信息'
             },
-            'event.data.options': {
+            'event.data.items': {
               type: 'array',
               title: '选项集合'
             }
@@ -252,6 +253,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
 
   panelBodyCreator = (context: BaseEventContext) => {
     const renderer: any = context.info.renderer;
+
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -270,8 +272,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                   justify: true,
                   left: 8
                 },
-                inputClassName: 'is-inline ',
-                value: true
+                inputClassName: 'is-inline '
               }),
               getSchemaTpl('searchable'),
               getSchemaTpl('multiple', {
@@ -389,11 +390,6 @@ export class TreeSelectControlPlugin extends BasePlugin {
           {
             title: '高级',
             body: [
-              getSchemaTpl('valueFormula', {
-                name: 'highlightTxt',
-                label: '高亮节点字符',
-                type: 'input-text'
-              }),
               {
                 type: 'ae-Switch-More',
                 mode: 'normal',
@@ -422,26 +418,27 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 ),
                 name: 'hideNodePathLabel'
               }),
-              {
-                type: 'ae-Switch-More',
-                mode: 'normal',
-                name: 'hideRoot',
-                label: '显示顶级节点',
-                value: true,
-                trueValue: false,
-                falseValue: true,
-                formType: 'extend',
-                form: {
-                  body: [
-                    {
-                      type: 'input-text',
-                      label: '节点文案',
-                      value: '顶级',
-                      name: 'rootLabel'
-                    }
-                  ]
-                }
-              },
+              // tree-select 该组件目前无此配置
+              // {
+              //   type: 'ae-Switch-More',
+              //   mode: 'normal',
+              //   name: 'hideRoot',
+              //   label: '显示顶级节点',
+              //   value: true,
+              //   trueValue: false,
+              //   falseValue: true,
+              //   formType: 'extend',
+              //   form: {
+              //     body: [
+              //       {
+              //         type: 'input-text',
+              //         label: '节点文案',
+              //         value: '顶级',
+              //         name: 'rootLabel'
+              //       }
+              //     ]
+              //   }
+              // },
               getSchemaTpl('switch', {
                 label: '显示节点图标',
                 name: 'showIcon',

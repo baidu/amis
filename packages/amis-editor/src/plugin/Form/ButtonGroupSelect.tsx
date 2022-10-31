@@ -25,7 +25,8 @@ export class ButtonGroupControlPlugin extends BasePlugin {
   tags = ['按钮'];
   scaffold = {
     type: 'button-group-select',
-    name: 'a',
+    name: 'buttonGroupSelect',
+    label: '按钮点选',
     inline: false,
     options: [
       {

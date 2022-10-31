@@ -10,6 +10,8 @@ import {
 
 import {formItemControl} from '../../component/BaseControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {ValidatorTag} from '../../validator';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class CityControlPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -84,66 +86,67 @@ export class CityControlPlugin extends BasePlugin {
     }
   ];
 
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
-    return formItemControl(
+    return getSchemaTpl('tabs', [
       {
-        common: {
-          replace: true,
-          body: [
-            getSchemaTpl('formItemName', {
-              required: true
-            }),
-            getSchemaTpl('label'),
-            // getSchemaTpl('switchDefaultValue'),
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              getSchemaTpl('formItemName', {
+                required: true
+              }),
+              getSchemaTpl('label'),
+              getSchemaTpl('valueFormula', {
+                rendererSchema: context?.schema,
+                rendererWrapper: true,
+                mode: 'vertical' // 改成上下展示模式
+              }),
+              getSchemaTpl('switch', {
+                name: 'allowDistrict',
+                label: '允许选择区域',
+                pipeIn: defaultValue(true)
+              }),
 
-            /*
-            {
-              name: 'value',
-              type: 'input-city',
-              label: '默认值',
-              visibleOn: 'typeof data.value !== "undefined"',
-              validations: 'isNumeric',
-              labelRemark: {
-                trigger: 'click',
-                className: 'm-l-xs',
-                rootClose: true,
-                content: '城市编码',
-                placement: 'left'
-              }
-            },
-            */
+              getSchemaTpl('switch', {
+                name: 'allowCity',
+                label: '允许选择城市',
+                pipeIn: defaultValue(true)
+              }),
 
-            getSchemaTpl('valueFormula', {
-              rendererSchema: context?.schema,
-              rendererWrapper: true,
-              mode: 'vertical' // 改成上下展示模式
-            }),
-
-            getSchemaTpl('switch', {
-              name: 'allowDistrict',
-              label: '允许选择区域',
-              pipeIn: defaultValue(true)
-            }),
-
-            getSchemaTpl('switch', {
-              name: 'allowCity',
-              label: '允许选择城市',
-              pipeIn: defaultValue(true)
-            }),
-
-            getSchemaTpl('switch', {
-              name: 'searchable',
-              label: '是否出搜索框',
-              pipeIn: defaultValue(false)
-            }),
-
-            getSchemaTpl('extractValue')
-          ]
-        },
-        status: {}
+              getSchemaTpl('switch', {
+                name: 'searchable',
+                label: '是否出搜索框',
+                pipeIn: defaultValue(false)
+              })
+            ]
+          },
+          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
+        ])
       },
-      context
-    );
+      {
+        title: '外观',
+        body: [
+          getSchemaTpl('collapseGroup', [
+            getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+            getSchemaTpl('style:classNames')
+          ])
+        ]
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
+      }
+    ]);
   };
 }
 

@@ -59,7 +59,7 @@ export class TooltipWrapperPlugin extends BasePlugin {
           body: [
             getSchemaTpl('collapseGroup', [
               {
-                title: '常用',
+                title: '基本',
                 body: [
                   {
                     type: 'input-text',
@@ -205,7 +205,7 @@ export class TooltipWrapperPlugin extends BasePlugin {
                           Array.isArray(value) ? value[0] || 0 : 0,
                         pipeOut: (value: any, oldValue: any, data: any) => [
                           value,
-                          data.offset[1]
+                          data.offset?.[1] || 0
                         ]
                       },
                       {
@@ -215,7 +215,7 @@ export class TooltipWrapperPlugin extends BasePlugin {
                         pipeIn: (value: any) =>
                           Array.isArray(value) ? value[1] || 0 : 0,
                         pipeOut: (value: any, oldValue: any, data: any) => [
-                          data.offset[0],
+                          data.offset?.[0] || 0,
                           value
                         ]
                       }

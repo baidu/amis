@@ -21,6 +21,7 @@ export interface ComponentInfo {
   disabled?: boolean;
   actions?: RendererPluginAction[]; // 动作集
   children?: ComponentInfo[];
+  id: string;
 }
 
 export interface ContextVariables {

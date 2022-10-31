@@ -57,12 +57,34 @@ export class DrawerPlugin extends BasePlugin {
     {
       eventName: 'confirm',
       eventLabel: '确认',
-      description: '点击抽屉确认按钮时触发'
+      description: '点击抽屉确认按钮时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '抽屉数据'
+            }
+          }
+        }
+      ]
     },
     {
       eventName: 'cancel',
       eventLabel: '取消',
-      description: '点击抽屉取消按钮时触发'
+      description: '点击抽屉取消按钮时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data': {
+              type: 'object',
+              title: '抽屉数据'
+            }
+          }
+        }
+      ]
     }
   ];
 
@@ -123,7 +145,19 @@ export class DrawerPlugin extends BasePlugin {
                   }
                 ],
                 pipeIn: defaultValue('right'),
-                pipeOut: (value: any) => (value ? value : 'right')
+                pipeOut: (value: any) => (value ? value : 'right'),
+                onChange: (
+                  value: string,
+                  oldValue: string,
+                  model: any,
+                  form: any
+                ) => {
+                  if (value === 'left' || value === 'right') {
+                    form.deleteValueByName('height');
+                  } else if (value === 'top' || value === 'bottom') {
+                    form.deleteValueByName('width');
+                  }
+                }
               },
               getSchemaTpl('switch', {
                 name: 'overlay',

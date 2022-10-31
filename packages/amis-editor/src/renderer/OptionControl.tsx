@@ -57,12 +57,26 @@ export default class OptionControl extends React.Component<
   constructor(props: OptionControlProps) {
     super(props);
 
+    let source: 'custom' | 'api' | 'apicenter' = 'custom';
+
+    if (props.data.source) {
+      const api = props.data.source;
+      const url =
+        typeof api === 'string'
+          ? api
+          : typeof api === 'object'
+          ? api.url || ''
+          : '';
+
+      source = !url.indexOf('api://') ? 'apicenter' : 'api';
+    }
+
     this.state = {
       options: this.transformOptions(props),
       api: props.data.source,
       labelField: props.data.labelField,
       valueField: props.data.valueField,
-      source: props.data.source ? 'api' : 'custom'
+      source
     };
   }
 
@@ -494,7 +508,6 @@ export default class OptionControl extends React.Component<
             },
             {
               type: 'input-text',
-              name: 'label',
               placeholder: '请输入显示文本',
               label: '文本',
               mode: 'horizontal',
@@ -611,17 +624,23 @@ export default class OptionControl extends React.Component<
             clearable={false}
             onChange={(value: string) => this.handleEditLabel(index, value)}
           />
-          {render('dropdown', {
-            type: 'dropdown-button',
-            className: 'ae-OptionControlItem-dropdown',
-            btnClassName: 'px-2',
-            icon: 'fa fa-ellipsis-h',
-            hideCaret: true,
-            closeOnClick: true,
-            align: 'right',
-            menuClassName: 'ae-OptionControlItem-ulmenu',
-            buttons: operationBtn
-          })}
+          {render(
+            'dropdown',
+            {
+              type: 'dropdown-button',
+              className: 'ae-OptionControlItem-dropdown',
+              btnClassName: 'px-2',
+              icon: 'fa fa-ellipsis-h',
+              hideCaret: true,
+              closeOnClick: true,
+              align: 'right',
+              menuClassName: 'ae-OptionControlItem-ulmenu',
+              buttons: operationBtn
+            },
+            {
+              popOverContainer: null // amis 渲染挂载节点会使用 this.target
+            }
+          )}
         </div>
         {editDom}
       </li>

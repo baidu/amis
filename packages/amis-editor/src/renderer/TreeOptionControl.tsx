@@ -347,35 +347,41 @@ export default class TreeOptionControl extends React.Component<
           }}
         />
         <div className="ae-TreeOptionControlItem-btns">
-          {render('dropdown', {
-            type: 'dropdown-button',
-            className: 'ae-TreeOptionControlItem-dropdown fa-sm',
-            btnClassName: 'px-2',
-            icon: 'add',
-            hideCaret: true,
-            closeOnClick: true,
-            trigger: 'hover',
-            align: 'right',
-            menuClassName: 'ae-TreeOptionControlItem-ulmenu',
-            buttons: [
-              {
-                type: 'button',
-                className: 'ae-OptionControlItem-action',
-                label: '添加选项',
-                onClick: () => {
-                  this.addOption(path);
+          {render(
+            'dropdown',
+            {
+              type: 'dropdown-button',
+              className: 'ae-TreeOptionControlItem-dropdown fa-sm',
+              btnClassName: 'px-2',
+              icon: 'add',
+              hideCaret: true,
+              closeOnClick: true,
+              trigger: 'hover',
+              align: 'right',
+              menuClassName: 'ae-TreeOptionControlItem-ulmenu',
+              buttons: [
+                {
+                  type: 'button',
+                  className: 'ae-OptionControlItem-action',
+                  label: '添加选项',
+                  onClick: () => {
+                    this.addOption(path);
+                  }
+                },
+                {
+                  type: 'button',
+                  className: 'ae-OptionControlItem-action',
+                  label: '添加子选项',
+                  onClick: () => {
+                    this.addChildOption(path);
+                  }
                 }
-              },
-              {
-                type: 'button',
-                className: 'ae-OptionControlItem-action',
-                label: '添加子选项',
-                onClick: () => {
-                  this.addChildOption(path);
-                }
-              }
-            ]
-          })}
+              ]
+            },
+            {
+              popOverContainer: null // amis 渲染挂载节点会使用 this.target
+            }
+          )}
           <Button
             size="sm"
             onClick={() => {

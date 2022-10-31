@@ -213,6 +213,7 @@ setSchemaTpl('addApi', () => {
   return getSchemaTpl('apiControl', {
     label: '新增接口',
     name: 'addApi',
+    mode: 'row',
     visibleOn: 'data.creatable'
   });
 });
@@ -238,6 +239,7 @@ setSchemaTpl('editApi', () =>
   getSchemaTpl('apiControl', {
     label: '编辑接口',
     name: 'editApi',
+    mode: 'row',
     visibleOn: 'data.editable'
   })
 );
@@ -256,6 +258,7 @@ setSchemaTpl('deleteApi', () =>
   getSchemaTpl('apiControl', {
     label: '删除接口',
     name: 'deleteApi',
+    mode: 'row',
     visibleOn: 'data.removable'
   })
 );

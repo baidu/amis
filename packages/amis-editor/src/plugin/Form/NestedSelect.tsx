@@ -24,7 +24,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-indent';
   pluginIcon = 'nested-select-plugin';
-  description = `适用于选项中含有子项，可通过<code>source</code>拉取选项，支持多选`;
+  description = '适用于选项中含有子项，可通过 source 拉取选项，支持多选';
   docLink = '/amis/zh-CN/components/form/nestedselect';
   tags = ['表单项'];
   scaffold = {
@@ -305,9 +305,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
           },
           {
             title: '选项',
-            body: [
-              getSchemaTpl('treeOptionControl')
-            ]
+            body: [getSchemaTpl('treeOptionControl')]
           },
           getSchemaTpl('status', {isFormItem: true}),
           getSchemaTpl('validation', {

@@ -242,7 +242,7 @@ export class CRUDPlugin extends BasePlugin {
             });
           } else {
             toast.warning(
-              `API返回格式不正确，请点击接口地址右侧示例的问号查看示例`
+              'API返回格式不正确，请点击接口地址右侧示例的问号查看示例'
             );
           }
         }
@@ -527,6 +527,7 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('switch', {
             name: 'filter',
             label: '启用查询条件',
+            visibleOn: 'data.api && data.api.url',
             pipeIn: (value: any) => !!value,
             pipeOut: (value: any, originValue: any) => {
               if (value) {
@@ -552,10 +553,11 @@ export class CRUDPlugin extends BasePlugin {
           }),
 
           {
-            type: 'divider'
+            type: 'divider',
+            visibleOn: 'data.api && data.api.url'
           },
 
-          {
+          getSchemaTpl('combo-container', {
             label: '批量操作',
             name: 'bulkActions',
             type: 'combo',
@@ -597,7 +599,7 @@ export class CRUDPlugin extends BasePlugin {
                 )
               }
             ]
-          },
+          }),
 
           // getSchemaTpl('switch', {
           //   name: 'defaultChecked',
@@ -610,7 +612,7 @@ export class CRUDPlugin extends BasePlugin {
             type: 'divider'
           },
 
-          {
+          getSchemaTpl('combo-container', {
             label: '单条操作',
             name: 'itemActions',
             type: 'combo',
@@ -658,7 +660,7 @@ export class CRUDPlugin extends BasePlugin {
                 )
               }
             ]
-          },
+          }),
 
           {
             type: 'divider',
@@ -679,7 +681,7 @@ export class CRUDPlugin extends BasePlugin {
             }
           }),
 
-          {
+          getSchemaTpl('combo-container', {
             label: '默认参数',
             type: 'input-kv',
             name: 'defaultParams',
@@ -690,7 +692,7 @@ export class CRUDPlugin extends BasePlugin {
               content: '可以用来设置默认参数，比如 <code>perPage:20</code>',
               placement: 'left'
             }
-          },
+          }),
 
           {
             type: 'divider'
@@ -1090,7 +1092,7 @@ export class CRUDPlugin extends BasePlugin {
             ]
           },
 
-          {
+          getSchemaTpl('combo-container', {
             name: 'headerToolbar',
             type: 'combo',
             draggable: true,
@@ -1264,9 +1266,9 @@ export class CRUDPlugin extends BasePlugin {
               //   className: 'm-l-none'
               // }
             ]
-          },
+          }),
 
-          {
+          getSchemaTpl('combo-container', {
             name: 'footerToolbar',
             type: 'combo',
             draggable: true,
@@ -1442,7 +1444,7 @@ export class CRUDPlugin extends BasePlugin {
                 className: 'm-l-none'
               }
             ]
-          },
+          }),
 
           getSchemaTpl('switch', {
             name: 'filterTogglable',

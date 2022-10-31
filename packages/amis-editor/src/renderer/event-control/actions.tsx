@@ -13,9 +13,12 @@ import {
   SHOW_SELECT_PROP,
   renderCmptActionSelect,
   renderCmptSelect,
-  SUPPORT_DISABLED_CMPTS
+  SUPPORT_DISABLED_CMPTS,
+  SUPPORT_STATIC_FORMITEM_CMPTS
 } from './helper';
 import {BaseLabelMark} from '../../component/BaseControl';
+import {i18n as _i18n} from 'i18n-runtime';
+
 const MSG_TYPES: {[key: string]: string} = {
   info: '提示',
   warning: '警告',
@@ -37,7 +40,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           descDetail: (info: any) => {
             return (
               <div>
-                跳转至<span className="variable-left">{info?.args?.url}</span>
+                跳转至
+                <span className="variable-left">{info?.args?.url || '-'}</span>
               </div>
             );
           },
@@ -66,6 +70,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   label: '页面参数',
                   multiple: true,
                   mode: 'horizontal',
+                  size: 'lg',
                   items: [
                     {
                       name: 'key',
@@ -103,13 +108,13 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '打开页面',
           actionType: 'link',
           description: '打开指定页面',
-          innerArgs: ['link', 'params'],
+          innerArgs: ['link', 'params', 'pageName', '__pageInputSchema'],
           descDetail: (info: any) => {
             return (
               <div>
                 打开
                 <span className="variable-left variable-right">
-                  {info?.args?.pageName}
+                  {info?.args?.pageName || '-'}
                 </span>
                 页面
               </div>
@@ -181,7 +186,10 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               required: true,
               pipeIn: defaultValue({
                 title: '弹框标题',
-                body: '<p>对，你刚刚点击了</p>'
+                body: '<p>对，你刚刚点击了</p>',
+                showCloseButton: true,
+                showErrorMsg: true,
+                showLoading: true
               }),
               asFormItem: true,
               visibleOn: 'data.groupType === "dialog"',
@@ -199,7 +207,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   }
                   block
                 >
-                  去配置
+                  {/* 翻译未生效，临时方案 */}
+                  {_i18n('a532be3ad5f3fda70d228b8542e81835')}
                 </Button>
               )
             },
@@ -227,7 +236,8 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   }
                   block
                 >
-                  去配置
+                  {/* 翻译未生效，临时方案 */}
+                  {_i18n('a532be3ad5f3fda70d228b8542e81835')}
                 </Button>
               )
             }
@@ -292,7 +302,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 {MSG_TYPES[info?.args?.msgType] || ''}消息：
-                <span className="variable-left">{info?.args?.msg}</span>
+                <span className="variable-left">{info?.args?.msg || '-'}</span>
               </div>
             );
           },
@@ -421,10 +431,10 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 发送
                 <span className="variable-right variable-left">
-                  {apiInfo?.method}
+                  {apiInfo?.method || '-'}
                 </span>
                 请求：
-                <span className="variable-left">{apiInfo?.url}</span>
+                <span className="variable-left">{apiInfo?.url || '-'}</span>
               </div>
             );
           },
@@ -552,7 +562,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     显示
                     <span className="variable-left variable-right">
-                      {info?.rendererLabel}
+                      {info?.rendererLabel || '-'}
                     </span>
                     组件
                   </div>
@@ -566,7 +576,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     隐藏
                     <span className="variable-left variable-right">
-                      {info?.rendererLabel}
+                      {info?.rendererLabel || '-'}
                     </span>
                     组件
                   </div>
@@ -576,7 +586,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           ],
           supportComponents: '*',
           schema: [
-            ...renderCmptSelect('选择组件', true),
+            ...renderCmptSelect('目标组件', true),
             {
               type: 'radios',
               label: '显示/隐藏',
@@ -611,7 +621,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     启用
                     <span className="variable-left variable-right">
-                      {info?.rendererLabel}
+                      {info?.rendererLabel || '-'}
                     </span>
                     组件
                   </div>
@@ -625,7 +635,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     禁用
                     <span className="variable-left variable-right">
-                      {info?.rendererLabel}
+                      {info?.rendererLabel || '-'}
                     </span>
                     组件
                   </div>
@@ -639,7 +649,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             ...SUPPORT_DISABLED_CMPTS
           ],
           schema: [
-            ...renderCmptSelect('选择组件', true),
+            ...renderCmptSelect('目标组件', true),
             {
               type: 'radios',
               label: '启用/禁用',
@@ -663,6 +673,63 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           ]
         },
         {
+          actionLabel: '组件展示态',
+          actionType: 'staticStatus',
+          description: '控制所选的组件的输入态/静态',
+          actions: [
+            {
+              actionType: 'static',
+              descDetail: (info: any) => {
+                return (
+                  <div>
+                    <span className="variable-left variable-right">
+                      {info?.rendererLabel}
+                    </span>
+                    组件切换为静态
+                  </div>
+                );
+              }
+            },
+            {
+              actionType: 'nonstatic',
+              descDetail: (info: any) => {
+                return (
+                  <div>
+                    <span className="variable-left variable-right">
+                      {info?.rendererLabel}
+                    </span>
+                    组件切换为输入态
+                  </div>
+                );
+              }
+            }
+          ],
+          supportComponents: ['form', ...SUPPORT_STATIC_FORMITEM_CMPTS],
+          schema: [
+            ...renderCmptSelect('选择组件', true),
+            {
+              type: 'radios',
+              label: '组件状态',
+              name: 'groupType',
+              mode: 'horizontal',
+              inputClassName: 'event-action-radio',
+              value: 'nonstatic',
+              required: true,
+              pipeIn: defaultValue('nonstatic'),
+              options: [
+                {
+                  label: '表单输入',
+                  value: 'nonstatic'
+                },
+                {
+                  label: '表单静态',
+                  value: 'static'
+                }
+              ]
+            }
+          ]
+        },
+        {
           actionLabel: '刷新组件',
           actionType: 'reload',
           description: '请求并重新加载所选组件的数据',
@@ -671,19 +738,177 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 刷新
                 <span className="variable-left variable-right">
-                  {info?.rendererLabel}
+                  {info?.rendererLabel || '-'}
                 </span>
                 组件
               </div>
             );
           },
           supportComponents: 'byComponent',
-          schema: renderCmptSelect('选择组件', true)
+          schema: [
+            ...renderCmptSelect(
+              '目标组件',
+              true,
+              (value: string, oldVal: any, data: any, form: any) => {
+                form.setValueByName('args.resetPage', true);
+                form.setValueByName('__addParam', true);
+                form.setValueByName('__customData', false);
+                form.setValueByName('__containerType', 'all');
+                form.setValueByName('__reloadParam', []);
+              }
+            ),
+            {
+              type: 'switch',
+              name: '__resetPage',
+              label: '重置页码',
+              labelRemark: {
+                className: 'm-l-xs',
+                icon: 'fa fa-question-circle',
+                rootClose: true,
+                content: '选择“是”时，将重新请求第一页数据。',
+                placement: 'top'
+              },
+              onText: '是',
+              offText: '否',
+              mode: 'horizontal',
+              pipeIn: defaultValue(true),
+              visibleOn: `data.actionType === "reload" && data.__rendererName === "crud"`
+            },
+            {
+              type: 'switch',
+              name: '__addParam',
+              label: '追加数据',
+              labelRemark: {
+                className: 'm-l-xs',
+                icon: 'fa fa-question-circle',
+                rootClose: true,
+                content: `当选择“是”，且目标组件是增删改查组件时，数据接口请求时将带上这些数据，其他类型的目标组件只有在数据接口是post请求时才会带上这些数据。`,
+                placement: 'top'
+              },
+              onText: '是',
+              offText: '否',
+              mode: 'horizontal',
+              pipeIn: defaultValue(true),
+              visibleOn: `data.actionType === "reload" &&  ${IS_DATA_CONTAINER}`
+            },
+            {
+              type: 'switch',
+              name: '__customData',
+              label: '自定义数据',
+              labelRemark: {
+                className: 'm-l-xs',
+                icon: 'fa fa-question-circle',
+                rootClose: true,
+                content: `数据默认为源组件所在数据域，开启“自定义”可以定制所需数据`,
+                placement: 'top'
+              },
+              onText: '是',
+              offText: '否',
+              mode: 'horizontal',
+              pipeIn: defaultValue(true),
+              visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
+              onChange: (value: string, oldVal: any, data: any, form: any) => {
+                form.setValueByName('__containerType', 'all');
+              }
+            },
+            {
+              type: 'radios',
+              name: '__containerType',
+              mode: 'horizontal',
+              label: '',
+              pipeIn: defaultValue('all'),
+              visibleOn: `data.__addParam && data.__customData && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
+              options: [
+                {
+                  label: '直接赋值',
+                  value: 'all'
+                },
+                {
+                  label: '成员赋值',
+                  value: 'appoint'
+                }
+              ],
+              onChange: (value: string, oldVal: any, data: any, form: any) => {
+                form.setValueByName('__reloadParams', []);
+                form.setValueByName('__valueInput', undefined);
+              }
+            },
+            {
+              name: '__valueInput',
+              type: 'input-formula',
+              variables: '${variables}',
+              evalMode: false,
+              required: true,
+              variableMode: 'tabs',
+              inputMode: 'input-group',
+              label: '',
+              size: 'lg',
+              mode: 'horizontal',
+              visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
+            },
+            {
+              type: 'combo',
+              name: '__reloadParams',
+              label: '',
+              multiple: true,
+              removable: true,
+              addable: true,
+              strictMode: false,
+              canAccessSuperData: true,
+              size: 'lg',
+              mode: 'horizontal',
+              items: [
+                {
+                  name: 'key',
+                  type: 'input-text',
+                  placeholder: '参数名',
+                  labelField: 'label',
+                  valueField: 'value',
+                  required: true
+                },
+                {
+                  name: 'val',
+                  type: 'input-formula',
+                  placeholder: '参数值',
+                  variables: '${variables}',
+                  evalMode: false,
+                  variableMode: 'tabs',
+                  inputMode: 'input-group'
+                }
+              ],
+              visibleOn: `data.__addParam && data.__customData && data.__containerType === "appoint" && data.actionType === "reload" && ${IS_DATA_CONTAINER}`
+            },
+            {
+              type: 'radios',
+              name: 'dataMergeMode',
+              mode: 'horizontal',
+              label: '追加方式',
+              labelRemark: {
+                className: 'm-l-xs',
+                icon: 'fa fa-question-circle',
+                rootClose: true,
+                content: `选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。`,
+                placement: 'top'
+              },
+              pipeIn: defaultValue('merge'),
+              visibleOn: `data.__addParam && data.actionType === "reload" && ${IS_DATA_CONTAINER}`,
+              options: [
+                {
+                  label: '合并',
+                  value: 'merge'
+                },
+                {
+                  label: '覆盖',
+                  value: 'override'
+                }
+              ]
+            }
+          ]
         },
         {
-          actionLabel: '设置组件数据',
+          actionLabel: '组件数据',
           actionType: 'setValue',
-          description: '设置数据容器或表单项的数据',
+          description: '更新目标组件的数据域或目标表单项的数据值',
           innerArgs: [
             'value',
             'index',
@@ -696,7 +921,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 设置
                 <span className="variable-left variable-right">
-                  {info?.rendererLabel}
+                  {info?.rendererLabel || '-'}
                 </span>
                 的数据
                 {/* 值为
@@ -710,25 +935,32 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           },
           supportComponents: 'byComponent',
           schema: [
-            ...renderCmptActionSelect('选择组件', true),
+            ...renderCmptActionSelect(
+              '目标组件',
+              true,
+              (value: string, oldVal: any, data: any, form: any) => {
+                form.setValueByName('args.__containerType', 'all');
+                form.setValueByName('args.__comboType', 'all');
+              }
+            ),
             getArgsWrapper({
               type: 'wrapper',
               className: 'p-none',
               body: [
                 {
                   type: 'radios',
-                  required: true,
                   name: '__containerType',
                   mode: 'horizontal',
-                  label: '赋值方式',
-                  visibleOn: `data.__rendererName && ${IS_DATA_CONTAINER}`,
+                  label: '数据设置',
+                  pipeIn: defaultValue('all'),
+                  visibleOn: `${IS_DATA_CONTAINER}`,
                   options: [
                     {
-                      label: '数据域赋值',
+                      label: '直接赋值',
                       value: 'all'
                     },
                     {
-                      label: '数据域成员赋值',
+                      label: '成员赋值',
                       value: 'appoint'
                     }
                   ],
@@ -744,12 +976,12 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 },
                 {
                   type: 'radios',
-                  required: true,
                   name: '__comboType',
                   inputClassName: 'event-action-radio',
                   mode: 'horizontal',
-                  label: '赋值方式',
-                  visibleOn: `data.__rendererName && __rendererName === 'combo'`,
+                  label: '数据设置',
+                  pipeIn: defaultValue('all'),
+                  visibleOn: `data.__rendererName === 'combo'`,
                   options: [
                     {
                       label: '全量',
@@ -777,37 +1009,31 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   name: 'index',
                   mode: 'horizontal',
                   label: '输入序号',
+                  size: 'lg',
                   placeholder: '请输入待更新序号',
-                  visibleOn: `data.__comboType && __comboType === 'appoint' && data.__rendererName && data.__rendererName === 'combo'`
+                  visibleOn: `data.__comboType === 'appoint' && data.__rendererName === 'combo'`
                 },
                 {
                   type: 'combo',
                   name: 'value',
-                  label: '字段赋值',
+                  label: '',
                   multiple: true,
                   removable: true,
                   required: true,
                   addable: true,
                   strictMode: false,
                   canAccessSuperData: true,
+                  size: 'lg',
                   mode: 'horizontal',
                   items: [
                     {
                       name: 'key',
-                      type: 'select',
+                      type: 'input-text',
                       placeholder: '变量名',
                       source: '${__setValueDs}',
                       labelField: 'label',
                       valueField: 'value',
-                      required: true,
-                      visibleOn: `data.__rendererName && ${SHOW_SELECT_PROP}`
-                    },
-                    {
-                      name: 'key',
-                      type: 'input-text',
-                      placeholder: '变量名',
-                      required: true,
-                      visibleOn: `data.__rendererName && !${SHOW_SELECT_PROP} && __comboType === 'appoint'`
+                      required: true
                     },
                     {
                       name: 'val',
@@ -819,12 +1045,12 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       inputMode: 'input-group'
                     }
                   ],
-                  visibleOn: `data.__rendererName && ${IS_DATA_CONTAINER} && data.__containerType && data.__containerType === 'appoint' || (data.__comboType && __comboType === 'appoint')`
+                  visibleOn: `${IS_DATA_CONTAINER} && data.__containerType === 'appoint' || data.__comboType === 'appoint'`
                 },
                 {
                   type: 'combo',
                   name: 'value',
-                  label: '字段赋值',
+                  label: '',
                   multiple: true,
                   removable: true,
                   required: true,
@@ -832,6 +1058,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   strictMode: false,
                   canAccessSuperData: true,
                   mode: 'horizontal',
+                  size: 'lg',
                   items: [
                     {
                       type: 'combo',
@@ -845,6 +1072,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       strictMode: false,
                       canAccessSuperData: true,
                       className: 'm-l',
+                      size: 'lg',
                       mode: 'horizontal',
                       items: [
                         {
@@ -867,7 +1095,7 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       ]
                     }
                   ],
-                  visibleOn: `data.__rendererName && __rendererName === 'combo' && data.__comboType && __comboType === 'all'`
+                  visibleOn: `data.__rendererName === 'combo' && data.__comboType === 'all'`
                 },
                 {
                   name: '__valueInput',
@@ -876,10 +1104,23 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   evalMode: false,
                   variableMode: 'tabs',
                   inputMode: 'input-group',
-                  label: '赋值',
+                  label: '',
                   size: 'lg',
                   mode: 'horizontal',
-                  visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && !${SHOW_SELECT_PROP} && __rendererName !== 'combo' || (${IS_DATA_CONTAINER} && data.__containerType && data.__containerType === 'all')`,
+                  visibleOn: `(${IS_DATA_CONTAINER} || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
+                  required: true
+                },
+                {
+                  name: '__valueInput',
+                  type: 'input-formula',
+                  variables: '${variables}',
+                  evalMode: false,
+                  variableMode: 'tabs',
+                  inputMode: 'input-group',
+                  label: '数据设置',
+                  size: 'lg',
+                  mode: 'horizontal',
+                  visibleOn: `data.__rendererName && !${IS_DATA_CONTAINER} && data.__rendererName !== 'combo'`,
                   required: true
                 }
               ]
@@ -895,14 +1136,14 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 提交
                 <span className="variable-left variable-right">
-                  {info?.rendererLabel}
+                  {info?.rendererLabel || '-'}
                 </span>
                 的数据
               </div>
             );
           },
           supportComponents: 'form',
-          schema: renderCmptSelect('选择组件', true)
+          schema: renderCmptSelect('目标组件', true)
         },
         {
           actionLabel: '清空表单',
@@ -913,14 +1154,14 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 清空
                 <span className="variable-left variable-right">
-                  {info?.rendererLabel}
+                  {info?.rendererLabel || '-'}
                 </span>
                 的数据
               </div>
             );
           },
           supportComponents: 'form',
-          schema: renderCmptSelect('选择组件', true)
+          schema: renderCmptSelect('目标组件', true)
         },
         {
           actionLabel: '重置表单',
@@ -931,14 +1172,14 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 重置
                 <span className="variable-left variable-right">
-                  {info?.rendererLabel}
+                  {info?.rendererLabel || '-'}
                 </span>
                 的数据
               </div>
             );
           },
           supportComponents: 'form',
-          schema: renderCmptSelect('选择组件', true)
+          schema: renderCmptSelect('目标组件', true)
         },
         {
           actionLabel: '校验表单',
@@ -949,21 +1190,21 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 校验
                 <span className="variable-left variable-right">
-                  {info?.rendererLabel}
+                  {info?.rendererLabel || '-'}
                 </span>
                 的数据
               </div>
             );
           },
           supportComponents: 'form',
-          schema: renderCmptSelect('选择组件', true)
+          schema: renderCmptSelect('目标组件', true)
         },
         {
           actionLabel: '组件特性动作',
           actionType: 'component',
           description: '触发所选组件的特性动作',
           supportComponents: '*',
-          schema: renderCmptActionSelect('选择组件', true)
+          schema: renderCmptActionSelect('目标组件', true)
         }
       ]
     },
@@ -980,7 +1221,9 @@ const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             return (
               <div>
                 复制内容：
-                <span className="variable-left">{info?.args?.content}</span>
+                <span className="variable-left">
+                  {info?.args?.content || '-'}
+                </span>
               </div>
             );
           },
