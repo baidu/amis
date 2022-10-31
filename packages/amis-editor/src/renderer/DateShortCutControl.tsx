@@ -97,8 +97,16 @@ export class DateShortCutControl extends React.PureComponent<
       label: customDropDownOption[key],
       value: key
     }));
+    const defaultRanges = [
+      'yesterday',
+      '7daysago',
+      'prevweek',
+      'thismonth',
+      'prevmonth',
+      'prevquarter'
+    ];
     this.state = {
-      options: (data?.ranges ?? []).map((item: string, index: number) => {
+      options: (data?.ranges ?? defaultRanges).map((item: string, index: number) => {
         const arr = item.match(/^(\d+)[a-zA-Z]+/);
         if (arr) {
           return {

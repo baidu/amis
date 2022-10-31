@@ -311,7 +311,6 @@ export class DateRangeControlPlugin extends BasePlugin {
                     'yesterday': '昨天',
                     'thisweek': '这个周',
                     'prevweek': '上周',
-                    '7daysago': '最近7天',
                     'thismonth': '这个月',
                     'prevmonth': '上个月',
                     'thisquarter': '这个季度',
