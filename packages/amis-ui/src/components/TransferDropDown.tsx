@@ -1,7 +1,7 @@
 import {localeable} from 'amis-core';
 import {themeable} from 'amis-core';
 import {Transfer, TransferProps} from './Transfer';
-import {uncontrollable} from 'amis-core';
+import {uncontrollable, autobind} from 'amis-core';
 import React from 'react';
 import ResultBox from './ResultBox';
 import {Icon} from './icons';
@@ -23,6 +23,11 @@ export interface TransferDropDownProps extends TransferProps {
 }
 
 export class TransferDropDown extends Transfer<TransferDropDownProps> {
+  @autobind
+  handleAfterPopoverHide() {
+    this.setState({inputValue: '', searchResult: null});
+  }
+
   render() {
     const {
       classnames: cx,
@@ -43,10 +48,11 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       overflowTagPopover
     } = this.props;
     const {inputValue, searchResult} = this.state;
-
     const mobileUI = useMobileUI && isMobile();
+
     return (
       <PopOverContainer
+        onAfterHide={this.handleAfterPopoverHide}
         useMobileUI={useMobileUI}
         popOverContainer={popOverContainer}
         popOverClassName={cx('TransferDropDown-popover')}
