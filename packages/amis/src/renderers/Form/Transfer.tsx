@@ -374,11 +374,12 @@ export class BaseTransferRenderer<
     colIndex: number,
     rowIndex: number
   ) {
-    const {render, data} = this.props;
+    const {render, data, classnames: cx} = this.props;
     return render(
       `cell/${colIndex}/${rowIndex}`,
       {
         type: 'text',
+        className: cx({'is-invalid': option?.__unmatched}),
         ...column
       },
       {

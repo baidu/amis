@@ -255,7 +255,11 @@ export class ResultList extends React.Component<
                   />
                 ) : null}
 
-                <label>
+                <label
+                  className={cx('Selections-label', {
+                    'is-invalid': option?.__unmatched
+                  })}
+                >
                   {itemRender(option, {
                     index,
                     disabled,

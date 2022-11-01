@@ -16,6 +16,10 @@ export interface PopOverContainerProps {
   popOverClassName?: string;
   useMobileUI?: boolean;
   placement?: string;
+  /** Popover层隐藏前触发的事件 */
+  onBeforeHide?: () => void;
+  /** Popover层隐藏后触发的事件 */
+  onAfterHide?: () => void;
 }
 
 export interface PopOverContainerState {
@@ -46,9 +50,19 @@ export class PopOverContainer extends React.Component<
 
   @autobind
   close() {
+    const {onBeforeHide, onAfterHide} = this.props;
+
+    if (onBeforeHide && typeof onBeforeHide === 'function') {
+      onBeforeHide?.();
+    }
+
     this.setState({
       isOpened: false
     });
+
+    if (onAfterHide && typeof onAfterHide === 'function') {
+      onAfterHide?.();
+    }
   }
 
   @autobind

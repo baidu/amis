@@ -235,6 +235,8 @@ export const runAction = async (
       ? actionData
       : event.data;
 
+  console.group?.(`run action ${actionConfig.actionType}`);
+  console.debug(`[${actionConfig.actionType}] action args, data`, args, data);
   await actionInstrance.run(
     {
       ...actionConfig,
@@ -245,7 +247,8 @@ export const runAction = async (
     event,
     mergeData
   );
-
+  console.debug(`[${actionConfig.actionType}] action end event`, event);
+  console.groupEnd?.();
   // 阻止原有动作执行
   preventDefault && event.preventDefault();
   // 阻止后续动作执行

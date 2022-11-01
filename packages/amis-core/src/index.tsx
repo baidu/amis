@@ -92,6 +92,9 @@ import {FormRenderer} from './renderers/Form';
 import type {FormHorizontal} from './renderers/Form';
 import {enableDebug, promisify, replaceText, wrapFetcher} from './utils/index';
 
+// @ts-ignore
+export const version = __buildVersion;
+
 export {
   clearStoresCache,
   updateEnv,
@@ -222,7 +225,7 @@ export function render(
   }
 
   // 默认将开启移动端原生 UI
-  if (typeof options.useMobileUI) {
+  if (options.useMobileUI !== false) {
     props.useMobileUI = true;
   }
 

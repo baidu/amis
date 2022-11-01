@@ -80,6 +80,18 @@ order: 9
 }
 ```
 
+### 运行日志
+
+可以在浏览器控制台查看运行日志，类似如下
+
+```
+run action ajax
+  [ajax] action args, data {api: {…}, messages: {…}}
+  [ajax] action end event {context: {…}, type: 'click', prevented: false, stoped: false, preventDefault: ƒ, …}
+```
+
+代表运行了 ajax 动作，第二行是传递的参数和数据，第三行是执行完动作之后的 `event` 值，可以用做后续动作的参数。
+
 ## 事件与动作
 
 事件包含`渲染器事件`和`广播事件`，监听这些事件时，可以通过`event.data`来获取事件对象的数据。
@@ -1405,6 +1417,7 @@ order: 9
 - 数据类型支持范围：`基础类型`、`对象类型`、`数组类型`，数据类型取决于目标组件所需数据值类型
 - 目标组件支持范围：`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据`输入类`组件
 - < 2.3.2 及以下版本，虽然更新数据可以实现对组件数据域的更新，但如果更新数据动作的数据值来自前面的异步动作（例如 发送 http 请求、自定义 JS（异步）），则后面的动作只能通过事件变量`${event.data.xxx}`来获取异步动作产生的数据，无法通过当前数据域`${xxx}`直接获取更新后的数据。
+- 它的值通常都是对象形式，比如 form 传递的值应该是类似 `{"user": "amis"}`，这时就会更新表单里的 `user` 字段值为 `amis`
 
 ```schema
 {

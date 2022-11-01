@@ -1429,7 +1429,11 @@ export default class ComboControl extends React.Component<ComboProps> {
           multiLine ? `Combo--ver` : `Combo--hor`,
           noBorder ? `Combo--noBorder` : '',
           disabled ? 'is-disabled' : '',
-          !isStatic && !disabled && draggable && Array.isArray(value) && value.length > 1
+          !isStatic &&
+            !disabled &&
+            draggable &&
+            Array.isArray(value) &&
+            value.length > 1
             ? 'is-draggable'
             : ''
         )}
@@ -1668,8 +1672,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     // 当有staticSchema 或 type = input-kv | input-kvs
     // 才拦截处理，其他情况交给子表单项处理即可
     if (
-      isStatic
-      && (staticSchema || ['input-kv', 'input-kvs'].includes(type))
+      isStatic &&
+      (staticSchema || ['input-kv', 'input-kvs'].includes(type))
     ) {
       return this.renderStatic();
     }

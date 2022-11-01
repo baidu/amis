@@ -121,6 +121,7 @@ import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import Loading from './Loading';
+import CodeSchema from './Code';
 
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
@@ -769,6 +770,13 @@ export const examples = [
         icon: 'fa fa-glasses',
         path: '/examples/theme',
         component: makeSchemaRenderer(ThemeSchema)
+      },
+
+      {
+        label: '代码高亮',
+        icon: 'fa fa-code',
+        path: '/examples/code',
+        component: makeSchemaRenderer(CodeSchema)
       },
 
       {

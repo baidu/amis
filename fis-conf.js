@@ -288,6 +288,15 @@ if (fis.project.currentMedia() === 'dev') {
         }
       }
     });
+  fis.on('compile:end', function (file) {
+    if (file.subpath === '/packages/amis-core/src/index.tsx') {
+      file.setContent(
+        file
+          .getContent()
+          .replace(/__buildVersion/g, JSON.stringify(package.version))
+      );
+    }
+  });
 }
 
 fis.hook('node_modules', {
@@ -363,6 +372,12 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       file.subpath === '/examples/loader.ts'
     ) {
       file.setContent(file.getContent().replace(/@version/g, package.version));
+    } else if (file.subpath === '/packages/amis-core/src/index.tsx') {
+      file.setContent(
+        file
+          .getContent()
+          .replace(/__buildVersion/g, JSON.stringify(package.version))
+      );
     }
   });
 
