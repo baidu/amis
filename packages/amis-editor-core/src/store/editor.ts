@@ -863,6 +863,7 @@ export const EditorStore = types
         }
         return false;
       },
+      // 判断是否可拖拽容器元素
       draggableContainer(id?: string) {
         const activeId = id || self.activeId;
         const curSchema = this.getSchema(activeId);
