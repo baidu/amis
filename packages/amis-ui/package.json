@@ -11,7 +11,7 @@
     "test": "jest",
     "update-snapshot": "jest --updateSnapshot",
     "coverage": "jest --coverage",
-    "clean-dist": "rimraf lib/* esm/*"
+    "clean-dist": "rimraf lib/** esm/**"
   },
   "author": "fex",
   "license": "Apache-2.0",
