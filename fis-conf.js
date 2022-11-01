@@ -288,6 +288,15 @@ if (fis.project.currentMedia() === 'dev') {
         }
       }
     });
+  fis.on('compile:end', function (file) {
+    if (file.subpath === '/packages/amis-core/src/index.tsx') {
+      file.setContent(
+        file
+          .getContent()
+          .replace(/__buildVersion/g, JSON.stringify(package.version))
+      );
+    }
+  });
 }
 
 fis.hook('node_modules', {
