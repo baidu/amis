@@ -1210,10 +1210,10 @@ export class EditorManager {
    * 复制节点配置
    * @param id
    */
-  copy(id: string) {
+  copy(id: string, toastText: string = '已复制') {
     const json = this.store.getValueOf(id);
     this.clipboardData = stringify(json);
-    toast.info('配置项已复制');
+    toast.info('配置项' + toastText);
   }
 
   /**
@@ -1221,7 +1221,7 @@ export class EditorManager {
    * @param id
    */
   cut(id: string) {
-    this.copy(id);
+    this.copy(id, '已剪切');
     this.del(id);
   }
 

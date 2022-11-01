@@ -18,17 +18,31 @@
   }
 
   &-footer {
-    > div {
-      display: block;
-      > button {
+    margin-top: #{px2rem(10px)};
+
+    &-btn {
+      display: inline-block;
+      width: 50%;
+      padding-right: #{px2rem(5px)};
+
+      &:last-child {
+        padding-left: #{px2rem(5px)};
+        padding-right: 0;
+      }
+
+      > div {
+        width: 100%;
+      }
+
+      button {
         color: var(--Button--default-onHover-color);
         background: var(--Button--default-onHover-bg);
         border-color: var(--Button--default-onHover-border);
-        margin-top: 10px;
         width: 100%;
       }
-      > ul {
+      ul {
         width: 100%;
+        min-width: unset;
       }
     }
   }
@@ -40,6 +54,8 @@
     padding: #{px2rem(3px)} 0;
     border-radius: $Editor-borderRadius;
     position: relative;
+    background: #f7f7f9;
+  
     &::before {
       content: '';
       position: absolute;
@@ -53,8 +69,8 @@
     .ae-DateShortCutControlItem {
       @include flexBox();
       width: 100%;
-      background: #f7f7f9;
       padding: #{px2rem(5px)} #{px2rem(10px)};
+      height: #{px2rem(38px)};
 
       &:hover {
         background: #e9effd;
@@ -72,37 +88,26 @@
         display: inline-flex;
         margin-left: 0;
         margin-right: var(--gap-sm);
+        margin-top: -4px;
         cursor: move;
         color: #8c8c8c;
       }
 
-      &-input {
-        flex: 1;
-        margin: 0;
-        margin-right: #{px2rem(15px)};
+      &-content {
+        display: inline-block;
+        width: 100%;
+        text-align: left;
+        padding: 0 #{px2rem(5px)};
       }
 
-      &-action {
-        margin-left: #{px2rem(5px)};
-        padding-left: 0;
-        padding-right: 0;
-        display: inline-flex;
-        padding: 6px 7px;
-        border: var(--Form-input-borderWidth) solid var(--Form-input-borderColo);
-        background: #fff;
-        font-size: 16px;
-        &:hover {
-          & > svg,
-          & > svg path {
-            fill: var(--primary);
-          }
-        }
-
-        & > svg,
-        & > svg path {
-          fill: var(--text--muted-color);
-        }
+      &-close {
+        cursor: pointer;
       }
     }
+  }
+
+  &-empty {
+    @include flexBox(column, center);
+    height: #{px2rem(38px)};
   }
 }
