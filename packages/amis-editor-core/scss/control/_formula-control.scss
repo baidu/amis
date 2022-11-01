@@ -59,11 +59,14 @@
     }
   }
 
-  &-ResultBox {
+  &-tooltipBox {
     flex: 1;
+    max-width: calc(100% - 39px); // 避免表达式内容太长撑开面板
+  }
+
+  &-ResultBox {
     flex-wrap: nowrap !important; // 不换行，避免被其他样式覆盖
     margin-right: 3px;
-    max-width: calc(100% - 39px); // 避免表达式内容太长撑开面板
     white-space: nowrap;
     padding: 0 0 0 0.75rem;
 
