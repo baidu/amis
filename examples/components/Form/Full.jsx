@@ -1,3 +1,6 @@
+function __uri(url) {
+  return url;
+}
 export default {
   title: '所有 Form 元素列举',
   data: {
