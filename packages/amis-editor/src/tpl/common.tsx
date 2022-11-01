@@ -755,13 +755,6 @@ setSchemaTpl('numberSwitchDefaultValue', {
   pipeOut: (value: any, origin: any, data: any) => (value ? '' : undefined)
 });
 
-setSchemaTpl('numberSwitchKeyboard', {
-  type: 'switch',
-  label: tipedLabel('键盘事件', '默认是不启用'),
-  name: 'keyboard',
-  inputClassName: 'is-inline'
-});
-
 setSchemaTpl('kilobitSeparator', {
   type: 'switch',
   label: '千分符',
