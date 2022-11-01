@@ -13,7 +13,7 @@ import {
   LocaleProps,
   eachTree
 } from 'amis-core';
-import {doc} from 'amis-formula/lib/doc';
+import {doc} from 'amis-formula';
 
 import {FormulaPlugin, editorFactory} from './plugin';
 import FuncList from './FuncList';

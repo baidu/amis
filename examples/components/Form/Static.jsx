@@ -1,3 +1,6 @@
+function __uri(url) {
+  return url;
+}
 export default {
   title: '所有 Form 元素列举',
   data: {
@@ -117,8 +120,7 @@ export default {
           imageCaption: 'jfe fjkda fejfkda fejk fdajf dajfe jfkda',
           popOver: {
             title: '查看大图',
-            body:
-              '<div class="w-xxl"><img class="w-full" src="${image}"/></div>'
+            body: '<div class="w-xxl"><img class="w-full" src="${image}"/></div>'
           }
         },
 

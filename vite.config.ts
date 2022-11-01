@@ -1,0 +1,64 @@
+import {defineConfig} from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+import svgr from 'vite-plugin-svgr';
+import monacoEditorPlugin from 'vite-plugin-monaco-editor';
+import replace from '@rollup/plugin-replace';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    react({
+      babel: {
+        parserOpts: {
+          plugins: ['decorators-legacy', 'classProperties']
+        }
+      }
+    }),
+    svgr({
+      exportAsDefault: true,
+      svgrOptions: {
+        svgProps: {
+          className: 'icon'
+        },
+        prettier: false,
+        dimensions: false
+      }
+    }),
+    monacoEditorPlugin({}),
+    replace({
+      preventAssignment: true,
+      __buildDate__: () => JSON.stringify(new Date()),
+      __buildVersion: JSON.stringify('dev')
+    })
+  ],
+  optimizeDeps: {
+    include: ['amis-formula/lib/doc'],
+    esbuildOptions: {
+      target: 'esnext'
+    }
+  },
+  server: {
+    port: 8888
+  },
+  resolve: {
+    alias: [
+      {
+        find: 'amis-formula',
+        replacement: path.resolve(__dirname, './packages/amis-formula/src')
+      },
+      {
+        find: 'amis-ui',
+        replacement: path.resolve(__dirname, './packages/amis-ui/src')
+      },
+      {
+        find: 'amis-core',
+        replacement: path.resolve(__dirname, './packages/amis-core/src')
+      },
+      {
+        find: 'amis',
+        replacement: path.resolve(__dirname, './packages/amis/src')
+      }
+    ]
+  }
+});

@@ -1,6 +1,7 @@
 import {Evaluator} from './evalutor';
 import {parse} from './parser';
 import {lexer} from './lexer';
+import {doc} from './doc';
 import {registerFilter, filters, getFilters, extendsFilters} from './filter';
 import type {
   FilterContext,
@@ -16,7 +17,8 @@ export {
   filters,
   getFilters,
   registerFilter,
-  extendsFilters
+  extendsFilters,
+  doc
 };
 
 export function evaluate(
