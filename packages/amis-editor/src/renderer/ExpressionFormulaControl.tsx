@@ -10,7 +10,7 @@ import {FormItem, Button, Icon} from 'amis';
 import FormulaPicker from './textarea-formula/FormulaPicker';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
 import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
-
+import {resolveVariablesFromScope} from './textarea-formula/utils';
 
 interface ExpressionFormulaControlProps extends FormControlProps {
   variables?: any; // 公式变量
@@ -24,7 +24,6 @@ interface ExpressionFormulaControlState {
   formulaPickerOpen: boolean;
 
   formulaPickerValue: string;
-
 }
 
 export default class ExpressionFormulaControl extends React.Component<
@@ -43,7 +42,7 @@ export default class ExpressionFormulaControl extends React.Component<
       variables: [],
       formulaPickerOpen: false,
       formulaPickerValue: ''
-    }
+    };
   }
 
   componentDidMount() {
@@ -54,12 +53,12 @@ export default class ExpressionFormulaControl extends React.Component<
     // 优先使用props中的变量数据
     if (!this.props.variables) {
       // 从amis数据域中取变量数据
-      this.resolveVariablesFromScope().then(variables => {
+      const {node, manager} = this.props.formProps || this.props;
+      resolveVariablesFromScope(node, manager).then(variables => {
         if (Array.isArray(variables)) {
-          const vars = variables.filter(item => item.children?.length);
-          if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
+          if (!this.isUnmount && !isEqual(variables, this.state.variables)) {
             this.setState({
-              variables: vars
+              variables: variables
             });
           }
         }
@@ -76,7 +75,8 @@ export default class ExpressionFormulaControl extends React.Component<
 
   @autobind
   initFormulaPickerValue(value: string) {
-    const formulaPickerValue = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
+    const formulaPickerValue =
+      value?.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1) || '';
     this.setState({
       formulaPickerValue
     });
@@ -111,7 +111,7 @@ export default class ExpressionFormulaControl extends React.Component<
   }
 
   @autobind
-  handleConfirm(value: any) {
+  handleConfirm(value = '') {
     value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
     value = value ? `\${${value}}` : '';
     this.props?.onChange?.(value);
@@ -132,40 +132,41 @@ export default class ExpressionFormulaControl extends React.Component<
     const {formulaPickerOpen, formulaPickerValue} = this.state;
 
     const variables = this.props.variables || this.state.variables;
-    const highlightValue = FormulaEditor.highlightValue(formulaPickerValue, this.state.variables) || {
+    const highlightValue = FormulaEditor.highlightValue(
+      formulaPickerValue,
+      this.state.variables
+    ) || {
       html: formulaPickerValue
     };
 
     return (
       <div className={cx('ae-ExpressionFormulaControl', className)}>
-        {
-          formulaPickerValue ? (
-            <Button
-              className="btn-configured"
-              level="primary"
-              tooltip={{
-                placement: 'bottom',
-                tooltipClassName: 'btn-configured-tooltip',
-                children: () => this.renderFormulaValue(highlightValue)
-              }}
-              onClick={this.openFormulaPickerModal}
-            >
-              已配置表达式
-              <Icon
-                icon="close"
-                className="icon"
-                onClick={this.handleClearExpression}
-              />
-            </Button>
-          ) : (
-            <Button
-              className="btn-set-expression"
-              onClick={this.openFormulaPickerModal}
-            >
-              点击编写表达式
-            </Button>
-          )
-        }
+        {formulaPickerValue ? (
+          <Button
+            className="btn-configured"
+            level="primary"
+            tooltip={{
+              placement: 'bottom',
+              tooltipClassName: 'btn-configured-tooltip',
+              children: () => this.renderFormulaValue(highlightValue)
+            }}
+            onClick={this.openFormulaPickerModal}
+          >
+            已配置表达式
+            <Icon
+              icon="close"
+              className="icon"
+              onClick={this.handleClearExpression}
+            />
+          </Button>
+        ) : (
+          <Button
+            className="btn-set-expression"
+            onClick={this.openFormulaPickerModal}
+          >
+            点击编写表达式
+          </Button>
+        )}
 
         {formulaPickerOpen ? (
           <FormulaPicker
@@ -179,7 +180,7 @@ export default class ExpressionFormulaControl extends React.Component<
           />
         ) : null}
       </div>
-    )
+    );
   }
 }
 

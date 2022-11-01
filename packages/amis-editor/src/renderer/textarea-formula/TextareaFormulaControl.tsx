@@ -5,11 +5,7 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual';
 import cx from 'classnames';
-import {
-  Icon,
-  render as amisRender,
-  FormItem
-} from 'amis';
+import {Icon, render as amisRender, FormItem} from 'amis';
 import {autobind, FormControlProps, Schema} from 'amis-core';
 import CodeMirrorEditor from 'amis-ui/lib/components/CodeMirror';
 import {FormulaPlugin, editorFactory} from './plugin';
@@ -17,6 +13,7 @@ import {FormulaPlugin, editorFactory} from './plugin';
 import FormulaPicker from './FormulaPicker';
 import debounce from 'lodash/debounce';
 import CodeMirror from 'codemirror';
+import {resolveVariablesFromScope} from './utils';
 
 export interface TextareaFormulaControlProps extends FormControlProps {
   height?: number; // 输入框的高度
@@ -25,7 +22,7 @@ export interface TextareaFormulaControlProps extends FormControlProps {
 
   variableMode?: 'tree' | 'tabs';
 
-  additionalMenus?: Array<Schema> // 附加底部按钮菜单项
+  additionalMenus?: Array<Schema>; // 附加底部按钮菜单项
 }
 
 interface TextareaFormulaControlState {
@@ -82,7 +79,7 @@ export class TextareaFormulaControl extends React.Component<
             formulaPickerOpen: true,
             formulaPickerValue: '',
             expressionBrace: undefined
-          })
+          });
         }
       }
     ];
@@ -95,12 +92,12 @@ export class TextareaFormulaControl extends React.Component<
     // 优先使用props中的变量数据
     if (!this.props.variables) {
       // 从amis数据域中取变量数据
-      this.resolveVariablesFromScope().then(variables => {
+      const {node, manager} = this.props.formProps || this.props;
+      resolveVariablesFromScope(node, manager).then(variables => {
         if (Array.isArray(variables)) {
-          const vars = variables.filter(item => item.children?.length);
-          if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
+          if (!this.isUnmount && !isEqual(variables, this.state.variables)) {
             this.setState({
-              variables: vars
+              variables
             });
           }
         }
@@ -109,20 +106,6 @@ export class TextareaFormulaControl extends React.Component<
   }
   componentWillUnmount() {
     this.isUnmount = true;
-  }
-
-  async resolveVariablesFromScope() {
-    const {node, manager} = this.props.formProps || this.props;
-    await manager?.getContextSchemas(node);
-    const dataPropsAsOptions = manager?.dataSchema?.getDataPropsAsOptions();
-
-    if (dataPropsAsOptions) {
-      return dataPropsAsOptions.map((item: any) => ({
-        selectMode: 'tree',
-        ...item
-      }));
-    }
-    return [];
   }
 
   @autobind
@@ -150,13 +133,13 @@ export class TextareaFormulaControl extends React.Component<
       formulaPickerOpen: false,
       expressionBrace: undefined
     });
-    
+
     this.closeFormulaPicker();
   }
 
   handleOnChange = debounce((value: any) => {
     this.props.onChange?.(value);
-  }, 1000)
+  }, 1000);
 
   @autobind
   editorFactory(dom: HTMLElement, cm: any) {
@@ -166,7 +149,12 @@ export class TextareaFormulaControl extends React.Component<
   @autobind
   handleEditorMounted(cm: any, editor: any) {
     const variables = this.props.variables || this.state.variables;
-    this.editorPlugin = new FormulaPlugin(editor, cm, () => ({...this.props, variables}), this.onExpressionClick);
+    this.editorPlugin = new FormulaPlugin(
+      editor,
+      cm,
+      () => ({...this.props, variables}),
+      this.onExpressionClick
+    );
   }
 
   @autobind
@@ -177,15 +165,14 @@ export class TextareaFormulaControl extends React.Component<
   }
 
   render() {
+    const {className, header, label, placeholder, height, ...rest} = this.props;
     const {
-      className,
-      header,
-      label,
-      placeholder,
-      height,
-      ...rest
-    } = this.props;
-    const {value, menusList, formulaPickerOpen, formulaPickerValue, isFullscreen} = this.state;
+      value,
+      menusList,
+      formulaPickerOpen,
+      formulaPickerValue,
+      isFullscreen
+    } = this.state;
 
     const variables = rest.variables || this.state.variables || [];
 
@@ -196,11 +183,13 @@ export class TextareaFormulaControl extends React.Component<
     }
 
     return (
-      <div className={cx('ae-TextareaFormulaControl', {'is-fullscreen': this.state.isFullscreen})} ref={(ref: any) => this.wrapRef = ref}>
-        <div
-          className={cx('ae-TextareaResultBox')}
-          style={resultBoxStyle}
-        >
+      <div
+        className={cx('ae-TextareaFormulaControl', {
+          'is-fullscreen': this.state.isFullscreen
+        })}
+        ref={(ref: any) => (this.wrapRef = ref)}
+      >
+        <div className={cx('ae-TextareaResultBox')} style={resultBoxStyle}>
           <CodeMirrorEditor
             className="ae-TextareaResultBox-editor"
             value={value}
@@ -226,11 +215,7 @@ export class TextareaFormulaControl extends React.Component<
           <div className="ae-TextareaResultBox-fullscreen">
             <a
               className={cx('Modal-fullscreen')}
-              data-tooltip={
-                isFullscreen
-                  ? '退出全屏'
-                  : '全屏'
-              }
+              data-tooltip={isFullscreen ? '退出全屏' : '全屏'}
               data-position="left"
               onClick={this.handleFullscreenModeChange}
             >

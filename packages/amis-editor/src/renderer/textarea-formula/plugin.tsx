@@ -13,7 +13,8 @@ export function editorFactory(
 ) {
   return cm(dom, {
     value: props.value || '',
-    autofocus: true
+    autofocus: true,
+    lineWrapping: true
   });
 }
 
@@ -22,7 +23,10 @@ export class FormulaPlugin {
     readonly editor: CodeMirror.Editor,
     readonly cm: typeof CodeMirror,
     readonly getProps: () => TextareaFormulaControlProps,
-    readonly onExpressionClick: (expression: string, brace?: Array<CodeMirror.Position>) => any
+    readonly onExpressionClick: (
+      expression: string,
+      brace?: Array<CodeMirror.Position>
+    ) => any
   ) {
     const {value} = this.getProps();
     if (value) {
@@ -69,14 +73,16 @@ export class FormulaPlugin {
         const start = braces[i].begin;
         const end = braces[i].end;
         if (expression === content.slice(start, end)) {
-          return [{
-            line: line,
-            ch: start - 2
-          },
-          {
-            line: line,
-            ch: end + 1
-          }];
+          return [
+            {
+              line: line,
+              ch: start - 2
+            },
+            {
+              line: line,
+              ch: end + 1
+            }
+          ];
         }
       }
     }
@@ -148,7 +154,11 @@ export class FormulaPlugin {
     }
   }
 
-  insertContent(value: any, type?: 'expression', brace?: Array<CodeMirror.Position>) {
+  insertContent(
+    value: any,
+    type?: 'expression',
+    brace?: Array<CodeMirror.Position>
+  ) {
     if (brace) {
       // 替换
       const [from, to] = brace;
@@ -183,9 +193,12 @@ export class FormulaPlugin {
     text.onclick = () => {
       const brace = this.getExpressionBrace(expression);
       this.onExpressionClick(expression, brace);
-    }
+    };
     const {variables} = this.getProps();
-    const highlightValue = FormulaEditor.highlightValue(expression, variables) || {
+    const highlightValue = FormulaEditor.highlightValue(
+      expression,
+      variables
+    ) || {
       html: expression
     };
     // 添加popover
