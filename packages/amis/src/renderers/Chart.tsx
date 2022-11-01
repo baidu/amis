@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Renderer, RendererProps} from 'amis-core';
+import {ActionObject, Renderer, RendererProps} from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 
 import {filter, evalExpression} from 'amis-core';
@@ -26,6 +26,20 @@ import {
 import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
+import pick from 'lodash/pick';
+
+const DEFAULT_EVENT_PARAMS = [
+  'componentType',
+  'seriesType',
+  'seriesIndex',
+  'seriesName',
+  'name',
+  'dataIndex',
+  'data',
+  'dataType',
+  'value',
+  'color'
+];
 
 /**
  * Chart 图表渲染器。
@@ -195,6 +209,7 @@ export class Chart extends React.Component<ChartProps> {
     this.reload = this.reload.bind(this);
     this.reloadEcharts = debounce(this.reloadEcharts.bind(this), 300); //过于频繁更新 ECharts 会报错
     this.handleClick = this.handleClick.bind(this);
+    this.dispatchEvent = this.dispatchEvent.bind(this);
     this.mounted = true;
 
     props.config && this.renderChart(props.config);
@@ -243,12 +258,39 @@ export class Chart extends React.Component<ChartProps> {
     clearTimeout(this.timer);
   }
 
-  handleClick(ctx: object) {
-    const {onAction, clickAction, data} = this.props;
+  async handleClick(ctx: object) {
+    const {onAction, clickAction, data, dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      (ctx as any).event,
+      createObject(data, {
+        ...pick(ctx, DEFAULT_EVENT_PARAMS)
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     clickAction &&
       onAction &&
       onAction(null, clickAction, createObject(data, ctx));
+  }
+
+  dispatchEvent(ctx: any) {
+    const {data, dispatchEvent} = this.props;
+
+    dispatchEvent(
+      (ctx as any).event,
+      createObject(data, {
+        ...pick(
+          ctx,
+          ctx.type === 'legendselectchanged'
+            ? ['name', 'selected']
+            : DEFAULT_EVENT_PARAMS
+        )
+      })
+    );
   }
 
   refFn(ref: any) {
@@ -298,6 +340,8 @@ export class Chart extends React.Component<ChartProps> {
 
         onChartMount?.(this.echarts, echarts);
         this.echarts.on('click', this.handleClick);
+        this.echarts.on('mouseover', this.dispatchEvent);
+        this.echarts.on('legendselectchanged', this.dispatchEvent);
         this.unSensor = resizeSensor(ref, () => {
           const width = ref.offsetWidth;
           const height = ref.offsetHeight;
@@ -322,6 +366,13 @@ export class Chart extends React.Component<ChartProps> {
     }
 
     this.ref = ref;
+  }
+
+  doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
+    return this.echarts?.dispatchAction?.({
+      type: action.actionType,
+      ...data
+    });
   }
 
   reload(

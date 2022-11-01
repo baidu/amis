@@ -478,9 +478,19 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
 | trackExpression    | `string`                                     |           | 当这个表达式的值有变化时更新图表                                                                                                                                                         |
 | dataFilter         | `string`                                     |           | 自定义 echart config 转换，函数签名：function(config, echarts, data) {return config;} 配置时直接写函数体。其中 config 是当前 echart 配置，echarts 就是 echarts 对象，data 为上下文数据。 |
 
+## 事件表
+
+> 2.4.1 及以上版本
+
+当前组件会对外派发`click`、`mouseover`、`legendselectchanged`事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。事件参数提供通用的字段，可以查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/)。
+
 ## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
 | 动作名称 | 动作配置                   | 说明                                       |
 | -------- | -------------------------- | ------------------------------------------ |
 | reload   | -                          | 刷新（重新加载）                           |
 | setValue | `value: object` 更新的数据 | 更新数据，等于更新图表所依赖数据域中的变量 |
+
+2.4.1 及以上版本，除了以上动作，还支持直接触发[ECharts 组件行为](https://echarts.apache.org/handbook/zh/concepts/event/#%E4%BB%A3%E7%A0%81%E8%A7%A6%E5%8F%91-echarts-%E4%B8%AD%E7%BB%84%E4%BB%B6%E7%9A%84%E8%A1%8C%E4%B8%BA)，即通过`actionType`指定行为名称，行为配置通过`args: {动作配置项名称: xxx}`来配置具体的参数。
