@@ -13,7 +13,14 @@ import isString from 'lodash/isString';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import cx from 'classnames';
-import {FormItem, Button, InputBox, Icon, ResultBox} from 'amis';
+import {
+  FormItem,
+  Button,
+  InputBox,
+  Icon,
+  ResultBox,
+  TooltipWrapper
+} from 'amis';
 import {FormulaExec, isExpression} from 'amis';
 import {PickerContainer, relativeValueRe} from 'amis';
 import {FormulaEditor} from 'amis-ui/lib/components/formula/Editor';
@@ -571,21 +578,34 @@ export default class FormulaControl extends React.Component<
           )}
         {/* 非简单模式 &（表达式 或 日期快捷）*/}
         {!simple && (isExpr || this.hasDateShortcutkey(value)) && (
-          <ResultBox
-            className={cx(
-              'ae-editor-FormulaControl-ResultBox',
-              isError ? 'is-error' : ''
-            )}
-            allowInput={false}
-            clearable={true}
-            value={value}
-            result={{html: '已配置'}}
-            itemRender={this.renderFormulaValue}
-            onChange={this.handleInputChange}
-            onResultChange={() => {
-              this.handleInputChange(undefined);
+          <TooltipWrapper
+            trigger="hover"
+            placement="top"
+            style={{fontSize: '12px'}}
+            tooltip={{
+              tooltipTheme: 'dark',
+              mouseLeaveDelay: 20,
+              content: value
             }}
-          />
+          >
+            <div className="ae-editor-FormulaControl-tooltipBox">
+              <ResultBox
+                className={cx(
+                  'ae-editor-FormulaControl-ResultBox',
+                  isError ? 'is-error' : ''
+                )}
+                allowInput={false}
+                clearable={true}
+                value={value}
+                result={{html: '已配置'}}
+                itemRender={this.renderFormulaValue}
+                onChange={this.handleInputChange}
+                onResultChange={() => {
+                  this.handleInputChange(undefined);
+                }}
+              />
+            </div>
+          </TooltipWrapper>
         )}
         <PickerContainer
           showTitle={false}
@@ -634,11 +654,6 @@ export default class FormulaControl extends React.Component<
             </Button>
           )}
         </PickerContainer>
-        {isExpr && !isError && (
-          <div className="desc-msg info-msg" title={value}>
-            {value}
-          </div>
-        )}
         {isError && (
           <div className="desc-msg error-msg">
             {isLoop ? '当前表达式异常（存在循环引用）' : '数值类型不匹配'}
