@@ -1,0 +1,109 @@
+.ae-TextareaFormulaControl {
+  position: relative;
+  &-input {
+    textarea {
+      resize: none;
+    }
+  }
+
+  .ae-TextareaResultBox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 1px solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    background: var(--Form-input-bg);
+    font-size: var(--Form-input-fontSize);
+    overflow-y: auto;
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+    }
+
+    &:hover {
+      border-color: var(--Form-input-onHover-borderColor);
+    }
+
+    &-editor {
+      height: 100%;
+      & > .CodeMirror {
+        height: 100%;
+        padding-right: 24px;
+        padding-bottom: 24px;
+      }
+
+      .cm-expression {
+        display: inline-block;
+        position: relative;
+        padding: 0 5px;
+        border-radius: 3px;
+        color: #fff;
+        margin: 0 1px;
+        background: #007bff;
+        cursor: pointer;
+
+        &:hover {
+          .expression-popover {
+            display: block;
+          }
+        }
+
+        .expression-popover {
+          position: absolute;
+          display: none;
+          left: 0;
+          bottom: -24px;
+          transform: translate(calc(24px - 50%));
+          font-size: 12px;
+          width: max-content;
+          color: #000;
+          border-radius: 4px;
+          padding: 0 8px;
+          background: var(--Tooltip-bg);
+          box-shadow: var(--Tooltip-boxShadow);
+          background-color: #fff;
+        }
+      }
+    }
+
+    &-dropdown {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+    }
+
+    &-menus {
+      min-width: 60px;
+      left: auto;
+      right: 4px;
+    }
+
+    &-fullscreen {
+      position: absolute;
+      top: 4px;
+      right: 12px;
+      cursor: pointer;
+    }
+  }
+
+  &.is-fullscreen {
+    margin: 0 !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2147483630 !important;
+    width: auto !important;
+    height: auto !important;
+    .ae-TextareaResultBox {
+      height: 100% !important;
+      &-dropdown {
+        bottom: 60px;
+      }
+      &-menus {
+        right: 10px;
+      }
+    }
+  }
+}
