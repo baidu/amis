@@ -7,7 +7,11 @@ import {
   Instance
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
-import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {
+  resolveVariable,
+  resolveVariableAndFilter,
+  isPureVariable
+} from '../utils/tpl-builtin';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
 import sortBy from 'lodash/sortBy';
@@ -328,17 +332,24 @@ export const TableStore = iRendererStore
     }
 
     function getExportedColumns() {
-      return self.columns.filter(item => {
-        return (
-          item &&
-          isVisible(
-            item.pristine,
-            hasVisibleExpression(item.pristine) ? self.data : {}
-          ) &&
-          (item.toggled || !item.toggable) &&
-          !/^__/.test(item.type)
-        );
-      });
+      return self.columns
+        .filter(item => {
+          return (
+            item &&
+            isVisible(
+              item.pristine,
+              hasVisibleExpression(item.pristine) ? self.data : {}
+            ) &&
+            (item.toggled || !item.toggable) &&
+            !/^__/.test(item.type)
+          );
+        })
+        .map(item => ({
+          ...item,
+          label: isPureVariable(item.label)
+            ? resolveVariableAndFilter(item.label, self.data)
+            : item.label
+        }));
     }
 
     function getFilteredColumns() {
