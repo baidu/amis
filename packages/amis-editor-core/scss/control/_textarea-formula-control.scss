@@ -5,7 +5,7 @@
       resize: none;
     }
   }
-  
+
   .ae-TextareaResultBox {
     position: relative;
     width: 100%;
@@ -19,7 +19,7 @@
     &::placeholder {
       color: var(--Form-input-placeholderColor);
     }
-  
+
     &:hover {
       border-color: var(--Form-input-onHover-borderColor);
     }
@@ -31,6 +31,7 @@
         padding-right: 24px;
         padding-bottom: 24px;
       }
+
       .cm-expression {
         display: inline-block;
         position: relative;
@@ -60,6 +61,7 @@
           padding: 0 8px;
           background: var(--Tooltip-bg);
           box-shadow: var(--Tooltip-boxShadow);
+          background-color: #fff;
         }
       }
     }
@@ -105,4 +107,3 @@
     }
   }
 }
-
