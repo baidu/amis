@@ -1,7 +1,6 @@
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin, RegionConfig} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl';
+import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 
 export class ContainerPlugin extends BasePlugin {
   // 关联渲染器名字
@@ -132,7 +131,6 @@ export class ContainerPlugin extends BasePlugin {
               getSchemaTpl('layout:max-width'),
               getSchemaTpl('layout:min-width'),
               getSchemaTpl('layout:overflow-x'),
-
               !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
             ]
           },

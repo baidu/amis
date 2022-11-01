@@ -2,7 +2,7 @@
  * @file Flex 常见布局 1:3
  */
 import {BasePlugin, PluginEvent} from 'amis-editor-core';
-import {getSchemaTpl} from 'amis-editor-core';
+import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import type {
   BaseEventContext,
   EditorNodeType,
@@ -10,7 +10,6 @@ import type {
   RendererJSONSchemaResolveEventContext,
   BasicToolbarItem
 } from 'amis-editor-core';
-import {tipedLabel} from '../../component/BaseControl';
 
 // 默认的列容器Schema
 const defaultFlexColumnSchema = (title: string) => {

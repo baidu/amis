@@ -1,5 +1,4 @@
-import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {tipedLabel} from '../component/BaseControl'
+import {setSchemaTpl, getSchemaTpl, defaultValue, tipedLabel} from 'amis-editor-core';
 import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
 
