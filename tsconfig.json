@@ -19,7 +19,14 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     //
-    "composite": true
+    "composite": true,
+
+    "paths": {
+      "amis-core": ["./packages/amis-core/src/index.tsx"],
+      "amis-formula": ["./packages/amis-formula/src/index.ts"],
+      "amis-ui": ["./packages/amis-ui/src/index.tsx"],
+      "amis": ["./packages/amis/src/index.tsx"]
+    }
   },
   "types": ["typePatches"],
   "references": [{"path": "packages/amis"}],
