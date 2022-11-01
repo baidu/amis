@@ -32,7 +32,8 @@ export class NumberControlPlugin extends BasePlugin {
   scaffold = {
     type: 'input-number',
     label: '数字',
-    name: 'number'
+    name: 'number',
+    keyboard: true
   };
   previewSchema: any = {
     type: 'form',
@@ -137,7 +138,13 @@ export class NumberControlPlugin extends BasePlugin {
                   required: true
                 }),
                 getSchemaTpl('label'),
-                getSchemaTpl('numberSwitchKeyboard'),
+                {
+                  type: 'switch',
+                  label: tipedLabel('键盘事件', '通过键盘上下方向键来加减数值'),
+                  name: 'keyboard',
+                  value: true,
+                  inputClassName: 'is-inline'
+                },
                 getSchemaTpl('kilobitSeparator'),
 
                 getSchemaTpl('valueFormula', {
