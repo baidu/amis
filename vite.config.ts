@@ -51,6 +51,10 @@ export default defineConfig({
   resolve: {
     alias: [
       {
+        find: 'amis-formula/lib',
+        replacement: path.resolve(__dirname, './packages/amis-formula/src')
+      },
+      {
         find: 'amis-formula',
         replacement: path.resolve(__dirname, './packages/amis-formula/src')
       },

@@ -4,7 +4,7 @@ import doctrine from 'doctrine';
 
 const workDir = path.resolve(path.dirname(__dirname));
 const jsFile = path.join(workDir, 'src/evalutor.ts');
-const outputFile = path.join(workDir, 'lib/doc.ts');
+const outputFile = path.join(workDir, 'src/doc.ts');
 const outputMD = path.join(workDir, 'src/doc.md');
 
 function getFormulaComments(contents: string) {

@@ -28,7 +28,7 @@
     }
   },
   "types": ["typePatches"],
-  "references": [{"path": "packages/amis"}],
+  "references": [],
   "include": [
     "**.ts",
     "**.tsx",
