@@ -104,7 +104,7 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
     return (
       <EditorNodeContext.Provider value={this.editorNode}>
         {this.props.children}
-        <span className="ae-Region-placeholder">
+        <span className={`ae-Region-placeholder ${this.props.rendererName === 'wrapper' ? 'layout-content' : ''}`}>
           {this.props.placeholder || this.props.label}
         </span>
       </EditorNodeContext.Provider>

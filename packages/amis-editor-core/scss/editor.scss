@@ -1076,6 +1076,12 @@
   border: 1px dashed rgb(206, 208, 211);
   background: rgba(10, 19, 37, 0.05);
 
+  &.layout-content {
+    height: 100%;
+    min-height: 88px;
+    background: #F7F7F8;
+  }
+
   &:first-child {
     display: flex;
     align-items: center;
