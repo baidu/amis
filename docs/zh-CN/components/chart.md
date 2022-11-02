@@ -431,7 +431,185 @@ ECharts 中有些配置项可以写函数，比如 formatter 和 sort，但在 J
 window.echarts = amisRequire('echarts');
 ```
 
-然后通过 script 标签引入这两个文件。
+然后通过 script 标签引入这两个文件，或者用下面的新版方法
+
+## 地图配置
+
+> 2.4.1 及以上版本
+
+新增了 `mapURL` 及 `mapName` 两个配置项
+
+```schema: scope="body"
+{
+      "type": "chart",
+      "mapURL": "/api/map/HK",
+      "mapName": "HK",
+      "height": 600,
+      "config": {
+        "title": {
+          "text": "Population Density of Hong Kong （2011）",
+          "subtext": "Data from Wikipedia"
+        },
+        "tooltip": {
+          "trigger": "item",
+          "formatter": "{b}<br/>{c} (p / km2)"
+        },
+        "toolbox": {
+          "show": true,
+          "orient": "vertical",
+          "left": "right",
+          "top": "center",
+          "feature": {
+            "dataView": {
+              "readOnly": false
+            },
+            "restore": {},
+            "saveAsImage": {}
+          }
+        },
+        "visualMap": {
+          "min": 800,
+          "max": 50000,
+          "text": [
+            "High",
+            "Low"
+          ],
+          "realtime": false,
+          "calculable": true,
+          "inRange": {
+            "color": [
+              "lightskyblue",
+              "yellow",
+              "orangered"
+            ]
+          }
+        },
+        "series": [
+          {
+            "name": "香港18区人口密度",
+            "type": "map",
+            "map": "HK",
+            "label": {
+              "show": true
+            },
+            "data": [
+              {
+                "name": "中西区",
+                "value": 20057.34
+              },
+              {
+                "name": "湾仔",
+                "value": 15477.48
+              },
+              {
+                "name": "东区",
+                "value": 31686.1
+              },
+              {
+                "name": "南区",
+                "value": 6992.6
+              },
+              {
+                "name": "油尖旺",
+                "value": 44045.49
+              },
+              {
+                "name": "深水埗",
+                "value": 40689.64
+              },
+              {
+                "name": "九龙城",
+                "value": 37659.78
+              },
+              {
+                "name": "黄大仙",
+                "value": 45180.97
+              },
+              {
+                "name": "观塘",
+                "value": 55204.26
+              },
+              {
+                "name": "葵青",
+                "value": 21900.9
+              },
+              {
+                "name": "荃湾",
+                "value": 4918.26
+              },
+              {
+                "name": "屯门",
+                "value": 5881.84
+              },
+              {
+                "name": "元朗",
+                "value": 4178.01
+              },
+              {
+                "name": "北区",
+                "value": 2227.92
+              },
+              {
+                "name": "大埔",
+                "value": 2180.98
+              },
+              {
+                "name": "沙田",
+                "value": 9172.94
+              },
+              {
+                "name": "西贡",
+                "value": 3368
+              },
+              {
+                "name": "离岛",
+                "value": 806.98
+              }
+            ],
+            "nameMap": {
+              "Central and Western": "中西区",
+              "Eastern": "东区",
+              "Islands": "离岛",
+              "Kowloon City": "九龙城",
+              "Kwai Tsing": "葵青",
+              "Kwun Tong": "观塘",
+              "North": "北区",
+              "Sai Kung": "西贡",
+              "Sha Tin": "沙田",
+              "Sham Shui Po": "深水埗",
+              "Southern": "南区",
+              "Tai Po": "大埔",
+              "Tsuen Wan": "荃湾",
+              "Tuen Mun": "屯门",
+              "Wan Chai": "湾仔",
+              "Wong Tai Sin": "黄大仙",
+              "Yau Tsim Mong": "油尖旺",
+              "Yuen Long": "元朗"
+            }
+          }
+        ]
+      }
+    }
+```
+
+## 加载百度地图
+
+配置 `loadBaiduMap` 后会加载百度地图，需要配置 `ak`
+
+```schema: scope="body"
+{
+  "type": "chart",
+  "loadBaiduMap": true,
+  "ak": "LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7",
+  "config": {
+    "bmap": {
+      "center": [116.414, 39.915],
+      "zoom": 14,
+      "roam": true
+    }
+  }
+}
+```
 
 ## 动态处理 echart 配置
 
@@ -477,6 +655,9 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
 | replaceChartOption | `boolean`                                    | `false`   | 每次更新是完全覆盖配置项还是追加？                                                                                                                                                       |
 | trackExpression    | `string`                                     |           | 当这个表达式的值有变化时更新图表                                                                                                                                                         |
 | dataFilter         | `string`                                     |           | 自定义 echart config 转换，函数签名：function(config, echarts, data) {return config;} 配置时直接写函数体。其中 config 是当前 echart 配置，echarts 就是 echarts 对象，data 为上下文数据。 |
+| mapURL             | [api](../../docs/types/api)                  |           | 地图 geo json 地址                                                                                                                                                                       |
+| mapName            | string                                       |           | 地图名称                                                                                                                                                                                 |
+| loadBaiduMap       | boolean                                      |           | 加载百度地图                                                                                                                                                                             |
 
 ## 事件表
 
