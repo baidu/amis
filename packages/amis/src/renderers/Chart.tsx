@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ActionObject, Renderer, RendererProps} from 'amis-core';
+import {
+  Api,
+  ActionObject,
+  Renderer,
+  RendererProps,
+  loadScript
+} from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 
 import {filter, evalExpression} from 'amis-core';
@@ -130,6 +136,21 @@ export interface ChartSchema extends BaseSchema {
    * 不可见的时候隐藏
    */
   unMountOnHidden?: boolean;
+
+  /**
+   * 获取 geo json 文件的地址
+   */
+  mapURL?: string;
+
+  /**
+   * 地图名称
+   */
+  mapName?: string;
+
+  /**
+   * 加载百度地图
+   */
+  loadBaiduMap?: boolean;
 }
 
 const EVAL_CACHE: {[key: string]: Function} = {};
@@ -295,7 +316,16 @@ export class Chart extends React.Component<ChartProps> {
 
   refFn(ref: any) {
     const chartRef = this.props.chartRef;
-    const {chartTheme, onChartWillMount, onChartUnMount, env} = this.props;
+    const {
+      chartTheme,
+      onChartWillMount,
+      onChartUnMount,
+      env,
+      loadBaiduMap,
+      data
+    } = this.props;
+    let {mapURL, mapName} = this.props;
+
     let onChartMount = this.props.onChartMount;
 
     if (ref) {
@@ -309,6 +339,28 @@ export class Chart extends React.Component<ChartProps> {
       ]).then(async ([echarts, ecStat]) => {
         (window as any).echarts = echarts;
         (window as any).ecStat = ecStat?.default || ecStat;
+
+        if (mapURL && mapName) {
+          if (isPureVariable(mapURL)) {
+            mapURL = resolveVariableAndFilter(mapURL, data);
+          }
+          if (isPureVariable(mapName)) {
+            mapName = resolveVariableAndFilter(mapName, data);
+          }
+          const mapGeoResult = await env.fetcher(mapURL as Api, data);
+          if (!mapGeoResult.ok) {
+            console.warn('fetch map geo error ' + mapURL);
+          }
+
+          echarts.registerMap(mapName!, mapGeoResult.data);
+        }
+
+        if (loadBaiduMap) {
+          await loadScript(
+            `//api.map.baidu.com/api?v=3.0&ak=${this.props.ak}&callback={{callback}}`
+          );
+        }
+
         let theme = 'default';
 
         if (chartTheme) {
