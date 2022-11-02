@@ -36,68 +36,31 @@
       }
     </style>
     <script type="module">
-      // // gitee 最近特别慢
-      // if (location.hostname === 'baidu.gitee.io') {
-      //   location.hostname = 'aisuda.bce.baidu.com';
-      // }
+      let theme = localStorage.getItem('amis-theme') || 'cxd';
+      if (theme === 'default') {
+        theme = 'cxd';
+      }
 
-      // let theme = localStorage.getItem('amis-theme') || 'cxd';
-      // if (theme === 'default') {
-      //   theme = 'cxd';
-      // }
-
-      // // 非 IE 模式
-      // if (window.navigator.userAgent.indexOf('Trident') === -1) {
-      //   document.write(
-      //     `<link rel="stylesheet" title="ang" ${
-      //       theme !== 'ang' ? 'disabled' : ''
-      //     }  href="${__uri('amis/lib/themes/ang.css')}" />`
-      //   );
-      //   document.write(
-      //     `<link rel="stylesheet" title="cxd" ${
-      //       theme !== 'cxd' ? 'disabled' : ''
-      //     } href="${__uri('amis/lib/themes/cxd.css')}" />`
-      //   );
-      //   document.write(
-      //     `<link rel="stylesheet" title="dark" ${
-      //       theme !== 'dark' ? 'disabled' : ''
-      //     } href="${__uri('amis/lib/themes/dark.css')}" />`
-      //   );
-      //   document.write(
-      //     `<link rel="stylesheet" title="antd" ${
-      //       theme !== 'antd' ? 'disabled' : ''
-      //     } href="${__uri('amis/lib/themes/antd.css')}" />`
-      //   );
-      // } else {
-      //   document.write(
-      //     `<link rel="stylesheet" title="ang" ${
-      //       theme !== 'ang' ? 'disabled' : ''
-      //     }  href="${__uri('amis/lib/themes/ang-ie11.css')}" />`
-      //   );
-      //   document.write(
-      //     `<link rel="stylesheet" title="cxd" ${
-      //       theme !== 'cxd' ? 'disabled' : ''
-      //     } href="${__uri('amis/lib/themes/cxd-ie11.css')}" />`
-      //   );
-      //   document.write(
-      //     `<link rel="stylesheet" title="dark" ${
-      //       theme !== 'dark' ? 'disabled' : ''
-      //     } href="${__uri('amis/lib/themes/dark-ie11.css')}" />`
-      //   );
-      //   document.write(
-      //     `<link rel="stylesheet" title="antd" ${
-      //       theme !== 'antd' ? 'disabled' : ''
-      //     } href="${__uri('amis/lib/themes/antd-ie11.css')}" />`
-      //   );
-      // }
+      ['ang', 'cxd', 'dark', 'antd'].forEach(key => {
+        const link = document.createElement('link');
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('title', key);
+        if (theme !== key) {
+          link.setAttribute('disabled', 'disabled');
+        }
+        link.setAttribute(
+          'href',
+          new URL(`./packages/amis/lib/themes/${key}.css`, import.meta.url).href
+        );
+        document.head.appendChild(link);
+      });
     </script>
     <link rel="stylesheet" href="./packages/amis/lib/helper.css" />
   </head>
 
   <body>
     <div id="root" class="app-wrapper"></div>
-    <script type="module">
-      import {bootstrap} from './examples/index.jsx';
+    <script type="text/javascript">
       if (location.hostname !== 'localhost') {
         var _hmt = _hmt || [];
 
@@ -110,6 +73,34 @@
           s.parentNode.insertBefore(hm, s);
         })();
       }
+    </script>
+    <script type="module">
+      import {bootstrap} from './examples/index.jsx';
+
+      import * as monaco from 'monaco-editor';
+      import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
+      import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
+      import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
+      import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
+      import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
+
+      self.MonacoEnvironment = {
+        getWorker(_, label) {
+          if (label === 'json') {
+            return new jsonWorker();
+          }
+          if (label === 'css' || label === 'scss' || label === 'less') {
+            return new cssWorker();
+          }
+          if (label === 'html' || label === 'handlebars' || label === 'razor') {
+            return new htmlWorker();
+          }
+          if (label === 'typescript' || label === 'javascript') {
+            return new tsWorker();
+          }
+          return new editorWorker();
+        }
+      };
 
       window.enableAMISDebug = true;
 

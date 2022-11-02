@@ -4,10 +4,17 @@ import path from 'path';
 import svgr from 'vite-plugin-svgr';
 import monacoEditorPlugin from 'vite-plugin-monaco-editor';
 import replace from '@rollup/plugin-replace';
+import fis3 from './scripts/fis3plugin';
+import markdown from './scripts/markdownPlugin';
+import mockApi from './scripts/mockApiPlugin';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    fis3(),
+    markdown(),
+    mockApi(),
+
     react({
       babel: {
         parserOpts: {
@@ -46,6 +53,10 @@ export default defineConfig({
       {
         find: 'amis-formula',
         replacement: path.resolve(__dirname, './packages/amis-formula/src')
+      },
+      {
+        find: 'amis-ui/lib',
+        replacement: path.resolve(__dirname, './packages/amis-ui/src')
       },
       {
         find: 'amis-ui',
