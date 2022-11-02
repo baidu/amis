@@ -13,7 +13,7 @@ import {
   InputBox
 } from 'amis';
 import {eachTree, mapTree} from 'amis-core';
-// import 'amis-ui/lib/locale/en-US';
+import 'amis-ui/lib/locale/en-US';
 import {withRouter} from 'react-router';
 // @ts-ignore
 import DocSearch from './DocSearch';
