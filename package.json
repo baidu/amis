@@ -7,11 +7,11 @@
     "packages/amis"
   ],
   "scripts": {
-    "serve": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",
-    "start": "concurrently --restart-tries -1 npm:serve npm:dev",
-    "stop": "fis3 server stop",
-    "vite": "vite",
-    "dev": "fis3 release -cwd ./public",
+    "fis3-serve": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",
+    "fis3": "concurrently --restart-tries -1 npm:serve npm:dev",
+    "fis3-stop": "fis3 server stop",
+    "start": "vite",
+    "fis3-dev": "fis3 release -cwd ./public",
     "deploy-gh-page": "sh ./deploy-gh-pages.sh",
     "build": "npm run build --workspaces",
     "test": "npm test --workspaces",

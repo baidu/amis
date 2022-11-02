@@ -52,7 +52,7 @@ export const cssDocs = [
         path: '/zh-CN/style/layout/box-sizing',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/layout/_box-sizing.scss'
+            '../../packages/amis-ui/scss/helper/layout/_box-sizing.md'
           ).then(wrapDoc)
         )
       },
@@ -61,9 +61,9 @@ export const cssDocs = [
         label: 'Display',
         path: '/zh-CN/style/layout/display',
         component: React.lazy(() =>
-          import(
-            '../../packages/amis-ui/scss/helper/layout/_display.scss'
-          ).then(wrapDoc)
+          import('../../packages/amis-ui/scss/helper/layout/_display.md').then(
+            wrapDoc
+          )
         )
       },
 
@@ -71,7 +71,7 @@ export const cssDocs = [
         label: 'Floats',
         path: '/zh-CN/style/layout/floats',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/layout/_float.scss').then(
+          import('../../packages/amis-ui/scss/helper/layout/_float.md').then(
             wrapDoc
           )
         )
@@ -81,7 +81,7 @@ export const cssDocs = [
         label: 'Clear',
         path: '/zh-CN/style/layout/clear',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/layout/_clear.scss').then(
+          import('../../packages/amis-ui/scss/helper/layout/_clear.md').then(
             wrapDoc
           )
         )
@@ -91,9 +91,9 @@ export const cssDocs = [
         label: 'Overflow',
         path: '/zh-CN/style/layout/overflow',
         component: React.lazy(() =>
-          import(
-            '../../packages/amis-ui/scss/helper/layout/_overflow.scss'
-          ).then(wrapDoc)
+          import('../../packages/amis-ui/scss/helper/layout/_overflow.md').then(
+            wrapDoc
+          )
         )
       },
 
@@ -101,9 +101,9 @@ export const cssDocs = [
         label: 'Position',
         path: '/zh-CN/style/layout/position',
         component: React.lazy(() =>
-          import(
-            '../../packages/amis-ui/scss/helper/layout/_position.scss'
-          ).then(wrapDoc)
+          import('../../packages/amis-ui/scss/helper/layout/_position.md').then(
+            wrapDoc
+          )
         )
       },
 
@@ -112,7 +112,7 @@ export const cssDocs = [
         path: '/zh-CN/style/layout/top-right-bottom-left',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/layout/_top-right-bottom-left.scss'
+            '../../packages/amis-ui/scss/helper/layout/_top-right-bottom-left.md'
           ).then(wrapDoc)
         )
       },
@@ -122,7 +122,7 @@ export const cssDocs = [
         path: '/zh-CN/style/layout/visibility',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/layout/_visibility.scss'
+            '../../packages/amis-ui/scss/helper/layout/_visibility.md'
           ).then(wrapDoc)
         )
       },
@@ -131,9 +131,9 @@ export const cssDocs = [
         label: 'Z-Index',
         path: '/zh-CN/style/layout/z-index',
         component: React.lazy(() =>
-          import(
-            '../../packages/amis-ui/scss/helper/layout/_z-index.scss'
-          ).then(wrapDoc)
+          import('../../packages/amis-ui/scss/helper/layout/_z-index.md').then(
+            wrapDoc
+          )
         )
       }
     ]
@@ -146,9 +146,9 @@ export const cssDocs = [
         label: 'Flex Direction',
         path: '/zh-CN/style/flex/direction',
         component: React.lazy(() =>
-          import(
-            '../../packages/amis-ui/scss/helper/flex/_direction.scss'
-          ).then(wrapDoc)
+          import('../../packages/amis-ui/scss/helper/flex/_direction.md').then(
+            wrapDoc
+          )
         )
       },
 
@@ -156,7 +156,7 @@ export const cssDocs = [
         label: 'Flex Wrap',
         path: '/zh-CN/style/flex/wrap',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/flex/_wrap.scss').then(
+          import('../../packages/amis-ui/scss/helper/flex/_wrap.md').then(
             wrapDoc
           )
         )
@@ -166,7 +166,7 @@ export const cssDocs = [
         label: 'Flex',
         path: '/zh-CN/style/flex/flex',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/flex/_flex.scss').then(
+          import('../../packages/amis-ui/scss/helper/flex/_flex.md').then(
             wrapDoc
           )
         )
@@ -176,7 +176,7 @@ export const cssDocs = [
         label: 'Flex Grow',
         path: '/zh-CN/style/flex/grow',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/flex/_grow.scss').then(
+          import('../../packages/amis-ui/scss/helper/flex/_grow.md').then(
             wrapDoc
           )
         )
@@ -186,7 +186,7 @@ export const cssDocs = [
         label: 'Flex Shrink',
         path: '/zh-CN/style/flex/shrink',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/flex/_shrink.scss').then(
+          import('../../packages/amis-ui/scss/helper/flex/_shrink.md').then(
             wrapDoc
           )
         )
@@ -196,7 +196,7 @@ export const cssDocs = [
         label: 'Flex Order',
         path: '/zh-CN/style/flex/order',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/flex/_order.scss').then(
+          import('../../packages/amis-ui/scss/helper/flex/_order.md').then(
             wrapDoc
           )
         )
@@ -211,7 +211,7 @@ export const cssDocs = [
         label: 'Grid Template Columns',
         path: '/zh-CN/style/grid/columns',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/grid/_columns.scss').then(
+          import('../../packages/amis-ui/scss/helper/grid/_columns.md').then(
             wrapDoc
           )
         )
@@ -221,7 +221,7 @@ export const cssDocs = [
         path: '/zh-CN/style/grid/column-start-end',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/grid/_column-start-end.scss'
+            '../../packages/amis-ui/scss/helper/grid/_column-start-end.md'
           ).then(wrapDoc)
         )
       },
@@ -229,7 +229,7 @@ export const cssDocs = [
         label: 'Grid Template Rows',
         path: '/zh-CN/style/grid/rows',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/grid/_rows.scss').then(
+          import('../../packages/amis-ui/scss/helper/grid/_rows.md').then(
             wrapDoc
           )
         )
@@ -239,7 +239,7 @@ export const cssDocs = [
         path: '/zh-CN/style/grid/row-start-end',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/grid/_row-start-end.scss'
+            '../../packages/amis-ui/scss/helper/grid/_row-start-end.md'
           ).then(wrapDoc)
         )
       },
@@ -247,9 +247,9 @@ export const cssDocs = [
         label: 'Grid Auto Flow',
         path: '/zh-CN/style/grid/auto-flow',
         component: React.lazy(() =>
-          import(
-            '../../packages/amis-ui/scss/helper/grid/_auto-flow.scss'
-          ).then(wrapDoc)
+          import('../../packages/amis-ui/scss/helper/grid/_auto-flow.md').then(
+            wrapDoc
+          )
         )
       },
       {
@@ -257,7 +257,7 @@ export const cssDocs = [
         path: '/zh-CN/style/grid/auto-columns',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/grid/_auto-columns.scss'
+            '../../packages/amis-ui/scss/helper/grid/_auto-columns.md'
           ).then(wrapDoc)
         )
       },
@@ -265,16 +265,16 @@ export const cssDocs = [
         label: 'Grid Auto Rows',
         path: '/zh-CN/style/grid/auto-rows',
         component: React.lazy(() =>
-          import(
-            '../../packages/amis-ui/scss/helper/grid/_auto-rows.scss'
-          ).then(wrapDoc)
+          import('../../packages/amis-ui/scss/helper/grid/_auto-rows.md').then(
+            wrapDoc
+          )
         )
       },
       {
         label: 'Gap',
         path: '/zh-CN/style/grid/gap',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/grid/_gap.scss').then(
+          import('../../packages/amis-ui/scss/helper/grid/_gap.md').then(
             wrapDoc
           )
         )
@@ -289,7 +289,7 @@ export const cssDocs = [
         path: '/zh-CN/style/box-alignment/justify-content',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/box-alignment/_justify-content.scss'
+            '../../packages/amis-ui/scss/helper/box-alignment/_justify-content.md'
           ).then(wrapDoc)
         )
       },
@@ -299,7 +299,7 @@ export const cssDocs = [
         path: '/zh-CN/style/box-alignment/justify-items',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/box-alignment/_justify-items.scss'
+            '../../packages/amis-ui/scss/helper/box-alignment/_justify-items.md'
           ).then(wrapDoc)
         )
       },
@@ -309,7 +309,7 @@ export const cssDocs = [
         path: '/zh-CN/style/box-alignment/justify-self',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/box-alignment/_justify-self.scss'
+            '../../packages/amis-ui/scss/helper/box-alignment/_justify-self.md'
           ).then(wrapDoc)
         )
       },
@@ -319,7 +319,7 @@ export const cssDocs = [
         path: '/zh-CN/style/box-alignment/align-content',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/box-alignment/_align-content.scss'
+            '../../packages/amis-ui/scss/helper/box-alignment/_align-content.md'
           ).then(wrapDoc)
         )
       },
@@ -329,7 +329,7 @@ export const cssDocs = [
         path: '/zh-CN/style/box-alignment/align-items',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/box-alignment/_align-items.scss'
+            '../../packages/amis-ui/scss/helper/box-alignment/_align-items.md'
           ).then(wrapDoc)
         )
       },
@@ -339,7 +339,7 @@ export const cssDocs = [
         path: '/zh-CN/style/box-alignment/align-self',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/box-alignment/_align-self.scss'
+            '../../packages/amis-ui/scss/helper/box-alignment/_align-self.md'
           ).then(wrapDoc)
         )
       },
@@ -349,7 +349,7 @@ export const cssDocs = [
         path: '/zh-CN/style/box-alignment/place-content',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/box-alignment/_place-content.scss'
+            '../../packages/amis-ui/scss/helper/box-alignment/_place-content.md'
           ).then(wrapDoc)
         )
       },
@@ -359,7 +359,7 @@ export const cssDocs = [
         path: '/zh-CN/style/box-alignment/place-items',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/box-alignment/_place-items.scss'
+            '../../packages/amis-ui/scss/helper/box-alignment/_place-items.md'
           ).then(wrapDoc)
         )
       },
@@ -369,7 +369,7 @@ export const cssDocs = [
         path: '/zh-CN/style/box-alignment/place-self',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/box-alignment/_place-self.scss'
+            '../../packages/amis-ui/scss/helper/box-alignment/_place-self.md'
           ).then(wrapDoc)
         )
       }
@@ -383,9 +383,9 @@ export const cssDocs = [
         label: 'Padding',
         path: '/zh-CN/style/spacing/padding',
         component: React.lazy(() =>
-          import(
-            '../../packages/amis-ui/scss/helper/spacing/_padding.scss'
-          ).then(wrapDoc)
+          import('../../packages/amis-ui/scss/helper/spacing/_padding.md').then(
+            wrapDoc
+          )
         )
       },
 
@@ -393,9 +393,9 @@ export const cssDocs = [
         label: 'Margin',
         path: '/zh-CN/style/spacing/margin',
         component: React.lazy(() =>
-          import(
-            '../../packages/amis-ui/scss/helper/spacing/_margin.scss'
-          ).then(wrapDoc)
+          import('../../packages/amis-ui/scss/helper/spacing/_margin.md').then(
+            wrapDoc
+          )
         )
       },
 
@@ -404,7 +404,7 @@ export const cssDocs = [
         path: '/zh-CN/style/spacing/space-between',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/spacing/_space-between.scss'
+            '../../packages/amis-ui/scss/helper/spacing/_space-between.md'
           ).then(wrapDoc)
         )
       }
@@ -418,7 +418,7 @@ export const cssDocs = [
         label: 'Width',
         path: '/zh-CN/style/sizing/width',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/sizing/_width.scss').then(
+          import('../../packages/amis-ui/scss/helper/sizing/_width.md').then(
             wrapDoc
           )
         )
@@ -427,7 +427,7 @@ export const cssDocs = [
         label: 'Height',
         path: '/zh-CN/style/sizing/height',
         component: React.lazy(() =>
-          import('../../packages/amis-ui/scss/helper/sizing/_height.scss').then(
+          import('../../packages/amis-ui/scss/helper/sizing/_height.md').then(
             wrapDoc
           )
         )
@@ -443,7 +443,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/font-family',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_font-family.scss'
+            '../../packages/amis-ui/scss/helper/typography/_font-family.md'
           ).then(wrapDoc)
         )
       },
@@ -453,7 +453,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/font-size',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_font-size.scss'
+            '../../packages/amis-ui/scss/helper/typography/_font-size.md'
           ).then(wrapDoc)
         )
       },
@@ -463,7 +463,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/font-style',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_font-style.scss'
+            '../../packages/amis-ui/scss/helper/typography/_font-style.md'
           ).then(wrapDoc)
         )
       },
@@ -473,7 +473,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/font-weight',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_font-weight.scss'
+            '../../packages/amis-ui/scss/helper/typography/_font-weight.md'
           ).then(wrapDoc)
         )
       },
@@ -483,7 +483,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/letter-spacing',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_letter-spacing.scss'
+            '../../packages/amis-ui/scss/helper/typography/_letter-spacing.md'
           ).then(wrapDoc)
         )
       },
@@ -493,7 +493,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/line-height',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_line-height.scss'
+            '../../packages/amis-ui/scss/helper/typography/_line-height.md'
           ).then(wrapDoc)
         )
       },
@@ -503,7 +503,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/list-style-type',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_list-style-type.scss'
+            '../../packages/amis-ui/scss/helper/typography/_list-style-type.md'
           ).then(wrapDoc)
         )
       },
@@ -513,7 +513,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/text-align',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_text-align.scss'
+            '../../packages/amis-ui/scss/helper/typography/_text-align.md'
           ).then(wrapDoc)
         )
       },
@@ -523,7 +523,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/text-color',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_text-color.scss'
+            '../../packages/amis-ui/scss/helper/typography/_text-color.md'
           ).then(wrapDoc)
         )
       },
@@ -533,7 +533,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/text-decoration',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_text-decoration.scss'
+            '../../packages/amis-ui/scss/helper/typography/_text-decoration.md'
           ).then(wrapDoc)
         )
       },
@@ -543,7 +543,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/text-transform',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_text-transform.scss'
+            '../../packages/amis-ui/scss/helper/typography/_text-transform.md'
           ).then(wrapDoc)
         )
       },
@@ -553,7 +553,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/vertical-align',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_vertical-align.scss'
+            '../../packages/amis-ui/scss/helper/typography/_vertical-align.md'
           ).then(wrapDoc)
         )
       },
@@ -563,7 +563,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/whitespace',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_whitespace.scss'
+            '../../packages/amis-ui/scss/helper/typography/_whitespace.md'
           ).then(wrapDoc)
         )
       },
@@ -573,7 +573,7 @@ export const cssDocs = [
         path: '/zh-CN/style/typography/word-break',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/typography/_word-break.scss'
+            '../../packages/amis-ui/scss/helper/typography/_word-break.md'
           ).then(wrapDoc)
         )
       }
@@ -588,7 +588,7 @@ export const cssDocs = [
         path: '/zh-CN/style/background/background-color',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/background/_background-color.scss'
+            '../../packages/amis-ui/scss/helper/background/_background-color.md'
           ).then(wrapDoc)
         )
       }
@@ -603,7 +603,7 @@ export const cssDocs = [
         path: '/zh-CN/style/border/border-radius',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/border/_border-radius.scss'
+            '../../packages/amis-ui/scss/helper/border/_border-radius.md'
           ).then(wrapDoc)
         )
       },
@@ -613,7 +613,7 @@ export const cssDocs = [
         path: '/zh-CN/style/border/border-width',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/border/_border-width.scss'
+            '../../packages/amis-ui/scss/helper/border/_border-width.md'
           ).then(wrapDoc)
         )
       },
@@ -623,7 +623,7 @@ export const cssDocs = [
         path: '/zh-CN/style/border/border-color',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/border/_border-color.scss'
+            '../../packages/amis-ui/scss/helper/border/_border-color.md'
           ).then(wrapDoc)
         )
       },
@@ -633,7 +633,7 @@ export const cssDocs = [
         path: '/zh-CN/style/border/border-style',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/border/_border-style.scss'
+            '../../packages/amis-ui/scss/helper/border/_border-style.md'
           ).then(wrapDoc)
         )
       }
@@ -648,7 +648,7 @@ export const cssDocs = [
         path: '/zh-CN/style/effect/box-shadow',
         component: React.lazy(() =>
           import(
-            '../../packages/amis-ui/scss/helper/effect/_box-shadow.scss'
+            '../../packages/amis-ui/scss/helper/effect/_box-shadow.md'
           ).then(wrapDoc)
         )
       },
@@ -657,9 +657,9 @@ export const cssDocs = [
         label: 'Opacity',
         path: '/zh-CN/style/effect/opacity',
         component: React.lazy(() =>
-          import(
-            '../../packages/amis-ui/scss/helper/effect/_opacity.scss'
-          ).then(wrapDoc)
+          import('../../packages/amis-ui/scss/helper/effect/_opacity.md').then(
+            wrapDoc
+          )
         )
       }
     ]
