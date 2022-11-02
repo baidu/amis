@@ -39,10 +39,11 @@
         border-radius: 3px;
         color: #fff;
         margin: 0 1px;
-        background: #007bff;
+        background: var(--button-primary-default-bg-color);
         cursor: pointer;
 
         &:hover {
+          background: var(--button-primary-hover-bg-color);
           .expression-popover {
             display: block;
           }

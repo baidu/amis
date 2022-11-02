@@ -4,9 +4,13 @@
     width: 100%;
   }
   .btn-configured {
+    position: relative;
     .icon {
-      float: right;
-      height: 14px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: var(--button-size-default-paddingRight);
+      margin: auto 0 !important;
     }
   }
 }
