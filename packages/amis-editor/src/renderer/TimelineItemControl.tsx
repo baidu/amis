@@ -77,6 +77,9 @@ export default class TimelineItemControl extends React.Component<
       data.items = items.map(item => ({...item}));
     }
     if (source === 'api') {
+      const {items, api} = this.state;
+      data.items = items.map(item => ({...item}));
+      data.source = api;
     }
     onBulkChange && onBulkChange(data);
   }
@@ -396,6 +399,7 @@ export default class TimelineItemControl extends React.Component<
 
   renderOption(props: TimelineItem & {index: number}) {
     const {time, title, index} = props;
+    const delDisabled = !(this.state.items.length > 2);
     return (
       <li className="ae-TimelineItemControlItem" key={index}>
         <div className="ae-TimelineItemControlItem-Main">
@@ -472,6 +476,7 @@ export default class TimelineItemControl extends React.Component<
                   type: 'button',
                   className: 'ae-TimelineItemControlItem-action',
                   label: '删除',
+                  disabled: delDisabled,
                   onClick: () => this.toggleDelete(index)
                 }
               ]

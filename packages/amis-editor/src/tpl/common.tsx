@@ -617,8 +617,8 @@ setSchemaTpl(
       body: [
         getSchemaTpl('newVisible'),
         getSchemaTpl('hidden'),
-        !config?.unsupportStatic && config?.isFormItem 
-          ? getSchemaTpl('static') 
+        !config?.unsupportStatic && config?.isFormItem
+          ? getSchemaTpl('static')
           : null,
         config?.readonly ? getSchemaTpl('readonly') : null,
         config?.disabled || config?.isFormItem
@@ -692,7 +692,6 @@ setSchemaTpl('visible', {
   expressionName: 'visibleOn'
 });
 
-
 setSchemaTpl('static', {
   type: 'ae-StatusControl',
   label: '静态展示',
@@ -750,13 +749,6 @@ setSchemaTpl('numberSwitchDefaultValue', {
   name: 'value',
   pipeIn: (value: any) => typeof value !== 'undefined',
   pipeOut: (value: any, origin: any, data: any) => (value ? '' : undefined)
-});
-
-setSchemaTpl('numberSwitchKeyboard', {
-  type: 'switch',
-  label: tipedLabel('键盘事件', '默认是不启用'),
-  name: 'keyboard',
-  inputClassName: 'is-inline'
 });
 
 setSchemaTpl('kilobitSeparator', {

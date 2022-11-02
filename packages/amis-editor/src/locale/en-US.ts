@@ -3326,5 +3326,10 @@ extendLocale('en-US', {
   'f2fc416c7d95a93a8da621f760be8417':
     'Support multiple choices, input prompts, and use source to obtain options',
   'b4482a3d9523f48e83a816fa85911185':
-    'It is purely used to display data, such as json, date, image, progress, etc'
+    'It is purely used to display data, such as json, date, image, progress, etc',
+  'ecfd82eb65102274188011a502913d3a': 'Drawer data',
+  '951f802ebd0c0d795fbae6767a5ee9b3': 'Initialize interface request succeeded',
+  'da0126992b4937a5fd847ef5366b02e6':
+    'Data returned by initialization interface request successfully',
+  '70b8342d743374233bfee0f56c7f0fc7': 'Node Sample Data'
 });

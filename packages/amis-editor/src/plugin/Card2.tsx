@@ -16,6 +16,7 @@ export class Card2Plugin extends BasePlugin {
   // 组件名称
   name = '卡片';
   isBaseComponent = true;
+  disabledRendererPlugin = true;
   description = '展示单个卡片。';
   tags = ['展示'];
   icon = '';
