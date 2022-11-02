@@ -5,15 +5,19 @@ import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getRendererByName} from 'amis-core';
 
 const DateType: {
   [key: string]: {
     format: string;
     placeholder: string;
     ranges: string[];
+    sizeMutable?: boolean;
+    type?: string;
   };
 } = {
   date: {
+    ...getRendererByName('input-date-range'),
     format: 'YYYY-MM-DD',
     placeholder: '请选择日期范围',
     ranges: [
@@ -26,6 +30,7 @@ const DateType: {
     ]
   },
   datetime: {
+    ...getRendererByName('input-datetime-range'),
     format: 'YYYY-MM-DD HH:mm:ss',
     placeholder: '请选择日期时间范围',
     ranges: [
@@ -38,26 +43,34 @@ const DateType: {
     ]
   },
   time: {
+    ...getRendererByName('input-time-range'),
     format: 'HH:mm',
     placeholder: '请选择时间范围',
     ranges: []
   },
   month: {
+    ...getRendererByName('input-month-range'),
     format: 'YYYY-MM',
     placeholder: '请选择月份范围',
     ranges: []
   },
   quarter: {
+    ...getRendererByName('input-quarter-range'),
     format: 'YYYY [Q]Q',
     placeholder: '请选择季度范围',
     ranges: ['thisquarter', 'prevquarter']
   },
   year: {
+    ...getRendererByName('input-year-range'),
     format: 'YYYY',
     placeholder: '请选择年范围',
     ranges: ['thisyear', 'lastYear']
   }
 };
+
+const sizeImmutableComponents = Object.values(DateType)
+  .map(item => (item?.sizeMutable === false ? item.type : null))
+  .filter(a => a);
 
 const tipedLabelText =
   '支持 <code>now、+1day、-2weeks、+1hours、+2years</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>';
@@ -206,7 +219,11 @@ export class DateRangeControlPlugin extends BasePlugin {
                       minDate: '',
                       maxDate: '',
                       value: '',
-                      ranges: DateType[type]?.ranges
+                      ranges: DateType[type]?.ranges,
+                      // size immutable 组件去除 size 字段
+                      size: sizeImmutableComponents.includes(value)
+                        ? undefined
+                        : form.data?.size
                     });
                   }
                 }),
@@ -308,14 +325,14 @@ export class DateRangeControlPlugin extends BasePlugin {
                 getSchemaTpl('dateShortCutControl', {
                   mode: 'normal',
                   normalDropDownOption: {
-                    'yesterday': '昨天',
-                    'thisweek': '这个周',
-                    'prevweek': '上周',
-                    'thismonth': '这个月',
-                    'prevmonth': '上个月',
-                    'thisquarter': '这个季度',
-                    'prevquarter': '上个季度',
-                    'thisyear': '今年'
+                    yesterday: '昨天',
+                    thisweek: '这个周',
+                    prevweek: '上周',
+                    thismonth: '这个月',
+                    prevmonth: '上个月',
+                    thisquarter: '这个季度',
+                    prevquarter: '上个季度',
+                    thisyear: '今年'
                   },
                   customDropDownOption: {
                     daysago: '最近n天',
@@ -360,7 +377,17 @@ export class DateRangeControlPlugin extends BasePlugin {
         body: getSchemaTpl(
           'collapseGroup',
           [
-            getSchemaTpl('style:formItem', renderer),
+            getSchemaTpl('style:formItem', {
+              renderer: {...renderer, sizeMutable: false},
+              schema: [
+                // 需要作为一个字符串表达式传入，因为切换 type 后 panelBodyCreator 不会重新执行
+                getSchemaTpl('formItemSize', {
+                  hiddenOn: `["${sizeImmutableComponents.join(
+                    '","'
+                  )}"].includes(this.type)`
+                })
+              ]
+            }),
             getSchemaTpl('style:classNames', [
               getSchemaTpl('className', {
                 label: '描述',
