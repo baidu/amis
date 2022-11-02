@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Renderer, RendererProps} from 'amis-core';
+import {Api, Renderer, RendererProps} from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 
 import {filter, evalExpression} from 'amis-core';
@@ -116,6 +116,16 @@ export interface ChartSchema extends BaseSchema {
    * 不可见的时候隐藏
    */
   unMountOnHidden?: boolean;
+
+  /**
+   * 获取 geo json 文件的地址
+   */
+  mapURL?: string;
+
+  /**
+   * 地图名称
+   */
+  mapName?: string;
 }
 
 const EVAL_CACHE: {[key: string]: Function} = {};
@@ -253,7 +263,10 @@ export class Chart extends React.Component<ChartProps> {
 
   refFn(ref: any) {
     const chartRef = this.props.chartRef;
-    const {chartTheme, onChartWillMount, onChartUnMount, env} = this.props;
+    const {chartTheme, onChartWillMount, onChartUnMount, env, data} =
+      this.props;
+    let {mapURL, mapName} = this.props;
+
     let onChartMount = this.props.onChartMount;
 
     if (ref) {
@@ -267,6 +280,22 @@ export class Chart extends React.Component<ChartProps> {
       ]).then(async ([echarts, ecStat]) => {
         (window as any).echarts = echarts;
         (window as any).ecStat = ecStat;
+
+        if (mapURL && mapName) {
+          if (isPureVariable(mapURL)) {
+            mapURL = resolveVariableAndFilter(mapURL, data);
+          }
+          if (isPureVariable(mapName)) {
+            mapName = resolveVariableAndFilter(mapName, data);
+          }
+          const mapGeoResult = await env.fetcher(mapURL as Api, data);
+          if (!mapGeoResult.ok) {
+            console.warn('fetch map geo error ' + mapURL);
+          }
+
+          echarts.registerMap(mapName!, mapGeoResult.data);
+        }
+
         let theme = 'default';
 
         if (chartTheme) {
