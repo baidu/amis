@@ -547,11 +547,12 @@ export function lexer(input: string, options?: LexerOptions) {
     return null;
   }
 
+  // substring(index, index + 4) 在某些情况会匹配错误
+  // 比如变量名称为 trueValue
+  // ${value2|isTrue:trueValue:falseValue}
   function literal() {
-    // substring(index, index + 4) 在某些情况会匹配错误
-    // 比如变量名称为 trueValue
-    // ${value2|isTrue:trueValue:falseValue}
-    const match = input.substring(index).match(/^[a-zA-Z]+/);
+    // {4,10} 匹配长度就足够判断  ("true").length <= match <= ("undefined").length + 1
+    const match = input.substring(index).match(/^\w{4,10}/);
     if (!match) {
       return null;
     }
