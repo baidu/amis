@@ -13,25 +13,27 @@ import type {
 
 // 默认的列容器Schema
 const defaultFlexColumnSchema = (title: string) => {
+  /*
+  {
+    type: 'tpl',
+    tpl: title || '新的一列',
+    inline: false
+  }
+  */
   return {
     type: 'wrapper',
-    body: [
-      {
-        type: 'tpl',
-        tpl: title || '新的一列',
-        inline: false
-      }
-    ],
+    body: [],
+    size: 'xs',
     style: {
       position: 'static',
       display: 'flex',
       flex: '1 1 auto',
       flexGrow: 1,
       flexBasis: 'auto',
-      flexDirection: 'row',
-      justifyContent: 'center',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
       alignItems: 'stretch',
-      flexWrap: 'nowrap'
+      flexWrap: 'wrap'
     },
     isFixedHeight: false,
     isFixedWidth: false
@@ -40,6 +42,7 @@ const defaultFlexColumnSchema = (title: string) => {
 // 默认的布局容器Schema
 const defaultFlexContainerSchema = {
   type: 'flex',
+  className: 'p-1',
   items: [
     defaultFlexColumnSchema('第一列'),
     defaultFlexColumnSchema('第二列'),
