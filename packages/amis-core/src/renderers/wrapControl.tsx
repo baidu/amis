@@ -159,7 +159,8 @@ export function wrapControl<
                   type.endsWith('select') ||
                   type === 'switch' ||
                   type === 'textarea' ||
-                  type === 'radios')
+                  type === 'radios') &&
+                type !== 'input-group'
               ) {
                 console.warn('name is required', this.props.$schema);
               }

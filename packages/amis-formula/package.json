@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm run clean-dist && NODE_ENV=production rollup -c && npm run genDoc && npm run declaration ",
     "lib": "npm run clean-dist && NODE_ENV=production IS_LIB=1 rollup -c",
-    "clean-dist": "rimraf lib/*",
+    "clean-dist": "rimraf lib/**",
     "declaration": "tsc --project tsconfig-for-declaration.json --allowJs --declaration --emitDeclarationOnly --declarationDir ./lib --rootDir ./src",
     "test": "jest",
     "update-snapshot": "jest --updateSnapshot",

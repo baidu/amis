@@ -366,24 +366,17 @@ export const TableStore = iRendererStore
     }
 
     function getExportedColumns() {
-      return self.columns
-        .filter(item => {
-          return (
-            item &&
-            isVisible(
-              item.pristine,
-              hasVisibleExpression(item.pristine) ? self.data : {}
-            ) &&
-            (item.toggled || !item.toggable) &&
-            !/^__/.test(item.type)
-          );
-        })
-        .map(item => ({
-          ...item,
-          label: isPureVariable(item.label)
-            ? resolveVariableAndFilter(item.label, self.data)
-            : item.label
-        }));
+      return self.columns.filter(item => {
+        return (
+          item &&
+          isVisible(
+            item.pristine,
+            hasVisibleExpression(item.pristine) ? self.data : {}
+          ) &&
+          (item.toggled || !item.toggable) &&
+          !/^__/.test(item.type)
+        );
+      });
     }
 
     function getFilteredColumns() {
@@ -869,7 +862,11 @@ export const TableStore = iRendererStore
           toggled: item.toggled !== false,
           breakpoint: item.breakpoint,
           isPrimary: index === PARTITION_INDEX,
-          className: item.className || ''
+          className: item.className || '',
+          /** 提前映射变量，方便后续view中使用 */
+          label: isPureVariable(item.label)
+            ? resolveVariableAndFilter(item.label, self.data)
+            : item.label
         }));
 
         self.columns.replace(columns as any);
@@ -914,7 +911,11 @@ export const TableStore = iRendererStore
           pristine: item.pristine || item,
           toggled: item.toggled !== false,
           breakpoint: item.breakpoint,
-          isPrimary: index === PARTITION_INDEX
+          isPrimary: index === PARTITION_INDEX,
+          /** 提前映射变量，方便后续view中使用 */
+          label: isPureVariable(item.label)
+            ? resolveVariableAndFilter(item.label, self.data)
+            : item.label
         }));
 
         self.columns.replace(columns as any);
