@@ -18,9 +18,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    //
     "composite": true,
-
+    "baseUrl": "./",
     "paths": {
       "amis-core": ["./packages/amis-core/src/index.tsx"],
       "amis-formula": ["./packages/amis-formula/src/index.ts"],
