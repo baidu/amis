@@ -1,6 +1,6 @@
 import React, {ReactNode, useState} from 'react';
 import {localeable, LocaleProps} from 'amis-core';
-import {themeable, ThemeProps} from 'amis-core';
+import {themeable, ThemeProps, generateIcon} from 'amis-core';
 import {Icon} from './icons';
 
 export interface TimelineItemProps {
@@ -111,7 +111,11 @@ export function TimelineItem(props: TimelineItem) {
         <div className={cx('TimelineItem-line')}></div>
         {icon ? (
           <div className={cx('TimelineItem-icon')}>
-            <Icon icon={icon} className="icon" />
+            {typeof icon === 'object' ? (
+              generateIcon(cx, icon as any)
+            ) : (
+              <Icon icon={icon} className="icon" />
+            )}
           </div>
         ) : (
           <div
