@@ -162,7 +162,7 @@ export default class FormulaControl extends React.Component<
     this.isUnmount = true;
   }
 
-  // 组件默认值设置交互中未使用
+  // 组件默认值设置交互中未使用，自定义variables情况适用
   normalizeVariables(variables: any) {
     if (!variables) {
       return [];
@@ -170,6 +170,7 @@ export default class FormulaControl extends React.Component<
 
     if (
       variables &&
+      Array.isArray(variables) &&
       variables.some((item: any) => isExpression(item.children))
     ) {
       variables = dataMapping(variables, this.props.data);

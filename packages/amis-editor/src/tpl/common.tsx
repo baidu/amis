@@ -11,6 +11,7 @@ import {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
 import {InputComponentName} from '../component/InputComponentName';
 import {FormulaDateType} from '../renderer/FormulaControl';
+import {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 
 /**
  * @deprecated 兼容当前组件的switch
@@ -358,6 +359,8 @@ setSchemaTpl(
     valueType?: string; // 用于设置期望数值类型
     visibleOn?: string; // 用于控制显示的表达式
     DateTimeType?: FormulaDateType; // 日期类组件要支持 表达式 & 相对值
+    variables?: Array<VariableItem>; // 自定义变量集合
+    variableMode?: 'tabs' | 'tree'; // 变量展现模式
   }) => {
     let curRendererSchema = config?.rendererSchema;
     if (
@@ -371,41 +374,28 @@ setSchemaTpl(
       };
     }
 
-    if (config?.mode === 'vertical') {
-      // 上下展示，可避免 自定义渲染器 出现挤压
-      return {
-        type: 'group',
-        mode: 'vertical',
-        visibleOn: config?.visibleOn,
-        body: [
-          {
-            type: 'ae-formulaControl',
-            label: config?.label ?? '默认值',
-            name: config?.name || 'value',
-            rendererSchema: curRendererSchema,
-            rendererWrapper: config?.rendererWrapper,
-            needDeleteProps: config?.needDeleteProps,
-            valueType: config?.valueType,
-            header: config.header ?? '表达式',
-            DateTimeType: config.DateTimeType ?? FormulaDateType.NotDate
-          }
-        ]
-      };
-    } else {
+    return {
+      type: 'group',
       // 默认左右展示
-      return {
-        type: 'ae-formulaControl',
-        label: config?.label || '默认值',
-        name: config?.name || 'value',
-        rendererSchema: curRendererSchema,
-        rendererWrapper: config?.rendererWrapper,
-        needDeleteProps: config?.needDeleteProps,
-        valueType: config?.valueType,
-        visibleOn: config?.visibleOn,
-        header: config?.header ?? '表达式',
-        DateTimeType: config?.DateTimeType ?? FormulaDateType.NotDate
-      };
-    }
+      // 上下展示，可避免 自定义渲染器 出现挤压
+      mode: config?.mode === 'vertical' ? 'vertical' : 'horizontal',
+      visibleOn: config?.visibleOn,
+      body: [
+        {
+          type: 'ae-formulaControl',
+          label: config?.label ?? '默认值',
+          name: config?.name || 'value',
+          rendererSchema: curRendererSchema,
+          rendererWrapper: config?.rendererWrapper,
+          needDeleteProps: config?.needDeleteProps,
+          valueType: config?.valueType,
+          header: config?.header ?? '表达式',
+          DateTimeType: config?.DateTimeType ?? FormulaDateType.NotDate,
+          variables: config?.variables || null,
+          variableMode: config?.variableMode
+        }
+      ]
+    };
   }
 );
 
@@ -1007,6 +997,7 @@ setSchemaTpl('badge', {
   type: 'ae-badge'
 });
 
+// 暂未使用
 setSchemaTpl('formulaControl', (schema: object = {}) => {
   return {
     type: 'ae-formulaControl',
