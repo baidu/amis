@@ -592,6 +592,25 @@ window.echarts = amisRequire('echarts');
     }
 ```
 
+## 加载百度地图
+
+配置 `loadBaiduMap` 后会加载百度地图，需要配置 `ak`
+
+```schema: scope="body"
+{
+  "type": "chart",
+  "loadBaiduMap": true,
+  "ak": "LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7",
+  "config": {
+    "bmap": {
+      "center": [116.414, 39.915],
+      "zoom": 14,
+      "roam": true
+    }
+  }
+}
+```
+
 ## 动态处理 echart 配置
 
 echarts 的 config 一般是静态配置的，支持简单的数据映射。如果你觉得还不够灵活可以通过自己手写逻辑代码来完成配置。
@@ -638,6 +657,7 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
 | dataFilter         | `string`                                     |           | 自定义 echart config 转换，函数签名：function(config, echarts, data) {return config;} 配置时直接写函数体。其中 config 是当前 echart 配置，echarts 就是 echarts 对象，data 为上下文数据。 |
 | mapURL             | [api](../../docs/types/api)                  |           | 地图 geo json 地址                                                                                                                                                                       |
 | mapName            | string                                       |           | 地图名称                                                                                                                                                                                 |
+| loadBaiduMap       | boolean                                      |           | 加载百度地图                                                                                                                                                                             |
 
 ## 事件表
 

@@ -241,6 +241,18 @@ export default {
           }
         ]
       }
+    },
+    {
+      type: 'chart',
+      loadBaiduMap: true,
+      ak: 'LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7',
+      config: {
+        bmap: {
+          center: [116.414, 39.915],
+          zoom: 14,
+          roam: true
+        }
+      }
     }
   ]
 };
