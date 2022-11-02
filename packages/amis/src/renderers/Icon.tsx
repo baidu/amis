@@ -2,7 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps, filter, IconCheckedSchema} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {BadgeObject, withBadge} from 'amis-ui';
-import {getIcon} from 'amis-ui/lib/components/icons';
+import {getIcon} from 'amis-ui';
 import {isObject} from 'lodash';
 
 /**

@@ -181,16 +181,6 @@ export default {
             {
               actionType: 'toast',
               args: {
-                msg: '提交成功：${event.data|json}'
-              }
-            }
-          ]
-        },
-        submitSucc: {
-          actions: [
-            {
-              actionType: 'toast',
-              args: {
                 msg: '提交失败：${event.data|json}'
               }
             }
@@ -254,7 +244,7 @@ export default {
     {
       type: 'form',
       debug: true,
-      title: "表单：提交表单无target，无api，只触发提交成功事件",
+      title: '表单：提交表单无target，无api，只触发提交成功事件',
       body: [
         {
           type: 'input-text',
@@ -284,7 +274,7 @@ export default {
               }
             }
           ]
-        },
+        }
       }
     }
   ]

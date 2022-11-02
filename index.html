@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>amis - 低代码前端框架</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link
+      type="image/x-icon"
+      rel="shortcut icon"
+      href="./examples/static/favicon.png"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="./examples/static/iconfont.css" />
+    <link
+      rel="stylesheet"
+      href="./node_modules/@fortawesome/fontawesome-free/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./node_modules/@fortawesome/fontawesome-free/css/v4-shims.css"
+    />
+    <link rel="stylesheet" href="./node_modules/prismjs/themes/prism.css" />
+    <link rel="stylesheet" href="./examples/doc.css" />
+
+    <link rel="stylesheet" href="./examples/style.scss" />
+    <style>
+      .app-wrapper,
+      .schema-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <script type="module">
+      let theme = localStorage.getItem('amis-theme') || 'cxd';
+      if (theme === 'default') {
+        theme = 'cxd';
+      }
+
+      ['ang', 'cxd', 'dark', 'antd'].forEach(key => {
+        const link = document.createElement('link');
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('title', key);
+        if (theme !== key) {
+          link.setAttribute('disabled', 'disabled');
+        }
+        link.setAttribute(
+          'href',
+          new URL(`./packages/amis/lib/themes/${key}.css`, import.meta.url).href
+        );
+        document.head.appendChild(link);
+      });
+    </script>
+    <link rel="stylesheet" href="./packages/amis/lib/helper.css" />
+  </head>
+
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script type="text/javascript">
+      if (location.hostname !== 'localhost') {
+        var _hmt = _hmt || [];
+
+        // 百度统计
+        (function () {
+          var hm = document.createElement('script');
+          hm.src =
+            'https://hm.baidu.com/hm.js?286766a21abb57abefedbd5257a26dc8';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+    <script type="module">
+      import {bootstrap} from './examples/index.jsx';
+
+      import * as monaco from 'monaco-editor';
+      import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
+      import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
+      import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
+      import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
+      import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
+
+      self.MonacoEnvironment = {
+        getWorker(_, label) {
+          if (label === 'json') {
+            return new jsonWorker();
+          }
+          if (label === 'css' || label === 'scss' || label === 'less') {
+            return new cssWorker();
+          }
+          if (label === 'html' || label === 'handlebars' || label === 'razor') {
+            return new htmlWorker();
+          }
+          if (label === 'typescript' || label === 'javascript') {
+            return new tsWorker();
+          }
+          return new editorWorker();
+        }
+      };
+
+      window.enableAMISDebug = true;
+
+      const initialState = {};
+      bootstrap(document.getElementById('root'), initialState);
+    </script>
+  </body>
+</html>
