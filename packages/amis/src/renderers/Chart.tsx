@@ -308,7 +308,7 @@ export class Chart extends React.Component<ChartProps> {
         import('echarts/extension/bmap/bmap')
       ]).then(async ([echarts, ecStat]) => {
         (window as any).echarts = echarts;
-        (window as any).ecStat = ecStat;
+        (window as any).ecStat = ecStat?.default || ecStat;
         let theme = 'default';
 
         if (chartTheme) {
