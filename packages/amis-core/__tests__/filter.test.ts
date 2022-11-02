@@ -339,7 +339,7 @@ test('evalute:conditional', () => {
         defaultFilter: 'raw'
       }
     )
-  ).toBe(10);
+  ).toBe(5);
 
   expect(
     evaluate(
