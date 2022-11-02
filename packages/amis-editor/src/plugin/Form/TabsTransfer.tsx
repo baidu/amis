@@ -300,19 +300,19 @@ export class TabsTransferPlugin extends BasePlugin {
 
               getSchemaTpl('sortable'),
 
-              getSchemaTpl('formulaControl', {
+              {
                 label: '左侧选项标题',
                 name: 'selectTitle',
                 type: 'input-text',
                 inputClassName: 'is-inline '
-              }),
+              },
 
-              getSchemaTpl('formulaControl', {
+              {
                 label: '右侧结果标题',
                 name: 'resultTitle',
                 type: 'input-text',
                 inputClassName: 'is-inline '
-              })
+              }
             ]
           },
           {

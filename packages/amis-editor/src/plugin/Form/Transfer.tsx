@@ -274,12 +274,12 @@ export class TransferPlugin extends BasePlugin {
                 visibleOn: 'data.selectMode !== "table"'
               }),
 
-              getSchemaTpl('formulaControl', {
+              {
                 label: '标题',
                 name: 'selectTitle',
                 type: 'input-text',
                 inputClassName: 'is-inline '
-              })
+              }
             ]
           },
           {
@@ -326,13 +326,12 @@ export class TransferPlugin extends BasePlugin {
                 visibleOn:
                   '!(data.selectMode === "table" && data.resultListModeFollowSelect)'
               }),
-
-              getSchemaTpl('formulaControl', {
+              {
                 label: '标题',
                 name: 'resultTitle',
                 type: 'input-text',
                 inputClassName: 'is-inline '
-              })
+              }
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
