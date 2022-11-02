@@ -18,6 +18,27 @@ exports[`lexer:filter 1`] = `
 ]
 `;
 
+exports[`lexer:filter 2`] = `
+[
+  "<Raw> $abc is ",
+  "<OpenScript> \${",
+  "<Identifier> abc",
+  "<OpenFilter> |",
+  "<Char>  ",
+  "<Identifier> isTrue",
+  "<Char>  ",
+  "<Punctuator> :",
+  "<Char>  ",
+  "<Identifier> trueValue",
+  "<Char>  ",
+  "<Punctuator> :",
+  "<Char>  ",
+  "<Identifier> falseValue",
+  "<CloseScript> }",
+  "<EOF> undefined",
+]
+`;
+
 exports[`lexer:simple 1`] = `
 [
   "<Raw> expression result is ",
