@@ -633,31 +633,6 @@ setSchemaTpl(
     };
 });
 
-// 最大宽度设置
-setSchemaTpl(
-  'layout:max-width',
-  (config?: {
-    label?: string;
-    name?: string;
-    value?: string,
-    visibleOn?: string;
-    unitOptions?: Array<string>;
-    pipeIn?: (value: any, data: any) => void;
-    pipeOut?: (value: any, data: any) => void;
-  }) => {
-    return {
-      type: 'input-number',
-      label: config?.label || tipedLabel('最大宽度', '最大宽度即当前元素最大的水平展示区域'),
-      name: config?.name || 'style.maxWidth',
-      value: config?.value,
-      visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
-      clearable: true,
-      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
-      pipeIn: config?.pipeIn,
-      pipeOut: config?.pipeOut,
-    };
-});
-
 // x轴（水平轴）滚动模式
 setSchemaTpl(
   'layout:overflow-x',
@@ -698,6 +673,32 @@ setSchemaTpl(
     };
 });
 
+// 最大宽度设置
+setSchemaTpl(
+  'layout:max-width',
+  (config?: {
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    unitOptions?: Array<string>;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    return {
+      type: 'input-number',
+      label: config?.label || tipedLabel('最大宽度', '最大宽度即当前元素最大的水平展示区域'),
+      name: config?.name || 'style.maxWidth',
+      value: config?.value,
+      min: '${style.minWidth | toInt}',
+      visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
+      clearable: true,
+      unitOptions: config?.unitOptions ?? LayoutUnitOptions,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+    };
+});
+
 // 最小宽度设置
 setSchemaTpl(
   'layout:min-width',
@@ -715,6 +716,7 @@ setSchemaTpl(
       label: config?.label || tipedLabel('最小宽度', '最小宽度即当前元素最小的水平展示区域'),
       name: config?.name || 'style.minWidth',
       value: config?.value,
+      max: '${style.maxWidth | toInt}',
       visibleOn: config?.visibleOn ?? '!data.isFixedWidth',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -798,6 +800,7 @@ setSchemaTpl(
       label: config?.label || tipedLabel('最大高度', '最大高度即当前元素最多的展示高度'),
       name: config?.name || 'style.maxHeight',
       value: config?.value,
+      min: '${style.minHeight | toInt}',
       visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -823,6 +826,7 @@ setSchemaTpl(
       label: config?.label || tipedLabel('最小高度', '最小宽度即当前元素最小的垂直展示区域'),
       name: config?.name || 'style.minHeight',
       value: config?.value,
+      max: '${style.maxHeight | toInt}',
       visibleOn: config?.visibleOn ?? '!data.isFixedHeight',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,

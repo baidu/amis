@@ -13,13 +13,6 @@ import type {
 
 // 默认的列容器Schema
 const defaultFlexColumnSchema = (title: string) => {
-  /*
-  {
-    type: 'tpl',
-    tpl: title || '新的一列',
-    inline: false
-  }
-  */
   return {
     type: 'wrapper',
     body: [],
