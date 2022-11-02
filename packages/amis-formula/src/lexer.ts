@@ -551,7 +551,7 @@ export function lexer(input: string, options?: LexerOptions) {
   // 比如变量名称为 trueValue
   // ${value2|isTrue:trueValue:falseValue}
   function literal() {
-    // {4,10} 匹配长度就足够判断  ("true").length <= match <= ("undefined").length + 1
+    // {4,10} 匹配长度就足够判断  ("true").length <= targetLength <= ("undefined").length + 1
     const match = input.substring(index).match(/^\w{4,10}/);
     if (!match) {
       return null;

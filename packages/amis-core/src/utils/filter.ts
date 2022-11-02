@@ -23,8 +23,6 @@ function conditionalFilter(
   falseValue: any,
   astOffset: number = 1
 ) {
-  debugger;
-
   (hasAlternate || test) && skipRestTest(filterContext.restFilters);
   const result = test ? trueValue : falseValue;
   const ast = test
