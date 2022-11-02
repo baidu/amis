@@ -208,8 +208,8 @@ export default class NumberControl extends React.Component<
       );
       const value = NumberInput.normalizeValue(
         resetValue ?? '',
-        this.filterNum(min),
-        this.filterNum(max),
+        this.filterNum(min, big),
+        this.filterNum(max, big),
         finalPrecision,
         resetValue ?? '',
         big
@@ -285,14 +285,20 @@ export default class NumberControl extends React.Component<
     onChange(value);
   }
 
+  filterNum(value: number | string | undefined): number | undefined;
+  filterNum(
+    value: number | string | undefined,
+    isbig: boolean | undefined
+  ): number | string | undefined;
   /** 处理数字类的props，支持从数据域获取变量值 */
-  filterNum(value: number | string | undefined) {
+  filterNum(value: number | string | undefined, isbig: boolean = false) {
     if (typeof value === 'undefined') {
       return undefined;
     }
     if (typeof value !== 'number') {
       value = filter(value, this.props.data);
-      value = /^[-]?\d+/.test(value) ? +value : undefined;
+      // 大数模式，不转数字
+      value = /^[-]?\d+/.test(value) ? (isbig ? value : +value) : undefined;
     }
     return value;
   }
@@ -405,8 +411,8 @@ export default class NumberControl extends React.Component<
           value={finalValue}
           resetValue={resetValue}
           step={step}
-          max={this.filterNum(max)}
-          min={this.filterNum(min)}
+          max={this.filterNum(max, big)}
+          min={this.filterNum(min, big)}
           formatter={formatter}
           parser={parser}
           onChange={this.handleChange}
