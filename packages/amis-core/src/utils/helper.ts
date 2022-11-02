@@ -607,6 +607,10 @@ export const padArr = (
   return ret;
 };
 
+export function __uri(id: string) {
+  return id;
+}
+
 // xs < 768px
 // sm >= 768px
 // md >= 992px
