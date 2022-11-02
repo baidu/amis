@@ -206,6 +206,9 @@ export class FormulaPlugin {
     // bca-disable-next-line
     popoverEl.innerHTML = highlightValue.html;
     popoverEl.classList.add('expression-popover');
+    const arrow = document.createElement('div');
+    arrow.classList.add('expression-popover-arrow');
+    popoverEl.appendChild(arrow);
     text.appendChild(popoverEl);
 
     this.editor.markText(from, to, {
