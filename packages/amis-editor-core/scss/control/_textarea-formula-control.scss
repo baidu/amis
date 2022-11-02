@@ -52,16 +52,42 @@
           position: absolute;
           display: none;
           left: 0;
-          bottom: -24px;
+          bottom: -30px;
           transform: translate(calc(24px - 50%));
           font-size: 12px;
           width: max-content;
-          color: #000;
+          color: #fff;
           border-radius: 4px;
-          padding: 0 8px;
-          background: var(--Tooltip-bg);
-          box-shadow: var(--Tooltip-boxShadow);
-          background-color: #fff;
+          padding: 2px 8px;
+          background: var(--Tooltip-bg--dark);
+          border: none;
+          box-shadow: var(--Tooltip-boxShadow--dark);
+          .expression-popover-arrow {
+            position: absolute;
+            display: block;
+            width: var(--Tooltip-arrow-width);
+            height: var(--Tooltip-arrow-height);
+            margin-left: calc(var(--Tooltip-arrow-width) * -1 / 2);
+            left: 50%;
+            top: calc(var(--Tooltip-arrow-height) * -1);
+
+            &::before,
+            &::after {
+              position: absolute;
+              display: block;
+              content: '';
+              border-color: transparent;
+              border-style: solid;
+              border-width: 0 calc(var(--Tooltip-arrow-width) / 2)
+                var(--Tooltip-arrow-height) calc(var(--Tooltip-arrow-width) / 2);
+            }
+            &::before {
+              border-width: 0;
+            }
+            &::after {
+              border-bottom-color: var(--Tooltip-arrow-color--dark);
+            }
+          }
         }
       }
     }
