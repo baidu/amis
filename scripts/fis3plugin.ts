@@ -42,7 +42,7 @@ export default function fis3replace(
               .replace(/[^a-zA-Z0-9]/g, '')
               .replace(/^\d+/, '');
 
-            magicString.prepend(`import ${varname} from '${target}?inline'`);
+            magicString.prepend(`import ${varname} from '${target}?inline';\n`);
             magicString.overwrite(start, end, `${varname}`);
           }
 
