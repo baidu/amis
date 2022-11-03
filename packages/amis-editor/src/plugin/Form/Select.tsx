@@ -249,8 +249,7 @@ export class SelectControlPlugin extends BasePlugin {
               getSchemaTpl('optionControlV2'),
               // 模板
               getSchemaTpl('optionsMenuTpl', {
-                that: this,
-                context: context,
+                manager: this.manager,
                 onChange: (value: any) => {}
               }),
               getSchemaTpl('creatable', {
