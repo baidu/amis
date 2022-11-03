@@ -5,7 +5,7 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual';
 import cx from 'classnames';
-import {Icon, render as amisRender, FormItem} from 'amis';
+import {Icon, FormItem} from 'amis';
 import {autobind, FormControlProps, Schema} from 'amis-core';
 import CodeMirrorEditor from 'amis-ui/lib/components/CodeMirror';
 import {FormulaPlugin, editorFactory} from './plugin';
@@ -14,6 +14,7 @@ import FormulaPicker from './FormulaPicker';
 import debounce from 'lodash/debounce';
 import CodeMirror from 'codemirror';
 import {resolveVariablesFromScope} from './utils';
+import Menu from './Menu';
 
 export interface TextareaFormulaControlProps extends FormControlProps {
   height?: number; // 输入框的高度
@@ -22,7 +23,10 @@ export interface TextareaFormulaControlProps extends FormControlProps {
 
   variableMode?: 'tree' | 'tabs';
 
-  additionalMenus?: Array<Schema>; // 附加底部按钮菜单项
+  additionalMenus?: Array<{
+    label: string;
+    onClick: () => void;
+  }>; // 附加底部按钮菜单项
 }
 
 interface TextareaFormulaControlState {
@@ -30,7 +34,10 @@ interface TextareaFormulaControlState {
 
   variables: any; // 变量数据
 
-  menusList: Schema[]; // 底部按钮菜单
+  menusList: Array<{
+    label: string;
+    onClick: () => void;
+  }>; // 底部按钮菜单
 
   formulaPickerOpen: boolean; // 是否打开公式编辑器
 
@@ -52,8 +59,6 @@ export class TextareaFormulaControl extends React.Component<
 
   isUnmount: boolean;
 
-  wrapRef: any;
-
   editorPlugin?: FormulaPlugin;
 
   constructor(props: TextareaFormulaControlProps) {
@@ -72,7 +77,6 @@ export class TextareaFormulaControl extends React.Component<
     const {additionalMenus = [], value} = this.props;
     const menusList = [
       {
-        type: 'button',
         label: '表达式',
         onClick: () => {
           this.setState({
@@ -192,7 +196,6 @@ export class TextareaFormulaControl extends React.Component<
         className={cx('ae-TextareaFormulaControl', {
           'is-fullscreen': this.state.isFullscreen
         })}
-        ref={(ref: any) => (this.wrapRef = ref)}
       >
         <div className={cx('ae-TextareaResultBox')} style={resultBoxStyle}>
           <CodeMirrorEditor
@@ -202,21 +205,7 @@ export class TextareaFormulaControl extends React.Component<
             editorFactory={this.editorFactory}
             editorDidMount={this.handleEditorMounted}
           />
-          {amisRender({
-            type: 'dropdown-button',
-            className: 'ae-TextareaResultBox-dropdown',
-            menuClassName: 'ae-TextareaResultBox-menus',
-            popOverContainer: this.wrapRef,
-            label: '',
-            level: 'link',
-            size: 'md',
-            icon: 'fa fa-plus',
-            trigger: 'hover',
-            closeOnClick: true,
-            closeOnOutside: true,
-            hideCaret: true,
-            buttons: menusList
-          })}
+          <Menu menus={menusList} />
           <div className="ae-TextareaResultBox-fullscreen">
             <a
               className={cx('Modal-fullscreen')}
