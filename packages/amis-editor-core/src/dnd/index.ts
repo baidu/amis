@@ -234,6 +234,7 @@ export class EditorDNDManager {
     this.dragEnterCount++;
 
     if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
+      // 特殊布局元素拖拽位置时，不需要 switchToRegion
       return;
     }
 
@@ -294,12 +295,15 @@ export class EditorDNDManager {
     const region = curElem?.getAttribute('data-region');
 
     if (d > 5 && this.curDragId && this.manager.draggableContainer(this.curDragId)) {
+      // 特殊布局元素拖拽位置
       const doc = store.getDoc();
 
+      // 实时调整高亮区域坐标值
       const dragHlBoxItem = doc.querySelector(`[data-hlbox-id='${this.curDragId}']`) as HTMLElement;
       dragHlBoxItem.style.top = unitFormula(dragHlBoxItem.style.top, dy);
       dragHlBoxItem.style.left = unitFormula(dragHlBoxItem.style.left, dx);
 
+      // 实时调整被拖拽元素的坐标值
       const dragContainerItem = doc.querySelector(`[data-editor-id='${this.curDragId}']`) as HTMLElement;
       let curInset = dragContainerItem.style.inset || 'auto';
       const insetArr = curInset.split(' ');
@@ -361,10 +365,12 @@ export class EditorDNDManager {
   async drop(e: DragEvent) {
     const store = this.store;
     if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
+      // 特殊布局元素拖拽位置后更新schema-style数据
       const dx = e.clientX - this.startX;
       const dy = e.clientY - this.startY;
       this.manager.updateContainerStyleByDrag(this.curDragId, dx, dy);
-      this.curDragId = ''; // 重置拖拽ID，避免影响其他拖拽元素
+      // 重置拖拽ID，避免影响其他拖拽元素
+      this.curDragId = '';
       return;
     }
 
