@@ -133,7 +133,7 @@ export class ChartPlugin extends BasePlugin {
               title: 'name'
             },
             'event.data.selected': {
-              type: 'string',
+              type: 'object',
               title: 'selected'
             }
           }
