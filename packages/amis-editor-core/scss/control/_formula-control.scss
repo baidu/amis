@@ -70,7 +70,7 @@
     border: none;
     padding: 0;
     > div,
-    > div > div {
+    &:not(.border-wrapper) > div > div {
       border-radius: var(--Form-select-borderRadius) 0 0
         var(--Form-select-borderRadius);
     }
