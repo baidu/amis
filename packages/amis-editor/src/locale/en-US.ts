@@ -3403,5 +3403,12 @@ extendLocale('en-US', {
   'b31c6aaa78f8e24df665ce80ab5301e2':
     'Scroll mode for setting the vertical direction',
   '4fc0e68b093db41b45a4ea706fbe56f3': 'Center Display',
-  '55efb233147f9539de019d9abc7653f9': 'Center display by setting margin: 0 auto'
+  '55efb233147f9539de019d9abc7653f9':
+    'Center display by setting margin: 0 auto',
+  '2bf5bcbe21f39b254a601664fb8b264d': 'Default (Wrap)',
+  'b2d418355cb59a5613ecff7b150c588f': 'nowrap ',
+  '7d1313925f158b747c094a7f2480e535': 'Reference position',
+  '41a7494315a528f0f9618646f7e0dddf':
+    'It can be set as upper left corner, upper right corner, lower right corner and lower left corner. The default is lower right corner',
+  '845c61ac8f51c6702dd22e5657c07e8d': 'Lower right corner (default)'
 });

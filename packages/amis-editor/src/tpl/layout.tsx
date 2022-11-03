@@ -54,6 +54,9 @@ setSchemaTpl(
         if (value === 'static') {
           form.setValueByName('style.inset', undefined);
           form.setValueByName('style.zIndex', undefined);
+        } else if (value === 'fixed' || value === 'absolute') {
+          // 默认使用右下角进行相对定位
+          form.setValueByName('style.inset', 'auto 50px 50px auto');
         }
       },
       options: [
@@ -386,7 +389,6 @@ setSchemaTpl(
     }
 
     if (config?.mode === 'vertical') {
-      // 上下展示，可避免 自定义渲染器 出现挤压
       return {
         type: 'group',
         mode: 'vertical',
@@ -398,7 +400,6 @@ setSchemaTpl(
         ]
       };
     } else {
-      // 默认左右展示
       return configSchema;
     }
 });
@@ -476,18 +477,18 @@ setSchemaTpl(
       type: 'select',
       label: config?.label || '如何换行',
       name: config?.name || 'style.flexWrap',
-      value: config?.value || 'nowrap',
+      value: config?.value || 'wrap',
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
       options: [
         {
-          label: '默认（不换行）',
-          value: 'nowrap'
+          label: '默认（自动换行）',
+          value: 'wrap'
         },
         {
-          label: '自动换行',
-          value: 'wrap'
+          label: '不换行',
+          value: 'nowrap'
         },
         {
           label: '自动换行（颠倒）',
@@ -914,4 +915,75 @@ setSchemaTpl(
         return value ? '0 auto' : '0';
       }
     };
+});
+
+//「参考位置」可设置为左上角、右上角、右下角、左下角，默认为“右下角”。
+setSchemaTpl(
+  'layout:originPosition',
+  (config?: {
+    mode?: string;
+    label?: string;
+    name?: string;
+    value?: string,
+    visibleOn?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
+  }) => {
+    const configSchema = {
+      type: 'select',
+      label: config?.label || tipedLabel('参考位置', '可设置为左上角、右上角、右下角、左下角，默认为右下角'),
+      name: config?.name || 'originPosition',
+      value: config?.value || 'right-bottom',
+      visibleOn: config?.visibleOn ?? 'data.style && data.style.position && (data.style.position === "fixed" || data.style.position === "absolute")',
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut,
+      options: [
+        {
+          label: '左上角',
+          value: 'left-top'
+        },
+        {
+          label: '右上角',
+          value: 'right-top'
+        },
+        {
+          label: '右下角(默认)',
+          value: 'right-bottom'
+        },
+        {
+          label: '左下角',
+          value: 'left-bottom'
+        },
+      ],
+      onChange: (value: string, oldValue: string, model: any, form: any) => {
+        if (value === 'right-bottom') {
+          // 右下角
+          form.setValueByName('style.inset', 'auto 50px 50px auto');
+        } else if (value === 'left-top') {
+          // 左上角
+          form.setValueByName('style.inset', '50px auto auto 50px');
+        } else if (value === 'right-top') {
+          // 右上角
+          form.setValueByName('style.inset', '50px 50px auto auto');
+        } else if (value === 'left-bottom') {
+          // 左下角
+          form.setValueByName('style.inset', 'auto auto 50px 50px');
+        }
+      },
+    }
+
+    if (config?.mode === 'vertical') {
+      return {
+        type: 'group',
+        mode: 'vertical',
+        visibleOn: config?.visibleOn,
+        body: [
+          {
+            ...configSchema
+          }
+        ]
+      };
+    } else {
+      return configSchema;
+    }
 });

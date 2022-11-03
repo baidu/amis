@@ -104,6 +104,7 @@ export class FlexPluginBase extends BasePlugin {
                   getSchemaTpl('layout:inset', {
                     mode: 'vertical'
                   }),
+                  getSchemaTpl('layout:originPosition'),
                   getSchemaTpl('layout:z-index'),
                   getSchemaTpl('layout:flexDirection', {
                     name: 'direction'
@@ -207,6 +208,7 @@ export class FlexPluginBase extends BasePlugin {
       (info.renderer.name === 'flex' || info.renderer.name === 'container') &&
       !draggableContainer
     ) {
+      // 非特殊布局元素（fixed、absolute）支持前后插入追加布局元素功能icon
       toolbars.push(
         {
           iconSvg: 'add-btn',
