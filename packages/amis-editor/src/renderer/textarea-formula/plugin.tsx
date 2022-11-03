@@ -13,7 +13,7 @@ export function editorFactory(
 ) {
   return cm(dom, {
     value: props.value || '',
-    autofocus: true,
+    autofocus: false,
     lineWrapping: true
   });
 }
