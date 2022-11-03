@@ -176,7 +176,7 @@ export class TextareaFormulaControl extends React.Component<
 
     let variables = [];
     if (typeof rest?.variables === 'function') {
-      variables = rest.variables();
+      variables = rest.variables.call(this);
     } else {
       variables = rest?.variables || this.state.variables || [];
     }

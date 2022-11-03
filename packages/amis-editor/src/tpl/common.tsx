@@ -502,8 +502,9 @@ setSchemaTpl(
     function getVariable() {
       let rawVariables =
         config.that.manager.dataSchema?.getDataPropsAsOptions();
-      let schema = config.context.schema;
-      window._ = _;
+      // 函数调用会call(this)
+      // @ts-ignore
+      let schema = (this as any).data;
 
       let children = [];
 
@@ -527,7 +528,6 @@ setSchemaTpl(
         let optionItem = _.reduce(
           schema.options,
           function (result, item) {
-            console.log('item', item);
             return {...result, ...item};
           },
           {}
