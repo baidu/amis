@@ -112,28 +112,18 @@ export class RateControlPlugin extends BasePlugin {
                 valueType: 'number', // 期望数值类型
                 visibleOn: '!data.multiple'
               }),
-
+              // 评分组件没有 min、max 属性，有 count 属性
               getSchemaTpl('valueFormula', {
-                name: 'min',
+                name: 'count',
                 rendererSchema: {
                   ...context?.schema,
-                  type: 'input-number'
+                  type: 'input-number',
+                  max: 10,
+                  min: 1,
+                  step: 1,
+                  precision: 0
                 },
-                needDeleteProps: ['min'], // 避免自我限制
-                label: tipedLabel(
-                  '最小值',
-                  '请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效'
-                ),
-                valueType: 'number'
-              }),
-
-              getSchemaTpl('valueFormula', {
-                name: 'max',
-                rendererSchema: {
-                  ...context?.schema,
-                  type: 'input-number'
-                },
-                needDeleteProps: ['max'], // 避免自我限制
+                needDeleteProps: ['count'], // 避免自我限制
                 label: tipedLabel(
                   '最大值',
                   '请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效'
