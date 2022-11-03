@@ -15,7 +15,6 @@
     border-radius: var(--Form-input-borderRadius);
     background: var(--Form-input-bg);
     font-size: var(--Form-input-fontSize);
-    overflow-y: auto;
     &::placeholder {
       color: var(--Form-input-placeholderColor);
     }
@@ -24,8 +23,42 @@
       border-color: var(--Form-input-onHover-borderColor);
     }
 
+    .textarea-formula-menu {
+      display: absolute;
+      position: absolute;
+      bottom: px2rem(8px);
+      right: px2rem(8px);
+
+      &-outer {
+        min-width: px2rem(60px);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        > li {
+          cursor: pointer;
+          white-space: nowrap;
+          user-select: none;
+          color: var(--DropDown-menuItem-color);
+          padding: var(--DropDown-menuItem-paddingY)
+            var(--DropDown-menuItem-paddingX);
+
+          > a {
+            color: inherit;
+          }
+
+          &:hover {
+            color: var(--DropDown-menuItem-onHover-color);
+            background: var(--DropDown-menuItem-onHover-bg);
+          }
+        }
+      }
+    }
+
     &-editor {
       height: 100%;
+      border-radius: var(--Form-input-borderRadius);
+      overflow: auto;
       & > .CodeMirror {
         height: 100%;
         padding-right: 24px;
@@ -38,7 +71,7 @@
         padding: 0 5px;
         border-radius: 3px;
         color: #fff;
-        margin: 0 1px;
+        margin: 0 1px 1px;
         background: var(--button-primary-default-bg-color);
         cursor: pointer;
 
@@ -91,18 +124,6 @@
           }
         }
       }
-    }
-
-    &-dropdown {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-    }
-
-    &-menus {
-      min-width: 60px;
-      left: auto;
-      right: 4px;
     }
 
     &-fullscreen {
