@@ -33,6 +33,25 @@ export default function mockApiPlugin(options: {} = {}): Plugin {
         });
       });
 
+      // 处理 app 模式
+      server.middlewares.use('/examples/app/', async (req, res, next) => {
+        if (req.originalUrl !== '/examples/app/') {
+          next();
+          return;
+        }
+
+        let template = fs.readFileSync(
+          path.resolve(__dirname, '../examples/app/index-vite.html'),
+          'utf-8'
+        );
+        template = await server.transformIndexHtml(
+          '/examples/app/index-vite.html',
+          template
+        );
+        res.statusCode = 200;
+        res.end(template);
+      });
+
       server.middlewares.use('/schema.json', (req, res, next) => {
         initExpress(req, res, next, () => {
           const filepath = path.resolve(
