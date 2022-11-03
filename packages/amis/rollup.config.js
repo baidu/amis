@@ -20,15 +20,28 @@ const settings = {
   globals: {}
 };
 
-const external = id =>
-  new RegExp(
+const external = id => {
+  const result = new RegExp(
     `^(?:${Object.keys(dependencies)
-      .concat([])
+      .concat([
+        'monaco-editor',
+        'react',
+        'react-dom',
+        'rc-input-number',
+        '@babel/runtime'
+      ])
       .map(value =>
         value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
       )
       .join('|')})`
   ).test(id);
+
+  if (!result && ~id.indexOf('node_modules')) {
+    console.log(id);
+  }
+
+  return result;
+};
 const input = './src/index.tsx';
 
 /** 获取子包编译后的入口路径，需要使用相对路径 */

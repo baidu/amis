@@ -52,7 +52,7 @@
     "mobx-react": "^6.3.1",
     "mobx-state-tree": "^3.17.3",
     "moment": "^2.19.4",
-    "monaco-editor": "0.30.1",
+    "monaco-editor": "0.34.1",
     "prop-types": "^15.6.1",
     "rc-input-number": "^7.3.9",
     "rc-progress": "^3.1.4",

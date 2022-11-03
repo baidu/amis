@@ -4,6 +4,7 @@ import handler from '../mock/index';
 import express, {query} from 'express';
 import setPrototypeOf from 'setprototypeof';
 import path from 'path';
+import fs from 'fs';
 const app = express();
 
 function initExpress(req: any, res: any, next: any, callback: () => void) {
@@ -34,7 +35,22 @@ export default function mockApiPlugin(options: {} = {}): Plugin {
 
       server.middlewares.use('/schema.json', (req, res, next) => {
         initExpress(req, res, next, () => {
-          res.sendFile(path.resolve(__dirname, '../packages/amis/schema.json'));
+          const filepath = path.resolve(
+            __dirname,
+            '../packages/amis/schema.json'
+          );
+
+          if (!fs.existsSync(filepath)) {
+            res.json({
+              $schema: 'http://json-schema.org/draft-07/schema#',
+              type: 'object',
+              description:
+                'amis/schema.json 还没有构建，请执行 `npm run build-schemas --workspace amis` 后看效果'
+            });
+            return;
+          }
+
+          res.sendFile(filepath);
         });
       });
     }
