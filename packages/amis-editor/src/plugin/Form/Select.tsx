@@ -247,7 +247,12 @@ export class SelectControlPlugin extends BasePlugin {
             title: '选项',
             body: [
               getSchemaTpl('optionControlV2'),
-              getSchemaTpl('menuTpl'),
+              // 模板
+              getSchemaTpl('optionsMenuTpl', {
+                that: this,
+                context: context,
+                onChange: (value: any) => {}
+              }),
               getSchemaTpl('creatable', {
                 formType: 'extend',
                 hiddenOnDefault: true,
