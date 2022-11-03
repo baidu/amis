@@ -598,7 +598,7 @@ export default class FormulaControl extends React.Component<
                 allowInput={false}
                 clearable={true}
                 value={value}
-                result={{html: '已配置'}}
+                result={{html: '已配置表达式'}}
                 itemRender={this.renderFormulaValue}
                 onChange={this.handleInputChange}
                 onResultChange={() => {

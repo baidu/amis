@@ -174,7 +174,12 @@ export class TextareaFormulaControl extends React.Component<
       isFullscreen
     } = this.state;
 
-    const variables = rest.variables || this.state.variables || [];
+    let variables = [];
+    if (typeof rest?.variables === 'function') {
+      variables = rest.variables();
+    } else {
+      variables = rest?.variables || this.state.variables || [];
+    }
 
     // 输入框样式
     let resultBoxStyle: {[key in string]: string} = {};

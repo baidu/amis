@@ -4,11 +4,14 @@ import {
   defaultValue,
   isObject,
   tipedLabel,
-  DSField
+  DSField,
+  BaseEventContext,
+  BasePlugin
 } from 'amis-editor-core';
 import {remarkTpl} from '../component/BaseControl';
 import {SchemaObject} from 'amis/lib/Schema';
 import flatten from 'lodash/flatten';
+import _ from 'lodash';
 import {InputComponentName} from '../component/InputComponentName';
 import {FormulaDateType} from '../renderer/FormulaControl';
 import {VariableItem} from 'amis-ui/lib/components/formula/Editor';
@@ -489,6 +492,78 @@ setSchemaTpl('selectDateRangeType', {
     }
   ]
 });
+
+setSchemaTpl(
+  'optionsMenuTpl',
+  (config: {
+    that: BasePlugin; // 当前组件 this 对象
+    context: BaseEventContext; // 事件上下文数据
+  }) => {
+    function getVariable() {
+      let rawVariables =
+        config.that.manager.dataSchema?.getDataPropsAsOptions();
+      let schema = config.context.schema;
+      window._ = _;
+
+      let children = [];
+
+      if (schema.labelField) {
+        children.push({
+          label: '选项文本',
+          value: schema.labelField,
+          tag: typeof schema.labelField
+        });
+      }
+
+      if (schema.valueField) {
+        children.push({
+          label: '选项值',
+          value: schema.valueField,
+          tag: typeof schema.valueField
+        });
+      }
+
+      if (schema.options) {
+        let optionItem = _.reduce(
+          schema.options,
+          function (result, item) {
+            console.log('item', item);
+            return {...result, ...item};
+          },
+          {}
+        );
+        delete optionItem?.$$id;
+        optionItem = _.omit(
+          optionItem,
+          _.map(children, item => item?.label)
+        );
+        let otherItem = _.map(_.keys(optionItem), item => ({
+          label:
+            item === 'label' ? '选项文本' : item === 'value' ? '选项值' : item,
+          value: item,
+          tag: typeof optionItem[item]
+        }));
+        children.push(...otherItem);
+      }
+
+      let variablesArr = [
+        {
+          label: '选项字段',
+          children
+        }
+      ];
+      return [...variablesArr, ...rawVariables];
+    }
+
+    return {
+      type: 'ae-textareaFormulaControl',
+      mode: 'normal',
+      label: tipedLabel('模板', '选项渲染模板，支持JSX，变量使用\\${xx}'),
+      name: 'menuTpl',
+      variables: getVariable
+    };
+  }
+);
 
 setSchemaTpl('menuTpl', {
   type: 'ae-formulaControl',
