@@ -64,7 +64,8 @@
     max-width: calc(100% - 39px); // 避免表达式内容太长撑开面板
   }
 
-  &-ResultBox {
+  & &-ResultBox {
+    background: #007bff;
     flex-wrap: nowrap !important; // 不换行，避免被其他样式覆盖
     margin-right: 3px;
     white-space: nowrap;
@@ -73,20 +74,13 @@
     &.is-clearable {
       > div:first-child {
         max-width: calc(100% - 24px); // 避免表达式内容太长撑开面板
-        background: #007bff;
         color: #fff;
-        padding: 1px 5px;
-        border-radius: 5px 0 0 5px;
-        height: 22px;
         > div,
         span {
           padding-right: 0; // 覆盖 amis 默认样式
         }
       }
       > div:last-child {
-        background: #007bff;
-        margin-right: 0.75rem;
-        border-radius: 0 5px 5px 0;
         svg {
           fill: #fff;
         }
