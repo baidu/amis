@@ -636,6 +636,7 @@ export default class FormulaControl extends React.Component<
         >
           {({onClick}: {onClick: (e: React.MouseEvent) => void}) => (
             <Button
+              className="ae-editor-FormulaControl-button"
               size="sm"
               tooltip={{
                 enterable: false,
