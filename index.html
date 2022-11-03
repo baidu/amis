@@ -50,12 +50,13 @@
         }
         link.setAttribute(
           'href',
-          new URL(`./packages/amis/lib/themes/${key}.css`, import.meta.url).href
+          new URL(`./packages/amis-ui/scss/themes/${key}.scss`, import.meta.url)
+            .href
         );
         document.head.appendChild(link);
       });
     </script>
-    <link rel="stylesheet" href="./packages/amis/lib/helper.css" />
+    <link rel="stylesheet" href="./packages/amis-ui/scss/helper.scss" />
   </head>
 
   <body>
