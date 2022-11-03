@@ -113,6 +113,10 @@ import Timeline from './Timeline';
 import ImageGallery from './ImageGallery';
 import BaiduMapPicker from './BaiduMapPicker';
 import MultilineText from './MultilineText';
+import Form from './Form';
+import FormField, {Controller} from './FormField';
+import Combo from './Combo';
+import InputTable from './InputTable';
 
 export {
   NotFound,
@@ -227,5 +231,10 @@ export {
   Timeline,
   ImageGallery,
   BaiduMapPicker,
-  MultilineText
+  MultilineText,
+  Form,
+  FormField,
+  Controller,
+  Combo,
+  InputTable
 };

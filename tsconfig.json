@@ -30,9 +30,9 @@
   "types": ["typePatches"],
   "references": [],
   "include": [
-    "**.ts",
-    "**.tsx",
-    "**.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.jsx",
     "scripts/fis3plugin.ts",
     "scripts/markdownPlugin.ts",
     "scripts/mockApiPlugin.ts",
