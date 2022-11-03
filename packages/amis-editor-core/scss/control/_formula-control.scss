@@ -2,13 +2,31 @@
   position: relative;
   @include flexBox();
 
+  & > &-button {
+    height: 32px;
+    background-color: var(--button-default-default-top-border-color);
+    border-radius: 0 var(--button-size-sm-top-left-border-radius)
+      var(--button-size-sm-bottom-right-border-radius) 0;
+    &:not(:disabled):not(.is-disabled):hover {
+      border-color: #e6f0ff;
+      background-color: #e6f0ff;
+    }
+  }
+
   &-input {
     flex: 1;
     margin-right: 3px;
-    max-width: calc(100% - 39px); // 避免表达式内容太长撑开面板
+    max-width: calc(100% - 36px); // 避免表达式内容太长撑开面板
 
     &.is-clearable {
       padding-right: 30px; // 避免间隙过大
+    }
+  }
+
+  &-select-style {
+    > div {
+      border-radius: var(--Form-select-borderRadius) 0 0
+        var(--Form-select-borderRadius);
     }
   }
 
@@ -49,9 +67,13 @@
   &-custom-renderer {
     width: calc(100% - 36px);
     flex: 1 1 auto;
-    margin-right: 3px;
     border: none;
     padding: 0;
+    > div,
+    > div > div {
+      border-radius: var(--Form-select-borderRadius) 0 0
+        var(--Form-select-borderRadius);
+    }
 
     &.border-wrapper {
       padding: 2px 4px;
@@ -61,15 +83,16 @@
 
   &-tooltipBox {
     flex: 1;
-    max-width: calc(100% - 39px); // 避免表达式内容太长撑开面板
+    max-width: calc(100% - 36px); // 避免表达式内容太长撑开面板
   }
 
   & &-ResultBox {
     background: #007bff;
     flex-wrap: nowrap !important; // 不换行，避免被其他样式覆盖
-    margin-right: 3px;
     white-space: nowrap;
     padding: 0 0 0 0.75rem;
+    border-radius: var(--Form-select-borderRadius) 0 0
+      var(--Form-select-borderRadius);
 
     &.is-clearable {
       > div:first-child {
