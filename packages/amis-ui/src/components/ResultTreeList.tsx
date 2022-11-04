@@ -150,7 +150,7 @@ export class BaseResultTreeList extends React.Component<
   static defaultProps: Pick<ResultTreeListProps, 'placeholder' | 'itemRender'> =
     {
       placeholder: 'placeholder.selectData',
-      itemRender: BaseResultTreeList.itemRender
+      itemRender: this.itemRender
     };
 
   state: ResultTreeListState = {

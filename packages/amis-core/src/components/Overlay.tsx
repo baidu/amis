@@ -35,7 +35,7 @@ class Position extends React.Component<any, any> {
   _lastTarget: any;
   resizeDispose: Array<() => void>;
   watchedTarget: any;
-  setState: (state: any) => void;
+  // setState: (state: any) => void;
 
   static defaultProps = {
     containerPadding: 0,

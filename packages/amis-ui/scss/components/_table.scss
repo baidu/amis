@@ -1042,7 +1042,7 @@
   justify-content: space-between;
 
   .#{$ns}Button {
-    border: none;
+    border-color: transparent;
     color: var(--Button--link-color);
   }
 }

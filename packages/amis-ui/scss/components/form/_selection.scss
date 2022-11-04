@@ -101,6 +101,10 @@
     span {
       vertical-align: middle;
       white-space: nowrap; // 避免在条件组合中折行
+
+      &.is-invalid {
+        color: var(--Form-selectValue-onInvalid-color);
+      }
     }
   }
 
@@ -305,6 +309,10 @@
     span {
       margin-left: px2rem(10px);
       vertical-align: middle;
+
+      &.is-invalid {
+        color: var(--Form-selectValue-onInvalid-color);
+      }
     }
   }
 

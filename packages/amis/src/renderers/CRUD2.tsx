@@ -16,16 +16,12 @@ import {
   parseQuery
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import Button from 'amis-ui';
-import Select from 'amis-ui';
-import {getExprProperties} from 'amis-core';
 import pick from 'lodash/pick';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from 'amis-core';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import findIndex from 'lodash/findIndex';
 import {Html} from 'amis-ui';
-import {Spinner} from 'amis-ui';
 import {
   BaseSchema,
   SchemaApi,

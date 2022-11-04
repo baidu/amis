@@ -1,0 +1,10 @@
+.#{$ns}Code {
+  &--dark {
+    background-color: #1e1e1e;
+    border-radius: var(--borderRadius);
+  }
+
+  &-pre-wrap {
+    padding: var(--sizes-size-5);
+  }
+}

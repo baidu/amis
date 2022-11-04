@@ -258,7 +258,11 @@ export class ResultList extends React.Component<
           <Icon className={cx('Selections-dragbar icon')} icon="drag-bar" />
         ) : null}
 
-        <label>
+        <label
+          className={cx('Selections-label', {
+            'is-invalid': option?.__unmatched
+          })}
+        >
           {itemRender(option, {
             index,
             disabled,

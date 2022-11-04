@@ -341,9 +341,11 @@ export class BaseTransferRenderer<
 
   @autobind
   handleResultSearch(term: string, item: Option) {
-    const {valueField} = this.props;
+    const {valueField, labelField} = this.props;
     const regexp = string2regExp(term);
-    return regexp.test(item[(valueField as string) || 'value']);
+    const labelTest = item[(labelField as string) || 'label'];
+    const valueTest = item[(valueField as string) || 'value'];
+    return regexp.test(labelTest) || regexp.test(valueTest);
   }
 
   @autobind
@@ -384,11 +386,12 @@ export class BaseTransferRenderer<
     colIndex: number,
     rowIndex: number
   ) {
-    const {render, data} = this.props;
+    const {render, data, classnames: cx} = this.props;
     return render(
       `cell/${colIndex}/${rowIndex}`,
       {
         type: 'text',
+        className: cx({'is-invalid': option?.__unmatched}),
         ...column
       },
       {

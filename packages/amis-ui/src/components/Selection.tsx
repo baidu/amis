@@ -5,16 +5,19 @@
  */
 
 import React from 'react';
-import {uncontrollable} from 'amis-core';
-import Checkbox from './Checkbox';
-import chunk from 'lodash/chunk';
-import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
-import {Option, value2array, Options} from './Select';
-import find from 'lodash/find';
-import {autobind, findTree} from 'amis-core';
 import isEqual from 'lodash/isEqual';
-import {LocaleProps, localeable} from 'amis-core';
-// import isPlainObject from 'lodash/isPlainObject';
+import cx from 'classnames';
+import {
+  uncontrollable,
+  LocaleProps,
+  localeable,
+  themeable,
+  ThemeProps,
+  autobind,
+  findTree
+} from 'amis-core';
+import Checkbox from './Checkbox';
+import {Option, Options} from './Select';
 
 export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   options: Options;
@@ -55,7 +58,7 @@ export class BaseSelection<
 > extends React.Component<T, S> {
   static itemRender(option: Option, states: ItemRenderStates) {
     return (
-      <span>
+      <span className={cx({'is-invalid': option?.__unmatched})}>
         {option[states?.labelField || 'label']}
         {option.tip || ''}
       </span>
@@ -64,7 +67,7 @@ export class BaseSelection<
 
   static defaultProps = {
     placeholder: 'placeholder.noOption',
-    itemRender: BaseSelection.itemRender,
+    itemRender: this.itemRender,
     multiple: true,
     clearable: false,
     virtualThreshold: 1000,

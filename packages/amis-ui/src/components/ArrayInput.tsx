@@ -210,7 +210,7 @@ export class ArrayInput extends React.Component<ArrayInputProps> {
               disabled={disabled}
             >
               <Icon icon="plus" className="icon" />
-              <span>{__('Combo.add')}</span>
+              <span>{__('add')}</span>
             </Button>
           ) : null}
 

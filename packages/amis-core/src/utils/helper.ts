@@ -479,6 +479,10 @@ export function promisify<T extends Function>(
 ): (...args: Array<any>) => Promise<any> & {
   raw: T;
 } {
+  // 避免重复处理
+  if ((fn as any)._promisified) {
+    return fn as any;
+  }
   let promisified = function () {
     try {
       const ret = fn.apply(null, arguments);
@@ -498,6 +502,7 @@ export function promisify<T extends Function>(
     }
   };
   (promisified as any).raw = fn;
+  (promisified as any)._promisified = true;
   return promisified;
 }
 
