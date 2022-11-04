@@ -20,7 +20,11 @@ export interface FormProps extends ThemeProps, LocaleProps {
   autoSubmit?: boolean;
   onSubmit: (value: any) => void;
   forwardRef?: FormRef;
-  children?: (methods: UseFormReturn) => JSX.Element | null;
+  children?: (
+    methods: UseFormReturn & {
+      onSubmit: (value: any) => void;
+    }
+  ) => JSX.Element | null;
   className?: string;
 }
 
@@ -80,7 +84,10 @@ export function Form(props: FormProps) {
     >
       {/* 实现回车自动提交 */}
       <input type="submit" style={{display: 'none'}} />
-      {props.children?.(methods)}
+      {props.children?.({
+        ...methods,
+        onSubmit: onSubmit.current
+      })}
     </form>
   );
 }
