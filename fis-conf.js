@@ -997,3 +997,5 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     domain: null
   });
 }
+
+fis.config.set("project.watch.usePolling", true)
