@@ -100,7 +100,7 @@ export function InputTable({
             <tbody>
               {fields.length ? (
                 fields.map((field, index) => (
-                  <tr key={index}>
+                  <tr key={field.id}>
                     <InputTableRow
                       key="columns"
                       control={control}
