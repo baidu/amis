@@ -524,21 +524,6 @@ export default class SubFormControl extends React.PureComponent<
     );
   }
 
-  // 获取当前子表单的字段名
-  getFormNames() {
-    const {
-      $schema,
-    } = this.props;
-
-    const formBodys = $schema?.form?.body || [];
-    let names: any = [];
-    formBodys.forEach((item: any) => {
-        names.push(item.name);
-    });
-
-    return names;
-  }
-
   renderActions() {
     const {
       translate: __,
@@ -769,7 +754,7 @@ export default class SubFormControl extends React.PureComponent<
   handleAction(
     e: any,
     action: ActionObject,
-    ctx: object,
+    ctx: any,
   ) {
     let {value, onChange, multiple} = this.props;
     if (!multiple) {
