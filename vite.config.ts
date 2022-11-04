@@ -32,12 +32,7 @@ export default defineConfig({
         dimensions: false
       }
     }),
-    monacoEditorPlugin({}),
-    replace({
-      preventAssignment: true,
-      __buildDate__: () => JSON.stringify(new Date()),
-      __buildVersion: JSON.stringify('dev')
-    })
+    monacoEditorPlugin({})
   ],
   optimizeDeps: {
     include: ['amis-formula/lib/doc'],

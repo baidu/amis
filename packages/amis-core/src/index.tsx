@@ -93,7 +93,7 @@ import type {FormHorizontal} from './renderers/Form';
 import {enableDebug, promisify, replaceText, wrapFetcher} from './utils/index';
 
 // @ts-ignore
-export const version = __buildVersion;
+export const version = '__buildVersion';
 
 export {
   clearStoresCache,

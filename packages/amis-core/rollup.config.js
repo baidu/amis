@@ -166,10 +166,8 @@ function getPlugins(format = 'esm') {
       main: true
     }),
     replace({
-      'preventAssignment': true,
-      'process.env.NODE_ENV': JSON.stringify('production'),
-      '__buildDate__': () => JSON.stringify(new Date()),
-      '__buildVersion': JSON.stringify(version)
+      preventAssignment: true,
+      __buildVersion: version
     }),
     typescript(typeScriptOptions),
     commonjs({
