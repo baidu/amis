@@ -25,8 +25,7 @@ const defaultFlexColumnSchema = (title: string) => {
       flexBasis: 'auto',
       flexDirection: 'column',
       justifyContent: 'flex-start',
-      alignItems: 'stretch',
-      flexWrap: 'wrap'
+      alignItems: 'stretch'
     },
     isFixedHeight: false,
     isFixedWidth: false
@@ -40,7 +39,9 @@ const defaultFlexContainerSchema = {
     defaultFlexColumnSchema('第一列'),
     defaultFlexColumnSchema('第二列'),
     defaultFlexColumnSchema('第三列')
-  ]
+  ],
+  justify: "flex-start",
+  alignItems: "stretch"
 };
 
 export class FlexPluginBase extends BasePlugin {
@@ -205,7 +206,7 @@ export class FlexPluginBase extends BasePlugin {
 
     if (
       parent &&
-      (info.renderer.name === 'flex' || info.renderer.name === 'container') &&
+      (info.renderer?.name === 'flex' || info.renderer?.name === 'container') &&
       !draggableContainer
     ) {
       // 非特殊布局元素（fixed、absolute）支持前后插入追加布局元素功能icon
@@ -214,7 +215,7 @@ export class FlexPluginBase extends BasePlugin {
           iconSvg: 'add-btn',
           tooltip: '向前插入布局容器',
           level: 'special',
-          placement: 'top',
+          placement: 'bottom',
           className: 'ae-InsertBefore is-vertical',
           onClick: () =>
             this.manager.appendSiblingSchema(
@@ -235,16 +236,22 @@ export class FlexPluginBase extends BasePlugin {
               false,
               true
             )
-        },
-        {
-          iconSvg: 'add-btn',
-          tooltip: '新增列级元素',
-          level: 'special',
-          placement: 'bottom',
-          className: 'ae-AppendChild',
-          onClick: () => this.manager.addElem(newColumnSchema)
         }
       );
+
+      // 布局容器 右上角插入子元素
+      if (info.renderer?.name === 'flex') {
+        toolbars.push(
+          {
+            iconSvg: 'add-btn',
+            tooltip: '新增列级元素',
+            level: 'special',
+            placement: 'bottom',
+            className: 'ae-AppendChild',
+            onClick: () => this.manager.addElem(newColumnSchema)
+          }
+        );
+      }
     }
 
     if (isFlexItem && !draggableContainer) {
@@ -254,7 +261,7 @@ export class FlexPluginBase extends BasePlugin {
           iconSvg: 'add-btn',
           tooltip: '左侧（上侧）插入列级容器',
           level: 'special',
-          placement: 'bottom',
+          placement: 'right',
           className: 'ae-InsertBefore',
           onClick: () =>
             this.manager.appendSiblingSchema(newColumnSchema, true, true)
@@ -263,7 +270,7 @@ export class FlexPluginBase extends BasePlugin {
           iconSvg: 'add-btn',
           tooltip: '右侧（下侧）插入列级容器',
           level: 'special',
-          placement: 'bottom',
+          placement: 'left',
           className: 'ae-InsertAfter',
           onClick: () =>
             this.manager.appendSiblingSchema(newColumnSchema, false, true)

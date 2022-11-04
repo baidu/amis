@@ -278,7 +278,7 @@ setSchemaTpl(
       type: 'select',
       label: config?.label || tipedLabel(`水平对齐方式`, '设置子元素在主轴上的对齐方式'),
       name: config?.name || 'style.justifyContent',
-      value: config?.value || 'center',
+      value: config?.value || 'flex-start',
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
@@ -477,18 +477,18 @@ setSchemaTpl(
       type: 'select',
       label: config?.label || '如何换行',
       name: config?.name || 'style.flexWrap',
-      value: config?.value || 'wrap',
+      value: config?.value || 'nowrap',
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
       options: [
         {
-          label: '默认（自动换行）',
-          value: 'wrap'
+          label: '默认（不换行）',
+          value: 'nowrap'
         },
         {
-          label: '不换行',
-          value: 'nowrap'
+          label: '自动换行',
+          value: 'wrap'
         },
         {
           label: '自动换行（颠倒）',
@@ -541,7 +541,7 @@ setSchemaTpl(
   }) => {
     return {
       type: 'input-number',
-      label: config?.label || tipedLabel('默认宽度', '定义在分配多余空间之前，项目占据的主轴空间（main size）'),
+      label: config?.label || tipedLabel('默认宽度', '在分配多余空间之前，其默认占据的主轴空间（main size）'),
       name: config?.name || 'style.flexBasis',
       value: config?.value || 'auto',
       visibleOn: config?.visibleOn,

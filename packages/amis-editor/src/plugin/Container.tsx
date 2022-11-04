@@ -17,12 +17,7 @@ export class ContainerPlugin extends BasePlugin {
   pluginIcon = 'container-plugin';
   scaffold = {
     type: 'container',
-    body: [
-      {
-        type: 'tpl',
-        tpl: '内容'
-      }
-    ]
+    body: []
   };
   previewSchema = {
     ...this.scaffold
