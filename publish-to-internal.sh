@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-npm run build --workspace=packages/amis
+npm run build --workspaces
 
 rm -rf npm
 mkdir npm
