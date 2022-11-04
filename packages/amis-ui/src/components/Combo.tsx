@@ -70,6 +70,7 @@ import {
 import React from 'react';
 import {
   Control,
+  RegisterOptions,
   useFieldArray,
   UseFieldArrayProps,
   UseFormReturn
@@ -82,14 +83,18 @@ import {Icon} from './icons';
 export interface ComboProps<T = any>
   extends ThemeProps,
     LocaleProps,
-    Omit<
-      FormFieldProps,
-      'children' | 'errors' | 'hasError' | 'isRequired' | 'className'
-    >,
+    Omit<FormFieldProps, 'children' | 'errors' | 'hasError' | 'className'>,
     UseFieldArrayProps {
   itemRender: (methods: UseFormReturn, index: number) => JSX.Element | null;
   control: Control<any>;
   fieldClassName?: string;
+
+  rules?: Omit<
+    RegisterOptions,
+    'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
+  > & {
+    [propName: string]: any;
+  };
 
   /**
    * 要不要包裹 label 之类的
@@ -101,19 +106,15 @@ export interface ComboProps<T = any>
    */
   multiLine?: boolean;
 
-  addIcon?: boolean;
-  deleteIcon?: string;
-
   itemsWrapperClassName?: string;
   itemClassName?: string;
 
   scaffold?: Record<string, any>;
-  deleteConfirmText?: string;
   addButtonClassName?: string;
   addButtonText?: string;
   addable?: boolean;
-  draggable?: boolean;
-  draggableTip?: string;
+  // draggable?: boolean;
+  // draggableTip?: string;
   maxLength?: number;
   minLength?: number;
   removable?: boolean;
@@ -140,13 +141,23 @@ export function Combo({
   addable,
   scaffold,
   addButtonText,
-  addIcon,
-  deleteIcon,
-  removable
+  removable,
+  rules,
+  isRequired,
+  minLength,
+  maxLength
 }: ComboProps) {
+  // 看文档是支持的，但是传入报错，后面看看
+  // let rules2: any = {...rules};
+
+  // if (isRequired) {
+  //   rules2.required = true;
+  // }
   const {fields, append, update, remove} = useFieldArray({
     control,
-    name: name
+    name: name,
+    shouldUnregister: true
+    // rules: rules2
   });
 
   function renderBody() {
@@ -173,27 +184,30 @@ export function Combo({
               <a
                 onClick={() => remove(index)}
                 key="delete"
-                className={cx(`Combo-delBtn ${removable ? 'is-disabled' : ''}`)}
+                className={cx(
+                  `Combo-delBtn ${
+                    removable === false ||
+                    (minLength && fields.length <= minLength)
+                      ? 'is-disabled'
+                      : ''
+                  }`
+                )}
                 data-tooltip={__('delete')}
                 data-position="bottom"
               >
-                {deleteIcon ? (
-                  <i className={deleteIcon} />
-                ) : (
-                  <Icon icon="status-close" className="icon" />
-                )}
+                <Icon icon="status-close" className="icon" />
               </a>
             </div>
           ))}
         </div>
-        {addable !== false ? (
+        {addable !== false && (!maxLength || fields.length < maxLength) ? (
           <div className={cx(`Combo-toolbar`)}>
             <Button
               className={cx(`Combo-addBtn`, addButtonClassName)}
               onClick={() => append({...scaffold})}
             >
-              {addIcon ? <Icon icon="plus" className="icon" /> : null}
-              <span>{__(addButtonText || 'Combo.add')}</span>
+              <Icon icon="plus" className="icon" />
+              <span>{__(addButtonText || 'add')}</span>
             </Button>
           </div>
         ) : null}
@@ -211,6 +225,7 @@ export function Combo({
       labelClassName={labelClassName}
       description={description}
       mode={mode}
+      isRequired={isRequired}
       hasError={false /*目前看来不支持，后续研究一下 */}
       errors={undefined /*目前看来不支持，后续研究一下 */}
     >

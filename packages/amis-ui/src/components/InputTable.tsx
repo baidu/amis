@@ -31,6 +31,7 @@ export interface InputTabbleProps<T = any>
 
   columns: Array<{
     title?: string;
+    className?: string;
     thRender?: () => JSX.Element;
     tdRender: (methods: UseFormReturn, index: number) => JSX.Element | null;
   }>;
@@ -43,10 +44,7 @@ export interface InputTabbleProps<T = any>
 
   addable?: boolean;
   addButtonClassName?: string;
-  addIcon?: boolean;
   addButtonText?: string;
-
-  deleteIcon?: string;
 
   maxLength?: number;
   minLength?: number;
@@ -72,8 +70,8 @@ export function InputTable({
   addButtonText,
   addButtonClassName,
   scaffold,
-  addIcon,
-  deleteIcon
+  minLength,
+  maxLength
 }: InputTabbleProps) {
   const {fields, append, update, remove} = useFieldArray({
     control,
@@ -92,7 +90,7 @@ export function InputTable({
             <thead>
               <tr>
                 {columns.map((item, index) => (
-                  <th key={index}>
+                  <th key={index} className={item.className}>
                     {item.thRender ? item.thRender() : item.title}
                   </th>
                 ))}
@@ -100,44 +98,61 @@ export function InputTable({
               </tr>
             </thead>
             <tbody>
-              {fields.map((field, index) => (
-                <tr key={index}>
-                  <InputTableRow
-                    key="columns"
-                    control={control}
-                    update={update}
-                    index={index}
-                    value={field}
-                    columns={columns}
-                    translate={__}
-                    classnames={cx}
-                  />
-                  <td key="operation">
-                    <a
-                      onClick={() => remove(index)}
-                      key="delete"
-                      className={cx(
-                        `Table-delBtn ${removable ? 'is-disabled' : ''}`
-                      )}
-                      data-tooltip={__('delete')}
-                      data-position="bottom"
-                    >
-                      {__('Delete')}
-                    </a>
+              {fields.length ? (
+                fields.map((field, index) => (
+                  <tr key={index}>
+                    <InputTableRow
+                      key="columns"
+                      control={control}
+                      update={update}
+                      index={index}
+                      value={field}
+                      columns={columns}
+                      translate={__}
+                      classnames={cx}
+                    />
+                    <td key="operation">
+                      <Button
+                        level="link"
+                        key="delete"
+                        className={cx(
+                          `Table-delBtn ${
+                            removable === false ||
+                            (minLength && fields.length <= minLength)
+                              ? 'is-disabled'
+                              : ''
+                          }`
+                        )}
+                        onClick={() => remove(index)}
+                      >
+                        {__('delete')}
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={columns.length + 1}>
+                    <Icon
+                      icon="desk-empty"
+                      className={cx('Table-placeholder-empty-icon', 'icon')}
+                    />
+                    {__('placeholder.noData')}
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
-        {addable !== false ? (
-          <div className={cx(`Combo-toolbar`)}>
+        {addable !== false && (!maxLength || fields.length < maxLength) ? (
+          <div className={cx(`InputTable-toolbar`)}>
             <Button
-              className={cx(`Combo-addBtn`, addButtonClassName)}
+              className={cx(addButtonClassName)}
               onClick={() => append({...scaffold})}
+              size="sm"
             >
-              {addIcon ? <Icon icon="plus" className="icon" /> : null}
-              <span>{__(addButtonText || 'Combo.add')}</span>
+              <Icon icon="plus" className="icon" />
+              <span>{__(addButtonText || 'add')}</span>
             </Button>
           </div>
         ) : null}
@@ -168,6 +183,7 @@ export interface InputTableRowProps {
   control: Control<any>;
   columns: Array<{
     tdRender: (methods: UseFormReturn, index: number) => JSX.Element | null;
+    className?: string;
   }>;
   update: (index: number, data: Record<string, any>) => void;
   index: number;
@@ -188,7 +204,9 @@ export function InputTableRow({
   return (
     <>
       {columns.map((item, index) => (
-        <td key={index}>{item.tdRender(methods, index)}</td>
+        <td key={index} className={item.className}>
+          {item.tdRender(methods, index)}
+        </td>
       ))}
     </>
   );
