@@ -359,6 +359,7 @@ export class DateShortCutControl extends React.PureComponent<
                 label: '常用跨度',
                 closeOnClick: true,
                 closeOnOutside: true,
+                level: 'enhance',
                 buttons: this.normalDropDownOptionArr.map((item: any) => ({
                   ...item,
                   type: 'button',
