@@ -236,8 +236,14 @@ export class Chart extends React.Component<ChartProps> {
     props.config && this.renderChart(props.config);
   }
 
-  componentDidMount() {
-    const {api, data, initFetch, source} = this.props;
+  async componentDidMount() {
+    const {api, data, initFetch, source, dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent('didMount', data, this);
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     if (source && isPureVariable(source)) {
       const ret = resolveVariableAndFilter(source, data, '| raw');

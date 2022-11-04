@@ -376,11 +376,25 @@ export default class Page extends React.Component<PageProps> {
     }
   }
 
-  componentDidMount() {
-    const {initApi, initFetch, initFetchOn, store, messages, asideSticky} =
-      this.props;
+  async componentDidMount() {
+    const {
+      initApi,
+      initFetch,
+      initFetchOn,
+      store,
+      messages,
+      asideSticky,
+      data,
+      dispatchEvent
+    } = this.props;
 
     this.mounted = true;
+
+    const rendererEvent = await dispatchEvent('didMount', data, this);
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     if (isEffectiveApi(initApi, store.data, initFetch, initFetchOn)) {
       store

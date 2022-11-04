@@ -1443,35 +1443,36 @@ Form 支持轮询初始化接口，步骤如下：
 | promptPageLeave             | `boolean`                                                                 | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
 | columnCount                 | `number`                                                                  | 0                                                                      | 表单项显示为几列                                                                                                                                                                                                                                                                                                                                             |
 | inheritData                 | `boolean`                                                                 | `true`                                                                 | 默认表单是采用数据链的形式创建个自己的数据域，表单提交的时候只会发送自己这个数据域的数据，如果希望共用上层数据域可以设置这个属性为 false，这样上层数据域的数据不需要在表单中用隐藏域或者显式映射才能发送了。                                                                                                                                                 |
-| static | `boolean` |   | `2.4.0` 整个表单静态方式展示，详情请查看[示例页](../../../examples/form/switchDisplay) |
-| staticClassName | `string` |   | `2.4.0` 表单静态展示时使用的类名 |
+| static                      | `boolean`                                                                 |                                                                        | `2.4.0` 整个表单静态方式展示，详情请查看[示例页](../../../examples/form/switchDisplay)                                                                                                                                                                                                                                                                       |
+| staticClassName             | `string`                                                                  |                                                                        | `2.4.0` 表单静态展示时使用的类名                                                                                                                                                                                                                                                                                                                             |
 
 ## 事件表
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称              | 事件参数                                                     | 说明                         |
-| --------------------- | ------------------------------------------------------------ | ---------------------------- |
-| inited                | `event.data: object` initApi 远程请求返回的初始化数据        | 远程初始化接口请求成功时触发 |
-| change                | `event.data: object` 当前表单数据                            | 表单值变化时触发             |
-| formItemValidateSucc  | `event.data: object` 当前表单数据                            | 表单项校验成功时触发         |
-| formItemValidateError | `event.data: object` 当前表单数据                            | 表单项校验失败时触发         |
-| validateSucc          | `event.data: object` 当前表单数据                            | 表单校验成功时触发           |
-| validateError         | `event.data: object` 当前表单数据                            | 表单校验失败时触发           |
-| submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据 | 提交成功时触发               |
-| submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息  | 提交失败时触发               |
+| 事件名称              | 事件参数                                                     | 说明                                                |
+| --------------------- | ------------------------------------------------------------ | --------------------------------------------------- |
+| didMount              | -                                                            | 组件实例被创建并插入 DOM 中时触发。2.4.1 及以上版本 |
+| inited                | `event.data: object` initApi 远程请求返回的初始化数据        | 远程初始化接口请求成功时触发                        |
+| change                | `event.data: object` 当前表单数据                            | 表单值变化时触发                                    |
+| formItemValidateSucc  | `event.data: object` 当前表单数据                            | 表单项校验成功时触发                                |
+| formItemValidateError | `event.data: object` 当前表单数据                            | 表单项校验失败时触发                                |
+| validateSucc          | `event.data: object` 当前表单数据                            | 表单校验成功时触发                                  |
+| validateError         | `event.data: object` 当前表单数据                            | 表单校验失败时触发                                  |
+| submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据 | 提交成功时触发                                      |
+| submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息  | 提交失败时触发                                      |
 
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置                       | 说明                       |
-| -------- | ------------------------------ | -------------------------- |
-| submit   | -                              | 提交表单                   |
-| reset    | -                              | 重置表单                   |
-| clear    | -                              | 清空表单                   |
-| validate | -                              | 校验表单                   |
-| reload   | -                              | 刷新（重新加载）             |
-| setValue | `value: object` 更新的表单数据   | 更新数据，对数据进行 merge    |
-| static   | -                              | 表单切换为静态展示          |
-| nonstatic | -                             | 表单切换为普通输入态         |
+| 动作名称  | 动作配置                       | 说明                       |
+| --------- | ------------------------------ | -------------------------- |
+| submit    | -                              | 提交表单                   |
+| reset     | -                              | 重置表单                   |
+| clear     | -                              | 清空表单                   |
+| validate  | -                              | 校验表单                   |
+| reload    | -                              | 刷新（重新加载）           |
+| setValue  | `value: object` 更新的表单数据 | 更新数据，对数据进行 merge |
+| static    | -                              | 表单切换为静态展示         |
+| nonstatic | -                              | 表单切换为普通输入态       |

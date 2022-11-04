@@ -508,7 +508,7 @@ export default class Form extends React.Component<FormProps, object> {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const {
       initApi,
       initFetch,
@@ -521,10 +521,18 @@ export default class Form extends React.Component<FormProps, object> {
       onValidate,
       promptPageLeave,
       env,
-      rules
+      rules,
+      dispatchEvent,
+      data
     } = this.props;
 
     this.mounted = true;
+
+    const rendererEvent = await dispatchEvent('didMount', data, this);
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     if (onValidate) {
       const finalValidate = promisify(onValidate);

@@ -19,6 +19,9 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="body"
 {
     "type": "service",
+    "data": {
+      "a": 111
+    },
     "api": "/api/mock2/page/initData",
     "body": {
         "type": "panel",
@@ -703,10 +706,11 @@ ws.on('connection', function connection(ws) {
 
 > `[name]`为当前数据域中的字段名，例如：当前数据域为 {username: 'amis'}，则可以通过${username}获取对应的值。
 
-| 事件名称          | 事件参数                                                                                 | 说明                               |
-| ----------------- | ---------------------------------------------------------------------------------------- | ---------------------------------- |
-| fetchInited       | `event.data` api 远程请求返回的初始化数据<br/>`[name]: any` 当前数据域中指定字段的值     | 远程初始化接口请求成功时触发       |
-| fetchSchemaInited | `event.data` schemaApi 远程请求返回的 UI 内容<br/>`[name]: any` 当前数据域中指定字段的值 | 远程 schemaApi UI 内容接口请求成功 |
+| 事件名称          | 事件参数                                                                                 | 说明                                                |
+| ----------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| didMount          | -                                                                                        | 组件实例被创建并插入 DOM 中时触发。2.4.1 及以上版本 |
+| fetchInited       | `event.data` api 远程请求返回的初始化数据<br/>`[name]: any` 当前数据域中指定字段的值     | 远程初始化接口请求成功时触发                        |
+| fetchSchemaInited | `event.data` schemaApi 远程请求返回的 UI 内容<br/>`[name]: any` 当前数据域中指定字段的值 | 远程 schemaApi UI 内容接口请求成功                  |
 
 ## 动作表
 

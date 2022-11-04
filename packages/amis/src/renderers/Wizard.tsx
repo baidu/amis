@@ -223,7 +223,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     completeStep: -1
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const {
       initApi,
       initFetch,
@@ -231,8 +231,16 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       initFinishedField,
       store,
       messages: {fetchSuccess, fetchFailed},
-      onInit
+      onInit,
+      dispatchEvent,
+      data
     } = this.props;
+
+    const rendererEvent = await dispatchEvent('didMount', data, this);
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     if (isEffectiveApi(initApi, store.data, initFetch)) {
       store
