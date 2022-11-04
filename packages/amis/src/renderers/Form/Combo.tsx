@@ -487,7 +487,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     value.push(
       flat
-        ? condition.scaffold || scaffold || ''
+        ? condition.scaffold ?? scaffold ?? ''
         : {
             ...(condition.scaffold || scaffold)
           }
@@ -542,7 +542,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     value.push(
       flat
-        ? scaffold || ''
+        ? scaffold ?? ''
         : {
             ...scaffold
           }
@@ -1171,9 +1171,9 @@ export default class ComboControl extends React.Component<ComboProps> {
                 </div>
               ) : null}
               <div className={cx(`Combo-itemInner`)}>
-                {finnalControls
-                  ? this.renderItems(finnalControls, data, index)
-                  : (
+                {finnalControls ? (
+                  this.renderItems(finnalControls, data, index)
+                ) : (
                   <Alert2 level="warning" className="m-b-none">
                     {__('Combo.invalidData')}
                   </Alert2>
@@ -1392,7 +1392,11 @@ export default class ComboControl extends React.Component<ComboProps> {
           multiLine ? `Combo--ver` : `Combo--hor`,
           noBorder ? `Combo--noBorder` : '',
           disabled ? 'is-disabled' : '',
-          !isStatic && !disabled && draggable && Array.isArray(value) && value.length > 1
+          !isStatic &&
+            !disabled &&
+            draggable &&
+            Array.isArray(value) &&
+            value.length > 1
             ? 'is-draggable'
             : ''
         )}
@@ -1457,9 +1461,9 @@ export default class ComboControl extends React.Component<ComboProps> {
                     </div>
                   ) : null}
                   <div className={cx(`Combo-itemInner`)}>
-                    {finnalControls
-                      ? this.renderItems(finnalControls, data, index)
-                      : (
+                    {finnalControls ? (
+                      this.renderItems(finnalControls, data, index)
+                    ) : (
                       <Alert2 level="warning" className="m-b-none">
                         {__('Combo.invalidData')}
                       </Alert2>
@@ -1538,9 +1542,9 @@ export default class ComboControl extends React.Component<ComboProps> {
           ) : null}
 
           <div className={cx(`Combo-itemInner`)}>
-            {items
-              ? this.renderItems(items, data)
-              : (
+            {items ? (
+              this.renderItems(items, data)
+            ) : (
               <Alert2 level="warning" className="m-b-none">
                 {__('Combo.invalidData')}
               </Alert2>
@@ -1595,8 +1599,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           formStore: undefined
         }
       );
-    }
-    else if (multiple && index !== undefined && index >= 0){
+    } else if (multiple && index !== undefined && index >= 0) {
       return render(
         `multiple/${index}`,
         {
@@ -1604,10 +1607,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           body: finnalControls,
           wrapperComponent: 'div',
           wrapWithPanel: false,
-          mode:
-            tabsMode
-              ? subFormMode
-              : (multiLine ? subFormMode : 'row'),
+          mode: tabsMode ? subFormMode : multiLine ? subFormMode : 'row',
           className: cx(`Combo-form`, formClassName)
         },
         {
@@ -1658,8 +1658,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     // 当有staticSchema 或 type = input-kv | input-kvs
     // 才拦截处理，其他情况交给子表单项处理即可
     if (
-      isStatic
-      && (staticSchema || ['input-kv', 'input-kvs'].includes(type))
+      isStatic &&
+      (staticSchema || ['input-kv', 'input-kvs'].includes(type))
     ) {
       return this.renderStatic();
     }
