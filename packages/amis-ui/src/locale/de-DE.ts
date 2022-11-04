@@ -360,6 +360,7 @@ register('de-DE', {
   'Condition.expression': 'Ausdruck',
   'Condition.formula_placeholder': 'Bitte geben Sie eine Formel ein',
   'Condition.fun_error': 'Funktion ist undefiniert',
+  'Condition.configured': 'Konfiguriert',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Falten',
   'Timeline.expandText': 'Entfalten',

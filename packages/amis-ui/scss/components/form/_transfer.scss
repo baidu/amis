@@ -182,6 +182,10 @@
           max-width: unset;
           line-height: unset;
           top: unset;
+
+          & > span.is-invalid {
+            color: var(--Form-selectValue-onInvalid-color);
+          }
         }
       }
     }
@@ -352,6 +356,10 @@
       font-size: var(--transfer-base-content-font-size);
       font-weight: var(--transfer-base-content-font-weight);
       font-family: var(--transfer-base-content-font-family);
+
+      & > span.is-invalid {
+        color: var(--Form-selectValue-onInvalid-color);
+      }
 
       &:last-child {
         padding-right: var(--transfer-table-last-paddingRight);

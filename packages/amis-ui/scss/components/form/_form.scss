@@ -406,9 +406,9 @@
   position: relative;
 }
 
-.#{$ns}Form--quickEdit {
-  min-width: var(--Form-control-widthSm);
-}
+// .#{$ns}Form--quickEdit {
+//   min-width: var(--Form-control-widthSm);
+// }
 
 .#{$ns}Form--column {
   display: flex;

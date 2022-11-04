@@ -39,6 +39,8 @@ jobs:
           CLEAN: true # Automatically remove deleted files from the deploy branch
           SINGLE_COMMIT: true
       - name: Generate coverage report
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
           npm run coverage
       - uses: codecov/codecov-action@v2

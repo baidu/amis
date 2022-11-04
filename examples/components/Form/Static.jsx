@@ -117,8 +117,7 @@ export default {
           imageCaption: 'jfe fjkda fejfkda fejk fdajf dajfe jfkda',
           popOver: {
             title: '查看大图',
-            body:
-              '<div class="w-xxl"><img class="w-full" src="${image}"/></div>'
+            body: '<div class="w-xxl"><img class="w-full" src="${image}"/></div>'
           }
         },
 

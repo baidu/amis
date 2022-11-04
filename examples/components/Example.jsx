@@ -87,6 +87,7 @@ import ServiceEventSchema from './EventAction/cmpt-event-action/ServiceEvent';
 import CarouselEventSchema from './EventAction/cmpt-event-action/CarouselEvent';
 import TableEventSchema from './EventAction/cmpt-event-action/TableEvent';
 import ListEventSchema from './EventAction/cmpt-event-action/ListEvent';
+import ChartEventSchema from './EventAction/cmpt-event-action/ChartEvent';
 import ReloadFormActionSchema from './EventAction/reload-action/ReloadForm';
 import ReloadSelectActionSchema from './EventAction/reload-action/ReloadSelect';
 import ReloadChartActionSchema from './EventAction/reload-action/ReloadChart';
@@ -121,6 +122,7 @@ import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import Loading from './Loading';
+import CodeSchema from './Code';
 
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
@@ -726,6 +728,11 @@ export const examples = [
                 label: '列表展示类组件',
                 path: 'examples/event/list',
                 component: makeSchemaRenderer(ListEventSchema)
+              },
+              {
+                label: 'chart组件',
+                path: 'examples/event/chart',
+                component: makeSchemaRenderer(ChartEventSchema)
               }
             ]
           },
@@ -769,6 +776,13 @@ export const examples = [
         icon: 'fa fa-glasses',
         path: '/examples/theme',
         component: makeSchemaRenderer(ThemeSchema)
+      },
+
+      {
+        label: '代码高亮',
+        icon: 'fa fa-code',
+        path: '/examples/code',
+        component: makeSchemaRenderer(CodeSchema)
       },
 
       {

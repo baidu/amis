@@ -39,7 +39,6 @@ import mapValues from 'lodash/mapValues';
 import {resolveVariable} from 'amis-core';
 import {buildStyle} from 'amis-core';
 import {PullRefresh} from 'amis-ui';
-import position from 'amis-core';
 import {scrollPosition, isMobile} from 'amis-core';
 
 /**
