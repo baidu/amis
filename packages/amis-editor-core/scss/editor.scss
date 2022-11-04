@@ -1242,13 +1242,9 @@
       margin: 0 6px;
     }
   }
-  // 区域仅有 [内容区]，也展示头部标签
-  > div.region-tip.is-only-child-region {
-    top: -19px;
-    border-radius: 3px 3px 0 0;
-  }
 
-  // 兼容方案，避免便签被遮挡
+  // 兼容方案，避免便签被遮挡: 区域仅有 [内容区]，头部标签放内部展示
+  > div.region-tip.is-only-child-region,
   &.region-label-within > .region-tip {
     top: 1px;
     border-radius: 0 0 3px 3px;
