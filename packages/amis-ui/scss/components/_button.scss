@@ -9,6 +9,10 @@
   white-space: nowrap;
   min-width: auto;
 
+  > svg.icon {
+    top: 0;
+  }
+
   &--primary {
     @include button-variant(
       var(--button-primary-default-bg-color),

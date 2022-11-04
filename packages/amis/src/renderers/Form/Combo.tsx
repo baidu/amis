@@ -1339,7 +1339,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               {
                 type: 'dropdown-button',
                 icon: addIcon ? <Icon icon="plus" className="icon" /> : '',
-                label: __(addButtonText || 'Combo.add'),
+                label: __(addButtonText || 'add'),
                 level: 'info',
                 size: 'sm',
                 closeOnClick: true
@@ -1357,7 +1357,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           ) : tabsMode ? (
             <a onClick={this.addItem}>
               {addIcon ? <Icon icon="plus" className="icon" /> : null}
-              <span>{__(addButtonText || 'Combo.add')}</span>
+              <span>{__(addButtonText || 'add')}</span>
             </a>
           ) : isObject(addBtn) ? (
             render('add-button', {
@@ -1371,7 +1371,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               onClick={this.addItem}
             >
               {addIcon ? <Icon icon="plus" className="icon" /> : null}
-              <span>{__(addButtonText || 'Combo.add')}</span>
+              <span>{__(addButtonText || 'add')}</span>
             </Button>
           ))}
       </>

@@ -19,10 +19,11 @@ export interface FormProps extends ThemeProps, LocaleProps {
   onSubmit: (value: any) => void;
   forwardRef?: FormRef;
   children?: (methods: UseFormReturn) => JSX.Element | null;
+  className?: string;
 }
 
 export function Form(props: FormProps) {
-  const {classnames: cx} = props;
+  const {classnames: cx, className} = props;
   const methods = useForm({
     defaultValues: props.defaultValues,
     resolver: useValidationResolver(props.translate)
@@ -51,7 +52,7 @@ export function Form(props: FormProps) {
 
   return (
     <form
-      className={cx('Form')}
+      className={cx('Form', className)}
       onSubmit={methods.handleSubmit(props.onSubmit)}
       noValidate
     >
