@@ -451,7 +451,7 @@
   --DatePicker-height: var(--Form-input-height);
   --DatePicker-iconColor: var(--icon-color);
   --DatePicker-lineHeight: var(--Form-input-lineHeight);
-  --DatePicker-onFocused-borderColor: #144bcc;
+  --DatePicker-onFocused-borderColor: var(--colors-brand-4);
   --DatePicker-onHover-bg: var(--DatePicker-bg);
   --DatePicker-onHover-borderColor: var(--Form-input-onFocused-borderColor);
   --DatePicker-onDisabled-bg: #f5f5f5;
@@ -473,7 +473,7 @@
     var(--fontSizeLg) * 8 + var(--DatePicker-paddingX) * 2 +
       var(--Form-input-clearBtn-size) * 2
   );
-  --DateRangePicker-activeCursor-color: var(--primary);
+  --DateRangePicker-activeCursor-color: var(--colors-brand-4);
   --DateRangePicker-activeCursor-height: 2px;
 
   --LocationPicker-borderRadius: var(--Form-input-borderWidth);

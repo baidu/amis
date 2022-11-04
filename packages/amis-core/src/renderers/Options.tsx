@@ -53,7 +53,7 @@ import findIndex from 'lodash/findIndex';
 import isPlainObject from 'lodash/isPlainObject';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
-import {Option} from '../types';
+import type {Option} from '../types';
 import isEqual from 'lodash/isEqual';
 import {resolveEventData} from '../utils';
 

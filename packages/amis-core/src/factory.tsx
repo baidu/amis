@@ -23,7 +23,7 @@ import {ThemeProps} from './theme';
 import find from 'lodash/find';
 import {LocaleProps} from './locale';
 import {HocStoreFactory} from './WithStore';
-import {RendererEnv} from './env';
+import type {RendererEnv} from './env';
 import {OnEventProps} from './utils/renderer-event';
 import {Placeholder} from './renderers/Placeholder';
 

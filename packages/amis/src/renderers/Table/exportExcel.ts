@@ -22,6 +22,10 @@ import {DateSchema} from '../Date';
 import moment from 'moment';
 import type {TableProps, ExportExcelToolbar} from './index';
 
+const loadDb = () => {
+  return import('amis-ui/lib/components/CityDB');
+};
+
 /**
  * 将 url 转成绝对地址
  */
@@ -170,7 +174,7 @@ export async function exportExcel(
       }
 
       const type = (column as BaseSchema).type || 'plain';
-      // TODO: 这里很多组件都是拷贝对应渲染的逻辑实现的，导致
+      // TODO: 这里很多组件都是拷贝对应渲染的逻辑实现的，导致每种都得实现一遍
       if ((type === 'image' || (type as any) === 'static-image') && value) {
         try {
           const imageData = await toDataURL(value);
@@ -298,6 +302,11 @@ export async function exportExcel(
         }
         if (viewValue) {
           sheetRow.getCell(columIndex).value = viewValue;
+        }
+      } else if (type === 'input-city') {
+        const db = await loadDb();
+        if (db.default && value && value in db.default) {
+          sheetRow.getCell(columIndex).value = db.default[value];
         }
       } else {
         if (column.pristine.tpl) {

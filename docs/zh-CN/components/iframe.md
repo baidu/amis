@@ -20,7 +20,9 @@ order: 51
 }
 ```
 
-## src 也可以从上下文获取
+## src 使用动态数据
+
+### 数据域变量
 
 > 1.1.6
 
@@ -48,6 +50,12 @@ order: 51
 - allow
 - sandbox
 - referrerpolicy
+
+## 支持 base64 格式
+
+> 2.4.0 及以上版本
+
+`src`属性支持传入符合 base64 编码标准的 [MIME 类型](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/MIME_types)字符串，具体效果参考[示例](../../../examples/iframe)
 
 ## 如何和 iframe 通信
 
@@ -100,7 +108,7 @@ window.addEventListener('message', e => {
 }
 ```
 
-上面 `events` 对象中配置了`detail`事件，该行为会触发 amis 弹框行为，并在弹框中渲染`"iframe 传给 amis 的 id 是：${iframeId}"`这段模板。
+上面 `events` 对象中配置了`detail`事件，该行为会触发 amis 弹框行为，并在弹框中渲染`"iframe 传给 amis 的 id 是：${iframeId}"`这段模板。`detail`支持多种动作配置，具体配置参考[Action](./action.md)的 actionType 部分。
 
 那么要如何触发该事件和传递数据呢？
 

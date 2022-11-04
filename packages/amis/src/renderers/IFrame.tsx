@@ -88,6 +88,29 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     window.removeEventListener('message', this.onMessage);
   }
 
+  /** 校验URL是否合法 */
+  validateURL(url: any) {
+    // base64编码格式
+    if (
+      url &&
+      typeof url === 'string' &&
+      /^data:([a-zA-Z0-9]+\/[a-zA-Z0-9]+);base64,.*/.test(url)
+    ) {
+      return true;
+    }
+
+    // HTTP[S]协议
+    if (
+      url &&
+      typeof url === 'string' &&
+      !/^(\.\/|\.\.\/|\/|https?\:\/\/|\/\/)/.test(url)
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
   @autobind
   onMessage(e: MessageEvent) {
     const {events, onAction, data} = this.props;
@@ -189,11 +212,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       ? resolveVariableAndFilter(src, data, '| raw')
       : undefined;
 
-    if (
-      typeof finalSrc === 'string' &&
-      finalSrc &&
-      !/^(\.\/|\.\.\/|\/|https?\:\/\/|\/\/)/.test(finalSrc)
-    ) {
+    if (!this.validateURL(finalSrc)) {
       return <p>{__('Iframe.invalid')}</p>;
     }
 

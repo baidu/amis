@@ -100,6 +100,9 @@ export interface NumberProps extends FormControlProps {
   max?: number | string;
   min?: number | string;
   step?: number;
+  /**
+   *  精度
+   */
   precision?: number;
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
@@ -161,8 +164,11 @@ export default class NumberControl extends React.Component<
     this.handleChangeUnit = this.handleChangeUnit.bind(this);
     const unit = this.getUnit();
     const unitOptions = normalizeOptions(props.unitOptions);
-    const {formItem, setPrinstineValue, precision, value} = props;
-    const normalizedPrecision = this.filterNum(precision);
+    const {formItem, setPrinstineValue, precision, step, value} = props;
+    const normalizedPrecision = NumberInput.normalizePrecision(
+      this.filterNum(precision),
+      this.filterNum(step)
+    );
 
     /**
      * 如果设置了precision需要处理入参value的精度
@@ -191,12 +197,24 @@ export default class NumberControl extends React.Component<
    */
   doAction(action: ActionObject, args: any) {
     const actionType = action?.actionType as string;
-    const {resetValue, onChange} = this.props;
+    const {min, max, precision, step, resetValue, big, onChange} = this.props;
 
     if (actionType === 'clear') {
       onChange?.('');
     } else if (actionType === 'reset') {
-      const value = this.getValue(resetValue ?? '');
+      const finalPrecision = NumberInput.normalizePrecision(
+        this.filterNum(precision),
+        this.filterNum(step)
+      );
+      const value = NumberInput.normalizeValue(
+        resetValue ?? '',
+        this.filterNum(min, big),
+        this.filterNum(max, big),
+        finalPrecision,
+        resetValue ?? '',
+        big
+      );
+
       onChange?.(value);
     }
   }
@@ -256,7 +274,6 @@ export default class NumberControl extends React.Component<
   async handleChange(inputValue: any) {
     const {onChange, dispatchEvent} = this.props;
     const value = this.getValue(inputValue);
-
     const rendererEvent = await dispatchEvent(
       'change',
       resolveEventData(this.props, {value}, 'value')
@@ -264,16 +281,24 @@ export default class NumberControl extends React.Component<
     if (rendererEvent?.prevented) {
       return;
     }
+
     onChange(value);
   }
 
-  filterNum(value: number | string | undefined) {
+  filterNum(value: number | string | undefined): number | undefined;
+  filterNum(
+    value: number | string | undefined,
+    isbig: boolean | undefined
+  ): number | string | undefined;
+  /** 处理数字类的props，支持从数据域获取变量值 */
+  filterNum(value: number | string | undefined, isbig: boolean = false) {
     if (typeof value === 'undefined') {
       return undefined;
     }
     if (typeof value !== 'number') {
       value = filter(value, this.props.data);
-      value = /^[-]?\d+/.test(value) ? +value : undefined;
+      // 大数模式，不转数字
+      value = /^[-]?\d+/.test(value) ? (isbig ? value : +value) : undefined;
     }
     return value;
   }
@@ -343,14 +368,10 @@ export default class NumberControl extends React.Component<
       readOnly,
       keyboard,
       displayMode,
-      big
+      big,
+      resetValue
     } = this.props;
-    let precisionProps: any = {};
     const finalPrecision = this.filterNum(precision);
-    if (typeof finalPrecision === 'number') {
-      precisionProps.precision = finalPrecision;
-    }
-
     const unit = this.state?.unit;
     // 数据格式化
     const formatter = (value: string | number) => {
@@ -388,9 +409,10 @@ export default class NumberControl extends React.Component<
         <NumberInput
           inputRef={this.inputRef}
           value={finalValue}
+          resetValue={resetValue}
           step={step}
-          max={this.filterNum(max)}
-          min={this.filterNum(min)}
+          max={this.filterNum(max, big)}
+          min={this.filterNum(min, big)}
           formatter={formatter}
           parser={parser}
           onChange={this.handleChange}

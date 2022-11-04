@@ -15,14 +15,12 @@ import {
   filterSchema,
   clearStoresCache,
   updateEnv,
-  RenderOptions,
   stores,
   defaultOptions,
   addSchemaFilter,
-  RendererProps,
-  extendDefaultEnv,
-  RendererConfig
+  extendDefaultEnv
 } from './factory';
+import type {RenderOptions, RendererConfig, RendererProps} from './factory';
 import './renderers/builtin';
 export * from './utils/index';
 export * from './types';
@@ -37,12 +35,12 @@ import {
   makeTranslator,
   register as registerLocale,
   extendLocale,
-  localeable,
-  LocaleProps,
-  TranslateFn
+  localeable
 } from './locale';
+import type {LocaleProps, TranslateFn} from './locale';
 
-import Scoped, {IScopedContext, ScopedContext} from './Scoped';
+import Scoped, {ScopedContext} from './Scoped';
+import type {IScopedContext} from './Scoped';
 
 import {
   classnames,
@@ -50,49 +48,52 @@ import {
   setDefaultTheme,
   theme,
   getTheme,
-  ThemeProps,
   themeable,
-  ClassNamesFn,
   makeClassnames
 } from './theme';
+import type {ClassNamesFn, ThemeProps} from './theme';
 const classPrefix = getClassPrefix();
 
 export * from './actions';
 import FormItem, {
-  FormBaseControl,
-  FormControlProps,
   FormItemWrap,
-  FormItemProps,
   registerFormItem,
   getFormItemByName
 } from './renderers/Item';
-import {
-  FormOptionsControl,
-  OptionsControl,
-  OptionsControlProps,
-  registerOptionsControl
-} from './renderers/Options';
+import type {
+  FormBaseControl,
+  FormControlProps,
+  FormItemProps
+} from './renderers/Item';
+import {OptionsControl, registerOptionsControl} from './renderers/Options';
+import type {OptionsControlProps} from './renderers/Options';
+import type {FormOptionsControl} from './renderers/Options';
 import {Schema} from './types';
 import ScopedRootRenderer, {addRootWrapper, RootRenderProps} from './Root';
 import {envOverwrite} from './envOverwrite';
-import {EnvContext, RendererEnv} from './env';
+import {EnvContext} from './env';
+import type {RendererEnv} from './env';
 import React from 'react';
 import {
   evaluate,
   Evaluator,
   extendsFilters,
-  FilterContext,
   filters,
   getFilters,
   lexer,
   parse,
   registerFilter
 } from 'amis-formula';
+import type {FilterContext} from 'amis-formula';
 import LazyComponent from './components/LazyComponent';
 import Overlay from './components/Overlay';
 import PopOver from './components/PopOver';
-import {FormHorizontal, FormRenderer} from './renderers/Form';
+import {FormRenderer} from './renderers/Form';
+import type {FormHorizontal} from './renderers/Form';
 import {enableDebug, promisify, replaceText, wrapFetcher} from './utils/index';
+
+// @ts-ignore
+export const version = '__buildVersion';
 
 export {
   clearStoresCache,
@@ -224,7 +225,7 @@ export function render(
   }
 
   // 默认将开启移动端原生 UI
-  if (typeof options.useMobileUI) {
+  if (options.useMobileUI !== false) {
     props.useMobileUI = true;
   }
 

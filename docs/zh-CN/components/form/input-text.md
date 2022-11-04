@@ -364,6 +364,28 @@ order: 56
 }
 ```
 
+## 文本内容为空时去掉这个值
+
+> 2.4.0 及以上版本
+
+如果设置了 `"clearValueOnEmpty": true`，当输入框的值清空时，提交的表单项里就不会有这个值
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "body": [
+    {
+      "name": "text",
+      "type": "input-text",
+      "label": "内容为空时清理这个表单项",
+      "value": "v",
+      "clearValueOnEmpty": true
+    }
+  ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -385,6 +407,7 @@ order: 56
 | addOn.position        | `'left' \| 'right'`                       | `'right'` | addOn 位置                                                                                  |
 | addOn.xxx             | `string`                                  |           | 其他参数请参考按钮文档                                                                      |
 | trimContents          | `boolean`                                 |           | 是否去除首尾空白文本。                                                                      |
+| clearValueOnEmpty     | `boolean`                                 |           | 文本内容为空时去掉这个值                                                                    |
 | creatable             | `boolean`                                 |           | 是否可以创建，默认为可以，除非设置为 false 即只能选择选项中的值                             |
 | clearable             | `boolean`                                 |           | 是否可清除                                                                                  |
 | resetValue            | `string`                                  | `""`      | 清除后设置此配置项给定的值。                                                                |

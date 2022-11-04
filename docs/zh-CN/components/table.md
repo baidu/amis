@@ -1730,14 +1730,7 @@ popOver 的其它配置请参考 [popover](./popover)
     "columns": [
         {
             "name": "id",
-            "label": "ID",
-            "searchable": {
-              "type": "input-text",
-              "name": "id",
-              "label": "主键",
-              "placeholder": "输入id",
-              "size": "sm",
-            }
+            "label": "ID"
         },
         {
             "name": "engine",
@@ -1745,28 +1738,7 @@ popOver 的其它配置请参考 [popover](./popover)
         },
         {
             "name": "browser",
-            "label": "Browser",
-            "searchable": {
-              "type": "select",
-              "name": "browser",
-              "label": "浏览器",
-              "placeholder": "选择浏览器",
-              "size": "sm",
-              "options": [
-                {
-                  "label": "Internet Explorer ",
-                  "value": "ie"
-                },
-                {
-                  "label": "AOL browser",
-                  "value": "aol"
-                },
-                {
-                  "label": "Firefox",
-                  "value": "firefox"
-                }
-              ]
-            }
+            "label": "Browser"
         },
         {
             "name": "platform",
@@ -1774,15 +1746,7 @@ popOver 的其它配置请参考 [popover](./popover)
         },
         {
             "name": "version",
-            "label": "Engine version",
-            "searchable": {
-              "type": "input-number",
-              "name": "version",
-              "label": "版本号",
-              "placeholder": "输入版本号",
-              "size": "sm",
-              "mode": "horizontal"
-            }
+            "label": "Engine version"
         },
         {
             "name": "grade",
@@ -1882,17 +1846,14 @@ popOver 的其它配置请参考 [popover](./popover)
 | selectable       | `boolean`                                | `false`                   | 支持勾选                                                                  |
 | multiple         | `boolean`                                | `false`                   | 勾选 icon 是否为多选样式`checkbox`， 默认为`radio`                        |
 
-## 列配置属性表
+### 列配置属性表
 
-| 属性名     | 类型                                          | 默认值  | 说明             |
-| ---------- | --------------------------------------------- | ------- | ---------------- |
-| label      | [模板](../../docs/concepts/template)          |         | 表头文本内容     |
-| name       | `string`                                      |         | 通过名称关联数据 |
-| fixed      | `left` \| `right` \| `none`                   |         | 是否固定当前列   |
-| popOver    |                                               |         | 弹出框           |
-| quickEdit  |                                               |         | 快速编辑         |
-| copyable   | `boolean` 或 `{icon: string, content:string}` |         | 是否可复制       |
-| sortable   | `boolean`                                     | `false` | 是否可排序       |
-| searchable | `boolean` \| `Schema`                         | `false` | 是否可快速搜索   |
-| width      | `number` \| `string`                          | 列宽    |
-| remark     |                                               |         | 提示信息         |
+| 属性名   | 类型                                          | 默认值 | 说明             |
+| -------- | --------------------------------------------- | ------ | ---------------- |
+| label    | [模板](../../docs/concepts/template)          |        | 表头文本内容     |
+| name     | `string`                                      |        | 通过名称关联数据 |
+| width    | `number` \| `string`                          |        | 列宽             |
+| remark   |                                               |        | 提示信息         |
+| fixed    | `left` \| `right` \| `none`                   |        | 是否固定当前列   |
+| popOver  |                                               |        | 弹出框           |
+| copyable | `boolean` 或 `{icon: string, content:string}` |        | 是否可复制       |

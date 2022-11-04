@@ -97,10 +97,11 @@ export function TimelineCmpt(props: TimelineProps) {
   // 处理源数据
   const resolveTimelineItems = timelineItemsRow?.map(
     (timelineItem: TimelineItemSchema) => {
+      const {icon, title} = timelineItem;
       return {
         ...timelineItem,
-        icon: resolveRender('icon', timelineItem.icon),
-        title: resolveRender('title', timelineItem.title)
+        icon: typeof icon === 'string' ? filter(icon, data) : icon,
+        title: resolveRender('title', title)
       };
     }
   );

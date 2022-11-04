@@ -225,9 +225,11 @@ export class QueryBuilder extends React.Component<
 
   @autobind
   highlightValue(value: ConditionGroupValue) {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, translate: __} = this.props;
     const html = {
-      __html: `<span class="label label-info">已配置</span>`
+      __html: `<span class="label label-info">${__(
+        'Condition.configured'
+      )}</span>`
     };
 
     return (

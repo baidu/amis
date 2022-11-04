@@ -104,6 +104,9 @@ export interface TextControlSchema extends FormOptionsSchema {
 
   /** 原生input标签的CSS类名 */
   nativeInputClassName?: string;
+
+  /** 在内容为空的时候清除值 */
+  clearValueOnEmpty?: boolean;
 }
 
 export type InputTextRendererEvent =
@@ -550,19 +553,29 @@ export default class TextControl extends React.PureComponent<
 
   @autobind
   async handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, dispatchEvent} = this.props;
-    let value = e.currentTarget.value;
+    const {onChange, dispatchEvent, trimContents, clearValueOnEmpty} =
+      this.props;
+    let value: string | undefined = this.transformValue(e.currentTarget.value);
+    if (typeof value === 'string') {
+      if (trimContents) {
+        value = value.trim();
+      }
+
+      if (clearValueOnEmpty && value === '') {
+        value = undefined;
+      }
+    }
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value: this.transformValue(value)}, 'value')
+      resolveEventData(this.props, {value}, 'value')
     );
 
     if (rendererEvent?.prevented) {
       return;
     }
 
-    onChange(this.transformValue(value));
+    onChange(value);
   }
 
   normalizeValue(value: Option[] | Option | undefined | null) {

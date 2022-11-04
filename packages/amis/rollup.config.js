@@ -20,16 +20,38 @@ const settings = {
   globals: {}
 };
 
-const external = id =>
-  new RegExp(
+const external = id => {
+  const result = new RegExp(
     `^(?:${Object.keys(dependencies)
-      .concat([])
+      .concat([
+        'monaco-editor',
+        'react',
+        'react-dom',
+        'rc-input-number',
+        '@babel/runtime'
+      ])
       .map(value =>
         value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
       )
       .join('|')})`
   ).test(id);
+
+  if (!result && ~id.indexOf('node_modules')) {
+    console.log(id);
+  }
+
+  return result;
+};
 const input = './src/index.tsx';
+
+/** 获取子包编译后的入口路径，需要使用相对路径 */
+const getCompiledEntryPath = (repo, format) =>
+  path.join(
+    '..',
+    repo,
+    repo === 'amis-formula' || format === 'cjs' ? 'lib' : 'esm',
+    'index.js'
+  );
 
 export default [
   {
@@ -92,6 +114,13 @@ function transpileDynamicImportForCJS(options) {
 }
 
 function getPlugins(format = 'esm') {
+  const overridePaths = ['amis-formula', 'amis-core', 'amis-ui'].reduce(
+    (prev, current) => ({
+      ...prev,
+      [current]: [getCompiledEntryPath(current, format)]
+    }),
+    {}
+  );
   const typeScriptOptions = {
     typescript: require('typescript'),
     sourceMap: false,
@@ -100,13 +129,16 @@ function getPlugins(format = 'esm') {
       ? {
           compilerOptions: {
             rootDir: './src',
-            outDir: path.dirname(module)
+            outDir: path.dirname(module),
+            /** 覆盖继承自顶层tsconfig的paths配置，编译时应该去掉，避免报错@rollup/plugin-typescript TS6305 */
+            paths: overridePaths
           }
         }
       : {
           compilerOptions: {
             rootDir: './src',
-            outDir: path.dirname(main)
+            outDir: path.dirname(main),
+            paths: overridePaths
           }
         })
   };

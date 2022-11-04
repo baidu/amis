@@ -163,7 +163,7 @@ export default class TextAreaControl extends React.Component<
     );
   }
 
-  renderStatic(displayValue = '') {
+  renderStatic(displayValue = '-') {
     const {
       render,
       staticSchema = {}

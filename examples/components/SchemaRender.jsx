@@ -2,7 +2,6 @@ import React from 'react';
 import {render, toast, Button, LazyComponent, Drawer} from 'amis';
 import axios from 'axios';
 import Portal from 'react-overlays/Portal';
-import {toast} from 'amis';
 import {normalizeLink} from 'amis-core';
 import {withRouter} from 'react-router';
 import copy from 'copy-to-clipboard';
