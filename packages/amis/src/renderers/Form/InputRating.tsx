@@ -5,7 +5,7 @@ import {
   FormBaseControl,
   resolveEventData
 } from 'amis-core';
-import {autobind, createObject, tokenize, toNumber} from 'amis-core';
+import {autobind, createObject, filter, toNumber} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {Rating} from 'amis-ui';
 import type {textPositionType} from 'amis-ui/lib/components/Rating';
@@ -214,7 +214,7 @@ function getFinalCount(name: number | string, data: any): number {
     return name;
   }
 
-  return toNumber(tokenize(name, data));
+  return toNumber(filter(name, data));
 }
 
 @FormItem({
