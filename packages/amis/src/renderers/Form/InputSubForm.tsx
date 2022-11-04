@@ -617,27 +617,16 @@ export default class SubFormControl extends React.PureComponent<
             }));
   }
 
-  // 根据子表单字段，及value，生成数据源
+  // value -> 数据源
   getSource() {
     const {
       value,
       multiple,
     } = this.props;
 
-    const names = this.getFormNames();
-
-    let newValue = multiple ? value : (value ? [value] : []);
-    if (newValue?.length) {
-      return newValue?.map((item: any) => {
-        let valueItem: any = {};
-        names.forEach((name: any) => {
-          valueItem[name] = item[name] || '';
-        });
-        return valueItem;
-      });
-    }
-
-    return [];
+    return multiple
+            ? value
+            : (value ? [value] : []);
   }
 
   renderTable() {
