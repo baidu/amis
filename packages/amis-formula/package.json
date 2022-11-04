@@ -3,16 +3,27 @@
   "version": "2.4.0",
   "description": "负责 amis 里面的表达式实现，内置公式，编辑器等",
   "main": "lib/index.js",
+  "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "npm run clean-dist && NODE_ENV=production rollup -c && npm run genDoc && npm run declaration ",
+    "build": "npm run clean-dist && npm run genDoc && NODE_ENV=production rollup -c && cp src/doc.md lib/doc.md && cp src/doc.md esm/doc.md",
     "lib": "npm run clean-dist && NODE_ENV=production IS_LIB=1 rollup -c",
-    "clean-dist": "rimraf lib/*",
+    "clean-dist": "rimraf lib/**",
     "declaration": "tsc --project tsconfig-for-declaration.json --allowJs --declaration --emitDeclarationOnly --declarationDir ./lib --rootDir ./src",
     "test": "jest",
     "update-snapshot": "jest --updateSnapshot",
     "coverage": "jest --coverage",
     "genDoc": "ts-node ./scripts/genDoc.ts"
+  },
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./esm/index.js"
+    },
+    "./lib/*": {
+      "require": "./lib/*.js",
+      "import": "./esm/*.js"
+    }
   },
   "repository": {
     "type": "git",
@@ -25,7 +36,8 @@
     "formula"
   ],
   "files": [
-    "lib"
+    "lib",
+    "esm"
   ],
   "author": "fex",
   "license": "MIT",

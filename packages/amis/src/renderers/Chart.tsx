@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  Api,
+  ActionObject,
+  Renderer,
+  RendererProps,
+  loadScript
+} from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 
 import {filter, evalExpression} from 'amis-core';
@@ -26,6 +32,20 @@ import {
 import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
+import pick from 'lodash/pick';
+
+const DEFAULT_EVENT_PARAMS = [
+  'componentType',
+  'seriesType',
+  'seriesIndex',
+  'seriesName',
+  'name',
+  'dataIndex',
+  'data',
+  'dataType',
+  'value',
+  'color'
+];
 
 /**
  * Chart 图表渲染器。
@@ -116,6 +136,21 @@ export interface ChartSchema extends BaseSchema {
    * 不可见的时候隐藏
    */
   unMountOnHidden?: boolean;
+
+  /**
+   * 获取 geo json 文件的地址
+   */
+  mapURL?: string;
+
+  /**
+   * 地图名称
+   */
+  mapName?: string;
+
+  /**
+   * 加载百度地图
+   */
+  loadBaiduMap?: boolean;
 }
 
 const EVAL_CACHE: {[key: string]: Function} = {};
@@ -195,6 +230,7 @@ export class Chart extends React.Component<ChartProps> {
     this.reload = this.reload.bind(this);
     this.reloadEcharts = debounce(this.reloadEcharts.bind(this), 300); //过于频繁更新 ECharts 会报错
     this.handleClick = this.handleClick.bind(this);
+    this.dispatchEvent = this.dispatchEvent.bind(this);
     this.mounted = true;
 
     props.config && this.renderChart(props.config);
@@ -243,17 +279,53 @@ export class Chart extends React.Component<ChartProps> {
     clearTimeout(this.timer);
   }
 
-  handleClick(ctx: object) {
-    const {onAction, clickAction, data} = this.props;
+  async handleClick(ctx: object) {
+    const {onAction, clickAction, data, dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      (ctx as any).event,
+      createObject(data, {
+        ...pick(ctx, DEFAULT_EVENT_PARAMS)
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     clickAction &&
       onAction &&
       onAction(null, clickAction, createObject(data, ctx));
   }
 
+  dispatchEvent(ctx: any) {
+    const {data, dispatchEvent} = this.props;
+
+    dispatchEvent(
+      (ctx as any).event,
+      createObject(data, {
+        ...pick(
+          ctx,
+          ctx.type === 'legendselectchanged'
+            ? ['name', 'selected']
+            : DEFAULT_EVENT_PARAMS
+        )
+      })
+    );
+  }
+
   refFn(ref: any) {
     const chartRef = this.props.chartRef;
-    const {chartTheme, onChartWillMount, onChartUnMount, env} = this.props;
+    const {
+      chartTheme,
+      onChartWillMount,
+      onChartUnMount,
+      env,
+      loadBaiduMap,
+      data
+    } = this.props;
+    let {mapURL, mapName} = this.props;
+
     let onChartMount = this.props.onChartMount;
 
     if (ref) {
@@ -266,7 +338,29 @@ export class Chart extends React.Component<ChartProps> {
         import('echarts/extension/bmap/bmap')
       ]).then(async ([echarts, ecStat]) => {
         (window as any).echarts = echarts;
-        (window as any).ecStat = ecStat;
+        (window as any).ecStat = ecStat?.default || ecStat;
+
+        if (mapURL && mapName) {
+          if (isPureVariable(mapURL)) {
+            mapURL = resolveVariableAndFilter(mapURL, data);
+          }
+          if (isPureVariable(mapName)) {
+            mapName = resolveVariableAndFilter(mapName, data);
+          }
+          const mapGeoResult = await env.fetcher(mapURL as Api, data);
+          if (!mapGeoResult.ok) {
+            console.warn('fetch map geo error ' + mapURL);
+          }
+
+          echarts.registerMap(mapName!, mapGeoResult.data);
+        }
+
+        if (loadBaiduMap) {
+          await loadScript(
+            `//api.map.baidu.com/api?v=3.0&ak=${this.props.ak}&callback={{callback}}`
+          );
+        }
+
         let theme = 'default';
 
         if (chartTheme) {
@@ -298,6 +392,8 @@ export class Chart extends React.Component<ChartProps> {
 
         onChartMount?.(this.echarts, echarts);
         this.echarts.on('click', this.handleClick);
+        this.echarts.on('mouseover', this.dispatchEvent);
+        this.echarts.on('legendselectchanged', this.dispatchEvent);
         this.unSensor = resizeSensor(ref, () => {
           const width = ref.offsetWidth;
           const height = ref.offsetHeight;
@@ -322,6 +418,13 @@ export class Chart extends React.Component<ChartProps> {
     }
 
     this.ref = ref;
+  }
+
+  doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
+    return this.echarts?.dispatchAction?.({
+      type: action.actionType,
+      ...data
+    });
   }
 
   reload(

@@ -10,9 +10,10 @@
     "update-snapshot": "jest --updateSnapshot",
     "coverage": "jest --coverage",
     "publish-to-internal": "sh build.sh && sh publish.sh",
-    "build": "sh build.sh",
+    "build": "npm run clean-dist && sh build.sh",
     "prettier": "prettier --write '{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}'",
-    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' ../../scripts/build-schemas.ts"
+    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' ../../scripts/build-schemas.ts",
+    "clean-dist": "rimraf lib/** esm/**"
   },
   "repository": {
     "type": "git",
@@ -62,7 +63,6 @@
     "mobx-react": "^6.3.1",
     "mobx-state-tree": "^3.17.3",
     "moment": "^2.19.4",
-    "monaco-editor": "0.30.1",
     "mpegts.js": "^1.6.10",
     "prop-types": "^15.6.1",
     "qrcode.react": "^3.1.0",

@@ -18,9 +18,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    //
     "composite": true,
-
+    "baseUrl": "./",
     "paths": {
       "amis-core": ["./packages/amis-core/src/index.tsx"],
       "amis-formula": ["./packages/amis-formula/src/index.ts"],
@@ -29,6 +28,14 @@
     }
   },
   "types": ["typePatches"],
-  "references": [{"path": "packages/amis"}],
-  "include": ["**.ts", "**.tsx", "packages/amis-ui/src/custom.d.ts"]
+  "references": [],
+  "include": [
+    "**.ts",
+    "**.tsx",
+    "**.jsx",
+    "scripts/fis3plugin.ts",
+    "scripts/markdownPlugin.ts",
+    "scripts/mockApiPlugin.ts",
+    "packages/amis-ui/src/custom.d.ts"
+  ]
 }
