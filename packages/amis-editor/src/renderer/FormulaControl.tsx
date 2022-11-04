@@ -586,7 +586,7 @@ export default class FormulaControl extends React.Component<
             tooltip={{
               tooltipTheme: 'dark',
               mouseLeaveDelay: 20,
-              content: value
+              content: this.transExpr(value)
             }}
           >
             <div className="ae-editor-FormulaControl-tooltipBox">
