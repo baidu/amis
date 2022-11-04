@@ -246,7 +246,7 @@ export class ComboControlPlugin extends BasePlugin {
                     getSchemaTpl('apiControl', {
                       name: 'deleteApi',
                       label: '删除',
-                      mode: 'horizontal'
+                      mode: 'normal'
                     }),
                     {
                       label: tipedLabel(
