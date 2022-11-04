@@ -726,7 +726,7 @@ export class EditorManager {
    * @param rendererIdOrSchema
    * 备注：可以根据渲染器ID添加新元素，也可以根据现有schema片段添加新元素
    */
-  async addElem(rendererIdOrSchema: string | Object) {
+  async addElem(rendererIdOrSchema: string | any) {
     if (!rendererIdOrSchema) {
       return;
     }
@@ -758,6 +758,15 @@ export class EditorManager {
       toast.warning('请先选择一个元素作为插入的位置。');
       return;
     }
+
+    if (node.type === 'wrapper'
+     && node.schema?.body?.length === 0
+     && (schemaData?.type === 'flex' || subRenderer?.rendererName === 'flex')) {
+      const newSchemaData = schemaData || subRenderer?.scaffold;
+      // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
+      this.replaceChild(id, newSchemaData);
+    }
+
     const parentNode = node.parent as EditorNodeType; // 父级节点
 
     // 插入新元素需要的字段
