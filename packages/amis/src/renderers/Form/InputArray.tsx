@@ -22,6 +22,11 @@ export interface ArrayControlSchema
    * 成员渲染器配置
    */
   items: SchemaCollection;
+
+  /**
+   * 新增成员时的默认值
+   */
+  scaffold?: any;
 }
 
 export interface InputArrayProps
@@ -49,12 +54,21 @@ export default class InputArrayControl extends React.Component<InputArrayProps> 
   }
 
   render() {
-    const {items, ...rest} = this.props;
+    const {items, scaffold, ...rest} = this.props;
+    // 传入多个元素时只接受首个元素，因为input-array相当于打平的combo
+    const normalizedItems = Array.isArray(items)
+      ? items.length > 1
+        ? items.slice(0, 1)
+        : items
+      : items != null
+      ? [items]
+      : [];
 
     return (
       <Combo
         {...(rest as any)}
-        items={[items]}
+        scaffold={scaffold}
+        items={normalizedItems}
         flat
         multiple
         multiLine={false}
