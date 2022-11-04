@@ -19,9 +19,6 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="body"
 {
     "type": "service",
-    "data": {
-      "a": 111
-    },
     "api": "/api/mock2/page/initData",
     "body": {
         "type": "panel",
