@@ -854,11 +854,30 @@ export const EditorStore = types
         );
         return idx < self.schemaHistory.length - 1;
       },
-      // 判断是否时布局容器中的列级元素
+      // 判断是否是布局容器中的列级元素
       isFlexItem(id: string) {
         const activeId = id || self.activeId;
         const parentSchema = this.getSchemaParentById(activeId, true);
-        if (parentSchema?.type === 'flex') {
+        if (
+          parentSchema?.type === 'flex' ||
+          parentSchema?.style?.display === 'flex' ||
+          parentSchema?.style?.display === 'inline-flex'
+        ) {
+          return true;
+        }
+        return false;
+      },
+      // 判断父级布局容器是否为垂直排列
+      isFlexColumnItem(id: string) {
+        const activeId = id || self.activeId;
+        const parentSchema = this.getSchemaParentById(activeId, true);
+        const isFlexItem = parentSchema?.type === 'flex'
+         || parentSchema?.style?.display === 'flex'
+         || parentSchema?.style?.display === 'inline-flex';
+        const isFlexColumn = parentSchema?.direction === 'column'
+         || parentSchema?.style?.flexDirection === 'column'
+         || parentSchema?.style?.flexDirection === 'column';
+        if (isFlexItem && isFlexColumn) {
           return true;
         }
         return false;

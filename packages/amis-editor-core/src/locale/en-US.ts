@@ -253,5 +253,7 @@ extendLocale('en-US', {
   'a094e5b7699ea4b61094cc4120170423': 'Data source',
   'eeb6908870e058bc23d52c1e405a054e': 'Previous step',
   '38ce27d84639f3a6e07c00b3b4995c0e': 'Next step',
-  '392342f7750a565f9a79c678c6b12421': '<Hidden state>'
+  '392342f7750a565f9a79c678c6b12421': '<Hidden state>',
+  '8e44aba21d01c1e08cc79f4ebaf0b3f2':
+    'The layout container component does not support dragging and inserting child elements.'
 });

@@ -924,5 +924,6 @@ export function unitFormula(insetStr: string, offsetVal: number) {
   if (!insetUnit) {
     insetUnit = 'px';
   }
-  return `${insetNum + curOffsetVal}${insetUnit}`;
+  const newOffsetVal = insetNum + curOffsetVal;
+  return `${newOffsetVal >= 0 ? newOffsetVal : '0'}${insetUnit}`;
 }

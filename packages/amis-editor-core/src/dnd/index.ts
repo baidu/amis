@@ -3,6 +3,7 @@
  */
 import find from 'lodash/find';
 import {isAlive} from 'mobx-state-tree';
+import {toast} from 'amis';
 import {EditorManager} from '../manager';
 import {DragEventContext, SubRendererInfo} from '../plugin';
 import {EditorStoreType} from '../store/editor';
@@ -231,12 +232,30 @@ export class EditorDNDManager {
   @autobind
   dragEnter(e: DragEvent) {
     const store = this.store;
-    this.dragEnterCount++;
 
     if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
       // 特殊布局元素拖拽位置时，不需要 switchToRegion
       return;
     }
+
+    const activeId = store.activeId;
+    if (activeId) {
+      const curNode = store.getNodeById(activeId);
+      if (!curNode) {
+        toast.warning('请先选择一个元素作为插入的位置。');
+        return;
+      }
+       
+      if (curNode?.schema?.type === 'flex') {
+        toast.warning('布局容器组件不支持拖拽插入子元素。');
+        return;
+      }
+    } else {
+      toast.warning('请先选择一个元素作为插入的位置。');
+      return;
+    }
+
+    this.dragEnterCount++;
 
     if (store.dragId || this.dragEnterCount !== 1) {
       return;
@@ -364,6 +383,9 @@ export class EditorDNDManager {
   @autobind
   async drop(e: DragEvent) {
     const store = this.store;
+    if (!this.curDragId) {
+      return;
+    }
     if (this.curDragId && this.manager.draggableContainer(this.curDragId)) {
       // 特殊布局元素拖拽位置后更新schema-style数据
       const dx = e.clientX - this.startX;

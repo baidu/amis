@@ -368,9 +368,9 @@ export class BasicToolbarPlugin extends BasePlugin {
       menus.push({
         label: '向后移动',
         disabled:
-          !(Array.isArray(parent) && idx < parent.length - 1) ||
-          !node.moveable ||
-          !node.nextSibling,
+          !(Array.isArray(parent) && idx < parent.length - 1)
+          || !node.moveable
+          || !node.nextSibling,
         onSelect: () => manager.moveDown()
       });
 

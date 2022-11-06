@@ -781,14 +781,14 @@ export class EditorManager {
       // crud 和 table 等表格类容器
       regionNodeId = id;
       regionNodeRegion = 'columns';
-    } else if (node.schema.body) {
-      // 当前节点是容器节点
-      regionNodeId = id;
-      regionNodeRegion = 'body';
     } else if (node.schema.items && isLayoutPlugin(node.schema)) {
       // 当前节点是布局类容器节点
       regionNodeId = id;
       regionNodeRegion = 'items';
+    } else if (node.schema.body) {
+      // 当前节点是容器节点
+      regionNodeId = id;
+      regionNodeRegion = 'body';
     } else if (parentNode) {
       // 存在父节点
       regionNodeId = parentNode.id;
@@ -798,7 +798,9 @@ export class EditorManager {
       if (!parentNode.region && parentNode.schema.body) {
         // 默认插入到父节点的body中
         regionNodeRegion = 'body';
-      } else if (!parentNode.region && !parentNode.schema.body) {
+      } else if (!parentNode.region && parentNode.schema.items) {
+        regionNodeRegion = 'items';
+      } else if (!parentNode.region && !parentNode.schema.body && !parentNode.schema.items) {
         // 其他特殊情况暂时不考虑，给予提示
         toast.warning('当前节点不允许追加新组件。');
         return;
@@ -995,6 +997,10 @@ export class EditorManager {
    */
   isFlexItem(id: string) {
     return this.store.isFlexItem(id);
+  }
+
+  isFlexColumnItem(id: string) {
+    return this.store.isFlexColumnItem(id);
   }
 
   /**
