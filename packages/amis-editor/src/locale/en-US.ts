@@ -3414,5 +3414,10 @@ extendLocale('en-US', {
   '2794fe303cf8ad4395fe93271fae7925':
     'Layout containers are mainly used to design container components with complex layouts. The layout effect implemented based on CSS Flex is more controllable than Grid and HBox for the location of child nodes, and easier to use than using CSS classes',
   'abbd790f85282349e2004df9fd494e31':
-    'Main size occupied by default before allocating extra space'
+    'Main size occupied by default before allocating extra space',
+  'dbb93e8f413074ead24b6ed822247d98': 'Insert Layout Container Above',
+  '5b5765b3fd7e72e04a5cd3e2ef6218a4': 'Insert Layout Container Below',
+  'ee466872b9a43e720e296813dbc5adee': '{{@1}} Insert Column Level Container',
+  '14c495b1248756310c75396cd41f4fe9': 'upper',
+  'e33ac3a4c1a95a02a18f1555038804da': 'Below'
 });

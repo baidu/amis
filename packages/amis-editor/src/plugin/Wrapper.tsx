@@ -58,6 +58,7 @@ export class WrapperPlugin extends BasePlugin {
                     visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
                   }) : null,
                   getSchemaTpl('layout:position'),
+                  getSchemaTpl('layout:originPosition'),
                   getSchemaTpl('layout:inset', {
                     mode: 'vertical'
                   }),
@@ -131,6 +132,7 @@ export class WrapperPlugin extends BasePlugin {
                   }
                 ]
               },
+              getSchemaTpl('status'),
               {
                 title: '子节点管理',
                 body: [

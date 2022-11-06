@@ -102,10 +102,10 @@ export class FlexPluginBase extends BasePlugin {
                       })
                     : null,
                   getSchemaTpl('layout:position'),
+                  getSchemaTpl('layout:originPosition'),
                   getSchemaTpl('layout:inset', {
                     mode: 'vertical'
                   }),
-                  getSchemaTpl('layout:originPosition'),
                   getSchemaTpl('layout:z-index'),
                   getSchemaTpl('layout:flexDirection', {
                     name: 'direction'
@@ -141,6 +141,7 @@ export class FlexPluginBase extends BasePlugin {
                   !isFlexItem ? getSchemaTpl('layout:margin-center') : null
                 ]
               },
+              getSchemaTpl('status'),
               {
                 title: '子节点管理',
                 body: [
@@ -202,20 +203,22 @@ export class FlexPluginBase extends BasePlugin {
     const parent = store.getSchemaParentById(id);
     const draggableContainer = this.manager.draggableContainer(id);
     const isFlexItem = this.manager?.isFlexItem(id);
+    const isFlexColumnItem = this.manager?.isFlexColumnItem(id);
     const newColumnSchema = defaultFlexColumnSchema('新的一列');
 
     if (
       parent &&
       (info.renderer?.name === 'flex' || info.renderer?.name === 'container') &&
+      !isFlexItem && // 备注：如果是列级元素就不需要显示了
       !draggableContainer
     ) {
       // 非特殊布局元素（fixed、absolute）支持前后插入追加布局元素功能icon
       toolbars.push(
         {
           iconSvg: 'add-btn',
-          tooltip: '向前插入布局容器',
+          tooltip: '上方插入布局容器',
           level: 'special',
-          placement: 'bottom',
+          placement: 'right',
           className: 'ae-InsertBefore is-vertical',
           onClick: () =>
             this.manager.appendSiblingSchema(
@@ -226,9 +229,9 @@ export class FlexPluginBase extends BasePlugin {
         },
         {
           iconSvg: 'add-btn',
-          tooltip: '向后插入布局容器',
+          tooltip: '下方插入布局容器',
           level: 'special',
-          placement: 'bottom',
+          placement: 'right',
           className: 'ae-InsertAfter is-vertical',
           onClick: () =>
             this.manager.appendSiblingSchema(
@@ -259,19 +262,19 @@ export class FlexPluginBase extends BasePlugin {
       toolbars.push(
         {
           iconSvg: 'add-btn',
-          tooltip: '左侧（上侧）插入列级容器',
+          tooltip: `${isFlexColumnItem ? '上方' : '左侧'}插入列级容器`,
           level: 'special',
           placement: 'right',
-          className: 'ae-InsertBefore',
+          className: isFlexColumnItem ? 'ae-InsertBefore is-vertical' : 'ae-InsertBefore',
           onClick: () =>
             this.manager.appendSiblingSchema(newColumnSchema, true, true)
         },
         {
           iconSvg: 'add-btn',
-          tooltip: '右侧（下侧）插入列级容器',
+          tooltip: `${isFlexColumnItem ? '下方' : '右侧'}插入列级容器`,
           level: 'special',
-          placement: 'left',
-          className: 'ae-InsertAfter',
+          placement: isFlexColumnItem ? 'right' : 'left',
+          className: isFlexColumnItem ? 'ae-InsertAfter is-vertical' : 'ae-InsertAfter',
           onClick: () =>
             this.manager.appendSiblingSchema(newColumnSchema, false, true)
         }

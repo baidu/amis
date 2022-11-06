@@ -88,6 +88,7 @@ export class ContainerPlugin extends BasePlugin {
                 visibleOn: 'data.style && (data.style.position === "static" || data.style.position === "relative")',
               }) : null,
               getSchemaTpl('layout:position'),
+              getSchemaTpl('layout:originPosition'),
               getSchemaTpl('layout:inset', {
                 mode: 'vertical'
               }),

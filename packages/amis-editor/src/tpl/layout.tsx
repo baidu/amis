@@ -882,7 +882,7 @@ setSchemaTpl(
   (config?: {
     label?: string;
     name?: string;
-    value?: string,
+    value?: string;
     visibleOn?: string;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
