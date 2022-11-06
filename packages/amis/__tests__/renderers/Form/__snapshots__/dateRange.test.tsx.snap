@@ -464,9 +464,8 @@ exports[`Renderer:dateRange with embed 1`] = `
                                           </span>
                                         </td>
                                         <td
-                                          class="rdtDay rdtToday"
+                                          class="rdtDay"
                                           data-value="6"
-                                          todayactivestyle="[object Object]"
                                         >
                                           <span>
                                             6
@@ -475,7 +474,7 @@ exports[`Renderer:dateRange with embed 1`] = `
                                       </tr>
                                       <tr>
                                         <td
-                                          class="rdtDay"
+                                          class="rdtDay rdtToday"
                                           data-value="7"
                                         >
                                           <span>
@@ -1381,7 +1380,7 @@ exports[`Renderer:dateRange with ranges 1`] = `
                           class="cxd-DateRangePicker-input"
                           placeholder="开始时间"
                           type="text"
-                          value="2022-11-06"
+                          value="2022-11-07"
                         />
                         <span
                           class="cxd-DateRangePicker-input-separator"
@@ -1395,7 +1394,7 @@ exports[`Renderer:dateRange with ranges 1`] = `
                           class="cxd-DateRangePicker-input"
                           placeholder="结束时间"
                           type="text"
-                          value="2022-11-21"
+                          value="2022-11-22"
                         />
                         <div
                           class="cxd-DateRangePicker-activeCursor"
@@ -1816,9 +1815,8 @@ exports[`Renderer:dateRange with ranges: open 1`] = `
                                             </span>
                                           </td>
                                           <td
-                                            class="rdtDay rdtToday"
+                                            class="rdtDay"
                                             data-value="6"
-                                            todayactivestyle="[object Object]"
                                           >
                                             <span>
                                               6
@@ -1827,7 +1825,7 @@ exports[`Renderer:dateRange with ranges: open 1`] = `
                                         </tr>
                                         <tr>
                                           <td
-                                            class="rdtDay"
+                                            class="rdtDay rdtToday"
                                             data-value="7"
                                           >
                                             <span>
@@ -2826,7 +2824,7 @@ exports[`Renderer:dateRange with relative default 1`] = `
                           class="cxd-DateRangePicker-input"
                           placeholder="开始时间"
                           type="text"
-                          value="2022-11-05"
+                          value="2022-11-06"
                         />
                         <span
                           class="cxd-DateRangePicker-input-separator"
@@ -2840,7 +2838,7 @@ exports[`Renderer:dateRange with relative default 1`] = `
                           class="cxd-DateRangePicker-input"
                           placeholder="结束时间"
                           type="text"
-                          value="2022-11-13"
+                          value="2022-11-14"
                         />
                         <div
                           class="cxd-DateRangePicker-activeCursor"

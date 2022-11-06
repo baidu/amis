@@ -144,7 +144,6 @@ test('Renderer:datetimeRange with ranges', async () => {
 
   fireEvent.click(start!);
   await wait(200);
-  expect(container).toMatchSnapshot('open');
 
   expect(getByText('最近1小时')).toBeInTheDocument();
   expect(getByText('2小时以内')).toBeInTheDocument();
@@ -160,12 +159,9 @@ test('Renderer:datetimeRange with ranges', async () => {
 
   fireEvent.click(start!);
   await wait(200);
-  expect(container).toMatchSnapshot('open');
 
   fireEvent.click(getByText('2小时以内'));
   await wait(200);
   expect(start.value).toEqual(moment().format('YYYY-MM-DD HH:00'));
   expect(end.value).toEqual(moment().add(2, 'hour').format('YYYY-MM-DD HH:59'));
-
-  expect(container).toMatchSnapshot();
 });

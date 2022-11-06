@@ -75,7 +75,6 @@ test('Renderer:inputMonthRange click', async () => {
 
 // 2. 内嵌模式
 test('Renderer:inputMonthRange with embed', async () => {
-  const onSubmit = jest.fn();
   const {container, findByPlaceholderText, getByText} = render(
     amisRender(
       {
@@ -88,43 +87,34 @@ test('Renderer:inputMonthRange with embed', async () => {
             name: 'a',
             label: '月份范围',
             embed: true,
-            format: 'YYYY-MM-DD'
+            format: 'YYYY-MM',
+            value: '2019-10,2022-11'
           }
         ],
         title: 'The form'
       },
-      {onSubmit},
+      {},
       makeEnv({})
     )
   );
 
-  fireEvent.click(
-    container.querySelector('.cxd-DateRangePicker-start .rdtPrev')!
-  );
-
-  fireEvent.click(
+  expect(
+    container.querySelector('.cxd-DateRangePicker-start .rdtSwitch')!.innerHTML
+  ).toBe('2019年');
+  expect(
     container.querySelector(
-      '.cxd-DateRangePicker-start tbody tr:nth-child(2) td:last-of-type'
-    )!
-  );
+      '.cxd-DateRangePicker-start .rdtMonth.rdtActive span'
+    )!.innerHTML
+  ).toBe('10月');
 
-  fireEvent.click(
+  expect(
+    container.querySelector('.cxd-DateRangePicker-end .rdtSwitch')!.innerHTML
+  ).toBe('2022年');
+  expect(
     container.querySelector(
-      '.cxd-DateRangePicker-end tbody tr:nth-child(4) td:first-of-type'
-    )!
-  );
+      '.cxd-DateRangePicker-end .rdtMonth.rdtActive span'
+    )!.innerHTML
+  ).toBe('11月');
 
-  await wait(200);
-  fireEvent.click(getByText('Submit')!);
-
-  const startText = moment().add(-1, 'year').format('YYYY-06-01');
-  const endText = moment().format('YYYY-10-01');
-
-  await waitFor(() => {
-    const formData = onSubmit.mock.calls[0][0];
-    expect(onSubmit).toHaveBeenCalled();
-    expect(formData).toEqual({
-      a: `${startText},${endText}`
-    });
-  });
+  expect(container).toMatchSnapshot();
 });
