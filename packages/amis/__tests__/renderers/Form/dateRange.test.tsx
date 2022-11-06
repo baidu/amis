@@ -43,9 +43,7 @@ const setup = async (items: any[] = []) => {
 
   const inputs = utils.container.querySelectorAll('.cxd-DateRangePicker-input');
 
-  const [start, end] = inputs;
-
-  function rerender(items) {
+  function rerender(items: any[]) {
     const onSubmit = jest.fn();
     utils.rerender(
       amisRender(
@@ -68,8 +66,8 @@ const setup = async (items: any[] = []) => {
   return {
     onSubmit,
     submitBtn,
-    start,
-    end,
+    start: inputs[0],
+    end: inputs[1],
     ...utils,
     rerender
   };
@@ -180,7 +178,7 @@ test('Renderer:dateRange with minDate and maxDate', async () => {
     }
   ]);
 
-  fireEvent.click(container.querySelector('.cxd-DateRangePicker-input'));
+  fireEvent.click(container.querySelector('.cxd-DateRangePicker-input')!);
 
   await wait(200);
 
@@ -264,12 +262,12 @@ test('Renderer:dateRange with clearable', async () => {
     }
   ]);
 
-  fireEvent.mouseEnter(container.querySelector('.cxd-DateRangePicker'));
+  fireEvent.mouseEnter(container.querySelector('.cxd-DateRangePicker')!);
   await wait(200);
   expect(
     container.querySelector('.cxd-DateRangePicker-clear')!
   ).toBeInTheDocument();
-  fireEvent.mouseLeave(container.querySelector('.cxd-DateRangePicker'));
+  fireEvent.mouseLeave(container.querySelector('.cxd-DateRangePicker')!);
 
   await wait(200);
   rerender([
@@ -281,7 +279,7 @@ test('Renderer:dateRange with clearable', async () => {
     }
   ]);
 
-  fireEvent.mouseEnter(container.querySelector('.cxd-DateRangePicker'));
+  fireEvent.mouseEnter(container.querySelector('.cxd-DateRangePicker')!);
   await wait(200);
   expect(
     container.querySelector('.cxd-DateRangePicker-clear')!
