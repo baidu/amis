@@ -87,7 +87,7 @@ test('Renderer:datetimeRange with default', async () => {
   expect(start.value).toEqual('2022-11-11 05:21');
   expect(end.value).toEqual('2022-11-18 06:08');
 
-  expect(container).toMatchSnapshot();
+  // expect(container).toMatchSnapshot();
 });
 
 // 2. timeFormat 控制可以选择秒
@@ -111,7 +111,7 @@ test('Renderer:datetimeRange with timeFormat', async () => {
     ).length
   ).toBe(3);
 
-  expect(container).toMatchSnapshot();
+  // expect(container).toMatchSnapshot();
 });
 
 // 3. inputFormat
