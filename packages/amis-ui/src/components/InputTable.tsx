@@ -18,6 +18,13 @@ import Button from './Button';
 import FormField, {FormFieldProps} from './FormField';
 import {Icon} from './icons';
 
+export interface InputTableColumnProps {
+  title?: string;
+  className?: string;
+  thRender?: () => JSX.Element;
+  tdRender: (methods: UseFormReturn, index: number) => JSX.Element | null;
+}
+
 export interface InputTabbleProps<T = any>
   extends ThemeProps,
     LocaleProps,
@@ -28,13 +35,7 @@ export interface InputTabbleProps<T = any>
     UseFieldArrayProps {
   control: Control<any>;
   fieldClassName?: string;
-
-  columns: Array<{
-    title?: string;
-    className?: string;
-    thRender?: () => JSX.Element;
-    tdRender: (methods: UseFormReturn, index: number) => JSX.Element | null;
-  }>;
+  columns: Array<InputTableColumnProps>;
 
   /**
    * 要不要包裹 label 之类的

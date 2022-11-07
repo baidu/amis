@@ -116,7 +116,7 @@ import MultilineText from './MultilineText';
 import Form from './Form';
 import FormField, {Controller} from './FormField';
 import Combo from './Combo';
-import InputTable from './InputTable';
+import InputTable, {InputTableColumnProps} from './InputTable';
 import ConfirmBox from './ConfirmBox';
 
 export {
@@ -238,5 +238,6 @@ export {
   FormField,
   Controller,
   Combo,
-  InputTable
+  InputTable,
+  InputTableColumnProps
 };
