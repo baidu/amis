@@ -396,10 +396,6 @@
       $disabled-border-style-bottom $disabled-border-style-left;
     box-shadow: $disabled-shadow;
   }
-
-  @include hover-focus {
-    box-shadow: var(--Button-boxShadow);
-  }
 }
 
 @mixin input-clear {

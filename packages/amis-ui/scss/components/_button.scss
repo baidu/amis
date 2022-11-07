@@ -600,8 +600,8 @@
 
   &--size-default {
     @include button-size(
-      var(--button-size-default-font-size),
-      var(--button-size-default-font-lineHeight),
+      var(--button-size-default-fontSize),
+      var(--button-size-default-lineHeight),
       var(--button-size-default-top-right-border-radius),
       var(--button-size-default-top-left-border-radius),
       var(--button-size-default-bottom-right-border-radius),
@@ -615,7 +615,7 @@
       var(--button-size-default-marginBottom),
       var(--button-size-default-marginLeft),
       var(--button-size-default-marginRight),
-      var(--button-size-default-minWith),
+      var(--button-size-default-minWidth),
       var(--button-size-default-icon-size),
       var(--button-size-default-icon-margin)
     );
@@ -623,8 +623,8 @@
 
   &--size-xs {
     @include button-size(
-      var(--button-size-xs-font-size),
-      var(--button-size-xs-font-lineHeight),
+      var(--button-size-xs-fontSize),
+      var(--button-size-xs-lineHeight),
       var(--button-size-xs-top-right-border-radius),
       var(--button-size-xs-top-left-border-radius),
       var(--button-size-xs-bottom-right-border-radius),
@@ -638,7 +638,7 @@
       var(--button-size-xs-marginBottom),
       var(--button-size-xs-marginLeft),
       var(--button-size-xs-marginRight),
-      var(--button-size-xs-minWith),
+      var(--button-size-xs-minWidth),
       var(--button-size-xs-icon-size),
       var(--button-size-xs-icon-margin)
     );
@@ -652,8 +652,8 @@
 
   &--size-sm {
     @include button-size(
-      var(--button-size-sm-font-size),
-      var(--button-size-sm-font-lineHeight),
+      var(--button-size-sm-fontSize),
+      var(--button-size-sm-lineHeight),
       var(--button-size-sm-top-right-border-radius),
       var(--button-size-sm-top-left-border-radius),
       var(--button-size-sm-bottom-right-border-radius),
@@ -667,7 +667,7 @@
       var(--button-size-sm-marginBottom),
       var(--button-size-sm-marginLeft),
       var(--button-size-sm-marginRight),
-      var(--button-size-sm-minWith),
+      var(--button-size-sm-minWidth),
       var(--button-size-sm-icon-size),
       var(--button-size-sm-icon-margin)
     );
@@ -681,8 +681,8 @@
 
   &--size-md {
     @include button-size(
-      var(--button-size-md-font-size),
-      var(--button-size-md-font-lineHeight),
+      var(--button-size-md-fontSize),
+      var(--button-size-md-lineHeight),
       var(--button-size-md-top-right-border-radius),
       var(--button-size-md-top-left-border-radius),
       var(--button-size-md-bottom-right-border-radius),
@@ -696,7 +696,7 @@
       var(--button-size-md-marginBottom),
       var(--button-size-md-marginLeft),
       var(--button-size-md-marginRight),
-      var(--button-size-md-minWith),
+      var(--button-size-md-minWidth),
       var(--button-size-md-icon-size),
       var(--button-size-md-icon-margin)
     );
@@ -710,8 +710,8 @@
 
   &--size-lg {
     @include button-size(
-      var(--button-size-lg-font-size),
-      var(--button-size-lg-font-lineHeight),
+      var(--button-size-lg-fontSize),
+      var(--button-size-lg-lineHeight),
       var(--button-size-lg-top-right-border-radius),
       var(--button-size-lg-top-left-border-radius),
       var(--button-size-lg-bottom-right-border-radius),
@@ -725,7 +725,7 @@
       var(--button-size-lg-marginBottom),
       var(--button-size-lg-marginLeft),
       var(--button-size-lg-marginRight),
-      var(--button-size-lg-minWith),
+      var(--button-size-lg-minWidth),
       var(--button-size-lg-icon-size),
       var(--button-size-lg-icon-margin)
     );
