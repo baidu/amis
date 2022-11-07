@@ -99,29 +99,34 @@ export function InputTable({
     rules2.maxLength = maxLength;
   }
 
-  rules2.validate =
-    rules2.validate ||
-    React.useCallback(
-      async (items: Array<any>) => {
-        const map = subForms.current;
+  rules2.validate = React.useCallback(
+    async (items: Array<any>) => {
+      const map = subForms.current;
 
-        for (let key of Object.keys(map)) {
-          const valid = await (function (methods) {
-            return new Promise<boolean>(resolve => {
-              methods.handleSubmit(
-                () => resolve(true),
-                () => resolve(false)
-              )();
-            });
-          })(map[key]);
-
-          if (!valid) {
-            return __('validateFailed');
-          }
+      if (typeof rules?.validate === 'function') {
+        const result = await rules.validate(items);
+        if (result) {
+          return result;
         }
-      },
-      [subForms]
-    );
+      }
+
+      for (let key of Object.keys(map)) {
+        const valid = await (function (methods) {
+          return new Promise<boolean>(resolve => {
+            methods.handleSubmit(
+              () => resolve(true),
+              () => resolve(false)
+            )();
+          });
+        })(map[key]);
+
+        if (!valid) {
+          return __('validateFailed');
+        }
+      }
+    },
+    [subForms]
+  );
 
   const {fields, append, update, remove} = useFieldArray({
     control,
