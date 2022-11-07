@@ -1078,12 +1078,16 @@ setSchemaTpl('app-page-args', {
 
 setSchemaTpl(
   'iconLink',
-  (schema: {name: 'icon' | 'rightIcon'; visibleOn: boolean}) => {
-    const {name, visibleOn} = schema;
+  (schema: {
+    name: 'icon' | 'rightIcon';
+    visibleOn: boolean;
+    label?: string;
+  }) => {
+    const {name, visibleOn, label} = schema;
     return getSchemaTpl('icon', {
       name: name,
       visibleOn,
-      label: '图标',
+      label: label ?? '图标',
       placeholder: '点击选择图标',
       clearable: true,
       description: ''
