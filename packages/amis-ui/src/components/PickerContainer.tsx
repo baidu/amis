@@ -146,7 +146,7 @@ export class PickerContainer extends React.Component<
           closeOnEsc={closeOnEsc}
           show={this.state.isOpened}
           onCancel={this.close}
-          title={title}
+          title={title || __('Select.placeholder')}
           showTitle={showTitle}
           headerClassName={headerClassName}
           showFooter={showFooter}
