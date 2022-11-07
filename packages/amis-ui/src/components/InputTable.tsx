@@ -85,21 +85,21 @@ export function InputTable({
     },
     [subForms]
   );
-  let rules2: any = {...rules};
+  let finalRules: any = {...rules};
 
   if (isRequired) {
-    rules2.required = true;
+    finalRules.required = true;
   }
 
   if (minLength) {
-    rules2.minLength = minLength;
+    finalRules.minLength = minLength;
   }
 
   if (maxLength) {
-    rules2.maxLength = maxLength;
+    finalRules.maxLength = maxLength;
   }
 
-  rules2.validate = React.useCallback(
+  finalRules.validate = React.useCallback(
     async (items: Array<any>) => {
       const map = subForms.current;
 
@@ -131,7 +131,7 @@ export function InputTable({
   const {fields, append, update, remove} = useFieldArray({
     control,
     name: name,
-    rules: rules2
+    rules: finalRules
   });
 
   if (!Array.isArray(columns)) {

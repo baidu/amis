@@ -17,7 +17,7 @@ const pages: TreeArray = [
       {
         label: '按钮',
         path: '/basic/button',
-        component: React.lazy(() => import('./examples/basic/Button'))
+        component: React.lazy(() => import('./basic/Button'))
       }
     ]
   },
@@ -28,13 +28,13 @@ const pages: TreeArray = [
       {
         label: 'InputTable',
         path: '/form/input-table',
-        component: React.lazy(() => import('./examples/form/InputTable'))
+        component: React.lazy(() => import('./form/InputTable'))
       },
 
       {
         label: 'Combo',
         path: '/form/combo',
-        component: React.lazy(() => import('./examples/form/Combo'))
+        component: React.lazy(() => import('./form/Combo'))
       }
     ]
   },
@@ -45,13 +45,13 @@ const pages: TreeArray = [
       {
         label: 'PickContainer',
         path: '/modal/pick-conatiner',
-        component: React.lazy(() => import('./examples/modal/PickerContainer'))
+        component: React.lazy(() => import('./modal/PickerContainer'))
       },
 
       {
         label: 'ConfirmBox',
         path: '/modal/confirm-box',
-        component: React.lazy(() => import('./examples/modal/ConfirmBox'))
+        component: React.lazy(() => import('./modal/ConfirmBox'))
       }
     ]
   }

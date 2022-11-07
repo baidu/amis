@@ -159,21 +159,21 @@ export function Combo({
     },
     [subForms]
   );
-  let rules2: any = {...rules};
+  let finalRules: any = {...rules};
 
   if (isRequired) {
-    rules2.required = true;
+    finalRules.required = true;
   }
 
   if (minLength) {
-    rules2.minLength = minLength;
+    finalRules.minLength = minLength;
   }
 
   if (maxLength) {
-    rules2.maxLength = maxLength;
+    finalRules.maxLength = maxLength;
   }
 
-  rules2.validate = React.useCallback(
+  finalRules.validate = React.useCallback(
     async (items: Array<any>) => {
       const map = subForms.current;
 
@@ -205,7 +205,7 @@ export function Combo({
     control,
     name: name,
     shouldUnregister: true,
-    rules: rules2
+    rules: finalRules
   });
 
   function renderBody() {
