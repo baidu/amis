@@ -19,9 +19,9 @@
     align-items: center;
     background: var(--transfer-base-title-bg);
     color: var(--transfer-base-title-font-color);
-    line-height: var(--transfer-base-title-font-lineHeight);
-    font-size: var(--transfer-base-title-font-size);
-    font-weight: var(--transfer-base-title-font-weight);
+    line-height: var(--transfer-base-title-lineHeight);
+    font-size: var(--transfer-base-content-fontSize);
+    font-weight: var(--transfer-base-title-fontWeight);
     font-family: var(--transfer-base-title-font-family);
     padding: var(--transfer-base-header-paddingTop)
       var(--transfer-base-header-paddingRight)
@@ -32,6 +32,7 @@
       var(--transfer-base-header-marginBottom)
       var(--transfer-base-header-marginLeft);
     flex-direction: row;
+    width: 100%;
 
     &--light {
       background: transparent;
@@ -83,6 +84,7 @@
       var(--transfer-base-body-marginRight)
       var(--transfer-base-body-marginBottom)
       var(--transfer-base-body-marginLeft);
+    width: 100%;
   }
 
   .#{$ns}GroupedSelection-item,
@@ -95,10 +97,10 @@
       var(--transfer-base-option-marginRight)
       var(--transfer-base-option-marginBottom)
       var(--transfer-base-option-marginLeft);
-    line-height: var(--transfer-base-content-font-lineHeight);
-    font-size: var(--transfer-base-content-font-size);
-    font-weight: var(--transfer-base-content-font-weight);
-    font-family: var(--transfer-base-content-font-family);
+    line-height: var(--transfer-base-content-lineHeight);
+    font-size: var(--transfer-base-content-fontSize);
+    font-weight: var(--transfer-base-content-fontWeight);
+
     color: var(--transfer-base-content-font-color);
   }
 
@@ -109,10 +111,10 @@
     margin: var(--transfer-chained-marginTop)
       var(--transfer-chained-marginRight) var(--transfer-chained-marginBottom)
       var(--transfer-chained-marginLeft);
-    line-height: var(--transfer-base-content-font-lineHeight);
-    font-size: var(--transfer-base-content-font-size);
-    font-weight: var(--transfer-base-content-font-weight);
-    font-family: var(--transfer-base-content-font-family);
+    line-height: var(--transfer-base-content-lineHeight);
+    font-size: var(--transfer-base-content-fontSize);
+    font-weight: var(--transfer-base-content-fontWeight);
+
     color: var(--transfer-base-content-font-color);
   }
 
@@ -197,12 +199,11 @@
       var(--transfer-search-paddingLeft);
     margin: var(--transfer-search-marginTop) var(--transfer-search-marginRight)
       var(--transfer-search-marginBottom) var(--transfer-search-marginLeft);
-
+    width: 100%;
     .#{$ns}InputBox {
-      font-size: var(--transfer-search-font-size);
-      font-weight: var(--transfer-search-font-weight);
-      line-height: var(--transfer-search-font-lineHeight);
-      font-family: var(--transfer-search-font-family);
+      font-size: var(--transfer-search-fontSize);
+      font-weight: var(--transfer-search-fontWeight);
+      line-height: var(--transfer-search-lineHeight);
       color: var(--transfer-search-font-color);
       border-width: var(--transfer-search-top-border-width)
         var(--transfer-search-right-border-width)
@@ -240,11 +241,11 @@
 
       input {
         color: var(--transfer-search-font-color);
-        font-size: var(--transfer-search-font-size);
-        font-weight: var(--transfer-search-font-weight);
-        line-height: var(--transfer-search-font-lineHeight);
-        font-family: var(--transfer-search-font-family);
-        height: var(--transfer-search-font-lineHeight);
+        font-size: var(--transfer-search-fontSize);
+        font-weight: var(--transfer-search-fontWeight);
+        line-height: var(--transfer-search-lineHeight);
+
+        height: var(--transfer-search-lineHeight);
       }
 
       input::placeholder {
@@ -322,10 +323,10 @@
     }
 
     &-itemText {
-      line-height: var(--transfer-base-content-font-lineHeight);
-      font-size: var(--transfer-base-content-font-size);
-      font-weight: var(--transfer-base-content-font-weight);
-      font-family: var(--transfer-base-content-font-family);
+      line-height: var(--transfer-base-content-lineHeight);
+      font-size: var(--transfer-base-content-fontSize);
+      font-weight: var(--transfer-base-content-fontWeight);
+
       color: var(--transfer-base-content-font-color);
     }
   }
@@ -338,10 +339,8 @@
         var(--transfer-table-header-paddingLeft);
       background: var(--transfer-base-title-bg);
       color: var(--transfer-base-title-font-color);
-      line-height: var(--transfer-base-title-font-lineHeight);
-      font-size: var(--transfer-base-title-font-size);
-      font-weight: var(--transfer-base-title-font-weight);
-      font-family: var(--transfer-base-title-font-family);
+      line-height: var(--transfer-base-title-lineHeight);
+      font-size: var(--transfer-base-content-fontSize);
 
       &:last-child {
         padding-right: var(--transfer-table-last-paddingRight);
@@ -352,10 +351,9 @@
         var(--transfer-table-option-paddingRight)
         var(--transfer-table-option-paddingBottom)
         var(--transfer-table-option-paddingLeft);
-      line-height: var(--transfer-base-content-font-lineHeight);
-      font-size: var(--transfer-base-content-font-size);
-      font-weight: var(--transfer-base-content-font-weight);
-      font-family: var(--transfer-base-content-font-family);
+      line-height: var(--transfer-base-content-lineHeight);
+      font-size: var(--transfer-base-content-fontSize);
+      font-weight: var(--transfer-base-content-fontWeight);
 
       & > span.is-invalid {
         color: var(--Form-selectValue-onInvalid-color);
