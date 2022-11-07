@@ -261,7 +261,7 @@ export class NumberControlPlugin extends BasePlugin {
                     label: '快捷编辑',
                     name: 'displayMode',
                     type: 'select',
-                    value: 'base',
+                    pipeIn: defaultValue('base'),
                     options: [
                       {
                         label: '单侧按钮',
