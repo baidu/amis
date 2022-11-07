@@ -96,7 +96,14 @@ export function Form(props: FormProps) {
 }
 
 const ThemedForm = themeable(localeable(Form));
-type ThemedFormProps = Omit<FormProps, keyof ThemeProps | keyof LocaleProps>;
+type ThemedFormProps = Omit<
+  JSX.LibraryManagedAttributes<
+    typeof ThemedForm,
+    React.ComponentProps<typeof ThemedForm>
+  >,
+  'children'
+> &
+  Pick<FormProps, 'children'>;
 
 export default React.forwardRef((props: ThemedFormProps, ref: FormRef) => (
   <ThemedForm {...props} forwardRef={ref} />
