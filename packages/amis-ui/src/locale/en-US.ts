@@ -274,6 +274,9 @@ register('en-US', {
     'Please control the content length, do not enter more than $1 letters',
   'validate.minimum': 'The input value is lower than the minimum value of $1',
   'validate.minLength': 'Please enter more, at least $1 characters.',
+  'validate.array.minLength': 'Please add more members, at least $1 members',
+  'validate.array.maxLength':
+    'Please control the number of members, which cannot exceed $1',
   'validate.notEmptyString': 'Please do not enter all blank characters',
   'validate.isDateTimeSame':
     'The current date value is invalid, please enter the same date value as $1',

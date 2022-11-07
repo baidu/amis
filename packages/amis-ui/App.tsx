@@ -23,6 +23,17 @@ const pages: TreeArray = [
   },
 
   {
+    label: '表单',
+    children: [
+      {
+        label: 'InputTable',
+        path: '/form/input-table',
+        component: React.lazy(() => import('./examples/form/InputTable'))
+      }
+    ]
+  },
+
+  {
     label: '弹框',
     children: [
       {
@@ -48,48 +59,39 @@ function isActive(link: any, location: any) {
   return !!(link.path && getPath(link.path) === location.pathname);
 }
 
-
 export function navigations2route(
-    navigations: any,
-    additionalProperties?: any
-  ) {
-    let routes: any = [];
-  
-    navigations.forEach((root: any) => {
-      root.children &&
-        eachTree(root.children, (item: any) => {
-          if (item.path && item.component) {
-            routes.push(
-              additionalProperties ? (
-                <Route
-                  key={routes.length + 1}
-                  path={
-                    item.path[0] === '/'
-                      ?  item.path
-                      : `/${item.path}`
-                  }
-                  render={(props: any) => (
-                    <item.component {...additionalProperties} {...props} />
-                  )}
-                />
-              ) : (
-                <Route
-                  key={routes.length + 1}
-                  path={
-                    item.path[0] === '/'
-                      ? item.path
-                      : `/${item.path}`
-                  }
-                  component={item.component}
-                />
-              )
-            );
-          }
-        });
-    });
-  
-    return routes;
-  }
+  navigations: any,
+  additionalProperties?: any
+) {
+  let routes: any = [];
+
+  navigations.forEach((root: any) => {
+    root.children &&
+      eachTree(root.children, (item: any) => {
+        if (item.path && item.component) {
+          routes.push(
+            additionalProperties ? (
+              <Route
+                key={routes.length + 1}
+                path={item.path[0] === '/' ? item.path : `/${item.path}`}
+                render={(props: any) => (
+                  <item.component {...additionalProperties} {...props} />
+                )}
+              />
+            ) : (
+              <Route
+                key={routes.length + 1}
+                path={item.path[0] === '/' ? item.path : `/${item.path}`}
+                component={item.component}
+              />
+            )
+          );
+        }
+      });
+  });
+
+  return routes;
+}
 
 export default function App() {
   function renderAside() {
@@ -189,11 +191,7 @@ export default function App() {
         >
           <Switch>
             {navigations2route(pages)}
-            <Route
-              render={() => (
-                <NotFound description="Not found" />
-              )}
-            />
+            <Route render={() => <NotFound description="Not found" />} />
           </Switch>
         </React.Suspense>
       </Layout>
