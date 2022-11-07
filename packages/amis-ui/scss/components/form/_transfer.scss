@@ -22,7 +22,6 @@
     line-height: var(--transfer-base-title-font-lineHeight);
     font-size: var(--transfer-base-title-font-size);
     font-weight: var(--transfer-base-title-font-weight);
-    font-family: var(--transfer-base-title-font-family);
     padding: var(--transfer-base-header-paddingTop)
       var(--transfer-base-header-paddingRight)
       var(--transfer-base-header-paddingBottom)
@@ -98,7 +97,6 @@
     line-height: var(--transfer-base-content-font-lineHeight);
     font-size: var(--transfer-base-content-font-size);
     font-weight: var(--transfer-base-content-font-weight);
-    font-family: var(--transfer-base-content-font-family);
     color: var(--transfer-base-content-font-color);
   }
 
@@ -112,7 +110,6 @@
     line-height: var(--transfer-base-content-font-lineHeight);
     font-size: var(--transfer-base-content-font-size);
     font-weight: var(--transfer-base-content-font-weight);
-    font-family: var(--transfer-base-content-font-family);
     color: var(--transfer-base-content-font-color);
   }
 
@@ -120,7 +117,6 @@
     font-size: var(--transfer-group-font-size);
     font-weight: var(--transfer-group-font-weight);
     line-height: var(--transfer-group-font-lineHeight);
-    font-family: var(--transfer-group-font-family);
     color: var(--transfer-group-font-color);
   }
 
@@ -202,7 +198,6 @@
       font-size: var(--transfer-search-font-size);
       font-weight: var(--transfer-search-font-weight);
       line-height: var(--transfer-search-font-lineHeight);
-      font-family: var(--transfer-search-font-family);
       color: var(--transfer-search-font-color);
       border-width: var(--transfer-search-top-border-width)
         var(--transfer-search-right-border-width)
@@ -243,7 +238,6 @@
         font-size: var(--transfer-search-font-size);
         font-weight: var(--transfer-search-font-weight);
         line-height: var(--transfer-search-font-lineHeight);
-        font-family: var(--transfer-search-font-family);
         height: var(--transfer-search-font-lineHeight);
       }
 
@@ -325,7 +319,6 @@
       line-height: var(--transfer-base-content-font-lineHeight);
       font-size: var(--transfer-base-content-font-size);
       font-weight: var(--transfer-base-content-font-weight);
-      font-family: var(--transfer-base-content-font-family);
       color: var(--transfer-base-content-font-color);
     }
   }
@@ -341,7 +334,6 @@
       line-height: var(--transfer-base-title-font-lineHeight);
       font-size: var(--transfer-base-title-font-size);
       font-weight: var(--transfer-base-title-font-weight);
-      font-family: var(--transfer-base-title-font-family);
 
       &:last-child {
         padding-right: var(--transfer-table-last-paddingRight);
@@ -355,7 +347,6 @@
       line-height: var(--transfer-base-content-font-lineHeight);
       font-size: var(--transfer-base-content-font-size);
       font-weight: var(--transfer-base-content-font-weight);
-      font-family: var(--transfer-base-content-font-family);
 
       & > span.is-invalid {
         color: var(--Form-selectValue-onInvalid-color);
