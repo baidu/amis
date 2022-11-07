@@ -117,6 +117,7 @@ import Form from './Form';
 import FormField, {Controller} from './FormField';
 import Combo from './Combo';
 import InputTable from './InputTable';
+import ConfirmBox from './ConfirmBox';
 
 export {
   NotFound,
@@ -184,6 +185,7 @@ export {
   SchemaVariableList,
   VariableList,
   PickerContainer,
+  ConfirmBox,
   FormulaPicker,
   InputJSONSchema,
   withBadge,
