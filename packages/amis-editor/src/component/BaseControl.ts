@@ -3,7 +3,10 @@
  */
 
 import flatten from 'lodash/flatten';
-import {getEventControlConfig, SUPPORT_STATIC_FORMITEM_CMPTS} from '../renderer/event-control/helper';
+import {
+  getEventControlConfig,
+  SUPPORT_STATIC_FORMITEM_CMPTS
+} from '../renderer/event-control/helper';
 import {getSchemaTpl, isObject, tipedLabel} from 'amis-editor-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {SchemaObject} from 'amis/lib/Schema';
@@ -340,12 +343,14 @@ export const formItemControl: (
                 name: 'descriptionClassName',
                 visibleOn: 'this.description'
               }),
-              ...!supportStatic ? [] : [
-                getSchemaTpl('className', {
-                  label: '静态 CSS 类名',
-                  name: 'staticClassName'
-                })
-              ]
+              ...(!supportStatic
+                ? []
+                : [
+                    getSchemaTpl('className', {
+                      label: '静态 CSS 类名',
+                      name: 'staticClassName'
+                    })
+                  ])
             ],
             panels?.style?.body,
             panels?.style?.replace,
@@ -471,10 +476,11 @@ export function remarkTpl(config: {
                   }
                 ]
               },
-              getSchemaTpl('icon', {
+              {
+                type: 'icon-select',
                 name: 'icon',
                 label: '图标'
-              }),
+              },
               {
                 name: 'className',
                 label: 'CSS 类名',
