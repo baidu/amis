@@ -120,7 +120,7 @@ setSchemaTpl('formItemSize', {
   name: 'size',
   label: '控件宽度',
   type: 'select',
-  pipeIn: defaultValue(''),
+  pipeIn: defaultValue('full'),
   // mode: 'inline',
   // className: 'w-full',
   options: [
@@ -144,12 +144,8 @@ setSchemaTpl('formItemSize', {
       value: 'lg'
     },
     {
-      label: '占满',
+      label: '默认（占满）',
       value: 'full'
-    },
-    {
-      label: '默认',
-      value: ''
     }
   ]
 });
