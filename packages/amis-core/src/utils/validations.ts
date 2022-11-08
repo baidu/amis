@@ -463,6 +463,8 @@ export const validateMessages: {
   matchRegexp: 'validate.matchRegexp',
   minLength: 'validate.minLength',
   maxLength: 'validate.maxLength',
+  minLengthArray: 'validate.array.minLength',
+  maxLengthArray: 'validate.array.maxLength',
   maximum: 'validate.maximum',
   lt: 'validate.lt',
   minimum: 'validate.minimum',
@@ -525,10 +527,19 @@ export function validate(
       });
 
       if (!fn(values, value, ...args)) {
+        let msgRuleName = ruleName;
+        if (Array.isArray(value)) {
+          msgRuleName = `${ruleName}Array`;
+        }
+
         errors.push({
           rule: ruleName,
           msg: filter(
-            __((messages && messages[ruleName]) || validateMessages[ruleName]),
+            __(
+              (messages && messages[ruleName]) ||
+                validateMessages[msgRuleName] ||
+                validateMessages[ruleName]
+            ),
             {
               ...[''].concat(args)
             }
