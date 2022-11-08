@@ -558,7 +558,8 @@ class APIBuilder extends DSBuilder {
 
   public resolveTableSchema(config: {schema: any; setting: any}): void {
     let {schema, setting} = config;
-    const fields = setting.listFields.filter((i: any) => i.checked) || [];
+    const fields =
+      (setting?.listFields ?? []).filter((i: any) => i.checked) || [];
     schema.columns = this.makeTableColumnsByFields(fields);
   }
 

@@ -33,7 +33,7 @@ export interface RegionConfig {
   /**
    * 区域占位字符，用于提示
    */
-  placeholder?: string;
+  placeholder?: string | JSX.Element;
 
   /**
    * 对于复杂的控件需要用到这个配置。

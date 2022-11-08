@@ -9,7 +9,7 @@ import {EditorNodeContext, EditorNodeType} from '../store/node';
 export interface RegionWrapperProps {
   name: string;
   label: string;
-  placeholder?: string;
+  placeholder?: string | JSX.Element;
   preferTag?: string;
   wrapperResolve?: (dom: HTMLElement) => HTMLElement;
   editorStore: EditorStoreType;

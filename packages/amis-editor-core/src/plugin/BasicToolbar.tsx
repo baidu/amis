@@ -7,7 +7,7 @@ import {
   BasicPanelItem,
   BuildPanelEventContext,
   PluginEvent,
-  InsertEventContext,
+  InsertEventContext
 } from '../plugin';
 import {registerEditorPlugin} from '../manager';
 import type {MenuItem} from 'amis-ui/lib/components/ContextMenu';
@@ -205,7 +205,9 @@ export class BasicToolbarPlugin extends BasePlugin {
       order: 1000,
       onClick: e => {
         if (!e.defaultPrevented) {
-          const info = (e.target as HTMLElement).parentElement!.getBoundingClientRect();
+          const info = (
+            e.target as HTMLElement
+          ).parentElement!.getBoundingClientRect();
           this.manager.openContextMenu(id, '', {
             x: window.scrollX + info.left + info.width - 155,
             y: window.scrollY + info.top + info.height + 8
