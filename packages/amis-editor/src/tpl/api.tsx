@@ -353,7 +353,7 @@ setSchemaTpl(
   (overrides: {visibleOn?: string; name?: string} = {}) => {
     const visibleOn = get(overrides, 'visibleOn', 'this.initApi');
     const fieldName = get(overrides, 'name', 'initFetch');
-    const label = get(overrides, 'label', '是否初始加载');
+    const label = get(overrides, 'label', '是否初始加载') as string;
 
     return {
       type: 'group',
@@ -368,23 +368,12 @@ setSchemaTpl(
           name: fieldName,
           type: 'radios',
           inline: true,
-          onChange: () => {},
+          value: false,
           // pipeIn: (value:any) => typeof value === 'boolean' ? value : '1'
           options: [
-            {
-              label: '是',
-              value: true
-            },
-
-            {
-              label: '否',
-              value: false
-            },
-
-            {
-              label: '表达式',
-              value: ''
-            }
+            {label: '是', value: true},
+            {label: '否', value: false},
+            {label: '表达式', value: ''}
           ]
         },
 

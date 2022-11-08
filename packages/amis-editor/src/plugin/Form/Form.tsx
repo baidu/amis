@@ -53,7 +53,7 @@ export class FormPlugin extends BasePlugin {
   description =
     '可用于新建、编辑或者展示数据，配置初始化接口可从远端加载数据，配置提交接口可将数据发送远端。另外也可以将数据提交给其他组件，与其他组件通信。';
   docLink = '/amis/zh-CN/components/form/index';
-  tags = ['功能'];
+  tags = ['功能', '数据容器'];
   icon = 'fa fa-list-alt';
   pluginIcon = 'form-plugin';
 

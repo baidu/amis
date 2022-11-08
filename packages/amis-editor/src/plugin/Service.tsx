@@ -1,48 +1,64 @@
-import {Button} from 'amis';
+import {render as amisRender} from 'amis';
 import React from 'react';
-import {EditorNodeType, jsonToJsonSchema, registerEditorPlugin} from 'amis-editor-core';
-import {BaseEventContext, BasePlugin, RegionConfig} from 'amis-editor-core';
-import {getSchemaTpl} from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
-
+import flattenDeep from 'lodash/flattenDeep';
+import {
+  EditorNodeType,
+  jsonToJsonSchema,
+  registerEditorPlugin,
+  BaseEventContext,
+  BasePlugin,
+  RegionConfig,
+  getSchemaTpl,
+  DSBuilderManager,
+  tipedLabel
+} from 'amis-editor-core';
 import type {
+  EditorManager,
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
+
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class ServicePlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'service';
   $schema = '/schemas/ServiceSchema.json';
-
   // 组件名称
-  name = '服务 Service';
+  name = '服务';
+  panelTitle = '服务';
   isBaseComponent = true;
   description =
     '功能性容器，可以用来加载数据或者加载渲染器配置。加载到的数据在容器可以使用。';
   docLink = '/amis/zh-CN/components/service';
-  tags = ['功能'];
-  icon = 'fa fa-server';
-  pluginIcon = 'service-plugin';
+  tags = ['数据容器'];
+  icon = 'fa fa-cube';
+  // pluginIcon = 'service-plugin';
   scaffold = {
+    type: 'service',
+    body: []
+  };
+  previewSchema = {
     type: 'service',
     body: [
       {
         type: 'tpl',
-        tpl: '内容',
-        inline: false
+        tpl: '内容区域',
+        inline: false,
+        className: 'bg-light wrapper'
       }
     ]
-  };
-  previewSchema = {
-    type: 'tpl',
-    tpl: '功能性组件，用于数据拉取。'
   };
 
   regions: Array<RegionConfig> = [
     {
       key: 'body',
-      label: '内容区'
+      label: '内容区',
+      placeholder: amisRender({
+        type: 'wrapper',
+        size: 'lg',
+        body: {type: 'tpl', tpl: '内容区域'}
+      })
     }
   ];
 
@@ -77,9 +93,54 @@ export class ServicePlugin extends BasePlugin {
     }
   ];
 
-  panelTitle = '服务';
+  dsBuilderMgr: DSBuilderManager;
+
+  constructor(manager: EditorManager) {
+    super(manager);
+
+    this.dsBuilderMgr = new DSBuilderManager('service', 'api');
+  }
 
   panelBodyCreator = (context: BaseEventContext) => {
+    const dsManager = this.dsBuilderMgr;
+    /** 数据来源选择器 */
+    const dsTypeSelect = () =>
+      dsManager.getDSSwitch({
+        type: 'button-group-select',
+        mode: 'horizontal',
+        labelClassName: 'w-24',
+        labelAlign: 'left',
+        tiled: true,
+        onChange: (value: any, oldValue: any, model: any, form: any) => {
+          if (value !== oldValue) {
+            const data = form.data;
+            Object.keys(data).forEach(key => {
+              if (key.endsWith('Fields') || key.toLowerCase().endsWith('api')) {
+                form.deleteValueByName(key);
+              }
+            });
+            form.deleteValueByName('__fields');
+          }
+          return value;
+        }
+      });
+    /** 数据源配置 */
+    const dsSetting = dsManager.collectFromBuilders((builder, builderFlag) => {
+      return {
+        type: 'container',
+        visibleOn: `this.dsType == null || this.dsType === '${builderFlag}'`,
+        body: flattenDeep([
+          builder.makeSourceSettingForm({
+            name: 'api',
+            label: '数据源',
+            feat: 'View',
+            inScaffold: false,
+            inCrud: false
+          })
+        ])
+      };
+    });
+
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -89,119 +150,88 @@ export class ServicePlugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                getSchemaTpl('name'),
-                {
-                  children: (
-                    <Button
-                      level="info"
-                      size="sm"
-                      className="m-b-sm"
-                      block
-                      onClick={() => {
-                        // this.manager.showInsertPanel('body', context.id);
-                        this.manager.showRendererPanel('');
-                      }}
-                    >
-                      添加内容
-                    </Button>
-                  )
-                }
-              ]
-            },
-            {
-              title: '数据接口',
-              body: [
-                getSchemaTpl('apiControl', {
-                  name: 'api',
-                  label: '数据接口',
-                  messageDesc:
-                    '设置 service 默认提示信息，当 service 没有返回 msg 信息时有用，如果 service 返回携带了 msg 值，则还是以 service 返回为主'
+                getSchemaTpl('name', {
+                  mode: 'horizontal',
+                  horizontal: {
+                    justify: true,
+                    left: 2
+                  }
                 }),
-                {
-                  name: 'ws',
-                  type: 'input-text',
-                  label: 'WebSocket 实时更新接口'
-                },
-                /** initFetchOn可以通过api的sendOn属性控制 */
-                getSchemaTpl('switch', {
-                  name: 'initFetch',
-                  label: '数据接口初始加载',
-                  visibleOn: 'this.api'
-                }),
-                {
-                  name: 'interval',
-                  label: '定时刷新间隔',
-                  visibleOn: 'this.api',
-                  type: 'input-number',
-                  step: 500,
-                  description: '设置后将自动定时刷新，单位 ms'
-                },
-                getSchemaTpl('switch', {
-                  name: 'silentPolling',
-                  label: '静默加载',
-                  visibleOn: '!!data.interval',
-                  description: '设置自动定时刷新是否显示加载动画'
-                }),
-                {
-                  name: 'stopAutoRefreshWhen',
-                  label: '停止定时刷新检测',
-                  type: 'input-text',
-                  visibleOn: '!!data.interval',
-                  description:
-                    '定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则不刷新了。'
-                }
-              ]
-            },
-            {
-              title: 'Schema接口',
-              body: [
-                getSchemaTpl('apiControl', {
-                  name: 'schemaApi',
-                  label: '内容 Schema 接口'
-                }),
-                getSchemaTpl('switch', {
-                  name: 'initFetchSchema',
-                  label: 'Schema接口初始加载',
-                  visibleOn: 'this.schemaApi'
-                })
-              ]
-            },
-            {
-              title: '全局配置',
-              body: [
-                getSchemaTpl('data'),
-                {
-                  type: 'js-editor',
-                  allowFullscreen: true,
-                  name: 'dataProvider',
-                  label: '自定义函数获取数据',
-                  description: '将会传递 data 和 setData 两个参数'
-                },
-                {
-                  label: '默认消息信息',
-                  type: 'combo',
-                  name: 'messages',
-                  multiLine: true,
-                  description:
-                    '设置 service 默认提示信息，当 service 没有返回 msg 信息时有用，如果 service 返回携带了 msg 值，则还是以 service 返回为主',
-                  items: [
-                    {
-                      label: '获取成功',
-                      type: 'input-text',
-                      name: 'fetchSuccess'
-                    },
-                    {
-                      label: '获取失败',
-                      type: 'input-text',
-                      name: 'fetchFailed'
-                    }
-                  ]
-                }
+                dsTypeSelect(),
+                ...dsSetting
+                // {
+                //   children: (
+                //     <Button
+                //       level="info"
+                //       size="sm"
+                //       className="m-b-sm"
+                //       block
+                //       onClick={() => {
+                //         // this.manager.showInsertPanel('body', context.id);
+                //         this.manager.showRendererPanel('');
+                //       }}
+                //     >
+                //       添加内容
+                //     </Button>
+                //   )
+                // }
               ]
             },
             {
               title: '状态',
-              body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
+              body: [getSchemaTpl('visible')]
+            },
+            {
+              title: '高级',
+              body: [
+                getSchemaTpl('combo-container', {
+                  type: 'input-kv',
+                  mode: 'normal',
+                  name: 'data',
+                  label: '初始化静态数据'
+                }),
+                {
+                  type: 'divider'
+                },
+                getSchemaTpl('apiControl', {
+                  name: 'schemaApi',
+                  label: tipedLabel(
+                    'Schema数据源',
+                    '配置schemaApi后，可以实现动态渲染页面内容'
+                  )
+                }),
+                getSchemaTpl('initFetch', {
+                  name: 'initFetchSchema',
+                  label: '是否Schema初始加载',
+                  visibleOn:
+                    'typeof this.schemaApi === "string" ? this.schemaApi : this.schemaApi.url'
+                }),
+                {
+                  type: 'divider'
+                },
+                {
+                  name: 'ws',
+                  type: 'input-text',
+                  label: tipedLabel(
+                    'WebSocket接口',
+                    'Service 支持通过WebSocket(ws)获取数据，用于获取实时更新的数据。'
+                  )
+                },
+                {
+                  type: 'divider'
+                },
+                {
+                  type: 'js-editor',
+                  allowFullscreen: true,
+                  name: 'dataProvider',
+                  label: tipedLabel(
+                    '自定义函数获取数据',
+                    '对于复杂的数据获取情况，可以使用外部函数获取数据'
+                  ),
+                  placeholder:
+                    '/**\n * @param data 上下文数据\n * @param setData 更新数据的函数\n * @param env 环境变量\n */\ninterface DataProvider {\n   (data: any, setData: (data: any) => void, env: any): void;\n}\n'
+                }
+              ]
             }
           ])
         ]

@@ -225,8 +225,9 @@ export default class TreeOptionControl extends React.Component<
       options.splice(index, 1);
     } else {
       const {parentPath} = this.getNodePath(pathStr);
-      const parentNode = get(options, parentPath, {});
+      const parentNode = get(options, parentPath, {}) as any;
       parentNode?.children?.splice(index, 1);
+
       if (!parentNode?.children.length) {
         // 去除僵尸子节点
         delete parentNode.children;
@@ -261,8 +262,8 @@ export default class TreeOptionControl extends React.Component<
     } else {
       const index = path[path.length - 1];
       const {parentPath} = this.getNodePath(pathStr);
-      const parentNode = get(options, parentPath, {});
-      parentNode.children?.splice(+index + 1, 0, {...defaultOption});
+      const parentNode = get(options, parentPath, {}) as any;
+      parentNode?.children?.splice(+index + 1, 0, {...defaultOption});
       set(options, parentPath, parentNode);
     }
     this.setState({options}, () => this.rereshBindDrag());

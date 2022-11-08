@@ -476,6 +476,94 @@ const DataOperators: Array<FeatOption> = [
   }
 ];
 
+const generatePreviewSchema = (mode: 'table2' | 'cards' | 'list') => {
+  const columnSchema: any = [
+    {
+      label: 'Engine',
+      name: 'engine'
+    },
+    {
+      label: 'Browser',
+      name: 'browser'
+    },
+    {
+      name: 'version',
+      label: 'Version'
+    }
+  ];
+
+  const actionSchema = {
+    type: 'button',
+    level: 'link',
+    icon: 'fa fa-eye',
+    actionType: 'dialog',
+    dialog: {
+      title: '查看详情',
+      body: {
+        type: 'form',
+        body: [
+          {
+            label: 'Engine',
+            name: 'engine',
+            type: 'static'
+          },
+          {
+            name: 'browser',
+            label: 'Browser',
+            type: 'static'
+          },
+          {
+            name: 'version',
+            label: 'Version',
+            type: 'static'
+          }
+        ]
+      }
+    }
+  };
+
+  const itemSchema =
+    mode === 'cards'
+      ? {card: {body: columnSchema, actions: actionSchema}}
+      : mode === 'list'
+      ? {
+          listItem: {
+            body: {
+              type: 'hbox',
+              columns: columnSchema
+            }
+          },
+          actions: actionSchema
+        }
+      : {
+          columns: columnSchema.concat([
+            {
+              name: 'operation',
+              title: '操作',
+              buttons: [actionSchema]
+            }
+          ])
+        };
+
+  return {
+    type: 'crud2',
+    mode,
+    source: '$items',
+    data: {
+      items: [
+        {
+          engine: 'Trident',
+          browser: 'Internet Explorer 4.0',
+          platform: 'Win 95+',
+          version: '4',
+          grade: 'X'
+        }
+      ]
+    },
+    ...itemSchema
+  };
+};
+
 export class CRUDPlugin extends BasePlugin {
   constructor(manager: EditorManager) {
     super(manager);
@@ -1056,8 +1144,6 @@ export class CRUDPlugin extends BasePlugin {
     });
   }
 
-  disabledRendererPlugin = true;
-
   dsBuilderMgr: DSBuilderManager;
 
   // 关联渲染器名字
@@ -1528,6 +1614,8 @@ export class TableCRUDPlugin extends CRUDPlugin {
   order = -1000;
   icon = 'fa fa-table';
 
+  previewSchema: any = generatePreviewSchema('table2');
+
   scaffold: any = {
     type: 'crud2',
     mode: 'table2',
@@ -1585,7 +1673,9 @@ export class CardsCRUDPlugin extends CRUDPlugin {
     '围绕卡片列表的数据增删改查. 负责数据的拉取，分页，单条操作，批量操作，排序，快速编辑等等功能，集成查询条件。';
 
   order = -1000;
-  icon = 'fa fa-table';
+  icon = 'fa fa-list-alt';
+
+  previewSchema: any = generatePreviewSchema('cards');
 
   scaffold: any = {
     type: 'crud2',
@@ -1704,7 +1794,9 @@ export class ListCRUDPlugin extends CRUDPlugin {
     '围绕列表的数据增删改查. 负责数据的拉取，分页，单条操作，批量操作，排序，快速编辑等等功能，集成查询条件。';
 
   order = -1000;
-  icon = 'fa fa-align-justify';
+  icon = 'fa fa-list';
+
+  previewSchema: any = generatePreviewSchema('list');
 
   scaffold: any = {
     type: 'crud2',

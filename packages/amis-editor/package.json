@@ -8,7 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
-    "clean-dist": "rimraf lib/* esm/*",
+    "clean-dist": "rimraf lib/** esm/**",
     "i18n:update": "npx i18n update --config=./i18nConfig.js",
     "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US",
     "i18n:merge": "npx i18n merge --config=./i18nConfig.js --l=en-US"
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.6.0",
-    "amis-editor-core": "*",
+    "amis-editor-core": "^5.2.1",
     "i18n-runtime": "*",
     "lodash": "^4.17.15"
   },

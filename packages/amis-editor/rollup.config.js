@@ -79,8 +79,7 @@ function transpileDynamicImportForCJS(options) {
       }
 
       return {
-        left:
-          'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
+        left: 'Promise.resolve().then(function() {return new Promise(function(fullfill) {require([',
         right: '], function(mod) {fullfill(tslib.__importStar(mod))})})})'
       };
 
@@ -96,6 +95,9 @@ function transpileDynamicImportForCJS(options) {
 }
 
 function getPlugins(format = 'esm') {
+  const overridePaths = {
+    'amis-editor-core': ['../amis-editor-core/lib/index.min.js']
+  };
   const typeScriptOptions = {
     typescript: require('typescript'),
     sourceMap: false,
@@ -104,13 +106,15 @@ function getPlugins(format = 'esm') {
       ? {
           compilerOptions: {
             rootDir: './src',
-            outDir: path.dirname(module)
+            outDir: path.dirname(module),
+            paths: overridePaths
           }
         }
       : {
           compilerOptions: {
             rootDir: './src',
-            outDir: path.dirname(main)
+            outDir: path.dirname(main),
+            paths: overridePaths
           }
         })
   };
@@ -141,11 +145,13 @@ function getPlugins(format = 'esm') {
         Copyright 2018<%= moment().format('YYYY') > 2018 ? '-' + moment().format('YYYY') : null %> ${author}
       `
     }),
-    onRollupError((error) => {
+    onRollupError(error => {
       console.warn(`[构建异常]${error}`);
       // 构建异常时，删除 tsconfig.tsbuildinfo
       fs.unlink(path.resolve(__dirname, 'tsconfig.tsbuildinfo'), () => {
-        console.info('[构建异常]已自动删除tsconfig.tsbuildinfo，请重试构建命令。');
+        console.info(
+          '[构建异常]已自动删除tsconfig.tsbuildinfo，请重试构建命令。'
+        );
       });
     })
   ];
@@ -161,4 +167,3 @@ function onRollupError(callback = () => {}) {
     }
   };
 }
-
