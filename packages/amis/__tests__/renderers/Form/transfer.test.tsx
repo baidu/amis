@@ -485,68 +485,68 @@ test('Renderer:transfer left tree', async () => {
   expect(container).toMatchSnapshot();
 });
 
-// test('Renderer:transfer group mode with virtual', async () => {
-//   const options = [...Array(20)].map((_, i) => ({
-//     label: `group-${i + 1}`,
-//     children: [...Array(10)].map((_, j) => ({
-//       label: `option-${i * 10 + j + 1}`,
-//       value: `value-${i * 10 + j + 1}`
-//     }))
-//   }));
+test('Renderer:transfer group mode with virtual', async () => {
+  const options = [...Array(20)].map((_, i) => ({
+    label: `group-${i + 1}`,
+    children: [...Array(10)].map((_, j) => ({
+      label: `option-${i * 10 + j + 1}`,
+      value: `value-${i * 10 + j + 1}`
+    }))
+  }));
 
-//   const {container, getByText, queryByText} = await setup([
-//     {
-//       label: '分组',
-//       type: 'transfer',
-//       name: 'transfer',
-//       options: options,
-//       virtualThreshold: 100,
-//       itemHeight: 40
-//     }
-//   ]);
+  const {container, getByText, queryByText} = await setup([
+    {
+      label: '分组',
+      type: 'transfer',
+      name: 'transfer',
+      options: options,
+      virtualThreshold: 100,
+      itemHeight: 40
+    }
+  ]);
 
-//   const optionsOrLabel = container.querySelectorAll(
-//     '.cxd-GroupedSelection.cxd-Transfer-selection > div > div > div > div.cxd-GroupedSelection-group'
-//   );
+  const optionsOrLabel = container.querySelectorAll(
+    '.cxd-GroupedSelection.cxd-Transfer-selection > div > div > div > div.cxd-GroupedSelection-group'
+  );
 
-//   expect(optionsOrLabel.length > 0).toBeTruthy();
+  expect(optionsOrLabel.length > 0).toBeTruthy();
 
-//   const firstStyle = formatStyleObject(optionsOrLabel[0].getAttribute('style'));
-//   expect(firstStyle.top).toBe(0);
-//   expect(firstStyle.height).toBe(40);
-//   await waitFor(() => expect(optionsOrLabel.length > 1).toBeTruthy());
-//   console.log(optionsOrLabel.length);
+  const firstStyle = formatStyleObject(optionsOrLabel[0].getAttribute('style'));
+  expect(firstStyle.top).toBe(0);
+  expect(firstStyle.height).toBe(40);
+  await waitFor(() => expect(optionsOrLabel.length > 1).toBeTruthy());
+  console.log(optionsOrLabel.length);
 
-//   expect(formatStyleObject(optionsOrLabel[1].getAttribute('style')).top).toBe(
-//     40
-//   );
+  expect(formatStyleObject(optionsOrLabel[1].getAttribute('style')).top).toBe(
+    40
+  );
 
-//   expect(getByText('option-1')).toBeInTheDocument();
-//   expect(await queryByText('option-100')).toBeNull();
+  expect(getByText('option-1')).toBeInTheDocument();
+  expect(await queryByText('option-100')).toBeNull();
 
-//   const scrollContainer = container.querySelector(
-//     '.cxd-GroupedSelection.cxd-Transfer-selection > div > div'
-//   )!;
+  const scrollContainer = container.querySelector(
+    '.cxd-GroupedSelection.cxd-Transfer-selection > div > div'
+  )!;
 
-//   // 滚动到底部
-//   fireEvent.scroll(scrollContainer, {
-//     target: {
-//       scrollTop: 9999
-//     }
-//   });
+  // 滚动到底部
+  fireEvent.scroll(scrollContainer, {
+    target: {
+      scrollTop: 9999
+    }
+  });
 
-//   await wait(300);
+  await wait(300);
 
-//   // 最后一项
-//   const lastOne = container.querySelector(
-//     '.cxd-GroupedSelection.cxd-Transfer-selection > div > div > div > div.cxd-GroupedSelection-group:last-of-type'
-//   );
+  // 最后一项
+  const lastOne = container.querySelector(
+    '.cxd-GroupedSelection.cxd-Transfer-selection > div > div > div > div.cxd-GroupedSelection-group:last-of-type'
+  );
 
-//   expect(formatStyleObject(lastOne!.getAttribute('style')).top).toBe(8760);
-//   expect(await queryByText('option-1')).toBeNull();
+  expect(formatStyleObject(lastOne!.getAttribute('style')).top).toBe(8760);
+  expect(await queryByText('option-1')).toBeNull();
 
-//   expect(container).toMatchSnapshot();
-// });
+  expect(container).toMatchSnapshot();
+});
 
 test('Renderer:transfer table mode with virtual', async () => {
   const options = [...Array(200)].map((_, i) => ({

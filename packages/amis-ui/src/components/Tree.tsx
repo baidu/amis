@@ -126,7 +126,8 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   creatable?: boolean;
   createTip?: string;
   // 是否开启虚拟滚动
-  virtual?: boolean;
+  virtualThreshold?: number;
+  itemHeight?: number;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
@@ -199,7 +200,8 @@ export class TreeSelector extends React.Component<
     enableNodePath: false,
     pathSeparator: '/',
     nodePath: [],
-    virtual: true
+    virtualThreshold: 100,
+    itemHeight: 32
   };
 
   unfolded: WeakMap<Object, boolean> = new WeakMap();
@@ -1215,11 +1217,11 @@ export class TreeSelector extends React.Component<
 
   @autobind
   renderList(list: Options, value: any[]) {
-    const {virtual} = this.props;
-    if (virtual) {
+    const {virtualThreshold, itemHeight = 32} = this.props;
+    if (virtualThreshold && list.length > virtualThreshold) {
       return (
         <VirtualList
-          height={list.length > 8 ? 266 : list.length * virtualItemHeight}
+          height={list.length > 8 ? 266 : list.length * itemHeight}
           itemCount={list.length}
           itemSize={virtualItemHeight}
           //! hack: 让 VirtualList 重新渲染

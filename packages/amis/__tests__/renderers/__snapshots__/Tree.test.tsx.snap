@@ -70,255 +70,240 @@ exports[`Tree: basic & disabled children & default check children 1`] = `
                       <ul
                         class="cxd-Tree-list"
                       >
-                        <div
-                          style="overflow: auto; will-change: transform; height: 224px; width: 100%;"
+                        <li
+                          class="cxd-Tree-item "
                         >
                           <div
-                            style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 224px;"
+                            class="cxd-Tree-itemLabel"
                           >
-                            <li
-                              class="cxd-Tree-item "
-                              style="position: absolute; top: 0px; height: 32px;"
+                            <div
+                              class="cxd-Tree-itemArrow"
                             >
-                              <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <div
-                                  class="cxd-Tree-itemArrow"
-                                >
-                                  <icon-mock
-                                    classname="icon icon-down-arrow-bold"
-                                    icon="down-arrow-bold"
-                                  />
-                                </div>
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-folder"
-                                      icon="folder"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="Folder A"
-                                  >
-                                    Folder A
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                              style="position: absolute; top: 32px; height: 32px;"
+                              <icon-mock
+                                classname="icon icon-down-arrow-bold"
+                                icon="down-arrow-bold"
+                              />
+                            </div>
+                            <div
+                              class="cxd-Tree-itemLabel-item"
                             >
-                              <div
-                                class="cxd-Tree-itemLabel"
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
                               >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
+                                <icon-mock
+                                  classname="icon icon-folder"
+                                  icon="folder"
                                 />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="file A"
-                                  >
-                                    file A
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item "
-                              style="position: absolute; top: 64px; height: 32px;"
-                            >
-                              <div
-                                class="cxd-Tree-itemLabel"
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="Folder A"
                               >
-                                <div
-                                  class="cxd-Tree-itemArrow"
-                                >
-                                  <icon-mock
-                                    classname="icon icon-down-arrow-bold"
-                                    icon="down-arrow-bold"
-                                  />
-                                </div>
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-folder"
-                                      icon="folder"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="Folder B"
-                                  >
-                                    Folder B
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                              style="position: absolute; top: 96px; height: 32px;"
-                            >
+                                Folder A
+                              </span>
                               <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
-                                />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="file b1"
-                                  >
-                                    file b1
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                              style="position: absolute; top: 128px; height: 32px;"
-                            >
-                              <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
-                                />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="file b2"
-                                  >
-                                    file b2
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                              style="position: absolute; top: 160px; height: 32px;"
-                            >
-                              <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
-                                />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="file C"
-                                  >
-                                    file C
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                              style="position: absolute; top: 192px; height: 32px;"
-                            >
-                              <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
-                                />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="file D"
-                                  >
-                                    file D
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
                           </div>
-                        </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="file A"
+                              >
+                                file A
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item "
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <div
+                              class="cxd-Tree-itemArrow"
+                            >
+                              <icon-mock
+                                classname="icon icon-down-arrow-bold"
+                                icon="down-arrow-bold"
+                              />
+                            </div>
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-folder"
+                                  icon="folder"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="Folder B"
+                              >
+                                Folder B
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="file b1"
+                              >
+                                file b1
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="file b2"
+                              >
+                                file b2
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="file C"
+                              >
+                                file C
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="file D"
+                              >
+                                file D
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -458,255 +443,240 @@ exports[`Tree: showOutline 1`] = `
                       <ul
                         class="cxd-Tree-list"
                       >
-                        <div
-                          style="overflow: auto; will-change: transform; height: 224px; width: 100%;"
+                        <li
+                          class="cxd-Tree-item "
                         >
                           <div
-                            style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 224px;"
+                            class="cxd-Tree-itemLabel"
                           >
-                            <li
-                              class="cxd-Tree-item "
-                              style="position: absolute; top: 0px; height: 32px;"
+                            <div
+                              class="cxd-Tree-itemArrow"
                             >
-                              <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <div
-                                  class="cxd-Tree-itemArrow"
-                                >
-                                  <icon-mock
-                                    classname="icon icon-down-arrow-bold"
-                                    icon="down-arrow-bold"
-                                  />
-                                </div>
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-folder"
-                                      icon="folder"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="Folder A"
-                                  >
-                                    Folder A
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                              style="position: absolute; top: 32px; height: 32px;"
+                              <icon-mock
+                                classname="icon icon-down-arrow-bold"
+                                icon="down-arrow-bold"
+                              />
+                            </div>
+                            <div
+                              class="cxd-Tree-itemLabel-item"
                             >
-                              <div
-                                class="cxd-Tree-itemLabel"
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
                               >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
+                                <icon-mock
+                                  classname="icon icon-folder"
+                                  icon="folder"
                                 />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="file A"
-                                  >
-                                    file A
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item "
-                              style="position: absolute; top: 64px; height: 32px;"
-                            >
-                              <div
-                                class="cxd-Tree-itemLabel"
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="Folder A"
                               >
-                                <div
-                                  class="cxd-Tree-itemArrow"
-                                >
-                                  <icon-mock
-                                    classname="icon icon-down-arrow-bold"
-                                    icon="down-arrow-bold"
-                                  />
-                                </div>
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-folder"
-                                      icon="folder"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="Folder B"
-                                  >
-                                    Folder B
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                              style="position: absolute; top: 96px; height: 32px;"
-                            >
+                                Folder A
+                              </span>
                               <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
-                                />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="file b1"
-                                  >
-                                    file b1
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                              style="position: absolute; top: 128px; height: 32px;"
-                            >
-                              <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
-                                />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="file b2"
-                                  >
-                                    file b2
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                              style="position: absolute; top: 160px; height: 32px;"
-                            >
-                              <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
-                                />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="file C"
-                                  >
-                                    file C
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                            <li
-                              class="cxd-Tree-item  cxd-Tree-item--isLeaf"
-                              style="position: absolute; top: 192px; height: 32px;"
-                            >
-                              <div
-                                class="cxd-Tree-itemLabel"
-                              >
-                                <span
-                                  class="cxd-Tree-itemArrowPlaceholder"
-                                />
-                                <div
-                                  class="cxd-Tree-itemLabel-item"
-                                >
-                                  <i
-                                    class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
-                                  >
-                                    <icon-mock
-                                      classname="icon icon-file"
-                                      icon="file"
-                                    />
-                                  </i>
-                                  <span
-                                    class="cxd-Tree-itemText"
-                                    title="file D"
-                                  >
-                                    file D
-                                  </span>
-                                  <div
-                                    class="cxd-Tree-item-icons"
-                                  />
-                                </div>
-                              </div>
-                            </li>
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
                           </div>
-                        </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="file A"
+                              >
+                                file A
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item "
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <div
+                              class="cxd-Tree-itemArrow"
+                            >
+                              <icon-mock
+                                classname="icon icon-down-arrow-bold"
+                                icon="down-arrow-bold"
+                              />
+                            </div>
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-folder"
+                                  icon="folder"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="Folder B"
+                              >
+                                Folder B
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="file b1"
+                              >
+                                file b1
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="file b2"
+                              >
+                                file b2
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="file C"
+                              >
+                                file C
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          class="cxd-Tree-item  cxd-Tree-item--isLeaf"
+                        >
+                          <div
+                            class="cxd-Tree-itemLabel"
+                          >
+                            <span
+                              class="cxd-Tree-itemArrowPlaceholder"
+                            />
+                            <div
+                              class="cxd-Tree-itemLabel-item"
+                            >
+                              <i
+                                class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
+                              >
+                                <icon-mock
+                                  classname="icon icon-file"
+                                  icon="file"
+                                />
+                              </i>
+                              <span
+                                class="cxd-Tree-itemText"
+                                title="file D"
+                              >
+                                file D
+                              </span>
+                              <div
+                                class="cxd-Tree-item-icons"
+                              />
+                            </div>
+                          </div>
+                        </li>
                       </ul>
                     </div>
                   </div>
