@@ -42,6 +42,7 @@
 
 .#{$ns}GroupedSelection {
   max-height: px2rem(300px);
+  height: 100%;
   overflow: auto;
   user-select: none;
   padding: var(--gap-xs) 0;
@@ -117,8 +118,22 @@
 }
 
 .#{$ns}TableSelection {
+  position: relative;
+  height: 100%;
+
   .#{$ns}Table-content {
     border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+
+    &.is-virtual {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .#{$ns}Table-content-virtual {
+        flex: 1;
+        position: relative;
+      }
+    }
   }
 
   .#{$ns}Table-table > tbody > tr {
@@ -238,6 +253,7 @@
   min-height: 100%;
 
   &-col {
+    position: relative;
     flex-grow: 1;
     min-width: 150px;
   }
@@ -311,11 +327,17 @@
 
   &-left,
   &-right {
+    position: relative;
     flex-grow: 1;
     width: 0;
     min-height: px2rem(200px);
     max-height: px2rem(400px);
     overflow: auto;
+
+    > .#{$ns}GroupedSelection {
+      padding: 0;
+      max-height: 100%;
+    }
   }
 
   &-left {
