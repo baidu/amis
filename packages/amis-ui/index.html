@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>amis-ui</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="../../examples/static/iconfont.css" />
+    <link
+      rel="stylesheet"
+      href="../../node_modules/@fortawesome/fontawesome-free/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../node_modules/@fortawesome/fontawesome-free/css/v4-shims.css"
+    />
+    <link rel="stylesheet" href="./scss/themes/cxd.scss" />
+    <link rel="stylesheet" href="./scss/helper.scss" />
+    <style>
+      .app-wrapper,
+      .schema-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script type="module">
+      import React from 'react';
+      import {createRoot} from 'react-dom/client';
+      import App from './examples/App';
+
+      export function bootstrap(mountTo, initalState) {
+        const root = createRoot(mountTo);
+        root.render(React.createElement(App));
+      }
+
+      import * as monaco from 'monaco-editor';
+      import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
+      import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
+      import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
+      import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
+      import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
+
+      self.MonacoEnvironment = {
+        getWorker(_, label) {
+          if (label === 'json') {
+            return new jsonWorker();
+          }
+          if (label === 'css' || label === 'scss' || label === 'less') {
+            return new cssWorker();
+          }
+          if (label === 'html' || label === 'handlebars' || label === 'razor') {
+            return new htmlWorker();
+          }
+          if (label === 'typescript' || label === 'javascript') {
+            return new tsWorker();
+          }
+          return new editorWorker();
+        }
+      };
+
+      const initialState = {};
+      bootstrap(document.getElementById('root'), initialState);
+    </script>
+  </body>
+</html>
