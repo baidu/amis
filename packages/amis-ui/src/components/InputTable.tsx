@@ -11,30 +11,29 @@ import {
   Control,
   useFieldArray,
   UseFieldArrayProps,
-  UseFormReturn
+  UseFormReturn,
+  useFormState
 } from 'react-hook-form';
 import useSubForm from '../hooks/use-sub-form';
 import Button from './Button';
 import FormField, {FormFieldProps} from './FormField';
 import {Icon} from './icons';
 
+export interface InputTableColumnProps {
+  title?: string;
+  className?: string;
+  thRender?: () => JSX.Element;
+  tdRender: (methods: UseFormReturn, index: number) => JSX.Element | null;
+}
+
 export interface InputTabbleProps<T = any>
   extends ThemeProps,
     LocaleProps,
-    Omit<
-      FormFieldProps,
-      'children' | 'errors' | 'hasError' | 'isRequired' | 'className'
-    >,
+    Omit<FormFieldProps, 'children' | 'errors' | 'hasError' | 'className'>,
     UseFieldArrayProps {
   control: Control<any>;
   fieldClassName?: string;
-
-  columns: Array<{
-    title?: string;
-    className?: string;
-    thRender?: () => JSX.Element;
-    tdRender: (methods: UseFormReturn, index: number) => JSX.Element | null;
-  }>;
+  columns: Array<InputTableColumnProps>;
 
   /**
    * 要不要包裹 label 之类的
@@ -71,16 +70,77 @@ export function InputTable({
   addButtonClassName,
   scaffold,
   minLength,
-  maxLength
+  maxLength,
+  isRequired,
+  rules
 }: InputTabbleProps) {
+  const subForms = React.useRef<Record<any, UseFormReturn>>({});
+  const subFormRef = React.useCallback(
+    (subform: UseFormReturn | null, index: number) => {
+      if (subform) {
+        subForms.current[index] = subform;
+      } else {
+        delete subForms.current[index];
+      }
+    },
+    [subForms]
+  );
+  let finalRules: any = {...rules};
+
+  if (isRequired) {
+    finalRules.required = true;
+  }
+
+  if (minLength) {
+    finalRules.minLength = minLength;
+  }
+
+  if (maxLength) {
+    finalRules.maxLength = maxLength;
+  }
+
+  finalRules.validate = React.useCallback(
+    async (items: Array<any>) => {
+      const map = subForms.current;
+
+      if (typeof rules?.validate === 'function') {
+        const result = await rules.validate(items);
+        if (result) {
+          return result;
+        }
+      }
+
+      for (let key of Object.keys(map)) {
+        const valid = await (function (methods) {
+          return new Promise<boolean>(resolve => {
+            methods.handleSubmit(
+              () => resolve(true),
+              () => resolve(false)
+            )();
+          });
+        })(map[key]);
+
+        if (!valid) {
+          return __('validateFailed');
+        }
+      }
+    },
+    [subForms]
+  );
+
   const {fields, append, update, remove} = useFieldArray({
     control,
-    name: name
+    name: name,
+    rules: finalRules
   });
 
   if (!Array.isArray(columns)) {
     columns = [];
   }
+
+  const {errors} = useFormState({
+    control
+  });
 
   function renderBody() {
     return (
@@ -110,19 +170,17 @@ export function InputTable({
                       columns={columns}
                       translate={__}
                       classnames={cx}
+                      formRef={subFormRef}
                     />
                     <td key="operation">
                       <Button
                         level="link"
                         key="delete"
-                        className={cx(
-                          `Table-delBtn ${
-                            removable === false ||
-                            (minLength && fields.length <= minLength)
-                              ? 'is-disabled'
-                              : ''
-                          }`
-                        )}
+                        disabled={
+                          removable === false ||
+                          !!(minLength && fields.length <= minLength)
+                        }
+                        className={cx('Table-delBtn')}
                         onClick={() => remove(index)}
                       >
                         {__('delete')}
@@ -170,8 +228,8 @@ export function InputTable({
       labelClassName={labelClassName}
       description={description}
       mode={mode}
-      hasError={false /*目前看来不支持，后续研究一下 */}
-      errors={undefined /*目前看来不支持，后续研究一下 */}
+      hasError={!!errors[name]?.message}
+      errors={errors[name]?.message as any}
     >
       {renderBody()}
     </FormField>
@@ -189,6 +247,7 @@ export interface InputTableRowProps {
   index: number;
   translate: TranslateFn;
   classnames: ClassNamesFn;
+  formRef: (form: UseFormReturn | null, index: number) => void;
 }
 
 export function InputTableRow({
@@ -197,9 +256,16 @@ export function InputTableRow({
   index,
   translate,
   update,
+  formRef,
   classnames: cx
 }: InputTableRowProps) {
   const methods = useSubForm(value, translate, data => update(index, data));
+  React.useEffect(() => {
+    formRef?.(methods, index);
+    return () => {
+      formRef?.(null, index);
+    };
+  }, [methods]);
 
   return (
     <>

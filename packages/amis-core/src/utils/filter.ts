@@ -20,13 +20,14 @@ function conditionalFilter(
   filterContext: FilterContext,
   test: any,
   trueValue: any,
-  falseValue: any
+  falseValue: any,
+  astOffset: number = 1
 ) {
   (hasAlternate || test) && skipRestTest(filterContext.restFilters);
   const result = test ? trueValue : falseValue;
   const ast = test
-    ? filterContext.filter?.args[1]
-    : filterContext.filter?.args[2];
+    ? filterContext.filter?.args[0 + astOffset]
+    : filterContext.filter?.args[1 + astOffset];
 
   return test || hasAlternate
     ? getStrOrVariable(result, filterContext.data, ast) ?? result
@@ -464,7 +465,8 @@ extendsFilters({
       this,
       !!input,
       trueValue,
-      falseValue
+      falseValue,
+      0
     );
   },
   isFalse(input, trueValue, falseValue) {
@@ -475,7 +477,8 @@ extendsFilters({
       this,
       !input,
       trueValue,
-      falseValue
+      falseValue,
+      0
     );
   },
   isMatch(input, matchArg, trueValue, falseValue) {

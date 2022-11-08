@@ -329,6 +329,20 @@ test('evalute:conditional', () => {
 
   expect(
     evaluate(
+      '${a | isTrue : trueValue : falseValue}',
+      {
+        a: true,
+        trueValue: 5,
+        falseValue: 10
+      },
+      {
+        defaultFilter: 'raw'
+      }
+    )
+  ).toBe(5);
+
+  expect(
+    evaluate(
       '${a | isEquals: 1 : "1" |isEquals: 2 : "2" | isEquals: 3 : "3" }',
       {
         a: 3
