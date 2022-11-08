@@ -1226,7 +1226,7 @@ export class DateRangePicker extends React.Component<
     props.className += className;
 
     return (
-      <td {...props} {...others}>
+      <td {...omit(props, ['todayActiveStyle'])} {...others}>
         <span>{currentDate.date()}</span>
       </td>
     );
