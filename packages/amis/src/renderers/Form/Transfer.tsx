@@ -135,6 +135,16 @@ export interface TransferControlSchema extends FormOptionsSchema {
    * 统计数字
    */
   statistics?: boolean;
+
+  /**
+   * 单个选项的高度，主要用于虚拟渲染
+   */
+  itemHeight?: number;
+
+  /**
+   * 在选项数量达到多少时开启虚拟渲染
+   */
+  virtualThreshold?: number;
 }
 
 export interface BaseTransferProps
@@ -148,6 +158,8 @@ export interface BaseTransferProps
       | 'inputClassName'
     > {
   resultItemRender?: (option: Option) => JSX.Element;
+  virtualThreshold?: number;
+  itemHeight?: number;
 }
 
 export class BaseTransferRenderer<
@@ -445,7 +457,9 @@ export class BaseTransferRenderer<
       resultSearchPlaceholder,
       resultSearchable = false,
       statistics,
-      labelField
+      labelField,
+      virtualThreshold,
+      itemHeight
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -498,6 +512,8 @@ export class BaseTransferRenderer<
           resultItemRender={this.resultItemRender}
           onSelectAll={this.onSelectAll}
           onRef={this.getRef}
+          virtualThreshold={virtualThreshold}
+          itemHeight={itemHeight}
         />
 
         <Spinner overlay key="info" show={loading} />

@@ -1015,15 +1015,15 @@ export function someTree<T extends TreeItem>(
 export function flattenTree<T extends TreeItem>(tree: Array<T>): Array<T>;
 export function flattenTree<T extends TreeItem, U>(
   tree: Array<T>,
-  mapper: (value: T, index: number) => U
+  mapper: (value: T, index: number, level: number, paths?: Array<T>) => U
 ): Array<U>;
 export function flattenTree<T extends TreeItem, U>(
   tree: Array<T>,
-  mapper?: (value: T, index: number) => U
+  mapper?: (value: T, index: number, level: number, paths?: Array<T>) => U
 ): Array<U> {
   let flattened: Array<any> = [];
-  eachTree(tree, (item, index) =>
-    flattened.push(mapper ? mapper(item, index) : item)
+  eachTree(tree, (item, index, level, paths) =>
+    flattened.push(mapper ? mapper(item, index, level, paths) : item)
   );
   return flattened;
 }
