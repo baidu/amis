@@ -9,6 +9,7 @@ import keys from 'lodash/keys';
 import isString from 'lodash/isString';
 import difference from 'lodash/difference';
 import React from 'react';
+import TooltipWrapper from './TooltipWrapper';
 import {uncontrollable} from 'amis-core';
 
 import {Overlay} from 'amis-core';
@@ -451,6 +452,30 @@ export class Range extends React.Component<RangeItemProps, any> {
     return ((value - min) * 100) / (max - min) + '%';
   }
 
+  /**
+   * 计算每个刻度标记mark 的最大宽度 max-width
+   * 通过给父元素div的width赋值，从而继承
+   * @param value 刻度标记key
+   * @param marks 整个刻度标记对象
+   * @returns 刻度标记的最大宽度 string
+   */
+  @autobind
+  getMarkMaxWidth(value: keyof MarksType, marks: MarksType) {
+    const {max, min} = this.props;
+    const curNum = isString(value) ? parseInt(value, 10) : value;
+    // 给最大宽度赋初始值 默认最大
+    let maxWidth = Math.abs(max - min);
+    // 遍历刻度标记masks 寻找距离当前节点最近的刻度标记 并记录差值
+    keys(marks).forEach((mKey: keyof MarksType) => {
+      const mNum = isString(mKey) ? parseInt(mKey, 10) : mKey;
+      if (mKey !== value) {
+        maxWidth = Math.min(Math.abs(curNum - mNum), maxWidth);
+      }
+    });
+    // 差值的1/2 即为此刻度标记的最大宽度
+    return Math.floor(maxWidth / 2) + '%';
+  }
+
   render() {
     const {
       classnames: cx,
@@ -552,12 +577,23 @@ export class Range extends React.Component<RangeItemProps, any> {
             <div className={cx('InputRange-marks')}>
               {keys(marks).map((key: keyof MarksType) => {
                 const offsetLeft = this.getOffsetLeft(key);
+                const markMaxWidth = this.getMarkMaxWidth(key, marks);
                 if (MARKS_REG.test(offsetLeft)) {
                   return (
-                    <div key={key} style={{left: offsetLeft}}>
-                      <span style={(marks[key] as any)?.style}>
-                        {(marks[key] as any)?.label || marks[key]}
-                      </span>
+                    <div
+                      key={key}
+                      style={{left: offsetLeft, width: markMaxWidth}}
+                    >
+                      <TooltipWrapper
+                        placement={'bottom'}
+                        tooltip={(marks[key] as any)?.label || marks[key]}
+                        trigger={['hover', 'focus']}
+                        rootClose={false}
+                      >
+                        <span style={(marks[key] as any)?.style}>
+                          {(marks[key] as any)?.label || marks[key]}
+                        </span>
+                      </TooltipWrapper>
                     </div>
                   );
                 } else {

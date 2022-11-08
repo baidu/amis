@@ -266,13 +266,20 @@
   &-marks {
     position: relative;
     top: 8px;
+
     div {
       position: absolute;
       top: 0;
+      transform: translateX(-50%);
+
       span {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
+        white-space: nowrap;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
