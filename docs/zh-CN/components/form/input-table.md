@@ -508,6 +508,56 @@ order: 54
 }
 ```
 
+## 限制个数
+
+多选模式下，可以配置`minLength`和`maxLength`配置该 InputTable 可添加的条数
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+      {
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "a": "a3",
+        "b": "b3"
+      }
+    ]
+  },
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "name": "table",
+      "label": "Table",
+      "minLength": 1,
+      "maxLength": 5,
+      "needConfirm": false,
+      "addable": true,
+      "removable": true,
+      "columns": [
+        {
+          "label": "A",
+          "name": "a",
+          "quickEdit": false
+        },
+        {
+          "label": "B",
+          "name": "b"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 非确认模式
 
 配置`"needConfirm": false`，不需要确认，那么就是一直就是处于编辑形态。
