@@ -277,6 +277,7 @@ register('en-US', {
   'validate.array.minLength': 'Please add more members, at least $1 members',
   'validate.array.maxLength':
     'Please control the number of members, which cannot exceed $1',
+  'validate.isVariableName': 'Please enter a valid variable name',
   'validate.notEmptyString': 'Please do not enter all blank characters',
   'validate.isDateTimeSame':
     'The current date value is invalid, please enter the same date value as $1',

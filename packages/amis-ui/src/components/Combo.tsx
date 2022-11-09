@@ -219,6 +219,7 @@ export function Combo({
       arr[index] = {...value};
       control._updateFieldArray(name, arr);
       trigger(name);
+      control._subjects.watch.next({});
     },
     [control]
   );

@@ -13,7 +13,6 @@ export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   title?: string;
   showTitle?: boolean;
   showFooter?: boolean;
-  headerClassName?: string;
   children?:
     | JSX.Element
     | ((methods: {
@@ -29,6 +28,10 @@ export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   position?: 'top' | 'right' | 'bottom' | 'left';
   resizable?: boolean;
   type: 'dialog' | 'drawer';
+  className?: string;
+  headerClassName?: string;
+  bodyClassName?: string;
+  footerClassName?: string;
 }
 
 export function ConfirmBox({
@@ -48,7 +51,10 @@ export function ConfirmBox({
   popOverContainer,
   position,
   resizable,
-  classnames: cx
+  classnames: cx,
+  className,
+  bodyClassName,
+  footerClassName
 }: ConfirmBoxProps) {
   const bodyRef = React.useRef<
     {submit: () => Promise<Record<string, any>>} | undefined
@@ -73,13 +79,14 @@ export function ConfirmBox({
         show={show}
         onHide={onCancel!}
         container={popOverContainer}
+        className={className}
       >
         {showTitle !== false && title ? (
           <Modal.Header onClose={onCancel} className={headerClassName}>
             {title}
           </Modal.Header>
         ) : null}
-        <Modal.Body>
+        <Modal.Body className={bodyClassName}>
           {typeof children === 'function'
             ? children({
                 bodyRef: bodyRef
@@ -87,7 +94,7 @@ export function ConfirmBox({
             : children}
         </Modal.Body>
         {showFooter ?? true ? (
-          <Modal.Footer>
+          <Modal.Footer className={footerClassName}>
             <Button onClick={onCancel}>{__('cancel')}</Button>
             <Button onClick={handleConfirm} level="primary">
               {__('confirm')}
@@ -109,13 +116,14 @@ export function ConfirmBox({
         position={position}
         resizable={resizable}
         showCloseButton={false}
+        className={className}
       >
         {showTitle !== false && title ? (
           <div className={cx('Drawer-header', headerClassName)}>
             <div className={cx('Drawer-title')}>{title}</div>
           </div>
         ) : null}
-        <div className={cx('Drawer-body')}>
+        <div className={cx('Drawer-body', bodyClassName)}>
           {typeof children === 'function'
             ? children({
                 bodyRef: bodyRef
@@ -123,7 +131,7 @@ export function ConfirmBox({
             : children}
         </div>
         {showFooter ?? true ? (
-          <div className={cx('Drawer-footer')}>
+          <div className={cx('Drawer-footer', footerClassName)}>
             <Button onClick={handleConfirm} level="primary">
               {__('confirm')}
             </Button>
