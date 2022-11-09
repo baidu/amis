@@ -73,6 +73,7 @@ import {
   RegisterOptions,
   useFieldArray,
   UseFieldArrayProps,
+  useFormContext,
   UseFormReturn,
   useFormState
 } from 'react-hook-form';
@@ -208,6 +209,20 @@ export function Combo({
     rules: finalRules
   });
 
+  const {trigger} = useFormContext();
+
+  // useFieldArray 的 update 会更新行 id，导致重新渲染
+  // 正在编辑中的元素失去焦点，所以自己写一个
+  const lightUpdate = React.useCallback(
+    (index: number, value: any) => {
+      const arr = control._getFieldArray(name);
+      arr[index] = {...value};
+      control._updateFieldArray(name, arr);
+      trigger(name);
+    },
+    [control]
+  );
+
   function renderBody() {
     return (
       <div
@@ -222,7 +237,7 @@ export function Combo({
             <div key={field.id} className={cx(`Combo-item`, itemClassName)}>
               <ComboItem
                 control={control}
-                update={update}
+                update={lightUpdate}
                 index={index}
                 value={field}
                 itemRender={itemRender}

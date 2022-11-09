@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {noop, themeable, ThemeProps} from 'amis-core';
-import {useForm, UseFormReturn} from 'react-hook-form';
+import {useForm, UseFormReturn, FormProvider} from 'react-hook-form';
 import {useValidationResolver} from '../hooks/use-validation-resolver';
 import {localeable, LocaleProps} from 'amis-core';
 import debounce from 'lodash/debounce';
@@ -16,7 +16,7 @@ export type FormRef = React.MutableRefObject<
 >;
 
 export interface FormProps extends ThemeProps, LocaleProps {
-  defaultValues?: any;
+  defaultValue?: any;
   autoSubmit?: boolean;
   onSubmit?: (value: any) => void;
   forwardRef?: FormRef;
@@ -31,7 +31,7 @@ export interface FormProps extends ThemeProps, LocaleProps {
 export function Form(props: FormProps) {
   const {classnames: cx, className, autoSubmit} = props;
   const methods = useForm({
-    defaultValues: props.defaultValues,
+    defaultValues: props.defaultValue,
     resolver: useValidationResolver(props.translate)
   });
   let onSubmit = React.useRef<(data: any) => void>(
@@ -80,18 +80,20 @@ export function Form(props: FormProps) {
   });
 
   return (
-    <form
-      className={cx('Form', className)}
-      onSubmit={onSubmit.current}
-      noValidate
-    >
-      {/* 实现回车自动提交 */}
-      <input type="submit" style={{display: 'none'}} />
-      {props.children?.({
-        ...methods,
-        onSubmit: onSubmit.current
-      })}
-    </form>
+    <FormProvider {...methods}>
+      <form
+        className={cx('Form', className)}
+        onSubmit={onSubmit.current}
+        noValidate
+      >
+        {/* 实现回车自动提交 */}
+        <input type="submit" style={{display: 'none'}} />
+        {props.children?.({
+          ...methods,
+          onSubmit: onSubmit.current
+        })}
+      </form>
+    </FormProvider>
   );
 }
 

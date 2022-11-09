@@ -8,7 +8,7 @@ export default function ButtonExamples() {
 
   return (
     <div className="wrapper">
-      <Form defaultValues={{items: [{a: 1, b: 2}]}} onSubmit={handleSubmit}>
+      <Form defaultValue={{items: [{a: 1, b: 2}]}} onSubmit={handleSubmit}>
         {({control, onSubmit}) => {
           return (
             <>
