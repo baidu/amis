@@ -87,28 +87,36 @@
   }
 
   & &-ResultBox {
-    background: #007bff;
     flex-wrap: nowrap !important; // 不换行，避免被其他样式覆盖
     white-space: nowrap;
-    padding: 0 0 0 0.75rem;
+    padding: 0 0 0 0.25rem;
     border-radius: var(--Form-select-borderRadius) 0 0
       var(--Form-select-borderRadius);
-    &:focus {
-      background: #007bff;
-    }
 
     &.is-clearable {
       > div:first-child {
-        max-width: calc(100% - 24px); // 避免表达式内容太长撑开面板
-        color: #fff;
+        max-width: calc(100% - 30px); // 避免表达式内容太长撑开面板
+        background: #f7f7f9;
+        color: #151b26;
+        padding: 1px 5px;
+        border-radius: 4px 0 0 4px;
+        height: 26px;
+        flex: none;
         > div,
         span {
           padding-right: 0; // 覆盖 amis 默认样式
         }
       }
       > div:last-child {
+        background: #f7f7f9;
+        margin-right: 0.75rem;
+        border-radius: 0 4px 4px 0;
+        height: 26px;
         svg {
-          fill: #fff;
+          fill: var(--Form-input-clearBtn-color);
+          &:hover {
+            fill: var(--Form-input-clearBtn-color-onHover);
+          }
         }
       }
     }
