@@ -109,6 +109,7 @@
   background-color: $default-bg-color;
   display: flex;
   flex-direction: column;
+  z-index: 0;
 
   .ant-back-top {
     bottom: 96px;
@@ -599,11 +600,11 @@
         top: 50%;
         transform: translate(0, -50%);
 
-        > span > svg {
-          width: 12px;
-          height: 12px;
+        > svg {
+          width: 16px;
+          height: 16px;
           position: absolute;
-          top: 50%;
+          top: 50% !important;
           left: 50%;
           transform: translate(-50%, -50%);
           transition: transform ease-out 0.3s;
@@ -615,7 +616,7 @@
         }
 
         &:hover {
-          > span > svg {
+          > svg {
             transform: translate(-50%, -50%) rotate(90deg);
           }
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12),
