@@ -532,6 +532,9 @@ export default class FormulaControl extends React.Component<
       ? value
       : undefined;
 
+    // 值 是表达式或日期快捷
+    const isFx = !simple && (isExpr || this.hasDateShortcutkey(value));
+
     return (
       <div
         className={cx(
@@ -578,7 +581,7 @@ export default class FormulaControl extends React.Component<
             </div>
           )}
         {/* 非简单模式 &（表达式 或 日期快捷）*/}
-        {!simple && (isExpr || this.hasDateShortcutkey(value)) && (
+        {isFx && (
           <TooltipWrapper
             trigger="hover"
             placement="top"
@@ -650,7 +653,7 @@ export default class FormulaControl extends React.Component<
               <Icon
                 icon="function"
                 className={cx('ae-editor-FormulaControl-icon', 'icon', {
-                  ['is-filled']: !!value
+                  ['is-filled']: !!isFx
                 })}
               />
             </Button>
