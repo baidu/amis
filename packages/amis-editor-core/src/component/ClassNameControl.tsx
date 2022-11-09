@@ -962,7 +962,7 @@ export class ClassNameControl extends React.Component<
             key={index}
             onClick={() => this.handlePopOverChange(item)}
             className={cx(
-              'Button Button--xs',
+              'Button Button--size-xs',
               item.className,
               ~this.values.indexOf(item.value)
                 ? 'Button--primary'
