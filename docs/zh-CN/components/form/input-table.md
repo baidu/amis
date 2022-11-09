@@ -313,7 +313,7 @@ order: 54
 
 > 这是 1.2.3 新增的合并写法，1.2.2 之前请用后面提到的 quickEdit
 
-每一列的都可以通过 type 来将其改造成可编辑的列，比如下面的例子（建议配合 `"needConfirm": false` 来改成非确认模式）
+每一列的都可以通过 type 来将其改造成可编辑的列，比如下面的例子（建议配合 `"needConfirm": false` 来改成[非确认模式](#非确认模式)）
 
 ```schema: scope="body"
 {
@@ -510,7 +510,7 @@ order: 54
 
 ## 非确认模式
 
-配置`"needConfirm": false`，不需要确认，那么就是一直就是处于编辑形态。
+配置`"needConfirm": false`，以实现新增**单行数据**时不需要确认即可提交到数据域。
 
 ```schema: scope="body"
 {
