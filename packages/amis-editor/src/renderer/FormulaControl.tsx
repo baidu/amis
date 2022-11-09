@@ -601,7 +601,11 @@ export default class FormulaControl extends React.Component<
                 allowInput={false}
                 clearable={true}
                 value={value}
-                result={{html: '已配置表达式'}}
+                result={{
+                  html: this.hasDateShortcutkey(value)
+                    ? '已配置相对值'
+                    : '已配置表达式'
+                }}
                 itemRender={this.renderFormulaValue}
                 onChange={this.handleInputChange}
                 onResultChange={() => {

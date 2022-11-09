@@ -284,7 +284,8 @@ export class DateRangeControlPlugin extends BasePlugin {
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.minDate,
-                    type: 'input-date'
+                    type: 'input-date',
+                    placeholder: '请选择静态值'
                   },
                   needDeleteProps: ['minDate'], // 避免自我限制
                   label: tipedLabel('最小值', dateTooltip)
@@ -296,7 +297,8 @@ export class DateRangeControlPlugin extends BasePlugin {
                   rendererSchema: {
                     ...context?.schema,
                     value: context?.schema.maxDate,
-                    type: 'input-date'
+                    type: 'input-date',
+                    placeholder: '请选择静态值'
                   },
                   needDeleteProps: ['maxDate'], // 避免自我限制
                   label: tipedLabel('最大值', dateTooltip)

@@ -334,7 +334,10 @@ export class DateControlPlugin extends BasePlugin {
                   pipeIn: defaultValue(true)
                 }),
                 getSchemaTpl('valueFormula', {
-                  rendererSchema: context?.schema,
+                  rendererSchema: {
+                    ...context?.schema,
+                    placeholder: '请选择静态值'
+                  },
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
                   label: tipedLabel('默认值', dateTooltip)
@@ -345,7 +348,8 @@ export class DateControlPlugin extends BasePlugin {
                   DateTimeType: FormulaDateType.IsDate,
                   rendererSchema: {
                     ...context?.schema,
-                    value: context?.schema.minDate
+                    value: context?.schema.minDate,
+                    placeholder: '请选择静态值'
                   },
                   needDeleteProps: ['minDate'], // 避免自我限制
                   label: tipedLabel('最小值', dateTooltip)
@@ -356,7 +360,8 @@ export class DateControlPlugin extends BasePlugin {
                   DateTimeType: FormulaDateType.IsDate,
                   rendererSchema: {
                     ...context?.schema,
-                    value: context?.schema.maxDate
+                    value: context?.schema.maxDate,
+                    placeholder: '请选择静态值'
                   },
                   needDeleteProps: ['maxDate'], // 避免自我限制
                   label: tipedLabel('最大值', dateTooltip)
