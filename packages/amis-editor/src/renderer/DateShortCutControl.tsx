@@ -44,31 +44,31 @@ interface DateShortCutControlState {
 }
 
 interface InputOption {
-  type: 'middle' | 'suffix',
-  prefix?: string,
-  suffix: string
+  type: 'middle' | 'suffix';
+  prefix?: string;
+  suffix: string;
 }
 
-const ShortCutItemWrap = (
-  props: {
-    index: number,
-    children: React.ReactNode,
-    handleDelete: (index: number, e: React.SyntheticEvent<any>) => void
-  }) => {
+const ShortCutItemWrap = (props: {
+  index: number;
+  children: React.ReactNode;
+  handleDelete: (index: number, e: React.SyntheticEvent<any>) => void;
+}) => {
   return (
     <>
-      <a className={klass + 'Item-dragBar'}><Icon icon='drag-bar' className='icon' /></a>
-      <span className={klass + 'Item-content'}>
-        {props.children}
-      </span>
+      <a className={klass + 'Item-dragBar'}>
+        <Icon icon="drag-bar" className="icon" />
+      </a>
+      <span className={klass + 'Item-content'}>{props.children}</span>
       <span
         className={klass + 'Item-close'}
-        onClick={(e) => props.handleDelete(props.index, e)}>
-        <Icon icon='status-close' className='icon' />
+        onClick={e => props.handleDelete(props.index, e)}
+      >
+        <Icon icon="status-close" className="icon" />
       </span>
     </>
   );
-}
+};
 
 const klass = 'ae-DateShortCutControl';
 
@@ -80,7 +80,7 @@ export class DateShortCutControl extends React.PureComponent<
   drag?: HTMLElement | null;
   target: HTMLElement | null;
   normalDropDownOptionArr: Array<Option>;
-  customDropDownOptionArr: Array<Option>
+  customDropDownOptionArr: Array<Option>;
 
   static defaultProps: Partial<DateShortCutControlProps> = {
     label: '快捷键'
@@ -89,14 +89,18 @@ export class DateShortCutControl extends React.PureComponent<
   constructor(props: DateShortCutControlProps) {
     super(props);
     const {normalDropDownOption, customDropDownOption, data} = props;
-    this.normalDropDownOptionArr = Object.keys(normalDropDownOption).map(key => ({
-      label: normalDropDownOption[key],
-      value: key
-    }));
-    this.customDropDownOptionArr = Object.keys(customDropDownOption).map(key => ({
-      label: customDropDownOption[key],
-      value: key
-    }));
+    this.normalDropDownOptionArr = Object.keys(normalDropDownOption).map(
+      key => ({
+        label: normalDropDownOption[key],
+        value: key
+      })
+    );
+    this.customDropDownOptionArr = Object.keys(customDropDownOption).map(
+      key => ({
+        label: customDropDownOption[key],
+        value: key
+      })
+    );
     const defaultRanges = [
       'yesterday',
       '7daysago',
@@ -106,21 +110,23 @@ export class DateShortCutControl extends React.PureComponent<
       'prevquarter'
     ];
     this.state = {
-      options: (data?.ranges ?? defaultRanges).map((item: string, index: number) => {
-        const arr = item.match(/^(\d+)[a-zA-Z]+/);
-        if (arr) {
-          return {
-            value: arr[1],
-            type: RangeType.Custom,
-            inputType: item.match(/[a-zA-Z]+/)?.[0]
+      options: (data?.ranges ?? defaultRanges).map(
+        (item: string, index: number) => {
+          const arr = item.match(/^(\d+)[a-zA-Z]+/);
+          if (arr) {
+            return {
+              value: arr[1],
+              type: RangeType.Custom,
+              inputType: item.match(/[a-zA-Z]+/)?.[0]
+            };
           }
-        }
-        return {
+          return {
             label: normalDropDownOption[item],
             value: item,
-            type: RangeType.Normal,
+            type: RangeType.Normal
+          };
         }
-      })
+      )
     };
   }
 
@@ -205,15 +211,13 @@ export class DateShortCutControl extends React.PureComponent<
       <div className={klass + '-wrapper'}>
         {options && options.length ? (
           <ul className={klass + '-content'} ref={this.dragRef}>
-              {options.map(
-                (option, index) =>
-                  <li className={klass + 'Item'} key={index}>
-                    {option.type === RangeType.Normal
-                      ? this.renderNormalOption(option, index)
-                      : this.renderCustomOption(option, index)}
-                  </li>
-                )
-              }
+            {options.map((option, index) => (
+              <li className={klass + 'Item'} key={index}>
+                {option.type === RangeType.Normal
+                  ? this.renderNormalOption(option, index)
+                  : this.renderCustomOption(option, index)}
+              </li>
+            ))}
           </ul>
         ) : (
           <div className={klass + '-content ' + klass + '-empty'}>未配置</div>
@@ -229,7 +233,8 @@ export class DateShortCutControl extends React.PureComponent<
     return (
       <ShortCutItemWrap index={index} handleDelete={this.handleDelete}>
         <span>{option.label}</span>
-      </ShortCutItemWrap>);
+      </ShortCutItemWrap>
+    );
   }
 
   /**
@@ -248,7 +253,7 @@ export class DateShortCutControl extends React.PureComponent<
           placeholder: 'n',
           value: option?.value,
           onChange: (value: string) => this.handleCustomItemChange(value, index)
-        })
+        });
       }
       return render('inner', {
         type: 'input-text',
@@ -257,8 +262,8 @@ export class DateShortCutControl extends React.PureComponent<
         suffix: option.suffix,
         value: option?.value,
         onChange: (value: string) => this.handleCustomItemChange(value, index)
-      })
-    }
+      });
+    };
 
     const dateMap: {[key: string]: InputOption} = {
       daysago: {prefix: '最近', suffix: '天', type: 'middle'},
@@ -271,8 +276,8 @@ export class DateShortCutControl extends React.PureComponent<
       quarterslater: {suffix: '季度以内', type: 'suffix'},
       yearsago: {prefix: '最近', suffix: '年', type: 'middle'},
       yearslater: {suffix: '年以内', type: 'suffix'}
-    }
-  
+    };
+
     return (
       <ShortCutItemWrap index={index} handleDelete={this.handleDelete}>
         {option.inputType
@@ -359,10 +364,12 @@ export class DateShortCutControl extends React.PureComponent<
                 label: '常用跨度',
                 closeOnClick: true,
                 closeOnOutside: true,
+                level: 'enhance',
                 buttons: this.normalDropDownOptionArr.map((item: any) => ({
                   ...item,
                   type: 'button',
-                  onAction: (e: React.MouseEvent, action: any) => this.addItem(item, RangeType.Normal)
+                  onAction: (e: React.MouseEvent, action: any) =>
+                    this.addItem(item, RangeType.Normal)
                 }))
               },
               {
@@ -381,7 +388,8 @@ export class DateShortCutControl extends React.PureComponent<
                 buttons: this.customDropDownOptionArr.map((item: any) => ({
                   ...item,
                   type: 'button',
-                  onAction: (e: React.MouseEvent, action: any) => this.addItem(item, RangeType.Custom)
+                  onAction: (e: React.MouseEvent, action: any) =>
+                    this.addItem(item, RangeType.Custom)
                 }))
               },
               {

@@ -210,6 +210,7 @@ export class PagePlugin extends BasePlugin {
                   }),
                   getSchemaTpl('apiControl', {
                     name: 'initApi',
+                    mode: 'row',
                     labelClassName: 'none',
                     label: tipedLabel(
                       '初始化接口',
