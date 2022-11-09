@@ -19,8 +19,8 @@ const useSubForm = (
   });
 
   // 数据修改后，自动提交更新到上层
-  const lazySubmit = React.useRef(
-    debounce(methods.handleSubmit(onUpdate), 250, {
+  const lazyUpdate = React.useRef(
+    debounce(onUpdate, 250, {
       leading: false,
       trailing: true
     })
@@ -28,13 +28,13 @@ const useSubForm = (
 
   // 销毁的时候要 cancel
   React.useEffect(() => {
-    return () => lazySubmit.current.cancel();
+    return () => lazyUpdate.current.cancel();
   }, []);
 
   // 监控数值变化，自动同步到上层
   React.useEffect(() => {
-    const subscriber = methods.watch(() => {
-      lazySubmit.current();
+    const subscriber = methods.watch((data: any) => {
+      lazyUpdate.current(data);
     });
     return () => subscriber.unsubscribe();
   }, [methods.watch]);
