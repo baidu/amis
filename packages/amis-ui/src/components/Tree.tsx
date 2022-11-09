@@ -27,7 +27,6 @@ import {
   getTreeParent,
   getTreeAncestors
 } from 'amis-core';
-import merge from 'lodash/merge';
 import {Option, Options, value2array} from './Select';
 import {themeable, ThemeProps, highlight} from 'amis-core';
 import {Icon, getIcon} from './icons';
@@ -160,9 +159,6 @@ interface TreeSelectorState {
   // 拖拽指示器
   dropIndicator?: IDropIndicator;
 }
-
-// TODO
-const virtualItemHeight = 32;
 
 export class TreeSelector extends React.Component<
   TreeSelectorProps,
@@ -1223,7 +1219,7 @@ export class TreeSelector extends React.Component<
         <VirtualList
           height={list.length > 8 ? 266 : list.length * itemHeight}
           itemCount={list.length}
-          itemSize={virtualItemHeight}
+          itemSize={itemHeight}
           //! hack: 让 VirtualList 重新渲染
           renderItem={this.renderItem.bind(this)}
         />
