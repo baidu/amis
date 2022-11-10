@@ -413,6 +413,7 @@ export default class TextControl extends React.PureComponent<
   async handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
     const {selectedOptions, onChange, multiple, creatable, dispatchEvent} =
       this.props;
+    const valueField = this.props?.valueField || 'value';
 
     if (selectedOptions.length && !this.state.inputValue && evt.keyCode === 8) {
       evt.preventDefault();
@@ -436,18 +437,18 @@ export default class TextControl extends React.PureComponent<
       evt.preventDefault();
       let value: string | Array<string | any> = this.state.inputValue;
 
-      if (
-        multiple &&
-        value &&
-        !find(selectedOptions, item => item.value == value)
-      ) {
-        const newValue = selectedOptions.concat();
-        newValue.push({
-          label: value,
-          value: value
-        });
+      if (multiple && value) {
+        if (!find(selectedOptions, item => item[valueField] == value)) {
+          const newValue = selectedOptions.concat();
+          newValue.push({
+            label: value,
+            value: value
+          });
 
-        value = this.normalizeValue(newValue).concat();
+          value = this.normalizeValue(newValue).concat();
+        } else {
+          value = this.normalizeValue(selectedOptions).concat();
+        }
       }
 
       const rendererEvent = await dispatchEvent(
@@ -463,7 +464,7 @@ export default class TextControl extends React.PureComponent<
 
       this.setState(
         {
-          inputValue: '',
+          inputValue: multiple ? '' : (value as string),
           isOpen: false
         },
         this.loadAutoComplete
@@ -704,7 +705,6 @@ export default class TextControl extends React.PureComponent<
           const indices = isOpen
             ? mapItemIndex(filtedOptions, selectedItem)
             : {};
-
           filtedOptions = filtedOptions.filter(
             (option: any) => !~selectedItem.indexOf(option.value)
           );
@@ -715,7 +715,8 @@ export default class TextControl extends React.PureComponent<
             multiple &&
             !filtedOptions.some(
               (option: any) => option.value === this.state.inputValue
-            )
+            ) &&
+            !~selectedItem.indexOf(this.state.inputValue)
           ) {
             filtedOptions.push({
               [labelField || 'label']: this.state.inputValue,
@@ -987,21 +988,22 @@ export default class TextControl extends React.PureComponent<
 
     const iconElement = generateIcon(cx, addOn?.icon, 'Icon');
 
-    let addOnDom = addOn && !isStatic ? (
-      addOn.actionType ||
-      ~['button', 'submit', 'reset', 'action'].indexOf(addOn.type) ? (
-        <div className={cx(`${ns}TextControl-button`, addOn.className)}>
-          {render('addOn', addOn, {
-            disabled
-          })}
-        </div>
-      ) : (
-        <div className={cx(`${ns}TextControl-addOn`, addOn.className)}>
-          {iconElement}
-          {addOn.label ? filter(addOn.label, data) : null}
-        </div>
-      )
-    ) : null;
+    let addOnDom =
+      addOn && !isStatic ? (
+        addOn.actionType ||
+        ~['button', 'submit', 'reset', 'action'].indexOf(addOn.type) ? (
+          <div className={cx(`${ns}TextControl-button`, addOn.className)}>
+            {render('addOn', addOn, {
+              disabled
+            })}
+          </div>
+        ) : (
+          <div className={cx(`${ns}TextControl-addOn`, addOn.className)}>
+            {iconElement}
+            {addOn.label ? filter(addOn.label, data) : null}
+          </div>
+        )
+      ) : null;
 
     if (inputOnly) {
       return body;
@@ -1012,10 +1014,10 @@ export default class TextControl extends React.PureComponent<
           [`${ns}TextControl--withAddOn`]: !!addOnDom,
           'is-focused': this.state.isFocused,
           'is-disabled': disabled
-        }) 
+        })
       : cx(`${ns}TextControl`, {
-        [`${ns}TextControl--withAddOn`]: !!addOnDom
-      });
+          [`${ns}TextControl--withAddOn`]: !!addOnDom
+        });
 
     return (
       <div className={classNames}>
@@ -1028,16 +1030,13 @@ export default class TextControl extends React.PureComponent<
 
   @supportStatic()
   render(): JSX.Element {
-    const {
-      options,
-      source,
-      autoComplete,
-    } = this.props;
+    const {options, source, autoComplete} = this.props;
 
-    let input = autoComplete !== false && (source || options?.length || autoComplete)
-      ? this.renderSugestMode()
-      : this.renderNormal();
-    
+    let input =
+      autoComplete !== false && (source || options?.length || autoComplete)
+        ? this.renderSugestMode()
+        : this.renderNormal();
+
     return this.renderBody(input);
   }
 }

@@ -12,9 +12,7 @@
   overflow: hidden;
 
   @include input-border();
-  &.no-steps > &-handler-wrap {
-    display: none;
-  }
+
   &-focused {
     border-color: var(--Form-input-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
@@ -44,6 +42,10 @@
     .#{$ns}Number-handler-wrap {
       display: block;
     }
+  }
+
+  &.no-steps > &-handler-wrap {
+    display: none;
   }
 
   &-disabled:hover {

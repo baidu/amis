@@ -274,8 +274,10 @@ register('zh-CN', {
   'validate.matchRegexp': '格式不正确, 请输入符合规则为 `${1|raw}` 的内容。',
   'validate.maximum': '当前输入值超出最大值 $1',
   'validate.maxLength': '请控制内容长度, 不要输入 $1 个以上字符',
+  'validate.array.maxLength': '请控制成员个数, 不能超过 $1 个',
   'validate.minimum': '当前输入值低于最小值 $1',
   'validate.minLength': '请输入更多的内容，至少输入 $1 个字符。',
+  'validate.array.minLength': '请添加更多的成员，成员数至少 $1 个。',
   'validate.notEmptyString': '请不要全输入空白字符',
   'validate.isDateTimeSame': '当前日期值不合法，请输入和 $1 相同的日期值',
   'validate.isDateTimeBefore': '当前日期值不合法，请输入 $1 之前的日期值',
@@ -294,6 +296,7 @@ register('zh-CN', {
   'validate.isTimeSameOrAfter':
     '当前时间值不合法，请输入和 $1 相同或之后的时间值',
   'validate.isTimeBetween': '当前时间值不合法，请输入 $1 和 $2 之间的时间值',
+  'validate.isVariableName': '请输入合法的变量名',
   'validateFailed': '表单验证失败',
   'Wizard.configError': '配置错误',
   'Wizard.finish': '完成',
