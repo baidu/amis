@@ -192,7 +192,7 @@ export default class App extends React.Component<AppProps, object> {
   async componentDidMount() {
     const {data, dispatchEvent} = this.props;
 
-    const rendererEvent = await dispatchEvent('didMount', data, this);
+    const rendererEvent = await dispatchEvent('init', data, this);
 
     if (rendererEvent?.prevented) {
       return;

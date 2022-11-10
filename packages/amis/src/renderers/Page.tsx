@@ -390,7 +390,7 @@ export default class Page extends React.Component<PageProps> {
 
     this.mounted = true;
 
-    const rendererEvent = await dispatchEvent('didMount', data, this);
+    const rendererEvent = await dispatchEvent('init', data, this);
 
     if (rendererEvent?.prevented) {
       return;

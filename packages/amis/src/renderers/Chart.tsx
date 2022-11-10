@@ -239,7 +239,7 @@ export class Chart extends React.Component<ChartProps> {
   async componentDidMount() {
     const {api, data, initFetch, source, dispatchEvent} = this.props;
 
-    const rendererEvent = await dispatchEvent('didMount', data, this);
+    const rendererEvent = await dispatchEvent('init', data, this);
 
     if (rendererEvent?.prevented) {
       return;

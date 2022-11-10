@@ -236,7 +236,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       data
     } = this.props;
 
-    const rendererEvent = await dispatchEvent('didMount', data, this);
+    const rendererEvent = await dispatchEvent('init', data, this);
 
     if (rendererEvent?.prevented) {
       return;

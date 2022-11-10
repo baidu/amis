@@ -1801,7 +1801,7 @@ export class FormRenderer extends Form {
     scoped.registerComponent(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     super.componentDidMount();
 
     if (this.props.autoFocus) {
