@@ -12,9 +12,21 @@ import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 import {resolveVariablesFromScope} from './textarea-formula/utils';
 
 interface ExpressionFormulaControlProps extends FormControlProps {
-  variables?: any; // 公式变量
+  /**
+   * 用于提示的变量集合，默认为空
+   */
+  variables?: Array<VariableItem> | Function;
 
-  variableMode?: 'tree' | 'tabs';
+  /**
+   * 配合 variables 使用
+   * 当 props.variables 存在时， 是否再从 amis数据域中取变量集合，默认 false;
+   */
+  requiredDataPropsVariables?: boolean;
+
+  /**
+   * 变量展现模式，可选值：'tabs' ｜ 'tree'
+   */
+  variableMode?: 'tabs' | 'tree';
 }
 
 interface ExpressionFormulaControlState {
@@ -28,7 +40,8 @@ export default class ExpressionFormulaControl extends React.Component<
   ExpressionFormulaControlState
 > {
   static defaultProps: Partial<ExpressionFormulaControlProps> = {
-    variableMode: 'tabs'
+    variableMode: 'tabs',
+    requiredDataPropsVariables: false
   };
 
   isUnmount: boolean;
@@ -43,22 +56,12 @@ export default class ExpressionFormulaControl extends React.Component<
 
   componentDidMount() {
     this.initFormulaPickerValue(this.props.value);
+    this.getVariables();
   }
 
   componentDidUpdate(prevProps: ExpressionFormulaControlProps) {
-    // 优先使用props中的变量数据
-    if (!this.props.variables) {
-      // 从amis数据域中取变量数据
-      const {node, manager} = this.props.formProps || this.props;
-      resolveVariablesFromScope(node, manager).then(variables => {
-        if (Array.isArray(variables)) {
-          if (!this.isUnmount && !isEqual(variables, this.state.variables)) {
-            this.setState({
-              variables: variables
-            });
-          }
-        }
-      });
+    if (this.props.data !== prevProps.data) {
+      this.getVariables();
     }
     if (prevProps.value !== this.props.value) {
       this.initFormulaPickerValue(this.props.value);
@@ -67,6 +70,34 @@ export default class ExpressionFormulaControl extends React.Component<
 
   componentWillUnmount() {
     this.isUnmount = true;
+  }
+
+  // 设置 variables
+  async getVariables() {
+    let variablesArr: any[] = [];
+    const {variables, requiredDataPropsVariables} = this.props;
+    if (!variables || requiredDataPropsVariables) {
+      // 从amis数据域中取变量数据
+      const {node, manager} = this.props.formProps || this.props;
+      const vars = await resolveVariablesFromScope(node, manager);
+      if (Array.isArray(vars)) {
+        if (!this.isUnmount && !isEqual(vars, this.state.variables)) {
+          variablesArr = vars;
+        }
+      }
+    }
+    if (variables) {
+      if (Array.isArray(variables)) {
+        variablesArr = [...variables, ...variablesArr];
+      }
+      if (typeof variables === 'function') {
+        variablesArr = [...variables(), ...variablesArr];
+      }
+    }
+
+    this.setState({
+      variables: variablesArr
+    });
   }
 
   @autobind
@@ -115,12 +146,11 @@ export default class ExpressionFormulaControl extends React.Component<
 
   render() {
     const {value, className, variableMode, header, ...rest} = this.props;
-    const {formulaPickerValue} = this.state;
+    const {formulaPickerValue, variables} = this.state;
 
-    const variables = this.props.variables || this.state.variables;
     const highlightValue = FormulaEditor.highlightValue(
       formulaPickerValue,
-      this.state.variables
+      variables
     ) || {
       html: formulaPickerValue
     };
