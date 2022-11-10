@@ -435,6 +435,13 @@ export const validations: {
       granularity,
       inclusivity
     );
+  },
+  isVariableName: function (values, value, regexp) {
+    return validations.matchRegexp(
+      values,
+      value,
+      regexp instanceof RegExp ? regexp : /^[a-zA-Z_]+[a-zA-Z0-9]*$/
+    );
   }
 };
 
@@ -489,7 +496,8 @@ export const validateMessages: {
   isTimeAfter: 'validate.isTimeAfter',
   isTimeSameOrBefore: 'validate.isTimeSameOrBefore',
   isTimeSameOrAfter: 'validate.isTimeSameOrAfter',
-  isTimeBetween: 'validate.isTimeBetween'
+  isTimeBetween: 'validate.isTimeBetween',
+  isVariableName: 'validate.isVariableName'
 };
 
 export function validate(
