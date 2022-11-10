@@ -1,22 +1,25 @@
 .ae-editor-FormulaControl {
   position: relative;
   @include flexBox();
+  align-items: stretch;
 
   & > &-button {
-    height: 32px;
-    background-color: var(--button-default-default-top-border-color);
+    height: auto;
+    background-color: #f7f7f9;
     border-radius: 0 var(--button-size-sm-top-left-border-radius)
       var(--button-size-sm-bottom-right-border-radius) 0;
+    border-left: 0;
     &:not(:disabled):not(.is-disabled):hover {
       border-color: #e6f0ff;
       background-color: #e6f0ff;
+      border-left: 0;
     }
   }
 
   &-input {
     flex: 1;
     margin-right: 3px;
-    max-width: calc(100% - 36px); // 避免表达式内容太长撑开面板
+    max-width: calc(100% - 35px); // 避免表达式内容太长撑开面板
 
     &.is-clearable {
       padding-right: 30px; // 避免间隙过大
@@ -65,10 +68,13 @@
   }
 
   &-custom-renderer {
-    width: calc(100% - 36px);
+    width: calc(100% - 35px);
     flex: 1 1 auto;
     border: none;
     padding: 0;
+    > div {
+      min-height: 32px;
+    }
     > div,
     &:not(.border-wrapper) > div > div {
       border-radius: var(--Form-select-borderRadius) 0 0
@@ -83,7 +89,7 @@
 
   &-tooltipBox {
     flex: 1;
-    max-width: calc(100% - 36px); // 避免表达式内容太长撑开面板
+    max-width: calc(100% - 35px); // 避免表达式内容太长撑开面板
   }
 
   & &-ResultBox {
